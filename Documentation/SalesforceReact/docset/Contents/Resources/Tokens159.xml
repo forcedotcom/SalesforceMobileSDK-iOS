@@ -1,17 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTSafeAreaViewManager.html">
+	<File path="Classes/RCTRootShadowView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTSafeAreaViewManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTSafeAreaViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTRootShadowView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
             
 			
 			<NodeRef refid="159"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRootShadowView/setAvailableSize:</TokenIdentifier>
+			<Abstract type="html">Available size to layout all views.
+Defaults to {INFINITY, INFINITY}</Abstract>
+			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGSize availableSize</Declaration>
+			
+			
+			<Anchor>//api/name/availableSize</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRootShadowView/availableSize</TokenIdentifier>
+			<Abstract type="html">Available size to layout all views.
+Defaults to {INFINITY, INFINITY}</Abstract>
+			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGSize availableSize</Declaration>
+			
+			
+			<Anchor>//api/name/availableSize</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTRootShadowView/availableSize</TokenIdentifier>
+			<Abstract type="html">Available size to layout all views.
+Defaults to {INFINITY, INFINITY}</Abstract>
+			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGSize availableSize</Declaration>
+			
+			
+			<Anchor>//api/name/availableSize</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRootShadowView/setBaseDirection:</TokenIdentifier>
+			<Abstract type="html">Layout direction (LTR or RTL) inherited from native environment and
+is using as a base direction value in layout engine.
+Defaults to value inferred from current locale.</Abstract>
+			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) YGDirection baseDirection</Declaration>
+			
+			
+			<Anchor>//api/name/baseDirection</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRootShadowView/baseDirection</TokenIdentifier>
+			<Abstract type="html">Layout direction (LTR or RTL) inherited from native environment and
+is using as a base direction value in layout engine.
+Defaults to value inferred from current locale.</Abstract>
+			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) YGDirection baseDirection</Declaration>
+			
+			
+			<Anchor>//api/name/baseDirection</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTRootShadowView/baseDirection</TokenIdentifier>
+			<Abstract type="html">Layout direction (LTR or RTL) inherited from native environment and
+is using as a base direction value in layout engine.
+Defaults to value inferred from current locale.</Abstract>
+			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) YGDirection baseDirection</Declaration>
+			
+			
+			<Anchor>//api/name/baseDirection</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRootShadowView/layoutWithAffectedShadowViews:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			
+			<Declaration>- (void)layoutWithAffectedShadowViews:(NSHashTable&lt;RCTShadowView*&gt; *)affectedShadowViews</Declaration>
+			
+			
+			<Anchor>//api/name/layoutWithAffectedShadowViews:</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
 		
         
         

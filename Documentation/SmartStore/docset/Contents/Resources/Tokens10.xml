@@ -252,6 +252,18 @@
             <NodeRef refid="10"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryMatchingNullField</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
+			
+			<Declaration>- (void)testSmartQueryMatchingNullField</Declaration>
+			
+			
+			<Anchor>//api/name/testSmartQueryMatchingNullField</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
         
         
 	</File>

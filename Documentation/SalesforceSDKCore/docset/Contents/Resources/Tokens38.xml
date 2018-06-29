@@ -49,6 +49,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/setSleepDuringLoad:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval sleepDuringLoad</Declaration>
+			
+			
+			<Anchor>//api/name/sleepDuringLoad</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/sleepDuringLoad</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval sleepDuringLoad</Declaration>
+			
+			
+			<Anchor>//api/name/sleepDuringLoad</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNativeRestRequestListener/sleepDuringLoad</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval sleepDuringLoad</Declaration>
+			
+			
+			<Anchor>//api/name/sleepDuringLoad</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/initWithRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>

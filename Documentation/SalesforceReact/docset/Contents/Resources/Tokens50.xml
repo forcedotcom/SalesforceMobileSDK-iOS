@@ -1,17 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTDatePicker.html">
+	<File path="Classes/RCTCxxModule.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTDatePicker</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTDatePicker.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTCxxModule</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTCxxModule.h</DeclaredIn>
             
 			
 			<NodeRef refid="50"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTCxxModule/moduleName</TokenIdentifier>
+			<Abstract type="html">Place this macro in your class implementation to automatically register
+your module with the bridge when it loads. The optional js_name argument
+will be used as the JS module name. If omitted, the JS module name will
+match the Objective-C class name.</Abstract>
+			<DeclaredIn>RCTCxxModule.mm</DeclaredIn>
+			
+			<Declaration>+ (NSString *)moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/moduleName</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTCxxModule/requiresMainQueueSetup</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxModule.mm</DeclaredIn>
+			
+			<Declaration>+ (BOOL)requiresMainQueueSetup</Declaration>
+			
+			
+			<Anchor>//api/name/requiresMainQueueSetup</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxModule/lazyInit</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxModule.mm</DeclaredIn>
+			
+			<Declaration>- (void)lazyInit</Declaration>
+			
+			
+			<Anchor>//api/name/lazyInit</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxModule/createModule</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxModule.h</DeclaredIn>
+			
+			<Declaration>- (std : : unique_ptr&lt;facebook::xplat::module::CxxModule&gt;)createModule</Declaration>
+			
+			
+			<Anchor>//api/name/createModule</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxModule/methodsToExport</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxModule.mm</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;id&lt;RCTBridgeMethod&gt; &gt; *)methodsToExport</Declaration>
+			
+			
+			<Anchor>//api/name/methodsToExport</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTCxxModule/constantsToExport</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTCxxModule.mm</DeclaredIn>
+			
+			<Declaration>- (NSDictionary&lt;NSString*,id&gt; *)constantsToExport</Declaration>
+			
+			
+			<Anchor>//api/name/constantsToExport</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
 		
         
         

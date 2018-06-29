@@ -1,17 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTSinglelineTextInputViewManager.html">
+	<File path="Classes/RCTSegmentedControl.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTSinglelineTextInputViewManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTSinglelineTextInputViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSegmentedControl</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSegmentedControl.h</DeclaredIn>
             
 			
 			<NodeRef refid="171"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSegmentedControl/setValues:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSegmentedControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;NSString*&gt; *values</Declaration>
+			
+			
+			<Anchor>//api/name/values</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSegmentedControl/values</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSegmentedControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;NSString*&gt; *values</Declaration>
+			
+			
+			<Anchor>//api/name/values</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSegmentedControl/values</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSegmentedControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;NSString*&gt; *values</Declaration>
+			
+			
+			<Anchor>//api/name/values</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSegmentedControl/setSelectedIndex:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSegmentedControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger selectedIndex</Declaration>
+			
+			
+			<Anchor>//api/name/selectedIndex</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSegmentedControl/selectedIndex</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSegmentedControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger selectedIndex</Declaration>
+			
+			
+			<Anchor>//api/name/selectedIndex</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSegmentedControl/selectedIndex</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSegmentedControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger selectedIndex</Declaration>
+			
+			
+			<Anchor>//api/name/selectedIndex</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSegmentedControl/setOnChange:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSegmentedControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onChange</Declaration>
+			
+			
+			<Anchor>//api/name/onChange</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSegmentedControl/onChange</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSegmentedControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onChange</Declaration>
+			
+			
+			<Anchor>//api/name/onChange</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSegmentedControl/onChange</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSegmentedControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onChange</Declaration>
+			
+			
+			<Anchor>//api/name/onChange</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
 		
         
         

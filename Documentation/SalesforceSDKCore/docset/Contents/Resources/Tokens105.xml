@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSoslBuilder.html">
+	<File path="Classes/SFSDKSafeMutableDictionary.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoslBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSafeMutableDictionary</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
             
 			
 			<NodeRef refid="105"/>
@@ -13,162 +13,198 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoslBuilder/withSearchTerm:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/setAllKeys:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKSoslBuilder *)withSearchTerm:(NSString *)searchTerm</Declaration>
+			<Declaration>@property (copy, nonatomic, readonly) NSArray *allKeys</Declaration>
+			
+			
+			<Anchor>//api/name/allKeys</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/allKeys</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>@property (copy, nonatomic, readonly) NSArray *allKeys</Declaration>
+			
+			
+			<Anchor>//api/name/allKeys</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSafeMutableDictionary/allKeys</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>@property (copy, nonatomic, readonly) NSArray *allKeys</Declaration>
+			
+			
+			<Anchor>//api/name/allKeys</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/setAllValues:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>@property (copy, nonatomic, readonly) NSArray *allValues</Declaration>
+			
+			
+			<Anchor>//api/name/allValues</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/allValues</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>@property (copy, nonatomic, readonly) NSArray *allValues</Declaration>
+			
+			
+			<Anchor>//api/name/allValues</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSafeMutableDictionary/allValues</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>@property (copy, nonatomic, readonly) NSArray *allValues</Declaration>
+			
+			
+			<Anchor>//api/name/allValues</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/objectForKey:</TokenIdentifier>
+			<Abstract type="html">Retrieves object for the key specified (Thread Safe)</Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>- (id)objectForKey:(id&lt;NSCopying&gt;)aKey</Declaration>
+			
+			<ReturnValue><Abstract type="html">object for specified key</Abstract></ReturnValue>
+			<Anchor>//api/name/objectForKey:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/allKeysForObject:</TokenIdentifier>
+			<Abstract type="html">Retreives all keys for object specified (Thread Safe)</Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)allKeysForObject:(id)anObject</Declaration>
+			
+			<ReturnValue><Abstract type="html">Array with keys</Abstract></ReturnValue>
+			<Anchor>//api/name/allKeysForObject:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/setObject:forKey:</TokenIdentifier>
+			<Abstract type="html">Sets object for key specified (Thread Safe)</Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)object forKey:(id&lt;NSCopying&gt;)aKey</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchTerm</Name>
-					<Abstract type="html">text or word phrases to search for</Abstract>
+					<Name>object</Name>
+					<Abstract type="html">to add to collection</Abstract>
+				</Parameter><Parameter>
+					<Name>aKey</Name>
+					<Abstract type="html">for to map the object to</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withSearchTerm:</Anchor>
+			
+			<Anchor>//api/name/setObject:forKey:</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/searchGroup:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/removeObject:</TokenIdentifier>
+			<Abstract type="html">Removes object for key specified (Thread Safe)</Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)searchGroup:(NSString *)searchGroup</Declaration>
+			<Declaration>- (void)removeObject:(id&lt;NSCopying&gt;)aKey</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchGroup</Name>
-					<Abstract type="html">scope of fields to search. Values may be: ALL FIELDS, NAME FIELDS, EMAIL FIELDS, PHONE FIELDS, SIDEBAR FIELDS</Abstract>
+					<Name>aKey</Name>
+					<Abstract type="html">to remove from the collection.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/searchGroup:</Anchor>
+			
+			<Anchor>//api/name/removeObject:</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/returning:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/removeAllObjects</TokenIdentifier>
+			<Abstract type="html">removes all objects (Thread Safe)</Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)returning:(SFSDKSoslReturningBuilder *)returningSpec</Declaration>
+			<Declaration>- (void)removeAllObjects</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllObjects</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/removeObjects:</TokenIdentifier>
+			<Abstract type="html">removes objects for keys (Thread Safe)</Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>- (void)removeObjects:(NSArray&lt;id&lt;NSCopying&gt; &gt; *)keys</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>returningSpec</Name>
-					<Abstract type="html">information to return in the search result. List of one or more objects and, within each object, list of one or more fields, with optional values to filter against. If unspecified, then the search results contain the IDs of all objects found</Abstract>
+					<Name>keys</Name>
+					<Abstract type="html">to remove from the collection.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/returning:</Anchor>
+			
+			<Anchor>//api/name/removeObjects:</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/divisionFilter:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/addEntries:</TokenIdentifier>
+			<Abstract type="html">Adds entries from the dictionary passed in (Thread Safe)</Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)divisionFilter:(NSString *)divisionFilter</Declaration>
+			<Declaration>- (void)addEntries:(NSDictionary *)otherDictionary</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>divisionFilter</Name>
-					<Abstract type="html">if an organization uses divisions, filters all search results based on values for the Division field</Abstract>
+					<Name>otherDictionary</Name>
+					<Abstract type="html">to add to collection</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/divisionFilter:</Anchor>
+			
+			<Anchor>//api/name/addEntries:</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/dataCategory:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/setDictionary:</TokenIdentifier>
+			<Abstract type="html">Sets the dictionary collection to the dictionary passed in(Thread Safe)</Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)dataCategory:(NSString *)dataCategory</Declaration>
+			<Declaration>- (void)setDictionary:(NSDictionary *)dictionary</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>dataCategory</Name>
-					<Abstract type="html">if an organization uses Salesforce Knowledge articles or answers, filters all search results based on one or more data categories</Abstract>
+					<Name>dictionary</Name>
+					<Abstract type="html">to set</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/dataCategory:</Anchor>
-            <NodeRef refid="105"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/limit:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOSL statement.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslBuilder *)limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">the maximum number of rows returned in the text query, up to 200. If unspecified, the default is 200, the largest number of rows that can be returned</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/limit:</Anchor>
-            <NodeRef refid="105"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/encodeAndBuild</TokenIdentifier>
-			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)encodeAndBuild</Declaration>
-			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuild</Anchor>
-            <NodeRef refid="105"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/encodeAndBuildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuildWithPath:</Anchor>
-            <NodeRef refid="105"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/buildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/buildWithPath:</Anchor>
-            <NodeRef refid="105"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslBuilder/build</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslBuilder.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)build</Declaration>
-			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/build</Anchor>
+			<Anchor>//api/name/setDictionary:</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		

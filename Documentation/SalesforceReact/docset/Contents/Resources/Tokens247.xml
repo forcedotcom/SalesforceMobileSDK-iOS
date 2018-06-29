@@ -1,29 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/ARTContainer.html">
+	<File path="Classes/Sample.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/ARTContainer</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>ARTContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/Sample</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>Sample.h</DeclaredIn>
             
 			
 			<NodeRef refid="247"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/ARTContainer/invalidate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ARTContainer.h</DeclaredIn>
-			
-			<Declaration>- (void)invalidate</Declaration>
-			
-			
-			<Anchor>//api/name/invalidate</Anchor>
-            <NodeRef refid="247"/>
-		</Token>
 		
         
         

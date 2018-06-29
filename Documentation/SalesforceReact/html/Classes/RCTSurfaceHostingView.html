@@ -78,6 +78,8 @@
 		
 		<option value="//api/name/_updateViews">- _updateViews</option>
 		
+		<option value="//api/name/createSurfaceWithBridge:moduleName:initialProperties:">- createSurfaceWithBridge:moduleName:initialProperties:</option>
+		
 		<option value="//api/name/didMoveToWindow">- didMoveToWindow</option>
 		
 		<option value="//api/name/init">- init</option>
@@ -89,6 +91,8 @@
 		<option value="//api/name/intrinsicContentSize">- intrinsicContentSize</option>
 		
 		<option value="//api/name/setActivityIndicatorViewFactory:">- setActivityIndicatorViewFactory:</option>
+		
+		<option value="//api/name/setFrame:">- setFrame:</option>
 		
 		<option value="//api/name/setIsActivityIndicatorViewVisible:">- setIsActivityIndicatorViewVisible:</option>
 		
@@ -127,6 +131,9 @@
 	<th>Inherits from</th>
 	<td>UIView</td>
 </tr><tr>
+	<th>Conforms to</th>
+	<td><a href="../Protocols/RCTSurfaceDelegate.html">RCTSurfaceDelegate</a></td>
+</tr><tr>
 	<th>Declared in</th>
 	<td>RCTSurfaceHostingView.h<br />RCTSurfaceHostingView.mm</td>
 </tr>
@@ -143,12 +150,10 @@ Surface regarding layout and life-cycle.
 This class can be used as easy-to-use general purpose integration point
 of ReactNative-powered experiences in UIKit based apps.</p>
 
-<p>Copyright &copy; 2015-present, Facebook, Inc.
-All rights reserved.</p>
+<p>Copyright &copy; 2015-present, Facebook, Inc.</p>
 
-<p>This source code is licensed under the BSD-style license found in the
-LICENSE file in the root directory of this source tree. An additional grant
-of patent rights can be found in the PATENTS file in the same directory.</p>
+<p>This source code is licensed under the MIT license found in the
+LICENSE file in the root directory of this source tree.</p>
 					</div>
 					
 					
@@ -220,6 +225,63 @@ Note: The view retains the <a href="#//api/name/surface">surface</a> object.</p>
 			</div>
 			
 			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/createSurfaceWithBridge:moduleName:initialProperties:" title="createSurfaceWithBridge:moduleName:initialProperties:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/createSurfaceWithBridge:moduleName:initialProperties:">&ndash;&nbsp;createSurfaceWithBridge:moduleName:initialProperties:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Create an instance of <a href="../Classes/RCTSurface.html">RCTSurface</a> to be hosted.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (RCTSurface *)createSurfaceWithBridge:(RCTBridge *)<em>bridge</em> moduleName:(NSString *)<em>moduleName</em> initialProperties:(NSDictionary *)<em>initialProperties</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceHostingView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setFrame:" title="setFrame:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setFrame:">&ndash;&nbsp;setFrame:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setFrame:(CGRect)<em>frame</em></code></div>
+
+		    
 		</div>
 	</div>
 </div><div class="section-method">
@@ -392,10 +454,31 @@ Note: The view retains the <a href="#//api/name/surface">surface</a> object.</p>
 
 		<div class="method-info-container">
 			
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>- (void)surface:(RCTSurface *)<em>surface</em> didChangeStage:(RCTSurfaceStage)<em>stage</em></code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceDelegate.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -408,10 +491,31 @@ Note: The view retains the <a href="#//api/name/surface">surface</a> object.</p>
 
 		<div class="method-info-container">
 			
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>- (void)surface:(RCTSurface *)<em>surface</em> didChangeIntrinsicSize:(CGSize)<em>intrinsicSize</em></code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceDelegate.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div>
@@ -649,7 +753,7 @@ Defaults to <code>nil</code> (no activity indicator).</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

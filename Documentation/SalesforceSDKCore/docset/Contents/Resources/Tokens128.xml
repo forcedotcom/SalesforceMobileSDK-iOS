@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFUserAccountPersisterEphemeral.html">
+	<File path="Classes/SFSecurityLockoutTests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountPersisterEphemeral</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSecurityLockoutTests</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountPersisterEphemeral.h</DeclaredIn>
+			<DeclaredIn>SFSecurityLockoutTests.h</DeclaredIn>
             
 			
 			<NodeRef refid="128"/>

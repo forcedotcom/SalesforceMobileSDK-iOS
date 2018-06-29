@@ -853,6 +853,54 @@ Note: caller is responsible for releaseing the query spec</Abstract>
             <NodeRef refid="4"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/queryTypeFromString:</TokenIdentifier>
+			<Abstract type="html">Enum to/from string helper methods</Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>+ (SFSoupQueryType)queryTypeFromString:(NSString *)queryType</Declaration>
+			
+			
+			<Anchor>//api/name/queryTypeFromString:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/queryTypeFromEnum:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)queryTypeFromEnum:(SFSoupQueryType)queryType</Declaration>
+			
+			
+			<Anchor>//api/name/queryTypeFromEnum:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/sortOrderFromString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>+ (SFSoupQuerySortOrder)sortOrderFromString:(NSString *)sortOrder</Declaration>
+			
+			
+			<Anchor>//api/name/sortOrderFromString:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/sortOrderFromEnum:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)sortOrderFromEnum:(SFSoupQuerySortOrder)sortOrder</Declaration>
+			
+			
+			<Anchor>//api/name/sortOrderFromEnum:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
         
         
 	</File>

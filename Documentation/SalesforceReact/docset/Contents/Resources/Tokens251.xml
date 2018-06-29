@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/RCTBackedTextInputViewProtocol.html">
+	<File path="Categories/NSURLRequest+CertificateAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/RCTBackedTextInputViewProtocol</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURLRequest(CertificateAdditions)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
             
 			
 			<NodeRef refid="251"/>
@@ -14,386 +13,38 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setText:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURLRequest/setRCTSR_SSLPinnedCertificates:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *text</Declaration>
+			<Declaration>@property (nonatomic, readonly, copy) NSArray *RCTSR_SSLPinnedCertificates</Declaration>
 			
 			
-			<Anchor>//api/name/text</Anchor>
+			<Anchor>//api/name/RCTSR_SSLPinnedCertificates</Anchor>
             <NodeRef refid="251"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/text</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURLRequest/RCTSR_SSLPinnedCertificates</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *text</Declaration>
+			<Declaration>@property (nonatomic, readonly, copy) NSArray *RCTSR_SSLPinnedCertificates</Declaration>
 			
 			
-			<Anchor>//api/name/text</Anchor>
+			<Anchor>//api/name/RCTSR_SSLPinnedCertificates</Anchor>
             <NodeRef refid="251"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTBackedTextInputViewProtocol/text</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/NSURLRequest/RCTSR_SSLPinnedCertificates</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *text</Declaration>
+			<Declaration>@property (nonatomic, readonly, copy) NSArray *RCTSR_SSLPinnedCertificates</Declaration>
 			
 			
-			<Anchor>//api/name/text</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setTextColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *textColor</Declaration>
-			
-			
-			<Anchor>//api/name/textColor</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/textColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *textColor</Declaration>
-			
-			
-			<Anchor>//api/name/textColor</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTBackedTextInputViewProtocol/textColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *textColor</Declaration>
-			
-			
-			<Anchor>//api/name/textColor</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setPlaceholder:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *placeholder</Declaration>
-			
-			
-			<Anchor>//api/name/placeholder</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/placeholder</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *placeholder</Declaration>
-			
-			
-			<Anchor>//api/name/placeholder</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTBackedTextInputViewProtocol/placeholder</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *placeholder</Declaration>
-			
-			
-			<Anchor>//api/name/placeholder</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setPlaceholderColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *placeholderColor</Declaration>
-			
-			
-			<Anchor>//api/name/placeholderColor</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/placeholderColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *placeholderColor</Declaration>
-			
-			
-			<Anchor>//api/name/placeholderColor</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTBackedTextInputViewProtocol/placeholderColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *placeholderColor</Declaration>
-			
-			
-			<Anchor>//api/name/placeholderColor</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setTextWasPasted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL textWasPasted</Declaration>
-			
-			
-			<Anchor>//api/name/textWasPasted</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/textWasPasted</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL textWasPasted</Declaration>
-			
-			
-			<Anchor>//api/name/textWasPasted</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTBackedTextInputViewProtocol/textWasPasted</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL textWasPasted</Declaration>
-			
-			
-			<Anchor>//api/name/textWasPasted</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setFont:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *font</Declaration>
-			
-			
-			<Anchor>//api/name/font</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/font</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *font</Declaration>
-			
-			
-			<Anchor>//api/name/font</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTBackedTextInputViewProtocol/font</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *font</Declaration>
-			
-			
-			<Anchor>//api/name/font</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setTextContainerInset:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) UIEdgeInsets textContainerInset</Declaration>
-			
-			
-			<Anchor>//api/name/textContainerInset</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/textContainerInset</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) UIEdgeInsets textContainerInset</Declaration>
-			
-			
-			<Anchor>//api/name/textContainerInset</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTBackedTextInputViewProtocol/textContainerInset</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) UIEdgeInsets textContainerInset</Declaration>
-			
-			
-			<Anchor>//api/name/textContainerInset</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setInputAccessoryView:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIView *inputAccessoryView</Declaration>
-			
-			
-			<Anchor>//api/name/inputAccessoryView</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/inputAccessoryView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIView *inputAccessoryView</Declaration>
-			
-			
-			<Anchor>//api/name/inputAccessoryView</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTBackedTextInputViewProtocol/inputAccessoryView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIView *inputAccessoryView</Declaration>
-			
-			
-			<Anchor>//api/name/inputAccessoryView</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setTextInputDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;RCTBackedTextInputDelegate&gt; textInputDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/textInputDelegate</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/textInputDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;RCTBackedTextInputDelegate&gt; textInputDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/textInputDelegate</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTBackedTextInputViewProtocol/textInputDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;RCTBackedTextInputDelegate&gt; textInputDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/textInputDelegate</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setContentSize:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) CGSize contentSize</Declaration>
-			
-			
-			<Anchor>//api/name/contentSize</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/contentSize</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) CGSize contentSize</Declaration>
-			
-			
-			<Anchor>//api/name/contentSize</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTBackedTextInputViewProtocol/contentSize</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) CGSize contentSize</Declaration>
-			
-			
-			<Anchor>//api/name/contentSize</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setSelectedTextRange:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>- (void)setSelectedTextRange:(nullable UITextRange *)selectedTextRange</Declaration>
-			
-			
-			<Anchor>//api/name/setSelectedTextRange:</Anchor>
-            <NodeRef refid="251"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTBackedTextInputViewProtocol/setSelectedTextRange:notifyDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTBackedTextInputViewProtocol.h</DeclaredIn>
-			
-			<Declaration>- (void)setSelectedTextRange:(nullable UITextRange *)selectedTextRange notifyDelegate:(BOOL)notifyDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/setSelectedTextRange:notifyDelegate:</Anchor>
+			<Anchor>//api/name/RCTSR_SSLPinnedCertificates</Anchor>
             <NodeRef refid="251"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKWindowType.html">
+	<File path="Constants/SFOAuthCredsEncryptionType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredsEncryptionType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="205"/>
@@ -14,51 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeNotSet</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeMain</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeNotSet</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeMac</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeAuth</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeMac</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypePasscode</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeIdForVendor</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypePasscode</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeIdForVendor</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeBaseAppId</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeBaseAppId</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeKeyStore</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeOther</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeKeyStore</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>

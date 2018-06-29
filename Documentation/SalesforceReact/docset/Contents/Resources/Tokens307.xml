@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTTextDecorationLineType.html">
+	<File path="Constants/RCTLogLevel.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTTextDecorationLineType</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTTextDecorationLineType.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTLogLevel</TokenIdentifier>
+			<Abstract type="html">An enum representing the severity of the log message.</Abstract>
+			<DeclaredIn>RCTLog.h</DeclaredIn>
             
 			
 			<NodeRef refid="307"/>
@@ -15,41 +14,51 @@ All rights reserved.</Abstract>
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTextDecorationLineTypeNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelTrace</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTTextDecorationLineTypeNone</Declaration>
+            <Declaration>RCTLogLevelTrace</Declaration>
             
-            <DeclaredIn>RCTTextDecorationLineType.h</DeclaredIn>
+            <DeclaredIn>RCTLog.h</DeclaredIn>
             
             <NodeRef refid="307"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTextDecorationLineTypeUnderline</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelInfo</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTTextDecorationLineTypeUnderline</Declaration>
+            <Declaration>RCTLogLevelInfo</Declaration>
             
-            <DeclaredIn>RCTTextDecorationLineType.h</DeclaredIn>
+            <DeclaredIn>RCTLog.h</DeclaredIn>
             
             <NodeRef refid="307"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTextDecorationLineTypeStrikethrough</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelWarning</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTTextDecorationLineTypeStrikethrough</Declaration>
+            <Declaration>RCTLogLevelWarning</Declaration>
             
-            <DeclaredIn>RCTTextDecorationLineType.h</DeclaredIn>
+            <DeclaredIn>RCTLog.h</DeclaredIn>
             
             <NodeRef refid="307"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTextDecorationLineTypeUnderlineStrikethrough</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelError</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTTextDecorationLineTypeUnderlineStrikethrough</Declaration>
+            <Declaration>RCTLogLevelError</Declaration>
             
-            <DeclaredIn>RCTTextDecorationLineType.h</DeclaredIn>
+            <DeclaredIn>RCTLog.h</DeclaredIn>
+            
+            <NodeRef refid="307"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelFatal</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTLogLevelFatal</Declaration>
+            
+            <DeclaredIn>RCTLog.h</DeclaredIn>
             
             <NodeRef refid="307"/>
         </Token>

@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/FBSnapshotTestControllerErrorCode.html">
+	<File path="Protocols/RCTSRWebSocketDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/FBSnapshotTestControllerErrorCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTSRWebSocketDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
             
 			
 			<NodeRef refid="288"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/FBSnapshotTestControllerErrorCodeUnknown</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>FBSnapshotTestControllerErrorCodeUnknown</Declaration>
-            
-            <DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSRWebSocketDelegate/webSocket:didReceiveMessage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)webSocket:(RCTSRWebSocket *)webSocket didReceiveMessage:(id)message</Declaration>
+			
+			
+			<Anchor>//api/name/webSocket:didReceiveMessage:</Anchor>
             <NodeRef refid="288"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/FBSnapshotTestControllerErrorCodeNeedsRecord</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>FBSnapshotTestControllerErrorCodeNeedsRecord</Declaration>
-            
-            <DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSRWebSocketDelegate/webSocketDidOpen:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)webSocketDidOpen:(RCTSRWebSocket *)webSocket</Declaration>
+			
+			
+			<Anchor>//api/name/webSocketDidOpen:</Anchor>
             <NodeRef refid="288"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/FBSnapshotTestControllerErrorCodePNGCreationFailed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>FBSnapshotTestControllerErrorCodePNGCreationFailed</Declaration>
-            
-            <DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSRWebSocketDelegate/webSocket:didFailWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)webSocket:(RCTSRWebSocket *)webSocket didFailWithError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/webSocket:didFailWithError:</Anchor>
             <NodeRef refid="288"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/FBSnapshotTestControllerErrorCodeImagesDifferentSizes</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>FBSnapshotTestControllerErrorCodeImagesDifferentSizes</Declaration>
-            
-            <DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSRWebSocketDelegate/webSocket:didCloseWithCode:reason:wasClean:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)webSocket:(RCTSRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean</Declaration>
+			
+			
+			<Anchor>//api/name/webSocket:didCloseWithCode:reason:wasClean:</Anchor>
             <NodeRef refid="288"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/FBSnapshotTestControllerErrorCodeImagesDifferent</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>FBSnapshotTestControllerErrorCodeImagesDifferent</Declaration>
-            
-            <DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSRWebSocketDelegate/webSocket:didReceivePong:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (void)webSocket:(RCTSRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload</Declaration>
+			
+			
+			<Anchor>//api/name/webSocket:didReceivePong:</Anchor>
             <NodeRef refid="288"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

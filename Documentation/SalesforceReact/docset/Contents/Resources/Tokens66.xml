@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTExceptionsManager.html">
+	<File path="Classes/RCTEventDispatcher.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTExceptionsManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTEventDispatcher</TokenIdentifier>
+			<Abstract type="html">This class wraps the [RCTBridge enqueueJSCall:args:] method, and
+provides some convenience methods for generating event calls.</Abstract>
+			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
             
 			
 			<NodeRef refid="66"/>
@@ -13,86 +14,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTExceptionsManager/initWithDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendAppEventWithName:body:</TokenIdentifier>
+			<Abstract type="html">Deprecated, do not use.</Abstract>
+			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithDelegate:(id&lt;RCTExceptionsManagerDelegate&gt;)delegate</Declaration>
+			<Declaration>- (void)sendAppEventWithName:(NSString *)name body:(id)body</Declaration>
 			
 			
-			<Anchor>//api/name/initWithDelegate:</Anchor>
+			<Anchor>//api/name/sendAppEventWithName:body:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTExceptionsManager/setDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendDeviceEventWithName:body:</TokenIdentifier>
+			<Abstract type="html">Deprecated, do not use.</Abstract>
+			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTExceptionsManagerDelegate&gt; delegate</Declaration>
+			<Declaration>- (void)sendDeviceEventWithName:(NSString *)name body:(id)body</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/sendDeviceEventWithName:body:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTExceptionsManager/delegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendInputEventWithName:body:</TokenIdentifier>
+			<Abstract type="html">Deprecated, do not use.</Abstract>
+			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTExceptionsManagerDelegate&gt; delegate</Declaration>
+			<Declaration>- (void)sendInputEventWithName:(NSString *)name body:(NSDictionary *)body</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/sendInputEventWithName:body:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTExceptionsManager/delegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendTextEventWithType:reactTag:text:key:eventCount:</TokenIdentifier>
+			<Abstract type="html">Send a text input/focus event. For internal use only.</Abstract>
+			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTExceptionsManagerDelegate&gt; delegate</Declaration>
+			<Declaration>- (void)sendTextEventWithType:(RCTTextEventType)type reactTag:(NSNumber *)reactTag text:(NSString *)text key:(NSString *)key eventCount:(NSInteger)eventCount</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/sendTextEventWithType:reactTag:text:key:eventCount:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTExceptionsManager/setMaxReloadAttempts:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendEvent:</TokenIdentifier>
+			<Abstract type="html">Send a pre-prepared event object.</Abstract>
+			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger maxReloadAttempts</Declaration>
+			<Declaration>- (void)sendEvent:(id&lt;RCTEvent&gt;)event</Declaration>
 			
 			
-			<Anchor>//api/name/maxReloadAttempts</Anchor>
+			<Anchor>//api/name/sendEvent:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTExceptionsManager/maxReloadAttempts</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/addDispatchObserver:</TokenIdentifier>
+			<Abstract type="html">Add an event dispatcher observer.</Abstract>
+			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger maxReloadAttempts</Declaration>
+			<Declaration>- (void)addDispatchObserver:(id&lt;RCTEventDispatcherObserver&gt;)observer</Declaration>
 			
 			
-			<Anchor>//api/name/maxReloadAttempts</Anchor>
+			<Anchor>//api/name/addDispatchObserver:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTExceptionsManager/maxReloadAttempts</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTExceptionsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/removeDispatchObserver:</TokenIdentifier>
+			<Abstract type="html">Remove an event dispatcher observer.</Abstract>
+			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger maxReloadAttempts</Declaration>
+			<Declaration>- (void)removeDispatchObserver:(id&lt;RCTEventDispatcherObserver&gt;)observer</Declaration>
 			
 			
-			<Anchor>//api/name/maxReloadAttempts</Anchor>
+			<Anchor>//api/name/removeDispatchObserver:</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendFakeScrollEvent:</TokenIdentifier>
+			<Abstract type="html">Send a fake scroll event.</Abstract>
+			<DeclaredIn>RCTScrollView.h</DeclaredIn>
+			
+			<Declaration>- (void)sendFakeScrollEvent:(NSNumber *)reactTag</Declaration>
+			
+			
+			<Anchor>//api/name/sendFakeScrollEvent:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		

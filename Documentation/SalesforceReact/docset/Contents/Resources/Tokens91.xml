@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTInspectorPage.html">
+	<File path="Classes/RCTImageStoreManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTInspectorPage</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTImageStoreManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="91"/>
@@ -13,98 +13,88 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/setId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/removeImageForTag:withBlock:</TokenIdentifier>
+			<Abstract type="html">Set and get cached image data asynchronously. It is safe to call these from any
+thread. The callbacks will be called on an unspecified thread.</Abstract>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSInteger id</Declaration>
+			<Declaration>- (void)removeImageForTag:(NSString *)imageTag withBlock:(void ( ^ ) ( void ))block</Declaration>
 			
 			
-			<Anchor>//api/name/id</Anchor>
+			<Anchor>//api/name/removeImageForTag:withBlock:</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/id</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/storeImageData:withBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSInteger id</Declaration>
+			<Declaration>- (void)storeImageData:(NSData *)imageData withBlock:(void ( ^ ) ( NSString *imageTag ))block</Declaration>
 			
 			
-			<Anchor>//api/name/id</Anchor>
+			<Anchor>//api/name/storeImageData:withBlock:</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTInspectorPage/id</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/getImageDataForTag:withBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSInteger id</Declaration>
+			<Declaration>- (void)getImageDataForTag:(NSString *)imageTag withBlock:(void ( ^ ) ( NSData *imageData ))block</Declaration>
 			
 			
-			<Anchor>//api/name/id</Anchor>
+			<Anchor>//api/name/getImageDataForTag:withBlock:</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/setTitle:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/storeImage:withBlock:</TokenIdentifier>
+			<Abstract type="html">Convenience method to store an image directly (image is converted to data
+internally, so any metadata such as scale or orientation will be lost).</Abstract>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *title</Declaration>
+			<Declaration>- (void)storeImage:(UIImage *)image withBlock:(void ( ^ ) ( NSString *imageTag ))block</Declaration>
 			
 			
-			<Anchor>//api/name/title</Anchor>
+			<Anchor>//api/name/storeImage:withBlock:</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/title</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/storeImage:</TokenIdentifier>
+			<Abstract type="html">These methods are deprecated - use the data-based alternatives instead.</Abstract>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *title</Declaration>
+			<Declaration>- (NSString *)storeImage:(UIImage *)image</Declaration>
 			
 			
-			<Anchor>//api/name/title</Anchor>
+			<Anchor>//api/name/storeImage:</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTInspectorPage/title</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/imageForTag:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *title</Declaration>
+			<Declaration>- (UIImage *)imageForTag:(NSString *)imageTag</Declaration>
 			
 			
-			<Anchor>//api/name/title</Anchor>
+			<Anchor>//api/name/imageForTag:</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/init</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/getImageForTag:withBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspector.mm</DeclaredIn>
+			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)init</Declaration>
-			
-			
-			<Anchor>//api/name/init</Anchor>
-            <NodeRef refid="91"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorPage/initWithId:title:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspector.mm</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithId:(NSInteger)id title:(NSString *)title</Declaration>
+			<Declaration>- (void)getImageForTag:(NSString *)imageTag withBlock:(void ( ^ ) ( UIImage *image ))block</Declaration>
 			
 			
-			<Anchor>//api/name/initWithId:title:</Anchor>
+			<Anchor>//api/name/getImageForTag:withBlock:</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		

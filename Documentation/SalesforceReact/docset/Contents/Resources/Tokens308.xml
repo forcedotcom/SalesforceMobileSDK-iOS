@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTTextEventType.html">
+	<File path="Constants/RCTLogSource.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTTextEventType</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTLogSource</TokenIdentifier>
+			<Abstract type="html">An enum representing the source of a log message.</Abstract>
+			<DeclaredIn>RCTLog.h</DeclaredIn>
             
 			
 			<NodeRef refid="308"/>
@@ -15,61 +14,21 @@ All rights reserved.</Abstract>
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTextEventTypeFocus</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogSourceNative</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTTextEventTypeFocus</Declaration>
+            <Declaration>RCTLogSourceNative</Declaration>
             
-            <DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+            <DeclaredIn>RCTLog.h</DeclaredIn>
             
             <NodeRef refid="308"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTextEventTypeBlur</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTLogSourceJavaScript</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTTextEventTypeBlur</Declaration>
+            <Declaration>RCTLogSourceJavaScript</Declaration>
             
-            <DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
-            
-            <NodeRef refid="308"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTextEventTypeChange</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTTextEventTypeChange</Declaration>
-            
-            <DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
-            
-            <NodeRef refid="308"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTextEventTypeSubmit</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTTextEventTypeSubmit</Declaration>
-            
-            <DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
-            
-            <NodeRef refid="308"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTextEventTypeEnd</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTTextEventTypeEnd</Declaration>
-            
-            <DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
-            
-            <NodeRef refid="308"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTextEventTypeKeyPress</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTTextEventTypeKeyPress</Declaration>
-            
-            <DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+            <DeclaredIn>RCTLog.h</DeclaredIn>
             
             <NodeRef refid="308"/>
         </Token>

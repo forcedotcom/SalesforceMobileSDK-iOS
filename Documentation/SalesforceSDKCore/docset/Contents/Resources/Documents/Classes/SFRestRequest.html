@@ -82,7 +82,11 @@
 		
 		<option value="//api/name/requiresAuthentication">requiresAuthentication</option>
 		
+		<option value="//api/name/serviceHostType">serviceHostType</option>
+		
 		<option value="//api/name/sessionDataTask">sessionDataTask</option>
+		
+		<option value="//api/name/shouldRefreshOn403">shouldRefreshOn403</option>
 		
 	</optgroup>
 	
@@ -97,6 +101,10 @@
 		<option value="//api/name/requestWithMethod:baseURL:path:queryParams:">+ requestWithMethod:baseURL:path:queryParams:</option>
 		
 		<option value="//api/name/requestWithMethod:path:queryParams:">+ requestWithMethod:path:queryParams:</option>
+		
+		<option value="//api/name/requestWithMethod:serviceHostType:path:queryParams:">+ requestWithMethod:serviceHostType:path:queryParams:</option>
+		
+		<option value="//api/name/restUrlForBaseUrl:serviceHostType:credentials:">+ restUrlForBaseUrl:serviceHostType:credentials:</option>
 		
 		<option value="//api/name/sfRestMethodFromHTTPMethod:">+ sfRestMethodFromHTTPMethod:</option>
 		
@@ -189,6 +197,47 @@
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readwrite) SFRestMethod method</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/serviceHostType" title="serviceHostType"></a>
+	<h3 class="method-title"><code><a href="#//api/name/serviceHostType">&nbsp;&nbsp;serviceHostType</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The type of service host for the <a href="#//api/name/request">request</a> (e.g. login or instance).</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType</code></div>
 
 		    
 			
@@ -571,6 +620,48 @@ the <a href="#//api/name/request">request</a> headers before sending the <a href
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL requiresAuthentication</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/shouldRefreshOn403" title="shouldRefreshOn403"></a>
+	<h3 class="method-title"><code><a href="#//api/name/shouldRefreshOn403">&nbsp;&nbsp;shouldRefreshOn403</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
+attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL shouldRefreshOn403</code></div>
 
 		    
 			
@@ -1298,6 +1389,74 @@ from the collection of headers.</p></td>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/requestWithMethod:serviceHostType:path:queryParams:" title="requestWithMethod:serviceHostType:path:queryParams:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestWithMethod:serviceHostType:path:queryParams:">+&nbsp;requestWithMethod:serviceHostType:path:queryParams:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates an <code>SFRestRequest</code> object. See <a href="../Constants/SFRestMethod.html">SFRestMethod</a>. If you need to set body on the <a href="#//api/name/request">request</a>, use one of the &lsquo;setCustomRequestBody&hellip;&rsquo; methods to do so with the instance returned by this <a href="#//api/name/method">method</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)requestWithMethod:(SFRestMethod)<em>method</em> serviceHostType:(SFSDKRestServiceHostType)<em>hostType</em> path:(NSString *)<em>path</em> queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)<em>queryParams</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>method</code></th>
+						<td><p>the HTTP <a href="#//api/name/method">method</a></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>hostType</code></th>
+						<td><p>the type of service host for the <a href="#//api/name/request">request</a>.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>path</code></th>
+						<td><p>the <a href="#//api/name/request">request</a> <a href="#//api/name/path">path</a></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>queryParams</code></th>
+						<td><p>the parameters of the <a href="#//api/name/request">request</a> (could be nil)</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/requestWithMethod:baseURL:path:queryParams:" title="requestWithMethod:baseURL:path:queryParams:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/requestWithMethod:baseURL:path:queryParams:">+&nbsp;requestWithMethod:baseURL:path:queryParams:</a></code>
 </h3>
@@ -1437,6 +1596,22 @@ from the collection of headers.</p></td>
 		    
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/restUrlForBaseUrl:serviceHostType:credentials:" title="restUrlForBaseUrl:serviceHostType:credentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/restUrlForBaseUrl:serviceHostType:credentials:">+&nbsp;restUrlForBaseUrl:serviceHostType:credentials:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull NSString *)restUrlForBaseUrl:(nullable NSString *)<em>baseUrl</em> serviceHostType:(SFSDKRestServiceHostType)<em>hostType</em> credentials:(nonnull SFOAuthCredentials *)<em>credentials</em></code></div>
+
+		    
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1452,7 +1627,7 @@ from the collection of headers.</p></td>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

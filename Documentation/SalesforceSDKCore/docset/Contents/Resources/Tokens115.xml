@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKWebViewStateManager.html">
+	<File path="Classes/SFSDKUITableViewCell.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebViewStateManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUITableViewCell</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
             
 			
 			<NodeRef refid="115"/>
@@ -13,78 +13,218 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionWithNewAccessToken:isSecureProtocol:</TokenIdentifier>
-			<Abstract type="html">  Reset some associated state with WKWebView and UIWebView e.g. Remove Cookies then add SID cookie</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setUserName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/resetSessionWithNewAccessToken:isSecureProtocol:</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/removeSession</TokenIdentifier>
-			<Abstract type="html">  Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/userName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSession</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/removeSession</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/setSharedProcessPool:</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/userName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setHostName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
 			
 			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/hostName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
 			
 			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionCookie</TokenIdentifier>
-			<Abstract type="html">Clears session cookie data from the cookie store, and sets a new session cookie based on the
-OAuth credentials.</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/hostName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetSessionCookie</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
 			
 			
-			<Anchor>//api/name/resetSessionCookie</Anchor>
+			<Anchor>//api/name/hostName</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setImageURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
+			
+			
+			<Anchor>//api/name/imageURL</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/imageURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
+			
+			
+			<Anchor>//api/name/imageURL</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/imageURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
+			
+			
+			<Anchor>//api/name/imageURL</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setProfileImage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
+			
+			
+			<Anchor>//api/name/profileImage</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/profileImage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
+			
+			
+			<Anchor>//api/name/profileImage</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/profileImage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
+			
+			
+			<Anchor>//api/name/profileImage</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setReuseCellIdentifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/reuseCellIdentifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/reuseCellIdentifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setCellHeight:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/cellHeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/cellHeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		

@@ -17,7 +17,7 @@
 			<Abstract type="html">The community ID</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *entityId</Declaration>
 			
 			
 			<Anchor>//api/name/entityId</Anchor>
@@ -29,7 +29,7 @@
 			<Abstract type="html">The community ID</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *entityId</Declaration>
 			
 			
 			<Anchor>//api/name/entityId</Anchor>
@@ -41,7 +41,7 @@
 			<Abstract type="html">The community ID</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *entityId</Declaration>
 			
 			
 			<Anchor>//api/name/entityId</Anchor>
@@ -53,7 +53,7 @@
 			<Abstract type="html">The community name</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *name</Declaration>
 			
 			
 			<Anchor>//api/name/name</Anchor>
@@ -65,7 +65,7 @@
 			<Abstract type="html">The community name</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *name</Declaration>
 			
 			
 			<Anchor>//api/name/name</Anchor>
@@ -77,7 +77,7 @@
 			<Abstract type="html">The community name</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *name</Declaration>
 			
 			
 			<Anchor>//api/name/name</Anchor>
@@ -89,7 +89,7 @@
 			<Abstract type="html">The community description</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSString *descriptionText</Declaration>
 			
 			
 			<Anchor>//api/name/descriptionText</Anchor>
@@ -101,7 +101,7 @@
 			<Abstract type="html">The community description</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSString *descriptionText</Declaration>
 			
 			
 			<Anchor>//api/name/descriptionText</Anchor>
@@ -113,7 +113,7 @@
 			<Abstract type="html">The community description</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSString *descriptionText</Declaration>
 			
 			
 			<Anchor>//api/name/descriptionText</Anchor>
@@ -125,7 +125,7 @@
 			<Abstract type="html">The community siteUrl</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *siteUrl</Declaration>
 			
 			
 			<Anchor>//api/name/siteUrl</Anchor>
@@ -137,7 +137,7 @@
 			<Abstract type="html">The community siteUrl</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *siteUrl</Declaration>
 			
 			
 			<Anchor>//api/name/siteUrl</Anchor>
@@ -149,7 +149,7 @@
 			<Abstract type="html">The community siteUrl</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *siteUrl</Declaration>
 			
 			
 			<Anchor>//api/name/siteUrl</Anchor>
@@ -161,7 +161,7 @@
 			<Abstract type="html">The community URL</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *url</Declaration>
 			
 			
 			<Anchor>//api/name/url</Anchor>
@@ -173,7 +173,7 @@
 			<Abstract type="html">The community URL</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *url</Declaration>
 			
 			
 			<Anchor>//api/name/url</Anchor>
@@ -185,7 +185,7 @@
 			<Abstract type="html">The community URL</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *url</Declaration>
 			
 			
 			<Anchor>//api/name/url</Anchor>
@@ -197,7 +197,7 @@
 			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSURL *urlPathPrefix</Declaration>
 			
 			
 			<Anchor>//api/name/urlPathPrefix</Anchor>
@@ -209,7 +209,7 @@
 			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSURL *urlPathPrefix</Declaration>
 			
 			
 			<Anchor>//api/name/urlPathPrefix</Anchor>
@@ -221,7 +221,7 @@
 			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
 			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSURL *urlPathPrefix</Declaration>
 			
 			
 			<Anchor>//api/name/urlPathPrefix</Anchor>

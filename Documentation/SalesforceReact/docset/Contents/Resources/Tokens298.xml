@@ -1,208 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTPLTag.html">
+	<File path="Protocols/RCTWrapperViewControllerNavigationListener.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTPLTag</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTWrapperViewControllerNavigationListener</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="298"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLScriptDownload</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLScriptDownload</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTWrapperViewControllerNavigationListener/wrapperViewController:didMoveToNavigationController:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)wrapperViewController:(RCTWrapperViewController *)wrapperViewController didMoveToNavigationController:(UINavigationController *)navigationController</Declaration>
+			
+			
+			<Anchor>//api/name/wrapperViewController:didMoveToNavigationController:</Anchor>
             <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLScriptExecution</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLScriptExecution</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLRAMBundleLoad</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLRAMBundleLoad</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLRAMStartupCodeSize</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLRAMStartupCodeSize</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLRAMStartupNativeRequires</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLRAMStartupNativeRequires</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLRAMStartupNativeRequiresCount</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLRAMStartupNativeRequiresCount</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLRAMNativeRequires</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLRAMNativeRequires</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLRAMNativeRequiresCount</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLRAMNativeRequiresCount</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLNativeModuleInit</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLNativeModuleInit</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLNativeModuleMainThread</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLNativeModuleMainThread</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLNativeModulePrepareConfig</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLNativeModulePrepareConfig</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLNativeModuleInjectConfig</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLNativeModuleInjectConfig</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLNativeModuleMainThreadUsesCount</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLNativeModuleMainThreadUsesCount</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLJSCWrapperOpenLibrary</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLJSCWrapperOpenLibrary</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLJSCExecutorSetup</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLJSCExecutorSetup</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLBridgeStartup</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLBridgeStartup</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLTTI</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLTTI</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLBundleSize</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLBundleSize</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTPLSize</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTPLSize</Declaration>
-            
-            <DeclaredIn>RCTPerformanceLogger.h</DeclaredIn>
-            
-            <NodeRef refid="298"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

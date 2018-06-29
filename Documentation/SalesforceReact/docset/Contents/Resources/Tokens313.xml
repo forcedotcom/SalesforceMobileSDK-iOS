@@ -1,8 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Constants/RCTResizeMode.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTResizeMode</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            
+			
+			<NodeRef refid="313"/>
+		</Token>
 		
 		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTResizeModeCover</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTResizeModeCover</Declaration>
+            
+            <DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            
+            <NodeRef refid="313"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTResizeModeContain</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTResizeModeContain</Declaration>
+            
+            <DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            
+            <NodeRef refid="313"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTResizeModeStretch</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTResizeModeStretch</Declaration>
+            
+            <DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            
+            <NodeRef refid="313"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTResizeModeCenter</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTResizeModeCenter</Declaration>
+            
+            <DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            
+            <NodeRef refid="313"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTResizeModeRepeat</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTResizeModeRepeat</Declaration>
+            
+            <DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            
+            <NodeRef refid="313"/>
+        </Token>
         
         
 	</File>

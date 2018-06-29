@@ -1,52 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIImage+React.html">
+	<File path="Classes/SFSDKReactLogger.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIImage(React)</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKReactLogger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			<DeclaredIn>SFSDKReactLogger.h</DeclaredIn>
             
 			
 			<NodeRef refid="243"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIImage/setReactKeyframeAnimation:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) CAKeyframeAnimation *reactKeyframeAnimation</Declaration>
-			
-			
-			<Anchor>//api/name/reactKeyframeAnimation</Anchor>
-            <NodeRef refid="243"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIImage/reactKeyframeAnimation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) CAKeyframeAnimation *reactKeyframeAnimation</Declaration>
-			
-			
-			<Anchor>//api/name/reactKeyframeAnimation</Anchor>
-            <NodeRef refid="243"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIImage/reactKeyframeAnimation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) CAKeyframeAnimation *reactKeyframeAnimation</Declaration>
-			
-			
-			<Anchor>//api/name/reactKeyframeAnimation</Anchor>
-            <NodeRef refid="243"/>
-		</Token>
 		
         
         

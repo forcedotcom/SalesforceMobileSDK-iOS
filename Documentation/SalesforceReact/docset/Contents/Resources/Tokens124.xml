@@ -1,17 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTMultiplicationAnimatedNode.html">
+	<File path="Classes/RCTModuleMethod.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTMultiplicationAnimatedNode</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTMultiplicationAnimatedNode.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTModuleMethod</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
             
 			
 			<NodeRef refid="124"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleMethod/setModuleClass:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) Class moduleClass</Declaration>
+			
+			
+			<Anchor>//api/name/moduleClass</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleMethod/moduleClass</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) Class moduleClass</Declaration>
+			
+			
+			<Anchor>//api/name/moduleClass</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModuleMethod/moduleClass</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) Class moduleClass</Declaration>
+			
+			
+			<Anchor>//api/name/moduleClass</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleMethod/setSelector:</TokenIdentifier>
+			<Abstract type="html">Special case - Numbers are not nullable in Android, so we
+don&apos;t support this for now. In future we may allow it.
+     </Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
+			
+			
+			<Anchor>//api/name/selector</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleMethod/selector</TokenIdentifier>
+			<Abstract type="html">Special case - Numbers are not nullable in Android, so we
+don&apos;t support this for now. In future we may allow it.
+     </Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
+			
+			
+			<Anchor>//api/name/selector</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModuleMethod/selector</TokenIdentifier>
+			<Abstract type="html">Special case - Numbers are not nullable in Android, so we
+don&apos;t support this for now. In future we may allow it.
+     </Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
+			
+			
+			<Anchor>//api/name/selector</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleMethod/initWithExportedMethod:moduleClass:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithExportedMethod:(const RCTMethodInfo *)exportMethod moduleClass:(Class)moduleClass</Declaration>
+			
+			
+			<Anchor>//api/name/initWithExportedMethod:moduleClass:</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleMethod/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleMethod/processMethodSignature</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.mm</DeclaredIn>
+			
+			<Declaration>- (void)processMethodSignature</Declaration>
+			
+			
+			<Anchor>//api/name/processMethodSignature</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleMethod/JSMethodName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.mm</DeclaredIn>
+			
+			<Declaration>- (const char *)JSMethodName</Declaration>
+			
+			
+			<Anchor>//api/name/JSMethodName</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleMethod/functionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.mm</DeclaredIn>
+			
+			<Declaration>- (RCTFunctionType)functionType</Declaration>
+			
+			
+			<Anchor>//api/name/functionType</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleMethod/invokeWithBridge:module:arguments:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleMethod.mm</DeclaredIn>
+			
+			<Declaration>- (id)invokeWithBridge:(RCTBridge *)bridge module:(id)module arguments:(NSArray *)arguments</Declaration>
+			
+			
+			<Anchor>//api/name/invokeWithBridge:module:arguments:</Anchor>
+            <NodeRef refid="124"/>
+		</Token>
 		
         
         

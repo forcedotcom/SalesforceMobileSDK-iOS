@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTImageStoreManager.html">
+	<File path="Classes/RCTI18nUtil.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTImageStoreManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTI18nUtil</TokenIdentifier>
+			<Abstract type="html">@experimental
+This is a experimental module for to expose constance IsRTL to js about the RTL status.
+And it allows js to force RLT status for development propose.
+This will also provide other i18n related utilities in the future.</Abstract>
+			<DeclaredIn>RCTI18nUtil.h</DeclaredIn>
             
 			
 			<NodeRef refid="84"/>
@@ -13,88 +16,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/removeImageForTag:withBlock:</TokenIdentifier>
-			<Abstract type="html">Set and get cached image data asynchronously. It is safe to call these from any
-thread. The callbacks will be called on an unspecified thread.</Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)removeImageForTag:(NSString *)imageTag withBlock:(void ( ^ ) ( void ))block</Declaration>
-			
-			
-			<Anchor>//api/name/removeImageForTag:withBlock:</Anchor>
-            <NodeRef refid="84"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/storeImageData:withBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTI18nUtil/sharedInstance</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
+			<DeclaredIn>RCTI18nUtil.h</DeclaredIn>
 			
-			<Declaration>- (void)storeImageData:(NSData *)imageData withBlock:(void ( ^ ) ( NSString *imageTag ))block</Declaration>
+			<Declaration>+ (instancetype)sharedInstance</Declaration>
 			
 			
-			<Anchor>//api/name/storeImageData:withBlock:</Anchor>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/getImageDataForTag:withBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTI18nUtil/isRTL</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
+			<DeclaredIn>RCTI18nUtil.h</DeclaredIn>
 			
-			<Declaration>- (void)getImageDataForTag:(NSString *)imageTag withBlock:(void ( ^ ) ( NSData *imageData ))block</Declaration>
+			<Declaration>- (BOOL)isRTL</Declaration>
 			
 			
-			<Anchor>//api/name/getImageDataForTag:withBlock:</Anchor>
+			<Anchor>//api/name/isRTL</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/storeImage:withBlock:</TokenIdentifier>
-			<Abstract type="html">Convenience method to store an image directly (image is converted to data
-internally, so any metadata such as scale or orientation will be lost).</Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)storeImage:(UIImage *)image withBlock:(void ( ^ ) ( NSString *imageTag ))block</Declaration>
-			
-			
-			<Anchor>//api/name/storeImage:withBlock:</Anchor>
-            <NodeRef refid="84"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/storeImage:</TokenIdentifier>
-			<Abstract type="html">These methods are deprecated - use the data-based alternatives instead.</Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)storeImage:(UIImage *)image</Declaration>
-			
-			
-			<Anchor>//api/name/storeImage:</Anchor>
-            <NodeRef refid="84"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/imageForTag:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTI18nUtil/isRTLAllowed</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
+			<DeclaredIn>RCTI18nUtil.h</DeclaredIn>
 			
-			<Declaration>- (UIImage *)imageForTag:(NSString *)imageTag</Declaration>
+			<Declaration>- (BOOL)isRTLAllowed</Declaration>
 			
 			
-			<Anchor>//api/name/imageForTag:</Anchor>
+			<Anchor>//api/name/isRTLAllowed</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTImageStoreManager/getImageForTag:withBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTI18nUtil/allowRTL:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageStoreManager.h</DeclaredIn>
+			<DeclaredIn>RCTI18nUtil.h</DeclaredIn>
 			
-			<Declaration>- (void)getImageForTag:(NSString *)imageTag withBlock:(void ( ^ ) ( UIImage *image ))block</Declaration>
+			<Declaration>- (void)allowRTL:(BOOL)value</Declaration>
 			
 			
-			<Anchor>//api/name/getImageForTag:withBlock:</Anchor>
+			<Anchor>//api/name/allowRTL:</Anchor>
+            <NodeRef refid="84"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTI18nUtil/isRTLForced</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTI18nUtil.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isRTLForced</Declaration>
+			
+			
+			<Anchor>//api/name/isRTLForced</Anchor>
+            <NodeRef refid="84"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTI18nUtil/forceRTL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTI18nUtil.h</DeclaredIn>
+			
+			<Declaration>- (void)forceRTL:(BOOL)value</Declaration>
+			
+			
+			<Anchor>//api/name/forceRTL:</Anchor>
+            <NodeRef refid="84"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTI18nUtil/doLeftAndRightSwapInRTL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTI18nUtil.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)doLeftAndRightSwapInRTL</Declaration>
+			
+			
+			<Anchor>//api/name/doLeftAndRightSwapInRTL</Anchor>
+            <NodeRef refid="84"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTI18nUtil/swapLeftAndRightInRTL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTI18nUtil.h</DeclaredIn>
+			
+			<Declaration>- (void)swapLeftAndRightInRTL:(BOOL)value</Declaration>
+			
+			
+			<Anchor>//api/name/swapLeftAndRightInRTL:</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		

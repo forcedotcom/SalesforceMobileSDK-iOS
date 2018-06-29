@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/RCTCxxBridgeDelegate.html">
+	<File path="Categories/UIView+React.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/RCTCxxBridgeDelegate</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTCxxBridgeDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIView(React)</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
             
 			
 			<NodeRef refid="256"/>
@@ -14,17 +13,513 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTCxxBridgeDelegate/jsExecutorFactoryForBridge:</TokenIdentifier>
-			<Abstract type="html">In the RCTCxxBridge, if this method is implemented, return a
-ExecutorFactory instance which can be used to create the executor.
-If not implemented, or returns an empty pointer, JSCExecutorFactory
-will be used.</Abstract>
-			<DeclaredIn>RCTCxxBridgeDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactSubviews</TokenIdentifier>
+			<Abstract type="html">RCTComponent interface.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
 			
-			<Declaration>- (std : : unique_ptr&lt;facebook::react::JSExecutorFactory&gt;)jsExecutorFactoryForBridge:(RCTBridge *)bridge</Declaration>
+			<Declaration>- (NSArray&lt;UIView*&gt; *)reactSubviews</Declaration>
 			
 			
-			<Anchor>//api/name/jsExecutorFactoryForBridge:</Anchor>
+			<Anchor>//api/name/reactSubviews</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactSuperview</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)reactSuperview</Declaration>
+			
+			
+			<Anchor>//api/name/reactSuperview</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/insertReactSubview:atIndex:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (void)insertReactSubview:(UIView *)subview atIndex:(NSInteger)atIndex</Declaration>
+			
+			
+			<Anchor>//api/name/insertReactSubview:atIndex:</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/removeReactSubview:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (void)removeReactSubview:(UIView *)subview</Declaration>
+			
+			
+			<Anchor>//api/name/removeReactSubview:</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/setNativeID:</TokenIdentifier>
+			<Abstract type="html">The native id of the view, used to locate view from native codes</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *nativeID</Declaration>
+			
+			
+			<Anchor>//api/name/nativeID</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/nativeID</TokenIdentifier>
+			<Abstract type="html">The native id of the view, used to locate view from native codes</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *nativeID</Declaration>
+			
+			
+			<Anchor>//api/name/nativeID</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIView/nativeID</TokenIdentifier>
+			<Abstract type="html">The native id of the view, used to locate view from native codes</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *nativeID</Declaration>
+			
+			
+			<Anchor>//api/name/nativeID</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/setReactLayoutDirection:</TokenIdentifier>
+			<Abstract type="html">Layout direction of the view.
+Internally backed to semanticContentAttribute property.
+Defaults to LeftToRight in case of ambiguity.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceLayoutDirection reactLayoutDirection</Declaration>
+			
+			
+			<Anchor>//api/name/reactLayoutDirection</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactLayoutDirection</TokenIdentifier>
+			<Abstract type="html">Layout direction of the view.
+Internally backed to semanticContentAttribute property.
+Defaults to LeftToRight in case of ambiguity.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceLayoutDirection reactLayoutDirection</Declaration>
+			
+			
+			<Anchor>//api/name/reactLayoutDirection</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIView/reactLayoutDirection</TokenIdentifier>
+			<Abstract type="html">Layout direction of the view.
+Internally backed to semanticContentAttribute property.
+Defaults to LeftToRight in case of ambiguity.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceLayoutDirection reactLayoutDirection</Declaration>
+			
+			
+			<Anchor>//api/name/reactLayoutDirection</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/setReactDisplay:</TokenIdentifier>
+			<Abstract type="html">Yoga display style property. Can be flex or none.
+Defaults to flex.
+May be used to temporary hide the view in a very efficient way.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) YGDisplay reactDisplay</Declaration>
+			
+			
+			<Anchor>//api/name/reactDisplay</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactDisplay</TokenIdentifier>
+			<Abstract type="html">Yoga display style property. Can be flex or none.
+Defaults to flex.
+May be used to temporary hide the view in a very efficient way.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) YGDisplay reactDisplay</Declaration>
+			
+			
+			<Anchor>//api/name/reactDisplay</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIView/reactDisplay</TokenIdentifier>
+			<Abstract type="html">Yoga display style property. Can be flex or none.
+Defaults to flex.
+May be used to temporary hide the view in a very efficient way.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) YGDisplay reactDisplay</Declaration>
+			
+			
+			<Anchor>//api/name/reactDisplay</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/setReactZIndex:</TokenIdentifier>
+			<Abstract type="html">The z-index of the view.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger reactZIndex</Declaration>
+			
+			
+			<Anchor>//api/name/reactZIndex</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactZIndex</TokenIdentifier>
+			<Abstract type="html">The z-index of the view.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger reactZIndex</Declaration>
+			
+			
+			<Anchor>//api/name/reactZIndex</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIView/reactZIndex</TokenIdentifier>
+			<Abstract type="html">The z-index of the view.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger reactZIndex</Declaration>
+			
+			
+			<Anchor>//api/name/reactZIndex</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactZIndexSortedSubviews</TokenIdentifier>
+			<Abstract type="html">Subviews sorted by z-index. Note that this method doesn&apos;t do any caching (yet)
+and sorts all the views each call.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;UIView*&gt; *)reactZIndexSortedSubviews</Declaration>
+			
+			
+			<Anchor>//api/name/reactZIndexSortedSubviews</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/didUpdateReactSubviews</TokenIdentifier>
+			<Abstract type="html">Updates the subviews array based on the reactSubviews. Default behavior is
+to insert the sortedReactSubviews into the UIView.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (void)didUpdateReactSubviews</Declaration>
+			
+			
+			<Anchor>//api/name/didUpdateReactSubviews</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/didSetProps:</TokenIdentifier>
+			<Abstract type="html">Called each time props have been set.
+The default implementation does nothing.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (void)didSetProps:(NSArray&lt;NSString*&gt; *)changedProps</Declaration>
+			
+			
+			<Anchor>//api/name/didSetProps:</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactSetFrame:</TokenIdentifier>
+			<Abstract type="html">Used by the UIIManager to set the view frame.
+May be overriden to disable animation, etc.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (void)reactSetFrame:(CGRect)frame</Declaration>
+			
+			
+			<Anchor>//api/name/reactSetFrame:</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactViewController</TokenIdentifier>
+			<Abstract type="html">This method finds and returns the containing view controller for the view.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (UIViewController *)reactViewController</Declaration>
+			
+			
+			<Anchor>//api/name/reactViewController</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactAddControllerToClosestParent:</TokenIdentifier>
+			<Abstract type="html">This method attaches the specified controller as a child of the
+the owning view controller of this view. Returns NO if no view
+controller is found (which may happen if the view is not currently
+attached to the view hierarchy).</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (void)reactAddControllerToClosestParent:(UIViewController *)controller</Declaration>
+			
+			
+			<Anchor>//api/name/reactAddControllerToClosestParent:</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactFocus</TokenIdentifier>
+			<Abstract type="html">Focus manipulation.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (void)reactFocus</Declaration>
+			
+			
+			<Anchor>//api/name/reactFocus</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactFocusIfNeeded</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (void)reactFocusIfNeeded</Declaration>
+			
+			
+			<Anchor>//api/name/reactFocusIfNeeded</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactBlur</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>- (void)reactBlur</Declaration>
+			
+			
+			<Anchor>//api/name/reactBlur</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/setReactBorderInsets:</TokenIdentifier>
+			<Abstract type="html">Useful properties for computing layout.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIEdgeInsets reactBorderInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactBorderInsets</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactBorderInsets</TokenIdentifier>
+			<Abstract type="html">Useful properties for computing layout.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIEdgeInsets reactBorderInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactBorderInsets</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIView/reactBorderInsets</TokenIdentifier>
+			<Abstract type="html">Useful properties for computing layout.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIEdgeInsets reactBorderInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactBorderInsets</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/setReactPaddingInsets:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIEdgeInsets reactPaddingInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactPaddingInsets</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactPaddingInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIEdgeInsets reactPaddingInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactPaddingInsets</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIView/reactPaddingInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIEdgeInsets reactPaddingInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactPaddingInsets</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/setReactCompoundInsets:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIEdgeInsets reactCompoundInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactCompoundInsets</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactCompoundInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIEdgeInsets reactCompoundInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactCompoundInsets</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIView/reactCompoundInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIEdgeInsets reactCompoundInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactCompoundInsets</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/setReactContentFrame:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGRect reactContentFrame</Declaration>
+			
+			
+			<Anchor>//api/name/reactContentFrame</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactContentFrame</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGRect reactContentFrame</Declaration>
+			
+			
+			<Anchor>//api/name/reactContentFrame</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIView/reactContentFrame</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CGRect reactContentFrame</Declaration>
+			
+			
+			<Anchor>//api/name/reactContentFrame</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/setReactAccessibilityElement:</TokenIdentifier>
+			<Abstract type="html">The (sub)view which represents this view in terms of accessibility.
+ViewManager will apply all accessibility properties directly to this view.
+May be overriten in view subclass which needs to be accessiblitywise
+transparent in favour of some subview.
+Defaults to self.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIView *reactAccessibilityElement</Declaration>
+			
+			
+			<Anchor>//api/name/reactAccessibilityElement</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/reactAccessibilityElement</TokenIdentifier>
+			<Abstract type="html">The (sub)view which represents this view in terms of accessibility.
+ViewManager will apply all accessibility properties directly to this view.
+May be overriten in view subclass which needs to be accessiblitywise
+transparent in favour of some subview.
+Defaults to self.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIView *reactAccessibilityElement</Declaration>
+			
+			
+			<Anchor>//api/name/reactAccessibilityElement</Anchor>
+            <NodeRef refid="256"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIView/reactAccessibilityElement</TokenIdentifier>
+			<Abstract type="html">The (sub)view which represents this view in terms of accessibility.
+ViewManager will apply all accessibility properties directly to this view.
+May be overriten in view subclass which needs to be accessiblitywise
+transparent in favour of some subview.
+Defaults to self.</Abstract>
+			<DeclaredIn>UIView+React.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIView *reactAccessibilityElement</Declaration>
+			
+			
+			<Anchor>//api/name/reactAccessibilityElement</Anchor>
             <NodeRef refid="256"/>
 		</Token>
 		

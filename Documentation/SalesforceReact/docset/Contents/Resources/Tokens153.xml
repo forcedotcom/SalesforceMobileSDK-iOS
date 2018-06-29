@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTRootShadowView.html">
+	<File path="Classes/RCTReconnectingWebSocket.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTRootShadowView</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTReconnectingWebSocket</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
             
 			
 			<NodeRef refid="153"/>
@@ -14,96 +13,134 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRootShadowView/setAvailableSize:</TokenIdentifier>
-			<Abstract type="html">Available size to layout all views.
-Defaults to {INFINITY, INFINITY}</Abstract>
-			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/initWithURL:queue:</TokenIdentifier>
+			<Abstract type="html">Delegate will be messaged on the given queue (required).</Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) CGSize availableSize</Declaration>
+			<Declaration>- (instancetype)initWithURL:(NSURL *)url queue:(dispatch_queue_t)queue</Declaration>
 			
 			
-			<Anchor>//api/name/availableSize</Anchor>
+			<Anchor>//api/name/initWithURL:queue:</Anchor>
             <NodeRef refid="153"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRootShadowView/availableSize</TokenIdentifier>
-			<Abstract type="html">Available size to layout all views.
-Defaults to {INFINITY, INFINITY}</Abstract>
-			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/setDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) CGSize availableSize</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;RCTReconnectingWebSocketDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/availableSize</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="153"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTRootShadowView/availableSize</TokenIdentifier>
-			<Abstract type="html">Available size to layout all views.
-Defaults to {INFINITY, INFINITY}</Abstract>
-			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) CGSize availableSize</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;RCTReconnectingWebSocketDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/availableSize</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="153"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRootShadowView/setBaseDirection:</TokenIdentifier>
-			<Abstract type="html">Layout direction (LTR or RTL) inherited from native environment and
-is using as a base direction value in layout engine.
-Defaults to value inferred from current locale.</Abstract>
-			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTReconnectingWebSocket/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) YGDirection baseDirection</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;RCTReconnectingWebSocketDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/baseDirection</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="153"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRootShadowView/baseDirection</TokenIdentifier>
-			<Abstract type="html">Layout direction (LTR or RTL) inherited from native environment and
-is using as a base direction value in layout engine.
-Defaults to value inferred from current locale.</Abstract>
-			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/send:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) YGDirection baseDirection</Declaration>
+			<Declaration>- (void)send:(id)data</Declaration>
 			
 			
-			<Anchor>//api/name/baseDirection</Anchor>
+			<Anchor>//api/name/send:</Anchor>
             <NodeRef refid="153"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTRootShadowView/baseDirection</TokenIdentifier>
-			<Abstract type="html">Layout direction (LTR or RTL) inherited from native environment and
-is using as a base direction value in layout engine.
-Defaults to value inferred from current locale.</Abstract>
-			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/start</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) YGDirection baseDirection</Declaration>
+			<Declaration>- (void)start</Declaration>
 			
 			
-			<Anchor>//api/name/baseDirection</Anchor>
+			<Anchor>//api/name/start</Anchor>
             <NodeRef refid="153"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRootShadowView/collectViewsWithUpdatedFrames</TokenIdentifier>
-			<Abstract type="html">Calculate all views whose frame needs updating after layout has been calculated.
-Returns a set contains the shadowviews that need updating.</Abstract>
-			<DeclaredIn>RCTRootShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/stop</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
 			
-			<Declaration>- (NSSet&lt;RCTShadowView*&gt; *)collectViewsWithUpdatedFrames</Declaration>
+			<Declaration>- (void)stop</Declaration>
 			
 			
-			<Anchor>//api/name/collectViewsWithUpdatedFrames</Anchor>
+			<Anchor>//api/name/stop</Anchor>
+            <NodeRef refid="153"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/initWithURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithURL:(NSURL *)url</Declaration>
+			
+			
+			<Anchor>//api/name/initWithURL:</Anchor>
+            <NodeRef refid="153"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/set:</TokenIdentifier>
+			<Abstract type="html">Must be set before start to have effect</Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) dispatch_queue_t delegateDispatchQueue __deprecated_msg ( &quot;Use initWithURL:queue: instead&quot; )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="153"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/)</TokenIdentifier>
+			<Abstract type="html">Must be set before start to have effect</Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) dispatch_queue_t delegateDispatchQueue __deprecated_msg ( &quot;Use initWithURL:queue: instead&quot; )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="153"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTReconnectingWebSocket/)</TokenIdentifier>
+			<Abstract type="html">Must be set before start to have effect</Abstract>
+			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) dispatch_queue_t delegateDispatchQueue __deprecated_msg ( &quot;Use initWithURL:queue: instead&quot; )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="153"/>
 		</Token>
 		

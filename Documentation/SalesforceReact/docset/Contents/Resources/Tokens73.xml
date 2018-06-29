@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTGIFImageDecoder.html">
+	<File path="Classes/RCTFabricSurfaceHostingView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTGIFImageDecoder</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTGIFImageDecoder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTFabricSurfaceHostingView</TokenIdentifier>
+			<Abstract type="html">Fabric-compatible RCTSurfaceHostingView implementation.</Abstract>
+			<DeclaredIn>RCTFabricSurfaceHostingView.h</DeclaredIn>
             
 			
 			<NodeRef refid="73"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFabricSurfaceHostingView/initWithBridge:moduleName:initialProperties:</TokenIdentifier>
+			<Abstract type="html">Convenience initializer.
+Instanciates a Surface object with given bridge, moduleName, and
+initialProperties, and then use it to instanciate a view.</Abstract>
+			<DeclaredIn>RCTFabricSurfaceHostingView.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge moduleName:(NSString *)moduleName initialProperties:(NSDictionary *)initialProperties</Declaration>
+			
+			
+			<Anchor>//api/name/initWithBridge:moduleName:initialProperties:</Anchor>
+            <NodeRef refid="73"/>
+		</Token>
 		
         
         

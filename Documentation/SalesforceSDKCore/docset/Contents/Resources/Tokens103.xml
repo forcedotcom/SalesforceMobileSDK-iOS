@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSalesforceAnalyticsManager.html">
+	<File path="Classes/SFSDKResourceUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSalesforceAnalyticsManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKResourceUtils</TokenIdentifier>
+			<Abstract type="html">Class that handles access to Mobile SDK&apos;s main bundle.</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="103"/>
@@ -13,279 +13,65 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setEventStoreManager:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/mainSdkBundle</TokenIdentifier>
+			<Abstract type="html">The main bundle associated with the SDK.</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
+			<Declaration>+ (NSBundle *)mainSdkBundle</Declaration>
 			
-			
-			<Anchor>//api/name/eventStoreManager</Anchor>
+			<ReturnValue><Abstract type="html">The main bundle associated with the SDK.</Abstract></ReturnValue>
+			<Anchor>//api/name/mainSdkBundle</Anchor>
             <NodeRef refid="103"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/eventStoreManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/localizedString:</TokenIdentifier>
+			<Abstract type="html">Gets a localized string from the main bundle of the SDK.</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
-			
-			
-			<Anchor>//api/name/eventStoreManager</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/eventStoreManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager</Declaration>
-			
-			
-			<Anchor>//api/name/eventStoreManager</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setAnalyticsManager:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
-			
-			
-			<Anchor>//api/name/analyticsManager</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/analyticsManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
-			
-			
-			<Anchor>//api/name/analyticsManager</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/analyticsManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager</Declaration>
-			
-			
-			<Anchor>//api/name/analyticsManager</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setUserAccount:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
-			
-			
-			<Anchor>//api/name/userAccount</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/userAccount</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
-			
-			
-			<Anchor>//api/name/userAccount</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/userAccount</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount</Declaration>
-			
-			
-			<Anchor>//api/name/userAccount</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setLoggingEnabled:</TokenIdentifier>
-			<Abstract type="html">Disables or enables logging of events.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/loggingEnabled</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/isLoggingEnabled</TokenIdentifier>
-			<Abstract type="html">Disables or enables logging of events.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/loggingEnabled</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/loggingEnabled</TokenIdentifier>
-			<Abstract type="html">Disables or enables logging of events.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/loggingEnabled</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceAnalyticsManager/sharedInstanceWithUser:</TokenIdentifier>
-			<Abstract type="html">Returns an instance of this class associated with the specified user account.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>+ (nullable instancetype)sharedInstanceWithUser:(nonnull SFUserAccount *)userAccount</Declaration>
+			<Declaration>+ (NSString *)localizedString:(NSString *)localizationKey</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>userAccount</Name>
-					<Abstract type="html">User account.</Abstract>
+					<Name>localizationKey</Name>
+					<Abstract type="html">The localization key used to look up the localized string.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstanceWithUser:</Anchor>
+			<ReturnValue><Abstract type="html">The localized string associated with the key.</Abstract></ReturnValue>
+			<Anchor>//api/name/localizedString:</Anchor>
             <NodeRef refid="103"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceAnalyticsManager/removeSharedInstanceWithUser:</TokenIdentifier>
-			<Abstract type="html">Resets and removes the instance associated with the specified user account.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/imageNamed:</TokenIdentifier>
+			<Abstract type="html">Gets an image from the Images asset catalog from the framework bundle of the SDK</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)userAccount</Declaration>
+			<Declaration>+ (UIImage *)imageNamed:(NSString *)name</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>userAccount</Name>
-					<Abstract type="html">User account.</Abstract>
+					<Name>name</Name>
+					<Abstract type="html">The name of the image in the asset catalog.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
+			<ReturnValue><Abstract type="html">The image from the asset catalog with the provided name.</Abstract></ReturnValue>
+			<Anchor>//api/name/imageNamed:</Anchor>
             <NodeRef refid="103"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceAnalyticsManager/getDeviceAppAttributes</TokenIdentifier>
-			<Abstract type="html">Builds device attributes associated with this device.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/loadConfigFromFile:</TokenIdentifier>
+			<Abstract type="html">Read config and parse its content (which is expected to be json)</Abstract>
+			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
 			
-			<Declaration>+ (nonnull SFSDKDeviceAppAttributes *)getDeviceAppAttributes</Declaration>
-			
-			<ReturnValue><Abstract type="html">Device attributes.</Abstract></ReturnValue>
-			<Anchor>//api/name/getDeviceAppAttributes</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishAllEvents</TokenIdentifier>
-			<Abstract type="html">Publishes all stored events to all registered network endpoints after
-applying the required event format transforms. Stored events will be
-deleted if publishing was successful for all registered endpoints.
-This method should NOT be called from the main thread.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>- (void)publishAllEvents</Declaration>
-			
-			
-			<Anchor>//api/name/publishAllEvents</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishEvents:</TokenIdentifier>
-			<Abstract type="html">Publishes a list of events to all registered network endpoints after
-applying the required event format transforms. Stored events will be
-deleted if publishing was successful for all registered endpoints.
-This method should NOT be called from the main thread.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>- (void)publishEvents:(nonnull NSArray&lt;SFSDKInstrumentationEvent*&gt; *)events</Declaration>
+			<Declaration>+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>events</Name>
-					<Abstract type="html">List of events.</Abstract>
+					<Name>configFilePath</Name>
+					<Abstract type="html">Path of resource file.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/publishEvents:</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/publishEvent:</TokenIdentifier>
-			<Abstract type="html">Publishes an event to all registered network endpoints after
-applying the required event format transforms. Stored event will be
-deleted if publishing was successful for all registered endpoints.
-This method should NOT be called from the main thread.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>- (void)publishEvent:(nonnull SFSDKInstrumentationEvent *)event</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>event</Name>
-					<Abstract type="html">Event.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/publishEvent:</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/addRemotePublisher:publisher:</TokenIdentifier>
-			<Abstract type="html">Adds a remote publisher to publish events to.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>- (void)addRemotePublisher:(nonnull id&lt;SFSDKTransform&gt;)transformer publisher:(nonnull id&lt;SFSDKAnalyticsPublisher&gt;)publisher</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>transformer</Name>
-					<Abstract type="html">Transformer class.</Abstract>
-				</Parameter><Parameter>
-					<Name>publisher</Name>
-					<Abstract type="html">Publisher class.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addRemotePublisher:publisher:</Anchor>
-            <NodeRef refid="103"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/updateLoggingPrefs</TokenIdentifier>
-			<Abstract type="html">Updates the preferences of this library.</Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
-			
-			<Declaration>- (void)updateLoggingPrefs</Declaration>
-			
-			
-			<Anchor>//api/name/updateLoggingPrefs</Anchor>
+			<ReturnValue><Abstract type="html">NSDictionary built from content of tile.</Abstract></ReturnValue>
+			<Anchor>//api/name/loadConfigFromFile:</Anchor>
             <NodeRef refid="103"/>
 		</Token>
 		

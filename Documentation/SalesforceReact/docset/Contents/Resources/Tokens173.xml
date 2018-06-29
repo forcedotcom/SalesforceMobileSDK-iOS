@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTSliderManager.html">
+	<File path="Classes/RCTSettingsManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTSliderManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTSliderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSettingsManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSettingsManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="173"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSettingsManager/initWithUserDefaults:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSettingsManager.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithUserDefaults:(NSUserDefaults *)defaults</Declaration>
+			
+			
+			<Anchor>//api/name/initWithUserDefaults:</Anchor>
+            <NodeRef refid="173"/>
+		</Token>
 		
         
         

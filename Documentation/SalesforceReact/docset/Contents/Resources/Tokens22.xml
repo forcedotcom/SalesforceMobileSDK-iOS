@@ -4,8 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/RCTAccessibilityManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
 			<DeclaredIn>RCTAccessibilityManager.h</DeclaredIn>
             
 			

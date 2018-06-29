@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTSegmentedControlManager.html">
+	<File path="Classes/RCTScrollContentShadowView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTSegmentedControlManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTSegmentedControlManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTScrollContentShadowView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTScrollContentShadowView.h</DeclaredIn>
             
 			
 			<NodeRef refid="166"/>

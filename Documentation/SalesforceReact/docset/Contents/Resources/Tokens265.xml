@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/RCTImageDataDecoder.html">
+	<File path="Protocols/RCTBridgeModule.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/RCTImageDataDecoder</TokenIdentifier>
-			<Abstract type="html">Provides the interface needed to register an image decoder. Image decoders
-are also bridge modules, so should be registered using RCTEXPORTMODULE().</Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTBridgeModule</TokenIdentifier>
+			<Abstract type="html">Provides the interface needed to register a bridge module.</Abstract>
+			<DeclaredIn>RCTBridgeModule.h</DeclaredIn>
             
 			
 			<NodeRef refid="265"/>
@@ -14,46 +13,129 @@ are also bridge modules, so should be registered using RCTEXPORTMODULE().</Abstr
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTImageDataDecoder/canDecodeImageData:</TokenIdentifier>
-			<Abstract type="html">Indicates whether this handler is capable of decoding the specified data.
-Typically the handler would examine some sort of header data to determine
-this.</Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeModule/moduleName</TokenIdentifier>
+			<Abstract type="html">Place this macro in your class implementation to automatically register
+your module with the bridge when it loads. The optional js_name argument
+will be used as the JS module name. If omitted, the JS module name will
+match the Objective-C class name.</Abstract>
+			<DeclaredIn>RCTBridgeModule.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)canDecodeImageData:(NSData *)imageData</Declaration>
+			<Declaration>+ (NSString *)moduleName</Declaration>
 			
 			
-			<Anchor>//api/name/canDecodeImageData:</Anchor>
+			<Anchor>//api/name/moduleName</Anchor>
             <NodeRef refid="265"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTImageDataDecoder/decodeImageData:size:scale:resizeMode:completionHandler:</TokenIdentifier>
-			<Abstract type="html">Decode an image from the data object. The method should call the
-completionHandler when the decoding operation  has finished. The method
-should also return a cancellation block, if applicable.</Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeModule/load</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridgeModule.h</DeclaredIn>
 			
-			<Declaration>- (RCTImageLoaderCancellationBlock)decodeImageData:(NSData *)imageData size:(CGSize)size scale:(CGFloat)scale resizeMode:(RCTResizeMode)resizeMode completionHandler:(RCTImageLoaderCompletionBlock)completionHandler</Declaration>
+			<Declaration>+ (void)load</Declaration>
 			
 			
-			<Anchor>//api/name/decodeImageData:size:scale:resizeMode:completionHandler:</Anchor>
+			<Anchor>//api/name/load</Anchor>
             <NodeRef refid="265"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTImageDataDecoder/decoderPriority</TokenIdentifier>
-			<Abstract type="html">If more than one RCTImageDataDecoder responds YES to canDecodeImageData:
-then decoderPriority is used to determine which one to use. The decoder
-with the highest priority will be selected. Default priority is zero.
-If two or more valid decoders have the same priority, the selection order is
-undefined.</Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeModule/setBridge:</TokenIdentifier>
+			<Abstract type="html">A reference to the RCTBridge. Useful for modules that require access
+to bridge features, such as sending events or making JS calls. This
+will be set automatically by the bridge when it initializes the module.
+To implement this in your module, just add @synthesize bridge = _bridge;</Abstract>
+			<DeclaredIn>RCTBridgeModule.h</DeclaredIn>
 			
-			<Declaration>- (float)decoderPriority</Declaration>
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *bridge</Declaration>
 			
 			
-			<Anchor>//api/name/decoderPriority</Anchor>
+			<Anchor>//api/name/bridge</Anchor>
+            <NodeRef refid="265"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeModule/bridge</TokenIdentifier>
+			<Abstract type="html">A reference to the RCTBridge. Useful for modules that require access
+to bridge features, such as sending events or making JS calls. This
+will be set automatically by the bridge when it initializes the module.
+To implement this in your module, just add @synthesize bridge = _bridge;</Abstract>
+			<DeclaredIn>RCTBridgeModule.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *bridge</Declaration>
+			
+			
+			<Anchor>//api/name/bridge</Anchor>
+            <NodeRef refid="265"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTBridgeModule/bridge</TokenIdentifier>
+			<Abstract type="html">A reference to the RCTBridge. Useful for modules that require access
+to bridge features, such as sending events or making JS calls. This
+will be set automatically by the bridge when it initializes the module.
+To implement this in your module, just add @synthesize bridge = _bridge;</Abstract>
+			<DeclaredIn>RCTBridgeModule.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) RCTBridge *bridge</Declaration>
+			
+			
+			<Anchor>//api/name/bridge</Anchor>
+            <NodeRef refid="265"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeModule/setMethodQueue:</TokenIdentifier>
+			<Abstract type="html">The queue that will be used to call all exported methods. If omitted, this
+will call on a default background queue, which is avoids blocking the main
+thread.</Abstract>
+			<DeclaredIn>RCTBridgeModule.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) dispatch_queue_t methodQueue</Declaration>
+			
+			
+			<Anchor>//api/name/methodQueue</Anchor>
+            <NodeRef refid="265"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeModule/methodQueue</TokenIdentifier>
+			<Abstract type="html">The queue that will be used to call all exported methods. If omitted, this
+will call on a default background queue, which is avoids blocking the main
+thread.</Abstract>
+			<DeclaredIn>RCTBridgeModule.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) dispatch_queue_t methodQueue</Declaration>
+			
+			
+			<Anchor>//api/name/methodQueue</Anchor>
+            <NodeRef refid="265"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTBridgeModule/methodQueue</TokenIdentifier>
+			<Abstract type="html">The queue that will be used to call all exported methods. If omitted, this
+will call on a default background queue, which is avoids blocking the main
+thread.</Abstract>
+			<DeclaredIn>RCTBridgeModule.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) dispatch_queue_t methodQueue</Declaration>
+			
+			
+			<Anchor>//api/name/methodQueue</Anchor>
+            <NodeRef refid="265"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeModule/method</TokenIdentifier>
+			<Abstract type="html">Similar to RCTEXPORTMETHOD but lets you set the JS name of the exported
+method. Example usage:</Abstract>
+			<DeclaredIn>RCTBridgeModule.h</DeclaredIn>
+			
+			<Declaration>- (void)method</Declaration>
+			
+			
+			<Anchor>//api/name/method</Anchor>
             <NodeRef refid="265"/>
 		</Token>
 		

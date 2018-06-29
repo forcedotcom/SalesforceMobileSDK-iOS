@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/RCTAnimationDriver.html">
+	<File path="Categories/NSMutableURLRequest+CertificateAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/RCTAnimationDriver</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSMutableURLRequest(CertificateAdditions)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
             
 			
 			<NodeRef refid="248"/>
@@ -14,194 +13,38 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/setAnimationId:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSMutableURLRequest/setRCTSR_SSLPinnedCertificates:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSNumber *animationId</Declaration>
+			<Declaration>@property (nonatomic, copy) NSArray *RCTSR_SSLPinnedCertificates</Declaration>
 			
 			
-			<Anchor>//api/name/animationId</Anchor>
+			<Anchor>//api/name/RCTSR_SSLPinnedCertificates</Anchor>
             <NodeRef refid="248"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/animationId</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSMutableURLRequest/RCTSR_SSLPinnedCertificates</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSNumber *animationId</Declaration>
+			<Declaration>@property (nonatomic, copy) NSArray *RCTSR_SSLPinnedCertificates</Declaration>
 			
 			
-			<Anchor>//api/name/animationId</Anchor>
+			<Anchor>//api/name/RCTSR_SSLPinnedCertificates</Anchor>
             <NodeRef refid="248"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTAnimationDriver/animationId</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/NSMutableURLRequest/RCTSR_SSLPinnedCertificates</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSNumber *animationId</Declaration>
-			
-			
-			<Anchor>//api/name/animationId</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/setValueNode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTValueAnimatedNode *valueNode</Declaration>
+			<Declaration>@property (nonatomic, copy) NSArray *RCTSR_SSLPinnedCertificates</Declaration>
 			
 			
-			<Anchor>//api/name/valueNode</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/valueNode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTValueAnimatedNode *valueNode</Declaration>
-			
-			
-			<Anchor>//api/name/valueNode</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTAnimationDriver/valueNode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) RCTValueAnimatedNode *valueNode</Declaration>
-			
-			
-			<Anchor>//api/name/valueNode</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/setAnimationHasBegun:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL animationHasBegun</Declaration>
-			
-			
-			<Anchor>//api/name/animationHasBegun</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/animationHasBegun</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL animationHasBegun</Declaration>
-			
-			
-			<Anchor>//api/name/animationHasBegun</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTAnimationDriver/animationHasBegun</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL animationHasBegun</Declaration>
-			
-			
-			<Anchor>//api/name/animationHasBegun</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/setAnimationHasFinished:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL animationHasFinished</Declaration>
-			
-			
-			<Anchor>//api/name/animationHasFinished</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/animationHasFinished</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL animationHasFinished</Declaration>
-			
-			
-			<Anchor>//api/name/animationHasFinished</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTAnimationDriver/animationHasFinished</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL animationHasFinished</Declaration>
-			
-			
-			<Anchor>//api/name/animationHasFinished</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/initWithId:config:forNode:callBack:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithId:(NSNumber *)animationId config:(NSDictionary *)config forNode:(RCTValueAnimatedNode *)valueNode callBack:(nullable RCTResponseSenderBlock)callback</Declaration>
-			
-			
-			<Anchor>//api/name/initWithId:config:forNode:callBack:</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/startAnimation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>- (void)startAnimation</Declaration>
-			
-			
-			<Anchor>//api/name/startAnimation</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/stepAnimationWithTime:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>- (void)stepAnimationWithTime:(NSTimeInterval)currentTime</Declaration>
-			
-			
-			<Anchor>//api/name/stepAnimationWithTime:</Anchor>
-            <NodeRef refid="248"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/stopAnimation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
-			
-			<Declaration>- (void)stopAnimation</Declaration>
-			
-			
-			<Anchor>//api/name/stopAnimation</Anchor>
+			<Anchor>//api/name/RCTSR_SSLPinnedCertificates</Anchor>
             <NodeRef refid="248"/>
 		</Token>
 		

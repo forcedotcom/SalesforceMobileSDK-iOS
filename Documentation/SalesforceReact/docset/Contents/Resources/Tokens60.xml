@@ -1,65 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTDisplayLink.html">
+	<File path="Classes/RCTDeviceInfo.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTDisplayLink</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTDisplayLink.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTDeviceInfo</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTDeviceInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="60"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDisplayLink/init</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDisplayLink.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)init</Declaration>
-			
-			
-			<Anchor>//api/name/init</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDisplayLink/invalidate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDisplayLink.h</DeclaredIn>
-			
-			<Declaration>- (void)invalidate</Declaration>
-			
-			
-			<Anchor>//api/name/invalidate</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDisplayLink/registerModuleForFrameUpdates:withModuleData:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDisplayLink.h</DeclaredIn>
-			
-			<Declaration>- (void)registerModuleForFrameUpdates:(id&lt;RCTBridgeModule&gt;)module withModuleData:(RCTModuleData *)moduleData</Declaration>
-			
-			
-			<Anchor>//api/name/registerModuleForFrameUpdates:withModuleData:</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDisplayLink/addToRunLoop:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDisplayLink.h</DeclaredIn>
-			
-			<Declaration>- (void)addToRunLoop:(NSRunLoop *)runLoop</Declaration>
-			
-			
-			<Anchor>//api/name/addToRunLoop:</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
 		
         
         

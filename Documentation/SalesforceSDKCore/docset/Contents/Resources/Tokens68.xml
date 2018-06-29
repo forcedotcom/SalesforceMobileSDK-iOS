@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthCommand.html">
+	<File path="Classes/SFSDKAppFeatureMarkers.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthCommand</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAppFeatureMarkers</TokenIdentifier>
+			<Abstract type="html">Class to register and unregister feature markers associated with SDK facilities being used in
+an app.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
             
 			
 			<NodeRef refid="68"/>
@@ -13,230 +14,48 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/setCommand:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/registerAppFeature:</TokenIdentifier>
+			<Abstract type="html">Register a particular app feature.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nonnull) NSString *command</Declaration>
+			<Declaration>+ (void)registerAppFeature:(nonnull NSString *)appFeature</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>appFeature</Name>
+					<Abstract type="html">The string representation of the feature to register.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/command</Anchor>
+			<Anchor>//api/name/registerAppFeature:</Anchor>
             <NodeRef refid="68"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/command</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/unregisterAppFeature:</TokenIdentifier>
+			<Abstract type="html">Unregister a particular app feature.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nonnull) NSString *command</Declaration>
+			<Declaration>+ (void)unregisterAppFeature:(nonnull NSString *)appFeature</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>appFeature</Name>
+					<Abstract type="html">The string representation of the feature to unregister.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/command</Anchor>
+			<Anchor>//api/name/unregisterAppFeature:</Anchor>
             <NodeRef refid="68"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthCommand/command</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/appFeatures</TokenIdentifier>
+			<Abstract type="html">The current set of registered features.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nonnull) NSString *command</Declaration>
+			<Declaration>+ (nonnull NSSet&lt;NSString*&gt; *)appFeatures</Declaration>
 			
-			
-			<Anchor>//api/name/command</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/setVersion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, nonnull) NSString *version</Declaration>
-			
-			
-			<Anchor>//api/name/version</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/version</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, nonnull) NSString *version</Declaration>
-			
-			
-			<Anchor>//api/name/version</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthCommand/version</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, nonnull) NSString *version</Declaration>
-			
-			
-			<Anchor>//api/name/version</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/setScheme:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, nonnull) NSString *scheme</Declaration>
-			
-			
-			<Anchor>//api/name/scheme</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/scheme</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, nonnull) NSString *scheme</Declaration>
-			
-			
-			<Anchor>//api/name/scheme</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthCommand/scheme</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, nonnull) NSString *scheme</Declaration>
-			
-			
-			<Anchor>//api/name/scheme</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/setPath:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, nonnull) NSString *path</Declaration>
-			
-			
-			<Anchor>//api/name/path</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/path</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, nonnull) NSString *path</Declaration>
-			
-			
-			<Anchor>//api/name/path</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthCommand/path</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, nonnull) NSString *path</Declaration>
-			
-			
-			<Anchor>//api/name/path</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/requestURL</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand.h</DeclaredIn>
-			
-			<Declaration>- (NSURL *)requestURL</Declaration>
-			
-			
-			<Anchor>//api/name/requestURL</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/fromRequestURL:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand.h</DeclaredIn>
-			
-			<Declaration>- (void)fromRequestURL:(NSURL *)url</Declaration>
-			
-			
-			<Anchor>//api/name/fromRequestURL:</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/isAuthCommand:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isAuthCommand:(NSURL *)url</Declaration>
-			
-			
-			<Anchor>//api/name/isAuthCommand:</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/allParams</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)allParams</Declaration>
-			
-			
-			<Anchor>//api/name/allParams</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/setParamForKey:key:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)setParamForKey:(NSString *)value key:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setParamForKey:key:</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/paramForKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)paramForKey:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/paramForKey:</Anchor>
-            <NodeRef refid="68"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthCommand/removeParam:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthCommand+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)removeParam:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/removeParam:</Anchor>
+			<ReturnValue><Abstract type="html">The current set of registered features.</Abstract></ReturnValue>
+			<Anchor>//api/name/appFeatures</Anchor>
             <NodeRef refid="68"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTStatusBarManager.html">
+	<File path="Classes/RCTSliderManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTStatusBarManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTStatusBarManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSliderManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSliderManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="178"/>

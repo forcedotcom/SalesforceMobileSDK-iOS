@@ -1,76 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKURLHandlerManager.html">
+	<File path="Classes/SFSDKStartURLHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKURLHandlerManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKStartURLHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKStartURLHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="111"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/addHandler:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
-			
-			<Declaration>- (void)addHandler:(id&lt;SFSDKURLHandler&gt;)handler</Declaration>
-			
-			
-			<Anchor>//api/name/addHandler:</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/removeHandler:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
-			
-			<Declaration>- (void)removeHandler:(id&lt;SFSDKURLHandler&gt;)handler</Declaration>
-			
-			
-			<Anchor>//api/name/removeHandler:</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/canHandleRequest:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
-			
-			
-			<Anchor>//api/name/canHandleRequest:options:</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/processRequest:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
-			
-			
-			<Anchor>//api/name/processRequest:options:</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKURLHandlerManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
-			
-			
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="111"/>
-		</Token>
 		
         
         

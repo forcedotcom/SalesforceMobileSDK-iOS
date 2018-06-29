@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTWrapperViewController.html">
+	<File path="Classes/RCTWebSocketExecutor.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTWrapperViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWebSocketExecutor</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTWebSocketExecutor.h</DeclaredIn>
             
 			
 			<NodeRef refid="227"/>
@@ -13,98 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/initWithContentView:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebSocketExecutor/initWithURL:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			<DeclaredIn>RCTWebSocketExecutor.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithContentView:(UIView *)contentView</Declaration>
-			
-			
-			<Anchor>//api/name/initWithContentView:</Anchor>
-            <NodeRef refid="227"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/initWithNavItem:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithNavItem:(RCTNavItem *)navItem</Declaration>
+			<Declaration>- (instancetype)initWithURL:(NSURL *)URL</Declaration>
 			
 			
-			<Anchor>//api/name/initWithNavItem:</Anchor>
-            <NodeRef refid="227"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/setNavigationListener:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTWrapperViewControllerNavigationListener&gt; navigationListener</Declaration>
-			
-			
-			<Anchor>//api/name/navigationListener</Anchor>
-            <NodeRef refid="227"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/navigationListener</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTWrapperViewControllerNavigationListener&gt; navigationListener</Declaration>
-			
-			
-			<Anchor>//api/name/navigationListener</Anchor>
-            <NodeRef refid="227"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTWrapperViewController/navigationListener</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTWrapperViewControllerNavigationListener&gt; navigationListener</Declaration>
-			
-			
-			<Anchor>//api/name/navigationListener</Anchor>
-            <NodeRef refid="227"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/setNavItem:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTNavItem *navItem</Declaration>
-			
-			
-			<Anchor>//api/name/navItem</Anchor>
-            <NodeRef refid="227"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/navItem</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTNavItem *navItem</Declaration>
-			
-			
-			<Anchor>//api/name/navItem</Anchor>
-            <NodeRef refid="227"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTWrapperViewController/navItem</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTNavItem *navItem</Declaration>
-			
-			
-			<Anchor>//api/name/navItem</Anchor>
+			<Anchor>//api/name/initWithURL:</Anchor>
             <NodeRef refid="227"/>
 		</Token>
 		

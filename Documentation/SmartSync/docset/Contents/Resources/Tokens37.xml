@@ -1,37 +1,373 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncStateMergeMode.html">
+	<File path="Classes/SFSyncUpTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateMergeMode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncUpTarget</TokenIdentifier>
+			<Abstract type="html">Base class for a server target, used to manage sync ups to the configured service.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="37"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateMergeModeOverwrite</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateMergeModeOverwrite</Declaration>
-            
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/setTargetType:</TokenIdentifier>
+			<Abstract type="html">The type of server target represented by this instance.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFSyncUpTargetType targetType</Declaration>
+			
+			
+			<Anchor>//api/name/targetType</Anchor>
             <NodeRef refid="37"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateMergeModeLeaveIfChanged</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateMergeModeLeaveIfChanged</Declaration>
-            
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/targetType</TokenIdentifier>
+			<Abstract type="html">The type of server target represented by this instance.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFSyncUpTargetType targetType</Declaration>
+			
+			
+			<Anchor>//api/name/targetType</Anchor>
             <NodeRef refid="37"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncUpTarget/targetType</TokenIdentifier>
+			<Abstract type="html">The type of server target represented by this instance.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFSyncUpTargetType targetType</Declaration>
+			
+			
+			<Anchor>//api/name/targetType</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/setCreateFieldlist:</TokenIdentifier>
+			<Abstract type="html">Create field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *createFieldlist</Declaration>
+			
+			
+			<Anchor>//api/name/createFieldlist</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/createFieldlist</TokenIdentifier>
+			<Abstract type="html">Create field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *createFieldlist</Declaration>
+			
+			
+			<Anchor>//api/name/createFieldlist</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncUpTarget/createFieldlist</TokenIdentifier>
+			<Abstract type="html">Create field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *createFieldlist</Declaration>
+			
+			
+			<Anchor>//api/name/createFieldlist</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/setUpdateFieldlist:</TokenIdentifier>
+			<Abstract type="html">Update field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *updateFieldlist</Declaration>
+			
+			
+			<Anchor>//api/name/updateFieldlist</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/updateFieldlist</TokenIdentifier>
+			<Abstract type="html">Update field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *updateFieldlist</Declaration>
+			
+			
+			<Anchor>//api/name/updateFieldlist</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncUpTarget/updateFieldlist</TokenIdentifier>
+			<Abstract type="html">Update field list (optional)</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *updateFieldlist</Declaration>
+			
+			
+			<Anchor>//api/name/updateFieldlist</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncUpTarget/newFromDict:</TokenIdentifier>
+			<Abstract type="html">Creates a new instance of a server target from a serialized dictionary.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>+ (nullable instancetype)newFromDict:(NSDictionary *)dict</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dict</Name>
+					<Abstract type="html">The dictionary with the serialized server target.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/newFromDict:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncUpTarget/targetTypeFromString:</TokenIdentifier>
+			<Abstract type="html">Converts a string representation of a target type into its target type.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>+ (SFSyncUpTargetType)targetTypeFromString:(NSString *)targetType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>targetType</Name>
+					<Abstract type="html">The string representation of the target type.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The target type value.</Abstract></ReturnValue>
+			<Anchor>//api/name/targetTypeFromString:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncUpTarget/targetTypeToString:</TokenIdentifier>
+			<Abstract type="html">Gives the string representation of a target type.</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)targetTypeToString:(SFSyncUpTargetType)targetType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>targetType</Name>
+					<Abstract type="html">The target type to display.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The string representation of the target type.</Abstract></ReturnValue>
+			<Anchor>//api/name/targetTypeToString:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/initWithCreateFieldlist:updateFieldlist:</TokenIdentifier>
+			<Abstract type="html">Constructor</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithCreateFieldlist:(nullable NSArray *)createFieldlist updateFieldlist:(nullable NSArray *)updateFieldlist</Declaration>
+			
+			
+			<Anchor>//api/name/initWithCreateFieldlist:updateFieldlist:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/isNewerThanServer:record:resultBlock:</TokenIdentifier>
+			<Abstract type="html">Call resultBlock with YES if record is more recent than corresponding record on server
+NB: also call resultBlock true if both were deleted or if local mod date is missing
+Used to decide whether a record should be synced up or not when using merge mode leave-if-changed</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record</Abstract>
+				</Parameter><Parameter>
+					<Name>resultBlock</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/isNewerThanServer:record:resultBlock:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/createOnServer:record:fieldlist:completionBlock:failBlock:</TokenIdentifier>
+			<Abstract type="html">Save locally created record back to server</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)createOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record fieldlist:(NSArray *)fieldlist completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager doing the sync</Abstract>
+				</Parameter><Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record being synced</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldlist</Name>
+					<Abstract type="html">List of fields to send to server</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block to execute after the server call completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failBlock</Name>
+					<Abstract type="html">The block to execute if the server call fails.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/createOnServer:record:fieldlist:completionBlock:failBlock:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/updateOnServer:record:fieldlist:completionBlock:failBlock:</TokenIdentifier>
+			<Abstract type="html">Save locally updated record back to server</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)updateOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record fieldlist:(NSArray *)fieldlist completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager doing the sync</Abstract>
+				</Parameter><Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record being synced</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldlist</Name>
+					<Abstract type="html">List of fields to send to server</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block to execute after the server call completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failBlock</Name>
+					<Abstract type="html">The block to execute if the server call fails.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/updateOnServer:record:fieldlist:completionBlock:failBlock:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/deleteOnServer:record:completionBlock:failBlock:</TokenIdentifier>
+			<Abstract type="html">Delete locally deleted record from server</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager doing the sync</Abstract>
+				</Parameter><Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record being synced</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block to execute after the server call completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failBlock</Name>
+					<Abstract type="html">The block to execute if the server call fails.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/deleteOnServer:record:completionBlock:failBlock:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/getIdsOfRecordsToSyncUp:soupName:</TokenIdentifier>
+			<Abstract type="html">Return set of record ids (soup element ids) that need to be sent up to the server</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager running the sync.</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The soup name to look into for records.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/getIdsOfRecordsToSyncUp:soupName:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/saveRecordToLocalStoreWithLastError:soupName:record:</TokenIdentifier>
+			<Abstract type="html">Save record with last error if any</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName record:(NSDictionary *)record</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager doing the sync</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">the soup to save the record to</Abstract>
+				</Parameter><Parameter>
+					<Name>record</Name>
+					<Abstract type="html">The record being synced</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/saveRecordToLocalStoreWithLastError:soupName:record:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/buildFieldsMap:fieldlist:idFieldName:modificationDateFieldName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSMutableDictionary *)buildFieldsMap:(NSDictionary *)record fieldlist:(NSArray *)fieldlist idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/buildFieldsMap:fieldlist:idFieldName:modificationDateFieldName:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/isNewerThanServer:remoteModDate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isNewerThanServer:(SFRecordModDate *)localModDate remoteModDate:(SFRecordModDate *)remoteModDate</Declaration>
+			
+			
+			<Anchor>//api/name/isNewerThanServer:remoteModDate:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/saveRecordToLocalStoreWithLastError:soupName:record:lastError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName record:(NSDictionary *)record lastError:(NSString *)lastError</Declaration>
+			
+			
+			<Anchor>//api/name/saveRecordToLocalStoreWithLastError:soupName:record:lastError:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
         
         
 	</File>

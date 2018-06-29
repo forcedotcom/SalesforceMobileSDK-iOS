@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKReactLogger.html">
+	<File path="Classes/RCTWrapperReactRootViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKReactLogger</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWrapperReactRootViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKReactLogger.h</DeclaredIn>
+			<DeclaredIn>RCTWrapperReactRootViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="233"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperReactRootViewController/initWithBridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperReactRootViewController.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/initWithBridge:</Anchor>
+            <NodeRef refid="233"/>
+		</Token>
 		
         
         

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSyncState.html">
+	<File path="Classes/SFSmartSyncMetadataManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSyncState</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncMetadataManager</TokenIdentifier>
+			<Abstract type="html">This class defines APIs required to interact with metadata.</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="26"/>
@@ -13,710 +13,307 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setSyncId:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/set:</TokenIdentifier>
+			<Abstract type="html">Community ID to use.
+Specify nil for the internal community (aka org)
+or when no communities are configured for the current org.
+This property is used internally to scope all the search
+queries toward the server.</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *SFSDK_DEPRECATED ( 6.2 , 7.0 , &quot;Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.&quot; )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/)</TokenIdentifier>
+			<Abstract type="html">Community ID to use.
+Specify nil for the internal community (aka org)
+or when no communities are configured for the current org.
+This property is used internally to scope all the search
+queries toward the server.</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *SFSDK_DEPRECATED ( 6.2 , 7.0 , &quot;Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.&quot; )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncMetadataManager/)</TokenIdentifier>
+			<Abstract type="html">Community ID to use.
+Specify nil for the internal community (aka org)
+or when no communities are configured for the current org.
+This property is used internally to scope all the search
+queries toward the server.</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *SFSDK_DEPRECATED ( 6.2 , 7.0 , &quot;Use SFMetadataSyncManager instead to fetch object metadata, SFLayoutSyncManager instead to fetch object layout data, and SFMruSyncDownTarget instead to fetch object MRU data.&quot; )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncMetadataManager/sharedInstance:</TokenIdentifier>
+			<Abstract type="html">Singleton method for accessing metadata manager instance.</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			
+			<Declaration>+ (id)sharedInstance:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">A user that will scope this manager instance data</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sharedInstance:</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncMetadataManager/removeSharedInstance:</TokenIdentifier>
+			<Abstract type="html">Removes the shared instance associated with the specified user</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedInstance:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeSharedInstance:</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncMetadataManager/globalMruCacheKey</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSInteger syncId</Declaration>
+			<Declaration>+ (NSString *)globalMruCacheKey</Declaration>
 			
 			
-			<Anchor>//api/name/syncId</Anchor>
+			<Anchor>//api/name/globalMruCacheKey</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/syncId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/loadSmartScopeObjectTypes:refreshCacheIfOlderThan:completionBlock:error:</TokenIdentifier>
+			<Abstract type="html">Get a list of smart scope object types</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSInteger syncId</Declaration>
+			<Declaration>- (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completionBlock:(void ( ^ ) ( NSArray *results , BOOL isDataFromCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cachePolicy</Name>
+					<Abstract type="html">SFDataCachePolicy used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache</Abstract>
+				</Parameter><Parameter>
+					<Name>refreshCacheIfOlderThan</Name>
+					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass any value that is &lt;=0 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block to invoke after list of object types is returned</Abstract>
+				</Parameter><Parameter>
+					<Name>errorBlock</Name>
+					<Abstract type="html">Block to invoke if failed to load object types</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/syncId</Anchor>
+			<Anchor>//api/name/loadSmartScopeObjectTypes:refreshCacheIfOlderThan:completionBlock:error:</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/syncId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/loadMRUObjects:limit:cachePolicy:refreshCacheIfOlderThan:networkFieldName:inRetry:completion:error:</TokenIdentifier>
+			<Abstract type="html">Get a list of recently accessed objects by object type</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSInteger syncId</Declaration>
+			<Declaration>- (void)loadMRUObjects:(nullable NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(nullable NSString *)networkFieldName inRetry:(BOOL)inRetry completion:(void ( ^ ) ( NSArray *results , BOOL isDataFromCache , BOOL needToReloadCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectTypeName</Name>
+					<Abstract type="html">Object type name to get recently accessed objects. If nil, this method will return a list of recently accessed objects across all object types</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">Fetch limit of objects. Set to &lt;=0 to specify no limit</Abstract>
+				</Parameter><Parameter>
+					<Name>cachePolicy</Name>
+					<Abstract type="html">SFDataCachePolicy used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache</Abstract>
+				</Parameter><Parameter>
+					<Name>refreshCacheIfOlderThan</Name>
+					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
+				</Parameter><Parameter>
+					<Name>networkFieldName</Name>
+					<Abstract type="html">Network field name</Abstract>
+				</Parameter><Parameter>
+					<Name>inRetry</Name>
+					<Abstract type="html">Is retrying</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block to invoke after recently access objects are loaded</Abstract>
+				</Parameter><Parameter>
+					<Name>errorBlock</Name>
+					<Abstract type="html">Block to invoke if failed to load objects</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/syncId</Anchor>
+			<Anchor>//api/name/loadMRUObjects:limit:cachePolicy:refreshCacheIfOlderThan:networkFieldName:inRetry:completion:error:</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setSyncName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/loadAllObjectTypes:refreshCacheIfOlderThan:completion:error:</TokenIdentifier>
+			<Abstract type="html">Load all object types</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *syncName</Declaration>
+			<Declaration>- (void)loadAllObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void ( ^ ) ( NSArray *results , BOOL isDataFromCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cachePolicy</Name>
+					<Abstract type="html">SFDataCachePolicy used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache</Abstract>
+				</Parameter><Parameter>
+					<Name>refreshCacheIfOlderThan</Name>
+					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block to invoke after all objects are returned. Input parameter for this completionBlock will include a list of SFMetadataModel objects</Abstract>
+				</Parameter><Parameter>
+					<Name>errorBlock</Name>
+					<Abstract type="html">Block to invoke if failed to load objects list</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/syncName</Anchor>
+			<Anchor>//api/name/loadAllObjectTypes:refreshCacheIfOlderThan:completion:error:</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/syncName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/loadObjectType:cachePolicy:refreshCacheIfOlderThan:completion:error:</TokenIdentifier>
+			<Abstract type="html">Load a specific object type information</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *syncName</Declaration>
+			<Declaration>- (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void ( ^ ) ( SFObjectType *result , BOOL isDataFromCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectTypeName</Name>
+					<Abstract type="html">Object type name</Abstract>
+				</Parameter><Parameter>
+					<Name>cachePolicy</Name>
+					<Abstract type="html">SFDataCachePolicy used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache</Abstract>
+				</Parameter><Parameter>
+					<Name>refreshCacheIfOlderThan</Name>
+					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block to invoke after object type info is loaded</Abstract>
+				</Parameter><Parameter>
+					<Name>errorBlock</Name>
+					<Abstract type="html">Block to invoke if loading metadata failed</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/syncName</Anchor>
+			<Anchor>//api/name/loadObjectType:cachePolicy:refreshCacheIfOlderThan:completion:error:</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/syncName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/loadObjectTypesLayout:cachePolicy:refreshCacheIfOlderThan:completion:error:</TokenIdentifier>
+			<Abstract type="html">Load object layout information</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *syncName</Declaration>
+			<Declaration>- (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan completion:(void ( ^ ) ( NSArray *result , BOOL isDataFromCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectTypesToLoad</Name>
+					<Abstract type="html">Array of SFObjectTypeModel objects to load layout for</Abstract>
+				</Parameter><Parameter>
+					<Name>cachePolicy</Name>
+					<Abstract type="html">SFDataCachePolicy used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache</Abstract>
+				</Parameter><Parameter>
+					<Name>refreshCacheIfOlderThan</Name>
+					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block to invoke after object type info is loaded</Abstract>
+				</Parameter><Parameter>
+					<Name>errorBlock</Name>
+					<Abstract type="html">Block to invoke if loading metadata failed</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/syncName</Anchor>
+			<Anchor>//api/name/loadObjectTypesLayout:cachePolicy:refreshCacheIfOlderThan:completion:error:</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/colorForObjectType:</TokenIdentifier>
+			<Abstract type="html">Color for the specific object type</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateSyncType type</Declaration>
+			<Declaration>- (UIColor *)colorForObjectType:(NSString *)objectTypeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectTypeName</Name>
+					<Abstract type="html">Object type name</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/type</Anchor>
+			<Anchor>//api/name/colorForObjectType:</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/type</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/isObjectTypeSearchable:</TokenIdentifier>
+			<Abstract type="html">Return YES if object type is searchable</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateSyncType type</Declaration>
+			<Declaration>- (BOOL)isObjectTypeSearchable:(SFObjectType *)objectType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">Object type</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/type</Anchor>
+			<Anchor>//api/name/isObjectTypeSearchable:</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/type</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSyncStateSyncType type</Declaration>
-			
-			
-			<Anchor>//api/name/type</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setSoupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/soupName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/soupName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setTarget:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncTarget *target</Declaration>
-			
-			
-			<Anchor>//api/name/target</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/target</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncTarget *target</Declaration>
-			
-			
-			<Anchor>//api/name/target</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/target</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncTarget *target</Declaration>
-			
-			
-			<Anchor>//api/name/target</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncOptions *options</Declaration>
-			
-			
-			<Anchor>//api/name/options</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/options</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncOptions *options</Declaration>
-			
-			
-			<Anchor>//api/name/options</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/options</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) SFSyncOptions *options</Declaration>
-			
-			
-			<Anchor>//api/name/options</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setStatus:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateStatus status</Declaration>
-			
-			
-			<Anchor>//api/name/status</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/status</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateStatus status</Declaration>
-			
-			
-			<Anchor>//api/name/status</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/status</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateStatus status</Declaration>
-			
-			
-			<Anchor>//api/name/status</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setProgress:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger progress</Declaration>
-			
-			
-			<Anchor>//api/name/progress</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/progress</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger progress</Declaration>
-			
-			
-			<Anchor>//api/name/progress</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/progress</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger progress</Declaration>
-			
-			
-			<Anchor>//api/name/progress</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setTotalSize:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger totalSize</Declaration>
-			
-			
-			<Anchor>//api/name/totalSize</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/totalSize</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger totalSize</Declaration>
-			
-			
-			<Anchor>//api/name/totalSize</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/totalSize</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSInteger totalSize</Declaration>
-			
-			
-			<Anchor>//api/name/totalSize</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setMergeMode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateMergeMode mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeMode</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/mergeMode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateMergeMode mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeMode</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/mergeMode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) SFSyncStateMergeMode mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeMode</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setMaxTimeStamp:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) long long maxTimeStamp</Declaration>
-			
-			
-			<Anchor>//api/name/maxTimeStamp</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/maxTimeStamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) long long maxTimeStamp</Declaration>
-			
-			
-			<Anchor>//api/name/maxTimeStamp</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/maxTimeStamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) long long maxTimeStamp</Declaration>
-			
-			
-			<Anchor>//api/name/maxTimeStamp</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setStartTime:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger startTime</Declaration>
-			
-			
-			<Anchor>//api/name/startTime</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/startTime</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger startTime</Declaration>
-			
-			
-			<Anchor>//api/name/startTime</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/startTime</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger startTime</Declaration>
-			
-			
-			<Anchor>//api/name/startTime</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setEndTime:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger endTime</Declaration>
-			
-			
-			<Anchor>//api/name/endTime</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/endTime</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger endTime</Declaration>
-			
-			
-			<Anchor>//api/name/endTime</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/endTime</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger endTime</Declaration>
-			
-			
-			<Anchor>//api/name/endTime</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/setupSyncsSoupIfNeeded:</TokenIdentifier>
-			<Abstract type="html">Setup soup that keeps track of sync operations</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (void)setupSyncsSoupIfNeeded:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/setupSyncsSoupIfNeeded:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/newSyncDownWithOptions:target:soupName:name:store:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (nullable SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)options target:(SFSyncDownTarget *)target soupName:(NSString *)soupName name:(nullable NSString *)name store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncDownWithOptions:target:soupName:name:store:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/newSyncUpWithOptions:target:soupName:name:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options target:(SFSyncUpTarget *)target soupName:(NSString *)soupName name:(nullable NSString *)name store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncUpWithOptions:target:soupName:name:store:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/newSyncUpWithOptions:soupName:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options soupName:(NSString *)soupName store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncUpWithOptions:soupName:store:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/byId:store:</TokenIdentifier>
-			<Abstract type="html">Methods to save/retrieve/delete from smartstore</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (nullable SFSyncState *)byId:(NSNumber *)syncId store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/byId:store:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/byName:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (nullable SFSyncState *)byName:(NSString *)name store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/byName:store:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/save:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>- (void)save:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/save:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/deleteById:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (void)deleteById:(NSNumber *)syncId store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/deleteById:store:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/deleteByName:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (void)deleteByName:(NSString *)name store:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/deleteByName:store:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/newFromDict:</TokenIdentifier>
-			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (nullable SFSyncState *)newFromDict:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/newFromDict:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/asDict</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)asDict</Declaration>
-			
-			
-			<Anchor>//api/name/asDict</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/isDone</TokenIdentifier>
-			<Abstract type="html">Method for easy status check</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isDone</Declaration>
-			
-			
-			<Anchor>//api/name/isDone</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/hasFailed</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)hasFailed</Declaration>
-			
-			
-			<Anchor>//api/name/hasFailed</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/isRunning</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isRunning</Declaration>
-			
-			
-			<Anchor>//api/name/isRunning</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/syncTypeFromString:</TokenIdentifier>
-			<Abstract type="html">Enum to/from string helper methods</Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncStateSyncType)syncTypeFromString:(NSString *)syncType</Declaration>
-			
-			
-			<Anchor>//api/name/syncTypeFromString:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/syncTypeToString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)syncTypeToString:(SFSyncStateSyncType)syncType</Declaration>
-			
-			
-			<Anchor>//api/name/syncTypeToString:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/syncStatusFromString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncStateStatus)syncStatusFromString:(nullable NSString *)syncStatus</Declaration>
-			
-			
-			<Anchor>//api/name/syncStatusFromString:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/syncStatusToString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)syncStatusToString:(SFSyncStateStatus)syncStatus</Declaration>
-			
-			
-			<Anchor>//api/name/syncStatusToString:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/mergeModeFromString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (SFSyncStateMergeMode)mergeModeFromString:(NSString *)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeModeFromString:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncState/mergeModeToString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)mergeModeToString:(SFSyncStateMergeMode)mergeMode</Declaration>
-			
-			
-			<Anchor>//api/name/mergeModeToString:</Anchor>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncMetadataManager/markObjectAsViewed:objectType:networkFieldName:completionBlock:error:</TokenIdentifier>
+			<Abstract type="html">Mark an object as viewed</Abstract>
+			<DeclaredIn>SFSmartSyncMetadataManager.h</DeclaredIn>
+			
+			<Declaration>- (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(nullable NSString *)networkFieldName completionBlock:(void ( ^ ) ( void ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectId</Name>
+					<Abstract type="html">Object ID</Abstract>
+				</Parameter><Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">Object type</Abstract>
+				</Parameter><Parameter>
+					<Name>networkFieldName</Name>
+					<Abstract type="html">Network field name</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block to invoke after object is marked viewed</Abstract>
+				</Parameter><Parameter>
+					<Name>errorBlock</Name>
+					<Abstract type="html">Block to invoke if marking viewed failed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/markObjectAsViewed:objectType:networkFieldName:completionBlock:error:</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		

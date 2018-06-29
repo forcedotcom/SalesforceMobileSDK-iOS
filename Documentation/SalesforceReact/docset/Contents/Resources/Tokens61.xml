@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTDivisionAnimatedNode.html">
+	<File path="Classes/RCTDiffClampAnimatedNode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTDivisionAnimatedNode</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTDivisionAnimatedNode.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTDiffClampAnimatedNode</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTDiffClampAnimatedNode.h</DeclaredIn>
             
 			
 			<NodeRef refid="61"/>

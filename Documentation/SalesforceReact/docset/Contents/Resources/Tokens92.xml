@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTInspectorRemoteConnection.html">
+	<File path="Classes/RCTImageView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTInspectorRemoteConnection</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTImageView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
             
 			
 			<NodeRef refid="92"/>
@@ -13,26 +13,230 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorRemoteConnection/onMessage:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/initWithBridge:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
 			
-			<Declaration>- (void)onMessage:(NSString *)message</Declaration>
+			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge</Declaration>
 			
 			
-			<Anchor>//api/name/onMessage:</Anchor>
+			<Anchor>//api/name/initWithBridge:</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorRemoteConnection/onDisconnect</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/setCapInsets:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTInspectorPackagerConnection.h</DeclaredIn>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
 			
-			<Declaration>- (void)onDisconnect</Declaration>
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets capInsets</Declaration>
 			
 			
-			<Anchor>//api/name/onDisconnect</Anchor>
+			<Anchor>//api/name/capInsets</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/capInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets capInsets</Declaration>
+			
+			
+			<Anchor>//api/name/capInsets</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTImageView/capInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets capInsets</Declaration>
+			
+			
+			<Anchor>//api/name/capInsets</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/setDefaultImage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIImage *defaultImage</Declaration>
+			
+			
+			<Anchor>//api/name/defaultImage</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/defaultImage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIImage *defaultImage</Declaration>
+			
+			
+			<Anchor>//api/name/defaultImage</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTImageView/defaultImage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIImage *defaultImage</Declaration>
+			
+			
+			<Anchor>//api/name/defaultImage</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/setRenderingMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIImageRenderingMode renderingMode</Declaration>
+			
+			
+			<Anchor>//api/name/renderingMode</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/renderingMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIImageRenderingMode renderingMode</Declaration>
+			
+			
+			<Anchor>//api/name/renderingMode</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTImageView/renderingMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIImageRenderingMode renderingMode</Declaration>
+			
+			
+			<Anchor>//api/name/renderingMode</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/setImageSources:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;RCTImageSource*&gt; *imageSources</Declaration>
+			
+			
+			<Anchor>//api/name/imageSources</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/imageSources</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;RCTImageSource*&gt; *imageSources</Declaration>
+			
+			
+			<Anchor>//api/name/imageSources</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTImageView/imageSources</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSArray&lt;RCTImageSource*&gt; *imageSources</Declaration>
+			
+			
+			<Anchor>//api/name/imageSources</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/setBlurRadius:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat blurRadius</Declaration>
+			
+			
+			<Anchor>//api/name/blurRadius</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/blurRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat blurRadius</Declaration>
+			
+			
+			<Anchor>//api/name/blurRadius</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTImageView/blurRadius</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat blurRadius</Declaration>
+			
+			
+			<Anchor>//api/name/blurRadius</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/setResizeMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTResizeMode resizeMode</Declaration>
+			
+			
+			<Anchor>//api/name/resizeMode</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTImageView/resizeMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTResizeMode resizeMode</Declaration>
+			
+			
+			<Anchor>//api/name/resizeMode</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTImageView/resizeMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTImageView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) RCTResizeMode resizeMode</Declaration>
+			
+			
+			<Anchor>//api/name/resizeMode</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		

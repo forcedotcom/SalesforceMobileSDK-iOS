@@ -1,65 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTManagedPointer.html">
+	<File path="Classes/RCTKeyboardObserver.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTManagedPointer</TokenIdentifier>
-			<Abstract type="html">Type erased wrapper over any cxx value that can be passed as an argument
-to native method.</Abstract>
-			<DeclaredIn>RCTManagedPointer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTKeyboardObserver</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTKeyboardObserver.h</DeclaredIn>
             
 			
 			<NodeRef refid="108"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTManagedPointer/setVoidPointer:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTManagedPointer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) void *voidPointer</Declaration>
-			
-			
-			<Anchor>//api/name/voidPointer</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTManagedPointer/voidPointer</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTManagedPointer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) void *voidPointer</Declaration>
-			
-			
-			<Anchor>//api/name/voidPointer</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTManagedPointer/voidPointer</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTManagedPointer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) void *voidPointer</Declaration>
-			
-			
-			<Anchor>//api/name/voidPointer</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTManagedPointer/initWithPointer:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTManagedPointer.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithPointer:(std : : shared_ptr&lt;void&gt;)pointer</Declaration>
-			
-			
-			<Anchor>//api/name/initWithPointer:</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
 		
         
         

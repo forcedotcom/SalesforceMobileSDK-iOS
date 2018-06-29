@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTSRStatusCode.html">
+	<File path="Constants/RCTAnimationType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTSRStatusCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTAnimationType</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTAnimationType.h</DeclaredIn>
             
 			
 			<NodeRef refid="302"/>
@@ -14,81 +14,61 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSRStatusCodeNormal</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeSpring</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSRStatusCodeNormal</Declaration>
+            <Declaration>RCTAnimationTypeSpring</Declaration>
             
-            <DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
             
             <NodeRef refid="302"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSRStatusCodeGoingAway</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeLinear</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSRStatusCodeGoingAway</Declaration>
+            <Declaration>RCTAnimationTypeLinear</Declaration>
             
-            <DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
             
             <NodeRef refid="302"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSRStatusCodeProtocolError</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeEaseIn</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSRStatusCodeProtocolError</Declaration>
+            <Declaration>RCTAnimationTypeEaseIn</Declaration>
             
-            <DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
             
             <NodeRef refid="302"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSRStatusCodeUnhandledType</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeEaseOut</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSRStatusCodeUnhandledType</Declaration>
+            <Declaration>RCTAnimationTypeEaseOut</Declaration>
             
-            <DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
             
             <NodeRef refid="302"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSRStatusNoStatusReceived</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeEaseInEaseOut</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSRStatusNoStatusReceived</Declaration>
+            <Declaration>RCTAnimationTypeEaseInEaseOut</Declaration>
             
-            <DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
             
             <NodeRef refid="302"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSRStatusCodeInvalidUTF8</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTAnimationTypeKeyboard</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSRStatusCodeInvalidUTF8</Declaration>
+            <Declaration>RCTAnimationTypeKeyboard</Declaration>
             
-            <DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
-            
-            <NodeRef refid="302"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSRStatusCodePolicyViolated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTSRStatusCodePolicyViolated</Declaration>
-            
-            <DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
-            
-            <NodeRef refid="302"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSRStatusCodeMessageTooBig</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTSRStatusCodeMessageTooBig</Declaration>
-            
-            <DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+            <DeclaredIn>RCTAnimationType.h</DeclaredIn>
             
             <NodeRef refid="302"/>
         </Token>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTDevSettings.html">
+	<File path="Classes/RCTDevMenu.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTDevSettings</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTDevMenu</TokenIdentifier>
+			<Abstract type="html">Developer menu, useful for exposing extra functionality when debugging.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
             
 			
 			<NodeRef refid="56"/>
@@ -13,395 +13,213 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTDevSettings/requiresMainQueueSetup</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/setShakeToShow:</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)requiresMainQueueSetup</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL shakeToShow</Declaration>
 			
 			
-			<Anchor>//api/name/requiresMainQueueSetup</Anchor>
+			<Anchor>//api/name/shakeToShow</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/init</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/shakeToShow</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)init</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL shakeToShow</Declaration>
 			
 			
-			<Anchor>//api/name/init</Anchor>
+			<Anchor>//api/name/shakeToShow</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/initWithDataSource:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTDevMenu/shakeToShow</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithDataSource:(id&lt;RCTDevSettingsDataSource&gt;)dataSource</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL shakeToShow</Declaration>
 			
 			
-			<Anchor>//api/name/initWithDataSource:</Anchor>
+			<Anchor>//api/name/shakeToShow</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/setBridge:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/setProfilingEnabled:</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (void)setBridge:(RCTBridge *)bridge</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL profilingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/setBridge:</Anchor>
+			<Anchor>//api/name/profilingEnabled</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/methodQueue</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/profilingEnabled</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (dispatch_queue_t)methodQueue</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL profilingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/methodQueue</Anchor>
+			<Anchor>//api/name/profilingEnabled</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/invalidate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTDevMenu/profilingEnabled</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (void)invalidate</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL profilingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/invalidate</Anchor>
+			<Anchor>//api/name/profilingEnabled</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/_updateSettingWithValue:forKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/setLiveReloadEnabled:</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (void)_updateSettingWithValue:(id)value forKey:(NSString *)key</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL liveReloadEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/_updateSettingWithValue:forKey:</Anchor>
+			<Anchor>//api/name/liveReloadEnabled</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/settingForKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/liveReloadEnabled</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (id)settingForKey:(NSString *)key</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL liveReloadEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/settingForKey:</Anchor>
+			<Anchor>//api/name/liveReloadEnabled</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isNuclideDebuggingAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTDevMenu/liveReloadEnabled</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isNuclideDebuggingAvailable</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL liveReloadEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/isNuclideDebuggingAvailable</Anchor>
+			<Anchor>//api/name/liveReloadEnabled</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isRemoteDebuggingAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/setHotLoadingEnabled:</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isRemoteDebuggingAvailable</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL hotLoadingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/isRemoteDebuggingAvailable</Anchor>
+			<Anchor>//api/name/hotLoadingEnabled</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isHotLoadingAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/hotLoadingEnabled</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isHotLoadingAvailable</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL hotLoadingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/isHotLoadingAvailable</Anchor>
+			<Anchor>//api/name/hotLoadingEnabled</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isLiveReloadAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTDevMenu/hotLoadingEnabled</TokenIdentifier>
+			<Abstract type="html">Deprecated, use RCTDevSettings instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isLiveReloadAvailable</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL hotLoadingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/isLiveReloadAvailable</Anchor>
+			<Anchor>//api/name/hotLoadingEnabled</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isJSCSamplingProfilerAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/setPresentedItems:</TokenIdentifier>
+			<Abstract type="html">Presented items in development menu</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isJSCSamplingProfilerAvailable</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSArray&lt;RCTDevMenuItem*&gt; *presentedItems</Declaration>
 			
 			
-			<Anchor>//api/name/isJSCSamplingProfilerAvailable</Anchor>
+			<Anchor>//api/name/presentedItems</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isShakeToShowDevMenuEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/presentedItems</TokenIdentifier>
+			<Abstract type="html">Presented items in development menu</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isShakeToShowDevMenuEnabled</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSArray&lt;RCTDevMenuItem*&gt; *presentedItems</Declaration>
 			
 			
-			<Anchor>//api/name/isShakeToShowDevMenuEnabled</Anchor>
+			<Anchor>//api/name/presentedItems</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isDebuggingRemotely</TokenIdentifier>
-			<Abstract type="html">Whether the bridge is connected to a remote JS executor.</Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTDevMenu/presentedItems</TokenIdentifier>
+			<Abstract type="html">Presented items in development menu</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isDebuggingRemotely</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSArray&lt;RCTDevMenuItem*&gt; *presentedItems</Declaration>
 			
 			
-			<Anchor>//api/name/isDebuggingRemotely</Anchor>
+			<Anchor>//api/name/presentedItems</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/_remoteDebugSettingDidChange</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/isActionSheetShown</TokenIdentifier>
+			<Abstract type="html">Detect if actions sheet (development menu) is shown</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (void)_remoteDebugSettingDidChange</Declaration>
+			<Declaration>- (BOOL)isActionSheetShown</Declaration>
 			
 			
-			<Anchor>//api/name/_remoteDebugSettingDidChange</Anchor>
+			<Anchor>//api/name/isActionSheetShown</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isProfilingEnabled</TokenIdentifier>
-			<Abstract type="html">Whether performance profiling is enabled.</Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/show</TokenIdentifier>
+			<Abstract type="html">Manually show the dev menu (can be called from JS).</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isProfilingEnabled</Declaration>
+			<Declaration>- (void)show</Declaration>
 			
 			
-			<Anchor>//api/name/isProfilingEnabled</Anchor>
+			<Anchor>//api/name/show</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/_profilingSettingDidChange</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (void)_profilingSettingDidChange</Declaration>
-			
-			
-			<Anchor>//api/name/_profilingSettingDidChange</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isLiveReloadEnabled</TokenIdentifier>
-			<Abstract type="html">Whether automatic polling for JS code changes is enabled. Only applicable when
-running the app from a server.</Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isLiveReloadEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/isLiveReloadEnabled</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/_liveReloadSettingDidChange</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (void)_liveReloadSettingDidChange</Declaration>
-			
-			
-			<Anchor>//api/name/_liveReloadSettingDidChange</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isHotLoadingEnabled</TokenIdentifier>
-			<Abstract type="html">Whether hot loading is enabled.</Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isHotLoadingEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/isHotLoadingEnabled</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/toggleJSCSamplingProfiler</TokenIdentifier>
-			<Abstract type="html">Toggle JSC&apos;s sampling profiler.</Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
-			
-			<Declaration>- (void)toggleJSCSamplingProfiler</Declaration>
-			
-			
-			<Anchor>//api/name/toggleJSCSamplingProfiler</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isElementInspectorShown</TokenIdentifier>
-			<Abstract type="html">Whether the element inspector is visible.</Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isElementInspectorShown</Declaration>
-			
-			
-			<Anchor>//api/name/isElementInspectorShown</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/setIsPerfMonitorShown:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (void)setIsPerfMonitorShown:(BOOL)isPerfMonitorShown</Declaration>
-			
-			
-			<Anchor>//api/name/setIsPerfMonitorShown:</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/isPerfMonitorShown</TokenIdentifier>
-			<Abstract type="html">Whether the performance monitor is visible.</Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isPerfMonitorShown</Declaration>
-			
-			
-			<Anchor>//api/name/isPerfMonitorShown</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/setStartSamplingProfilerOnLaunch:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (void)setStartSamplingProfilerOnLaunch:(BOOL)startSamplingProfilerOnLaunch</Declaration>
-			
-			
-			<Anchor>//api/name/setStartSamplingProfilerOnLaunch:</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/startSamplingProfilerOnLaunch</TokenIdentifier>
-			<Abstract type="html">Enables starting of profiling sampler on launch</Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)startSamplingProfilerOnLaunch</Declaration>
-			
-			
-			<Anchor>//api/name/startSamplingProfilerOnLaunch</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/setExecutorClass:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (void)setExecutorClass:(Class)executorClass</Declaration>
-			
-			
-			<Anchor>//api/name/setExecutorClass:</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/addHandler:forPackagerMethod:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
-			
-			<Declaration>- (void)addHandler:(id&lt;RCTPackagerClientMethod&gt;)handler forPackagerMethod:(NSString *)name</Declaration>
-			
-			
-			<Anchor>//api/name/addHandler:forPackagerMethod:</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/_synchronizeAllSettings</TokenIdentifier>
-			<Abstract type="html">Query the data source for all possible settings and make sure we&apos;re doing the right
-thing for the state of each setting.</Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (void)_synchronizeAllSettings</Declaration>
-			
-			
-			<Anchor>//api/name/_synchronizeAllSettings</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/_pollForLiveReload</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (void)_pollForLiveReload</Declaration>
-			
-			
-			<Anchor>//api/name/_pollForLiveReload</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/jsLoaded:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (void)jsLoaded:(NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/jsLoaded:</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/reload</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/reload</TokenIdentifier>
+			<Abstract type="html">Deprecated, use [RCTBRidge reload] instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
 			<Declaration>- (void)reload</Declaration>
 			
@@ -411,86 +229,27 @@ thing for the state of each setting.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/toggleElementInspector</TokenIdentifier>
-			<Abstract type="html">Toggle the element inspector.</Abstract>
-			<DeclaredIn>RCTDevSettings.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/addItem:handler:</TokenIdentifier>
+			<Abstract type="html">Deprecated. Use the addItem: method instead.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (void)toggleElementInspector</Declaration>
+			<Declaration>- (void)addItem:(NSString *)title handler:(void ( ^ ) ( void ))handler</Declaration>
 			
 			
-			<Anchor>//api/name/toggleElementInspector</Anchor>
+			<Anchor>//api/name/addItem:handler:</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/setExecutorClass:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevMenu/addItem:</TokenIdentifier>
+			<Abstract type="html">Add custom item to the development menu. The handler will be called
+when user selects the item.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) Class executorClass</Declaration>
-			
-			
-			<Anchor>//api/name/executorClass</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/executorClass</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) Class executorClass</Declaration>
+			<Declaration>- (void)addItem:(RCTDevMenuItem *)item</Declaration>
 			
 			
-			<Anchor>//api/name/executorClass</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTDevSettings/executorClass</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) Class executorClass</Declaration>
-			
-			
-			<Anchor>//api/name/executorClass</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/setDataSource:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite, strong) id&lt;RCTDevSettingsDataSource&gt; dataSource</Declaration>
-			
-			
-			<Anchor>//api/name/dataSource</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettings/dataSource</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite, strong) id&lt;RCTDevSettingsDataSource&gt; dataSource</Declaration>
-			
-			
-			<Anchor>//api/name/dataSource</Anchor>
-            <NodeRef refid="56"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTDevSettings/dataSource</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite, strong) id&lt;RCTDevSettingsDataSource&gt; dataSource</Declaration>
-			
-			
-			<Anchor>//api/name/dataSource</Anchor>
+			<Anchor>//api/name/addItem:</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		

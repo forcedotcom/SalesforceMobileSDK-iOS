@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/RCTEvent.html">
+	<File path="Protocols/RCTAnimationDriver.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/RCTEvent</TokenIdentifier>
-			<Abstract type="html">Takes an input event name and normalizes it to the form that is required
-by the events system (currently that means starting with the &quot;top&quot; prefix,
-but that&apos;s an implementation detail that may change in future).</Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTAnimationDriver</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
             
 			
 			<NodeRef refid="259"/>
@@ -15,158 +13,206 @@ but that&apos;s an implementation detail that may change in future).</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTEvent/setViewTag:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/setAnimationId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSNumber *viewTag</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSNumber *animationId</Declaration>
 			
 			
-			<Anchor>//api/name/viewTag</Anchor>
+			<Anchor>//api/name/animationId</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTEvent/viewTag</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/animationId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSNumber *viewTag</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSNumber *animationId</Declaration>
 			
 			
-			<Anchor>//api/name/viewTag</Anchor>
+			<Anchor>//api/name/animationId</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTEvent/viewTag</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTAnimationDriver/animationId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSNumber *viewTag</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSNumber *animationId</Declaration>
 			
 			
-			<Anchor>//api/name/viewTag</Anchor>
+			<Anchor>//api/name/animationId</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTEvent/setEventName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/setValueNode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *eventName</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTValueAnimatedNode *valueNode</Declaration>
 			
 			
-			<Anchor>//api/name/eventName</Anchor>
+			<Anchor>//api/name/valueNode</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTEvent/eventName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/valueNode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *eventName</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTValueAnimatedNode *valueNode</Declaration>
 			
 			
-			<Anchor>//api/name/eventName</Anchor>
+			<Anchor>//api/name/valueNode</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTEvent/eventName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTAnimationDriver/valueNode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *eventName</Declaration>
+			<Declaration>@property (nonatomic, readonly) RCTValueAnimatedNode *valueNode</Declaration>
 			
 			
-			<Anchor>//api/name/eventName</Anchor>
+			<Anchor>//api/name/valueNode</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTEvent/setCoalescingKey:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/setAnimationHasBegun:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) uint16_t coalescingKey</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL animationHasBegun</Declaration>
 			
 			
-			<Anchor>//api/name/coalescingKey</Anchor>
+			<Anchor>//api/name/animationHasBegun</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTEvent/coalescingKey</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/animationHasBegun</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) uint16_t coalescingKey</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL animationHasBegun</Declaration>
 			
 			
-			<Anchor>//api/name/coalescingKey</Anchor>
+			<Anchor>//api/name/animationHasBegun</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTEvent/coalescingKey</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTAnimationDriver/animationHasBegun</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) uint16_t coalescingKey</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL animationHasBegun</Declaration>
 			
 			
-			<Anchor>//api/name/coalescingKey</Anchor>
+			<Anchor>//api/name/animationHasBegun</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTEvent/canCoalesce</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/setAnimationHasFinished:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)canCoalesce</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL animationHasFinished</Declaration>
 			
 			
-			<Anchor>//api/name/canCoalesce</Anchor>
+			<Anchor>//api/name/animationHasFinished</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTEvent/coalesceWithEvent:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/animationHasFinished</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>- (id&lt;RCTEvent&gt;)coalesceWithEvent:(id&lt;RCTEvent&gt;)newEvent</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL animationHasFinished</Declaration>
 			
 			
-			<Anchor>//api/name/coalesceWithEvent:</Anchor>
+			<Anchor>//api/name/animationHasFinished</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTEvent/moduleDotMethod</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTAnimationDriver/animationHasFinished</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)moduleDotMethod</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL animationHasFinished</Declaration>
 			
 			
-			<Anchor>//api/name/moduleDotMethod</Anchor>
+			<Anchor>//api/name/animationHasFinished</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTEvent/arguments</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/initWithId:config:forNode:callBack:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)arguments</Declaration>
+			<Declaration>- (instancetype)initWithId:(NSNumber *)animationId config:(NSDictionary *)config forNode:(RCTValueAnimatedNode *)valueNode callBack:(nullable RCTResponseSenderBlock)callback</Declaration>
 			
 			
-			<Anchor>//api/name/arguments</Anchor>
+			<Anchor>//api/name/initWithId:config:forNode:callBack:</Anchor>
+            <NodeRef refid="259"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/startAnimation</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
+			
+			<Declaration>- (void)startAnimation</Declaration>
+			
+			
+			<Anchor>//api/name/startAnimation</Anchor>
+            <NodeRef refid="259"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/stepAnimationWithTime:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
+			
+			<Declaration>- (void)stepAnimationWithTime:(NSTimeInterval)currentTime</Declaration>
+			
+			
+			<Anchor>//api/name/stepAnimationWithTime:</Anchor>
+            <NodeRef refid="259"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/stopAnimation</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
+			
+			<Declaration>- (void)stopAnimation</Declaration>
+			
+			
+			<Anchor>//api/name/stopAnimation</Anchor>
+            <NodeRef refid="259"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTAnimationDriver/resetAnimationConfig:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimationDriver.h</DeclaredIn>
+			
+			<Declaration>- (void)resetAnimationConfig:(NSDictionary *)config</Declaration>
+			
+			
+			<Anchor>//api/name/resetAnimationConfig:</Anchor>
             <NodeRef refid="259"/>
 		</Token>
 		

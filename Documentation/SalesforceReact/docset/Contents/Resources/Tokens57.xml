@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTDevSettingsUserDefaultsDataSource.html">
+	<File path="Classes/RCTDevMenuItem.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTDevSettingsUserDefaultsDataSource</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTDevMenuItem</TokenIdentifier>
+			<Abstract type="html">Developer menu item, used to expose additional functionality via the menu.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
             
 			
 			<NodeRef refid="57"/>
@@ -14,63 +13,29 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettingsUserDefaultsDataSource/init</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTDevMenuItem/buttonItemWithTitle:handler:</TokenIdentifier>
+			<Abstract type="html">This creates an item with a simple push-button interface, used to trigger an
+action.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)init</Declaration>
+			<Declaration>+ (instancetype)buttonItemWithTitle:(NSString *)title handler:(dispatch_block_t)handler</Declaration>
 			
 			
-			<Anchor>//api/name/init</Anchor>
+			<Anchor>//api/name/buttonItemWithTitle:handler:</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettingsUserDefaultsDataSource/initWithDefaultValues:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTDevMenuItem/buttonItemWithTitleBlock:handler:</TokenIdentifier>
+			<Abstract type="html">This creates an item with a simple push-button interface, used to trigger an
+action. getTitleForPresentation is called each time the item is about to be
+presented, and should return the item&apos;s title.</Abstract>
+			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithDefaultValues:(NSDictionary *)defaultValues</Declaration>
-			
-			
-			<Anchor>//api/name/initWithDefaultValues:</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettingsUserDefaultsDataSource/updateSettingWithValue:forKey:</TokenIdentifier>
-			<Abstract type="html">Updates the setting with the given key to the given value.
-How the data source&apos;s state changes depends on the implementation.</Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (void)updateSettingWithValue:(id)value forKey:(NSString *)key</Declaration>
+			<Declaration>+ (instancetype)buttonItemWithTitleBlock:(RCTDevMenuItemTitleBlock)titleBlock handler:(dispatch_block_t)handler</Declaration>
 			
 			
-			<Anchor>//api/name/updateSettingWithValue:forKey:</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettingsUserDefaultsDataSource/settingForKey:</TokenIdentifier>
-			<Abstract type="html">Returns the value for the setting with the given key.</Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (id)settingForKey:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/settingForKey:</Anchor>
-            <NodeRef refid="57"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTDevSettingsUserDefaultsDataSource/_reloadWithDefaults:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDevSettings.mm</DeclaredIn>
-			
-			<Declaration>- (void)_reloadWithDefaults:(NSDictionary *)defaultValues</Declaration>
-			
-			
-			<Anchor>//api/name/_reloadWithDefaults:</Anchor>
+			<Anchor>//api/name/buttonItemWithTitleBlock:handler:</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		

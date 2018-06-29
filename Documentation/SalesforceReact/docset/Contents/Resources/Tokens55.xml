@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTDevMenuItem.html">
+	<File path="Classes/RCTDevLoadingView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTDevMenuItem</TokenIdentifier>
-			<Abstract type="html">Developer menu item, used to expose additional functionality via the menu.</Abstract>
-			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTDevLoadingView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTDevLoadingView.h</DeclaredIn>
             
 			
 			<NodeRef refid="55"/>
@@ -13,29 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTDevMenuItem/buttonItemWithTitle:handler:</TokenIdentifier>
-			<Abstract type="html">This creates an item with a simple push-button interface, used to trigger an
-action.</Abstract>
-			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTDevLoadingView/setEnabled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTDevLoadingView.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)buttonItemWithTitle:(NSString *)title handler:(dispatch_block_t)handler</Declaration>
+			<Declaration>+ (void)setEnabled:(BOOL)enabled</Declaration>
 			
 			
-			<Anchor>//api/name/buttonItemWithTitle:handler:</Anchor>
+			<Anchor>//api/name/setEnabled:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTDevMenuItem/buttonItemWithTitleBlock:handler:</TokenIdentifier>
-			<Abstract type="html">This creates an item with a simple push-button interface, used to trigger an
-action. getTitleForPresentation is called each time the item is about to be
-presented, and should return the item&apos;s title.</Abstract>
-			<DeclaredIn>RCTDevMenu.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevLoadingView/showWithURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTDevLoadingView.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)buttonItemWithTitleBlock:(RCTDevMenuItemTitleBlock)titleBlock handler:(dispatch_block_t)handler</Declaration>
+			<Declaration>- (void)showWithURL:(NSURL *)URL</Declaration>
 			
 			
-			<Anchor>//api/name/buttonItemWithTitleBlock:handler:</Anchor>
+			<Anchor>//api/name/showWithURL:</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevLoadingView/updateProgress:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTDevLoadingView.h</DeclaredIn>
+			
+			<Declaration>- (void)updateProgress:(RCTLoadingProgress *)progress</Declaration>
+			
+			
+			<Anchor>//api/name/updateProgress:</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTDevLoadingView/hide</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTDevLoadingView.h</DeclaredIn>
+			
+			<Declaration>- (void)hide</Declaration>
+			
+			
+			<Anchor>//api/name/hide</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		

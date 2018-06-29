@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTRedBoxExtraDataViewController.html">
+	<File path="Classes/RCTPropsAnimatedNode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTRedBoxExtraDataViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRedBoxExtraDataViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTPropsAnimatedNode</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTPropsAnimatedNode.h</DeclaredIn>
             
 			
 			<NodeRef refid="149"/>
@@ -13,50 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBoxExtraDataViewController/setActionDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPropsAnimatedNode/connectToView:viewName:uiManager:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRedBoxExtraDataViewController.h</DeclaredIn>
+			<DeclaredIn>RCTPropsAnimatedNode.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTRedBoxExtraDataActionDelegate&gt; actionDelegate</Declaration>
+			<Declaration>- (void)connectToView:(NSNumber *)viewTag viewName:(NSString *)viewName uiManager:(RCTUIManager *)uiManager</Declaration>
 			
 			
-			<Anchor>//api/name/actionDelegate</Anchor>
+			<Anchor>//api/name/connectToView:viewName:uiManager:</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBoxExtraDataViewController/actionDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPropsAnimatedNode/disconnectFromView:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRedBoxExtraDataViewController.h</DeclaredIn>
+			<DeclaredIn>RCTPropsAnimatedNode.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTRedBoxExtraDataActionDelegate&gt; actionDelegate</Declaration>
+			<Declaration>- (void)disconnectFromView:(NSNumber *)viewTag</Declaration>
 			
 			
-			<Anchor>//api/name/actionDelegate</Anchor>
+			<Anchor>//api/name/disconnectFromView:</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTRedBoxExtraDataViewController/actionDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPropsAnimatedNode/restoreDefaultValues</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRedBoxExtraDataViewController.h</DeclaredIn>
+			<DeclaredIn>RCTPropsAnimatedNode.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTRedBoxExtraDataActionDelegate&gt; actionDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/actionDelegate</Anchor>
-            <NodeRef refid="149"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRedBoxExtraDataViewController/addExtraData:forIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRedBoxExtraDataViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)addExtraData:(NSDictionary *)data forIdentifier:(NSString *)identifier</Declaration>
+			<Declaration>- (void)restoreDefaultValues</Declaration>
 			
 			
-			<Anchor>//api/name/addExtraData:forIdentifier:</Anchor>
+			<Anchor>//api/name/restoreDefaultValues</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		

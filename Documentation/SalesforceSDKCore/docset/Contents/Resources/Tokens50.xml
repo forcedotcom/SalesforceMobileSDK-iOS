@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPBKDFData.html">
+	<File path="Classes/SFPBKDF2PasscodeProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDFData</TokenIdentifier>
-			<Abstract type="html">Data class for PBKDF-generated keys.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDF2PasscodeProvider</TokenIdentifier>
+			<Abstract type="html">Contains configuration values for generating an encryption key.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
             
 			
 			<NodeRef refid="50"/>
@@ -13,81 +13,57 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKey:</TokenIdentifier>
-			<Abstract type="html">The PBKDF-derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setSaltLengthInBytes:</TokenIdentifier>
+			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
+kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKey</Anchor>
+			<Anchor>//api/name/saltLengthInBytes</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKey</TokenIdentifier>
-			<Abstract type="html">The PBKDF-derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/saltLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
+kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKey</Anchor>
+			<Anchor>//api/name/saltLengthInBytes</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKey</TokenIdentifier>
-			<Abstract type="html">The PBKDF-derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/saltLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
+kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKey</Anchor>
+			<Anchor>//api/name/saltLengthInBytes</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setSalt:</TokenIdentifier>
-			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
-			
-			
-			<Anchor>//api/name/salt</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/salt</TokenIdentifier>
-			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
-			
-			
-			<Anchor>//api/name/salt</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/salt</TokenIdentifier>
-			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
-			
-			
-			<Anchor>//api/name/salt</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setNumDerivationRounds:</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setNumDerivationRounds:</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
+to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
@@ -97,9 +73,12 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/numDerivationRounds</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
+to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
@@ -109,9 +88,12 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/numDerivationRounds</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
+to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
@@ -121,64 +103,47 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKeyLength:</TokenIdentifier>
-			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setDerivedKeyLengthInBytes:</TokenIdentifier>
+			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
+value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLength</Anchor>
+			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKeyLength</TokenIdentifier>
-			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/derivedKeyLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
+value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLength</Anchor>
+			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKeyLength</TokenIdentifier>
-			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/derivedKeyLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
+value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLength</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/initWithKey:salt:derivationRounds:derivedKeyLength:</TokenIdentifier>
-			<Abstract type="html">Initializes the data object with its core components.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithKey:(NSData *)key salt:(NSData *)salt derivationRounds:(NSUInteger)derivationRounds derivedKeyLength:(NSUInteger)derivedKeyLength</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The derived key.</Abstract>
-				</Parameter><Parameter>
-					<Name>salt</Name>
-					<Abstract type="html">The salt used with the input value to create the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>derivationRounds</Name>
-					<Abstract type="html">The number of derivation rounds used to generate the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>derivedKeyLength</Name>
-					<Abstract type="html">The length of the derived key, in bytes.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithKey:salt:derivationRounds:derivedKeyLength:</Anchor>
+			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		

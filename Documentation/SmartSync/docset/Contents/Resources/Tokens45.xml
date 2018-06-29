@@ -1,8 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Constants/SFSDKFetchMode.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKFetchMode</TokenIdentifier>
+			<Abstract type="html">Enum for available SmartSync data fetch modes.</Abstract>
+			<DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
+            
+			
+			<NodeRef refid="45"/>
+		</Token>
 		
 		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKFetchModeCacheOnly</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKFetchModeCacheOnly</Declaration>
+            
+            <DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
+            
+            <NodeRef refid="45"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKFetchModeCacheFirst</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKFetchModeCacheFirst</Declaration>
+            
+            <DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
+            
+            <NodeRef refid="45"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKFetchModeServerFirst</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKFetchModeServerFirst</Declaration>
+            
+            <DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
+            
+            <NodeRef refid="45"/>
+        </Token>
         
         
 	</File>

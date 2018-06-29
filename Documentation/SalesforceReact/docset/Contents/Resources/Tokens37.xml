@@ -1,17 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTBlobManager.html">
+	<File path="Classes/RCTBaseTextShadowView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTBlobManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTBlobManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTBaseTextShadowView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTBaseTextShadowView.h</DeclaredIn>
             
 			
 			<NodeRef refid="37"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextShadowView/setTextAttributes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) RCTTextAttributes *textAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/textAttributes</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextShadowView/textAttributes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) RCTTextAttributes *textAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/textAttributes</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextShadowView/textAttributes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) RCTTextAttributes *textAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/textAttributes</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextShadowView/attributedTextWithBaseTextAttributes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextShadowView.h</DeclaredIn>
+			
+			<Declaration>- (NSAttributedString *)attributedTextWithBaseTextAttributes:(nullable RCTTextAttributes *)baseTextAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/attributedTextWithBaseTextAttributes:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
 		
         
         

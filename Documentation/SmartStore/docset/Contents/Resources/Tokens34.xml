@@ -1,8 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Constants/SFSoupQueryType.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSoupQueryType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+			
+			<NodeRef refid="34"/>
+		</Token>
 		
 		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeExact</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFSoupQueryTypeExact</Declaration>
+            
+            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+            <NodeRef refid="34"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeRange</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFSoupQueryTypeRange</Declaration>
+            
+            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+            <NodeRef refid="34"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeLike</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFSoupQueryTypeLike</Declaration>
+            
+            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+            <NodeRef refid="34"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeSmart</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFSoupQueryTypeSmart</Declaration>
+            
+            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+            <NodeRef refid="34"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeMatch</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFSoupQueryTypeMatch</Declaration>
+            
+            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+            <NodeRef refid="34"/>
+        </Token>
         
         
 	</File>

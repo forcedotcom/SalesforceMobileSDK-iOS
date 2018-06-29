@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTTabBarItem.html">
+	<File path="Classes/RCTSwitch.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTTabBarItem</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSwitch</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSwitch.h</DeclaredIn>
             
 			
 			<NodeRef refid="196"/>
@@ -13,362 +13,74 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/setBadge:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSwitch/setWasOn:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
+			<DeclaredIn>RCTSwitch.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) id badge</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL wasOn</Declaration>
 			
 			
-			<Anchor>//api/name/badge</Anchor>
+			<Anchor>//api/name/wasOn</Anchor>
             <NodeRef refid="196"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/badge</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSwitch/wasOn</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
+			<DeclaredIn>RCTSwitch.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) id badge</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL wasOn</Declaration>
 			
 			
-			<Anchor>//api/name/badge</Anchor>
+			<Anchor>//api/name/wasOn</Anchor>
             <NodeRef refid="196"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBarItem/badge</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSwitch/wasOn</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
+			<DeclaredIn>RCTSwitch.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) id badge</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL wasOn</Declaration>
 			
 			
-			<Anchor>//api/name/badge</Anchor>
+			<Anchor>//api/name/wasOn</Anchor>
             <NodeRef refid="196"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/setIcon:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSwitch/setOnChange:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
+			<DeclaredIn>RCTSwitch.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIImage *icon</Declaration>
+			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onChange</Declaration>
 			
 			
-			<Anchor>//api/name/icon</Anchor>
+			<Anchor>//api/name/onChange</Anchor>
             <NodeRef refid="196"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/icon</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSwitch/onChange</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
+			<DeclaredIn>RCTSwitch.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIImage *icon</Declaration>
+			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onChange</Declaration>
 			
 			
-			<Anchor>//api/name/icon</Anchor>
+			<Anchor>//api/name/onChange</Anchor>
             <NodeRef refid="196"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBarItem/icon</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSwitch/onChange</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
+			<DeclaredIn>RCTSwitch.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIImage *icon</Declaration>
+			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onChange</Declaration>
 			
 			
-			<Anchor>//api/name/icon</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/setSelectedIcon:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIImage *selectedIcon</Declaration>
-			
-			
-			<Anchor>//api/name/selectedIcon</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/selectedIcon</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIImage *selectedIcon</Declaration>
-			
-			
-			<Anchor>//api/name/selectedIcon</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBarItem/selectedIcon</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIImage *selectedIcon</Declaration>
-			
-			
-			<Anchor>//api/name/selectedIcon</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/setSystemIcon:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) UITabBarSystemItem systemIcon</Declaration>
-			
-			
-			<Anchor>//api/name/systemIcon</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/systemIcon</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) UITabBarSystemItem systemIcon</Declaration>
-			
-			
-			<Anchor>//api/name/systemIcon</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBarItem/systemIcon</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) UITabBarSystemItem systemIcon</Declaration>
-			
-			
-			<Anchor>//api/name/systemIcon</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/setRenderAsOriginal:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL renderAsOriginal</Declaration>
-			
-			
-			<Anchor>//api/name/renderAsOriginal</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/renderAsOriginal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL renderAsOriginal</Declaration>
-			
-			
-			<Anchor>//api/name/renderAsOriginal</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBarItem/renderAsOriginal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL renderAsOriginal</Declaration>
-			
-			
-			<Anchor>//api/name/renderAsOriginal</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/setSelected:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, getter=isSelected) BOOL selected</Declaration>
-			
-			
-			<Anchor>//api/name/selected</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/isSelected</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, getter=isSelected) BOOL selected</Declaration>
-			
-			
-			<Anchor>//api/name/selected</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBarItem/selected</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, getter=isSelected) BOOL selected</Declaration>
-			
-			
-			<Anchor>//api/name/selected</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/setBarItem:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) UITabBarItem *barItem</Declaration>
-			
-			
-			<Anchor>//api/name/barItem</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/barItem</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) UITabBarItem *barItem</Declaration>
-			
-			
-			<Anchor>//api/name/barItem</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBarItem/barItem</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) UITabBarItem *barItem</Declaration>
-			
-			
-			<Anchor>//api/name/barItem</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/setOnPress:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onPress</Declaration>
-			
-			
-			<Anchor>//api/name/onPress</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/onPress</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onPress</Declaration>
-			
-			
-			<Anchor>//api/name/onPress</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBarItem/onPress</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTBubblingEventBlock onPress</Declaration>
-			
-			
-			<Anchor>//api/name/onPress</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/setTestID:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *testID</Declaration>
-			
-			
-			<Anchor>//api/name/testID</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/testID</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *testID</Declaration>
-			
-			
-			<Anchor>//api/name/testID</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBarItem/testID</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *testID</Declaration>
-			
-			
-			<Anchor>//api/name/testID</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/setWasSelectedInJS:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL wasSelectedInJS</Declaration>
-			
-			
-			<Anchor>//api/name/wasSelectedInJS</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBarItem/wasSelectedInJS</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL wasSelectedInJS</Declaration>
-			
-			
-			<Anchor>//api/name/wasSelectedInJS</Anchor>
-            <NodeRef refid="196"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBarItem/wasSelectedInJS</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTabBarItem.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL wasSelectedInJS</Declaration>
-			
-			
-			<Anchor>//api/name/wasSelectedInJS</Anchor>
+			<Anchor>//api/name/onChange</Anchor>
             <NodeRef refid="196"/>
 		</Token>
 		

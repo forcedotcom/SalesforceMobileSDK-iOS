@@ -1,67 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTLogLevel.html">
+	<File path="Protocols/RCTURLRequestHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTLogLevel</TokenIdentifier>
-			<Abstract type="html">An enum representing the severity of the log message.</Abstract>
-			<DeclaredIn>RCTLog.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTURLRequestHandler</TokenIdentifier>
+			<Abstract type="html">Provides the interface needed to register a request handler. Request handlers
+are also bridge modules, so should be registered using RCTEXPORTMODULE().</Abstract>
+			<DeclaredIn>RCTURLRequestHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="294"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelTrace</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTLogLevelTrace</Declaration>
-            
-            <DeclaredIn>RCTLog.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTURLRequestHandler/canHandleRequest:</TokenIdentifier>
+			<Abstract type="html">Indicates whether this handler is capable of processing the specified
+request. Typically the handler would examine the scheme/protocol of the
+request URL (and possibly the HTTP method and/or headers) to determine this.</Abstract>
+			<DeclaredIn>RCTURLRequestHandler.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)canHandleRequest:(NSURLRequest *)request</Declaration>
+			
+			
+			<Anchor>//api/name/canHandleRequest:</Anchor>
             <NodeRef refid="294"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelInfo</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTLogLevelInfo</Declaration>
-            
-            <DeclaredIn>RCTLog.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTURLRequestHandler/sendRequest:withDelegate:</TokenIdentifier>
+			<Abstract type="html">Send a network request and call the delegate with the response data. The
+method should return a token, which can be anything, including the request
+itself. This will be used later to refer to the request in callbacks. The
+sendRequest:withDelegate: method must return before calling any of the
+delegate methods, or the delegate won&apos;t recognize the token.
+Following common Objective-C pattern, delegate will not be retained.</Abstract>
+			<DeclaredIn>RCTURLRequestHandler.h</DeclaredIn>
+			
+			<Declaration>- (id)sendRequest:(NSURLRequest *)request withDelegate:(id&lt;RCTURLRequestDelegate&gt;)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/sendRequest:withDelegate:</Anchor>
             <NodeRef refid="294"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelWarning</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTLogLevelWarning</Declaration>
-            
-            <DeclaredIn>RCTLog.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTURLRequestHandler/cancelRequest:</TokenIdentifier>
+			<Abstract type="html">Not all request types can be cancelled, but this method can be implemented
+for ones that can. It should be used to free up any resources on ongoing
+processes associated with the request.</Abstract>
+			<DeclaredIn>RCTURLRequestHandler.h</DeclaredIn>
+			
+			<Declaration>- (void)cancelRequest:(id)requestToken</Declaration>
+			
+			
+			<Anchor>//api/name/cancelRequest:</Anchor>
             <NodeRef refid="294"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelError</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTLogLevelError</Declaration>
-            
-            <DeclaredIn>RCTLog.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTURLRequestHandler/handlerPriority</TokenIdentifier>
+			<Abstract type="html">If more than one RCTURLRequestHandler responds YES to canHandleRequest:
+then handlerPriority is used to determine which one to use. The handler
+with the highest priority will be selected. Default priority is zero. If
+two or more valid handlers have the same priority, the selection order is
+undefined.</Abstract>
+			<DeclaredIn>RCTURLRequestHandler.h</DeclaredIn>
+			
+			<Declaration>- (float)handlerPriority</Declaration>
+			
+			
+			<Anchor>//api/name/handlerPriority</Anchor>
             <NodeRef refid="294"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTLogLevelFatal</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTLogLevelFatal</Declaration>
-            
-            <DeclaredIn>RCTLog.h</DeclaredIn>
-            
-            <NodeRef refid="294"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

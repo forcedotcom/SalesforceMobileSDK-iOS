@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncReactBridge.html">
+	<File path="Classes/RCTWrapperShadowView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncReactBridge</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWrapperShadowView</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncReactBridge.h</DeclaredIn>
+			<DeclaredIn>RCTWrapperShadowView.h</DeclaredIn>
             
 			
 			<NodeRef refid="235"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperShadowView/initWithBridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperShadowView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/initWithBridge:</Anchor>
+            <NodeRef refid="235"/>
+		</Token>
 		
         
         

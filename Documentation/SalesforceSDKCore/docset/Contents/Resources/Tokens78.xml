@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKCryptoUtils.html">
+	<File path="Classes/SFSDKAuthViewHolder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCryptoUtils</TokenIdentifier>
-			<Abstract type="html">Various utility methods in support of cryptographic operations.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthViewHolder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="78"/>
@@ -13,298 +13,146 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/randomByteDataWithLength:</TokenIdentifier>
-			<Abstract type="html">Creates a random string of bytes (based on arc4random() generation) and returns
-them as an NSData object.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setWkWebView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)randomByteDataWithLength:(NSUInteger)lengthInBytes</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>lengthInBytes</Name>
-					<Abstract type="html">The number of bytes to generate.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The string of random bytes, as an NSData object.</Abstract></ReturnValue>
-			<Anchor>//api/name/randomByteDataWithLength:</Anchor>
+			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			
+			
+			<Anchor>//api/name/wkWebView</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/createPBKDF2DerivedKey:</TokenIdentifier>
-			<Abstract type="html">Creates a PBKDF2 derived key from an input key (string), using default values for the
-random-generated salt data and its length, the number of derivation rounds, and the
-derived key length.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/wkWebView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>stringToHash</Name>
-					<Abstract type="html">The plaintext string used to generate the key.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An SFPBKDFData object representing the derived key.</Abstract></ReturnValue>
-			<Anchor>//api/name/createPBKDF2DerivedKey:</Anchor>
+			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			
+			
+			<Anchor>//api/name/wkWebView</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/createPBKDF2DerivedKey:salt:derivationRounds:keyLength:</TokenIdentifier>
-			<Abstract type="html">Creates a PBKDF2 derived key from an input key (string), a salt, number of derivation
-rounds, and desired derived key length.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/wkWebView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (nullable SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash salt:(NSData *)salt derivationRounds:(NSUInteger)numDerivationRounds keyLength:(NSUInteger)derivedKeyLength</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>stringToHash</Name>
-					<Abstract type="html">The base string to use for the derived key.</Abstract>
-				</Parameter><Parameter>
-					<Name>salt</Name>
-					<Abstract type="html">The salt to append to the string.</Abstract>
-				</Parameter><Parameter>
-					<Name>numDerivationRounds</Name>
-					<Abstract type="html">The number of derivation rounds used to generate the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>derivedKeyLength</Name>
-					<Abstract type="html">The desired derived key length.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An SFPBKDFData object representing the derived key.</Abstract></ReturnValue>
-			<Anchor>//api/name/createPBKDF2DerivedKey:salt:derivationRounds:keyLength:</Anchor>
+			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			
+			
+			<Anchor>//api/name/wkWebView</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/aes128EncryptData:withKey:iv:</TokenIdentifier>
-			<Abstract type="html">Encrypt the given data using the AES-128 algorithm.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setLoginController:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSData *)aes128EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">The data to encrypt.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key used to encrypt the data.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">The initialization vector data used for the encryption.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The encrypted data, or nil if encryption was not successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/aes128EncryptData:withKey:iv:</Anchor>
+			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			
+			
+			<Anchor>//api/name/loginController</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/aes128DecryptData:withKey:iv:</TokenIdentifier>
-			<Abstract type="html">Decrypt the given data using the AES-128 algorithm.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/loginController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSData *)aes128DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">The data to decrypt.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The decryption key used to decrypt the data.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">The initialization vector data used for the decryption.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The decrypted data, or nil if decryption was not successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/aes128DecryptData:withKey:iv:</Anchor>
+			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			
+			
+			<Anchor>//api/name/loginController</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/aes256EncryptData:withKey:iv:</TokenIdentifier>
-			<Abstract type="html">Encrypt the given data using the AES-256 algorithm.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/loginController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSData *)aes256EncryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">The data to encrypt.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The encryption key used to encrypt the data.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">The initialization vector data used for the encryption.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The encrypted data, or nil if encryption was not successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/aes256EncryptData:withKey:iv:</Anchor>
+			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			
+			
+			<Anchor>//api/name/loginController</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/aes256DecryptData:withKey:iv:</TokenIdentifier>
-			<Abstract type="html">Decrypt the given data using the AES-256 algorithm.</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setSafariViewController:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSData *)aes256DecryptData:(NSData *)data withKey:(NSData *)key iv:(NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">The data to decrypt.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The decryption key used to decrypt the data.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">The initialization vector data used for the decryption.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The decrypted data, or nil if decryption was not successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/aes256DecryptData:withKey:iv:</Anchor>
+			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
+			
+			
+			<Anchor>//api/name/safariViewController</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/createRSAKeyPairWithName:keyLength:accessibleAttribute:</TokenIdentifier>
-			<Abstract type="html">Create asymmetric keys (public/private key pairs) using RSA algorithm with given keyName and length</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/safariViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (void)createRSAKeyPairWithName:(NSString *)keyName keyLength:(NSUInteger)length accessibleAttribute:(CFTypeRef)accessibleAttribute</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyName</Name>
-					<Abstract type="html">The name string used to generate the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>length</Name>
-					<Abstract type="html">The key length used for key</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
 			
-			<Anchor>//api/name/createRSAKeyPairWithName:keyLength:accessibleAttribute:</Anchor>
+			
+			<Anchor>//api/name/safariViewController</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/getRSAPublicKeyStringWithName:keyLength:</TokenIdentifier>
-			<Abstract type="html">Get RSA public key as NSString with given keyName and length</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/safariViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)getRSAPublicKeyStringWithName:(NSString *)keyName keyLength:(NSUInteger)length</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyName</Name>
-					<Abstract type="html">The name string used to generate the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>length</Name>
-					<Abstract type="html">The key length used for key</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The key string, or nil if no matching key is found</Abstract></ReturnValue>
-			<Anchor>//api/name/getRSAPublicKeyStringWithName:keyLength:</Anchor>
+			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
+			
+			
+			<Anchor>//api/name/safariViewController</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/getRSAPrivateKeyDataWithName:keyLength:</TokenIdentifier>
-			<Abstract type="html">Get RSA private key as NSData with given keyName and length</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setIsAdvancedAuthFlow:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSData *)getRSAPrivateKeyDataWithName:(NSString *)keyName keyLength:(NSUInteger)length</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyName</Name>
-					<Abstract type="html">The name string used to generate the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>length</Name>
-					<Abstract type="html">The key length used for key</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The key data, or nil if no matching key is found</Abstract></ReturnValue>
-			<Anchor>//api/name/getRSAPrivateKeyDataWithName:keyLength:</Anchor>
+			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
+			
+			
+			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/getRSAPublicKeyRefWithName:keyLength:</TokenIdentifier>
-			<Abstract type="html">Get RSA public SecKeyRef with given keyName and length</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/isAdvancedAuthFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (nullable SecKeyRef)getRSAPublicKeyRefWithName:(NSString *)keyName keyLength:(NSUInteger)length</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyName</Name>
-					<Abstract type="html">The name string used to generate the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>length</Name>
-					<Abstract type="html">The key length used for key</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The SecKeyRef, or nil if no matching key is found</Abstract></ReturnValue>
-			<Anchor>//api/name/getRSAPublicKeyRefWithName:keyLength:</Anchor>
+			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
+			
+			
+			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/getRSAPrivateKeyRefWithName:keyLength:</TokenIdentifier>
-			<Abstract type="html">Get RSA private SecKeyRef with given keyName and length</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/isAdvancedAuthFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>+ (nullable SecKeyRef)getRSAPrivateKeyRefWithName:(NSString *)keyName keyLength:(NSUInteger)length</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyName</Name>
-					<Abstract type="html">The name string used to generate the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>length</Name>
-					<Abstract type="html">The key length used for key</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The SecKeyRef, or nil if no matching key is found</Abstract></ReturnValue>
-			<Anchor>//api/name/getRSAPrivateKeyRefWithName:keyLength:</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/encryptUsingRSAforData:withKeyRef:</TokenIdentifier>
-			<Abstract type="html">Encrypt data with givien SecKeyRef using RSA pkcs1 algorithm</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
 			
-			<Declaration>+ (nullable NSData *)encryptUsingRSAforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">The data to encrypt</Abstract>
-				</Parameter><Parameter>
-					<Name>keyRef</Name>
-					<Abstract type="html">The keyref used in encryption</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The encrypted Dataa, or nil if encryption failed</Abstract></ReturnValue>
-			<Anchor>//api/name/encryptUsingRSAforData:withKeyRef:</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/decryptUsingRSAforData:withKeyRef:</TokenIdentifier>
-			<Abstract type="html">Decrypt data with givien SecKeyRef using RSA pkcs1 algorithm</Abstract>
-			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSData *)decryptUsingRSAforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">The data to decypt</Abstract>
-				</Parameter><Parameter>
-					<Name>keyRef</Name>
-					<Abstract type="html">The keyref used in decryption</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The decypted Data, or nil if decryption failed</Abstract></ReturnValue>
-			<Anchor>//api/name/decryptUsingRSAforData:withKeyRef:</Anchor>
+			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		

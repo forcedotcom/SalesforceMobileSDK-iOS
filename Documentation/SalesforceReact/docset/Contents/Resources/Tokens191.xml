@@ -1,17 +1,402 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTSwitchManager.html">
+	<File path="Classes/RCTSurfaceHostingProxyRootView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTSwitchManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTSwitchManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceHostingProxyRootView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
             
 			
 			<NodeRef refid="191"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/initWithBridge:moduleName:initialProperties:</TokenIdentifier>
+			<Abstract type="html">Convenience initializer.
+Instanciates a Surface object with given bridge, moduleName, and
+initialProperties, and then use it to instanciate a view.</Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge moduleName:(NSString *)moduleName initialProperties:(NSDictionary *)initialProperties</Declaration>
+			
+			
+			<Anchor>//api/name/initWithBridge:moduleName:initialProperties:</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/initWithBundleURL:moduleName:initialProperties:launchOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithBundleURL:(NSURL *)bundleURL moduleName:(NSString *)moduleName initialProperties:(NSDictionary *)initialProperties launchOptions:(NSDictionary *)launchOptions</Declaration>
+			
+			
+			<Anchor>//api/name/initWithBundleURL:moduleName:initialProperties:launchOptions:</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/initWithFrame:):</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame )</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:):</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/bridge</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>- (RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/bridge</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/contentView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)contentView</Declaration>
+			
+			
+			<Anchor>//api/name/contentView</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/reactTag</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.mm</DeclaredIn>
+			
+			<Declaration>- (NSNumber *)reactTag</Declaration>
+			
+			
+			<Anchor>//api/name/reactTag</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/sizeFlexibility</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>- (RCTRootViewSizeFlexibility)sizeFlexibility</Declaration>
+			
+			
+			<Anchor>//api/name/sizeFlexibility</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/setSizeFlexibility:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.mm</DeclaredIn>
+			
+			<Declaration>- (void)setSizeFlexibility:(RCTRootViewSizeFlexibility)sizeFlexibility</Declaration>
+			
+			
+			<Anchor>//api/name/setSizeFlexibility:</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/appProperties</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)appProperties</Declaration>
+			
+			
+			<Anchor>//api/name/appProperties</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/setAppProperties:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.mm</DeclaredIn>
+			
+			<Declaration>- (void)setAppProperties:(NSDictionary *)appProperties</Declaration>
+			
+			
+			<Anchor>//api/name/setAppProperties:</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/intrinsicContentSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.mm</DeclaredIn>
+			
+			<Declaration>- (CGSize)intrinsicContentSize</Declaration>
+			
+			
+			<Anchor>//api/name/intrinsicContentSize</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/loadingView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)loadingView</Declaration>
+			
+			
+			<Anchor>//api/name/loadingView</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/setLoadingView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.mm</DeclaredIn>
+			
+			<Declaration>- (void)setLoadingView:(UIView *)loadingView</Declaration>
+			
+			
+			<Anchor>//api/name/setLoadingView:</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/surface:didChangeStage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.mm</DeclaredIn>
+			
+			<Declaration>- (void)surface:(RCTSurface *)surface didChangeStage:(RCTSurfaceStage)stage</Declaration>
+			
+			
+			<Anchor>//api/name/surface:didChangeStage:</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/surface:didChangeIntrinsicSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.mm</DeclaredIn>
+			
+			<Declaration>- (void)surface:(RCTSurface *)surface didChangeIntrinsicSize:(CGSize)intrinsicSize</Declaration>
+			
+			
+			<Anchor>//api/name/surface:didChangeIntrinsicSize:</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/reactViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>- (UIViewController *)reactViewController</Declaration>
+			
+			
+			<Anchor>//api/name/reactViewController</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/cancelTouches</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>- (void)cancelTouches</Declaration>
+			
+			
+			<Anchor>//api/name/cancelTouches</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/setModuleName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/moduleName</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/moduleName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/moduleName</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceHostingProxyRootView/moduleName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *moduleName</Declaration>
+			
+			
+			<Anchor>//api/name/moduleName</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/setDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTRootViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTRootViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceHostingProxyRootView/delegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTRootViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/setPassThroughTouches:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL passThroughTouches</Declaration>
+			
+			
+			<Anchor>//api/name/passThroughTouches</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/passThroughTouches</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL passThroughTouches</Declaration>
+			
+			
+			<Anchor>//api/name/passThroughTouches</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceHostingProxyRootView/passThroughTouches</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL passThroughTouches</Declaration>
+			
+			
+			<Anchor>//api/name/passThroughTouches</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/setLoadingViewFadeDelay:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval loadingViewFadeDelay</Declaration>
+			
+			
+			<Anchor>//api/name/loadingViewFadeDelay</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/loadingViewFadeDelay</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval loadingViewFadeDelay</Declaration>
+			
+			
+			<Anchor>//api/name/loadingViewFadeDelay</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceHostingProxyRootView/loadingViewFadeDelay</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval loadingViewFadeDelay</Declaration>
+			
+			
+			<Anchor>//api/name/loadingViewFadeDelay</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/setLoadingViewFadeDuration:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval loadingViewFadeDuration</Declaration>
+			
+			
+			<Anchor>//api/name/loadingViewFadeDuration</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingProxyRootView/loadingViewFadeDuration</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval loadingViewFadeDuration</Declaration>
+			
+			
+			<Anchor>//api/name/loadingViewFadeDuration</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceHostingProxyRootView/loadingViewFadeDuration</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingProxyRootView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval loadingViewFadeDuration</Declaration>
+			
+			
+			<Anchor>//api/name/loadingViewFadeDuration</Anchor>
+            <NodeRef refid="191"/>
+		</Token>
 		
         
         

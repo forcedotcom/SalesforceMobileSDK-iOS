@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFObject.html">
+	<File path="Classes/SFLayout.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFObject</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObject.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLayout</TokenIdentifier>
+			<Abstract type="html">Represents the layout of a Salesforce object.</Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
             
 			
 			<NodeRef refid="4"/>
@@ -13,98 +13,199 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/setObjectId:</TokenIdentifier>
-			<Abstract type="html">Object Id</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
-			
-			
-			<Anchor>//api/name/objectId</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/objectId</TokenIdentifier>
-			<Abstract type="html">Object Id</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
-			
-			
-			<Anchor>//api/name/objectId</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFObject/objectId</TokenIdentifier>
-			<Abstract type="html">Object Id</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
-			
-			
-			<Anchor>//api/name/objectId</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/setName:</TokenIdentifier>
-			<Abstract type="html">Object name</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/name</TokenIdentifier>
-			<Abstract type="html">Object name</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFObject/name</TokenIdentifier>
-			<Abstract type="html">Object name</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/encodeObject:forKey:encoder:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/setId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>- (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *id</Declaration>
 			
 			
-			<Anchor>//api/name/encodeObject:forKey:encoder:</Anchor>
+			<Anchor>//api/name/id</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/configureDataWithDictionary:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/id</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>- (void)configureDataWithDictionary:(NSDictionary *)dataDiction</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *id</Declaration>
 			
 			
-			<Anchor>//api/name/configureDataWithDictionary:</Anchor>
+			<Anchor>//api/name/id</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayout/id</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *id</Declaration>
+			
+			
+			<Anchor>//api/name/id</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/setLayoutType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *layoutType</Declaration>
+			
+			
+			<Anchor>//api/name/layoutType</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/layoutType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *layoutType</Declaration>
+			
+			
+			<Anchor>//api/name/layoutType</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayout/layoutType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *layoutType</Declaration>
+			
+			
+			<Anchor>//api/name/layoutType</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/setMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/mode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayout/mode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/setSections:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFLayoutSection*&gt; *sections</Declaration>
+			
+			
+			<Anchor>//api/name/sections</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/sections</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFLayoutSection*&gt; *sections</Declaration>
+			
+			
+			<Anchor>//api/name/sections</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayout/sections</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFLayoutSection*&gt; *sections</Declaration>
+			
+			
+			<Anchor>//api/name/sections</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/setRawData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/rawData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayout/rawData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLayout/fromJSON:</TokenIdentifier>
+			<Abstract type="html">Creates an instance of this class from its JSON representation.</Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">JSON data.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/fromJSON:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		

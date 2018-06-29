@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTInterpolationAnimatedNode.html">
+	<File path="Classes/RCTImageViewManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTInterpolationAnimatedNode</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTInterpolationAnimatedNode.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTImageViewManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTImageViewManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="93"/>

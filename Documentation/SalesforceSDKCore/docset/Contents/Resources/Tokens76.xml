@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthViewHolder.html">
+	<File path="Classes/SFSDKAuthResponseCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthViewHolder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthResponseCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="76"/>
@@ -13,146 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setWkWebView:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setState:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/wkWebView</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/wkWebView</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/state</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/wkWebView</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/wkWebView</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/state</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/wkWebView</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setLoginController:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setAuthCode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/loginController</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/loginController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/authCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/loginController</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/loginController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/authCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/loginController</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setSafariViewController:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setDomain:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
 			
 			
-			<Anchor>//api/name/safariViewController</Anchor>
+			<Anchor>//api/name/domain</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/safariViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/domain</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
 			
 			
-			<Anchor>//api/name/safariViewController</Anchor>
+			<Anchor>//api/name/domain</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/safariViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/domain</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
-			
-			
-			<Anchor>//api/name/safariViewController</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setIsAdvancedAuthFlow:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
 			
 			
-			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/isAdvancedAuthFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
-			
-			
-			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/isAdvancedAuthFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
-			
-			
-			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
+			<Anchor>//api/name/domain</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		

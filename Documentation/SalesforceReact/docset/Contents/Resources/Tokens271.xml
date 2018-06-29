@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/RCTPackagerClientMethod.html">
+	<File path="Protocols/RCTEventDispatcherObserver.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/RCTPackagerClientMethod</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTEventDispatcherObserver</TokenIdentifier>
+			<Abstract type="html">This protocol allows observing events dispatched by RCTEventDispatcher.</Abstract>
+			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
             
 			
 			<NodeRef refid="271"/>
@@ -14,38 +13,15 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTPackagerClientMethod/handleRequest:withResponder:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTEventDispatcherObserver/eventDispatcherWillDispatchEvent:</TokenIdentifier>
+			<Abstract type="html">Called before dispatching an event, on the same thread the event was
+dispatched from.</Abstract>
+			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
 			
-			<Declaration>- (void)handleRequest:(NSDictionary&lt;NSString*,id&gt; *)params withResponder:(RCTPackagerClientResponder *)responder</Declaration>
-			
-			
-			<Anchor>//api/name/handleRequest:withResponder:</Anchor>
-            <NodeRef refid="271"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTPackagerClientMethod/handleNotification:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
-			
-			<Declaration>- (void)handleNotification:(NSDictionary&lt;NSString*,id&gt; *)params</Declaration>
+			<Declaration>- (void)eventDispatcherWillDispatchEvent:(id&lt;RCTEvent&gt;)event</Declaration>
 			
 			
-			<Anchor>//api/name/handleNotification:</Anchor>
-            <NodeRef refid="271"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTPackagerClientMethod/methodQueue</TokenIdentifier>
-			<Abstract type="html">By default object will receive its methods on the main queue, unless this method is overriden.</Abstract>
-			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
-			
-			<Declaration>- (dispatch_queue_t)methodQueue</Declaration>
-			
-			
-			<Anchor>//api/name/methodQueue</Anchor>
+			<Anchor>//api/name/eventDispatcherWillDispatchEvent:</Anchor>
             <NodeRef refid="271"/>
 		</Token>
 		

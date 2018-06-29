@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthCredsEncryptionType.html">
+	<File path="Constants/SFAuthenticationManagerDelegatePriority.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredsEncryptionType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAuthenticationManagerDelegatePriority</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="196"/>
@@ -14,51 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeNotSet</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityMax</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeNotSet</Declaration>
+            <Declaration>SFAuthenticationManagerDelegatePriorityMax</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
             <NodeRef refid="196"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeMac</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityHigh</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeMac</Declaration>
+            <Declaration>SFAuthenticationManagerDelegatePriorityHigh</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
             <NodeRef refid="196"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeIdForVendor</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityMedium</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeIdForVendor</Declaration>
+            <Declaration>SFAuthenticationManagerDelegatePriorityMedium</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
             <NodeRef refid="196"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeBaseAppId</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityLow</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeBaseAppId</Declaration>
+            <Declaration>SFAuthenticationManagerDelegatePriorityLow</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
             <NodeRef refid="196"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeKeyStore</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAuthenticationManagerDelegatePriorityDefault</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeKeyStore</Declaration>
+            <Declaration>SFAuthenticationManagerDelegatePriorityDefault</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
             
             <NodeRef refid="196"/>
         </Token>

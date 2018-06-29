@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTTestStatus.html">
+	<File path="Constants/RCTFunctionType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTTestStatus</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTTestModule.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTFunctionType</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
             
 			
 			<NodeRef refid="306"/>
@@ -15,31 +14,31 @@ All rights reserved.</Abstract>
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTestStatusPending</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTFunctionTypeNormal</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTTestStatusPending</Declaration>
+            <Declaration>RCTFunctionTypeNormal</Declaration>
             
-            <DeclaredIn>RCTTestModule.h</DeclaredIn>
+            <DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
             
             <NodeRef refid="306"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTestStatusPassed</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTFunctionTypePromise</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTTestStatusPassed</Declaration>
+            <Declaration>RCTFunctionTypePromise</Declaration>
             
-            <DeclaredIn>RCTTestModule.h</DeclaredIn>
+            <DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
             
             <NodeRef refid="306"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTTestStatusFailed</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTFunctionTypeSync</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTTestStatusFailed</Declaration>
+            <Declaration>RCTFunctionTypeSync</Declaration>
             
-            <DeclaredIn>RCTTestModule.h</DeclaredIn>
+            <DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
             
             <NodeRef refid="306"/>
         </Token>

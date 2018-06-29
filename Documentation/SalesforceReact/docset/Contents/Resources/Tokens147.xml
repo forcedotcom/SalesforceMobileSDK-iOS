@@ -1,148 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTReconnectingWebSocket.html">
+	<File path="Classes/RCTPlatform.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTReconnectingWebSocket</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTPlatform</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTPlatform.h</DeclaredIn>
             
 			
 			<NodeRef refid="147"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/initWithURL:queue:</TokenIdentifier>
-			<Abstract type="html">Delegate will be messaged on the given queue (required).</Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithURL:(NSURL *)url queue:(dispatch_queue_t)queue</Declaration>
-			
-			
-			<Anchor>//api/name/initWithURL:queue:</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/setDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTReconnectingWebSocketDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/delegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTReconnectingWebSocketDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTReconnectingWebSocket/delegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTReconnectingWebSocketDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/send:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>- (void)send:(id)data</Declaration>
-			
-			
-			<Anchor>//api/name/send:</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/start</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>- (void)start</Declaration>
-			
-			
-			<Anchor>//api/name/start</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/stop</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>- (void)stop</Declaration>
-			
-			
-			<Anchor>//api/name/stop</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/initWithURL:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithURL:(NSURL *)url</Declaration>
-			
-			
-			<Anchor>//api/name/initWithURL:</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/set:</TokenIdentifier>
-			<Abstract type="html">Must be set before start to have effect</Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) dispatch_queue_t delegateDispatchQueue __deprecated_msg ( &quot;Use initWithURL:queue: instead&quot; )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTReconnectingWebSocket/)</TokenIdentifier>
-			<Abstract type="html">Must be set before start to have effect</Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) dispatch_queue_t delegateDispatchQueue __deprecated_msg ( &quot;Use initWithURL:queue: instead&quot; )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTReconnectingWebSocket/)</TokenIdentifier>
-			<Abstract type="html">Must be set before start to have effect</Abstract>
-			<DeclaredIn>RCTReconnectingWebSocket.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) dispatch_queue_t delegateDispatchQueue __deprecated_msg ( &quot;Use initWithURL:queue: instead&quot; )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
 		
         
         

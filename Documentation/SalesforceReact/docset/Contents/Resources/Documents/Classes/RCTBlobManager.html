@@ -48,13 +48,59 @@
 
 	
 	
+	<option value="tasks">Tasks</option>
+	
 	
 
 	
 	
 
 	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/requiresMainQueueSetup">+ requiresMainQueueSetup</option>
+		
+	</optgroup>
+	
 
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/canHandleNetworkingRequest:">- canHandleNetworkingRequest:</option>
+		
+		<option value="//api/name/canHandleNetworkingResponse:">- canHandleNetworkingResponse:</option>
+		
+		<option value="//api/name/canHandleRequest:">- canHandleRequest:</option>
+		
+		<option value="//api/name/cancelRequest:">- cancelRequest:</option>
+		
+		<option value="//api/name/constantsToExport">- constantsToExport</option>
+		
+		<option value="//api/name/createFromParts:withId:">- createFromParts:withId:</option>
+		
+		<option value="//api/name/handleNetworkingRequest:">- handleNetworkingRequest:</option>
+		
+		<option value="//api/name/handleNetworkingResponse:data:">- handleNetworkingResponse:data:</option>
+		
+		<option value="//api/name/processWebsocketMessage:forSocketID:withType:">- processWebsocketMessage:forSocketID:withType:</option>
+		
+		<option value="//api/name/remove:">- remove:</option>
+		
+		<option value="//api/name/resolve:">- resolve:</option>
+		
+		<option value="//api/name/resolve:offset:size:">- resolve:offset:size:</option>
+		
+		<option value="//api/name/resolveURL:">- resolveURL:</option>
+		
+		<option value="//api/name/sendRequest:withDelegate:">- sendRequest:withDelegate:</option>
+		
+		<option value="//api/name/setBridge:">- setBridge:</option>
+		
+		<option value="//api/name/store:">- store:</option>
+		
+		<option value="//api/name/store:withId:">- store:withId:</option>
+		
+	</optgroup>
 	
 	
 </select>
@@ -81,7 +127,7 @@
 	<td><a href="../Protocols/RCTBridgeModule.html">RCTBridgeModule</a><br /><a href="../Protocols/RCTURLRequestHandler.html">RCTURLRequestHandler</a></td>
 </tr><tr>
 	<th>Declared in</th>
-	<td>RCTBlobManager.h</td>
+	<td>RCTBlobManager.h<br />RCTBlobManager.mm</td>
 </tr>
 						</tbody></table></div>
 					
@@ -91,17 +137,441 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Copyright &copy; 2015-present, Facebook, Inc.
-All rights reserved.</p>
+						<p>Copyright &copy; 2015-present, Facebook, Inc.</p>
 
-<p>This source code is licensed under the BSD-style license found in the
-LICENSE file in the root directory of this source tree. An additional grant
-of patent rights can be found in the PATENTS file in the same directory.</p>
+<p>This source code is licensed under the MIT license found in the
+LICENSE file in the root directory of this source tree.</p>
+
+<p>Copyright &copy; 2015-present, Facebook, Inc.</p>
+
+<p>This source code is licensed under the MIT license found in the
+LICENSE file in the root directory of this source tree.</p>
 					</div>
 					
 					
 
 					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/setBridge:" title="setBridge:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setBridge:">&ndash;&nbsp;setBridge:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>A reference to the <a href="../Classes/RCTBridge.html">RCTBridge</a>. Useful for modules that require access
+to bridge features, such as sending events or making JS calls. This
+will be set automatically by the bridge when it initializes the module.
+To implement this in your module, just add <code>@synthesize bridge = _bridge;</code></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setBridge:(RCTBridge *)<em>bridge</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridgeModule.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requiresMainQueueSetup" title="requiresMainQueueSetup"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requiresMainQueueSetup">+&nbsp;requiresMainQueueSetup</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)requiresMainQueueSetup</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/constantsToExport" title="constantsToExport"></a>
+	<h3 class="method-title"><code><a href="#//api/name/constantsToExport">&ndash;&nbsp;constantsToExport</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSDictionary&lt;NSString*,id&gt; *)constantsToExport</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/store:" title="store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/store:">&ndash;&nbsp;store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSString *)store:(NSData *)<em>data</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/store:withId:" title="store:withId:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/store:withId:">&ndash;&nbsp;store:withId:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)store:(NSData *)<em>data</em> withId:(NSString *)<em>blobId</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/resolve:" title="resolve:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/resolve:">&ndash;&nbsp;resolve:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSData *)resolve:(NSDictionary&lt;NSString*,id&gt; *)<em>blob</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/resolve:offset:size:" title="resolve:offset:size:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/resolve:offset:size:">&ndash;&nbsp;resolve:offset:size:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSData *)resolve:(NSString *)<em>blobId</em> offset:(NSInteger)<em>offset</em> size:(NSInteger)<em>size</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/resolveURL:" title="resolveURL:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/resolveURL:">&ndash;&nbsp;resolveURL:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSData *)resolveURL:(NSURL *)<em>url</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/remove:" title="remove:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/remove:">&ndash;&nbsp;remove:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)remove:(NSString *)<em>blobId</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/canHandleRequest:" title="canHandleRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/canHandleRequest:">&ndash;&nbsp;canHandleRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Indicates whether this handler is capable of processing the specified
+request. Typically the handler would examine the scheme/protocol of the
+request URL (and possibly the HTTP method and/or headers) to determine this.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)canHandleRequest:(NSURLRequest *)<em>request</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTURLRequestHandler.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendRequest:withDelegate:" title="sendRequest:withDelegate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendRequest:withDelegate:">&ndash;&nbsp;sendRequest:withDelegate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Send a network request and call the delegate with the response data. The
+method should return a token, which can be anything, including the request
+itself. This will be used later to refer to the request in callbacks. The
+<code>sendRequest:withDelegate:</code> method <em>must</em> return before calling any of the
+delegate methods, or the delegate won&rsquo;t recognize the token.
+Following common Objective-C pattern, <code>delegate</code> will not be retained.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id)sendRequest:(NSURLRequest *)<em>request</em> withDelegate:(id&lt;RCTURLRequestDelegate&gt;)<em>delegate</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTURLRequestHandler.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/cancelRequest:" title="cancelRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cancelRequest:">&ndash;&nbsp;cancelRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Not all request types can be cancelled, but this method can be implemented
+for ones that can. It should be used to free up any resources on ongoing
+processes associated with the request.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)cancelRequest:(NSOperation *)<em>op</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTURLRequestHandler.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/canHandleNetworkingRequest:" title="canHandleNetworkingRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/canHandleNetworkingRequest:">&ndash;&nbsp;canHandleNetworkingRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)canHandleNetworkingRequest:(NSDictionary *)<em>data</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleNetworkingRequest:" title="handleNetworkingRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleNetworkingRequest:">&ndash;&nbsp;handleNetworkingRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSDictionary *)handleNetworkingRequest:(NSDictionary *)<em>data</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/canHandleNetworkingResponse:" title="canHandleNetworkingResponse:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/canHandleNetworkingResponse:">&ndash;&nbsp;canHandleNetworkingResponse:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)canHandleNetworkingResponse:(NSString *)<em>responseType</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleNetworkingResponse:data:" title="handleNetworkingResponse:data:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleNetworkingResponse:data:">&ndash;&nbsp;handleNetworkingResponse:data:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (id)handleNetworkingResponse:(NSURLResponse *)<em>response</em> data:(NSData *)<em>data</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/processWebsocketMessage:forSocketID:withType:" title="processWebsocketMessage:forSocketID:withType:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/processWebsocketMessage:forSocketID:withType:">&ndash;&nbsp;processWebsocketMessage:forSocketID:withType:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (id)processWebsocketMessage:(id)<em>message</em> forSocketID:(NSNumber *)<em>socketID</em> withType:(NSString *__autoreleasing _Nonnull *)<em>type</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/createFromParts:withId:" title="createFromParts:withId:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/createFromParts:withId:">&ndash;&nbsp;createFromParts:withId:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)createFromParts:(NSArray&lt;NSDictionary&lt;NSString*,id&gt; *&gt; *)<em>parts</em> withId:(NSString *)<em>blobId</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
 					
 					
 
@@ -113,7 +583,7 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

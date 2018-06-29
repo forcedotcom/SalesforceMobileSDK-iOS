@@ -1,29 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTNetInfo.html">
+	<File path="Classes/RCTNativeAnimatedModule.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTNetInfo</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTNetInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTNativeAnimatedModule</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTNativeAnimatedModule.h</DeclaredIn>
             
 			
 			<NodeRef refid="131"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTNetInfo/initWithHost:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTNetInfo.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithHost:(NSString *)host</Declaration>
-			
-			
-			<Anchor>//api/name/initWithHost:</Anchor>
-            <NodeRef refid="131"/>
-		</Token>
 		
         
         

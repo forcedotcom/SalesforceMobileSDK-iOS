@@ -47,6 +47,18 @@ NB: only feedback is through the logs - the config is static so getting it right
             <NodeRef refid="7"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKStoreConfig/hasSoups</TokenIdentifier>
+			<Abstract type="html">Check for soups in store</Abstract>
+			<DeclaredIn>SFSDKStoreConfig.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)hasSoups</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if soups are defined in config</Abstract></ReturnValue>
+			<Anchor>//api/name/hasSoups</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
         
         
 	</File>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTSurfaceView.html">
+	<File path="Classes/RCTSurfaceHostingComponentController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceView</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTSurfaceView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceHostingComponentController</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentController.h</DeclaredIn>
             
 			
 			<NodeRef refid="189"/>
@@ -14,45 +13,93 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/init</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/initWithComponent:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
 			
-			<Declaration>- (instancetype)init</Declaration>
+			<Declaration>- (instancetype)initWithComponent:(RCTSurfaceHostingComponent *)component</Declaration>
 			
 			
-			<Anchor>//api/name/init</Anchor>
+			<Anchor>//api/name/initWithComponent:</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/setRootView:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/didMount</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
 			
-			<Declaration>- (void)setRootView:(RCTSurfaceRootView *)rootView</Declaration>
+			<Declaration>- (void)didMount</Declaration>
 			
 			
-			<Anchor>//api/name/setRootView:</Anchor>
+			<Anchor>//api/name/didMount</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/rootView</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/didRemount</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
 			
-			<Declaration>- (RCTSurfaceRootView *)rootView</Declaration>
+			<Declaration>- (void)didRemount</Declaration>
 			
 			
-			<Anchor>//api/name/rootView</Anchor>
+			<Anchor>//api/name/didRemount</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/setStage:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/didUpdateComponent</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
+			
+			<Declaration>- (void)didUpdateComponent</Declaration>
+			
+			
+			<Anchor>//api/name/didUpdateComponent</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/didUnmount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
+			
+			<Declaration>- (void)didUnmount</Declaration>
+			
+			
+			<Anchor>//api/name/didUnmount</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/updateSurfaceWithComponent:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
+			
+			<Declaration>- (void)updateSurfaceWithComponent:(RCTSurfaceHostingComponent *)component</Declaration>
+			
+			
+			<Anchor>//api/name/updateSurfaceWithComponent:</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/setIntrinsicSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
+			
+			<Declaration>- (void)setIntrinsicSize:(CGSize)intrinsicSize</Declaration>
+			
+			
+			<Anchor>//api/name/setIntrinsicSize:</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/setStage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
 			
 			<Declaration>- (void)setStage:(RCTSurfaceStage)stage</Declaration>
 			
@@ -62,146 +109,62 @@ All rights reserved.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/stage</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/suitableStateUpdateMode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
 			
-			<Declaration>- (RCTSurfaceStage)stage</Declaration>
+			<Declaration>- (CKUpdateMode)suitableStateUpdateMode</Declaration>
 			
 			
-			<Anchor>//api/name/stage</Anchor>
+			<Anchor>//api/name/suitableStateUpdateMode</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/_updateStage</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/mountSurfaceView</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView.mm</DeclaredIn>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
 			
-			<Declaration>- (void)_updateStage</Declaration>
+			<Declaration>- (void)mountSurfaceView</Declaration>
 			
 			
-			<Anchor>//api/name/_updateStage</Anchor>
+			<Anchor>//api/name/mountSurfaceView</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/initWithSurface:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/unmountSurfaceView</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView.h</DeclaredIn>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithSurface:(RCTSurface *)surface</Declaration>
+			<Declaration>- (void)unmountSurfaceView</Declaration>
 			
 			
-			<Anchor>//api/name/initWithSurface:</Anchor>
+			<Anchor>//api/name/unmountSurfaceView</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/setSurface:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/surface:didChangeIntrinsicSize:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView.h</DeclaredIn>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly, nullable) RCTSurface *surface</Declaration>
+			<Declaration>- (void)surface:(RCTSurface *)surface didChangeIntrinsicSize:(CGSize)intrinsicSize</Declaration>
 			
 			
-			<Anchor>//api/name/surface</Anchor>
+			<Anchor>//api/name/surface:didChangeIntrinsicSize:</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/surface</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceHostingComponentController/surface:didChangeStage:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView.h</DeclaredIn>
+			<DeclaredIn>RCTSurfaceHostingComponentController.mm</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly, nullable) RCTSurface *surface</Declaration>
-			
-			
-			<Anchor>//api/name/surface</Anchor>
-            <NodeRef refid="189"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceView/surface</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, readonly, nullable) RCTSurface *surface</Declaration>
+			<Declaration>- (void)surface:(RCTSurface *)surface didChangeStage:(RCTSurfaceStage)stage</Declaration>
 			
 			
-			<Anchor>//api/name/surface</Anchor>
-            <NodeRef refid="189"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/setRootView:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTSurfaceRootView *rootView</Declaration>
-			
-			
-			<Anchor>//api/name/rootView</Anchor>
-            <NodeRef refid="189"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/rootView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTSurfaceRootView *rootView</Declaration>
-			
-			
-			<Anchor>//api/name/rootView</Anchor>
-            <NodeRef refid="189"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceView/rootView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTSurfaceRootView *rootView</Declaration>
-			
-			
-			<Anchor>//api/name/rootView</Anchor>
-            <NodeRef refid="189"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/setStage:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) RCTSurfaceStage stage</Declaration>
-			
-			
-			<Anchor>//api/name/stage</Anchor>
-            <NodeRef refid="189"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceView/stage</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) RCTSurfaceStage stage</Declaration>
-			
-			
-			<Anchor>//api/name/stage</Anchor>
-            <NodeRef refid="189"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceView/stage</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceView+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) RCTSurfaceStage stage</Declaration>
-			
-			
-			<Anchor>//api/name/stage</Anchor>
+			<Anchor>//api/name/surface:didChangeStage:</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		

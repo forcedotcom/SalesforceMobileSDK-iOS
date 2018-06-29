@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTMultipartStreamReader.html">
+	<File path="Classes/RCTModuleData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTMultipartStreamReader</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultipartStreamReader.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTModuleData</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
             
 			
 			<NodeRef refid="123"/>
@@ -13,26 +13,396 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultipartStreamReader/initWithInputStream:boundary:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/setUp</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultipartStreamReader.h</DeclaredIn>
+			<DeclaredIn>RCTModuleData.mm</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithInputStream:(NSInputStream *)stream boundary:(NSString *)boundary</Declaration>
+			<Declaration>- (void)setUp</Declaration>
 			
 			
-			<Anchor>//api/name/initWithInputStream:boundary:</Anchor>
+			<Anchor>//api/name/setUp</Anchor>
             <NodeRef refid="123"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultipartStreamReader/readAllPartsWithCompletionCallback:progressCallback:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/initWithModuleClass:bridge:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultipartStreamReader.h</DeclaredIn>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)readAllPartsWithCompletionCallback:(RCTMultipartCallback)callback progressCallback:(RCTMultipartProgressCallback)progressCallback</Declaration>
+			<Declaration>- (instancetype)initWithModuleClass:(Class)moduleClass bridge:(RCTBridge *)bridge</Declaration>
 			
 			
-			<Anchor>//api/name/readAllPartsWithCompletionCallback:progressCallback:</Anchor>
+			<Anchor>//api/name/initWithModuleClass:bridge:</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/initWithModuleClass:moduleProvider:bridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithModuleClass:(Class)moduleClass moduleProvider:(RCTBridgeModuleProvider)moduleProvider bridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/initWithModuleClass:moduleProvider:bridge:</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/initWithModuleInstance:bridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithModuleInstance:(id&lt;RCTBridgeModule&gt;)instance bridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/initWithModuleInstance:bridge:</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.mm</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/setBridgeForInstance</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.mm</DeclaredIn>
+			
+			<Declaration>- (void)setBridgeForInstance</Declaration>
+			
+			
+			<Anchor>//api/name/setBridgeForInstance</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/finishSetupForInstance</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.mm</DeclaredIn>
+			
+			<Declaration>- (void)finishSetupForInstance</Declaration>
+			
+			
+			<Anchor>//api/name/finishSetupForInstance</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/setUpMethodQueue</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.mm</DeclaredIn>
+			
+			<Declaration>- (void)setUpMethodQueue</Declaration>
+			
+			
+			<Anchor>//api/name/setUpMethodQueue</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/hasInstance</TokenIdentifier>
+			<Abstract type="html">Returns YES if module instance has already been initialized; NO otherwise.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)hasInstance</Declaration>
+			
+			
+			<Anchor>//api/name/hasInstance</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/instance</TokenIdentifier>
+			<Abstract type="html">Returns the current module instance. Note that this will init the instance
+if it has not already been created. To check if the module instance exists
+without causing it to be created, use hasInstance instead.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>- (id&lt;RCTBridgeModule&gt;)instance</Declaration>
+			
+			
+			<Anchor>//api/name/instance</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/name</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/methods</TokenIdentifier>
+			<Abstract type="html">Returns the module methods. Note that this will gather the methods the first
+time it is called and then memoize the results.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;id&lt;RCTBridgeMethod&gt; &gt; *)methods</Declaration>
+			
+			
+			<Anchor>//api/name/methods</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/gatherConstants</TokenIdentifier>
+			<Abstract type="html">Calls constantsToExport on the module and stores the result. Note that
+this will init the module if it has not already been created. This method
+can be called on any thread, but may block the main thread briefly if the
+module implements constantsToExport.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>- (void)gatherConstants</Declaration>
+			
+			
+			<Anchor>//api/name/gatherConstants</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/exportedConstants</TokenIdentifier>
+			<Abstract type="html">Returns the module&apos;s constants, if it exports any</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary&lt;NSString*,id&gt; *)exportedConstants</Declaration>
+			
+			
+			<Anchor>//api/name/exportedConstants</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/methodQueue</TokenIdentifier>
+			<Abstract type="html">Returns the module method dispatch queue. Note that this will init both the
+queue and the module itself if they have not already been created.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>- (dispatch_queue_t)methodQueue</Declaration>
+			
+			
+			<Anchor>//api/name/methodQueue</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/invalidate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.mm</DeclaredIn>
+			
+			<Declaration>- (void)invalidate</Declaration>
+			
+			
+			<Anchor>//api/name/invalidate</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/description</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.mm</DeclaredIn>
+			
+			<Declaration>- (NSString *)description</Declaration>
+			
+			
+			<Anchor>//api/name/description</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/setModuleClass:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) Class moduleClass</Declaration>
+			
+			
+			<Anchor>//api/name/moduleClass</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/moduleClass</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) Class moduleClass</Declaration>
+			
+			
+			<Anchor>//api/name/moduleClass</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModuleData/moduleClass</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) Class moduleClass</Declaration>
+			
+			
+			<Anchor>//api/name/moduleClass</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/setRequiresMainQueueSetup:</TokenIdentifier>
+			<Abstract type="html">Returns YES if module instance must be created on the main thread.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresMainQueueSetup</Declaration>
+			
+			
+			<Anchor>//api/name/requiresMainQueueSetup</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/requiresMainQueueSetup</TokenIdentifier>
+			<Abstract type="html">Returns YES if module instance must be created on the main thread.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresMainQueueSetup</Declaration>
+			
+			
+			<Anchor>//api/name/requiresMainQueueSetup</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModuleData/requiresMainQueueSetup</TokenIdentifier>
+			<Abstract type="html">Returns YES if module instance must be created on the main thread.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresMainQueueSetup</Declaration>
+			
+			
+			<Anchor>//api/name/requiresMainQueueSetup</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/setHasConstantsToExport:</TokenIdentifier>
+			<Abstract type="html">Returns YES if module has constants to export.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL hasConstantsToExport</Declaration>
+			
+			
+			<Anchor>//api/name/hasConstantsToExport</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/hasConstantsToExport</TokenIdentifier>
+			<Abstract type="html">Returns YES if module has constants to export.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL hasConstantsToExport</Declaration>
+			
+			
+			<Anchor>//api/name/hasConstantsToExport</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModuleData/hasConstantsToExport</TokenIdentifier>
+			<Abstract type="html">Returns YES if module has constants to export.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL hasConstantsToExport</Declaration>
+			
+			
+			<Anchor>//api/name/hasConstantsToExport</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/setImplementsBatchDidComplete:</TokenIdentifier>
+			<Abstract type="html">Whether the receiver has a valid instance which implements -batchDidComplete.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL implementsBatchDidComplete</Declaration>
+			
+			
+			<Anchor>//api/name/implementsBatchDidComplete</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/implementsBatchDidComplete</TokenIdentifier>
+			<Abstract type="html">Whether the receiver has a valid instance which implements -batchDidComplete.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL implementsBatchDidComplete</Declaration>
+			
+			
+			<Anchor>//api/name/implementsBatchDidComplete</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModuleData/implementsBatchDidComplete</TokenIdentifier>
+			<Abstract type="html">Whether the receiver has a valid instance which implements -batchDidComplete.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL implementsBatchDidComplete</Declaration>
+			
+			
+			<Anchor>//api/name/implementsBatchDidComplete</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/setImplementsPartialBatchDidFlush:</TokenIdentifier>
+			<Abstract type="html">Whether the receiver has a valid instance which implements
+-partialBatchDidFlush.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL implementsPartialBatchDidFlush</Declaration>
+			
+			
+			<Anchor>//api/name/implementsPartialBatchDidFlush</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModuleData/implementsPartialBatchDidFlush</TokenIdentifier>
+			<Abstract type="html">Whether the receiver has a valid instance which implements
+-partialBatchDidFlush.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL implementsPartialBatchDidFlush</Declaration>
+			
+			
+			<Anchor>//api/name/implementsPartialBatchDidFlush</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModuleData/implementsPartialBatchDidFlush</TokenIdentifier>
+			<Abstract type="html">Whether the receiver has a valid instance which implements
+-partialBatchDidFlush.</Abstract>
+			<DeclaredIn>RCTModuleData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL implementsPartialBatchDidFlush</Declaration>
+			
+			
+			<Anchor>//api/name/implementsPartialBatchDidFlush</Anchor>
             <NodeRef refid="123"/>
 		</Token>
 		

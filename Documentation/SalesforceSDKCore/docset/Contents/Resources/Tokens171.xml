@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthClientProvider.html">
+	<File path="Protocols/SFRestDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientProvider</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFRestDelegate</TokenIdentifier>
+			<Abstract type="html">Lifecycle events for SFRestRequests.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="171"/>
@@ -13,38 +13,137 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/idpAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didLoadResponse:rawResponse:</TokenIdentifier>
+			<Abstract type="html">Sent when a request has finished loading.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The request that was loaded.</Abstract>
+				</Parameter><Parameter>
+					<Name>dataResponse</Name>
+					<Abstract type="html">The data from the response.  By default, this will be an object
+containing the parsed JSON response.  However, if the response is not JSON,
+the data will be contained in a binary NSData object.</Abstract>
+				</Parameter><Parameter>
+					<Name>rawResponse</Name>
+					<Abstract type="html">Raw response returned by the server.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract></ReturnValue>
-			<Anchor>//api/name/idpAuthInstance:</Anchor>
+			<Anchor>//api/name/request:didLoadResponse:rawResponse:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/nativeBrowserAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didLoadResponse:</TokenIdentifier>
+			<Abstract type="html">Sent when a request has finished loading.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The request that was loaded.</Abstract>
+				</Parameter><Parameter>
+					<Name>dataResponse</Name>
+					<Abstract type="html">The data from the response.  By default, this will be an object
+containing the parsed JSON response.  However, if the response is not JSON,
+the data will be contained in a binary NSData object.
+
+The pre SDK 6.0 signature
+Is called only if request:didLoadResponse:rawResponse: is not provided</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract></ReturnValue>
-			<Anchor>//api/name/nativeBrowserAuthInstance:</Anchor>
+			<Anchor>//api/name/request:didLoadResponse:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/webviewAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide a newInstance</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didFailLoadWithError:rawResponse:</TokenIdentifier>
+			<Abstract type="html">Sent when a request has failed due to an error.
+This includes HTTP network errors, as well as Salesforce errors
+(for example, passing an invalid SOQL string when doing a query).</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error rawResponse:(NSURLResponse *)rawResponse</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The attempted request.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with the failed request.</Abstract>
+				</Parameter><Parameter>
+					<Name>rawResponse</Name>
+					<Abstract type="html">Raw response returned by the server.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">Provide a newInstance</Abstract></ReturnValue>
-			<Anchor>//api/name/webviewAuthInstance:</Anchor>
+			<Anchor>//api/name/request:didFailLoadWithError:rawResponse:</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didFailLoadWithError:</TokenIdentifier>
+			<Abstract type="html">Sent when a request has failed due to an error.
+This includes HTTP network errors, as well as Salesforce errors
+(for example, passing an invalid SOQL string when doing a query).</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The attempted request.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with the failed request.
+
+The pre SDK 6.0 signature
+Is called only if request:didFailLoadWithError:rawResponse: is not provided</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/request:didFailLoadWithError:</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidCancelLoad:</TokenIdentifier>
+			<Abstract type="html">Sent to the delegate when a request was cancelled.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)requestDidCancelLoad:(SFRestRequest *)request</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The canceled request.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestDidCancelLoad:</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidTimeout:</TokenIdentifier>
+			<Abstract type="html">Sent to the delegate when a request has timed out. This is sent when a
+backgrounded request expired before completion.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)requestDidTimeout:(SFRestRequest *)request</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The request that timed out.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestDidTimeout:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		

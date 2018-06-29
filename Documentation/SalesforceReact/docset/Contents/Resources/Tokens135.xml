@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTPackagerConnection.html">
+	<File path="Classes/RCTNavigator.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTPackagerConnection</TokenIdentifier>
-			<Abstract type="html">Encapsulates singleton connection to React Native packager.</Abstract>
-			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTNavigator</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
             
 			
 			<NodeRef refid="135"/>
@@ -13,157 +13,149 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTPackagerConnection/sharedPackagerConnection</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNavigator/setReactNavSuperviewLink:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedPackagerConnection</Declaration>
+			<Declaration>@property (nonatomic, strong) UIView *reactNavSuperviewLink</Declaration>
 			
 			
-			<Anchor>//api/name/sharedPackagerConnection</Anchor>
+			<Anchor>//api/name/reactNavSuperviewLink</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/addNotificationHandler:queue:forMethod:</TokenIdentifier>
-			<Abstract type="html">Registers a handler for a notification broadcast from the packager. An
-example is &quot;reload&quot; - an instruction to reload from the packager.
-If multiple notification handlers are registered for the same method, they
-will all be invoked sequentially.</Abstract>
-			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
-			
-			<Declaration>- (RCTHandlerToken)addNotificationHandler:(RCTNotificationHandler)handler queue:(dispatch_queue_t)queue forMethod:(NSString *)method</Declaration>
-			
-			
-			<Anchor>//api/name/addNotificationHandler:queue:forMethod:</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/addRequestHandler:queue:forMethod:</TokenIdentifier>
-			<Abstract type="html">Registers a handler for a request from the packager. An example is
-pokeSamplingProfiler; it asks for profile data from the client.
-Only one handler can be registered for a given method; calling this
-displaces any previous request handler registered for that method.</Abstract>
-			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
-			
-			<Declaration>- (RCTHandlerToken)addRequestHandler:(RCTRequestHandler)handler queue:(dispatch_queue_t)queue forMethod:(NSString *)method</Declaration>
-			
-			
-			<Anchor>//api/name/addRequestHandler:queue:forMethod:</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/addConnectedHandler:queue:</TokenIdentifier>
-			<Abstract type="html">Registers a handler that runs at most once, when the connection to the
-packager has been established. The handler will be dispatched immediately
-if the connection is already established.</Abstract>
-			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
-			
-			<Declaration>- (RCTHandlerToken)addConnectedHandler:(RCTConnectedHandler)handler queue:(dispatch_queue_t)queue</Declaration>
-			
-			
-			<Anchor>//api/name/addConnectedHandler:queue:</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/removeHandler:</TokenIdentifier>
-			<Abstract type="html">Removes a handler. Silently does nothing if the token is not valid.</Abstract>
-			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
-			
-			<Declaration>- (void)removeHandler:(RCTHandlerToken)token</Declaration>
-			
-			
-			<Anchor>//api/name/removeHandler:</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/stop</TokenIdentifier>
-			<Abstract type="html">Disconnects and removes all handlers.</Abstract>
-			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
-			
-			<Declaration>- (void)stop</Declaration>
-			
-			
-			<Anchor>//api/name/stop</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/addHandler:forMethod:</TokenIdentifier>
-			<Abstract type="html">Historically no distinction was made between notification and request
-handlers. If you use this method, it will be registered as both a
-notification handler and a request handler. You should migrate to the
-new block-based API instead.</Abstract>
-			<DeclaredIn>RCTPackagerConnection.h</DeclaredIn>
-			
-			<Declaration>- (void)addHandler:(id&lt;RCTPackagerClientMethod&gt;)handler forMethod:(NSString *)method</Declaration>
-			
-			
-			<Anchor>//api/name/addHandler:forMethod:</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/init</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNavigator/reactNavSuperviewLink</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTPackagerConnection.mm</DeclaredIn>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)init</Declaration>
+			<Declaration>@property (nonatomic, strong) UIView *reactNavSuperviewLink</Declaration>
 			
 			
-			<Anchor>//api/name/init</Anchor>
+			<Anchor>//api/name/reactNavSuperviewLink</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/bundleURLSettingsChanged</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNavigator/reactNavSuperviewLink</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTPackagerConnection.mm</DeclaredIn>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
 			
-			<Declaration>- (void)bundleURLSettingsChanged</Declaration>
+			<Declaration>@property (nonatomic, strong) UIView *reactNavSuperviewLink</Declaration>
 			
 			
-			<Anchor>//api/name/bundleURLSettingsChanged</Anchor>
+			<Anchor>//api/name/reactNavSuperviewLink</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/reconnectingWebSocketDidOpen:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNavigator/setRequestedTopOfStack:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTPackagerConnection.mm</DeclaredIn>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
 			
-			<Declaration>- (void)reconnectingWebSocketDidOpen:(RCTReconnectingWebSocket *)webSocket</Declaration>
+			<Declaration>@property (nonatomic, assign) NSInteger requestedTopOfStack</Declaration>
 			
 			
-			<Anchor>//api/name/reconnectingWebSocketDidOpen:</Anchor>
+			<Anchor>//api/name/requestedTopOfStack</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/reconnectingWebSocket:didReceiveMessage:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNavigator/requestedTopOfStack</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTPackagerConnection.mm</DeclaredIn>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
 			
-			<Declaration>- (void)reconnectingWebSocket:(RCTReconnectingWebSocket *)webSocket didReceiveMessage:(id)message</Declaration>
+			<Declaration>@property (nonatomic, assign) NSInteger requestedTopOfStack</Declaration>
 			
 			
-			<Anchor>//api/name/reconnectingWebSocket:didReceiveMessage:</Anchor>
+			<Anchor>//api/name/requestedTopOfStack</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerConnection/reconnectingWebSocketDidClose:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNavigator/requestedTopOfStack</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTPackagerConnection.mm</DeclaredIn>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
 			
-			<Declaration>- (void)reconnectingWebSocketDidClose:(RCTReconnectingWebSocket *)webSocket</Declaration>
+			<Declaration>@property (nonatomic, assign) NSInteger requestedTopOfStack</Declaration>
 			
 			
-			<Anchor>//api/name/reconnectingWebSocketDidClose:</Anchor>
+			<Anchor>//api/name/requestedTopOfStack</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNavigator/setInteractivePopGestureEnabled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL interactivePopGestureEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/interactivePopGestureEnabled</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNavigator/interactivePopGestureEnabled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL interactivePopGestureEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/interactivePopGestureEnabled</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTNavigator/interactivePopGestureEnabled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL interactivePopGestureEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/interactivePopGestureEnabled</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNavigator/initWithBridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/initWithBridge:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNavigator/requestSchedulingJavaScriptNavigation</TokenIdentifier>
+			<Abstract type="html">Schedules a JavaScript navigation and prevents UIKit from navigating until
+JavaScript has sent its scheduled navigation.</Abstract>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)requestSchedulingJavaScriptNavigation</Declaration>
+			
+			<ReturnValue><Abstract type="html">Whether or not a JavaScript driven navigation could be
+scheduled/reserved. If returning NO, JavaScript should usually just do
+nothing at all.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestSchedulingJavaScriptNavigation</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTNavigator/uiManagerDidPerformMounting</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNavigator.h</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerDidPerformMounting</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerDidPerformMounting</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		

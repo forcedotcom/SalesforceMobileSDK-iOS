@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthClientDelegate.html">
+	<File path="Protocols/SFPasscodeProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate that will be used to notify of all the OAuth Client events.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">Protocol that a passcode provider class must implement.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="170"/>
@@ -13,204 +13,132 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClient:displayMessage:</TokenIdentifier>
-			<Abstract type="html">Alert Messaging. The consumer of OAuthClient controls the visual display of messages in a form suited best for the consumer.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setProviderName:</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKOAuthClient *_Nonnull)client displayMessage:(SFSDKAlertMessage *)message</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
 			
 			
-			<Anchor>//api/name/authClient:displayMessage:</Anchor>
+			<Anchor>//api/name/providerName</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientWillBeginAuthentication:</TokenIdentifier>
-			<Abstract type="html">Called when client will begin authentication.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/providerName</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientWillBeginAuthentication:(SFSDKOAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">initiating the request</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
 			
-			<Anchor>//api/name/authClientWillBeginAuthentication:</Anchor>
+			
+			<Anchor>//api/name/providerName</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientWillRefreshCredentials:</TokenIdentifier>
-			<Abstract type="html">Called when client will begin authentication.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFPasscodeProvider/providerName</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientWillRefreshCredentials:(SFSDKOAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">making the call prior to refresh credentials</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
 			
-			<Anchor>//api/name/authClientWillRefreshCredentials:</Anchor>
+			
+			<Anchor>//api/name/providerName</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientWillRevokeCredentials:</TokenIdentifier>
-			<Abstract type="html">Called when client will begin authentication.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/initWithProviderName:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for an SFPasscodeProvider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientWillRevokeCredentials:(SFSDKOAuthClient *)client</Declaration>
+			<Declaration>- (instancetype)initWithProviderName:(SFPasscodeProviderId)providerName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">making the call prior to revoke credentials</Abstract>
+					<Name>providerName</Name>
+					<Abstract type="html">The canonical name of the provider.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/authClientWillRevokeCredentials:</Anchor>
+			<Anchor>//api/name/initWithProviderName:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientDidRevokeCredentials:</TokenIdentifier>
-			<Abstract type="html">Called when client will begin authentication.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/resetPasscodeData</TokenIdentifier>
+			<Abstract type="html">Reset (unset) the passcode and any persisted data associated with it.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDidRevokeCredentials:(SFSDKOAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">making the call prior after the  revoke of credentials</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)resetPasscodeData</Declaration>
 			
-			<Anchor>//api/name/authClientDidRevokeCredentials:</Anchor>
+			
+			<Anchor>//api/name/resetPasscodeData</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientDidFail:error:</TokenIdentifier>
-			<Abstract type="html">Called when client will begin authentication.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/verifyPasscode:</TokenIdentifier>
+			<Abstract type="html">Verify that the input passcode is the correct passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDidFail:(SFSDKOAuthClient *)client error:(NSError *_Nullable)error</Declaration>
+			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">making the call</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">describes the error that occurred</Abstract>
+					<Name>passcode</Name>
+					<Abstract type="html">The passcode to verify.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/authClientDidFail:error:</Anchor>
+			<ReturnValue><Abstract type="html">YES if the passcode is verified, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/verifyPasscode:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientIsNetworkAvailable:</TokenIdentifier>
-			<Abstract type="html">Called by the underlying mechanism allow for detection of network state</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/hashedVerificationPasscode</TokenIdentifier>
+			<Abstract type="html">The hashed verification passcode, or nil if not configured.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)authClientIsNetworkAvailable:(SFSDKOAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">making the call</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (nullable NSString *)hashedVerificationPasscode</Declaration>
 			
-			<Anchor>//api/name/authClientIsNetworkAvailable:</Anchor>
+			<ReturnValue><Abstract type="html">The hashed verification passcode, or nil if not configured.</Abstract></ReturnValue>
+			<Anchor>//api/name/hashedVerificationPasscode</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientDidFinish:</TokenIdentifier>
-			<Abstract type="html">Called when client did finish authentication.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setVerificationPasscode:</TokenIdentifier>
+			<Abstract type="html">Set/persist the verification passcode, based on the input passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDidFinish:(SFSDKOAuthClient *)client</Declaration>
+			<Declaration>- (void)setVerificationPasscode:(NSString *)newPasscode</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">making the call</Abstract>
+					<Name>newPasscode</Name>
+					<Abstract type="html">The new (plaintext) passcode to set.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/authClientDidFinish:</Anchor>
+			<Anchor>//api/name/setVerificationPasscode:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientContinueOfflineMode:</TokenIdentifier>
-			<Abstract type="html">Called when error occurs offline.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/generateEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">Generates an encryption key, based on the input passcode.
+NOTE: This method must generate the same encryption key for the given
+input passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientContinueOfflineMode:(SFSDKOAuthClient *)client</Declaration>
+			<Declaration>- (nullable NSString *)generateEncryptionKey:(NSString *)passcode</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+					<Name>passcode</Name>
+					<Abstract type="html">The (plaintext) passcode used to generate the encryption key.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/authClientContinueOfflineMode:</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientDidChangeLoginHost:loginHost:</TokenIdentifier>
-			<Abstract type="html">Called when a generic flow authentication is cancelled.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>- (void)authClientDidChangeLoginHost:(SFSDKOAuthClient *)client loginHost:(NSString *)newLoginHost</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authClientDidChangeLoginHost:loginHost:</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientRestartAuthentication:</TokenIdentifier>
-			<Abstract type="html">Called when a generic flow authentication is cancelled.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>- (void)authClientRestartAuthentication:(SFSDKOAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authClientRestartAuthentication:</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientDelegate/authClientDidCancelGenericFlow:</TokenIdentifier>
-			<Abstract type="html">Called when a generic flow authentication is cancelled.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>- (void)authClientDidCancelGenericFlow:(SFSDKOAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authClientDidCancelGenericFlow:</Anchor>
+			<ReturnValue><Abstract type="html">The encryption key generated from the passcode.</Abstract></ReturnValue>
+			<Anchor>//api/name/generateEncryptionKey:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		

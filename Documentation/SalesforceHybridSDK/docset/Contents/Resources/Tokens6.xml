@@ -379,6 +379,19 @@ otherwise halt the progress of the app.</Abstract>
             <NodeRef refid="6"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/webStateCleanupStrategy</TokenIdentifier>
+			<Abstract type="html">Initiates a web state cleanup strategy prior to staging the web-based auth context from an
+OAuth authentication or refresh.</Abstract>
+			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)webStateCleanupStrategy</Declaration>
+			
+			
+			<Anchor>//api/name/webStateCleanupStrategy</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
         
         
 	</File>

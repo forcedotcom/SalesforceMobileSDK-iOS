@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/,.html">
+	<File path="Protocols/RCTRootViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/,</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTRootViewDelegate</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTRootViewDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="287"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTRootViewDelegate/rootViewDidChangeIntrinsicSize:</TokenIdentifier>
+			<Abstract type="html">Called after the root view&apos;s intrinsic content size is changed.</Abstract>
+			<DeclaredIn>RCTRootViewDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)rootViewDidChangeIntrinsicSize:(RCTRootView *)rootView</Declaration>
+			
+			
+			<Anchor>//api/name/rootViewDidChangeIntrinsicSize:</Anchor>
+            <NodeRef refid="287"/>
+		</Token>
 		
         
         

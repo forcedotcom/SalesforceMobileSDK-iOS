@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKAppDelegate.html">
+	<File path="Protocols/SFCryptChunksDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAppDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol defining an SDK-based app delegate.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFCryptChunksDelegate</TokenIdentifier>
+			<Abstract type="html">SFCryptChunksDelegate</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
             
 			
 			<NodeRef refid="164"/>
@@ -13,63 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/setUserAgentString:</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFCryptChunksDelegate/cryptChunk:chunkResult:bufferLen:</TokenIdentifier>
+			<Abstract type="html">Encrypted / Decrypted chunk results.
+This method may be invoked none to multiple times - until all result is informed to delegate.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			<Declaration>- (void)cryptChunk:(SFCryptChunks *)cryptChunks chunkResult:(uint8_t *)buffer bufferLen:(size_t)len</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cryptChunks</Name>
+					<Abstract type="html">the instance sending this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>buffer</Name>
+					<Abstract type="html">the chunk results buffer.</Abstract>
+				</Parameter><Parameter>
+					<Name>len</Name>
+					<Abstract type="html">the chunk results buffer length.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
-            <NodeRef refid="164"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/userAgentString</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
-            <NodeRef refid="164"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKAppDelegate/userAgentString</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
-            <NodeRef refid="164"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/logout</TokenIdentifier>
-			<Abstract type="html">Forces a logout from the current account.
-This throws out the OAuth refresh token.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
-			
-			<Declaration>- (void)logout</Declaration>
-			
-			
-			<Anchor>//api/name/logout</Anchor>
-            <NodeRef refid="164"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/createSnapshotView</TokenIdentifier>
-			<Abstract type="html">Creates a snapshot view.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
-			
-			<Declaration>- (UIView *)createSnapshotView</Declaration>
-			
-			
-			<Anchor>//api/name/createSnapshotView</Anchor>
+			<Anchor>//api/name/cryptChunk:chunkResult:bufferLen:</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		

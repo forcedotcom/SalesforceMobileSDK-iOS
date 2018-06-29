@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountLoginState.html">
+	<File path="Constants/SFPasscodeControllerMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountLoginState</TokenIdentifier>
-			<Abstract type="html">Enumeration of the potential login states of the user account.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFPasscodeControllerMode</TokenIdentifier>
+			<Abstract type="html">Mode constants indicating whether to create or verify an existing passcode.</Abstract>
+			<DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
 			
 			<NodeRef refid="210"/>
@@ -14,34 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateNotLoggedIn</TokenIdentifier>
-            <Abstract type="html">     User account is not logged in.
-     </Abstract>
-            <Declaration>SFUserAccountLoginStateNotLoggedIn</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeCreate</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFPasscodeControllerModeCreate</Declaration>
             
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
-            
-            <NodeRef refid="210"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateLoggedIn</TokenIdentifier>
-            <Abstract type="html">     User account is logged in.
-     </Abstract>
-            <Declaration>SFUserAccountLoginStateLoggedIn</Declaration>
-            
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="210"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateLoggingOut</TokenIdentifier>
-            <Abstract type="html">     User account is in the process of logging out.
-     </Abstract>
-            <Declaration>SFUserAccountLoginStateLoggingOut</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeVerify</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFPasscodeControllerModeVerify</Declaration>
             
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
+            
+            <NodeRef refid="210"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFPasscodeControllerModeChange</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFPasscodeControllerModeChange</Declaration>
+            
+            <DeclaredIn>SFPasscodeViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="210"/>
         </Token>

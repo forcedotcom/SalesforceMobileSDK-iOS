@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTSurfaceRootShadowView.html">
+	<File path="Classes/RCTSurfaceBackedComponentState.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceRootShadowView</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceBackedComponentState</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSurfaceBackedComponentState.h</DeclaredIn>
             
 			
 			<NodeRef refid="187"/>
@@ -14,213 +13,62 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/setMinimumSize:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTSurfaceBackedComponentState/newWithSurface:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
+			<DeclaredIn>RCTSurfaceBackedComponentState.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) CGSize minimumSize</Declaration>
+			<Declaration>+ (instancetype)newWithSurface:(RCTSurface *)surface</Declaration>
 			
 			
-			<Anchor>//api/name/minimumSize</Anchor>
+			<Anchor>//api/name/newWithSurface:</Anchor>
             <NodeRef refid="187"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/minimumSize</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceBackedComponentState/initWithSurface:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
+			<DeclaredIn>RCTSurfaceBackedComponentState.mm</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) CGSize minimumSize</Declaration>
+			<Declaration>- (instancetype)initWithSurface:(RCTSurface *)surface</Declaration>
 			
 			
-			<Anchor>//api/name/minimumSize</Anchor>
+			<Anchor>//api/name/initWithSurface:</Anchor>
             <NodeRef refid="187"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceRootShadowView/minimumSize</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceBackedComponentState/setSurface:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
+			<DeclaredIn>RCTSurfaceBackedComponentState.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) CGSize minimumSize</Declaration>
+			<Declaration>@property (atomic, readonly, strong) RCTSurface *surface</Declaration>
 			
 			
-			<Anchor>//api/name/minimumSize</Anchor>
+			<Anchor>//api/name/surface</Anchor>
             <NodeRef refid="187"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/setMaximumSize:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceBackedComponentState/surface</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
+			<DeclaredIn>RCTSurfaceBackedComponentState.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) CGSize maximumSize</Declaration>
+			<Declaration>@property (atomic, readonly, strong) RCTSurface *surface</Declaration>
 			
 			
-			<Anchor>//api/name/maximumSize</Anchor>
+			<Anchor>//api/name/surface</Anchor>
             <NodeRef refid="187"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/maximumSize</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceBackedComponentState/surface</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
+			<DeclaredIn>RCTSurfaceBackedComponentState.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) CGSize maximumSize</Declaration>
-			
-			
-			<Anchor>//api/name/maximumSize</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceRootShadowView/maximumSize</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) CGSize maximumSize</Declaration>
+			<Declaration>@property (atomic, readonly, strong) RCTSurface *surface</Declaration>
 			
 			
-			<Anchor>//api/name/maximumSize</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/setMinimumSize:maximumSize:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>- (void)setMinimumSize:(CGSize)size maximumSize:(CGSize)maximumSize</Declaration>
-			
-			
-			<Anchor>//api/name/setMinimumSize:maximumSize:</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/setIntrinsicSize:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) CGSize intrinsicSize</Declaration>
-			
-			
-			<Anchor>//api/name/intrinsicSize</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/intrinsicSize</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) CGSize intrinsicSize</Declaration>
-			
-			
-			<Anchor>//api/name/intrinsicSize</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceRootShadowView/intrinsicSize</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) CGSize intrinsicSize</Declaration>
-			
-			
-			<Anchor>//api/name/intrinsicSize</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/setDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTSurfaceRootShadowViewDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/delegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTSurfaceRootShadowViewDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceRootShadowView/delegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTSurfaceRootShadowViewDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/setBaseDirection:</TokenIdentifier>
-			<Abstract type="html">Layout direction (LTR or RTL) inherited from native environment and
-is using as a base direction value in layout engine.
-Defaults to value inferred from current locale.</Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) YGDirection baseDirection</Declaration>
-			
-			
-			<Anchor>//api/name/baseDirection</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/baseDirection</TokenIdentifier>
-			<Abstract type="html">Layout direction (LTR or RTL) inherited from native environment and
-is using as a base direction value in layout engine.
-Defaults to value inferred from current locale.</Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) YGDirection baseDirection</Declaration>
-			
-			
-			<Anchor>//api/name/baseDirection</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceRootShadowView/baseDirection</TokenIdentifier>
-			<Abstract type="html">Layout direction (LTR or RTL) inherited from native environment and
-is using as a base direction value in layout engine.
-Defaults to value inferred from current locale.</Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) YGDirection baseDirection</Declaration>
-			
-			
-			<Anchor>//api/name/baseDirection</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootShadowView/collectViewsWithUpdatedFrames</TokenIdentifier>
-			<Abstract type="html">Calculate all views whose frame needs updating after layout has been calculated.
-Returns a set contains the shadowviews that need updating.</Abstract>
-			<DeclaredIn>RCTSurfaceRootShadowView.h</DeclaredIn>
-			
-			<Declaration>- (NSSet&lt;RCTShadowView*&gt; *)collectViewsWithUpdatedFrames</Declaration>
-			
-			
-			<Anchor>//api/name/collectViewsWithUpdatedFrames</Anchor>
+			<Anchor>//api/name/surface</Anchor>
             <NodeRef refid="187"/>
 		</Token>
 		
