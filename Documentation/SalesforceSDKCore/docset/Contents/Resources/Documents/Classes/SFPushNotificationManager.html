@@ -56,6 +56,8 @@
 	
 	<optgroup label="Properties">
 		
+		<option value="//api/name/customPushRegistrationBody">customPushRegistrationBody</option>
+		
 		<option value="//api/name/deviceSalesforceId">deviceSalesforceId</option>
 		
 		<option value="//api/name/deviceToken">deviceToken</option>
@@ -80,7 +82,7 @@
 		
 		<option value="//api/name/registerForRemoteNotifications">- registerForRemoteNotifications</option>
 		
-		<option value="//api/name/registerForSalesforceNotifications">- registerForSalesforceNotifications</option>
+		<option value="//api/name/registerSalesforceNotificationsWithCompletionBlock:failBlock:">- registerSalesforceNotificationsWithCompletionBlock:failBlock:</option>
 		
 		<option value="//api/name/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:">- unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:</option>
 		
@@ -192,6 +194,47 @@
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *deviceSalesforceId</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/customPushRegistrationBody" title="customPushRegistrationBody"></a>
+	<h3 class="method-title"><code><a href="#//api/name/customPushRegistrationBody">&nbsp;&nbsp;customPushRegistrationBody</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Custom push notification for additional HTTP POST body.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) NSDictionary *customPushRegistrationBody</code></div>
 
 		    
 			
@@ -351,8 +394,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/registerForSalesforceNotifications" title="registerForSalesforceNotifications"></a>
-	<h3 class="method-title"><code><a href="#//api/name/registerForSalesforceNotifications">&ndash;&nbsp;registerForSalesforceNotifications</a></code>
+	<a name="//api/name/SFSDK_DEPRECATED" title="SFSDK_DEPRECATED"></a>
+	<h3 class="method-title"><code><a href="#//api/name/SFSDK_DEPRECATED">&ndash;&nbsp;SFSDK_DEPRECATED</a></code>
 </h3>
 
 	<div class="method-info">
@@ -368,7 +411,7 @@ Call this method after authenticating with Salesforce and registering with APNS.
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)registerForSalesforceNotifications</code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)SFSDK_DEPRECATED</code></div>
 
 		    
 			
@@ -398,8 +441,8 @@ Call this method after authenticating with Salesforce and registering with APNS.
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/SFSDK_DEPRECATED" title="SFSDK_DEPRECATED"></a>
-	<h3 class="method-title"><code><a href="#//api/name/SFSDK_DEPRECATED">&ndash;&nbsp;SFSDK_DEPRECATED</a></code>
+	<a name="//api/name/registerSalesforceNotificationsWithCompletionBlock:failBlock:" title="registerSalesforceNotificationsWithCompletionBlock:failBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerSalesforceNotificationsWithCompletionBlock:failBlock:">&ndash;&nbsp;registerSalesforceNotificationsWithCompletionBlock:failBlock:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -409,20 +452,38 @@ Call this method after authenticating with Salesforce and registering with APNS.
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Unregister from notifications with Salesforce for all users. This method is called at logout.</p>
+				<p>Register for notifications with Salesforce.
+Call this method after authenticating with Salesforce and registering with APNS.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)SFSDK_DEPRECATED</code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)registerSalesforceNotificationsWithCompletionBlock:(nullable void ( ^ ) ( void ))<em>completionBlock</em> failBlock:(nullable void ( ^ ) ( void ))<em>failBlock</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>Completion block.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>fail block.</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES for successful unregistration call being made.</p>
+				<p>YES for successful registration call being made.</p>
 			</div>
 			
 
@@ -521,7 +582,7 @@ Call this method after authenticating with Salesforce and registering with APNS.
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,53 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIView+Private.html">
+	<File path="Classes/SFSmartStoreReactBridge.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIView(Private)</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>UIView+Private.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreReactBridge</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreReactBridge.h</DeclaredIn>
             
 			
 			<NodeRef refid="244"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIView/react_remountAllSubviews</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIView+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)react_remountAllSubviews</Declaration>
-			
-			
-			<Anchor>//api/name/react_remountAllSubviews</Anchor>
-            <NodeRef refid="244"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIView/react_updateClippedSubviewsWithClipRect:relativeToView:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIView+Private.h</DeclaredIn>
-			
-			<Declaration>- (void)react_updateClippedSubviewsWithClipRect:(CGRect)clipRect relativeToView:(UIView *)clipView</Declaration>
-			
-			
-			<Anchor>//api/name/react_updateClippedSubviewsWithClipRect:relativeToView:</Anchor>
-            <NodeRef refid="244"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIView/react_findClipView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIView+Private.h</DeclaredIn>
-			
-			<Declaration>- (UIView *)react_findClipView</Declaration>
-			
-			
-			<Anchor>//api/name/react_findClipView</Anchor>
-            <NodeRef refid="244"/>
-		</Token>
 		
         
         

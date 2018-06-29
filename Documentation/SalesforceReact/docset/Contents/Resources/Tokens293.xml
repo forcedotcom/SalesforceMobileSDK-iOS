@@ -1,48 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTFunctionType.html">
+	<File path="Protocols/RCTURLRequestDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTFunctionType</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTURLRequestDelegate</TokenIdentifier>
+			<Abstract type="html">An abstract interface used by request handler modules to send
+data back over the bridge back to JS.</Abstract>
+			<DeclaredIn>RCTURLRequestDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="293"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTFunctionTypeNormal</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTFunctionTypeNormal</Declaration>
-            
-            <DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTURLRequestDelegate/URLRequest:didSendDataWithProgress:</TokenIdentifier>
+			<Abstract type="html">Call this when you send request data to the server. This is used to track
+upload progress, so should be called multiple times for large request bodies.</Abstract>
+			<DeclaredIn>RCTURLRequestDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)URLRequest:(id)requestToken didSendDataWithProgress:(int64_t)bytesSent</Declaration>
+			
+			
+			<Anchor>//api/name/URLRequest:didSendDataWithProgress:</Anchor>
             <NodeRef refid="293"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTFunctionTypePromise</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTFunctionTypePromise</Declaration>
-            
-            <DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTURLRequestDelegate/URLRequest:didReceiveResponse:</TokenIdentifier>
+			<Abstract type="html">Call this when you first receives a response from the server. This should
+include response headers, etc.</Abstract>
+			<DeclaredIn>RCTURLRequestDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)URLRequest:(id)requestToken didReceiveResponse:(NSURLResponse *)response</Declaration>
+			
+			
+			<Anchor>//api/name/URLRequest:didReceiveResponse:</Anchor>
             <NodeRef refid="293"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTFunctionTypeSync</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTFunctionTypeSync</Declaration>
-            
-            <DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTURLRequestDelegate/URLRequest:didReceiveData:</TokenIdentifier>
+			<Abstract type="html">Call this when you receive data from the server. This can be called multiple
+times with partial data chunks, or just once with the full data packet.</Abstract>
+			<DeclaredIn>RCTURLRequestDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)URLRequest:(id)requestToken didReceiveData:(NSData *)data</Declaration>
+			
+			
+			<Anchor>//api/name/URLRequest:didReceiveData:</Anchor>
             <NodeRef refid="293"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTURLRequestDelegate/URLRequest:didCompleteWithError:</TokenIdentifier>
+			<Abstract type="html">Call this when the request is complete and/or if an error is encountered.
+For a successful request, the error parameter should be nil.</Abstract>
+			<DeclaredIn>RCTURLRequestDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)URLRequest:(id)requestToken didCompleteWithError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/URLRequest:didCompleteWithError:</Anchor>
+            <NodeRef refid="293"/>
+		</Token>
+		
         
         
 	</File>

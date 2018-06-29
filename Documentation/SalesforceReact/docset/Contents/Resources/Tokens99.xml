@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTJavaScriptLoader.html">
+	<File path="Classes/RCTInspectorLocalConnection.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTJavaScriptLoader</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTInspectorLocalConnection</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
             
 			
 			<NodeRef refid="99"/>
@@ -13,9 +13,33 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJavaScriptLoader/init</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorLocalConnection/sendMessage:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJavaScriptLoader.mm</DeclaredIn>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			
+			<Declaration>- (void)sendMessage:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/sendMessage:</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorLocalConnection/disconnect</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
+			
+			<Declaration>- (void)disconnect</Declaration>
+			
+			
+			<Anchor>//api/name/disconnect</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorLocalConnection/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.mm</DeclaredIn>
 			
 			<Declaration>- (instancetype)init</Declaration>
 			
@@ -25,31 +49,14 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTJavaScriptLoader/attemptSynchronousLoadOfBundleAtURL:runtimeBCVersion:sourceLength:error:</TokenIdentifier>
-			<Abstract type="html">@experimental
-Attempts to synchronously load the script at the given URL. The following two conditions must be met:
-1. It must be a file URL.
-2. It must not point to a text/javascript file.
-If the URL does not meet those conditions, this method will return nil and supply an error with the domain
-RCTJavaScriptLoaderErrorDomain and the code RCTJavaScriptLoaderErrorCannotBeLoadedSynchronously.</Abstract>
-			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
-			
-			<Declaration>+ (NSData *)attemptSynchronousLoadOfBundleAtURL:(NSURL *)scriptURL runtimeBCVersion:(int32_t)runtimeBCVersion sourceLength:(int64_t *)sourceLength error:(NSError **)error</Declaration>
-			
-			
-			<Anchor>//api/name/attemptSynchronousLoadOfBundleAtURL:runtimeBCVersion:sourceLength:error:</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTJavaScriptLoader/loadBundleAtURL:onProgress:onComplete:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspectorLocalConnection/initWithConnection:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
+			<DeclaredIn>RCTInspector.mm</DeclaredIn>
 			
-			<Declaration>+ (void)loadBundleAtURL:(NSURL *)scriptURL onProgress:(RCTSourceLoadProgressBlock)onProgress onComplete:(RCTSourceLoadBlock)onComplete</Declaration>
+			<Declaration>- (instancetype)initWithConnection:(std : : unique_ptr&lt;ILocalConnection&gt;)connection</Declaration>
 			
 			
-			<Anchor>//api/name/loadBundleAtURL:onProgress:onComplete:</Anchor>
+			<Anchor>//api/name/initWithConnection:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		

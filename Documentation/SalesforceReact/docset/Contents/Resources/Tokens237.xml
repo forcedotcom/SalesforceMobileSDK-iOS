@@ -1,16 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/Sample.html">
+	<File path="Classes/RCTWrapperViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/Sample</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWrapperViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>Sample.h</DeclaredIn>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="237"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/initWithContentView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithContentView:(UIView *)contentView</Declaration>
+			
+			
+			<Anchor>//api/name/initWithContentView:</Anchor>
+            <NodeRef refid="237"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/initWithNavItem:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithNavItem:(RCTNavItem *)navItem</Declaration>
+			
+			
+			<Anchor>//api/name/initWithNavItem:</Anchor>
+            <NodeRef refid="237"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/setNavigationListener:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTWrapperViewControllerNavigationListener&gt; navigationListener</Declaration>
+			
+			
+			<Anchor>//api/name/navigationListener</Anchor>
+            <NodeRef refid="237"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/navigationListener</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTWrapperViewControllerNavigationListener&gt; navigationListener</Declaration>
+			
+			
+			<Anchor>//api/name/navigationListener</Anchor>
+            <NodeRef refid="237"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWrapperViewController/navigationListener</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTWrapperViewControllerNavigationListener&gt; navigationListener</Declaration>
+			
+			
+			<Anchor>//api/name/navigationListener</Anchor>
+            <NodeRef refid="237"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/setNavItem:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) RCTNavItem *navItem</Declaration>
+			
+			
+			<Anchor>//api/name/navItem</Anchor>
+            <NodeRef refid="237"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewController/navItem</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) RCTNavItem *navItem</Declaration>
+			
+			
+			<Anchor>//api/name/navItem</Anchor>
+            <NodeRef refid="237"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTWrapperViewController/navItem</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWrapperViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) RCTNavItem *navItem</Declaration>
+			
+			
+			<Anchor>//api/name/navItem</Anchor>
+            <NodeRef refid="237"/>
+		</Token>
 		
         
         

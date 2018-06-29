@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTDatePickerManager.html">
+	<File path="Classes/RCTDataRequestHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTDatePickerManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTDatePickerManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTDataRequestHandler</TokenIdentifier>
+			<Abstract type="html">This is the default RCTURLRequestHandler implementation for data URL requests.</Abstract>
+			<DeclaredIn>RCTDataRequestHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="51"/>

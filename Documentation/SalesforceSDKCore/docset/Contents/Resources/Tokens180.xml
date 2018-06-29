@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSecurityLockoutDelegate.html">
+	<File path="Protocols/SFSDKOAuthClientProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSecurityLockoutDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate protocol for SFSecurityLockout events and callbacks.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientProvider</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
             
 			
 			<NodeRef refid="180"/>
@@ -13,37 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSecurityLockoutDelegate/passcodeFlowWillBegin:</TokenIdentifier>
-			<Abstract type="html">Called just before the passcode flow begins and the view is displayed.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/idpAuthInstance:</TokenIdentifier>
+			<Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>mode</Name>
-					<Abstract type="html">The mode of the passcode flow, i.e. passcode creation or verification.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
 			
-			<Anchor>//api/name/passcodeFlowWillBegin:</Anchor>
+			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract></ReturnValue>
+			<Anchor>//api/name/idpAuthInstance:</Anchor>
             <NodeRef refid="180"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSecurityLockoutDelegate/passcodeFlowDidComplete:</TokenIdentifier>
-			<Abstract type="html">Called after the passcode flow has completed.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/nativeBrowserAuthInstance:</TokenIdentifier>
+			<Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeFlowDidComplete:(BOOL)success</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>success</Name>
-					<Abstract type="html">Whether or not the passcode flow was successful, i.e. the passcode was successfully
-created or verified.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
 			
-			<Anchor>//api/name/passcodeFlowDidComplete:</Anchor>
+			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract></ReturnValue>
+			<Anchor>//api/name/nativeBrowserAuthInstance:</Anchor>
+            <NodeRef refid="180"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/webviewAuthInstance:</TokenIdentifier>
+			<Abstract type="html">Provide a newInstance</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>+ (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			
+			<ReturnValue><Abstract type="html">Provide a newInstance</Abstract></ReturnValue>
+			<Anchor>//api/name/webviewAuthInstance:</Anchor>
             <NodeRef refid="180"/>
 		</Token>
 		

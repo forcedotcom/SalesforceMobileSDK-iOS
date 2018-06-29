@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTImageViewManager.html">
+	<File path="Classes/RCTImageEditingManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTImageViewManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTImageViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTImageEditingManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTImageEditingManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="86"/>

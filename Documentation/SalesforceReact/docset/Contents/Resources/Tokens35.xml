@@ -1,17 +1,676 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTBaseTextInputViewManager.html">
+	<File path="Classes/RCTBaseTextInputView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTBaseTextInputViewManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTBaseTextInputViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTBaseTextInputView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
             
 			
 			<NodeRef refid="35"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/initWithBridge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge</Declaration>
+			
+			
+			<Anchor>//api/name/initWithBridge:</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/initWithCoder:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithCoder:(NSCoder *)decoder</Declaration>
+			
+			
+			<Anchor>//api/name/initWithCoder:</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/initWithFrame:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setBackedTextInputView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIView&lt;RCTBackedTextInputViewProtocol&gt; *backedTextInputView</Declaration>
+			
+			
+			<Anchor>//api/name/backedTextInputView</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/backedTextInputView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIView&lt;RCTBackedTextInputViewProtocol&gt; *backedTextInputView</Declaration>
+			
+			
+			<Anchor>//api/name/backedTextInputView</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/backedTextInputView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) UIView&lt;RCTBackedTextInputViewProtocol&gt; *backedTextInputView</Declaration>
+			
+			
+			<Anchor>//api/name/backedTextInputView</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setTextAttributes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) RCTTextAttributes *textAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/textAttributes</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/textAttributes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) RCTTextAttributes *textAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/textAttributes</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/textAttributes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) RCTTextAttributes *textAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/textAttributes</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setReactPaddingInsets:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets reactPaddingInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactPaddingInsets</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/reactPaddingInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets reactPaddingInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactPaddingInsets</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/reactPaddingInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets reactPaddingInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactPaddingInsets</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setReactBorderInsets:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets reactBorderInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactBorderInsets</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/reactBorderInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets reactBorderInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactBorderInsets</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/reactBorderInsets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIEdgeInsets reactBorderInsets</Declaration>
+			
+			
+			<Anchor>//api/name/reactBorderInsets</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setOnContentSizeChange:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onContentSizeChange</Declaration>
+			
+			
+			<Anchor>//api/name/onContentSizeChange</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/onContentSizeChange</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onContentSizeChange</Declaration>
+			
+			
+			<Anchor>//api/name/onContentSizeChange</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/onContentSizeChange</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onContentSizeChange</Declaration>
+			
+			
+			<Anchor>//api/name/onContentSizeChange</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setOnSelectionChange:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onSelectionChange</Declaration>
+			
+			
+			<Anchor>//api/name/onSelectionChange</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/onSelectionChange</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onSelectionChange</Declaration>
+			
+			
+			<Anchor>//api/name/onSelectionChange</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/onSelectionChange</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onSelectionChange</Declaration>
+			
+			
+			<Anchor>//api/name/onSelectionChange</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setOnChange:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onChange</Declaration>
+			
+			
+			<Anchor>//api/name/onChange</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/onChange</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onChange</Declaration>
+			
+			
+			<Anchor>//api/name/onChange</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/onChange</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onChange</Declaration>
+			
+			
+			<Anchor>//api/name/onChange</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setOnTextInput:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onTextInput</Declaration>
+			
+			
+			<Anchor>//api/name/onTextInput</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/onTextInput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onTextInput</Declaration>
+			
+			
+			<Anchor>//api/name/onTextInput</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/onTextInput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onTextInput</Declaration>
+			
+			
+			<Anchor>//api/name/onTextInput</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setOnScroll:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onScroll</Declaration>
+			
+			
+			<Anchor>//api/name/onScroll</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/onScroll</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onScroll</Declaration>
+			
+			
+			<Anchor>//api/name/onScroll</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/onScroll</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) RCTDirectEventBlock onScroll</Declaration>
+			
+			
+			<Anchor>//api/name/onScroll</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setMostRecentEventCount:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger mostRecentEventCount</Declaration>
+			
+			
+			<Anchor>//api/name/mostRecentEventCount</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/mostRecentEventCount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger mostRecentEventCount</Declaration>
+			
+			
+			<Anchor>//api/name/mostRecentEventCount</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/mostRecentEventCount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger mostRecentEventCount</Declaration>
+			
+			
+			<Anchor>//api/name/mostRecentEventCount</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setBlurOnSubmit:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL blurOnSubmit</Declaration>
+			
+			
+			<Anchor>//api/name/blurOnSubmit</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/blurOnSubmit</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL blurOnSubmit</Declaration>
+			
+			
+			<Anchor>//api/name/blurOnSubmit</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/blurOnSubmit</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL blurOnSubmit</Declaration>
+			
+			
+			<Anchor>//api/name/blurOnSubmit</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setSelectTextOnFocus:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL selectTextOnFocus</Declaration>
+			
+			
+			<Anchor>//api/name/selectTextOnFocus</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/selectTextOnFocus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL selectTextOnFocus</Declaration>
+			
+			
+			<Anchor>//api/name/selectTextOnFocus</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/selectTextOnFocus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL selectTextOnFocus</Declaration>
+			
+			
+			<Anchor>//api/name/selectTextOnFocus</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setClearTextOnFocus:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL clearTextOnFocus</Declaration>
+			
+			
+			<Anchor>//api/name/clearTextOnFocus</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/clearTextOnFocus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL clearTextOnFocus</Declaration>
+			
+			
+			<Anchor>//api/name/clearTextOnFocus</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/clearTextOnFocus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL clearTextOnFocus</Declaration>
+			
+			
+			<Anchor>//api/name/clearTextOnFocus</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setSelection:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTTextSelection *selection</Declaration>
+			
+			
+			<Anchor>//api/name/selection</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/selection</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTTextSelection *selection</Declaration>
+			
+			
+			<Anchor>//api/name/selection</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/selection</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTTextSelection *selection</Declaration>
+			
+			
+			<Anchor>//api/name/selection</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setMaxLength:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSNumber *maxLength</Declaration>
+			
+			
+			<Anchor>//api/name/maxLength</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/maxLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSNumber *maxLength</Declaration>
+			
+			
+			<Anchor>//api/name/maxLength</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/maxLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSNumber *maxLength</Declaration>
+			
+			
+			<Anchor>//api/name/maxLength</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setAttributedText:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSAttributedString *attributedText</Declaration>
+			
+			
+			<Anchor>//api/name/attributedText</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/attributedText</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSAttributedString *attributedText</Declaration>
+			
+			
+			<Anchor>//api/name/attributedText</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/attributedText</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSAttributedString *attributedText</Declaration>
+			
+			
+			<Anchor>//api/name/attributedText</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/setInputAccessoryViewID:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *inputAccessoryViewID</Declaration>
+			
+			
+			<Anchor>//api/name/inputAccessoryViewID</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTBaseTextInputView/inputAccessoryViewID</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *inputAccessoryViewID</Declaration>
+			
+			
+			<Anchor>//api/name/inputAccessoryViewID</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTBaseTextInputView/inputAccessoryViewID</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBaseTextInputView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *inputAccessoryViewID</Declaration>
+			
+			
+			<Anchor>//api/name/inputAccessoryViewID</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
 		
         
         

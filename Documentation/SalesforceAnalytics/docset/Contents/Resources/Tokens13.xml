@@ -89,7 +89,7 @@
 			<Abstract type="html">Instance of the underlying file logger being used.</Abstract>
 			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKFileLogger *fileLogger</Declaration>
+			<Declaration>@property (nonatomic, readwrite, strong, nonnull) SFSDKFileLogger *fileLogger</Declaration>
 			
 			
 			<Anchor>//api/name/fileLogger</Anchor>
@@ -101,7 +101,7 @@
 			<Abstract type="html">Instance of the underlying file logger being used.</Abstract>
 			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKFileLogger *fileLogger</Declaration>
+			<Declaration>@property (nonatomic, readwrite, strong, nonnull) SFSDKFileLogger *fileLogger</Declaration>
 			
 			
 			<Anchor>//api/name/fileLogger</Anchor>
@@ -113,7 +113,7 @@
 			<Abstract type="html">Instance of the underlying file logger being used.</Abstract>
 			<DeclaredIn>SFSDKLogger.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKFileLogger *fileLogger</Declaration>
+			<Declaration>@property (nonatomic, readwrite, strong, nonnull) SFSDKFileLogger *fileLogger</Declaration>
 			
 			
 			<Anchor>//api/name/fileLogger</Anchor>

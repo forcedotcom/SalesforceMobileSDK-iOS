@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFUserActivityMonitor.html">
+	<File path="Classes/SFSwiftDetectUtil.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFUserActivityMonitor</TokenIdentifier>
-			<Abstract type="html">Singleton class to monitor the application for user activity, and update SFInactivityTimerCenter when
-a change is detected.</Abstract>
-			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSwiftDetectUtil</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSwiftDetectUtil.h</DeclaredIn>
             
 			
 			<NodeRef refid="129"/>
@@ -14,38 +13,14 @@ a change is detected.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserActivityMonitor/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the singleton instance of the class.</Abstract>
-			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSwiftDetectUtil/isSwiftApp</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSwiftDetectUtil.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
-			
-			
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="129"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserActivityMonitor/startMonitoring</TokenIdentifier>
-			<Abstract type="html">Starts the application monitoring process.</Abstract>
-			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
-			
-			<Declaration>- (void)startMonitoring</Declaration>
+			<Declaration>+ (BOOL)isSwiftApp</Declaration>
 			
 			
-			<Anchor>//api/name/startMonitoring</Anchor>
-            <NodeRef refid="129"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserActivityMonitor/stopMonitoring</TokenIdentifier>
-			<Abstract type="html">Stops the application monitoring process.</Abstract>
-			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
-			
-			<Declaration>- (void)stopMonitoring</Declaration>
-			
-			
-			<Anchor>//api/name/stopMonitoring</Anchor>
+			<Anchor>//api/name/isSwiftApp</Anchor>
             <NodeRef refid="129"/>
 		</Token>
 		

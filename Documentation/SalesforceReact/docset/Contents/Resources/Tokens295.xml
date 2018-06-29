@@ -1,37 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTLogSource.html">
+	<File path="Protocols/RCTValueAnimatedNodeObserver.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTLogSource</TokenIdentifier>
-			<Abstract type="html">An enum representing the source of a log message.</Abstract>
-			<DeclaredIn>RCTLog.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTValueAnimatedNodeObserver</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
             
 			
 			<NodeRef refid="295"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTLogSourceNative</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTLogSourceNative</Declaration>
-            
-            <DeclaredIn>RCTLog.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTValueAnimatedNodeObserver/animatedNode:didUpdateValue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>- (void)animatedNode:(RCTValueAnimatedNode *)node didUpdateValue:(CGFloat)value</Declaration>
+			
+			
+			<Anchor>//api/name/animatedNode:didUpdateValue:</Anchor>
             <NodeRef refid="295"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTLogSourceJavaScript</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTLogSourceJavaScript</Declaration>
-            
-            <DeclaredIn>RCTLog.h</DeclaredIn>
-            
-            <NodeRef refid="295"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

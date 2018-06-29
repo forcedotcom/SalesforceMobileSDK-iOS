@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTSurfaceSizeMeasureMode.html">
+	<File path="Constants/RCTBridgeFields.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTSurfaceSizeMeasureMode</TokenIdentifier>
-			<Abstract type="html">Bitmask defines how size constrains from [UIView sizeThatFits:]
-are translated to [RCTSurface sizeThatFitsMinimumSize:maximumSize:].</Abstract>
-			<DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTBridgeFields</TokenIdentifier>
+			<Abstract type="html">Must be kept in sync with MessageQueue.js.</Abstract>
+			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
             
 			
 			<NodeRef refid="304"/>
@@ -15,61 +14,41 @@ are translated to [RCTSurface sizeThatFitsMinimumSize:maximumSize:].</Abstract>
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeWidthUndefined</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBridgeFieldRequestModuleIDs</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceSizeMeasureModeWidthUndefined</Declaration>
+            <Declaration>RCTBridgeFieldRequestModuleIDs</Declaration>
             
-            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            <DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
             
             <NodeRef refid="304"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeWidthExact</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBridgeFieldMethodIDs</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceSizeMeasureModeWidthExact</Declaration>
+            <Declaration>RCTBridgeFieldMethodIDs</Declaration>
             
-            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            <DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
             
             <NodeRef refid="304"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeWidthAtMost</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBridgeFieldParams</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceSizeMeasureModeWidthAtMost</Declaration>
+            <Declaration>RCTBridgeFieldParams</Declaration>
             
-            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            <DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
             
             <NodeRef refid="304"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeHeightUndefined</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBridgeFieldCallID</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceSizeMeasureModeHeightUndefined</Declaration>
+            <Declaration>RCTBridgeFieldCallID</Declaration>
             
-            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
-            
-            <NodeRef refid="304"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeHeightExact</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceSizeMeasureModeHeightExact</Declaration>
-            
-            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
-            
-            <NodeRef refid="304"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceSizeMeasureModeHeightAtMost</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceSizeMeasureModeHeightAtMost</Declaration>
-            
-            <DeclaredIn>RCTSurfaceSizeMeasureMode.h</DeclaredIn>
+            <DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
             
             <NodeRef refid="304"/>
         </Token>

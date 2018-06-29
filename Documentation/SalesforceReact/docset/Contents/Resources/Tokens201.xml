@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTTextSelection.html">
+	<File path="Classes/RCTTabBar.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTTextSelection</TokenIdentifier>
-			<Abstract type="html">Object containing information about a TextInput&apos;s selection.</Abstract>
-			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTTabBar</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
             
 			
 			<NodeRef refid="201"/>
@@ -13,86 +13,194 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTextSelection/setStart:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/setUnselectedTintColor:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger start</Declaration>
+			<Declaration>@property (nonatomic, strong) UIColor *unselectedTintColor</Declaration>
 			
 			
-			<Anchor>//api/name/start</Anchor>
+			<Anchor>//api/name/unselectedTintColor</Anchor>
             <NodeRef refid="201"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTextSelection/start</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/unselectedTintColor</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger start</Declaration>
+			<Declaration>@property (nonatomic, strong) UIColor *unselectedTintColor</Declaration>
 			
 			
-			<Anchor>//api/name/start</Anchor>
+			<Anchor>//api/name/unselectedTintColor</Anchor>
             <NodeRef refid="201"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTextSelection/start</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBar/unselectedTintColor</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger start</Declaration>
+			<Declaration>@property (nonatomic, strong) UIColor *unselectedTintColor</Declaration>
 			
 			
-			<Anchor>//api/name/start</Anchor>
+			<Anchor>//api/name/unselectedTintColor</Anchor>
             <NodeRef refid="201"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTextSelection/setEnd:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/setTintColor:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger end</Declaration>
+			<Declaration>@property (nonatomic, strong) UIColor *tintColor</Declaration>
 			
 			
-			<Anchor>//api/name/end</Anchor>
+			<Anchor>//api/name/tintColor</Anchor>
             <NodeRef refid="201"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTextSelection/end</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/tintColor</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger end</Declaration>
+			<Declaration>@property (nonatomic, strong) UIColor *tintColor</Declaration>
 			
 			
-			<Anchor>//api/name/end</Anchor>
+			<Anchor>//api/name/tintColor</Anchor>
             <NodeRef refid="201"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTextSelection/end</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBar/tintColor</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger end</Declaration>
+			<Declaration>@property (nonatomic, strong) UIColor *tintColor</Declaration>
 			
 			
-			<Anchor>//api/name/end</Anchor>
+			<Anchor>//api/name/tintColor</Anchor>
             <NodeRef refid="201"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTextSelection/initWithStart:end:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/setBarTintColor:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTextSelection.h</DeclaredIn>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithStart:(NSInteger)start end:(NSInteger)end</Declaration>
+			<Declaration>@property (nonatomic, strong) UIColor *barTintColor</Declaration>
 			
 			
-			<Anchor>//api/name/initWithStart:end:</Anchor>
+			<Anchor>//api/name/barTintColor</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/barTintColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *barTintColor</Declaration>
+			
+			
+			<Anchor>//api/name/barTintColor</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBar/barTintColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIColor *barTintColor</Declaration>
+			
+			
+			<Anchor>//api/name/barTintColor</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/setTranslucent:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL translucent</Declaration>
+			
+			
+			<Anchor>//api/name/translucent</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/translucent</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL translucent</Declaration>
+			
+			
+			<Anchor>//api/name/translucent</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBar/translucent</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL translucent</Declaration>
+			
+			
+			<Anchor>//api/name/translucent</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/setBarStyle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIBarStyle barStyle</Declaration>
+			
+			
+			<Anchor>//api/name/barStyle</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/barStyle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIBarStyle barStyle</Declaration>
+			
+			
+			<Anchor>//api/name/barStyle</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTabBar/barStyle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIBarStyle barStyle</Declaration>
+			
+			
+			<Anchor>//api/name/barStyle</Anchor>
+            <NodeRef refid="201"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTabBar/uiManagerDidPerformMounting</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTabBar.h</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerDidPerformMounting</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerDidPerformMounting</Anchor>
             <NodeRef refid="201"/>
 		</Token>
 		

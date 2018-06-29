@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTRefreshControl.html">
+	<File path="Classes/RCTPushNotificationManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTRefreshControl</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTPushNotificationManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTPushNotificationManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="150"/>
@@ -14,74 +13,74 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRefreshControl/setTitle:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTPushNotificationManager/didRegisterUserNotificationSettings:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			<DeclaredIn>RCTPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *title</Declaration>
+			<Declaration>+ (void)didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings</Declaration>
 			
 			
-			<Anchor>//api/name/title</Anchor>
+			<Anchor>//api/name/didRegisterUserNotificationSettings:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRefreshControl/title</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTPushNotificationManager/didRegisterForRemoteNotificationsWithDeviceToken:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			<DeclaredIn>RCTPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *title</Declaration>
+			<Declaration>+ (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken</Declaration>
 			
 			
-			<Anchor>//api/name/title</Anchor>
+			<Anchor>//api/name/didRegisterForRemoteNotificationsWithDeviceToken:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTRefreshControl/title</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTPushNotificationManager/didReceiveRemoteNotification:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			<DeclaredIn>RCTPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *title</Declaration>
+			<Declaration>+ (void)didReceiveRemoteNotification:(NSDictionary *)notification</Declaration>
 			
 			
-			<Anchor>//api/name/title</Anchor>
+			<Anchor>//api/name/didReceiveRemoteNotification:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRefreshControl/setOnRefresh:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTPushNotificationManager/didReceiveRemoteNotification:fetchCompletionHandler:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			<DeclaredIn>RCTPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onRefresh</Declaration>
+			<Declaration>+ (void)didReceiveRemoteNotification:(NSDictionary *)notification fetchCompletionHandler:(RCTRemoteNotificationCallback)completionHandler</Declaration>
 			
 			
-			<Anchor>//api/name/onRefresh</Anchor>
+			<Anchor>//api/name/didReceiveRemoteNotification:fetchCompletionHandler:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTRefreshControl/onRefresh</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTPushNotificationManager/didReceiveLocalNotification:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			<DeclaredIn>RCTPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onRefresh</Declaration>
+			<Declaration>+ (void)didReceiveLocalNotification:(UILocalNotification *)notification</Declaration>
 			
 			
-			<Anchor>//api/name/onRefresh</Anchor>
+			<Anchor>//api/name/didReceiveLocalNotification:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTRefreshControl/onRefresh</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTPushNotificationManager/didFailToRegisterForRemoteNotificationsWithError:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			<DeclaredIn>RCTPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onRefresh</Declaration>
+			<Declaration>+ (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error</Declaration>
 			
 			
-			<Anchor>//api/name/onRefresh</Anchor>
+			<Anchor>//api/name/didFailToRegisterForRemoteNotificationsWithError:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		

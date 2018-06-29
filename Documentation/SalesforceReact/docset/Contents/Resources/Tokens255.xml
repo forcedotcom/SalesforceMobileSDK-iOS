@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/RCTComponent.html">
+	<File path="Categories/UIView+Private.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/RCTComponent</TokenIdentifier>
-			<Abstract type="html">Logical node in a tree of application components. Both ShadowView and
-UIView conforms to this. Allows us to write utilities that reason about
-trees generally.</Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIView(Private)</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>UIView+Private.h</DeclaredIn>
             
 			
 			<NodeRef refid="255"/>
@@ -15,140 +13,38 @@ trees generally.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTComponent/setReactTag:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/react_remountAllSubviews</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
+			<DeclaredIn>UIView+Private.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSNumber *reactTag</Declaration>
+			<Declaration>- (void)react_remountAllSubviews</Declaration>
 			
 			
-			<Anchor>//api/name/reactTag</Anchor>
+			<Anchor>//api/name/react_remountAllSubviews</Anchor>
             <NodeRef refid="255"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTComponent/reactTag</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/react_updateClippedSubviewsWithClipRect:relativeToView:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
+			<DeclaredIn>UIView+Private.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSNumber *reactTag</Declaration>
+			<Declaration>- (void)react_updateClippedSubviewsWithClipRect:(CGRect)clipRect relativeToView:(UIView *)clipView</Declaration>
 			
 			
-			<Anchor>//api/name/reactTag</Anchor>
+			<Anchor>//api/name/react_updateClippedSubviewsWithClipRect:relativeToView:</Anchor>
             <NodeRef refid="255"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTComponent/reactTag</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIView/react_findClipView</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
+			<DeclaredIn>UIView+Private.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSNumber *reactTag</Declaration>
-			
-			
-			<Anchor>//api/name/reactTag</Anchor>
-            <NodeRef refid="255"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTComponent/insertReactSubview:atIndex:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
-			
-			<Declaration>- (void)insertReactSubview:(id&lt;RCTComponent&gt;)subview atIndex:(NSInteger)atIndex</Declaration>
+			<Declaration>- (UIView *)react_findClipView</Declaration>
 			
 			
-			<Anchor>//api/name/insertReactSubview:atIndex:</Anchor>
-            <NodeRef refid="255"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTComponent/removeReactSubview:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
-			
-			<Declaration>- (void)removeReactSubview:(id&lt;RCTComponent&gt;)subview</Declaration>
-			
-			
-			<Anchor>//api/name/removeReactSubview:</Anchor>
-            <NodeRef refid="255"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTComponent/reactSubviews</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
-			
-			<Declaration>- (NSArray&lt;id&lt;RCTComponent&gt; &gt; *)reactSubviews</Declaration>
-			
-			
-			<Anchor>//api/name/reactSubviews</Anchor>
-            <NodeRef refid="255"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTComponent/reactSuperview</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
-			
-			<Declaration>- (id&lt;RCTComponent&gt;)reactSuperview</Declaration>
-			
-			
-			<Anchor>//api/name/reactSuperview</Anchor>
-            <NodeRef refid="255"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTComponent/reactTagAtPoint:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
-			
-			<Declaration>- (NSNumber *)reactTagAtPoint:(CGPoint)point</Declaration>
-			
-			
-			<Anchor>//api/name/reactTagAtPoint:</Anchor>
-            <NodeRef refid="255"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTComponent/isReactRootView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isReactRootView</Declaration>
-			
-			
-			<Anchor>//api/name/isReactRootView</Anchor>
-            <NodeRef refid="255"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTComponent/didSetProps:</TokenIdentifier>
-			<Abstract type="html">Called each time props have been set.
-Not all props have to be set - React can set only changed ones.</Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
-			
-			<Declaration>- (void)didSetProps:(NSArray&lt;NSString*&gt; *)changedProps</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>changedProps</Name>
-					<Abstract type="html">String names of all set props.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/didSetProps:</Anchor>
-            <NodeRef refid="255"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTComponent/didUpdateReactSubviews</TokenIdentifier>
-			<Abstract type="html">Called each time subviews have been updated</Abstract>
-			<DeclaredIn>RCTComponent.h</DeclaredIn>
-			
-			<Declaration>- (void)didUpdateReactSubviews</Declaration>
-			
-			
-			<Anchor>//api/name/didUpdateReactSubviews</Anchor>
+			<Anchor>//api/name/react_findClipView</Anchor>
             <NodeRef refid="255"/>
 		</Token>
 		

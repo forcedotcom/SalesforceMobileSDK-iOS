@@ -1,77 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTSurfaceBackedComponentState.html">
+	<File path="Classes/RCTSpringAnimation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceBackedComponentState</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTSurfaceBackedComponentState.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSpringAnimation</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSpringAnimation.h</DeclaredIn>
             
 			
 			<NodeRef refid="182"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTSurfaceBackedComponentState/newWithSurface:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceBackedComponentState.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)newWithSurface:(RCTSurface *)surface</Declaration>
-			
-			
-			<Anchor>//api/name/newWithSurface:</Anchor>
-            <NodeRef refid="182"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceBackedComponentState/initWithSurface:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceBackedComponentState.mm</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithSurface:(RCTSurface *)surface</Declaration>
-			
-			
-			<Anchor>//api/name/initWithSurface:</Anchor>
-            <NodeRef refid="182"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceBackedComponentState/setSurface:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceBackedComponentState.h</DeclaredIn>
-			
-			<Declaration>@property (atomic, readonly, strong) RCTSurface *surface</Declaration>
-			
-			
-			<Anchor>//api/name/surface</Anchor>
-            <NodeRef refid="182"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceBackedComponentState/surface</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceBackedComponentState.h</DeclaredIn>
-			
-			<Declaration>@property (atomic, readonly, strong) RCTSurface *surface</Declaration>
-			
-			
-			<Anchor>//api/name/surface</Anchor>
-            <NodeRef refid="182"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTSurfaceBackedComponentState/surface</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceBackedComponentState.h</DeclaredIn>
-			
-			<Declaration>@property (atomic, readonly, strong) RCTSurface *surface</Declaration>
-			
-			
-			<Anchor>//api/name/surface</Anchor>
-            <NodeRef refid="182"/>
-		</Token>
 		
         
         

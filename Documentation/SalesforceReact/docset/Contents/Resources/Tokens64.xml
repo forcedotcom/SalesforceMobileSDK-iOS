@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTEventDispatcher.html">
+	<File path="Classes/RCTErrorInfo.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTEventDispatcher</TokenIdentifier>
-			<Abstract type="html">This class wraps the [RCTBridge enqueueJSCall:args:] method, and
-provides some convenience methods for generating event calls.</Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTErrorInfo</TokenIdentifier>
+			<Abstract type="html">An ObjC wrapper for React Native errors.</Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="64"/>
@@ -14,98 +13,86 @@ provides some convenience methods for generating event calls.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendAppEventWithName:body:</TokenIdentifier>
-			<Abstract type="html">Deprecated, do not use.</Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTErrorInfo/setErrorMessage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
 			
-			<Declaration>- (void)sendAppEventWithName:(NSString *)name body:(id)body</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *errorMessage</Declaration>
 			
 			
-			<Anchor>//api/name/sendAppEventWithName:body:</Anchor>
+			<Anchor>//api/name/errorMessage</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendDeviceEventWithName:body:</TokenIdentifier>
-			<Abstract type="html">Deprecated, do not use.</Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTErrorInfo/errorMessage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
 			
-			<Declaration>- (void)sendDeviceEventWithName:(NSString *)name body:(id)body</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *errorMessage</Declaration>
 			
 			
-			<Anchor>//api/name/sendDeviceEventWithName:body:</Anchor>
+			<Anchor>//api/name/errorMessage</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendInputEventWithName:body:</TokenIdentifier>
-			<Abstract type="html">Deprecated, do not use.</Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTErrorInfo/errorMessage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
 			
-			<Declaration>- (void)sendInputEventWithName:(NSString *)name body:(NSDictionary *)body</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSString *errorMessage</Declaration>
 			
 			
-			<Anchor>//api/name/sendInputEventWithName:body:</Anchor>
+			<Anchor>//api/name/errorMessage</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendTextEventWithType:reactTag:text:key:eventCount:</TokenIdentifier>
-			<Abstract type="html">Send a text input/focus event. For internal use only.</Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTErrorInfo/setStack:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
 			
-			<Declaration>- (void)sendTextEventWithType:(RCTTextEventType)type reactTag:(NSNumber *)reactTag text:(NSString *)text key:(NSString *)key eventCount:(NSInteger)eventCount</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSArray&lt;RCTJSStackFrame*&gt; *stack</Declaration>
 			
 			
-			<Anchor>//api/name/sendTextEventWithType:reactTag:text:key:eventCount:</Anchor>
+			<Anchor>//api/name/stack</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendEvent:</TokenIdentifier>
-			<Abstract type="html">Send a pre-prepared event object.</Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTErrorInfo/stack</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
 			
-			<Declaration>- (void)sendEvent:(id&lt;RCTEvent&gt;)event</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSArray&lt;RCTJSStackFrame*&gt; *stack</Declaration>
 			
 			
-			<Anchor>//api/name/sendEvent:</Anchor>
+			<Anchor>//api/name/stack</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/addDispatchObserver:</TokenIdentifier>
-			<Abstract type="html">Add an event dispatcher observer.</Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTErrorInfo/stack</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
 			
-			<Declaration>- (void)addDispatchObserver:(id&lt;RCTEventDispatcherObserver&gt;)observer</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSArray&lt;RCTJSStackFrame*&gt; *stack</Declaration>
 			
 			
-			<Anchor>//api/name/addDispatchObserver:</Anchor>
+			<Anchor>//api/name/stack</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/removeDispatchObserver:</TokenIdentifier>
-			<Abstract type="html">Remove an event dispatcher observer.</Abstract>
-			<DeclaredIn>RCTEventDispatcher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTErrorInfo/initWithErrorMessage:stack:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTErrorInfo.h</DeclaredIn>
 			
-			<Declaration>- (void)removeDispatchObserver:(id&lt;RCTEventDispatcherObserver&gt;)observer</Declaration>
-			
-			
-			<Anchor>//api/name/removeDispatchObserver:</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTEventDispatcher/sendFakeScrollEvent:</TokenIdentifier>
-			<Abstract type="html">Send a fake scroll event.</Abstract>
-			<DeclaredIn>RCTScrollView.h</DeclaredIn>
-			
-			<Declaration>- (void)sendFakeScrollEvent:(NSNumber *)reactTag</Declaration>
+			<Declaration>- (instancetype)initWithErrorMessage:(NSString *)errorMessage stack:(NSArray&lt;RCTJSStackFrame*&gt; *)stack</Declaration>
 			
 			
-			<Anchor>//api/name/sendFakeScrollEvent:</Anchor>
+			<Anchor>//api/name/initWithErrorMessage:stack:</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		

@@ -43,8 +43,6 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
-	<option value="overview">Overview</option>
-	
 
 	
 	
@@ -96,10 +94,6 @@
 		
 		<option value="//api/name/bundleURL">- bundleURL</option>
 		
-		<option value="//api/name/callFunctionOnModule:method:arguments:error:">- callFunctionOnModule:method:arguments:error:</option>
-		
-		<option value="//api/name/configForModuleName:">- configForModuleName:</option>
-		
 		<option value="//api/name/delegate">- delegate</option>
 		
 		<option value="//api/name/dispatchBlock:queue:">- dispatchBlock:queue:</option>
@@ -126,11 +120,15 @@
 		
 		<option value="//api/name/initWithParentBridge:">- initWithParentBridge:</option>
 		
+		<option value="//api/name/installExtraJSBinding">- installExtraJSBinding</option>
+		
 		<option value="//api/name/invalidate">- invalidate</option>
 		
 		<option value="//api/name/isBatchActive">- isBatchActive</option>
 		
 		<option value="//api/name/isInspectable">- isInspectable</option>
+		
+		<option value="//api/name/jsBoundExtraModuleForClass:">- jsBoundExtraModuleForClass:</option>
 		
 		<option value="//api/name/jsContextRef">- jsContextRef</option>
 		
@@ -196,25 +194,12 @@
 	<td><a href="../Classes/RCTBridge.html">RCTBridge</a> : NSObject</td>
 </tr><tr>
 	<th>Declared in</th>
-	<td>RCTCxxBridge.mm</td>
+	<td>RCTBridge+Private.h<br />RCTCxxBridge.mm</td>
 </tr>
 						</tbody></table></div>
 					
 
                     
-					
-					<div class="section section-overview">
-						<a title="Overview" name="overview"></a>
-						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Copyright &copy; 2015-present, Facebook, Inc.
-All rights reserved.</p>
-
-<p>This source code is licensed under the BSD-style license found in the
-LICENSE file in the root directory of this source tree. An additional grant
-of patent rights can be found in the PATENTS file in the same directory.</p>
-					</div>
-					
-					
 
 					
 					
@@ -427,7 +412,7 @@ the block will go through <a href="#//api/name/handleError:">handleError:</a></p
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Called on the child bridge to run the executor and start <a href="../Classes/RCTBridge.html#//api/name/loading">loading</a>.</p>
+				<p>Called on the child bridge to run the executor and start <a href="#//api/name/loading">loading</a>.</p>
 			</div>
 			
 		    
@@ -611,13 +596,54 @@ potentially blocking both the calling thread and main thread for a short time.</
 			
 			<div class="method-subsection brief-description">
 				<p>Test if a module has been initialized. Use this prior to calling
-<a href="../Classes/RCTBridge.html#//api/name/moduleForClass:"><code>moduleForClass:</code></a> or <a href="../Classes/RCTBridge.html#//api/name/moduleForName:"><code>moduleForName:</code></a> if you do not want to cause the module
+<a href="#//api/name/moduleForClass:"><code>moduleForClass:</code></a> or <a href="#//api/name/moduleForName:"><code>moduleForName:</code></a> if you do not want to cause the module
 to be instantiated if it hasn&rsquo;t been already.</p>
 			</div>
 			
 		    
 
 			<div class="method-subsection method-declaration"><code>- (BOOL)moduleIsInitialized:(Class)<em>moduleClass</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTBridge.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/jsBoundExtraModuleForClass:" title="jsBoundExtraModuleForClass:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/jsBoundExtraModuleForClass:">&ndash;&nbsp;jsBoundExtraModuleForClass:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Retrieve an extra module that gets bound to the JS context, if any.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id)jsBoundExtraModuleForClass:(Class)<em>moduleClass</em></code></div>
 
 		    
 			
@@ -674,47 +700,6 @@ to be instantiated if it hasn&rsquo;t been already.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/configForModuleName:" title="configForModuleName:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/configForModuleName:">&ndash;&nbsp;configForModuleName:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Exposed for the <a href="../Classes/RCTJSCExecutor.html">RCTJSCExecutor</a> for lazily <a href="../Classes/RCTBridge.html#//api/name/loading">loading</a> native modules</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (NSArray *)configForModuleName:(NSString *)<em>moduleName</em></code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTBridge+Private.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/registerModulesForClasses:" title="registerModulesForClasses:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/registerModulesForClasses:">&ndash;&nbsp;registerModulesForClasses:</a></code>
 </h3>
@@ -742,6 +727,22 @@ to be instantiated if it hasn&rsquo;t been already.</p>
 			
 
 			<div class="method-subsection method-declaration"><code>- (void)registerExtraModules</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/installExtraJSBinding" title="installExtraJSBinding"></a>
+	<h3 class="method-title"><code><a href="#//api/name/installExtraJSBinding">&ndash;&nbsp;installExtraJSBinding</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)installExtraJSBinding</code></div>
 
 		    
 		</div>
@@ -1476,58 +1477,6 @@ queue. Exposed for the RCTProfiler</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/callFunctionOnModule:method:arguments:error:" title="callFunctionOnModule:method:arguments:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/callFunctionOnModule:method:arguments:error:">&ndash;&nbsp;callFunctionOnModule:method:arguments:error:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>This method is used to call functions in the JavaScript application context
-synchronously.  This is intended for use by applications which do their own
-thread management and are careful to manage multi-threaded access to the JSVM.
-See also [RCTBridgeDelgate shouldBridgeLoadJavaScriptSynchronously], which
-may be needed to ensure that any requires JS code is loaded before this method
-is called.  If the underlying executor is not JSC, this will return nil.  Safe
-to call from any thread.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (JSValue *)callFunctionOnModule:(NSString *)<em>module</em> method:(NSString *)<em>method</em> arguments:(NSArray *)<em>arguments</em> error:(NSError **)<em>error</em></code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>@experimental</p>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTBridge.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/registerSegmentWithId:path:" title="registerSegmentWithId:path:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/registerSegmentWithId:path:">&ndash;&nbsp;registerSegmentWithId:path:</a></code>
 </h3>
@@ -1674,7 +1623,7 @@ to call from any thread.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Says whether bridge has started recieving calls from javascript.</p>
+				<p>Says whether bridge has started receiving calls from javascript.</p>
 			</div>
 			
 		    
@@ -1808,7 +1757,7 @@ to call from any thread.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

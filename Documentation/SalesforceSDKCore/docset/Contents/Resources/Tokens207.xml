@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountAccessRestriction.html">
+	<File path="Constants/SFOAuthSessionRefreshErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountAccessRestriction</TokenIdentifier>
-			<Abstract type="html">User account restrictions</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthSessionRefreshErrorCode</TokenIdentifier>
+			<Abstract type="html">Error codes for refresh failures.</Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
             
 			
 			<NodeRef refid="207"/>
@@ -14,41 +14,11 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthSessionRefreshErrorCodeInvalidCredentials</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionNone</Declaration>
+            <Declaration>SFOAuthSessionRefreshErrorCodeInvalidCredentials</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="207"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionChatter</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionChatter</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="207"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionREST</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionREST</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="207"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionOther</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionOther</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
             
             <NodeRef refid="207"/>
         </Token>

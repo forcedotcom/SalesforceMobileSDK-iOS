@@ -1,17 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTPickerManager.html">
+	<File path="Classes/RCTPackagerClientResponder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTPickerManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTPickerManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTPackagerClientResponder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
             
 			
 			<NodeRef refid="140"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerClientResponder/initWithId:socket:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithId:(id)msgId socket:(RCTReconnectingWebSocket *)socket</Declaration>
+			
+			
+			<Anchor>//api/name/initWithId:socket:</Anchor>
+            <NodeRef refid="140"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerClientResponder/respondWithResult:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
+			
+			<Declaration>- (void)respondWithResult:(id)result</Declaration>
+			
+			
+			<Anchor>//api/name/respondWithResult:</Anchor>
+            <NodeRef refid="140"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTPackagerClientResponder/respondWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTPackagerClient.h</DeclaredIn>
+			
+			<Declaration>- (void)respondWithError:(id)error</Declaration>
+			
+			
+			<Anchor>//api/name/respondWithError:</Anchor>
+            <NodeRef refid="140"/>
+		</Token>
 		
         
         

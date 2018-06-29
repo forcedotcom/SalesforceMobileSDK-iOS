@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTJSStackFrame.html">
+	<File path="Classes/RCTInspector.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTJSStackFrame</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTInspector</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
             
 			
 			<NodeRef refid="97"/>
@@ -14,218 +13,38 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJSStackFrame/setMethodName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTInspector/pages</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *methodName</Declaration>
+			<Declaration>+ (NSArray&lt;RCTInspectorPage*&gt; *)pages</Declaration>
 			
 			
-			<Anchor>//api/name/methodName</Anchor>
+			<Anchor>//api/name/pages</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJSStackFrame/methodName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTInspector/connectPage:forRemoteConnection:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
+			<DeclaredIn>RCTInspector.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *methodName</Declaration>
+			<Declaration>+ (RCTInspectorLocalConnection *)connectPage:(NSInteger)pageId forRemoteConnection:(RCTInspectorRemoteConnection *)remote</Declaration>
 			
 			
-			<Anchor>//api/name/methodName</Anchor>
+			<Anchor>//api/name/connectPage:forRemoteConnection:</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTJSStackFrame/methodName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTInspector/init</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
+			<DeclaredIn>RCTInspector.mm</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *methodName</Declaration>
-			
-			
-			<Anchor>//api/name/methodName</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJSStackFrame/setFile:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *file</Declaration>
+			<Declaration>- (instancetype)init</Declaration>
 			
 			
-			<Anchor>//api/name/file</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJSStackFrame/file</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *file</Declaration>
-			
-			
-			<Anchor>//api/name/file</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTJSStackFrame/file</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *file</Declaration>
-			
-			
-			<Anchor>//api/name/file</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJSStackFrame/setLineNumber:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger lineNumber</Declaration>
-			
-			
-			<Anchor>//api/name/lineNumber</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJSStackFrame/lineNumber</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger lineNumber</Declaration>
-			
-			
-			<Anchor>//api/name/lineNumber</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTJSStackFrame/lineNumber</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger lineNumber</Declaration>
-			
-			
-			<Anchor>//api/name/lineNumber</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJSStackFrame/setColumn:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger column</Declaration>
-			
-			
-			<Anchor>//api/name/column</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJSStackFrame/column</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger column</Declaration>
-			
-			
-			<Anchor>//api/name/column</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTJSStackFrame/column</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSInteger column</Declaration>
-			
-			
-			<Anchor>//api/name/column</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJSStackFrame/initWithMethodName:file:lineNumber:column:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithMethodName:(NSString *)methodName file:(NSString *)file lineNumber:(NSInteger)lineNumber column:(NSInteger)column</Declaration>
-			
-			
-			<Anchor>//api/name/initWithMethodName:file:lineNumber:column:</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTJSStackFrame/toDictionary</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)toDictionary</Declaration>
-			
-			
-			<Anchor>//api/name/toDictionary</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTJSStackFrame/stackFrameWithLine:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)stackFrameWithLine:(NSString *)line</Declaration>
-			
-			
-			<Anchor>//api/name/stackFrameWithLine:</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTJSStackFrame/stackFrameWithDictionary:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)stackFrameWithDictionary:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/stackFrameWithDictionary:</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTJSStackFrame/stackFramesWithLines:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>+ (NSArray&lt;RCTJSStackFrame*&gt; *)stackFramesWithLines:(NSString *)lines</Declaration>
-			
-			
-			<Anchor>//api/name/stackFramesWithLines:</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTJSStackFrame/stackFramesWithDictionaries:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTJSStackFrame.h</DeclaredIn>
-			
-			<Declaration>+ (NSArray&lt;RCTJSStackFrame*&gt; *)stackFramesWithDictionaries:(NSArray&lt;NSDictionary*&gt; *)dicts</Declaration>
-			
-			
-			<Anchor>//api/name/stackFramesWithDictionaries:</Anchor>
+			<Anchor>//api/name/init</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		

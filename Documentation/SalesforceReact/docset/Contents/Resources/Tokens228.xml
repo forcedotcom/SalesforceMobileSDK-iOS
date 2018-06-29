@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTWrapperViewControllerHostingView.html">
+	<File path="Classes/RCTWebSocketModule.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTWrapperViewControllerHostingView</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWebSocketModule</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewControllerHostingView.h</DeclaredIn>
+			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
             
 			
 			<NodeRef refid="228"/>
@@ -13,86 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewControllerHostingView/setContentViewController:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebSocketModule/setContentHandler:forSocketID:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewControllerHostingView.h</DeclaredIn>
+			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain, nullable) UIViewController *contentViewController</Declaration>
+			<Declaration>- (void)setContentHandler:(id&lt;RCTWebSocketContentHandler&gt; __nullable)handler forSocketID:(NSNumber *)socketID</Declaration>
 			
 			
-			<Anchor>//api/name/contentViewController</Anchor>
+			<Anchor>//api/name/setContentHandler:forSocketID:</Anchor>
             <NodeRef refid="228"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewControllerHostingView/contentViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTWebSocketModule/sendData:forSocketID:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewControllerHostingView.h</DeclaredIn>
+			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain, nullable) UIViewController *contentViewController</Declaration>
-			
-			
-			<Anchor>//api/name/contentViewController</Anchor>
-            <NodeRef refid="228"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTWrapperViewControllerHostingView/contentViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewControllerHostingView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, retain, nullable) UIViewController *contentViewController</Declaration>
+			<Declaration>- (void)sendData:(NSData *)data forSocketID:(nonnull NSNumber *)socketID</Declaration>
 			
 			
-			<Anchor>//api/name/contentViewController</Anchor>
-            <NodeRef refid="228"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewControllerHostingView/addSubview:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewControllerHostingView.h</DeclaredIn>
-			
-			<Declaration>- (void)addSubview:(UIView *)view</Declaration>
-			
-			
-			<Anchor>//api/name/addSubview:</Anchor>
-            <NodeRef refid="228"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewControllerHostingView/insertSubview:atIndex:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewControllerHostingView.h</DeclaredIn>
-			
-			<Declaration>- (void)insertSubview:(UIView *)view atIndex:(NSInteger)index</Declaration>
-			
-			
-			<Anchor>//api/name/insertSubview:atIndex:</Anchor>
-            <NodeRef refid="228"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewControllerHostingView/insertSubview:aboveSubview:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewControllerHostingView.h</DeclaredIn>
-			
-			<Declaration>- (void)insertSubview:(UIView *)view aboveSubview:(UIView *)siblingSubview</Declaration>
-			
-			
-			<Anchor>//api/name/insertSubview:aboveSubview:</Anchor>
-            <NodeRef refid="228"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperViewControllerHostingView/insertSubview:belowSubview:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperViewControllerHostingView.h</DeclaredIn>
-			
-			<Declaration>- (void)insertSubview:(UIView *)view belowSubview:(UIView *)siblingSubview</Declaration>
-			
-			
-			<Anchor>//api/name/insertSubview:belowSubview:</Anchor>
+			<Anchor>//api/name/sendData:forSocketID:</Anchor>
             <NodeRef refid="228"/>
 		</Token>
 		

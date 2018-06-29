@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTNativeAnimatedModule.html">
+	<File path="Classes/RCTModuloAnimatedNode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTNativeAnimatedModule</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTNativeAnimatedModule.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTModuloAnimatedNode</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTModuloAnimatedNode.h</DeclaredIn>
             
 			
 			<NodeRef refid="125"/>

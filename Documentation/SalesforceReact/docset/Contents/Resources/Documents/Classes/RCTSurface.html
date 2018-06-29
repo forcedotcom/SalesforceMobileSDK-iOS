@@ -106,6 +106,8 @@
 		
 		<option value="//api/name/initWithBridge:moduleName:initialProperties:">- initWithBridge:moduleName:initialProperties:</option>
 		
+		<option value="//api/name/mountReactComponentWithBridge:moduleName:params:">- mountReactComponentWithBridge:moduleName:params:</option>
+		
 		<option value="//api/name/rootShadowView:didChangeIntrinsicSize:">- rootShadowView:didChangeIntrinsicSize:</option>
 		
 		<option value="//api/name/rootShadowViewDidStartLayingOut:">- rootShadowViewDidStartLayingOut:</option>
@@ -119,6 +121,12 @@
 		<option value="//api/name/sizeThatFitsMinimumSize:maximumSize:">- sizeThatFitsMinimumSize:maximumSize:</option>
 		
 		<option value="//api/name/synchronouslyWaitForStage:timeout:">- synchronouslyWaitForStage:timeout:</option>
+		
+		<option value="//api/name/uiManager:performMountingWithBlock:">- uiManager:performMountingWithBlock:</option>
+		
+		<option value="//api/name/uiManagerDidPerformMounting:">- uiManagerDidPerformMounting:</option>
+		
+		<option value="//api/name/unmountReactComponentWithBridge:rootViewTag:">- unmountReactComponentWithBridge:rootViewTag:</option>
 		
 		<option value="//api/name/view">- view</option>
 		
@@ -171,12 +179,10 @@ and synchronous manner;
 * ability to create a UIView instance on demand (later);
 * ability to communicate the current <a href="#//api/name/stage">stage</a> of the surface granularly.</p>
 
-<p>Copyright &copy; 2015-present, Facebook, Inc.
-All rights reserved.</p>
+<p>Copyright &copy; 2015-present, Facebook, Inc.</p>
 
-<p>This source code is licensed under the BSD-style license found in the
-LICENSE file in the root directory of this source tree. An additional grant
-of patent rights can be found in the PATENTS file in the same directory.</p>
+<p>This source code is licensed under the MIT license found in the
+LICENSE file in the root directory of this source tree.</p>
 					</div>
 					
 					
@@ -616,13 +622,100 @@ size constraints.</p>
 			
 			<div class="method-subsection brief-description">
 				<p>Synchronously blocks the current thread up to given <code>timeout</code> until
-the Surface will not have given <a href="#//api/name/stage"><code>stage</code></a>.
-Do nothing, if called from the main or <code>UIManager</code> queue.</p>
+the Surface reaches <a href="#//api/name/stage"><code>stage</code></a>.
+Limitations:
+- Do nothing, if called on <code>UIManager</code> queue.
+- Calling on the main queue with <code>RCTSurfaceStageSurfaceDidInitialMounting</code>
+<a href="#//api/name/stage">stage</a> temporary is not supported; in this case the <a href="#//api/name/stage">stage</a> will be
+downgraded to <code>RCTSurfaceStageSurfaceDidInitialLayout</code>.</p>
 			</div>
 			
 		    
 
 			<div class="method-subsection method-declaration"><code>- (BOOL)synchronouslyWaitForStage:(RCTSurfaceStage)<em>stage</em> timeout:(NSTimeInterval)<em>timeout</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurface.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/mountReactComponentWithBridge:moduleName:params:" title="mountReactComponentWithBridge:moduleName:params:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/mountReactComponentWithBridge:moduleName:params:">&ndash;&nbsp;mountReactComponentWithBridge:moduleName:params:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Mount the React component specified by the given <a href="#//api/name/moduleName">moduleName</a>. This is typically
+calling runApplication.js from the native side.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)mountReactComponentWithBridge:(RCTBridge *)<em>bridge</em> moduleName:(NSString *)<em>moduleName</em> params:(NSDictionary *)<em>params</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurface.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/unmountReactComponentWithBridge:rootViewTag:" title="unmountReactComponentWithBridge:rootViewTag:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unmountReactComponentWithBridge:rootViewTag:">&ndash;&nbsp;unmountReactComponentWithBridge:rootViewTag:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Unmount the React component specified by the given <a href="../Classes/RCTSurface.html#//api/name/rootViewTag">rootViewTag</a>, called from native.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)unmountReactComponentWithBridge:(RCTBridge *)<em>bridge</em> rootViewTag:(NSNumber *)<em>rootViewTag</em></code></div>
 
 		    
 			
@@ -878,6 +971,38 @@ Do nothing, if called from the main or <code>UIManager</code> queue.</p>
 		    
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/uiManager:performMountingWithBlock:" title="uiManager:performMountingWithBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/uiManager:performMountingWithBlock:">&ndash;&nbsp;uiManager:performMountingWithBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)uiManager:(RCTUIManager *)<em>manager</em> performMountingWithBlock:(RCTUIManagerMountingBlock)<em>block</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/uiManagerDidPerformMounting:" title="uiManagerDidPerformMounting:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/uiManagerDidPerformMounting:">&ndash;&nbsp;uiManagerDidPerformMounting:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)uiManagerDidPerformMounting:(RCTUIManager *)<em>manager</em></code></div>
+
+		    
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -893,7 +1018,7 @@ Do nothing, if called from the main or <code>UIManager</code> queue.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

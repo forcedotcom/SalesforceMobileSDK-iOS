@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreReactBridge.html">
+	<File path="Classes/RCTWrapperReactRootViewManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreReactBridge</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWrapperReactRootViewManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreReactBridge.h</DeclaredIn>
+			<DeclaredIn>RCTWrapperReactRootViewManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="234"/>

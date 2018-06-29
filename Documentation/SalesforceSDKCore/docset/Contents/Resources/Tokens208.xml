@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountChange.html">
+	<File path="Constants/SFOAuthTokenEndpointFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
-			<Abstract type="html">The various changes that can affect a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthTokenEndpointFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="208"/>
@@ -14,34 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
-            <Abstract type="html">Unknown change
-     </Abstract>
-            <Declaration>SFUserAccountChangeUnknown</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowNone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTokenEndpointFlowNone</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="208"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
-            <Abstract type="html">New User
-      </Abstract>
-            <Declaration>SFUserAccountChangeNewUser</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
             
             <NodeRef refid="208"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCurrentUser</TokenIdentifier>
-            <Abstract type="html">Change of Current User
-     </Abstract>
-            <Declaration>SFUserAccountChangeCurrentUser</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowRefresh</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTokenEndpointFlowRefresh</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            
+            <NodeRef refid="208"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowAdvancedBrowser</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTokenEndpointFlowAdvancedBrowser</Declaration>
+            
+            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
             
             <NodeRef refid="208"/>
         </Token>

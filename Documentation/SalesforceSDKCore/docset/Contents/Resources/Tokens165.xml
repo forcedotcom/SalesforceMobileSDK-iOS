@@ -1,150 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKIDPAuthClientDelegate.html">
+	<File path="Protocols/SFIdentityCoordinatorDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKIDPAuthClientDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFIdentityCoordinatorDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol for being a delegate to the SFIdentityCoordinator process.  Delegates may receive
+notifications about the success or failure of the identity request process.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
             
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<NodeRef refid="165"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClientDisplayIDPLoginFlowSelection:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client requires Delegate to choose the login flow.</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinatorRetrievedData:</TokenIdentifier>
+			<Abstract type="html">Called when the identity coordinator successfully receives identity data from the service.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDisplayIDPLoginFlowSelection:(SFSDKIDPAuthClient *)client</Declaration>
+			<Declaration>- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">the SFIdentityCoordinator instance associated with the requested data.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/authClientDisplayIDPLoginFlowSelection:</Anchor>
+			<Anchor>//api/name/identityCoordinatorRetrievedData:</Anchor>
             <NodeRef refid="165"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:willSendRequestForIDPAuth:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinator:didFailWithError:</TokenIdentifier>
+			<Abstract type="html">Called if there was an error while retrieving the identity data from the service.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client willSendRequestForIDPAuth:(NSDictionary *)options</Declaration>
+			<Declaration>- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFIdentityCoordinator instance associated with the request.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error that occurred during the request.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/authClient:willSendRequestForIDPAuth:</Anchor>
-            <NodeRef refid="165"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:didSendRequestForIDPAuth:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
-			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didSendRequestForIDPAuth:(NSDictionary *)options</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authClient:didSendRequestForIDPAuth:</Anchor>
-            <NodeRef refid="165"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:didReceiveRequestForIDPAuth:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
-			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didReceiveRequestForIDPAuth:(NSURL *)request</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authClient:didReceiveRequestForIDPAuth:</Anchor>
-            <NodeRef refid="165"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:error:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
-			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client error:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authClient:error:</Anchor>
-            <NodeRef refid="165"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClientDidFetchAuthCode:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
-			
-			<Declaration>- (void)authClientDidFetchAuthCode:(SFSDKIDPAuthClient *_Nonnull)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authClientDidFetchAuthCode:</Anchor>
-            <NodeRef refid="165"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:didReceiveResponseForIDPAuth:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process with an auth view.</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
-			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didReceiveResponseForIDPAuth:(NSDictionary *)options</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authClient:didReceiveResponseForIDPAuth:</Anchor>
-            <NodeRef refid="165"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:willSendResponseForIDPAuth:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process with an auth view.</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
-			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client willSendResponseForIDPAuth:(NSDictionary *)options</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/authClient:willSendResponseForIDPAuth:</Anchor>
+			<Anchor>//api/name/identityCoordinator:didFailWithError:</Anchor>
             <NodeRef refid="165"/>
 		</Token>
 		

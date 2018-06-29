@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginHostStorage.html">
+	<File path="Classes/SFSDKLoginHost.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHostStorage</TokenIdentifier>
-			<Abstract type="html">This class manages the list of login hosts as well its persistence.
-Currently this list is persisted in the user defaults.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHost</TokenIdentifier>
+			<Abstract type="html">Class that encapsulates the information about a login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
             
 			
 			<NodeRef refid="92"/>
@@ -14,135 +13,133 @@ Currently this list is persisted in the user defaults.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLoginHostStorage/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the shared instance of this class.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setName:</TokenIdentifier>
+			<Abstract type="html">The name of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKLoginHostStorage *)sharedInstance</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/addLoginHost:</TokenIdentifier>
-			<Abstract type="html">Adds a new login host.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/name</TokenIdentifier>
+			<Abstract type="html">The name of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>- (void)addLoginHost:(SFSDKLoginHost *)loginHost</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>loginHost</Name>
-					<Abstract type="html">Login host to be added</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
 			
-			<Anchor>//api/name/addLoginHost:</Anchor>
+			
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/removeLoginHostAtIndex:</TokenIdentifier>
-			<Abstract type="html">Removes the login host at the specified index.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/name</TokenIdentifier>
+			<Abstract type="html">The name of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>- (void)removeLoginHostAtIndex:(NSUInteger)index</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>index</Name>
-					<Abstract type="html">Index of the login host</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
 			
-			<Anchor>//api/name/removeLoginHostAtIndex:</Anchor>
+			
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/indexOfLoginHost:</TokenIdentifier>
-			<Abstract type="html">Returns the index of the specified host if exists.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setHost:</TokenIdentifier>
+			<Abstract type="html">The server address of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)indexOfLoginHost:(SFSDKLoginHost *)host</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
+			
+			
+			<Anchor>//api/name/host</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/host</TokenIdentifier>
+			<Abstract type="html">The server address of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
+			
+			
+			<Anchor>//api/name/host</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/host</TokenIdentifier>
+			<Abstract type="html">The server address of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
+			
+			
+			<Anchor>//api/name/host</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setDeletable:</TokenIdentifier>
+			<Abstract type="html">Indicates whether this login host can be deleted.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
+			
+			
+			<Anchor>//api/name/deletable</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/isDeletable</TokenIdentifier>
+			<Abstract type="html">Indicates whether this login host can be deleted.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
+			
+			
+			<Anchor>//api/name/deletable</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/deletable</TokenIdentifier>
+			<Abstract type="html">Indicates whether this login host can be deleted.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
+			
+			
+			<Anchor>//api/name/deletable</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLoginHost/hostWithName:host:deletable:</TokenIdentifier>
+			<Abstract type="html">* Returns a new login host instance with the specified parameters.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>+ (SFSDKLoginHost *)hostWithName:(NSString *)name host:(NSString *)host deletable:(BOOL)deletable</Declaration>
 			<Parameters>
 				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">Name of the login host.</Abstract>
+				</Parameter><Parameter>
 					<Name>host</Name>
-					<Abstract type="html">Requested login host</Abstract>
+					<Abstract type="html">Server address of the login host.</Abstract>
+				</Parameter><Parameter>
+					<Name>deletable</Name>
+					<Abstract type="html">YES if the host can be deleted.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/indexOfLoginHost:</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/loginHostAtIndex:</TokenIdentifier>
-			<Abstract type="html">Returns the login host at the specified index.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKLoginHost *)loginHostAtIndex:(NSUInteger)index</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>index</Name>
-					<Abstract type="html">Requested index</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/loginHostAtIndex:</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/loginHostForHostAddress:</TokenIdentifier>
-			<Abstract type="html">Returns the login host with a particular host address, if any.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
-			
-			<Declaration>- (nullable SFSDKLoginHost *)loginHostForHostAddress:(NSString *)hostAddress</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>hostAddress</Name>
-					<Abstract type="html">Address to be queried</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/loginHostForHostAddress:</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/removeAllLoginHosts</TokenIdentifier>
-			<Abstract type="html">Removes all the login hosts.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)removeAllLoginHosts</Declaration>
-			
-			
-			<Anchor>//api/name/removeAllLoginHosts</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/numberOfLoginHosts</TokenIdentifier>
-			<Abstract type="html">Returns the number of login hosts.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
-			
-			<Declaration>- (NSUInteger)numberOfLoginHosts</Declaration>
-			
-			
-			<Anchor>//api/name/numberOfLoginHosts</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/save</TokenIdentifier>
-			<Abstract type="html">Stores all the login host except the non-deletable ones in the user defaults.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)save</Declaration>
-			
-			
-			<Anchor>//api/name/save</Anchor>
+			<Anchor>//api/name/hostWithName:host:deletable:</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		

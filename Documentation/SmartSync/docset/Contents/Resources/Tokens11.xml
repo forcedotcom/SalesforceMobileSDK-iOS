@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRecordModDate.html">
+	<File path="Classes/SFMruSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRecordModDate</TokenIdentifier>
-			<Abstract type="html">Helper class for isNewerThanServer</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFMruSyncDownTarget</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>
@@ -13,86 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setTimestamp:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/setObjectType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/timestamp</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/timestamp</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/timestamp</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/timestamp</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMruSyncDownTarget/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/timestamp</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setIsDeleted:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/setFieldlist:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/isDeleted</Anchor>
+			<Anchor>//api/name/fieldlist</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/isDeleted</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/fieldlist</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/isDeleted</Anchor>
+			<Anchor>//api/name/fieldlist</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/isDeleted</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMruSyncDownTarget/fieldlist</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/isDeleted</Anchor>
+			<Anchor>//api/name/fieldlist</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/initWithTimestamp:isDeleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFMruSyncDownTarget/newSyncTarget:fieldlist:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithTimestamp:(nullable NSString *)timestamp isDeleted:(BOOL)isDeleted</Declaration>
+			<Declaration>+ (SFMruSyncDownTarget *)newSyncTarget:(NSString *)objectType fieldlist:(NSArray *)fieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/initWithTimestamp:isDeleted:</Anchor>
+			<Anchor>//api/name/newSyncTarget:fieldlist:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		

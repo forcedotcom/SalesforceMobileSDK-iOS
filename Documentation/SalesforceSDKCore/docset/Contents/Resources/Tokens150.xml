@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSURL+SFStringUtils.html">
+	<File path="Categories/NSData+SFSDKUtilsInternal.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFStringUtils)</TokenIdentifier>
-			<Abstract type="html">Utilities for interacting with NSURL objects.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtilsInternal)</TokenIdentifier>
+			<Abstract type="html">Internal definitions for the Mobile SDK NSData utilities.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="150"/>
@@ -13,80 +13,19 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/redactedAbsoluteString:</TokenIdentifier>
-			<Abstract type="html">Will return the absolute string of a URL, with potentially sensitive querystring
-parameter values redacted.  Useful for logging URL values without sensitive data
-included.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/replaceBase64CharsForBase64UrlString:</TokenIdentifier>
+			<Abstract type="html">Replace the base64 characters that are invalid in a base64url string.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact</Declaration>
+			<Declaration>+ (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>queryStringParamsToRedact</Name>
-					<Abstract type="html">An array of querystring parameter names whose values
-should be redacted.</Abstract>
+					<Name>base64String</Name>
+					<Abstract type="html">The input string with characters to replace.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The redacted version of the absolute string value.</Abstract></ReturnValue>
-			<Anchor>//api/name/redactedAbsoluteString:</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/stringUrlWithBaseUrl:pathComponents:</TokenIdentifier>
-			<Abstract type="html">Helper method that constructs an absolute URL string given the specified components.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)stringUrlWithBaseUrl:(NSURL *)baseUrl pathComponents:(NSArray *)pathComponents</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>baseUrl</Name>
-					<Abstract type="html">The base URL</Abstract>
-				</Parameter><Parameter>
-					<Name>pathComponents</Name>
-					<Abstract type="html">The components of the path</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">an absolute string URL representation</Abstract></ReturnValue>
-			<Anchor>//api/name/stringUrlWithBaseUrl:pathComponents:</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/stringUrlWithScheme:host:port:pathComponents:</TokenIdentifier>
-			<Abstract type="html">Helper method that constructs an absolute URL string given the specified components.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)stringUrlWithScheme:(NSString *)scheme host:(NSString *)host port:(NSNumber *)port pathComponents:(NSArray *)pathComponents</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>scheme</Name>
-					<Abstract type="html">The scheme of the URL</Abstract>
-				</Parameter><Parameter>
-					<Name>host</Name>
-					<Abstract type="html">The host of the URL</Abstract>
-				</Parameter><Parameter>
-					<Name>port</Name>
-					<Abstract type="html">The port of the URL</Abstract>
-				</Parameter><Parameter>
-					<Name>pathComponents</Name>
-					<Abstract type="html">The components of the path</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">an absolute string URL representation</Abstract></ReturnValue>
-			<Anchor>//api/name/stringUrlWithScheme:host:port:pathComponents:</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/slashTerminatedUrl</TokenIdentifier>
-			<Abstract type="html">Adds a trailing slash to the URL&apos;s path, if necessary</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
-			
-			<Declaration>- (NSURL *)slashTerminatedUrl</Declaration>
-			
-			<ReturnValue><Abstract type="html">A URL whose path ends in a forward slash</Abstract></ReturnValue>
-			<Anchor>//api/name/slashTerminatedUrl</Anchor>
+			<ReturnValue><Abstract type="html">The base64 string with the URL chars replaced (i.e. the base64url string).</Abstract></ReturnValue>
+			<Anchor>//api/name/replaceBase64CharsForBase64UrlString:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		

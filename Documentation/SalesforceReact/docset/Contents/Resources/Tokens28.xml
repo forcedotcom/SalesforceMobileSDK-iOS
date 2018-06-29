@@ -4,8 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/RCTAnimatedNode</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
 			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
             
 			
@@ -58,6 +57,42 @@ All rights reserved.</Abstract>
 			
 			
 			<Anchor>//api/name/nodeTag</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/setManager:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) RCTNativeAnimatedNodesManager *manager</Declaration>
+			
+			
+			<Anchor>//api/name/manager</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTAnimatedNode/manager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) RCTNativeAnimatedNodesManager *manager</Declaration>
+			
+			
+			<Anchor>//api/name/manager</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTAnimatedNode/manager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTAnimatedNode.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) RCTNativeAnimatedNodesManager *manager</Declaration>
+			
+			
+			<Anchor>//api/name/manager</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		

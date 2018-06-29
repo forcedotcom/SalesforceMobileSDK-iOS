@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTFont.html">
+	<File path="Classes/RCTFPSGraph.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTFont</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTFont.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTFPSGraph</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
             
 			
 			<NodeRef refid="69"/>
@@ -14,64 +13,134 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTFont/updateFont:withFamily:size:weight:style:variant:scaleMultiplier:</TokenIdentifier>
-			<Abstract type="html">Update a font with a given font-family, size, weight and style.
-If parameters are not specified, they&apos;ll be kept as-is.
-If font is nil, the default system font of size 14 will be used.</Abstract>
-			<DeclaredIn>RCTFont.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFPSGraph/setFPS:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
 			
-			<Declaration>+ (UIFont *)updateFont:(UIFont *)font withFamily:(NSString *)family size:(NSNumber *)size weight:(NSString *)weight style:(NSString *)style variant:(NSArray&lt;NSString*&gt; *)variant scaleMultiplier:(CGFloat)scaleMultiplier</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSUInteger FPS</Declaration>
 			
 			
-			<Anchor>//api/name/updateFont:withFamily:size:weight:style:variant:scaleMultiplier:</Anchor>
+			<Anchor>//api/name/FPS</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTFont/updateFont:withFamily:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFPSGraph/FPS</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTFont.h</DeclaredIn>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
 			
-			<Declaration>+ (UIFont *)updateFont:(UIFont *)font withFamily:(NSString *)family</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSUInteger FPS</Declaration>
 			
 			
-			<Anchor>//api/name/updateFont:withFamily:</Anchor>
+			<Anchor>//api/name/FPS</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTFont/updateFont:withSize:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFPSGraph/FPS</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTFont.h</DeclaredIn>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
 			
-			<Declaration>+ (UIFont *)updateFont:(UIFont *)font withSize:(NSNumber *)size</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSUInteger FPS</Declaration>
 			
 			
-			<Anchor>//api/name/updateFont:withSize:</Anchor>
+			<Anchor>//api/name/FPS</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTFont/updateFont:withWeight:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFPSGraph/setMaxFPS:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTFont.h</DeclaredIn>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
 			
-			<Declaration>+ (UIFont *)updateFont:(UIFont *)font withWeight:(NSString *)weight</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSUInteger maxFPS</Declaration>
 			
 			
-			<Anchor>//api/name/updateFont:withWeight:</Anchor>
+			<Anchor>//api/name/maxFPS</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTFont/updateFont:withStyle:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFPSGraph/maxFPS</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTFont.h</DeclaredIn>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
 			
-			<Declaration>+ (UIFont *)updateFont:(UIFont *)font withStyle:(NSString *)style</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSUInteger maxFPS</Declaration>
 			
 			
-			<Anchor>//api/name/updateFont:withStyle:</Anchor>
+			<Anchor>//api/name/maxFPS</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFPSGraph/maxFPS</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSUInteger maxFPS</Declaration>
+			
+			
+			<Anchor>//api/name/maxFPS</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFPSGraph/setMinFPS:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSUInteger minFPS</Declaration>
+			
+			
+			<Anchor>//api/name/minFPS</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFPSGraph/minFPS</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSUInteger minFPS</Declaration>
+			
+			
+			<Anchor>//api/name/minFPS</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTFPSGraph/minFPS</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSUInteger minFPS</Declaration>
+			
+			
+			<Anchor>//api/name/minFPS</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFPSGraph/initWithFrame:color:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame color:(UIColor *)color</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:color:</Anchor>
+            <NodeRef refid="69"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFPSGraph/onTick:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTFPSGraph.h</DeclaredIn>
+			
+			<Declaration>- (void)onTick:(NSTimeInterval)timestamp</Declaration>
+			
+			
+			<Anchor>//api/name/onTick:</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		

@@ -1,17 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTSafeAreaShadowView.html">
+	<File path="Classes/RCTRefreshControl.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTSafeAreaShadowView</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTSafeAreaShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTRefreshControl</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
             
 			
 			<NodeRef refid="156"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRefreshControl/setTitle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *title</Declaration>
+			
+			
+			<Anchor>//api/name/title</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRefreshControl/title</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *title</Declaration>
+			
+			
+			<Anchor>//api/name/title</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTRefreshControl/title</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *title</Declaration>
+			
+			
+			<Anchor>//api/name/title</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRefreshControl/setOnRefresh:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onRefresh</Declaration>
+			
+			
+			<Anchor>//api/name/onRefresh</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRefreshControl/onRefresh</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onRefresh</Declaration>
+			
+			
+			<Anchor>//api/name/onRefresh</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTRefreshControl/onRefresh</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRefreshControl.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onRefresh</Declaration>
+			
+			
+			<Anchor>//api/name/onRefresh</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
 		
         
         

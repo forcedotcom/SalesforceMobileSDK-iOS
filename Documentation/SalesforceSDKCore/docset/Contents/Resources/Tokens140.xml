@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFHexSupport.html">
+	<File path="Classes/SalesforceSDKIdentityTests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFHexSupport)</TokenIdentifier>
-			<Abstract type="html">Provides hex string conversion support.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SalesforceSDKIdentityTests</TokenIdentifier>
+			<Abstract type="html">The unit tests associated with SFIdentityCoordinator requests.</Abstract>
+			<DeclaredIn>SalesforceSDKIdentityTests.h</DeclaredIn>
             
 			
 			<NodeRef refid="140"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/newHexStringFromBytes</TokenIdentifier>
-			<Abstract type="html">Creates a hex string representation of this object&apos;s data.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)newHexStringFromBytes</Declaration>
-			
-			<ReturnValue><Abstract type="html">Hex string representation of this object&apos;s data.</Abstract></ReturnValue>
-			<Anchor>//api/name/newHexStringFromBytes</Anchor>
-            <NodeRef refid="140"/>
-		</Token>
 		
         
         

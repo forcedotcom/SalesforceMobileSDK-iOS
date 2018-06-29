@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKOAuthClient.html">
+	<File path="Classes/SFSDKMutableOAuthClientContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuthClient</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKMutableOAuthClientContext</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
             
 			
 			<NodeRef refid="96"/>
@@ -13,119 +13,11 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/setIsAuthenticating:</TokenIdentifier>
-			<Abstract type="html">Indicates the status of Authentication</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setCredentials:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL isAuthenticating</Declaration>
-			
-			
-			<Anchor>//api/name/isAuthenticating</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/isAuthenticating</TokenIdentifier>
-			<Abstract type="html">Indicates the status of Authentication</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAuthenticating</Declaration>
-			
-			
-			<Anchor>//api/name/isAuthenticating</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClient/isAuthenticating</TokenIdentifier>
-			<Abstract type="html">Indicates the status of Authentication</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAuthenticating</Declaration>
-			
-			
-			<Anchor>//api/name/isAuthenticating</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/setContext:</TokenIdentifier>
-			<Abstract type="html">The context for this client</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKOAuthClientContext *context</Declaration>
-			
-			
-			<Anchor>//api/name/context</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/context</TokenIdentifier>
-			<Abstract type="html">The context for this client</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKOAuthClientContext *context</Declaration>
-			
-			
-			<Anchor>//api/name/context</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClient/context</TokenIdentifier>
-			<Abstract type="html">The context for this client</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKOAuthClientContext *context</Declaration>
-			
-			
-			<Anchor>//api/name/context</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/setConfig:</TokenIdentifier>
-			<Abstract type="html">The Client Config that was configured</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, nullable) SFSDKOAuthClientConfig *config</Declaration>
-			
-			
-			<Anchor>//api/name/config</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/config</TokenIdentifier>
-			<Abstract type="html">The Client Config that was configured</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, nullable) SFSDKOAuthClientConfig *config</Declaration>
-			
-			
-			<Anchor>//api/name/config</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClient/config</TokenIdentifier>
-			<Abstract type="html">The Client Config that was configured</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, nullable) SFSDKOAuthClientConfig *config</Declaration>
-			
-			
-			<Anchor>//api/name/config</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/setCredentials:</TokenIdentifier>
-			<Abstract type="html">Credentials used to create this client</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
 			
 			
 			<Anchor>//api/name/credentials</Anchor>
@@ -133,11 +25,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/credentials</TokenIdentifier>
-			<Abstract type="html">Credentials used to create this client</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/credentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
 			
 			
 			<Anchor>//api/name/credentials</Anchor>
@@ -145,11 +37,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClient/credentials</TokenIdentifier>
-			<Abstract type="html">Credentials used to create this client</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/credentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
 			
 			
 			<Anchor>//api/name/credentials</Anchor>
@@ -157,134 +49,146 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/setIdData:</TokenIdentifier>
-			<Abstract type="html">Identity data that is populated during authentication.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFIdentityData *idData</Declaration>
-			
-			
-			<Anchor>//api/name/idData</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/idData</TokenIdentifier>
-			<Abstract type="html">Identity data that is populated during authentication.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFIdentityData *idData</Declaration>
-			
-			
-			<Anchor>//api/name/idData</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClient/idData</TokenIdentifier>
-			<Abstract type="html">Identity data that is populated during authentication.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFIdentityData *idData</Declaration>
-			
-			
-			<Anchor>//api/name/idData</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/setCoordinator:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setAuthInfo:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/coordinator</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="96"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/coordinator</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/authInfo</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/coordinator</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="96"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClient/coordinator</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/authInfo</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/coordinator</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="96"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/setIdCoordinator:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setAuthError:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
 			
 			
-			<Anchor>//api/name/idCoordinator</Anchor>
+			<Anchor>//api/name/authError</Anchor>
             <NodeRef refid="96"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/idCoordinator</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/authError</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
 			
 			
-			<Anchor>//api/name/idCoordinator</Anchor>
+			<Anchor>//api/name/authError</Anchor>
             <NodeRef refid="96"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClient/idCoordinator</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/authError</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFIdentityCoordinator *idCoordinator</Declaration>
+			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
 			
 			
-			<Anchor>//api/name/idCoordinator</Anchor>
+			<Anchor>//api/name/authError</Anchor>
             <NodeRef refid="96"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/initWithConfig:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setUserHint:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithConfig:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
 			
 			
-			<Anchor>//api/name/initWithConfig:</Anchor>
+			<Anchor>//api/name/userHint</Anchor>
             <NodeRef refid="96"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClient/notifyDelegateOfFailure:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/userHint</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (void)notifyDelegateOfFailure:(NSError *)error</Declaration>
+			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
 			
 			
-			<Anchor>//api/name/notifyDelegateOfFailure:</Anchor>
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setCallingAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
             <NodeRef refid="96"/>
 		</Token>
 		

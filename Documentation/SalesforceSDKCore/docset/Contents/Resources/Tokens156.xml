@@ -1,57 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFIdentityCoordinatorDelegate.html">
+	<File path="Categories/NSURL+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFIdentityCoordinatorDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol for being a delegate to the SFIdentityCoordinator process.  Delegates may receive
-notifications about the success or failure of the identity request process.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Salesforce Mobile SDK additions to the NSURL class</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
             
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
 			<NodeRef refid="156"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinatorRetrievedData:</TokenIdentifier>
-			<Abstract type="html">Called when the identity coordinator successfully receives identity data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/valueForParameterName:</TokenIdentifier>
+			<Abstract type="html">Get value for a parameter name from the URL</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator</Declaration>
+			<Declaration>- (nullable NSString *)valueForParameterName:(NSString *)name</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">the SFIdentityCoordinator instance associated with the requested data.</Abstract>
+					<Name>name</Name>
+					<Abstract type="html">Name of the parameter</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/identityCoordinatorRetrievedData:</Anchor>
+			<Anchor>//api/name/valueForParameterName:</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinator:didFailWithError:</TokenIdentifier>
-			<Abstract type="html">Called if there was an error while retrieving the identity data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/dictionaryFromQuery</TokenIdentifier>
+			<Abstract type="html">Get all query params as dictionary</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFIdentityCoordinator instance associated with the request.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error that occurred during the request.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (nullable NSDictionary *)dictionaryFromQuery</Declaration>
 			
-			<Anchor>//api/name/identityCoordinator:didFailWithError:</Anchor>
+			
+			<Anchor>//api/name/dictionaryFromQuery</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		

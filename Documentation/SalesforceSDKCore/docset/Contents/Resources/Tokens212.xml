@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserManagementAction.html">
+	<File path="Constants/SFSDKAppConfigErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserManagementAction</TokenIdentifier>
-			<Abstract type="html">The various actions that may have been taken for account management.</Abstract>
-			<DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="212"/>
@@ -14,45 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionCancel</TokenIdentifier>
-            <Abstract type="html">No action was taken.
-     </Abstract>
-            <Declaration>SFUserManagementActionCancel</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
             
-            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
-            
-            <NodeRef refid="212"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionLogoutUser</TokenIdentifier>
-            <Abstract type="html">A user was logged out.
-     </Abstract>
-            <Declaration>SFUserManagementActionLogoutUser</Declaration>
-            
-            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionSwitchUser</TokenIdentifier>
-            <Abstract type="html">Switched from one user to another.
-     </Abstract>
-            <Declaration>SFUserManagementActionSwitchUser</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
             
-            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionCreateNewUser</TokenIdentifier>
-            <Abstract type="html">Logging in as a new user.
-     </Abstract>
-            <Declaration>SFUserManagementActionCreateNewUser</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
             
-            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>

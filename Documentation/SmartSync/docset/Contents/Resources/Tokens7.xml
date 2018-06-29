@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFParentChildrenSyncDownTarget.html">
+	<File path="Classes/SFLayoutSyncManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncDownTarget</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLayoutSyncManager</TokenIdentifier>
+			<Abstract type="html">Provides an easy way to fetch layout data using SFLayoutSyncDownTarget.
+This class handles creating a soup, storing synched data and reading it into
+a meaningful data structure, i.e. SFLayout.</Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="7"/>
@@ -13,26 +15,179 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncDownTarget/newSyncTargetWithParentInfo:parentFieldlist:parentSoqlFilter:childrenInfo:childrenFieldlist:relationshipType:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncManager/setSmartStore:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo parentFieldlist:(NSArray&lt;NSString*&gt; *)parentFieldlist parentSoqlFilter:(NSString *)parentSoqlFilter childrenInfo:(SFChildrenInfo *)childrenInfo childrenFieldlist:(NSArray&lt;NSString*&gt; *)childrenFieldlist relationshipType:(SFParentChildrenRelationshipType)relationshipType</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore</Declaration>
 			
 			
-			<Anchor>//api/name/newSyncTargetWithParentInfo:parentFieldlist:parentSoqlFilter:childrenInfo:childrenFieldlist:relationshipType:</Anchor>
+			<Anchor>//api/name/smartStore</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncDownTarget/newFromDict:</TokenIdentifier>
-			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
-			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncManager/smartStore</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)newFromDict:(NSDictionary *)dict</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore</Declaration>
 			
 			
-			<Anchor>//api/name/newFromDict:</Anchor>
+			<Anchor>//api/name/smartStore</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncManager/smartStore</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore</Declaration>
+			
+			
+			<Anchor>//api/name/smartStore</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncManager/setSyncManager:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager</Declaration>
+			
+			
+			<Anchor>//api/name/syncManager</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncManager/syncManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager</Declaration>
+			
+			
+			<Anchor>//api/name/syncManager</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncManager/syncManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager</Declaration>
+			
+			
+			<Anchor>//api/name/syncManager</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncManager/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Returns the instance of this class associated with current user.</Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedInstance</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstance</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncManager/sharedInstance:</TokenIdentifier>
+			<Abstract type="html">Returns the instance of this class associated with this user account.</Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedInstance:(nullable SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstance:</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncManager/sharedInstance:smartStore:</TokenIdentifier>
+			<Abstract type="html">Returns the instance of this class associated with this user and SmartStore.</Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedInstance:(nullable SFUserAccount *)user smartStore:(nullable NSString *)smartStore</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">User account. Pass null to use current user.</Abstract>
+				</Parameter><Parameter>
+					<Name>smartStore</Name>
+					<Abstract type="html">SmartStore name. Pass nil to use current user default SmartStore.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstance:smartStore:</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncManager/reset</TokenIdentifier>
+			<Abstract type="html">Resets all the layout sync managers.</Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)reset</Declaration>
+			
+			
+			<Anchor>//api/name/reset</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncManager/reset:</TokenIdentifier>
+			<Abstract type="html">Resets the layout sync manager for this user account.</Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)reset:(nullable SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/reset:</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncManager/fetchLayoutForObject:layoutType:mode:completionBlock:</TokenIdentifier>
+			<Abstract type="html">Fetches layout data for the specified object type and layout type using the specified
+mode and triggers the supplied completion block once complete.</Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>- (void)fetchLayoutForObject:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">Object type.</Abstract>
+				</Parameter><Parameter>
+					<Name>layoutType</Name>
+					<Abstract type="html">Layout type. Defaults to &quot;Full&quot; if nil is passed in.</Abstract>
+				</Parameter><Parameter>
+					<Name>mode</Name>
+					<Abstract type="html">Fetch mode. See SFSDKFetchMode for available modes.</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Layout sync completion block.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/fetchLayoutForObject:layoutType:mode:completionBlock:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		

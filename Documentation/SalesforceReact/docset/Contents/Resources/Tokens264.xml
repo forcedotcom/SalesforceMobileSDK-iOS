@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/RCTImageCache.html">
+	<File path="Protocols/RCTBridgeMethod.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/RCTImageCache</TokenIdentifier>
-			<Abstract type="html">Provides an interface to use for providing a image caching strategy.</Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTBridgeMethod</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
             
 			
 			<NodeRef refid="264"/>
@@ -13,26 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTImageCache/imageForUrl:size:scale:resizeMode:responseDate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeMethod/setJSMethodName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			<DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
 			
-			<Declaration>- (UIImage *)imageForUrl:(NSString *)url size:(CGSize)size scale:(CGFloat)scale resizeMode:(RCTResizeMode)resizeMode responseDate:(NSString *)responseDate</Declaration>
+			<Declaration>@property (nonatomic, readonly) const char *JSMethodName</Declaration>
 			
 			
-			<Anchor>//api/name/imageForUrl:size:scale:resizeMode:responseDate:</Anchor>
+			<Anchor>//api/name/JSMethodName</Anchor>
             <NodeRef refid="264"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTImageCache/addImageToCache:URL:size:scale:resizeMode:responseDate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeMethod/JSMethodName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTImageLoader.h</DeclaredIn>
+			<DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
 			
-			<Declaration>- (void)addImageToCache:(UIImage *)image URL:(NSString *)url size:(CGSize)size scale:(CGFloat)scale resizeMode:(RCTResizeMode)resizeMode responseDate:(NSString *)responseDate</Declaration>
+			<Declaration>@property (nonatomic, readonly) const char *JSMethodName</Declaration>
 			
 			
-			<Anchor>//api/name/addImageToCache:URL:size:scale:resizeMode:responseDate:</Anchor>
+			<Anchor>//api/name/JSMethodName</Anchor>
+            <NodeRef refid="264"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTBridgeMethod/JSMethodName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) const char *JSMethodName</Declaration>
+			
+			
+			<Anchor>//api/name/JSMethodName</Anchor>
+            <NodeRef refid="264"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeMethod/setFunctionType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTFunctionType functionType</Declaration>
+			
+			
+			<Anchor>//api/name/functionType</Anchor>
+            <NodeRef refid="264"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeMethod/functionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTFunctionType functionType</Declaration>
+			
+			
+			<Anchor>//api/name/functionType</Anchor>
+            <NodeRef refid="264"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/RCTBridgeMethod/functionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) RCTFunctionType functionType</Declaration>
+			
+			
+			<Anchor>//api/name/functionType</Anchor>
+            <NodeRef refid="264"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTBridgeMethod/invokeWithBridge:module:arguments:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTBridgeMethod.h</DeclaredIn>
+			
+			<Declaration>- (id)invokeWithBridge:(RCTBridge *)bridge module:(id)module arguments:(NSArray *)arguments</Declaration>
+			
+			
+			<Anchor>//api/name/invokeWithBridge:module:arguments:</Anchor>
             <NodeRef refid="264"/>
 		</Token>
 		

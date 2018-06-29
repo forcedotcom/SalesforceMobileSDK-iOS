@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIScreen+SFAdditions.html">
+	<File path="Categories/NSNotificationCenter+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIScreen(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Salesforce Mobile SDK additions to the UIScreen class.</Abstract>
-			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSNotificationCenter(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Posts notifications either once with a run loop, or on the main thread.</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="153"/>
@@ -13,14 +13,48 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIScreen/portraitScreenBounds</TokenIdentifier>
-			<Abstract type="html">Returns the rectangle that describes the screen boundaries in portrait orientation.</Abstract>
-			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSNotificationCenter/postNotificationOnceWithName:object:userInfo:</TokenIdentifier>
+			<Abstract type="html">Posts a notification once within a runloop - coalescing on the name.</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (CGRect)portraitScreenBounds</Declaration>
+			<Declaration>+ (void)postNotificationOnceWithName:(NSString *)notificationName object:(id)object userInfo:(nullable NSDictionary *)userInfo</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationName</Name>
+					<Abstract type="html">The name of the notification.</Abstract>
+				</Parameter><Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object for the new notification.</Abstract>
+				</Parameter><Parameter>
+					<Name>userInfo</Name>
+					<Abstract type="html">The user information dictionary for the new notification. May be nil.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">Screen boundaries in portrait orientation.</Abstract></ReturnValue>
-			<Anchor>//api/name/portraitScreenBounds</Anchor>
+			<Anchor>//api/name/postNotificationOnceWithName:object:userInfo:</Anchor>
+            <NodeRef refid="153"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSNotificationCenter/postNotificationOnMainThreadWithName:object:userInfo:</TokenIdentifier>
+			<Abstract type="html">Posts a notification on the main thread.</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (void)postNotificationOnMainThreadWithName:(NSString *)notificationName object:(id)object userInfo:(nullable NSDictionary *)userInfo</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationName</Name>
+					<Abstract type="html">The name of the notification.</Abstract>
+				</Parameter><Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object for the new notificaiton.</Abstract>
+				</Parameter><Parameter>
+					<Name>userInfo</Name>
+					<Abstract type="html">The user information dictionary for the new notification. May be nil.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/postNotificationOnMainThreadWithName:object:userInfo:</Anchor>
             <NodeRef refid="153"/>
 		</Token>
 		

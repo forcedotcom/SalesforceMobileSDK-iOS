@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTValueAnimatedNode.html">
+	<File path="Classes/RCTTouchEvent.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTValueAnimatedNode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTTouchEvent</TokenIdentifier>
+			<Abstract type="html">Represents a touch event, which may be composed of several touches (one for every finger).
+For more information on contents of passed data structures see RCTTouchHandler.</Abstract>
+			<DeclaredIn>RCTTouchEvent.h</DeclaredIn>
             
 			
 			<NodeRef refid="213"/>
@@ -13,110 +14,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTValueAnimatedNode/setOffset:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTouchEvent/initWithEventName:reactTag:reactTouches:changedIndexes:coalescingKey:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
+			<DeclaredIn>RCTTouchEvent.h</DeclaredIn>
 			
-			<Declaration>- (void)setOffset:(CGFloat)offset</Declaration>
-			
-			
-			<Anchor>//api/name/setOffset:</Anchor>
-            <NodeRef refid="213"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTValueAnimatedNode/flattenOffset</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
-			
-			<Declaration>- (void)flattenOffset</Declaration>
+			<Declaration>- (instancetype)initWithEventName:(NSString *)eventName reactTag:(NSNumber *)reactTag reactTouches:(NSArray&lt;NSDictionary*&gt; *)reactTouches changedIndexes:(NSArray&lt;NSNumber*&gt; *)changedIndexes coalescingKey:(uint16_t)coalescingKey</Declaration>
 			
 			
-			<Anchor>//api/name/flattenOffset</Anchor>
-            <NodeRef refid="213"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTValueAnimatedNode/extractOffset</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
-			
-			<Declaration>- (void)extractOffset</Declaration>
-			
-			
-			<Anchor>//api/name/extractOffset</Anchor>
-            <NodeRef refid="213"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTValueAnimatedNode/setValue:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) CGFloat value</Declaration>
-			
-			
-			<Anchor>//api/name/value</Anchor>
-            <NodeRef refid="213"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTValueAnimatedNode/value</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) CGFloat value</Declaration>
-			
-			
-			<Anchor>//api/name/value</Anchor>
-            <NodeRef refid="213"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTValueAnimatedNode/value</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) CGFloat value</Declaration>
-			
-			
-			<Anchor>//api/name/value</Anchor>
-            <NodeRef refid="213"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTValueAnimatedNode/setValueObserver:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTValueAnimatedNodeObserver&gt; valueObserver</Declaration>
-			
-			
-			<Anchor>//api/name/valueObserver</Anchor>
-            <NodeRef refid="213"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTValueAnimatedNode/valueObserver</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTValueAnimatedNodeObserver&gt; valueObserver</Declaration>
-			
-			
-			<Anchor>//api/name/valueObserver</Anchor>
-            <NodeRef refid="213"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTValueAnimatedNode/valueObserver</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTValueAnimatedNode.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTValueAnimatedNodeObserver&gt; valueObserver</Declaration>
-			
-			
-			<Anchor>//api/name/valueObserver</Anchor>
+			<Anchor>//api/name/initWithEventName:reactTag:reactTouches:changedIndexes:coalescingKey:</Anchor>
             <NodeRef refid="213"/>
 		</Token>
 		

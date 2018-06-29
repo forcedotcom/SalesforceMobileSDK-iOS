@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTSizeComparison.html">
+	<File path="Constants/RCTBorderStyle.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTSizeComparison</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTBorderStyle</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTBorderStyle.h</DeclaredIn>
             
 			
 			<NodeRef refid="303"/>
@@ -15,31 +14,41 @@ All rights reserved.</Abstract>
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSizeTooLarge</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleUnset</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSizeTooLarge</Declaration>
+            <Declaration>RCTBorderStyleUnset</Declaration>
             
-            <DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
             
             <NodeRef refid="303"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSizeTooSmall</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleSolid</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSizeTooSmall</Declaration>
+            <Declaration>RCTBorderStyleSolid</Declaration>
             
-            <DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
             
             <NodeRef refid="303"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSizeWithinRange</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleDotted</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSizeWithinRange</Declaration>
+            <Declaration>RCTBorderStyleDotted</Declaration>
             
-            <DeclaredIn>RCTTextShadowView.h</DeclaredIn>
+            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
+            
+            <NodeRef refid="303"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleDashed</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>RCTBorderStyleDashed</Declaration>
+            
+            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
             
             <NodeRef refid="303"/>
         </Token>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/RCTAutoInsetsProtocol.html">
+	<File path="Categories/NSRunLoop+RCTSRWebSocket.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/RCTAutoInsetsProtocol</TokenIdentifier>
-			<Abstract type="html">Defines a View that wants to support auto insets adjustment</Abstract>
-			<DeclaredIn>RCTAutoInsetsProtocol.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSRunLoop(RCTSRWebSocket)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
             
 			
 			<NodeRef refid="249"/>
@@ -13,90 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAutoInsetsProtocol/setContentInset:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSRunLoop/RCTSR_networkRunLoop</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAutoInsetsProtocol.h</DeclaredIn>
+			<DeclaredIn>RCTSRWebSocket.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite) UIEdgeInsets contentInset</Declaration>
-			
-			
-			<Anchor>//api/name/contentInset</Anchor>
-            <NodeRef refid="249"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAutoInsetsProtocol/contentInset</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAutoInsetsProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readwrite) UIEdgeInsets contentInset</Declaration>
+			<Declaration>+ (NSRunLoop *)RCTSR_networkRunLoop</Declaration>
 			
 			
-			<Anchor>//api/name/contentInset</Anchor>
-            <NodeRef refid="249"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTAutoInsetsProtocol/contentInset</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAutoInsetsProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readwrite) UIEdgeInsets contentInset</Declaration>
-			
-			
-			<Anchor>//api/name/contentInset</Anchor>
-            <NodeRef refid="249"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAutoInsetsProtocol/setAutomaticallyAdjustContentInsets:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAutoInsetsProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readwrite) BOOL automaticallyAdjustContentInsets</Declaration>
-			
-			
-			<Anchor>//api/name/automaticallyAdjustContentInsets</Anchor>
-            <NodeRef refid="249"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAutoInsetsProtocol/automaticallyAdjustContentInsets</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAutoInsetsProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readwrite) BOOL automaticallyAdjustContentInsets</Declaration>
-			
-			
-			<Anchor>//api/name/automaticallyAdjustContentInsets</Anchor>
-            <NodeRef refid="249"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/RCTAutoInsetsProtocol/automaticallyAdjustContentInsets</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTAutoInsetsProtocol.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readwrite) BOOL automaticallyAdjustContentInsets</Declaration>
-			
-			
-			<Anchor>//api/name/automaticallyAdjustContentInsets</Anchor>
-            <NodeRef refid="249"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/RCTAutoInsetsProtocol/refreshContentInset</TokenIdentifier>
-			<Abstract type="html">Automatically adjusted content inset depends on view controller&apos;s top and bottom
-layout guides so if you&apos;ve changed one of them (e.g. after rotation or manually) you should call this method
-to recalculate and refresh content inset.
-To handle case with changing navigation bar height call this method from viewDidLayoutSubviews:
-of your view controller.</Abstract>
-			<DeclaredIn>RCTAutoInsetsProtocol.h</DeclaredIn>
-			
-			<Declaration>- (void)refreshContentInset</Declaration>
-			
-			
-			<Anchor>//api/name/refreshContentInset</Anchor>
+			<Anchor>//api/name/RCTSR_networkRunLoop</Anchor>
             <NodeRef refid="249"/>
 		</Token>
 		

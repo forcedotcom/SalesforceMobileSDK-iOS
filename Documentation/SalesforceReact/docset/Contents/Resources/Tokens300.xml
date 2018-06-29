@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTResizeMode.html">
+	<File path="Constants/FBSnapshotTestControllerErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTResizeMode</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTResizeMode.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/FBSnapshotTestControllerErrorCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
             
 			
 			<NodeRef refid="300"/>
@@ -15,51 +14,51 @@ All rights reserved.</Abstract>
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTResizeModeCover</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/FBSnapshotTestControllerErrorCodeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTResizeModeCover</Declaration>
+            <Declaration>FBSnapshotTestControllerErrorCodeUnknown</Declaration>
             
-            <DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            <DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
             
             <NodeRef refid="300"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTResizeModeContain</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/FBSnapshotTestControllerErrorCodeNeedsRecord</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTResizeModeContain</Declaration>
+            <Declaration>FBSnapshotTestControllerErrorCodeNeedsRecord</Declaration>
             
-            <DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            <DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
             
             <NodeRef refid="300"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTResizeModeStretch</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/FBSnapshotTestControllerErrorCodePNGCreationFailed</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTResizeModeStretch</Declaration>
+            <Declaration>FBSnapshotTestControllerErrorCodePNGCreationFailed</Declaration>
             
-            <DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            <DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
             
             <NodeRef refid="300"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTResizeModeCenter</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/FBSnapshotTestControllerErrorCodeImagesDifferentSizes</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTResizeModeCenter</Declaration>
+            <Declaration>FBSnapshotTestControllerErrorCodeImagesDifferentSizes</Declaration>
             
-            <DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            <DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
             
             <NodeRef refid="300"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTResizeModeRepeat</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/FBSnapshotTestControllerErrorCodeImagesDifferent</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTResizeModeRepeat</Declaration>
+            <Declaration>FBSnapshotTestControllerErrorCodeImagesDifferent</Declaration>
             
-            <DeclaredIn>RCTResizeMode.h</DeclaredIn>
+            <DeclaredIn>FBSnapshotTestController.h</DeclaredIn>
             
             <NodeRef refid="300"/>
         </Token>

@@ -66,17 +66,27 @@
 	
 	<optgroup label="Instance Methods">
 		
+		<option value="//api/name/addRequestHandler:">- addRequestHandler:</option>
+		
+		<option value="//api/name/addResponseHandler:">- addResponseHandler:</option>
+		
 		<option value="//api/name/buildRequest:completionBlock:">- buildRequest:completionBlock:</option>
 		
 		<option value="//api/name/canHandleRequest:">- canHandleRequest:</option>
 		
 		<option value="//api/name/handlerForRequest:">- handlerForRequest:</option>
 		
+		<option value="//api/name/invalidate">- invalidate</option>
+		
 		<option value="//api/name/networkTaskWithRequest:completionBlock:">- networkTaskWithRequest:completionBlock:</option>
 		
 		<option value="//api/name/processDataForHTTPQuery:callback:">- processDataForHTTPQuery:callback:</option>
 		
-		<option value="//api/name/sendData:responseType:forTask:">- sendData:responseType:forTask:</option>
+		<option value="//api/name/removeRequestHandler:">- removeRequestHandler:</option>
+		
+		<option value="//api/name/removeResponseHandler:">- removeResponseHandler:</option>
+		
+		<option value="//api/name/sendData:responseType:response:forTask:">- sendData:responseType:response:forTask:</option>
 		
 		<option value="//api/name/sendRequest:responseType:incrementalUpdates:responseSender:">- sendRequest:responseType:incrementalUpdates:responseSender:</option>
 		
@@ -118,12 +128,7 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Copyright &copy; 2015-present, Facebook, Inc.
-All rights reserved.</p>
-
-<p>This source code is licensed under the BSD-style license found in the
-LICENSE file in the root directory of this source tree. An additional grant
-of patent rights can be found in the PATENTS file in the same directory.</p>
+						<p>Bridge module that provides the JS interface to the network stack.</p>
 					</div>
 					
 					
@@ -221,6 +226,70 @@ invoking the React Native networking stack from within native code.</p>
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/addRequestHandler:" title="addRequestHandler:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/addRequestHandler:">&ndash;&nbsp;addRequestHandler:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)addRequestHandler:(id&lt;RCTNetworkingRequestHandler&gt;)<em>handler</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/addResponseHandler:" title="addResponseHandler:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/addResponseHandler:">&ndash;&nbsp;addResponseHandler:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)addResponseHandler:(id&lt;RCTNetworkingResponseHandler&gt;)<em>handler</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeRequestHandler:" title="removeRequestHandler:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeRequestHandler:">&ndash;&nbsp;removeRequestHandler:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)removeRequestHandler:(id&lt;RCTNetworkingRequestHandler&gt;)<em>handler</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeResponseHandler:" title="removeResponseHandler:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeResponseHandler:">&ndash;&nbsp;removeResponseHandler:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)removeResponseHandler:(id&lt;RCTNetworkingResponseHandler&gt;)<em>handler</em></code></div>
+
+		    
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -230,6 +299,22 @@ invoking the React Native networking stack from within native code.</p>
 
 						<div class="task-list">
 							<div class="section-method">
+	<a name="//api/name/invalidate" title="invalidate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/invalidate">&ndash;&nbsp;invalidate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)invalidate</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/supportedEvents" title="supportedEvents"></a>
 	<h3 class="method-title"><code><a href="#//api/name/supportedEvents">&ndash;&nbsp;supportedEvents</a></code>
 </h3>
@@ -355,6 +440,7 @@ an error.</p>
 <li><p>{&ldquo;string&rdquo;: &ldquo;&hellip;&rdquo;}: a simple JS string that will be UTF-8 encoded and sent as the body</p></li>
 <li><p>{&ldquo;uri&rdquo;: &ldquo;some-uri://&hellip;&rdquo;}: reference to a system resource, e.g. an image in the asset library</p></li>
 <li><p>{&ldquo;formData&rdquo;: [&hellip;]}: list of data payloads that will be combined into a multipart/form-data request</p></li>
+<li><p>{&ldquo;blob&rdquo;: {&hellip;}}: an object representing a blob</p></li>
 </ul>
 
 
@@ -398,8 +484,8 @@ an error.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/sendData:responseType:forTask:" title="sendData:responseType:forTask:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sendData:responseType:forTask:">&ndash;&nbsp;sendData:responseType:forTask:</a></code>
+	<a name="//api/name/sendData:responseType:response:forTask:" title="sendData:responseType:response:forTask:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendData:responseType:response:forTask:">&ndash;&nbsp;sendData:responseType:response:forTask:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -408,7 +494,7 @@ an error.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)sendData:(NSData *)<em>data</em> responseType:(NSString *)<em>responseType</em> forTask:(RCTNetworkTask *)<em>task</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)sendData:(NSData *)<em>data</em> responseType:(NSString *)<em>responseType</em> response:(NSURLResponse *)<em>response</em> forTask:(RCTNetworkTask *)<em>task</em></code></div>
 
 		    
 		</div>
@@ -444,7 +530,7 @@ an error.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

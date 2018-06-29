@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTTouchEvent.html">
+	<File path="Classes/RCTTestRunner.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTTouchEvent</TokenIdentifier>
-			<Abstract type="html">Represents a touch event, which may be composed of several touches (one for every finger).
-For more information on contents of passed data structures see RCTTouchHandler.</Abstract>
-			<DeclaredIn>RCTTouchEvent.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTTestRunner</TokenIdentifier>
+			<Abstract type="html">Use the RCTInitRunnerForApp macro for typical usage. See FBSnapshotTestCase.h for more information
+on how to configure the snapshotting system.</Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
             
 			
 			<NodeRef refid="206"/>
@@ -14,14 +14,321 @@ For more information on contents of passed data structures see RCTTouchHandler.<
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTouchEvent/initWithEventName:reactTag:reactTouches:changedIndexes:coalescingKey:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/setRecordMode:</TokenIdentifier>
+			<Abstract type="html">Controls the mode snapshots are run in. If set to true, new snapshots are written to disk,
+otherwise, the UI will be compared to the existing snapshot.</Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL recordMode</Declaration>
+			
+			
+			<Anchor>//api/name/recordMode</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/recordMode</TokenIdentifier>
+			<Abstract type="html">Controls the mode snapshots are run in. If set to true, new snapshots are written to disk,
+otherwise, the UI will be compared to the existing snapshot.</Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL recordMode</Declaration>
+			
+			
+			<Anchor>//api/name/recordMode</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTestRunner/recordMode</TokenIdentifier>
+			<Abstract type="html">Controls the mode snapshots are run in. If set to true, new snapshots are written to disk,
+otherwise, the UI will be compared to the existing snapshot.</Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL recordMode</Declaration>
+			
+			
+			<Anchor>//api/name/recordMode</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/setUseBundler:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTTouchEvent.h</DeclaredIn>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithEventName:(NSString *)eventName reactTag:(NSNumber *)reactTag reactTouches:(NSArray&lt;NSDictionary*&gt; *)reactTouches changedIndexes:(NSArray&lt;NSNumber*&gt; *)changedIndexes coalescingKey:(uint16_t)coalescingKey</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) BOOL useBundler</Declaration>
 			
 			
-			<Anchor>//api/name/initWithEventName:reactTag:reactTouches:changedIndexes:coalescingKey:</Anchor>
+			<Anchor>//api/name/useBundler</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/useBundler</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) BOOL useBundler</Declaration>
+			
+			
+			<Anchor>//api/name/useBundler</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTestRunner/useBundler</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) BOOL useBundler</Declaration>
+			
+			
+			<Anchor>//api/name/useBundler</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/setUseJSDebugger:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) BOOL useJSDebugger</Declaration>
+			
+			
+			<Anchor>//api/name/useJSDebugger</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/useJSDebugger</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) BOOL useJSDebugger</Declaration>
+			
+			
+			<Anchor>//api/name/useJSDebugger</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTestRunner/useJSDebugger</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) BOOL useJSDebugger</Declaration>
+			
+			
+			<Anchor>//api/name/useJSDebugger</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/setTestSuffix:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *testSuffix</Declaration>
+			
+			
+			<Anchor>//api/name/testSuffix</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/testSuffix</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *testSuffix</Declaration>
+			
+			
+			<Anchor>//api/name/testSuffix</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTestRunner/testSuffix</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *testSuffix</Declaration>
+			
+			
+			<Anchor>//api/name/testSuffix</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/setScriptURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSURL *scriptURL</Declaration>
+			
+			
+			<Anchor>//api/name/scriptURL</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/scriptURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSURL *scriptURL</Declaration>
+			
+			
+			<Anchor>//api/name/scriptURL</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTTestRunner/scriptURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSURL *scriptURL</Declaration>
+			
+			
+			<Anchor>//api/name/scriptURL</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/initWithApp:referenceDirectory:moduleProvider:scriptURL:</TokenIdentifier>
+			<Abstract type="html">Initialize a runner.  It&apos;s recommended that you use the RCTInitRunnerForApp
+macro instead of calling this directly.</Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithApp:(NSString *)app referenceDirectory:(NSString *)referenceDirectory moduleProvider:(RCTBridgeModuleListProvider)block scriptURL:(NSURL *)scriptURL</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>app</Name>
+					<Abstract type="html">The path to the app bundle without suffixes, e.g. IntegrationTests/IntegrationTestsApp</Abstract>
+				</Parameter><Parameter>
+					<Name>referenceDirectory</Name>
+					<Abstract type="html">The path for snapshot references images.</Abstract>
+				</Parameter><Parameter>
+					<Name>block</Name>
+					<Abstract type="html">A block that returns an array of extra modules to be used by the test runner.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithApp:referenceDirectory:moduleProvider:scriptURL:</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/runTest:module:</TokenIdentifier>
+			<Abstract type="html">Simplest runTest function simply mounts the specified JS module with no
+initialProps and waits for it to call</Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>- (void)runTest:(SEL)test module:(NSString *)moduleName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>test</Name>
+					<Abstract type="html">Selector of the test, usually just _cmd.</Abstract>
+				</Parameter><Parameter>
+					<Name>moduleName</Name>
+					<Abstract type="html">Name of the JS component as registered by AppRegistry.registerComponent in JS.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/runTest:module:</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/runTest:module:initialProps:configurationBlock:</TokenIdentifier>
+			<Abstract type="html">Same as runTest:, but allows for passing initialProps for providing mock data
+or requesting different behaviors, configurationBlock provides arbitrary logic for the hosting
+root view manipulation.</Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>- (void)runTest:(SEL)test module:(NSString *)moduleName initialProps:(NSDictionary&lt;NSString*,id&gt; *)initialProps configurationBlock:(void ( ^ ) ( RCTRootView *rootView ))configurationBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>test</Name>
+					<Abstract type="html">Selector of the test, usually just _cmd.</Abstract>
+				</Parameter><Parameter>
+					<Name>moduleName</Name>
+					<Abstract type="html">Name of the JS component as registered by AppRegistry.registerComponent in JS.</Abstract>
+				</Parameter><Parameter>
+					<Name>initialProps</Name>
+					<Abstract type="html">props that are passed into the component when rendered.</Abstract>
+				</Parameter><Parameter>
+					<Name>configurationBlock</Name>
+					<Abstract type="html">A block that takes the hosting root view and performs arbitrary manipulation after its creation.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/runTest:module:initialProps:configurationBlock:</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/runTest:module:initialProps:configurationBlock:expectErrorRegex:</TokenIdentifier>
+			<Abstract type="html">Same as runTest:, but allows for passing initialProps for providing mock data
+or requesting different behaviors, configurationBlock provides arbitrary logic for the hosting
+root view manipulation, and expectErrorRegex verifies that the error you expected was thrown.</Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>- (void)runTest:(SEL)test module:(NSString *)moduleName initialProps:(NSDictionary&lt;NSString*,id&gt; *)initialProps configurationBlock:(void ( ^ ) ( RCTRootView *rootView ))configurationBlock expectErrorRegex:(NSString *)expectErrorRegex</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>test</Name>
+					<Abstract type="html">Selector of the test, usually just _cmd.</Abstract>
+				</Parameter><Parameter>
+					<Name>moduleName</Name>
+					<Abstract type="html">Name of the JS component as registered by AppRegistry.registerComponent in JS.</Abstract>
+				</Parameter><Parameter>
+					<Name>initialProps</Name>
+					<Abstract type="html">props that are passed into the component when rendered.</Abstract>
+				</Parameter><Parameter>
+					<Name>configurationBlock</Name>
+					<Abstract type="html">A block that takes the hosting root view and performs arbitrary manipulation after its creation.</Abstract>
+				</Parameter><Parameter>
+					<Name>expectErrorRegex</Name>
+					<Abstract type="html">A regex that must match the error thrown.  If no error is thrown, the test fails.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/runTest:module:initialProps:configurationBlock:expectErrorRegex:</Anchor>
+            <NodeRef refid="206"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTTestRunner/runTest:module:initialProps:configurationBlock:expectErrorBlock:</TokenIdentifier>
+			<Abstract type="html">Same as runTest:, but allows for passing initialProps for providing mock data
+or requesting different behaviors, configurationBlock provides arbitrary logic for the hosting
+root view manipulation, and expectErrorBlock provides arbitrary
+logic for processing errors (nil will cause any error to fail the test).</Abstract>
+			<DeclaredIn>RCTTestRunner.h</DeclaredIn>
+			
+			<Declaration>- (void)runTest:(SEL)test module:(NSString *)moduleName initialProps:(NSDictionary&lt;NSString*,id&gt; *)initialProps configurationBlock:(void ( ^ ) ( RCTRootView *rootView ))configurationBlock expectErrorBlock:(BOOL ( ^ ) ( NSString *error ))expectErrorBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>test</Name>
+					<Abstract type="html">Selector of the test, usually just _cmd.</Abstract>
+				</Parameter><Parameter>
+					<Name>moduleName</Name>
+					<Abstract type="html">Name of the JS component as registered by AppRegistry.registerComponent in JS.</Abstract>
+				</Parameter><Parameter>
+					<Name>initialProps</Name>
+					<Abstract type="html">props that are passed into the component when rendered.</Abstract>
+				</Parameter><Parameter>
+					<Name>configurationBlock</Name>
+					<Abstract type="html">A block that takes the hosting root view and performs arbitrary manipulation after its creation.</Abstract>
+				</Parameter><Parameter>
+					<Name>expectErrorBlock</Name>
+					<Abstract type="html">A block that takes the error message and returns NO to fail the test.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/runTest:module:initialProps:configurationBlock:expectErrorBlock:</Anchor>
             <NodeRef refid="206"/>
 		</Token>
 		

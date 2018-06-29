@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTMultilineTextInputView.html">
+	<File path="Classes/RCTModalHostViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTMultilineTextInputView</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTModalHostViewController</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="120"/>
@@ -14,410 +13,74 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setAutocorrectionType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewController/setBoundsDidChangeBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) UITextAutocorrectionType autocorrectionType</Declaration>
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( CGRect newBounds ) boundsDidChangeBlock</Declaration>
 			
 			
-			<Anchor>//api/name/autocorrectionType</Anchor>
+			<Anchor>//api/name/boundsDidChangeBlock</Anchor>
             <NodeRef refid="120"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/autocorrectionType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewController/boundsDidChangeBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) UITextAutocorrectionType autocorrectionType</Declaration>
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( CGRect newBounds ) boundsDidChangeBlock</Declaration>
 			
 			
-			<Anchor>//api/name/autocorrectionType</Anchor>
+			<Anchor>//api/name/boundsDidChangeBlock</Anchor>
             <NodeRef refid="120"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/autocorrectionType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostViewController/boundsDidChangeBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) UITextAutocorrectionType autocorrectionType</Declaration>
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( CGRect newBounds ) boundsDidChangeBlock</Declaration>
 			
 			
-			<Anchor>//api/name/autocorrectionType</Anchor>
+			<Anchor>//api/name/boundsDidChangeBlock</Anchor>
             <NodeRef refid="120"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setSpellCheckingType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewController/setSupportedInterfaceOrientations:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) UITextSpellCheckingType spellCheckingType</Declaration>
+			<Declaration>@property (nonatomic, assign) UIInterfaceOrientationMask supportedInterfaceOrientations</Declaration>
 			
 			
-			<Anchor>//api/name/spellCheckingType</Anchor>
+			<Anchor>//api/name/supportedInterfaceOrientations</Anchor>
             <NodeRef refid="120"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/spellCheckingType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewController/supportedInterfaceOrientations</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) UITextSpellCheckingType spellCheckingType</Declaration>
+			<Declaration>@property (nonatomic, assign) UIInterfaceOrientationMask supportedInterfaceOrientations</Declaration>
 			
 			
-			<Anchor>//api/name/spellCheckingType</Anchor>
+			<Anchor>//api/name/supportedInterfaceOrientations</Anchor>
             <NodeRef refid="120"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/spellCheckingType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostViewController/supportedInterfaceOrientations</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
+			<DeclaredIn>RCTModalHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) UITextSpellCheckingType spellCheckingType</Declaration>
+			<Declaration>@property (nonatomic, assign) UIInterfaceOrientationMask supportedInterfaceOrientations</Declaration>
 			
 			
-			<Anchor>//api/name/spellCheckingType</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setAutomaticallyAdjustContentInsets:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL automaticallyAdjustContentInsets</Declaration>
-			
-			
-			<Anchor>//api/name/automaticallyAdjustContentInsets</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/automaticallyAdjustContentInsets</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL automaticallyAdjustContentInsets</Declaration>
-			
-			
-			<Anchor>//api/name/automaticallyAdjustContentInsets</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/automaticallyAdjustContentInsets</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL automaticallyAdjustContentInsets</Declaration>
-			
-			
-			<Anchor>//api/name/automaticallyAdjustContentInsets</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setText:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *text</Declaration>
-			
-			
-			<Anchor>//api/name/text</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/text</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *text</Declaration>
-			
-			
-			<Anchor>//api/name/text</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/text</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *text</Declaration>
-			
-			
-			<Anchor>//api/name/text</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setPlaceholderTextColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIColor *placeholderTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/placeholderTextColor</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/placeholderTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIColor *placeholderTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/placeholderTextColor</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/placeholderTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIColor *placeholderTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/placeholderTextColor</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setPlaceholder:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *placeholder</Declaration>
-			
-			
-			<Anchor>//api/name/placeholder</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/placeholder</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *placeholder</Declaration>
-			
-			
-			<Anchor>//api/name/placeholder</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/placeholder</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *placeholder</Declaration>
-			
-			
-			<Anchor>//api/name/placeholder</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setFont:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIFont *font</Declaration>
-			
-			
-			<Anchor>//api/name/font</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/font</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIFont *font</Declaration>
-			
-			
-			<Anchor>//api/name/font</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/font</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIFont *font</Declaration>
-			
-			
-			<Anchor>//api/name/font</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setMaxLength:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSNumber *maxLength</Declaration>
-			
-			
-			<Anchor>//api/name/maxLength</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/maxLength</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSNumber *maxLength</Declaration>
-			
-			
-			<Anchor>//api/name/maxLength</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/maxLength</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSNumber *maxLength</Declaration>
-			
-			
-			<Anchor>//api/name/maxLength</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setOnChange:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onChange</Declaration>
-			
-			
-			<Anchor>//api/name/onChange</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/onChange</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onChange</Declaration>
-			
-			
-			<Anchor>//api/name/onChange</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/onChange</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onChange</Declaration>
-			
-			
-			<Anchor>//api/name/onChange</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setOnTextInput:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onTextInput</Declaration>
-			
-			
-			<Anchor>//api/name/onTextInput</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/onTextInput</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onTextInput</Declaration>
-			
-			
-			<Anchor>//api/name/onTextInput</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/onTextInput</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onTextInput</Declaration>
-			
-			
-			<Anchor>//api/name/onTextInput</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/setOnScroll:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onScroll</Declaration>
-			
-			
-			<Anchor>//api/name/onScroll</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/onScroll</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onScroll</Declaration>
-			
-			
-			<Anchor>//api/name/onScroll</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTMultilineTextInputView/onScroll</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onScroll</Declaration>
-			
-			
-			<Anchor>//api/name/onScroll</Anchor>
-            <NodeRef refid="120"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultilineTextInputView/performTextUpdate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultilineTextInputView.h</DeclaredIn>
-			
-			<Declaration>- (void)performTextUpdate</Declaration>
-			
-			
-			<Anchor>//api/name/performTextUpdate</Anchor>
+			<Anchor>//api/name/supportedInterfaceOrientations</Anchor>
             <NodeRef refid="120"/>
 		</Token>
 		

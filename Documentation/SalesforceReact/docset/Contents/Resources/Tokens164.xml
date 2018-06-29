@@ -1,16 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTScrollViewManager.html">
+	<File path="Classes/RCTSafeAreaViewLocalData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTScrollViewManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTScrollViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSafeAreaViewLocalData</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSafeAreaViewLocalData.h</DeclaredIn>
             
 			
 			<NodeRef refid="164"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSafeAreaViewLocalData/initWithInsets:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSafeAreaViewLocalData.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithInsets:(UIEdgeInsets)insets</Declaration>
+			
+			
+			<Anchor>//api/name/initWithInsets:</Anchor>
+            <NodeRef refid="164"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSafeAreaViewLocalData/setInsets:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSafeAreaViewLocalData.h</DeclaredIn>
+			
+			<Declaration>@property (atomic, readonly) UIEdgeInsets insets</Declaration>
+			
+			
+			<Anchor>//api/name/insets</Anchor>
+            <NodeRef refid="164"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSafeAreaViewLocalData/insets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSafeAreaViewLocalData.h</DeclaredIn>
+			
+			<Declaration>@property (atomic, readonly) UIEdgeInsets insets</Declaration>
+			
+			
+			<Anchor>//api/name/insets</Anchor>
+            <NodeRef refid="164"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTSafeAreaViewLocalData/insets</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSafeAreaViewLocalData.h</DeclaredIn>
+			
+			<Declaration>@property (atomic, readonly) UIEdgeInsets insets</Declaration>
+			
+			
+			<Anchor>//api/name/insets</Anchor>
+            <NodeRef refid="164"/>
+		</Token>
 		
         
         

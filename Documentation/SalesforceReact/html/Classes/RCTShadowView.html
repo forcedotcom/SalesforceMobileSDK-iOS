@@ -86,6 +86,8 @@
 		
 		<option value="//api/name/compoundInsets">compoundInsets</option>
 		
+		<option value="//api/name/contentFrame">contentFrame</option>
+		
 		<option value="//api/name/direction">direction</option>
 		
 		<option value="//api/name/display">display</option>
@@ -104,17 +106,13 @@
 		
 		<option value="//api/name/flexWrap">flexWrap</option>
 		
-		<option value="//api/name/frame">frame</option>
-		
 		<option value="//api/name/height">height</option>
-		
-		<option value="//api/name/hidden">hidden</option>
 		
 		<option value="//api/name/intrinsicContentSize">intrinsicContentSize</option>
 		
 		<option value="//api/name/justifyContent">justifyContent</option>
 		
-		<option value="//api/name/layoutDirection">layoutDirection</option>
+		<option value="//api/name/layoutMetrics">layoutMetrics</option>
 		
 		<option value="//api/name/left">left</option>
 		
@@ -204,17 +202,9 @@
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/applyLayoutNode:viewsWithNewFrame:absolutePosition:">- applyLayoutNode:viewsWithNewFrame:absolutePosition:</option>
-		
-		<option value="//api/name/applyLayoutToChildren:viewsWithNewFrame:absolutePosition:">- applyLayoutToChildren:viewsWithNewFrame:absolutePosition:</option>
-		
 		<option value="//api/name/canHaveSubviews">- canHaveSubviews</option>
 		
 		<option value="//api/name/clearLayout">- clearLayout</option>
-		
-		<option value="//api/name/collectUpdatedFrames:withFrame:hidden:absolutePosition:">- collectUpdatedFrames:withFrame:hidden:absolutePosition:</option>
-		
-		<option value="//api/name/collectUpdatedProperties:parentProperties:">- collectUpdatedProperties:parentProperties:</option>
 		
 		<option value="//api/name/didSetProps:">- didSetProps:</option>
 		
@@ -222,21 +212,17 @@
 		
 		<option value="//api/name/dirtyLayout">- dirtyLayout</option>
 		
-		<option value="//api/name/dirtyPropagation">- dirtyPropagation</option>
-		
-		<option value="//api/name/dirtyText">- dirtyText</option>
-		
 		<option value="//api/name/insertReactSubview:atIndex:">- insertReactSubview:atIndex:</option>
-		
-		<option value="//api/name/isPropagationDirty">- isPropagationDirty</option>
-		
-		<option value="//api/name/isTextDirty">- isTextDirty</option>
 		
 		<option value="//api/name/isYogaLeafNode">- isYogaLeafNode</option>
 		
-		<option value="//api/name/measureLayoutRelativeToAncestor:">- measureLayoutRelativeToAncestor:</option>
+		<option value="//api/name/layoutSubviewsWithContext:">- layoutSubviewsWithContext:</option>
 		
-		<option value="//api/name/processUpdatedProperties:parentProperties:">- processUpdatedProperties:parentProperties:</option>
+		<option value="//api/name/layoutWithMetrics:layoutContext:">- layoutWithMetrics:layoutContext:</option>
+		
+		<option value="//api/name/layoutWithMinimumSize:maximumSize:layoutDirection:layoutContext:">- layoutWithMinimumSize:maximumSize:layoutDirection:layoutContext:</option>
+		
+		<option value="//api/name/measureLayoutRelativeToAncestor:">- measureLayoutRelativeToAncestor:</option>
 		
 		<option value="//api/name/reactSubviews">- reactSubviews</option>
 		
@@ -245,8 +231,6 @@
 		<option value="//api/name/removeReactSubview:">- removeReactSubview:</option>
 		
 		<option value="//api/name/setLocalData:">- setLocalData:</option>
-		
-		<option value="//api/name/setTextComputed">- setTextComputed</option>
 		
 		<option value="//api/name/sizeThatFitsMinimumSize:maximumSize:">- sizeThatFitsMinimumSize:maximumSize:</option>
 		
@@ -298,15 +282,15 @@ at the root node to recursively lay out the entire hierarchy.
 3. If a node is &ldquo;computed&rdquo; and the constraint passed from above is identical to the constraint used to
 perform the last computation, we skip laying out the subtree entirely.</p>
 
-<p>Converts float values between Yoga and CoreGraphics representations,
-especially in terms of edge cases.</p>
+<p>Copy<a href="#//api/name/right">right</a> &copy; 2015-present, Facebook, Inc.</p>
 
-<p>Copy<a href="#//api/name/right">right</a> &copy; 2015-present, Facebook, Inc.
-All rights reserved.</p>
+<p>This source code is licensed under the MIT license found in the
+LICENSE file in the root directory of this source tree.</p>
 
-<p>This source code is licensed under the BSD-style license found in the
-LICENSE file in the root directory of this source tree. An additional grant
-of patent rights can be found in the PATENTS file in the same directory.</p>
+<p>Copy<a href="#//api/name/right">right</a> &copy; 2015-present, Facebook, Inc.</p>
+
+<p>This source code is licensed under the MIT license found in the
+LICENSE file in the root directory of this source tree.</p>
 					</div>
 					
 					
@@ -534,6 +518,47 @@ Defaults to suitable to current device configuration.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/layoutMetrics" title="layoutMetrics"></a>
+	<h3 class="method-title"><code><a href="#//api/name/layoutMetrics">&nbsp;&nbsp;layoutMetrics</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Computed layout of the view.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) RCTLayoutMetrics layoutMetrics</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTShadowView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/setLocalData:" title="setLocalData:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/setLocalData:">&ndash;&nbsp;setLocalData:</a></code>
 </h3>
@@ -601,89 +626,6 @@ corresponding UIViews.</p>
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, getter=isNewView) BOOL newView</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTShadowView.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/hidden" title="hidden"></a>
-	<h3 class="method-title"><code><a href="#//api/name/hidden">&nbsp;&nbsp;hidden</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p><a href="#//api/name/hidden">isHidden</a> - <a href="../Classes/RCTUIManager.html">RCTUIManager</a> uses this to determine whether or not the UIView should be hidden. Useful if the
-ShadowView determines that its UIView will be clipped and wants to hide it.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, getter=isHidden) BOOL hidden</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTShadowView.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/layoutDirection" title="layoutDirection"></a>
-	<h3 class="method-title"><code><a href="#//api/name/layoutDirection">&nbsp;&nbsp;layoutDirection</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Computed layout <a href="#//api/name/direction">direction</a> of the view.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) UIUserInterfaceLayoutDirection layoutDirection</code></div>
 
 		    
 			
@@ -938,7 +880,7 @@ Defaults to { 0, 0, NAN, NAN }.</p>
 			
 			<div class="method-subsection brief-description">
 				<p>Convenient alias to <a href="#//api/name/width"><code>width</code></a> and <a href="#//api/name/height"><code>height</code></a> in pixels.
-Defaults to NAN in case of non-pixel dimention.</p>
+Defaults to NAN in case of non-pixel dimension.</p>
 			</div>
 			
 		    
@@ -1758,47 +1700,6 @@ Defaults to NAN in case of non-pixel dimention.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/frame" title="frame"></a>
-	<h3 class="method-title"><code><a href="#//api/name/frame">&nbsp;&nbsp;frame</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Computed <a href="#//api/name/position">position</a> of the view.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) CGRect frame</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTShadowView.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/intrinsicContentSize" title="intrinsicContentSize"></a>
 	<h3 class="method-title"><code><a href="#//api/name/intrinsicContentSize">&nbsp;&nbsp;intrinsicContentSize</a></code>
 </h3>
@@ -1841,8 +1742,8 @@ Defaults to <code>{UIViewNoIntrinsicMetric, UIViewNoIntrinsicMetric}</code>.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/collectUpdatedProperties:parentProperties:" title="collectUpdatedProperties:parentProperties:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/collectUpdatedProperties:parentProperties:">&ndash;&nbsp;collectUpdatedProperties:parentProperties:</a></code>
+	<a name="//api/name/layoutWithMinimumSize:maximumSize:layoutDirection:layoutContext:" title="layoutWithMinimumSize:maximumSize:layoutDirection:layoutContext:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/layoutWithMinimumSize:maximumSize:layoutDirection:layoutContext:">&ndash;&nbsp;layoutWithMinimumSize:maximumSize:layoutDirection:layoutContext:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1852,14 +1753,12 @@ Defaults to <code>{UIViewNoIntrinsicMetric, UIViewNoIntrinsicMetric}</code>.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Calculate property changes that need to be propagated to the view.
-The applierBlocks set contains <a href="../Blocks/RCTApplierBlock.html">RCTApplierBlock</a> functions that must be applied
-on the main thread in order to update the view.</p>
+				<p>Initiates layout starts from the view.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)collectUpdatedProperties:(NSMutableSet&lt;RCTApplierBlock&gt; *)<em>applierBlocks</em> parentProperties:(NSDictionary&lt;NSString*,id&gt; *)<em>parentProperties</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)layoutWithMinimumSize:(CGSize)<em>minimumSize</em> maximumSize:(CGSize)<em>maximumSize</em> layoutDirection:(UIUserInterfaceLayoutDirection)<em>layoutDirection</em> layoutContext:(RCTLayoutContext)<em>layoutContext</em></code></div>
 
 		    
 			
@@ -1884,8 +1783,8 @@ on the main thread in order to update the view.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/processUpdatedProperties:parentProperties:" title="processUpdatedProperties:parentProperties:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/processUpdatedProperties:parentProperties:">&ndash;&nbsp;processUpdatedProperties:parentProperties:</a></code>
+	<a name="//api/name/layoutWithMetrics:layoutContext:" title="layoutWithMetrics:layoutContext:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/layoutWithMetrics:layoutContext:">&ndash;&nbsp;layoutWithMetrics:layoutContext:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1895,13 +1794,12 @@ on the main thread in order to update the view.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Process the updated properties and apply them to view. Shadow view classes
-that add additional propagating properties should override this method.</p>
+				<p>Applies computed layout metrics to the view.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (NSDictionary&lt;NSString*,id&gt; *)processUpdatedProperties:(NSMutableSet&lt;RCTApplierBlock&gt; *)<em>applierBlocks</em> parentProperties:(NSDictionary&lt;NSString*,id&gt; *)<em>parentProperties</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)layoutWithMetrics:(RCTLayoutMetrics)<em>layoutMetrics</em> layoutContext:(RCTLayoutContext)<em>layoutContext</em></code></div>
 
 		    
 			
@@ -1926,8 +1824,8 @@ that add additional propagating properties should override this method.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/collectUpdatedFrames:withFrame:hidden:absolutePosition:" title="collectUpdatedFrames:withFrame:hidden:absolutePosition:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/collectUpdatedFrames:withFrame:hidden:absolutePosition:">&ndash;&nbsp;collectUpdatedFrames:withFrame:hidden:absolutePosition:</a></code>
+	<a name="//api/name/layoutSubviewsWithContext:" title="layoutSubviewsWithContext:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/layoutSubviewsWithContext:">&ndash;&nbsp;layoutSubviewsWithContext:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1937,15 +1835,12 @@ that add additional propagating properties should override this method.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Can be called by a parent on a child in order to calculate all views whose <a href="#//api/name/frame">frame</a> needs
-updating in that branch. Adds these frames to <code>viewsWithNewFrame</code>. Useful if layout
-enters a view where <a href="#//api/name/flex">flex</a> doesn&rsquo;t apply (e.g. Text) and then you want to resume <a href="#//api/name/flex">flex</a>
-layout on a subview.</p>
+				<p>Calculates (if needed) and applies layout to subviews.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)collectUpdatedFrames:(NSMutableSet&lt;RCTShadowView*&gt; *)<em>viewsWithNewFrame</em> withFrame:(CGRect)<em>frame</em> hidden:(BOOL)<em>hidden</em> absolutePosition:(CGPoint)<em>absolutePosition</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)layoutSubviewsWithContext:(RCTLayoutContext)<em>layoutContext</em></code></div>
 
 		    
 			
@@ -1970,8 +1865,8 @@ layout on a subview.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/applyLayoutNode:viewsWithNewFrame:absolutePosition:" title="applyLayoutNode:viewsWithNewFrame:absolutePosition:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyLayoutNode:viewsWithNewFrame:absolutePosition:">&ndash;&nbsp;applyLayoutNode:viewsWithNewFrame:absolutePosition:</a></code>
+	<a name="//api/name/sizeThatFitsMinimumSize:maximumSize:" title="sizeThatFitsMinimumSize:maximumSize:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sizeThatFitsMinimumSize:maximumSize:">&ndash;&nbsp;sizeThatFitsMinimumSize:maximumSize:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1981,56 +1876,13 @@ layout on a subview.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Apply the CSS layout.
-This method also calls <code>applyLayoutToChildren:</code> internally. The functionality
-is split into two methods so subclasses can override <code>applyLayoutToChildren:</code>
-while using default implementation of <code>applyLayoutNode:</code>.</p>
+				<p>Measures shadow view without side-effects.
+Default implementation uses Yoga for measuring.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)applyLayoutNode:(YGNodeRef)<em>node</em> viewsWithNewFrame:(NSMutableSet&lt;RCTShadowView*&gt; *)<em>viewsWithNewFrame</em> absolutePosition:(CGPoint)<em>absolutePosition</em></code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTShadowView.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/applyLayoutToChildren:viewsWithNewFrame:absolutePosition:" title="applyLayoutToChildren:viewsWithNewFrame:absolutePosition:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyLayoutToChildren:viewsWithNewFrame:absolutePosition:">&ndash;&nbsp;applyLayoutToChildren:viewsWithNewFrame:absolutePosition:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Enumerate the child nodes and tell them to apply layout.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)applyLayoutToChildren:(YGNodeRef)<em>node</em> viewsWithNewFrame:(NSMutableSet&lt;RCTShadowView*&gt; *)<em>viewsWithNewFrame</em> absolutePosition:(CGPoint)<em>absolutePosition</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (CGSize)sizeThatFitsMinimumSize:(CGSize)<em>minimumSize</em> maximumSize:(CGSize)<em>maximumSize</em></code></div>
 
 		    
 			
@@ -2144,86 +1996,6 @@ Don&rsquo;t confuse this with <a href="#//api/name/canHaveSubviews"><code>canHav
 			</div>
 			
 			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/dirtyPropagation" title="dirtyPropagation"></a>
-	<h3 class="method-title"><code><a href="#//api/name/dirtyPropagation">&ndash;&nbsp;dirtyPropagation</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)dirtyPropagation</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/isPropagationDirty" title="isPropagationDirty"></a>
-	<h3 class="method-title"><code><a href="#//api/name/isPropagationDirty">&ndash;&nbsp;isPropagationDirty</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)isPropagationDirty</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/dirtyText" title="dirtyText"></a>
-	<h3 class="method-title"><code><a href="#//api/name/dirtyText">&ndash;&nbsp;dirtyText</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)dirtyText</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setTextComputed" title="setTextComputed"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setTextComputed">&ndash;&nbsp;setTextComputed</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)setTextComputed</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/isTextDirty" title="isTextDirty"></a>
-	<h3 class="method-title"><code><a href="#//api/name/isTextDirty">&ndash;&nbsp;isTextDirty</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)isTextDirty</code></div>
-
-		    
 		</div>
 	</div>
 </div><div class="section-method">
@@ -2481,8 +2253,8 @@ transforms or anchor points.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/sizeThatFitsMinimumSize:maximumSize:" title="sizeThatFitsMinimumSize:maximumSize:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sizeThatFitsMinimumSize:maximumSize:">&ndash;&nbsp;sizeThatFitsMinimumSize:maximumSize:</a></code>
+	<a name="//api/name/contentFrame" title="contentFrame"></a>
+	<h3 class="method-title"><code><a href="#//api/name/contentFrame">&nbsp;&nbsp;contentFrame</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2490,35 +2262,10 @@ transforms or anchor points.</p>
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>Measures shadow view without side-effects.</p>
-			</div>
-			
-		    
 
-			<div class="method-subsection method-declaration"><code>- (CGSize)sizeThatFitsMinimumSize:(CGSize)<em>minimumSize</em> maximumSize:(CGSize)<em>maximumSize</em></code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) CGRect contentFrame</code></div>
 
 		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">RCTShadowView+Layout.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -2623,7 +2370,7 @@ The default implementaion does nothing.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

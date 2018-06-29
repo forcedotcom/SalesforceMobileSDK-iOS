@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTWebSocketModule.html">
+	<File path="Classes/RCTUIManagerObserverCoordinator.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTWebSocketModule</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTUIManagerObserverCoordinator</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
             
 			
 			<NodeRef refid="218"/>
@@ -13,26 +13,112 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWebSocketModule/setContentHandler:forSocketID:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManagerObserverCoordinator/init</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.mm</DeclaredIn>
 			
-			<Declaration>- (void)setContentHandler:(id&lt;RCTWebSocketContentHandler&gt; __nullable)handler forSocketID:(NSNumber *)socketID</Declaration>
+			<Declaration>- (instancetype)init</Declaration>
 			
 			
-			<Anchor>//api/name/setContentHandler:forSocketID:</Anchor>
+			<Anchor>//api/name/init</Anchor>
             <NodeRef refid="218"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWebSocketModule/sendData:forSocketID:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWebSocketModule.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManagerObserverCoordinator/addObserver:</TokenIdentifier>
+			<Abstract type="html">Add a UIManagerObserver. See the RCTUIManagerObserver protocol for more info.
+References to observers are held weakly.
+This method can be called safely from any queue.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)sendData:(NSData *)data forSocketID:(nonnull NSNumber *)socketID</Declaration>
+			<Declaration>- (void)addObserver:(id&lt;RCTUIManagerObserver&gt;)observer</Declaration>
 			
 			
-			<Anchor>//api/name/sendData:forSocketID:</Anchor>
+			<Anchor>//api/name/addObserver:</Anchor>
+            <NodeRef refid="218"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManagerObserverCoordinator/removeObserver:</TokenIdentifier>
+			<Abstract type="html">Remove a UIManagerObserver.
+This method can be called safely from any queue.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)removeObserver:(id&lt;RCTUIManagerObserver&gt;)observer</Declaration>
+			
+			
+			<Anchor>//api/name/removeObserver:</Anchor>
+            <NodeRef refid="218"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManagerObserverCoordinator/uiManagerWillPerformLayout:</TokenIdentifier>
+			<Abstract type="html">Called just before the UIManager layout views.
+It allows performing some operation for components which contain custom
+layout logic right before regular Yoga based layout. So, for instance,
+some components which have own React-independent state can compute and cache
+own intrinsic content size (which will be used by Yoga) at this point.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.mm</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerWillPerformLayout:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerWillPerformLayout:</Anchor>
+            <NodeRef refid="218"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManagerObserverCoordinator/uiManagerDidPerformLayout:</TokenIdentifier>
+			<Abstract type="html">Called just after the UIManager layout views.
+It allows performing custom layout logic right after regular Yoga based layout.
+So, for instance, this can be used for computing final layout for a component,
+since it has its final frame set by Yoga at this point.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.mm</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerDidPerformLayout:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerDidPerformLayout:</Anchor>
+            <NodeRef refid="218"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManagerObserverCoordinator/uiManagerWillPerformMounting:</TokenIdentifier>
+			<Abstract type="html">Called before flushing UI blocks at the end of a batch.
+This is called from the UIManager queue. Can be used to add UI operations in that batch.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.mm</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerWillPerformMounting:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerWillPerformMounting:</Anchor>
+            <NodeRef refid="218"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManagerObserverCoordinator/uiManager:performMountingWithBlock:</TokenIdentifier>
+			<Abstract type="html">Called right before flushing UI blocks and allows to intercept the mounting process.
+Return YES to cancel default execution of the block (and perform the
+execution later).</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.mm</DeclaredIn>
+			
+			<Declaration>- (BOOL)uiManager:(RCTUIManager *)manager performMountingWithBlock:(RCTUIManagerMountingBlock)block</Declaration>
+			
+			
+			<Anchor>//api/name/uiManager:performMountingWithBlock:</Anchor>
+            <NodeRef refid="218"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManagerObserverCoordinator/uiManagerDidPerformMounting:</TokenIdentifier>
+			<Abstract type="html">Called just after flushing UI blocks.
+This is called from the UIManager queue.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.mm</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerDidPerformMounting:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerDidPerformMounting:</Anchor>
             <NodeRef refid="218"/>
 		</Token>
 		

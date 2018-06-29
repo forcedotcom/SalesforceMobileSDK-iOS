@@ -56,21 +56,29 @@
 	
 	<optgroup label="Properties">
 		
+		<option value="//api/name/attributedText">attributedText</option>
+		
 		<option value="//api/name/backedTextInputView">backedTextInputView</option>
 		
 		<option value="//api/name/blurOnSubmit">blurOnSubmit</option>
 		
 		<option value="//api/name/clearTextOnFocus">clearTextOnFocus</option>
 		
-		<option value="//api/name/contentSize">contentSize</option>
+		<option value="//api/name/inputAccessoryViewID">inputAccessoryViewID</option>
 		
-		<option value="//api/name/fontAttributes">fontAttributes</option>
+		<option value="//api/name/maxLength">maxLength</option>
 		
 		<option value="//api/name/mostRecentEventCount">mostRecentEventCount</option>
 		
+		<option value="//api/name/onChange">onChange</option>
+		
 		<option value="//api/name/onContentSizeChange">onContentSizeChange</option>
 		
+		<option value="//api/name/onScroll">onScroll</option>
+		
 		<option value="//api/name/onSelectionChange">onSelectionChange</option>
+		
+		<option value="//api/name/onTextInput">onTextInput</option>
 		
 		<option value="//api/name/reactBorderInsets">reactBorderInsets</option>
 		
@@ -79,6 +87,8 @@
 		<option value="//api/name/selectTextOnFocus">selectTextOnFocus</option>
 		
 		<option value="//api/name/selection">selection</option>
+		
+		<option value="//api/name/textAttributes">textAttributes</option>
 		
 	</optgroup>
 	
@@ -95,24 +105,6 @@
 		<option value="//api/name/initWithCoder:">- initWithCoder:</option>
 		
 		<option value="//api/name/initWithFrame:">- initWithFrame:</option>
-		
-		<option value="//api/name/invalidateContentSize">- invalidateContentSize</option>
-		
-		<option value="//api/name/setFont:">- setFont:</option>
-		
-		<option value="//api/name/textInputDidBeginEditing">- textInputDidBeginEditing</option>
-		
-		<option value="//api/name/textInputDidChangeSelection">- textInputDidChangeSelection</option>
-		
-		<option value="//api/name/textInputDidEndEditing">- textInputDidEndEditing</option>
-		
-		<option value="//api/name/textInputDidReturn">- textInputDidReturn</option>
-		
-		<option value="//api/name/textInputShouldBeginEditing">- textInputShouldBeginEditing</option>
-		
-		<option value="//api/name/textInputShouldEndEditing">- textInputShouldEndEditing</option>
-		
-		<option value="//api/name/textInputShouldReturn">- textInputShouldReturn</option>
 		
 	</optgroup>
 	
@@ -138,7 +130,7 @@
 	<td><a href="../Classes/RCTView.html">RCTView</a> : UIView</td>
 </tr><tr>
 	<th>Conforms to</th>
-	<td><a href="../Protocols/RCTFontAttributesDelegate.html">RCTFontAttributesDelegate</a></td>
+	<td><a href="../Protocols/RCTBackedTextInputDelegate.html">RCTBackedTextInputDelegate</a></td>
 </tr><tr>
 	<th>Declared in</th>
 	<td>RCTBaseTextInputView.h</td>
@@ -151,12 +143,10 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Copyright &copy; 2015-present, Facebook, Inc.
-All rights reserved.</p>
+						<p>Copyright &copy; 2015-present, Facebook, Inc.</p>
 
-<p>This source code is licensed under the BSD-style license found in the
-LICENSE file in the root directory of this source tree. An additional grant
-of patent rights can be found in the PATENTS file in the same directory.</p>
+<p>This source code is licensed under the MIT license found in the
+LICENSE file in the root directory of this source tree.</p>
 					</div>
 					
 					
@@ -252,6 +242,22 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/textAttributes" title="textAttributes"></a>
+	<h3 class="method-title"><code><a href="#//api/name/textAttributes">&nbsp;&nbsp;textAttributes</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) RCTTextAttributes *textAttributes</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/reactPaddingInsets" title="reactPaddingInsets"></a>
 	<h3 class="method-title"><code><a href="#//api/name/reactPaddingInsets">&nbsp;&nbsp;reactPaddingInsets</a></code>
 </h3>
@@ -284,22 +290,6 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/contentSize" title="contentSize"></a>
-	<h3 class="method-title"><code><a href="#//api/name/contentSize">&nbsp;&nbsp;contentSize</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) CGSize contentSize</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/onContentSizeChange" title="onContentSizeChange"></a>
 	<h3 class="method-title"><code><a href="#//api/name/onContentSizeChange">&nbsp;&nbsp;onContentSizeChange</a></code>
 </h3>
@@ -310,7 +300,7 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) RCTDirectEventBlock onContentSizeChange</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) RCTDirectEventBlock onContentSizeChange</code></div>
 
 		    
 		</div>
@@ -326,14 +316,14 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) RCTDirectEventBlock onSelectionChange</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) RCTDirectEventBlock onSelectionChange</code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/fontAttributes" title="fontAttributes"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fontAttributes">&nbsp;&nbsp;fontAttributes</a></code>
+	<a name="//api/name/onChange" title="onChange"></a>
+	<h3 class="method-title"><code><a href="#//api/name/onChange">&nbsp;&nbsp;onChange</a></code>
 </h3>
 
 	<div class="method-info">
@@ -342,7 +332,39 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) RCTFontAttributes *fontAttributes</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) RCTDirectEventBlock onChange</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/onTextInput" title="onTextInput"></a>
+	<h3 class="method-title"><code><a href="#//api/name/onTextInput">&nbsp;&nbsp;onTextInput</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) RCTDirectEventBlock onTextInput</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/onScroll" title="onScroll"></a>
+	<h3 class="method-title"><code><a href="#//api/name/onScroll">&nbsp;&nbsp;onScroll</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) RCTDirectEventBlock onScroll</code></div>
 
 		    
 		</div>
@@ -428,8 +450,8 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/setFont:" title="setFont:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setFont:">&ndash;&nbsp;setFont:</a></code>
+	<a name="//api/name/maxLength" title="maxLength"></a>
+	<h3 class="method-title"><code><a href="#//api/name/maxLength">&nbsp;&nbsp;maxLength</a></code>
 </h3>
 
 	<div class="method-info">
@@ -438,14 +460,14 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)setFont:(UIFont *)<em>font</em></code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSNumber *maxLength</code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/invalidateContentSize" title="invalidateContentSize"></a>
-	<h3 class="method-title"><code><a href="#//api/name/invalidateContentSize">&ndash;&nbsp;invalidateContentSize</a></code>
+	<a name="//api/name/attributedText" title="attributedText"></a>
+	<h3 class="method-title"><code><a href="#//api/name/attributedText">&nbsp;&nbsp;attributedText</a></code>
 </h3>
 
 	<div class="method-info">
@@ -454,14 +476,14 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)invalidateContentSize</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSAttributedString *attributedText</code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/textInputShouldBeginEditing" title="textInputShouldBeginEditing"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textInputShouldBeginEditing">&ndash;&nbsp;textInputShouldBeginEditing</a></code>
+	<a name="//api/name/inputAccessoryViewID" title="inputAccessoryViewID"></a>
+	<h3 class="method-title"><code><a href="#//api/name/inputAccessoryViewID">&nbsp;&nbsp;inputAccessoryViewID</a></code>
 </h3>
 
 	<div class="method-info">
@@ -470,103 +492,7 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)textInputShouldBeginEditing</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textInputDidBeginEditing" title="textInputDidBeginEditing"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textInputDidBeginEditing">&ndash;&nbsp;textInputDidBeginEditing</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)textInputDidBeginEditing</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textInputShouldReturn" title="textInputShouldReturn"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textInputShouldReturn">&ndash;&nbsp;textInputShouldReturn</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)textInputShouldReturn</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textInputDidReturn" title="textInputDidReturn"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textInputDidReturn">&ndash;&nbsp;textInputDidReturn</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)textInputDidReturn</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textInputDidChangeSelection" title="textInputDidChangeSelection"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textInputDidChangeSelection">&ndash;&nbsp;textInputDidChangeSelection</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)textInputDidChangeSelection</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textInputShouldEndEditing" title="textInputShouldEndEditing"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textInputShouldEndEditing">&ndash;&nbsp;textInputShouldEndEditing</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)textInputShouldEndEditing</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textInputDidEndEditing" title="textInputDidEndEditing"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textInputDidEndEditing">&ndash;&nbsp;textInputDidEndEditing</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)textInputDidEndEditing</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *inputAccessoryViewID</code></div>
 
 		    
 		</div>
@@ -586,7 +512,7 @@ of patent rights can be found in the PATENTS file in the same directory.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

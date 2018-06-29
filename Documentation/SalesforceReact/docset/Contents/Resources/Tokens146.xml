@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTRawTextViewManager.html">
+	<File path="Classes/RCTPickerManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTRawTextViewManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTRawTextViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTPickerManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTPickerManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="146"/>

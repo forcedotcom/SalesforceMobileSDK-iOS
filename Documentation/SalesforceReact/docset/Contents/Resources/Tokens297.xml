@@ -1,48 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTNullability.html">
+	<File path="Protocols/RCTWebViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTNullability</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTNullability.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTWebViewDelegate</TokenIdentifier>
+			<Abstract type="html">Special scheme used to pass messages to the injectedJavaScript
+code without triggering a page load. Usage:</Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
             
 			
 			<NodeRef refid="297"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTNullabilityUnspecified</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTNullabilityUnspecified</Declaration>
-            
-            <DeclaredIn>RCTNullability.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTWebViewDelegate/webView:shouldStartLoadForRequest:withCallback:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTWebView.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)webView:(RCTWebView *)webView shouldStartLoadForRequest:(NSMutableDictionary&lt;NSString*,id&gt; *)request withCallback:(RCTDirectEventBlock)callback</Declaration>
+			
+			
+			<Anchor>//api/name/webView:shouldStartLoadForRequest:withCallback:</Anchor>
             <NodeRef refid="297"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTNullable</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTNullable</Declaration>
-            
-            <DeclaredIn>RCTNullability.h</DeclaredIn>
-            
-            <NodeRef refid="297"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTNonnullable</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTNonnullable</Declaration>
-            
-            <DeclaredIn>RCTNullability.h</DeclaredIn>
-            
-            <NodeRef refid="297"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

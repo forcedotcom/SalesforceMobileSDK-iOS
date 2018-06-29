@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKWebUtils.html">
+	<File path="Classes/SFSDKTextFieldTableViewCell.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebUtils</TokenIdentifier>
-			<Abstract type="html">Class containing web-based utility/helper functionality for the SDK.</Abstract>
-			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTextFieldTableViewCell</TokenIdentifier>
+			<Abstract type="html">A custom UITableViewCell which contains a UITextField for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
             
 			
 			<NodeRef refid="114"/>
@@ -13,19 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebUtils/configureUserAgent:</TokenIdentifier>
-			<Abstract type="html">Configures a user agent for the app.</Abstract>
-			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/setTextField:</TokenIdentifier>
+			<Abstract type="html">Text field for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
 			
-			<Declaration>+ (void)configureUserAgent:(NSString *)userAgentString</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAgentString</Name>
-					<Abstract type="html">The string to configure as the user agent.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
 			
-			<Anchor>//api/name/configureUserAgent:</Anchor>
+			
+			<Anchor>//api/name/textField</Anchor>
+            <NodeRef refid="114"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
+			<Abstract type="html">Text field for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
+			
+			
+			<Anchor>//api/name/textField</Anchor>
+            <NodeRef refid="114"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
+			<Abstract type="html">Text field for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
+			
+			
+			<Anchor>//api/name/textField</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		

@@ -17,7 +17,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>RCTBackedTextInputDelegateAdapter.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithTextView:(UITextView&lt;RCTBackedTextInputViewProtocol&gt; *)backedTextInput</Declaration>
+			<Declaration>- (instancetype)initWithTextView:(UITextView&lt;RCTBackedTextInputViewProtocol&gt; *)backedTextInputView</Declaration>
 			
 			
 			<Anchor>//api/name/initWithTextView:</Anchor>

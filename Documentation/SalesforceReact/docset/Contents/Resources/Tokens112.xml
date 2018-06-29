@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTModalHostView.html">
+	<File path="Classes/RCTLoadingProgress.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTModalHostView</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTLoadingProgress</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
             
 			
 			<NodeRef refid="112"/>
@@ -14,374 +13,122 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/setAnimationType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLoadingProgress/description</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<DeclaredIn>RCTJavaScriptLoader.mm</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *animationType</Declaration>
+			<Declaration>- (NSString *)description</Declaration>
 			
 			
-			<Anchor>//api/name/animationType</Anchor>
+			<Anchor>//api/name/description</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/animationType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLoadingProgress/setStatus:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *animationType</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *status</Declaration>
 			
 			
-			<Anchor>//api/name/animationType</Anchor>
+			<Anchor>//api/name/status</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostView/animationType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLoadingProgress/status</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *animationType</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *status</Declaration>
 			
 			
-			<Anchor>//api/name/animationType</Anchor>
+			<Anchor>//api/name/status</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/setPresentationStyle:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTLoadingProgress/status</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) UIModalPresentationStyle presentationStyle</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *status</Declaration>
 			
 			
-			<Anchor>//api/name/presentationStyle</Anchor>
+			<Anchor>//api/name/status</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/presentationStyle</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLoadingProgress/setDone:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) UIModalPresentationStyle presentationStyle</Declaration>
+			<Declaration>@property (strong, nonatomic) NSNumber *done</Declaration>
 			
 			
-			<Anchor>//api/name/presentationStyle</Anchor>
+			<Anchor>//api/name/done</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostView/presentationStyle</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLoadingProgress/done</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) UIModalPresentationStyle presentationStyle</Declaration>
+			<Declaration>@property (strong, nonatomic) NSNumber *done</Declaration>
 			
 			
-			<Anchor>//api/name/presentationStyle</Anchor>
+			<Anchor>//api/name/done</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/setTransparent:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTLoadingProgress/done</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, getter=isTransparent) BOOL transparent</Declaration>
+			<Declaration>@property (strong, nonatomic) NSNumber *done</Declaration>
 			
 			
-			<Anchor>//api/name/transparent</Anchor>
+			<Anchor>//api/name/done</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/isTransparent</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLoadingProgress/setTotal:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, getter=isTransparent) BOOL transparent</Declaration>
+			<Declaration>@property (strong, nonatomic) NSNumber *total</Declaration>
 			
 			
-			<Anchor>//api/name/transparent</Anchor>
+			<Anchor>//api/name/total</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostView/transparent</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTLoadingProgress/total</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, getter=isTransparent) BOOL transparent</Declaration>
+			<Declaration>@property (strong, nonatomic) NSNumber *total</Declaration>
 			
 			
-			<Anchor>//api/name/transparent</Anchor>
+			<Anchor>//api/name/total</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/setOnShow:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTLoadingProgress/total</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
+			<DeclaredIn>RCTJavaScriptLoader.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onShow</Declaration>
+			<Declaration>@property (strong, nonatomic) NSNumber *total</Declaration>
 			
 			
-			<Anchor>//api/name/onShow</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/onShow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onShow</Declaration>
-			
-			
-			<Anchor>//api/name/onShow</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostView/onShow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onShow</Declaration>
-			
-			
-			<Anchor>//api/name/onShow</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/setIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSNumber *identifier</Declaration>
-			
-			
-			<Anchor>//api/name/identifier</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/identifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSNumber *identifier</Declaration>
-			
-			
-			<Anchor>//api/name/identifier</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostView/identifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSNumber *identifier</Declaration>
-			
-			
-			<Anchor>//api/name/identifier</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/setDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTModalHostViewInteractor&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/delegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTModalHostViewInteractor&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostView/delegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;RCTModalHostViewInteractor&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/setSupportedOrientations:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSArray&lt;NSString*&gt; *supportedOrientations</Declaration>
-			
-			
-			<Anchor>//api/name/supportedOrientations</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/supportedOrientations</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSArray&lt;NSString*&gt; *supportedOrientations</Declaration>
-			
-			
-			<Anchor>//api/name/supportedOrientations</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostView/supportedOrientations</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSArray&lt;NSString*&gt; *supportedOrientations</Declaration>
-			
-			
-			<Anchor>//api/name/supportedOrientations</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/setOnOrientationChange:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onOrientationChange</Declaration>
-			
-			
-			<Anchor>//api/name/onOrientationChange</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/onOrientationChange</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onOrientationChange</Declaration>
-			
-			
-			<Anchor>//api/name/onOrientationChange</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostView/onOrientationChange</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onOrientationChange</Declaration>
-			
-			
-			<Anchor>//api/name/onOrientationChange</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/setOnRequestClose:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onRequestClose</Declaration>
-			
-			
-			<Anchor>//api/name/onRequestClose</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/onRequestClose</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onRequestClose</Declaration>
-			
-			
-			<Anchor>//api/name/onRequestClose</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostView/onRequestClose</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) RCTDirectEventBlock onRequestClose</Declaration>
-			
-			
-			<Anchor>//api/name/onRequestClose</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/setTvRemoteHandler:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTTVRemoteHandler *tvRemoteHandler</Declaration>
-			
-			
-			<Anchor>//api/name/tvRemoteHandler</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/tvRemoteHandler</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTTVRemoteHandler *tvRemoteHandler</Declaration>
-			
-			
-			<Anchor>//api/name/tvRemoteHandler</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostView/tvRemoteHandler</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTTVRemoteHandler *tvRemoteHandler</Declaration>
-			
-			
-			<Anchor>//api/name/tvRemoteHandler</Anchor>
-            <NodeRef refid="112"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostView/initWithBridge:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostView.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge</Declaration>
-			
-			
-			<Anchor>//api/name/initWithBridge:</Anchor>
+			<Anchor>//api/name/total</Anchor>
             <NodeRef refid="112"/>
 		</Token>
 		

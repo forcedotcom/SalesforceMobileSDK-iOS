@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTSurfaceStage.html">
+	<File path="Constants/RCTDisplayType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTSurfaceStage</TokenIdentifier>
-			<Abstract type="html">The stage of the Surface</Abstract>
-			<DeclaredIn>RCTSurfaceStage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTDisplayType</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTLayout.h</DeclaredIn>
             
 			
 			<NodeRef refid="305"/>
@@ -14,81 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceStageSurfaceDidInitialize</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTDisplayTypeNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceStageSurfaceDidInitialize</Declaration>
+            <Declaration>RCTDisplayTypeNone</Declaration>
             
-            <DeclaredIn>RCTSurfaceStage.h</DeclaredIn>
+            <DeclaredIn>RCTLayout.h</DeclaredIn>
             
             <NodeRef refid="305"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceStageBridgeDidLoad</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTDisplayTypeFlex</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceStageBridgeDidLoad</Declaration>
+            <Declaration>RCTDisplayTypeFlex</Declaration>
             
-            <DeclaredIn>RCTSurfaceStage.h</DeclaredIn>
+            <DeclaredIn>RCTLayout.h</DeclaredIn>
             
             <NodeRef refid="305"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceStageModuleDidLoad</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTDisplayTypeInline</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceStageModuleDidLoad</Declaration>
+            <Declaration>RCTDisplayTypeInline</Declaration>
             
-            <DeclaredIn>RCTSurfaceStage.h</DeclaredIn>
-            
-            <NodeRef refid="305"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceStageSurfaceDidRun</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceStageSurfaceDidRun</Declaration>
-            
-            <DeclaredIn>RCTSurfaceStage.h</DeclaredIn>
-            
-            <NodeRef refid="305"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceStageSurfaceDidInitialRendering</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceStageSurfaceDidInitialRendering</Declaration>
-            
-            <DeclaredIn>RCTSurfaceStage.h</DeclaredIn>
-            
-            <NodeRef refid="305"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceStageSurfaceDidInitialLayout</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceStageSurfaceDidInitialLayout</Declaration>
-            
-            <DeclaredIn>RCTSurfaceStage.h</DeclaredIn>
-            
-            <NodeRef refid="305"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceStageSurfaceDidInitialMounting</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceStageSurfaceDidInitialMounting</Declaration>
-            
-            <DeclaredIn>RCTSurfaceStage.h</DeclaredIn>
-            
-            <NodeRef refid="305"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTSurfaceStageSurfaceDidStop</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTSurfaceStageSurfaceDidStop</Declaration>
-            
-            <DeclaredIn>RCTSurfaceStage.h</DeclaredIn>
+            <DeclaredIn>RCTLayout.h</DeclaredIn>
             
             <NodeRef refid="305"/>
         </Token>

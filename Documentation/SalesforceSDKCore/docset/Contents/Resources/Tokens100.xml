@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKResourceUtils.html">
+	<File path="Classes/SFSDKOAuthClientCache.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKResourceUtils</TokenIdentifier>
-			<Abstract type="html">Class that handles access to Mobile SDK&apos;s main bundle.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuthClientCache</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
             
 			
 			<NodeRef refid="100"/>
@@ -13,65 +13,159 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/mainSdkBundle</TokenIdentifier>
-			<Abstract type="html">The main bundle associated with the SDK.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/clientForKey:</TokenIdentifier>
+			<Abstract type="html">Fetch A Client from the cache given key</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
 			
-			<Declaration>+ (NSBundle *)mainSdkBundle</Declaration>
-			
-			<ReturnValue><Abstract type="html">The main bundle associated with the SDK.</Abstract></ReturnValue>
-			<Anchor>//api/name/mainSdkBundle</Anchor>
+			<Declaration>- (SFSDKOAuthClient *)clientForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">to use for lookup</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">a cached instance of SFSDKOAuthClient</Abstract></ReturnValue>
+			<Anchor>//api/name/clientForKey:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/localizedString:</TokenIdentifier>
-			<Abstract type="html">Gets a localized string from the main bundle of the SDK.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/addClient:</TokenIdentifier>
+			<Abstract type="html">Add A Client to the cache given key</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)localizedString:(NSString *)localizationKey</Declaration>
+			<Declaration>- (void)addClient:(SFSDKOAuthClient *)client</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>localizationKey</Name>
-					<Abstract type="html">The localization key used to look up the localized string.</Abstract>
+					<Name>client</Name>
+					<Abstract type="html">instance to add</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The localized string associated with the key.</Abstract></ReturnValue>
-			<Anchor>//api/name/localizedString:</Anchor>
+			
+			<Anchor>//api/name/addClient:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/imageNamed:</TokenIdentifier>
-			<Abstract type="html">Gets an image from the Images asset catalog from the framework bundle of the SDK</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/addClient:forKey:</TokenIdentifier>
+			<Abstract type="html">Add A Client to the cache given key</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
 			
-			<Declaration>+ (UIImage *)imageNamed:(NSString *)name</Declaration>
+			<Declaration>- (void)addClient:(SFSDKOAuthClient *)client forKey:(NSString *)key</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">The name of the image in the asset catalog.</Abstract>
+					<Name>client</Name>
+					<Abstract type="html">instance to add</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The image from the asset catalog with the provided name.</Abstract></ReturnValue>
-			<Anchor>//api/name/imageNamed:</Anchor>
+			
+			<Anchor>//api/name/addClient:forKey:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/loadConfigFromFile:</TokenIdentifier>
-			<Abstract type="html">Read config and parse its content (which is expected to be json)</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/removeClientForKey:</TokenIdentifier>
+			<Abstract type="html">Remove A Cached Client given key</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
 			
-			<Declaration>+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath</Declaration>
+			<Declaration>- (void)removeClientForKey:(NSString *)key</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>configFilePath</Name>
-					<Abstract type="html">Path of resource file.</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">to use for looking up client</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">NSDictionary built from content of tile.</Abstract></ReturnValue>
-			<Anchor>//api/name/loadConfigFromFile:</Anchor>
+			
+			<Anchor>//api/name/removeClientForKey:</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/removeClient:</TokenIdentifier>
+			<Abstract type="html">Remove a Cached Client</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			
+			<Declaration>- (void)removeClient:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">being removed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeClient:</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/removeAllClients</TokenIdentifier>
+			<Abstract type="html">Remove All Cached Clients</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			
+			<Declaration>- (void)removeAllClients</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllClients</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuthClientCache/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Shared Singleton</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)sharedInstance</Declaration>
+			
+			
+			<Anchor>//api/name/sharedInstance</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuthClientCache/keyFromClient:</TokenIdentifier>
+			<Abstract type="html">Get unique key from a client instance</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)keyFromClient:(SFSDKOAuthClient *)client</Declaration>
+			
+			
+			<Anchor>//api/name/keyFromClient:</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuthClientCache/keyFromCredentials:</TokenIdentifier>
+			<Abstract type="html">Get unique key from SFOAuthCredentials</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)keyFromCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			
+			
+			<Anchor>//api/name/keyFromCredentials:</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuthClientCache/keyFromCredentials:type:</TokenIdentifier>
+			<Abstract type="html">Get unique key from SFOAuthCredentials</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)keyFromCredentials:(SFOAuthCredentials *)client type:(SFOAuthClientKeyType)clientType</Declaration>
+			
+			
+			<Anchor>//api/name/keyFromCredentials:type:</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuthClientCache/keyFromIdentifierPrefixWithType:type:</TokenIdentifier>
+			<Abstract type="html">Get a state identifier key encode for type of client specified</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)keyFromIdentifierPrefixWithType:(NSString *)prefix type:(SFOAuthClientKeyType)clientType</Declaration>
+			
+			
+			<Anchor>//api/name/keyFromIdentifierPrefixWithType:type:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		

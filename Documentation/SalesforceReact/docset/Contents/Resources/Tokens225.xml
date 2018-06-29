@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTWrapperShadowView.html">
+	<File path="Classes/RCTVirtualTextShadowView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTWrapperShadowView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTVirtualTextShadowView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTVirtualTextShadowView.h</DeclaredIn>
             
 			
 			<NodeRef refid="225"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWrapperShadowView/initWithBridge:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWrapperShadowView.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithBridge:(RCTBridge *)bridge</Declaration>
-			
-			
-			<Anchor>//api/name/initWithBridge:</Anchor>
-            <NodeRef refid="225"/>
-		</Token>
 		
         
         

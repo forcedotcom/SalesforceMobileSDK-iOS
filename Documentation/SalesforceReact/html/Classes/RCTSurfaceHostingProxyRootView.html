@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>RCTSurfaceHostingProxyRootView Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceReact </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/delegate">delegate</option>
+		
+		<option value="//api/name/loadingViewFadeDelay">loadingViewFadeDelay</option>
+		
+		<option value="//api/name/loadingViewFadeDuration">loadingViewFadeDuration</option>
+		
+		<option value="//api/name/moduleName">moduleName</option>
+		
+		<option value="//api/name/passThroughTouches">passThroughTouches</option>
+		
+	</optgroup>
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/appProperties">- appProperties</option>
+		
+		<option value="//api/name/bridge">- bridge</option>
+		
+		<option value="//api/name/cancelTouches">- cancelTouches</option>
+		
+		<option value="//api/name/contentView">- contentView</option>
+		
+		<option value="//api/name/initWithBridge:moduleName:initialProperties:">- initWithBridge:moduleName:initialProperties:</option>
+		
+		<option value="//api/name/initWithBundleURL:moduleName:initialProperties:launchOptions:">- initWithBundleURL:moduleName:initialProperties:launchOptions:</option>
+		
+		<option value="//api/name/initWithFrame:):">- initWithFrame:):</option>
+		
+		<option value="//api/name/intrinsicContentSize">- intrinsicContentSize</option>
+		
+		<option value="//api/name/loadingView">- loadingView</option>
+		
+		<option value="//api/name/reactTag">- reactTag</option>
+		
+		<option value="//api/name/reactViewController">- reactViewController</option>
+		
+		<option value="//api/name/setAppProperties:">- setAppProperties:</option>
+		
+		<option value="//api/name/setLoadingView:">- setLoadingView:</option>
+		
+		<option value="//api/name/setSizeFlexibility:">- setSizeFlexibility:</option>
+		
+		<option value="//api/name/sizeFlexibility">- sizeFlexibility</option>
+		
+		<option value="//api/name/surface:didChangeIntrinsicSize:">- surface:didChangeIntrinsicSize:</option>
+		
+		<option value="//api/name/surface:didChangeStage:">- surface:didChangeStage:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">RCTSurfaceHostingProxyRootView Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td><a href="../Classes/RCTSurfaceHostingView.html">RCTSurfaceHostingView</a> : UIView</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>RCTSurfaceHostingProxyRootView.h<br />RCTSurfaceHostingProxyRootView.mm</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Copyright &copy; 2015-present, Facebook, Inc.</p>
+
+<p>This source code is licensed under the MIT license found in the
+LICENSE file in the root directory of this source tree.</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/initWithBridge:moduleName:initialProperties:" title="initWithBridge:moduleName:initialProperties:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithBridge:moduleName:initialProperties:">&ndash;&nbsp;initWithBridge:moduleName:initialProperties:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Convenience initializer.
+Instanciates a Surface object with given <code>bridge</code>, <code>moduleName</code>, and
+<code>initialProperties</code>, and then use it to instanciate a view.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithBridge:(RCTBridge *)<em>bridge</em> moduleName:(NSString *)<em>moduleName</em> initialProperties:(NSDictionary *)<em>initialProperties</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceHostingView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithBundleURL:moduleName:initialProperties:launchOptions:" title="initWithBundleURL:moduleName:initialProperties:launchOptions:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithBundleURL:moduleName:initialProperties:launchOptions:">&ndash;&nbsp;initWithBundleURL:moduleName:initialProperties:launchOptions:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithBundleURL:(NSURL *)<em>bundleURL</em> moduleName:(NSString *)<em>moduleName</em> initialProperties:(NSDictionary *)<em>initialProperties</em> launchOptions:(NSDictionary *)<em>launchOptions</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithFrame:):" title="initWithFrame:):"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithFrame:):">&ndash;&nbsp;initWithFrame:):</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithFrame:(CGRect)<em>frame</em> )</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/bridge" title="bridge"></a>
+	<h3 class="method-title"><code><a href="#//api/name/bridge">&ndash;&nbsp;bridge</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (RCTBridge *)bridge</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/contentView" title="contentView"></a>
+	<h3 class="method-title"><code><a href="#//api/name/contentView">&ndash;&nbsp;contentView</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (UIView *)contentView</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/reactTag" title="reactTag"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reactTag">&ndash;&nbsp;reactTag</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSNumber *)reactTag</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sizeFlexibility" title="sizeFlexibility"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sizeFlexibility">&ndash;&nbsp;sizeFlexibility</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (RCTRootViewSizeFlexibility)sizeFlexibility</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setSizeFlexibility:" title="setSizeFlexibility:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setSizeFlexibility:">&ndash;&nbsp;setSizeFlexibility:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setSizeFlexibility:(RCTRootViewSizeFlexibility)<em>sizeFlexibility</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/appProperties" title="appProperties"></a>
+	<h3 class="method-title"><code><a href="#//api/name/appProperties">&ndash;&nbsp;appProperties</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSDictionary *)appProperties</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setAppProperties:" title="setAppProperties:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setAppProperties:">&ndash;&nbsp;setAppProperties:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setAppProperties:(NSDictionary *)<em>appProperties</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/intrinsicContentSize" title="intrinsicContentSize"></a>
+	<h3 class="method-title"><code><a href="#//api/name/intrinsicContentSize">&ndash;&nbsp;intrinsicContentSize</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (CGSize)intrinsicContentSize</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/loadingView" title="loadingView"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loadingView">&ndash;&nbsp;loadingView</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (UIView *)loadingView</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setLoadingView:" title="setLoadingView:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setLoadingView:">&ndash;&nbsp;setLoadingView:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setLoadingView:(UIView *)<em>loadingView</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/surface:didChangeStage:" title="surface:didChangeStage:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/surface:didChangeStage:">&ndash;&nbsp;surface:didChangeStage:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)surface:(RCTSurface *)<em>surface</em> didChangeStage:(RCTSurfaceStage)<em>stage</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceDelegate.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/surface:didChangeIntrinsicSize:" title="surface:didChangeIntrinsicSize:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/surface:didChangeIntrinsicSize:">&ndash;&nbsp;surface:didChangeIntrinsicSize:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)surface:(RCTSurface *)<em>surface</em> didChangeIntrinsicSize:(CGSize)<em>intrinsicSize</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">RCTSurfaceDelegate.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/reactViewController" title="reactViewController"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reactViewController">&ndash;&nbsp;reactViewController</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (UIViewController *)reactViewController</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/cancelTouches" title="cancelTouches"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cancelTouches">&ndash;&nbsp;cancelTouches</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)cancelTouches</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/moduleName" title="moduleName"></a>
+	<h3 class="method-title"><code><a href="#//api/name/moduleName">&nbsp;&nbsp;moduleName</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, readonly) NSString *moduleName</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/delegate" title="delegate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak) id&lt;RCTRootViewDelegate&gt; delegate</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/passThroughTouches" title="passThroughTouches"></a>
+	<h3 class="method-title"><code><a href="#//api/name/passThroughTouches">&nbsp;&nbsp;passThroughTouches</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL passThroughTouches</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/loadingViewFadeDelay" title="loadingViewFadeDelay"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loadingViewFadeDelay">&nbsp;&nbsp;loadingViewFadeDelay</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSTimeInterval loadingViewFadeDelay</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/loadingViewFadeDuration" title="loadingViewFadeDuration"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loadingViewFadeDuration">&nbsp;&nbsp;loadingViewFadeDuration</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSTimeInterval loadingViewFadeDuration</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTWebSocketExecutor.html">
+	<File path="Classes/RCTUIManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTWebSocketExecutor</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTWebSocketExecutor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTUIManager</TokenIdentifier>
+			<Abstract type="html">The RCTUIManager is the module responsible for updating the view hierarchy.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="217"/>
@@ -14,14 +13,286 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTWebSocketExecutor/initWithURL:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTWebSocketExecutor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/registerRootViewTag:</TokenIdentifier>
+			<Abstract type="html">Register a root view tag and creates corresponding rootView and
+rootShadowView.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithURL:(NSURL *)URL</Declaration>
+			<Declaration>- (void)registerRootViewTag:(NSNumber *)rootTag</Declaration>
 			
 			
-			<Anchor>//api/name/initWithURL:</Anchor>
+			<Anchor>//api/name/registerRootViewTag:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/registerRootView:</TokenIdentifier>
+			<Abstract type="html">Register a root view with the RCTUIManager.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)registerRootView:(UIView *)rootView</Declaration>
+			
+			
+			<Anchor>//api/name/registerRootView:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/viewNameForReactTag:</TokenIdentifier>
+			<Abstract type="html">Gets the view name associated with a reactTag.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)viewNameForReactTag:(NSNumber *)reactTag</Declaration>
+			
+			
+			<Anchor>//api/name/viewNameForReactTag:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/viewForReactTag:</TokenIdentifier>
+			<Abstract type="html">Gets the view associated with a reactTag.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)viewForReactTag:(NSNumber *)reactTag</Declaration>
+			
+			
+			<Anchor>//api/name/viewForReactTag:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/shadowViewForReactTag:</TokenIdentifier>
+			<Abstract type="html">Gets the shadow view associated with a reactTag.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (RCTShadowView *)shadowViewForReactTag:(NSNumber *)reactTag</Declaration>
+			
+			
+			<Anchor>//api/name/shadowViewForReactTag:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/setAvailableSize:forRootView:</TokenIdentifier>
+			<Abstract type="html">Set the available size (availableSize property) for a root view.
+This might be used in response to changes in external layout constraints.
+This value will be directly trasmitted to layout engine and defines how big viewport is;
+this value does not affect root node size style properties.
+Can be considered as something similar to setSize:forView: but applicable only for root view.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setAvailableSize:(CGSize)availableSize forRootView:(UIView *)rootView</Declaration>
+			
+			
+			<Anchor>//api/name/setAvailableSize:forRootView:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/setLocalData:forView:</TokenIdentifier>
+			<Abstract type="html">Sets local data for a shadow view corresponded with given view.
+In some cases we need a way to specify some environmental data to shadow view
+to improve layout (or do something similar), so localData serves these needs.
+For example, any stateful embedded native views may benefit from this.
+Have in mind that this data is not supposed to interfere with the state of
+the shadow view.
+Please respect one-directional data flow of React.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setLocalData:(NSObject *)localData forView:(UIView *)view</Declaration>
+			
+			
+			<Anchor>//api/name/setLocalData:forView:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/setSize:forView:</TokenIdentifier>
+			<Abstract type="html">Set the size of a view. This might be in response to a screen rotation
+or some other layout event outside of the React-managed view hierarchy.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setSize:(CGSize)size forView:(UIView *)view</Declaration>
+			
+			
+			<Anchor>//api/name/setSize:forView:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/setIntrinsicContentSize:forView:</TokenIdentifier>
+			<Abstract type="html">Set the natural size of a view, which is used when no explicit size is set.
+Use UIViewNoIntrinsicMetric to ignore a dimension.
+The size must NOT include padding and border.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setIntrinsicContentSize:(CGSize)intrinsicContentSize forView:(UIView *)view</Declaration>
+			
+			
+			<Anchor>//api/name/setIntrinsicContentSize:forView:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/setNextLayoutAnimationGroup:</TokenIdentifier>
+			<Abstract type="html">Sets up layout animation which will perform on next layout pass.
+The animation will affect only one next layout pass.
+Must be called on the main queue.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setNextLayoutAnimationGroup:(RCTLayoutAnimationGroup *)layoutAnimationGroup</Declaration>
+			
+			
+			<Anchor>//api/name/setNextLayoutAnimationGroup:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/addUIBlock:</TokenIdentifier>
+			<Abstract type="html">Schedule a block to be executed on the UI thread. Useful if you need to execute
+view logic after all currently queued view updates have completed.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)addUIBlock:(RCTViewManagerUIBlock)block</Declaration>
+			
+			
+			<Anchor>//api/name/addUIBlock:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/prependUIBlock:</TokenIdentifier>
+			<Abstract type="html">Schedule a block to be executed on the UI thread. Useful if you need to execute
+view logic before all currently queued view updates have completed.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)prependUIBlock:(RCTViewManagerUIBlock)block</Declaration>
+			
+			
+			<Anchor>//api/name/prependUIBlock:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/synchronouslyUpdateViewOnUIThread:viewName:props:</TokenIdentifier>
+			<Abstract type="html">Used by native animated module to bypass the process of updating the values through the shadow
+view hierarchy. This method will directly update native views, which means that updates for
+layout-related propertied won&apos;t be handled properly.
+Make sure you know what you&apos;re doing before calling this method :)</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)synchronouslyUpdateViewOnUIThread:(NSNumber *)reactTag viewName:(NSString *)viewName props:(NSDictionary *)props</Declaration>
+			
+			
+			<Anchor>//api/name/synchronouslyUpdateViewOnUIThread:viewName:props:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/rootViewForReactTag:withCompletion:</TokenIdentifier>
+			<Abstract type="html">Given a reactTag from a component, find its root view, if possible.
+Otherwise, this will give back nil.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)rootViewForReactTag:(NSNumber *)reactTag withCompletion:(void ( ^ ) ( UIView *view ))completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>reactTag</Name>
+					<Abstract type="html">the component tag</Abstract>
+				</Parameter><Parameter>
+					<Name>completion</Name>
+					<Abstract type="html">the completion block that will hand over the rootView, if any.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/rootViewForReactTag:withCompletion:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/viewForNativeID:withRootTag:</TokenIdentifier>
+			<Abstract type="html">Finds a view that is tagged with nativeID as its nativeID prop
+with the associated rootTag root tag view hierarchy. Returns the
+view if found, nil otherwise.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)viewForNativeID:(NSString *)nativeID withRootTag:(NSNumber *)rootTag</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>nativeID</Name>
+					<Abstract type="html">the id reference to native component relative to root view.</Abstract>
+				</Parameter><Parameter>
+					<Name>rootTag</Name>
+					<Abstract type="html">the react tag of root view hierarchy from which to find the view.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/viewForNativeID:withRootTag:</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/RCTUIManager/JSResponder</TokenIdentifier>
+			<Abstract type="html">The view that is currently first responder, according to the JS context.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>+ (UIView *)JSResponder</Declaration>
+			
+			
+			<Anchor>//api/name/JSResponder</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/setNeedsLayout</TokenIdentifier>
+			<Abstract type="html">In some cases we might want to trigger layout from native side.
+React won&apos;t be aware of this, so we need to make sure it happens.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setNeedsLayout</Declaration>
+			
+			
+			<Anchor>//api/name/setNeedsLayout</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/setObserverCoordinator:</TokenIdentifier>
+			<Abstract type="html">Dedicated object for subscribing for UIManager events.
+See RCTUIManagerObserver protocol for more details.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>@property (atomic, retain, readonly) RCTUIManagerObserverCoordinator *observerCoordinator</Declaration>
+			
+			
+			<Anchor>//api/name/observerCoordinator</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUIManager/observerCoordinator</TokenIdentifier>
+			<Abstract type="html">Dedicated object for subscribing for UIManager events.
+See RCTUIManagerObserver protocol for more details.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>@property (atomic, retain, readonly) RCTUIManagerObserverCoordinator *observerCoordinator</Declaration>
+			
+			
+			<Anchor>//api/name/observerCoordinator</Anchor>
+            <NodeRef refid="217"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTUIManager/observerCoordinator</TokenIdentifier>
+			<Abstract type="html">Dedicated object for subscribing for UIManager events.
+See RCTUIManagerObserver protocol for more details.</Abstract>
+			<DeclaredIn>RCTUIManager.h</DeclaredIn>
+			
+			<Declaration>@property (atomic, retain, readonly) RCTUIManagerObserverCoordinator *observerCoordinator</Declaration>
+			
+			
+			<Anchor>//api/name/observerCoordinator</Anchor>
             <NodeRef refid="217"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTHTTPFormDataHelper.html">
+	<File path="Classes/RCTFabricUIManagerWrapper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTHTTPFormDataHelper</TokenIdentifier>
-			<Abstract type="html">Helper to convert FormData payloads into multipart/formdata requests.</Abstract>
-			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTFabricUIManagerWrapper</TokenIdentifier>
+			<Abstract type="html">An ObjC++ wrapper around the C++ FabricUIManager instance, so that the RCTCxxBridge can access it as needed.</Abstract>
+			<DeclaredIn>RCTFabricUIManagerWrapper.h</DeclaredIn>
             
 			
 			<NodeRef refid="74"/>
@@ -13,62 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTHTTPFormDataHelper/setNetworker:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFabricUIManagerWrapper/manager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			<DeclaredIn>RCTFabricUIManagerWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) RCTNetworking *networker</Declaration>
+			<Declaration>- (std : : shared_ptr&lt;FabricUIManager&gt;)manager</Declaration>
 			
 			
-			<Anchor>//api/name/networker</Anchor>
+			<Anchor>//api/name/manager</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTHTTPFormDataHelper/networker</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFabricUIManagerWrapper/init</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			<DeclaredIn>RCTFabricUIManagerWrapper.mm</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) RCTNetworking *networker</Declaration>
+			<Declaration>- (instancetype)init</Declaration>
 			
 			
-			<Anchor>//api/name/networker</Anchor>
+			<Anchor>//api/name/init</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTHTTPFormDataHelper/networker</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTFabricUIManagerWrapper/invalidate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
+			<DeclaredIn>RCTFabricUIManagerWrapper.mm</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) RCTNetworking *networker</Declaration>
-			
-			
-			<Anchor>//api/name/networker</Anchor>
-            <NodeRef refid="74"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTHTTPFormDataHelper/process:callback:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
-			
-			<Declaration>- (RCTURLRequestCancellationBlock)process:(NSArray&lt;NSDictionary*&gt; *)formData callback:(RCTHTTPQueryResult)callback</Declaration>
+			<Declaration>- (void)invalidate</Declaration>
 			
 			
-			<Anchor>//api/name/process:callback:</Anchor>
-            <NodeRef refid="74"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTHTTPFormDataHelper/handleResult:error:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTNetworking.mm</DeclaredIn>
-			
-			<Declaration>- (RCTURLRequestCancellationBlock)handleResult:(NSDictionary&lt;NSString*,id&gt; *)result error:(NSError *)error</Declaration>
-			
-			
-			<Anchor>//api/name/handleResult:error:</Anchor>
+			<Anchor>//api/name/invalidate</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		

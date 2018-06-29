@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTTVView.html">
+	<File path="Classes/RCTSurfaceRootView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTTVView</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTTVView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceRootView</TokenIdentifier>
+			<Abstract type="html">Internal class represents Surface&apos;s root view.</Abstract>
+			<DeclaredIn>RCTSurfaceRootView.h</DeclaredIn>
             
 			
 			<NodeRef refid="194"/>
@@ -14,110 +13,14 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTVView/setIsTVSelectable:</TokenIdentifier>
-			<Abstract type="html">TV event handlers</Abstract>
-			<DeclaredIn>RCTTVView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTSurfaceRootView/initWithCoder:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceRootView.mm</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL isTVSelectable</Declaration>
-			
-			
-			<Anchor>//api/name/isTVSelectable</Anchor>
-            <NodeRef refid="194"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTVView/isTVSelectable</TokenIdentifier>
-			<Abstract type="html">TV event handlers</Abstract>
-			<DeclaredIn>RCTTVView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isTVSelectable</Declaration>
+			<Declaration>- (nullable instancetype)initWithCoder:(NSCoder *)coder</Declaration>
 			
 			
-			<Anchor>//api/name/isTVSelectable</Anchor>
-            <NodeRef refid="194"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTVView/isTVSelectable</TokenIdentifier>
-			<Abstract type="html">TV event handlers</Abstract>
-			<DeclaredIn>RCTTVView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isTVSelectable</Declaration>
-			
-			
-			<Anchor>//api/name/isTVSelectable</Anchor>
-            <NodeRef refid="194"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTVView/setTvParallaxProperties:</TokenIdentifier>
-			<Abstract type="html">Properties for Apple TV focus parallax effects</Abstract>
-			<DeclaredIn>RCTTVView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSDictionary *tvParallaxProperties</Declaration>
-			
-			
-			<Anchor>//api/name/tvParallaxProperties</Anchor>
-            <NodeRef refid="194"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTVView/tvParallaxProperties</TokenIdentifier>
-			<Abstract type="html">Properties for Apple TV focus parallax effects</Abstract>
-			<DeclaredIn>RCTTVView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSDictionary *tvParallaxProperties</Declaration>
-			
-			
-			<Anchor>//api/name/tvParallaxProperties</Anchor>
-            <NodeRef refid="194"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTVView/tvParallaxProperties</TokenIdentifier>
-			<Abstract type="html">Properties for Apple TV focus parallax effects</Abstract>
-			<DeclaredIn>RCTTVView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSDictionary *tvParallaxProperties</Declaration>
-			
-			
-			<Anchor>//api/name/tvParallaxProperties</Anchor>
-            <NodeRef refid="194"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTVView/setHasTVPreferredFocus:</TokenIdentifier>
-			<Abstract type="html">TV preferred focus</Abstract>
-			<DeclaredIn>RCTTVView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL hasTVPreferredFocus</Declaration>
-			
-			
-			<Anchor>//api/name/hasTVPreferredFocus</Anchor>
-            <NodeRef refid="194"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTTVView/hasTVPreferredFocus</TokenIdentifier>
-			<Abstract type="html">TV preferred focus</Abstract>
-			<DeclaredIn>RCTTVView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL hasTVPreferredFocus</Declaration>
-			
-			
-			<Anchor>//api/name/hasTVPreferredFocus</Anchor>
-            <NodeRef refid="194"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTTVView/hasTVPreferredFocus</TokenIdentifier>
-			<Abstract type="html">TV preferred focus</Abstract>
-			<DeclaredIn>RCTTVView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL hasTVPreferredFocus</Declaration>
-			
-			
-			<Anchor>//api/name/hasTVPreferredFocus</Anchor>
+			<Anchor>//api/name/initWithCoder:</Anchor>
             <NodeRef refid="194"/>
 		</Token>
 		

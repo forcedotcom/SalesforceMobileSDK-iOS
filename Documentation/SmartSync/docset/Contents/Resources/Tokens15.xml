@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSyncsConfigTests.html">
+	<File path="Classes/SFParentChildrenSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSyncsConfigTests</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncDownTarget</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSyncsConfigTests.h</DeclaredIn>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="15"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncDownTarget/newSyncTargetWithParentInfo:parentFieldlist:parentSoqlFilter:childrenInfo:childrenFieldlist:relationshipType:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo parentFieldlist:(NSArray&lt;NSString*&gt; *)parentFieldlist parentSoqlFilter:(NSString *)parentSoqlFilter childrenInfo:(SFChildrenInfo *)childrenInfo childrenFieldlist:(NSArray&lt;NSString*&gt; *)childrenFieldlist relationshipType:(SFParentChildrenRelationshipType)relationshipType</Declaration>
+			
+			
+			<Anchor>//api/name/newSyncTargetWithParentInfo:parentFieldlist:parentSoqlFilter:childrenInfo:childrenFieldlist:relationshipType:</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncDownTarget/newFromDict:</TokenIdentifier>
+			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)newFromDict:(NSDictionary *)dict</Declaration>
+			
+			
+			<Anchor>//api/name/newFromDict:</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
 		
         
         

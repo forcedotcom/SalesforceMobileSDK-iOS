@@ -44,17 +44,26 @@
 				</Node>
 				
 				
+				<Node>
+					<Name>Categories</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="29"/>
+						
+					</Subnodes>
+				</Node>
+				
                 
                 
 				<Node>
 					<Name>Constants</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="29"/>
 						<NodeRef refid="30"/>
 						<NodeRef refid="31"/>
 						<NodeRef refid="32"/>
 						<NodeRef refid="33"/>
+						<NodeRef refid="34"/>
 						
 					</Subnodes>
 				</Node>
@@ -64,7 +73,7 @@
                     <Name>Blocks</Name>
                     <Path>index.html</Path>
                     <Subnodes>
-                        <NodeRef refid="34"/>
+                        <NodeRef refid="35"/>
                         
                     </Subnodes>
                 </Node>
@@ -689,35 +698,62 @@
             
         </Node>
 		
+		<Node id="29" type="file" documentType="reference">
+            <Name>SFUserAccount(SmartStoreTest)</Name>
+            <Path>Categories/SFUserAccount+SmartStoreTest.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Categories/SFUserAccount+SmartStoreTest.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Categories/SFUserAccount+SmartStoreTest.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Categories/SFUserAccount+SmartStoreTest.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
 		
         
-        <Node id="29" type="file" documentType="reference">
+        <Node id="30" type="file" documentType="reference">
             <Name>SFAlterSoupStep</Name>
             <Path>Constants/SFAlterSoupStep.html</Path>
             
         </Node>
-		<Node id="30" type="file" documentType="reference">
+		<Node id="31" type="file" documentType="reference">
             <Name>SFSmartStoreFtsExtension</Name>
             <Path>Constants/SFSmartStoreFtsExtension.html</Path>
             
         </Node>
-		<Node id="31" type="file" documentType="reference">
+		<Node id="32" type="file" documentType="reference">
             <Name>SFSmartStoreLegacyDefaultEncryptionType</Name>
             <Path>Constants/SFSmartStoreLegacyDefaultEncryptionType.html</Path>
             
         </Node>
-		<Node id="32" type="file" documentType="reference">
+		<Node id="33" type="file" documentType="reference">
             <Name>SFSoupQuerySortOrder</Name>
             <Path>Constants/SFSoupQuerySortOrder.html</Path>
             
         </Node>
-		<Node id="33" type="file" documentType="reference">
+		<Node id="34" type="file" documentType="reference">
             <Name>SFSoupQueryType</Name>
             <Path>Constants/SFSoupQueryType.html</Path>
             
         </Node>
 		
-        <Node id="34" type="file" documentType="reference">
+        <Node id="35" type="file" documentType="reference">
             <Name>SFIndexSpecTypeFilterBlock</Name>
             <Path>Blocks/SFIndexSpecTypeFilterBlock.html</Path>
             

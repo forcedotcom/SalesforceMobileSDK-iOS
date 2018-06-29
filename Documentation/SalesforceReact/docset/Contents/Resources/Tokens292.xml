@@ -1,57 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTBridgeFields.html">
+	<File path="Protocols/RCTUIManagerObserver.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTBridgeFields</TokenIdentifier>
-			<Abstract type="html">Must be kept in sync with MessageQueue.js.</Abstract>
-			<DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTUIManagerObserver</TokenIdentifier>
+			<Abstract type="html">Allows hooking into UIManager internals. This can be used to execute code at
+specific points during the view updating process.
+New observers must not be added inside observer handlers.
+The particular order of handler invocation is not guaranteed.
+All observer handlers are called on UIManager queue.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
             
 			
 			<NodeRef refid="292"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTBridgeFieldRequestModuleIDs</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTBridgeFieldRequestModuleIDs</Declaration>
-            
-            <DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTUIManagerObserver/uiManagerWillPerformLayout:</TokenIdentifier>
+			<Abstract type="html">Called just before the UIManager layout views.
+It allows performing some operation for components which contain custom
+layout logic right before regular Yoga based layout. So, for instance,
+some components which have own React-independent state can compute and cache
+own intrinsic content size (which will be used by Yoga) at this point.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerWillPerformLayout:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerWillPerformLayout:</Anchor>
             <NodeRef refid="292"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTBridgeFieldMethodIDs</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTBridgeFieldMethodIDs</Declaration>
-            
-            <DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTUIManagerObserver/uiManagerDidPerformLayout:</TokenIdentifier>
+			<Abstract type="html">Called just after the UIManager layout views.
+It allows performing custom layout logic right after regular Yoga based layout.
+So, for instance, this can be used for computing final layout for a component,
+since it has its final frame set by Yoga at this point.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerDidPerformLayout:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerDidPerformLayout:</Anchor>
             <NodeRef refid="292"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTBridgeFieldParams</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTBridgeFieldParams</Declaration>
-            
-            <DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTUIManagerObserver/uiManagerWillPerformMounting:</TokenIdentifier>
+			<Abstract type="html">Called before flushing UI blocks at the end of a batch.
+This is called from the UIManager queue. Can be used to add UI operations in that batch.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerWillPerformMounting:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerWillPerformMounting:</Anchor>
             <NodeRef refid="292"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTBridgeFieldCallID</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTBridgeFieldCallID</Declaration>
-            
-            <DeclaredIn>RCTCxxBridge.mm</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTUIManagerObserver/uiManager:performMountingWithBlock:</TokenIdentifier>
+			<Abstract type="html">Called right before flushing UI blocks and allows to intercept the mounting process.
+Return YES to cancel default execution of the block (and perform the
+execution later).</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)uiManager:(RCTUIManager *)manager performMountingWithBlock:(RCTUIManagerMountingBlock)block</Declaration>
+			
+			
+			<Anchor>//api/name/uiManager:performMountingWithBlock:</Anchor>
             <NodeRef refid="292"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTUIManagerObserver/uiManagerDidPerformMounting:</TokenIdentifier>
+			<Abstract type="html">Called just after flushing UI blocks.
+This is called from the UIManager queue.</Abstract>
+			<DeclaredIn>RCTUIManagerObserverCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)uiManagerDidPerformMounting:(RCTUIManager *)manager</Declaration>
+			
+			
+			<Anchor>//api/name/uiManagerDidPerformMounting:</Anchor>
+            <NodeRef refid="292"/>
+		</Token>
+		
         
         
 	</File>

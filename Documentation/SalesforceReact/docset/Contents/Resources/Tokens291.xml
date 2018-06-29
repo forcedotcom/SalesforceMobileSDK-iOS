@@ -1,58 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTBorderStyle.html">
+	<File path="Protocols/RCTSurfaceRootShadowViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTBorderStyle</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTBorderStyle.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/RCTSurfaceRootShadowViewDelegate</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSurfaceRootShadowViewDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="291"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleUnset</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTBorderStyleUnset</Declaration>
-            
-            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSurfaceRootShadowViewDelegate/rootShadowView:didChangeIntrinsicSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceRootShadowViewDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)rootShadowView:(RCTSurfaceRootShadowView *)rootShadowView didChangeIntrinsicSize:(CGSize)instrinsicSize</Declaration>
+			
+			
+			<Anchor>//api/name/rootShadowView:didChangeIntrinsicSize:</Anchor>
             <NodeRef refid="291"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleSolid</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTBorderStyleSolid</Declaration>
-            
-            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSurfaceRootShadowViewDelegate/rootShadowViewDidStartRendering:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceRootShadowViewDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)rootShadowViewDidStartRendering:(RCTSurfaceRootShadowView *)rootShadowView</Declaration>
+			
+			
+			<Anchor>//api/name/rootShadowViewDidStartRendering:</Anchor>
             <NodeRef refid="291"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleDotted</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTBorderStyleDotted</Declaration>
-            
-            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/RCTSurfaceRootShadowViewDelegate/rootShadowViewDidStartLayingOut:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTSurfaceRootShadowViewDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)rootShadowViewDidStartLayingOut:(RCTSurfaceRootShadowView *)rootShadowView</Declaration>
+			
+			
+			<Anchor>//api/name/rootShadowViewDidStartLayingOut:</Anchor>
             <NodeRef refid="291"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTBorderStyleDashed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>RCTBorderStyleDashed</Declaration>
-            
-            <DeclaredIn>RCTBorderStyle.h</DeclaredIn>
-            
-            <NodeRef refid="291"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

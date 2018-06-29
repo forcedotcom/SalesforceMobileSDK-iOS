@@ -1,88 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/ReactTestCase.html">
+	<File path="Classes/RCTWebViewManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/ReactTestCase</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ReactTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTWebViewManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTWebViewManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="230"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/ReactTestCase/setRunner:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ReactTestCase.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTTestRunner *runner</Declaration>
-			
-			
-			<Anchor>//api/name/runner</Anchor>
-            <NodeRef refid="230"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/ReactTestCase/runner</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ReactTestCase.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTTestRunner *runner</Declaration>
-			
-			
-			<Anchor>//api/name/runner</Anchor>
-            <NodeRef refid="230"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/ReactTestCase/runner</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ReactTestCase.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTTestRunner *runner</Declaration>
-			
-			
-			<Anchor>//api/name/runner</Anchor>
-            <NodeRef refid="230"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/ReactTestCase/setJsSuitePath:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ReactTestCase.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuitePath</Declaration>
-			
-			
-			<Anchor>//api/name/jsSuitePath</Anchor>
-            <NodeRef refid="230"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/ReactTestCase/jsSuitePath</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ReactTestCase.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuitePath</Declaration>
-			
-			
-			<Anchor>//api/name/jsSuitePath</Anchor>
-            <NodeRef refid="230"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/ReactTestCase/jsSuitePath</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ReactTestCase.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuitePath</Declaration>
-			
-			
-			<Anchor>//api/name/jsSuitePath</Anchor>
-            <NodeRef refid="230"/>
-		</Token>
 		
         
         

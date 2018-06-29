@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTModalManager.html">
+	<File path="Classes/RCTManagedPointer.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTModalManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTModalManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTManagedPointer</TokenIdentifier>
+			<Abstract type="html">Type erased wrapper over any cxx value that can be passed as an argument
+to native method.</Abstract>
+			<DeclaredIn>RCTManagedPointer.h</DeclaredIn>
             
 			
 			<NodeRef refid="115"/>
@@ -14,14 +14,50 @@ All rights reserved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalManager/modalDismissed:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTManagedPointer/setVoidPointer:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalManager.h</DeclaredIn>
+			<DeclaredIn>RCTManagedPointer.h</DeclaredIn>
 			
-			<Declaration>- (void)modalDismissed:(NSNumber *)modalID</Declaration>
+			<Declaration>@property (nonatomic, readonly) void *voidPointer</Declaration>
 			
 			
-			<Anchor>//api/name/modalDismissed:</Anchor>
+			<Anchor>//api/name/voidPointer</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTManagedPointer/voidPointer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTManagedPointer.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) void *voidPointer</Declaration>
+			
+			
+			<Anchor>//api/name/voidPointer</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTManagedPointer/voidPointer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTManagedPointer.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) void *voidPointer</Declaration>
+			
+			
+			<Anchor>//api/name/voidPointer</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTManagedPointer/initWithPointer:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTManagedPointer.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithPointer:(std : : shared_ptr&lt;void&gt;)pointer</Declaration>
+			
+			
+			<Anchor>//api/name/initWithPointer:</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		

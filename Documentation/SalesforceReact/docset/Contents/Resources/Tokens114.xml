@@ -1,94 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTModalHostViewManager.html">
+	<File path="Classes/RCTLocationObserver.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTModalHostViewManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTLocationObserver</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTLocationObserver.h</DeclaredIn>
             
 			
 			<NodeRef refid="114"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewManager/setPresentationBlock:</TokenIdentifier>
-			<Abstract type="html">presentationBlock and dismissalBlock allow you to control how a Modal interacts with your case,
-e.g. in case you have a native navigator that has its own way to display a modal.
-If these are not specified, it falls back to the UIViewController standard way of presenting.</Abstract>
-			<DeclaredIn>RCTModalHostViewManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTModalViewInteractionBlock presentationBlock</Declaration>
-			
-			
-			<Anchor>//api/name/presentationBlock</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewManager/presentationBlock</TokenIdentifier>
-			<Abstract type="html">presentationBlock and dismissalBlock allow you to control how a Modal interacts with your case,
-e.g. in case you have a native navigator that has its own way to display a modal.
-If these are not specified, it falls back to the UIViewController standard way of presenting.</Abstract>
-			<DeclaredIn>RCTModalHostViewManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTModalViewInteractionBlock presentationBlock</Declaration>
-			
-			
-			<Anchor>//api/name/presentationBlock</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostViewManager/presentationBlock</TokenIdentifier>
-			<Abstract type="html">presentationBlock and dismissalBlock allow you to control how a Modal interacts with your case,
-e.g. in case you have a native navigator that has its own way to display a modal.
-If these are not specified, it falls back to the UIViewController standard way of presenting.</Abstract>
-			<DeclaredIn>RCTModalHostViewManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTModalViewInteractionBlock presentationBlock</Declaration>
-			
-			
-			<Anchor>//api/name/presentationBlock</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewManager/setDismissalBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostViewManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTModalViewInteractionBlock dismissalBlock</Declaration>
-			
-			
-			<Anchor>//api/name/dismissalBlock</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTModalHostViewManager/dismissalBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostViewManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTModalViewInteractionBlock dismissalBlock</Declaration>
-			
-			
-			<Anchor>//api/name/dismissalBlock</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/RCTModalHostViewManager/dismissalBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTModalHostViewManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) RCTModalViewInteractionBlock dismissalBlock</Declaration>
-			
-			
-			<Anchor>//api/name/dismissalBlock</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
 		
         
         

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTMultipartDataTask.html">
+	<File path="Classes/RCTModalManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTMultipartDataTask</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultipartDataTask.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTModalManager</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTModalManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="122"/>
@@ -13,26 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultipartDataTask/initWithURL:partHandler:progressHandler:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTModalManager/modalDismissed:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultipartDataTask.h</DeclaredIn>
+			<DeclaredIn>RCTModalManager.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithURL:(NSURL *)url partHandler:(RCTMultipartDataTaskCallback)partHandler progressHandler:(RCTMultipartProgressCallback)progressHandler</Declaration>
-			
-			
-			<Anchor>//api/name/initWithURL:partHandler:progressHandler:</Anchor>
-            <NodeRef refid="122"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/RCTMultipartDataTask/startTask</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTMultipartDataTask.h</DeclaredIn>
-			
-			<Declaration>- (void)startTask</Declaration>
+			<Declaration>- (void)modalDismissed:(NSNumber *)modalID</Declaration>
 			
 			
-			<Anchor>//api/name/startTask</Anchor>
+			<Anchor>//api/name/modalDismissed:</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		

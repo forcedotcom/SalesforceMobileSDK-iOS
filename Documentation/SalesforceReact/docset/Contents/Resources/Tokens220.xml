@@ -1,17 +1,328 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTWebViewManager.html">
+	<File path="Classes/RCTUITextView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTWebViewManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTWebViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTUITextView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
             
 			
 			<NodeRef refid="220"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/initWithFrame:textContainer:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame textContainer:(nullable NSTextContainer *)textContainer</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:textContainer:</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/initWithCoder:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithCoder:(NSCoder *)decoder</Declaration>
+			
+			
+			<Anchor>//api/name/initWithCoder:</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/setTextInputDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTBackedTextInputDelegate&gt; textInputDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/textInputDelegate</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/textInputDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTBackedTextInputDelegate&gt; textInputDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/textInputDelegate</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTUITextView/textInputDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;RCTBackedTextInputDelegate&gt; textInputDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/textInputDelegate</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/setContextMenuHidden:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL contextMenuHidden</Declaration>
+			
+			
+			<Anchor>//api/name/contextMenuHidden</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/contextMenuHidden</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL contextMenuHidden</Declaration>
+			
+			
+			<Anchor>//api/name/contextMenuHidden</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTUITextView/contextMenuHidden</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL contextMenuHidden</Declaration>
+			
+			
+			<Anchor>//api/name/contextMenuHidden</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/setTextWasPasted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL textWasPasted</Declaration>
+			
+			
+			<Anchor>//api/name/textWasPasted</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/textWasPasted</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL textWasPasted</Declaration>
+			
+			
+			<Anchor>//api/name/textWasPasted</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTUITextView/textWasPasted</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL textWasPasted</Declaration>
+			
+			
+			<Anchor>//api/name/textWasPasted</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/setPlaceholder:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *placeholder</Declaration>
+			
+			
+			<Anchor>//api/name/placeholder</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/placeholder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *placeholder</Declaration>
+			
+			
+			<Anchor>//api/name/placeholder</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTUITextView/placeholder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *placeholder</Declaration>
+			
+			
+			<Anchor>//api/name/placeholder</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/setPlaceholderColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *placeholderColor</Declaration>
+			
+			
+			<Anchor>//api/name/placeholderColor</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/placeholderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *placeholderColor</Declaration>
+			
+			
+			<Anchor>//api/name/placeholderColor</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTUITextView/placeholderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *placeholderColor</Declaration>
+			
+			
+			<Anchor>//api/name/placeholderColor</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/setPreferredMaxLayoutWidth:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat preferredMaxLayoutWidth</Declaration>
+			
+			
+			<Anchor>//api/name/preferredMaxLayoutWidth</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/preferredMaxLayoutWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat preferredMaxLayoutWidth</Declaration>
+			
+			
+			<Anchor>//api/name/preferredMaxLayoutWidth</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTUITextView/preferredMaxLayoutWidth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CGFloat preferredMaxLayoutWidth</Declaration>
+			
+			
+			<Anchor>//api/name/preferredMaxLayoutWidth</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/setClearButtonMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UITextFieldViewMode clearButtonMode</Declaration>
+			
+			
+			<Anchor>//api/name/clearButtonMode</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/clearButtonMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UITextFieldViewMode clearButtonMode</Declaration>
+			
+			
+			<Anchor>//api/name/clearButtonMode</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTUITextView/clearButtonMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UITextFieldViewMode clearButtonMode</Declaration>
+			
+			
+			<Anchor>//api/name/clearButtonMode</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/setCaretHidden:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL caretHidden</Declaration>
+			
+			
+			<Anchor>//api/name/caretHidden</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTUITextView/caretHidden</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL caretHidden</Declaration>
+			
+			
+			<Anchor>//api/name/caretHidden</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTUITextView/caretHidden</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTUITextView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL caretHidden</Declaration>
+			
+			
+			<Anchor>//api/name/caretHidden</Anchor>
+            <NodeRef refid="220"/>
+		</Token>
 		
         
         

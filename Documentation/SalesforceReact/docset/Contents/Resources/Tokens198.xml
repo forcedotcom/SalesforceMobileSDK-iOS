@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTTabBarManager.html">
+	<File path="Classes/RCTTVNavigationEventEmitter.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTTabBarManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTTabBarManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTTVNavigationEventEmitter</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTTVNavigationEventEmitter.h</DeclaredIn>
             
 			
 			<NodeRef refid="198"/>

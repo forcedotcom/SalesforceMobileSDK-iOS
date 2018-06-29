@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginHostListViewController.html">
+	<File path="Classes/SFSDKLoginFlowSelectionViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHostListViewController</TokenIdentifier>
-			<Abstract type="html">View controller that displays a list of hosts that can be used for login.
-The user can either add a new host or select an existing host to reload the login web page.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginFlowSelectionViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="91"/>
@@ -14,79 +13,74 @@ The user can either add a new host or select an existing host to reload the logi
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/setDelegate:</TokenIdentifier>
-			<Abstract type="html">The object that acts as the delegate of the host list view controller.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/setSelectionFlowDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/delegate</TokenIdentifier>
-			<Abstract type="html">The object that acts as the delegate of the host list view controller.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/selectionFlowDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHostListViewController/delegate</TokenIdentifier>
-			<Abstract type="html">The object that acts as the delegate of the host list view controller.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginFlowSelectionViewController/selectionFlowDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/addLoginHost:</TokenIdentifier>
-			<Abstract type="html">Adds a new login host.
-This method updates the underlying storage and refreshes the list of login hosts.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/setAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/showAddLoginHost</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)addLoginHost:(SFSDKLoginHost *)host</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>host</Name>
-					<Abstract type="html">The login host to be added.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
 			
-			<Anchor>//api/name/addLoginHost:</Anchor>
+			
+			<Anchor>//api/name/appOptions</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/showAddLoginHost</TokenIdentifier>
-			<Abstract type="html">Use this method to display a view for adding a new login host.
-If you have used a navigation controller to present this view controller, an add button is automatically added to the right bar button item.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/appOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/addLoginHost:</TokenIdentifier>
+			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			
+			
+			<Anchor>//api/name/appOptions</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
 		
-	</RelatedTokens>
-	
-			<Declaration>- (void)showAddLoginHost</Declaration>
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginFlowSelectionViewController/appOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
 			
 			
-			<Anchor>//api/name/showAddLoginHost</Anchor>
+			<Anchor>//api/name/appOptions</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		

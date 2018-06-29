@@ -43,6 +43,8 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
+	<option value="overview">Overview</option>
+	
 
 	
 	
@@ -56,57 +58,11 @@
 		
 		<option value="//api/name/adjustsFontSizeToFit">adjustsFontSizeToFit</option>
 		
-		<option value="//api/name/allowFontScaling">allowFontScaling</option>
+		<option value="//api/name/lineBreakMode">lineBreakMode</option>
 		
-		<option value="//api/name/backgroundColor">backgroundColor</option>
-		
-		<option value="//api/name/color">color</option>
-		
-		<option value="//api/name/ellipsizeMode">ellipsizeMode</option>
-		
-		<option value="//api/name/fontFamily">fontFamily</option>
-		
-		<option value="//api/name/fontSize">fontSize</option>
-		
-		<option value="//api/name/fontSizeMultiplier">fontSizeMultiplier</option>
-		
-		<option value="//api/name/fontStyle">fontStyle</option>
-		
-		<option value="//api/name/fontVariant">fontVariant</option>
-		
-		<option value="//api/name/fontWeight">fontWeight</option>
-		
-		<option value="//api/name/isHighlighted">isHighlighted</option>
-		
-		<option value="//api/name/letterSpacing">letterSpacing</option>
-		
-		<option value="//api/name/lineHeight">lineHeight</option>
+		<option value="//api/name/maximumNumberOfLines">maximumNumberOfLines</option>
 		
 		<option value="//api/name/minimumFontScale">minimumFontScale</option>
-		
-		<option value="//api/name/numberOfLines">numberOfLines</option>
-		
-		<option value="//api/name/opacity">opacity</option>
-		
-		<option value="//api/name/selectable">selectable</option>
-		
-		<option value="//api/name/shadowOffset">shadowOffset</option>
-		
-		<option value="//api/name/textAlign">textAlign</option>
-		
-		<option value="//api/name/textDecorationColor">textDecorationColor</option>
-		
-		<option value="//api/name/textDecorationLine">textDecorationLine</option>
-		
-		<option value="//api/name/textDecorationStyle">textDecorationStyle</option>
-		
-		<option value="//api/name/textShadowColor">textShadowColor</option>
-		
-		<option value="//api/name/textShadowOffset">textShadowOffset</option>
-		
-		<option value="//api/name/textShadowRadius">textShadowRadius</option>
-		
-		<option value="//api/name/writingDirection">writingDirection</option>
 		
 	</optgroup>
 	
@@ -116,7 +72,9 @@
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/recomputeText">- recomputeText</option>
+		<option value="//api/name/initWithBridge:">- initWithBridge:</option>
+		
+		<option value="//api/name/uiManagerWillPerformMounting">- uiManagerWillPerformMounting</option>
 		
 	</optgroup>
 	
@@ -139,7 +97,7 @@
 					<div class="section section-specification"><table cellspacing="0"><tbody>
 						<tr>
 	<th>Inherits from</th>
-	<td><a href="../Classes/RCTShadowView.html">RCTShadowView</a> : NSObject</td>
+	<td><a href="../Classes/RCTBaseTextShadowView.html">RCTBaseTextShadowView</a> : <a href="../Classes/RCTShadowView.html">RCTShadowView</a> : NSObject</td>
 </tr><tr>
 	<th>Declared in</th>
 	<td>RCTTextShadowView.h</td>
@@ -148,6 +106,17 @@
 					
 
                     
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Copyright &copy; 2015-present, Facebook, Inc.</p>
+
+<p>This source code is licensed under the MIT license found in the
+LICENSE file in the root directory of this source tree.</p>
+					</div>
+					
+					
 
 					
 					
@@ -160,8 +129,8 @@
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/color" title="color"></a>
-	<h3 class="method-title"><code><a href="#//api/name/color">&nbsp;&nbsp;color</a></code>
+	<a name="//api/name/initWithBridge:" title="initWithBridge:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithBridge:">&ndash;&nbsp;initWithBridge:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -170,14 +139,14 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) UIColor *color</code></div>
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithBridge:(RCTBridge *)<em>bridge</em></code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/backgroundColor" title="backgroundColor"></a>
-	<h3 class="method-title"><code><a href="#//api/name/backgroundColor">&nbsp;&nbsp;backgroundColor</a></code>
+	<a name="//api/name/maximumNumberOfLines" title="maximumNumberOfLines"></a>
+	<h3 class="method-title"><code><a href="#//api/name/maximumNumberOfLines">&nbsp;&nbsp;maximumNumberOfLines</a></code>
 </h3>
 
 	<div class="method-info">
@@ -186,14 +155,14 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) UIColor *backgroundColor</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSInteger maximumNumberOfLines</code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/fontFamily" title="fontFamily"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fontFamily">&nbsp;&nbsp;fontFamily</a></code>
+	<a name="//api/name/lineBreakMode" title="lineBreakMode"></a>
+	<h3 class="method-title"><code><a href="#//api/name/lineBreakMode">&nbsp;&nbsp;lineBreakMode</a></code>
 </h3>
 
 	<div class="method-info">
@@ -202,343 +171,7 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *fontFamily</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/fontSize" title="fontSize"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fontSize">&nbsp;&nbsp;fontSize</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CGFloat fontSize</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/fontWeight" title="fontWeight"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fontWeight">&nbsp;&nbsp;fontWeight</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *fontWeight</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/fontStyle" title="fontStyle"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fontStyle">&nbsp;&nbsp;fontStyle</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *fontStyle</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/fontVariant" title="fontVariant"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fontVariant">&nbsp;&nbsp;fontVariant</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSArray *fontVariant</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/isHighlighted" title="isHighlighted"></a>
-	<h3 class="method-title"><code><a href="#//api/name/isHighlighted">&nbsp;&nbsp;isHighlighted</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isHighlighted</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/letterSpacing" title="letterSpacing"></a>
-	<h3 class="method-title"><code><a href="#//api/name/letterSpacing">&nbsp;&nbsp;letterSpacing</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CGFloat letterSpacing</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/lineHeight" title="lineHeight"></a>
-	<h3 class="method-title"><code><a href="#//api/name/lineHeight">&nbsp;&nbsp;lineHeight</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CGFloat lineHeight</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/numberOfLines" title="numberOfLines"></a>
-	<h3 class="method-title"><code><a href="#//api/name/numberOfLines">&nbsp;&nbsp;numberOfLines</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSUInteger numberOfLines</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/ellipsizeMode" title="ellipsizeMode"></a>
-	<h3 class="method-title"><code><a href="#//api/name/ellipsizeMode">&nbsp;&nbsp;ellipsizeMode</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSLineBreakMode ellipsizeMode</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/shadowOffset" title="shadowOffset"></a>
-	<h3 class="method-title"><code><a href="#//api/name/shadowOffset">&nbsp;&nbsp;shadowOffset</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CGSize shadowOffset</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textAlign" title="textAlign"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textAlign">&nbsp;&nbsp;textAlign</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSTextAlignment textAlign</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/writingDirection" title="writingDirection"></a>
-	<h3 class="method-title"><code><a href="#//api/name/writingDirection">&nbsp;&nbsp;writingDirection</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSWritingDirection writingDirection</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textDecorationColor" title="textDecorationColor"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textDecorationColor">&nbsp;&nbsp;textDecorationColor</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) UIColor *textDecorationColor</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textDecorationStyle" title="textDecorationStyle"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textDecorationStyle">&nbsp;&nbsp;textDecorationStyle</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSUnderlineStyle textDecorationStyle</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textDecorationLine" title="textDecorationLine"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textDecorationLine">&nbsp;&nbsp;textDecorationLine</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) RCTTextDecorationLineType textDecorationLine</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/fontSizeMultiplier" title="fontSizeMultiplier"></a>
-	<h3 class="method-title"><code><a href="#//api/name/fontSizeMultiplier">&nbsp;&nbsp;fontSizeMultiplier</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CGFloat fontSizeMultiplier</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/allowFontScaling" title="allowFontScaling"></a>
-	<h3 class="method-title"><code><a href="#//api/name/allowFontScaling">&nbsp;&nbsp;allowFontScaling</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL allowFontScaling</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/opacity" title="opacity"></a>
-	<h3 class="method-title"><code><a href="#//api/name/opacity">&nbsp;&nbsp;opacity</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CGFloat opacity</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textShadowOffset" title="textShadowOffset"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textShadowOffset">&nbsp;&nbsp;textShadowOffset</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CGSize textShadowOffset</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textShadowRadius" title="textShadowRadius"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textShadowRadius">&nbsp;&nbsp;textShadowRadius</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) CGFloat textShadowRadius</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/textShadowColor" title="textShadowColor"></a>
-	<h3 class="method-title"><code><a href="#//api/name/textShadowColor">&nbsp;&nbsp;textShadowColor</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) UIColor *textShadowColor</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSLineBreakMode lineBreakMode</code></div>
 
 		    
 		</div>
@@ -576,8 +209,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/selectable" title="selectable"></a>
-	<h3 class="method-title"><code><a href="#//api/name/selectable">&nbsp;&nbsp;selectable</a></code>
+	<a name="//api/name/uiManagerWillPerformMounting" title="uiManagerWillPerformMounting"></a>
+	<h3 class="method-title"><code><a href="#//api/name/uiManagerWillPerformMounting">&ndash;&nbsp;uiManagerWillPerformMounting</a></code>
 </h3>
 
 	<div class="method-info">
@@ -586,23 +219,7 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL selectable</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/recomputeText" title="recomputeText"></a>
-	<h3 class="method-title"><code><a href="#//api/name/recomputeText">&ndash;&nbsp;recomputeText</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)recomputeText</code></div>
+			<div class="method-subsection method-declaration"><code>- (void)uiManagerWillPerformMounting</code></div>
 
 		    
 		</div>
@@ -622,7 +239,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-03-19</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAppFeatureMarkers.html">
+	<File path="Classes/SFSDKAnalyticsTransformPublisherPair.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAppFeatureMarkers</TokenIdentifier>
-			<Abstract type="html">Class to register and unregister feature markers associated with SDK facilities being used in
-an app.</Abstract>
-			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAnalyticsTransformPublisherPair</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="66"/>
@@ -14,48 +13,86 @@ an app.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/registerAppFeature:</TokenIdentifier>
-			<Abstract type="html">Register a particular app feature.</Abstract>
-			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/setTransform:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (void)registerAppFeature:(nonnull NSString *)appFeature</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>appFeature</Name>
-					<Abstract type="html">The string representation of the feature to register.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
 			
-			<Anchor>//api/name/registerAppFeature:</Anchor>
+			
+			<Anchor>//api/name/transform</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/unregisterAppFeature:</TokenIdentifier>
-			<Abstract type="html">Unregister a particular app feature.</Abstract>
-			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/transform</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (void)unregisterAppFeature:(nonnull NSString *)appFeature</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>appFeature</Name>
-					<Abstract type="html">The string representation of the feature to unregister.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
 			
-			<Anchor>//api/name/unregisterAppFeature:</Anchor>
+			
+			<Anchor>//api/name/transform</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/appFeatures</TokenIdentifier>
-			<Abstract type="html">The current set of registered features.</Abstract>
-			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsTransformPublisherPair/transform</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (nonnull NSSet&lt;NSString*&gt; *)appFeatures</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
 			
-			<ReturnValue><Abstract type="html">The current set of registered features.</Abstract></ReturnValue>
-			<Anchor>//api/name/appFeatures</Anchor>
+			
+			<Anchor>//api/name/transform</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/setPublisher:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
+			
+			
+			<Anchor>//api/name/publisher</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/publisher</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
+			
+			
+			<Anchor>//api/name/publisher</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsTransformPublisherPair/publisher</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
+			
+			
+			<Anchor>//api/name/publisher</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/initWithTransform:publisher:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (nonnull instancetype)initWithTransform:(nonnull id&lt;SFSDKTransform&gt;)transform publisher:(nonnull id&lt;SFSDKAnalyticsPublisher&gt;)publisher</Declaration>
+			
+			
+			<Anchor>//api/name/initWithTransform:publisher:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		

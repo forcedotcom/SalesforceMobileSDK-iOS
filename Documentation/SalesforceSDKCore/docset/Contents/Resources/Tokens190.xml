@@ -1,57 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFEntityIdLength.html">
+	<File path="Protocols/SFUserAccountManagerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFEntityIdLength</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountManagerDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol for handling callbacks from SFUserAccountManager.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="190"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength15</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength15</Declaration>
-            
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManagerIsNetworkAvailable:</TokenIdentifier>
+			<Abstract type="html">Called when the account manager wants to determine if the network is available.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)userAccountManagerIsNetworkAvailable:(SFUserAccountManager *)userAccountManager</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The instance of SFUserAccountManager making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the network is available, NO otherwise</Abstract></ReturnValue>
+			<Anchor>//api/name/userAccountManagerIsNetworkAvailable:</Anchor>
             <NodeRef refid="190"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength18</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength18</Declaration>
-            
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:error:info:</TokenIdentifier>
+			<Abstract type="html">The instance of SFUserAccountManager</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError *)error info:(SFOAuthInfo *)info</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The instance of SFUserAccountManager</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The Error that occurred</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">The info for the auth request</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the error has been handled by the delegate. SDK will attempt to handle the error if the result is NO.</Abstract></ReturnValue>
+			<Anchor>//api/name/userAccountManager:error:info:</Anchor>
             <NodeRef refid="190"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMin</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMin</Declaration>
-            
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:willSwitchFromUser:toUser:</TokenIdentifier>
+			<Abstract type="html">Called before the user account manager switches from one user to another.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willSwitchFromUser:(SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
+				</Parameter><Parameter>
+					<Name>fromUser</Name>
+					<Abstract type="html">The user being switched away from.</Abstract>
+				</Parameter><Parameter>
+					<Name>toUser</Name>
+					<Abstract type="html">The user to be switched to.  nil if the user context is being switched back
+to no user.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/userAccountManager:willSwitchFromUser:toUser:</Anchor>
             <NodeRef refid="190"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMax</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMax</Declaration>
-            
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:didSwitchFromUser:toUser:</TokenIdentifier>
+			<Abstract type="html">Called after the user account manager switches from one user to another.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didSwitchFromUser:(SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
+				</Parameter><Parameter>
+					<Name>fromUser</Name>
+					<Abstract type="html">The user that was switched away from.</Abstract>
+				</Parameter><Parameter>
+					<Name>toUser</Name>
+					<Abstract type="html">The user that was switched to.  nil if the user context is being switched back
+to no user.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/userAccountManager:didSwitchFromUser:toUser:</Anchor>
             <NodeRef refid="190"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

@@ -1,41 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTSurfaceBackedComponent.html">
+	<File path="Classes/RCTSourceCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTSurfaceBackedComponent</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTSurfaceBackedComponent.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTSourceCode</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTSourceCode.h</DeclaredIn>
             
 			
 			<NodeRef refid="181"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTSurfaceBackedComponent/initialState</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceBackedComponent.mm</DeclaredIn>
-			
-			<Declaration>+ (id)initialState</Declaration>
-			
-			
-			<Anchor>//api/name/initialState</Anchor>
-            <NodeRef refid="181"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/RCTSurfaceBackedComponent/newWithBridge:moduleName:properties:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>RCTSurfaceBackedComponent.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)newWithBridge:(RCTBridge *)bridge moduleName:(NSString *)moduleName properties:(NSDictionary *)properties options:(RCTSurfaceHostingComponentOptions)options</Declaration>
-			
-			
-			<Anchor>//api/name/newWithBridge:moduleName:properties:options:</Anchor>
-            <NodeRef refid="181"/>
-		</Token>
 		
         
         

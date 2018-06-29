@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFMruSyncDownTarget.html">
+	<File path="Classes/SFItem.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFMruSyncDownTarget</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFItem</TokenIdentifier>
+			<Abstract type="html">Represents a record layout item.</Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
             
 			
 			<NodeRef refid="3"/>
@@ -13,86 +13,271 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/setObjectType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/setEditableForNew:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL editableForNew</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/editableForNew</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/editableForNew</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL editableForNew</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/editableForNew</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMruSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFItem/editableForNew</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL editableForNew</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/editableForNew</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/setFieldlist:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/setEditableForUpdate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL editableForUpdate</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/editableForUpdate</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/fieldlist</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/editableForUpdate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL editableForUpdate</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/editableForUpdate</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMruSyncDownTarget/fieldlist</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFItem/editableForUpdate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL editableForUpdate</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
+			<Anchor>//api/name/editableForUpdate</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMruSyncDownTarget/newSyncTarget:fieldlist:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/setLabel:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>+ (SFMruSyncDownTarget *)newSyncTarget:(NSString *)objectType fieldlist:(NSArray *)fieldlist</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *label</Declaration>
 			
 			
-			<Anchor>//api/name/newSyncTarget:fieldlist:</Anchor>
+			<Anchor>//api/name/label</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/label</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *label</Declaration>
+			
+			
+			<Anchor>//api/name/label</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFItem/label</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *label</Declaration>
+			
+			
+			<Anchor>//api/name/label</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/setLayoutComponents:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *layoutComponents</Declaration>
+			
+			
+			<Anchor>//api/name/layoutComponents</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/layoutComponents</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *layoutComponents</Declaration>
+			
+			
+			<Anchor>//api/name/layoutComponents</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFItem/layoutComponents</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *layoutComponents</Declaration>
+			
+			
+			<Anchor>//api/name/layoutComponents</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/setLookupIdApiName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *lookupIdApiName</Declaration>
+			
+			
+			<Anchor>//api/name/lookupIdApiName</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/lookupIdApiName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *lookupIdApiName</Declaration>
+			
+			
+			<Anchor>//api/name/lookupIdApiName</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFItem/lookupIdApiName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *lookupIdApiName</Declaration>
+			
+			
+			<Anchor>//api/name/lookupIdApiName</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/setRequired:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL required</Declaration>
+			
+			
+			<Anchor>//api/name/required</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/required</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL required</Declaration>
+			
+			
+			<Anchor>//api/name/required</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFItem/required</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL required</Declaration>
+			
+			
+			<Anchor>//api/name/required</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/setSortable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL sortable</Declaration>
+			
+			
+			<Anchor>//api/name/sortable</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFItem/sortable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL sortable</Declaration>
+			
+			
+			<Anchor>//api/name/sortable</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFItem/sortable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL sortable</Declaration>
+			
+			
+			<Anchor>//api/name/sortable</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFItem/fromJSON:</TokenIdentifier>
+			<Abstract type="html">Creates an instance of this class from its JSON representation.</Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">JSON data.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/fromJSON:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		

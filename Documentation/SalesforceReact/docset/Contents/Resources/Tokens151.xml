@@ -1,17 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/RCTRefreshControlManager.html">
+	<File path="Classes/RCTRawTextShadowView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/RCTRefreshControlManager</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTRefreshControlManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/RCTRawTextShadowView</TokenIdentifier>
+			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.</Abstract>
+			<DeclaredIn>RCTRawTextShadowView.h</DeclaredIn>
             
 			
 			<NodeRef refid="151"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRawTextShadowView/setText:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRawTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *text</Declaration>
+			
+			
+			<Anchor>//api/name/text</Anchor>
+            <NodeRef refid="151"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/RCTRawTextShadowView/text</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRawTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *text</Declaration>
+			
+			
+			<Anchor>//api/name/text</Anchor>
+            <NodeRef refid="151"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/RCTRawTextShadowView/text</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTRawTextShadowView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *text</Declaration>
+			
+			
+			<Anchor>//api/name/text</Anchor>
+            <NodeRef refid="151"/>
+		</Token>
 		
         
         

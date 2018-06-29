@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/RCTUpdateLifecycle.html">
+	<File path="Constants/RCTNetworkTaskStatus.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/RCTUpdateLifecycle</TokenIdentifier>
-			<Abstract type="html">Copyright (c) 2015-present, Facebook, Inc.
-All rights reserved.</Abstract>
-			<DeclaredIn>RCTShadowView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/RCTNetworkTaskStatus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>RCTNetworkTask.h</DeclaredIn>
             
 			
 			<NodeRef refid="309"/>
@@ -15,31 +14,31 @@ All rights reserved.</Abstract>
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTUpdateLifecycleUninitialized</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTNetworkTaskPending</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTUpdateLifecycleUninitialized</Declaration>
+            <Declaration>RCTNetworkTaskPending</Declaration>
             
-            <DeclaredIn>RCTShadowView.h</DeclaredIn>
+            <DeclaredIn>RCTNetworkTask.h</DeclaredIn>
             
             <NodeRef refid="309"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTUpdateLifecycleComputed</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTNetworkTaskInProgress</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTUpdateLifecycleComputed</Declaration>
+            <Declaration>RCTNetworkTaskInProgress</Declaration>
             
-            <DeclaredIn>RCTShadowView.h</DeclaredIn>
+            <DeclaredIn>RCTNetworkTask.h</DeclaredIn>
             
             <NodeRef refid="309"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/RCTUpdateLifecycleDirtied</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/RCTNetworkTaskFinished</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>RCTUpdateLifecycleDirtied</Declaration>
+            <Declaration>RCTNetworkTaskFinished</Declaration>
             
-            <DeclaredIn>RCTShadowView.h</DeclaredIn>
+            <DeclaredIn>RCTNetworkTask.h</DeclaredIn>
             
             <NodeRef refid="309"/>
         </Token>
