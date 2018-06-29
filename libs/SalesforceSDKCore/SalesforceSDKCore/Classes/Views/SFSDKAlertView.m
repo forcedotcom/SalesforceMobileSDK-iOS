@@ -75,13 +75,11 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof (weakSelf) strongSelf = weakSelf;
-        if (!strongSelf.window.viewController)
-            strongSelf.window.viewController = [strongSelf blankViewController];
-        [strongSelf.window presentWindowAnimated:YES withCompletion:^{
+        [strongSelf.window presentWindowAnimated:NO withCompletion:^{
             UIViewController *controller = strongSelf.window.viewController.presentedViewController?:strongSelf.window.viewController;
             [controller presentViewController:weakSelf.controller animated:animated completion:completion];
-        }];
-    });
+            }];
+        });
 }
 
 - (UIViewController *)blankViewController {

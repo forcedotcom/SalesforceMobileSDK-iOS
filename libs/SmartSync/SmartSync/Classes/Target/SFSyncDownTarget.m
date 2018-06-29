@@ -32,6 +32,8 @@
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFParentChildrenSyncDownTarget.h"
+#import "SFMetadataSyncDownTarget.h"
+#import "SFLayoutSyncDownTarget.h"
 
 // query types
 NSString * const kSFSyncTargetQueryTypeMru = @"mru";
@@ -40,6 +42,8 @@ NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
 NSString * const kSFSyncTargetQueryTypeRefresh = @"refresh";
 NSString * const kSFSyncTargetQueryTypeParentChidlren = @"parentChildren";
 NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
+NSString * const kSFSyncTargetQueryTypeMetadata = @"metadata";
+NSString * const kSFSyncTargetQueryTypeLayout = @"layout";
 
 @implementation SFSyncDownTarget
 
@@ -70,6 +74,10 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
                 return [[SFRefreshSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeParentChildren:
                 return [[SFParentChildrenSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeMetadata:
+                return [[SFMetadataSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeLayout:
+                return [[SFLayoutSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeCustom:
                 [SFSDKSmartSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
@@ -109,10 +117,7 @@ ABSTRACT_METHOD
 - (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
     // Fetches list of IDs present in local soup that have not been modified locally.
-    NSMutableOrderedSet *localIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager
-                                                                                                    soupName:soupName
-                                                                                                     idField:self.idFieldName
-                                                                                         additionalPredicate:[self buildSyncIdPredicateIfIndexed:syncManager soupName:soupName syncId:syncId]]];
+    NSMutableOrderedSet *localIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName additionalPredicate:[self buildSyncIdPredicateIfIndexed:syncManager soupName:soupName syncId:syncId]]];
 
     // Fetches list of IDs still present on the server from the list of local IDs
     // and removes the list of IDs that are still present on the server.
@@ -161,6 +166,13 @@ ABSTRACT_METHOD
     if ([queryType isEqualToString:kSFSyncTargetQueryTypeParentChidlren]) {
         return SFSyncDownTargetQueryTypeParentChildren;
     }
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypeMetadata]) {
+        return SFSyncDownTargetQueryTypeMetadata;
+    }
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypeLayout]) {
+        return SFSyncDownTargetQueryTypeLayout;
+    }
+
     // Must be custom
     return SFSyncDownTargetQueryTypeCustom;
 }
@@ -173,6 +185,8 @@ ABSTRACT_METHOD
         case SFSyncDownTargetQueryTypeRefresh: return kSFSyncTargetQueryTypeRefresh;
         case SFSyncDownTargetQueryTypeParentChildren: return kSFSyncTargetQueryTypeParentChidlren;
         case SFSyncDownTargetQueryTypeCustom: return kSFSyncTargetQueryTypeCustom;
+        case SFSyncDownTargetQueryTypeMetadata: return kSFSyncTargetQueryTypeMetadata;
+        case SFSyncDownTargetQueryTypeLayout: return kSFSyncTargetQueryTypeLayout;
     }
 }
 

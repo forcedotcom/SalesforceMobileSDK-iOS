@@ -29,6 +29,7 @@
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import "SFAdvancedSyncUpTarget.h"
 #import "SFSmartSyncConstants.h"
+#import "SFSyncUpTarget+Internal.h"
 
 // Unchanged
 NSInteger const kSyncManagerUnchanged = -1;
@@ -84,6 +85,10 @@ static NSMutableDictionary *syncMgrList = nil;
         NSString *key = [SFSmartSyncSyncManager keyForStore:store];
         id syncMgr = [syncMgrList objectForKey:key];
         if (syncMgr == nil) {
+            if (store.user && store.user.loginState != SFUserAccountLoginStateLoggedIn) {
+                [SFSDKSmartSyncLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state in order to create a sync for a user store.", NSStringFromSelector(_cmd), store.storeName, NSStringFromClass(self)];
+                return nil;
+            }
             syncMgr = [[self alloc] initWithStore:store];
             syncMgrList[key] = syncMgr;
         }
@@ -93,7 +98,12 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 + (void)removeSharedInstance:(SFUserAccount*)user {
-    [self removeSharedInstanceForUser:user storeName:nil];
+     for (NSString *key in [syncMgrList allKeys]) {
+         // remove all user related sync managers
+         if ([self isUserRelatedSync:key user:user]) {
+             [self removeSharedInstanceForKey:key];
+         }
+     }
 }
 
 + (void)removeSharedInstanceForUser:(SFUserAccount *)user storeName:(NSString *)storeName {
@@ -130,7 +140,10 @@ static NSMutableDictionary *syncMgrList = nil;
     return [NSString  stringWithFormat:@"%@-%@", keyPrefix, storeName];
 }
 
-
++ (BOOL)isUserRelatedSync:(NSString*)key user:(SFUserAccount*)user {
+    NSString* userPrefix = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+    return ([key rangeOfString:userPrefix].location != NSNotFound );
+}
 
 #pragma mark - init / dealloc
 
@@ -356,7 +369,7 @@ static NSMutableDictionary *syncMgrList = nil;
             NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [strongSelf  removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
 
             // Save to smartstore.
-            [target saveRecordsToLocalStore:strongSelf  soupName:soupName records:recordsToSave syncId:syncId];
+            [target cleanAndSaveRecordsToLocalStore:strongSelf soupName:soupName records:recordsToSave syncId:syncId];
             countFetched += [records count];
             progress = 100*countFetched / totalSize;
 
@@ -629,21 +642,40 @@ static NSMutableDictionary *syncMgrList = nil;
         record[fieldName] = d[kCreatedId];
         completeBlockUpdate(d);
     };
+
+    // Create failure handler
+    SFSyncUpTargetErrorBlock failBlockCreate = ^ (NSError* err){
+        if ([SFRestRequest isNetworkError:err]) {
+            failBlock(err);
+        }
+        else {
+            [target saveRecordToLocalStoreWithLastError:self soupName:soupName record:record];
+
+            // Next
+            nextBlock();
+        }
+    };
     
     // Update failure handler
     SFSyncUpTargetErrorBlock failBlockUpdate = ^ (NSError* err){
         // Handling remotely deleted records
         if (err.code == 404) {
             if (mergeMode == SFSyncStateMergeModeOverwrite) {
-                [target createOnServer:weakSelf record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
+                [target createOnServer:weakSelf record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlockCreate];
             }
             else {
                 // Next
                 nextBlock();
             }
         }
-        else {
+        else if ([SFRestRequest isNetworkError:err]) {
             failBlock(err);
+        }
+        else {
+            [target saveRecordToLocalStoreWithLastError:self soupName:soupName record:record];
+
+            // Next
+            nextBlock();
         }
     };
     
@@ -653,14 +685,20 @@ static NSMutableDictionary *syncMgrList = nil;
         if (err.code == 404) {
             completeBlockDelete(nil);
         }
-        else {
+        else if ([SFRestRequest isNetworkError:err]) {
             failBlock(err);
+        }
+        else {
+            [target saveRecordToLocalStoreWithLastError:self soupName:soupName record:record];
+
+            // Next
+            nextBlock();
         }
     };
     
     switch(action) {
         case SFSyncUpTargetActionCreate:
-            [target createOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlock];
+            [target createOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockCreate failBlock:failBlockCreate];
             break;
         case SFSyncUpTargetActionUpdate:
             [target updateOnServer:self record:record fieldlist:sync.options.fieldlist completionBlock:completeBlockUpdate failBlock:failBlockUpdate];

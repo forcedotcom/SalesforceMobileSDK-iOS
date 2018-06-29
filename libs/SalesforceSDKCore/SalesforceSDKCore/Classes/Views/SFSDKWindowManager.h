@@ -70,6 +70,13 @@
      didDismissWindow:(SFSDKWindowContainer *_Nonnull)window;
 @end
 
+@interface SFSDKUIWindow : UIWindow
+- (instancetype _Nonnull)initWithFrame:(CGRect)frame;
+- (instancetype _Nonnull)initWithFrame:(CGRect)frame andName:(NSString *_Nonnull)windowName;
+@property (nonatomic,strong) UIViewController * _Nullable stashedController;
+@property (nonatomic,readonly) NSString * _Nullable windowName;
+@end
+
 @interface SFSDKWindowManager : NSObject
 
 /** SDK uses this window to present the login flow.
@@ -116,6 +123,6 @@
  */
 - (void)removeDelegate:(id<SFSDKWindowManagerDelegate>_Nonnull)delegate;
 
-+ (instancetype _Nonnull )sharedManager;
++ (instancetype _Nonnull)sharedManager;
 
 @end

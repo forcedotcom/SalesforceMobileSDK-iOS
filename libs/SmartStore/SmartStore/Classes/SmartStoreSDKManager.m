@@ -57,18 +57,19 @@ SFSDK_USE_DEPRECATED_BEGIN
 - (void) setupGlobalStoreFromDefaultConfig {
     NSString *configPath = [self pathForGlobalStoreConfig];
     [SFSDKSmartStoreLogger d:[self class] format:@"Setting up global store using config found in %@", configPath];
-    [self setupStoreFromConfig:configPath store:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
+    SFSDKStoreConfig* storeConfig = [[SFSDKStoreConfig alloc] initWithResourceAtPath:configPath];
+    if ([storeConfig hasSoups]) {
+        [storeConfig registerSoups:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
+    }
 }
 
 - (void) setupUserStoreFromDefaultConfig {
     NSString *configPath = [self pathForUserStoreConfig];
     [SFSDKSmartStoreLogger d:[self class] format:@"Setting up user store using config found in %@", configPath];
-    [self setupStoreFromConfig:configPath store:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
-}
-
-- (void) setupStoreFromConfig:(NSString*)path store:(SFSmartStore *)store {
-    SFSDKStoreConfig* storeConfig = [[SFSDKStoreConfig alloc] initWithResourceAtPath:path];
-    [storeConfig registerSoups:store];
+    SFSDKStoreConfig* storeConfig = [[SFSDKStoreConfig alloc] initWithResourceAtPath:configPath];
+    if ([storeConfig hasSoups]) {
+        [storeConfig registerSoups:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
+    }
 }
 
 - (NSString*) pathForGlobalStoreConfig {
@@ -96,7 +97,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (NSArray*) getDevSupportInfos
 {
-    SFSmartStore *store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+    SFSmartStore *store = [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
     NSMutableArray * devInfos = [NSMutableArray arrayWithArray:[super getDevSupportInfos]];
     [devInfos addObjectsFromArray:@[
             @"SQLCipher version", [store getSQLCipherVersion],

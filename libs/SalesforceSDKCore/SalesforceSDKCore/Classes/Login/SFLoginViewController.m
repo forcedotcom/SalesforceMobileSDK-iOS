@@ -38,7 +38,7 @@
 #import "SFSDKLoginViewControllerConfig.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKWindowManager.h"
-
+#import "SFSDKNavigationController.h"
 SFSDK_USE_DEPRECATED_BEGIN
 
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
@@ -82,9 +82,14 @@ SFSDK_USE_DEPRECATED_END
     // as this view is not part of navigation controller stack, needs to set the proper view background so that status bar has the
     // right background color
     self.view.backgroundColor = self.navBarColor;
+    self.view.autoresizesSubviews = YES;
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.view.clipsToBounds = YES;
     if(self.showNavbar){
         [self setupNavigationBar];
-    };
+    } else {
+        self.navigationController.navigationBarHidden  =  YES;
+    }
 }
 
 - (void)viewDidLayoutSubviews {
@@ -98,6 +103,10 @@ SFSDK_USE_DEPRECATED_END
         [self styleNavigationBar:self.navBar];
     }
     [self setupBackButton];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -223,7 +232,7 @@ SFSDK_USE_DEPRECATED_END
 - (UIView *)createTitleItem {
     NSString *title = [SFSDKResourceUtils localizedString:@"TITLE_LOGIN"];
     // Setup top item.
-    UILabel *item = [[UILabel alloc] init];
+    UILabel *item = [[UILabel alloc] initWithFrame:CGRectZero];
     if (self.config.navBarTitleColor) {
         item.textColor = self.config.navBarTextColor;
     }
@@ -231,12 +240,25 @@ SFSDK_USE_DEPRECATED_END
         item.font = self.config.navBarFont;
     }
     item.text = title;
+    [item sizeToFit];
     return item;
+}
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)layoutWebView {
     if (nil != _oauthView) {
+        [_oauthView removeFromSuperview];
         [self.view addSubview:_oauthView];
+        NSDictionary *views = NSDictionaryOfVariableBindings(_oauthView);
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_oauthView]|" options:0 metrics:nil views:views]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_oauthView]|" options:0 metrics:nil views:views]];
     }
 }
 
@@ -253,7 +275,9 @@ SFSDK_USE_DEPRECATED_END
 - (void)handleBackButtonAction {
    
     if (![SFUserAccountManager sharedInstance].idpEnabled) {
-        [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
+        [[SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
+            [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
+        }];
     }else {
         [[SFSDKWindowManager sharedManager].authWindow.viewController dismissViewControllerAnimated:NO completion:nil];
     }
@@ -330,7 +354,7 @@ SFSDK_USE_DEPRECATED_END
 #pragma mark - Login Host
 
 - (void)showHostListView {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.loginHostListViewController];
+    SFSDKNavigationController *navController = [[SFSDKNavigationController alloc] initWithRootViewController:self.loginHostListViewController];
     navController.modalPresentationStyle = UIModalPresentationPageSheet;
     [self presentViewController:navController animated:YES completion:nil];
 }

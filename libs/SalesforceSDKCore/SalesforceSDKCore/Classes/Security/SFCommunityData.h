@@ -24,35 +24,33 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /** Class that groups the data describing a community
  */
 @interface SFCommunityData : NSObject <NSCoding>
 
 /** The community ID
  */
-@property (nonatomic, strong) NSString *entityId;
+@property (nonnull, nonatomic, strong) NSString *entityId;
 
 /** The community name
  */
-@property (nonatomic, strong) NSString *name;
+@property (nonnull, nonatomic, strong) NSString *name;
 
 /** The community description
  */
-@property (nonatomic, strong) NSString *descriptionText;
+@property (nullable, nonatomic, strong) NSString *descriptionText;
 
 /** The community siteUrl
  */
-@property (nonatomic, strong) NSURL *siteUrl;
+@property (nonnull, nonatomic, strong) NSURL *siteUrl;
 
 /** The community URL
  */
-@property (nonatomic, strong) NSURL *url;
+@property (nonnull, nonatomic, strong) NSURL *url;
 
 /** The community URL's path prefix
  */
-@property (nonatomic, strong) NSURL *urlPathPrefix;
+@property (nullable, nonatomic, strong) NSURL *urlPathPrefix;
 
 /** Flag indicating if the community is live or not
  */
@@ -68,4 +66,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

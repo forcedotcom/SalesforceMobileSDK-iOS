@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Thu Feb 22 15:09:12 PST 2018.
+ Created by Raj Rao on Tue Jun 19 10:48:33 PDT 2018.
 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -48,6 +48,7 @@
 #import <SalesforceSDKCore/SFLoginViewController.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFSDKDevInfoViewController.h>
+#import <SalesforceSDKCore/SFSDKUserSelectionNavViewController.h>
 #import <SalesforceSDKCore/SFSDKAsyncProcessListener.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SalesforceSDKCore/SFFileProtectionHelper.h>
@@ -76,6 +77,8 @@
 #import <SalesforceSDKCore/SFSDKAuthViewHandler.h>
 #import <SalesforceSDKCore/SFApplicationHelper.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
+#import <SalesforceSDKCore/SFSDKUserSelectionTableViewController.h>
+#import <SalesforceSDKCore/SFSDKNavigationController.h>
 #import <SalesforceSDKCore/SFSDKLoginHostStorage.h>
 #import <SalesforceSDKCore/SFUserActivityMonitor.h>
 #import <SalesforceSDKCore/SFSDKWindowContainer.h>
@@ -108,6 +111,7 @@
 #import <SalesforceSDKCore/SFPBKDFData.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SalesforceSDKCore/SFSObjectTree.h>
+#import <SalesforceSDKCore/SFSDKUITableViewCell.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
 #import <SalesforceSDKCore/SFCrypto.h>
 #import <SalesforceSDKCore/SFKeyStore.h>
@@ -121,6 +125,7 @@
 #import <SalesforceSDKCore/SFCommunityData.h>
 #import <SalesforceSDKCore/SFPasscodeViewController.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
+#import <SalesforceSDKCore/SFSDKViewController.h>
 #import <SalesforceSDKCore/NSObject+SFBlocks.h>
 #import <SalesforceSDKCore/SFNetwork.h>
 #import <SalesforceSDKCore/SFAbstractPasscodeViewController.h>

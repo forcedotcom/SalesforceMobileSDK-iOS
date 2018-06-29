@@ -139,20 +139,6 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
                                              target:nil
                                              action:nil];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelLoginPicker:)];
-
-    SFSDKLoginViewControllerConfig *config = [SFUserAccountManager sharedInstance].loginViewControllerConfig;
-    
-    if (config.navBarColor) {
-        [self.navigationController.navigationBar setBarTintColor:config.navBarColor];
-    }
-    
-    if (config.navBarTextColor) {
-         self.navigationController.navigationBar.tintColor = config.navBarTextColor;
-    }
-    
-    if (config.navBarFont && config.navBarTitleColor) {
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTitleColor, NSFontAttributeName: config.navBarFont}];
-    }
     
     // Make sure the current login host exists.
     NSUInteger index = [self indexOfCurrentLoginHost];
@@ -175,11 +161,27 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     // We need to make sure the table is refreshed
     // and the size updated when we appear because
     // a new host could have been added by the user.
-    
+    [self setupBrandingForNavBar];
     [self.tableView reloadData];
     [self resizeContentForPopover];
     // style navigiation bar
     [super viewWillAppear:animated];
+}
+
+- (void)setupBrandingForNavBar {
+    [self.navigationController.navigationBar setTranslucent:NO];
+    
+    SFSDKLoginViewControllerConfig *config = [SFUserAccountManager sharedInstance].loginViewControllerConfig;
+    if (config.navBarColor) {
+        [self.navigationController.navigationBar setBarTintColor:config.navBarColor];
+    }
+    if (config.navBarTextColor) {
+        self.navigationController.navigationBar.tintColor = config.navBarTextColor;
+    }
+    
+    if (config.navBarFont && config.navBarTitleColor) {
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTitleColor, NSFontAttributeName: config.navBarFont}];
+    }
 }
 
 #pragma mark - Action Methods

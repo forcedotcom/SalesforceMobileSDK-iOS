@@ -286,7 +286,6 @@ static NSException *authException = nil;
 
     // Checks status updates.
     [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
-
     if (totalSize != TOTAL_SIZE_UNKNOWN) {
         for (int i = 0; i < numberFetches; i++) {
             [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:(i*100/numberFetches) expectedTotalSize:totalSize];
@@ -302,6 +301,7 @@ static NSException *authException = nil;
 - (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize {
     [self checkStatus:sync expectedType:expectedType expectedId:expectedId expectedName:nil expectedTarget:expectedTarget expectedOptions:expectedOptions expectedStatus:expectedStatus expectedProgress:expectedProgress expectedTotalSize:expectedTotalSize];
 }
+
 - (void)checkStatus:(SFSyncState *)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedName:(NSString *)expectedName expectedTarget:(SFSyncTarget *)expectedTarget expectedOptions:(SFSyncOptions *)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize {
     XCTAssertNotNil(sync);
     if (!sync) {
@@ -330,6 +330,13 @@ static NSException *authException = nil;
                 XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncDownTarget class]]);
                 XCTAssertEqualObjects(((SFMruSyncDownTarget*)expectedTarget).objectType, ((SFMruSyncDownTarget*)sync.target).objectType);
                 XCTAssertEqualObjects(((SFMruSyncDownTarget*)expectedTarget).fieldlist, ((SFMruSyncDownTarget*)sync.target).fieldlist);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeMetadata) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFMetadataSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFMetadataSyncDownTarget*)expectedTarget).objectType, ((SFMetadataSyncDownTarget*)sync.target).objectType);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeLayout) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFLayoutSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).objectType, ((SFLayoutSyncDownTarget*)sync.target).objectType);
+                XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).layoutType, ((SFLayoutSyncDownTarget*)sync.target).layoutType);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeCustom) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFSyncDownTarget class]]);
             }
@@ -404,6 +411,8 @@ static NSException *authException = nil;
    expectedLocallyUpdated:(bool)expectedLocallyUpdated
    expectedLocallyDeleted:(bool)expectedLocallyDeleted {
 
+    BOOL expectedDirty = expectedLocallyCreated||expectedLocallyUpdated||expectedLocallyDeleted;
+
     // Ids clause
     NSString* idsClause = [self buildInClause:ids];
 
@@ -415,13 +424,18 @@ static NSException *authException = nil;
     XCTAssertEqual(ids.count, rows.count);
     for (NSArray* row in rows) {
         NSDictionary *recordFromDb = row[0];
-        XCTAssertEqualObjects(@(expectedLocallyCreated||expectedLocallyUpdated||expectedLocallyDeleted), recordFromDb[kSyncTargetLocal]);
+        XCTAssertEqualObjects(@(expectedDirty), recordFromDb[kSyncTargetLocal]);
         XCTAssertEqualObjects(@(expectedLocallyCreated), recordFromDb[kSyncTargetLocallyCreated]);
         XCTAssertEqualObjects(@(expectedLocallyUpdated), recordFromDb[kSyncTargetLocallyUpdated]);
         XCTAssertEqualObjects(@(expectedLocallyDeleted), recordFromDb[kSyncTargetLocallyDeleted]);
         NSString* id = recordFromDb[ID];
         bool hasLocalIdPrefix = [id hasPrefix:LOCAL_ID_PREFIX];
         XCTAssertEqual(expectedLocallyCreated, hasLocalIdPrefix);
+
+        // Last error field should be empty for a clean record
+        if (!expectedDirty) {
+            XCTAssertTrue([recordFromDb[kSyncTargetLastError] length] == 0, "Last error should be empty");
+        }
     }
 }
 
@@ -441,6 +455,26 @@ static NSException *authException = nil;
     for (NSArray* row in rows) {
         NSDictionary *recordFromDb = row[0];
         XCTAssertEqualObjects(syncId, recordFromDb[kSyncTargetSyncId]);
+    }
+}
+
+- (void)checkDbLastErrorField:(NSArray *)ids
+                  soupName:(NSString *)soupName
+        lastErrorSubString:(NSString*)lastErrorSubString {
+
+    // Ids clause
+    NSString* idsClause = [self buildInClause:ids];
+
+    // Query
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} IN %@", soupName, soupName, soupName, idsClause];
+
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rows = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(ids.count, rows.count);
+    for (NSArray* row in rows) {
+        NSDictionary *recordFromDb = row[0];
+        NSString* lastErrorInDb = recordFromDb[kSyncTargetLastError];
+        XCTAssertTrue([lastErrorInDb containsString:lastErrorSubString]);
     }
 }
 
@@ -617,8 +651,12 @@ static NSException *authException = nil;
 }
 
 - (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString*)soupName {
+    return [self updateRecordLocally:fields idToUpdate:idToUpdate soupName:soupName suffix:LOCALLY_UPDATED];
+}
+
+- (NSDictionary *)updateRecordLocally:(NSDictionary *)fields idToUpdate:(NSString *)idToUpdate soupName:(NSString*)soupName suffix:(NSString*)suffix {
     NSMutableDictionary * idToFieldsLocallyUpdated = [NSMutableDictionary new];
-    NSDictionary* updatedFields = [self updateFields:fields suffix:LOCALLY_UPDATED];
+    NSDictionary* updatedFields = [self updateFields:fields suffix:suffix];
     idToFieldsLocallyUpdated[idToUpdate] = updatedFields;
     [self updateRecordsLocally:idToFieldsLocallyUpdated soupName:soupName];
     return idToFieldsLocallyUpdated;

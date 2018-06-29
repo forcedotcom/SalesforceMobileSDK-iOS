@@ -75,4 +75,7 @@ static NSString *const kStoreConfigIndexes = @"indexes";
     }
 }
 
+- (BOOL)hasSoups {
+    return self.soupsConfig != nil && self.soupsConfig.count > 0;
+}
 @end

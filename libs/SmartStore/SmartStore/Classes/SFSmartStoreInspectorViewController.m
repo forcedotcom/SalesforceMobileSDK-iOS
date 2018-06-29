@@ -440,11 +440,6 @@ static NSString * const kInspectorPickerDefault = @"default";
     [super viewWillLayoutSubviews];
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
-
 - (void)layoutSubviews
 {
     [self layoutNavBar];
@@ -456,9 +451,12 @@ static NSString * const kInspectorPickerDefault = @"default";
     [self.resultGrid reloadData];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotate {
     return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (CGFloat) belowFrame:(CGRect) frame {

@@ -27,6 +27,7 @@
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
 #import "SFNativeRestRequestListener.h"
+#import "SFUserAccount+Internal.h"
  
  // Constants only used in the tests below
 #define ENTITY_PREFIX_NAME @"RestClientTestsiOS"
@@ -175,6 +176,13 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
 }
 
+// simple: just invoke requestForUserInfo
+- (void)testGetUserInfo {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUserInfo];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
 // simple: just invoke requestForResources
 - (void)testGetResources {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
@@ -223,6 +231,20 @@ static NSException *authException = nil;
 // simple: just invoke requestForDescribeWithObjectType:@"Contact"
 - (void)testGetDescribeWithObjectType {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:CONTACT];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" without layoutType.
+- (void)testGetLayoutWithObjectTypeWithoutLayoutType {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:nil];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" with layoutType:@"Compact".
+- (void)testGetLayoutWithObjectTypeWithLayoutType {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:@"Compact"];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -1222,6 +1244,7 @@ static NSException *authException = nil;
         origCreds.accessToken = origAccessToken;
         origCreds.refreshToken = origRefreshToken;
         _currentUser.credentials = origCreds;
+        [_currentUser transitionToLoginState:SFUserAccountLoginStateLoggedIn];
         [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
         [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
@@ -1271,6 +1294,62 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidLoad, @"request3 failed");
     XCTAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
     
+    // let's make sure we have a new access token
+    NSString *newAccessToken = _currentUser.credentials.accessToken;
+    XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
+}
+
+// - set an invalid access token (simulate expired)
+// - make multiple simultaneous requests (some not requiring authentication)
+// - requests not requiring authentication should succeed and only be sent once
+// - other requests will fail in some arbitrary order
+// - ensure that a new access token is retrieved using refresh token
+// - ensure that all requests eventually succeed
+//
+-(void)testInvalidAccessToken_UnAuthAndAuthRequests {
+    
+    // save invalid token
+    NSString *invalidAccessToken = @"xyz";
+    [self changeOauthTokens:invalidAccessToken refreshToken:nil];
+
+    // create requests (some that require authentications and some that don't)
+    SFRestRequest* unauthenticatedRequest1 = [[SFRestAPI sharedInstance] requestForVersions];
+    SFRestRequest* unauthenticatedRequest2 = [[SFRestAPI sharedInstance] requestForVersions];
+    SFRestRequest* authenticatedRequest1 = [[SFRestAPI sharedInstance] requestForUserInfo];
+    SFRestRequest* authenticatedRequest2 = [[SFRestAPI sharedInstance] requestForUserInfo];
+
+    SFNativeRestRequestListener* unauthenticatedListener1 = [[SFNativeRestRequestListener alloc] initWithRequest:unauthenticatedRequest1];
+    unauthenticatedListener1.sleepDuringLoad = 0.5;
+    SFNativeRestRequestListener* unauthenticatedListener2 = [[SFNativeRestRequestListener alloc] initWithRequest:unauthenticatedRequest2];
+    unauthenticatedListener2.sleepDuringLoad = 0.5;
+    SFNativeRestRequestListener* authenticatedListener1 = [[SFNativeRestRequestListener alloc] initWithRequest:authenticatedRequest1];
+    SFNativeRestRequestListener* authenticatedListener2 = [[SFNativeRestRequestListener alloc] initWithRequest:authenticatedRequest2];
+    
+    NSArray<SFNativeRestRequestListener*>* listeners = @[unauthenticatedListener1, authenticatedListener1, unauthenticatedListener2, authenticatedListener2];
+    
+    // send requests
+    for (SFNativeRestRequestListener* listener in listeners) {
+        [[SFRestAPI sharedInstance] send:listener.request delegate:listener];
+    }
+    
+    // wait for requests to complete
+    for (SFNativeRestRequestListener* listener in listeners) {
+        [listener waitForCompletion];
+    }
+    
+    // make sure they all succeeded
+    for (SFNativeRestRequestListener* listener in listeners) {
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"a request failed");
+    }
+
+    // make sure unauthenticated requests don't complete a second time
+    for (SFNativeRestRequestListener* listener in @[unauthenticatedListener1, unauthenticatedListener2]) {
+        // reset listener return status and lower max wait time
+        listener.returnStatus = kTestRequestStatusWaiting;
+        listener.maxWaitTime = 2.0;
+        XCTAssertEqualObjects([listener waitForCompletion], kTestRequestStatusDidTimeout, @"Unauthenticated user should not have completed a second time");
+    }
+
     // let's make sure we have a new access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
@@ -1344,6 +1423,7 @@ static NSException *authException = nil;
         origCreds.accessToken = origAccessToken;
         origCreds.refreshToken = origRefreshToken;
         _currentUser.credentials = origCreds;
+        [_currentUser transitionToLoginState:SFUserAccountLoginStateLoggedIn];
         [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
         [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
@@ -1745,6 +1825,61 @@ static NSException *authException = nil;
     NSURLRequest *finalRequest = [request prepareRequestForSend:_currentUser];
     NSString *expectedURL = [NSString stringWithFormat:@"http://www.apple.com%@%@", kSFDefaultRestEndpoint, @"/test/testing"];
     XCTAssertEqualObjects(finalRequest.URL.absoluteString, expectedURL, @"Final URL should utilize base URL that was passed in");
+}
+
+#pragma mark - miscellaneous tests
+
+- (void)testRestUrlForBaseUrl {
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:@"somedomain.example.com"
+                                                       instanceUrl:[NSURL URLWithString:@"https://someinstance.example.com"]
+                                                      communityUrl:[NSURL URLWithString:@"https://somecommunity.example.com/community"]];
+    NSString *baseUrl = @"https://somebaseurl.example.com";
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:baseUrl serviceHostType:SFSDKRestServiceHostTypeInstance credentials:creds];
+    XCTAssertEqualObjects(restUrl, baseUrl, @"Base URL should take precedence");
+    
+    restUrl = [SFRestRequest restUrlForBaseUrl:baseUrl serviceHostType:SFSDKRestServiceHostTypeLogin credentials:creds];
+    XCTAssertEqualObjects(restUrl, baseUrl, @"Base URL should take precedence");
+}
+
+- (void)testRestUrlForCommunityUrl {
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:@"somedomain.example.com"
+                                                       instanceUrl:[NSURL URLWithString:@"https://someinstance.example.com"]
+                                                      communityUrl:[NSURL URLWithString:@"https://somecommunity.example.com/community"]];
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeInstance credentials:creds];
+    XCTAssertEqualObjects(restUrl, creds.communityUrl.absoluteString, @"Community URL should take precedence");
+    
+    restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeLogin credentials:creds];
+    XCTAssertEqualObjects(restUrl, creds.communityUrl.absoluteString, @"Community URL should take precedence");
+}
+
+- (void)testRestUrlForLoginServiceHost {
+    NSString *loginDomain = @"somedomain.example.com";
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:loginDomain
+                                                       instanceUrl:[NSURL URLWithString:@"https://someinstance.example.com"]
+                                                      communityUrl:nil];
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeLogin credentials:creds];
+    NSString *loginDomainUrl = [NSString stringWithFormat:@"https://%@", loginDomain];
+    XCTAssertEqualObjects(restUrl, loginDomainUrl, @"Login URL should take precedence");
+}
+
+- (void)testRestUrlForInstanceServiceHost {
+    NSURL *instanceUrl = [NSURL URLWithString:@"https://someinstance.example.com"];
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:@"somdomain.example.com"
+                                                       instanceUrl:instanceUrl
+                                                      communityUrl:nil];
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeInstance credentials:creds];
+    XCTAssertEqualObjects(restUrl, instanceUrl.absoluteString, @"Instance URL should take precedence");
+}
+
+- (SFOAuthCredentials *)getTestCredentialsWithDomain:(nonnull NSString *)domain
+                                            instanceUrl:(nonnull NSURL *)instanceUrl
+                                           communityUrl:(nullable NSURL *)communityUrl {
+    NSString *credsId = [NSString stringWithFormat:@"testRestUrl_%u", arc4random()];
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:credsId clientId:@"TestClientID" encrypted:YES];
+    creds.communityUrl = communityUrl;
+    creds.domain = domain;
+    creds.instanceUrl = instanceUrl;
+    return creds;
 }
 
 @end

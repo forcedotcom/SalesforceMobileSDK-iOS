@@ -262,7 +262,8 @@ SFSDK_USE_DEPRECATED_BEGIN
 
     // Remote app. Device is online.
     if ([self userIsAuthenticated]) {
-        [SFSDKWebViewStateManager resetSessionCookie];
+        [SFSDKHybridLogger i:[self class] format:@"[%@ %@]: Initiating web state cleanup strategy before loading start page.", NSStringFromClass([self class]), NSStringFromSelector(_cmd)];
+        [self webStateCleanupStrategy];
     }
     [self configureRemoteStartPage];
     [super viewDidLoad];
@@ -543,6 +544,12 @@ SFSDK_USE_DEPRECATED_BEGIN
     startPageConfigured = YES;
 }
 
+- (void)webStateCleanupStrategy
+{
+    [SFSDKHybridLogger i:[self class] format:@"[%@ %@]: resetting session cookies.", NSStringFromClass([self class]), NSStringFromSelector(_cmd)];
+    [SFSDKWebViewStateManager resetSessionCookie];
+}
+
 - (BOOL)userIsAuthenticated
 {
     return ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken.length > 0);
@@ -813,7 +820,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 - (void)authenticationCompletion:(NSString *)originalUrl authInfo:(SFOAuthInfo *)authInfo
 {
     [SFSDKHybridLogger d:[self class] message:@"authenticationCompletion:authInfo: - Initiating post-auth configuration."];
-    [SFSDKWebViewStateManager resetSessionCookie];
+    [self webStateCleanupStrategy];
 
     // If there's an original URL, load it through frontdoor.
     if (originalUrl != nil) {
@@ -864,12 +871,16 @@ SFSDK_USE_DEPRECATED_BEGIN
      * instead of going through the entire OAuth dance all over again.
      */
     SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForResources];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForUserInfo];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
-        failureBlock(authInfo, e);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            failureBlock(authInfo, e);
+        });
     } completeBlock:^(id response, NSURLResponse *rawResponse) {
         SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
-        completionBlock(authInfo, currentAccount);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionBlock(authInfo, currentAccount);
+        });
     }];
 }
 

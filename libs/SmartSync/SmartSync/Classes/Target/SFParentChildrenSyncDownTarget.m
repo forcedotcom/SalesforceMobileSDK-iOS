@@ -208,7 +208,7 @@
     return maxTimeStamp;
 }
 
-- (void)saveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId {
+- (void)cleanAndSaveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId {
     // NB: method is called during sync down so for this target records contain parent and children
 
     return [SFParentChildrenSyncHelper saveRecordTreesToLocalStore:syncManager target:self parentInfo:self.parentInfo childrenInfo:self.childrenInfo recordTrees:records syncId:syncId];

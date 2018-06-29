@@ -101,6 +101,7 @@
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
     NSError *error = nil;
+    [user transitionToLoginState:SFUserAccountLoginStateLoggedIn];
     [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
      XCTAssertNil(error);
     [SFUserAccountManager sharedInstance].currentUser = user;

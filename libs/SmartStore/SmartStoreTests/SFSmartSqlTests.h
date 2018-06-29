@@ -40,6 +40,7 @@
 #define kName                 @"name"
 #define kEducation            @"education"
 #define kBuilding             @"building"
+#define kIsManager            @"isManager"
 
 @interface SFSmartSqlTests : SFSmartStoreTestCase
 - (SFUserAccount*) createUserAccount;
@@ -62,4 +63,5 @@
 - (void) testSmartQueryReturningSoupStringAndInteger;
 - (void) testSmartQueryWithPaging;
 - (void) testSmartQueryWithSpecialFields;
+- (void) testSmartQueryMatchingNullField;
 @end

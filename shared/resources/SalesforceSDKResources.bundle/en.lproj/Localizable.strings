@@ -105,3 +105,9 @@
 "devInfoTitle" = "Mobile SDK Dev Support";
 "devInfoBackButtonTitle" = "Back";
 "devInfoOKKey" = "OK";
+
+//IDP User Selection Screen
+"idpSelectUserLabel" = "Select your account to log into";
+"idpAddNewAccountLabel" = "Add new account";
+"idpSelectUserTitleLabel" = "Select user";
+

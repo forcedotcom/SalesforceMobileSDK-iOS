@@ -35,7 +35,7 @@ import SalesforceSDKCore
     restApi.Promises.send(request: request)
  }
  .done { sfRestResponse in
-    restResonse = sfRestResponse.asJsonDictionary()
+    restResponse = sfRestResponse.asJsonDictionary()
     ...
  }
  .catch { error in
@@ -116,7 +116,7 @@ public struct SFRestResponse {
     restApi.Promises.send(request: request)
  }
  .done { sfRestResponse in
-    restResonse = sfRestResponse.asJsonDictionary()
+    restResponse = sfRestResponse.asJsonDictionary()
     ...
  }
  .catch { error in
@@ -296,10 +296,32 @@ extension SFRestAPI {
              - fields: Field list as Dictionary.
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,Any>?) -> Promise<SFRestRequest> {
+        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,Any>) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(self.api!
-                    .requestForUpsert(withObjectType: objectType, externalIdField: externalId, externalId: externalId, fields: fieldList!))
+                    .requestForUpsert(withObjectType: objectType, externalIdField: externalIdField, externalId: externalId, fields: fieldList))
+            }
+        }
+        
+        /**
+         A factory method for update object request.
+         ```
+         restApi.Promises.update(objectType: objectId: "1000", fieldList: fieldList,ifUnmodifiedSince:sinceDate)
+         .then { (request) in
+         restApi.send(request)
+         }
+         
+         ```
+         - parameters:
+         - objectType: Type of object.
+         - objectId: Identifier of the field.
+         - fields: Field list as Dictionary.
+         - ifUnmodifiedSince: update if unmodified since date.
+         - Returns: SFRestRequest wrapped in a promise.
+         */
+        public func update(objectType: String,objectId: String,fieldList: [String: Any]?) -> Promise<SFRestRequest> {
+            return  Promise(.pending) {  resolver in
+                resolver.fulfill(self.api!.requestForUpdate(withObjectType: objectType, objectId: objectId, fields: fieldList))
             }
         }
         
@@ -596,7 +618,7 @@ extension SFRestAPI {
              - page: A page number for results.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func filesShared(userId: String, page: UInt = 0) -> Promise<SFRestRequest> {
+        public func filesShared(userId: String?, page: UInt = 0) -> Promise<SFRestRequest> {
             return  Promise(.pending) {  resolver in
                 resolver.fulfill(
                     self.api!.requestForFilesShared(withUser: userId, page: page))
@@ -793,7 +815,7 @@ extension SFRestAPI {
          restApi.send(request: request)
          }
          .done { sfRestResponse in
-         var restResonse = sfRestResponse.asJsonDictionary()
+         var restResponse = sfRestResponse.asJsonDictionary()
          ...
          }
          .catch { error in
@@ -808,7 +830,7 @@ extension SFRestAPI {
          restApi.send(request: request)
          }
          .done { sfRestResponse in
-         var restResonse = sfRestResponse.asDecodable(Account.Type)
+         var restResponse = sfRestResponse.asDecodable(Account.Type)
          ...
          }
          .catch { error in

@@ -199,7 +199,7 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
     
     uint8_t cipherText[blockSize];
     size_t cipherLength = blockSize;
-    OSStatus status = SecKeyEncrypt(keyRef, kSecPaddingPKCS1, bytes, strlen((char*)bytes), &cipherText[0], &cipherLength);
+    OSStatus status = SecKeyEncrypt(keyRef, kSecPaddingPKCS1, bytes, [data length], &cipherText[0], &cipherLength);
 
     if (status != errSecSuccess) {
         [SFSDKCoreLogger e:[self class] format:@"encryptUsingRSAforData failed with status code: %d", status];

@@ -47,6 +47,7 @@
 #import "SFSDKAlertMessage.h"
 #import "SFSDKAlertMessageBuilder.h"
 #import "SFSDKLoginViewControllerConfig.h"
+#import "SFSDKNavigationController.h"
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
@@ -55,7 +56,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
 
 static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
-
 
 @interface SFSDKOAuthClient()<SFOAuthCoordinatorDelegate,SFIdentityCoordinatorDelegate,SFSDKLoginHostDelegate,SFLoginViewControllerDelegate>{
     NSRecursiveLock *readWriteLock;
@@ -139,15 +139,15 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 -(void)dismissAuthWindow {
 
-    UIViewController *presentedViewController = [SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController?:[SFSDKWindowManager sharedManager].authWindow.viewController;
+    UIViewController *presentedViewController = [SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController;
     
     if (presentedViewController) {
         [presentedViewController dismissViewControllerAnimated:NO completion:^{
-            [[SFSDKWindowManager sharedManager].authWindow dismissWindowAnimated:NO withCompletion:nil];
+            [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
         }];
     } else {
          //hide the window if no controllers were found.
-         [[SFSDKWindowManager sharedManager].authWindow dismissWindowAnimated:NO withCompletion:nil];
+         [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
     }
 }
 
@@ -345,7 +345,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         [self.config.safariViewDelegate authClient:self willBeginBrowserAuthentication:callbackBlock];
     }
     
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];;
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]?:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain, appName];
     
      __weak typeof(self) weakSelf = self;
@@ -381,8 +381,10 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
             if (!handledByDelegate) {
                 SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
                 hostListViewController.delegate = strongSelf;
-                strongSelf.authWindow.viewController = hostListViewController;
-                [strongSelf.authWindow presentWindow];
+               
+                [strongSelf.authWindow presentWindowAnimated:NO withCompletion:^{
+                    [strongSelf.authWindow.viewController presentViewController:hostListViewController animated:NO completion:nil];
+                }];
             }
             
         };
@@ -467,8 +469,12 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
-        self.authWindow.viewController = hostListViewController;
-        [self.authWindow presentWindow];
+        __weak typeof (self) weakSelf = self;
+        [self.authWindow presentWindowAnimated:NO withCompletion:^{
+            __strong typeof (weakSelf) strongSelf = weakSelf;
+            [strongSelf.authWindow.viewController presentViewController:hostListViewController animated:NO completion:nil];
+        }];
+        
     }
 
 }
@@ -519,7 +525,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setHTTPMethod:@"GET"];
         [request setHTTPShouldHandleCookies:NO];
-        SFNetwork *network = [[SFNetwork alloc] init];
+        SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
         [network sendRequest:request dataResponseBlock:nil];
     }
     [credentials revoke];
@@ -668,7 +674,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     if (viewHandler.isAdvancedAuthFlow) {
         controllerToPresent = viewHandler.safariViewController;
     } else {
-        UINavigationController *navController = [[UINavigationController alloc]  initWithRootViewController:viewHandler.loginController];
+        SFSDKNavigationController *navController = [[SFSDKNavigationController  alloc]  initWithRootViewController:viewHandler.loginController];
         controllerToPresent = navController;
     }
     

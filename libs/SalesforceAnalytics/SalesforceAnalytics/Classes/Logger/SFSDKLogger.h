@@ -46,7 +46,7 @@
 /**
  * Instance of the underlying file logger being used.
  */
-@property (nonatomic, readonly, strong, nonnull) SFSDKFileLogger *fileLogger;
+@property (nonatomic, readwrite, strong, nonnull) SFSDKFileLogger *fileLogger;
 
 /**
  * Used to get and set the current log level associated with this logger.

@@ -67,6 +67,12 @@ typedef NS_ENUM(NSUInteger, SFOAuthClientKeyType) {
  */
 - (void)addClient:(SFSDKOAuthClient *)client;
 
+/** Add A Client to the cache given key
+ *
+ * @param client instance to add
+ */
+- (void)addClient:(SFSDKOAuthClient *)client forKey:(NSString *)key;
+
 /** Remove A Cached Client given key
  * @param key to use for looking up client
  */

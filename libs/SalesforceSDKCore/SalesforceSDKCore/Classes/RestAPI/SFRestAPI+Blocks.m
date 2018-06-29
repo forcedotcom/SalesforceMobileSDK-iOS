@@ -138,6 +138,14 @@ static char CompleteBlockKey;
     return request;
 }
 
+- (SFRestRequest *) performLayoutWithObjectType:(NSString *)objectType layoutType:(NSString *)layoutType failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
+    SFRestRequest *request = [self requestForLayoutWithObjectType:objectType layoutType:layoutType];
+    [self sendRESTRequest:request
+                failBlock:failBlock
+            completeBlock:completeBlock];
+    return request;
+}
+
 - (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [self requestForMetadataWithObjectType:objectType];
     [self sendRESTRequest:request

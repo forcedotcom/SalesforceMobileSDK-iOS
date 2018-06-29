@@ -25,6 +25,7 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "SFSDKViewController.h"
 
 @class SFLoginViewController;
 @class SFSDKLoginHost;
@@ -50,7 +51,7 @@
 
 /** The Salesforce login screen view.
  */
-@interface SFLoginViewController : UIViewController
+@interface SFLoginViewController : SFSDKViewController
 
 /** Returns a shared singleton of `SFLoginViewController` class.
  */

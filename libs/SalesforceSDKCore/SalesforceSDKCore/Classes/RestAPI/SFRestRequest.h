@@ -27,7 +27,7 @@
 #import "SFUserAccount.h"
 
 /**
- * HTTP methods for requests
+ * HTTP methods for requests.
  */
 typedef NS_ENUM(NSInteger, SFRestMethod) {
     SFRestMethodGET = 0,
@@ -38,6 +38,22 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
     SFRestMethodPATCH
 };
 
+/**
+ * The type of service host to use for Rest requests.
+ */
+typedef NS_ENUM(NSUInteger, SFSDKRestServiceHostType) {
+
+    /**
+     *  Request uses the login endpoint.
+     */
+    SFSDKRestServiceHostTypeLogin,
+    
+    /**
+     *  Request uses the instance endpoint.
+     */
+    SFSDKRestServiceHostTypeInstance
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -45,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 extern NSString * const kSFDefaultRestEndpoint;
 
-//forward declaration
+// Forward declaration.
 @class SFRestRequest;
 
 /**
@@ -125,6 +141,11 @@ extern NSString * const kSFDefaultRestEndpoint;
 @property (nonatomic, assign, readwrite) SFRestMethod method;
 
 /**
+ * The type of service host for the request (e.g. login or instance).
+ */
+@property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType;
+
+/**
  * The NSURLSesssionDataTask instance associated with the request. This is set only
  * once the request is queued and could be 'nil' before that happens.
  */
@@ -177,6 +198,12 @@ extern NSString * const kSFDefaultRestEndpoint;
  * the request headers before sending the request.  If NO, they will not.
  */
 @property (nonatomic, assign) BOOL requiresAuthentication;
+
+/**
+ * Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
+ * attempt to refresh on HTTP 403. If NO, refresh will not be attempted.
+ */
+@property (nonatomic, assign) BOOL shouldRefreshOn403;
 
 /**
  * Prepares the request before sending it out.
@@ -264,6 +291,15 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param queryParams the parameters of the request (could be nil)
  */
 + (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
+
+/**
+ * Creates an `SFRestRequest` object. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
+ * @param method the HTTP method
+ * @param hostType the type of service host for the request. 
+ * @param path the request path
+ * @param queryParams the parameters of the request (could be nil)
+ */
++ (instancetype)requestWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 /**
  * Creates an `SFRestRequest` object. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.

@@ -72,15 +72,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     self = [super init];
     if (self) {
         self.user = user;
-        _activeRequests = [[NSMutableSet alloc] initWithCapacity:10];
+        _activeRequests = [SFSDKSafeMutableSet setWithCapacity:10];
         self.apiVersion = kSFRestDefaultAPIVersion;
         self.sessionRefreshInProgress = NO;
         self.pendingRequestsBeingProcessed = NO;
-        if (!kIsTestRun) {
-            [SFSDKWebUtils configureUserAgent:[SFRestAPI userAgentString]];
-        }
         [[SFAuthenticationManager sharedManager] addDelegate:self];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
     return self;
 }
@@ -93,16 +90,17 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 #pragma mark - Cleanup / cancel all
 
 - (void)cleanup {
-    [_activeRequests removeAllObjects];
+    [self.activeRequests removeAllObjects];
 }
 
 - (void)cancelAllRequests {
-    @synchronized(self) {
-        for (SFRestRequest *request in _activeRequests) {
-            [request cancel];
-        }
-        [_activeRequests removeAllObjects];
-    }
+    
+    [self.activeRequests enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        SFRestRequest *request = obj;
+        [request cancel];
+    }];
+    [self.activeRequests removeAllObjects];
+    
 }
 
 #pragma mark - singleton
@@ -129,6 +127,10 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         }
         id sfRestApi = [sfRestApiList objectForKey:key];
         if (!sfRestApi) {
+            if (user.loginState != SFUserAccountLoginStateLoggedIn) {
+                [SFSDKCoreLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state in order to create a SFRestAPI instance for a user.", NSStringFromSelector(_cmd)];
+                return nil;
+            }
             sfRestApi = [[SFRestAPI alloc] initWithUser:user];
             [sfRestApiList setObject:sfRestApi forKey:key];
         }
@@ -187,11 +189,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 }
 
 + (NSString *)userAgentString:(NSString*)qualifier {
-    NSString *returnString = @"";
-    if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
-        returnString = [SalesforceSDKManager sharedManager].userAgentString(qualifier);
-    }
-    return returnString;
+    return [SalesforceSDKManager sharedManager].userAgentString(qualifier);
 }
 
 #pragma mark - send method
@@ -209,12 +207,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     [self.activeRequests addObject:request];
     __weak __typeof(self) weakSelf = self;
     if (self.user.credentials.accessToken == nil && self.user.credentials.refreshToken == nil && request.requiresAuthentication) {
-        [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request."];
+        [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request: %@", request.description];
         [weakSelf loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
             [SFUserAccountManager sharedInstance].currentUser = userAccount;
             strongSelf.user = userAccount;
+            [strongSelf enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFSDKCoreLogger e:[strongSelf class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
@@ -247,7 +245,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     __weak __typeof(self) weakSelf = self;
     NSURLRequest *finalRequest = [request prepareRequestForSend:self.user];
     if (finalRequest) {
-        SFNetwork *network = [[SFNetwork alloc] init];
+        SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
         NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error) {
@@ -274,7 +272,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
     // Checks if the access token has expired.
     NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-    if (statusCode == 401 || statusCode == 403) {
+    BOOL shouldRefresh = request.shouldRefreshOn403 ? (statusCode == 401 || statusCode == 403) : (statusCode == 401);
+    if (shouldRefresh) {
         if (shouldRetry) {
             [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
 
@@ -295,7 +294,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                         @synchronized (strongSelf) {
                             if (!strongSelf.pendingRequestsBeingProcessed) {
                                 strongSelf.pendingRequestsBeingProcessed = YES;
-                                [strongSelf sendPendingRequests];
+                                [strongSelf resendActiveRequestsRequiringAuthentication];
                             }
                         }
                     } error:^(NSError *refreshError) {
@@ -366,7 +365,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 
 -(void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
     @synchronized (self) {
-        NSSet *pendingRequests = [self.activeRequests copy];
+        NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
             [self notifyDelegateOfFailure:request.delegate request:request error:error rawResponse:rawResponse];
         }
@@ -374,11 +373,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     }
 }
 
-- (void)sendPendingRequests {
+- (void)resendActiveRequestsRequiringAuthentication {
     @synchronized (self) {
-        NSSet *pendingRequests = [self.activeRequests copy];
+        NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
-            [self send:request delegate:request.delegate shouldRetry:NO];
+            if (request.requiresAuthentication) {
+                [self send:request delegate:request.delegate shouldRetry:NO];
+            }
         }
         self.pendingRequestsBeingProcessed = NO;
     }
@@ -423,18 +424,20 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:user className:NSStringFromClass([self class]) attributes:attributes];
 }
 
-# pragma mark - helper method for conditional requests
-
-+ (NSString *)getHttpStringFomFromDate:(NSDate *)date {
-    if (date == nil) return nil;
-    return [httpDateFormatter stringFromDate:date];
-}
-
 #pragma mark - SFRestRequest factory methods
+
+- (SFRestRequest *)requestForUserInfo {
+    NSString *path = @"/services/oauth2/userinfo";
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET serviceHostType:SFSDKRestServiceHostTypeLogin path:path queryParams:nil];
+    request.endpoint = @"";
+    return request;
+}
 
 - (SFRestRequest *)requestForVersions {
     NSString *path = @"/";
-    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+    SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+    request.requiresAuthentication = NO;
+    return request;
 }
 
 - (SFRestRequest *)requestForResources {
@@ -455,6 +458,14 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 - (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/describe", self.apiVersion, objectType];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+}
+
+- (SFRestRequest *)requestForLayoutWithObjectType:(NSString *)objectType layoutType:(NSString *)layoutType {
+    NSDictionary *queryParams = (layoutType ?
+                                 @{@"layoutType": layoutType}
+                                 : nil);
+    NSString *path = [NSString stringWithFormat:@"/%@/ui-api/layout/%@", self.apiVersion, objectType];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
 - (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
@@ -644,9 +655,16 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     return statusCode  == 404;
 }
 
+# pragma mark - Helper methods
+
++ (NSString *)getHttpStringFomFromDate:(NSDate *)date {
+    if (date == nil) return nil;
+    return [httpDateFormatter stringFromDate:date];
+}
+
 #pragma mark - SFAuthenticationManagerDelegate
 
-- (void)handleUserWillLogout:(NSNotification *)notification {
+- (void)handleUserDidLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [self handleLogoutForUser:user];
 }

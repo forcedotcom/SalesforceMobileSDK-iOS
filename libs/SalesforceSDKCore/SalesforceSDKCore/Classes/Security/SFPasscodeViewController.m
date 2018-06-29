@@ -326,11 +326,6 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
     [super viewWillLayoutSubviews];
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
-
 - (void)layoutSubviews
 {
     [self layoutPasscodeField];
@@ -340,9 +335,16 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
     [self layoutUseTouchIdButton];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+-(BOOL) shouldAutorotate {
+    return NO;
 }
 
 - (void)layoutPasscodeField

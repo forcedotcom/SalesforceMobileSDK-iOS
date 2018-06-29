@@ -31,27 +31,33 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 @implementation SFRestRequest
 
-- (id)initWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(NSDictionary *)queryParams {
+- (id)initWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     self = [super init];
     if (self) {
         self.method = method;
+        self.serviceHostType = hostType;
         self.baseURL = baseURL;
         self.path = path;
         self.queryParams = [queryParams mutableCopy];
         self.endpoint = kSFDefaultRestEndpoint;
         self.requiresAuthentication = YES;
         self.parseResponse = YES;
+        self.shouldRefreshOn403 = YES;
         self.request = [[NSMutableURLRequest alloc] init];
     }
     return self;
 }
 
 + (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
-    return [[self alloc] initWithMethod:method baseURL:nil path:path queryParams:queryParams];
+    return [[self alloc] initWithMethod:method serviceHostType:SFSDKRestServiceHostTypeInstance baseURL:nil path:path queryParams:queryParams];
 }
 
 + (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
-    return [[self alloc] initWithMethod:method baseURL:baseURL path:path queryParams:queryParams];
+    return [[self alloc] initWithMethod:method serviceHostType:SFSDKRestServiceHostTypeInstance baseURL:baseURL path:path queryParams:queryParams];
+}
+
++ (instancetype)requestWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
+    return [[self alloc] initWithMethod:method serviceHostType:hostType baseURL:nil path:path queryParams:queryParams];
 }
 
 - (NSString *)description {
@@ -117,7 +123,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 - (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user {
     if (user) {
-        NSString *baseUrl = self.baseURL ?: user.credentials.apiUrl.absoluteString;
+        NSString *baseUrl = [[self class] restUrlForBaseUrl:self.baseURL serviceHostType:self.serviceHostType credentials:user.credentials];
 
         // Performs sanity checks on the path against the endpoint value.
         if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
@@ -164,11 +170,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
         }
 
-        // Sets Mobile SDK user agent on REST API requests, if it hasn't been set already elsewhere.
-        if (![self.request.allHTTPHeaderFields.allKeys containsObject:@"User-Agent"]) {
-            [self.request setValue:[SFRestAPI userAgentString] forHTTPHeaderField:@"User-Agent"];
-        }
-
         // Adds custom headers to the request if any are set.
         if (self.customHeaders) {
             for (NSString *key in self.customHeaders.allKeys) {
@@ -204,6 +205,20 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     [self.customHeaders setObject:value forKey:name];
 }
 
++ (NSString *)restUrlForBaseUrl:(NSString *)baseUrl serviceHostType:(SFSDKRestServiceHostType)hostType credentials:(SFOAuthCredentials *)credentials {
+    if (baseUrl != nil) {
+        return baseUrl;
+    }
+    if (credentials.communityUrl != nil) {
+        return credentials.communityUrl.absoluteString;
+    }
+    if (hostType == SFSDKRestServiceHostTypeLogin) {
+        return [NSString stringWithFormat:@"%@://%@", credentials.protocol, credentials.domain];
+    } else {
+        return credentials.instanceUrl.absoluteString;
+    }
+}
+
 #pragma mark - Upload
 
 - (void)addPostFileData:(NSData *)fileData paramName:(NSString*)paramName description:(NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
@@ -211,7 +226,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     NSString *mpeSeparator = @"--";
     NSString *newline = @"\r\n";
     NSMutableData *body = [NSMutableData data];
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (fileName) {
         params[@"title"] = fileName;
@@ -223,6 +237,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
                                                        options:NSJSONWritingPrettyPrinted
                                                          error:&parsingError];
+
     // PART 1
     if (jsonData) {
         [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -230,7 +245,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     }
 
     [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
-    
+
     //PART 2
     if (fileData) {
         if (!mimeType) {
@@ -239,7 +254,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         [body appendData:[self multiPartRequestBodyForkey:paramName mimeType:mimeType fileName:fileName file:fileData]];
         [body appendData:[[NSString stringWithFormat:@"%@%@%@%@", mpeSeparator, mpeBoundary, mpeSeparator, newline] dataUsingEncoding:NSUTF8StringEncoding]];
     }
-    
     [self setCustomRequestBodyData:body contentType:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary]];
     [self.request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [self.request setHTTPShouldHandleCookies:NO];
@@ -250,19 +264,15 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 - (NSData *)multiPartRequestBodyForkey:(NSString *)key mimeType:(NSString*)mimeType fileName:(NSString*)fileName file:(NSData *)fileData {
     NSMutableData *body = [NSMutableData data];
     NSString *newline = @"\r\n";
-    NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\";",key];
-    
+    NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\";", key];
     if (fileName) {
-        bodyContentDisposition = [bodyContentDisposition stringByAppendingFormat:@" filename=\"%@\"%@",fileName, newline];
+        bodyContentDisposition = [bodyContentDisposition stringByAppendingFormat:@" filename=\"%@\"%@", fileName, newline];
     }
-    
     [body appendData:[bodyContentDisposition dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"Content-Type: %@; charset=UTF-8%@",mimeType, newline] dataUsingEncoding:NSUTF8StringEncoding]];
-    
     [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:fileData];
     [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
-    
     return body;
 }
 
@@ -322,4 +332,5 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     }
     return queryString;
 }
+
 @end

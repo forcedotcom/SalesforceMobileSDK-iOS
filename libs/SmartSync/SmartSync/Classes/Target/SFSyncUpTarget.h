@@ -201,6 +201,16 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
  */
 - (NSArray *)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager *)syncManager
                             soupName:(NSString *)soupName;
+/**
+ Save record with last error if any
+ @param syncManager The sync manager doing the sync
+ @param soupName the soup to save the record to
+ @param record The record being synced
+ */
+- (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
+                                    soupName:(NSString*) soupName
+                                      record:(NSDictionary*) record;
+
 @end
 
 NS_ASSUME_NONNULL_END

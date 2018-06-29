@@ -66,8 +66,8 @@ extension SFQuerySpec {
         /// Set the query type
         /// - Parameter value: type of query
         /// - Returns: SFQuerySpec.Builder instance
-        public func queryType(value: String) -> Self {
-            queryDict[kQuerySpecParamQueryType] = value
+        public func queryType(value: SFSoupQueryType) -> Self {
+            queryDict[kQuerySpecParamQueryType] = SFQuerySpec.queryType(fromEnum:value)
             return self
         }
         
@@ -75,6 +75,7 @@ extension SFQuerySpec {
         /// - Parameter value: smart sql string
         /// - Returns: SFQuerySpec.Builder instance
         public func smartSql(value: String) -> Self {
+            queryDict[kQuerySpecParamQueryType] = kQuerySpecTypeSmart
             queryDict[kQuerySpecParamSmartSql] = value
             return self
         }
@@ -147,10 +148,10 @@ extension SFQuerySpec {
         }
         
         /// Order by for the smart sql query
-        /// - Parameter value: string representing ascending/descending
+        /// - Parameter value: query sort order
         /// - Returns: SFQuerySpec.Builder instance
-        public func order(value: String) -> Self {
-            queryDict[kQuerySpecParamOrder] = value
+        public func order(value: SFSoupQuerySortOrder) -> Self {
+            queryDict[kQuerySpecParamOrder] = SFQuerySpec.sortOrder(fromEnum: value)
             return self
         }
         
@@ -328,7 +329,7 @@ extension SFSmartStore {
          - parameters:
             - querySpec: SFQuerySpec query specification
             - pageIndex: Page number for records.
-         - Returns: Integer wrapped in a promise indicating count.
+         - Returns: Array wrapped in a promise with query results.
          */
         public func query(querySpec: SFQuerySpec, pageIndex: UInt)  -> Promise<[Any]> {
             return Promise(.pending) {  resolver in

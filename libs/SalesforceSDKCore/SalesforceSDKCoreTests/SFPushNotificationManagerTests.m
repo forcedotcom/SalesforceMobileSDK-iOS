@@ -64,6 +64,20 @@ static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
     [super tearDown];
 }
 
+- (void)testRegisterSalesforceNotifications_NoUserCredentials {
+    self.user.credentials = (SFOAuthCredentials* _Nonnull)nil;
+    BOOL result = [self.manager registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+    XCTAssertFalse(result);
+}
+
+- (void)testRegisterSalesforceNotifications_NoDeviceIdPref {
+    SFPreferences *pref = [SFPreferences sharedPreferencesForScope:SFUserAccountScopeUser user:self.user];
+    [pref removeObjectForKey:kSFDeviceSalesforceId];
+    
+    BOOL result = [self.manager registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+    XCTAssertFalse(result);
+}
+
 - (void)testUnregisterSalesforceNotifications_NoUserCredentials {
     self.user.credentials = (SFOAuthCredentials* _Nonnull)nil;
     BOOL result = [self.manager unregisterSalesforceNotifications:self.user];

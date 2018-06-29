@@ -40,6 +40,11 @@ extern NSString *const kDefaultSmartStoreName;
 extern NSString * const kSFSmartStoreErrorDomain;
 
 /**
+ The NSError exceptionName for errors loading external Soups.
+ */
+extern NSString * const kSFSmartStoreErrorLoadExternalSoup;
+
+/**
  The label used to interact with the encryption key.
  */
 extern NSString * const kSFSmartStoreEncryptionKeyLabel;

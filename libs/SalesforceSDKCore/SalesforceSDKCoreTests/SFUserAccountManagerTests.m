@@ -59,27 +59,11 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 - (void)dealloc {
     [[SFUserAccountManager sharedInstance] removeDelegate:self];
 }
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willLogin:(SFOAuthCredentials *)credentials {
-    self.willLoginCredentials = credentials;
-}
-
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willLogout:(SFUserAccount *)userAccount {
-    
-}
-
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didLogout:(SFUserAccount *)userAccount {
-
-}
-
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didLogin:(SFUserAccount *)userAccount {
-    self.didLoginUserAccount = userAccount;
-}
 
 - (BOOL)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError *)error info:(SFOAuthInfo *)info {
     self.error = error;
     return NO;
 }
-
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
         willSwitchFromUser:(SFUserAccount *)fromUser
