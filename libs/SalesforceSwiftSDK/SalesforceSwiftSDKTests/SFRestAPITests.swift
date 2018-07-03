@@ -344,7 +344,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
         .then { (sfRestResponse) -> Promise<QueryResponse<SampleRecord>> in
             let restResonse = sfRestResponse.asDecodable(type: QueryResponse<SampleRecord>.self) as!  QueryResponse<SampleRecord>
             XCTAssertNotNil(restResonse)
-            return Promise(value:restResonse)
+            return .value(restResonse)
             // update
         }
         .done { response in

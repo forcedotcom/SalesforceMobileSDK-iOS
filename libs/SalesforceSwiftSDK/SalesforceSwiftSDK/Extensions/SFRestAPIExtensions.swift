@@ -150,7 +150,7 @@ extension SFRestAPI {
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func versions() -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.requestForVersions())
             }
         }
@@ -166,7 +166,7 @@ extension SFRestAPI {
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func resources() -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.requestForResources())
             }
         }
@@ -184,7 +184,7 @@ extension SFRestAPI {
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func describe(objectType:String) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.requestForDescribe(withObjectType: objectType))
             }
         }
@@ -200,7 +200,7 @@ extension SFRestAPI {
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func describeGlobal() -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.requestForDescribeGlobal())
             }
         }
@@ -218,7 +218,7 @@ extension SFRestAPI {
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func metadata(objectType: String) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.requestForMetadata(withObjectType: objectType))
             }
         }
@@ -257,7 +257,7 @@ extension SFRestAPI {
          */
         
         public func retrieve(objectType: String,objectId: String, fieldList: [String] ) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.requestForRetrieve(withObjectType: objectType, objectId: objectId, fieldList: fieldList.joined(separator: ",")))
             }
         }
@@ -276,7 +276,7 @@ extension SFRestAPI {
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func create(objectType: String, fields: [String:Any]) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!
                     .requestForCreate(withObjectType: objectType, fields: fields))
             }
@@ -297,7 +297,7 @@ extension SFRestAPI {
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,Any>) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!
                     .requestForUpsert(withObjectType: objectType, externalIdField: externalIdField, externalId: externalId, fields: fieldList))
             }
@@ -320,7 +320,7 @@ extension SFRestAPI {
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func update(objectType: String,objectId: String,fieldList: [String: Any]?) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.requestForUpdate(withObjectType: objectType, objectId: objectId, fields: fieldList))
             }
         }
@@ -342,7 +342,7 @@ extension SFRestAPI {
          - Returns: SFRestRequest wrapped in a promise.
          */
         public func update(objectType: String,objectId: String,fieldList: [String: Any]?,ifUnmodifiedSince: Date?) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.requestForUpdate(withObjectType: objectType, objectId: objectId, fields: fieldList, ifUnmodifiedSince: ifUnmodifiedSince))
             }
         }
@@ -361,7 +361,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func delete(objectType: String, objectId: String) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.requestForDelete(withObjectType: objectType, objectId: objectId))
             }
         }
@@ -379,7 +379,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func query(soql: String) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.request(forQuery: soql))
             }
         }
@@ -397,7 +397,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func queryAll(soql: String) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.request(forQueryAll: soql))
             }
         }
@@ -415,7 +415,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func search(sosl: String) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.request(forSearch: sosl))
             }
         }
@@ -431,7 +431,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func searchScopeAndOrder() -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(self.api!.requestForSearchScopeAndOrder())
             }
         }
@@ -465,7 +465,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func searchResultLayout(objectList: [String]) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.request(forSearchResultLayout: objectList.joined(separator: ",")))
             }
@@ -502,7 +502,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func batch(requests: [SFRestRequest], haltOnError: Bool) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.batchRequest(requests, haltOnError: haltOnError))
             }
@@ -522,7 +522,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func composite(requests: [SFRestRequest], refIds: [String], allOrNone: Bool) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.compositeRequest(requests, refIds: refIds, allOrNone: allOrNone) )
             }
@@ -559,7 +559,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         func sObjectTree(objectType: String, objectTrees: [SFSObjectTree]) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.request(forSObjectTree: objectType, objectTrees: objectTrees))
             }
@@ -579,7 +579,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func filesOwned(userId: String?, page: UInt = 0) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.request(forOwnedFilesList: userId, page: page))
             }
@@ -599,7 +599,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func filesInUsersGroups(userId: String?, page: UInt = 0) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.requestForFiles(inUsersGroups: userId, page: page))
             }
@@ -619,7 +619,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func filesShared(userId: String?, page: UInt = 0) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.requestForFilesShared(withUser: userId, page: page))
             }
@@ -639,7 +639,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func fileDetails(sfdcFileId: String, version: String?) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.request(forFileDetails: sfdcFileId, forVersion: version))
             }
@@ -674,7 +674,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func batchDetails(sfdcFileIds: [String] ) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.request(forBatchFileDetails: sfdcFileIds))
             }
@@ -696,7 +696,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func fileRendition(sfdcFileId: String, version: String?, renditionType: String, page: UInt = 0) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.request(forFileRendition: sfdcFileId, version: version, renditionType: renditionType, page: page))
             }
@@ -716,7 +716,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func fileContents(sfdcId: String, version: String?) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.request(forFileContents: sfdcId, version: version))
             }
@@ -736,7 +736,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func fileShares(sfdcId: String, page: UInt? = 0) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.request(forFileShares: sfdcId, page: page!))
             }
@@ -757,7 +757,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func addFileShare(fileId: String, entityId: String, shareType: String) -> Promise<SFRestRequest> {
-            return  Promise(.pending) { resolver in
+            return  Promise { resolver in
                 resolver.fulfill(
                     self.api!.request(forAddFileShare: fileId, entityId: entityId, shareType: shareType))
             }
@@ -776,7 +776,7 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         public func deleteFileShare(shareId: String) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.request(forDeleteFileShare: shareId))
             }
@@ -799,7 +799,7 @@ extension SFRestAPI {
          */
         
         public func uploadFile(data: Data, name: String, description: String, mimeType: String) -> Promise<SFRestRequest> {
-            return  Promise(.pending) {  resolver in
+            return  Promise {  resolver in
                 resolver.fulfill(
                     self.api!.request(forUploadFile: data, name: name, description: description, mimeType: mimeType))
             }
@@ -842,7 +842,7 @@ extension SFRestAPI {
          - Returns: The instance of Promise<SFRestResponse>.
          */
         public func send(request :SFRestRequest) -> Promise<SFRestResponse> {
-            return Promise(.pending) {  resolver in
+            return Promise {  resolver in
                 request.parseResponse = false
                 self.api!.send(request, fail: { (error, urlResponse) in
                     resolver.reject(error!)

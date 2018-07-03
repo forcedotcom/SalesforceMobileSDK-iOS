@@ -146,7 +146,7 @@ extension XCTestCase  : ProtocolStoredProperty {
     }
     
     class func readConfigFromFile(configFile: String?) -> Promise<TestConfig> {
-        return Promise(.pending) {  seal in
+        return Promise {  seal in
             
             let config: TestConfig = TestConfig(accessToken: "", testClientId: "", testLoginDomain: "", testRedirectUri: "", refreshToken: "", instanceUrl: "", identityUrl: "")
             if let url = Bundle.main.url(forResource: configFile.unwrappedValue, withExtension: "json") {

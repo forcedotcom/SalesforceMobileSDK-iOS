@@ -149,7 +149,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     
     func fetchAllTestContactsFromServer() throws -> Promise<SFRestResponse> {
         guard let sfRestApi = SFRestAPI.sharedInstance(withUser: currentUser!) else {
-            return Promise(.pending) { _ in
+            return Promise { _ in
                 throw TestError.InitializationError
             }
         }
@@ -162,7 +162,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     
     func fetchContactsFromServer(contactIds: [String]) throws -> Promise<SFRestResponse> {
         guard let sfRestApi = SFRestAPI.sharedInstance(withUser: currentUser!) else {
-            return Promise(.pending) { _ in
+            return Promise { _ in
                 throw TestError.InitializationError
             }
         }
@@ -183,7 +183,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     
     func deleteContactsFromServer(contactIds : [String]) throws -> Promise<Void> {
         guard let sfRestApi = SFRestAPI.sharedInstance(withUser: currentUser!) else {
-            return Promise(.pending) { _ in
+            return Promise { _ in
                 throw TestError.InitializationError
             }
         }
@@ -197,7 +197,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
             .then { request -> Promise<SFRestResponse> in
                 return sfRestApi.Promises.send(request: request)
             }.then { _ -> Promise<Void> in
-                return Promise(value:())
+                return .value(())
         }
     }
     
@@ -218,7 +218,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
                         let values = record as! [String]
                         contactIds.append(values[0])
                     }
-                    return Promise(value: contactIds)
+                    return .value(contactIds)
                 }
                 .then { contactIds -> Promise<Void> in
                     XCTAssertTrue(contactIds.count>0)
@@ -228,7 +228,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     
     func createContactsOnServer(noOfRecords: UInt) throws -> Promise<[String]> {
         guard let sfRestApi = SFRestAPI.sharedInstance(withUser: currentUser!) else {
-            return Promise(.pending) { _ in
+            return Promise { _ in
                 throw TestError.InitializationError
             }
         }
@@ -245,7 +245,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
                 .then { request in
                     sfRestApi.Promises.send(request: request)
                 }.then { response ->Promise<[String]> in
-                    return Promise(value: self.getIdsFromBatchResults(response: response))
+                    return .value(self.getIdsFromBatchResults(response: response))
                 }
     }
     
