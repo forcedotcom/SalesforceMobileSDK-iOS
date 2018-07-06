@@ -24,7 +24,6 @@
 
 #import <objc/runtime.h>
 #import <XCTest/XCTest.h>
-#import <OCMock/OCMock.h>
 #import "SFUserAccountConstants.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountPersisterEphemeral.h"
@@ -70,9 +69,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (void)testNotificationNotPosted
 {
-    NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
-    id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:self.uam];
+    
     NSDictionary *credentials = @{};
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
     SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
@@ -80,46 +77,38 @@ SFSDK_USE_DEPRECATED_BEGIN
     [coordinator updateCredentials:credentials];
     XCTAssertTrue(coordinator.credentials.credentialsChangeSet==nil || [coordinator.credentials.credentialsChangeSet count] < 1,@"There should not be any changes to existing credentials");
     [self.uam applyCredentials:coordinator.credentials];
-    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+   
 }
 
 
 - (void)testCommunityIdNotificationPosted
 {
-    NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
-    id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
-    
     SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
     authenticationManager.coordinator = coordinator;
-    NSDictionary *expectedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeCommunityId)
-                                       };
-    [[observerMock expect] notificationWithName:notificationName object:_user userInfo:expectedUserInfo];
     NSDictionary *credentials = @{kSFOAuthCommunityId:@"COMMUNITY_ID"
                                   };
+    [self expectationForNotification:SFUserAccountManagerDidChangeUserDataNotification object:nil   handler:^BOOL(NSNotification * notification) {
+        SFUserAccountDataChange change = [notification.userInfo[SFUserAccountManagerUserChangeKey] intValue];
+        return ( change &  SFUserAccountDataChangeCommunityId)==SFUserAccountDataChangeCommunityId;
+    }];
     [coordinator updateCredentials:credentials];
-    XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should not be at least one change in credentials");
+    XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should be at least one change in credentials");
     XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"communityId"],@"SFAuthenticationManager should detect change to properties");
     [self.uam applyCredentials:coordinator.credentials withIdData:nil];
-    [observerMock verify];
-    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 
 - (void)testInstanceUrlChangeNotificationPosted
 {
-    NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
-    id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
-    SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
-    authenticationManager.coordinator = coordinator;
-    NSDictionary *expectedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeInstanceURL)
-                                       };
-    [[observerMock expect] notificationWithName:notificationName object:_user userInfo:expectedUserInfo];
+    
+    [self expectationForNotification:SFUserAccountManagerDidChangeUserDataNotification object:nil   handler:^BOOL(NSNotification * notification) {
+        SFUserAccountDataChange change = [notification.userInfo[SFUserAccountManagerUserChangeKey] intValue];
+        return ( change &  SFUserAccountDataChangeInstanceURL)==SFUserAccountDataChangeInstanceURL;
+    }];
+    
     NSDictionary *credentials = @{
                                   kSFOAuthInstanceUrl:@"https://new.instance.url"
                                   };
@@ -127,22 +116,17 @@ SFSDK_USE_DEPRECATED_BEGIN
     XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should be at least one change in credentials");
     XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"instanceUrl"],@"SFAuthenticationManager should detect change to instanceUrl");
     [self.uam applyCredentials:coordinator.credentials];
-    [observerMock verify];
-    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 - (void)testAccessTokenChangeNotificationPosted
 {
-    NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
-    id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
-    SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
-    authenticationManager.coordinator = coordinator;
-    NSDictionary *expecTedUserInfo = @{
-                                       SFUserAccountManagerUserChangeKey: @(SFUserAccountDataChangeAccessToken)
-                                       };
-    [[observerMock expect] notificationWithName:notificationName object:_user userInfo:expecTedUserInfo];
+   
+    [self expectationForNotification:SFUserAccountManagerDidChangeUserDataNotification object:nil   handler:^BOOL(NSNotification * notification) {
+        SFUserAccountDataChange change = [notification.userInfo[SFUserAccountManagerUserChangeKey] intValue];
+        return ( change &  SFUserAccountDataChangeAccessToken)==SFUserAccountDataChangeAccessToken;
+    }];
     NSDictionary *credentials = @{
                                   kSFOAuthAccessToken:@"new_access_token"
                                   };
@@ -150,22 +134,20 @@ SFSDK_USE_DEPRECATED_BEGIN
     XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should be at least one change in credentials");
     XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"accessToken"],@"SFAuthenticationManager should detect change to instanceUrl");
     [self.uam applyCredentials:coordinator.credentials];
-    [observerMock verify];
-    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 - (void)testMultipleChangesNotificationPosted
 {
-    NSString *notificationName = SFUserAccountManagerDidChangeUserDataNotification;
-    id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
-    SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
-    authenticationManager.coordinator = coordinator;
     SFUserAccountDataChange expectedChange = (SFUserAccountDataChangeCommunityId|SFUserAccountDataChangeInstanceURL|SFUserAccountDataChangeAccessToken);
-    NSDictionary *expecTedUserInfo = @{SFUserAccountManagerUserChangeKey: @(expectedChange)};
-    [[observerMock expect] notificationWithName:notificationName object:_user userInfo:expecTedUserInfo];
-    NSDictionary *credentials = @{
+    
+    [self expectationForNotification:SFUserAccountManagerDidChangeUserDataNotification object:nil   handler:^BOOL(NSNotification * notification) {
+        SFUserAccountDataChange change = [notification.userInfo[SFUserAccountManagerUserChangeKey] intValue];
+        return ( change &  expectedChange)==expectedChange;
+    }];
+    
+   NSDictionary *credentials = @{
                                   kSFOAuthCommunityId:@"COMMUNITY_ID_1",
                                   kSFOAuthAccessToken:@"new_access_token_1",
                                   kSFOAuthInstanceUrl:@"https://new.instance.url1"
@@ -176,31 +158,28 @@ SFSDK_USE_DEPRECATED_BEGIN
     XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"communityId"],@"SFAuthenticationManager should detect change to communityId");
     XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"instanceUrl"],@"SFAuthenticationManager should detect change to instanceUrl");
     [self.uam applyCredentials:coordinator.credentials];
-    [observerMock verify];
-    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+   
 }
 
 - (void)testNewUserChangeNotificationPosted
 {
-    NSString *notificationName = SFUserAccountManagerDidChangeUserNotification;
-    id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:self.uam];
+    [self expectationForNotification:SFUserAccountManagerDidChangeUserNotification object:nil   handler:^BOOL(NSNotification * notification) {
+        return YES;
+    }];
+    
     SFOAuthCredentials *newUsercredentials = [SFOAuthCredentials new];
     newUsercredentials.userId = [NSString stringWithFormat:kUserIdFormatString, (NSUInteger)2];
     newUsercredentials.organizationId =_user.credentials.organizationId;
     newUsercredentials.instanceUrl = [NSURL URLWithString:@"http://a.new.url"];
     newUsercredentials.communityId = @"NEW_COMMUNITY_ID";
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:newUsercredentials];
-    SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
-    authenticationManager.coordinator = coordinator;
-    [[observerMock expect] notificationWithName:notificationName object:self.uam userInfo:[OCMArg any]];
     NSDictionary *credentials = @{
                                   kSFOAuthAccessToken:@"new_access_token_1"
                                   };
     [coordinator updateCredentials:credentials];
     [self.uam applyCredentials:coordinator.credentials];
-    [observerMock verify];
-    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 - (SFUserAccount*)createNewUser:(NSUInteger) index
