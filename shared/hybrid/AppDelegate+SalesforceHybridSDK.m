@@ -32,8 +32,8 @@
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceAnalytics/SFSDKLogger.h>
 #import <SalesforceHybridSDK/SalesforceHybridSDKManager.h>
+#import <SalesforceHybridSDK/SFSDKHybridLogger.h>
 
 @implementation AppDelegate (SalesforceHybridSDK)
 
@@ -64,32 +64,32 @@
     //Or uncomment following block to enable IDP Login flow.
     /*
      //scheme of idpAppp
-     [SalesforceSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
+     [SalesforceHybridSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
      //user friendly display name
-     [SalesforceSDKManager sharedManager].appDisplayName = @"SampleAppOne";
+     [SalesforceHybridSDKManager sharedManager].appDisplayName = @"SampleAppOne";
      
      //Use the following code block to replace the login flow selection dialog
-     [SalesforceSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
+     [SalesforceHybridSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
      IDPLoginNavViewController *controller = [[IDPLoginNavViewController alloc] init];
      return controller;
      };
      */
     __weak __typeof(self) weakSelf = self;
-    [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
+    [SalesforceHybridSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [SFSDKLogger log:[self class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+        [SFSDKHybridLogger log:[self class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceHybridSDKManager launchActionsStringRepresentation:launchActionList]];
         [strongSelf setupRootViewController];
     };
-    [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
+    [SalesforceHybridSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
         __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+        [SFSDKHybridLogger log:[self class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
         [strongSelf initializeAppViewState];
-        [[SalesforceSDKManager sharedManager] launch];
+        [[SalesforceHybridSDKManager sharedManager] launch];
     };
-    [SalesforceSDKManager sharedManager].postLogoutAction = ^{
+    [SalesforceHybridSDKManager sharedManager].postLogoutAction = ^{
         [weakSelf handleSdkManagerLogout];
     };
-    [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
+    [SalesforceHybridSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
         [weakSelf handleUserSwitch:fromUser toUser:toUser];
     };
     
@@ -109,7 +109,7 @@
     self.window.autoresizesSubviews = YES;
     
     [self initializeAppViewState];
-    [[SalesforceSDKManager sharedManager] launch];
+    [[SalesforceHybridSDKManager sharedManager] launch];
     return YES; // we don't want to run's Cordova didFinishLaunchingWithOptions - it creates another window with a webview
                 // if devs want to customize their AppDelegate.m, then they should get rid of AppDelegate+SalesforceHybrid.m
                 // and bring all of its code in their AppDelegate.m
@@ -142,7 +142,7 @@
 - (void)handleSdkManagerLogout
 {
     [self resetViewState:^{
-        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
+        [SFSDKHybridLogger log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
         ((SFHybridViewController*)self.viewController).appHomeUrl = nil;
         [self initializeAppViewState];
         
@@ -164,7 +164,7 @@
             if ([allAccounts count] == 1) {
                 [SFUserAccountManager sharedInstance].currentUser = allAccounts[0];
             }
-            [[SalesforceSDKManager sharedManager] launch];
+            [[SalesforceHybridSDKManager sharedManager] launch];
         }
     }];
 }
@@ -173,10 +173,10 @@
                   toUser:(SFUserAccount *)toUser
 {
     [self resetViewState:^{
-        [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
+        [SFSDKHybridLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
          fromUser.userName, toUser.userName];
         [self initializeAppViewState];
-        [[SalesforceSDKManager sharedManager] launch];
+        [[SalesforceHybridSDKManager sharedManager] launch];
     }];
 }
 
@@ -197,7 +197,7 @@
 
 - (void)setupRootViewController
 {
-    self.viewController = [[SFHybridViewController alloc] initWithConfig:(SFHybridViewConfig*)[SalesforceSDKManager sharedManager].appConfig];
+    self.viewController = [[SFHybridViewController alloc] initWithConfig:(SFHybridViewConfig*)[SalesforceHybridSDKManager sharedManager].appConfig];
     self.window.rootViewController = self.viewController;
 }
 
