@@ -294,7 +294,6 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     if ([syncStatus isEqualToString:kSFSyncStateStatusDone]) {
         return SFSyncStateStatusDone;
     }
-    // Must be failed // if ([syncStatus isEqualToString:kSFSyncStateStatusFailed]) {
     return SFSyncStateStatusFailed;
 }
 
@@ -313,7 +312,6 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     if ([mergeMode isEqualToString:kSFSyncStateMergeModeLeaveIfChanged]) {
         return SFSyncStateMergeModeLeaveIfChanged;
     }
-    // if ([mergeMode isEqualToString:kSFSyncStateMergeModeOverwrite]) {
     return SFSyncStateMergeModeOverwrite;
 }
 
