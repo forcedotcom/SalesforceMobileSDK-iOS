@@ -220,6 +220,7 @@ static NSString * const kSFECParameter = @"ec";
     } else {
          __weak typeof(self) weakSelf = self;
         if (self.useBrowserAuth) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];

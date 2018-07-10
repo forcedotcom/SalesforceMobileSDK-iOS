@@ -66,7 +66,7 @@
 @property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager;
 
 /**
- Whether the app is configured to require certificate-based authentication. (RequireCertAuth)
+ Indicates if the app is configured to require browser based authentication.
  */
 @property (nonatomic, assign) BOOL useBrowserAuth;
 
