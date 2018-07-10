@@ -112,6 +112,7 @@ static NSString * const kSFOAuthErrorTypeWrongVersion               = @"wrong_ve
 static NSString * const kSFOAuthErrorTypeBrowserLaunchFailed        = @"browser_launch_failed";
 static NSString * const kSFOAuthErrorTypeUnknownAdvancedAuthConfig  = @"unknown_advanced_auth_config";
 static NSString * const kSFOAuthErrorTypeJWTLaunchFailed            = @"jwt_launch_failed";
+static NSString * const kSFOAuthErrorTypeAuthConfig  = @"auth_config";
 
 static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
 
@@ -217,55 +218,34 @@ static NSString * const kSFECParameter = @"ec";
         [self notifyDelegateOfBeginAuthentication];
         [self.oauthCoordinatorFlow beginJwtTokenExchangeFlow];
     } else {
-        __weak typeof(self) weakSelf = self;
-        switch (self.advancedAuthConfiguration) {
-            case SFOAuthAdvancedAuthConfigurationNone: {
-                [self notifyDelegateOfBeginAuthentication];
-                [self.oauthCoordinatorFlow beginUserAgentFlow];
-                break;
-            }
-            case SFOAuthAdvancedAuthConfigurationAllow: {
-
-                /*
-                 * If advanced auth mode is allowed, we have to get auth configuration settings
-                 * from the org, where available, and initiate advanced auth flows, if configured.
-                 */
-                [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
-                    __strong typeof(weakSelf) strongSelf = weakSelf;
-                    if (authConfig.useNativeBrowserForAuth) {
-                        strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
-                        [strongSelf notifyDelegateOfBeginAuthentication];
-                        [strongSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
-                    } else {
-                        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
-                        __strong typeof(weakSelf) strongSelf = weakSelf;
-                        [strongSelf notifyDelegateOfBeginAuthentication];
-                        [strongSelf.oauthCoordinatorFlow beginUserAgentFlow];
-                    }
-                } oauthCredentials:self.credentials];
-                break;
-            }
-            case SFOAuthAdvancedAuthConfigurationRequire: {
-
-                // Advanced auth mode is required. Begin the advanced browser flow.
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    __strong typeof(weakSelf) strongSelf = weakSelf;
+         __weak typeof(self) weakSelf = self;
+        if (self.requireCertificateAuthentication) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+                [strongSelf notifyDelegateOfBeginAuthentication];
+                [strongSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
+            });
+        } else {
+            [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                if (error) {
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                       [weakSelf notifyDelegateOfFailure:error authInfo:weakSelf.authInfo];
+                   });
+                    return;
+                }
+                if (authConfig.useNativeBrowserForAuth) {
                     strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                     [strongSelf notifyDelegateOfBeginAuthentication];
                     [strongSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
-                });
-                break;
-            }
-            default: {
-
-                // Unknown advanced auth state.
-                NSError *unknownConfigError = [[self class] errorWithType:kSFOAuthErrorTypeUnknownAdvancedAuthConfig
-                                                              description:[NSString stringWithFormat:@"Unknown advanced auth config: %lu", (unsigned long)self.advancedAuthConfiguration]];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf notifyDelegateOfFailure:unknownConfigError authInfo:weakSelf.authInfo];
-                });
-                break;
-            }
+                } else {
+                    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                    [strongSelf notifyDelegateOfBeginAuthentication];
+                    [strongSelf.oauthCoordinatorFlow beginUserAgentFlow];
+                }
+            } oauthCredentials:self.credentials];
         }
     }
 }

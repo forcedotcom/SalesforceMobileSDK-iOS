@@ -50,7 +50,7 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.requireCertificateAuthentication = YES;
     }];
     
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
@@ -66,7 +66,7 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.requireCertificateAuthentication = YES;
     }];
     
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
@@ -74,7 +74,7 @@
     [[SFSDKOAuthClientCache sharedInstance] addClient:client];
     
     SFSDKOAuthClient *client2 = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.requireCertificateAuthentication = YES;
     }];
     
     NSString *key2 = [SFSDKOAuthClientCache keyFromClient:client2];
@@ -88,7 +88,7 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.requireCertificateAuthentication = YES;
     }];
     
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
@@ -107,7 +107,7 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.requireCertificateAuthentication = YES;
     }];
     
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
@@ -130,7 +130,7 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.requireCertificateAuthentication = YES;
     }];
     
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
@@ -165,7 +165,7 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.requireCertificateAuthentication = YES;
     }];
     
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
@@ -204,7 +204,7 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.requireCertificateAuthentication = YES;
     }];
     
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
@@ -246,7 +246,7 @@
     SFOAuthCredentials *credentials2 = [[SFOAuthCredentials alloc] initWithIdentifier:@"test2Id" clientId:@"test2Id" encrypted:NO];
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.requireCertificateAuthentication = YES;
     }];
     
     NSString *key = [SFSDKOAuthClientCache keyFromClient:client];
@@ -254,7 +254,7 @@
     [[SFSDKOAuthClientCache sharedInstance] addClient:client];
     
     SFSDKOAuthClient *client2 = [SFSDKOAuthClient clientWithCredentials:credentials2  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.requireCertificateAuthentication = YES;
     }];
     
     XCTAssertNotNil( [[SFSDKOAuthClientCache sharedInstance] clientForKey:key]);

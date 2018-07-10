@@ -50,7 +50,7 @@
 @property (nonatomic, copy, nullable) NSString *brandLoginPath;
 @property (nonatomic, copy, nonnull) NSString *loginHost;
 @property (nonatomic, copy, nonnull) NSSet<NSString*> *scopes;
-@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
+@property (nonatomic, assign) BOOL requireCertificateAuthentication;
 @property (nonatomic, strong, nullable) NSArray *additionalOAuthParameterKeys;
 @property (nonatomic, strong, nullable) NSDictionary *additionalTokenRefreshParams;
 @property (nonatomic, copy, nullable) NSString *appDisplayName;

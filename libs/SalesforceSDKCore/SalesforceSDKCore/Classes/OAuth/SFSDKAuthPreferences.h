@@ -106,5 +106,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,copy) NSString *appDisplayName;
 
+/**
+ Whether the app is configured to require certificate-based authentication. (RequireCertAuth)
+ */
+@property (nonatomic, assign) BOOL requireCertificateAuthentication;
+
 @end
 NS_ASSUME_NONNULL_END

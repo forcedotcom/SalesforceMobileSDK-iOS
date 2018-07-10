@@ -470,7 +470,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
             @"User Agent", self.userAgentString(@""),
-            @"Browser Login Enabled", userAccountManager.advancedAuthConfiguration != SFOAuthAdvancedAuthConfigurationNone ? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
             @"Current User", [self userToString:userAccountManager.currentUser],
@@ -558,7 +557,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 - (void)configureManagedSettings
 {
     if ([SFManagedPreferences sharedPreferences].requireCertificateAuthentication) {
-        [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        [SFUserAccountManager sharedInstance].requireCertificateAuthentication = YES;
     }
     
     if ([SFManagedPreferences sharedPreferences].connectedAppId.length > 0) {

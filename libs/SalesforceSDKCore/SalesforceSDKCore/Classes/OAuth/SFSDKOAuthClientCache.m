@@ -81,12 +81,13 @@ static NSString *const kSFAdvancedSuffix = @"ADVANCED";
     SFOAuthClientKeyType clientType =  SFOAuthClientKeyTypeBasic;
     if (preferences.isIdentityProvider || preferences.idpEnabled) {
         clientType = SFOAuthClientKeyTypeIDP;
-    }else if (preferences.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire) {
+    } else if (preferences.requireCertificateAuthentication) {
         clientType = SFOAuthClientKeyTypeAdvanced;
     }
     return [self keyFromCredentials:credentials type:clientType];
     
 }
+
 + (NSString *)keyFromCredentials:(SFOAuthCredentials *)credentials type:(SFOAuthClientKeyType)clientType {
     return [NSString stringWithFormat:@"%@-%lu", credentials.identifier,(unsigned long)clientType];
 }
@@ -95,16 +96,14 @@ static NSString *const kSFAdvancedSuffix = @"ADVANCED";
     return [NSString stringWithFormat:@"%@-%lu", prefix,(unsigned long)clientType];
 }
 
-
 + (NSString *)keyFromClient:(SFSDKOAuthClient *)client{
 
     SFOAuthClientKeyType clientType = SFOAuthClientKeyTypeBasic;
 
     if (client.config.idpEnabled)
         clientType = SFOAuthClientKeyTypeIDP;
-    else if (client.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationRequire)
+    else if (client.config.requireCertificateAuthentication)
         clientType = SFOAuthClientKeyTypeAdvanced;
-
     return [NSString stringWithFormat:@"%@-%lu", client.credentials.identifier, (unsigned long)clientType];
 }
 

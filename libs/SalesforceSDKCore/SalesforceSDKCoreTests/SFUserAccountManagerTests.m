@@ -323,13 +323,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 }
 
 - (void)testUserAccountManagerPersistentProperties {
-    
-    SFOAuthAdvancedAuthConfiguration oldAdvancedAuthConfiguration = [SFUserAccountManager sharedInstance].advancedAuthConfiguration;
-    [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
-    XCTAssertEqual([SFUserAccountManager sharedInstance].advancedAuthConfiguration, SFOAuthAdvancedAuthConfigurationRequire, @"SFUserAccountManager advancedAuthConfiguration should be set correctly");
-    [SFUserAccountManager sharedInstance].advancedAuthConfiguration = oldAdvancedAuthConfiguration;
-    XCTAssertEqual([SFUserAccountManager sharedInstance].advancedAuthConfiguration, oldAdvancedAuthConfiguration, @"SFUserAccountManager advancedAuthConfiguration should be set back correctly");
-    
     NSArray *oldAdditionalOAuthParameterKeys = [SFUserAccountManager sharedInstance].additionalOAuthParameterKeys;
     NSArray *addlKeys = @[@"A", @"__B", @"123", @""];
     [SFUserAccountManager sharedInstance].additionalOAuthParameterKeys = addlKeys;

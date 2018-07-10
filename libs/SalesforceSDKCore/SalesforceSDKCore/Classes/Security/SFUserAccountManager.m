@@ -230,15 +230,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     return self.authPreferences.idpEnabled;
 }
 
-- (SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration {
-   return self.authPreferences.advancedAuthConfiguration;
-}
-
-- (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration {
-    self.authPreferences.advancedAuthConfiguration = advancedAuthConfiguration;
-}
-
-
 - (BOOL)useLegacyAuthenticationManager{
     return self.authPreferences.useLegacyAuthenticationManager;
 }
@@ -257,6 +248,14 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
 - (NSString *)idpAppURIScheme{
     return self.authPreferences.idpAppURIScheme;
+}
+
+- (BOOL)requireCertificateAuthentication {
+     return self.authPreferences.requireCertificateAuthentication;
+}
+
+- (void)setRequireCertificateAuthentication:(BOOL) requireCertificateAuth {
+     self.authPreferences.requireCertificateAuthentication = requireCertificateAuth;
 }
 
 - (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
@@ -529,9 +528,9 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 - (void)authClient:(SFSDKOAuthClient *)client willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: client.credentials,
                                 kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
-    if (client.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationAllow) {
-        //Rekey the client in cache. Need to do, since advanced auth configuration was realized
-        //from org/domain setting.
+    //Rekey the client in cache. Need to do, since advanced auth
+    //configuration was realized from org/domain setting.
+    if (!client.config.requireCertificateAuthentication) {
         NSString *newKey = [SFSDKOAuthClientCache keyFromCredentials:client.credentials type:SFOAuthClientKeyTypeAdvanced];
         [[SFSDKOAuthClientCache sharedInstance] removeClient:client];
         [[SFSDKOAuthClientCache sharedInstance] addClient:client forKey:newKey];
@@ -1293,7 +1292,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             config.oauthClientId = strongSelf.oauthClientId;
             config.idpAppURIScheme = strongSelf.idpAppURIScheme;
             config.appDisplayName = strongSelf.appDisplayName;
-            config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
+            config.requireCertificateAuthentication = strongSelf.requireCertificateAuthentication;
             config.delegate = strongSelf;
             config.webViewDelegate = strongSelf;
             config.safariViewDelegate = strongSelf;

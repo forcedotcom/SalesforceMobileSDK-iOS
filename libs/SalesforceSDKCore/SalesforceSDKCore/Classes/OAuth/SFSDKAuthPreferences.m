@@ -223,6 +223,4 @@ NSString * const kSFLegacyAuthIndicatorKey = @"SFDCUseLegacyAuth";
     [defs setBool:enabled forKey:kSFLegacyAuthIndicatorKey];
     [defs synchronize];
 }
-
-
 @end

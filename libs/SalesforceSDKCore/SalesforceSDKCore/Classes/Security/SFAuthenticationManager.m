@@ -494,12 +494,7 @@ static Class InstanceClass = nil;
 }
 
 - (SFOAuthAdvancedAuthConfiguration) advancedAuthConfiguration {
-    return [SFUserAccountManager sharedInstance].advancedAuthConfiguration;
-}
-
-- (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
-{
-    [SFUserAccountManager sharedInstance].advancedAuthConfiguration = advancedAuthConfiguration;
+    return SFOAuthAdvancedAuthConfigurationAllow;
 }
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse
@@ -795,7 +790,6 @@ static Class InstanceClass = nil;
     self.coordinator.delegate = nil;
     self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
     self.coordinator.brandLoginPath = self.brandLoginPath;
-    self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
     self.coordinator.delegate = self;
     self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
     self.coordinator.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
