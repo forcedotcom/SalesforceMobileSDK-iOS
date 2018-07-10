@@ -382,7 +382,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 
 /** Setup the coordinator to use SafariViewController for authentication.
  */
-@property (nonatomic, assign) BOOL requireBrowserAuthentication;
+@property (nonatomic, assign) BOOL useBrowserAuth;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization

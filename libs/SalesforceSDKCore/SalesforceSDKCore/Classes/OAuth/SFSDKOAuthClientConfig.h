@@ -50,7 +50,7 @@
 @property (nonatomic, copy, nullable) NSString *brandLoginPath;
 @property (nonatomic, copy, nonnull) NSString *loginHost;
 @property (nonatomic, copy, nonnull) NSSet<NSString*> *scopes;
-@property (nonatomic, assign) BOOL requireBrowserAuthentication;
+@property (nonatomic, assign) BOOL useBrowserAuth;
 @property (nonatomic, strong, nullable) NSArray *additionalOAuthParameterKeys;
 @property (nonatomic, strong, nullable) NSDictionary *additionalTokenRefreshParams;
 @property (nonatomic, copy, nullable) NSString *appDisplayName;
@@ -70,8 +70,6 @@
 @property (nonatomic, copy,nullable) SFAuthenticationFailureCallbackBlock  failureCallbackBlock;
 @property (nonatomic, copy,nullable) SFIdentitySuccessCallbackBlock identitySuccessCallbackBlock;
 @property (nonatomic, copy,nullable) SFIdentityFailureCallbackBlock identityFailureCallbackBlock;
-
-
 @property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionBlock;
 @property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionBlock;
 /**

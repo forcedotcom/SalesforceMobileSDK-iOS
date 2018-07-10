@@ -219,7 +219,7 @@ static NSString * const kSFECParameter = @"ec";
         [self.oauthCoordinatorFlow beginJwtTokenExchangeFlow];
     } else {
          __weak typeof(self) weakSelf = self;
-        if (self.requireBrowserAuthentication) {
+        if (self.useBrowserAuth) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];

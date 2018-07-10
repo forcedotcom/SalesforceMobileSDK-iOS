@@ -33,6 +33,7 @@
 #import "SalesforceSDKCore.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFSDKOAuthClientCache.h"
+#import "SFUserAccountManager+Internal.h"
 @class SFSDKTestOAuthClient;
 
 @interface SFSDKTestOAuthClient : SFSDKOAuthClient
@@ -183,7 +184,7 @@
 
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.requireBrowserAuthentication = YES;
+        config.useBrowserAuth = YES;
     }];
     
     XCTAssertNotNil(client);
@@ -452,11 +453,11 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-    [SFUserAccountManager sharedInstance].requireBrowserAuthentication = YES;
+    [SFUserAccountManager sharedInstance].useBrowserAuth = YES;
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.delegate = self;
         config.safariViewDelegate = self;
-        config.requireBrowserAuthentication = [SFUserAccountManager sharedInstance].requireBrowserAuthentication;
+        config.useBrowserAuth = [SFUserAccountManager sharedInstance].useBrowserAuth;
     }];
    
     XCTAssertNotNil(client);

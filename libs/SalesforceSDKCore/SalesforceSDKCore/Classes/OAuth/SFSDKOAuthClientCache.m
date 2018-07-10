@@ -102,7 +102,7 @@ static NSString *const kSFAdvancedSuffix = @"ADVANCED";
 
     if (client.config.idpEnabled)
         clientType = SFOAuthClientKeyTypeIDP;
-    else if (client.config.requireBrowserAuthentication)
+    else if (client.config.useBrowserAuth)
         clientType = SFOAuthClientKeyTypeAdvanced;
     return [NSString stringWithFormat:@"%@-%lu", client.credentials.identifier, (unsigned long)clientType];
 }
