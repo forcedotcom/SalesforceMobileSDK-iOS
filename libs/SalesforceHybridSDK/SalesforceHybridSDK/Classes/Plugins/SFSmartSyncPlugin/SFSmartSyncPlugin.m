@@ -191,11 +191,11 @@ NSString *const kSyncStoreNameArg = @"storeName";
     id <CDVCommandDelegate> commandDelegate = self.commandDelegate;
     NSString* callbackId = command.callbackId;
     [SFSDKHybridLogger d:selfClass format:@"cleanResyncGhosts with sync id: %@", syncId];
-    [[self getSyncManagerInst:argsDict] cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+    [[self getSyncManagerInst:argsDict] cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus, NSUInteger numRecords) {
         CDVPluginResult* pluginResult;
         if (syncStatus == SFSyncStateStatusDone) {
             [SFSDKHybridLogger d:selfClass format:@"cleanResyncGhosts completed successfully"];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            pluginResult =[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:numRecords];
         } else {
             [SFSDKHybridLogger e:selfClass format:@"cleanResyncGhosts did not complete successfully"];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
