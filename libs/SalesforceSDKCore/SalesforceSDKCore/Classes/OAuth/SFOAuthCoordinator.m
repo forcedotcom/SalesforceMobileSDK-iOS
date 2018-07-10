@@ -229,22 +229,22 @@ static NSString * const kSFECParameter = @"ec";
         } else {
             [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
-                if (error) {
-                   dispatch_async(dispatch_get_main_queue(), ^{
-                       [weakSelf notifyDelegateOfFailure:error authInfo:weakSelf.authInfo];
-                   });
-                    return;
-                }
-                if (authConfig.useNativeBrowserForAuth) {
-                    strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
-                    [strongSelf notifyDelegateOfBeginAuthentication];
-                    [strongSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
-                } else {
-                    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
-                    __strong typeof(weakSelf) strongSelf = weakSelf;
-                    [strongSelf notifyDelegateOfBeginAuthentication];
-                    [strongSelf.oauthCoordinatorFlow beginUserAgentFlow];
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (error) {
+                       [strongSelf notifyDelegateOfFailure:error authInfo:strongSelf.authInfo];
+                        return;
+                    }
+                    if (authConfig.useNativeBrowserForAuth) {
+                         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
+                        strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+                        [strongSelf notifyDelegateOfBeginAuthentication];
+                        [strongSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
+                    } else {
+                        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
+                        [strongSelf notifyDelegateOfBeginAuthentication];
+                        [strongSelf.oauthCoordinatorFlow beginUserAgentFlow];
+                    }
+                });
             } oauthCredentials:self.credentials];
         }
     }
