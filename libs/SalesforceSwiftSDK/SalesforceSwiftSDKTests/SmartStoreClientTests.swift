@@ -55,11 +55,11 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
             .globalStore(withName: glbStoreName)
             .then { globalStore -> Promise<SFSmartStore> in
                 XCTAssertNotNil(globalStore)
-                return Promise(value: globalStore)
+                return .value(globalStore)
             }
             .then { store -> Promise<(Bool,SFSmartStore)>  in
                 let result  = store.soupExists(soupName)
-                return Promise(value:(result,store))
+                return .value((result,store))
             }
             .then { (result,store) -> Promise<Void> in
                 XCTAssertFalse(result)
@@ -81,11 +81,11 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
             .store(withName: lclStoreName)
             .then { localStore -> Promise<SFSmartStore> in
                 XCTAssertNotNil(localStore)
-                return Promise(value: localStore)
+                return .value(localStore)
             }
             .then { store -> Promise<(Bool,SFSmartStore)>  in
                 let result  = store.soupExists(soupName)
-                return Promise(value:(result,store))
+                return .value((result,store))
             }
             .then { (result,store) -> Promise<Void> in
                 XCTAssertFalse(result)
@@ -108,7 +108,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
             .store(withName: lclStoreName)
             .then { localStore -> Promise<SFSmartStore> in
                 XCTAssertNotNil(localStore)
-                return Promise(value: localStore)
+                return .value(localStore)
             }
             .then { store -> Promise<Bool>  in
                 let result  = store.soupExists(soupName)

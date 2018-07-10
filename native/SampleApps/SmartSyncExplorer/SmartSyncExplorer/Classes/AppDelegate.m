@@ -68,27 +68,27 @@
         
         // Need to use SmartSyncSDKManager when using SmartSync
         [SalesforceSDKManager setInstanceClass:[SmartSyncSDKManager class]];
-        [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
-        [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
-        [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
+        [SmartSyncSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
+        [SmartSyncSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
+        [SmartSyncSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
         __weak typeof(self) weakSelf = self;
-        [[SalesforceSDKManager sharedManager] addDelegate:self];
+        [[SmartSyncSDKManager sharedManager] addDelegate:self];
         
         //Uncomment following block to enable IDP Login flow.
         /*
         //scheme of idpAppp
-        [SalesforceSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
+        [SmartSyncSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
          //user friendly display name
-        [SalesforceSDKManager sharedManager].appDisplayName = @"SampleAppOne";
+        [SmartSyncSDKManager sharedManager].appDisplayName = @"SampleAppOne";
          
         //Use the following code block to replace the login flow selection dialog
-        [SalesforceSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
+        [SmartSyncSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
             IDPLoginNavViewController *controller = [[IDPLoginNavViewController alloc] init];
             return controller;
         };
         */
         
-        [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
+        [SmartSyncSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             //
             // If you wish to register for push notifications, uncomment the line below.  Note that,
@@ -98,22 +98,22 @@
             //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
             //
             [strongSelf setUserLoginStatus:YES];
-            [SFSDKLogger log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+            [SFSDKSmartSyncLogger log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SmartSyncSDKManager launchActionsStringRepresentation:launchActionList]];
             [strongSelf setupRootViewController];
 
         };
-        [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
+        [SmartSyncSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [SFSDKLogger log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [SFSDKSmartSyncLogger log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
             [strongSelf initializeAppViewState];
-            [[SalesforceSDKManager sharedManager] launch];
+            [[SmartSyncSDKManager sharedManager] launch];
         };
-        [SalesforceSDKManager sharedManager].postLogoutAction = ^{
+        [SmartSyncSDKManager sharedManager].postLogoutAction = ^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf setUserLoginStatus:NO];
             [strongSelf handleSdkManagerLogout];
         };
-        [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
+        [SmartSyncSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf setUserLoginStatus:NO];
             [strongSelf handleUserSwitch:fromUser toUser:toUser];
@@ -125,7 +125,7 @@
 - (void)setUserLoginStatus :(BOOL) loggedIn {
     [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
     [[NSUserDefaults msdkUserDefaults] synchronize];
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
+    [SFSDKSmartSyncLogger log:[self class] level:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -137,7 +137,7 @@
     // UIWindow.
     self.window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
-    [[SalesforceSDKManager sharedManager] launch];
+    [[SmartSyncSDKManager sharedManager] launch];
     return YES;
 }
 
@@ -197,7 +197,7 @@
 
 - (void)handleSdkManagerLogout
 {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager logged out. Resetting app."];
+    [SFSDKSmartSyncLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager logged out. Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         
@@ -220,7 +220,7 @@
                 [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
             }
             
-            [[SalesforceSDKManager sharedManager] launch];
+            [[SmartSyncSDKManager sharedManager] launch];
         }
     }];
 }
@@ -228,16 +228,16 @@
 - (void)handleUserSwitch:(SFUserAccount *)fromUser
                   toUser:(SFUserAccount *)toUser
 {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+    [SFSDKSmartSyncLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
      fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
-        [[SalesforceSDKManager sharedManager] launch];
+        [[SmartSyncSDKManager sharedManager] launch];
     }];
 }
 
 - (void)sdkManagerWillResignActive {
-    if ([SalesforceSDKManager sharedManager].useSnapshotView) {
+    if ([SmartSyncSDKManager sharedManager].useSnapshotView) {
         // Remove the keyboard if it is showing..
         [[SFSDKWindowManager sharedManager].activeWindow.window endEditing:YES];
     }

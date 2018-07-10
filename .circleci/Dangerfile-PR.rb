@@ -1,6 +1,5 @@
 # Warn when there is a big PR
-net_new = git.insertions - git.deletions
-warn('Big PR, try to keep changes smaller if you can') if git.lines_of_code > 800 or net_new > 500
+warn('Big PR, try to keep changes smaller if you can') if git.lines_of_code > 1000
 
 # Encourage writing up some reasoning about the PR, rather than just leaving a title
 if github.pr_body.length < 3

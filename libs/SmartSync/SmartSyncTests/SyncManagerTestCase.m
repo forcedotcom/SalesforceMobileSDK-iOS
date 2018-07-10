@@ -43,7 +43,6 @@ static NSException *authException = nil;
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
         [SFSmartStore removeAllStores];
-
     } @catch (NSException *exception) {
         [SFSDKSmartSyncLogger d:[self class] format:@"Populating auth from config failed: %@", exception];
         authException = exception;
@@ -695,4 +694,5 @@ static NSException *authException = nil;
         XCTAssertEqualObjects(childRecord[parentIdFieldName], expectedParentId, @"Wrong parent id");
     }
 }
+
 @end

@@ -46,9 +46,6 @@
 #define REMOTELY_UPDATED    @"_r_upd"
 #define LOCALLY_UPDATED     @"_l_upd"
 
-
-
-
 @interface SyncManagerTestCase : XCTestCase
 
 @property (nonatomic, strong) SFUserAccount* currentUser;
@@ -121,4 +118,5 @@
 - (void)checkServerDeleted:(NSArray *)ids objectType:(NSString *)objectType;
 
 - (void)checkDbRelationshipsWithChildrenIds:(NSArray *)childrenIds expectedParentId:(NSString *)expectedParentId soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName parentIdFieldName:(NSString *)parentIdFieldName;
+
 @end

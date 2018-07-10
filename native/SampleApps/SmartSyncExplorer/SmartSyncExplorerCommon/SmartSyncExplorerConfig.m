@@ -25,7 +25,6 @@
 #import "SmartSyncExplorerConfig.h"
 
 static NSString * const kRemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
-
 static NSString * const kOAuthRedirectURI = @"testsfdc:///mobilesdk/detect/oauth/done";
 static NSString * const kAppGroupName  = @"group.com.salesforce.mobilesdk.SmartSyncExplorer";
 static NSString * const kUserLoggedIn = @"userLoggedIn";
@@ -35,7 +34,6 @@ static SmartSyncExplorerConfig *sharedInstance;
 @implementation SmartSyncExplorerConfig
 
 - (instancetype)init {
- 
     self = [super init];
     if( self ) {
         _oauthScopes = @[@"web", @"api"];
@@ -46,18 +44,14 @@ static SmartSyncExplorerConfig *sharedInstance;
         _appGroupsEnabled = NO;
     }
     return self;
-
 }
 
 + (instancetype)sharedInstance {
-    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance =  [SmartSyncExplorerConfig new];
     });
     return sharedInstance;
-
 }
-
 
 @end

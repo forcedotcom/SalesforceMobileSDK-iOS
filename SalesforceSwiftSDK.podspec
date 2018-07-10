@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SalesforceSwiftSDK"
-  s.version      = "6.2.0"
+  s.version      = "7.0.0"
   s.summary      = "Salesforce Mobile SDK for iOS - Swift"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
       salesforceswift.dependency 'SmartStore'
       salesforceswift.dependency 'SalesforceSDKCore'
       salesforceswift.dependency 'SalesforceAnalytics'
-      salesforceswift.dependency 'PromiseKit', '~> 5.0'
+      salesforceswift.dependency 'PromiseKit', '~> 6.0'
       salesforceswift.source_files = 'libs/SalesforceSwiftSDK/SalesforceSwiftSDK/**/*.{h,m,swift}'
       salesforceswift.requires_arc = true
 

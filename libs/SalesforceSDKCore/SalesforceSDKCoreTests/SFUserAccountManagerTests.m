@@ -23,7 +23,6 @@
  */
 
 #import <XCTest/XCTest.h>
-#import <OCMock/OCMock.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFSDKAuthViewHandler.h"
 #import "SFUserAccountManager+Internal.h"
@@ -394,24 +393,12 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 {
     SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
     
-    NSString *notificationName = kSFNotificationUserWillLogIn;
-    
-    id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:[SFUserAccountManager sharedInstance]];
-    
-    
-    
-    __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
     __block SFUserAccount *user = nil;
-    
-    [[observerMock expect]
-     notificationWithName:notificationName
-     object:[SFUserAccountManager sharedInstance]
-     userInfo:[OCMArg checkWithBlock:
-               ^BOOL(NSDictionary *userInfo) {
-                   return userInfo[kSFNotificationUserInfoCredentialsKey]!=nil;
-               }]];
-    
+    [self expectationForNotification:kSFNotificationUserWillLogIn object:[SFUserAccountManager sharedInstance] handler:^BOOL(NSNotification * notification) {
+        return notification.userInfo[kSFNotificationUserInfoCredentialsKey]!=nil;
+    }];
+
+    SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
     [[SFUserAccountManager sharedInstance]
      refreshCredentials:credentials
      completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
@@ -422,32 +409,20 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
          authListener.returnStatus = kTestRequestStatusDidFail;
      }];
     [authListener waitForCompletion];
-    [observerMock verify];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+    XCTAssertNotNil(user);
 }
 
 - (void)testLoginNotificationPosted
 {
     SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
     
-    NSString *notificationName = kSFNotificationUserDidLogIn;
+    [self expectationForNotification:kSFNotificationUserDidLogIn object:[SFUserAccountManager sharedInstance] handler:^BOOL(NSNotification * notification) {
+        return notification.userInfo[kSFNotificationUserInfoAccountKey]!=nil;
+    }];
     
-    id observerMock = [OCMockObject observerMock];
-    [[NSNotificationCenter defaultCenter] addMockObserver:observerMock name:notificationName object:[SFUserAccountManager sharedInstance]];
-    
-    
-    
-    __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
+    SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
     __block SFUserAccount *user = nil;
-    
-    [[observerMock expect]
-     notificationWithName:notificationName
-     object:[SFUserAccountManager sharedInstance]
-     userInfo:[OCMArg checkWithBlock:
-               ^BOOL(NSDictionary *userInfo) {
-                   return userInfo[kSFNotificationUserInfoAccountKey]!=nil;
-               }]];
     
     [[SFUserAccountManager sharedInstance]
      refreshCredentials:credentials
@@ -459,9 +434,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
          authListener.returnStatus = kTestRequestStatusDidFail;
      }];
     [authListener waitForCompletion];
-    [observerMock verify];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:observerMock];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+    XCTAssertNotNil(user);
 }
 
 - (void)testAuthHandler {
