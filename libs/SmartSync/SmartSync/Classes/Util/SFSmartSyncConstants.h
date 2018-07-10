@@ -24,9 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const kEmptyString;
-extern NSString * const kNullString;
-
 extern NSString * const kId;
 extern NSString * const kCreatedId;
 extern NSString * const kName;
@@ -50,47 +47,11 @@ extern NSString * const kBody;
  * Salesforce object types.
  */
 extern NSString * const kAccount;
-extern NSString * const kLead;
-extern NSString * const kCase;
-extern NSString * const kOpportunity;
 extern NSString * const kTask;
 extern NSString * const kContact;
-extern NSString * const kCampaign;
 extern NSString * const kUser;
 extern NSString * const kGroup;
-extern NSString * const kDashboard;
 extern NSString * const kContent;
-extern NSString * const kContentVersion;
-
-/**
- * Salesforce object type field constants.
- */
-extern NSString * const kKeyPrefixField;
-extern NSString * const kNameField;
-extern NSString * const kLabelField;
-extern NSString * const kLabelPluralField;
-extern NSString * const kFieldsField;
-extern NSString * const kLayoutableField;
-extern NSString * const kSearchableField;
-extern NSString * const kHiddenField;
-extern NSString * const kNameFieldField;
-extern NSString * const kNetworkIdField;
-extern NSString * const kNetworkScopeField;
-
-/**
- * Salesforce object layout column field constants.
- */
-extern NSString * const kLayoutNameField;
-extern NSString * const kLayoutFieldField;
-extern NSString * const kLayoutFormatField;
-extern NSString * const kLayoutLabelField;
-
-/**
- * Salesforce object type layout field constants.
- */
-extern NSString * const kLayoutLimitsField;
-extern NSString * const kLayoutColumnsField;
-extern NSString * const kLayoutObjectTypeField;
 
 /**
  * Sync target constants.
