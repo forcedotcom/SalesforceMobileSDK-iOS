@@ -80,7 +80,7 @@ NSString *const kSFSmartStoreErrorLoadExternalSoup =  @"com.salesforce.smartstor
 NSString * const kSFSmartStoreEncryptionKeyLabel = @"com.salesforce.smartstore.encryption.keyLabel";
 
 // Table to keep track of soup attributes
-static NSString *const SOUP_ATTRS_TABLE = @"soup_attrs";
+NSString *const SOUP_ATTRS_TABLE = @"soup_attrs";
 static NSString *const SOUP_NAMES_TABLE = @"soup_names"; //legacy soup attrs, still around for backward compatibility. Do not use it.
 
 // Table to keep track of soup's index specs

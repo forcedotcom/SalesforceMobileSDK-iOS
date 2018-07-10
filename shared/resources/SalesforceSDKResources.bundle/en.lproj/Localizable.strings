@@ -91,7 +91,7 @@
 "inspectorTitle" = "Inspect SmartStore";
 "inspectorBackButtonTitle" = "Back";
 "inspectorRunButtonTitle" = "Run";
-"inspectorPageSizeHint" = "Page size (default: 10)";
+"inspectorPageSizeHint" = "Page size (default: 100)";
 "inspectorPageIndexHint" = "Page index (default: 0)";
 "inspectorClearButtonTitle" = "Clear";
 "inspectorSoupsButtonTitle" = "Soups";

@@ -73,6 +73,11 @@ extern NSString *const ROWID_COL;
 extern NSString *const SOUP_INDEX_MAP_TABLE;
 
 /**
+ Soup attributes table
+ */
+extern NSString *const SOUP_ATTRS_TABLE;
+
+/**
  Table to keep track of status of long operations in flight
 */
 extern NSString *const LONG_OPERATIONS_STATUS_TABLE;
