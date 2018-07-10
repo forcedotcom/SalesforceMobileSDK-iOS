@@ -489,7 +489,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 }
 
 - (NSString*) userToString:(SFUserAccount*)user {
-    return user ? user.email : @"";
+    return user ? user.userName : @"";
 }
 
 - (NSString*) usersToString:(NSArray<SFUserAccount*>*)userAccounts {
