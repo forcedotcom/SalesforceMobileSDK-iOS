@@ -46,11 +46,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             .Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
                 //set custom config if needed. By default this object should read from the bootconfig.plist
             }.postInit {
-                
                 //Uncomment following block to enable IDP Login flow.
+                // NOTE: If advanced authentication is configured for domain, it will launch Safari to handle authentication.
                 /*
                  // scheme of idpApp
-                 SFUserAccountManager.sharedInstance().advancedAuthConfiguration = .none
                  SalesforceSwiftSDKManager.shared().idpAppURIScheme = "sampleidpapp"
                  // user friendly display name
                  SalesforceSwiftSDKManager.shared().appDisplayName = "RestAPIExplorerSwift"
