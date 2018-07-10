@@ -136,8 +136,8 @@ RCT_EXPORT_METHOD(cleanResyncGhosts:(NSDictionary *)args callback:(RCTResponseSe
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
     [SFSDKReactLogger d:[self class] format:@"cleanResyncGhosts with sync id: %@", syncId];
     __weak typeof(self) weakSelf = self;
-    [[self getSyncManagerInst:args] cleanResyncGhosts:syncId completionStatusBlock:^void(SFSyncStateStatus syncStatus){
-        [weakSelf handleCleanReSyncGhosts:syncStatus callback:callback];
+    [[self getSyncManagerInst:args] cleanResyncGhosts:syncId completionStatusBlock:^void(SFSyncStateStatus syncStatus, NSUInteger numRecords){
+        [weakSelf handleCleanReSyncGhosts:syncStatus numRecords:numRecords callback:callback];
     }];
 }
 
@@ -174,10 +174,10 @@ RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
     return args[kSyncIsGlobalStoreArg] != nil && [args[kSyncIsGlobalStoreArg] boolValue];
 }
 
-- (void)handleCleanReSyncGhosts:(SFSyncStateStatus)syncStatus callback:(RCTResponseSenderBlock)callback
+- (void)handleCleanReSyncGhosts:(SFSyncStateStatus)syncStatus numRecords:(NSUInteger)numRecords callback:(RCTResponseSenderBlock)callback
 {
     if (syncStatus == SFSyncStateStatusDone) {
-        callback(@[[NSNull null], @"OK"]);
+        callback(@[[NSNull null],  [NSNumber numberWithUnsignedInteger:numRecords]]);
     } else {
         callback(@[RCTMakeError(@"cleanResyncGhosts failed", nil, nil)]);
     }

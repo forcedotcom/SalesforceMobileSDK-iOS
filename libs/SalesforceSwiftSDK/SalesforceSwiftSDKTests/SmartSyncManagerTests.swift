@@ -152,11 +152,11 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
                 XCTAssertTrue(count==numberOfRecords)
                 return try super.deleteContactsFromServer(contactIds: contactIds)
             }
-            .then { _ -> Promise<SFSyncStateStatus> in
+            .then { _ -> Promise<(SFSyncStateStatus, UInt)> in
                 XCTAssertTrue(syncId > 0)
                 return (self.syncManager?.Promises.cleanResyncGhosts(syncId: syncId))!
             }
-            .done { syncStateStatus in
+            .done { (syncStateStatus, numRecords) in
                 XCTAssertTrue(syncStateStatus==SFSyncStateStatus.done)
                 expectation.fulfill()
             }

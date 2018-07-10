@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // block type
 typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
-typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncStatus);
+typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncStatus, NSUInteger numRecords);
 
 /**
  * This class provides methods for doing synching records to/from the server from/to the smartstore.

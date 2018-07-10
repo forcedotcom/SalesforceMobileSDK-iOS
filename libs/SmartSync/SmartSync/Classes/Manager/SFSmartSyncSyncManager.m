@@ -501,13 +501,13 @@ static NSMutableDictionary *syncMgrList = nil;
                                            errorBlock:^(NSError *e) {
                                                [SFSDKSmartSyncLogger e:currentClass format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
                                                [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass(currentClass) attributes:eventAttrs];
-                                               completionStatusBlock(SFSyncStateStatusFailed);
+                                               completionStatusBlock(SFSyncStateStatusFailed, 0);
                                            }
                                         completeBlock:^(NSArray *localIds) {
                                             eventAttrs[@"numRecords"] = [NSNumber numberWithInteger:localIds.count];
                                             [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass(currentClass) attributes:eventAttrs];
 
-                                            completionStatusBlock(SFSyncStateStatusDone);
+                                            completionStatusBlock(SFSyncStateStatusDone, localIds.count);
                                         }];
     });
 }

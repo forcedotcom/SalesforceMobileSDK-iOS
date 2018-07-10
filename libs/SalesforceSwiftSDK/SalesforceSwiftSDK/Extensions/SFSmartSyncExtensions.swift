@@ -440,7 +440,7 @@ extension SFSmartSyncSyncManager {
         /** Removes local copies of records that have been deleted on the server or do not match the query results on the server anymore.
          ```
          syncManager.Promises.cleanResyncGhosts(syncId: syncId)
-         .then { syncStatus in
+         .then { (syncStatus, numRecords) in
          ..
          }
          .catch SFSmartSync.CleanResyncGhostsFailed {
@@ -448,13 +448,13 @@ extension SFSmartSyncSyncManager {
          }
          ```
          - parameter syncId: Sync ID.
-         - Returns: The SFSyncState wrapped in a promise
+         - Returns: The SFSyncStateStatus and number of records cleaned wrapped in a promise
          */
-        public func cleanResyncGhosts(syncId: UInt) -> Promise<SFSyncStateStatus> {
+        public func cleanResyncGhosts(syncId: UInt) -> Promise<(SFSyncStateStatus, UInt)> {
             return Promise {  resolver in
-                self.api!.cleanResyncGhosts(NSNumber(value: syncId), completionStatusBlock: { (syncStatus) in
+                self.api!.cleanResyncGhosts(NSNumber(value: syncId), completionStatusBlock: { (syncStatus, numRecords) in
                     if syncStatus == .done  {
-                        resolver.fulfill(syncStatus)
+                        resolver.fulfill((syncStatus, numRecords))
                     } else if syncStatus == .failed {
                         resolver.reject(SFSmartSyncError.CleanResyncGhostsFailed)
                     }
