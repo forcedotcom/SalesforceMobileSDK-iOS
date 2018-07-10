@@ -645,7 +645,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     SFSDKOAuthClient *instance = nil;
     if (config.idpEnabled || config.isIdentityProvider) {
         instance = [self idpAuthInstance:config];
-    } else if (config.requireCertificateAuthentication) {
+    } else if (config.requireBrowserAuthentication) {
         instance = [self nativeBrowserAuthInstance:config];
     } else if (credentials.refreshToken != nil) {
         instance = [self webviewAuthInstanceWithRefresh:config];
@@ -656,7 +656,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     context.credentials = credentials;
     instance.context = context;
     instance.coordinator  = [[SFOAuthCoordinator alloc] init];
-    instance.coordinator.requireCertificateAuthentication = config.requireCertificateAuthentication;
+    instance.coordinator.requireBrowserAuthentication = config.requireBrowserAuthentication;
     instance.coordinator.scopes = config.scopes;
     instance.coordinator.brandLoginPath = config.brandLoginPath;
     instance.coordinator.additionalOAuthParameterKeys = config.additionalOAuthParameterKeys;

@@ -183,7 +183,7 @@
 
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.requireCertificateAuthentication = YES;
+        config.requireBrowserAuthentication = YES;
     }];
     
     XCTAssertNotNil(client);
@@ -452,11 +452,11 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-    [SFUserAccountManager sharedInstance].requireCertificateAuthentication = YES;
+    [SFUserAccountManager sharedInstance].requireBrowserAuthentication = YES;
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.delegate = self;
         config.safariViewDelegate = self;
-        config.requireCertificateAuthentication = [SFUserAccountManager sharedInstance].requireCertificateAuthentication;
+        config.requireBrowserAuthentication = [SFUserAccountManager sharedInstance].requireBrowserAuthentication;
     }];
    
     XCTAssertNotNil(client);

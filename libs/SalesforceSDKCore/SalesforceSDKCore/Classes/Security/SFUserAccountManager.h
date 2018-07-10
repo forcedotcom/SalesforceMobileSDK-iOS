@@ -284,7 +284,7 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoKey;
 /**
  Whether the app is configured to require certificate-based authentication. (RequireCertAuth)
  */
-@property (nonatomic, assign) BOOL requireCertificateAuthentication;
+@property (nonatomic, assign) BOOL requireBrowserAuthentication;
 /**
  An array of additional keys (NSString) to parse during OAuth
  */

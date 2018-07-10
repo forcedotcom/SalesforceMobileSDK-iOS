@@ -250,12 +250,12 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     return self.authPreferences.idpAppURIScheme;
 }
 
-- (BOOL)requireCertificateAuthentication {
-     return self.authPreferences.requireCertificateAuthentication;
+- (BOOL)requireBrowserAuthentication {
+     return self.authPreferences.requireBrowserAuthentication;
 }
 
-- (void)setRequireCertificateAuthentication:(BOOL) requireCertificateAuth {
-     self.authPreferences.requireCertificateAuthentication = requireCertificateAuth;
+- (void)setRequireBrowserAuthentication:(BOOL) requireCertificateAuth {
+     self.authPreferences.requireBrowserAuthentication = requireCertificateAuth;
 }
 
 - (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
@@ -530,7 +530,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                 kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
     //Rekey the client in cache. Need to do, since advanced auth
     //configuration was realized from org/domain setting.
-    if (!client.config.requireCertificateAuthentication) {
+    if (!client.config.requireBrowserAuthentication) {
         NSString *newKey = [SFSDKOAuthClientCache keyFromCredentials:client.credentials type:SFOAuthClientKeyTypeAdvanced];
         [[SFSDKOAuthClientCache sharedInstance] removeClient:client];
         [[SFSDKOAuthClientCache sharedInstance] addClient:client forKey:newKey];
@@ -1292,7 +1292,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             config.oauthClientId = strongSelf.oauthClientId;
             config.idpAppURIScheme = strongSelf.idpAppURIScheme;
             config.appDisplayName = strongSelf.appDisplayName;
-            config.requireCertificateAuthentication = strongSelf.requireCertificateAuthentication;
+            config.requireBrowserAuthentication = strongSelf.requireBrowserAuthentication;
             config.delegate = strongSelf;
             config.webViewDelegate = strongSelf;
             config.safariViewDelegate = strongSelf;
