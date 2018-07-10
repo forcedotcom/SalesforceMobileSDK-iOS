@@ -43,7 +43,6 @@
 - (instancetype)initWithComponent:(NSString *)componentName {
     SFSDKLogFileManager *logManager = [[SFSDKLogFileManager alloc] initWithComponent:componentName];
     self = [self initWithLogFileManager:logManager];
-    
     if (self) {
         self.componentName = componentName;
         _logFileManager = logManager;
@@ -53,13 +52,13 @@
 }
 
 - (instancetype)initWithLogFileManager:(id <DDLogFileManager>)aLogFileManager {
-    [super initWithLogFileManager:aLogFileManager];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
-    self.logFormatter = [[DDLogFileFormatterDefault alloc] initWithDateFormatter:dateFormatter];
-    
+    self = [super initWithLogFileManager:aLogFileManager];
+    if (self) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+        self.logFormatter = [[DDLogFileFormatterDefault alloc] initWithDateFormatter:dateFormatter];
+    }
     return self;
 }
 
