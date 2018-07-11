@@ -25,6 +25,7 @@
 #import <objc/runtime.h>
 #import "SalesforceSDKManager+Internal.h"
 #import "SFAuthenticationManager+Internal.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFSDKWindowManager.h"
 #import "SFManagedPreferences.h"
 #import "SFPasscodeManager.h"
@@ -470,7 +471,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
             @"User Agent", self.userAgentString(@""),
-            @"Browser Login Enabled", userAccountManager.advancedAuthConfiguration != SFOAuthAdvancedAuthConfigurationNone ? @"YES" : @"NO",
+             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
             @"Current User", [self userToString:userAccountManager.currentUser],
@@ -558,7 +559,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 - (void)configureManagedSettings
 {
     if ([SFManagedPreferences sharedPreferences].requireCertificateAuthentication) {
-        [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        [SFUserAccountManager sharedInstance].useBrowserAuth = YES;
     }
     
     if ([SFManagedPreferences sharedPreferences].connectedAppId.length > 0) {

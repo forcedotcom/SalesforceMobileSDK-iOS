@@ -380,6 +380,10 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 @property (nonatomic, copy) NSString *brandLoginPath;
 
+/** Setup the coordinator to use SafariViewController for authentication.
+ */
+@property (nonatomic, assign) BOOL useBrowserAuth;
+
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------

@@ -66,6 +66,11 @@
 @property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager;
 
 /**
+ Indicates if the app is configured to require browser based authentication.
+ */
+@property (nonatomic, assign) BOOL useBrowserAuth;
+
+/**
  Executes the given block for each configured delegate.
  @param block The block to execute for each delegate.
  */

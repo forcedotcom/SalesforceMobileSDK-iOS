@@ -51,17 +51,7 @@
     // Need to use SalesforceHybridSDKManager in hybrid apps
     [SalesforceSDKManager setInstanceClass:[SalesforceHybridSDKManager class]];
     
-    //Uncomment the following line inorder to enable/force the use of advanced authentication flow.
-    //[SFUserAcountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
-    // OR
-    // To  retrieve advanced auth configuration from the org, to determine whether to initiate advanced authentication.
-    //[SFUserAcountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationAllow;
-    
-    // NOTE: If advanced authentication is configured or forced,  it will launch Safari to handle authentication
-    // instead of a webview. You must implement application:openURL:options: to handle the callback.
-    
-    
-    //Or uncomment following block to enable IDP Login flow.
+    //Uncomment following block to enable IDP Login flow.
     /*
      //scheme of idpAppp
      [SalesforceHybridSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";

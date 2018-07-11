@@ -98,13 +98,18 @@ NS_ASSUME_NONNULL_BEGIN
 /** Use this property to indicate the url scheme  for the Identity Provider app
  *
  */
-@property (nonatomic, copy) NSString *idpAppURIScheme;
+@property (nonatomic, copy,nullable) NSString *idpAppURIScheme;
 
 /** Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
  *  in the user selection view of the identity provider app.
  *
  */
 @property (nonatomic,copy) NSString *appDisplayName;
+
+/**
+ Whether the app is configured to require certificate-based authentication. (RequireCertAuth)
+ */
+@property (nonatomic, assign) BOOL requireBrowserAuthentication;
 
 @end
 NS_ASSUME_NONNULL_END

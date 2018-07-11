@@ -46,19 +46,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             .Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
                 //set custom config if needed. By default this object should read from the bootconfig.plist
             }.postInit {
-                //Uncomment the following line inorder to enable/force the use of advanced authentication flow.
-                SFUserAccountManager.sharedInstance().advancedAuthConfiguration = SFOAuthAdvancedAuthConfiguration.require;
-                // OR
-                // To  retrieve advanced auth configuration from the org, to determine whether to initiate advanced authentication.
-                // SFUserAccountManager.sharedInstance().advancedAuthConfiguration = SFOAuthAdvancedAuthConfiguration.allow;
-                
-                // NOTE: If advanced authentication is configured or forced,  it will launch Safari to handle authentication
-                // instead of a webview. You must implement application:openURL:options  to handle the callback.
-                
                 //Uncomment following block to enable IDP Login flow.
+                // NOTE: If advanced authentication is configured for domain, it will launch Safari to handle authentication.
                 /*
                  // scheme of idpApp
-                 SFUserAccountManager.sharedInstance().advancedAuthConfiguration = .none
                  SalesforceSwiftSDKManager.shared().idpAppURIScheme = "sampleidpapp"
                  // user friendly display name
                  SalesforceSwiftSDKManager.shared().appDisplayName = "RestAPIExplorerSwift"

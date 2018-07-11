@@ -53,8 +53,7 @@
     SFSDKAsyncProcessListener *listener = [[SFSDKAsyncProcessListener alloc] initWithExpectedStatus:@YES
                                                                                   actualStatusBlock:^id{
                                                                                       return [NSNumber numberWithBool:self.testFlowDelegate.didAuthenticateCalled];
-                                                                                  }
-                                                                                            timeout:(self.oauthTestFlow.timeBeforeUserAgentCompletion + 0.5)];
+                                                                                  }  timeout:10];
     BOOL userAgentFlowSucceeded = [[listener waitForCompletion] boolValue];
     XCTAssertTrue(userAgentFlowSucceeded, @"User agent flow should have completed successfully.");
     XCTAssertTrue(self.oauthTestFlow.beginUserAgentFlowCalled, @"User agent flow should have been called in first authenticate.");
@@ -79,6 +78,13 @@
 
 - (void)testMultipleAuthenticationRequests {
     [self.coordinator authenticate];
+    SFSDKAsyncProcessListener *listener = [[SFSDKAsyncProcessListener alloc] initWithExpectedStatus:@YES
+                                                                                  actualStatusBlock:^id{
+                                                                                      return [NSNumber numberWithBool:self.oauthTestFlow.beginUserAgentFlowCalled];
+                                                                                  }
+                                                                                            timeout:10.0];
+    BOOL beginAuthFlowSucceeded = [[listener waitForCompletion] boolValue];
+    XCTAssertTrue(beginAuthFlowSucceeded, @"Oauth flow should have completed successfully.");
     XCTAssertTrue(self.oauthTestFlow.beginUserAgentFlowCalled, @"User agent flow should have been called in first authenticate.");
     XCTAssertFalse(self.oauthTestFlow.beginTokenEndpointFlowCalled, @"Token endpoint should not have been called in first authenticate.");
     XCTAssertEqual(self.oauthTestFlow.tokenEndpointFlowType, SFOAuthTokenEndpointFlowNone, @"Should be no token endpoint flow type configured.");
