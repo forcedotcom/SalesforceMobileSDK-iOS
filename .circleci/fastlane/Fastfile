@@ -1,7 +1,7 @@
 $git_pr_api = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
 $schemes = ['SalesforceAnalytics', 'SalesforceHybridSDK', 'SalesforceReact', 'SalesforceSDKCore', 'SmartStore', 'SmartSync', 'SalesforceSwiftSDK']
 ENV['DEVICE'] = 'iPhone 8' unless ENV.has_key?('DEVICE')
-ENV['IOS_VERSION'] = ' (11.4)' unless ENV.has_key?('IOS_VERSION')
+ENV['IOS_VERSION'] = '11.4' unless ENV.has_key?('IOS_VERSION')
 
 lane :PR do |options|
   lib_to_test = options[:lib]
@@ -14,7 +14,7 @@ lane :PR do |options|
   else
     # Check if this is a PR. 
     # Rebuilds of PR's don't have the CIRCLE_PULL_REQUEST key, so check the branch instead. 
-    if (ENV.has_key?('CIRCLE_BRANCH') && ENV['CIRCLE_BRANCH'].include?('pull/'))
+    if ENV.has_key?('CIRCLE_BRANCH') && ENV['CIRCLE_BRANCH'].include?('pull/')
       # No PR Number indicates that this PR is running in a CircleCI env linked to a fork, so force the url to forcedotcom project.
       if ENV.has_key?('CIRCLE_PR_NUMBER')
         pr_files_api = $git_pr_api % [ENV['CIRCLE_PROJECT_USERNAME'], ENV['CIRCLE_PR_NUMBER']]
@@ -80,7 +80,8 @@ def test_scheme(scheme)
     scan(
         workspace: 'SalesforceMobileSDK.xcworkspace',
         scheme: scheme,
-        device: ENV['DEVICE'] + ENV['IOS_VERSION'],
+        # (11.4)
+        device: ENV['DEVICE'] + ' (' + ENV['IOS_VERSION'] + ')',
         output_directory: 'test_output',
         output_types: 'html,junit',
         code_coverage: true,

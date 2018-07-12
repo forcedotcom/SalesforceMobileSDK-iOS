@@ -255,10 +255,11 @@ workflows:
       - test-SalesforceSwiftSDK
 
   # Cron is UTC timezone, which is 7 hours ahead of PST.
+  # Run tests at 1am.
   nightly-test-ios11:
     triggers:
       - schedule:
-          cron: "50 20 * * 2,3,4,5,6"
+          cron: "05 23 * * 2,3,4,5,6"
           filters:
             branches:
               only:
@@ -279,10 +280,11 @@ workflows:
       - test-SalesforceSwiftSDK:
             context: nightly-test
 
+  # Run tests at 1am.
   nightly-test-ios10:
     triggers:
       - schedule:
-          cron: "50 20 * * 2,3,4,5,6"
+          cron: "05 23 * * 2,3,4,5,6"
           filters:
             branches:
               only:
