@@ -108,13 +108,6 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 - (void) dealloc {
-    // Only work with auth-based notifications for an authenticated context.
-    if (_userAccount != nil) {
-        SFSDK_USE_DEPRECATED_BEGIN
-        [[SFAuthenticationManager sharedManager] removeDelegate:self];
-        SFSDK_USE_DEPRECATED_END
-    }
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -156,9 +149,6 @@ static NSMutableDictionary *analyticsManagerList = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
         // Only work with auth-based notifications for an authenticated context.
         if (userAccount != nil) {
-            SFSDK_USE_DEPRECATED_BEGIN
-            [[SFAuthenticationManager sharedManager] addDelegate:self];
-            SFSDK_USE_DEPRECATED_END
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
         }
     }
@@ -341,7 +331,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
-#pragma mark - SFAuthenticationManagerDelegate
+#pragma mark - SFUserAccountManagerDelegate
 - (void)handleUserWillLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [self handleLogoutForUser:user];
@@ -353,16 +343,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     [defs removeObjectForKey:kAnalyticsOnOffKey];
     [[self class] removeSharedInstanceWithUser:user];
 }
-
-SFSDK_USE_DEPRECATED_BEGIN
-
-- (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
-    [self handleLogoutForUser:user];
-}
-
 @end
-
-SFSDK_USE_DEPRECATED_END
 
 @implementation SFSDKAnalyticsTransformPublisherPair
 

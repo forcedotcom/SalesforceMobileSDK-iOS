@@ -29,6 +29,7 @@
 #import <SalesforceHybridSDK/SFLocalhostSubstitutionCache.h>
 #import <SalesforceHybridSDK/SFHybridViewConfig.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>

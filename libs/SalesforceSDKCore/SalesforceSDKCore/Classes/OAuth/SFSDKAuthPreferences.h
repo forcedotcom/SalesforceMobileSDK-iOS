@@ -90,10 +90,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  */
 @property (nonatomic,assign,readonly) BOOL idpEnabled;
-/** Use this property to use SFAuthenticationManager for authentication
- *
- */
-@property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
 
 /** Use this property to indicate the url scheme  for the Identity Provider app
  *

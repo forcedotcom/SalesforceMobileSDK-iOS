@@ -27,10 +27,10 @@
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFUserActivityMonitor.h>
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import "SFHybridViewController.h"
-SFSDK_USE_DEPRECATED_BEGIN
+
 @implementation SalesforceOAuthPlugin
 
 #pragma mark - Cordova plugin methods
@@ -58,7 +58,7 @@ SFSDK_USE_DEPRECATED_BEGIN
         [self sendAuthCredentials:command authDict:authDict];
     };
 
-    SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
+    SFOAuthPluginFailureBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
                                                       messageAsDictionary:[[self class] authErrorDictionaryFromError:error authInfo:authInfo]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -71,7 +71,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 {
     [SFSDKHybridLogger d:[self class] format:@"logoutCurrentUser: arguments: %@", command.arguments];
     [self getVersion:@"logoutCurrentUser" withArguments:command.arguments];
-    [[SFAuthenticationManager sharedManager] logout];
+    [[SFUserAccountManager sharedInstance] logout];
 }
 
 - (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command
@@ -111,4 +111,4 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 @end
-SFSDK_USE_DEPRECATED_END
+

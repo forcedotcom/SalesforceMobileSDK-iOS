@@ -258,9 +258,6 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  */
 @property (nonatomic,copy) NSString *appDisplayName;
 
-/** Use this flag to indicate if the APP supports using an identity provider app for authentication
- */
-@property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
 
 /** Use this flag to indicate if the dev support dialog should be enabled in the APP
  */

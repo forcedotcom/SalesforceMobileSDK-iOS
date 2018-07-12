@@ -26,7 +26,6 @@
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
 #import <Cordova/CDVViewController.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFOAuthInfo.h>
 #import "SFHybridViewConfig.h"
 
@@ -54,7 +53,7 @@ extern NSString * const kUserAgentCredentialsDictKey;
  Callback block definition for OAuth plugin auth success.
  */
 typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictionary *);
-
+typedef void (^SFOAuthPluginFailureBlock)(SFOAuthInfo *, NSError *);
 /**
  Base view controller for Salesforce hybrid app components.
  */
@@ -117,7 +116,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *_Nullable, NSDictiona
  @param completionBlock The block to call upon successsful authentication.
  @param failureBlock The block to call in the event of an auth failure.
  */
-- (void)authenticateWithCompletionBlock:(nullable SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+- (void)authenticateWithCompletionBlock:(nullable SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthPluginFailureBlock)failureBlock;
 
 /**
  Loads an error page, in the event of an otherwise unhandled error.

@@ -24,9 +24,8 @@
 
 #import "SFOauthReactBridge.h"
 #import <React/RCTUtils.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 NSString * const kAccessTokenCredentialsDictKey = @"accessToken";
 NSString * const kRefreshTokenCredentialsDictKey = @"refreshToken";
 NSString * const kClientIdCredentialsDictKey = @"clientId";
@@ -35,7 +34,7 @@ NSString * const kOrgIdCredentialsDictKey = @"orgId";
 NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
 NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
 NSString * const kUserAgentCredentialsDictKey = @"userAgent";
-SFSDK_USE_DEPRECATED_BEGIN
+
 @implementation SFOauthReactBridge
 
 RCT_EXPORT_MODULE();
@@ -50,11 +49,9 @@ RCT_EXPORT_METHOD(getAuthCredentials:(NSDictionary *)args callback:(RCTResponseS
 
 RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    __weak typeof(self) weakSelf = self;
     [SFSDKReactLogger d:[self class] format:@"logoutCurrentUser: arguments: %@", args];
     dispatch_async(dispatch_get_main_queue(), ^{
-         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf logout];
+        [[SFUserAccountManager sharedInstance] logout];
     });
 }
 
@@ -64,7 +61,7 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
     [SFSDKReactLogger d:[self class] format:@"authenticate: arguments: %@", args];
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
             [SFUserAccountManager sharedInstance].currentUser  =  userAccount;
             [strongSelf sendAuthCredentials:callback];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -111,24 +108,4 @@ RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderB
         [self sendNotAuthenticatedError:callback];
     }
 }
-
-- (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
-    } else {
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
-    }
-    
-}
-
-- (void)logout {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        [[SFAuthenticationManager sharedManager] logout];
-    } else {
-        [[SFUserAccountManager sharedInstance] logout];
-    }
-}
-
 @end
-SFSDK_USE_DEPRECATED_END

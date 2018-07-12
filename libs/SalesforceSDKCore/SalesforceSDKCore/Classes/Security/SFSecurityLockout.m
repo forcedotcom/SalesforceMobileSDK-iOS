@@ -30,7 +30,6 @@
 #import "SFKeychainItemWrapper.h"
 #import "SFUserAccountManager.h"
 #import "SFPasscodeManager.h"
-#import "SFAuthenticationManager.h"
 #import "SFSDKWindowManager.h"
 #import "SFPreferences.h"
 #import "SFUserActivityMonitor.h"
@@ -407,13 +406,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     } else {
         // Clear the SFSecurityLockout passcode state, as it's no longer valid.
         [SFSecurityLockout clearAllPasscodeState];
-        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-            SFSDK_USE_DEPRECATED_BEGIN
-            [[SFAuthenticationManager sharedManager] logoutAllUsers];
-            SFSDK_USE_DEPRECATED_END
-        }else {
-            [[SFUserAccountManager sharedInstance] logoutAllUsers];
-        }
+        [[SFUserAccountManager sharedInstance] logoutAllUsers];
         [SFSecurityLockout unlockFailurePostProcessing];
     }
     
@@ -427,13 +420,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)timerExpired:(NSTimer*)theTimer
 {
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-            SFSDK_USE_DEPRECATED_BEGIN
-            [[SFAuthenticationManager sharedManager] logout];
-            SFSDK_USE_DEPRECATED_END
-        }else {
-             [[SFUserAccountManager sharedInstance] logout];
-        }
+        [[SFUserAccountManager sharedInstance] logout];
     }];
     
     [SFSDKCoreLogger i:[self class] format:@"NSTimer expired, but checking lastUserEvent before locking!"];

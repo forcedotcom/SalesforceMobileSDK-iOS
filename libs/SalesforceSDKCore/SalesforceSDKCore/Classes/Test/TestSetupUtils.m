@@ -24,17 +24,13 @@
 
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import "TestSetupUtils.h"
-
 #import "SFJsonUtils.h"
-
-#import "SFAuthenticationManager.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccount.h"
 #import "SFSDKTestRequestListener.h"
 #import "SFSDKTestCredentialsData.h"
-#import "SFAuthenticationManager+Internal.h"
+
 
 static SFOAuthCredentials *credentials = nil;
 
@@ -90,33 +86,6 @@ static SFOAuthCredentials *credentials = nil;
     return credsData;
 }
 
-SFSDK_USE_DEPRECATED_BEGIN
-+ (void)synchronousAuthRefreshLegacy
-{
-    // All of the setup and validation of prerequisite auth state is done in populateAuthCredentialsFromConfigFile.
-    // Make sure that method has run before this one.
-    NSAssert(credentials!=nil, @"You must call populateAuthCredentialsFromConfigFileForClass before synchronousAuthRefresh");
-    __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
-    __block SFUserAccount *user = nil;
-
-    [[SFAuthenticationManager sharedManager]
-     refreshCredentials:credentials
-     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-         authListener.returnStatus = kTestRequestStatusDidLoad;
-         user = userAccount;
-     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-         authListener.lastError = error;
-         authListener.returnStatus = kTestRequestStatusDidFail;
-     }];
-    [authListener waitForCompletion];
-    [[SFUserAccountManager sharedInstance] setCurrentUser:user];
-    
-    NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
-             kTestRequestStatusDidLoad,
-             authListener.returnStatus);
-}
-SFSDK_USE_DEPRECATED_END
-
 + (void)synchronousAuthRefresh
 {
     // All of the setup and validation of prerequisite auth state is done in populateAuthCredentialsFromConfigFile.
@@ -124,7 +93,6 @@ SFSDK_USE_DEPRECATED_END
     NSAssert(credentials!=nil, @"You must call populateAuthCredentialsFromConfigFileForClass before synchronousAuthRefresh");
     __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
     __block SFUserAccount *user = nil;
-    
     [[SFUserAccountManager sharedInstance]
      refreshCredentials:credentials
      completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
