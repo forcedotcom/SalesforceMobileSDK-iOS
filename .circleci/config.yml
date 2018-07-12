@@ -259,11 +259,11 @@ workflows:
   nightly-test-ios11:
     triggers:
       - schedule:
-          cron: "07 23 * * 2,3,4,5,6"
+          cron: "00 08 * * 2,3,4,5,6"
           filters:
             branches:
               only:
-                - parallelNighlty
+                - dev
     jobs:
       - test-SalesforceAnalytics:
             context: nightly-test
@@ -284,11 +284,11 @@ workflows:
   nightly-test-ios10:
     triggers:
       - schedule:
-          cron: "07 23 * * 2,3,4,5,6"
+          cron: "00 10 * * 2,3,4,5,6"
           filters:
             branches:
               only:
-                - parallelNighlty
+                - dev
     jobs:
       - test-SalesforceAnalytics:
             context: nightly-test-ios10
