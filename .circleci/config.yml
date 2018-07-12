@@ -254,52 +254,51 @@ workflows:
       - test-SmartSync
       - test-SalesforceSwiftSDK
 
-  # Cron are on a timezone 8 hours ahead of PST
-  # Nightly run is set for 3am Monday - Friday
+  # Cron is UTC timezone
   nightly-test-ios11:
     triggers:
       - schedule:
-          cron: "30 11 * * 2,3,4,5,6"
+          cron: "30 18 * * 2,3,4,5,6"
           filters:
             branches:
               only:
-                - dev
+                - parallelNighlty
     jobs:
-      - test-SalesforceAnalytics
+      - test-SalesforceAnalytics:
             context: nightly-test
-      - test-SalesforceHybridSDK
+      - test-SalesforceHybridSDK:
             context: nightly-test
-      - test-SalesforceReact
+      - test-SalesforceReact:
             context: nightly-test
-      - test-SalesforceSDKCore
+      - test-SalesforceSDKCore:
             context: nightly-test
-      - test-SmartStore
+      - test-SmartStore:
             context: nightly-test
-      - test-SmartSync
+      - test-SmartSync:
             context: nightly-test
-      - test-SalesforceSwiftSDK
+      - test-SalesforceSwiftSDK:
             context: nightly-test
 
   nightly-test-ios10:
     triggers:
       - schedule:
-          cron: "00 11 * * 2,3,4,5,6"
+          cron: "30 18 * * 2,3,4,5,6"
           filters:
             branches:
               only:
-                - dev
+                - parallelNighlty
     jobs:
-      - test-SalesforceAnalytics
+      - test-SalesforceAnalytics:
             context: nightly-test-ios10
-      - test-SalesforceHybridSDK
+      - test-SalesforceHybridSDK:
             context: nightly-test-ios10
-      - test-SalesforceReact
+      - test-SalesforceReact:
             context: nightly-test-ios10
-      - test-SalesforceSDKCore
+      - test-SalesforceSDKCore:
             context: nightly-test-ios10
-      - test-SmartStore
+      - test-SmartStore:
             context: nightly-test-ios10
-      - test-SmartSync
+      - test-SmartSync:
             context: nightly-test-ios10
-      - test-SalesforceSwiftSDK
+      - test-SalesforceSwiftSDK:
             context: nightly-test-ios10
