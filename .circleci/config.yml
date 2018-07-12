@@ -258,7 +258,7 @@ workflows:
   nightly-test-ios11:
     triggers:
       - schedule:
-          cron: "35 18 * * 2,3,4,5,6"
+          cron: "50 20 * * 2,3,4,5,6"
           filters:
             branches:
               only:
@@ -282,7 +282,7 @@ workflows:
   nightly-test-ios10:
     triggers:
       - schedule:
-          cron: "35 18 * * 2,3,4,5,6"
+          cron: "50 20 * * 2,3,4,5,6"
           filters:
             branches:
               only:

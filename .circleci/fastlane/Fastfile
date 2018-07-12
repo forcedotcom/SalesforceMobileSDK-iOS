@@ -8,17 +8,18 @@ lane :PR do |options|
   Dir.chdir('../')
   schemes = Set.new
 
-  # Determine CI platform or exit
-  if (ENV.has_key?('NIGHTLY_TEST'))
+  if ENV.has_key?('NIGHTLY_TEST')
     UI.important "Nightly, skipping modified check."
     test_scheme(lib_to_test)
   else
-    if (ENV.has_key?('CIRCLE_PULL_REQUEST') || (ENV.has_key?('CIRCLE_BRANCH').include?('pull/')))
+    # Check if this is a PR. 
+    # Rebuilds of PR's don't have the CIRCLE_PULL_REQUEST key, so check the branch instead. 
+    if (ENV.has_key?('CIRCLE_BRANCH') && ENV['CIRCLE_BRANCH'].include?('pull/'))
       # No PR Number indicates that this PR is running in a CircleCI env linked to a fork, so force the url to forcedotcom project.
       if ENV.has_key?('CIRCLE_PR_NUMBER')
         pr_files_api = $git_pr_api % [ENV['CIRCLE_PROJECT_USERNAME'], ENV['CIRCLE_PR_NUMBER']]
       else
-        pr_files_api = $git_pr_api % ['forcedotcom', ENV['CIRCLE_PULL_REQUEST'].split('/').last]
+        pr_files_api = $git_pr_api % ['forcedotcom', ENV['CIRCLE_BRANCH'].split('/').last]
       end
       pull_files = `#{"curl %s" % [pr_files_api]}`
     else
