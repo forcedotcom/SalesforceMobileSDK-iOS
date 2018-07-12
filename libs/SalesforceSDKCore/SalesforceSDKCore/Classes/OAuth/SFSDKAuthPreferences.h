@@ -31,14 +31,6 @@
 #include "SFOAuthCoordinator.h"
 NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKAuthPreferences : NSObject
-
-/**
- Advanced authentication configuration.  Default is SFOAuthAdvancedAuthConfigurationNone.  Leave the
- default value unless you need advanced authentication, as it requires an additional round trip to the
- service to retrieve org authentication configuration.
- */
-@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
-
 /**
  An array of additional keys (NSString) to parse during OAuth
  */
