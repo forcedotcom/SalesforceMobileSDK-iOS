@@ -114,6 +114,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     }
     [self.uam clearAllAccountState];
     self.uam.currentUser = nil;
+    self.uam.useBrowserAuth = NO;
     self.authViewHandler = [SFUserAccountManager sharedInstance].authViewHandler;
     self.config = self.uam.loginViewControllerConfig;
 }
@@ -432,7 +433,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 }
 
 - (void)testAuthHandler {
-
+    SFSDKAuthViewHandler *origAuthViewHandler = [SFUserAccountManager sharedInstance].authViewHandler;
     XCTestExpectation *expectation = [self expectationWithDescription:@"testAuthHandler"];
     SFSDKAuthViewHandler *authViewHandler = [[SFSDKAuthViewHandler alloc] initWithDisplayBlock:^(SFSDKAuthViewHolder *holder) {
         [expectation fulfill];
@@ -451,6 +452,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [client refreshCredentials];
     [self waitForExpectations:[NSArray arrayWithObject:expectation] timeout:20];
     [[SFUserAccountManager sharedInstance] disposeOAuthClient:client];
+    [SFUserAccountManager sharedInstance].authViewHandler = origAuthViewHandler;
 }
 
 - (void)testLoginViewControllerCustomizations {
