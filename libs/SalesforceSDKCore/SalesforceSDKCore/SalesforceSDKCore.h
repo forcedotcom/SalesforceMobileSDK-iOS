@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Tue Jun 19 10:48:33 PDT 2018.
+ Created by Raj Rao on Wed Jul 11 10:25:19 PDT 2018.
 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -35,13 +35,11 @@
 #import <SalesforceSDKCore/SFCryptChunks.h>
 #import <SalesforceSDKCore/SFSDKAlertMessageBuilder.h>
 #import <SalesforceSDKCore/SFSHA256PasscodeProvider.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
 #import <SalesforceSDKCore/SFOAuthInfo.h>
 #import <SalesforceSDKCore/SFPathUtil.h>
 #import <SalesforceSDKCore/SFDecryptStream.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
-#import <SalesforceSDKCore/SFAuthenticationViewHandler.h>
 #import <SalesforceSDKCore/SFGeneratedKeyStore.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
@@ -85,7 +83,6 @@
 #import <SalesforceSDKCore/SFPasscodeKeyStore.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKAnalyticsPublisher.h>
-#import <SalesforceSDKCore/SFAuthenticationSafariControllerHandler.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/NSArray+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>

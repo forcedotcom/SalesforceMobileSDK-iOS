@@ -42,7 +42,7 @@ typedef BOOL (^SFAuthErrorHandlerOptionsEvalBlock)(NSError *, SFOAuthInfo *, NSD
 /**
  Class to define a handler for authentication errors, which can be used in an
  error handling filter chain.
- @see SFAuthenticationManager
+ @see SFSDKErrorManager
  */
 @interface SFAuthErrorHandler : NSObject
 

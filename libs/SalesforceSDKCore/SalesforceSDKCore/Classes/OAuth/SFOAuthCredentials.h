@@ -202,7 +202,7 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
 @property (nonatomic, readonly, getter = isEncrypted) BOOL encrypted;
 
 /**
- A dictionary containing key-value pairs for any of the keys provided via the additionalOAuthParameterKeys property of SFAuthenticationManager.
+ A dictionary containing key-value pairs for any of the keys provided via the additionalOAuthParameterKeys property of SFUserAccountManager.
  If a key does not match a value in the parsed response, then it will not exist in the dictionary.
  */
 @property (nonatomic, readonly, nullable) NSDictionary * additionalOAuthFields;

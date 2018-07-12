@@ -24,8 +24,8 @@
 
 #import "NSString+SFAdditions.h"
 #import "SFPreferences.h"
+#import "SFUserAccountManager.h"
 #import "SFPushNotificationManager.h"
-#import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
 #import "SFJsonUtils.h"
 #import "SFApplicationHelper.h"
@@ -92,7 +92,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
         _deviceSalesforceId = [[SFPreferences currentUserLevelPreferences] stringForKey:kSFDeviceSalesforceId];
         
         // Watching logged in events (to register)
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserLoggedIn:) name:kSFUserLoggedInNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserLoggedIn:) name:kSFNotificationUserDidLogIn object:nil];
         
         // Watching foreground events (to re-register)
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAppWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];

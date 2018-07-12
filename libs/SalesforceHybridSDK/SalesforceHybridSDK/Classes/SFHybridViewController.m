@@ -31,7 +31,6 @@
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
@@ -66,7 +65,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 // App feature constant.
 static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
-SFSDK_USE_DEPRECATED_BEGIN
 @interface SFHybridViewController()
 {
     BOOL _foundHomeUrl;
@@ -300,7 +298,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     return _hybridViewConfig;
 }
 
-- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
+- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthPluginFailureBlock)failureBlock
 {
 
     /*
@@ -309,7 +307,7 @@ SFSDK_USE_DEPRECATED_BEGIN
      */
     [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
     __weak __typeof(self) weakSelf = self;
-    SFOAuthFlowSuccessCallbackBlock authCompletionBlock = ^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+    SFUserAccountManagerSuccessCallbackBlock authCompletionBlock = ^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [strongSelf authenticationCompletion:nil authInfo:authInfo];
@@ -321,7 +319,8 @@ SFSDK_USE_DEPRECATED_BEGIN
             completionBlock(authInfo, authDict);
         }
     };
-    SFOAuthFlowFailureCallbackBlock authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
+    
+    SFOAuthPluginFailureBlock authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if ([strongSelf logoutOnInvalidCredentials:error]) {
             [SFSDKHybridLogger d:[strongSelf class] message:@"OAuth plugin authentication request failed. Logging out."];
@@ -329,15 +328,15 @@ SFSDK_USE_DEPRECATED_BEGIN
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
             [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-            [strongSelf logout];
+            [[SFUserAccountManager sharedInstance] logout];
         } else if (failureBlock != NULL) {
             failureBlock(authInfo, error);
         }
     };
     if (![SFUserAccountManager sharedInstance].currentUser) {
-        [self loginWithCompletion:authCompletionBlock failure:authFailureBlock];
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:authCompletionBlock failure:authFailureBlock];
     } else {
-        [self refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
+        [[SFUserAccountManager sharedInstance] refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
                                                          completion:authCompletionBlock
                                                             failure:authFailureBlock];
     }
@@ -485,12 +484,8 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (BOOL)logoutOnInvalidCredentials:(NSError *)error
 {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        return ([SFAuthenticationManager errorIsInvalidAuthCredentials:error]
-                && [[SFAuthenticationManager sharedManager].authErrorHandlerList authErrorHandlerInList:[SFAuthenticationManager sharedManager].invalidCredentialsAuthErrorHandler]);
-    } else {
-       return [SFUserAccountManager errorIsInvalidAuthCredentials:error];
-   }
+    return [SFUserAccountManager errorIsInvalidAuthCredentials:error];
+  
 }
 
 - (NSURL *)fullFileUrlForPage:(NSString *)page
@@ -605,7 +600,7 @@ SFSDK_USE_DEPRECATED_BEGIN
                      attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
                      attributes[@"errorDescription"] = error.localizedDescription;
                      [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
-                     [strongSelf logout];
+                     [[SFUserAccountManager sharedInstance] logout];
                  } else {
                      
                      // Error is not invalid credentials, or developer otherwise wants to handle it.
@@ -696,7 +691,7 @@ SFSDK_USE_DEPRECATED_BEGIN
                      attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
                      attributes[@"errorDescription"] = error.localizedDescription;
                      [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
-                     [strongSelf logout];
+                     [[SFUserAccountManager sharedInstance] logout];
                  } else {
                      
                      // Error is not invalid credentials, or developer otherwise wants to handle it.
@@ -863,8 +858,8 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 - (void)refreshCredentials:(SFOAuthCredentials *)credentials
-                 completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                  failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
+                 completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                  failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
 
     /*
      * Performs a cheap REST call to refresh the access token if needed
@@ -884,22 +879,5 @@ SFSDK_USE_DEPRECATED_BEGIN
     }];
 }
 
-- (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                  failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
-    } else {
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
-    }
-}
-
-- (void)logout {
-     if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-         [[SFAuthenticationManager sharedManager] logout];
-     } else {
-         [[SFUserAccountManager sharedInstance] logout];
-     }
-}
-
 @end
-SFSDK_USE_DEPRECATED_END
+

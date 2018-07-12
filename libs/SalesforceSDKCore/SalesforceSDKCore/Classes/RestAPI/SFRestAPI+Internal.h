@@ -24,7 +24,6 @@
 
 #import "SFRestAPI.h"
 #import "SFUserAccountManager.h"
-#import "SFAuthenticationManager.h"
 #import "SFSDKSafeMutableSet.h"
 /**
  We declare here a set of interfaces that are meant to be used by code running internally

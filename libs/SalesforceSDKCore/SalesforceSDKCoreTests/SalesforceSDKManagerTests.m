@@ -25,7 +25,6 @@
 #import <XCTest/XCTest.h>
 #import "SFTestSDKManagerFlow.h"
 #import "SalesforceSDKManager+Internal.h"
-#import "SFAuthenticationManager+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFSDKSalesforceAnalyticsManager.h"
@@ -433,29 +432,26 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].brandLoginPath = brandPath;
     XCTAssertTrue([brandPath isEqualToString:[SFUserAccountManager  sharedInstance].brandLoginPath]);
 }
-SFSDK_USE_DEPRECATED_BEGIN
+
 - (void)testBrandedLoginPathInAuthManagerAndAuthorizeEndpoint
 {
     NSString *brandPath = @"/BRAND/SUB-BRAND/";
-    [SalesforceSDKManager sharedManager].brandLoginPath = brandPath;
-    
     [self createTestAppIdentity];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"TESTBRAND" clientId:@"TESTBRAND" encrypted:NO];
+    credentials.domain = @"TESTBRAND";
+    credentials.redirectUri = @"TESTBRAND_URI";
     
-    SFOAuthCredentials *credentials = [[SFAuthenticationManager sharedManager] createOAuthCredentials];
-    [[SFAuthenticationManager sharedManager] setupWithCredentials:credentials];
-    
-    NSString *brandedURL = [[SFAuthenticationManager sharedManager].coordinator generateApprovalUrlString];
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
+    coordinator.brandLoginPath = brandPath;
+    NSString *brandedURL = [coordinator generateApprovalUrlString];
     
     XCTAssertNotNil(brandedURL);
-    
-    XCTAssertTrue([brandPath isEqualToString:[SFAuthenticationManager sharedManager].brandLoginPath]);
-    
     //Should not have a trailing slash
     XCTAssertFalse([brandedURL containsString:[brandPath substringToIndex:brandPath.length]]);
     //should have brand
     XCTAssertTrue([brandedURL containsString:[brandPath substringToIndex:brandPath.length-1]]);
 }
-SFSDK_USE_DEPRECATED_END
+
 #pragma mark - Private helpers
 
 - (void)createStandardPostLaunchBlock
@@ -535,7 +531,8 @@ SFSDK_USE_DEPRECATED_END
     _origPostLogoutAction = [SalesforceSDKManager sharedManager].postLogoutAction; [SalesforceSDKManager sharedManager].postLogoutAction = NULL;
     _origSwitchUserAction = [SalesforceSDKManager sharedManager].switchUserAction; [SalesforceSDKManager sharedManager].switchUserAction = NULL;
     _origPostAppForegroundAction = [SalesforceSDKManager sharedManager].postAppForegroundAction; [SalesforceSDKManager sharedManager].postAppForegroundAction = NULL;
-    _origCurrentUser = [SFUserAccountManager sharedInstance].currentUser; [SFUserAccountManager sharedInstance].currentUser = nil;
+    _origCurrentUser = [SFUserAccountManager sharedInstance].currentUser;
+    [SFUserAccountManager sharedInstance].currentUser = nil;
     _postLaunchBlockCalled = NO;
     _postLaunchActions = SFSDKLaunchActionNone;
     _launchErrorBlockCalled = NO;

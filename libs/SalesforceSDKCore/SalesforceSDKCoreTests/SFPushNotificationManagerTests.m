@@ -26,7 +26,6 @@
 #import "SFPushNotificationManager.h"
 #import "SFUserAccount.h"
 #import "SFOAuthCoordinator.h"
-#import "SFAuthenticationManager.h"
 #import "SFIdentityCoordinator.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"

@@ -24,7 +24,6 @@
 
 #import <objc/runtime.h>
 #import "SalesforceSDKManager+Internal.h"
-#import "SFAuthenticationManager+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFSDKWindowManager.h"
 #import "SFManagedPreferences.h"
@@ -163,17 +162,12 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
         self.delegates = [NSHashTable weakObjectsHashTable];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         
-        SFSDK_USE_DEPRECATED_BEGIN
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
-        SFSDK_USE_DEPRECATED_END
-
         [SFSecurityLockout addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAuthCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow
                                                 selector:@selector(handleAuthCompleted:)
                                                      name:kSFNotificationUserDidLogIn object:nil];
@@ -247,14 +241,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 
 - (BOOL)idpEnabled {
     return [SFUserAccountManager sharedInstance].idpAppURIScheme!=nil;
-}
-
-- (BOOL)useLegacyAuthenticationManager{
-    return [SFUserAccountManager sharedInstance].useLegacyAuthenticationManager;
-}
-
-- (void)setUseLegacyAuthenticationManager:(BOOL)enabled {
-    [SFUserAccountManager sharedInstance].useLegacyAuthenticationManager = enabled;
 }
 
 - (NSString *)appDisplayName {
@@ -897,7 +883,7 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 {
     [SFSDKCoreLogger i:[self class] format:@"No valid credentials found.  Proceeding with authentication."];
     
-    SFOAuthFlowSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+    SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
         [SFSDKCoreLogger i:[self class] format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
         [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [SFSecurityLockout setupTimer];
@@ -905,35 +891,16 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
         [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
     };
     
-    SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
+    SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
         [SFSDKCoreLogger e:[self class] format:@"Authentication (%@) failed: %@.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh"), [authError localizedDescription]];
         [self sendLaunchError:authError];
     };
-    
-    if (self.useLegacyAuthenticationManager) {
-        SFSDK_USE_DEPRECATED_BEGIN
-
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:successBlock failure:failureBlock];
-        
-        SFSDK_USE_DEPRECATED_END
-
-    } else {
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
-    }
+    [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+  
 }
 
 - (void)authBypassAtLaunch
 {
-    // If there is a current user (from a previous authentication), we still need to set up the
-    // in-memory auth state of that user.
-    if ([SFUserAccountManager sharedInstance].currentUser != nil && self.useLegacyAuthenticationManager) {
-        SFSDK_USE_DEPRECATED_BEGIN
-
-        [[SFAuthenticationManager sharedManager] setupWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
-        
-        SFSDK_USE_DEPRECATED_END
-
-    }
     
     SFSDKLaunchAction noAuthLaunchAction;
     if (!self.appConfig.shouldAuthenticate) {
@@ -1056,19 +1023,6 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
         }
     }
 }
-SFSDK_USE_DEPRECATED_BEGIN
-
-#pragma mark - SFAuthenticationManagerDelegate
-- (void)authManagerDidLogout:(SFAuthenticationManager *)manager
-{
-    [self.sdkManagerFlow handlePostLogout];
-}
-
-- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
-{
-
-}
-SFSDK_USE_DEPRECATED_END
 
 #pragma mark - SFUserAccountManagerDelegate
 

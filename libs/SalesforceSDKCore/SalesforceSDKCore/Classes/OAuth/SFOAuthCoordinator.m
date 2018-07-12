@@ -139,7 +139,6 @@ static NSString * const kSFECParameter = @"ec";
 @synthesize initialRequestLoaded        = _initialRequestLoaded;
 @synthesize approvalCode                = _approvalCode;
 @synthesize scopes                      = _scopes;
-@synthesize advancedAuthConfiguration   = _advancedAuthConfiguration;
 @synthesize advancedAuthState           = _advancedAuthState;
 @synthesize codeVerifier                = _codeVerifier;
 @synthesize authInfo                    = _authInfo;

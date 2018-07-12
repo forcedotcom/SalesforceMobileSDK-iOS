@@ -68,28 +68,6 @@ enum {
 };
 
 /**
- Enumeration of advanced auth configuration.
- */
-typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthConfiguration) {
-    /**
-     Advanced authentication is not configured (default)
-     */
-    SFOAuthAdvancedAuthConfigurationNone = 0,
-    
-    /**
-     Advanced authentication is allowed.  Coordinator will attempt to retrieve advanced auth
-     configuration from the org, to determine whether to initiate advanced authentication.
-     */
-    SFOAuthAdvancedAuthConfigurationAllow,
-    
-    /**
-     Advanced authentication is required.  Coordinator will initiate advanced authentication
-     regardless of org settings.
-     */
-    SFOAuthAdvancedAuthConfigurationRequire
-};
-
-/**
  Enumeration of different advanced authentication stages.
  */
 typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
@@ -337,13 +315,6 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  This value controls how long requests will wait before timing out.
  */
 @property (nonatomic, assign) NSTimeInterval timeout;
-
-/**
- The configuration for advanced authentication.  Default is SFOAuthAdvancedAuthConfigurationNone.
- Keep the default value if you don't need advanced authentication options, as this requires an
- additional round trip to the service to get authentication configuration data.
- */
-@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
 
 /**
  The current state of any in-progress advanced authentication flow.

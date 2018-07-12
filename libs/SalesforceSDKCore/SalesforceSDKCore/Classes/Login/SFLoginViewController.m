@@ -34,16 +34,13 @@
 #import "UIColor+SFColors.h"
 #import "SFSDKResourceUtils.h"
 #import "SFUserAccountManager.h"
-#import "SFAuthenticationManager.h"
 #import "SFSDKLoginViewControllerConfig.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKWindowManager.h"
 #import "SFSDKNavigationController.h"
-SFSDK_USE_DEPRECATED_BEGIN
 
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
 
-SFSDK_USE_DEPRECATED_END
 @property (nonatomic, strong) UINavigationBar *navBar;
 
 // Reference to the login host list view controller

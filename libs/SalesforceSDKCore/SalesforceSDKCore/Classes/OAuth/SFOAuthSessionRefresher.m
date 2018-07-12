@@ -25,8 +25,6 @@
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFUserAccountManager.h"
 
-static NSString * const kSFAuthenticationManagerFinishedNotification = @"kSFAuthenticationManagerFinishedNotification";
-
 @implementation SFOAuthSessionRefresher
 
 - (instancetype)initWithCredentials:(SFOAuthCredentials *)credentials {
@@ -110,15 +108,9 @@ static NSString * const kSFAuthenticationManagerFinishedNotification = @"kSFAuth
     [self completeWithSuccess:coordinator.credentials];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSFAuthenticationManagerFinishedNotification
-                                                                object:nil
-                                                              userInfo:nil];
-        } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
-                                                                object:nil
-                                                              userInfo:nil];
-        }
+       [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
+                                                            object:nil
+                                                          userInfo:nil];
    });
 }
 

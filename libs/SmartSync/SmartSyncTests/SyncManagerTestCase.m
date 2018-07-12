@@ -27,7 +27,6 @@
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SmartStore/SFSoupIndex.h>
 #import <SmartStore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import "TestSyncUpTarget.h"
 #import "SyncManagerTestCase.h"

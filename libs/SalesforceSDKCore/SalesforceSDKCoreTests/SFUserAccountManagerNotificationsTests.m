@@ -46,7 +46,7 @@ static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
 @property (nonatomic, strong) SFUserAccountManager *uam;
 
 @end
-SFSDK_USE_DEPRECATED_BEGIN
+
 @implementation SFUserAccountManagerNotificationsTests
 
 - (void)setUp
@@ -67,25 +67,9 @@ SFSDK_USE_DEPRECATED_BEGIN
     [super tearDown];
 }
 
-- (void)testNotificationNotPosted
-{
-    
-    NSDictionary *credentials = @{};
-    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
-    SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
-    authenticationManager.coordinator = coordinator;
-    [coordinator updateCredentials:credentials];
-    XCTAssertTrue(coordinator.credentials.credentialsChangeSet==nil || [coordinator.credentials.credentialsChangeSet count] < 1,@"There should not be any changes to existing credentials");
-    [self.uam applyCredentials:coordinator.credentials];
-   
-}
-
-
 - (void)testCommunityIdNotificationPosted
 {
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:_user.credentials];
-    SFAuthenticationManager * authenticationManager = [SFAuthenticationManager sharedManager];
-    authenticationManager.coordinator = coordinator;
     NSDictionary *credentials = @{kSFOAuthCommunityId:@"COMMUNITY_ID"
                                   };
     [self expectationForNotification:SFUserAccountManagerDidChangeUserDataNotification object:nil   handler:^BOOL(NSNotification * notification) {
@@ -94,7 +78,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     }];
     [coordinator updateCredentials:credentials];
     XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should be at least one change in credentials");
-    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"communityId"],@"SFAuthenticationManager should detect change to properties");
+    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"communityId"],@"SFUserAccountManager should detect change to properties");
     [self.uam applyCredentials:coordinator.credentials withIdData:nil];
     [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
@@ -114,7 +98,7 @@ SFSDK_USE_DEPRECATED_BEGIN
                                   };
     [coordinator updateCredentials:credentials];
     XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should be at least one change in credentials");
-    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"instanceUrl"],@"SFAuthenticationManager should detect change to instanceUrl");
+    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"instanceUrl"],@"SFUserAccountManager should detect change to instanceUrl");
     [self.uam applyCredentials:coordinator.credentials];
     [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
@@ -132,7 +116,7 @@ SFSDK_USE_DEPRECATED_BEGIN
                                   };
     [coordinator updateCredentials:credentials];
     XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should be at least one change in credentials");
-    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"accessToken"],@"SFAuthenticationManager should detect change to instanceUrl");
+    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"accessToken"],@"SFUserAccountManager should detect change to instanceUrl");
     [self.uam applyCredentials:coordinator.credentials];
     [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
@@ -154,9 +138,9 @@ SFSDK_USE_DEPRECATED_BEGIN
                                   };
     [coordinator updateCredentials:credentials];
     XCTAssertTrue(coordinator.credentials.credentialsChangeSet!=nil && [coordinator.credentials.credentialsChangeSet count] > 0,@"There should be at least one change in credentials");
-    XCTAssertTrue([coordinator.credentials  hasPropertyValueChangedForKey:@"accessToken"],@"SFAuthenticationManager should detect change to accessToken");
-    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"communityId"],@"SFAuthenticationManager should detect change to communityId");
-    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"instanceUrl"],@"SFAuthenticationManager should detect change to instanceUrl");
+    XCTAssertTrue([coordinator.credentials  hasPropertyValueChangedForKey:@"accessToken"],@"SFUserAccountManager should detect change to accessToken");
+    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"communityId"],@"SFUserAccountManager should detect change to communityId");
+    XCTAssertTrue([coordinator.credentials hasPropertyValueChangedForKey:@"instanceUrl"],@"SFUserAccountManager should detect change to instanceUrl");
     [self.uam applyCredentials:coordinator.credentials];
     [self waitForExpectationsWithTimeout:10.0 handler:nil];
    
@@ -210,4 +194,4 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 @end
-SFSDK_USE_DEPRECATED_END
+
