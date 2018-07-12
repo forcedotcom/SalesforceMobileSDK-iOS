@@ -254,7 +254,7 @@ workflows:
       - test-SmartSync
       - test-SalesforceSwiftSDK
 
-  # Cron is UTC timezone
+  # Cron is UTC timezone, which is 7 hours ahead of PST.
   nightly-test-ios11:
     triggers:
       - schedule:
@@ -262,7 +262,7 @@ workflows:
           filters:
             branches:
               only:
-                - parallelNighlty
+                - dev
     jobs:
       - test-SalesforceAnalytics:
             context: nightly-test
@@ -286,7 +286,7 @@ workflows:
           filters:
             branches:
               only:
-                - parallelNighlty
+                - dev
     jobs:
       - test-SalesforceAnalytics:
             context: nightly-test-ios10
