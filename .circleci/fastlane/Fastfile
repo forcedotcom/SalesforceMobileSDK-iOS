@@ -13,7 +13,7 @@ lane :PR do |options|
     UI.important "Nightly, skipping modified check."
     test_scheme(lib_to_test)
   else
-    if (ENV.has_key?('CIRCLE_PULL_REQUEST') || (ENV.has_key?('CIRCLE_BRANCH').contains?('pull/')))
+    if (ENV.has_key?('CIRCLE_PULL_REQUEST') || (ENV.has_key?('CIRCLE_BRANCH').include?('pull/')))
       # No PR Number indicates that this PR is running in a CircleCI env linked to a fork, so force the url to forcedotcom project.
       if ENV.has_key?('CIRCLE_PR_NUMBER')
         pr_files_api = $git_pr_api % [ENV['CIRCLE_PROJECT_USERNAME'], ENV['CIRCLE_PR_NUMBER']]
