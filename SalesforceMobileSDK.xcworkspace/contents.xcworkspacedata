@@ -95,9 +95,6 @@
       <FileRef
          location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
       </FileRef>
-      <FileRef
-         location = "group:external/ocmock/Source/OCMock.xcodeproj">
-      </FileRef>
    </Group>
    <Group
       location = "group:external/ThirdPartyDependencies"

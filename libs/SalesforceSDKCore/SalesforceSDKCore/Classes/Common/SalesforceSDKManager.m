@@ -264,26 +264,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     return _isLaunching;
 }
 
-- (NSString *)connectedAppId
-{
-    return self.appConfig.remoteAccessConsumerKey;
-}
-
-- (void)setConnectedAppId:(NSString *)connectedAppId
-{
-    self.appConfig.remoteAccessConsumerKey = connectedAppId;
-}
-
-- (NSString *)connectedAppCallbackUri
-{
-    return self.appConfig.oauthRedirectURI;
-}
-
-- (void)setConnectedAppCallbackUri:(NSString *)connectedAppCallbackUri
-{
-    self.appConfig.oauthRedirectURI = connectedAppCallbackUri;
-}
-
 - (NSString *)brandLoginPath
 {
     return [SFUserAccountManager sharedInstance].brandLoginPath;
@@ -292,16 +272,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 - (void)setBrandLoginPath:(NSString *)brandLoginPath
 {
     [SFUserAccountManager sharedInstance].brandLoginPath = brandLoginPath;
-}
-
-- (NSArray *)authScopes
-{
-    return [self.appConfig.oauthScopes allObjects];
-}
-
-- (void)setAuthScopes:(NSArray<NSString *> *)authScopes
-{
-    self.appConfig.oauthScopes = [NSSet setWithArray:authScopes];
 }
 
 - (NSString *)preferredPasscodeProvider
