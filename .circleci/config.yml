@@ -44,10 +44,11 @@ aliases:
 defaults: &defaults
   working_directory: ~/SalesforceMobileSDK-iOS
   macos:
-    xcode: "9.3.1"
+    xcode: "9.4.0"
   shell: /bin/bash --login -eo pipefail
   environment:
     BASH_ENV: ~/.bashrc
+    FASTLANE_SKIP_UPDATE_CHECK: true
     CHRUBY_VER: 2.5.1
 
 version: 2
@@ -240,152 +241,6 @@ jobs:
           destination: Static-Analysis
       - run: *codecov
 
-  test-ios-11:
-    <<: *defaults
-    environment:
-      - IOS_VERSION: " (11.3)"
-      - DEVICE: "iPhone X"
-    steps:
-      - checkout
-      - restore_cache: *restore-gem-cache
-      - run: *install-dependecies
-      - save_cache: *save-gem-cache
-      - run:
-          name: Test SalesforceAnalytics
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SalesforceAnalytics | fastlane LCL
-          when: always
-      - run:
-          name: Test SalesforceHybridSDK
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SalesforceHybridSDK | fastlane LCL
-          when: always
-      - run:
-          name: Test SalesforceReact
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SalesforceReact | fastlane LCL
-          when: always
-      - run:
-          name: Test SalesforceSDKCore
-          command:  |
-            chruby${CHRUBY_VER}
-            cd .circleci
-            echo SalesforceSDKCore | fastlane LCL
-          when: always
-      - run:
-          name: Test SmartStore
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SmartStore | fastlane LCL
-          when: always
-      - run:
-          name: Test SmartSync
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SmartSync | fastlane LCL
-          when: always
-      - run:
-          name: Test SalesforceSwiftSDK
-          command:  |
-            xcrun swift -version
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SalesforceSwiftSDK | fastlane LCL
-          when: always
-      - store_test_results:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-          destination: Test-Results
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
-          destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
-          destination: Static-Analysis
-      - run: *codecov
-
-  test-ios-10:
-    <<: *defaults
-    environment:
-      - IOS_VERSION: " (10.3.1)"
-      - DEVICE: "iPhone 6 Plus"
-    steps:
-      - checkout
-      - restore_cache: *restore-gem-cache
-      - run: *install-dependecies
-      - save_cache: *save-gem-cache
-      - run:
-          name: Test SalesforceAnalytics
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SalesforceAnalytics | fastlane LCL
-          when: always
-      - run:
-          name: Test SalesforceHybridSDK
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SalesforceHybridSDK | fastlane LCL
-          when: always
-      - run:
-          name: Test SalesforceReact
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SalesforceReact | fastlane LCL
-          when: always
-      - run:
-          name: Test SalesforceSDKCore
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SalesforceSDKCore | fastlane LCL
-          when: always
-      - run:
-          name: Test SmartStore
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SmartStore | fastlane LCL
-          when: always
-      - run:
-          name: Test SmartSync
-          command:  |
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SmartSync | fastlane LCL
-          when: always
-      - run:
-          name: Test SalesforceSwiftSDK
-          command:  |
-            xcrun swift -version
-            chruby ${CHRUBY_VER}
-            cd .circleci
-            echo SalesforceSwiftSDK | fastlane LCL
-          when: always
-      - store_test_results:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-          destination: Test-Results
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
-          destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
-          destination: Static-Analysis
-      - run: *codecov
-
 workflows:
   version: 2
 
@@ -399,16 +254,53 @@ workflows:
       - test-SmartSync
       - test-SalesforceSwiftSDK
 
-  # Cron are on a timezone 8 hours ahead of PST
-  # Nightly run is set for midnight Monday - Friday
-  nightly-test-ios:
+  # Cron is UTC timezone, which is 7 hours ahead of PST.
+  # Run tests at 1am.
+  nightly-test-ios11:
     triggers:
       - schedule:
-          cron: "00 8 * * 2,3,4,5,6"
+          cron: "00 08 * * 2,3,4,5,6"
           filters:
             branches:
               only:
                 - dev
     jobs:
-      - test-ios-11
-      - test-ios-10
+      - test-SalesforceAnalytics:
+            context: nightly-test
+      - test-SalesforceHybridSDK:
+            context: nightly-test
+      - test-SalesforceReact:
+            context: nightly-test
+      - test-SalesforceSDKCore:
+            context: nightly-test
+      - test-SmartStore:
+            context: nightly-test
+      - test-SmartSync:
+            context: nightly-test
+      - test-SalesforceSwiftSDK:
+            context: nightly-test
+
+  # Run tests at 1am.
+  nightly-test-ios10:
+    triggers:
+      - schedule:
+          cron: "00 10 * * 2,3,4,5,6"
+          filters:
+            branches:
+              only:
+                - dev
+    jobs:
+      - test-SalesforceAnalytics:
+            context: nightly-test-ios10
+      - test-SalesforceHybridSDK:
+            context: nightly-test-ios10
+      - test-SalesforceReact:
+            context: nightly-test-ios10
+      - test-SalesforceSDKCore:
+            context: nightly-test-ios10
+      - test-SmartStore:
+            context: nightly-test-ios10
+      - test-SmartSync:
+            context: nightly-test-ios10
+      - test-SalesforceSwiftSDK:
+            context: nightly-test-ios10
