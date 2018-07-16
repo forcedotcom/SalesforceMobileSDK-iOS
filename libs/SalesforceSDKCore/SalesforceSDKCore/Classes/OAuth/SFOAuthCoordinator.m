@@ -552,14 +552,10 @@ static NSString * const kSFECParameter = @"ec";
 }
 
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
-    
     self.responseData = [NSMutableData dataWithLength:512];
     NSString *refreshDomain = self.credentials.communityId ? self.credentials.communityUrl.absoluteString : self.credentials.domain;
     NSString *protocolHost = self.credentials.communityId ? refreshDomain : [NSString stringWithFormat:@"%@://%@", self.credentials.protocol, refreshDomain];
-    NSString *url = [[NSString alloc] initWithFormat:@"%@%@",
-                     protocolHost,
-                     kSFOAuthEndPointToken];
-    
+    NSString *url = [[NSString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
                                                                 cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                             timeoutInterval:self.timeout];
@@ -569,20 +565,19 @@ static NSString * const kSFECParameter = @"ec";
         [request setValue:self.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
     }
     [request setHTTPShouldHandleCookies:NO];
-    
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, kSFOAuthFormatJson,
                                kSFOAuthRedirectUri, self.credentials.redirectUri,
                                kSFOAuthClientId, self.credentials.clientId,
                                kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     NSMutableString *logString = [NSMutableString stringWithString:params];
-    
+
     // If there is an approval code (Advanced Auth flow), use it once to get the tokens.
     if (self.approvalCode) {
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
         [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeAuthorizationCode, kSFOAuthApprovalCode, self.approvalCode];
         [logString appendFormat:@"&%@=%@&%@=REDACTED", kSFOAuthGrantType, kSFOAuthGrantTypeAuthorizationCode, kSFOAuthApprovalCode];
-        
+
         // If this is the advanced authentication flow, we need to add the code verifier parameter and some form
         // of a client secret as well.
         if (self.authInfo.authType == SFOAuthTypeAdvancedBrowser ||
@@ -590,15 +585,16 @@ static NSString * const kSFECParameter = @"ec";
             [params appendFormat:@"&%@=%@", kSFOAuthCodeVerifierParamName, self.codeVerifier];
             [logString appendFormat:@"&%@=REDACTED", kSFOAuthCodeVerifierParamName];
         }
-        
+
         // Discard the approval code.
         self.approvalCode = nil;
     } else {
-        // Assume Refresh token flow.
+
+        // Assumes refresh token flow.
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
         [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken, self.credentials.refreshToken];
         [logString appendFormat:@"&%@=%@&%@=REDACTED", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken ];
-        for(NSString * key in self.additionalTokenRefreshParams) {
+        for (NSString * key in self.additionalTokenRefreshParams) {
             [params appendFormat:@"&%@=%@", [key stringByURLEncoding], [self.additionalTokenRefreshParams[key] stringByURLEncoding]];
         }
     }
@@ -609,7 +605,7 @@ static NSString * const kSFECParameter = @"ec";
         if (error) {
             NSURL *requestUrl = [request URL];
             NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
-            if(error.code == NSURLErrorTimedOut) {
+            if (error.code == NSURLErrorTimedOut) {
                 [SFSDKCoreLogger d:[self class] format:@"Refresh attempt timed out after %f seconds.", self.timeout];
                 [self stopAuthentication];
                 error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
@@ -619,7 +615,8 @@ static NSString * const kSFECParameter = @"ec";
             [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             return;
         }
-        // reset the response data for a new refresh response
+
+        // Resets the response data for a new refresh response.
         self.responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
         [self.responseData appendData:data];
         [self.oauthCoordinatorFlow handleTokenEndpointResponse:self.responseData];
@@ -650,16 +647,17 @@ static NSString * const kSFECParameter = @"ec";
             [self notifyDelegateOfFailure:error authInfo:self.authInfo];
         } else {
             if (dict[kSFOAuthRefreshToken]) {
-                // Refresh token is available. This happens when the IP bypass flow is used.
                 self.credentials.refreshToken = dict[kSFOAuthRefreshToken];
-            } else {
-                // In a non-IP flow, we already have the refresh token here.
             }
             [self updateCredentials:dict];
+            if (self.authInfo.authType == SFOAuthTypeRefresh) {
+                [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:[SFUserAccountManager sharedInstance].currentUser className:NSStringFromClass([self class]) attributes:nil];
+            }
             [self notifyDelegateOfSuccess:self.authInfo];
         }
     } else {
-        // failed to parse JSON
+
+        // Failed to parse JSON.
         [SFSDKCoreLogger d:[self class] format:@"%@: JSON parse error: %@", NSStringFromSelector(_cmd), jsonError];
         NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"failed to parse response JSON"];
         NSMutableDictionary *errorDict = [NSMutableDictionary dictionaryWithDictionary:jsonError.userInfo];
@@ -684,8 +682,7 @@ static NSString * const kSFECParameter = @"ec";
         [SFSDKCoreLogger d:[self class] format:@"%@ IDP Authcode redirect response encountered an ec=301 or 302 redirect: %@", NSStringFromSelector(_cmd), requestUrl];
         error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response encountered an ec=301 or 302 redirect"];
     } else if (errorCode) {
-        error = [[self class] errorWithType:errorCode
-                                description:errorDescription];
+        error = [[self class] errorWithType:errorCode description:errorDescription];
     } else if (![requestUrl fragment] && ![requestUrl query]){
         [SFSDKCoreLogger d:[self class] format:@"%@ Error: IDP Authcode response has no payload: %@", NSStringFromSelector(_cmd), requestUrl];
         error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response has no payload"];
