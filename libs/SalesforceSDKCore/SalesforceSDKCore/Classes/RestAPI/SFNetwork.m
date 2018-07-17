@@ -69,6 +69,7 @@ static NSURLSessionConfiguration *kSFSessionConfig;
 }
 
 - (NSURLSessionDataTask *)sendRequest:(NSMutableURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+
     // Sets Mobile SDK user agent if it hasn't been set already elsewhere.
     if (![urlRequest.allHTTPHeaderFields.allKeys containsObject:@"User-Agent"]) {
         [urlRequest setValue:[SalesforceSDKManager sharedManager].userAgentString(@"") forHTTPHeaderField:@"User-Agent"];
@@ -81,10 +82,6 @@ static NSURLSessionConfiguration *kSFSessionConfig;
     }];
     [dataTask resume];
     return dataTask;
-}
-
-+ (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession {
-    [SFNetwork setSessionConfiguration:sessionConfig];
 }
 
 + (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig {

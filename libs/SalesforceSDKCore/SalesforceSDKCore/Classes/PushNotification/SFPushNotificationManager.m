@@ -156,11 +156,6 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 
 #pragma mark - Salesforce registration
 
-- (BOOL)registerForSalesforceNotifications
-{
-    return [self registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
-}
-
 - (BOOL)registerSalesforceNotificationsWithCompletionBlock:(void (^)(void))completionBlock failBlock:(nullable void (^)(void))failBlock
 {
     if (self.isSimulator) {  // remote notifications are not supported in the simulator
@@ -223,20 +218,6 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     if (completionBlock != nil) {
         completionBlock();
     }
-}
-
-- (BOOL)unregisterSalesforceNotifications
-{
-    if (self.isSimulator) {
-        return YES;  // "Successful".  Simulator does not register/unregister for notifications.
-    } else {
-        return [self unregisterSalesforceNotificationsWithCompletionBlock:[SFUserAccountManager sharedInstance].currentUser completionBlock:nil];
-    }
-}
-
-- (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user
-{
-    return [self unregisterSalesforceNotificationsWithCompletionBlock:[SFUserAccountManager sharedInstance].currentUser completionBlock:nil];
 }
 
 - (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(void (^)(void))completionBlock

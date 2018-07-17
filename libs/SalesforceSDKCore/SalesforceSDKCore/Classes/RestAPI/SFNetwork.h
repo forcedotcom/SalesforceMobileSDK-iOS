@@ -64,14 +64,6 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  * Sets a session configuration to be used for network requests in the Mobile SDK.
  *
  * @param sessionConfig Session configuration to be used.
- * @param isBackgroundSession YES - if it is a background session configuration, NO - otherwise.
- */
-+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession SFSDK_DEPRECATED(6.2, 7.0, "Use 'setSessionConfiguration:' instead.");
-
-/**
- * Sets a session configuration to be used for network requests in the Mobile SDK.
- *
- * @param sessionConfig Session configuration to be used.
  */
 + (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig;
 
