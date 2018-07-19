@@ -130,7 +130,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
          */
         NSMutableString *fullUrl = nil;
         if ([[self.path lowercaseString] hasPrefix:@"https://"]) {
-            fullUrl = self.path;
+            fullUrl = [[NSMutableString alloc] initWithString:self.path];
         } else {
             NSString *baseUrl = [[self class] restUrlForBaseUrl:self.baseURL serviceHostType:self.serviceHostType credentials:user.credentials];
             
