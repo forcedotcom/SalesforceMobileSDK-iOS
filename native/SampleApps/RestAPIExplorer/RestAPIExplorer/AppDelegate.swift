@@ -117,7 +117,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         // SFPushNotificationManager.sharedInstance().didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
         // if (SFUserAccountManager.sharedInstance().currentUser?.credentials.accessToken != nil)
         // {
-        //    SFPushNotificationManager.sharedInstance().registerForSalesforceNotifications()
+        //     SFPushNotificationManager.sharedInstance().registerSalesforceNotifications(completionBlock: nil, fail: nil)
         // }
     }
     
