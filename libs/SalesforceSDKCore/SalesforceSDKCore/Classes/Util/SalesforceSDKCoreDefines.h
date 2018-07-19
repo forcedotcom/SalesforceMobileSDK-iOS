@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#import "SalesforceSDKConstants.h"
 @class SFUserAccount;
 @class UIViewController;
 @protocol SFSDKLoginFlowSelectionView;
@@ -44,27 +44,27 @@ typedef NS_OPTIONS(NSInteger, SFSDKLaunchAction) {
     SFSDKLaunchActionAlreadyAuthenticated = 1 << 1,
     SFSDKLaunchActionAuthBypassed         = 1 << 2,
     SFSDKLaunchActionPasscodeVerified     = 1 << 3
-};
+} SFSDK_DEPRECATED(7.0, 8.0, "Use SalesforceSDKManager initSDK instead");
 
 /**
  Callback block to implement for post launch actions.
  */
-typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction);
+typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction) SFSDK_DEPRECATED(7.0, 8.0, "Use SalesforceSDKManager initializeSDK instead");
 
 /**
  Callback block to implement for handling launch errors.
  */
-typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction);
+typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction) SFSDK_DEPRECATED(7.0, 8.0, "Use SalesforceSDKManager initializeSDK instead");
 
 /**
  Callback block to implement for post logout actions.
  */
-typedef void (^SFSDKLogoutCallbackBlock)(void);
+typedef void (^SFSDKLogoutCallbackBlock)(void) SFSDK_DEPRECATED(7.0, 8.0, "Use NSNotificationCenter to listen for SFNotificationUserDidLogout notification instead");
 
 /**
  Callback block to implement for user switching.
  */
-typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
+typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*) SFSDK_DEPRECATED(7.0, 8.0, "Use NSNotificationCenter to listen for SFNotificationUserDidLogout notification instead");
 
 /**
  Callback block to implement for post app foregrounding actions.

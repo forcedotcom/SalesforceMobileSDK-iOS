@@ -50,7 +50,10 @@
 - (AppDelegate *)sfsdk_swizzled_init
 {
     // Need to use SalesforceHybridSDKManager in hybrid apps
-    [SalesforceSDKManager setInstanceClass:[SalesforceHybridSDKManager class]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:) name:kSFNotificationUserDidLogout object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidSwitch:) name:kSFNotificationUserDidSwitch  object:nil];
+    [SalesforceHybridSDKManager initializeSDK];
     
     //Uncomment following block to enable IDP Login flow.
     /*
@@ -65,24 +68,6 @@
      return controller;
      };
      */
-    __weak __typeof(self) weakSelf = self;
-    [SalesforceHybridSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [SFSDKHybridLogger log:[self class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceHybridSDKManager launchActionsStringRepresentation:launchActionList]];
-        [strongSelf setupRootViewController];
-    };
-    [SalesforceHybridSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        [SFSDKHybridLogger log:[self class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
-        [strongSelf initializeAppViewState];
-        [[SalesforceHybridSDKManager sharedManager] launch];
-    };
-    [SalesforceHybridSDKManager sharedManager].postLogoutAction = ^{
-        [weakSelf handleSdkManagerLogout];
-    };
-    [SalesforceHybridSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
-        [weakSelf handleUserSwitch:fromUser toUser:toUser];
-    };
     
     return [self sfsdk_swizzled_init];
 }
@@ -100,7 +85,7 @@
     self.window.autoresizesSubviews = YES;
     
     [self initializeAppViewState];
-    [[SalesforceHybridSDKManager sharedManager] launch];
+    [self loginIfRequired];
     return YES; // we don't want to run's Cordova didFinishLaunchingWithOptions - it creates another window with a webview
                 // if devs want to customize their AppDelegate.m, then they should get rid of AppDelegate+SalesforceHybrid.m
                 // and bring all of its code in their AppDelegate.m
@@ -155,7 +140,7 @@
             if ([allAccounts count] == 1) {
                 [SFUserAccountManager sharedInstance].currentUser = allAccounts[0];
             }
-            [[SalesforceHybridSDKManager sharedManager] launch];
+            [self loginIfRequired];
         }
     }];
 }
@@ -167,11 +152,40 @@
         [SFSDKHybridLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
          fromUser.userName, toUser.userName];
         [self initializeAppViewState];
-        [[SalesforceHybridSDKManager sharedManager] launch];
+         [self loginIfRequired];
     }];
 }
 
 #pragma mark - Private methods
+
+- (void)handleUserDidSwitch:(NSNotification *)notification {
+    SFUserAccount *fromUser = notification.userInfo[kSFNotificationFromUserKey];
+    SFUserAccount *toUser = notification.userInfo[kSFNotificationToUserKey];
+    [self handleUserSwitch:fromUser toUser:toUser];
+}
+
+- (void)handleUserDidLogout:(NSNotification *)notification {
+    [self handleSdkManagerLogout];
+}
+
+- (void)loginIfRequired {
+    __weak typeof(self) weakSelf = self;
+    if (![SFUserAccountManager sharedInstance].currentUser) {
+        SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [SFUserAccountManager sharedInstance].currentUser = userAccount;
+            [strongSelf setupRootViewController];
+        };
+        
+        SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
+            [SFSDKHybridLogger e:[self class] format:@"Authentication failed: %@.",[authError localizedDescription]];
+            
+        };
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+    } else {
+        [self setupRootViewController];
+    }
+}
 
 - (void)initializeAppViewState
 {

@@ -41,6 +41,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     init()
     {
         super.init()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUserDidLogout), name: NSNotification.Name(kSFNotificationUserDidLogout), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUserDidSwitch), name: NSNotification.Name(kSFNotificationUserDidSwitch), object: nil)
+
         
         SalesforceSwiftSDKManager.initSDK()
             .Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
@@ -61,20 +65,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                  }
                  */
                 
-            }
-            .postLaunch {  [unowned self] (launchActionList: SFSDKLaunchAction) in
-                let launchActionString = SalesforceSwiftSDKManager.launchActionsStringRepresentation(launchActionList)
-                SalesforceSwiftLogger.log(type(of:self), level:.info, message:"Post-launch: launch actions taken: \(launchActionString)")
-                self.setupRootViewController()
-                
-            }.postLogout {  [unowned self] in
-                self.handleSdkManagerLogout()
-            }.switchUser{ [unowned self] (fromUser: SFUserAccount?, toUser: SFUserAccount?) -> () in
-                self.handleUserSwitch(fromUser, toUser: toUser)
-            }.launchError {  [unowned self] (error: Error, launchActionList: SFSDKLaunchAction) in
-                SalesforceSwiftLogger.log(type(of:self), level:.error, message:"Error during SDK launch: \(error.localizedDescription)")
-                self.initializeAppViewState()
-                SalesforceSwiftSDKManager.shared().launch()
             }
             .done()
         
@@ -104,7 +94,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //loginViewConfig.navBarFont = UIFont(name: "Helvetica", size: 16.0)
         //SFUserAccountManager.sharedInstance().loginViewControllerConfig = loginViewConfig
         
-        SalesforceSwiftSDKManager.shared().launch()
+        loginIfRequired()
         return true
     }
     
@@ -139,6 +129,20 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     }
     
     // MARK: - Private methods
+    func loginIfRequired() -> Void  {
+        if SFUserAccountManager.sharedInstance().currentUser != nil  {
+            self.setupRootViewController()
+        }
+        
+        _ = SFUserAccountManager.sharedInstance().Promises.login()
+        .done { [weak self] loggedInUser in
+            SFUserAccountManager.sharedInstance().currentUser = loggedInUser
+            DispatchQueue.main.async {
+                self?.setupRootViewController()
+            }
+        }
+    }
+    
     func initializeAppViewState()
     {
         if (!Thread.isMainThread) {
@@ -202,9 +206,30 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 if (numberOfAccounts == 1) {
                     SFUserAccountManager.sharedInstance().currentUser = allAccounts![0]
                 }
-                SalesforceSwiftSDKManager.shared().launch()
+                self.loginIfRequired()
             }
         }
+    }
+    
+    @objc func handleUserDidLogout(_ notification: NSNotification) {
+       self.handleSdkManagerLogout()
+    }
+    
+    @objc func handleUserDidSwitch(_ notification: NSNotification) {
+        guard let userInfo = notification.userInfo else {
+            return
+        }
+        var fromUser: SFUserAccount?
+        var toUser: SFUserAccount?
+        
+        if userInfo[kSFNotificationFromUserKey] is SFUserAccount {
+            fromUser = userInfo[kSFNotificationFromUserKey] as? SFUserAccount
+        }
+        
+        if userInfo[kSFNotificationToUserKey] is SFUserAccount {
+            toUser = userInfo[kSFNotificationToUserKey] as? SFUserAccount
+        }
+        self.handleUserSwitch(fromUser, toUser: toUser)
     }
     
     func handleUserSwitch(_ fromUser: SFUserAccount?, toUser: SFUserAccount?)
@@ -214,7 +239,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         SalesforceSwiftLogger.log(type(of:self), level:.debug, message:"SFUserAccountManager changed from user \(String(describing: fromUserName)) to \(String(describing: toUserName)).  Resetting app.")
         self.resetViewState { () -> () in
             self.initializeAppViewState()
-            SalesforceSwiftSDKManager.shared().launch()
+            self.loginIfRequired()
         }
     }
     

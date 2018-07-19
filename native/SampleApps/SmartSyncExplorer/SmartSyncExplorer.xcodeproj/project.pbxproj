@@ -69,6 +69,7 @@
 		B7BAD7341FBB7DC30046629F /* IDPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BAD7311FBB7DC30046629F /* IDPLoginViewController.m */; };
 		B7BAD7351FBB7DC30046629F /* IDPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */; };
 		B7BAD7361FBB7DC30046629F /* IDPLoginNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BAD7331FBB7DC30046629F /* IDPLoginNavViewController.m */; };
+		B7DC2CFA20FD491300B62708 /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7DC2CF920FD491300B62708 /* bootconfig.plist */; };
 		B7DF837A1DAD911D00DC7A8F /* SmartSyncExplorerCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7A134301D99D52600A4559C /* SmartSyncExplorerCommon.framework */; };
 		B7E0CF331D91CECE0050A1F4 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */; };
 		B7E0CF371D91CECE0050A1F4 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E0CF361D91CECE0050A1F4 /* TodayViewController.m */; };
@@ -492,6 +493,7 @@
 		B7BAD7311FBB7DC30046629F /* IDPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IDPLoginViewController.m; path = ../../../../../shared/classes/IDPLoginViewController.m; sourceTree = "<group>"; };
 		B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = IDPLoginViewController.xib; path = ../../../../../shared/classes/IDPLoginViewController.xib; sourceTree = "<group>"; };
 		B7BAD7331FBB7DC30046629F /* IDPLoginNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IDPLoginNavViewController.m; path = ../../../../../shared/classes/IDPLoginNavViewController.m; sourceTree = "<group>"; };
+		B7DC2CF920FD491300B62708 /* bootconfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bootconfig.plist; sourceTree = "<group>"; };
 		B7E0CF311D91CECE0050A1F4 /* RecentContactsTodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RecentContactsTodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		B7E0CF351D91CECE0050A1F4 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
@@ -669,6 +671,7 @@
 				4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */,
 				4F941E941F8C43370035EB03 /* userstore.json */,
 				4FCA4A9C1FBE61C300F081B3 /* usersyncs.json */,
+				B7DC2CF920FD491300B62708 /* bootconfig.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1294,6 +1297,7 @@
 				4FCA4A9D1FBE61C300F081B3 /* usersyncs.json in Resources */,
 				827C631F19E6018C00027484 /* InfoPlist.strings in Resources */,
 				B7168F2D1FACC1F100A48DB5 /* LaunchScreen.storyboard in Resources */,
+				B7DC2CFA20FD491300B62708 /* bootconfig.plist in Resources */,
 				4F941E951F8C43370035EB03 /* userstore.json in Resources */,
 				B7BAD7351FBB7DC30046629F /* IDPLoginViewController.xib in Resources */,
 				4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */,

@@ -76,7 +76,7 @@ static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
     BOOL result = [self.manager registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
     XCTAssertFalse(result);
 }
-
+SFSDK_USE_DEPRECATED_BEGIN
 - (void)testUnregisterSalesforceNotifications_NoUserCredentials {
     self.user.credentials = (SFOAuthCredentials* _Nonnull)nil;
     BOOL result = [self.manager unregisterSalesforceNotifications:self.user];
@@ -91,6 +91,6 @@ static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
     XCTAssertFalse(result);
 }
 
-
+SFSDK_USE_DEPRECATED_END
 
 @end

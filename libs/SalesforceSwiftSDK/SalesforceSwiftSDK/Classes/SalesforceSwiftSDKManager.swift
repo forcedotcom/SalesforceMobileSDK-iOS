@@ -51,7 +51,7 @@ public class SalesforceSwiftSDKManager: SmartSyncSDKManager {
     
     /// Initialize the SDK Manager.
     public class func initSDK() -> SalesforceSwiftSDKManager.Type {
-        SalesforceSDKManager.setInstanceClass(SalesforceSwiftSDKManager.self)
+        self.initializeSDK(with: SalesforceSwiftSDKManager.self)
         return SalesforceSwiftSDKManager.self
     }
     

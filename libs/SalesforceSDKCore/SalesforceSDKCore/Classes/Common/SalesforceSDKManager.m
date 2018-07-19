@@ -54,6 +54,7 @@ static NSString* ailtnAppName = nil;
 
 // Dev support
 static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNotification";
+SFSDK_USE_DEPRECATED_BEGIN
 
 @implementation UIWindow (SalesforceSDKManager)
 
@@ -129,6 +130,15 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
     }
 }
 
++ (void)initializeSDK {
+    [self initializeSDKWithClass:InstanceClass];
+}
+
++ (void)initializeSDKWithClass:(Class)className {
+    [self setInstanceClass:className];
+    [SalesforceSDKManager sharedManager];
+}
+
 + (instancetype)sharedManager {
     static dispatch_once_t pred;
     static SalesforceSDKManager *sdkManager = nil;
@@ -160,8 +170,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 #endif
         self.sdkManagerFlow = self;
         self.delegates = [NSHashTable weakObjectsHashTable];
-        [[SFUserAccountManager sharedInstance] addDelegate:self];
-        
         [SFSecurityLockout addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -174,15 +182,17 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
         
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow  selector:@selector(handleIDPInitiatedAuthCompleted:)
                                                      name:kSFNotificationUserIDPInitDidLogIn object:nil];
-        
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow  selector:@selector(handleIDPUserAddCompleted:)
                                                      name:kSFNotificationUserWillSendIDPResponse object:nil];
         
-       [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillSwitch:)  name:kSFNotificationUserWillSwitch object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidSwitch:)  name:kSFNotificationUserDidSwitch object:nil];
         
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         self.useSnapshotView = YES;
         self.userAgentString = [self defaultUserAgentString];
+        [self setupServiceConfiguration];
     }
     return self;
 }
@@ -995,16 +1005,20 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 }
 
 #pragma mark - SFUserAccountManagerDelegate
-
 - (void)handleUserDidLogout:(NSNotification *)notification {
     [self.sdkManagerFlow handlePostLogout];
 }
 
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
-         willSwitchFromUser:(SFUserAccount *)fromUser
-                    toUser:(SFUserAccount *)toUser
-{
+- (void)handleUserWillSwitch:(NSNotification *)notification {
+    SFUserAccount *fromUser = notification.userInfo[kSFNotificationFromUserKey];
+    SFUserAccount *toUser = notification.userInfo[kSFNotificationToUserKey];
     [self.sdkManagerFlow handleUserWillSwitch:fromUser toUser:toUser];
+}
+
+- (void)handleUserDidSwitch:(NSNotification *)notification {
+    SFUserAccount *fromUser = notification.userInfo[kSFNotificationFromUserKey];
+    SFUserAccount *toUser = notification.userInfo[kSFNotificationToUserKey];
+    [self.sdkManagerFlow handleUserDidSwitch:fromUser toUser:toUser];
 }
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
@@ -1028,4 +1042,4 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 }
 
 @end
-
+SFSDK_USE_DEPRECATED_END

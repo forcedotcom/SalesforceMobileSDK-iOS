@@ -66,14 +66,12 @@
         [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
         [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
         
-        // Need to use SmartSyncSDKManager when using SmartSync
-        [SalesforceSDKManager setInstanceClass:[SmartSyncSDKManager class]];
-        [SmartSyncSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
-        [SmartSyncSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
-        [SmartSyncSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
-        __weak typeof(self) weakSelf = self;
-        [[SmartSyncSDKManager sharedManager] addDelegate:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:) name:kSFNotificationUserDidLogout object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidSwitch:) name:kSFNotificationUserDidSwitch  object:nil];
+        [SmartSyncSDKManager initializeSDK];
+        [[SmartSyncSDKManager sharedManager] addDelegate:self];
+       
         //Uncomment following block to enable IDP Login flow.
         /*
         //scheme of idpAppp
@@ -87,46 +85,10 @@
             return controller;
         };
         */
-        
-        [SmartSyncSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            //
-            // If you wish to register for push notifications, uncomment the line below.  Note that,
-            // if you want to receive push notifications from Salesforce, you will also need to
-            // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
-            //
-            //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
-            //
-            [strongSelf setUserLoginStatus:YES];
-            [SFSDKSmartSyncLogger log:[strongSelf class] level:DDLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SmartSyncSDKManager launchActionsStringRepresentation:launchActionList]];
-            [strongSelf setupRootViewController];
-
-        };
-        [SmartSyncSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [SFSDKSmartSyncLogger log:[strongSelf class] level:DDLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
-            [strongSelf initializeAppViewState];
-            [[SmartSyncSDKManager sharedManager] launch];
-        };
-        [SmartSyncSDKManager sharedManager].postLogoutAction = ^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf setUserLoginStatus:NO];
-            [strongSelf handleSdkManagerLogout];
-        };
-        [SmartSyncSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf setUserLoginStatus:NO];
-            [strongSelf handleUserSwitch:fromUser toUser:toUser];
-        };
     }
     return self;
 }
 
-- (void)setUserLoginStatus :(BOOL) loggedIn {
-    [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
-    [[NSUserDefaults msdkUserDefaults] synchronize];
-    [SFSDKSmartSyncLogger log:[self class] level:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -137,8 +99,8 @@
     // UIWindow.
     self.window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
-    [[SmartSyncSDKManager sharedManager] launch];
-    return YES;
+    [self loginIfRequired];
+     return YES;
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -171,6 +133,41 @@
 
 #pragma mark - Private methods
 
+- (void)handleUserDidSwitch:(NSNotification *)notification {
+    [self setUserLoginStatus:NO];
+    SFUserAccount *fromUser = notification.userInfo[kSFNotificationFromUserKey];
+    SFUserAccount *toUser = notification.userInfo[kSFNotificationToUserKey];
+    [self handleUserSwitch:fromUser toUser:toUser];
+}
+- (void)handleUserDidLogout:(NSNotification *)notification {
+    [self handleSdkManagerLogout];
+}
+
+- (void)setUserLoginStatus :(BOOL) loggedIn {
+    [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
+    [SFSDKSmartSyncLogger log:[self class] level:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
+}
+
+- (void)loginIfRequired {
+    __weak typeof(self) weakSelf = self;
+    if (![SFUserAccountManager sharedInstance].currentUser) {
+        SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [SFUserAccountManager sharedInstance].currentUser = userAccount;
+            [strongSelf setupRootViewController];
+        };
+        
+        SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
+            [SFSDKSmartSyncLogger e:[self class] format:@"Authentication failed: %@.",[authError localizedDescription]];
+            
+        };
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+    } else {
+        [self setupRootViewController];
+    }
+}
+
 - (void)initializeAppViewState
 {
     self.window.rootViewController = [[InitialViewController alloc] initWithNibName:nil bundle:nil];
@@ -182,6 +179,7 @@
     ContactListViewController *rootVC = [[ContactListViewController alloc] initWithStyle:UITableViewStylePlain];
     SFSDKNavigationController *navVC = [[SFSDKNavigationController alloc] initWithRootViewController:rootVC];
     self.window.rootViewController = navVC;
+    [self.window makeKeyAndVisible];
 }
 
 - (void)resetViewState:(void (^)(void))postResetBlock
@@ -218,9 +216,10 @@
         } else {
             if ([allAccounts count] == 1) {
                 [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
+                [self setupRootViewController];
+            } else {
+                [self loginIfRequired];
             }
-            
-            [[SmartSyncSDKManager sharedManager] launch];
         }
     }];
 }
@@ -232,7 +231,7 @@
      fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
-        [[SmartSyncSDKManager sharedManager] launch];
+        [self setupRootViewController];
     }];
 }
 

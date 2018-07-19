@@ -507,6 +507,9 @@
 
 }
 
+- (void)authClient:(SFSDKOAuthClient * _Nonnull)client displayMessage:(nonnull SFSDKAlertMessage *)message {
+}
+
 #pragma mark SFOAuthCoordinatorFlow
 - (void)beginUserAgentFlow {
     [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];

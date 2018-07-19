@@ -70,11 +70,7 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     
     if ([self userIsLoggedIn] ) {
         [SFSDKLogger log:[self class] level:DDLogLevelError format:@"User has logged in"];
-        [SalesforceSDKManager setInstanceClass:[SmartSyncSDKManager class]];
-        [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
-        [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
-        [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
-        [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate = config.appGroupsEnabled;
+        [SmartSyncSDKManager initializeSDK];
         SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
         __weak typeof(self) weakSelf = self;
         void (^completionBlock)(void) = ^{
