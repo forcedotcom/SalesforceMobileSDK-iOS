@@ -1491,7 +1491,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidSwitch
                                                             object:self
                                                           userInfo:@{
-                                                                     kSFNotificationFromUserKey: [self currentUser]?:[NSNull null],
+                                                                     kSFNotificationFromUserKey: prevUser?:[NSNull null],
                                                                      kSFNotificationToUserKey: newCurrentUser
                                                                      }];
     }
