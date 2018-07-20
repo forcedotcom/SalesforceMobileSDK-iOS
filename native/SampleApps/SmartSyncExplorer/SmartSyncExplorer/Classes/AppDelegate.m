@@ -26,11 +26,10 @@
 #import "InitialViewController.h"
 #import "ContactListViewController.h"
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
-#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKcore/SFSDKWindowManager.h>
+#import <SalesforceSDKCore/SFSDKAuthHelper.h>
 #import <SmartSync/SmartSyncSDKManager.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
@@ -65,13 +64,19 @@
         SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
         [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
         [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:) name:kSFNotificationUserDidLogout object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidSwitch:) name:kSFNotificationUserDidSwitch  object:nil];
+
         [SmartSyncSDKManager initializeSDK];
-        [[SmartSyncSDKManager sharedManager] addDelegate:self];
-       
+        
+        //App Setup for any changes to the current authenticated user
+        __weak typeof (self) weakSelf = self;
+        [SFSDKAuthHelper registerBlockForCurrentUserChangeNotifications:^{
+            __strong typeof (weakSelf) strongSelf = weakSelf;
+            [strongSelf setUserLoginStatus:YES];
+            [strongSelf resetViewState:^{
+                [strongSelf setupRootViewController];
+            }]
+        }];
+        
         //Uncomment following block to enable IDP Login flow.
         /*
         //scheme of idpAppp
@@ -99,8 +104,11 @@
     // UIWindow.
     self.window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
-    [self loginIfRequired];
-     return YES;
+    __weak typeof (self) weakSelf = self;
+    [SFSDKAuthHelper loginIfRequired:^{
+        [weakSelf setupRootViewController];
+    }];
+    return YES;
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -132,40 +140,10 @@
 }
 
 #pragma mark - Private methods
-
-- (void)handleUserDidSwitch:(NSNotification *)notification {
-    [self setUserLoginStatus:NO];
-    SFUserAccount *fromUser = notification.userInfo[kSFNotificationFromUserKey];
-    SFUserAccount *toUser = notification.userInfo[kSFNotificationToUserKey];
-    [self handleUserSwitch:fromUser toUser:toUser];
-}
-- (void)handleUserDidLogout:(NSNotification *)notification {
-    [self handleSdkManagerLogout];
-}
-
-- (void)setUserLoginStatus :(BOOL) loggedIn {
+- (void)setUserLoginStatus:(BOOL) loggedIn {
     [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
     [[NSUserDefaults msdkUserDefaults] synchronize];
     [SFSDKSmartSyncLogger log:[self class] level:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
-}
-
-- (void)loginIfRequired {
-    __weak typeof(self) weakSelf = self;
-    if (![SFUserAccountManager sharedInstance].currentUser) {
-        SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [SFUserAccountManager sharedInstance].currentUser = userAccount;
-            [strongSelf setupRootViewController];
-        };
-        
-        SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
-            [SFSDKSmartSyncLogger e:[self class] format:@"Authentication failed: %@.",[authError localizedDescription]];
-            
-        };
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
-    } else {
-        [self setupRootViewController];
-    }
 }
 
 - (void)initializeAppViewState
@@ -191,48 +169,6 @@
     } else {
         postResetBlock();
     }
-}
-
-- (void)handleSdkManagerLogout
-{
-    [SFSDKSmartSyncLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager logged out. Resetting app."];
-    [self resetViewState:^{
-        [self initializeAppViewState];
-        
-        // Multi-user pattern:
-        // - If there are two or more existing accounts after logout, let the user choose the account
-        //   to switch to.
-        // - If there is one existing account, automatically switch to that account.
-        // - If there are no further authenticated accounts, present the login screen.
-        //
-        // Alternatively, you could just go straight to re-initializing your app state, if you know
-        // your app does not support multiple accounts.  The logic below will work either way.
-        NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
-        if ([allAccounts count] > 1) {
-            SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
-                [self.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
-            }];
-            [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
-        } else {
-            if ([allAccounts count] == 1) {
-                [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
-                [self setupRootViewController];
-            } else {
-                [self loginIfRequired];
-            }
-        }
-    }];
-}
-
-- (void)handleUserSwitch:(SFUserAccount *)fromUser
-                  toUser:(SFUserAccount *)toUser
-{
-    [SFSDKSmartSyncLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
-     fromUser.userName, toUser.userName];
-    [self resetViewState:^{
-        [self initializeAppViewState];
-        [self setupRootViewController];
-    }];
 }
 
 - (void)sdkManagerWillResignActive {

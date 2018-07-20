@@ -32,7 +32,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
-#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
+#import <SalesforceSDKCore/SFSDKAuthHelper.h>
 #import <SalesforceHybridSDK/SalesforceHybridSDKManager.h>
 #import <SalesforceHybridSDK/SFSDKHybridLogger.h>
 
@@ -50,10 +50,16 @@
 - (AppDelegate *)sfsdk_swizzled_init
 {
     // Need to use SalesforceHybridSDKManager in hybrid apps
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:) name:kSFNotificationUserDidLogout object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidSwitch:) name:kSFNotificationUserDidSwitch  object:nil];
     [SalesforceHybridSDKManager initializeSDK];
+    
+    //App Setup for any changes to the current authenticated user
+    __weak typeof (self) weakSelf = self;
+    [SFSDKAuthHelper registerBlockForCurrentUserChangeNotifications:^{
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        [strongSelf resetViewState:^{
+            [strongSelf setupRootViewController];
+        }];
+    }];
     
     //Uncomment following block to enable IDP Login flow.
     /*
@@ -85,7 +91,10 @@
     self.window.autoresizesSubviews = YES;
     
     [self initializeAppViewState];
-    [self loginIfRequired];
+     __weak typeof (self) weakSelf = self;
+    [SFSDKAuthHelper loginIfRequired:^{
+        [weakSelf setupRootViewController];
+    }];
     return YES; // we don't want to run's Cordova didFinishLaunchingWithOptions - it creates another window with a webview
                 // if devs want to customize their AppDelegate.m, then they should get rid of AppDelegate+SalesforceHybrid.m
                 // and bring all of its code in their AppDelegate.m
@@ -95,7 +104,7 @@
 {
     [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
     if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
-        [[SFPushNotificationManager sharedInstance] registerForSalesforceNotifications];
+        [[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
     }
     
     [self sfsdk_swizzled_application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
@@ -115,77 +124,7 @@
     
 }
 
-- (void)handleSdkManagerLogout
-{
-    [self resetViewState:^{
-        [SFSDKHybridLogger log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
-        ((SFHybridViewController*)self.viewController).appHomeUrl = nil;
-        [self initializeAppViewState];
-        
-        // Multi-user pattern:
-        // - If there are two or more existing accounts after logout, let the user choose the account
-        //   to switch to.
-        // - If there is one existing account, automatically switch to that account.
-        // - If there are no further authenticated accounts, present the login screen.
-        //
-        // Alternatively, you could just go straight to re-initializing your app state, if you know
-        // your app does not support multiple accounts.  The logic below will work either way.
-        NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
-        if ([allAccounts count] > 1) {
-            SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
-                [self.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
-            }];
-            [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
-        } else {
-            if ([allAccounts count] == 1) {
-                [SFUserAccountManager sharedInstance].currentUser = allAccounts[0];
-            }
-            [self loginIfRequired];
-        }
-    }];
-}
-
-- (void)handleUserSwitch:(SFUserAccount *)fromUser
-                  toUser:(SFUserAccount *)toUser
-{
-    [self resetViewState:^{
-        [SFSDKHybridLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
-         fromUser.userName, toUser.userName];
-        [self initializeAppViewState];
-         [self loginIfRequired];
-    }];
-}
-
 #pragma mark - Private methods
-
-- (void)handleUserDidSwitch:(NSNotification *)notification {
-    SFUserAccount *fromUser = notification.userInfo[kSFNotificationFromUserKey];
-    SFUserAccount *toUser = notification.userInfo[kSFNotificationToUserKey];
-    [self handleUserSwitch:fromUser toUser:toUser];
-}
-
-- (void)handleUserDidLogout:(NSNotification *)notification {
-    [self handleSdkManagerLogout];
-}
-
-- (void)loginIfRequired {
-    __weak typeof(self) weakSelf = self;
-    if (![SFUserAccountManager sharedInstance].currentUser) {
-        SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [SFUserAccountManager sharedInstance].currentUser = userAccount;
-            [strongSelf setupRootViewController];
-        };
-        
-        SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
-            [SFSDKHybridLogger e:[self class] format:@"Authentication failed: %@.",[authError localizedDescription]];
-            
-        };
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
-    } else {
-        [self setupRootViewController];
-    }
-}
 
 - (void)initializeAppViewState
 {
