@@ -32,7 +32,6 @@
 
 @interface SFNetwork()
 
-@property (nonatomic, readwrite, assign) BOOL useBackground;
 @property (nonatomic, readwrite, strong) NSURLSession *activeSession;
 
 @end
@@ -49,7 +48,6 @@ static NSURLSessionConfiguration *kSFSessionConfig;
             ephemeralSessionConfig = kSFSessionConfig;
         }
         self.activeSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
-        self.useBackground = NO;
     }
     return self;
 }
@@ -63,7 +61,6 @@ static NSURLSessionConfiguration *kSFSessionConfig;
             backgroundSessionConfig = kSFSessionConfig;
         }
         self.activeSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
-        self.useBackground = YES;
     }
     return self;
 }
@@ -74,7 +71,6 @@ static NSURLSessionConfiguration *kSFSessionConfig;
     if (![urlRequest.allHTTPHeaderFields.allKeys containsObject:@"User-Agent"]) {
         [urlRequest setValue:[SalesforceSDKManager sharedManager].userAgentString(@"") forHTTPHeaderField:@"User-Agent"];
     }
-
     NSURLSessionDataTask *dataTask = [self.activeSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (dataResponseBlock) {
             dataResponseBlock(data, response, error);

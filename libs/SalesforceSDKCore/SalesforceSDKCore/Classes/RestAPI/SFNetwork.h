@@ -34,7 +34,6 @@
 
 typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
 
-@property (nonatomic, readonly, assign) BOOL useBackground;
 @property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession;
 
 /**

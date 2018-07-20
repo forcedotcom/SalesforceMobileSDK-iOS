@@ -116,10 +116,10 @@
     //
     // Uncomment the code below to register your device token with the push notification manager
     //
-    //[[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-    //if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
-    //    [[SFPushNotificationManager sharedInstance] registerForSalesforceNotifications];
-    //}
+    // [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    // if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
+    //     [[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+    // }
     //
 }
 

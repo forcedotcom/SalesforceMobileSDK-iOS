@@ -106,7 +106,6 @@
     if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
         [[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
     }
-    
     [self sfsdk_swizzled_application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
