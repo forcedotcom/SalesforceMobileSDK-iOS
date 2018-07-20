@@ -74,7 +74,7 @@
             [strongSelf setUserLoginStatus:YES];
             [strongSelf resetViewState:^{
                 [strongSelf setupRootViewController];
-            }]
+            }];
         }];
         
         //Uncomment following block to enable IDP Login flow.
