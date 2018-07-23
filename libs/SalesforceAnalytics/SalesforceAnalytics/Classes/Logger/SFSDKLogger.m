@@ -363,12 +363,14 @@ static inline DDLogFlag DDLogFlagForLogLevel(DDLogLevel level) {
 
 - (instancetype)initWithDateFormatter: (NSDateFormatter *)specialFormatter {
     self = [super init];
-    if (specialFormatter == nil) {
-        self.dateFormatter = [[NSDateFormatter alloc] init];
-        [self.dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
-        [self.dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSSZ"];
-    } else {
-        self.dateFormatter = specialFormatter;
+    if (self) {
+        if (specialFormatter == nil) {
+            self.dateFormatter = [[NSDateFormatter alloc] init];
+            [self.dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+            [self.dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSSZ"];
+        } else {
+            self.dateFormatter = specialFormatter;
+        }
     }
     return self;
 }
