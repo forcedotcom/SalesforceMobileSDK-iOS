@@ -316,6 +316,6 @@
 
 @property (nonatomic, readwrite, strong, nonnull) NSDateFormatter *dateFormatter;
 
-- (instancetype)init;
+- (nonnull instancetype)init;
 
 @end
