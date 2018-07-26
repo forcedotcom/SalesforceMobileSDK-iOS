@@ -149,22 +149,22 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 /**
  The configured post launch action block to execute when launch completes.
  */
-@property (nonatomic, copy, nullable) SFSDKPostLaunchCallbackBlock postLaunchAction SFSDK_DEPRECATED(7.0, 8.0, "Used only in conjunction with launch. SalesforceSDKManager launch has been deprecated. Use initializeSDK instead of launch.");
+@property (nonatomic, copy, nullable) SFSDKPostLaunchCallbackBlock postLaunchAction;
 
 /**
  The configured launch error action block to execute in the event of an error during launch.
  */
-@property (nonatomic, copy, nullable) SFSDKLaunchErrorCallbackBlock launchErrorAction SFSDK_DEPRECATED(7.0, 8.0, "Used only in conjunction with launch. SalesforceSDKManager launch has been deprecated. Use initializeSDK instead of launch.");
+@property (nonatomic, copy, nullable) SFSDKLaunchErrorCallbackBlock launchErrorAction;
 
 /**
  The post logout action block to execute after the current user has been logged out.
  */
-@property (nonatomic, copy, nullable) SFSDKLogoutCallbackBlock postLogoutAction SFSDK_DEPRECATED(7.0, 8.0, "Used only in conjunction with launch. SalesforceSDKManager launch has been deprecated. Use initializeSDK instead of launch and use NSNotificationCenter to listen for SFNotificationUserDidLogout notification instead.");
+@property (nonatomic, copy, nullable) SFSDKLogoutCallbackBlock postLogoutAction;
 
 /**
  The switch user action block to execute when switching from one user to another.
  */
-@property (nonatomic, copy, nullable) SFSDKSwitchUserCallbackBlock switchUserAction SFSDK_DEPRECATED(7.0, 8.0, "Used only in conjunction with launch. SalesforceSDKManager launch has been deprecated. Use initializeSDK instead of launch and use NSNotificationCenter to listen for SFNotificationUserDidSwitch notification instead.");
+@property (nonatomic, copy, nullable) SFSDKSwitchUserCallbackBlock switchUserAction;
 
 /**
  The block to execute after the app has entered the foreground.
@@ -251,7 +251,6 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  actions.
  @return YES if the launch successfully kicks off, NO if launch is already running.
  */
-- (BOOL)launch SFSDK_DEPRECATED(7.0, 8.0, "SalesforceSDKManager launch has been deprecated. Use initializeSDK instead of launch");
 
 /**
  Initializes the SDK.
@@ -284,9 +283,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @param launchActions Bit-coded descriptor of actions taken during launch.
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
  */
-SFSDK_USE_DEPRECATED_BEGIN
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions ;
-SFSDK_USE_DEPRECATED_END
 
 /**
  * Show dev support dialog

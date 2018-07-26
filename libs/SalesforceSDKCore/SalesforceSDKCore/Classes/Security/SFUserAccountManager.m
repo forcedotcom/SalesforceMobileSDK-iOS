@@ -1378,8 +1378,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     } else {
 
         // Notify the session is ready.
-        [self willChangeValueForKey:@"haveValidSession"];
-        [self didChangeValueForKey:@"haveValidSession"];
         [self initAnalyticsManager];
         if (client.config.successCallbackBlock) {
             client.config.successCallbackBlock(client.context.authInfo,userAccount);
