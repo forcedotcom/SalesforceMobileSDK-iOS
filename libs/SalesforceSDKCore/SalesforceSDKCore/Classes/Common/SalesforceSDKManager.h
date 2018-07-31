@@ -251,7 +251,16 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  actions.
  @return YES if the launch successfully kicks off, NO if launch is already running.
  */
-- (BOOL)launch;
+
+/**
+ Initializes the SDK.
+ */
++ (void)initializeSDK;
+
+/**
+ Initializes the SDK.  Class instance to be used to instantiate the sdkManager.
+ */
++ (void)initializeSDKWithClass:(Class)className;
 
 /**
  @return app type as a string
@@ -274,7 +283,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @param launchActions Bit-coded descriptor of actions taken during launch.
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
  */
-+ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
++ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions ;
 
 /**
  * Show dev support dialog

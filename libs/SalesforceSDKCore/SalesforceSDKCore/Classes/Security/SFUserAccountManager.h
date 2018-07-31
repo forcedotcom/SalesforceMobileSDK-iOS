@@ -110,6 +110,14 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogout;
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogout;
 
+/** Notification sent prior to user switch
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserWillSwitch;
+
+/** Notification sent after user switch
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserDidSwitch;
+
 /** Notification sent when all users of org have logged off.
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationOrgDidLogout;
@@ -166,9 +174,17 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAuthTypeKey;
  */
 FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 
-/**  Key to use to lookup SFNotificationUserInfo object in Notitications dictionary
+/**  Key to use to lookup SFNotificationUserInfo object in Notifications dictionary
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoKey;
+
+/**  Key to used to lookup current previous current User object in Notifications dictionary
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationFromUserKey;
+
+/**  Key to used to lookup new cuurent User object in Notifications dictionary
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey;
 
 @protocol SFSDKOAuthClientDelegate;
 @protocol SFSDKOAuthClientSafariViewDelegate;

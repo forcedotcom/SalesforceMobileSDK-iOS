@@ -28,6 +28,10 @@
 
 @implementation SmartSyncSDKManager
 
++ (void)initializeSDK {
+    [super initializeSDKWithClass:self.class];
+}
+
 - (void) setupGlobalSyncsFromDefaultConfig {
     NSString *configPath = [self pathForGlobalSyncsConfig];
     [SFSDKSmartSyncLogger d:[self class] format:@"Setting up global syncs using config found in %@", configPath];

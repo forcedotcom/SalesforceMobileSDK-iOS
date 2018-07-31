@@ -31,7 +31,7 @@
  from application code.  If you find yourself accessing properties or calling methods
  declared in this file from app code, you're probably doing something wrong.
  */
-@interface SFRestAPI () <SFUserAccountManagerDelegate>
+@interface SFRestAPI ()
 
 /**
  * Active requests property.

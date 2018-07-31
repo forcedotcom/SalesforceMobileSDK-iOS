@@ -74,6 +74,9 @@ NSString * const kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout"
 NSString * const kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
 NSString * const kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
 
+NSString * const kSFNotificationUserWillSwitch  = @"SFNotificationUserWillSwitch";
+NSString * const kSFNotificationUserDidSwitch   = @"SFNotificationUserDidSwitch";
+
 //Auth Display Notification
 NSString * const kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
 NSString * const kSFNotificationUserCanceledAuth = @"SFNotificationUserCanceledAuthentication";
@@ -90,6 +93,8 @@ NSString * const kSFNotificationUserInfoCredentialsKey  = @"credentials";
 NSString * const kSFNotificationUserInfoAuthTypeKey     = @"authType";
 NSString * const kSFUserInfoAddlOptionsKey     = @"options";
 NSString * const kSFNotificationUserInfoKey    = @"sfuserInfo";
+NSString * const kSFNotificationFromUserKey    = @"fromUser";
+NSString * const kSFNotificationToUserKey      = @"toUser";
 
 NSString * const SFUserAccountManagerUserChangeKey      = @"change";
 NSString * const SFUserAccountManagerUserChangeUserKey      = @"user";
@@ -1373,8 +1378,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     } else {
 
         // Notify the session is ready.
-        [self willChangeValueForKey:@"haveValidSession"];
-        [self didChangeValueForKey:@"haveValidSession"];
         [self initAnalyticsManager];
         if (client.config.successCallbackBlock) {
             client.config.successCallbackBlock(client.context.authInfo,userAccount);
@@ -1469,6 +1472,13 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                 [delegate userAccountManager:self willSwitchFromUser:self.currentUser toUser:newCurrentUser];
             }
         }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillSwitch
+                                                            object:self
+                                                          userInfo:@{
+                                                                     kSFNotificationFromUserKey: [self currentUser]?:[NSNull null],
+                                                                     kSFNotificationToUserKey: newCurrentUser
+                                                                     }];
+        
         SFUserAccount *prevUser = self.currentUser;
         [self setCurrentUser:newCurrentUser];
         [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
@@ -1476,6 +1486,12 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                 [delegate userAccountManager:self didSwitchFromUser:prevUser toUser:newCurrentUser];
             }
         }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidSwitch
+                                                            object:self
+                                                          userInfo:@{
+                                                                     kSFNotificationFromUserKey: prevUser?:[NSNull null],
+                                                                     kSFNotificationToUserKey: newCurrentUser
+                                                                     }];
     }
 }
 

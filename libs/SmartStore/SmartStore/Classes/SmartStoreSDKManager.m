@@ -41,6 +41,10 @@
     return self;
 }
 
++ (void)initializeSDK {
+    [super initializeSDKWithClass:self.class];
+}
+
 - (void)handleUserWillLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [SFSmartStore removeAllStoresForUser:user];

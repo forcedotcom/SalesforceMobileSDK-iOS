@@ -1,6 +1,10 @@
 /*
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
-
+ SFSDKAuthHelper.h
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 07/19/18.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
+ 
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +15,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
-
+ 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -21,56 +25,18 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import <Foundation/Foundation.h>
 
-#import "SalesforceHybridSDKManager.h"
-#import "SFHybridViewConfig.h"
-@interface SmartStoreSDKManager ()
+@interface SFSDKAuthHelper : NSObject
 
-- (NSString*) pathForGlobalStoreConfig;
-- (NSString*) pathForUserStoreConfig;
++ (void)loginIfRequired:(void (^)(void))completionBlock;
 
-@end
++ (void)handleLogout:(void (^)(void))completionBlock;
 
-@interface SmartSyncSDKManager ()
++ (void)registerBlockForCurrentUserChangeNotifications:(void (^)(void))completionBlock;
 
-- (NSString*) pathForGlobalSyncsConfig;
-- (NSString*) pathForUserSyncsConfig;
++ (void)registerBlockForLogoutNotifications:(void (^)(void))completionBlock;
 
-@end
-
-@implementation SalesforceHybridSDKManager
-@synthesize appConfig = _appConfig;
-
-+ (void)initializeSDK {
-    [super initializeSDKWithClass:self.class];
-}
-
-- (SFSDKAppConfig *)appConfig {
-    if (_appConfig == nil) {
-        SFSDKAppConfig *config = [SFHybridViewConfig fromDefaultConfigFile];
-        _appConfig = config?:[[SFHybridViewConfig alloc] init];
-    }
-    return _appConfig;
-}
-- (SFAppType) appType {
-    return kSFAppTypeHybrid;
-}
-
-- (NSString*) pathForGlobalStoreConfig {
-    return @"/www/globalstore.json";
-}
-
-- (NSString*) pathForUserStoreConfig {
-    return @"/www/userstore.json";
-}
-
-- (NSString*) pathForGlobalSyncsConfig {
-    return @"/www/globalsyncs.json";
-}
-
-- (NSString*) pathForUserSyncsConfig {
-    return @"/www/usersyncs.json";
-}
++ (void)registerBlockForSwitchUserNotifications:(void (^)(void))completionBlock;
 
 @end
-
