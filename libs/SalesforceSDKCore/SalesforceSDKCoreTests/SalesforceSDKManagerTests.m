@@ -33,7 +33,7 @@
 
 static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 static NSString* const kTestAppName = @"OverridenAppName";
-SFSDK_USE_DEPRECATED_BEGIN
+
 @interface SalesforceSDKManagerTests : XCTestCase
 {
     NSString *_origConnectedAppId;
@@ -578,4 +578,3 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 @end
-SFSDK_USE_DEPRECATED_END

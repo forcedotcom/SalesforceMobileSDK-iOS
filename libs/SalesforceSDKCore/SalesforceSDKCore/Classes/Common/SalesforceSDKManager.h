@@ -251,6 +251,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  actions.
  @return YES if the launch successfully kicks off, NO if launch is already running.
  */
+- (BOOL)launch;
 
 /**
  Initializes the SDK.

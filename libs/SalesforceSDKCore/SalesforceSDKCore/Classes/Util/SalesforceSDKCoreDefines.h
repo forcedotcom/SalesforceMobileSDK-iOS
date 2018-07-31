@@ -23,12 +23,13 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SalesforceSDKConstants.h"
 @class SFUserAccount;
 @class UIViewController;
 @protocol SFSDKLoginFlowSelectionView;
 @protocol SFSDKUserSelectionView;
+
 NS_ASSUME_NONNULL_BEGIN
+
 // Errors
 extern NSString * const kSalesforceSDKManagerErrorDomain;
 extern NSString * const kSalesforceSDKManagerErrorDetailsKey;
@@ -44,27 +45,27 @@ typedef NS_OPTIONS(NSInteger, SFSDKLaunchAction) {
     SFSDKLaunchActionAlreadyAuthenticated = 1 << 1,
     SFSDKLaunchActionAuthBypassed         = 1 << 2,
     SFSDKLaunchActionPasscodeVerified     = 1 << 3
-} SFSDK_DEPRECATED(7.0, 8.0, "Use SalesforceSDKManager initSDK instead");
+};
 
 /**
  Callback block to implement for post launch actions.
  */
-typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction) SFSDK_DEPRECATED(7.0, 8.0, "Use SalesforceSDKManager initializeSDK instead");
+typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction);
 
 /**
  Callback block to implement for handling launch errors.
  */
-typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction) SFSDK_DEPRECATED(7.0, 8.0, "Use SalesforceSDKManager initializeSDK instead");
+typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction);
 
 /**
  Callback block to implement for post logout actions.
  */
-typedef void (^SFSDKLogoutCallbackBlock)(void) SFSDK_DEPRECATED(7.0, 8.0, "Use NSNotificationCenter to listen for SFNotificationUserDidLogout notification instead");
+typedef void (^SFSDKLogoutCallbackBlock)(void);
 
 /**
  Callback block to implement for user switching.
  */
-typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*) SFSDK_DEPRECATED(7.0, 8.0, "Use NSNotificationCenter to listen for SFNotificationUserDidLogout notification instead");
+typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
 
 /**
  Callback block to implement for post app foregrounding actions.
@@ -81,9 +82,9 @@ typedef NSString*_Nonnull (^SFSDKUserAgentCreationBlock)(NSString *qualifier);
  */
 typedef UIViewController<SFSDKLoginFlowSelectionView>*_Nonnull (^SFIDPLoginFlowSelectionBlock)(void);
 
-
 /**
  Block typedef for creating a custom user selection flow for idp provider app.
  */
 typedef UIViewController<SFSDKUserSelectionView>*_Nonnull (^SFIDPUserSelectionBlock)(void);
+
 NS_ASSUME_NONNULL_END
