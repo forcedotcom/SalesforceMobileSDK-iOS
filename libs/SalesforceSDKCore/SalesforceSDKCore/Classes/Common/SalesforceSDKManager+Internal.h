@@ -26,7 +26,7 @@
 @interface SnapshotViewController : UIViewController
 
 @end
-SFSDK_USE_DEPRECATED_BEGIN
+
 @interface SalesforceSDKManager () <SalesforceSDKManagerFlow, SFSecurityLockoutDelegate>
 {
     BOOL _isLaunching;
@@ -48,4 +48,3 @@ SFSDK_USE_DEPRECATED_BEGIN
 - (void)dismissSnapshot;
 
 @end
-SFSDK_USE_DEPRECATED_END

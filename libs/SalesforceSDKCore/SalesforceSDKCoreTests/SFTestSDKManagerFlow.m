@@ -24,9 +24,8 @@
 
 #import "SFTestSDKManagerFlow.h"
 
-
 static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
-SFSDK_USE_DEPRECATED_BEGIN
+
 @interface SFTestSDKManagerFlow ()
 
 @property (nonatomic, assign) NSTimeInterval stepTimeDelaySecs;
@@ -174,4 +173,3 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 @end
-SFSDK_USE_DEPRECATED_END

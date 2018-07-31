@@ -54,7 +54,6 @@ static NSString* ailtnAppName = nil;
 
 // Dev support
 static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNotification";
-SFSDK_USE_DEPRECATED_BEGIN
 
 @implementation UIWindow (SalesforceSDKManager)
 
@@ -1042,4 +1041,3 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 }
 
 @end
-SFSDK_USE_DEPRECATED_END

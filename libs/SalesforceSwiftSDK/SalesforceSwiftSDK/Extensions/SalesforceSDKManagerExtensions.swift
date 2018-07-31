@@ -91,7 +91,6 @@ extension SalesforceSwiftSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-        @available(*, deprecated: 7.0, message: "Used only in conjunction with launch. SalesforceSDKManager launch has been deprecated. The initSDK should be sufficient to initalize the sdk manager.")
          public class func postLaunch(action : @escaping SFSDKPostLaunchCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSwiftSDKManager.shared().postLaunchAction = action
             
@@ -116,7 +115,6 @@ extension SalesforceSwiftSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-         @available(*, deprecated: 7.0,  message: "Used only in conjunction with launch. The initSDK should be sufficient to initalize the sdk manager. Use NSNotificationCenter to listen for SFNotificationUserDidLogout notification instead")
         public class func postLogout(action : @escaping SFSDKLogoutCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSwiftSDKManager.shared().postLogoutAction = action
             return self
@@ -143,7 +141,6 @@ extension SalesforceSwiftSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-        @available(*, deprecated: 7.0,  message: "Used only in conjunction with launch. The initSDK should be sufficient to initalize the sdk manager. Use NSNotificationCenter to listen for SFNotificationUserDidSwitch notification instead")
         public class func switchUser(action : @escaping SFSDKSwitchUserCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSwiftSDKManager.shared().switchUserAction = action
             return self
@@ -173,7 +170,6 @@ extension SalesforceSwiftSDKManager {
          - Parameter action: The block which will be invoked after a succesfull SDK Launch.
          - Returns: The instance of SalesforceSDKManagerBuilder.
          */
-         @available(*, deprecated: 7.0, message: "Used only in conjunction with launch. The initSDK should be sufficient to initalize the sdk manager.")
         public class func launchError(action : @escaping SFSDKLaunchErrorCallbackBlock) -> SalesforceSDKManagerBuilder.Type {
             SalesforceSwiftSDKManager.shared().launchErrorAction = action
             SalesforceSwiftLogger.sharedInstance().e(SalesforceSwiftSDKManager.self, message: "Error occured during launch")
