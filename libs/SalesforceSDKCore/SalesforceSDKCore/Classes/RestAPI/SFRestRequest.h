@@ -159,7 +159,7 @@ extern NSString * const kSFDefaultRestEndpoint;
 @property (nullable, nonatomic, strong, readwrite) NSString *baseURL;
 
 /**
- * The path of the request.
+ * The path of the request or the full URL to be used. If a full URL is passed in, the endpoint ceases to matter.
  * For instance, "" (empty string), "v22.0/recent", "v22.0/query".
  * Note that the path doesn't have to start with a '/'. For instance, passing "v22.0/recent" is the same as passing "/v22.0/recent".
  * @warning Do not pass URL encoded query parameters in the path. Use the `queryParams` property instead.
