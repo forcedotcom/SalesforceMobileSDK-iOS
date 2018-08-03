@@ -122,7 +122,7 @@
 		B71129161F8A789F00436CFB /* SFSDKAlertMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B711290C1F8A780800436CFB /* SFSDKAlertMessage.m */; };
 		B71129171F8A789F00436CFB /* SFSDKAlertMessageBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = B711290B1F8A780800436CFB /* SFSDKAlertMessageBuilder.m */; };
 		B71129181F8A789F00436CFB /* SFSDKAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B71129071F8A780700436CFB /* SFSDKAlertView.m */; };
-		B7245C7D206EFE1F003A5CD5 /* SFSDKSafeMutableSet.h in Headers */ = {isa = PBXBuildFile; fileRef = B7245C7B206EFE1F003A5CD5 /* SFSDKSafeMutableSet.h */; };
+		B7245C7D206EFE1F003A5CD5 /* SFSDKSafeMutableSet.h in Headers */ = {isa = PBXBuildFile; fileRef = B7245C7B206EFE1F003A5CD5 /* SFSDKSafeMutableSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7245C7E206EFE1F003A5CD5 /* SFSDKSafeMutableSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B7245C7C206EFE1F003A5CD5 /* SFSDKSafeMutableSet.m */; };
 		B7245C9820701E7C003A5CD5 /* SFSDKSafeMutableSetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7245C9720701E7C003A5CD5 /* SFSDKSafeMutableSetTests.m */; };
 		B75233C21F4D390B00040B6E /* SFSDKOAuthClientContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B75233C01F4D390B00040B6E /* SFSDKOAuthClientContext.h */; };
@@ -295,7 +295,7 @@
 		CE2788B21DD52D1B00DD3C39 /* SFSwiftDetectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 05460B701DD409B8004E3320 /* SFSwiftDetectUtil.m */; };
 		CE2B8CDD1CE92FBF00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8CD41CE92F8100C6FC6A /* SalesforceAnalytics.framework */; };
 		CE47CA872074870200A735AE /* SFSDKSafeMutableSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B7245C7C206EFE1F003A5CD5 /* SFSDKSafeMutableSet.m */; };
-		CE47CA9E2074870600A735AE /* SFSDKSafeMutableSet.h in Headers */ = {isa = PBXBuildFile; fileRef = B7245C7B206EFE1F003A5CD5 /* SFSDKSafeMutableSet.h */; };
+		CE47CA9E2074870600A735AE /* SFSDKSafeMutableSet.h in Headers */ = {isa = PBXBuildFile; fileRef = B7245C7B206EFE1F003A5CD5 /* SFSDKSafeMutableSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE2721C0E449C009F6029 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */; };
 		CE4CE2731C0E449C009F6029 /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE4CE3091C0E523B009F6029 /* NSURL+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946211BFFF663005368C5 /* NSURL+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
