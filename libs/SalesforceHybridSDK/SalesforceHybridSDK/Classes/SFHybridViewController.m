@@ -459,20 +459,33 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (NSString *)isLoginRedirectUrl:(NSURL *)url
 {
-    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0) {
+    if (url == nil || url.absoluteString == nil || url.absoluteString.length == 0) {
         return nil;
     }
-    if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
-        && [url query] != nil) {
-        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
-        NSString *ecValue = [url valueForParameterName:@"ec"];
-        BOOL foundStartURL = (startUrlValue != nil);
-        BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
-        if (foundStartURL && foundValidEcValue) {
-            return startUrlValue;
+    if ([url.scheme.lowercaseString hasPrefix:@"http"]) {
+        if (url.query != nil) {
+            NSString *startUrlValue = [url valueForParameterName:@"startURL"];
+            NSString *ecValue = [url valueForParameterName:@"ec"];
+            BOOL foundStartURL = (startUrlValue != nil);
+            BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
+            if (foundValidEcValue) {
+                if (foundStartURL) {
+                    return startUrlValue;
+                } else {
+                    return _hybridViewConfig.startPage;
+                }
+            } else if ([self isSamlLoginRedirect:url.absoluteString]) {
+                return _hybridViewConfig.startPage;
+            }
+        } else if ([self isSamlLoginRedirect:url.absoluteString]) {
+            return _hybridViewConfig.startPage;
         }
     }
     return nil;
+}
+
+- (BOOL)isSamlLoginRedirect:(NSString *)url {
+    return NO;
 }
 
 - (BOOL)isOffline
