@@ -93,7 +93,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
         XCTAssertNil(error, @"Error should be nil");
         XCTAssertNotNil(authConfig, @"Auth config should not be nil");
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
-        XCTAssertNil(authConfig.ssoUrls, @"SSO URLs should be nil");
+        XCTAssertTrue(authConfig.ssoUrls.count == 0, @"SSO URLs should be empty");
         [expect fulfill];
     } oauthCredentials:credentials];
     [self waitForExpectationsWithTimeout:20 handler:nil];
