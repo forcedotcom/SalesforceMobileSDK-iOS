@@ -34,6 +34,7 @@
 static NSString * const kSFTestId = @"test_id";
 static NSString * const kSFTestClientId = @"test_client_id";
 static NSString * const kSFMyDomainEndpoint = @"images.cs4.my.salesforce.com";
+static NSString * const kSFAlternateMyDomainEndpoint = @"powerofus.force.com";
 static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
 
 @interface SFSDKAuthConfigUtilTests : XCTestCase
@@ -64,6 +65,35 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
         XCTAssertNotNil(authConfig, @"Auth config should not be nil");
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
         XCTAssertTrue(authConfig.useNativeBrowserForAuth, @"Browser based login should be enabled");
+        [expect fulfill];
+    } oauthCredentials:credentials];
+    [self waitForExpectationsWithTimeout:20 handler:nil];
+}
+
+- (void)testGetSSOUrls {
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kSFTestId clientId:kSFTestClientId encrypted:YES];
+    [credentials setDomain:kSFAlternateMyDomainEndpoint];
+    XCTestExpectation *expect = [self expectationWithDescription:@"testGetSSOUrls"];
+    [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
+        XCTAssertNil(error, @"Error should be nil");
+        XCTAssertNotNil(authConfig, @"Auth config should not be nil");
+        XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
+        XCTAssertNotNil(authConfig.ssoUrls, @"SSO URLs should not be nil");
+        XCTAssertTrue(authConfig.ssoUrls.count >= 1, @"SSO URLs should have at least 1 valid entry");
+        [expect fulfill];
+    } oauthCredentials:credentials];
+    [self waitForExpectationsWithTimeout:20 handler:nil];
+}
+
+- (void)testGetNoSSOUrls {
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kSFTestId clientId:kSFTestClientId encrypted:YES];
+    [credentials setDomain:kSFMyDomainEndpoint];
+    XCTestExpectation *expect = [self expectationWithDescription:@"testGetNoSSOUrls"];
+    [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
+        XCTAssertNil(error, @"Error should be nil");
+        XCTAssertNotNil(authConfig, @"Auth config should not be nil");
+        XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
+        XCTAssertTrue(authConfig.ssoUrls.count == 0, @"SSO URLs should be empty");
         [expect fulfill];
     } oauthCredentials:credentials];
     [self waitForExpectationsWithTimeout:20 handler:nil];

@@ -32,6 +32,7 @@
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
+#import <SAlesforceSDKCore/SFSDKAuthConfigUtil.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
@@ -92,6 +93,8 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
  * UIWebView for processing the error page, in the event of a fatal error during bootstrap.
  */
 @property (nonatomic, strong) UIWebView *errorPageUIWebView;
+
+@property (nonatomic, strong) SFOAuthOrgAuthConfiguration *authConfig;
 
 /**
  * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
@@ -184,10 +187,19 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
         NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized. See output log for errors.");
         self.startPage = _hybridViewConfig.startPage;
-        
+
         // Setup global stores and syncs defined in static configs
         [[SalesforceHybridSDKManager sharedManager] setupGlobalStoreFromDefaultConfig];
         [[SalesforceHybridSDKManager sharedManager] setupGlobalSyncsFromDefaultConfig];
+        __weak typeof(self) weakSelf = self;
+        [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!error) {
+                    strongSelf.authConfig = authConfig;
+                }
+            });
+        } oauthCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
     }
     return self;
 }
@@ -459,20 +471,48 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 - (NSString *)isLoginRedirectUrl:(NSURL *)url
 {
-    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0) {
+    if (url == nil || url.absoluteString == nil || url.absoluteString.length == 0) {
         return nil;
     }
-    if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
-        && [url query] != nil) {
-        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
-        NSString *ecValue = [url valueForParameterName:@"ec"];
-        BOOL foundStartURL = (startUrlValue != nil);
-        BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
-        if (foundStartURL && foundValidEcValue) {
-            return startUrlValue;
+    if ([url.scheme.lowercaseString hasPrefix:@"http"]) {
+        if (url.query != nil) {
+            NSString *startUrlValue = [url valueForParameterName:@"startURL"];
+            NSString *ecValue = [url valueForParameterName:@"ec"];
+            BOOL foundStartURL = (startUrlValue != nil);
+            BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
+            if (foundValidEcValue) {
+                if (foundStartURL) {
+                    return startUrlValue;
+                } else {
+                    return self.startPage;
+                }
+            } else if ([self isSamlLoginRedirect:url.absoluteString]) {
+                return self.startPage;
+            }
+        } else if ([self isSamlLoginRedirect:url.absoluteString]) {
+            return self.startPage;
         }
     }
     return nil;
+}
+
+- (BOOL)isSamlLoginRedirect:(NSString *)url {
+    if (self.authConfig) {
+        NSArray<NSString *> *ssoUrls = self.authConfig.ssoUrls;
+        if (ssoUrls && ssoUrls.count > 0) {
+            for (NSString *ssoUrl in ssoUrls) {
+                NSString *baseUrl = [ssoUrl copy];
+                NSRange index = [ssoUrl rangeOfString:@"?"];
+                if (index.location != NSNotFound) {
+                    baseUrl = [ssoUrl substringToIndex:index.location];
+                }
+                if ([url containsString:baseUrl]) {
+                    return YES;
+                }
+            }
+        }
+    }
+    return NO;
 }
 
 - (BOOL)isOffline
