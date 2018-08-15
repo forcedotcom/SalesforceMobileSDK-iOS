@@ -864,7 +864,13 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         if (authInfo.authType == SFOAuthTypeRefresh) {
             createAbsUrl = NO;
         }
-        NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:YES createAbsUrl:createAbsUrl];
+        BOOL encoded = YES;
+        if ([originalUrl containsString:@"frontdoor.jsp"]) {
+            if ([originalUrl rangeOfString:@"retURL=")].location != NSNotFound) {
+                encoded = NO;
+            }
+        }
+        NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:encoded createAbsUrl:createAbsUrl];
         NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
         if (self.useUIWebView) {
             [(UIWebView *)(self.webView) loadRequest:newRequest];
