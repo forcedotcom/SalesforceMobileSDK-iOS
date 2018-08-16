@@ -866,7 +866,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         }
         BOOL encoded = YES;
         if ([originalUrl containsString:@"frontdoor.jsp"]) {
-            if ([originalUrl rangeOfString:@"retURL=")].location != NSNotFound) {
+            if ([originalUrl rangeOfString:@"retURL="].location != NSNotFound) {
                 encoded = NO;
             }
         }
