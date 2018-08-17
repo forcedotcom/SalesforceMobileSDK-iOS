@@ -329,6 +329,11 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 @property (nonatomic, readonly, null_unspecified) WKWebView *view;
 
 /**
+ Auth session through which the user will input OAuth credentials for the user-agent flow OAuth process.
+ */
+@property (nonatomic, readonly, null_unspecified) SFAuthenticationSession *authSession;
+
+/**
  The user agent string that will be used for authentication.  While this property will persist throughout
  the lifetime of the coordinator object, the user agent configured for the system will be reset back to
  its original value in between authentication requests.
