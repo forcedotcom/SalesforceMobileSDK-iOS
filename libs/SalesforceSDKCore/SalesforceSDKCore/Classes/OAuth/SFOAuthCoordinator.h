@@ -242,17 +242,6 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view;
 
-/** Sent after VC has been initialized with authentication URL.
- 
- The receiver should present the VC in the implementation of this method.
- 
- @param coordinator The SFOAuthCoordinator instance processing this message
- @param svc         The SFSafariViewController instance that will be used to conduct the authentication workflow
- 
- @see SFOAuthCoordinator
- */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc;
-
 /**
  Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.
 
@@ -273,7 +262,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  the Security framework and either the NSJSONSerialization iOS 5.0 SDK class 
  or the third party SBJsonParser class.
  */
-@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate, WKUIDelegate, SFSafariViewControllerDelegate> {
+@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate, WKUIDelegate> {
 }
 
 /** User credentials to use within the authentication process.

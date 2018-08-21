@@ -90,12 +90,6 @@ static NSString * const kSafariNotSupportedReasonFormat  = @"%@ SFSafariViewCont
     return self.isNetworkAvailable;
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kSafariNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kSafariNotSupportedReasonFormat reason:reason userInfo:nil];
-}
-
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
     [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     NSString *reason = [NSString stringWithFormat:kSafariNotSupportedReasonFormat, NSStringFromSelector(_cmd)];

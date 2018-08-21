@@ -123,11 +123,6 @@
     [self finishForUnsupportedFlow:@"User Agent" coordinator:coordinator];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
-    // Shouldn't happen (refreshSessionWithCompletion:error: is guarded by the presence of a refresh token), but....
-    [self finishForUnsupportedFlow:@"Web Server" coordinator:coordinator];
-}
-
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
     // Shouldn't happen (refreshSessionWithCompletion:error: is guarded by the presence of a refresh token), but....
     [self finishForUnsupportedFlow:@"Web Server" coordinator:coordinator];

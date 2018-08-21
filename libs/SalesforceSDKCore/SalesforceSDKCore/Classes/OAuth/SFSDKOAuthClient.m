@@ -434,7 +434,6 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     loginViewController.oauthView = view;
     SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
     viewHolder.loginController = loginViewController;
-    viewHolder.isAdvancedAuthFlow = NO;
     self.config.authViewController  = loginViewController;
     // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
     // to be added to a superview by the end of this method.
@@ -446,17 +445,6 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         self.authViewHandler.authViewDisplayBlock(viewHolder);
     }
 
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
-    [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:didBeginAuthenticationWithSafariViewController"];
-    if ([self.config.safariViewDelegate respondsToSelector:@selector(authClient:willDisplayAuthSafariViewController:)]) {
-        [self.config.safariViewDelegate authClient:self willDisplayAuthSafariViewController:svc];
-    }
-    SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
-    viewHolder.safariViewController = svc;
-    viewHolder.isAdvancedAuthFlow = YES;
-    self.authViewHandler.authViewDisplayBlock(viewHolder);
 }
 
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
@@ -669,21 +657,12 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 - (void)presentLoginView:(SFSDKAuthViewHolder *)viewHandler {
     [self.authWindow presentWindow];
-    UIViewController *controllerToPresent = nil;
-    
-    if (viewHandler.isAdvancedAuthFlow) {
-        controllerToPresent = viewHandler.safariViewController;
-    } else {
-        SFSDKNavigationController *navController = [[SFSDKNavigationController  alloc]  initWithRootViewController:viewHandler.loginController];
-        controllerToPresent = navController;
-    }
+    UIViewController *controllerToPresent = [[SFSDKNavigationController  alloc]  initWithRootViewController:viewHandler.loginController];
     
     __weak typeof(self) weakSelf = self;
     void (^presentViewBlock)(void) = ^void() {
         [weakSelf.authWindow.viewController presentViewController:controllerToPresent animated:NO completion:^{
-            if (!viewHandler.isAdvancedAuthFlow) {
-                NSAssert((nil != [viewHandler.loginController.oauthView superview]), @"No superview for oauth web view invoke [super viewDidLayoutSubviews] in the SFLoginViewController subclass");
-            }
+            NSAssert((nil != [viewHandler.loginController.oauthView superview]), @"No superview for oauth web view invoke [super viewDidLayoutSubviews] in the SFLoginViewController subclass");
         }];
     };
     

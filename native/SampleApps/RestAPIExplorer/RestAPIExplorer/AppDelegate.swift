@@ -46,7 +46,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 //set custom config if needed. By default this object should read from the bootconfig.plist
             }.postInit {
                 //Uncomment following block to enable IDP Login flow.
-                // NOTE: If advanced authentication is configured for domain, it will launch Safari to handle authentication.
                 /*
                  // scheme of idpApp
                  SalesforceSwiftSDKManager.shared().idpAppURIScheme = "sampleidpapp"
