@@ -40,9 +40,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     override
     init()
     {
+        
         super.init()
+        
         SalesforceSwiftSDKManager.initSDK()
-            .Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
+            .Builder.configure { (appconfig: AppConfig) -> Void in
                 //set custom config if needed. By default this object should read from the bootconfig.plist
             }.postInit {
                 //Uncomment following block to enable IDP Login flow.
@@ -126,7 +128,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //   OAuth Redirect URI custom URL scheme.
         // --Uncomment the following line and delete the original return statement:
         
-        return  SFUserAccountManager.sharedInstance().handleAdvancedAuthenticationResponse(url, options: options)
+        return  UserAccountManager.sharedInstance().handleAdvancedAuthenticationResponse(url, options: options)
         //        return false;
     }
     
@@ -163,7 +165,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     }
 
     func exportTestingCredentials() {
-        guard let creds = SFUserAccountManager.sharedInstance().currentUser?.credentials,
+        guard let creds = UserAccountManager.sharedInstance().currentUser?.credentials,
             let instance = creds.instanceUrl,
             let identity = creds.identityUrl
             else {
@@ -171,7 +173,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         }
         
         var config = ["test_client_id": SalesforceSwiftSDKManager.shared().appConfig?.remoteAccessConsumerKey,
-                      "test_login_domain": SFUserAccountManager.sharedInstance().loginHost,
+                      "test_login_domain": UserAccountManager.sharedInstance().loginHost,
                       "test_redirect_uri": SalesforceSwiftSDKManager.shared().appConfig?.oauthRedirectURI,
                       "refresh_token": creds.refreshToken,
                       "instance_url": instance.absoluteString,

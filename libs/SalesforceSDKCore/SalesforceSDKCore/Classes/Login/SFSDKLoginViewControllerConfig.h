@@ -34,8 +34,9 @@
 /**
  Block typedef for setting up a custom SFLoginViewController.
  */
-typedef SFLoginViewController * _Nonnull (^SFLoginViewControllerCreationBlock)(void);
+typedef SFLoginViewController * _Nonnull (^SFLoginViewControllerCreationBlock)(void) NS_SWIFT_NAME(LoginViewControllerCreationBlock);
 
+NS_SWIFT_NAME(LoginViewControllerConfig)
 @interface SFSDKLoginViewControllerConfig : NSObject
 
 /** Specify the font to use for navigation bar header text.*/

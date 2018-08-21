@@ -133,7 +133,7 @@ class RootViewController: UIViewController {
        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: font]
         self.title = "RestAPI Explorer"
         
-        guard let leftImage = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), let rightImage = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal) else {
+        guard let leftImage = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), let _ = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal) else {
             return
         }
         let left = UIBarButtonItem(image: leftImage, style: .plain, target: self, action: #selector(didPressLeftNavButton(_:)))
@@ -536,7 +536,7 @@ class RootViewController: UIViewController {
         }
         
         let request = SFRestRequest(method: method, path: path, queryParams: queryParams)
-        SFRestAPI.sharedInstance().Promises
+        RestAPI.sharedInstance().Promises
             .send(request: request)
             .done { [weak self] response in
                 DispatchQueue.main.async {
@@ -588,7 +588,7 @@ class RootViewController: UIViewController {
                                       preferredStyle: .alert)
         
         let logout = UIAlertAction(title: "Logout", style: .default) { (action) in
-            SFUserAccountManager.sharedInstance().logout()
+            UserAccountManager.sharedInstance().logout()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             self.presentedViewController?.dismiss(animated: true, completion: nil)
@@ -681,7 +681,7 @@ extension RootViewController: ActionTableViewDelegate {
         let objectIdList = self.objectIdListTextField.text?.components(separatedBy: ",")
         let entityId = self.entityIdTextField.text
         let shareType = self.shareTypeTextField.text
-        let restApi = SFRestAPI.sharedInstance()
+        let restApi = RestAPI.sharedInstance()
         let restApiPromises = restApi.Promises
         
         switch action.type {
@@ -802,7 +802,7 @@ extension RootViewController: ActionTableViewDelegate {
                         }
                         request = restApiPromises.deleteFileShare(shareId: objId)
                     case .currentUserInfo:
-                        guard let currentAccount = SFUserAccountManager.sharedInstance().currentUser else {return}
+                        guard let currentAccount = UserAccountManager.sharedInstance().currentUser else {return}
                         var userInfoString = "Name: " + currentAccount.fullName
                         userInfoString = userInfoString + "\nID: " + currentAccount.userName
                         if let e = currentAccount.email {

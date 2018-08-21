@@ -587,7 +587,7 @@ public class SFSmartStoreClient {
         - user: User associated with the store.
      - Returns: SFSmartStore wrapped in a promise.
      */
-    public class func store(withName: String,user: SFUserAccount) -> Promise<SFSmartStore> {
+    public class func store(withName: String,user: UserAccount) -> Promise<SFSmartStore> {
         return Promise { resolver in
             let smartStore = SFSmartStore.sharedStore(withName : withName,user: user)
             guard let _ = smartStore else {

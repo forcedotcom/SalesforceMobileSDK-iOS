@@ -63,29 +63,29 @@
 #import "SFSDKAuthViewHandler.h"
 
 // Notifications
-NSString * const SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
-NSString * const SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
-NSString * const SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserAccountManagerDidFinishUserInitNotification";
+UserAccountManagerNotification SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
+UserAccountManagerNotification SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
+UserAccountManagerNotification SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserAccountManagerDidFinishUserInitNotification";
 
 //login & logout notifications
-NSString * const kSFNotificationUserWillLogIn  = @"SFNotificationUserWillLogIn";
-NSString * const kSFNotificationUserDidLogIn   = @"SFNotificationUserDidLogIn";
-NSString * const kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout";
-NSString * const kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
-NSString * const kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
+UserAccountManagerNotification kSFNotificationUserWillLogIn  = @"SFNotificationUserWillLogIn";
+UserAccountManagerNotification kSFNotificationUserDidLogIn   = @"SFNotificationUserDidLogIn";
+UserAccountManagerNotification kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout";
+UserAccountManagerNotification kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
+UserAccountManagerNotification kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
 
-NSString * const kSFNotificationUserWillSwitch  = @"SFNotificationUserWillSwitch";
-NSString * const kSFNotificationUserDidSwitch   = @"SFNotificationUserDidSwitch";
+UserAccountManagerNotification kSFNotificationUserWillSwitch  = @"SFNotificationUserWillSwitch";
+UserAccountManagerNotification kSFNotificationUserDidSwitch   = @"SFNotificationUserDidSwitch";
 
 //Auth Display Notification
-NSString * const kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
-NSString * const kSFNotificationUserCanceledAuth = @"SFNotificationUserCanceledAuthentication";
+UserAccountManagerNotification kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
+UserAccountManagerNotification kSFNotificationUserCanceledAuth = @"SFNotificationUserCanceledAuthentication";
 //IDP-SP flow Notifications
-NSString * const kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
-NSString * const kSFNotificationUserWillSendIDPResponse     = @"kSFNotificationUserWillSendIDPResponse";
-NSString * const kSFNotificationUserDidReceiveIDPRequest    = @"SFNotificationUserDidReceiveIDPRequest";
-NSString * const kSFNotificationUserDidReceiveIDPResponse   = @"SFNotificationUserDidReceiveIDPResponse";
-NSString * const kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUserIDPInitDidLogIn";
+UserAccountManagerNotification kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
+UserAccountManagerNotification kSFNotificationUserWillSendIDPResponse     = @"kSFNotificationUserWillSendIDPResponse";
+UserAccountManagerNotification kSFNotificationUserDidReceiveIDPRequest    = @"SFNotificationUserDidReceiveIDPRequest";
+UserAccountManagerNotification kSFNotificationUserDidReceiveIDPResponse   = @"SFNotificationUserDidReceiveIDPResponse";
+UserAccountManagerNotification kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUserIDPInitDidLogIn";
 
 //keys used in notifications
 NSString * const kSFNotificationUserInfoAccountKey      = @"account";

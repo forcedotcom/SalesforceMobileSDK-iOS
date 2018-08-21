@@ -133,6 +133,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  The error passed will be a standard `RestKit` error with an error domain of `RKRestKitErrorDomain`. 
 
  */
+NS_SWIFT_NAME(RestAPI)
 @interface SFRestAPI : NSObject
 
 /**

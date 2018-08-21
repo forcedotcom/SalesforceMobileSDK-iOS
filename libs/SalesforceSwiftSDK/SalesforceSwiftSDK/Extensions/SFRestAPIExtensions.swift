@@ -124,7 +124,7 @@ public struct SFRestResponse {
  }
  ```
  */
-extension SFRestAPI {
+extension RestAPI {
     
     public var Promises : SFRestAPIPromises {
         return SFRestAPIPromises(api: self)
@@ -133,9 +133,9 @@ extension SFRestAPI {
     /// SFRestAPI promise api(s)
     public class SFRestAPIPromises {
         
-        weak var api: SFRestAPI?
+        weak var api: RestAPI?
         
-        init(api: SFRestAPI) {
+        init(api: RestAPI) {
             self.api = api
         }
         

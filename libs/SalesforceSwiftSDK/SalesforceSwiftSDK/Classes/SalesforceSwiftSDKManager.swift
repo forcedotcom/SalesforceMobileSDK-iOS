@@ -45,8 +45,8 @@ import SmartSync
 public class SalesforceSwiftSDKManager: SmartSyncSDKManager {
     
     /// App type is set to native swift
-    override public var appType: SFAppType {
-        return SFAppType.nativeSwift;
+    override public var appType: AppType {
+        return AppType.nativeSwift;
     }
     
     /// Initialize the SDK Manager.

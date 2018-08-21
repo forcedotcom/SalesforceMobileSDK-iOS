@@ -34,24 +34,27 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Callback block definition for OAuth completion callback.
  */
-typedef void (^SFUserAccountManagerSuccessCallbackBlock)(SFOAuthInfo *, SFUserAccount *);
+typedef void (^SFUserAccountManagerSuccessCallbackBlock)(SFOAuthInfo *, SFUserAccount *) NS_SWIFT_NAME(AccountManagerSuccessCallbackBlock);
 
 /**
  Callback block definition for OAuth failure callback.
  */
-typedef void (^SFUserAccountManagerFailureCallbackBlock)(SFOAuthInfo *, NSError *);
+typedef void (^SFUserAccountManagerFailureCallbackBlock)(SFOAuthInfo *, NSError *) NS_SWIFT_NAME(AccountManagerFailureCallbackBlock);
+
+
+typedef NSString * const UserAccountManagerNotification NS_STRING_ENUM NS_SWIFT_NAME(UserAccountManager.Notification);
 
 /**Notification sent when user has been created or is set as current User
  */
-FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeUserNotification;
+FOUNDATION_EXTERN UserAccountManagerNotification SFUserAccountManagerDidChangeUserNotification NS_SWIFT_NAME(didChangeUser);
 
 /** Notification sent when something has changed with the current user
  */
-FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeUserDataNotification;
+FOUNDATION_EXTERN UserAccountManagerNotification SFUserAccountManagerDidChangeUserDataNotification NS_SWIFT_NAME(didChangeUserData);
 
 /** Notification sent when something user init has finished
  */
-FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidFinishUserInitNotification;
+FOUNDATION_EXTERN UserAccountManagerNotification SFUserAccountManagerDidFinishUserInitNotification NS_SWIFT_NAME(didFinishUserInit);
 
 /** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
  The value is a NSNumber that can be casted to the option SFUserAccountChange
@@ -65,7 +68,7 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeUserKey;
 /**
  Identifies the notification for the login host changing in the app's settings.
  */
-FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotification;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFLoginHostChangedNotification NS_SWIFT_NAME(loginHostChanged);
 
 /**
  The key for the original host in a login host change notification.
@@ -104,23 +107,23 @@ FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
 
 /** Notification sent prior to user logout
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogout;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillLogout NS_SWIFT_NAME(userWillLogout);
 
 /** Notification sent after user logout
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogout;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidLogout NS_SWIFT_NAME(userDidLogout);
 
 /** Notification sent prior to user switch
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserWillSwitch;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillSwitch NS_SWIFT_NAME(userDidLogout);
 
 /** Notification sent after user switch
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserDidSwitch;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidSwitch NS_SWIFT_NAME(userDidSwitch);
 
 /** Notification sent when all users of org have logged off.
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationOrgDidLogout;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationOrgDidLogout NS_SWIFT_NAME(orgDidLogout);
 
 /** Notification sent prior to display of Auth View
  */
@@ -128,35 +131,35 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserWillShowAuthView;
 
 /** Notification sent when user cancels authentication
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserCanceledAuth;
+FOUNDATION_EXPORT UserAccountManagerNotification kSFNotificationUserCanceledAuth NS_SWIFT_NAME(userCanceledAuth);
 
 /** Notification sent prior to user log in
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogIn;
+FOUNDATION_EXPORT UserAccountManagerNotification kSFNotificationUserWillLogIn NS_SWIFT_NAME(userWillLogIn);
 
 /** Notification sent after user log in
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogIn;
+FOUNDATION_EXPORT UserAccountManagerNotification kSFNotificationUserDidLogIn NS_SWIFT_NAME(userDidLogIn);
 
 /**  Notification sent before SP APP invokes IDP APP for authentication
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserWillSendIDPRequest;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillSendIDPRequest NS_SWIFT_NAME(willSendIDPRequest);
 
 /**  Notification sent before IDP APP invokes SP APP with auth code
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserWillSendIDPResponse;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillSendIDPResponse NS_SWIFT_NAME(willSendIDPResponse);
 
 /**  Notification sent when  IDP APP receives request for authentication from SP APP
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserDidReceiveIDPRequest;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidReceiveIDPRequest NS_SWIFT_NAME(didReceiveIDPRequest);
 
 /**  Notification sent when  SP APP receives successful response of authentication from IDP APP
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserDidReceiveIDPResponse;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidReceiveIDPResponse NS_SWIFT_NAME(didReceiveIDPResponse);
 
 /**  Notification sent when  SP APP has log in  is successful when initiated from IDP APP
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserIDPInitDidLogIn;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserIDPInitDidLogIn  NS_SWIFT_NAME(idpInitDidLogIn);
 
 /**  Key to use to lookup userAccount associated with  NSNotification userInfo
  */
@@ -281,6 +284,7 @@ FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey;
 /** Class used to manage the accounts functions used across the app.
  It supports multiple accounts and their associated credentials.
  */
+NS_SWIFT_NAME(UserAccountManager)
 @interface SFUserAccountManager : NSObject
 
 /** The current user account.  This property may be nil if the user
