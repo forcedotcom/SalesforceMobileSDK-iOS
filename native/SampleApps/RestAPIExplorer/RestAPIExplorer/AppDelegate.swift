@@ -120,13 +120,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        // If you're using advanced authentication:
-        // --Configure your app to handle incoming requests to your
-        //   OAuth Redirect URI custom URL scheme.
-        // --Uncomment the following line and delete the original return statement:
-        
-        return  SFUserAccountManager.sharedInstance().handleAdvancedAuthenticationResponse(url, options: options)
-        //        return false;
+        // Uncomment following block to enable IDP Login flow
+        // return  SFUserAccountManager.sharedInstance().handleAdvancedAuthenticationResponse(url, options: options)
+        return false;
     }
     
     // MARK: - Private methods
