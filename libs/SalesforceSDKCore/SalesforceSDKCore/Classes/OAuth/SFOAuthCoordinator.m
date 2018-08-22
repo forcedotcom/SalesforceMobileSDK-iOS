@@ -435,11 +435,12 @@ static NSString * const kSFECParameter = @"ec";
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     __weak typeof(self) weakSelf = self;
     _authSession = [[SFAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:nil completionHandler:^(NSURL * _Nullable callbackURL, NSError * _Nullable error) {
-        if (error) {
-            [weakSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:self];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!error) {
+            [strongSelf handleAdvancedAuthenticationResponse:callbackURL];
         }
         else {
-            [[SFUserAccountManager sharedInstance] handleAdvancedAuthenticationResponse:callbackURL options:nil];
+            [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];
         }
 
     }];

@@ -602,16 +602,6 @@ FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey;
 - (void)dismissAuthViewControllerIfPresent;
 
 /**
- Handle an advanced authentication response from the external browser, continuing any
- in-progress adavanced authentication flow.
- @param appUrlResponse The URL response returned to the app from the external browser.
- @options Dictionary of name-value pairs received from open URL
- @return YES if this is a valid URL response from advanced authentication that should
- be handled, NO otherwise.
- */
-- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options;
-
-/**
  Set this block to handle presentation of the Authentication View Controller.
  */
 @property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;

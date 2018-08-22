@@ -243,8 +243,6 @@
 		B7FB26C71F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26BD1F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7FB26C81F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB26BE1F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.m */; };
 		B7FB26C91F78094A00FB25A2 /* SFSDKUserSelectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26BF1F78094A00FB25A2 /* SFSDKUserSelectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B7FB26D81F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26CB1F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.h */; };
-		B7FB26D91F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB26CC1F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.m */; };
 		B7FB26DA1F78096300FB25A2 /* SFSDKIDPErrorHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26CD1F78096300FB25A2 /* SFSDKIDPErrorHandler.h */; };
 		B7FB26DB1F78096300FB25A2 /* SFSDKIDPErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB26CE1F78096300FB25A2 /* SFSDKIDPErrorHandler.m */; };
 		B7FB26DC1F78096300FB25A2 /* SFSDKIDPInitiatedAuthRequestHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26CF1F78096300FB25A2 /* SFSDKIDPInitiatedAuthRequestHandler.h */; };
@@ -256,14 +254,12 @@
 		B7FB26E21F78096300FB25A2 /* SFSDKURLHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26D51F78096300FB25A2 /* SFSDKURLHandler.h */; };
 		B7FB26E31F78096300FB25A2 /* SFSDKURLHandlerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26D61F78096300FB25A2 /* SFSDKURLHandlerManager.h */; };
 		B7FB26E41F78096300FB25A2 /* SFSDKURLHandlerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB26D71F78096300FB25A2 /* SFSDKURLHandlerManager.m */; };
-		B7FB26E51F78097D00FB25A2 /* SFSDKAdvancedAuthURLHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26CB1F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.h */; };
 		B7FB26E61F78097D00FB25A2 /* SFSDKIDPErrorHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26CD1F78096300FB25A2 /* SFSDKIDPErrorHandler.h */; };
 		B7FB26E71F78097D00FB25A2 /* SFSDKIDPInitiatedAuthRequestHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26CF1F78096300FB25A2 /* SFSDKIDPInitiatedAuthRequestHandler.h */; };
 		B7FB26E81F78097D00FB25A2 /* SFSDKIDPRequestHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26D11F78096300FB25A2 /* SFSDKIDPRequestHandler.h */; };
 		B7FB26E91F78097D00FB25A2 /* SFSDKIDPResponseHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26D31F78096300FB25A2 /* SFSDKIDPResponseHandler.h */; };
 		B7FB26EA1F78097D00FB25A2 /* SFSDKURLHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26D51F78096300FB25A2 /* SFSDKURLHandler.h */; };
 		B7FB26EB1F78097D00FB25A2 /* SFSDKURLHandlerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B7FB26D61F78096300FB25A2 /* SFSDKURLHandlerManager.h */; };
-		B7FB26EC1F78098C00FB25A2 /* SFSDKAdvancedAuthURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB26CC1F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.m */; };
 		B7FB26ED1F78098C00FB25A2 /* SFSDKIDPErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB26CE1F78096300FB25A2 /* SFSDKIDPErrorHandler.m */; };
 		B7FB26EE1F78098C00FB25A2 /* SFSDKIDPInitiatedAuthRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB26D01F78096300FB25A2 /* SFSDKIDPInitiatedAuthRequestHandler.m */; };
 		B7FB26EF1F78098C00FB25A2 /* SFSDKIDPRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB26D21F78096300FB25A2 /* SFSDKIDPRequestHandler.m */; };
@@ -1230,8 +1226,6 @@
 		B7FB26BD1F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKUserSelectionTableViewController.h; sourceTree = "<group>"; };
 		B7FB26BE1F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKUserSelectionTableViewController.m; sourceTree = "<group>"; };
 		B7FB26BF1F78094A00FB25A2 /* SFSDKUserSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKUserSelectionView.h; sourceTree = "<group>"; };
-		B7FB26CB1F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAdvancedAuthURLHandler.h; sourceTree = "<group>"; };
-		B7FB26CC1F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAdvancedAuthURLHandler.m; sourceTree = "<group>"; };
 		B7FB26CD1F78096300FB25A2 /* SFSDKIDPErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKIDPErrorHandler.h; sourceTree = "<group>"; };
 		B7FB26CE1F78096300FB25A2 /* SFSDKIDPErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKIDPErrorHandler.m; sourceTree = "<group>"; };
 		B7FB26CF1F78096300FB25A2 /* SFSDKIDPInitiatedAuthRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKIDPInitiatedAuthRequestHandler.h; sourceTree = "<group>"; };
@@ -1909,8 +1903,6 @@
 		B7FB26CA1F78096300FB25A2 /* URLHandlers */ = {
 			isa = PBXGroup;
 			children = (
-				B7FB26CB1F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.h */,
-				B7FB26CC1F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.m */,
 				B7FB26CD1F78096300FB25A2 /* SFSDKIDPErrorHandler.h */,
 				B7FB26CE1F78096300FB25A2 /* SFSDKIDPErrorHandler.m */,
 				B7FB26CF1F78096300FB25A2 /* SFSDKIDPInitiatedAuthRequestHandler.h */,
@@ -2048,7 +2040,6 @@
 				CE4CE3131C0E523B009F6029 /* NSString+SFAdditions.h in Headers */,
 				CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */,
 				CE4CE38C1C0E526A009F6029 /* SFSHA256PasscodeProvider.h in Headers */,
-				B7FB26D81F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.h in Headers */,
 				CEC75D0920276EA900A043AA /* SFSDKAuthConfigUtil.h in Headers */,
 				CEA8C9701F02F79F00448B51 /* SFSDKCoreLogger.h in Headers */,
 				829DA2951C1266340040F5F1 /* SalesforceSDKCore.h in Headers */,
@@ -2358,7 +2349,6 @@
 				B7C274491F814BF500CE539D /* SFSDKAuthRequestCommand.h in Headers */,
 				CEA882BA1C18FB4D008D871B /* SFOAuthCoordinator+Internal.h in Headers */,
 				CEA882F61C18FB8E008D871B /* SFPasscodeProviderManager.h in Headers */,
-				B7FB26E51F78097D00FB25A2 /* SFSDKAdvancedAuthURLHandler.h in Headers */,
 				B7A20FAE1F26C39700D1E4B0 /* SFSDKRootController.h in Headers */,
 				E1C80D2A1C5C3676001B3A21 /* SFSDKLoginHostListViewController.h in Headers */,
 				B7FB26F51F78099900FB25A2 /* SFSDKUserSelectionNavViewController.h in Headers */,
@@ -2829,7 +2819,6 @@
 				CE4CE3521C0E5252009F6029 /* SFOAuthSessionRefresher.m in Sources */,
 				CE4CE3681C0E526A009F6029 /* SFDefaultUserManagementListViewController.m in Sources */,
 				CE4CE3551C0E5261009F6029 /* SFPushNotificationManager.m in Sources */,
-				B7FB26D91F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.m in Sources */,
 				CE145A9D1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */,
 				B7A20F881F25850E00D1E4B0 /* SFSDKWindowManager.m in Sources */,
 				E1C80CF21C5AEE31001B3A21 /* SFSDKLoginHostStorage.m in Sources */,
@@ -2992,7 +2981,6 @@
 				CEA8829E1C18FAAB008D871B /* UIScreen+SFAdditions.m in Sources */,
 				CEA882F41C18FB8E008D871B /* SFPasscodeManager.m in Sources */,
 				B7C274081F7EF2D700CE539D /* SFSDKIDPConstants.m in Sources */,
-				B7FB26EC1F78098C00FB25A2 /* SFSDKAdvancedAuthURLHandler.m in Sources */,
 				B7C2745D1F8151E300CE539D /* SFSDKAuthErrorCommand.m in Sources */,
 				CEA882821C18FAAB008D871B /* NSURL+SFAdditions.m in Sources */,
 				CEA882D81C18FB8E008D871B /* SFAuthErrorHandlerList.m in Sources */,

@@ -23,44 +23,16 @@
  */
 
 #import "SFUserAccountManager+Internal.h"
-#import "SFDirectoryManager.h"
-#import "SFCommunityData.h"
-#import "SFManagedPreferences.h"
 #import "SFUserAccount+Internal.h"
 #import "SFIdentityData+Internal.h"
-#import "SFKeyStoreManager.h"
-#import "SFSDKCryptoUtils.h"
-#import "NSString+SFAdditions.h"
-#import "SFFileProtectionHelper.h"
-#import "SFSDKAppFeatureMarkers.h"
 #import "SFDefaultUserAccountPersister.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKAuthPreferences.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
-#import "SFSDKOAuthClient.h"
-#import "SFPushNotificationManager.h"
-#import "SFOAuthInfo.h"
-#import "SFSDKEventBuilderHelper.h"
-#import "SFSDKLoginHostStorage.h"
-#import "SFSDKLoginHost.h"
-#import "SFSecurityLockout.h"
-#import "SFSDKSalesforceAnalyticsManager.h"
-#import "SFIdentityCoordinator.h"
-#import "SFSDKAuthPreferences.h"
 #import "SFSDKOAuthClientConfig.h"
-#import "NSURL+SFAdditions.h"
-#import "SFSDKIDPAuthClient.h"
-#import "SFSDKUserSelectionNavViewController.h"
-#import "SFSDKURLHandlerManager.h"
 #import "SFSDKOAuthClientCache.h"
-#import "SFSDKWebViewStateManager.h"
-#import "SFSDKAlertMessage.h"
-#import "SFSDKAlertMessageBuilder.h"
-#import "SFSDKAlertMessage.h"
-#import "SFSDKWindowContainer.h"
 #import "SFSDKIDPConstants.h"
-#import "SFSDKAuthViewHandler.h"
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -275,15 +247,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 #pragma  mark - login & logout
-
-- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options{
-    [SFSDKCoreLogger d:[self class] format:@"handleAdvancedAuthenticationResponse %@",[appUrlResponse description]];
-    BOOL result = [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:appUrlResponse options:options];
-    if (result) {
-        result = [[SFSDKURLHandlerManager sharedInstance] processRequest:appUrlResponse  options:options];
-    }
-    return result;
-}
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     SFOAuthCredentials *clientCredentials = [self newClientCredentials];

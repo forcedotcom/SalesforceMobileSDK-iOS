@@ -29,11 +29,9 @@
 
 #import "SFSDKURLHandler.h"
 #import "SFSDKURLHandlerManager.h"
-#import "SFSDKAdvancedAuthURLHandler.h"
 #import "SFSDKIDPRequestHandler.h"
 #import "SFSDKIDPResponseHandler.h"
 #import "SFSDKIDPErrorHandler.h"
-#import "SFSDKURLHandler.h"
 #import "SFSDKIDPInitiatedAuthRequestHandler.h"
 @interface SFSDKURLHandlerManager() {
     NSMutableArray<id <SFSDKURLHandler>> *handlerList;
@@ -47,7 +45,6 @@
     self = [super init];
     if (self) {
         handlerList = [NSMutableArray new];
-        [handlerList addObject:[[SFSDKAdvancedAuthURLHandler  alloc] init]];
         [handlerList addObject:[[SFSDKIDPRequestHandler  alloc] init]];
         [handlerList addObject:[[SFSDKIDPResponseHandler  alloc] init]];
         [handlerList addObject:[[SFSDKIDPErrorHandler  alloc] init]];
