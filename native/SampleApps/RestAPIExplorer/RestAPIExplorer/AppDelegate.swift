@@ -42,7 +42,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     {
         
         super.init()
-        
+      
         SalesforceSwiftSDKManager.initSDK()
             .Builder.configure { (appconfig: AppConfig) -> Void in
                 //set custom config if needed. By default this object should read from the bootconfig.plist

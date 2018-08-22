@@ -50,19 +50,19 @@ class SalesforceSwiftSDKTests: SalesforceSwiftSDKBaseTest {
     func testConfiguration() {
         XCTAssertNotNil(SalesforceSwiftSDKTests.testConfig)
         XCTAssertNotNil(SalesforceSwiftSDKTests.testCredentials)
-        SalesforceSwiftSDKManager.Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
+        SalesforceSwiftSDKManager.Builder.configure { (appconfig: AppConfig) -> Void in
             appconfig.shouldAuthenticate = false
             appconfig.oauthScopes = ["web", "api"]
             appconfig.remoteAccessConsumerKey = (SalesforceSwiftSDKTests.testConfig?.testClientId)!
             appconfig.oauthRedirectURI = (SalesforceSwiftSDKTests.testConfig?.testRedirectUri)!
         }.done()
 
-        XCTAssertNotNil(SalesforceSDKManager.shared().appConfig)
-        XCTAssertTrue(!((SalesforceSDKManager.shared().appConfig?.shouldAuthenticate)!)
+        XCTAssertNotNil(SalesforceSDK.shared().appConfig)
+        XCTAssertTrue(!((SalesforceSDK.shared().appConfig?.shouldAuthenticate)!)
                       , "SalesforceSDKManager should have been configured to not authenticate")
-        XCTAssertTrue(SalesforceSDKManager.shared().appConfig?.remoteAccessConsumerKey == SalesforceSwiftSDKTests.testConfig?.testClientId
+        XCTAssertTrue(SalesforceSDK.shared().appConfig?.remoteAccessConsumerKey == SalesforceSwiftSDKTests.testConfig?.testClientId
                       , "SalesforceSDKManager should have been configured to use correct consumer key")
-        XCTAssertTrue(SalesforceSDKManager.shared().appConfig?.oauthRedirectURI == SalesforceSwiftSDKTests.testConfig?.testRedirectUri
+        XCTAssertTrue(SalesforceSDK.shared().appConfig?.oauthRedirectURI == SalesforceSwiftSDKTests.testConfig?.testRedirectUri
                       , "SalesforceSDKManager should have been configured to use correct redirect url")
     }
     
@@ -73,21 +73,21 @@ class SalesforceSwiftSDKTests: SalesforceSwiftSDKBaseTest {
         SalesforceSwiftSDKManager.Builder.postLaunch { action in
             expectation.fulfill()
         }.done()
-        SalesforceSDKManager.shared().launch()
+        SalesforceSDK.shared().launch()
         wait(for: [expectation], timeout: 10)
     }
     
     func testSwitchUserBlock() {
         XCTAssertNotNil(SalesforceSwiftSDKTests.testConfig)
         XCTAssertNotNil(SalesforceSwiftSDKTests.testCredentials)
-        let currentOrigUser = SFUserAccountManager.sharedInstance().currentUser
+        let currentOrigUser = UserAccountManager.sharedInstance().currentUser
         let expectation = self.expectation(description: "switched")
         let newUser = self.createNewUser(indx: 1)
         SalesforceSwiftSDKManager.Builder.switchUser { from,to in
             expectation.fulfill()
         }.done()
-        SFUserAccountManager.sharedInstance().switch(toUser: newUser)
-        SFUserAccountManager.sharedInstance().currentUser = currentOrigUser
+        UserAccountManager.sharedInstance().switch(toUser: newUser)
+        UserAccountManager.sharedInstance().currentUser = currentOrigUser
         wait(for: [expectation], timeout: 10)
     }
     

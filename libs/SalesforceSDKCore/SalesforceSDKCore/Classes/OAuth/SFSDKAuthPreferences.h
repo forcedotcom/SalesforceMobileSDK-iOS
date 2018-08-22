@@ -30,6 +30,50 @@
 #import <Foundation/Foundation.h>
 #include "SFOAuthCoordinator.h"
 NS_ASSUME_NONNULL_BEGIN
+
+typedef NSString * const AuthPreferencesNotification NS_TYPED_ENUM NS_SWIFT_NAME(AuthPreferences.Notification);
+typedef NSString * const AuthPreferencesConstants NS_TYPED_ENUM NS_SWIFT_NAME(AuthPreferences.Constants);
+/**
+ Key identifying login host
+ */
+FOUNDATION_EXTERN AuthPreferencesConstants kSFUserAccountOAuthLoginHost;
+
+/**
+ The key for storing the persisted OAuth scopes.
+ */
+FOUNDATION_EXTERN  AuthPreferencesConstants kOAuthScopesKey;
+
+/**
+ The key for storing the persisted OAuth client ID.
+ */
+FOUNDATION_EXTERN  AuthPreferencesConstants kOAuthClientIdKey;
+
+/**
+ The key for storing the persisted OAuth redirect URI.
+ */
+FOUNDATION_EXTERN  AuthPreferencesConstants kOAuthRedirectUriKey;
+
+/**
+ Identifies the notification for the login host changing in the app's settings.
+ */
+FOUNDATION_EXTERN AuthPreferencesNotification kSFLoginHostChangedNotification NS_SWIFT_NAME(loginHostChanged);
+
+/**
+ The key for the original host in a login host change notification.
+ */
+FOUNDATION_EXTERN AuthPreferencesNotification kSFLoginHostChangedNotificationOriginalHostKey;
+
+/**
+ The key for the updated host in a login host change notification.
+ */
+FOUNDATION_EXTERN AuthPreferencesNotification kSFLoginHostChangedNotificationUpdatedHostKey;
+
+/**
+ Default used as last resort
+ */
+FOUNDATION_EXTERN AuthPreferencesConstants kSFUserAccountOAuthLoginHostDefault;
+
+NS_SWIFT_NAME(AuthPreferences)
 @interface SFSDKAuthPreferences : NSObject
 /**
  An array of additional keys (NSString) to parse during OAuth

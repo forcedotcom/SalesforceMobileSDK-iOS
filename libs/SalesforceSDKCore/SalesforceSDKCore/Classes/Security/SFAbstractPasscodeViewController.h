@@ -43,6 +43,7 @@ extern const NSUInteger kMaxNumberofAttempts;
 /**
  * Base class for passcode screen view controllers.
  */
+NS_SWIFT_NAME(AbstractPasscodeViewController)
 @interface SFAbstractPasscodeViewController : SFSDKViewController
 
 /**

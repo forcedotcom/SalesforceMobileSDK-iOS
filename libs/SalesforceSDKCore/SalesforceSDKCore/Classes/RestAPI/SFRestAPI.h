@@ -133,7 +133,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  The error passed will be a standard `RestKit` error with an error domain of `RKRestKitErrorDomain`. 
 
  */
-NS_SWIFT_NAME(RestAPI)
+NS_SWIFT_NAME(RestClient)
 @interface SFRestAPI : NSObject
 
 /**
@@ -194,7 +194,7 @@ NS_SWIFT_NAME(RestAPI)
  * Returns an `SFRestRequest` which gets information aassociated with the current user.
  * @see https://help.salesforce.com/articleView?id=remoteaccess_using_userinfo_endpoint.htm
  */
-- (SFRestRequest *)requestForUserInfo;
+- (SFRestRequest *)requestForUserInfo NS_SWIFT_NAME(buildRequestForUserInfo());
 
 /**
  * Returns an `SFRestRequest` which lists summary information about each
@@ -202,21 +202,21 @@ NS_SWIFT_NAME(RestAPI)
  * label, and a link to each version's root.
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_versions.htm
  */
-- (SFRestRequest *)requestForVersions;
+- (SFRestRequest *)requestForVersions NS_SWIFT_NAME(buildRequestForVersions());
 
 /**
  * Returns an `SFRestRequest` which lists available resources for the
  * client's API version, including resource name and URI.
  * @see Rest API link: http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_discoveryresource.htm
  */
-- (SFRestRequest *)requestForResources;
+- (SFRestRequest *)requestForResources NS_SWIFT_NAME(buildRequestForResources());
 
 /**
  * Returns an `SFRestRequest` which lists the available objects and their
  * metadata for your organization's data.
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_describeGlobal.htm
  */
-- (SFRestRequest *)requestForDescribeGlobal;
+- (SFRestRequest *)requestForDescribeGlobal NS_SWIFT_NAME(buildRequestForDescribeGlobal());
 
 /**
  * Returns an `SFRestRequest` which describes the individual metadata for the
@@ -224,7 +224,7 @@ NS_SWIFT_NAME(RestAPI)
  * @param objectType object type; for example, "Account"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_basic_info.htm
  */
-- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType;
+- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType NS_SWIFT_NAME(buildMetadataRequest(forObjectType:));
 
 /**
  * Returns an `SFRestRequest` which completely describes the individual metadata
@@ -233,7 +233,7 @@ NS_SWIFT_NAME(RestAPI)
  * @param objectType object type; for example, "Account"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_describe.htm
  */
-- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType;
+- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType NS_SWIFT_NAME(buildDescribeRequest(forObjectType:));
 
 /**
  * Returns an `SFRestRequest` which provides layout data for the specified object and layout type.
@@ -242,7 +242,7 @@ NS_SWIFT_NAME(RestAPI)
  * @param layoutType Layout type. Could be "Full" or "Compact". Default is "Full".
  * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
  */
-- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType;
+- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType NS_SWIFT_NAME(buildLayoutRequest(forObjectType:layoutType:));
 
 /**
  * Returns an `SFRestRequest` which retrieves field values for a record of the given type.
@@ -255,7 +255,7 @@ NS_SWIFT_NAME(RestAPI)
  */
 - (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
                                            objectId:(NSString *)objectId 
-                                          fieldList:(nullable NSString *)fieldList;
+                                          fieldList:(nullable NSString *)fieldList NS_SWIFT_NAME(buildRetrieveRequest(forObjectType:objectId:fieldList:));
 
 /**
  * Returns an `SFRestRequest` which creates a new record of the given type.
@@ -266,7 +266,7 @@ NS_SWIFT_NAME(RestAPI)
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_retrieve.htm
  */
 - (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType 
-                                           fields:(nullable NSDictionary<NSString*, id> *)fields;
+                                           fields:(nullable NSDictionary<NSString*, id> *)fields NS_SWIFT_NAME(buildCreateRequest(forObjectType:fields:));
 
 /**
  * Returns an `SFRestRequest` which creates or updates record of the given type, based on the 
@@ -282,7 +282,7 @@ NS_SWIFT_NAME(RestAPI)
 - (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
                                   externalIdField:(NSString *)externalIdField
                                        externalId:(nullable NSString *)externalId
-                                           fields:(NSDictionary<NSString*, id> *)fields;
+                                           fields:(NSDictionary<NSString*, id> *)fields  NS_SWIFT_NAME(buildUpsertRequest(forObjectType:externalIdField:externalId:fields:));
 
 /**
  * Returns an `SFRestRequest` which updates field values on a record of the given type.
@@ -295,7 +295,7 @@ NS_SWIFT_NAME(RestAPI)
  */
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType 
                                          objectId:(NSString *)objectId
-                                           fields:(nullable NSDictionary<NSString*, id> *)fields;
+                                           fields:(nullable NSDictionary<NSString*, id> *)fields NS_SWIFT_NAME(buildUpdateRequest(forObjectType:objectId:fields:));
 
 /**
  * Same as requestForUpdateWithObjectType:objectId:fields but only executing update
@@ -312,7 +312,7 @@ NS_SWIFT_NAME(RestAPI)
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
                                          objectId:(NSString *)objectId
                                             fields:(nullable NSDictionary<NSString*, id> *)fields
-                            ifUnmodifiedSinceDate:(nullable NSDate *) ifUnmodifiedSinceDate;
+                            ifUnmodifiedSinceDate:(nullable NSDate *) ifUnmodifiedSinceDate  NS_SWIFT_NAME(buildUpdateRequest(forObjectType:objectId:fields:ifUnmodifiedSinceDate:));
 
 
 /**
@@ -322,7 +322,7 @@ NS_SWIFT_NAME(RestAPI)
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_retrieve.htm
  */
 - (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType 
-                                         objectId:(NSString *)objectId;
+                                         objectId:(NSString *)objectId NS_SWIFT_NAME(buildDeleteRequest(forObjectType:objectId:));
 
 /**
  * Returns an `SFRestRequest` which executes the specified SOQL query.
@@ -330,7 +330,7 @@ NS_SWIFT_NAME(RestAPI)
  *             Name from Account ORDER BY Name LIMIT 20"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_query.htm
  */
-- (SFRestRequest *)requestForQuery:(NSString *)soql;
+- (SFRestRequest *)requestForQuery:(NSString *)soql  NS_SWIFT_NAME(buildQueryRequest(soql:));
 
 /**
  * Returns an `SFRestRequest` which executes the specified SOQL query.
@@ -339,20 +339,20 @@ NS_SWIFT_NAME(RestAPI)
  *             Name from Account ORDER BY Name LIMIT 20"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_queryall.htm
  */
-- (SFRestRequest *)requestForQueryAll:(NSString *)soql;
+- (SFRestRequest *)requestForQueryAll:(NSString *)soql NS_SWIFT_NAME(buildQueryAllRequest(soql:));
 
 /**
  * Returns an `SFRestRequest` which executes the specified SOSL search.
  * @param sosl a string containing the search to execute - for example, "FIND {needle}"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search.htm
  */
-- (SFRestRequest *)requestForSearch:(NSString *)sosl;
+- (SFRestRequest *)requestForSearch:(NSString *)sosl NS_SWIFT_NAME(buildSearchRequest(sosl:));
 
 /**
  * Returns an `SFRestRequest` which returns an ordered list of objects in the default global search scope of a logged-in user.
  * @see  http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search_scope_order.htm
  */
-- (SFRestRequest *)requestForSearchScopeAndOrder;
+- (SFRestRequest *)requestForSearchScopeAndOrder NS_SWIFT_NAME(buildSearchScopeAndOrderRequest());
 
 
 /**
@@ -361,7 +361,7 @@ NS_SWIFT_NAME(RestAPI)
  *               to return values; for example, "Account,Contact".
  * @see  http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search_layouts.htm
  */
-- (SFRestRequest *)requestForSearchResultLayout:(NSString*)objectList;
+  - (SFRestRequest *)requestForSearchResultLayout:(NSString*)objectList NS_SWIFT_NAME(buildSearchResultLayoutRequest(commaSeparatedString:));
 
 /**
  * Retursn an `SFRestRequest` which executes a batch of requests.
@@ -369,7 +369,7 @@ NS_SWIFT_NAME(RestAPI)
  * @param haltOnError Controls whether Salesforce should stop processing subrequests if a subrequest fails.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm
  */
-- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError;
+- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError NS_SWIFT_NAME(buildBatchRequest(usingRequests:haltOnError:));
 
 /**
  * Retursn an `SFRestRequest` which executes a composite request.
@@ -378,7 +378,7 @@ NS_SWIFT_NAME(RestAPI)
  * @param allOrNone Specifies what to do when an error occurs while processing a subrequest.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm
  */
-- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone;
+- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone NS_SWIFT_NAME(buildCompositeRequest(usingRequests:refIds:allOrNone:));
 
 /**
  * Retursn an `SFRestRequest` which executes a sobject tree request.
@@ -386,7 +386,7 @@ NS_SWIFT_NAME(RestAPI)
  * @param objectTrees Array of sobject trees
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobject_tree.htm
  */
-- (SFRestRequest*) requestForSObjectTree:(NSString*)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees;
+- (SFRestRequest*) requestForSObjectTree:(NSString*)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees NS_SWIFT_NAME(buildSObjectTreeRequest(forObjectType:objectTrees:));
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods

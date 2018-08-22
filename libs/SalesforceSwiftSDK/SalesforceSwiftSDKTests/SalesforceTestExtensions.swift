@@ -41,8 +41,8 @@ extension String: Defaultable {
 }
 
 struct State  {
-    var appConfig: SFSDKAppConfig?
-    var currentUser: SFUserAccount?
+    var appConfig: AppConfig?
+    var currentUser: UserAccount?
 }
 
 struct TestConfig: Codable {
@@ -92,7 +92,7 @@ extension String {
     }
 }
 
-extension SalesforceSDKManager : ProtocolStoredProperty  {
+extension SalesforceSDK : ProtocolStoredProperty  {
     
     typealias T = State
     
@@ -112,19 +112,19 @@ extension SalesforceSDKManager : ProtocolStoredProperty  {
     func saveState() -> Void {
         var oldState = State()
         oldState.appConfig = self.appConfig
-        oldState.currentUser = SFUserAccountManager.sharedInstance().currentUser
+        oldState.currentUser = UserAccountManager.sharedInstance().currentUser
         self.state = oldState
     }
     
     func restoreState() -> Void {
         self.appConfig = state.appConfig
-        SFUserAccountManager.sharedInstance().currentUser =  state.currentUser
+        UserAccountManager.sharedInstance().currentUser =  state.currentUser
         state = State()
     }
 }
 
 struct  TestContext {
-    var credential: SFOAuthCredentials?
+    var credential: AuthCredentials?
     var testConfig: TestConfig?
 }
 
@@ -162,15 +162,15 @@ extension XCTestCase  : ProtocolStoredProperty {
         }
     }
     
-    class func refreshCredentials(credentials: SFOAuthCredentials) -> Promise<SFUserAccount> {
-        SalesforceSwiftSDKManager.Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
+    class func refreshCredentials(credentials: AuthCredentials) -> Promise<UserAccount> {
+        SalesforceSwiftSDKManager.Builder.configure { (appconfig: AppConfig) -> Void in
             appconfig.shouldAuthenticate = false
             appconfig.oauthScopes = ["web", "api"]
             appconfig.remoteAccessConsumerKey = (SalesforceSwiftSDKTests.testConfig?.testClientId)!
             appconfig.oauthRedirectURI = (SalesforceSwiftSDKTests.testConfig?.testRedirectUri)!
             }.done()
         
-        return SFUserAccountManager
+        return UserAccountManager
             .sharedInstance().Promises
             .refresh(credentials: credentials)
     }
@@ -187,15 +187,15 @@ extension XCTestCase  : ProtocolStoredProperty {
         }
     }
     
-    func createNewUser(indx: Int) -> SFUserAccount {
+    func createNewUser(indx: Int) -> UserAccount {
         let kUserIdFormatString = "005R0000000Dsl"
         let kOrgIdFormatString =  "00D000000000062EA"
-        let credentials = SFOAuthCredentials(identifier: "identifier-\(UInt(indx))", clientId: "fakeClientIdForTesting", encrypted: true)
-        let user = SFUserAccount(credentials: credentials!)
+        let credentials = AuthCredentials(identifier: "identifier-\(UInt(indx))", clientId: "fakeClientIdForTesting", encrypted: true)
+        let user = UserAccount(credentials: credentials!)
         let userId = String(format: kUserIdFormatString, UInt(indx))
         let orgId = String(format: kOrgIdFormatString, UInt(indx))
         user.credentials.identityUrl = URL(string: "https://test.salesforce.com/id/\(orgId)/\(userId)")
-        try! SFUserAccountManager.sharedInstance().saveAccount(forUser: user)
+        try! UserAccountManager.sharedInstance().saveAccount(forUser: user)
         return user
     }
     

@@ -528,15 +528,15 @@ class RootViewController: UIViewController {
     @objc func userDidTapQueryButton(_ sender:UIButton) {
         print("handle tapped query button")
         self.view.endEditing(true)
-        guard let path = self.manualQueryTextField.text, let method = SFRestMethod(rawValue: self.methodControl.selectedSegmentIndex) else {return}
+        guard let path = self.manualQueryTextField.text, let method = RestRequest.Method(rawValue: self.methodControl.selectedSegmentIndex) else {return}
         
         var queryParams:[String: Any]?
         if let params = self.paramsTextView.text {
             queryParams = SFJsonUtils.object(fromJSONString: params) as? [String: Any]
         }
         
-        let request = SFRestRequest(method: method, path: path, queryParams: queryParams)
-        RestAPI.sharedInstance().Promises
+        let request = RestRequest(method: method, path: path, queryParams: queryParams)
+        RestClient.sharedInstance().Promises
             .send(request: request)
             .done { [weak self] response in
                 DispatchQueue.main.async {
@@ -621,7 +621,7 @@ class RootViewController: UIViewController {
         }
     }
 
-    func updateUI(_ forRequest:SFRestRequest, response: SFRestResponse?, error:Error?) {
+    func updateUI(_ forRequest:RestRequest, response: SFRestResponse?, error:Error?) {
         self.manualQueryTextField.text = forRequest.path
         self.paramsTextView.text = SFJsonUtils.jsonRepresentation(forRequest.queryParams as Any)
         self.methodControl.selectedSegmentIndex = forRequest.method.rawValue
@@ -664,7 +664,7 @@ extension RootViewController: ActionTableViewDelegate {
     
     func handleAction(_ action: Action) {
         let objectTypes = action.objectTypes
-        var request: Promise<SFRestRequest>?
+        var request: Promise<RestRequest>?
         
         let objectType = self.objectTypeTextField.text
         let objectId = self.objectIdTextField.text
@@ -681,7 +681,7 @@ extension RootViewController: ActionTableViewDelegate {
         let objectIdList = self.objectIdListTextField.text?.components(separatedBy: ",")
         let entityId = self.entityIdTextField.text
         let shareType = self.shareTypeTextField.text
-        let restApi = RestAPI.sharedInstance()
+        let restApi = RestClient.sharedInstance()
         let restApiPromises = restApi.Promises
         
         switch action.type {
@@ -814,7 +814,7 @@ extension RootViewController: ActionTableViewDelegate {
                         self.createLogoutActionSheet()
                         return
                     case .switchUser:
-                        let umvc = SFDefaultUserManagementViewController.init(completionBlock: { (action) in
+                        let umvc = UserManagementViewController.init(completionBlock: { (action) in
                             self.dismiss(animated: true, completion: nil)
                         })
                         self.present(umvc, animated: true, completion: nil)

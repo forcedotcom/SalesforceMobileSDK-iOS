@@ -28,8 +28,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFOAuthInfo;
-@class SFSDKOAuthClientContext;
-
 /**
  Block definition for auth error handling evaluation block.
  */

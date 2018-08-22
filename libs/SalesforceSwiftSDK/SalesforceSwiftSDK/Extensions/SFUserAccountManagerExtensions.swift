@@ -64,9 +64,9 @@ extension UserAccountManager {
          */
         public func login() -> Promise<UserAccount> {
             return Promise {  resolver in
-                UserAccountManager.sharedInstance().login(completion: { (oauthInfo, userAccount) in
-                        resolver.fulfill(userAccount)
-                }, failure: { (oauthInfo, error) in
+                UserAccountManager.sharedInstance().login(onSuccess: { (oauthInfo, userAccount) in
+                    resolver.fulfill(userAccount)
+                }, onFailure: { (oauthInfo, error) in
                         resolver.reject(error)
                 })
             }
@@ -87,9 +87,9 @@ extension UserAccountManager {
          */
         public func refresh(credentials: AuthCredentials) -> Promise<UserAccount>  {
             return Promise {  resolver in
-                UserAccountManager.sharedInstance().refreshCredentials(credentials, completion: { (authInfo, userAccount) in
+                UserAccountManager.sharedInstance().refresh(credentials: credentials, onSuccess: { (authInfo, userAccount) in
                     resolver.fulfill(userAccount)
-                }, failure: { (authInfo, error) in
+                }, onFailure: { (authInfo, error) in
                     resolver.reject(error)
                 })
             }

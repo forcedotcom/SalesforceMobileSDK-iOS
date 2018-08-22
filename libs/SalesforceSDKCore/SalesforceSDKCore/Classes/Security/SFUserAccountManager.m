@@ -88,16 +88,16 @@ UserAccountManagerNotification kSFNotificationUserDidReceiveIDPResponse   = @"SF
 UserAccountManagerNotification kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUserIDPInitDidLogIn";
 
 //keys used in notifications
-NSString * const kSFNotificationUserInfoAccountKey      = @"account";
-NSString * const kSFNotificationUserInfoCredentialsKey  = @"credentials";
-NSString * const kSFNotificationUserInfoAuthTypeKey     = @"authType";
-NSString * const kSFUserInfoAddlOptionsKey     = @"options";
-NSString * const kSFNotificationUserInfoKey    = @"sfuserInfo";
-NSString * const kSFNotificationFromUserKey    = @"fromUser";
-NSString * const kSFNotificationToUserKey      = @"toUser";
+UserAccountManagerConstants kSFNotificationUserInfoAccountKey      = @"account";
+UserAccountManagerConstants kSFNotificationUserInfoCredentialsKey  = @"credentials";
+UserAccountManagerConstants kSFNotificationUserInfoAuthTypeKey     = @"authType";
+UserAccountManagerConstants kSFUserInfoAddlOptionsKey     = @"options";
+UserAccountManagerConstants kSFNotificationUserInfoKey    = @"sfuserInfo";
+UserAccountManagerConstants kSFNotificationFromUserKey    = @"fromUser";
+UserAccountManagerConstants kSFNotificationToUserKey      = @"toUser";
 
-NSString * const SFUserAccountManagerUserChangeKey      = @"change";
-NSString * const SFUserAccountManagerUserChangeUserKey      = @"user";
+UserAccountManagerConstants SFUserAccountManagerUserChangeKey      = @"change";
+UserAccountManagerConstants SFUserAccountManagerUserChangeUserKey      = @"user";
 // Persistence Keys
 static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
 static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";

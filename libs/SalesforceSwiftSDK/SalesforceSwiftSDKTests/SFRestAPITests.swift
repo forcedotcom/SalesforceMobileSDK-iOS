@@ -53,7 +53,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
         
         var restResonse : Dictionary<String, Any>?
         var restError : Error?
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         let exp = expectation(description: "restApi")
         
@@ -80,7 +80,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
         var restResonse : Dictionary<String, Any>?
         var restError : Error?
         
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         let exp = expectation(description: "restApi")
         
@@ -107,7 +107,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
         var restResonse : Dictionary<String, Any>?
         var restError : Error?
         
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         let exp = expectation(description: "restApi")
         
@@ -133,7 +133,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
         
         var restResonse : Dictionary<String, Any>?
         var restError : Error?
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         let exp = expectation(description: "restApi")
         
@@ -158,7 +158,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
         
         var restResonse : String?
         var restError : Error?
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         let exp = expectation(description: "restApi")
         
@@ -182,7 +182,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     func testCreateUpdateQueryDelete() {
         
         var restError : Error?
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         let exp = expectation(description: "restApi")
         
@@ -192,7 +192,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
         .then { request in
             restApi.Promises.send(request: request)
         }
-        .then { sfRestResponse -> Promise<SFRestRequest> in
+            .then { sfRestResponse -> Promise<RestRequest> in
             let restResonse = sfRestResponse.asJsonDictionary()
             XCTAssertNotNil(restResonse)
             XCTAssertNotNil(restResonse["id"])
@@ -203,7 +203,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
             XCTAssertNotNil(request)
             return restApi.Promises.send(request: request)
         }
-        .then { sfRestResponse -> Promise<SFRestRequest> in
+            .then { sfRestResponse -> Promise<RestRequest> in
             let restResonse = sfRestResponse.asJsonDictionary()
             XCTAssertNotNil(restResonse)
             // update
@@ -213,7 +213,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
             XCTAssertNotNil(request)
             return restApi.Promises.send(request: request)
         }
-        .then { data -> Promise<SFRestRequest> in
+        .then { data -> Promise<RestRequest> in
             XCTAssertNotNil(data)
             return restApi.Promises.query(soql : "Select Id,FirstName,LastName from Contact where LastName='Morse'")
         }
@@ -221,7 +221,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
             XCTAssertNotNil(request)
             return restApi.Promises.send(request: request)
         }
-        .then { (sfRestResponse) -> Promise<SFRestRequest> in
+        .then { (sfRestResponse) -> Promise<RestRequest> in
             let restResonse = sfRestResponse.asJsonDictionary()
             XCTAssertNotNil(restResonse)
             XCTAssertNotNil(restResonse["records"])
@@ -248,7 +248,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     func testSearch() {
         var restResonse : Dictionary<String, Any>?
         var restError : Error?
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         let exp = expectation(description: "restApi")
         
@@ -272,7 +272,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     func testSearchScopeAndOrder() {
         var restResonse : [Dictionary<String, Any>]?
         var restError : Error?
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         let exp = expectation(description: "restApi")
         
@@ -296,7 +296,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     func testSearchLayout() {
         var restResonse : [Dictionary<String, Any>]?
         var restError : Error?
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         let exp = expectation(description: "restApi")
         
@@ -321,7 +321,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     func testQueryDecodable() {
         
         var restError : Error?
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         let exp = expectation(description: "restApi")
         
@@ -331,7 +331,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
         .then { request in
             restApi.Promises.send(request: request)
         }
-        .then { (sfRestResponse) -> Promise<SFRestRequest> in
+        .then { (sfRestResponse) -> Promise<RestRequest> in
             let restResonse = sfRestResponse.asJsonDictionary()
             XCTAssertNotNil(restResonse)
             XCTAssertNotNil(restResonse["id"])
@@ -363,7 +363,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     func testPerformQueryDecodable() {
         
         var restError : Error?
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         
         let exp = expectation(description: "restApi")
@@ -391,7 +391,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     func testPerformSearchDecodable() {
         
         var restError : Error?
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         XCTAssertNotNil(restApi)
         
         let exp = expectation(description: "restApi")
@@ -419,17 +419,17 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     func testCompositeRequest() {
         // Create account
         let accountName: String = generateRecordName()
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         var restError : Error?
         let exp = expectation(description: "restApi")
        
-        let createAcccountRequest = restApi.requestForCreate(withObjectType: "Account", fields: ["Name" : accountName])
+        let createAcccountRequest = restApi.buildCreateRequest(forObjectType: "Account", fields: ["Name" : accountName])
         
         let contactName: String = generateRecordName()
         
-        let createContactRequest = restApi.requestForCreate(withObjectType: "Contact", fields:["LastName": contactName, "AccountId": "@{refAccount.id}"])
+        let createContactRequest = restApi.buildCreateRequest(forObjectType: "Contact", fields:["LastName": contactName, "AccountId": "@{refAccount.id}"])
         
-        let queryForContactRequest = SFRestAPI.sharedInstance().request(forQuery: "select Id, AccountId from Contact where LastName = '\(contactName)'")
+        let queryForContactRequest = restApi.buildQueryRequest(soql: "select Id, AccountId from Contact where LastName = '\(contactName)'")
         
         restApi.Promises.composite(requests: [createAcccountRequest,createContactRequest,queryForContactRequest], refIds: ["refAccount", "refContact", "refQuery"],allOrNone: true)
         .then { request in
@@ -461,18 +461,18 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
        
         // Create account
         let accountName: String = generateRecordName()
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         var restError : Error?
         let exp = expectation(description: "restApi")
         
-        let createAccountRequest = restApi.requestForCreate(withObjectType: "Account", fields: ["Name" : accountName])
+        let createAccountRequest = restApi.buildCreateRequest(forObjectType: "Account", fields: ["Name" : accountName])
         
         let contactName: String = generateRecordName()
-        let createContactRequest = restApi.requestForCreate(withObjectType: "Contact", fields: ["LastName": contactName])
+        let createContactRequest = restApi.buildCreateRequest(forObjectType: "Contact", fields: ["LastName": contactName])
         
-        let queryForAccount = SFRestAPI.sharedInstance().request(forQuery: "select Id from Account where Name = '\(accountName)'")
+        let queryForAccount = restApi.buildQueryRequest(soql: "select Id from Account where Name = '\(accountName)'")
         // Query for contact
-        let queryForContact = SFRestAPI.sharedInstance().request(forQuery: "select Id from Contact where Name = '\(contactName)'")
+        let queryForContact = restApi.buildQueryRequest(soql: "select Id from Contact where Name = '\(contactName)'")
         
         // Build batch request
         restApi.Promises.batch(requests: createAccountRequest, createContactRequest, queryForAccount, queryForContact, haltOnError: true)
@@ -495,7 +495,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     }
     
     func testOwnedFilesList() {
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         var restError : Error?
         let exp = expectation(description: "restApi")
         restApi.Promises.filesOwned(userId: nil, page: 0)
@@ -514,7 +514,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     }
     
     func testFilesInUsersGroups() {
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         var restError : Error?
         let exp = expectation(description: "restApi")
         restApi.Promises.filesInUsersGroups(userId: nil, page: 0)
@@ -534,7 +534,7 @@ class SFRestAPITests: SalesforceSwiftSDKBaseTest {
     
     func testFilesSharedWithUser() {
      
-        let restApi  = SFRestAPI.sharedInstance()
+        let restApi  = RestClient.sharedInstance()
         var restError : Error?
         let exp = expectation(description: "restApi")
         restApi.Promises.filesShared(userId: nil, page: 0)

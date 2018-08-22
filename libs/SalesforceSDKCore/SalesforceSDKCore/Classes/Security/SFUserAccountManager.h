@@ -41,8 +41,9 @@ typedef void (^SFUserAccountManagerSuccessCallbackBlock)(SFOAuthInfo *, SFUserAc
  */
 typedef void (^SFUserAccountManagerFailureCallbackBlock)(SFOAuthInfo *, NSError *) NS_SWIFT_NAME(AccountManagerFailureCallbackBlock);
 
+typedef NSString * const UserAccountManagerConstants NS_TYPED_ENUM NS_SWIFT_NAME(UserAccountManager.Constants);
 
-typedef NSString * const UserAccountManagerNotification NS_STRING_ENUM NS_SWIFT_NAME(UserAccountManager.Notification);
+typedef NSString * const UserAccountManagerNotification NS_TYPED_ENUM NS_SWIFT_NAME(UserAccountManager.Notification);
 
 /**Notification sent when user has been created or is set as current User
  */
@@ -56,54 +57,6 @@ FOUNDATION_EXTERN UserAccountManagerNotification SFUserAccountManagerDidChangeUs
  */
 FOUNDATION_EXTERN UserAccountManagerNotification SFUserAccountManagerDidFinishUserInitNotification NS_SWIFT_NAME(didFinishUserInit);
 
-/** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
- The value is a NSNumber that can be casted to the option SFUserAccountChange
- */
-FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeKey;
-
-/** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
- */
-FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeUserKey;
-
-/**
- Identifies the notification for the login host changing in the app's settings.
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFLoginHostChangedNotification NS_SWIFT_NAME(loginHostChanged);
-
-/**
- The key for the original host in a login host change notification.
- */
-FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
-
-/**
- The key for the updated host in a login host change notification.
- */
-FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
-
-/**
-  Default used as last resort
- */
-FOUNDATION_EXTERN NSString * const kSFUserAccountOAuthLoginHostDefault;
-
-/**
- Key identifying login host
- */
-FOUNDATION_EXTERN NSString * const kSFUserAccountOAuthLoginHost;
-
-/**
- The key for storing the persisted OAuth scopes.
- */
-FOUNDATION_EXTERN  NSString * const kOAuthScopesKey;
-
-/**
-The key for storing the persisted OAuth client ID.
- */
-FOUNDATION_EXTERN  NSString * const kOAuthClientIdKey;
-
-/**
-The key for storing the persisted OAuth redirect URI.
- */
-FOUNDATION_EXTERN  NSString * const kOAuthRedirectUriKey;
 
 /** Notification sent prior to user logout
  */
@@ -127,19 +80,19 @@ FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationOrgDidLogout NS_
 
 /** Notification sent prior to display of Auth View
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserWillShowAuthView;
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillShowAuthView NS_SWIFT_NAME(willShowAuthView);
 
 /** Notification sent when user cancels authentication
  */
-FOUNDATION_EXPORT UserAccountManagerNotification kSFNotificationUserCanceledAuth NS_SWIFT_NAME(userCanceledAuth);
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserCanceledAuth NS_SWIFT_NAME(userCanceledAuth);
 
 /** Notification sent prior to user log in
  */
-FOUNDATION_EXPORT UserAccountManagerNotification kSFNotificationUserWillLogIn NS_SWIFT_NAME(userWillLogIn);
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillLogIn NS_SWIFT_NAME(userWillLogIn);
 
 /** Notification sent after user log in
  */
-FOUNDATION_EXPORT UserAccountManagerNotification kSFNotificationUserDidLogIn NS_SWIFT_NAME(userDidLogIn);
+FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidLogIn NS_SWIFT_NAME(userDidLogIn);
 
 /**  Notification sent before SP APP invokes IDP APP for authentication
  */
@@ -161,38 +114,42 @@ FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidReceiveID
  */
 FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserIDPInitDidLogIn  NS_SWIFT_NAME(idpInitDidLogIn);
 
+/** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
+ The value is a NSNumber that can be casted to the option SFUserAccountChange
+ */
+FOUNDATION_EXTERN UserAccountManagerConstants SFUserAccountManagerUserChangeKey NS_SWIFT_NAME(changeSetKey);
+
+/** The key containing the  for the user in the Notification
+ */
+FOUNDATION_EXTERN UserAccountManagerConstants SFUserAccountManagerUserChangeUserKey NS_SWIFT_NAME(userKey);
+
 /**  Key to use to lookup userAccount associated with  NSNotification userInfo
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAccountKey;
+FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationUserInfoAccountKey NS_SWIFT_NAME(accountKey);
 
 /**  Key to use to lookup credentials associated with  NSNotification userInfo
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoCredentialsKey;
+FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationUserInfoCredentialsKey NS_SWIFT_NAME(credentialsKey);
 
 /**  Key to use to lookup authinfo type associated with  NSNotification userInfo
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAuthTypeKey;
+FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationUserInfoAuthTypeKey  NS_SWIFT_NAME(authTypeKey);
 
 /**  Key to use to lookup dictionary of nv-pairs type associated with NSNotification userInfo
  */
-FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
+FOUNDATION_EXTERN UserAccountManagerConstants kSFUserInfoAddlOptionsKey NS_SWIFT_NAME(addlOptionsKey);
 
 /**  Key to use to lookup SFNotificationUserInfo object in Notifications dictionary
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoKey;
+FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationUserInfoKey NS_SWIFT_NAME(sfUserInfoKey);
 
 /**  Key to used to lookup current previous current User object in Notifications dictionary
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationFromUserKey;
+FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationFromUserKey NS_SWIFT_NAME(fromUserKey);
 
 /**  Key to used to lookup new cuurent User object in Notifications dictionary
  */
-FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey;
-
-@protocol SFSDKOAuthClientDelegate;
-@protocol SFSDKOAuthClientSafariViewDelegate;
-@protocol SFSDKOAuthClientWebViewDelegate;
-@protocol SFSDKIDPAuthClientDelegate;
+FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationToUserKey NS_SWIFT_NAME(toUserKey);
 
 @class SFUserAccountManager;
 @class SFSDKAlertMessage;
@@ -202,6 +159,7 @@ FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey;
 /**
  Protocol for handling callbacks from SFUserAccountManager.
  */
+NS_SWIFT_NAME(UserAccountManagerDelegate)
 @protocol SFUserAccountManagerDelegate <NSObject>
 
 
@@ -246,6 +204,7 @@ FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey;
 
 @end
 
+NS_SWIFT_NAME(UserAccountPersister)
 @protocol SFUserAccountPersister <NSObject>
 
 /**
@@ -276,6 +235,7 @@ FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey;
 
 /** User Information for post logout notifications.
  */
+NS_SWIFT_NAME(NotificationUserInfo)
 @interface SFNotificationUserInfo : NSObject
 @property (nonatomic,readonly) SFUserAccountIdentity *accountIdentity;
 @property (nonatomic, readonly, nullable) NSString *communityId;
@@ -552,7 +512,7 @@ NS_SWIFT_NAME(UserAccountManager)
  in succession.
  */
 - (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
-                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
+                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(login(onSuccess:onFailure:));
 
 /**
  Kick off the refresh process for the specified credentials.
@@ -565,7 +525,7 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)credentials
                 completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
-                   failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
+                   failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(refresh(credentials:onSuccess:onFailure:));
 
 /**
  Login using the given JWT token to exchange with the service for credentials.
@@ -578,7 +538,7 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken
                completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
-                  failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
+                  failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(login(usingJwt:onSuccess:onFailure:));
 
 /**
  Forces a logout from the current account, redirecting the user to the login process.

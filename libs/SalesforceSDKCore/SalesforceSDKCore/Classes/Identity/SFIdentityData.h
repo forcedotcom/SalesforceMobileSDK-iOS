@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  * The data structure for the identity data that's retrieved from the Salesforce service.
  * @see SFIdentityCoordinator
  */
+NS_SWIFT_NAME(IdentityData)
 @interface SFIdentityData : NSObject <NSSecureCoding>
 
 /**
