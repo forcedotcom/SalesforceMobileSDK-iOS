@@ -28,26 +28,19 @@
  */
 #import "SFSDKOAuthClient.h"
 #import "SFSDKAuthViewHandler.h"
-#import "SFAuthErrorHandlerList.h"
-#import "SFAuthErrorHandler.h"
 #import "SFLoginViewController.h"
 #import "SFSDKLoginHostDelegate.h"
-#import "SFSDKOAuthClientContext.h"
 #import "SFSDKOAuthClientConfig.h"
 #import "SFIdentityCoordinator.h"
 #import "SFSDKWindowManager.h"
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKLoginHost.h"
-#import "SFOAuthInfo.h"
 #import "SFSDKResourceUtils.h"
 #import "SFNetwork.h"
 #import "SFSDKWebViewStateManager.h"
 #import "SFSecurityLockout.h"
 #import "SFSDKIDPAuthClient.h"
-#import "SFSDKAlertMessage.h"
-#import "SFSDKAlertMessageBuilder.h"
-#import "SFSDKLoginViewControllerConfig.h"
-#import "SFSDKNavigationController.h"
+
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";

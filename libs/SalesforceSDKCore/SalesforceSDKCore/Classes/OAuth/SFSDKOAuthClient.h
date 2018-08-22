@@ -166,11 +166,6 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 
 - (void)authClient:(SFSDKOAuthClient *)client willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock;
-/**
- Called when a browser flow authentication is proceeded.
- @param client The instance of SFSDKOAuthClient making the call.
- */
-- (void)authClientDidProceedWithBrowserFlow:(SFSDKOAuthClient *)client;
 
 /**
  Called when a browser flow authentication is cancelled.
