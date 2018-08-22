@@ -28,6 +28,7 @@
  */
 #import <Foundation/Foundation.h>
 @class WKWebView;
+@class SFAuthenticationSession;
 @class SFSDKAuthViewHolder;
 @class SFLoginViewController;
 NS_ASSUME_NONNULL_BEGIN
@@ -46,6 +47,10 @@ typedef void (^SFSDKAuthViewDismissBlock)(void);
 @property (nonatomic,weak,nullable) WKWebView *wkWebView;
 
 @property (nonatomic,weak) SFLoginViewController *loginController;
+
+@property (nonatomic,weak,nullable) SFAuthenticationSession *session;
+
+@property (nonatomic,assign) BOOL isAdvancedAuthFlow;
 
 @end
 

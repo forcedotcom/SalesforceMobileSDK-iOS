@@ -444,12 +444,9 @@ static NSString * const kSFECParameter = @"ec";
         }
 
     }];
-    if (![_authSession start]) {
-        [self.delegate oauthCoordinatorDidCancelBrowserAuthentication:self];
-    }
-    else {
-        self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
-    }
+    
+    [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_authSession];
+
 }
 
 - (void)beginUserAgentFlow {

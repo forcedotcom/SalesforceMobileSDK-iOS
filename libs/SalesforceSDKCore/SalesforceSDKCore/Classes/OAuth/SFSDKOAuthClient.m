@@ -395,6 +395,17 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 }
 
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
+    [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:didBeginAuthenticationWithSession:"];
+    if ([self.config.safariViewDelegate respondsToSelector:@selector(authClient:didBeginAuthenticationWithSession:)]) {
+        [self.config.safariViewDelegate authClient:self didBeginAuthenticationWithSession:session];
+    }
+    SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
+    viewHolder.isAdvancedAuthFlow = YES;
+    viewHolder.session = session;
+    self.authViewHandler.authViewDisplayBlock(viewHolder);
+}
+
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
     __block BOOL handledByDelegate = NO;
     [SFSDKCoreLogger i:[self class] format:@"oauthCoordinatorDidCancelBrowserAuthentication"];
@@ -605,13 +616,22 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 - (void)presentLoginView:(SFSDKAuthViewHolder *)viewHandler {
     [self.authWindow presentWindow];
-    UIViewController *controllerToPresent = [[SFSDKNavigationController  alloc]  initWithRootViewController:viewHandler.loginController];
+    
     
     __weak typeof(self) weakSelf = self;
     void (^presentViewBlock)(void) = ^void() {
-        [weakSelf.authWindow.viewController presentViewController:controllerToPresent animated:NO completion:^{
-            NSAssert((nil != [viewHandler.loginController.oauthView superview]), @"No superview for oauth web view invoke [super viewDidLayoutSubviews] in the SFLoginViewController subclass");
-        }];
+
+        if (!viewHandler.isAdvancedAuthFlow) {
+            UIViewController *controllerToPresent = [[SFSDKNavigationController  alloc]  initWithRootViewController:viewHandler.loginController];
+
+            [weakSelf.authWindow.viewController presentViewController:controllerToPresent animated:NO completion:^{
+                NSAssert((nil != [viewHandler.loginController.oauthView superview]), @"No superview for oauth web view invoke [super viewDidLayoutSubviews] in the SFLoginViewController subclass");
+            }];
+        }
+        else {
+            [viewHandler.session start];
+            // FIXME what if it returns NO
+        }
     };
     
     //dismiss if already presented and then present

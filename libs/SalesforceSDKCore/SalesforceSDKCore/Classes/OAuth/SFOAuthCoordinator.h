@@ -242,6 +242,15 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view;
 
+/** Sent after SFAuthenticationSession was initialized with authentication URL.
+ 
+ @param coordinator The SFOAuthCoordinator instance processing this message
+ @param session     The SFAuthenticationSession instance that will be used to conduct the authentication workflow
+ 
+ @see SFOAuthCoordinator
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session;
+
 /**
  Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.
 
