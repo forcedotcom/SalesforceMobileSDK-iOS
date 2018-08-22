@@ -344,53 +344,8 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     if ([self.config.safariViewDelegate respondsToSelector:@selector(authClient:willBeginBrowserAuthentication:)]) {
         [self.config.safariViewDelegate authClient:self willBeginBrowserAuthentication:callbackBlock];
     }
-    
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]?:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-    NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain, appName];
-    
-     __weak typeof(self) weakSelf = self;
-    
-    
-    SFSDKAlertMessage *messageObject = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
-        builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertOkButton"];
-        builder.actionTwoTitle = [SFSDKResourceUtils localizedString:@"authAlertCancelButton"];
-        builder.alertTitle = [SFSDKResourceUtils localizedString:@"authAlertBrowserFlowTitle"];
-        builder.alertMessage = alertMessage;
-        builder.actionOneCompletion = ^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidProceedWithBrowserFlow:)]) {
-                [strongSelf.config.safariViewDelegate authClientDidProceedWithBrowserFlow:strongSelf];
-            }
-            // Let the OAuth coordinator know whether to proceed or not.
-            if (strongSelf.authCoordinatorBrowserBlock) {
-                strongSelf.authCoordinatorBrowserBlock(YES);
-            }
-        };
-        builder.actionTwoCompletion = ^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            BOOL handledByDelegate = NO;
-            // Let the OAuth coordinator know whether to proceed or not.
-            if ([strongSelf.config.safariViewDelegate respondsToSelector:@selector(authClientDidCancelBrowserFlow:)]) {
-                handledByDelegate = [strongSelf.config.safariViewDelegate authClientDidCancelBrowserFlow:strongSelf];
-            }
-            
-            if (strongSelf.authCoordinatorBrowserBlock) {
-                strongSelf.authCoordinatorBrowserBlock(NO);
-            }
-            // If no delegates implement authManagerDidCancelBrowserFlow, display Login Host List
-            if (!handledByDelegate) {
-                SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
-                hostListViewController.delegate = strongSelf;
-               
-                [strongSelf.authWindow presentWindowAnimated:NO withCompletion:^{
-                    [strongSelf.authWindow.viewController presentViewController:hostListViewController animated:NO completion:nil];
-                }];
-            }
-            
-        };
-    }];
-    [self.config.delegate authClient:self displayMessage:messageObject];
-    
+
+    self.authCoordinatorBrowserBlock(YES);
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayAlertMessage:(NSString *)message completion:(dispatch_block_t)completion {
