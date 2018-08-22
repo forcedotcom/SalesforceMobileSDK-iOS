@@ -56,14 +56,6 @@
     
 }
 
-- (void)testHandlerManagerForAdvancedAuth {
-    SFSDKURLHandlerManager *manager = [SFSDKURLHandlerManager sharedInstance];
-    XCTAssertNotNil(manager);
-    NSURL *url = [NSURL URLWithString:@"myapp://test/test/code=666"];
-    BOOL result = [manager canHandleRequest:url options:nil];
-    XCTAssertTrue(result, @"SFSDKURLHandlerManager should be able to consume a valid advanced auth request");
-}
-
 - (void)testHandlerManagerForAuthError {
     SFSDKURLHandlerManager *manager = [SFSDKURLHandlerManager sharedInstance];
     XCTAssertNotNil(manager);
