@@ -32,23 +32,23 @@
 #import "SFManagedPreferences.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
-AuthPreferencesNotification kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
-AuthPreferencesNotification kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
-AuthPreferencesNotification kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
+UserAccountManagerPreferences kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
+UserAccountManagerPreferences kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
+UserAccountManagerPreferences kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 
 static NSString * const kDeprecatedLoginHostPrefKey = @"login_host_pref";
 
-AuthPreferencesConstants kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort
-AuthPreferencesConstants kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
+UserAccountManagerPreferences kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort
+UserAccountManagerPreferences kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
 
 // The key for storing the persisted OAuth scopes.
-AuthPreferencesConstants kOAuthScopesKey = @"oauth_scopes";
+UserAccountManagerPreferences kOAuthScopesKey = @"oauth_scopes";
 
 // The key for storing the persisted OAuth client ID.
-AuthPreferencesConstants kOAuthClientIdKey = @"oauth_client_id";
+UserAccountManagerPreferences kOAuthClientIdKey = @"oauth_client_id";
 
 // The key for storing the persisted OAuth redirect URI.
-AuthPreferencesConstants kOAuthRedirectUriKey = @"oauth_redirect_uri";
+UserAccountManagerPreferences kOAuthRedirectUriKey = @"oauth_redirect_uri";
 
 // The key for storing the persisted IDP app identifier
 NSString * const kSFIDPKey = @"SFDCIdp";

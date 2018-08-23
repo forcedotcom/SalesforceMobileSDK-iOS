@@ -29,6 +29,7 @@
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCoordinator.h"
 #import "SFSDKLoginViewControllerConfig.h"
+#import "SFSDKAuthConstants.h"
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -40,116 +41,6 @@ typedef void (^SFUserAccountManagerSuccessCallbackBlock)(SFOAuthInfo *, SFUserAc
  Callback block definition for OAuth failure callback.
  */
 typedef void (^SFUserAccountManagerFailureCallbackBlock)(SFOAuthInfo *, NSError *) NS_SWIFT_NAME(AccountManagerFailureCallbackBlock);
-
-typedef NSString * const UserAccountManagerConstants NS_TYPED_ENUM NS_SWIFT_NAME(UserAccountManager.Constants);
-
-typedef NSString * const UserAccountManagerNotification NS_TYPED_ENUM NS_SWIFT_NAME(UserAccountManager.Notification);
-
-/**Notification sent when user has been created or is set as current User
- */
-FOUNDATION_EXTERN UserAccountManagerNotification SFUserAccountManagerDidChangeUserNotification NS_SWIFT_NAME(didChangeUser);
-
-/** Notification sent when something has changed with the current user
- */
-FOUNDATION_EXTERN UserAccountManagerNotification SFUserAccountManagerDidChangeUserDataNotification NS_SWIFT_NAME(didChangeUserData);
-
-/** Notification sent when something user init has finished
- */
-FOUNDATION_EXTERN UserAccountManagerNotification SFUserAccountManagerDidFinishUserInitNotification NS_SWIFT_NAME(didFinishUserInit);
-
-
-/** Notification sent prior to user logout
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillLogout NS_SWIFT_NAME(userWillLogout);
-
-/** Notification sent after user logout
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidLogout NS_SWIFT_NAME(userDidLogout);
-
-/** Notification sent prior to user switch
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillSwitch NS_SWIFT_NAME(userDidLogout);
-
-/** Notification sent after user switch
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidSwitch NS_SWIFT_NAME(userDidSwitch);
-
-/** Notification sent when all users of org have logged off.
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationOrgDidLogout NS_SWIFT_NAME(orgDidLogout);
-
-/** Notification sent prior to display of Auth View
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillShowAuthView NS_SWIFT_NAME(willShowAuthView);
-
-/** Notification sent when user cancels authentication
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserCanceledAuth NS_SWIFT_NAME(userCanceledAuth);
-
-/** Notification sent prior to user log in
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillLogIn NS_SWIFT_NAME(userWillLogIn);
-
-/** Notification sent after user log in
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidLogIn NS_SWIFT_NAME(userDidLogIn);
-
-/**  Notification sent before SP APP invokes IDP APP for authentication
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillSendIDPRequest NS_SWIFT_NAME(willSendIDPRequest);
-
-/**  Notification sent before IDP APP invokes SP APP with auth code
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserWillSendIDPResponse NS_SWIFT_NAME(willSendIDPResponse);
-
-/**  Notification sent when  IDP APP receives request for authentication from SP APP
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidReceiveIDPRequest NS_SWIFT_NAME(didReceiveIDPRequest);
-
-/**  Notification sent when  SP APP receives successful response of authentication from IDP APP
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserDidReceiveIDPResponse NS_SWIFT_NAME(didReceiveIDPResponse);
-
-/**  Notification sent when  SP APP has log in  is successful when initiated from IDP APP
- */
-FOUNDATION_EXTERN UserAccountManagerNotification kSFNotificationUserIDPInitDidLogIn  NS_SWIFT_NAME(idpInitDidLogIn);
-
-/** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
- The value is a NSNumber that can be casted to the option SFUserAccountChange
- */
-FOUNDATION_EXTERN UserAccountManagerConstants SFUserAccountManagerUserChangeKey NS_SWIFT_NAME(changeSetKey);
-
-/** The key containing the  for the user in the Notification
- */
-FOUNDATION_EXTERN UserAccountManagerConstants SFUserAccountManagerUserChangeUserKey NS_SWIFT_NAME(userKey);
-
-/**  Key to use to lookup userAccount associated with  NSNotification userInfo
- */
-FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationUserInfoAccountKey NS_SWIFT_NAME(accountKey);
-
-/**  Key to use to lookup credentials associated with  NSNotification userInfo
- */
-FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationUserInfoCredentialsKey NS_SWIFT_NAME(credentialsKey);
-
-/**  Key to use to lookup authinfo type associated with  NSNotification userInfo
- */
-FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationUserInfoAuthTypeKey  NS_SWIFT_NAME(authTypeKey);
-
-/**  Key to use to lookup dictionary of nv-pairs type associated with NSNotification userInfo
- */
-FOUNDATION_EXTERN UserAccountManagerConstants kSFUserInfoAddlOptionsKey NS_SWIFT_NAME(addlOptionsKey);
-
-/**  Key to use to lookup SFNotificationUserInfo object in Notifications dictionary
- */
-FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationUserInfoKey NS_SWIFT_NAME(sfUserInfoKey);
-
-/**  Key to used to lookup current previous current User object in Notifications dictionary
- */
-FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationFromUserKey NS_SWIFT_NAME(fromUserKey);
-
-/**  Key to used to lookup new cuurent User object in Notifications dictionary
- */
-FOUNDATION_EXTERN UserAccountManagerConstants kSFNotificationToUserKey NS_SWIFT_NAME(toUserKey);
 
 @class SFUserAccountManager;
 @class SFSDKAlertMessage;
