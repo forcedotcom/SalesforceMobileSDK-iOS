@@ -151,7 +151,7 @@ extension RestClient {
          */
         public func versions() -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.buildRequestForVersions())
+                resolver.fulfill(self.api!.buildGetVersionsRequest())
             }
         }
         
@@ -167,7 +167,7 @@ extension RestClient {
          */
         public func resources() -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.buildRequestForResources())
+                resolver.fulfill(self.api!.buildGetResourcesRequest())
             }
         }
         
@@ -201,7 +201,7 @@ extension RestClient {
          */
         public func describeGlobal() -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.buildRequestForDescribeGlobal())
+                resolver.fulfill(self.api!.buildDescribeGlobalRequest())
             }
         }
         

@@ -194,7 +194,7 @@ NS_SWIFT_NAME(RestClient)
  * Returns an `SFRestRequest` which gets information aassociated with the current user.
  * @see https://help.salesforce.com/articleView?id=remoteaccess_using_userinfo_endpoint.htm
  */
-- (SFRestRequest *)requestForUserInfo NS_SWIFT_NAME(buildRequestForUserInfo());
+- (SFRestRequest *)requestForUserInfo NS_SWIFT_NAME(buildGetUserInfoRequest());
 
 /**
  * Returns an `SFRestRequest` which lists summary information about each
@@ -202,21 +202,21 @@ NS_SWIFT_NAME(RestClient)
  * label, and a link to each version's root.
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_versions.htm
  */
-- (SFRestRequest *)requestForVersions NS_SWIFT_NAME(buildRequestForVersions());
+- (SFRestRequest *)requestForVersions NS_SWIFT_NAME(buildGetVersionsRequest());
 
 /**
  * Returns an `SFRestRequest` which lists available resources for the
  * client's API version, including resource name and URI.
  * @see Rest API link: http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_discoveryresource.htm
  */
-- (SFRestRequest *)requestForResources NS_SWIFT_NAME(buildRequestForResources());
+- (SFRestRequest *)requestForResources NS_SWIFT_NAME(buildGetResourcesRequest());
 
 /**
  * Returns an `SFRestRequest` which lists the available objects and their
  * metadata for your organization's data.
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_describeGlobal.htm
  */
-- (SFRestRequest *)requestForDescribeGlobal NS_SWIFT_NAME(buildRequestForDescribeGlobal());
+- (SFRestRequest *)requestForDescribeGlobal NS_SWIFT_NAME(buildDescribeGlobalRequest());
 
 /**
  * Returns an `SFRestRequest` which describes the individual metadata for the
