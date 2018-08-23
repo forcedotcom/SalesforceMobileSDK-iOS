@@ -1,5 +1,5 @@
 /*
- SFSDKURLHandlerManager.m
+ SFSDKAdvancedAuthURLHandler.m
  SalesforceSDKCore
  
  Created by Raj Rao on 8/28/17.
@@ -26,68 +26,30 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 #import "SFSDKURLHandler.h"
-#import "SFSDKURLHandlerManager.h"
 #import "SFSDKAdvancedAuthURLHandler.h"
-#import "SFSDKIDPRequestHandler.h"
-#import "SFSDKIDPResponseHandler.h"
-#import "SFSDKIDPErrorHandler.h"
-#import "SFSDKURLHandler.h"
-#import "SFSDKIDPInitiatedAuthRequestHandler.h"
-@interface SFSDKURLHandlerManager() {
-    NSMutableArray<id <SFSDKURLHandler>> *handlerList;
-}
+#import "SFSDKOAuthClient.h"
+#import "SFSDKAuthPreferences.h"
+#import "SFUserAccountManager+URLHandlers.h"
+#import "NSURL+SFAdditions.h"
+#import "SFSDKOAuthClientConfig.h"
 
-@end
-
-@implementation SFSDKURLHandlerManager
-
-- (instancetype) init {
-    self = [super init];
-    if (self) {
-        handlerList = [NSMutableArray new];
-        [handlerList addObject:[[SFSDKAdvancedAuthURLHandler  alloc] init]];
-        [handlerList addObject:[[SFSDKIDPRequestHandler  alloc] init]];
-        [handlerList addObject:[[SFSDKIDPResponseHandler  alloc] init]];
-        [handlerList addObject:[[SFSDKIDPErrorHandler  alloc] init]];
-        [handlerList addObject:[[SFSDKIDPInitiatedAuthRequestHandler alloc] init]];
-    }
-    return self;
-}
+@implementation SFSDKAdvancedAuthURLHandler
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-
-     __block BOOL result = NO;
-    [handlerList enumerateObjectsUsingBlock:^(id <SFSDKURLHandler> handler, NSUInteger idx, BOOL *stop) {
-        result = [handler canHandleRequest:url options:options];
-        *stop = result;
-    }];
-
-    return result;
+    NSRange codeRange = [url.absoluteString rangeOfString:@"code="];
+    NSRange rangeErrorReason = [url.absoluteString rangeOfString:@"errorReason="];
+    SFSDKAuthPreferences *preferences = [[SFSDKAuthPreferences alloc] init];
+   
+    // Not IDP enabled but Auth Code is present represents an Advanced Auth Flow situations. Ensure that we are not looking at any errors in either case.
+    return (!preferences.idpEnabled &&
+            codeRange.location!=NSNotFound &&
+            rangeErrorReason.location==NSNotFound);
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-
-    __block BOOL result = NO;
-
-    [handlerList enumerateObjectsUsingBlock:^(id <SFSDKURLHandler> handler, NSUInteger idx, BOOL *stop) {
-        if ([handler canHandleRequest:url options:options]) {
-            result = [handler processRequest:url options:options];
-        }
-        *stop = result;
-    }];
-
-    return result;
+    return [[SFUserAccountManager sharedInstance] handleNativeAuthResponse:url options:options];
 }
 
-+ (instancetype)sharedInstance {
-    static dispatch_once_t pred;
-    static SFSDKURLHandlerManager *handlerManager = nil;
-    dispatch_once(&pred, ^{
-        handlerManager = [[self alloc] init];
-    });
-    return handlerManager;
-}
 
 @end

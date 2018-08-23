@@ -42,6 +42,7 @@
 #import "SFSDKWebViewStateManager.h"
 #import "SFNetwork.h"
 #import "NSURL+SFAdditions.h"
+#import "SFSDKURLHandlerManager.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 // Public constants
@@ -436,8 +437,8 @@ static NSString * const kSFECParameter = @"ec";
     __weak typeof(self) weakSelf = self;
     _authSession = [[SFAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:nil completionHandler:^(NSURL * _Nullable callbackURL, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (!error) {
-            [strongSelf handleAdvancedAuthenticationResponse:callbackURL];
+        if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
+            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL  options:nil];
         }
         else {
             [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];

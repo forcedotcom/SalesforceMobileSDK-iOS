@@ -28,6 +28,7 @@
 #import "SFSDKAuthResponseCommand.h"
 #import "SFSDKIDPErrorHandler.h"
 #import "SFSDKAuthErrorCommand.h"
+#import "SFSDKAdvancedAuthURLHandler.h"
 #import "SFSDKIDPRequestHandler.h"
 #import "SFSDKIDPResponseHandler.h"
 
@@ -54,6 +55,21 @@
     BOOL result = [manager canHandleRequest:url options:nil];
     XCTAssertFalse(result);
     
+}
+
+- (void)testHandlerManagerForAdvancedAuth {
+    SFSDKURLHandlerManager *manager = [SFSDKURLHandlerManager sharedInstance];
+    XCTAssertNotNil(manager);
+    NSURL *url = [NSURL URLWithString:@"myapp://test/test/code=666"];
+    BOOL result = [manager canHandleRequest:url options:nil];
+    XCTAssertTrue(result, @"SFSDKURLHandlerManager should be able to consume a valid advanced auth request");
+}
+
+- (void)testHandlerManagerForAdvancedAuthWithHandler {
+    NSURL *url = [NSURL URLWithString:@"myapp://test/test/code=666"];
+    SFSDKAdvancedAuthURLHandler *handler = [[SFSDKAdvancedAuthURLHandler alloc]init];
+    BOOL result = [handler canHandleRequest:url options:nil];
+    XCTAssertTrue(result, @"SFSDKURLHandlerManager should be able to consume a valid advanced auth request");
 }
 
 - (void)testHandlerManagerForAuthError {
