@@ -222,7 +222,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 }
 
 - (BOOL)handleURLAuthenticationResponse:(NSURL *)appUrlResponse {
-    [SFSDKCoreLogger i:[self class] format:@"handleAdvancedAuthenticationResponse"];
+    [SFSDKCoreLogger i:[self class] format:@"handleURLAuthenticationResponse"];
     [self.coordinator handleAdvancedAuthenticationResponse:appUrlResponse];
     return YES;
 }

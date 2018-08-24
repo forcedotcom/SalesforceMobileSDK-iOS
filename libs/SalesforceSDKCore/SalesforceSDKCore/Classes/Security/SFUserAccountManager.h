@@ -457,14 +457,12 @@ NS_SWIFT_NAME(UserAccountManager)
 - (void)dismissAuthViewControllerIfPresent;
 
 /**
- Handle an advanced authentication response from the external browser, continuing any
- in-progress adavanced authentication flow.
- @param appUrlResponse The URL response returned to the app from the external browser.
+ Handle an authentication response from the IDP application
+ @param appUrlResponse The URL response returned to the app from the IDP application.
  @options Dictionary of name-value pairs received from open URL
- @return YES if this is a valid URL response from advanced authentication that should
- be handled, NO otherwise.
+ @return YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.
  */
-- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options;
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options;
 
 /**
  Set this block to handle presentation of the Authentication View Controller.

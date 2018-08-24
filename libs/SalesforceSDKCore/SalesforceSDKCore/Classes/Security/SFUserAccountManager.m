@@ -249,8 +249,8 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
 #pragma  mark - login & logout
 
-- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options{
-    [SFSDKCoreLogger d:[self class] format:@"handleAdvancedAuthenticationResponse %@",[appUrlResponse description]];
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options{
+    [SFSDKCoreLogger d:[self class] format:@"handleIDPAuthenticationResponse %@",[appUrlResponse description]];
     BOOL result = [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:appUrlResponse options:options];
     if (result) {
         result = [[SFSDKURLHandlerManager sharedInstance] processRequest:appUrlResponse  options:options];
