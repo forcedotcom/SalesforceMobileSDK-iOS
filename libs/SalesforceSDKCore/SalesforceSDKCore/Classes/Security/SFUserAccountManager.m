@@ -31,6 +31,7 @@
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import "SFSDKOAuthClientConfig.h"
+#import "SFSDKURLHandlerManager.h"
 #import "SFSDKOAuthClientCache.h"
 #import "SFSDKIDPConstants.h"
 
@@ -247,6 +248,15 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 #pragma  mark - login & logout
+
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options{
+    [SFSDKCoreLogger d:[self class] format:@"handleAdvancedAuthenticationResponse %@",[appUrlResponse description]];
+    BOOL result = [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:appUrlResponse options:options];
+    if (result) {
+        result = [[SFSDKURLHandlerManager sharedInstance] processRequest:appUrlResponse  options:options];
+    }
+    return result;
+}
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     SFOAuthCredentials *clientCredentials = [self newClientCredentials];
