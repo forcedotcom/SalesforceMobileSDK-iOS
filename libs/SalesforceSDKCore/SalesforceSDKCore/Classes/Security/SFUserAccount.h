@@ -51,11 +51,12 @@ typedef NS_ENUM(NSUInteger, SFUserAccountLoginState) {
      User account is in the process of logging out.
      */
     SFUserAccountLoginStateLoggingOut,
-};
+} NS_SWIFT_NAME(UserAccount.LoginState);
 
 /** Class that represents an `account`. An `account` represents
  a user together with the current community it is logged in.
  */
+NS_SWIFT_NAME(UserAccount)
 @interface SFUserAccount : NSObject <NSSecureCoding>
 
 /** The access scopes for this user

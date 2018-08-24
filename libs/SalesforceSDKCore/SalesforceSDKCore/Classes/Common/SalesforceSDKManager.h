@@ -31,14 +31,14 @@
 /**
  Block typedef for creating a custom snapshot view controller.
  */
-typedef UIViewController * __nullable (^SFSnapshotViewControllerCreationBlock)(void);
+typedef UIViewController * __nullable (^SFSnapshotViewControllerCreationBlock)(void)  NS_SWIFT_NAME(SnapshotViewCreationBlock);
 
 typedef NS_ENUM(NSUInteger, SFAppType) {
     kSFAppTypeNative,
     kSFAppTypeHybrid,
     kSFAppTypeReactNative,
     kSFAppTypeNativeSwift
-};
+} NS_SWIFT_NAME(AppType);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -51,16 +51,17 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
 /**
  Block typedef for presenting the snapshot view controller.
  */
-typedef void (^SFSnapshotViewControllerPresentationBlock)(UIViewController* snapshotViewController);
+typedef void (^SFSnapshotViewControllerPresentationBlock)(UIViewController* snapshotViewController) NS_SWIFT_NAME(SnapshotViewDisplayBlock);
 
 /**
  Block typedef for dismissing the snapshot view controller.
  */
-typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapshotViewController);
+typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapshotViewController) NS_SWIFT_NAME(SnapshotViewDismissBlock);
 
 
 /** Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.
  */
+NS_SWIFT_NAME(SalesforceSDKDelegate)
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
 @optional
@@ -68,22 +69,22 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 /**
  Called after UIApplicationWillResignActiveNotification is received
  */
-- (void)sdkManagerWillResignActive;
+- (void)sdkManagerWillResignActive NS_SWIFT_NAME(willResignActive());
 
 /**
  Called after UIApplicationDidBecomeActiveNotification is received.
  */
-- (void)sdkManagerDidBecomeActive;
+- (void)sdkManagerDidBecomeActive NS_SWIFT_NAME(didBecomeActive());
 
 /**
  Called after UIApplicationWillEnterForegroundNotification is received.
  */
-- (void)sdkManagerWillEnterForeground;
+- (void)sdkManagerWillEnterForeground NS_SWIFT_NAME(willEnterForeground());
 
 /**
  Called after UIApplicationDidEnterBackgroundNotification is received
  */
-- (void)sdkManagerDidEnterBackground;
+- (void)sdkManagerDidEnterBackground NS_SWIFT_NAME(didEnterBackground());
 
 @end
 
@@ -92,6 +93,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  including the orchestration of authentication, passcode displaying, and management of app
  backgrounding and foregrounding state.
  */
+NS_SWIFT_NAME(SalesforceSDK)
 @interface SalesforceSDKManager : NSObject
 
 /**
@@ -178,7 +180,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 @property (nonatomic, assign) BOOL useSnapshotView;
 
 /**
- The block to provide custom view to use for IDP selection flow. This block will be used if loginFlowSelectionDialogEnabled in SDSDKIDPconfig is set to YES.
+ The block to provide custom view to use for IDP selection flow.
  */
 @property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionBlock;
 
@@ -284,7 +286,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @param launchActions Bit-coded descriptor of actions taken during launch.
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
  */
-+ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions ;
++ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions NS_SWIFT_NAME(asString(actions:));
 
 /**
  * Show dev support dialog

@@ -29,10 +29,10 @@
 
 #import <Foundation/Foundation.h>
 #import "SalesforceSDKConstants.h"
-
+NS_SWIFT_NAME(Network)
 @interface SFNetwork : NSObject
 
-typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
+typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) NS_SWIFT_NAME(DataResponseBlock);
 
 @property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession;
 

@@ -29,7 +29,7 @@
 #import <UIKit/UIKit.h>
 #import "SFSDKUserSelectionView.h"
 
-@class SFSDKIDPAuthClient;
+
 @class SFUserAccount;
 @class SFSDKUserSelectionTableViewController;
 

@@ -29,7 +29,10 @@
 
 #import <Foundation/Foundation.h>
 #include "SFOAuthCoordinator.h"
+#include "SFSDKAuthConstants.h"
+
 NS_ASSUME_NONNULL_BEGIN
+
 @interface SFSDKAuthPreferences : NSObject
 /**
  An array of additional keys (NSString) to parse during OAuth

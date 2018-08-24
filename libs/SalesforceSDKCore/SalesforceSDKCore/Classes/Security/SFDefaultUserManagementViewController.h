@@ -55,6 +55,7 @@ typedef void (^SFUserManagementCompletionBlock)(SFUserManagementAction action);
 /**
  View controller for managing the different users of the app.
  */
+NS_SWIFT_NAME(UserManagementViewController)
 @interface SFDefaultUserManagementViewController : UINavigationController
 
 /**

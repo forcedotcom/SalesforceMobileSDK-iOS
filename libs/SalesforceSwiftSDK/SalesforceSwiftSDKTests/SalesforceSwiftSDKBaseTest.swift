@@ -30,7 +30,7 @@ import SmartStore
 
 class SalesforceSwiftSDKBaseTest: XCTestCase {
     
-    static var testCredentials: SFOAuthCredentials?
+    static var testCredentials: AuthCredentials?
     static var testConfig: TestConfig?
     static var setupComplete = false
     
@@ -39,19 +39,19 @@ class SalesforceSwiftSDKBaseTest: XCTestCase {
         SalesforceSwiftSDKManager.initSDK().shared().saveState()
         setupComplete = false
         _ = SalesforceSwiftSDKTests.readConfigFromFile(configFile: nil)
-            .then { testJsonConfig -> Promise<SFUserAccount> in
+            .then { testJsonConfig -> Promise<UserAccount> in
                 SalesforceSwiftSDKTests.testConfig = testJsonConfig
                 SalesforceSwiftSDKTests.testCredentials?.accessToken = nil
-                SalesforceSwiftSDKTests.testCredentials = SFOAuthCredentials(identifier: testJsonConfig.testClientId, clientId: testJsonConfig.testClientId, encrypted: true)
+                SalesforceSwiftSDKTests.testCredentials = AuthCredentials(identifier: testJsonConfig.testClientId, clientId: testJsonConfig.testClientId, encrypted: true)
                 SalesforceSwiftSDKTests.testCredentials?.refreshToken = SalesforceSwiftSDKTests.testConfig?.refreshToken
                 SalesforceSwiftSDKTests.testCredentials?.redirectUri = SalesforceSwiftSDKTests.testConfig?.testRedirectUri
                 SalesforceSwiftSDKTests.testCredentials?.domain = SalesforceSwiftSDKTests.testConfig?.testLoginDomain
                 SalesforceSwiftSDKTests.testCredentials?.identityUrl = URL(string: (SalesforceSwiftSDKTests.testConfig?.identityUrl)!)
-                SFUserAccountManager.sharedInstance().loginHost = SalesforceSwiftSDKTests.testConfig?.testLoginDomain
+                UserAccountManager.sharedInstance().loginHost = SalesforceSwiftSDKTests.testConfig?.testLoginDomain
                 return SalesforceSwiftSDKTests.refreshCredentials(credentials:(SalesforceSwiftSDKTests.testCredentials)!)
             }
             .then { userAccount -> Promise<Void> in
-                SFUserAccountManager.sharedInstance().currentUser = userAccount
+                UserAccountManager.sharedInstance().currentUser = userAccount
                 return SFSmartStoreClient.removeAllGlobalStores()
             }
             .then { _  in

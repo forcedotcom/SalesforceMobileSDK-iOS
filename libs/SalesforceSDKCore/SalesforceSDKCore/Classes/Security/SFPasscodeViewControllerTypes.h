@@ -33,6 +33,6 @@ typedef NS_ENUM(NSUInteger, SFPasscodeControllerMode) {
     SFPasscodeControllerModeCreate,
     SFPasscodeControllerModeVerify,
     SFPasscodeControllerModeChange
-};
+} NS_SWIFT_NAME(PasscodeViewController.PasscodeControllerMode);
 
 NS_ASSUME_NONNULL_END

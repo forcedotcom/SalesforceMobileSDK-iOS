@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+NS_SWIFT_NAME(SafeMutableDictionary)
 @interface SFSDKSafeMutableDictionary : NSObject
 
 @property (copy, nonatomic, readonly) NSArray *allKeys;

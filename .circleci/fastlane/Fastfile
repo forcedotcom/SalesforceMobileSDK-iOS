@@ -24,6 +24,7 @@ lane :PR do |options|
       pull_files = `#{"curl %s" % [pr_files_api]}`
     else
       UI.error 'Not a PR on CircleCI, stopping stop execution now.'
+      `circleci step halt`
       next
     end
 
@@ -43,6 +44,7 @@ lane :PR do |options|
       test_scheme(lib_to_test)
     else
       UI.important "Lib #{lib_to_test} not modified by this PR, no need to test."
+      `circleci step halt`
     end
   end
 end

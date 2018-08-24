@@ -35,13 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Block definition for displaying the auth view.
  */
-typedef void (^SFSDKAuthViewDisplayBlock)(SFSDKAuthViewHolder *);
+typedef void (^SFSDKAuthViewDisplayBlock)(SFSDKAuthViewHolder *) NS_SWIFT_NAME(AuthViewDisplayBlock);
 
 /**
  Block definition for dismissing the auth view.
  */
-typedef void (^SFSDKAuthViewDismissBlock)(void);
+typedef void (^SFSDKAuthViewDismissBlock)(void) NS_SWIFT_NAME(AuthViewDismissBlock);;
 
+NS_SWIFT_NAME(AuthViewHolder)
 @interface SFSDKAuthViewHolder : NSObject
 
 @property (nonatomic,weak,nullable) WKWebView *wkWebView;
@@ -54,6 +55,7 @@ typedef void (^SFSDKAuthViewDismissBlock)(void);
 
 @end
 
+NS_SWIFT_NAME(AuthViewHandler)
 @interface SFSDKAuthViewHandler : NSObject
 /**
  The block used to display the auth view.
