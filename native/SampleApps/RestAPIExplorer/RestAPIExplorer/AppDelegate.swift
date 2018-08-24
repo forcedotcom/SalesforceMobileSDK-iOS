@@ -48,7 +48,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 //set custom config if needed. By default this object should read from the bootconfig.plist
             }.postInit {
                 //Uncomment following block to enable IDP Login flow.
-                // NOTE: If advanced authentication is configured for domain, it will launch Safari to handle authentication.
                 /*
                  // scheme of idpApp
                  SalesforceSwiftSDKManager.shared().idpAppURIScheme = "sampleidpapp"
@@ -123,13 +122,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        // If you're using advanced authentication:
-        // --Configure your app to handle incoming requests to your
-        //   OAuth Redirect URI custom URL scheme.
-        // --Uncomment the following line and delete the original return statement:
-        
-        return  UserAccountManager.sharedInstance().handleAdvancedAuthenticationResponse(url, options: options)
-        //        return false;
+        // Uncomment following block to enable IDP Login flow
+        // return  UserAccountManager.sharedInstance().handleIDPAuthenticationResponse(url, options: options)
+        return false;
     }
     
     // MARK: - Private methods

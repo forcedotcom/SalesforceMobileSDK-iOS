@@ -242,16 +242,14 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view;
 
-/** Sent after VC has been initialized with authentication URL.
- 
- The receiver should present the VC in the implementation of this method.
+/** Sent after SFAuthenticationSession was initialized with authentication URL.
  
  @param coordinator The SFOAuthCoordinator instance processing this message
- @param svc         The SFSafariViewController instance that will be used to conduct the authentication workflow
+ @param session     The SFAuthenticationSession instance that will be used to conduct the authentication workflow
  
  @see SFOAuthCoordinator
  */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc;
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session;
 
 /**
  Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.
@@ -273,7 +271,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  the Security framework and either the NSJSONSerialization iOS 5.0 SDK class 
  or the third party SBJsonParser class.
  */
-@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate, WKUIDelegate, SFSafariViewControllerDelegate> {
+@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate, WKUIDelegate> {
 }
 
 /** User credentials to use within the authentication process.
@@ -327,6 +325,11 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  @see SFOAuthCoordinatorDelegate
  */
 @property (nonatomic, readonly, null_unspecified) WKWebView *view;
+
+/**
+ Auth session through which the user will input OAuth credentials for the user-agent flow OAuth process.
+ */
+@property (nonatomic, readonly, null_unspecified) SFAuthenticationSession *authSession;
 
 /**
  The user agent string that will be used for authentication.  While this property will persist throughout

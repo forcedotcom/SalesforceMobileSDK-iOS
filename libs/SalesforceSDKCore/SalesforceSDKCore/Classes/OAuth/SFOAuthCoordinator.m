@@ -42,6 +42,7 @@
 #import "SFSDKWebViewStateManager.h"
 #import "SFNetwork.h"
 #import "NSURL+SFAdditions.h"
+#import "SFSDKURLHandlerManager.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
 // Public constants
@@ -130,6 +131,7 @@ static NSString * const kSFECParameter = @"ec";
 @synthesize delegate             = _delegate;
 @synthesize timeout              = _timeout;
 @synthesize view                 = _view;
+@synthesize authSession          = _authSession;
 
 // private
 
@@ -174,6 +176,7 @@ static NSString * const kSFECParameter = @"ec";
     _responseData = nil;
     _scopes = nil;
     _view = nil;
+    _authSession = nil;
 }
 
 - (void)authenticate {
@@ -431,10 +434,20 @@ static NSString * const kSFECParameter = @"ec";
     [SFSDKCoreLogger d:[self class] format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
-    SFSafariViewController *svc = [[SFSafariViewController alloc] initWithURL:nativeBrowserUrl];
-    svc.delegate = self;
-    self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
-    [self.delegate oauthCoordinator:self didBeginAuthenticationWithSafariViewController:svc];
+    __weak typeof(self) weakSelf = self;
+    _authSession = [[SFAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:nil completionHandler:^(NSURL * _Nullable callbackURL, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
+            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL  options:nil];
+        }
+        else {
+            [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];
+        }
+
+    }];
+    
+    [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_authSession];
+
 }
 
 - (void)beginUserAgentFlow {
@@ -977,11 +990,6 @@ static NSString * const kSFECParameter = @"ec";
     } else {
         [SFSDKCoreLogger w:[self class] format:@"WKWebView did want to display a confirmation alert but no delegate responded to it"];
     }
-}
-
-#pragma mark - SFSafariViewControllerDelegate
--(void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
-    [self.delegate oauthCoordinatorDidCancelBrowserAuthentication:self];
 }
 
 - (NSString *)brandedAuthorizeURL{

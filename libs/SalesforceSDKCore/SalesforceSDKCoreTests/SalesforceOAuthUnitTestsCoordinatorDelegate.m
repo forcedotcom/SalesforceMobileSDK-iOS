@@ -51,16 +51,15 @@
     XCTFail(@"user agent authentication flow should not fail");
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
 
-    // Safari auth flow is not supported in unit test framework.
-    XCTFail(@"Safari auth flow is not supported in unit test framework");
+    // SFAuthenticationSession auth flow is not supported in unit test framework.
+    XCTFail(@"SFAuthenticationSession auth flow is not supported in unit test framework");
 }
-
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
 
-    // Safari auth flow is not supported in unit test framework.
-    XCTFail(@"Safari auth flow is not supported in unit test framework");
+    // SFAuthenticationSession auth flow is not supported in unit test framework.
+    XCTFail(@"SFAuthenticationSession auth flow is not supported in unit test framework");
 }
 
 @end
