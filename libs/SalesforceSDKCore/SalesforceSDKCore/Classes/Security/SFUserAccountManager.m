@@ -1439,7 +1439,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                                             object:self
                                                           userInfo:@{
                                                                      kSFNotificationFromUserKey: [self currentUser]?:[NSNull null],
-                                                                     kSFNotificationToUserKey: newCurrentUser
+                                                                     kSFNotificationToUserKey: newCurrentUser?:[NSNull null]
                                                                      }];
         
         SFUserAccount *prevUser = self.currentUser;
@@ -1453,7 +1453,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                                             object:self
                                                           userInfo:@{
                                                                      kSFNotificationFromUserKey: prevUser?:[NSNull null],
-                                                                     kSFNotificationToUserKey: newCurrentUser
+                                                                     kSFNotificationToUserKey: newCurrentUser?:[NSNull null]
                                                                      }];
     }
 }
