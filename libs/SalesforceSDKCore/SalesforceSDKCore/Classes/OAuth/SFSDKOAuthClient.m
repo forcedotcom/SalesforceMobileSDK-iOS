@@ -614,9 +614,15 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     return instance;
 }
 
+- (BOOL)isAlreadyPresentingLoginController:(UIViewController*)presentedViewController {
+    return (presentedViewController
+            && !presentedViewController.beingDismissed
+            && [presentedViewController isKindOfClass:[SFSDKNavigationController class]]
+            && [((SFSDKNavigationController*) presentedViewController).topViewController isKindOfClass:[SFLoginViewController class]]);
+}
+
 - (void)presentLoginView:(SFSDKAuthViewHolder *)viewHandler {
     [self.authWindow presentWindow];
-    
     
     __weak typeof(self) weakSelf = self;
     void (^presentViewBlock)(void) = ^void() {
@@ -635,8 +641,9 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     };
     
     //dismiss if already presented and then present
-    if ([self.authWindow.viewController presentedViewController]) {
-        [self.authWindow.viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
+    UIViewController* presentedViewController = self.authWindow.viewController.presentedViewController;
+    if ([self isAlreadyPresentingLoginController:presentedViewController]) {
+        [presentedViewController dismissViewControllerAnimated:NO completion:^{
             presentViewBlock();
         }];
     }else {
