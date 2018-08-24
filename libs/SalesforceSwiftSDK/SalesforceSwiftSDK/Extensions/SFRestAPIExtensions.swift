@@ -124,7 +124,7 @@ public struct SFRestResponse {
  }
  ```
  */
-extension SFRestAPI {
+extension RestClient {
     
     public var Promises : SFRestAPIPromises {
         return SFRestAPIPromises(api: self)
@@ -133,9 +133,9 @@ extension SFRestAPI {
     /// SFRestAPI promise api(s)
     public class SFRestAPIPromises {
         
-        weak var api: SFRestAPI?
+        weak var api: RestClient?
         
-        init(api: SFRestAPI) {
+        init(api: RestClient) {
             self.api = api
         }
         
@@ -149,9 +149,9 @@ extension SFRestAPI {
          ```
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func versions() -> Promise<SFRestRequest> {
+        public func versions() -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.requestForVersions())
+                resolver.fulfill(self.api!.buildGetVersionsRequest())
             }
         }
         
@@ -165,9 +165,9 @@ extension SFRestAPI {
          ```
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func resources() -> Promise<SFRestRequest> {
+        public func resources() -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.requestForResources())
+                resolver.fulfill(self.api!.buildGetResourcesRequest())
             }
         }
         
@@ -183,9 +183,9 @@ extension SFRestAPI {
             - objectType: Type of object
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func describe(objectType:String) -> Promise<SFRestRequest> {
+        public func describe(objectType:String) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.requestForDescribe(withObjectType: objectType))
+                resolver.fulfill(self.api!.buildDescribeRequest(forObjectType: objectType))
             }
         }
         
@@ -199,9 +199,9 @@ extension SFRestAPI {
          ```
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func describeGlobal() -> Promise<SFRestRequest> {
+        public func describeGlobal() -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.requestForDescribeGlobal())
+                resolver.fulfill(self.api!.buildDescribeGlobalRequest())
             }
         }
         
@@ -217,9 +217,9 @@ extension SFRestAPI {
             - objectType: Type of object
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func metadata(objectType: String) -> Promise<SFRestRequest> {
+        public func metadata(objectType: String) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.requestForMetadata(withObjectType: objectType))
+                resolver.fulfill(self.api!.buildMetadataRequest(forObjectType: objectType))
             }
         }
         
@@ -237,7 +237,7 @@ extension SFRestAPI {
             - fieldList: Varargs for field list as string
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func retrieve(objectType: String,objectId: String, fieldList: String... ) -> Promise<SFRestRequest> {
+        public func retrieve(objectType: String,objectId: String, fieldList: String... ) -> Promise<RestRequest> {
             return  self.retrieve(objectType: objectType, objectId: objectId, fieldList: fieldList)
         }
         
@@ -256,9 +256,9 @@ extension SFRestAPI {
          - Returns: SFRestRequest wrapped in a promise.
          */
         
-        public func retrieve(objectType: String,objectId: String, fieldList: [String] ) -> Promise<SFRestRequest> {
+        public func retrieve(objectType: String,objectId: String, fieldList: [String] ) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.requestForRetrieve(withObjectType: objectType, objectId: objectId, fieldList: fieldList.joined(separator: ",")))
+                resolver.fulfill(self.api!.buildRetrieveRequest(forObjectType: objectType, objectId: objectId, fieldList: fieldList.joined(separator: ",")))
             }
         }
         
@@ -275,10 +275,10 @@ extension SFRestAPI {
              - fields: Field list as Dictionary.
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func create(objectType: String, fields: [String:Any]) -> Promise<SFRestRequest> {
+        public func create(objectType: String, fields: [String:Any]) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!
-                    .requestForCreate(withObjectType: objectType, fields: fields))
+                resolver.fulfill(self.api!.buildCreateRequest(forObjectType: objectType, fields: fields))
+                
             }
         }
         
@@ -296,10 +296,9 @@ extension SFRestAPI {
              - fields: Field list as Dictionary.
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,Any>) -> Promise<SFRestRequest> {
+        public func upsert(objectType: String,externalIdField: String, externalId: String, fieldList: Dictionary<String,Any>) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!
-                    .requestForUpsert(withObjectType: objectType, externalIdField: externalIdField, externalId: externalId, fields: fieldList))
+                resolver.fulfill(self.api!.buildUpsertRequest(forObjectType: objectType, externalIdField: externalIdField, externalId: externalId, fields: fieldList))
             }
         }
         
@@ -319,9 +318,9 @@ extension SFRestAPI {
          - ifUnmodifiedSince: update if unmodified since date.
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func update(objectType: String,objectId: String,fieldList: [String: Any]?) -> Promise<SFRestRequest> {
+        public func update(objectType: String,objectId: String,fieldList: [String: Any]?) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.requestForUpdate(withObjectType: objectType, objectId: objectId, fields: fieldList))
+                resolver.fulfill(self.api!.buildUpdateRequest(forObjectType: objectType, objectId: objectId, fields: fieldList))
             }
         }
         
@@ -341,9 +340,9 @@ extension SFRestAPI {
              - ifUnmodifiedSince: update if unmodified since date.
          - Returns: SFRestRequest wrapped in a promise.
          */
-        public func update(objectType: String,objectId: String,fieldList: [String: Any]?,ifUnmodifiedSince: Date?) -> Promise<SFRestRequest> {
+        public func update(objectType: String,objectId: String,fieldList: [String: Any]?,ifUnmodifiedSince: Date?) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.requestForUpdate(withObjectType: objectType, objectId: objectId, fields: fieldList, ifUnmodifiedSince: ifUnmodifiedSince))
+                resolver.fulfill(self.api!.buildUpdateRequest(forObjectType: objectType, objectId: objectId, fields: fieldList, ifUnmodifiedSinceDate: ifUnmodifiedSince))
             }
         }
         
@@ -360,9 +359,9 @@ extension SFRestAPI {
              - objectId: Identifier of the field.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func delete(objectType: String, objectId: String) -> Promise<SFRestRequest> {
+        public func delete(objectType: String, objectId: String) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.requestForDelete(withObjectType: objectType, objectId: objectId))
+                resolver.fulfill(self.api!.buildDeleteRequest(forObjectType: objectType, objectId: objectId))
             }
         }
         
@@ -378,9 +377,9 @@ extension SFRestAPI {
              - soql: Soql string.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func query(soql: String) -> Promise<SFRestRequest> {
+        public func query(soql: String) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.request(forQuery: soql))
+                resolver.fulfill(self.api!.buildQueryRequest(soql: soql))
             }
         }
         
@@ -396,9 +395,9 @@ extension SFRestAPI {
             - soql: Soql string.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func queryAll(soql: String) -> Promise<SFRestRequest> {
+        public func queryAll(soql: String) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.request(forQueryAll: soql))
+                 resolver.fulfill(self.api!.buildQueryAllRequest(soql: soql))
             }
         }
         
@@ -414,9 +413,9 @@ extension SFRestAPI {
             - sosl: Sosl string.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func search(sosl: String) -> Promise<SFRestRequest> {
+        public func search(sosl: String) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.request(forSearch: sosl))
+                resolver.fulfill(self.api!.buildSearchRequest(sosl: sosl))
             }
         }
         
@@ -430,9 +429,9 @@ extension SFRestAPI {
          ```
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func searchScopeAndOrder() -> Promise<SFRestRequest> {
+        public func searchScopeAndOrder() -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(self.api!.requestForSearchScopeAndOrder())
+                resolver.fulfill(self.api!.buildSearchScopeAndOrderRequest())
             }
         }
         
@@ -448,7 +447,7 @@ extension SFRestAPI {
             - objectList: Varargs of String objects.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func searchResultLayout(objectList: String...) -> Promise<SFRestRequest> {
+        public func searchResultLayout(objectList: String...) -> Promise<RestRequest> {
             return self.searchResultLayout(objectList: objectList)
         }
         
@@ -464,10 +463,10 @@ extension SFRestAPI {
             - objectList: String array of objects.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func searchResultLayout(objectList: [String]) -> Promise<SFRestRequest> {
+        public func searchResultLayout(objectList: [String]) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.request(forSearchResultLayout: objectList.joined(separator: ",")))
+                    self.api!.buildSearchResultLayoutRequest(commaSeparatedString:  objectList.joined(separator: ",")))
             }
         }
         
@@ -484,7 +483,7 @@ extension SFRestAPI {
             - haltOnError: Halt on error or not.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func batch(requests: SFRestRequest..., haltOnError: Bool = false) -> Promise<SFRestRequest> {
+        public func batch(requests: RestRequest..., haltOnError: Bool = false) -> Promise<RestRequest> {
             return self.batch(requests: requests,haltOnError: haltOnError)
         }
         
@@ -501,10 +500,10 @@ extension SFRestAPI {
              - haltOnError: Halt on error or not.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func batch(requests: [SFRestRequest], haltOnError: Bool) -> Promise<SFRestRequest> {
+        public func batch(requests: [RestRequest], haltOnError: Bool) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.batchRequest(requests, haltOnError: haltOnError))
+                    self.api!.buildBatchRequest(usingRequests: requests, haltOnError: haltOnError))
             }
         }
         
@@ -521,10 +520,10 @@ extension SFRestAPI {
              - haltOnError: Halt on error or not.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func composite(requests: [SFRestRequest], refIds: [String], allOrNone: Bool) -> Promise<SFRestRequest> {
+        public func composite(requests: [RestRequest], refIds: [String], allOrNone: Bool) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.compositeRequest(requests, refIds: refIds, allOrNone: allOrNone) )
+                    self.api!.buildCompositeRequest(usingRequests: requests, refIds: refIds, allOrNone: allOrNone) )
             }
         }
         
@@ -541,7 +540,7 @@ extension SFRestAPI {
              - objectTrees: Varagrs of SFSObjectTree
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        func sObjectTree(objectType: String, objectTrees: SFSObjectTree...) -> Promise<SFRestRequest> {
+        func sObjectTree(objectType: String, objectTrees: SObjectTree...) -> Promise<RestRequest> {
             return self.sObjectTree(objectType: objectType, objectTrees: objectTrees)
         }
         
@@ -558,10 +557,10 @@ extension SFRestAPI {
              - objectTrees: Array of SFSObjectTree
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        func sObjectTree(objectType: String, objectTrees: [SFSObjectTree]) -> Promise<SFRestRequest> {
+        func sObjectTree(objectType: String, objectTrees: [SObjectTree]) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.request(forSObjectTree: objectType, objectTrees: objectTrees))
+                    self.api!.buildSObjectTreeRequest(forObjectType: objectType, objectTrees: objectTrees))
             }
         }
         
@@ -578,10 +577,10 @@ extension SFRestAPI {
              - page: A page number for results.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func filesOwned(userId: String?, page: UInt = 0) -> Promise<SFRestRequest> {
+        public func filesOwned(userId: String?, page: UInt = 0) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.request(forOwnedFilesList: userId, page: page))
+                    self.api!.buildGetOwnedFilesListRequest(forUserId: userId, page: page))
             }
         }
         
@@ -598,10 +597,10 @@ extension SFRestAPI {
              - page: A page number for results.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func filesInUsersGroups(userId: String?, page: UInt = 0) -> Promise<SFRestRequest> {
+        public func filesInUsersGroups(userId: String?, page: UInt = 0) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.requestForFiles(inUsersGroups: userId, page: page))
+                    self.api!.buildGetFilesInUsersGroupsRequest(forUserId: userId, page: page))
             }
         }
         
@@ -618,10 +617,9 @@ extension SFRestAPI {
              - page: A page number for results.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func filesShared(userId: String?, page: UInt = 0) -> Promise<SFRestRequest> {
+        public func filesShared(userId: String?, page: UInt = 0) -> Promise<RestRequest> {
             return  Promise {  resolver in
-                resolver.fulfill(
-                    self.api!.requestForFilesShared(withUser: userId, page: page))
+                resolver.fulfill( self.api!.buildGetFilesSharedWithUserRequest(forUserId: userId, page: page))
             }
         }
         
@@ -638,10 +636,10 @@ extension SFRestAPI {
              - version: Version for file.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func fileDetails(sfdcFileId: String, version: String?) -> Promise<SFRestRequest> {
+        public func fileDetails(sfdcFileId: String, version: String?) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.request(forFileDetails: sfdcFileId, forVersion: version))
+                    self.api!.buildGetFileDetailsRequest(sfdcId: sfdcFileId, version: version))
             }
         }
         
@@ -657,7 +655,7 @@ extension SFRestAPI {
              - sfdcFileIds: Array of File identifiers.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func batchDetails(sfdcFileIds: String...) -> Promise<SFRestRequest> {
+        public func batchDetails(sfdcFileIds: String...) -> Promise<RestRequest> {
             return self.batchDetails(sfdcFileIds:sfdcFileIds)
         }
         
@@ -673,10 +671,10 @@ extension SFRestAPI {
              - sfdcFileIds: Array of File identifiers.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func batchDetails(sfdcFileIds: [String] ) -> Promise<SFRestRequest> {
+        public func batchDetails(sfdcFileIds: [String] ) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.request(forBatchFileDetails: sfdcFileIds))
+                    self.api!.buildBatchGetFileDetailsRequest(sfdcIds: sfdcFileIds))
             }
         }
         
@@ -695,10 +693,10 @@ extension SFRestAPI {
             - page: Page number.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func fileRendition(sfdcFileId: String, version: String?, renditionType: String, page: UInt = 0) -> Promise<SFRestRequest> {
+        public func fileRendition(sfdcFileId: String, version: String?, renditionType: String, page: UInt = 0) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.request(forFileRendition: sfdcFileId, version: version, renditionType: renditionType, page: page))
+                    self.api!.buildGetFileRenditionRequest(sfdcId: sfdcFileId, version: version, renditionType: renditionType, page: page))
             }
         }
         
@@ -715,10 +713,10 @@ extension SFRestAPI {
              - version: Version
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func fileContents(sfdcId: String, version: String?) -> Promise<SFRestRequest> {
+        public func fileContents(sfdcId: String, version: String?) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.request(forFileContents: sfdcId, version: version))
+                    self.api!.buildGetFileContentsRequest(sfdcId: sfdcId, version: version))
             }
         }
         
@@ -735,10 +733,10 @@ extension SFRestAPI {
              - page: Page number.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func fileShares(sfdcId: String, page: UInt? = 0) -> Promise<SFRestRequest> {
+        public func fileShares(sfdcId: String, page: UInt? = 0) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.request(forFileShares: sfdcId, page: page!))
+                    self.api!.buildGetFileSharesRequest(sfdcId: sfdcId, page: page!))
             }
         }
         
@@ -756,10 +754,10 @@ extension SFRestAPI {
              - shareType: Type of Share
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func addFileShare(fileId: String, entityId: String, shareType: String) -> Promise<SFRestRequest> {
+        public func addFileShare(fileId: String, entityId: String, shareType: String) -> Promise<RestRequest> {
             return  Promise { resolver in
                 resolver.fulfill(
-                    self.api!.request(forAddFileShare: fileId, entityId: entityId, shareType: shareType))
+                    self.api!.buildAddFileShareRequest(fileId: fileId, entityId: entityId, shareType: shareType))
             }
         }
         
@@ -775,10 +773,10 @@ extension SFRestAPI {
              - shareId: Identifier for the shared file.
          - Returns:  SFRestRequest wrapped in a promise.
          */
-        public func deleteFileShare(shareId: String) -> Promise<SFRestRequest> {
+        public func deleteFileShare(shareId: String) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.request(forDeleteFileShare: shareId))
+                    self.api!.buildDeleteFileShareRequest(shareId: shareId))
             }
         }
         
@@ -798,10 +796,10 @@ extension SFRestAPI {
          - Returns:  SFRestRequest wrapped in a promise.
          */
         
-        public func uploadFile(data: Data, name: String, description: String, mimeType: String) -> Promise<SFRestRequest> {
+        public func uploadFile(data: Data, name: String, description: String, mimeType: String) -> Promise<RestRequest> {
             return  Promise {  resolver in
                 resolver.fulfill(
-                    self.api!.request(forUploadFile: data, name: name, description: description, mimeType: mimeType))
+                    self.api!.buildFileUploadRequest(data: data, name: name, description: description, mileType: mimeType))
             }
         }
         
@@ -841,12 +839,12 @@ extension SFRestAPI {
             - request: SFRestRequest to send.
          - Returns: The instance of Promise<SFRestResponse>.
          */
-        public func send(request :SFRestRequest) -> Promise<SFRestResponse> {
+        public func send(request :RestRequest) -> Promise<SFRestResponse> {
             return Promise {  resolver in
                 request.parseResponse = false
-                self.api!.send(request, fail: { (error, urlResponse) in
+                self.api!.send(request: request, onFailure: { (error, urlResponse) in
                     resolver.reject(error!)
-                }, complete: { (data, urlResponse) in
+                }, onSuccess: { (data, urlResponse) in
                     resolver.fulfill(SFRestResponse(data: data as? Data,response: urlResponse))
                 })
             }

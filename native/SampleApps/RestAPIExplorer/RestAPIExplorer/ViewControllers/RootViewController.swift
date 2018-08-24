@@ -133,7 +133,7 @@ class RootViewController: UIViewController {
        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: font]
         self.title = "RestAPI Explorer"
         
-        guard let leftImage = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), let rightImage = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal) else {
+        guard let leftImage = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), let _ = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal) else {
             return
         }
         let left = UIBarButtonItem(image: leftImage, style: .plain, target: self, action: #selector(didPressLeftNavButton(_:)))
@@ -528,15 +528,15 @@ class RootViewController: UIViewController {
     @objc func userDidTapQueryButton(_ sender:UIButton) {
         print("handle tapped query button")
         self.view.endEditing(true)
-        guard let path = self.manualQueryTextField.text, let method = SFRestMethod(rawValue: self.methodControl.selectedSegmentIndex) else {return}
+        guard let path = self.manualQueryTextField.text, let method = RestRequest.Method(rawValue: self.methodControl.selectedSegmentIndex) else {return}
         
         var queryParams:[String: Any]?
         if let params = self.paramsTextView.text {
             queryParams = SFJsonUtils.object(fromJSONString: params) as? [String: Any]
         }
         
-        let request = SFRestRequest(method: method, path: path, queryParams: queryParams)
-        SFRestAPI.sharedInstance().Promises
+        let request = RestRequest(method: method, path: path, queryParams: queryParams)
+        RestClient.sharedInstance().Promises
             .send(request: request)
             .done { [weak self] response in
                 DispatchQueue.main.async {
@@ -588,7 +588,7 @@ class RootViewController: UIViewController {
                                       preferredStyle: .alert)
         
         let logout = UIAlertAction(title: "Logout", style: .default) { (action) in
-            SFUserAccountManager.sharedInstance().logout()
+            UserAccountManager.sharedInstance().logout()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             self.presentedViewController?.dismiss(animated: true, completion: nil)
@@ -621,7 +621,7 @@ class RootViewController: UIViewController {
         }
     }
 
-    func updateUI(_ forRequest:SFRestRequest, response: SFRestResponse?, error:Error?) {
+    func updateUI(_ forRequest:RestRequest, response: SFRestResponse?, error:Error?) {
         self.manualQueryTextField.text = forRequest.path
         self.paramsTextView.text = SFJsonUtils.jsonRepresentation(forRequest.queryParams as Any)
         self.methodControl.selectedSegmentIndex = forRequest.method.rawValue
@@ -664,7 +664,7 @@ extension RootViewController: ActionTableViewDelegate {
     
     func handleAction(_ action: Action) {
         let objectTypes = action.objectTypes
-        var request: Promise<SFRestRequest>?
+        var request: Promise<RestRequest>?
         
         let objectType = self.objectTypeTextField.text
         let objectId = self.objectIdTextField.text
@@ -681,7 +681,7 @@ extension RootViewController: ActionTableViewDelegate {
         let objectIdList = self.objectIdListTextField.text?.components(separatedBy: ",")
         let entityId = self.entityIdTextField.text
         let shareType = self.shareTypeTextField.text
-        let restApi = SFRestAPI.sharedInstance()
+        let restApi = RestClient.sharedInstance()
         let restApiPromises = restApi.Promises
         
         switch action.type {
@@ -802,7 +802,7 @@ extension RootViewController: ActionTableViewDelegate {
                         }
                         request = restApiPromises.deleteFileShare(shareId: objId)
                     case .currentUserInfo:
-                        guard let currentAccount = SFUserAccountManager.sharedInstance().currentUser else {return}
+                        guard let currentAccount = UserAccountManager.sharedInstance().currentUser else {return}
                         var userInfoString = "Name: " + currentAccount.fullName
                         userInfoString = userInfoString + "\nID: " + currentAccount.userName
                         if let e = currentAccount.email {
@@ -814,7 +814,7 @@ extension RootViewController: ActionTableViewDelegate {
                         self.createLogoutActionSheet()
                         return
                     case .switchUser:
-                        let umvc = SFDefaultUserManagementViewController.init(completionBlock: { (action) in
+                        let umvc = UserManagementViewController.init(completionBlock: { (action) in
                             self.dismiss(animated: true, completion: nil)
                         })
                         self.present(umvc, animated: true, completion: nil)

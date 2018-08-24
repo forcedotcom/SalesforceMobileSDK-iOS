@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
     SFRestMethodDELETE,
     SFRestMethodHEAD,
     SFRestMethodPATCH
-};
+} NS_SWIFT_NAME(RestRequest.Method);
 
 /**
  * The type of service host to use for Rest requests.
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSUInteger, SFSDKRestServiceHostType) {
      *  Request uses the instance endpoint.
      */
     SFSDKRestServiceHostTypeInstance
-};
+} NS_SWIFT_NAME(RestRequest.ServiceHostType);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -67,6 +67,7 @@ extern NSString * const kSFDefaultRestEndpoint;
 /**
  * Lifecycle events for SFRestRequests.
  */
+NS_SWIFT_NAME(RestClientDelegate)
 @protocol SFRestDelegate <NSObject>
 @optional
 
@@ -133,6 +134,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Request object used to send a REST request to Salesforce.com
  * @see SFRestAPI
  */
+NS_SWIFT_NAME(RestRequest)
 @interface SFRestRequest : NSObject
 
 /**

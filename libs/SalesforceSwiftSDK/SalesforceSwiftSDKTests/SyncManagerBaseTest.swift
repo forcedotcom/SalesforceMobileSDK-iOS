@@ -57,7 +57,7 @@ enum TestError : Error {
 
 class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     
-    var currentUser: SFUserAccount?
+    var currentUser: UserAccount?
     var syncManager: SFSmartSyncSyncManager?
     var store: SFSmartStore?
     var storeClient: SFSmartStoreClient?
@@ -71,7 +71,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     
     override func setUp() {
         super.setUp()
-        currentUser = SFUserAccountManager.sharedInstance().currentUser
+        currentUser = UserAccountManager.sharedInstance().currentUser
         store = SFSmartStore.sharedStore(withName: kDefaultSmartStoreName, user: currentUser!) as?  SFSmartStore
         syncManager = SFSmartSyncSyncManager.sharedInstance(for:store!)
         
@@ -148,7 +148,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     }
     
     func fetchAllTestContactsFromServer() throws -> Promise<SFRestResponse> {
-        guard let sfRestApi = SFRestAPI.sharedInstance(withUser: currentUser!) else {
+        guard let sfRestApi = RestClient.sharedInstance(withUser: currentUser!) else {
             return Promise { _ in
                 throw TestError.InitializationError
             }
@@ -161,7 +161,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     }
     
     func fetchContactsFromServer(contactIds: [String]) throws -> Promise<SFRestResponse> {
-        guard let sfRestApi = SFRestAPI.sharedInstance(withUser: currentUser!) else {
+        guard let sfRestApi = RestClient.sharedInstance(withUser: currentUser!) else {
             return Promise { _ in
                 throw TestError.InitializationError
             }
@@ -182,14 +182,14 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     }
     
     func deleteContactsFromServer(contactIds : [String]) throws -> Promise<Void> {
-        guard let sfRestApi = SFRestAPI.sharedInstance(withUser: currentUser!) else {
+        guard let sfRestApi = RestClient.sharedInstance(withUser: currentUser!) else {
             return Promise { _ in
                 throw TestError.InitializationError
             }
         }
-        var requests: [SFRestRequest] = []
+        var requests: [RestRequest] = []
         contactIds.forEach { id in
-            requests.append(sfRestApi.requestForDelete(withObjectType: CONTACT_TYPE, objectId: id))
+            requests.append(sfRestApi.buildDeleteRequest(forObjectType: CONTACT_TYPE, objectId: id))
         }
         
         return sfRestApi.Promises
@@ -227,18 +227,18 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     }
     
     func createContactsOnServer(noOfRecords: UInt) throws -> Promise<[String]> {
-        guard let sfRestApi = SFRestAPI.sharedInstance(withUser: currentUser!) else {
+        guard let sfRestApi = RestClient.sharedInstance(withUser: currentUser!) else {
             return Promise { _ in
                 throw TestError.InitializationError
             }
         }
         
-        var requests:[SFRestRequest] = []
+        var requests:[RestRequest] = []
         
         let contacts = self.createContacts(count: noOfRecords,isLocal: false)
         
         contacts.forEach { contact in
-            requests.append(sfRestApi.requestForCreate(withObjectType: CONTACT_TYPE, fields: contact))
+            requests.append(sfRestApi.buildCreateRequest(forObjectType: CONTACT_TYPE, fields: contact))
         }
         
         return sfRestApi.Promises.batch(requests: requests, haltOnError: false)

@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, SFSDKAppConfigErrorCode) {
     SFSDKAppConfigErrorCodeNoConsumerKey = 966,
     SFSDKAppConfigErrorCodeNoRedirectURI,
     SFSDKAppConfigErrorCodeNoOAuthScopes
-};
+} NS_SWIFT_NAME(AppConfig.ErrorCode);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,6 +38,7 @@ static NSString *const SFSDKDefaultNativeAppConfigFilePath = @"/bootconfig.plist
 
 /** Contains this app's OAuth configuration as defined in the developer's Salesforce connected app.
  */
+NS_SWIFT_NAME(AppConfig)
 @interface SFSDKAppConfig : NSObject
 
 /**

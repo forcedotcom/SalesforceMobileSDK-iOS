@@ -39,7 +39,7 @@ import SalesforceSDKCore
  }
  ```
  */
-extension SFUserAccountManager {
+extension UserAccountManager {
     
     public var Promises : SFUserAccountManagerPromises {
         return SFUserAccountManagerPromises()
@@ -62,11 +62,11 @@ extension SFUserAccountManager {
          ```
          - Returns: A Promise with SFUserAccount
          */
-        public func login() -> Promise<SFUserAccount> {
+        public func login() -> Promise<UserAccount> {
             return Promise {  resolver in
-                SFUserAccountManager.sharedInstance().login(completion: { (oauthInfo, userAccount) in
-                        resolver.fulfill(userAccount)
-                }, failure: { (oauthInfo, error) in
+                UserAccountManager.sharedInstance().login(onSuccess: { (oauthInfo, userAccount) in
+                    resolver.fulfill(userAccount)
+                }, onFailure: { (oauthInfo, error) in
                         resolver.reject(error)
                 })
             }
@@ -85,11 +85,11 @@ extension SFUserAccountManager {
          - Parameter credentials: The Credentials to refresh.
          - Returns: A Promise with SFUserAccount
          */
-        public func refresh(credentials: SFOAuthCredentials) -> Promise<SFUserAccount>  {
+        public func refresh(credentials: AuthCredentials) -> Promise<UserAccount>  {
             return Promise {  resolver in
-             SFUserAccountManager.sharedInstance().refreshCredentials(credentials, completion: { (authInfo, userAccount) in
+                UserAccountManager.sharedInstance().refresh(credentials: credentials, onSuccess: { (authInfo, userAccount) in
                     resolver.fulfill(userAccount)
-                }, failure: { (authInfo, error) in
+                }, onFailure: { (authInfo, error) in
                     resolver.reject(error)
                 })
             }
@@ -109,7 +109,7 @@ extension SFUserAccountManager {
          */
         public func logout() -> Promise<Void> {
             return Promise { resolver in
-                SFUserAccountManager.sharedInstance().logout()
+                UserAccountManager.sharedInstance().logout()
                 resolver.fulfill(())
             }
         }
@@ -128,7 +128,7 @@ extension SFUserAccountManager {
          */
         public func logoutAllUsers() -> Promise<Void> {
             return Promise { resolver in
-                SFUserAccountManager.sharedInstance().logoutAllUsers()
+                UserAccountManager.sharedInstance().logoutAllUsers()
                 resolver.fulfill(())
             }
         }
@@ -146,9 +146,9 @@ extension SFUserAccountManager {
          - Parameter userAccount: The user to logout.
          - Returns: A Promise in order to allow further chaining
          */
-        public func logoutUser(userAccount: SFUserAccount) -> Promise<Void> {
+        public func logoutUser(userAccount: UserAccount) -> Promise<Void> {
             return Promise { resolver in
-                SFUserAccountManager.sharedInstance().logoutUser(userAccount)
+                UserAccountManager.sharedInstance().logoutUser(userAccount)
                 resolver.fulfill(())
             }
         }
@@ -166,9 +166,9 @@ extension SFUserAccountManager {
          - Parameter userAccount: The user to logout.
          - Returns: A Promise with the newly switched current user
          */
-        public func switchToUser(userAccount: SFUserAccount) -> Promise<SFUserAccount> {
+        public func switchToUser(userAccount: UserAccount) -> Promise<UserAccount> {
             return Promise { resolver in
-                SFUserAccountManager.sharedInstance().switch(toUser: userAccount)
+                UserAccountManager.sharedInstance().switch(toUser: userAccount)
                 resolver.fulfill(userAccount)
             }
         }
@@ -185,10 +185,10 @@ extension SFUserAccountManager {
          ```
          - Returns: A Promise with the newly logged-in current user
          */
-        public func switchToNewUser() -> Promise<SFUserAccount> {
-            return Promise { resolver in
-                self.login().then { newUser -> Promise<SFUserAccount>  in
-                    SFUserAccountManager.sharedInstance().switch(toUser: newUser)
+        public func switchToNewUser() -> Promise<UserAccount> {
+            return Promise<UserAccount> { resolver in
+                self.login().then { newUser -> Promise<UserAccount>  in
+                    UserAccountManager.sharedInstance().switch(toUser: newUser)
                     return Promise { resolver in
                         resolver.fulfill(newUser)
                     }

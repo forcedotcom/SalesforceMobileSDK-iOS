@@ -30,6 +30,7 @@
 @class SFSDKAlertMessage;
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(AlertMessageBuilder)
 @interface SFSDKAlertMessageBuilder : NSObject
 @property (nonatomic,copy) NSString *alertTitle;
 @property (nonatomic,copy) NSString *alertMessage;

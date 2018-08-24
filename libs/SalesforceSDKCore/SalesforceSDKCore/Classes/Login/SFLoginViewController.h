@@ -35,6 +35,7 @@
 /**
  * Delegate protocol for the owner of SFLoginViewController.
  */
+NS_SWIFT_NAME(LoginViewControllerDelegate)
 @protocol SFLoginViewControllerDelegate <NSObject>
 
 @optional
@@ -51,6 +52,7 @@
 
 /** The Salesforce login screen view.
  */
+NS_SWIFT_NAME(LoginViewController)
 @interface SFLoginViewController : SFSDKViewController
 
 /** Returns a shared singleton of `SFLoginViewController` class.

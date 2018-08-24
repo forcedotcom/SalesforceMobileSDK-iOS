@@ -32,7 +32,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * _Nonnull const kSFSDKSmartStoreComponentName;
-
+NS_SWIFT_NAME(SmartStoreLogger)
 @interface SFSDKSmartStoreLogger : SFSDKLogger
 
 @end

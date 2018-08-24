@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Helper class for sobject tree requests
  */
-
+NS_SWIFT_NAME(SObjectTree)
 @interface SFSObjectTree : NSObject
 
 /**
