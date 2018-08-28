@@ -7,6 +7,9 @@
 [submodule "external/fmdb"]
 	path = external/fmdb
 	url = https://github.com/forcedotcom/fmdb
+[submodule "external/wypopovercontroller"]
+	path = external/wypopovercontroller
+	url = https://github.com/sammcewan/WYPopoverController
 [submodule "external/CocoaLumberjack"]
 	path = external/CocoaLumberjack
 	url=https://github.com/forcedotcom/CocoaLumberjack.git
