@@ -307,7 +307,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     
                             // Make sure we call logout on the main thread.
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [strongSelf createAndStoreLogoutEvent:error user:strongSelf.user];
+                                [strongSelf createAndStoreLogoutEvent:refreshError user:strongSelf.user];
                                 [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user];
                             });
                         }
