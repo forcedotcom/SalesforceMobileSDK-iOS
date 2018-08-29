@@ -24,6 +24,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(PersistableObject)
 @interface SFSmartSyncPersistableObject : NSObject
 
 @property (nonatomic, strong) NSDictionary *rawData;

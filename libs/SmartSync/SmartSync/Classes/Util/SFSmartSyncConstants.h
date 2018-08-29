@@ -73,4 +73,4 @@ typedef NS_ENUM(NSInteger, SFSDKFetchMode) {
     SFSDKFetchModeCacheOnly = 0,
     SFSDKFetchModeCacheFirst,
     SFSDKFetchModeServerFirst
-};
+} NS_SWIFT_NAME(FetchMode);

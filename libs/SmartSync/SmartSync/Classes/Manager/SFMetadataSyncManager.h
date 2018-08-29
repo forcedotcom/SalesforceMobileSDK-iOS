@@ -44,6 +44,7 @@ typedef void (^SFMetadataSyncCompletionBlock) (SFMetadata  * _Nullable metadata)
  * This class handles creating a soup, storing synched data and reading it into
  * a meaningful data structure, i.e. SFMetadata.
  */
+NS_SWIFT_NAME(MetadataSyncManager)
 @interface SFMetadataSyncManager : NSObject
 
 @property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore;

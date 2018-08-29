@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Utility helper functions for Smart SQL.
  */
-
+NS_SWIFT_NAME(SmartSqlHelper)
 @interface SFSmartSqlHelper : NSObject
 
 /**

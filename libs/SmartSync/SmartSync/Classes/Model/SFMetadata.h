@@ -34,6 +34,7 @@
  *
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_describe.htm
  */
+NS_SWIFT_NAME(Metadata)
 @interface SFMetadata : NSObject
 
 @property (nonatomic, readonly, assign) BOOL activateable;

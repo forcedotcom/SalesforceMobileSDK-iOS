@@ -30,7 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString * const kQuerySpecSortOrderAscending;
 extern NSString * const kQuerySpecSortOrderDescending;
 
-extern NSString * const kQuerySpecParamQueryType;
+// TODO Following could be better
+//typedef NSString * const SFQuerySpecSortOrder NS_TYPED_ENUM NS_SWIFT_NAME(QuerySpec.SortOrder);
+//FOUNDATION_EXTERN SFQuerySpecSortOrder kQuerySpecSortOrderAscending  NS_SWIFT_NAME(ascending);
+//FOUNDATION_EXTERN SFQuerySpecSortOrder kQuerySpecSortOrderDescending NS_SWIFT_NAME(descending);
+
 
 //kQuerySpecTypeFoo constants are used when translating to SFSoupQueryType from JS (dictionary) values
 extern NSString * const kQuerySpecTypeExact;
@@ -39,35 +43,60 @@ extern NSString * const kQuerySpecTypeLike;
 extern NSString * const kQuerySpecTypeSmart;
 extern NSString * const kQuerySpecTypeMatch;
 
+// TODO Following could be better
+//typedef NSString * const SFQuerySpecType NS_TYPED_ENUM NS_SWIFT_NAME(QuerySpec.Type);
+//FOUNDATION_EXTERN SFQuerySpecType kQuerySpecTypeExact NS_SWIFT_NAME(exact);
+//FOUNDATION_EXTERN SFQuerySpecType kQuerySpecTypeRange NS_SWIFT_NAME(range);
+//FOUNDATION_EXTERN SFQuerySpecType kQuerySpecTypeLike  NS_SWIFT_NAME(like);
+//FOUNDATION_EXTERN SFQuerySpecType kQuerySpecTypeSmart NS_SWIFT_NAME(smart);
+//FOUNDATION_EXTERN SFQuerySpecType kQuerySpecTypeMatch NS_SWIFT_NAME(match);
+
+//kQuerySpecParamFoo constants are used when build SFQuerySpec from JS (dictionary) values
+extern NSString * const kQuerySpecParamQueryType;
 extern NSString * const kQuerySpecParamSelectPaths;
 extern NSString * const kQuerySpecParamIndexPath;
 extern NSString * const kQuerySpecParamOrder;
 extern NSString * const kQuerySpecParamPageSize;
-extern NSUInteger const kQuerySpecDefaultPageSize;
 extern NSString * const kQuerySpecParamOrderPath;
-
 extern NSString * const kQuerySpecParamMatchKey;
 extern NSString * const kQuerySpecParamBeginKey;
 extern NSString * const kQuerySpecParamEndKey;
 extern NSString * const kQuerySpecParamLikeKey;
 extern NSString * const kQuerySpecParamSmartSql;
 
+// TODO Following could be better
+//typedef NSString * const SFQuerySpecParam NS_TYPED_ENUM NS_SWIFT_NAME(QuerySpec.Param);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamQueryType     NS_SWIFT_NAME(queryType);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamSelectPaths   NS_SWIFT_NAME(selectPaths);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamIndexPath     NS_SWIFT_NAME(indexPath);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamOrder         NS_SWIFT_NAME(paramOrder);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamPageSize      NS_SWIFT_NAME(pageSize);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamOrderPath     NS_SWIFT_NAME(orderPath);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamMatchKey      NS_SWIFT_NAME(matchKey);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamBeginKey      NS_SWIFT_NAME(beginKey);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamEndKey        NS_SWIFT_NAME(endKey);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamLikeKey       NS_SWIFT_NAME(likeKey);
+//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamSmartSql      NS_SWIFT_NAME(smartSql);
+
+extern NSUInteger const kQuerySpecDefaultPageSize;
+
 typedef NS_ENUM(NSInteger, SFSoupQueryType) {
-    kSFSoupQueryTypeExact = 2,
-    kSFSoupQueryTypeRange = 4,
-    kSFSoupQueryTypeLike = 8,
-    kSFSoupQueryTypeSmart = 16,
-    kSFSoupQueryTypeMatch = 32
-};
+    kSFSoupQueryTypeExact NS_SWIFT_NAME(exact) = 2 ,
+    kSFSoupQueryTypeRange NS_SWIFT_NAME(range) = 4,
+    kSFSoupQueryTypeLike  NS_SWIFT_NAME(like) = 8,
+    kSFSoupQueryTypeSmart NS_SWIFT_NAME(smart) = 16,
+    kSFSoupQueryTypeMatch NS_SWIFT_NAME(match) = 32
+} NS_SWIFT_NAME(QueryType);
 
 typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
-    kSFSoupQuerySortOrderAscending,
-    kSFSoupQuerySortOrderDescending
-};
+    kSFSoupQuerySortOrderAscending  NS_SWIFT_NAME(ascending),
+    kSFSoupQuerySortOrderDescending NS_SWIFT_NAME(descending)
+} NS_SWIFT_NAME(SortOrder);
 
 /**
  * Object containing the query specification for queries against a soup.
  */
+NS_SWIFT_NAME(QuerySpec)
 @interface SFQuerySpec : NSObject
 
 /**

@@ -39,6 +39,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
 /**
  * This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
+NS_SWIFT_NAME(SyncManager)
 @interface SFSmartSyncSyncManager : NSObject
 
 @property (nonatomic, strong, readonly) SFSmartStore *store;

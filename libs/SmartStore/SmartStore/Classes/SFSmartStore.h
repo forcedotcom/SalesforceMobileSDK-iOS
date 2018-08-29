@@ -115,7 +115,7 @@ extern NSString *const EXPLAIN_ROWS;
 @class SFSoupSpec;
 @class SFUserAccount;
 
-
+NS_SWIFT_NAME(SmartStore)
 @interface SFSmartStore : NSObject {
 
     //used for monitoring the status of file data protection

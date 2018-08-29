@@ -48,6 +48,7 @@ extern NSString * const kSFParentChildrenSyncTargetChildrenUpdateFieldlist;
 extern NSString * const kSFParentChildrenRelationshipMasterDetail;
 extern NSString * const kSFParentChildrenRelationshipLookup;
 
+NS_SWIFT_NAME(ParentChildrenSyncHelper)
 @interface SFParentChildrenSyncHelper : NSObject
 
 + (void)registerAppFeature;

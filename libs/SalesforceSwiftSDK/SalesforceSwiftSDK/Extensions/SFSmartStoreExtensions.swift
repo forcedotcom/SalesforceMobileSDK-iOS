@@ -50,7 +50,7 @@ enum SmartStoreError : Error {
      .build()
  ```
  */
-extension SFQuerySpec {
+extension QuerySpec {
     
     /// Builder class
     public class Builder {
@@ -66,8 +66,8 @@ extension SFQuerySpec {
         /// Set the query type
         /// - Parameter value: type of query
         /// - Returns: SFQuerySpec.Builder instance
-        public func queryType(value: SFSoupQueryType) -> Self {
-            queryDict[kQuerySpecParamQueryType] = SFQuerySpec.queryType(fromEnum:value)
+        public func queryType(value: QueryType) -> Self {
+            queryDict[kQuerySpecParamQueryType] = QuerySpec.queryType(fromEnum:value)
             return self
         }
         
@@ -150,19 +150,19 @@ extension SFQuerySpec {
         /// Order by for the smart sql query
         /// - Parameter value: query sort order
         /// - Returns: SFQuerySpec.Builder instance
-        public func order(value: SFSoupQuerySortOrder) -> Self {
-            queryDict[kQuerySpecParamOrder] = SFQuerySpec.sortOrder(fromEnum: value)
+        public func order(value: SortOrder) -> Self {
+            queryDict[kQuerySpecParamOrder] = QuerySpec.sortOrder(fromEnum: value)
             return self
         }
         
-        public func build() -> SFQuerySpec {
-            return SFQuerySpec(dictionary: self.queryDict,withSoupName: soupName)
+        public func build() -> QuerySpec {
+            return QuerySpec(dictionary: self.queryDict,withSoupName: soupName)
         }
     }
 }
 
 /// Extension of SFSmartStore.
-extension SFSmartStore {
+extension SmartStore {
     
     public var Promises : SFSmartStorePromises {
         return SFSmartStorePromises(api: self)
@@ -171,9 +171,9 @@ extension SFSmartStore {
     /// Smart Store api(s) wrapped in promises.
     public class SFSmartStorePromises {
         
-        weak var api: SFSmartStore?
+        weak var api: SmartStore?
         
-        init(api: SFSmartStore) {
+        init(api: SmartStore) {
             self.api = api
         }
         
@@ -189,9 +189,9 @@ extension SFSmartStore {
          - parameter soupName: The Name of the soup
          - Returns: SFSoupSpec wrapped in a promise.
          */
-        public func attributes(soupName: String) -> Promise<SFSoupSpec> {
+        public func attributes(soupName: String) -> Promise<SoupSpec> {
             return Promise {  resolver in
-                let soupSpec : SFSoupSpec?  = self.api!.attributes(forSoup: soupName)
+                let soupSpec : SoupSpec?  = self.api!.attributes(forSoup: soupName)
                 if let spec = soupSpec {
                      resolver.fulfill(spec)
                 } else {
@@ -281,7 +281,7 @@ extension SFSmartStore {
              - indexSpecs: Array of Index specs
          - Returns: Boolean wrapped in a promise indicating success.
          */
-        public func registerSoup(soupSpec: SFSoupSpec,indexSpecs: [Any]) -> Promise<Bool> {
+        public func registerSoup(soupSpec: SoupSpec,indexSpecs: [Any]) -> Promise<Bool> {
             return Promise {  resolver in
                 do {
                     try self.api!.registerSoup(with: soupSpec, withIndexSpecs: indexSpecs)
@@ -304,7 +304,7 @@ extension SFSmartStore {
          - parameter querySpec: SFQuerySpec query specification
          - Returns: Integer wrapped in a promise indicating count.
          */
-        public func count(querySpec: SFQuerySpec) -> Promise<UInt> {
+        public func count(querySpec: QuerySpec) -> Promise<UInt> {
             return Promise {  resolver in
                 var count: UInt = 0
                 var error: NSError?
@@ -331,7 +331,7 @@ extension SFSmartStore {
             - pageIndex: Page number for records.
          - Returns: Array wrapped in a promise with query results.
          */
-        public func query(querySpec: SFQuerySpec, pageIndex: UInt)  -> Promise<[Any]> {
+        public func query(querySpec: QuerySpec, pageIndex: UInt)  -> Promise<[Any]> {
             return Promise {  resolver in
                 var result: [Any]?
                 var error: NSError?
@@ -460,7 +460,7 @@ extension SFSmartStore {
              - querySpec: SFQuerySoupSpec for the soup
              - soupName: Name of soup.
          */
-        public func removeEntries(querySpec: SFQuerySpec, soupName: String) -> Promise<Void> {
+        public func removeEntries(querySpec: QuerySpec, soupName: String) -> Promise<Void> {
             return Promise {  resolver in
                 self.api!.removeEntries(byQuery: querySpec, fromSoup: soupName)
                 resolver.fulfill(())
@@ -563,13 +563,13 @@ public class SFSmartStoreClient {
      - Returns: SFSmartStore wrapped in a promise.
      */
     
-    public class func store(withName: String) -> Promise<SFSmartStore> {
+    public class func store(withName: String) -> Promise<SmartStore> {
         return Promise { resolver in
-            let smartStore = SFSmartStore.sharedStore(withName : withName)
+            let smartStore = SmartStore.sharedStore(withName : withName)
             guard let _ = smartStore else {
                 return resolver.reject(SmartStoreError.StoreNotFoundError)
             }
-            resolver.fulfill(smartStore as! SFSmartStore)
+            resolver.fulfill(smartStore as! SmartStore)
         }
     }
     
@@ -587,13 +587,13 @@ public class SFSmartStoreClient {
         - user: User associated with the store.
      - Returns: SFSmartStore wrapped in a promise.
      */
-    public class func store(withName: String,user: UserAccount) -> Promise<SFSmartStore> {
+    public class func store(withName: String,user: UserAccount) -> Promise<SmartStore> {
         return Promise { resolver in
-            let smartStore = SFSmartStore.sharedStore(withName : withName,user: user)
+            let smartStore = SmartStore.sharedStore(withName : withName,user: user)
             guard let _ = smartStore else {
                 return resolver.reject(SmartStoreError.StoreNotFoundError)
             }
-            resolver.fulfill(smartStore as! SFSmartStore)
+            resolver.fulfill(smartStore as! SmartStore)
         }
     }
     
@@ -609,10 +609,10 @@ public class SFSmartStoreClient {
      - parameter withName: Name of Store.
      - Returns: SFSmartStore wrapped in a promise.
      */
-    public class func globalStore(withName: String) -> Promise<SFSmartStore> {
+    public class func globalStore(withName: String) -> Promise<SmartStore> {
         return Promise { resolver in
-            let smartStore = SFSmartStore.sharedGlobalStore(withName : withName)
-            resolver.fulfill(smartStore as! SFSmartStore)
+            let smartStore = SmartStore.sharedGlobalStore(withName : withName)
+            resolver.fulfill(smartStore as! SmartStore)
         }
     }
     
@@ -630,7 +630,7 @@ public class SFSmartStoreClient {
      */
     public class func removeGlobalStore(withName: String) -> Promise<Void> {
         return Promise { resolver in
-            SFSmartStore.removeSharedGlobalStore(withName:  withName)
+            SmartStore.removeSharedGlobalStore(withName:  withName)
             resolver.fulfill(())
         }
     }
@@ -649,7 +649,7 @@ public class SFSmartStoreClient {
      */
     public class func removeSharedStore(withName: String) -> Promise<Void> {
         return Promise { resolver in
-            SFSmartStore.removeSharedStore(withName:  withName)
+            SmartStore.removeSharedStore(withName:  withName)
             resolver.fulfill(())
         }
     }
@@ -667,7 +667,7 @@ public class SFSmartStoreClient {
      */
     public class func removeAllSharedStores() -> Promise<Void> {
         return Promise { resolver in
-            SFSmartStore.removeAllStores()
+            SmartStore.removeAllStores()
             resolver.fulfill(())
         }
     }
@@ -685,7 +685,7 @@ public class SFSmartStoreClient {
      */
     public class func removeAllGlobalStores() -> Promise<Void> {
         return Promise { resolver in
-            SFSmartStore.removeAllGlobalStores()
+            SmartStore.removeAllGlobalStores()
             resolver.fulfill(())
         }
     }

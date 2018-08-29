@@ -58,11 +58,11 @@ enum TestError : Error {
 class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     
     var currentUser: UserAccount?
-    var syncManager: SFSmartSyncSyncManager?
-    var store: SFSmartStore?
+    var syncManager: SyncManager?
+    var store: SmartStore?
     var storeClient: SFSmartStoreClient?
-    var globalSyncManager: SFSmartSyncSyncManager?
-    var globalStore: SFSmartStore?
+    var globalSyncManager: SyncManager?
+    var globalStore: SmartStore?
     
     override class func setUp() {
         super.setUp()
@@ -72,11 +72,11 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     override func setUp() {
         super.setUp()
         currentUser = UserAccountManager.sharedInstance().currentUser
-        store = SFSmartStore.sharedStore(withName: kDefaultSmartStoreName, user: currentUser!) as?  SFSmartStore
-        syncManager = SFSmartSyncSyncManager.sharedInstance(for:store!)
+        store = SmartStore.sharedStore(withName: kDefaultSmartStoreName, user: currentUser!) as?  SmartStore
+        syncManager = SyncManager.sharedInstance(for:store!)
         
-        globalStore = SFSmartStore.sharedGlobalStore(withName: kDefaultSmartStoreName) as? SFSmartStore
-        globalSyncManager = SFSmartSyncSyncManager.sharedInstance(for: globalStore!)
+        globalStore = SmartStore.sharedGlobalStore(withName: kDefaultSmartStoreName) as? SmartStore
+        globalSyncManager = SyncManager.sharedInstance(for: globalStore!)
     }
     
     override func tearDown() {
@@ -133,16 +133,16 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     
    func createContactsSoup() -> Promise<Bool> {
         let indexSpecs:[AnyObject]! = [
-            SFSoupIndex(path: ID, indexType: kSoupIndexTypeString, columnName: nil)!,
-            SFSoupIndex(path:FIRST_NAME, indexType:kSoupIndexTypeString, columnName:nil)!,
-            SFSoupIndex(path:LAST_NAME, indexType:kSoupIndexTypeString, columnName:nil)!,
-            SFSoupIndex(path:TITLE, indexType:kSoupIndexTypeString, columnName:nil)!,
-            SFSoupIndex(path:MOBILE_PHONE, indexType:kSoupIndexTypeString, columnName:nil)!,
-            SFSoupIndex(path:HOME_PHONE, indexType:kSoupIndexTypeString, columnName:nil)!,
-            SFSoupIndex(path:EMAIL, indexType:kSoupIndexTypeString, columnName:nil)!,
-            SFSoupIndex(path:DESCRIPTION, indexType:kSoupIndexTypeFullText, columnName:nil)!,
-            SFSoupIndex(path:kSyncTargetLocal, indexType:kSoupIndexTypeString, columnName:nil)!,
-            SFSoupIndex(path:kSyncTargetSyncId, indexType:kSoupIndexTypeInteger, columnName:nil)!
+            SoupIndex(path: ID, indexType: kSoupIndexTypeString, columnName: nil)!,
+            SoupIndex(path:FIRST_NAME, indexType: kSoupIndexTypeString, columnName:nil)!,
+            SoupIndex(path:LAST_NAME, indexType:kSoupIndexTypeString, columnName:nil)!,
+            SoupIndex(path:TITLE, indexType:kSoupIndexTypeString, columnName:nil)!,
+            SoupIndex(path:MOBILE_PHONE, indexType:kSoupIndexTypeString, columnName:nil)!,
+            SoupIndex(path:HOME_PHONE, indexType:kSoupIndexTypeString, columnName:nil)!,
+            SoupIndex(path:EMAIL, indexType:kSoupIndexTypeString, columnName:nil)!,
+            SoupIndex(path:DESCRIPTION, indexType:kSoupIndexTypeFullText, columnName:nil)!,
+            SoupIndex(path:kSyncTargetLocal, indexType:kSoupIndexTypeString, columnName:nil)!,
+            SoupIndex(path:kSyncTargetSyncId, indexType:kSoupIndexTypeInteger, columnName:nil)!
         ]
         return (self.store?.Promises.registerSoup(soupName: CONTACTS_SOUP, indexSpecs: indexSpecs))!
     }
@@ -174,10 +174,10 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
         }
     }
     
-    func createSyncDownTargetFor(contactIds: [String]) -> SFSoqlSyncDownTarget {
+    func createSyncDownTargetFor(contactIds: [String]) -> SoqlSyncDownTarget {
         let inString = contactIds.joined(separator: "','")
         let soqlQuery = "Select \(contactFieldList.joined(separator: ",")) from Contact where Id in ('\(inString)')"
-        let syncTarget = SFSoqlSyncDownTarget.newSyncTarget(soqlQuery)
+        let syncTarget = SoqlSyncDownTarget.newSyncTarget(soqlQuery)
         return syncTarget
     }
     
@@ -203,7 +203,7 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
     
     func deleteAllTestContactsFromServer() throws -> Promise<Void> {
         
-        let querySpec = SFQuerySpec.Builder(soupName: CONTACTS_SOUP)
+        let querySpec = QuerySpec.Builder(soupName: CONTACTS_SOUP)
             .queryType(value: .range)
             .selectedPaths(value: [ID])
             .pageSize(value: UInt.max)

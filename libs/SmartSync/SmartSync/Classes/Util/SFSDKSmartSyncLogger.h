@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * _Nonnull const kSFSDKSmartSyncComponentName;
 
+NS_SWIFT_NAME(SmartSyncLogger)
 @interface SFSDKSmartSyncLogger : SFSDKLogger
 
 @end

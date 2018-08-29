@@ -25,7 +25,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFSmartSyncSyncManager;
-
+NS_SWIFT_NAME(SyncTarget)
 @interface SFSyncTarget : NSObject
 
 extern NSString * const kSyncTargetLocal;

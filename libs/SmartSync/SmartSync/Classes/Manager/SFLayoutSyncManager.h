@@ -45,6 +45,7 @@ typedef void (^SFLayoutSyncCompletionBlock) (NSString * _Nonnull objectType, SFL
  * This class handles creating a soup, storing synched data and reading it into
  * a meaningful data structure, i.e. SFLayout.
  */
+NS_SWIFT_NAME(LayoutSyncManager)
 @interface SFLayoutSyncManager : NSObject
 
 @property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore;

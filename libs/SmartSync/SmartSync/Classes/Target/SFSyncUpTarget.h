@@ -36,13 +36,14 @@ typedef NS_ENUM(NSUInteger, SFSyncUpTargetType) {
     /**
      The default server target, which uses standard REST requests to post updates.
      */
-    SFSyncUpTargetTypeRestStandard,
+    SFSyncUpTargetTypeRestStandard NS_SWIFT_NAME(standard),
     
     /**
      Server target is a custom target, that manages its own server update logic.
      */
-    SFSyncUpTargetTypeCustom,
-};
+    SFSyncUpTargetTypeCustom NS_SWIFT_NAME(custom),
+    
+} NS_SWIFT_NAME(SyncUpTargetType);
 
 /**
  Enumeration of the types of actions that can be executed against the server target.
@@ -98,6 +99,7 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 /**
  Base class for a server target, used to manage sync ups to the configured service.
  */
+NS_SWIFT_NAME(SyncUpTarget)
 @interface SFSyncUpTarget : SFSyncTarget
 
 /**

@@ -47,6 +47,7 @@ extern SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract;
 /**
  * Definition of an index on a given soup.
  */
+NS_SWIFT_NAME(SoupIndex)
 @interface SFSoupIndex : NSObject {
     NSString *_path;
     NSString *_indexType;

@@ -54,7 +54,7 @@ extern NSString * const kSFSyncStateEndTime;
 typedef NS_ENUM(NSInteger, SFSyncStateSyncType) {
     SFSyncStateSyncTypeDown,
     SFSyncStateSyncTypeUp,
-};
+} NS_SWIFT_NAME(SyncType);
 
 extern NSString * const kSFSyncStateTypeDown;
 extern NSString * const kSFSyncStateTypeUp;
@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, SFSyncStateStatus) {
     SFSyncStateStatusRunning,
     SFSyncStateStatusDone,
     SFSyncStateStatusFailed
-};
+} NS_SWIFT_NAME(SyncStatus);
 
 extern NSString * const kSFSyncStateStatusNew;
 extern NSString * const kSFSyncStateStatusRunning;
@@ -77,11 +77,12 @@ typedef NS_ENUM(NSInteger, SFSyncStateMergeMode) {
     SFSyncStateMergeModeOverwrite,
     SFSyncStateMergeModeLeaveIfChanged
     
-};
+} NS_SWIFT_NAME(MergeMode);
 
 extern NSString * const kSFSyncStateMergeModeOverwrite;
 extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
+NS_SWIFT_NAME(SyncState)
 @interface SFSyncState : NSObject <NSCopying>
 
 @property (nonatomic, readonly) NSInteger syncId;

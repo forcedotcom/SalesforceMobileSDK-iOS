@@ -33,9 +33,9 @@ import PromiseKit
 /// - ReSyncFailed: Thrown when the resync fails.
 /// - CleanResyncGhostsFailed: Thrown when the cleanresyncghosts fails.
 enum SFSmartSyncError : Error {
-    case SyncDownFailed(syncState: SFSyncState)
-    case SyncUpFailed(syncState: SFSyncState)
-    case ReSyncFailed(syncState: SFSyncState)
+    case SyncDownFailed(syncState: SyncState)
+    case SyncUpFailed(syncState: SyncState)
+    case ReSyncFailed(syncState: SyncState)
     case CleanResyncGhostsFailed
 }
 
@@ -61,7 +61,7 @@ firstly {
 }
 ```
  */
-extension SFSmartSyncSyncManager {
+extension SyncManager {
     
     public var Promises : SFSmartSyncSyncManagerPromises {
         return SFSmartSyncSyncManagerPromises(api: self)
@@ -70,9 +70,9 @@ extension SFSmartSyncSyncManager {
     /// SF SmartSyncSyncManager api(s) wrapped in promises.
     public class SFSmartSyncSyncManagerPromises {
 
-        weak var api: SFSmartSyncSyncManager?
+        weak var api: SyncManager?
 
-        init(api: SFSmartSyncSyncManager) {
+        init(api: SyncManager) {
             self.api = api
         }
 
@@ -88,7 +88,7 @@ extension SFSmartSyncSyncManager {
          - parameter syncId: Id for sync.
          - Returns: SFSyncState wrapped in a promise.
          */
-        public func getSyncStatus(syncId: UInt) -> Promise<SFSyncState?> {
+        public func getSyncStatus(syncId: UInt) -> Promise<SyncState?> {
             return Promise {  resolver in
                 resolver.fulfill(self.api!.getSyncStatus(NSNumber(value: syncId)))
             }
@@ -106,7 +106,7 @@ extension SFSmartSyncSyncManager {
          - parameter name: Name of sync.
          - Returns: SFSyncState wrapped in a promise.
          */
-        public func getSyncStatus(name: String) -> Promise<SFSyncState?> {
+        public func getSyncStatus(name: String) -> Promise<SyncState?> {
             return Promise {  resolver in
                 resolver.fulfill(self.api!.getSyncStatus(byName: name))
             }
@@ -180,7 +180,7 @@ extension SFSmartSyncSyncManager {
              - syncName: Sync Name
          - Returns: SFSyncState wrapped in a promise.
          */
-        public func createSyncDown(target: SFSyncDownTarget, options: SFSyncOptions, soupName: String, syncName: String?) -> Promise<SFSyncState> {
+        public func createSyncDown(target: SyncDownTarget, options: SyncOptions, soupName: String, syncName: String?) -> Promise<SyncState> {
             return Promise {  resolver in
                 resolver.fulfill( self.api!.createSyncDown(target, options: options, soupName: soupName, syncName: syncName))
             }
@@ -203,7 +203,7 @@ extension SFSmartSyncSyncManager {
              - soupName: Soup Name
          - Returns: SFSmartStore wrapped in a promise.
          */
-        public func syncDown(target: SFSyncDownTarget, soupName: String) -> Promise<SFSyncState> {
+        public func syncDown(target: SyncDownTarget, soupName: String) -> Promise<SyncState> {
             return Promise {  resolver in
                 self.api!.syncDown(with: target, soupName: soupName, update: { (syncState) in
                     if syncState.status == .done  {
@@ -232,7 +232,7 @@ extension SFSmartSyncSyncManager {
          - soupName: Soup Name
          - Returns: SFSmartStore wrapped in a promise.
          */
-        public func syncDown(target: SFSyncDownTarget, options: SFSyncOptions, soupName: String) -> Promise<SFSyncState> {
+        public func syncDown(target: SyncDownTarget, options: SyncOptions, soupName: String) -> Promise<SyncState> {
             return Promise {  resolver in
                 self.api!.syncDown(with: target, options: options, soupName: soupName, update: { (syncState) in
                     if syncState.status == .done  {
@@ -261,7 +261,7 @@ extension SFSmartSyncSyncManager {
          - soupName: Soup Name
          - Returns: SFSmartStore wrapped in a promise.
          */
-        public func syncDown(target: SFSyncDownTarget, options: SFSyncOptions, soupName: String, syncName: String?) -> Promise<SFSyncState> {
+        public func syncDown(target: SyncDownTarget, options: SyncOptions, soupName: String, syncName: String?) -> Promise<SyncState> {
             return Promise {  resolver in
                 self.api!.syncDown(with: target, options: options, soupName: soupName, syncName: syncName, update: { (syncState) in
                     if syncState.status == .done  {
@@ -290,7 +290,7 @@ extension SFSmartSyncSyncManager {
          - Returns: SFSyncState wrapped in a promise.
          */
 
-        public func reSync(syncId: UInt) -> Promise<SFSyncState> {
+        public func reSync(syncId: UInt) -> Promise<SyncState> {
             return Promise {  resolver in
                 self.api!.reSync(NSNumber(value: syncId), update: { (syncState) in
                     if syncState.status == .done  {
@@ -318,7 +318,7 @@ extension SFSmartSyncSyncManager {
              - syncName: Soup Name
          - Returns: SFSyncState wrapped in a promise.
          */
-        public func reSync(syncName: String) -> Promise<SFSyncState> {
+        public func reSync(syncName: String) -> Promise<SyncState> {
             return Promise {  resolver in
                 self.api!.reSync(byName: syncName, update: { (syncState) in
                     if syncState.status == .done  {
@@ -345,7 +345,7 @@ extension SFSmartSyncSyncManager {
             - syncName: The name for this sync.
          - Returns: SFSyncState wrapped in a promise.
          */
-        public func createSyncUp(target: SFSyncUpTarget, options: SFSyncOptions, soupName: String, syncName: String?) -> Promise<SFSyncState> {
+        public func createSyncUp(target: SyncUpTarget, options: SyncOptions, soupName: String, syncName: String?) -> Promise<SyncState> {
             return Promise {  resolver in
                 resolver.fulfill(self.api!.createSyncUp(target, options: options, soupName: soupName, syncName: syncName))
             }
@@ -366,7 +366,7 @@ extension SFSmartSyncSyncManager {
              - soupName: The soup name where the local entries are stored.
          - Returns: SFSyncState wrapped in a promise.
          */
-        public func syncUp(options: SFSyncOptions, soupName: String) -> Promise<SFSyncState> {
+        public func syncUp(options: SyncOptions, soupName: String) -> Promise<SyncState> {
             return Promise {  resolver in
                 self.api!.syncUp(with: options, soupName: soupName) { (syncState) in
                     if syncState.status == .done  {
@@ -396,7 +396,7 @@ extension SFSmartSyncSyncManager {
              - soupName: The soup name where the local entries are stored.
          - Returns: The sync state associated with this sync up.
          */
-        public func syncUp(target: SFSyncUpTarget, options: SFSyncOptions, soupName: String) -> Promise<SFSyncState> {
+        public func syncUp(target: SyncUpTarget, options: SyncOptions, soupName: String) -> Promise<SyncState> {
             return Promise {  resolver in
                 self.api!.syncUp(with: target, options: options, soupName: soupName, update: { (syncState) in
                     if syncState.status == .done  {
@@ -425,7 +425,7 @@ extension SFSmartSyncSyncManager {
              - syncName: The name for this sync.
         - Returns: The SFSyncState wrapped in a promise
          */
-        public func syncUp(with target: SFSyncUpTarget, options: SFSyncOptions, soupName: String, syncName: String?) -> Promise<SFSyncState> {
+        public func syncUp(with target: SyncUpTarget, options: SyncOptions, soupName: String, syncName: String?) -> Promise<SyncState> {
             return Promise {  resolver in
                 self.api!.syncUp(with: target, options: options, soupName: soupName,syncName: syncName, update: { (syncState) in
                     if syncState.status == .done  {
@@ -450,7 +450,7 @@ extension SFSmartSyncSyncManager {
          - parameter syncId: Sync ID.
          - Returns: The SFSyncStateStatus and number of records cleaned wrapped in a promise
          */
-        public func cleanResyncGhosts(syncId: UInt) -> Promise<(SFSyncStateStatus, UInt)> {
+        public func cleanResyncGhosts(syncId: UInt) -> Promise<(SyncStatus, UInt)> {
             return Promise {  resolver in
                 self.api!.cleanResyncGhosts(NSNumber(value: syncId), completionStatusBlock: { (syncStatus, numRecords) in
                     if syncStatus == .done  {
