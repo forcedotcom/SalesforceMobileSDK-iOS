@@ -77,7 +77,7 @@ typedef NS_ENUM(NSInteger, SFSyncStateMergeMode) {
     SFSyncStateMergeModeOverwrite,
     SFSyncStateMergeModeLeaveIfChanged
     
-} NS_SWIFT_NAME(MergeMode);
+} NS_SWIFT_NAME(SyncMergeMode);
 
 extern NSString * const kSFSyncStateMergeModeOverwrite;
 extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
@@ -121,13 +121,13 @@ NS_SWIFT_NAME(SyncState)
 
 /** Methods to translate to/from dictionary
  */
-+ (nullable SFSyncState*) newFromDict:(NSDictionary *)dict;
++ (nullable SFSyncState*) newFromDict:(NSDictionary *)dict NS_SWIFT_NAME(build(forDict:));
 - (NSDictionary*) asDict;
 
 /** Method for easy status check
  */
-- (BOOL)isDone;
-- (BOOL)hasFailed;
+- (BOOL) isDone;
+- (BOOL) hasFailed;
 - (BOOL) isRunning;
 
 /** Enum to/from string helper methods

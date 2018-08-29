@@ -29,8 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class SFSmartSyncSyncManager;
 
-typedef void (^SFSyncDownTargetFetchCompleteBlock) (NSArray* _Nullable records);
-typedef void (^SFSyncDownTargetFetchErrorBlock) (NSError * _Nullable e);
+typedef void (^SFSyncDownTargetFetchCompleteBlock) (NSArray* _Nullable records) NS_SWIFT_NAME(SyncDownCompletionBlock);
+typedef void (^SFSyncDownTargetFetchErrorBlock) (NSError * _Nullable e) NS_SWIFT_NAME(SyncDownErrorBlock);
 
 typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
   SFSyncDownTargetQueryTypeMru,
@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
   SFSyncDownTargetQueryTypeCustom,
   SFSyncDownTargetQueryTypeMetadata,
   SFSyncDownTargetQueryTypeLayout
-} NS_SWIFT_NAME(SyncDownTargetQueryType);
+} NS_SWIFT_NAME(SyncDownTarget.QueryType);
 
 NS_SWIFT_NAME(SyncDownTarget)
 @interface SFSyncDownTarget : SFSyncTarget

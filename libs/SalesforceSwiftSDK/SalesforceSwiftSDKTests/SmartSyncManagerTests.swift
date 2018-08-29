@@ -74,7 +74,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         .then { ids -> Promise<SyncState> in
             contactIds = ids
             let syncDownTarget = super.createSyncDownTargetFor(contactIds: contactIds)
-            let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: MergeMode.overwrite)
+            let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: SyncMergeMode.overwrite)
             return (self.syncManager?.Promises.syncDown(target: syncDownTarget, options: syncOptions, soupName: CONTACTS_SOUP))!
         }
         .then { syncState -> Promise<UInt> in
@@ -109,7 +109,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
             result.forEach { value in
                 XCTAssertTrue(value [kSyncTargetLocallyCreated] as! Bool == true)
             }
-                let syncOptions = SyncOptions.newSyncOptions(forSyncUp: contactSyncFieldList, mergeMode: MergeMode.overwrite)
+                let syncOptions = SyncOptions.newSyncOptions(forSyncUp: contactSyncFieldList, mergeMode: SyncMergeMode.overwrite)
             return (self.syncManager?.Promises.syncUp(options: syncOptions, soupName: CONTACTS_SOUP))!
         }
         .then { syncState -> Promise<Void> in
@@ -137,7 +137,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
             .then { ids -> Promise<SyncState> in
                 contactIds = ids
                 let syncDownTarget = super.createSyncDownTargetFor(contactIds: contactIds)
-                let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: MergeMode.overwrite)
+                let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: SyncMergeMode.overwrite)
                 return (self.syncManager?.Promises.syncDown(target: syncDownTarget, options: syncOptions, soupName: CONTACTS_SOUP))!
             }
             .then { syncState -> Promise<UInt> in
@@ -178,7 +178,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
             .then { ids -> Promise<SyncState> in
             contactIds = ids
             let syncDownTarget = super.createSyncDownTargetFor(contactIds: contactIds)
-                let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: MergeMode.overwrite)
+                let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: SyncMergeMode.overwrite)
             return (self.syncManager?.Promises.syncDown(target: syncDownTarget, options: syncOptions, soupName: CONTACTS_SOUP))!
         }
         .then { syncState -> Promise<UInt> in

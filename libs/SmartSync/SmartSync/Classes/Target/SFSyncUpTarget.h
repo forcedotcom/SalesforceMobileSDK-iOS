@@ -43,7 +43,7 @@ typedef NS_ENUM(NSUInteger, SFSyncUpTargetType) {
      */
     SFSyncUpTargetTypeCustom NS_SWIFT_NAME(custom),
     
-} NS_SWIFT_NAME(SyncUpTargetType);
+} NS_SWIFT_NAME(SyncUpTarget.TargetType);
 
 /**
  Enumeration of the types of actions that can be executed against the server target.
@@ -68,22 +68,22 @@ typedef NS_ENUM(NSUInteger, SFSyncUpTargetAction) {
      Data will be deleted from the server.
      */
     SFSyncUpTargetActionDelete
-};
+} NS_SWIFT_NAME(SyncUpTarget.Action);
 
 /**
  Block definition for returning whether a records changed on server.
  */
-typedef void (^SFSyncUpRecordNewerThanServerBlock)(BOOL isNewerThanServer);
+typedef void (^SFSyncUpRecordNewerThanServerBlock)(BOOL isNewerThanServer) NS_SWIFT_NAME(RecordNewerThanServerBlock);
 
 /**
  Block definition for calling a sync up completion block.
  */
-typedef void (^SFSyncUpTargetCompleteBlock)(NSDictionary * _Nullable syncUpResult);
+typedef void (^SFSyncUpTargetCompleteBlock)(NSDictionary * _Nullable syncUpResult) NS_SWIFT_NAME(SyncUpcompletionBlock);
 
 /**
  Block definition for calling a sync up failure block.
  */
-typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
+typedef void (^SFSyncUpTargetErrorBlock)(NSError *error) NS_SWIFT_NAME(SyncUpErrorBlock);
 
 /**
  Helper class for isNewerThanServer

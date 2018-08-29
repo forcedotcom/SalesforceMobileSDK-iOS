@@ -52,7 +52,7 @@ extern NSString * const kSFSmartStoreEncryptionKeyLabel;
 /**
  Block typedef for generating an encryption key.
  */
-typedef SFEncryptionKey*  _Nullable (^SFSmartStoreEncryptionKeyBlock)(void);
+typedef SFEncryptionKey*  _Nullable (^SFSmartStoreEncryptionKeyBlock)(void) NS_SWIFT_NAME(EncryptionKeyBlock);
 
 /**
  The columns of a soup table

@@ -86,12 +86,12 @@ typedef NS_ENUM(NSInteger, SFSoupQueryType) {
     kSFSoupQueryTypeLike  NS_SWIFT_NAME(like) = 8,
     kSFSoupQueryTypeSmart NS_SWIFT_NAME(smart) = 16,
     kSFSoupQueryTypeMatch NS_SWIFT_NAME(match) = 32
-} NS_SWIFT_NAME(QueryType);
+} NS_SWIFT_NAME(QuerySpec.QueryType);
 
 typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
     kSFSoupQuerySortOrderAscending  NS_SWIFT_NAME(ascending),
     kSFSoupQuerySortOrderDescending NS_SWIFT_NAME(descending)
-} NS_SWIFT_NAME(SortOrder);
+} NS_SWIFT_NAME(QuerySpec.SortOrder);
 
 /**
  * Object containing the query specification for queries against a soup.

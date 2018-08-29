@@ -33,8 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFUserAccount;
 
 // block type
-typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
-typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncStatus, NSUInteger numRecords);
+typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync) NS_SWIFT_NAME(SyncUpdateBlock);
+typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncStatus, NSUInteger numRecords) NS_SWIFT_NAME(SyncCompletionBlock);
 
 /**
  * This class provides methods for doing synching records to/from the server from/to the smartstore.

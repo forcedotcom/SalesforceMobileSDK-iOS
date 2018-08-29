@@ -37,7 +37,7 @@
  *
  * @param metadata Metadata.
  */
-typedef void (^SFMetadataSyncCompletionBlock) (SFMetadata  * _Nullable metadata);
+typedef void (^SFMetadataSyncCompletionBlock) (SFMetadata  * _Nullable metadata) NS_SWIFT_NAME(MetadataSyncCompletionBlock);
 
 /**
  * Provides an easy way to fetch metadata using SFMetadataSyncDownTarget.

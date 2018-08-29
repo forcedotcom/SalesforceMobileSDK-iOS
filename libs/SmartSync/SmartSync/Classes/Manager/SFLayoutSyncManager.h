@@ -38,7 +38,7 @@
  * @param objectType Object type.
  * @param layout Layout.
  */
-typedef void (^SFLayoutSyncCompletionBlock) (NSString * _Nonnull objectType, SFLayout  * _Nullable layout);
+typedef void (^SFLayoutSyncCompletionBlock) (NSString * _Nonnull objectType, SFLayout  * _Nullable layout) NS_SWIFT_NAME(LayoutSyncCompletionBlock);
 
 /**
  * Provides an easy way to fetch layout data using SFLayoutSyncDownTarget.
