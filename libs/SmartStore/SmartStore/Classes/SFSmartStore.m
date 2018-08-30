@@ -1525,13 +1525,13 @@ NSString *const EXPLAIN_ROWS = @"rows";
     return returnId;
 }
 
-- (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec error:(NSError **)error;
+- (NSNumber*)countWithQuerySpec:(SFQuerySpec*)querySpec error:(NSError **)error;
 {
     __block NSInteger result;
     [self inDatabase:^(FMDatabase* db) {
         result = [self countWithQuerySpec:querySpec withDb:db];
     } error:error];
-    return result;
+    return [NSNumber numberWithUnsignedInteger:result];
 }
 
 - (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec withDb:(FMDatabase*)db

@@ -135,7 +135,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
         let soupName = "WONTONSOUP"
         let expectation = XCTestExpectation(description: "CreateAndRemoveSoup")
         
-        let store: SmartStore  = SmartStore.sharedStore(withName: lclStoreName) as! SmartStore
+        let store: SmartStore  = SmartStore.sharedStore(storeName: lclStoreName) as! SmartStore
         let result  = store.soupExists(soupName)
         XCTAssertFalse(result)
         let indexSpecs = SoupIndex.asArraySoupIndexes([ ["path": "key"], ["type" : "string"]])
