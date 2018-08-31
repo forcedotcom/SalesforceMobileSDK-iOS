@@ -73,10 +73,10 @@ class SyncManagerBaseTest: SalesforceSwiftSDKBaseTest {
         super.setUp()
         currentUser = UserAccountManager.sharedInstance().currentUser
         store = SmartStore.sharedStore(storeName: SmartStore.defaultStoreName, user: currentUser!) as?  SmartStore
-        syncManager = SyncManager.sharedInstance(for:store!)
+        syncManager = SyncManager.sharedInstance(store:store!)
         
         globalStore = SmartStore.sharedGlobalStore(storeName: SmartStore.defaultStoreName) as? SmartStore
-        globalSyncManager = SyncManager.sharedInstance(for: globalStore!)
+        globalSyncManager = SyncManager.sharedInstance(store: globalStore!)
     }
     
     override func tearDown() {

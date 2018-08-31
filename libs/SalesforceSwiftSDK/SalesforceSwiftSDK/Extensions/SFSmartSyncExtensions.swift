@@ -108,7 +108,7 @@ extension SyncManager {
          */
         public func getSyncStatus(name: String) -> Promise<SyncState?> {
             return Promise {  resolver in
-                resolver.fulfill(self.api!.getSyncStatus(byName: name))
+                resolver.fulfill(self.api!.getSyncStatus(syncName: name))
             }
         }
 
@@ -126,7 +126,7 @@ extension SyncManager {
          */
         public func hasSync(name: String) -> Promise<Bool> {
             return Promise {  resolver in
-                resolver.fulfill(self.api!.hasSync(withName: name))
+                resolver.fulfill(self.api!.hasSync(syncName: name))
             }
         }
         
@@ -143,7 +143,7 @@ extension SyncManager {
          */
         public func deleteSync(syncId: UInt) -> Promise<Void>  {
             return Promise {  resolver in
-                resolver.fulfill(self.api!.deleteSync(byId: NSNumber(value: syncId)))
+                resolver.fulfill(self.api!.deleteSync(syncId: NSNumber(value: syncId)))
             }
         }
 
@@ -160,7 +160,7 @@ extension SyncManager {
          */
         public func deleteSync(name: String) -> Promise<Void>  {
             return Promise {  resolver in
-                resolver.fulfill(self.api!.deleteSync(byName:name))
+                resolver.fulfill(self.api!.deleteSync(syncName:name))
             }
         }
 
@@ -205,13 +205,13 @@ extension SyncManager {
          */
         public func syncDown(target: SyncDownTarget, soupName: String) -> Promise<SyncState> {
             return Promise {  resolver in
-                self.api!.syncDown(with: target, soupName: soupName, update: { (syncState) in
+                self.api!.syncDown(target: target, soupName: soupName) { (syncState) in
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
                         resolver.reject(SFSmartSyncError.SyncDownFailed(syncState: syncState))
                     }
-                })
+                }
             }
         }
         
@@ -234,13 +234,13 @@ extension SyncManager {
          */
         public func syncDown(target: SyncDownTarget, options: SyncOptions, soupName: String) -> Promise<SyncState> {
             return Promise {  resolver in
-                self.api!.syncDown(with: target, options: options, soupName: soupName, update: { (syncState) in
+                self.api!.syncDown(target: target, options: options, soupName: soupName) { (syncState) in
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
                         resolver.reject(SFSmartSyncError.SyncDownFailed(syncState: syncState))
                     }
-                })
+                }
             }
         }
 
@@ -263,13 +263,13 @@ extension SyncManager {
          */
         public func syncDown(target: SyncDownTarget, options: SyncOptions, soupName: String, syncName: String?) -> Promise<SyncState> {
             return Promise {  resolver in
-                self.api!.syncDown(with: target, options: options, soupName: soupName, syncName: syncName, update: { (syncState) in
+                self.api!.syncDown(target: target, options: options, soupName: soupName, syncName: syncName) { (syncState) in
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
                         resolver.reject(SFSmartSyncError.SyncDownFailed(syncState: syncState))
                     }
-                })
+                }
             }
         }
 
@@ -292,13 +292,13 @@ extension SyncManager {
 
         public func reSync(syncId: UInt) -> Promise<SyncState> {
             return Promise {  resolver in
-                self.api!.reSync(NSNumber(value: syncId), update: { (syncState) in
+                self.api!.reSync(syncId: NSNumber(value: syncId)) { (syncState) in
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
                         resolver.reject(SFSmartSyncError.ReSyncFailed(syncState: syncState))
                     }
-                })
+                }
             }
         }
 
@@ -320,13 +320,13 @@ extension SyncManager {
          */
         public func reSync(syncName: String) -> Promise<SyncState> {
             return Promise {  resolver in
-                self.api!.reSync(byName: syncName, update: { (syncState) in
+                self.api!.reSync(syncName: syncName) { (syncState) in
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
                          resolver.reject(SFSmartSyncError.ReSyncFailed(syncState: syncState))
                     }
-                })
+                }
             }
         }
        
@@ -368,7 +368,7 @@ extension SyncManager {
          */
         public func syncUp(options: SyncOptions, soupName: String) -> Promise<SyncState> {
             return Promise {  resolver in
-                self.api!.syncUp(with: options, soupName: soupName) { (syncState) in
+                self.api!.syncUp(options: options, soupName: soupName) { (syncState) in
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
@@ -398,13 +398,13 @@ extension SyncManager {
          */
         public func syncUp(target: SyncUpTarget, options: SyncOptions, soupName: String) -> Promise<SyncState> {
             return Promise {  resolver in
-                self.api!.syncUp(with: target, options: options, soupName: soupName, update: { (syncState) in
+                self.api!.syncUp(target: target, options: options, soupName: soupName) { (syncState) in
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
                         resolver.reject(SFSmartSyncError.SyncUpFailed(syncState: syncState))
                     }
-                })
+                }
             }
         }
         
@@ -427,13 +427,13 @@ extension SyncManager {
          */
         public func syncUp(with target: SyncUpTarget, options: SyncOptions, soupName: String, syncName: String?) -> Promise<SyncState> {
             return Promise {  resolver in
-                self.api!.syncUp(with: target, options: options, soupName: soupName,syncName: syncName, update: { (syncState) in
+                self.api!.syncUp(target: target, options: options, soupName: soupName,syncName: syncName) { (syncState) in
                     if syncState.status == .done  {
                         resolver.fulfill(syncState)
                     } else if syncState.status == .failed {
                         resolver.reject(SFSmartSyncError.SyncUpFailed(syncState: syncState))
                     }
-                })
+                }
             }
         }
         
@@ -452,13 +452,13 @@ extension SyncManager {
          */
         public func cleanResyncGhosts(syncId: UInt) -> Promise<(SyncStatus, UInt)> {
             return Promise {  resolver in
-                self.api!.cleanResyncGhosts(NSNumber(value: syncId), completionStatusBlock: { (syncStatus, numRecords) in
+                self.api!.cleanResyncGhosts(syncId: NSNumber(value: syncId)) { (syncStatus, numRecords) in
                     if syncStatus == .done  {
                         resolver.fulfill((syncStatus, numRecords))
                     } else if syncStatus == .failed {
                         resolver.reject(SFSmartSyncError.CleanResyncGhostsFailed)
                     }
-                })
+                }
             }
         }
     }
