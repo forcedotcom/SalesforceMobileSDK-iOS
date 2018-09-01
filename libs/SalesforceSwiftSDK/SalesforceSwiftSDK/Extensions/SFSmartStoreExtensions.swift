@@ -156,7 +156,7 @@ extension QuerySpec {
         }
         
         public func build() -> QuerySpec {
-            return QuerySpec(dictionary: self.queryDict,withSoupName: soupName)
+            return QuerySpec(querySpec: self.queryDict,targetSoupName: soupName)
         }
     }
 }

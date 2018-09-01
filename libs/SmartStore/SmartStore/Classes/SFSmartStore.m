@@ -2001,7 +2001,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
 {
     [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
         [self removeEntriesByQuery:querySpec fromSoup:soupName withDb:db];
-    } error:nil];
+    } error:error];
 }
 
 - (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName withDb:(FMDatabase*) db

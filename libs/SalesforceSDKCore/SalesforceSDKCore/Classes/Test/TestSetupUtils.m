@@ -23,7 +23,6 @@
  */
 
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SFJsonUtils.h>
 #import "TestSetupUtils.h"
 #import "SFJsonUtils.h"
 #import "SFUserAccountManager+Internal.h"

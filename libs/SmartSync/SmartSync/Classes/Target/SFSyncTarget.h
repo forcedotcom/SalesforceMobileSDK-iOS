@@ -65,7 +65,7 @@ extern NSString * const kSyncTargetLastError;
  * @param soupName The soup
  * @param record The record
  */
-- (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record;
+- (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record NS_SWIFT_NAME(cleanAndSaveInLocalStore(syncManager:soupName:record:));
 
 /**
  * Save records in local store (marked as clean)
@@ -74,7 +74,7 @@ extern NSString * const kSyncTargetLastError;
  * @param records The records to save
  * @param syncId The sync id
  */
-- (void)cleanAndSaveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId;
+- (void)cleanAndSaveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId NS_SWIFT_NAME(cleanAndSaveRecordsToLocalStore(syncManager:soupName:records:syncId:));
 
 /**
  * @param record The record
@@ -123,7 +123,7 @@ extern NSString * const kSyncTargetLastError;
  * @param soupName The soup
  * @param record The record to delete
  */
-- (void) deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record;
+- (void) deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record NS_SWIFT_NAME(deleteFromLocalStore(syncManager:soupName:record:));
 
 @end
 

@@ -62,14 +62,14 @@ NS_SWIFT_NAME(SyncDownTarget)
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock NS_SWIFT_NAME(startFetch(syncManager:maxTimeStamp:onFail:onComplete:));
 
 /**
  * Continue fetching records conforming to target if any
  */
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-         completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock;
+         completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock NS_SWIFT_NAME(continueFetch(syncManager:onFail:onComplete:));
 
 /**
  * Gets the latest modification timestamp from the array of records. Note: inheriting classes can
@@ -95,7 +95,7 @@ NS_SWIFT_NAME(SyncDownTarget)
            soupName:(NSString *)soupName
              syncId:(NSNumber *)syncId
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock NS_SWIFT_NAME(cleanGhosts(syncManager:soupName:syncId:onFail:onComplete:));
 
 /**
  * Get ids of records that should not be written over

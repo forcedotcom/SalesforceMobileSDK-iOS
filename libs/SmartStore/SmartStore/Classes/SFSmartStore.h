@@ -373,7 +373,7 @@ NS_SWIFT_NAME(SmartStore)
  @param soupName The name of the soup from which to remove the soup entries.
  @param error Sets/returns any error generated as part of the process.
  */
-- (void) removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName error:(NSError **)error /* TODO NS_SWIFT_NAME(remove(entryIds:soupName:))*/;
+- (void) removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName error:(NSError **)error NS_SWIFT_NAME(remove(entryIds:soupName:));
 
 /**
  Remove soup entries exactly matching the soup entry IDs.
@@ -391,7 +391,7 @@ NS_SWIFT_NAME(SmartStore)
  @param soupName The name of the soup from which to remove the soup entries.
  @param error Sets/returns any error generated as part of the process.
  */
-- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName  error:(NSError **)error /* TODO NS_SWIFT_NAME(removeByQuery(querySpec:soupName:))*/;
+- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName  error:(NSError **)error NS_SWIFT_NAME(removeByQuery(querySpec:soupName:));
 
 /**
  Remove soup entries returned by the given query spec.

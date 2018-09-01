@@ -107,21 +107,21 @@ NS_SWIFT_NAME(SyncState)
 
 /** Factory methods
  */
-+ (nullable SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)options target:(SFSyncDownTarget *)target soupName:(NSString *)soupName name:(nullable NSString *) name store:(SFSmartStore*)store;
-+ (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options target:(SFSyncUpTarget *)target soupName:(NSString *)soupName name:(nullable NSString *)name store:(SFSmartStore *)store;
-+ (nullable SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (nullable SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)options target:(SFSyncDownTarget *)target soupName:(NSString *)soupName name:(nullable NSString *) name store:(SFSmartStore*)store NS_SWIFT_NAME(buildSyncDown(options:target:soupName:name:store:));
++ (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options target:(SFSyncUpTarget *)target soupName:(NSString *)soupName name:(nullable NSString *)name store:(SFSmartStore *)store NS_SWIFT_NAME(buildSyncUp(options:target:soupName:name:store:));
++ (nullable SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store NS_SWIFT_NAME(buildSyncUp(options:soupName:name:store:));;
 
 /** Methods to save/retrieve/delete from smartstore
  */
 + (nullable SFSyncState*)byId:(NSNumber *)syncId store:(SFSmartStore*)store;
 + (nullable SFSyncState*)byName:(NSString *)name store:(SFSmartStore*)store;
 - (void) save:(SFSmartStore*)store;
-+ (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store;
-+ (void) deleteByName:(NSString*)name store:(SFSmartStore*)store;
++ (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store NS_SWIFT_NAME(delete(syncId:store:));
++ (void) deleteByName:(NSString*)name store:(SFSmartStore*)store NS_SWIFT_NAME(delete(syncName:store:));
 
 /** Methods to translate to/from dictionary
  */
-+ (nullable SFSyncState*) newFromDict:(NSDictionary *)dict NS_SWIFT_NAME(build(forDict:));
++ (nullable SFSyncState*) newFromDict:(NSDictionary *)dict NS_SWIFT_NAME(build(dict:));
 - (NSDictionary*) asDict;
 
 /** Method for easy status check

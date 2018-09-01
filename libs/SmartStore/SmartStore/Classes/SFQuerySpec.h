@@ -30,26 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString * const kQuerySpecSortOrderAscending;
 extern NSString * const kQuerySpecSortOrderDescending;
 
-// TODO Following could be better
-//typedef NSString * const SFQuerySpecSortOrder NS_TYPED_ENUM NS_SWIFT_NAME(QuerySpec.SortOrder);
-//FOUNDATION_EXTERN SFQuerySpecSortOrder kQuerySpecSortOrderAscending  NS_SWIFT_NAME(ascending);
-//FOUNDATION_EXTERN SFQuerySpecSortOrder kQuerySpecSortOrderDescending NS_SWIFT_NAME(descending);
-
-
 //kQuerySpecTypeFoo constants are used when translating to SFSoupQueryType from JS (dictionary) values
 extern NSString * const kQuerySpecTypeExact;
 extern NSString * const kQuerySpecTypeRange;
 extern NSString * const kQuerySpecTypeLike;
 extern NSString * const kQuerySpecTypeSmart;
 extern NSString * const kQuerySpecTypeMatch;
-
-// TODO Following could be better
-//typedef NSString * const SFQuerySpecType NS_TYPED_ENUM NS_SWIFT_NAME(QuerySpec.Type);
-//FOUNDATION_EXTERN SFQuerySpecType kQuerySpecTypeExact NS_SWIFT_NAME(exact);
-//FOUNDATION_EXTERN SFQuerySpecType kQuerySpecTypeRange NS_SWIFT_NAME(range);
-//FOUNDATION_EXTERN SFQuerySpecType kQuerySpecTypeLike  NS_SWIFT_NAME(like);
-//FOUNDATION_EXTERN SFQuerySpecType kQuerySpecTypeSmart NS_SWIFT_NAME(smart);
-//FOUNDATION_EXTERN SFQuerySpecType kQuerySpecTypeMatch NS_SWIFT_NAME(match);
 
 //kQuerySpecParamFoo constants are used when build SFQuerySpec from JS (dictionary) values
 extern NSString * const kQuerySpecParamQueryType;
@@ -63,20 +49,6 @@ extern NSString * const kQuerySpecParamBeginKey;
 extern NSString * const kQuerySpecParamEndKey;
 extern NSString * const kQuerySpecParamLikeKey;
 extern NSString * const kQuerySpecParamSmartSql;
-
-// TODO Following could be better
-//typedef NSString * const SFQuerySpecParam NS_TYPED_ENUM NS_SWIFT_NAME(QuerySpec.Param);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamQueryType     NS_SWIFT_NAME(queryType);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamSelectPaths   NS_SWIFT_NAME(selectPaths);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamIndexPath     NS_SWIFT_NAME(indexPath);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamOrder         NS_SWIFT_NAME(paramOrder);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamPageSize      NS_SWIFT_NAME(pageSize);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamOrderPath     NS_SWIFT_NAME(orderPath);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamMatchKey      NS_SWIFT_NAME(matchKey);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamBeginKey      NS_SWIFT_NAME(beginKey);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamEndKey        NS_SWIFT_NAME(endKey);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamLikeKey       NS_SWIFT_NAME(likeKey);
-//FOUNDATION_EXTERN SFQuerySpecParam kQuerySpecParamSmartSql      NS_SWIFT_NAME(smartSql);
 
 extern NSUInteger const kQuerySpecDefaultPageSize;
 
@@ -187,8 +159,9 @@ NS_SWIFT_NAME(QuerySpec)
  * @param pageSize The page size.
  * @return A query spec object.
  */
-+ (nullable SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
-+ (SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (nullable SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildExactQuerySpec(soupName:selectPaths:path:matchKey:orderPath:order:pageSize:));
++ (SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildExactQuerySpec(soupName:path:matchKey:orderPath:order:pageSize:));
+
 
 /**
  * Factory method to build an like query spec
@@ -202,8 +175,8 @@ NS_SWIFT_NAME(QuerySpec)
  * @param pageSize The page size.
  * @return A query spec object.
  */
-+ (nullable SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
-+ (SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (nullable SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildLikeQuerySpec(soupName:selectPaths:path:likeKey:orderPath:order:pageSize:));
++ (SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildLikeQuerySpec(soupName:path:likeKey:orderPath:order:pageSize:));
 
 /**
  * Factory method to build an range query spec
@@ -218,8 +191,8 @@ NS_SWIFT_NAME(QuerySpec)
  * @param pageSize The page size.
  * @return A query spec object.
  */
-+ (nullable SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(nullable NSString*)path withBeginKey:(nullable NSString*)beginKey withEndKey:(nullable NSString*)endKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
-+ (SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withPath:(NSString*)path withBeginKey:(NSString*)beginKey withEndKey:(NSString*)endKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (nullable SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(nullable NSString*)path withBeginKey:(nullable NSString*)beginKey withEndKey:(nullable NSString*)endKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildRangeQuerySpec(soupName:selectPaths:path:beginKey:endKey:orderPath:order:pageSize:));
++ (SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withPath:(NSString*)path withBeginKey:(NSString*)beginKey withEndKey:(NSString*)endKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildRangeQuerySpec(soupName:path:beginKey:endKey:orderPath:order:pageSize:));
 
 /**
  * Factory method to build a query spec to return all data from a soup.
@@ -229,8 +202,8 @@ NS_SWIFT_NAME(QuerySpec)
  * @param order The sort order.
  * @param pageSize The page size.
  */
-+ (SFQuerySpec*) newAllQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
-+ (SFQuerySpec*) newAllQuerySpec:(NSString*)soupName withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (SFQuerySpec*) newAllQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildAllQuerySpec(soupName:selectPaths:orderPath:order:pageSize:));
++ (SFQuerySpec*) newAllQuerySpec:(NSString*)soupName withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildAllQuerySpec(soupName:orderPath:order:pageSize:));
 
 /**
  * Factory method to build a match query spec (full-text search)
@@ -244,8 +217,8 @@ NS_SWIFT_NAME(QuerySpec)
  * @param pageSize The page size.
  * @return A query spec object.
  */
-+ (nullable SFQuerySpec*) newMatchQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
-+ (SFQuerySpec*) newMatchQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (nullable SFQuerySpec*) newMatchQuerySpec:(NSString*)soupName withSelectPaths:(nullable NSArray*)selectPaths withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildMatchQuerySpec(soupName:selectPaths:path:matchKey:orderPath:order:pageSize:));
++ (SFQuerySpec*) newMatchQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildMatchQuerySpec(soupName:path:matchKey:orderPath:order:pageSize:));
 
 /**
  * Factory method to build a smart query spec
@@ -254,7 +227,7 @@ NS_SWIFT_NAME(QuerySpec)
  * @param pageSize The page size.
  * @return A query spec object.
  */
-+ (nullable SFQuerySpec*) newSmartQuerySpec:(NSString*)smartSql withPageSize:(NSUInteger)pageSize;
++ (nullable SFQuerySpec*) newSmartQuerySpec:(NSString*)smartSql withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME(buildSmartQuerySpec(smartSql:pageSize:));
 
 /**
  * Initializes the object with the given query spec.
@@ -262,7 +235,7 @@ NS_SWIFT_NAME(QuerySpec)
  * @param targetSoupName the soup name targeted (not nil for exact/like/range queries)
  * @return A new instance of the object.
  */
-- (id)initWithDictionary:(NSDictionary*)querySpec withSoupName:(NSString*) targetSoupName;
+- (id)initWithDictionary:(NSDictionary*)querySpec withSoupName:(NSString*) targetSoupName NS_SWIFT_NAME(init(querySpec:targetSoupName:));
 
 /**
  * The NSDictionary representation of the query spec.

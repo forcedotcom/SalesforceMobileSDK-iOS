@@ -122,7 +122,7 @@ NS_SWIFT_NAME(SyncUpTarget)
  Creates a new instance of a server target from a serialized dictionary.
  @param dict The dictionary with the serialized server target.
  */
-+ (nullable instancetype)newFromDict:(NSDictionary *)dict;
++ (nullable instancetype)newFromDict:(NSDictionary *)dict NS_SWIFT_NAME(build(dict:));
 
 /**
  Converts a string representation of a target type into its target type.
@@ -167,7 +167,7 @@ NS_SWIFT_NAME(SyncUpTarget)
                 record:(NSDictionary*)record
              fieldlist:(NSArray*)fieldlist
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
-             failBlock:(SFSyncUpTargetErrorBlock)failBlock;
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock NS_SWIFT_NAME(createOnServer(syncManager:record:fieldlist:onComplete:onFail:));
 
 /**
  Save locally updated record back to server
@@ -181,7 +181,7 @@ NS_SWIFT_NAME(SyncUpTarget)
                 record:(NSDictionary*)record
              fieldlist:(NSArray*)fieldlist
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
-             failBlock:(SFSyncUpTargetErrorBlock)failBlock;
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock NS_SWIFT_NAME(updateOnServer(syncManager:record:fieldlist:onComplete:onFail:));
 
 /**
  Delete locally deleted record from server
@@ -193,7 +193,7 @@ NS_SWIFT_NAME(SyncUpTarget)
 - (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager
                 record:(NSDictionary*)record
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
-             failBlock:(SFSyncUpTargetErrorBlock)failBlock;
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock NS_SWIFT_NAME(deleteOnServer(syncManager:record:onComplete:onFail:));
 
 
 /**
@@ -211,7 +211,7 @@ NS_SWIFT_NAME(SyncUpTarget)
  */
 - (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
                                     soupName:(NSString*) soupName
-                                      record:(NSDictionary*) record;
+                                      record:(NSDictionary*) record NS_SWIFT_NAME(saveRecordToLocalStoreWithLastError(syncManager:soupName:record));
 
 @end
 
