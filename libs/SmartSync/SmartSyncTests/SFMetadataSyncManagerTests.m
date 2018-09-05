@@ -142,7 +142,7 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self validateResult:metadataResult];
     SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, kAccount] withPageSize:2];
-    long numRows = [self.metadataSyncManager.smartStore countWithQuerySpec:querySpec error:nil];
+    long numRows = [[self.metadataSyncManager.smartStore countWithQuerySpec:querySpec error:nil] longValue];
     XCTAssertEqual(numRows, 1, "Number of rows should be 1");
 }
 
