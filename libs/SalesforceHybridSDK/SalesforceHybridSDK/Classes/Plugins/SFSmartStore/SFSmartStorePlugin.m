@@ -186,7 +186,7 @@ NSString * const kStoreName           = @"storeName";
         // XXX we could populate error
         return nil;
     }
-    NSUInteger totalEntries = [[self getStoreInst:argsDict] countWithQuerySpec:querySpec error:error];
+    NSUInteger totalEntries = [[[self getStoreInst:argsDict] countWithQuerySpec:querySpec error:error] unsignedIntegerValue];
     if (*error) {
         return nil;
     }
