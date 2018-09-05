@@ -372,8 +372,9 @@ NS_SWIFT_NAME(SmartStore)
  @param entryIds An array of opaque soup entry IDs from _soupEntryId.
  @param soupName The name of the soup from which to remove the soup entries.
  @param error Sets/returns any error generated as part of the process.
+ @return YES if no error occurs
  */
-- (void) removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName error:(NSError **)error NS_SWIFT_NAME(remove(entryIds:soupName:));
+- (BOOL) removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName error:(NSError **)error NS_SWIFT_NAME(remove(entryIds:soupName:));
 
 /**
  Remove soup entries exactly matching the soup entry IDs.
@@ -381,7 +382,7 @@ NS_SWIFT_NAME(SmartStore)
  @param entryIds An array of opaque soup entry IDs from _soupEntryId.
  @param soupName The name of the soup from which to remove the soup entries.
  */
-- (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName NS_SWIFT_NAME(remove(entryIds:soupName:));
+- (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName NS_SWIFT_UNAVAILABLE("Use removeEntries");
 
 /**
  Remove soup entries returned by the given query spec.
@@ -390,8 +391,9 @@ NS_SWIFT_NAME(SmartStore)
  @param querySpec Query returning entries to delete (if querySpec uses smartSQL, it must select soup entry ids).
  @param soupName The name of the soup from which to remove the soup entries.
  @param error Sets/returns any error generated as part of the process.
+ @return YES if no error occurs
  */
-- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName  error:(NSError **)error NS_SWIFT_NAME(removeByQuery(querySpec:soupName:));
+- (BOOL)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName  error:(NSError **)error NS_SWIFT_NAME(removeByQuery(querySpec:soupName:));
 
 /**
  Remove soup entries returned by the given query spec.
@@ -400,7 +402,7 @@ NS_SWIFT_NAME(SmartStore)
  @param querySpec Query returning entries to delete (if querySpec uses smartSQL, it must select soup entry ids).
  @param soupName The name of the soup from which to remove the soup entries.
  */
-- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName NS_SWIFT_NAME(removeByQuery(querySpec:soupName:));
+- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName NS_SWIFT_UNAVAILABLE("Use removeEntriesByQuery");
 
 /**
  Remove all elements from soup.

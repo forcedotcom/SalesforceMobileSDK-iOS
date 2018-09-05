@@ -649,7 +649,8 @@ NSString *const EXPLAIN_ROWS = @"rows";
     }];
 }
 
-- (void)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block error:(NSError* __autoreleasing *)error {
+- (BOOL)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block error:(NSError* __autoreleasing *)error {
+    __block BOOL success = YES;
     [self.storeQueue inTransaction:^(FMDatabase* db, BOOL *rollback) {
         @try {
             block(db, rollback);
@@ -661,9 +662,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
             if (error != nil) {
                 *error = [self errorForException:exception];
             }
+            success = FALSE;
         }
     }];
-    
+    return success;
 }
 
 - (NSError*) errorForException:(NSException*)exception
@@ -1961,9 +1963,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
     [self removeEntries:soupEntryIds fromSoup:soupName error:nil];
 }
 
-- (void)removeEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName error:(NSError**)error
+- (BOOL)removeEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName error:(NSError**)error
 {
-    [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
+    return [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
         [self removeEntries:soupEntryIds fromSoup:soupName withDb:db];
     } error:error];
 }
@@ -1997,9 +1999,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
     [self removeEntriesByQuery:querySpec fromSoup:soupName error:nil];
 }
 
-- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName error:(NSError**)error
+- (BOOL)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName error:(NSError**)error
 {
-    [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
+    return [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
         [self removeEntriesByQuery:querySpec fromSoup:soupName withDb:db];
     } error:error];
 }

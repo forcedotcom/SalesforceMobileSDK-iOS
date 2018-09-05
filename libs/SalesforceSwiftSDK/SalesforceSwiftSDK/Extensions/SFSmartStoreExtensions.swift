@@ -440,8 +440,13 @@ extension SmartStore {
          */
         public func removeEntries(entryIds: [Any], soupName: String) -> Promise<Void> {
             return Promise {  resolver in
-                self.api!.remove(entryIds: entryIds, soupName: soupName)
-                resolver.fulfill(())
+                do {
+                    try self.api!.remove(entryIds: entryIds, soupName: soupName)
+                    resolver.fulfill(())
+                }
+                catch let error {
+                    resolver.reject(error)
+                }
             }
         }
         
@@ -460,8 +465,13 @@ extension SmartStore {
          */
         public func removeEntries(querySpec: QuerySpec, soupName: String) -> Promise<Void> {
             return Promise {  resolver in
-                self.api!.removeByQuery(querySpec: querySpec, soupName: soupName)
-                resolver.fulfill(())
+                do {
+                    try self.api!.removeByQuery(querySpec: querySpec, soupName: soupName)
+                    resolver.fulfill(())
+                }
+                catch let error {
+                    resolver.reject(error)
+                }
             }
         }
         

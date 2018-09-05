@@ -211,7 +211,7 @@ NS_SWIFT_NAME(SyncUpTarget)
  */
 - (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
                                     soupName:(NSString*) soupName
-                                      record:(NSDictionary*) record NS_SWIFT_NAME(saveRecordToLocalStoreWithLastError(syncManager:soupName:record));
+                                      record:(NSDictionary*) record NS_SWIFT_NAME(saveRecordToLocalStoreWithLastError(syncManager:soupName:record:));
 
 @end
 

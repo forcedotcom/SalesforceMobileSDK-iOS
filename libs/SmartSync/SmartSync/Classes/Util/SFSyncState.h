@@ -109,7 +109,7 @@ NS_SWIFT_NAME(SyncState)
  */
 + (nullable SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)options target:(SFSyncDownTarget *)target soupName:(NSString *)soupName name:(nullable NSString *) name store:(SFSmartStore*)store NS_SWIFT_NAME(buildSyncDown(options:target:soupName:name:store:));
 + (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options target:(SFSyncUpTarget *)target soupName:(NSString *)soupName name:(nullable NSString *)name store:(SFSmartStore *)store NS_SWIFT_NAME(buildSyncUp(options:target:soupName:name:store:));
-+ (nullable SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store NS_SWIFT_NAME(buildSyncUp(options:soupName:name:store:));;
++ (nullable SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store NS_SWIFT_NAME(buildSyncUp(options:soupName:store:));;
 
 /** Methods to save/retrieve/delete from smartstore
  */
