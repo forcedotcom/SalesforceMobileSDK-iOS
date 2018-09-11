@@ -69,7 +69,7 @@ typedef NS_ENUM(NSUInteger, SFCryptoOperation) {
  @param iv Initialization vector. If set to nil, uses the default initialization vector.
  @param mode Mode which determines whether to perform operation in memory at once or in chunks writing to the disk.
  */
-- (nullable id)initWithOperation:(SFCryptoOperation)operation key:(nullable NSData *)key iv:(nullable NSData*)iv mode:(SFCryptoMode)mode;
+- (nullable instancetype)initWithOperation:(SFCryptoOperation)operation key:(nullable NSData *)key iv:(nullable NSData*)iv mode:(SFCryptoMode)mode;
 
 /**
  Encrypts or decrypts the passed in data. The input data is assumed to be passed in as a chunk.

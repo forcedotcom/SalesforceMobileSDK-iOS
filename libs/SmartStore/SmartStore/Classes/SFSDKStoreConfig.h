@@ -54,7 +54,7 @@ NS_SWIFT_NAME(StoreConfig)
  * @param path to the config file
  * @return instance of SFSDKStoreConfig
  */
-- (nullable id)initWithResourceAtPath:(NSString*)path;
+- (nullable instancetype)initWithResourceAtPath:(NSString*)path;
 
 /**
  * Register the soup from the config in the given store
