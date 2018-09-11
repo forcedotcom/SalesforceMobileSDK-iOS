@@ -54,7 +54,7 @@ extern NSString * const kSFSyncStateEndTime;
 typedef NS_ENUM(NSInteger, SFSyncStateSyncType) {
     SFSyncStateSyncTypeDown,
     SFSyncStateSyncTypeUp,
-};
+} NS_SWIFT_NAME(SyncType);
 
 extern NSString * const kSFSyncStateTypeDown;
 extern NSString * const kSFSyncStateTypeUp;
@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, SFSyncStateStatus) {
     SFSyncStateStatusRunning,
     SFSyncStateStatusDone,
     SFSyncStateStatusFailed
-};
+} NS_SWIFT_NAME(SyncStatus);
 
 extern NSString * const kSFSyncStateStatusNew;
 extern NSString * const kSFSyncStateStatusRunning;
@@ -77,11 +77,12 @@ typedef NS_ENUM(NSInteger, SFSyncStateMergeMode) {
     SFSyncStateMergeModeOverwrite,
     SFSyncStateMergeModeLeaveIfChanged
     
-};
+} NS_SWIFT_NAME(SyncMergeMode);
 
 extern NSString * const kSFSyncStateMergeModeOverwrite;
 extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
+NS_SWIFT_NAME(SyncState)
 @interface SFSyncState : NSObject <NSCopying>
 
 @property (nonatomic, readonly) NSInteger syncId;
@@ -106,27 +107,27 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
 /** Factory methods
  */
-+ (nullable SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)options target:(SFSyncDownTarget *)target soupName:(NSString *)soupName name:(nullable NSString *) name store:(SFSmartStore*)store;
-+ (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options target:(SFSyncUpTarget *)target soupName:(NSString *)soupName name:(nullable NSString *)name store:(SFSmartStore *)store;
-+ (nullable SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (nullable SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)options target:(SFSyncDownTarget *)target soupName:(NSString *)soupName name:(nullable NSString *) name store:(SFSmartStore*)store NS_SWIFT_NAME(buildSyncDown(options:target:soupName:name:store:));
++ (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options target:(SFSyncUpTarget *)target soupName:(NSString *)soupName name:(nullable NSString *)name store:(SFSmartStore *)store NS_SWIFT_NAME(buildSyncUp(options:target:soupName:name:store:));
++ (nullable SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store NS_SWIFT_NAME(buildSyncUp(options:soupName:store:));;
 
 /** Methods to save/retrieve/delete from smartstore
  */
 + (nullable SFSyncState*)byId:(NSNumber *)syncId store:(SFSmartStore*)store;
 + (nullable SFSyncState*)byName:(NSString *)name store:(SFSmartStore*)store;
 - (void) save:(SFSmartStore*)store;
-+ (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store;
-+ (void) deleteByName:(NSString*)name store:(SFSmartStore*)store;
++ (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store NS_SWIFT_NAME(delete(syncId:store:));
++ (void) deleteByName:(NSString*)name store:(SFSmartStore*)store NS_SWIFT_NAME(delete(syncName:store:));
 
 /** Methods to translate to/from dictionary
  */
-+ (nullable SFSyncState*) newFromDict:(NSDictionary *)dict;
++ (nullable SFSyncState*) newFromDict:(NSDictionary *)dict NS_SWIFT_NAME(build(dict:));
 - (NSDictionary*) asDict;
 
 /** Method for easy status check
  */
-- (BOOL)isDone;
-- (BOOL)hasFailed;
+- (BOOL) isDone;
+- (BOOL) hasFailed;
 - (BOOL) isRunning;
 
 /** Enum to/from string helper methods

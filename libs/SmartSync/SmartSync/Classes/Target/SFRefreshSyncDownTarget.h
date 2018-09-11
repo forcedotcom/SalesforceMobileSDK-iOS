@@ -26,7 +26,7 @@
 #import "SFSyncDownTarget.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+NS_SWIFT_NAME(RefreshSyncDownTarget)
 @interface SFRefreshSyncDownTarget : SFSyncDownTarget
 
 @property (nonatomic, strong, readonly) NSString* soupName;

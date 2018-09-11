@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  * }
  */
 
+NS_SWIFT_NAME(SyncsConfig)
 @interface SFSDKSyncsConfig : NSObject
 
 /**
@@ -52,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param path to the config file
  * @return instance of SFSDKSyncsConfig
  */
-- (nullable id)initWithResourceAtPath:(NSString*)path;
+- (nullable instancetype)initWithResourceAtPath:(NSString*)path;
 
 /**
  * Create the syncs from the config in the given store

@@ -47,6 +47,7 @@ extern SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract;
 /**
  * Definition of an index on a given soup.
  */
+NS_SWIFT_NAME(SoupIndex)
 @interface SFSoupIndex : NSObject {
     NSString *_path;
     NSString *_indexType;
@@ -80,7 +81,7 @@ extern SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract;
  * @param type An index type, e.g. kSoupIndexTypeString.
  * @param columnName The SQL column name, or nil.
  */
-- (nullable id)initWithPath:(NSString*)path indexType:(NSString*)type columnName:(nullable NSString*)columnName;
+- (nullable instancetype)initWithPath:(NSString*)path indexType:(NSString*)type columnName:(nullable NSString*)columnName;
 
 /**
  * Creates an SFSoupIndex based on the given NSDictionary index spec.

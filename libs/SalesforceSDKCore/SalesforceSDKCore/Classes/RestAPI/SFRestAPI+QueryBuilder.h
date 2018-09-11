@@ -58,7 +58,6 @@ extern NSString * const kSOSLEscapeCharacter;
 // Maximum number of records returned via SOSL search
 extern NSInteger const kMaxSOSLSearchLimit;
 
-NS_SWIFT_NAME(QueryBuilder)
 @interface SFRestAPI (QueryBuilder)
 
 /**

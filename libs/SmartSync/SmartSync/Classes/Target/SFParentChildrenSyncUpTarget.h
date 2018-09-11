@@ -29,7 +29,7 @@
 #import "SFAdvancedSyncUpTarget.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+NS_SWIFT_NAME(ParentChildrenSyncUpTarget)
 @interface SFParentChildrenSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
 
 /** Factory methods

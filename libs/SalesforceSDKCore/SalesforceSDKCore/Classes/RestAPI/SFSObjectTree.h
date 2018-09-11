@@ -40,7 +40,7 @@ NS_SWIFT_NAME(SObjectTree)
  * @param fields             Fields for the root sobject
  * @param childrenTrees      Array of SFSObjectTree for the children sobject's
  */
-- (nullable id)initWithObjectType:(NSString*)objectType
+- (nullable instancetype)initWithObjectType:(NSString*)objectType
         objectTypePlural:(nullable NSString*)objectTypePlural
         referenceId:(NSString *)referenceId
              fields:(NSDictionary<NSString *, id> *)fields

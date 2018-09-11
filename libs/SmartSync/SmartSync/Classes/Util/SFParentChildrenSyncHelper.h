@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, SFParentChildrenRelationshipType) {
     SFParentChildrenRelationpshipMasterDetail,
     SFParentChildrenRelationpshipLookup
-};
+} NS_SWIFT_NAME(RelationshipType);
 
 extern NSString * const kSFParentChildrenSyncTargetParent;
 extern NSString * const kSFParentChildrenSyncTargetChildren;
@@ -48,6 +48,7 @@ extern NSString * const kSFParentChildrenSyncTargetChildrenUpdateFieldlist;
 extern NSString * const kSFParentChildrenRelationshipMasterDetail;
 extern NSString * const kSFParentChildrenRelationshipLookup;
 
+NS_SWIFT_NAME(ParentChildrenSyncHelper)
 @interface SFParentChildrenSyncHelper : NSObject
 
 + (void)registerAppFeature;

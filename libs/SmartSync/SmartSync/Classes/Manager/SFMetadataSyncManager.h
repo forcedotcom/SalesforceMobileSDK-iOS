@@ -37,13 +37,14 @@
  *
  * @param metadata Metadata.
  */
-typedef void (^SFMetadataSyncCompletionBlock) (SFMetadata  * _Nullable metadata);
+typedef void (^SFMetadataSyncCompletionBlock) (SFMetadata  * _Nullable metadata) NS_SWIFT_NAME(MetadataSyncCompletionBlock);
 
 /**
  * Provides an easy way to fetch metadata using SFMetadataSyncDownTarget.
  * This class handles creating a soup, storing synched data and reading it into
  * a meaningful data structure, i.e. SFMetadata.
  */
+NS_SWIFT_NAME(MetadataSyncManager)
 @interface SFMetadataSyncManager : NSObject
 
 @property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore;

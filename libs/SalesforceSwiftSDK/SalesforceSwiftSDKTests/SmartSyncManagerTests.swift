@@ -71,15 +71,15 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         firstly {
             try super.createContactsOnServer(noOfRecords: numberOfRecords)
         }
-        .then { ids -> Promise<SFSyncState> in
+        .then { ids -> Promise<SyncState> in
             contactIds = ids
             let syncDownTarget = super.createSyncDownTargetFor(contactIds: contactIds)
-            let syncOptions    = SFSyncOptions.newSyncOptions(forSyncDown: SFSyncStateMergeMode.overwrite)
+            let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: SyncMergeMode.overwrite)
             return (self.syncManager?.Promises.syncDown(target: syncDownTarget, options: syncOptions, soupName: CONTACTS_SOUP))!
         }
         .then { syncState -> Promise<UInt> in
             XCTAssertTrue(syncState.isDone())
-            let querySpec =  SFQuerySpec.Builder(soupName: CONTACTS_SOUP)
+            let querySpec =  QuerySpec.Builder(soupName: CONTACTS_SOUP)
                                         .queryType(value: .range)
                                         .build()
             return (self.store?.Promises.count(querySpec: querySpec))!
@@ -104,12 +104,12 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         firstly {
             super.createContactsLocally(count: 1)
         }
-        .then { result -> Promise<SFSyncState> in
+            .then { result -> Promise<SyncState> in
             XCTAssert(result.count == numberOfRecords)
             result.forEach { value in
                 XCTAssertTrue(value [kSyncTargetLocallyCreated] as! Bool == true)
             }
-            let syncOptions = SFSyncOptions.newSyncOptions(forSyncUp: contactSyncFieldList, mergeMode: SFSyncStateMergeMode.overwrite)
+                let syncOptions = SyncOptions.newSyncOptions(forSyncUp: contactSyncFieldList, mergeMode: SyncMergeMode.overwrite)
             return (self.syncManager?.Promises.syncUp(options: syncOptions, soupName: CONTACTS_SOUP))!
         }
         .then { syncState -> Promise<Void> in
@@ -134,16 +134,16 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         firstly {
             try super.createContactsOnServer(noOfRecords: numberOfRecords)
             }
-            .then { ids -> Promise<SFSyncState> in
+            .then { ids -> Promise<SyncState> in
                 contactIds = ids
                 let syncDownTarget = super.createSyncDownTargetFor(contactIds: contactIds)
-                let syncOptions    = SFSyncOptions.newSyncOptions(forSyncDown: SFSyncStateMergeMode.overwrite)
+                let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: SyncMergeMode.overwrite)
                 return (self.syncManager?.Promises.syncDown(target: syncDownTarget, options: syncOptions, soupName: CONTACTS_SOUP))!
             }
             .then { syncState -> Promise<UInt> in
                 XCTAssertTrue(syncState.isDone())
                 syncId = UInt(syncState.syncId)
-                let querySpec =  SFQuerySpec.Builder(soupName: CONTACTS_SOUP)
+                let querySpec =  QuerySpec.Builder(soupName: CONTACTS_SOUP)
                     .queryType(value: .range)
                     .build()
                 return (self.store?.Promises.count(querySpec: querySpec))!
@@ -152,12 +152,12 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
                 XCTAssertTrue(count==numberOfRecords)
                 return try super.deleteContactsFromServer(contactIds: contactIds)
             }
-            .then { _ -> Promise<(SFSyncStateStatus, UInt)> in
+            .then { _ -> Promise<(SyncStatus, UInt)> in
                 XCTAssertTrue(syncId > 0)
                 return (self.syncManager?.Promises.cleanResyncGhosts(syncId: syncId))!
             }
             .done { (syncStateStatus, numRecords) in
-                XCTAssertTrue(syncStateStatus==SFSyncStateStatus.done)
+                XCTAssertTrue(syncStateStatus==SyncStatus.done)
                 expectation.fulfill()
             }
             .catch { error in
@@ -175,16 +175,16 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         firstly {
             try super.createContactsOnServer(noOfRecords: numberOfRecords)
         }
-        .then { ids -> Promise<SFSyncState> in
+        .then { ids -> Promise<SyncState> in
             contactIds = ids
             let syncDownTarget = super.createSyncDownTargetFor(contactIds: contactIds)
-            let syncOptions    = SFSyncOptions.newSyncOptions(forSyncDown: SFSyncStateMergeMode.overwrite)
+            let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: SyncMergeMode.overwrite)
             return (self.syncManager?.Promises.syncDown(target: syncDownTarget, options: syncOptions, soupName: CONTACTS_SOUP))!
         }
         .then { syncState -> Promise<UInt> in
             XCTAssertTrue(syncState.isDone())
             syncId = UInt(syncState.syncId)
-            let querySpec =  SFQuerySpec.Builder(soupName: CONTACTS_SOUP)
+            let querySpec =  QuerySpec.Builder(soupName: CONTACTS_SOUP)
                 .queryType(value: .range)
                 .build()
             return (self.store?.Promises.count(querySpec: querySpec))!
@@ -193,7 +193,7 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
             XCTAssertTrue(count==numberOfRecords)
             return try super.deleteContactsFromServer(contactIds: contactIds)
         }
-        .then { _ -> Promise<SFSyncState> in
+            .then { _ -> Promise<SyncState> in
             XCTAssertTrue(syncId > 0)
             return (self.syncManager?.Promises.reSync(syncId: syncId))!
         }

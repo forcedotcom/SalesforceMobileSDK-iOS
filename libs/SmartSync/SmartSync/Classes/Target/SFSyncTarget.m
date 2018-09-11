@@ -118,7 +118,7 @@ NSString * const kSyncTargetLastError = @"__last_error__";
 
 }
 
-- (NSDictionary*) getFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName storeId:(NSString*)storeId {
+- (NSDictionary*) getFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName storeId:(NSNumber*)storeId {
     return [syncManager.store retrieveEntries:@[storeId] fromSoup:soupName][0];
 }
 

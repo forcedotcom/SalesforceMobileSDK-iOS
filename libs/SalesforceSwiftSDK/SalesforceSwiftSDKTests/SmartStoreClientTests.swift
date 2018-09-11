@@ -53,11 +53,11 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
         let expectation = XCTestExpectation(description: "CreateStore")
         _ = SFSmartStoreClient
             .globalStore(withName: glbStoreName)
-            .then { globalStore -> Promise<SFSmartStore> in
+            .then { globalStore -> Promise<SmartStore> in
                 XCTAssertNotNil(globalStore)
                 return .value(globalStore)
             }
-            .then { store -> Promise<(Bool,SFSmartStore)>  in
+            .then { store -> Promise<(Bool,SmartStore)>  in
                 let result  = store.soupExists(soupName)
                 return .value((result,store))
             }
@@ -79,11 +79,11 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
         let expectation = XCTestExpectation(description: "CreateUserStore")
         _ = SFSmartStoreClient
             .store(withName: lclStoreName)
-            .then { localStore -> Promise<SFSmartStore> in
+            .then { localStore -> Promise<SmartStore> in
                 XCTAssertNotNil(localStore)
                 return .value(localStore)
             }
-            .then { store -> Promise<(Bool,SFSmartStore)>  in
+            .then { store -> Promise<(Bool,SmartStore)>  in
                 let result  = store.soupExists(soupName)
                 return .value((result,store))
             }
@@ -106,14 +106,14 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
         
         _ =  SFSmartStoreClient
             .store(withName: lclStoreName)
-            .then { localStore -> Promise<SFSmartStore> in
+            .then { localStore -> Promise<SmartStore> in
                 XCTAssertNotNil(localStore)
                 return .value(localStore)
             }
             .then { store -> Promise<Bool>  in
                 let result  = store.soupExists(soupName)
                 XCTAssertFalse(result)
-                let indexSpecs = SFSoupIndex.asArraySoupIndexes([ ["path": "key"], ["type" : "string"] ])
+                let indexSpecs = SoupIndex.asArraySoupIndexes([ ["path": "key"], ["type" : "string"] ])
                 return store.Promises.registerSoup(soupName: soupName, indexSpecs: indexSpecs)
             }
             .then { soupCreated -> Promise<Void> in
@@ -135,10 +135,10 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
         let soupName = "WONTONSOUP"
         let expectation = XCTestExpectation(description: "CreateAndRemoveSoup")
         
-        let store: SFSmartStore  = SFSmartStore.sharedStore(withName: lclStoreName) as! SFSmartStore
+        let store: SmartStore  = SmartStore.sharedStore(name: lclStoreName)!
         let result  = store.soupExists(soupName)
         XCTAssertFalse(result)
-        let indexSpecs = SFSoupIndex.asArraySoupIndexes([ ["path": "key"], ["type" : "string"]])
+        let indexSpecs = SoupIndex.asArraySoupIndexes([ ["path": "key"], ["type" : "string"]])
             
         store.Promises.registerSoup(soupName: soupName, indexSpecs: indexSpecs)
         .then { soupCreated -> Promise<Void> in
@@ -159,7 +159,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     }
     
     func testCountQuerySpecBuilder() {
-        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+        let spec =  QuerySpec.Builder(soupName: "chickensoup")
             .queryType(value: .range)
             .path(value: "wings")
             .beginKey(value: "1")
@@ -170,7 +170,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     }
     
     func testSmartSqlWithSelectPathsQuerySpecBuilder() {
-        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+        let spec =  QuerySpec.Builder(soupName: "chickensoup")
             .queryType(value: .range)
             .selectedPaths(value: ["wings", "legs", "qty"])
             .orderPath(value: "qty")
@@ -181,7 +181,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     }
     
     func testAllQuerySmartSql() {
-        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+        let spec =  QuerySpec.Builder(soupName: "chickensoup")
             .queryType(value: .range)
             .orderPath(value: "wings")
             .order(value: .descending)
@@ -192,7 +192,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     }
     
     func testAllQuerySmartSqlWithSelectPaths() {
-        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+        let spec =  QuerySpec.Builder(soupName: "chickensoup")
             .queryType(value: .range)
             .selectedPaths(value: ["wings", "legs", "qty"])
             .orderPath(value: "qty")
@@ -204,7 +204,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     }
     
     func testAllQueryCountSmartSql() {
-        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+        let spec =  QuerySpec.Builder(soupName: "chickensoup")
             .queryType(value: .range)
             .path(value: "qty")
             .orderPath(value: "qty")
@@ -215,7 +215,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     }
     
     func testAllQueryIdsSmartSql() {
-        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+        let spec =  QuerySpec.Builder(soupName: "chickensoup")
             .queryType(value: .range)
             .path(value: "qty")
             .orderPath(value: "qty")
@@ -228,7 +228,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     
     
     func testExactQueryIdsSmartSql() {
-        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+        let spec =  QuerySpec.Builder(soupName: "chickensoup")
             .queryType(value: .exact)
             .path(value: "wings")
             .beginKey(value: "1")
@@ -239,7 +239,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     }
     
     func testMatchQuerySmartSql() {
-        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+        let spec =  QuerySpec.Builder(soupName: "chickensoup")
             .queryType(value: .match)
             .path(value: "wings")
             .orderPath(value: "wings")
@@ -251,7 +251,7 @@ class SmartStoreClientTests: SalesforceSwiftSDKBaseTest {
     }
     
     func testMatchQuerySmartSqlWithSelectPaths() {
-        let spec =  SFQuerySpec.Builder(soupName: "chickensoup")
+        let spec =  QuerySpec.Builder(soupName: "chickensoup")
             .queryType(value: .match)
             .selectedPaths(value: ["wings", "legs", "qty"])
             .path(value: "wings")

@@ -26,7 +26,7 @@
 #import "SFSyncDownTarget.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+NS_SWIFT_NAME(SoqlSyncDownTarget)
 @interface SFSoqlSyncDownTarget : SFSyncDownTarget
 
 @property (nonatomic, copy) NSString* query;

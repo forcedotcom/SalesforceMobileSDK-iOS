@@ -400,7 +400,7 @@ RCT_EXPORT_METHOD(removeAllStores:(NSDictionary *)argsDict callback:(RCTResponse
         // XXX we could populate error
         return nil;
     }
-    NSUInteger totalEntries = [[self getStoreInst:argsDict] countWithQuerySpec:querySpec error:error];
+    NSUInteger totalEntries = [[[self getStoreInst:argsDict] countWithQuerySpec:querySpec error:error] unsignedIntegerValue];
     if (*error) {
         return nil;
     }

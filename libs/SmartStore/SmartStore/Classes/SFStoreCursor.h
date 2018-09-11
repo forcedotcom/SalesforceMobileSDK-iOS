@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Defines a cursor into data stored in a soup.
  */
+NS_SWIFT_NAME(StoreCursor)
 @interface SFStoreCursor : NSObject {
     SFSmartStore *_store;
     NSString *_cursorId;
