@@ -175,10 +175,10 @@ class SmartSyncManagerTests: SyncManagerBaseTest {
         firstly {
             try super.createContactsOnServer(noOfRecords: numberOfRecords)
         }
-            .then { ids -> Promise<SyncState> in
+        .then { ids -> Promise<SyncState> in
             contactIds = ids
             let syncDownTarget = super.createSyncDownTargetFor(contactIds: contactIds)
-                let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: SyncMergeMode.overwrite)
+            let syncOptions    = SyncOptions.newSyncOptions(forSyncDown: SyncMergeMode.overwrite)
             return (self.syncManager?.Promises.syncDown(target: syncDownTarget, options: syncOptions, soupName: CONTACTS_SOUP))!
         }
         .then { syncState -> Promise<UInt> in

@@ -53,9 +53,9 @@ extern NSString * const kQuerySpecParamSmartSql;
 extern NSUInteger const kQuerySpecDefaultPageSize;
 
 typedef NS_ENUM(NSInteger, SFSoupQueryType) {
-    kSFSoupQueryTypeExact NS_SWIFT_NAME(exact) = 2 ,
+    kSFSoupQueryTypeExact NS_SWIFT_NAME(exact) = 2,
     kSFSoupQueryTypeRange NS_SWIFT_NAME(range) = 4,
-    kSFSoupQueryTypeLike  NS_SWIFT_NAME(like) = 8,
+    kSFSoupQueryTypeLike  NS_SWIFT_NAME(like)  = 8,
     kSFSoupQueryTypeSmart NS_SWIFT_NAME(smart) = 16,
     kSFSoupQueryTypeMatch NS_SWIFT_NAME(match) = 32
 } NS_SWIFT_NAME(QuerySpec.QueryType);
