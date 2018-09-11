@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The view controller for managing the passcode screen.
  */
+NS_SWIFT_NAME(PasscodeViewController)
 @interface SFPasscodeViewController : SFAbstractPasscodeViewController <UITextFieldDelegate>
 
 /**

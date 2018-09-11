@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, SFAlterSoupStep) {
     SFAlterSoupStepReIndexSoup,
     SFAlterSoupStepDropOldTable,
     SFAlterSoupStepCleanup
-} NS_SWIFT_NAME(AlterSoup.Step);
+} NS_SWIFT_NAME(AlterSoupLongOperation.Step);
 
 
 // Fields of details for alter soup long operation row in long_operations_status table
