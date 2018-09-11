@@ -517,8 +517,7 @@ static NSMutableDictionary *syncMgrList = nil;
         return;
     }
     
-    NSString* idStr = [(NSNumber*) recordIds[i] stringValue];
-    NSMutableDictionary* record = [[target getFromLocalStore:self soupName:soupName storeId:idStr] mutableCopy];
+    NSMutableDictionary* record = [[target getFromLocalStore:self soupName:soupName storeId:recordIds[i]] mutableCopy];
     [SFSDKSmartSyncLogger d:[self class] format:@"syncUpOneRecord:%@", record];
 
     // Do we need to do a create, update or delete
