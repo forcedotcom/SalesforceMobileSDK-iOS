@@ -366,7 +366,7 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 	digest[0] = 0;
     CC_MD5([self bytes], (CC_LONG)[self length], digest);
     NSMutableString *ms = [NSMutableString string];
-    for(int i = 0; i < MD5_DIGEST_LENGTH; i++) {
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
         [ms appendFormat:@"%02x", digest[i]];
     }
     return [ms copy];
