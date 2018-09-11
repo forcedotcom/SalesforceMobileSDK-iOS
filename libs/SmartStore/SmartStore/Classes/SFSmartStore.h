@@ -27,6 +27,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFEncryptionKey;
+@class SFSoupIndex;
 
 /**
  The default store name used by the SFSmartStorePlugin: native code may choose
@@ -163,21 +164,21 @@ NS_SWIFT_NAME(SmartStore)
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @return A shared instance of a store with the given name.
  */
-+ (nullable id)sharedStoreWithName:(NSString*)storeName NS_SWIFT_NAME(sharedStore(storeName:));
++ (nullable instancetype)sharedStoreWithName:(NSString*)storeName NS_SWIFT_NAME(sharedStore(name:));
 
 /**
  Use this method to obtain a shared store instance with the given name for the given user.
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @param user The user associated with the store.
  */
-+ (nullable id)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user NS_SWIFT_NAME(sharedStore(storeName:user:));
++ (nullable instancetype)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user NS_SWIFT_NAME(sharedStore(name:user:));
 
 /**
  Use this method to obtain a shared global store instance with the given name.  This store will
  not be specific to a particular user.
  @param storeName The name of the global store to retrieve.
  */
-+ (id)sharedGlobalStoreWithName:(NSString *)storeName NS_SWIFT_NAME(sharedGlobalStore(storeName:));
++ (instancetype)sharedGlobalStoreWithName:(NSString *)storeName NS_SWIFT_NAME(sharedGlobalStore(name:));
 
 /**
  You may use this method to completely remove a persistent shared store with
@@ -185,7 +186,7 @@ NS_SWIFT_NAME(SmartStore)
  
  @param storeName The name of the store. 
  */
-+ (void)removeSharedStoreWithName:(NSString *)storeName NS_SWIFT_NAME(removeSharedStore(storeName:));
++ (void)removeSharedStoreWithName:(NSString *)storeName NS_SWIFT_NAME(removeSharedStore(name:));
 
 /**
  You may use this method to completely remove a persisted shared store with the given name
@@ -193,13 +194,13 @@ NS_SWIFT_NAME(SmartStore)
  @param storeName The name of the store to remove.
  @param user The user associated with the store.
  */
-+ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user NS_SWIFT_NAME(removeSharedStore(storeName:user:));
++ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user NS_SWIFT_NAME(removeSharedStore(name:user:));
 
 /**
  You may use this method to completely remove a persisted global store with the given name.
  @param storeName The name of the global store to remove.
  */
-+ (void)removeSharedGlobalStoreWithName:(NSString *)storeName NS_SWIFT_NAME(removeSharedGlobalStore(storeName:));
++ (void)removeSharedGlobalStoreWithName:(NSString *)storeName NS_SWIFT_NAME(removeSharedGlobalStore(name:));
 
 /**
  Removes all of the stores for the current user from this app.
@@ -259,7 +260,7 @@ NS_SWIFT_NAME(SmartStore)
  @param soupName Name of the soup.
  @return NSArray of SFSoupIndex for the given soup.
  */
-- (NSArray*)indicesForSoup:(NSString*)soupName NS_SWIFT_NAME(indices(soupName:));
+- (NSArray<SFSoupIndex*>*)indicesForSoup:(NSString*)soupName NS_SWIFT_NAME(indices(soupName:));
 
 /**
  @param soupName Name of the soup.
@@ -274,7 +275,7 @@ NS_SWIFT_NAME(SmartStore)
  @param error Sets/returns any error generated as part of the process.
  @return YES if the soup is registered or already exists.
  */
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(soupName:indexSpecs:));
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(soupName:indexSpecs:));
 
 /**
  Creates a new soup or confirms the existence of an existing soup.
@@ -284,7 +285,7 @@ NS_SWIFT_NAME(SmartStore)
  @param indexSpecs Array of one or more SFSoupIndex objects.
  @return YES if the soup is registered or already exists.
  */
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs
     __attribute__((deprecated("Use -registerSoup:withIndexSpecs:error:")));
 
 /**
@@ -296,7 +297,7 @@ NS_SWIFT_NAME(SmartStore)
  @return YES if the soup is registered or already exists.
 
  */
-- (BOOL)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(soupSpec:indexSpecs:));
+- (BOOL)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(soupSpec:indexSpecs:));
 
 /**
  Get the number of entries that would be returned with the given query spec
@@ -325,7 +326,7 @@ NS_SWIFT_NAME(SmartStore)
  
  @return An array with zero or more entries matching the input IDs. Order is not guaranteed.
  */
-- (NSArray*)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName NS_SWIFT_NAME(retrieve(soupEntryIds:soupName:));
+- (NSArray<NSDictionary*>*)retrieveEntries:(NSArray<NSNumber*>*)soupEntryIds fromSoup:(NSString*)soupName NS_SWIFT_NAME(retrieve(soupEntryIds:soupName:));
 
 /**
  Insert/update entries to the soup.  Insert vs. update will be determined by the internal
@@ -337,7 +338,7 @@ NS_SWIFT_NAME(SmartStore)
  
  @return The array of updated entries in the soup.
  */
-- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName NS_SWIFT_NAME(upsert(entries:soupName:));
+- (NSArray<NSDictionary*>*)upsertEntries:(NSArray<NSDictionary*>*)entries toSoup:(NSString*)soupName NS_SWIFT_NAME(upsert(entries:soupName:));
 
 /**
  Insert/update entries to the soup.  Insert vs. update will be determined by the specified
@@ -374,7 +375,7 @@ NS_SWIFT_NAME(SmartStore)
  @param error Sets/returns any error generated as part of the process.
  @return YES if no error occurs
  */
-- (BOOL) removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName error:(NSError **)error NS_SWIFT_NAME(remove(entryIds:soupName:));
+- (BOOL) removeEntries:(NSArray<NSNumber*>*)entryIds fromSoup:(NSString*)soupName error:(NSError **)error NS_SWIFT_NAME(remove(entryIds:soupName:));
 
 /**
  Remove soup entries exactly matching the soup entry IDs.
@@ -382,7 +383,7 @@ NS_SWIFT_NAME(SmartStore)
  @param entryIds An array of opaque soup entry IDs from _soupEntryId.
  @param soupName The name of the soup from which to remove the soup entries.
  */
-- (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName NS_SWIFT_UNAVAILABLE("Use removeEntries");
+- (void)removeEntries:(NSArray<NSNumber*>*)entryIds fromSoup:(NSString*)soupName NS_SWIFT_UNAVAILABLE("Use removeEntries");
 
 /**
  Remove soup entries returned by the given query spec.
@@ -453,7 +454,7 @@ NS_SWIFT_NAME(SmartStore)
  @param reIndexData pass true if you want existing records to be re-indexed for new index specs.
  @return YES if the soup was altered successfully.
  */
-- (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData NS_SWIFT_NAME(alterSoup(soupName:indexSpecs:reIndexData:));
+- (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs reIndexData:(BOOL)reIndexData NS_SWIFT_NAME(alterSoup(soupName:indexSpecs:reIndexData:));
 
 /**
  Alter soup indexes.
@@ -464,7 +465,7 @@ NS_SWIFT_NAME(SmartStore)
  @param reIndexData Pass YES if you want existing records to be re-indexed for new index specs.
  @return YES if the soup was altered successfully.
  */
-- (BOOL) alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData NS_SWIFT_NAME(alterSoup(soupName:soupSpec:indexSpecs:reIndexData:));
+- (BOOL) alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs reIndexData:(BOOL)reIndexData NS_SWIFT_NAME(alterSoup(soupName:soupSpec:indexSpecs:reIndexData:));
 
 
 /**
@@ -474,7 +475,7 @@ NS_SWIFT_NAME(SmartStore)
  @param indexPaths Array of on ore more paths to be reindexed.
  @return YES if soup reindexing succeeded.
  */
-- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths NS_SWIFT_NAME(reIndexSoup(soupName:indexPaths:));
+- (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray<NSString*>*)indexPaths NS_SWIFT_NAME(reIndexSoup(soupName:indexPaths:));
 
 /**
  * Return compile options
@@ -512,7 +513,7 @@ NS_SWIFT_NAME(SmartStore)
  Return all soup names.
  @return Array containing all soup names.
  */
-- (NSArray*) allSoupNames;
+- (NSArray<NSString*>*) allSoupNames;
 
 /**
  Creates a date object from the last modified date column value, which is numeric.

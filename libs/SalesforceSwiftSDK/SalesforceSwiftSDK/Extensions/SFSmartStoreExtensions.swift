@@ -259,7 +259,7 @@ extension SmartStore {
         public func registerSoup(soupName: String, indexSpecs: [Any]) -> Promise<Bool> {
             return Promise {  resolver in
                 do {
-                    try self.api!.registerSoup(soupName: soupName, indexSpecs: indexSpecs)
+                    try self.api!.registerSoup(soupName: soupName, indexSpecs: indexSpecs as! [SoupIndex])
                     resolver.fulfill(true)
                 } catch let error {
                     resolver.reject(error)
@@ -284,7 +284,7 @@ extension SmartStore {
         public func registerSoup(soupSpec: SoupSpec,indexSpecs: [Any]) -> Promise<Bool> {
             return Promise {  resolver in
                 do {
-                    try self.api!.registerSoup(soupSpec: soupSpec, indexSpecs: indexSpecs)
+                    try self.api!.registerSoup(soupSpec: soupSpec, indexSpecs: indexSpecs as! [SoupIndex])
                     resolver.fulfill(true)
                 } catch  let error {
                     resolver.reject(error)
@@ -363,7 +363,7 @@ extension SmartStore {
         public func upsertEntries(entries: [Any],soupName: String) -> Promise<[[String:Any]]> {
             return Promise {  resolver in
                 var result: [Any] = []
-                result = self.api!.upsert(entries: entries, soupName: soupName)
+                result = self.api!.upsert(entries: entries as! [[AnyHashable : Any]], soupName: soupName)
                 resolver.fulfill(result as! [[String:Any]])
             }
         }
@@ -441,7 +441,7 @@ extension SmartStore {
         public func removeEntries(entryIds: [Any], soupName: String) -> Promise<Void> {
             return Promise {  resolver in
                 do {
-                    try self.api!.remove(entryIds: entryIds, soupName: soupName)
+                    try self.api!.remove(entryIds: entryIds as! [NSNumber], soupName: soupName)
                     resolver.fulfill(())
                 }
                 catch let error {
@@ -573,11 +573,11 @@ public class SFSmartStoreClient {
     
     public class func store(withName: String) -> Promise<SmartStore> {
         return Promise { resolver in
-            let smartStore = SmartStore.sharedStore(storeName : withName)
-            guard let _ = smartStore else {
+            if let smartStore = SmartStore.sharedStore(name : withName) {
+                resolver.fulfill(smartStore)
+            } else {
                 return resolver.reject(SmartStoreError.StoreNotFoundError)
             }
-            resolver.fulfill(smartStore as! SmartStore)
         }
     }
     
@@ -597,11 +597,11 @@ public class SFSmartStoreClient {
      */
     public class func store(withName: String,user: UserAccount) -> Promise<SmartStore> {
         return Promise { resolver in
-            let smartStore = SmartStore.sharedStore(storeName : withName,user: user)
-            guard let _ = smartStore else {
+            if let smartStore = SmartStore.sharedStore(name : withName,user: user) {
+                resolver.fulfill(smartStore)
+            } else {
                 return resolver.reject(SmartStoreError.StoreNotFoundError)
             }
-            resolver.fulfill(smartStore as! SmartStore)
         }
     }
     
@@ -619,8 +619,8 @@ public class SFSmartStoreClient {
      */
     public class func globalStore(withName: String) -> Promise<SmartStore> {
         return Promise { resolver in
-            let smartStore = SmartStore.sharedGlobalStore(storeName : withName)
-            resolver.fulfill(smartStore as! SmartStore)
+            let smartStore = SmartStore.sharedGlobalStore(name : withName)
+            resolver.fulfill(smartStore)
         }
     }
     
@@ -638,7 +638,7 @@ public class SFSmartStoreClient {
      */
     public class func removeGlobalStore(withName: String) -> Promise<Void> {
         return Promise { resolver in
-            SmartStore.removeSharedGlobalStore(storeName:  withName)
+            SmartStore.removeSharedGlobalStore(name:  withName)
             resolver.fulfill(())
         }
     }
@@ -657,7 +657,7 @@ public class SFSmartStoreClient {
      */
     public class func removeSharedStore(withName: String) -> Promise<Void> {
         return Promise { resolver in
-            SmartStore.removeSharedStore(storeName:  withName)
+            SmartStore.removeSharedStore(name:  withName)
             resolver.fulfill(())
         }
     }
