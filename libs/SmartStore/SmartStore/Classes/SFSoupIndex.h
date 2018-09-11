@@ -107,32 +107,32 @@ NS_SWIFT_NAME(SoupIndex)
   * @param withColumnName If YES, column name is included in returned dictionary
   * @return Array of NSDictionary objects
   */
-+ (NSArray*) asArrayOfDictionaries:(NSArray*) arrayOfSoupIndexes withColumnName:(BOOL)withColumnName;
++ (NSArray<NSDictionary*>*) asArrayOfDictionaries:(NSArray<SFSoupIndex*>*) arrayOfSoupIndexes withColumnName:(BOOL)withColumnName;
 
 /**
  * Returns an array of SFSoupIndex objects for a given array of soup indexes.
  * @param arrayOfDictionaries Array of dictionaries
  * @return Array of SFSoupIndex objects
  */
-+ (NSArray*) asArraySoupIndexes:(NSArray*) arrayOfDictionaries;
++ (NSArray<SFSoupIndex*>*) asArraySoupIndexes:(NSArray<NSDictionary*>*) arrayOfDictionaries;
 
 /** Returns a map path to SFSoupIndex
  * @param soupIndexes array of SFSoupIndex objects
  * @return Dictionary that maps paths to soup indexes
  */
-+ (NSDictionary*) mapForSoupIndexes:(NSArray*)soupIndexes;
++ (NSDictionary<NSString*,SFSoupIndex*>*) mapForSoupIndexes:(NSArray*)soupIndexes;
 
 /** Returns YES if any of the indexes are full text
  * @param soupIndexes array of SFSoupIndex objects
  * @return YES if any of the indexes are full text
  */
-+ (BOOL) hasFts:(NSArray*)soupIndexes;
++ (BOOL) hasFts:(NSArray<SFSoupIndex*>*)soupIndexes;
 
 /** Returns YES if any of the indexes are JSON1
  * @param soupIndexes array of SFSoupIndex objects
  * @return YES if any of the indexes are JSON1
  */
-+ (BOOL) hasJSON1:(NSArray*)soupIndexes;
++ (BOOL) hasJSON1:(NSArray<SFSoupIndex*>*)soupIndexes;
 
 /** Using the path and indexType property values, constructs a string in the format "path--indexType".
  @return String containing the path and indext type, separated by "--".
