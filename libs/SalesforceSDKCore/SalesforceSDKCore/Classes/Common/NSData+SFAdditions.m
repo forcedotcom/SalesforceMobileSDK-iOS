@@ -362,7 +362,7 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 @implementation NSData (SFMD5)
 
 -(NSString *)md5 {
-	unsigned char digest[MD5_DIGEST_LENGTH];
+	unsigned char digest[CC_MD5_DIGEST_LENGTH];
 	digest[0] = 0;
     CC_MD5([self bytes], (CC_LONG)[self length], digest);
     NSMutableString *ms = [NSMutableString string];
