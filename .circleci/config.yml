@@ -197,54 +197,6 @@ jobs:
           destination: Static-Analysis
       - run: *codecov
 
-  test-SalesforceSwiftSDK:
-    <<: *defaults
-    environment:
-      - FASTLANE_LANE: "PR lib:SalesforceSwiftSDK"
-      - LIB: "SalesforceSwiftSDK"
-    steps:
-      - run:
-          name: Swift Version
-          command: xcrun swift -version
-      - checkout
-      - restore_cache: *restore-gem-cache
-      - run: *install-dependecies
-      - save_cache: *save-gem-cache
-      - run: *run-tests
-      - run: *danger-lib
-      - store_test_results:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-          destination: Test-Results
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
-          destination: Static-Analysis
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/swiftlint.result.json
-          destination: Static-Analysis
-      - run: *codecov
-
-workflows:
-  version: 2
-
-  build-test-pr:
-    jobs:
-      - test-SalesforceAnalytics:
-          *pr-filter
-      - test-SalesforceHybridSDK:
-          *pr-filter
-      - test-SalesforceReact:
-          *pr-filter
-      - test-SalesforceSDKCore:
-          *pr-filter
-      - test-SmartStore:
-          *pr-filter
-      - test-SmartSync:
-          *pr-filter
-      - test-SalesforceSwiftSDK:
-          *pr-filter
-
   # Cron is UTC timezone, which is 7 hours ahead of PST.
   # Run tests at 1am.
   nightly-test-ios11:
@@ -267,6 +219,4 @@ workflows:
       - test-SmartStore:
             context: nightly-test
       - test-SmartSync:
-            context: nightly-test
-      - test-SalesforceSwiftSDK:
             context: nightly-test

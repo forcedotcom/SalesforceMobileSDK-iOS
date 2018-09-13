@@ -16,6 +16,3 @@
 [submodule "external/cordova-plugin-wkwebview-engine"]
 	path = external/cordova-plugin-wkwebview-engine
 	url = https://github.com/apache/cordova-plugin-wkwebview-engine
-[submodule "external/PromiseKit"]
-	path = external/PromiseKit
-	url = https://github.com/mxcl/PromiseKit

@@ -26,6 +26,3 @@ $SCRIPT_DIR/build-ios.sh -c Release -b $WORKSPACE/derivedData -f SalesforceHybri
 
 $SCRIPT_DIR/build-ios.sh -c Debug -b $WORKSPACE/derivedData -f SalesforceReact
 $SCRIPT_DIR/build-ios.sh -c Release -b $WORKSPACE/derivedData -f SalesforceReact
-
-$SCRIPT_DIR/build-ios.sh -c Debug -b $WORKSPACE/derivedData -f SalesforceSwiftSDK
-$SCRIPT_DIR/build-ios.sh -c Release -b $WORKSPACE/derivedData -f SalesforceSwiftSDK

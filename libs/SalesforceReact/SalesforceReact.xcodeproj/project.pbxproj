@@ -366,7 +366,6 @@
 		4FFE0AD82022665100073E6F /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFE0ADF20227D8900073E6F /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFE0AE020227D8900073E6F /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4FFE0AE120227D8900073E6F /* SalesforceSwiftSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSwiftSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFE0AE420227D9C00073E6F /* SmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFE0AE720227DD600073E6F /* SmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFE0AEB20227DDE00073E6F /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -620,7 +619,6 @@
 				4FFE0AE420227D9C00073E6F /* SmartStore.framework */,
 				4FFE0ADF20227D8900073E6F /* SalesforceAnalytics.framework */,
 				4FFE0AE020227D8900073E6F /* SalesforceSDKCore.framework */,
-				4FFE0AE120227D8900073E6F /* SalesforceSwiftSDK.framework */,
 				4FFE0AD82022665100073E6F /* SalesforceSDKCore.framework */,
 				4FA08DF5202523BB0055FD7C /* RCTNetwork.xcodeproj */,
 				4FFE0AB52022521000073E6F /* RCTTest.xcodeproj */,

@@ -98,7 +98,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7DF4D2D91472E238005CE144"
+               BlueprintIdentifier = "B7CEA6EE20B7105E007D0564"
                BuildableName = "RestAPIExplorer.app"
                BlueprintName = "RestAPIExplorer"
                ReferencedContainer = "container:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
@@ -406,48 +406,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7DA7ABA1FCDE08E0098C1EA"
-               BuildableName = "SalesforceSwiftSDK.framework"
-               BlueprintName = "SalesforceSwiftSDK"
-               ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7DA7AFA1FCDE6320098C1EA"
-               BuildableName = "SalesforceSwiftSDKTestApp.app"
-               BlueprintName = "SalesforceSwiftSDKTestApp"
-               ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7DA7AC31FCDE08F0098C1EA"
-               BuildableName = "SalesforceSwiftSDKTests.xctest"
-               BlueprintName = "SalesforceSwiftSDKTests"
-               ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "4FA796932020E6D400CA9759"
                BuildableName = "SalesforceReactTestApp.app"
                BlueprintName = "SalesforceReactTestApp"
@@ -559,16 +517,6 @@
                BuildableName = "SalesforceReactTests.xctest"
                BlueprintName = "SalesforceReactTests"
                ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7DA7AC31FCDE08F0098C1EA"
-               BuildableName = "SalesforceSwiftSDKTests.xctest"
-               BlueprintName = "SalesforceSwiftSDKTests"
-               ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

@@ -26,7 +26,6 @@
 	    "SmartStore.podspec",
         "SmartSync.podspec",
         "SalesforceReact.podspec",
-        "SalesforceSwiftSDK.podspec",
         "libs",
         "shared/resources",
         "external/fmdb"
