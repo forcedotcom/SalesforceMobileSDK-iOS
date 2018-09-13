@@ -534,38 +534,15 @@ class RootViewController: UIViewController {
         }
         
         let request = RestRequest(method: method, path: path, queryParams: queryParams)
-        RestClient.sharedInstance().send(request: request, onFailure: { [weak self] (error, urlResponse) in
-            DispatchQueue.main.async {
-                self?.updateUI(request, response: nil, error: error)
+        RestClient.sharedInstance().send(request: request, onFailure: { (error, urlResponse) in
+            DispatchQueue.main.async { [weak self] in
+                self?.updateUI(request, response: nil, error: nil)
             }
-        }) { [weak self] (response, urlResponse) in
+        } , onSuccess: { [weak self] (reponse, urlResponse) in
             DispatchQueue.main.async {
-                self?.updateUI(request, response: response, error: nil)
+                self?.updateUI(request, response: reponse, error: nil)
             }
-        }
-//        RestClient.sharedInstance().send(request: request, onFailure: { (error, urlResponse) in
-//            { [weak self] (response, urlResponse) in
-//                DispatchQueue.main.async {
-//                    self?.updateUI(request, response: response, error: nil)
-//                }
-//            }, onSuccess: { [weak self]  error in
-//            DispatchQueue.main.async {
-//                self?.updateUI(request, response: nil, error: error)
-//            })
-//
-        
-        
-        
-        
-//        RestClient.sharedInstance().Promises
-//            .send(request: request)
-//            .done { [weak self] response in
-//
-//            }.catch {  [weak self]  error in
-//                DispatchQueue.main.async {
-//                    self?.updateUI(request, response: nil, error: error)
-//                }
-//            }
+        })
     }
     
     @objc func userDidTapExpandButton(_ sender:UIButton) {

@@ -45,6 +45,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
       
         SalesforceSDK.initializeSDK()
         
+        //Uncomment following block to enable IDP Login flow.
+        // SalesforceSDK.shared().idpAppURIScheme = "sampleidpapp"
         AuthHelper.registerBlock(forCurrentUserChangeNotifications: { [weak self] in
             self?.resetViewState {
                 self?.initializeAppViewState()
