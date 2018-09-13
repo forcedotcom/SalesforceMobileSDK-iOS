@@ -29,7 +29,7 @@
 
 import UIKit
 import SalesforceSDKCore
-import SalesforceSwiftSDK
+
 import MobileCoreServices
 
 @UIApplicationMain
@@ -43,32 +43,16 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         super.init()
       
-        SalesforceSwiftSDKManager.initSDK()
-            .Builder.configure { (appconfig: AppConfig) -> Void in
-                //set custom config if needed. By default this object should read from the bootconfig.plist
-            }.postInit {
-                //Uncomment following block to enable IDP Login flow.
-                /*
-                 // scheme of idpApp
-                 SalesforceSwiftSDKManager.shared().idpAppURIScheme = "sampleidpapp"
-                 // user friendly display name
-                 SalesforceSwiftSDKManager.shared().appDisplayName = "RestAPIExplorerSwift"
-                 
-                 // Use the following code to replace the login flow selection dialog
-                 SalesforceSwiftSDKManager.shared().idpLoginFlowSelectionBlock = {
-                 let controller = IDPLoginNavViewController()
-                 return controller as UIViewController & SFSDKLoginFlowSelectionView
-                 }
-                 */
-                SFSDKAuthHelper.registerBlock(forCurrentUserChangeNotifications: { [weak self] in
-                    self?.resetViewState {
-                        self?.initializeAppViewState()
-                        self?.setupRootViewController()
-                    }
-                })
-            }
-            .done()
+        SalesforceSDK.initializeSDK()
         
+        //Uncomment following block to enable IDP Login flow.
+        // SalesforceSDK.shared().idpAppURIScheme = "sampleidpapp"
+        AuthHelper.registerBlock(forCurrentUserChangeNotifications: { [weak self] in
+            self?.resetViewState {
+                self?.initializeAppViewState()
+                self?.setupRootViewController()
+            }
+        })
     }
     
     // MARK: - App delegate lifecycle
@@ -95,7 +79,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //loginViewConfig.navBarFont = UIFont(name: "Helvetica", size: 16.0)
         //SFUserAccountManager.sharedInstance().loginViewControllerConfig = loginViewConfig
         
-        SFSDKAuthHelper.loginIfRequired { [weak self] in
+        AuthHelper.loginIfRequired { [weak self] in
             self?.setupRootViewController()
         }
         return true
@@ -167,9 +151,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 return
         }
         
-        var config = ["test_client_id": SalesforceSwiftSDKManager.shared().appConfig?.remoteAccessConsumerKey,
+        var config = ["test_client_id": SalesforceSDK.shared().appConfig?.remoteAccessConsumerKey,
                       "test_login_domain": UserAccountManager.sharedInstance().loginHost,
-                      "test_redirect_uri": SalesforceSwiftSDKManager.shared().appConfig?.oauthRedirectURI,
+                      "test_redirect_uri": SalesforceSDK.shared().appConfig?.oauthRedirectURI,
                       "refresh_token": creds.refreshToken,
                       "instance_url": instance.absoluteString,
                       "identity_url": identity.absoluteString,

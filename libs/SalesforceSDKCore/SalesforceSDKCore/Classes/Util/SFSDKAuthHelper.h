@@ -27,6 +27,7 @@
  */
 #import <Foundation/Foundation.h>
 
+NS_SWIFT_NAME(AuthHelper)
 @interface SFSDKAuthHelper : NSObject
 
 + (void)loginIfRequired:(void (^)(void))completionBlock;

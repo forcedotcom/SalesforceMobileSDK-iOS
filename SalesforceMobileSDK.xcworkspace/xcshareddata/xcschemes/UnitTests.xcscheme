@@ -98,7 +98,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7DF4D2D91472E238005CE144"
+               BlueprintIdentifier = "B7CEA6EE20B7105E007D0564"
                BuildableName = "RestAPIExplorer.app"
                BlueprintName = "RestAPIExplorer"
                ReferencedContainer = "container:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
@@ -465,16 +465,6 @@
                BuildableName = "SmartSyncExplorerUITests.xctest"
                BlueprintName = "SmartSyncExplorerUITests"
                ReferencedContainer = "container:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7DA7AC31FCDE08F0098C1EA"
-               BuildableName = "SalesforceSwiftSDKTests.xctest"
-               BlueprintName = "SalesforceSwiftSDKTests"
-               ReferencedContainer = "container:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
