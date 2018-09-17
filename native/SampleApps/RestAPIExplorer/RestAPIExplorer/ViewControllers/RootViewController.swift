@@ -804,6 +804,7 @@ extension RootViewController: ActionTableViewDelegate {
                             userInfoString = userInfoString + "\nEmail: " + e
                         }
                         self.showAlert("User Info", message:userInfoString)
+                        return
                     case .logout:
                         self.presentedViewController?.dismiss(animated: true, completion: nil)
                         self.createLogoutActionSheet()
@@ -816,6 +817,7 @@ extension RootViewController: ActionTableViewDelegate {
                         return
                     case .exportCredentials:
                         self.exportTestingCredentials()
+                        return
         }
         
         restApi.send(request: request!, onFailure: { (error, urlResponse) in

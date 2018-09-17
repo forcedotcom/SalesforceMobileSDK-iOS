@@ -157,7 +157,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                       "refresh_token": creds.refreshToken,
                       "instance_url": instance.absoluteString,
                       "identity_url": identity.absoluteString,
-                      "access_token": "__NOT_REQUIRED"]
+                      "access_token": "__NOT_REQUIRED__"]
         if let community = creds.communityUrl {
             config["community_url"] = community.absoluteString
         }
