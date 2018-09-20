@@ -47,8 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  with the given class, and configures SFUserAccountManager and the current account with the data from
  that file.
  @param testClass The class associated with the bundle where the test credentials file lives.
- @return The configuration data used to configure SFUserAccountManager (useful e.g. for hybrid
- apps which need the data to bootstrap SFHybridViewController).
+ @return The configuration data used to configure SFUserAccountManager.
  */
 + (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass;
 

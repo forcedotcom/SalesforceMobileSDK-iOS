@@ -203,16 +203,6 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 #pragma mark - Public methods / properties
 
 - (SFAppType) appType {
-    // The following if blocks are only there for hybrid or react native apps upgraded from SDK 5.x or older
-    // that are not doing: [SalesforceSDKManager setInstanceClass:[{Correct-Sub-Class}SDKManager class]]
-    // in their app delegate class.
-    if (NSClassFromString(@"SFHybridViewController") != nil) {
-        return kSFAppTypeHybrid;
-    }
-    if (NSClassFromString(@"SFNetReactBridge") != nil) {
-        return kSFAppTypeReactNative;
-    }
-
     return kSFAppTypeNative;
 }
 
@@ -980,8 +970,6 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     NSString* appTypeStr;
     switch (self.appType) {
             case kSFAppTypeNative: appTypeStr = kSFMobileSDKNativeDesignator; break;
-            case kSFAppTypeHybrid: appTypeStr = kSFMobileSDKHybridDesignator; break;
-            case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
             case kSFAppTypeNativeSwift: appTypeStr = kSFMobileSDKNativeSwiftDesignator; break;
         }
     return appTypeStr;
