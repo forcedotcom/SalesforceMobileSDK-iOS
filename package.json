@@ -25,9 +25,7 @@
 	    "SalesforceSDKCore.podspec",
 	    "SmartStore.podspec",
         "SmartSync.podspec",
-        "SalesforceReact.podspec",
         "libs",
-        "shared/resources",
         "external/fmdb"
     ],
     "dependencies": {

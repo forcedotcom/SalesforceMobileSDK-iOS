@@ -403,7 +403,7 @@ NS_SWIFT_NAME(RestClient)
 
 /**
  * Returns the User-Agent string used by the SDK, adding the qualifier after the app type.
- @param qualifier Optional sub-type of native or hybrid Mobile SDK app.
+ @param qualifier Optional sub-type of native Mobile SDK app.
  */
 + (NSString *)userAgentString:(NSString*)qualifier;
 

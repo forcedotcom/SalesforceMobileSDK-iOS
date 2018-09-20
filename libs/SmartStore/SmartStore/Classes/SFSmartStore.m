@@ -55,7 +55,6 @@ static NSMutableDictionary *_allGlobalSharedStores;
 static SFSmartStoreEncryptionKeyBlock _encryptionKeyBlock = NULL;
 static BOOL _storeUpgradeHasRun = NO;
 
-// The name of the store name used by the SFSmartStorePlugin for hybrid apps
 NSString * const kDefaultSmartStoreName   = @"defaultStore";
 
 NSString * const kSFAppFeatureSmartStoreUser   = @"US";
@@ -1714,7 +1713,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
         while ([frs next]) {
             @autoreleasepool {
                 NSString *rawJson = [frs stringForColumn:SOUP_COL];
-                //TODO this is pretty inefficient...we read json from db then reconvert to NSDictionary, then reconvert again in cordova
+                //TODO this is pretty inefficient...we read json from db then reconvert to NSDictionary
                 NSDictionary *entry = [SFJsonUtils objectFromJSONString:rawJson];
                 [result addObject:entry];
             }
