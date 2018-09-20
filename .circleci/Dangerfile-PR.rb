@@ -17,5 +17,3 @@ end
 if has_dnm_label || has_dnm_title
   warn('At the authors request please DO NOT MERGE this PR')
 end
-
-fail 'Please re-submit this PR to dev, we may have already fixed your issue.' if github.branch_for_base != 'dev'

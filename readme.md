@@ -1,5 +1,5 @@
-[![CircleCI](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev.svg?style=svg)](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev70preview)
-[![codecov](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev/graph/badge.svg)](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev70preview)
+[![CircleCI](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev70preview.svg?style=svg)](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev70preview)
+[![codecov](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev70preview/graph/badge.svg)](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev70preview)
 
 # Salesforce.com Mobile SDK for iOS
 
@@ -34,18 +34,6 @@ If you have problems building any of the projects, take a look at the online [FA
 
 Introduction
 ==
-
-### What's New in 7.0 Preview
-
-**Library Upgrades**
-
-**Tool Version Upgrades**
-
-**SmartSync Data Framework Enhancements**
-
-**Other Technical Improvements**
-
-**Deprecations**
 
 Check http://developer.force.com/mobilesdk for additional articles and tutorials.
 

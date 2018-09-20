@@ -50,7 +50,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/SalesforceMobileSDK-iOS
   macos:
-    xcode: "9.4.1"
+    xcode: "10.0.0"
   shell: /bin/bash --login -eo pipefail
   environment:
     BASH_ENV: ~/.bashrc
@@ -166,22 +166,3 @@ workflows:
           *pr-filter
       - test-SmartSync:
           *pr-filter
-  # Cron is UTC timezone, which is 7 hours ahead of PST.
-  # Run tests at 1am.
-  nightly-test-ios11:
-    triggers:
-      - schedule:
-          cron: "00 08 * * 2,4,6"
-          filters:
-            branches:
-              only:
-                - dev
-    jobs:
-      - test-SalesforceAnalytics:
-            context: nightly-test
-      - test-SalesforceSDKCore:
-            context: nightly-test
-      - test-SmartStore:
-            context: nightly-test
-      - test-SmartSync:
-            context: nightly-test
