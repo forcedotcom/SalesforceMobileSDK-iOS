@@ -7,7 +7,6 @@
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     <property name="sharedResourcesDir" location="../shared/resources" />
     <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
-    <property name="sharedHybridDir" location="../shared/hybrid" />
 
     <target name="all" description="Cleans the projects and builds all libraries">
         <antcall target="clean" />
@@ -17,7 +16,7 @@
 
     <target name="buildAll" />
 
-    <target name="libPackages" depends="packageSalesforceAnalytics, packageLumberjack, packageSmartSync, packageSmartStore, packageSalesforceHybridSDK, packageSalesforceSDKCore" />
+    <target name="libPackages" depends="packageSalesforceAnalytics, packageLumberjack, packageSmartSync, packageSmartStore, packageSalesforceSDKCore" />
 
     <target name="packageLumberjack" depends="buildLumberjack" description="Packages and builds the CocoaLumberjack library.">
         <antcall target="packageLib">
@@ -42,32 +41,6 @@
             <param name="libName" value="libCocoaLumberjack.a" />
             <param name="headerDir" value="Headers/CocoaLumberjack" />
             <param name="schemeName" value="CocoaLumberjack-iOS-Static" />
-        </antcall>
-    </target>
-    
-    <target name="packageSalesforceHybridSDK" depends="buildSalesforceHybridSDK" description="Packages and builds the Salesforce Hybrid SDK library.">
-        <antcall target="packageLib">
-            <param name="projectName" value="SalesforceHybridSDK" />
-            <param name="libName" value="libSalesforceHybridSDK.a" />
-            <param name="headerDir" value="Headers/SalesforceHybridSDK" />
-        </antcall>
-    </target>
-    
-    <target name="buildSalesforceHybridSDK">
-        <antcall target="buildLib">
-            <param name="projectName" value="SalesforceHybridSDK" />
-            <param name="libName" value="libSalesforceHybridSDK.a" />
-            <param name="headerDir" value="Headers/SalesforceHybridSDK" />
-            <param name="schemeName" value="SalesforceHybridSDKStatic" />
-        </antcall>
-    </target>
-    
-    <target name="cleanSalesforceHybridSDK" description="Cleans the build artifacts and output of the Salesforce Hybrid SDK library.">
-        <antcall target="cleanLib">
-            <param name="projectName" value="SalesforceHybridSDK" />
-            <param name="libName" value="libSalesforceHybridSDK.a" />
-            <param name="headerDir" value="Headers/SalesforceHybridSDK" />
-            <param name="schemeName" value="SalesforceHybridSDKStatic" />
         </antcall>
     </target>
     
@@ -321,7 +294,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanSalesforceAnalytics, cleanLumberjack, cleanSmartSync, cleanSmartStore, cleanSalesforceHybridSDK, cleanSalesforceSDKCore">
+    <target name="clean" description="Cleans the build state." depends="cleanSalesforceAnalytics, cleanLumberjack, cleanSmartSync, cleanSmartStore, cleanSalesforceSDKCore">
         <delete dir="${artifactsDir}" />
     </target>
 </project>

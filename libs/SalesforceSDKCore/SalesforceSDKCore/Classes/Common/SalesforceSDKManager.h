@@ -35,8 +35,6 @@ typedef UIViewController * __nullable (^SFSnapshotViewControllerCreationBlock)(v
 
 typedef NS_ENUM(NSUInteger, SFAppType) {
     kSFAppTypeNative,
-    kSFAppTypeHybrid,
-    kSFAppTypeReactNative,
     kSFAppTypeNativeSwift
 } NS_SWIFT_NAME(AppType);
 
@@ -44,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // User agent constants
 static NSString * const kSFMobileSDKNativeDesignator = @"Native";
-static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
-static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
 static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
 
 /**
@@ -138,7 +134,7 @@ NS_SWIFT_NAME(SalesforceSDK)
 @property (nonatomic, readonly) BOOL isLaunching;
 
 /**
- App type (native, hybrid or react native)
+ App type (native or native swift)
  */
 @property (nonatomic, readonly) SFAppType appType;
 
@@ -224,7 +220,7 @@ NS_SWIFT_NAME(SalesforceSDK)
 /**
  Gets or sets a block that will return a user agent string, created with an optional qualifier.
  Default implementation, when executed, will return a user agent of the form:
- SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion *Native or Hybrid with optional qualifier* *Web-based user agent string*
+ SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion *optional qualifier* *Web-based user agent string*
  */
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString;
 

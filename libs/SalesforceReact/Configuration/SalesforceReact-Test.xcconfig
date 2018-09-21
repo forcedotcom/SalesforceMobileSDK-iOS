@@ -1,9 +1,0 @@
-//
-//  SalesforceReact-Test.xcconfig
-//  SalesforceReact
-//
-//  Copyright (c) 2015-present Salesforce Inc. All rights reserved.
-//
-
-#include "../../../configuration/Common-Test.xcconfig"
-#include "SalesforceReact-Dynamic-iOS-Debug.xcconfig"

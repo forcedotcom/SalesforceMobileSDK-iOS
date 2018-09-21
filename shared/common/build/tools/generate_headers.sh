@@ -148,4 +148,3 @@ if [[ "$existing_imports" != "" ]]; then
 else
     cp "$OPT_TEMP" "$OPT_OUTPUT"
 fi
-

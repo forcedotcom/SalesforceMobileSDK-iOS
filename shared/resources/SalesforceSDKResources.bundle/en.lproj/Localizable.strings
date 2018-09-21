@@ -82,10 +82,6 @@
 "appConfigValidationErrorAbsoluteURLNoAuth" = "Cannot authenticate using an absolute URL for start page.";
 "appConfigValidationErrorRelativeURLAuth" = "Cannot configure relative URL start page with deferred authentication.";
 
-// Hybrid bootstrap
-"hybridBootstrapDeviceOffline" = "Your device is offline. Can't continue.";
-"hybridBootstrapNoCredentialsAtStartup" = "Your app specifies authentication at startup, but there are no credentials.  Did you run [[SalesforceSDKManager sharedManager] launch]?";
-
 // SmartStore Inspector
 "inspectorTitle" = "Inspect SmartStore";
 "inspectorBackButtonTitle" = "Back";
