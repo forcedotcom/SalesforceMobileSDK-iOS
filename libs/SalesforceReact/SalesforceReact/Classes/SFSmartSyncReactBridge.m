@@ -192,7 +192,8 @@ RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
     if (sync.status == SFSyncStateStatusDone) {
         callback(@[[NSNull null], syncDict]);
     } else if (sync.status == SFSyncStateStatusFailed) {
-        callback(@[RCTMakeError(@"Sync failed", nil, nil), syncDict]);
+        //Return sync to React Native with the error message in the JSON
+        callback(@[RCTMakeError(@"Sync failed", nil, syncDict), syncDict]);
     }
 }
 

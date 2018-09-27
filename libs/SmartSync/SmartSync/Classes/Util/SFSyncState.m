@@ -48,6 +48,7 @@ NSString * const kSFSyncStateTotalSize = @"totalSize";
 NSString * const kSFSyncStateMaxTimeStamp = @"maxTimeStamp";
 NSString * const kSFSyncStateStartTime = @"startTime";
 NSString * const kSFSyncStateEndTime = @"endTime";
+NSString * const kSFSyncStateError = @"error";
 
 // Possible value for sync type
 NSString * const kSFSyncStateTypeDown = @"syncDown";
@@ -73,10 +74,13 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 @property (nonatomic, strong, readwrite) SFSyncOptions* options;
 @property (nonatomic, readwrite) NSInteger startTime;
 @property (nonatomic, readwrite) NSInteger endTime;
+@property (nonatomic, readwrite) NSString* errorJSON;
 
 @end
 
 @implementation SFSyncState
+
+@synthesize errorJSON = _errorJSON;
 
 # pragma mark - Setup
 
@@ -112,7 +116,8 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
             kSFSyncStateProgress: [NSNumber numberWithInteger:0],
             kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
             kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
-            kSFSyncStateEndTime: [NSNumber numberWithInteger:0]
+            kSFSyncStateEndTime: [NSNumber numberWithInteger:0],
+            kSFSyncStateError: @""
     }];
     if (name) dict[kSFSyncStateName] = name;
     
@@ -141,7 +146,8 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
             kSFSyncStateProgress: [NSNumber numberWithInteger:0],
             kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
             kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
-            kSFSyncStateEndTime: [NSNumber numberWithInteger:0]
+            kSFSyncStateEndTime: [NSNumber numberWithInteger:0],
+            kSFSyncStateError: @""
     }];
     if (name) dict[kSFSyncStateName] = name;
     
@@ -214,6 +220,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     self.maxTimeStamp = [(NSNumber*) dict[kSFSyncStateMaxTimeStamp] longLongValue];
     self.startTime = [(NSNumber*) dict[kSFSyncStateStartTime] integerValue];
     self.endTime = [(NSNumber*) dict[kSFSyncStateEndTime] integerValue];
+    self.errorJSON = dict[kSFSyncStateError];
 }
 
 - (NSDictionary*) asDict {
@@ -230,6 +237,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     dict[kSFSyncStateMaxTimeStamp] = [NSNumber numberWithLongLong:self.maxTimeStamp];
     dict[kSFSyncStateStartTime] = [NSNumber numberWithInteger:self.startTime];
     dict[kSFSyncStateEndTime] = [NSNumber numberWithInteger:self.endTime];
+    dict[kSFSyncStateError] = self.errorJSON;
     return dict;
 }
 
@@ -338,6 +346,18 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     SFSyncState* clone = [SFSyncState new];
     [clone fromDict:[self asDict]];
     return clone;
+}
+
+#pragma mark - Setter and getter of property errorJSON
+- (void) setErrorJSON:(NSString *)errorJSON:(NSString *)e {
+    NSLog(@"Setting errorJSON to: %@", e);
+    
+    _errorJSON = e;
+}
+
+- (NSString*) errorJSON {
+    NSLog(@"Returning errorJSON: %@", _errorJSON);
+    return _errorJSON;
 }
 
 @end
