@@ -90,12 +90,6 @@
     return array;
 }
 
-- (void)filterUsingPredicate:(NSPredicate *)predicate {
-    dispatch_sync(self.queue, ^{
-        [self.backingArray filterUsingPredicate:predicate];
-    });
-}
-
 - (void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block {
     dispatch_sync(self.queue, ^{
         [self.backingArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -202,6 +196,12 @@
     });
 }
 
+
+- (void)filterUsingPredicate:(NSPredicate *)predicate {
+    dispatch_barrier_async(self.queue, ^{
+        [self.backingArray filterUsingPredicate:predicate];
+    });
+}
 
 #pragma mark - Class Level
 

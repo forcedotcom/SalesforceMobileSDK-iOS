@@ -56,11 +56,6 @@ NS_SWIFT_NAME(SafeMutableArray)
 - (void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block;
 
 /**
- * Filter the array using a predicate.
- */
-- (void)filterUsingPredicate:(NSPredicate *)predicate;
-
-/**
  * Inserts a given object at the end of the array.
  */
 - (void)addObject:(id)obj;
@@ -139,6 +134,11 @@ NS_SWIFT_NAME(SafeMutableArray)
  * Empties the receiving set, then adds each object contained in another given array.
  */
 - (void)setArray:(NSArray *)otherArray;
+
+/**
+ * Filter the array using a predicate.
+ */
+- (void)filterUsingPredicate:(NSPredicate *)predicate;
 
 /**
  * A convenience method to allocate and initialize a new instance of a SFSDKSafeMutableArray.
