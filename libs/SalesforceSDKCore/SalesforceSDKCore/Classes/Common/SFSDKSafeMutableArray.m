@@ -217,7 +217,7 @@
 
 #pragma private methods
 - (void)initQueue {
-    self.queue = dispatch_queue_create([NSString stringWithFormat:@"com.salesforce.mobilesdk.readWriteSetQ%u", arc4random_uniform(UINT32_MAX)].UTF8String, DISPATCH_QUEUE_CONCURRENT);
+    self.queue = dispatch_queue_create([NSString stringWithFormat:@"com.salesforce.mobilesdk.readWriteArrayQ%u", arc4random_uniform(UINT32_MAX)].UTF8String, DISPATCH_QUEUE_CONCURRENT);
 }
 
 @end
