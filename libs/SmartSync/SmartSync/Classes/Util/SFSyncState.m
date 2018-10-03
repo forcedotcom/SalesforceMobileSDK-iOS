@@ -74,7 +74,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 @property (nonatomic, strong, readwrite) SFSyncOptions* options;
 @property (nonatomic, readwrite) NSInteger startTime;
 @property (nonatomic, readwrite) NSInteger endTime;
-@property (nonatomic, readwrite) NSString* errorJSON;
+@property (nonatomic, readwrite) NSDictionary* errorJSON;
 
 @end
 
