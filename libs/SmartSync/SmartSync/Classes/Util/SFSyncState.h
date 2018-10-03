@@ -142,10 +142,9 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 + (SFSyncStateMergeMode) mergeModeFromString:(NSString*)mergeMode;
 + (NSString*) mergeModeToString:(SFSyncStateMergeMode)mergeMode;
 
-/** Setter and getter of property errorJSON
+/** Setter for errorJSON
  */
 - (void) setErrorJSON:(NSString * _Nonnull)errorJSON;
-- (NSString*) errorJSON;
 
 @end
 

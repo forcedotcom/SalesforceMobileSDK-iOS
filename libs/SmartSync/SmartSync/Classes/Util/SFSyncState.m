@@ -348,16 +348,4 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     return clone;
 }
 
-#pragma mark - Setter and getter of property errorJSON
-- (void) setErrorJSON:(NSString *)errorJSON:(NSString *)e {
-    NSLog(@"Setting errorJSON to: %@", e);
-    
-    _errorJSON = e;
-}
-
-- (NSString*) errorJSON {
-    NSLog(@"Returning errorJSON: %@", _errorJSON);
-    return _errorJSON;
-}
-
 @end
