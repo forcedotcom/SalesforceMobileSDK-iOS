@@ -49,6 +49,7 @@ extern NSString * const kSFSyncStateTotalSize;
 extern NSString * const kSFSyncStateMaxTimeStamp;
 extern NSString * const kSFSyncStateStartTime;
 extern NSString * const kSFSyncStateEndTime;
+extern NSString * const kSFSyncStateError;
 
 // Possible values for sync type
 typedef NS_ENUM(NSInteger, SFSyncStateSyncType) {
@@ -101,6 +102,9 @@ NS_SWIFT_NAME(SyncState)
 @property (nonatomic, readonly) NSInteger startTime;
 @property (nonatomic, readonly) NSInteger endTime;
 
+// Error JSON string
+@property (nonatomic, readonly) NSString* error;
+
 /** Setup soup that keeps track of sync operations
  */
 + (void) setupSyncsSoupIfNeeded:(SFSmartStore*)store;
@@ -138,6 +142,10 @@ NS_SWIFT_NAME(SyncState)
 + (NSString*) syncStatusToString:(SFSyncStateStatus)syncStatus;
 + (SFSyncStateMergeMode) mergeModeFromString:(NSString*)mergeMode;
 + (NSString*) mergeModeToString:(SFSyncStateMergeMode)mergeMode;
+
+/** Setter for errorJSON
+ */
+- (void) setError:(NSString * _Nonnull)error;
 
 @end
 
