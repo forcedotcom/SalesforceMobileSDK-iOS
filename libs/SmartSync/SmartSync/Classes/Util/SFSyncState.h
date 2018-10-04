@@ -102,7 +102,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 @property (nonatomic, readonly) NSInteger endTime;
 
 // Error JSON string
-@property (nonatomic, readonly) NSDictionary* errorJSON;
+@property (nonatomic, readonly) NSString* error;
 
 /** Setup soup that keeps track of sync operations
  */
@@ -144,7 +144,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
 /** Setter for errorJSON
  */
-- (void) setErrorJSON:(NSDictionary * _Nonnull)errorJSON;
+- (void) setError:(NSString * _Nonnull)error;
 
 @end
 

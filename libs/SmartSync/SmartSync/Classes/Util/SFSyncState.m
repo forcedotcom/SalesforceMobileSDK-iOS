@@ -74,13 +74,13 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 @property (nonatomic, strong, readwrite) SFSyncOptions* options;
 @property (nonatomic, readwrite) NSInteger startTime;
 @property (nonatomic, readwrite) NSInteger endTime;
-@property (nonatomic, readwrite) NSDictionary* errorJSON;
+@property (nonatomic, readwrite) NSString* error;
 
 @end
 
 @implementation SFSyncState
 
-@synthesize errorJSON = _errorJSON;
+@synthesize error = _error;
 
 # pragma mark - Setup
 
@@ -220,7 +220,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     self.maxTimeStamp = [(NSNumber*) dict[kSFSyncStateMaxTimeStamp] longLongValue];
     self.startTime = [(NSNumber*) dict[kSFSyncStateStartTime] integerValue];
     self.endTime = [(NSNumber*) dict[kSFSyncStateEndTime] integerValue];
-    self.errorJSON = dict[kSFSyncStateError];
+    self.error = dict[kSFSyncStateError];
 }
 
 - (NSDictionary*) asDict {
@@ -237,7 +237,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     dict[kSFSyncStateMaxTimeStamp] = [NSNumber numberWithLongLong:self.maxTimeStamp];
     dict[kSFSyncStateStartTime] = [NSNumber numberWithInteger:self.startTime];
     dict[kSFSyncStateEndTime] = [NSNumber numberWithInteger:self.endTime];
-    dict[kSFSyncStateError] = self.errorJSON;
+    dict[kSFSyncStateError] = self.error;
     return dict;
 }
 
