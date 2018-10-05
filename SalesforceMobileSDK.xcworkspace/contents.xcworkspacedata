@@ -44,9 +44,6 @@
       <FileRef
          location = "group:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
       </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceReact/SalesforceReact.xcodeproj">
-      </FileRef>
    </Group>
    <Group
       location = "container:"
