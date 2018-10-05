@@ -35,7 +35,6 @@ SCHEMES_TO_BUILD = [
   "SmartStoreStatic",
   "SmartSyncStatic",
   "SalesforceHybridSDKStatic",
-#  "SalesforceReact",
 #  "RestAPIExplorer",
 #  "SmartSyncExplorer",
 #  "AccountEditor",

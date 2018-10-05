@@ -23,6 +23,3 @@ $SCRIPT_DIR/build-ios.sh -c Release -b $WORKSPACE/derivedData -f SmartSync
 
 $SCRIPT_DIR/build-ios.sh -c Debug -b $WORKSPACE/derivedData -f SalesforceHybridSDK
 $SCRIPT_DIR/build-ios.sh -c Release -b $WORKSPACE/derivedData -f SalesforceHybridSDK
-
-$SCRIPT_DIR/build-ios.sh -c Debug -b $WORKSPACE/derivedData -f SalesforceReact
-$SCRIPT_DIR/build-ios.sh -c Release -b $WORKSPACE/derivedData -f SalesforceReact
