@@ -319,6 +319,26 @@ NS_SWIFT_NAME(SmartStore)
 - (NSArray * __nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(querySpec:pageIndex:));
 
 /**
+ Search for entries matching the given query spec without deserializing any JSON
+ 
+ @param resultString A mutable string to which the result (serialized) is appended
+ @param querySpec A native query spec.
+ @param pageIndex The page index to start the entries at (this supports paging).
+ @param error Sets/returns any error generated as part of the process.
+ */
+- (void) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(result:querySpec:pageIndex:));
+
+
+/**
+ * Run a query given by its query Spec, only returned results from selected page
+ * without deserializing any JSON
+ *
+ * @param resultBuilder string builder to which results are appended
+ * @param querySpec
+ * @param pageIndex
+ */
+
+/**
  Search soup for entries exactly matching the soup entry IDs.
  
  @param soupName The name of the soup to query.
