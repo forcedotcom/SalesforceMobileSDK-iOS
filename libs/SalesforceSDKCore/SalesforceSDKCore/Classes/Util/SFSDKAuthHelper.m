@@ -61,7 +61,6 @@
         // delegate handler will catch and pass on.  We just log the error and reset launch
         // state here.
         [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
-        [[SFUserAccountManager sharedInstance] logout];
     }];
     [SFSecurityLockout lock];
 }
