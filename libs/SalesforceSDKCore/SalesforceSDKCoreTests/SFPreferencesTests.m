@@ -26,7 +26,6 @@
 #import "SFPreferences.h"
 #import "SFUserAccount.h"
 #import "SFUserAccountManager+Internal.h"
-#import "SFAuthenticationManager.h"
 #import "SFDirectoryManager.h"
 
 /** Class that tests the various scoped preferences

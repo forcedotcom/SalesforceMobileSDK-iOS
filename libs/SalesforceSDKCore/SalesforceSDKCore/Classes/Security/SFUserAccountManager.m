@@ -23,76 +23,54 @@
  */
 
 #import "SFUserAccountManager+Internal.h"
-#import "SFDirectoryManager.h"
-#import "SFCommunityData.h"
-#import "SFManagedPreferences.h"
 #import "SFUserAccount+Internal.h"
 #import "SFIdentityData+Internal.h"
-#import "SFKeyStoreManager.h"
-#import "SFSDKCryptoUtils.h"
-#import "NSString+SFAdditions.h"
-#import "SFFileProtectionHelper.h"
-#import "SFSDKAppFeatureMarkers.h"
 #import "SFDefaultUserAccountPersister.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKAuthPreferences.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
-#import "SFSDKOAuthClient.h"
-#import "SFPushNotificationManager.h"
-#import "SFOAuthInfo.h"
-#import "SFSDKEventBuilderHelper.h"
-#import "SFSDKLoginHostStorage.h"
-#import "SFSDKLoginHost.h"
-#import "SFSecurityLockout.h"
-#import "SFSDKSalesforceAnalyticsManager.h"
-#import "SFIdentityCoordinator.h"
-#import "SFSDKAuthPreferences.h"
 #import "SFSDKOAuthClientConfig.h"
-#import "NSURL+SFAdditions.h"
-#import "SFSDKIDPAuthClient.h"
-#import "SFSDKUserSelectionNavViewController.h"
 #import "SFSDKURLHandlerManager.h"
 #import "SFSDKOAuthClientCache.h"
-#import "SFSDKWebViewStateManager.h"
-#import "SFSDKAlertMessage.h"
-#import "SFSDKAlertMessageBuilder.h"
-#import "SFSDKAlertMessage.h"
-#import "SFSDKWindowContainer.h"
 #import "SFSDKIDPConstants.h"
-#import "SFSDKAuthViewHandler.h"
 
 // Notifications
-NSString * const SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
-NSString * const SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
-NSString * const SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserAccountManagerDidFinishUserInitNotification";
+UserAccountManagerNotification SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
+UserAccountManagerNotification SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
+UserAccountManagerNotification SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserAccountManagerDidFinishUserInitNotification";
 
 //login & logout notifications
-NSString * const kSFNotificationUserWillLogIn  = @"SFNotificationUserWillLogIn";
-NSString * const kSFNotificationUserDidLogIn   = @"SFNotificationUserDidLogIn";
-NSString * const kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout";
-NSString * const kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
-NSString * const kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
+UserAccountManagerNotification kSFNotificationUserWillLogIn  = @"SFNotificationUserWillLogIn";
+UserAccountManagerNotification kSFNotificationUserDidLogIn   = @"SFNotificationUserDidLogIn";
+UserAccountManagerNotification kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout";
+UserAccountManagerNotification kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
+UserAccountManagerNotification kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
+
+UserAccountManagerNotification kSFNotificationUserWillSwitch  = @"SFNotificationUserWillSwitch";
+UserAccountManagerNotification kSFNotificationUserDidSwitch   = @"SFNotificationUserDidSwitch";
 
 //Auth Display Notification
-NSString * const kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
-NSString * const kSFNotificationUserCanceledAuth = @"SFNotificationUserCanceledAuthentication";
+UserAccountManagerNotification kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
+UserAccountManagerNotification kSFNotificationUserCanceledAuth = @"SFNotificationUserCanceledAuthentication";
 //IDP-SP flow Notifications
-NSString * const kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
-NSString * const kSFNotificationUserWillSendIDPResponse     = @"kSFNotificationUserWillSendIDPResponse";
-NSString * const kSFNotificationUserDidReceiveIDPRequest    = @"SFNotificationUserDidReceiveIDPRequest";
-NSString * const kSFNotificationUserDidReceiveIDPResponse   = @"SFNotificationUserDidReceiveIDPResponse";
-NSString * const kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUserIDPInitDidLogIn";
+UserAccountManagerNotification kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
+UserAccountManagerNotification kSFNotificationUserWillSendIDPResponse     = @"kSFNotificationUserWillSendIDPResponse";
+UserAccountManagerNotification kSFNotificationUserDidReceiveIDPRequest    = @"SFNotificationUserDidReceiveIDPRequest";
+UserAccountManagerNotification kSFNotificationUserDidReceiveIDPResponse   = @"SFNotificationUserDidReceiveIDPResponse";
+UserAccountManagerNotification kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUserIDPInitDidLogIn";
 
 //keys used in notifications
-NSString * const kSFNotificationUserInfoAccountKey      = @"account";
-NSString * const kSFNotificationUserInfoCredentialsKey  = @"credentials";
-NSString * const kSFNotificationUserInfoAuthTypeKey     = @"authType";
-NSString * const kSFUserInfoAddlOptionsKey     = @"options";
-NSString * const kSFNotificationUserInfoKey    = @"sfuserInfo";
+UserAccountManagerConstants kSFNotificationUserInfoAccountKey      = @"account";
+UserAccountManagerConstants kSFNotificationUserInfoCredentialsKey  = @"credentials";
+UserAccountManagerConstants kSFNotificationUserInfoAuthTypeKey     = @"authType";
+UserAccountManagerConstants kSFUserInfoAddlOptionsKey     = @"options";
+UserAccountManagerConstants kSFNotificationUserInfoKey    = @"sfuserInfo";
+UserAccountManagerConstants kSFNotificationFromUserKey    = @"fromUser";
+UserAccountManagerConstants kSFNotificationToUserKey      = @"toUser";
 
-NSString * const SFUserAccountManagerUserChangeKey      = @"change";
-NSString * const SFUserAccountManagerUserChangeUserKey      = @"user";
+UserAccountManagerConstants SFUserAccountManagerUserChangeKey      = @"change";
+UserAccountManagerConstants SFUserAccountManagerUserChangeUserKey      = @"user";
 // Persistence Keys
 static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
 static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";
@@ -104,9 +82,6 @@ static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
 static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
-
-static NSString *const kSFIncompatibleAuthError = @"Cannot use SFUserAccountManager Auth functions with useLegacyAuthenticationManager enabled";
-
 static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
 static NSString * const kSFSPAppFeatureIDPLogin   = @"SP";
 static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
@@ -230,23 +205,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     return self.authPreferences.idpEnabled;
 }
 
-- (SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration {
-   return self.authPreferences.advancedAuthConfiguration;
-}
-
-- (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration {
-    self.authPreferences.advancedAuthConfiguration = advancedAuthConfiguration;
-}
-
-
-- (BOOL)useLegacyAuthenticationManager{
-    return self.authPreferences.useLegacyAuthenticationManager;
-}
-
-- (void)setUseLegacyAuthenticationManager:(BOOL)enabled {
-    self.authPreferences.useLegacyAuthenticationManager = enabled;
-}
-
 - (NSString *)appDisplayName {
     return self.authPreferences.appDisplayName;
 }
@@ -257,6 +215,14 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
 - (NSString *)idpAppURIScheme{
     return self.authPreferences.idpAppURIScheme;
+}
+
+- (BOOL)useBrowserAuth {
+     return self.authPreferences.requireBrowserAuthentication;
+}
+
+- (void)setUseBrowserAuth:(BOOL)useBrowserAuth {
+     self.authPreferences.requireBrowserAuthentication = useBrowserAuth;
 }
 
 - (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
@@ -283,9 +249,8 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
 #pragma  mark - login & logout
 
-- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options{
-     NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
-    [SFSDKCoreLogger d:[self class] format:@"handleAdvancedAuthenticationResponse %@",[appUrlResponse description]];
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options{
+    [SFSDKCoreLogger d:[self class] format:@"handleIDPAuthenticationResponse %@",[appUrlResponse description]];
     BOOL result = [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:appUrlResponse options:options];
     if (result) {
         result = [[SFSDKURLHandlerManager sharedInstance] processRequest:appUrlResponse  options:options];
@@ -294,19 +259,16 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
     SFOAuthCredentials *clientCredentials = [self newClientCredentials];
     return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:clientCredentials];
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
-    NSAssert(credentials.refreshToken.length > 0, @"Refresh token required to refresh credentials.");
+     NSAssert(credentials.refreshToken.length > 0, @"Refresh token required to refresh credentials.");
     return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:credentials];
 }
 
 - (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock credentials:(SFOAuthCredentials *)credentials{
-    NSAssert(self.useLegacyAuthenticationManager==false, kSFIncompatibleAuthError);
     [SFSDKWebViewStateManager removeSession];
     SFSDKOAuthClient *client = [self fetchOAuthClient:credentials cached:NO completion:completionBlock failure:failureBlock];
     [[SFSDKOAuthClientCache sharedInstance] addClient:client];
@@ -314,7 +276,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    NSAssert(self.useLegacyAuthenticationManager == false, kSFIncompatibleAuthError);
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
     SFOAuthCredentials *credentials = [self newClientCredentials];
     credentials.jwt = jwtToken;
@@ -322,13 +283,11 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (void)logout {
-    NSAssert(self.useLegacyAuthenticationManager == false, kSFIncompatibleAuthError);
     [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
 }
 
 - (void)logoutUser:(SFUserAccount *)user {
-    NSAssert(self.useLegacyAuthenticationManager == false, kSFIncompatibleAuthError);
-
+  
     // No-op, if the user is not valid.
     if (user == nil) {
         [SFSDKCoreLogger i:[self class] format:@"logoutUser: user is nil. No action taken."];
@@ -409,8 +368,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (void)logoutAllUsers {
-    NSAssert(self.useLegacyAuthenticationManager == false, kSFIncompatibleAuthError);
-
     // Log out all other users, then the current user.
     NSArray *userAccounts = [self allUserAccounts];
     for (SFUserAccount *account in userAccounts) {
@@ -529,9 +486,9 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 - (void)authClient:(SFSDKOAuthClient *)client willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: client.credentials,
                                 kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
-    if (client.config.advancedAuthConfiguration == SFOAuthAdvancedAuthConfigurationAllow) {
-        //Rekey the client in cache. Need to do, since advanced auth configuration was realized
-        //from org/domain setting.
+    //Rekey the client in cache. Need to do, since advanced auth
+    //configuration was realized from org/domain setting.
+    if (!client.config.useBrowserAuth) {
         NSString *newKey = [SFSDKOAuthClientCache keyFromCredentials:client.credentials type:SFOAuthClientKeyTypeAdvanced];
         [[SFSDKOAuthClientCache sharedInstance] removeClient:client];
         [[SFSDKOAuthClientCache sharedInstance] addClient:client forKey:newKey];
@@ -1293,7 +1250,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             config.oauthClientId = strongSelf.oauthClientId;
             config.idpAppURIScheme = strongSelf.idpAppURIScheme;
             config.appDisplayName = strongSelf.appDisplayName;
-            config.advancedAuthConfiguration = strongSelf.advancedAuthConfiguration;
+            config.useBrowserAuth = strongSelf.useBrowserAuth;
             config.delegate = strongSelf;
             config.webViewDelegate = strongSelf;
             config.safariViewDelegate = strongSelf;
@@ -1374,15 +1331,16 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [client cancelAuthentication:NO];
 }
 
-- (void)finalizeAuthCompletion:(SFSDKOAuthClient *)client
-{
+- (void)finalizeAuthCompletion:(SFSDKOAuthClient *)client {
+
     // Apply the credentials that will ensure there is a user and that this
     // current user as the proper credentials.
     SFUserAccount *userAccount = [self applyCredentials:client.credentials withIdData:client.idData];
     client.isAuthenticating = NO;
     BOOL loginStateTransitionSucceeded = [userAccount transitionToLoginState:SFUserAccountLoginStateLoggedIn];
     if (!loginStateTransitionSucceeded) {
-        // We're in an unlikely, but nevertheless bad, state.  Fail this authentication.
+
+        // We're in an unlikely, but nevertheless bad state. Fail this authentication.
         [SFSDKCoreLogger e:[self class] format:@"%@: Unable to transition user to a logged in state.  Login failed.", NSStringFromSelector(_cmd)];
         NSString *reason = [NSString stringWithFormat:@"Unable to transition user to a logged in state.  Login failed "];
         [SFSDKCoreLogger w:[self class] format:reason];
@@ -1391,26 +1349,24 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                          userInfo:@{ NSLocalizedDescriptionKey : reason } ];
         [self handleFailure:error client:client notifyDelegates:YES];
     } else {
-        // Notify the session is ready
-        [self willChangeValueForKey:@"haveValidSession"];
-        [self didChangeValueForKey:@"haveValidSession"];
+
+        // Notify the session is ready.
         [self initAnalyticsManager];
-        if (client.config.successCallbackBlock)
+        if (client.config.successCallbackBlock) {
             client.config.successCallbackBlock(client.context.authInfo,userAccount);
-        
+        }
         [self handleAnalyticsAddUserEvent:client account:userAccount];
     }
-    //async call, ignore if theres a failure. If success save the user photo locally.
+
+    // Async call, ignore if theres a failure. If success save the user photo locally.
     [self retrieveUserPhotoIfNeeded:userAccount];
-    
-    if (self.authPreferences.isIdentityProvider &&
-       ([client.context.callingAppOptions count] >0)) {
+    if (self.authPreferences.isIdentityProvider && ([client.context.callingAppOptions count] >0)) {
         SFSDKIDPAuthClient *idpClient = (SFSDKIDPAuthClient *)client;
-        
-        //if not current user has been set in the app yet then set this user as current.
-        if (self.currentUser==nil)
+
+        // If not current user has been set in the app yet then set this user as current.
+        if (self.currentUser == nil) {
             self.currentUser = userAccount;
-        
+        }
         [idpClient continueIDPFlow:userAccount.credentials];
     } else {
         NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
@@ -1419,15 +1375,15 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             NSNotification *loggedInNotification = [NSNotification notificationWithName:kSFNotificationUserIDPInitDidLogIn object:self  userInfo:userInfo];
             [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
         } else {
-         [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
                                                                 object:self
                                                               userInfo:userInfo];
         }
-       [self disposeOAuthClient:client];
+        [self disposeOAuthClient:client];
     }
 }
 
-- (void)retrieveUserPhotoIfNeeded:(SFUserAccount *)account{
+- (void)retrieveUserPhotoIfNeeded:(SFUserAccount *)account {
     if (account.idData.pictureUrl) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:account.idData.pictureUrl];
         [request setHTTPMethod:@"GET"];
@@ -1448,7 +1404,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     if (client.context.authInfo.authType == SFOAuthTypeRefresh) {
         [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:userAccount className:NSStringFromClass([self class]) attributes:nil];
     } else {
-        
+
         // Logging events for add user and number of servers.
         NSArray *accounts = self.allUserAccounts;
         NSMutableDictionary *userAttributes = [[NSMutableDictionary alloc] init];
@@ -1469,8 +1425,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     }
 }
 
-- (void)initAnalyticsManager
-{
+- (void)initAnalyticsManager {
     SFSDKSalesforceAnalyticsManager *analyticsManager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:self.currentUser];
     [analyticsManager updateLoggingPrefs];
 }
@@ -1490,15 +1445,26 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                 [delegate userAccountManager:self willSwitchFromUser:self.currentUser toUser:newCurrentUser];
             }
         }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillSwitch
+                                                            object:self
+                                                          userInfo:@{
+                                                                     kSFNotificationFromUserKey: [self currentUser]?:[NSNull null],
+                                                                     kSFNotificationToUserKey: newCurrentUser?:[NSNull null]
+                                                                     }];
         
         SFUserAccount *prevUser = self.currentUser;
         [self setCurrentUser:newCurrentUser];
-        
         [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
             if ([delegate respondsToSelector:@selector(userAccountManager:didSwitchFromUser:toUser:)]) {
                 [delegate userAccountManager:self didSwitchFromUser:prevUser toUser:newCurrentUser];
             }
         }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidSwitch
+                                                            object:self
+                                                          userInfo:@{
+                                                                     kSFNotificationFromUserKey: prevUser?:[NSNull null],
+                                                                     kSFNotificationToUserKey: newCurrentUser?:[NSNull null]
+                                                                     }];
     }
 }
 

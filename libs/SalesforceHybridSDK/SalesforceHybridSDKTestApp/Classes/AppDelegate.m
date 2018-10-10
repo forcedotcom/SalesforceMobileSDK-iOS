@@ -26,8 +26,8 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import <SalesforceHybridSDK/SalesforceHybridSDK.h>
 #import "SFTestRunnerPlugin.h"
-SFSDK_USE_DEPRECATED_BEGIN
-@interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
+
+@interface AppDelegate () <SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) SFHybridViewConfig *testAppHybridViewConfig;
 
@@ -53,7 +53,6 @@ SFSDK_USE_DEPRECATED_BEGIN
         self.testAppHybridViewConfig = [self stageTestCredentials];
 
         // Logout and login host change handlers.
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
@@ -62,7 +61,6 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (void)dealloc
 {
-    [[SFAuthenticationManager sharedManager] removeDelegate:self];
     [[SFUserAccountManager sharedInstance] removeDelegate:self];
 }
 
@@ -106,13 +104,6 @@ SFSDK_USE_DEPRECATED_BEGIN
         }
         return resultString;
     }
-}
-
-#pragma mark - SFAuthenticationManagerDelegate
-
-- (void)authManagerDidLogout:(SFAuthenticationManager *)manager
-{
-    [self userDidLogout];
 }
 
 - (void)userDidLogout {
@@ -209,4 +200,4 @@ FILE *fopen$UNIX2003(const char *filename, const char *mode) {
 size_t fwrite$UNIX2003(const void *a, size_t b, size_t c, FILE *d) {
     return fwrite(a, b, c, d);
 }
-SFSDK_USE_DEPRECATED_END
+

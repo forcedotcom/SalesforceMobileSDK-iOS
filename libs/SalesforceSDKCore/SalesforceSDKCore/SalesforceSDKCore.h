@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Tue Jun 19 10:48:33 PDT 2018.
+ Created by Raj Rao on Wed Aug 22 14:03:01 PDT 2018.
 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -30,18 +30,18 @@
 #import <SalesforceSDKCore/SFDefaultUserManagementDetailViewController.h>
 #import <SalesforceSDKCore/SFSDKCoreLogger.h>
 #import <SalesforceSDKCore/SFKeyStoreKey.h>
+#import <SalesforceSDKCore/SFSDKSafeMutableSet.h>
 #import <SalesforceSDKCore/SFTestContext.h>
 #import <SalesforceSDKCore/SFSDKSafeMutableDictionary.h>
 #import <SalesforceSDKCore/SFCryptChunks.h>
 #import <SalesforceSDKCore/SFSDKAlertMessageBuilder.h>
 #import <SalesforceSDKCore/SFSHA256PasscodeProvider.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
 #import <SalesforceSDKCore/SFOAuthInfo.h>
 #import <SalesforceSDKCore/SFPathUtil.h>
 #import <SalesforceSDKCore/SFDecryptStream.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
-#import <SalesforceSDKCore/SFAuthenticationViewHandler.h>
+#import <SalesforceSDKCore/SFSDKSafeMutableArray.h>
 #import <SalesforceSDKCore/SFGeneratedKeyStore.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
@@ -85,7 +85,6 @@
 #import <SalesforceSDKCore/SFPasscodeKeyStore.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKAnalyticsPublisher.h>
-#import <SalesforceSDKCore/SFAuthenticationSafariControllerHandler.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/NSArray+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
@@ -101,6 +100,7 @@
 #import <SalesforceSDKCore/SFSDKAuthConfigUtil.h>
 #import <SalesforceSDKCore/SFSDKAlertMessage.h>
 #import <SalesforceSDKCore/SFUserAccountIdentity.h>
+#import <SalesforceSDKCore/SFSDKAuthHelper.h>
 #import <SalesforceSDKCore/SFManagedPreferences.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFOAuthKeychainCredentials.h>
@@ -134,6 +134,7 @@
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFRestAPI+Files.h>
 #import <SalesforceSDKCore/SFSDKLoginViewControllerConfig.h>
+#import <SalesforceSDKCore/SFSDKAuthConstants.h>
 #import <SalesforceSDKCore/SFOAuthCrypto.h>
 #import <SalesforceSDKCore/SFUserAccountConstants.h>
 #import <SalesforceSDKCore/SFPasscodeViewControllerTypes.h>

@@ -123,35 +123,45 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 - (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user {
     if (user) {
-        NSString *baseUrl = [[self class] restUrlForBaseUrl:self.baseURL serviceHostType:self.serviceHostType credentials:user.credentials];
 
-        // Performs sanity checks on the path against the endpoint value.
-        if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
-            self.path = [self.path substringFromIndex:self.endpoint.length];
-        }
-
-        // Puts the pieces together and constructs a full URL.
-        NSMutableString *fullUrl = [[NSMutableString alloc] initWithString:baseUrl];
-        if (![fullUrl hasSuffix:@"/"]) {
-            [fullUrl appendString:@"/"];
-        }
-
-        // 'endpoint' could be empty for a custom endpoint like 'apexrest'.
-        NSMutableString *endpoint = [[NSMutableString alloc] initWithString:self.endpoint];
-        if (endpoint.length > 0) {
-            if ([endpoint hasPrefix:@"/"]) {
-                [endpoint deleteCharactersInRange:NSMakeRange(0, 1)];
+        /*
+         * If an absolute URL is passed in, use it as-is. If a relative URL is passed in,
+         * parse it and put the pieces together to construct the full URL.
+         */
+        NSMutableString *fullUrl = nil;
+        if ([[self.path lowercaseString] hasPrefix:@"https://"]) {
+            fullUrl = [[NSMutableString alloc] initWithString:self.path];
+        } else {
+            NSString *baseUrl = [[self class] restUrlForBaseUrl:self.baseURL serviceHostType:self.serviceHostType credentials:user.credentials];
+            
+            // Performs sanity checks on the path against the endpoint value.
+            if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
+                self.path = [self.path substringFromIndex:self.endpoint.length];
             }
-            if (![endpoint hasSuffix:@"/"]) {
-                [endpoint appendString:@"/"];
+            
+            // Puts the pieces together and constructs a full URL.
+            fullUrl = [[NSMutableString alloc] initWithString:baseUrl];
+            if (![fullUrl hasSuffix:@"/"]) {
+                [fullUrl appendString:@"/"];
             }
-            [fullUrl appendString:endpoint];
+            
+            // 'endpoint' could be empty for a custom endpoint like 'apexrest'.
+            NSMutableString *endpoint = [[NSMutableString alloc] initWithString:self.endpoint];
+            if (endpoint.length > 0) {
+                if ([endpoint hasPrefix:@"/"]) {
+                    [endpoint deleteCharactersInRange:NSMakeRange(0, 1)];
+                }
+                if (![endpoint hasSuffix:@"/"]) {
+                    [endpoint appendString:@"/"];
+                }
+                [fullUrl appendString:endpoint];
+            }
+            NSMutableString *path = [[NSMutableString alloc] initWithString:self.path];
+            if ([path hasPrefix:@"/"]) {
+                [path deleteCharactersInRange:NSMakeRange(0, 1)];
+            }
+            [fullUrl appendString:path];
         }
-        NSMutableString *path = [[NSMutableString alloc] initWithString:self.path];
-        if ([path hasPrefix:@"/"]) {
-            [path deleteCharactersInRange:NSMakeRange(0, 1)];
-        }
-        [fullUrl appendString:path];
 
         // Adds query parameters to the request if any are set.
         if (self.queryParams) {

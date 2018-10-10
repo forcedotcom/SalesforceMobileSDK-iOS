@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
     SFRestMethodDELETE,
     SFRestMethodHEAD,
     SFRestMethodPATCH
-};
+} NS_SWIFT_NAME(RestRequest.Method);
 
 /**
  * The type of service host to use for Rest requests.
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSUInteger, SFSDKRestServiceHostType) {
      *  Request uses the instance endpoint.
      */
     SFSDKRestServiceHostTypeInstance
-};
+} NS_SWIFT_NAME(RestRequest.ServiceHostType);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -67,6 +67,7 @@ extern NSString * const kSFDefaultRestEndpoint;
 /**
  * Lifecycle events for SFRestRequests.
  */
+NS_SWIFT_NAME(RestClientDelegate)
 @protocol SFRestDelegate <NSObject>
 @optional
 
@@ -133,6 +134,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Request object used to send a REST request to Salesforce.com
  * @see SFRestAPI
  */
+NS_SWIFT_NAME(RestRequest)
 @interface SFRestRequest : NSObject
 
 /**
@@ -159,7 +161,7 @@ extern NSString * const kSFDefaultRestEndpoint;
 @property (nullable, nonatomic, strong, readwrite) NSString *baseURL;
 
 /**
- * The path of the request.
+ * The path of the request or the full URL to be used. If a full URL is passed in, the endpoint ceases to matter.
  * For instance, "" (empty string), "v22.0/recent", "v22.0/query".
  * Note that the path doesn't have to start with a '/'. For instance, passing "v22.0/recent" is the same as passing "/v22.0/recent".
  * @warning Do not pass URL encoded query parameters in the path. Use the `queryParams` property instead.

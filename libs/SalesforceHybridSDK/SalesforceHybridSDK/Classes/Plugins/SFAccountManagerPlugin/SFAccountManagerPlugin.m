@@ -25,7 +25,6 @@
 #import "SFAccountManagerPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
 #import <Cordova/CDVPluginResult.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
@@ -41,7 +40,7 @@ NSString * const kUserAccountOrgIdDictKey          = @"orgId";
 NSString * const kUserAccountUserIdDictKey         = @"userId";
 NSString * const kUserAccountUsernameDictKey       = @"username";
 NSString * const kUserAccountClientIdDictKey       = @"clientId";
-SFSDK_USE_DEPRECATED_BEGIN
+
 @interface SFAccountManagerPlugin ()
 
 /**
@@ -95,7 +94,7 @@ SFSDK_USE_DEPRECATED_BEGIN
         NSArray *userAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
         if ([userAccounts count] == 1) {
             // Single account configured.  Switch to new user.
-            [self loginWithCompletion:^(SFOAuthInfo * authInfo, SFUserAccount * newAccount) {
+            [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo * authInfo, SFUserAccount * newAccount) {
                 [[SFUserAccountManager sharedInstance] switchToUser:newAccount];
             } failure:^(SFOAuthInfo * info, NSError * error) {
                 [SFSDKHybridLogger e:[self class] format:@"switchToNewUser: Failed Switching to user account: %@", error.localizedDescription ];
@@ -108,7 +107,7 @@ SFSDK_USE_DEPRECATED_BEGIN
             [self.viewController presentViewController:umvc animated:YES completion:NULL];
         } else {
             // Zero accounts configured?  Logout, I guess.
-            [self logout];
+            [[SFUserAccountManager sharedInstance] logout];
         }
     } else {
         // User data was passed in.  Assume API-level user switching.
@@ -133,10 +132,10 @@ SFSDK_USE_DEPRECATED_BEGIN
     SFUserAccount *account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
     if (account == nil || account == [SFUserAccountManager sharedInstance].currentUser) {
         [SFSDKHybridLogger d:[self class] message:@"logout: Logging out current user.  App state will reset."];
-        [self logout];
+        [[SFUserAccountManager sharedInstance] logout];
     } else {
         [SFSDKHybridLogger d:[self class] format:@"logout: Logging out user account: %@", account];
-        [self logoutUser:account];
+        [[SFUserAccountManager sharedInstance] logoutUser:account];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
     }
@@ -158,26 +157,4 @@ SFSDK_USE_DEPRECATED_BEGIN
                                    };
     return accountDict;
 }
-
-- (void)logout {
-    [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
-}
-
-- (void)logoutUser:(SFUserAccount *)user {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        [[SFAuthenticationManager sharedManager] logout];
-    } else {
-        [[SFUserAccountManager sharedInstance] logout];
-    }
-}
-
-- (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-  if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-      [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
-  } else {
-      [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
-  }
-}
-
 @end
-SFSDK_USE_DEPRECATED_END

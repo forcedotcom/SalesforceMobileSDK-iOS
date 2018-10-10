@@ -22,14 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import "SFSmartStore.h"
 #import "SmartStoreSDKManager.h"
 #import "SFSDKStoreConfig.h"
 #import "SFSmartStoreInspectorViewController.h"
 
-SFSDK_USE_DEPRECATED_BEGIN
-@interface SalesforceSDKManager()<SFAuthenticationManagerDelegate>
+
+@interface SalesforceSDKManager()
 @end
 
 @implementation SmartStoreSDKManager
@@ -41,13 +41,9 @@ SFSDK_USE_DEPRECATED_BEGIN
     return self;
 }
 
-
-- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
-{
-    [super authManager:manager willLogoutUser:user];
-    [SFSmartStore removeAllStoresForUser:user];
++ (void)initializeSDK {
+    [super initializeSDKWithClass:self.class];
 }
-
 
 - (void)handleUserWillLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
@@ -114,4 +110,4 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 
 @end
-SFSDK_USE_DEPRECATED_END
+

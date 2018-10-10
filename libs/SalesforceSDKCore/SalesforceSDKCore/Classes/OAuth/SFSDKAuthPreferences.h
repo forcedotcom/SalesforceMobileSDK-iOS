@@ -29,16 +29,11 @@
 
 #import <Foundation/Foundation.h>
 #include "SFOAuthCoordinator.h"
+#include "SFSDKAuthConstants.h"
+
 NS_ASSUME_NONNULL_BEGIN
+
 @interface SFSDKAuthPreferences : NSObject
-
-/**
- Advanced authentication configuration.  Default is SFOAuthAdvancedAuthConfigurationNone.  Leave the
- default value unless you need advanced authentication, as it requires an additional round trip to the
- service to retrieve org authentication configuration.
- */
-@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
-
 /**
  An array of additional keys (NSString) to parse during OAuth
  */
@@ -90,21 +85,22 @@ NS_ASSUME_NONNULL_BEGIN
  *
  */
 @property (nonatomic,assign,readonly) BOOL idpEnabled;
-/** Use this property to use SFAuthenticationManager for authentication
- *
- */
-@property (nonatomic,assign) BOOL useLegacyAuthenticationManager;
 
 /** Use this property to indicate the url scheme  for the Identity Provider app
  *
  */
-@property (nonatomic, copy) NSString *idpAppURIScheme;
+@property (nonatomic, copy,nullable) NSString *idpAppURIScheme;
 
 /** Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
  *  in the user selection view of the identity provider app.
  *
  */
 @property (nonatomic,copy) NSString *appDisplayName;
+
+/**
+ Whether the app is configured to require certificate-based authentication. (RequireCertAuth)
+ */
+@property (nonatomic, assign) BOOL requireBrowserAuthentication;
 
 @end
 NS_ASSUME_NONNULL_END

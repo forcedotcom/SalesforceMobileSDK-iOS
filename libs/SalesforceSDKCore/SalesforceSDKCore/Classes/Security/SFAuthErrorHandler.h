@@ -28,8 +28,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFOAuthInfo;
-@class SFSDKOAuthClientContext;
-
 /**
  Block definition for auth error handling evaluation block.
  */
@@ -42,7 +40,7 @@ typedef BOOL (^SFAuthErrorHandlerOptionsEvalBlock)(NSError *, SFOAuthInfo *, NSD
 /**
  Class to define a handler for authentication errors, which can be used in an
  error handling filter chain.
- @see SFAuthenticationManager
+ @see SFSDKErrorManager
  */
 @interface SFAuthErrorHandler : NSObject
 

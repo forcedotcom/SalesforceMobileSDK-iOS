@@ -42,11 +42,22 @@
 
 - (instancetype)initWithComponent:(NSString *)componentName {
     SFSDKLogFileManager *logManager = [[SFSDKLogFileManager alloc] initWithComponent:componentName];
-    self = [super initWithLogFileManager:logManager];
+    self = [self initWithLogFileManager:logManager];
     if (self) {
         self.componentName = componentName;
         _logFileManager = logManager;
         self.rollingFrequency = 0; // Disables rolling of log files based on time and does it based on size.
+    }
+    return self;
+}
+
+- (instancetype)initWithLogFileManager:(id <DDLogFileManager>)aLogFileManager {
+    self = [super initWithLogFileManager:aLogFileManager];
+    if (self) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+        self.logFormatter = [[DDLogFileFormatterDefault alloc] initWithDateFormatter:dateFormatter];
     }
     return self;
 }

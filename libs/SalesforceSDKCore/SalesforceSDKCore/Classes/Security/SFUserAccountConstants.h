@@ -32,7 +32,7 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
     SFUserAccountAccessRestrictionChatter = 1 << 0,
     SFUserAccountAccessRestrictionREST    = 1 << 1,
     SFUserAccountAccessRestrictionOther   = 1 << 2,
-};
+} NS_SWIFT_NAME(UserAccount.AccessRestriction);
 
 /** The various scopes related to a user account
  */
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSUInteger, SFUserAccountScope) {
     /** Scope by community
      */
     SFUserAccountScopeCommunity
-};
+} NS_SWIFT_NAME(UserAccount.AccountScope);
 
 /** The various changes that can affect a user account
  */
@@ -77,7 +77,7 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountDataChange) {
     */
     SFUserAccountDataChangeAccessToken = 1 << 4
 
-};
+}  NS_SWIFT_NAME(UserAccount.AccountDataChange);
 
 
 /** The various changes that can affect a user account
@@ -95,7 +95,7 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
      */
     SFUserAccountChangeCurrentUser = 1 << 2
 
-};
+}  NS_SWIFT_NAME(UserAccount.AccountChange);
 
 
 

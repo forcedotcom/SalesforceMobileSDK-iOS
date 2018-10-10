@@ -635,7 +635,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     NSString* accountIdDeleted = [accountIdToFields allKeys][0];
     [self deleteRecordsOnServer:@[accountIdDeleted] objectType:ACCOUNT_TYPE];
     XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
-    [self.syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+    [self.syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus, NSUInteger numRecords) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [cleanResyncGhosts fulfill];
         }
@@ -699,7 +699,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
     // Cleaning ghosts of first sync (should only remove id0)
     XCTestExpectation* firstCleanExpectation = [self expectationWithDescription:@"firstCleanGhosts"];
-    [self.syncManager cleanResyncGhosts:firstSyncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+    [self.syncManager cleanResyncGhosts:firstSyncId completionStatusBlock:^(SFSyncStateStatus syncStatus, NSUInteger numRecords) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [firstCleanExpectation fulfill];
         }
@@ -717,7 +717,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
     // Cleaning ghosts of second sync (should remove id2 and id5)
     XCTestExpectation* secondCleanExpectation = [self expectationWithDescription:@"secondCleanGhosts"];
-    [self.syncManager cleanResyncGhosts:secondSyncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+    [self.syncManager cleanResyncGhosts:secondSyncId completionStatusBlock:^(SFSyncStateStatus syncStatus, NSUInteger numRecords) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [secondCleanExpectation fulfill];
         }

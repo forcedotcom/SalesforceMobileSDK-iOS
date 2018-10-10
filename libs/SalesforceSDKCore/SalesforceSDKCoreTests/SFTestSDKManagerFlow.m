@@ -24,7 +24,6 @@
 
 #import "SFTestSDKManagerFlow.h"
 
-
 static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 
 @interface SFTestSDKManagerFlow ()
@@ -172,6 +171,5 @@ static NSTimeInterval const kMaxLaunchWaitTime = 30.0;
 - (void)handleUserDidLogout:(nonnull NSNotification *)notification {
 
 }
-
 
 @end

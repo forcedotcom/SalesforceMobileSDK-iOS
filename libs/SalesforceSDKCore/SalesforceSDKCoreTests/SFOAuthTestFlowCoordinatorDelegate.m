@@ -27,7 +27,7 @@
 
 static NSString * const kWebNotSupportedExceptionName = @"com.salesforce.oauth.tests.WebNotSupported";
 static NSString * const kWebNotSupportedReasonFormat  = @"%@ WKWebView transactions not supported in unit test framework.";
-static NSString * const kSafariNotSupportedReasonFormat  = @"%@ SFSafariViewController transactions not supported in unit test framework.";
+static NSString * const kSFAuthenticationSessionNotSupportedReasonFormat  = @"%@ SFAuthenticationSession transactions not supported in unit test framework.";
 
 @implementation SFOAuthTestFlowCoordinatorDelegate
 
@@ -90,16 +90,15 @@ static NSString * const kSafariNotSupportedReasonFormat  = @"%@ SFSafariViewCont
     return self.isNetworkAvailable;
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session:(SFAuthenticationSession *)session {
     [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kSafariNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kSafariNotSupportedReasonFormat reason:reason userInfo:nil];
+    NSString *reason = [NSString stringWithFormat:kSFAuthenticationSessionNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
+    @throw [NSException exceptionWithName:kSFAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
 }
-
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
     [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kSafariNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kSafariNotSupportedReasonFormat reason:reason userInfo:nil];
+    NSString *reason = [NSString stringWithFormat:kSFAuthenticationSessionNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
+    @throw [NSException exceptionWithName:kSFAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
 }
 
 @end

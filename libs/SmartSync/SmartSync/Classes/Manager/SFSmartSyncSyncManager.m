@@ -23,10 +23,10 @@
  */
 
 #import "SFSmartSyncSyncManager.h"
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SmartStore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import "SFAdvancedSyncUpTarget.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSyncUpTarget+Internal.h"
@@ -43,10 +43,9 @@ char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.Q
 // block type
 typedef void (^SyncUpdateBlock) (NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp);
 typedef void (^SyncFailBlock) (NSString* message, NSError* error);
-SFSDK_USE_DEPRECATED_BEGIN
-@interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
-SFSDK_USE_DEPRECATED_END
+@interface SFSmartSyncSyncManager ()
+
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) NSMutableSet *runningSyncIds;
@@ -153,21 +152,10 @@ static NSMutableDictionary *syncMgrList = nil;
         self.runningSyncIds = [NSMutableSet new];
         self.store = store;
         self.queue = dispatch_queue_create(kSyncManagerQueue,  DISPATCH_QUEUE_SERIAL);
-        SFSDK_USE_DEPRECATED_BEGIN
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
-        SFSDK_USE_DEPRECATED_END
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
     return self;
-}
-
-
-
-- (void)dealloc {
-    SFSDK_USE_DEPRECATED_BEGIN
-    [[SFAuthenticationManager sharedManager] removeDelegate:self];
-    SFSDK_USE_DEPRECATED_END
 }
 
 #pragma mark - has / get sync methods
@@ -501,13 +489,13 @@ static NSMutableDictionary *syncMgrList = nil;
                                            errorBlock:^(NSError *e) {
                                                [SFSDKSmartSyncLogger e:currentClass format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
                                                [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass(currentClass) attributes:eventAttrs];
-                                               completionStatusBlock(SFSyncStateStatusFailed);
+                                               completionStatusBlock(SFSyncStateStatusFailed, 0);
                                            }
                                         completeBlock:^(NSArray *localIds) {
                                             eventAttrs[@"numRecords"] = [NSNumber numberWithInteger:localIds.count];
                                             [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass(currentClass) attributes:eventAttrs];
 
-                                            completionStatusBlock(SFSyncStateStatusDone);
+                                            completionStatusBlock(SFSyncStateStatusDone, localIds.count);
                                         }];
     });
 }
@@ -529,8 +517,7 @@ static NSMutableDictionary *syncMgrList = nil;
         return;
     }
     
-    NSString* idStr = [(NSNumber*) recordIds[i] stringValue];
-    NSMutableDictionary* record = [[target getFromLocalStore:self soupName:soupName storeId:idStr] mutableCopy];
+    NSMutableDictionary* record = [[target getFromLocalStore:self soupName:soupName storeId:recordIds[i]] mutableCopy];
     [SFSDKSmartSyncLogger d:[self class] format:@"syncUpOneRecord:%@", record];
 
     // Do we need to do a create, update or delete
@@ -720,12 +707,6 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 }
 
-#pragma mark - SFAuthenticationManagerDelegate
-SFSDK_USE_DEPRECATED_BEGIN
-- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
-    [[self class] removeSharedInstance:user];
-}
-SFSDK_USE_DEPRECATED_END
 - (void)handleUserWillLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
      [[self class] removeSharedInstance:user];

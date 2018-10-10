@@ -90,6 +90,7 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
         self.logger = [[DDLog alloc] init];
         self.fileLogger = [[SFSDKFileLogger alloc] initWithComponent:componentName];
         DDTTYLogger *consoleLogger = [DDTTYLogger sharedInstance];
+        consoleLogger.logFormatter = [[SFSDKFormatter alloc] init];
         consoleLogger.colorsEnabled = YES;
         [self.logger addLogger:consoleLogger withLevel:self.logLevel];
         if (self.fileLoggingEnabled) {
@@ -348,6 +349,36 @@ static inline DDLogFlag DDLogFlagForLogLevel(DDLogLevel level) {
 
 + (void)log:(Class)cls level:(DDLogLevel)level message:(NSString *)message {
     [[self sharedInstance] log:cls level:level message:message];
+}
+
+@end
+
+#pragma mark - Log formatter for console logs
+
+@implementation SFSDKFormatter
+
+- (instancetype)init {
+    return [self initWithDateFormatter:nil];
+}
+
+- (instancetype)initWithDateFormatter: (NSDateFormatter *)specialFormatter {
+    self = [super init];
+    if (self) {
+        if (specialFormatter == nil) {
+            self.dateFormatter = [[NSDateFormatter alloc] init];
+            [self.dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+            [self.dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSSZ"];
+        } else {
+            self.dateFormatter = specialFormatter;
+        }
+    }
+    return self;
+}
+
+- (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    NSString *date = [self.dateFormatter stringFromDate:logMessage.timestamp];
+    return [NSString stringWithFormat:@"%@ %@[%d:%@] %@", date, appName, (int)getpid(), [logMessage threadID], logMessage.message];
 }
 
 @end

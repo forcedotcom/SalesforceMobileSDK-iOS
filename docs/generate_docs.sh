@@ -7,6 +7,3 @@
 
 # Generates Obj-C library docs.
 ant -buildfile build/build_doc.xml
-
-# Generates Swift library docs.
-jazzy --config docs/jazzy.yaml

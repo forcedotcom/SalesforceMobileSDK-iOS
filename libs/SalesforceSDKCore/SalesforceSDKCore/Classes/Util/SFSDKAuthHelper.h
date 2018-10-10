@@ -1,5 +1,9 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFSDKAuthHelper.h
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 07/19/18.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -21,27 +25,19 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 #import <Foundation/Foundation.h>
-#import "SFSmartSyncPersistableObject.h"
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
-NS_ASSUME_NONNULL_BEGIN
+NS_SWIFT_NAME(AuthHelper)
+@interface SFSDKAuthHelper : NSObject
 
-@interface SFObjectTypeLayout : SFSmartSyncPersistableObject <NSCoding>
++ (void)loginIfRequired:(void (^)(void))completionBlock;
 
-@property (nonatomic, strong, readonly) NSNumber *limit SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
-@property (nonatomic, strong, readonly) NSArray *columns SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
++ (void)handleLogout:(void (^)(void))completionBlock;
 
-+ (NSString *)parseColumnName:(NSString *)columnName SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
++ (void)registerBlockForCurrentUserChangeNotifications:(void (^)(void))completionBlock;
 
-/** Return YES if columns matches including # of columns and column name and order
- 
- @columns sourceColumnNames NSArray of column names of NSString type
- @columns targetColumnNames NSArray of column names of NSString type
- */
-+ (BOOL)isMatchColumns:(NSArray *)sourceColumnNames target:(NSArray *)targetColumnNames SFSDK_DEPRECATED(6.2, 7.0, "Will be removed in Mobile SDK 7.0.");
++ (void)registerBlockForLogoutNotifications:(void (^)(void))completionBlock;
+
++ (void)registerBlockForSwitchUserNotifications:(void (^)(void))completionBlock;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -309,3 +309,13 @@
 + (void)log:(nonnull Class)cls level:(DDLogLevel)level message:(nonnull NSString *)message;
 
 @end
+
+#pragma mark - Log formatter for console logs
+
+@interface SFSDKFormatter : NSObject <DDLogFormatter>
+
+@property (nonatomic, readwrite, strong, nonnull) NSDateFormatter *dateFormatter;
+
+- (nonnull instancetype)init;
+
+@end

@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Sync down target for object layouts. This uses the '/ui-api/layout' API to fetch object layouts.
  * The easiest way to use this sync target is through SFLayoutSyncManager.
  */
+NS_SWIFT_NAME(LayoutSyncDownTarget)
 @interface SFLayoutSyncDownTarget : SFSyncDownTarget
 
 @property (nonatomic, strong, readonly) NSString *objectType;

@@ -24,7 +24,6 @@
 
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
-#import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
 #import "SalesforceSDKManager.h"
 #import "SFSDKEventBuilderHelper.h"
@@ -42,8 +41,8 @@ NSInteger const kSFRestErrorCode = 999;
 
 static BOOL kIsTestRun;
 static SFSDKSafeMutableDictionary *sfRestApiList = nil;
-SFSDK_USE_DEPRECATED_BEGIN
-@interface SFRestAPI () <SFAuthenticationManagerDelegate>
+
+@interface SFRestAPI ()
 
 @property (readwrite, assign) BOOL sessionRefreshInProgress;
 @property (readwrite, assign) BOOL pendingRequestsBeingProcessed;
@@ -76,14 +75,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         self.apiVersion = kSFRestDefaultAPIVersion;
         self.sessionRefreshInProgress = NO;
         self.pendingRequestsBeingProcessed = NO;
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
-    [[SFAuthenticationManager sharedManager] removeDelegate:self];
     SFRelease(_activeRequests);
 }
 
@@ -208,7 +205,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     __weak __typeof(self) weakSelf = self;
     if (self.user.credentials.accessToken == nil && self.user.credentials.refreshToken == nil && request.requiresAuthentication) {
         [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request: %@", request.description];
-        [weakSelf loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFUserAccountManager sharedInstance].currentUser = userAccount;
             strongSelf.user = userAccount;
@@ -220,7 +217,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
             [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
-            [strongSelf logout];
+            [[SFUserAccountManager sharedInstance] logout];
         }];
     } else {
         [self enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
@@ -310,8 +307,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     
                             // Make sure we call logout on the main thread.
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [strongSelf createAndStoreLogoutEvent:error user:strongSelf.user];
-                                [strongSelf logoutUser:strongSelf.user];
+                                [strongSelf createAndStoreLogoutEvent:refreshError user:strongSelf.user];
+                                [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user];
                             });
                         }
                     }];
@@ -656,18 +653,17 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 }
 
 # pragma mark - Helper methods
-
 + (NSString *)getHttpStringFomFromDate:(NSDate *)date {
     if (date == nil) return nil;
     return [httpDateFormatter stringFromDate:date];
 }
 
-#pragma mark - SFAuthenticationManagerDelegate
-
+#pragma mark - SFUserAccountManagerDelegate
 - (void)handleUserDidLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [self handleLogoutForUser:user];
 }
+
 - (void)handleLogoutForUser:(SFUserAccount *)user {
     NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
     id sfRestApi = [sfRestApiList objectForKey:key];
@@ -676,32 +672,5 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     }
     [[self class] removeSharedInstanceWithUser:user];
 }
-
-- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
-    [self handleLogoutForUser:user];
-}
-
-- (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
-    } else {
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
-    }
-    
-}
-
-- (void)logout {
-    [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
-}
-
-- (void)logoutUser:(SFUserAccount *)user {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        [[SFAuthenticationManager sharedManager] logout];
-    } else {
-        [[SFUserAccountManager sharedInstance] logout];
-    }
-}
-
 @end
-SFSDK_USE_DEPRECATED_END
+

@@ -41,6 +41,10 @@
 @implementation SalesforceHybridSDKManager
 @synthesize appConfig = _appConfig;
 
++ (void)initializeSDK {
+    [super initializeSDKWithClass:self.class];
+}
+
 - (SFSDKAppConfig *)appConfig {
     if (_appConfig == nil) {
         SFSDKAppConfig *config = [SFHybridViewConfig fromDefaultConfigFile];

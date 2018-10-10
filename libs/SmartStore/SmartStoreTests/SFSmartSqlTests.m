@@ -259,7 +259,7 @@
 {
     [self loadData];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:firstName} from {employees} order by {employees:firstName}" withPageSize:1];
-    XCTAssertTrue(7 ==[self.store countWithQuerySpec:querySpec  error:nil], @"Expected 7 employees");
+    XCTAssertTrue(7 ==[[self.store countWithQuerySpec:querySpec  error:nil] unsignedIntegerValue], @"Expected 7 employees");
     NSArray* expectedResults = @[@"Christine", @"Eileen", @"Eva", @"Irving", @"John", @"Michael", @"Sally"];
     for (int i=0; i<7; i++) {
         NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:i  error:nil];

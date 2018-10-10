@@ -31,8 +31,8 @@
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
+#import <SAlesforceSDKCore/SFSDKAuthConfigUtil.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
@@ -66,7 +66,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 // App feature constant.
 static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
-SFSDK_USE_DEPRECATED_BEGIN
 @interface SFHybridViewController()
 {
     BOOL _foundHomeUrl;
@@ -94,6 +93,8 @@ SFSDK_USE_DEPRECATED_BEGIN
  * UIWebView for processing the error page, in the event of a fatal error during bootstrap.
  */
 @property (nonatomic, strong) UIWebView *errorPageUIWebView;
+
+@property (nonatomic, strong) SFOAuthOrgAuthConfiguration *authConfig;
 
 /**
  * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
@@ -186,10 +187,19 @@ SFSDK_USE_DEPRECATED_BEGIN
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
         NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized. See output log for errors.");
         self.startPage = _hybridViewConfig.startPage;
-        
+
         // Setup global stores and syncs defined in static configs
         [[SalesforceHybridSDKManager sharedManager] setupGlobalStoreFromDefaultConfig];
         [[SalesforceHybridSDKManager sharedManager] setupGlobalSyncsFromDefaultConfig];
+        __weak typeof(self) weakSelf = self;
+        [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!error) {
+                    strongSelf.authConfig = authConfig;
+                }
+            });
+        } oauthCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
     }
     return self;
 }
@@ -300,7 +310,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     return _hybridViewConfig;
 }
 
-- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
+- (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthPluginFailureBlock)failureBlock
 {
 
     /*
@@ -309,7 +319,7 @@ SFSDK_USE_DEPRECATED_BEGIN
      */
     [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
     __weak __typeof(self) weakSelf = self;
-    SFOAuthFlowSuccessCallbackBlock authCompletionBlock = ^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+    SFUserAccountManagerSuccessCallbackBlock authCompletionBlock = ^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [strongSelf authenticationCompletion:nil authInfo:authInfo];
@@ -321,7 +331,8 @@ SFSDK_USE_DEPRECATED_BEGIN
             completionBlock(authInfo, authDict);
         }
     };
-    SFOAuthFlowFailureCallbackBlock authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
+    
+    SFOAuthPluginFailureBlock authFailureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if ([strongSelf logoutOnInvalidCredentials:error]) {
             [SFSDKHybridLogger d:[strongSelf class] message:@"OAuth plugin authentication request failed. Logging out."];
@@ -329,15 +340,15 @@ SFSDK_USE_DEPRECATED_BEGIN
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
             [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
-            [strongSelf logout];
+            [[SFUserAccountManager sharedInstance] logout];
         } else if (failureBlock != NULL) {
             failureBlock(authInfo, error);
         }
     };
     if (![SFUserAccountManager sharedInstance].currentUser) {
-        [self loginWithCompletion:authCompletionBlock failure:authFailureBlock];
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:authCompletionBlock failure:authFailureBlock];
     } else {
-        [self refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
+        [[SFUserAccountManager sharedInstance] refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
                                                          completion:authCompletionBlock
                                                             failure:authFailureBlock];
     }
@@ -460,20 +471,48 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (NSString *)isLoginRedirectUrl:(NSURL *)url
 {
-    if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0) {
+    if (url == nil || url.absoluteString == nil || url.absoluteString.length == 0) {
         return nil;
     }
-    if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
-        && [url query] != nil) {
-        NSString *startUrlValue = [url valueForParameterName:@"startURL"];
-        NSString *ecValue = [url valueForParameterName:@"ec"];
-        BOOL foundStartURL = (startUrlValue != nil);
-        BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
-        if (foundStartURL && foundValidEcValue) {
-            return startUrlValue;
+    if ([url.scheme.lowercaseString hasPrefix:@"http"]) {
+        if (url.query != nil) {
+            NSString *startUrlValue = [url valueForParameterName:@"startURL"];
+            NSString *ecValue = [url valueForParameterName:@"ec"];
+            BOOL foundStartURL = (startUrlValue != nil);
+            BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
+            if (foundValidEcValue) {
+                if (foundStartURL) {
+                    return startUrlValue;
+                } else {
+                    return self.startPage;
+                }
+            } else if ([self isSamlLoginRedirect:url.absoluteString]) {
+                return self.startPage;
+            }
+        } else if ([self isSamlLoginRedirect:url.absoluteString]) {
+            return self.startPage;
         }
     }
     return nil;
+}
+
+- (BOOL)isSamlLoginRedirect:(NSString *)url {
+    if (self.authConfig) {
+        NSArray<NSString *> *ssoUrls = self.authConfig.ssoUrls;
+        if (ssoUrls && ssoUrls.count > 0) {
+            for (NSString *ssoUrl in ssoUrls) {
+                NSString *baseUrl = [ssoUrl copy];
+                NSRange index = [ssoUrl rangeOfString:@"?"];
+                if (index.location != NSNotFound) {
+                    baseUrl = [ssoUrl substringToIndex:index.location];
+                }
+                if ([url containsString:baseUrl]) {
+                    return YES;
+                }
+            }
+        }
+    }
+    return NO;
 }
 
 - (BOOL)isOffline
@@ -485,12 +524,8 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (BOOL)logoutOnInvalidCredentials:(NSError *)error
 {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        return ([SFAuthenticationManager errorIsInvalidAuthCredentials:error]
-                && [[SFAuthenticationManager sharedManager].authErrorHandlerList authErrorHandlerInList:[SFAuthenticationManager sharedManager].invalidCredentialsAuthErrorHandler]);
-    } else {
-       return [SFUserAccountManager errorIsInvalidAuthCredentials:error];
-   }
+    return [SFUserAccountManager errorIsInvalidAuthCredentials:error];
+  
 }
 
 - (NSURL *)fullFileUrlForPage:(NSString *)page
@@ -605,7 +640,7 @@ SFSDK_USE_DEPRECATED_BEGIN
                      attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
                      attributes[@"errorDescription"] = error.localizedDescription;
                      [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
-                     [strongSelf logout];
+                     [[SFUserAccountManager sharedInstance] logout];
                  } else {
                      
                      // Error is not invalid credentials, or developer otherwise wants to handle it.
@@ -696,7 +731,7 @@ SFSDK_USE_DEPRECATED_BEGIN
                      attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
                      attributes[@"errorDescription"] = error.localizedDescription;
                      [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
-                     [strongSelf logout];
+                     [[SFUserAccountManager sharedInstance] logout];
                  } else {
                      
                      // Error is not invalid credentials, or developer otherwise wants to handle it.
@@ -829,7 +864,13 @@ SFSDK_USE_DEPRECATED_BEGIN
         if (authInfo.authType == SFOAuthTypeRefresh) {
             createAbsUrl = NO;
         }
-        NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:YES createAbsUrl:createAbsUrl];
+        BOOL encoded = YES;
+        if ([originalUrl containsString:@"frontdoor.jsp"]) {
+            if ([originalUrl rangeOfString:@"retURL="].location != NSNotFound) {
+                encoded = NO;
+            }
+        }
+        NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:encoded createAbsUrl:createAbsUrl];
         NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
         if (self.useUIWebView) {
             [(UIWebView *)(self.webView) loadRequest:newRequest];
@@ -863,8 +904,8 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 - (void)refreshCredentials:(SFOAuthCredentials *)credentials
-                 completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                  failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
+                 completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                  failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
 
     /*
      * Performs a cheap REST call to refresh the access token if needed
@@ -884,22 +925,5 @@ SFSDK_USE_DEPRECATED_BEGIN
     }];
 }
 
-- (void)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                  failure:(SFOAuthFlowFailureCallbackBlock)failureBlock {
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:completionBlock failure:failureBlock];
-    } else {
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:completionBlock failure:failureBlock];
-    }
-}
-
-- (void)logout {
-     if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-         [[SFAuthenticationManager sharedManager] logout];
-     } else {
-         [[SFUserAccountManager sharedInstance] logout];
-     }
-}
-
 @end
-SFSDK_USE_DEPRECATED_END
+

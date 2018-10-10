@@ -32,23 +32,23 @@
 #import "SFManagedPreferences.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 
-NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
-NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
-NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
+UserAccountManagerPreferences kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
+UserAccountManagerPreferences kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
+UserAccountManagerPreferences kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 
 static NSString * const kDeprecatedLoginHostPrefKey = @"login_host_pref";
 
-NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort
-NSString * const kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
+UserAccountManagerPreferences kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort
+UserAccountManagerPreferences kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
 
 // The key for storing the persisted OAuth scopes.
-NSString * const kOAuthScopesKey = @"oauth_scopes";
+UserAccountManagerPreferences kOAuthScopesKey = @"oauth_scopes";
 
 // The key for storing the persisted OAuth client ID.
-NSString * const kOAuthClientIdKey = @"oauth_client_id";
+UserAccountManagerPreferences kOAuthClientIdKey = @"oauth_client_id";
 
 // The key for storing the persisted OAuth redirect URI.
-NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
+UserAccountManagerPreferences kOAuthRedirectUriKey = @"oauth_redirect_uri";
 
 // The key for storing the persisted IDP app identifier
 NSString * const kSFIDPKey = @"SFDCIdp";
@@ -59,7 +59,6 @@ NSString * const kSFIDPProviderKey = @"SFIDPProvider";
 // The key for storing the persisted OAuth scopes.
 NSString * const kOAuthAppName = @"oauth_app_name";
 
-NSString * const kSFLegacyAuthIndicatorKey = @"SFDCUseLegacyAuth";
 
 @implementation SFSDKAuthPreferences
 
@@ -211,18 +210,4 @@ NSString * const kSFLegacyAuthIndicatorKey = @"SFDCUseLegacyAuth";
     [defs setObject:appDisplayName forKey:kOAuthAppName];
     [defs synchronize];
 }
-
-- (BOOL)useLegacyAuthenticationManager{
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    return [defs stringForKey:kSFLegacyAuthIndicatorKey];
-
-}
-
-- (void)setUseLegacyAuthenticationManager:(BOOL)enabled {
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    [defs setBool:enabled forKey:kSFLegacyAuthIndicatorKey];
-    [defs synchronize];
-}
-
-
 @end

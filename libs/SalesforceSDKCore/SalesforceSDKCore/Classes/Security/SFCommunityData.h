@@ -26,6 +26,7 @@
 
 /** Class that groups the data describing a community
  */
+NS_SWIFT_NAME(CommunityData)
 @interface SFCommunityData : NSObject <NSCoding>
 
 /** The community ID

@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**Utility methods used by SmartStore.
  */
+NS_SWIFT_NAME(Utils)
 @interface SFSmartStoreUtils : NSObject
 
 /** Returns a unique key for the given user, or a "global" key if no proper

@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  View controller for showing the user management details of a given user.
  */
+NS_SWIFT_NAME(UserManagementDetailViewController)
 @interface SFDefaultUserManagementDetailViewController : UIViewController
 
 /**

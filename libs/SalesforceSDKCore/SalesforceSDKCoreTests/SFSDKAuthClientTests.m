@@ -33,6 +33,7 @@
 #import "SalesforceSDKCore.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFSDKOAuthClientCache.h"
+#import "SFUserAccountManager+Internal.h"
 @class SFSDKTestOAuthClient;
 
 @interface SFSDKTestOAuthClient : SFSDKOAuthClient
@@ -152,7 +153,6 @@
     [SFSDKOAuthClient setClientProvider:_originalProvider];
     [SFUserAccountManager sharedInstance].idpAppURIScheme = nil;
     [SFUserAccountManager sharedInstance].isIdentityProvider = NO;
-    [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthTypeUserAgent;
     [super tearDown];
 }
 
@@ -184,7 +184,7 @@
 
     
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        config.useBrowserAuth = YES;
     }];
     
     XCTAssertNotNil(client);
@@ -453,15 +453,11 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-
-    
-    [SFUserAccountManager sharedInstance].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
-    
-    
+    [SFUserAccountManager sharedInstance].useBrowserAuth = YES;
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.delegate = self;
         config.safariViewDelegate = self;
-        config.advancedAuthConfiguration = [SFUserAccountManager sharedInstance].advancedAuthConfiguration;
+        config.useBrowserAuth = [SFUserAccountManager sharedInstance].useBrowserAuth;
     }];
    
     XCTAssertNotNil(client);
@@ -511,26 +507,7 @@
 
 }
 
-#pragma mark - SFSDKOAuthClientSafariViewDelegate
-
-- (void)authClientDidProceedWithBrowserFlow:(SFSDKOAuthClient *)client {
- [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-}
-
-- (void)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client {
- [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-}
-
-- (void)authClient:(SFSDKOAuthClient *)client willDisplayAuthSafariViewController:(SFSafariViewController *_Nonnull)svc {
- [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-}
-
-- (void)authClientDidCancelGenericFlow:(SFSDKOAuthClient *)client {
- [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-}
-
-- (void)authClient:(SFSDKOAuthClient * _Nonnull)client displayMessage:(nonnull SFSDKAlertMessage *)message { 
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+- (void)authClient:(SFSDKOAuthClient * _Nonnull)client displayMessage:(nonnull SFSDKAlertMessage *)message {
 }
 
 #pragma mark SFOAuthCoordinatorFlow
