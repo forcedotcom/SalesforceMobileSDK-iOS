@@ -27,6 +27,10 @@
 #import <CommonCrypto/CommonDigest.h>
 #include "zlib.h"
 
+#ifndef MD5_DIGEST_LENGTH
+#define MD5_DIGEST_LENGTH (16)
+#endif // MD5_DIGEST_LENGTH
+
 // Map 8-bit character to 6-bit byte
 #define INVALID_BYTE64 255
 #define OFFSET_BYTE64  '+'
