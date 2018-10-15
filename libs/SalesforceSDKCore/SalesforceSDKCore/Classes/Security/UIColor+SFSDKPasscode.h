@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ UIColor+SFSDKPasscode.h
+ SalesforceSDKCore
+ 
+ Created by Brandon Page on 10/14/18.
+ 
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,19 +27,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@interface UIColor (SFSDKPasscode)
 
-/**
- Mode constants indicating whether to create or verify an existing passcode.
- */
-typedef NS_ENUM(NSUInteger, SFPasscodeControllerMode) {
-    SFPasscodeControllerModeCreate,
-    SFPasscodeControllerModeVerify,
-    SFPasscodeControllerModeChange,
-    SFBiometricControllerModeEnable,
-    SFBiometricControllerModeVerify
-} NS_SWIFT_NAME(PasscodeViewController.PasscodeControllerMode);
++(UIColor *) backgroundColor;
 
-NS_ASSUME_NONNULL_END
++(UIColor *) textColor;
+
++(UIColor *) borderColor;
+
+@end

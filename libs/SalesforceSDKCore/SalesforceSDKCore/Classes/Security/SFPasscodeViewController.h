@@ -24,8 +24,32 @@
 
 #import <UIKit/UIKit.h>
 #import "SFAbstractPasscodeViewController.h"
+//#import "SFSDKPasscodeViewControllerConfig.h"
+
+@class SFPasscodeViewController;
+@class SFSDKPasscodeViewControllerConfig;
 
 NS_ASSUME_NONNULL_BEGIN
+
+/**
+ * Delegate protocol for the owner of SFPasscodeViewController.
+ */
+NS_SWIFT_NAME(PasscodeViewControllerDelegate)
+@protocol SFPasscodeViewControllerDelegate <NSObject>
+
+@optional
+
+/**
+ * Warning - only use this setting if the app has always enforced a passcode of the exact length of
+ *           the connected app setting (not longer).  This setting is used to force a cleaner UI,
+ *           but users will be unable to unlock the app if their pin is longer than the specified
+ *           length.
+ * @param passcodeGuaranteedMinLength Has the user ever been allowed to create a passcode longer
+ *                                    than the minimum length.  
+ */
+- (void)forcePasscodeIsMinLength:(BOOL)passcodeGuaranteedMinLength;
+
+@end
 
 /**
  * The view controller for managing the passcode screen.
@@ -49,6 +73,24 @@ NS_SWIFT_NAME(PasscodeViewController)
  * @param configData Configuration for the new passcode.
  */
 - (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData;
+
+/**
+ * Initializes the controller for verifying a existing biometric signature.
+ */
+- (id)initForBiometricVerification;
+
+/**
+ * Initializes the controller for displaying the biometric option to the user.
+ */
+- (id)initForBiometricEnablement;
+
+/**
+ * Method returns biometric can be shown
+ * Biometric can only be shown on device that supports it, with org setting not disabled and valid
+ * passcode set.
+ * @return YES if biometric prompt can be show.  NO otherwise.
+ */
+- (BOOL) canShowBiometricEnrollmentScreen;
 
 @end
 

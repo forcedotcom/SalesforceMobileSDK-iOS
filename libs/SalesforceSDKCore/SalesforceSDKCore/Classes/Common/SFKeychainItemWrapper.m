@@ -456,4 +456,20 @@ static CFTypeRef sKeychainAccessibleAttribute;
     return matches;
 }
 
+- (void)setPasscodeLength:(int)length
+{
+    @synchronized (self) {
+        [self setObject:[NSString stringWithFormat:@"%d",length] forKey:(id)kSecValueData];
+        [self.keychainData setObject:[NSString stringWithFormat:@"%d",length] forKey:(id)kSecValueData];
+        SecItemAdd((CFDictionaryRef)[self dictionaryToSecItemFormat:self.keychainData], NULL);
+    }
+}
+
+- (int)passcodeLength
+{
+    @synchronized (self) {
+        return [[self stringForKey:(id)kSecValueData] intValue];
+    }
+}
+
 @end

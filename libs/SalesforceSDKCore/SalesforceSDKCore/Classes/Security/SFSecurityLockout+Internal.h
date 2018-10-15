@@ -20,6 +20,12 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
 + (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue passcodeConfig:(SFPasscodeConfigurationData)configData;
 
 /**
+ * Presents the biometric controller when it's time to create or verify the biometric signature.
+ */
+//+ (void)presentBiometricController:(SFBiometricControllerMode)modeValue;
+
+
+/**
  * Sets a retained instance of the current passcode view controller that's displayed.
  */
 + (void)setPasscodeViewController:(UIViewController *_Nullable)vc;
@@ -57,14 +63,14 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
 + (void)unlockFailurePostProcessing;
 
 /**
- * Generate the notification for the beginning of the passcode flow.
- * @param mode The controller mode (create vs. verify) associated with the passcode flow.
+ * Generate the notification for the beginning of the app unlock flow.
+ * @param mode The controller mode (create vs. verify) associated with the passcode or biometric flow.
  */
 + (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode;
 
 /**
- * Generate the notification for the completion of the passcode flow.
- * @param validationSuccess Whether the passcode validation was successful or not.
+ * Generate the notification for the completion of the app lock flow.
+ * @param validationSuccess Whether the passcode or biometric validation was successful or not.
  */
 + (void)sendPasscodeFlowCompletedNotification:(BOOL)validationSuccess;
 

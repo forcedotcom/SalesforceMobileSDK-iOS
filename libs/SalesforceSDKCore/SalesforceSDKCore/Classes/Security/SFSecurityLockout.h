@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, SFSecurityLockoutAction) {
     SFSecurityLockoutActionPasscodeCreated,
     
     /**
-     Passcode change functionality was called.
+     Passcode change functionality was called.libs/SalesforceSDKCore/SalesforceSDKCore/SalesforceSDKCore.h
      */
     SFSecurityLockoutActionPasscodeChanged,
     
@@ -58,7 +58,17 @@ typedef NS_ENUM(NSUInteger, SFSecurityLockoutAction) {
     /**
      Passcode removal functionality was called.
      */
-    SFSecurityLockoutActionPasscodeRemoved
+    SFSecurityLockoutActionPasscodeRemoved,
+    
+    /**
+     Biometric creation functionality was called.
+     */
+    SFSecurityLockoutActionBiometricEnabled,
+    
+    /**
+     Biometric verification functionality was called.
+     */
+    SFSecurityLockoutActionBiometricVerified
 };
 
 /**
@@ -69,6 +79,7 @@ typedef NS_ENUM(NSUInteger, SFSecurityLockoutAction) {
 typedef struct {
     NSInteger passcodeLength;
     NSUInteger lockoutTime;
+    BOOL biometricUnlockAllowed;
 } SFPasscodeConfigurationData;
 
 /**
@@ -77,11 +88,11 @@ typedef struct {
  */
 extern SFPasscodeConfigurationData const SFPasscodeConfigurationDataNull;
 
-/** Notification sent when the passcode screen will be displayed.
+/** Notification sent when the passcode or biometric screen will be displayed.
  */
 extern NSString * const kSFPasscodeFlowWillBegin;
 
-/** Notification sent when the passcode flow has completed.
+/** Notification sent when the passcode or biometric flow has completed.
  */
 extern NSString * const kSFPasscodeFlowCompleted;
 
@@ -113,15 +124,15 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 @optional
 
 /**
- Called just before the passcode flow begins and the view is displayed.
- @param mode The mode of the passcode flow, i.e. passcode creation or verification.
+ Called just before the app lock flow begins and the view is displayed.
+ @param mode The mode of the passcode or biometric flow, i.e. passcode/biometric creation or verification.
  */
 - (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode;
 
 /**
- Called after the passcode flow has completed.
- @param success Whether or not the passcode flow was successful, i.e. the passcode was successfully
- created or verified.
+ Called after the app lock flow has completed.
+ @param success Whether or not the passcode or biometric flow was successful, i.e. the passcode/biometric
+ was successfully created or verified.
  */
 - (void)passcodeFlowDidComplete:(BOOL)success;
 
@@ -148,7 +159,9 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 + (void)removeDelegate:(id<SFSecurityLockoutDelegate>)delegate;
 
 
-/** Get the current lockout time, in seconds
+/**
+ Get the current lockout time, in seconds
+ @return The lockout time limit.
  */
 + (NSUInteger)lockoutTime;
 
@@ -156,17 +169,50 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  Gets the configured passcode length.
  @return The minimum passcode length.
  */
-+ (NSInteger)passcodeLength;
++ (NSInteger)minimumPasscodeLength;
 
 /**
- Set the passcode length and lockout time.  This asynchronous method will trigger passcode creation
- or passcode change, when necessary.
+ Gets the custom attribute from the connected app that enables biometric unlock.
+ @return Whether biometric unlock is enabled in the org.
+ */
++ (BOOL)biometricUnlockAllowed;
+
+/**
+ Whether the user has opted in to biometric unlock.
+ @return User has opted in to biometric unlock.
+ */
++ (BOOL)biometricUnlockEnabled;
+
+// set biometric enabled && set biometric declined
+
+/**
+ Set the user has enabled biometric unlock.
+ @param enabled Whether the user has enabled biometric unlock.
+ */
++ (void)setBiometricUnlockEnabled:(BOOL)enabled;
+
+/**
+ Whether the user has declined the user of biometric unlock.
+ @return User has declined to use biometric unlock.
+ */
++ (BOOL)userDeclinedBiometricUnlock;
+
+/**
+ Set the user has declined biometric unlock.
+ @param declined Whether the user has declined biometric unlock.
+ */
++ (void)setUserDeclinedBiometricUnlock:(BOOL)declined;
+
+/**
+ Set the passcode length, lockout time and if biometric is enabled.  This asynchronous method will trigger
+ passcode creation or passcode change, and biometric enablement prompt when necessary.
  @param newPasscodeLength The new passcode length to configure.  This can only be greater than or equal
  to the currently configured length, to support the most restrictive passcode policy across users.
  @param newLockoutTime The new lockout time to configure.  This can only be less than the currently
  configured time, to support the most restrictive passcode policy across users.
+ @param biometricEnabled Wether biometric unlock is enabled in the org.
  */
-+ (void)setPasscodeLength:(NSInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime;
++ (void)setInactivityConfiguration:(NSInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)biometricEnabled;
 
 /**
  Resets the passcode state of the app, *if* there aren't other users with an overriding passcode
@@ -295,11 +341,6 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 + (void)setPresentPasscodeViewControllerBlock:(SFPasscodeViewControllerPresentationBlock)vcBlock;
 
 /**
- @return The block used to dismiss the passcode view controller.
- */
-+ (SFPasscodeViewControllerPresentationBlock)dismissPasscodeViewControllerBlock;
-
-/**
  Set the block that will dismiss the passcode view controller.
  @param vcBlock The block defined to dismiss the passcode view controller.
  */
@@ -310,6 +351,12 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  @param vc The passcode view controller.
  */
 + (void)setPasscodeViewController:(nullable UIViewController *)vc;
+
+/**
+ * Presents the biometric enrollment view controller block.
+ * This can be used to prompt the user to enable biometric unlock if it was denied upon inital login or upgrade.
+ */
++ (void)presentBiometricEnrollment;
 
 /**
  * Returns the currently displayed passcode view controller, or nil if the passcode view controller

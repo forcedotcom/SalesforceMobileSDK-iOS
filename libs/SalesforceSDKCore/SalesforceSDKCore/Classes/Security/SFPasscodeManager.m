@@ -24,6 +24,8 @@
 
 #import "SFPasscodeManager+Internal.h"
 #import "SFPasscodeProviderManager.h"
+#import <LocalAuthentication/LocalAuthentication.h>
+#import "SFKeychainItemWrapper.h"
 
 static SFPasscodeManager *sharedInstance = nil;
 
@@ -219,6 +221,21 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
     [currentProvider setVerificationPasscode:newPasscode];
     NSString *encryptionKey = [currentProvider generateEncryptionKey:newPasscode];
     [self setEncryptionKey:encryptionKey];
+    
+    //SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscodeLength account:nil];
+    //[keychainWrapper setPasscodeLength:(int)[passcode length]];
+    //[currentProvider setPasscodeLength:[newPasscode length]];
+}
+
+- (int)passcodeLength
+{
+    id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
+    if (currentProvider == nil) {
+        [SFSDKCoreLogger w:[self class] format:@"Current passcode provider is not set.  Cannot get passcode length."];
+        return 0;
+    } else {
+        return [currentProvider passcodeLength];
+    }
 }
 
 @end

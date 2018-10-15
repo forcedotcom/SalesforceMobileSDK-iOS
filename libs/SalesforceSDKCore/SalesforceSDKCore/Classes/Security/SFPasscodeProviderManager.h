@@ -90,7 +90,20 @@ FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderPBKDF2;
  */
 - (nullable NSString *)generateEncryptionKey:(NSString *)passcode;
 
+/**
+ Set the passcode.
+ @param newPasscode The passcode to set.
+ */
+- (void)setPasscode:(NSString *)newPasscode;
+
+/**
+ Get passcode length for UX.
+ @return int length
+ */
+- (int)passcodeLength;
+
 @optional
+
 
 @end
 

@@ -38,6 +38,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
 // Passcode cached in memory (needed for touch id)
 static  NSString * cachedPasscode;
 
+//TODO: Swift Name?
 @interface SFAbstractPasscodeViewController ()
 
 /**
@@ -65,7 +66,7 @@ static  NSString * cachedPasscode;
         _mode = mode;
         _configData = configData;
         if (mode == SFPasscodeControllerModeCreate || mode == SFPasscodeControllerModeChange) {
-            NSAssert(_configData.passcodeLength > 0, @"You must specify a positive pin code length when creating a pin code.");
+            NSAssert(_configData.passcodeLength >= 0, @"You must specify a positive pin code length when creating a pin code.");
         } else {
             if (0 == self.remainingAttempts) {
                 self.remainingAttempts = kMaxNumberofAttempts;
@@ -73,10 +74,6 @@ static  NSString * cachedPasscode;
         }
     }
     return self;
-}
-
-- (NSInteger)minPasscodeLength {
-    return _configData.passcodeLength;
 }
 
 - (void)createPasscodeConfirmed:(NSString *)newPasscode
@@ -111,24 +108,34 @@ static  NSString * cachedPasscode;
     });
 }
 
-- (BOOL) canShowTouchId;
+- (BOOL)canShowBiometric
 {
     LAContext *context = [[LAContext alloc] init];
-    return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
+    BOOL deviceHasBiometric = [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
+    return [SFSecurityLockout biometricUnlockAllowed] && deviceHasBiometric;
 }
 
-- (void) showTouchId
+- (BOOL)showBiometric
 {
-    if ([self canShowTouchId]) {
+    BOOL success = NO;
+    if ([self canShowBiometric]) {
         LAContext *context = [[LAContext alloc] init];
-        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"touchIdReason"] reply:^(BOOL success, NSError *authenticationError) {
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"biometricReason"] reply:^(BOOL success, NSError *authenticationError) {
             if (success) {
-                [self validatePasscodeConfirmed:cachedPasscode];
+                success = YES;
+                [SFSecurityLockout setBiometricUnlockEnabled:YES];
+            } else {
+                NSLog(@"Failure: %@", authenticationError);
+                // Passcode fallback???
             }
         }];
+    } else {
+        NSLog(@"This is a big problem");
+        // Go back to pin???
     }
+    
+    return success;
 }
-
 
 - (NSInteger)remainingAttempts
 {
@@ -143,6 +150,11 @@ static  NSString * cachedPasscode;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+}
+
+- (int)passcodeLength
+{
+    return [[SFPasscodeManager sharedManager] passcodeLength];
 }
 
 #pragma mark - Private methods
@@ -170,6 +182,12 @@ static  NSString * cachedPasscode;
             break;
         case SFPasscodeControllerModeVerify:
             action = SFSecurityLockoutActionPasscodeVerified;
+            break;
+        case SFBiometricControllerModeEnable:
+            action = SFSecurityLockoutActionBiometricEnabled;
+            break;
+        case SFBiometricControllerModeVerify:
+            action = SFSecurityLockoutActionBiometricVerified;
             break;
         default:
             [SFSDKCoreLogger e:[self class] format:@"Unknown passcode controller mode: %lu. No security lockout action will be configured.", (unsigned long) self.mode];

@@ -26,6 +26,7 @@
 #import "SFKeychainItemWrapper.h"
 
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
+static NSString * const kKeychainIdentifierPasscodeLength = @"com.salesforce.security.passcodeLength";
 
 @implementation SFSHA256PasscodeProvider
 
@@ -66,6 +67,18 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
 {
     SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
     [passcodeWrapper setPasscode:newPasscode];
+}
+
+- (int)passcodeLength
+{
+    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscodeLength account:nil];
+    return [passcodeWrapper passcodeLength];
+}
+
+- (void)setPascodeLength:(int)length
+{
+    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscodeLength account:nil];
+    [passcodeWrapper setPasscodeLength:length];
 }
 
 - (NSString *)generateEncryptionKey:(NSString *)passcode

@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFSDKPasscodeViewControllerConfig.h
+ SalesforceSDKCore
+ 
+ Created by Brandon Page on 10/15/18.
+ 
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,18 +28,23 @@
  */
 
 #import <Foundation/Foundation.h>
-
-NS_ASSUME_NONNULL_BEGIN
+@protocol SFPasscodeViewControllerDelegate;
+@class SFPasscodeViewController;
 
 /**
- Mode constants indicating whether to create or verify an existing passcode.
+ Block typedef for setting up a custom SFLoginViewController.
  */
-typedef NS_ENUM(NSUInteger, SFPasscodeControllerMode) {
-    SFPasscodeControllerModeCreate,
-    SFPasscodeControllerModeVerify,
-    SFPasscodeControllerModeChange,
-    SFBiometricControllerModeEnable,
-    SFBiometricControllerModeVerify
-} NS_SWIFT_NAME(PasscodeViewController.PasscodeControllerMode);
+//typedef SFPasscodeViewController * _Nonnull (^SFPasscodeViewControllerCreationBlock)(void) NS_SWIFT_NAME(PasscodeViewControllerCreationBlock);
 
-NS_ASSUME_NONNULL_END
+NS_SWIFT_NAME(PasscodeViewControllerConfig)
+@interface SFSDKPasscodeViewControllerConfig : NSObject
+
+/**
+ *
+ */
+
+@property (nonatomic, weak, nullable) id<SFPasscodeViewControllerDelegate> delegate;
+
+@property (nonatomic, copy, nullable) SFPasscodeViewControllerCreationBlock passcodeViewControllerCreationBlock;
+
+@end

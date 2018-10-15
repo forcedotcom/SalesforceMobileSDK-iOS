@@ -131,6 +131,12 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
  */
 - (void)setPasscode:(NSString *)newPasscode;
 
+/**
+ Get passcode length for UX.
+ @return int length
+ */
+- (int)passcodeLength;
+
 @end
 
 NS_ASSUME_NONNULL_END
