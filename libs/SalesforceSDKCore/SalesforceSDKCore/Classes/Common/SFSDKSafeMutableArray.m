@@ -58,6 +58,14 @@
     return size;
 }
 
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    __block SFSDKSafeMutableArray *mutableCopy = [[[self class] allocWithZone:zone] init];
+    dispatch_sync(self.queue, ^{
+        mutableCopy.backingArray = [self.backingArray mutableCopy];
+    });
+    return mutableCopy;
+}
+
 -(BOOL)containsObject:(id)anObject {
     __block BOOL exists;
     dispatch_sync(self.queue, ^{
