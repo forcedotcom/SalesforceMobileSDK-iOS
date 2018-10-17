@@ -635,8 +635,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
     @throw [NSException exceptionWithName:message reason:[db lastErrorMessage] userInfo:nil];
 }
 
-- (void)inDatabase:(void (^)(FMDatabase *db))block error:(NSError* __autoreleasing *)error
+- (BOOL)inDatabase:(void (^)(FMDatabase *db))block error:(NSError* __autoreleasing *)error
 {
+    __block BOOL success = YES;
     [self.storeQueue inDatabase:^(FMDatabase* db) {
         @try {
             block(db);
@@ -645,8 +646,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
             if (error != nil) {
                 *error = [self errorForException:exception];
             }
+            success = FALSE;
         }
     }];
+    return success;
 }
 
 - (BOOL)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block error:(NSError* __autoreleasing *)error {
@@ -1607,13 +1610,16 @@ NSString *const EXPLAIN_ROWS = @"rows";
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error;
 {
     NSMutableString* resultString = [NSMutableString new];
-    [self queryAsString:resultString querySpec:querySpec pageIndex:pageIndex error:error];
-    return [SFJsonUtils objectFromJSONString:resultString];
+    if ([self queryAsString:resultString querySpec:querySpec pageIndex:pageIndex error:error]) {
+        return [SFJsonUtils objectFromJSONString:resultString];
+    } else {
+        return nil;
+    }
 }
 
-- (void) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(result:querySpec:pageIndex:))
+- (BOOL) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(result:querySpec:pageIndex:))
 {
-    [self inDatabase:^(FMDatabase* db) {
+    return [self inDatabase:^(FMDatabase* db) {
         [self queryAsString:resultString querySpec:querySpec pageIndex:pageIndex withDb:db];
     } error:error];
 }

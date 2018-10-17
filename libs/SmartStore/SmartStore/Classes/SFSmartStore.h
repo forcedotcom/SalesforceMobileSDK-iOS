@@ -325,8 +325,10 @@ NS_SWIFT_NAME(SmartStore)
  @param querySpec A native query spec.
  @param pageIndex The page index to start the entries at (this supports paging).
  @param error Sets/returns any error generated as part of the process.
+ 
+ @return YES if successful
  */
-- (void) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(result:querySpec:pageIndex:));
+- (BOOL) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(result:querySpec:pageIndex:));
 
 
 /**
