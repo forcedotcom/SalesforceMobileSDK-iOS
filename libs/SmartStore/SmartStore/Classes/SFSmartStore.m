@@ -646,7 +646,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
             if (error != nil) {
                 *error = [self errorForException:exception];
             }
-            success = FALSE;
+            success = NO;
         }
     }];
     return success;
@@ -665,7 +665,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
             if (error != nil) {
                 *error = [self errorForException:exception];
             }
-            success = FALSE;
+            success = NO;
         }
     }];
     return success;

@@ -866,8 +866,6 @@
     XCTAssertEqual(querySpecPageSize, expectedPageSize, @"Page size value should reflect input value.");
 }
 
-#pragma clang diagnostic pop
-
 - (void)testPersistentStoreExists
 {
     for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
