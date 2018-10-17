@@ -53,6 +53,46 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 NSString * const kStoreName           = @"storeName";
 
+/**
+ * A subclass of CDVPluginResult that expects an already serialized message
+ */
+@interface CDVPluginResultWithSerializedMessage : CDVPluginResult
+
+@property (nonatomic, strong) NSNumber* statusResult;
+@property (nonatomic, strong) NSString* serializedCursor;
+
++ (CDVPluginResult*)resultWithStatus:(CDVCommandStatus)statusOrdinal serializedMessage:(NSString*)theMessage;
+
+@end
+
+@implementation CDVPluginResultWithSerializedMessage
+
++ (CDVPluginResult*)resultWithStatus:(CDVCommandStatus)statusOrdinal serializedMessage:(NSString*)theMessage {
+    return [[CDVPluginResultWithSerializedMessage alloc] initWithSerializedMessage:theMessage];
+}
+
+- (id)initWithSerializedMessage:(NSString *)serializedCursor {
+    self = [super init];
+    if (self) {
+        self.statusResult = @(CDVCommandStatus_OK);
+        self.keepCallback = @(NO);
+        self.serializedCursor = serializedCursor;
+    }
+    return self;
+}
+
+- (NSNumber *) status {
+    return self.statusResult;
+}
+
+- (NSString*)argumentsAsJSON
+{
+    return self.serializedCursor;
+}
+
+@end
+
+
 @interface SFSmartStorePlugin() {
       dispatch_queue_t _dispatchQueue;
 }
@@ -160,14 +200,16 @@ NSString * const kStoreName           = @"storeName";
         NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
         SFQuerySpec* querySpec = [[SFQuerySpec alloc] initWithDictionary:querySpecDict withSoupName:soupName];
         [SFSDKHybridLogger d:[self class] format:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpecDict];
+        SFSmartStore* store = [self getStoreInst:argsDict];
         NSError* error = nil;
-        SFStoreCursor* cursor = [self runQuery:querySpec error:&error argsDict:argsDict];
-        if (cursor.cursorId) {
+        SFStoreCursor* cursor = [[SFStoreCursor alloc] initWithStore:store querySpec:querySpec];
+        NSString* cursorSerialized = [cursor getDataSerialized:store error:&error];
+        if (error == nil) {
             NSString *internalCursorId = [self internalCursorId:cursor.cursorId withArgs:argsDict];
             dispatch_sync(self->_dispatchQueue, ^{
                self.cursorCache[internalCursorId] = cursor;
             });
-            return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[cursor asDictionary]];
+            return [CDVPluginResultWithSerializedMessage resultWithStatus:CDVCommandStatus_OK serializedMessage:cursorSerialized];
         } else {
             [SFSDKHybridLogger d:[self class] format:@"No cursor for query: %@", querySpec];
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
@@ -178,22 +220,6 @@ NSString * const kStoreName           = @"storeName";
 - (void)pgRunSmartQuery:(CDVInvokedUrlCommand *)command
 {
     [self pgQuerySoup:command];
-}
-
-- (SFStoreCursor*) runQuery:(SFQuerySpec*)querySpec error:(NSError**)error argsDict:(NSDictionary*)argsDict
-{
-    if (!querySpec) {
-        // XXX we could populate error
-        return nil;
-    }
-    NSUInteger totalEntries = [[[self getStoreInst:argsDict] countWithQuerySpec:querySpec error:error] unsignedIntegerValue];
-    if (*error) {
-        return nil;
-    }
-    NSArray* firstPageEntries = (totalEntries > 0
-                                 ? [[self getStoreInst:argsDict] queryWithQuerySpec:querySpec pageIndex:0 error:error]
-                                 : @[]);
-    return [[SFStoreCursor alloc] initWithStore:[self getStoreInst:argsDict] querySpec:querySpec totalEntries:totalEntries firstPageEntries:firstPageEntries];
 }
 
 - (void)pgRetrieveSoupEntries:(CDVInvokedUrlCommand *)command
@@ -264,9 +290,15 @@ NSString * const kStoreName           = @"storeName";
         NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
         NSNumber *newPageIndex = [argsDict nonNullObjectForKey:kIndexArg];
         [SFSDKHybridLogger d:[self class] format:@"pgMoveCursorToPageIndex with cursor ID: %@, page index: %@", cursorId, newPageIndex];
+        SFSmartStore* store = [self getStoreInst:argsDict];
+        NSError* error = nil;
         SFStoreCursor *cursor = [self cursorByCursorId:cursorId withArgs:argsDict];
-        [cursor setCurrentPageIndex:newPageIndex];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[cursor asDictionary]];
+        NSString* cursorSerialized = [cursor getDataSerialized:store error:&error];
+        if (error == nil) {
+            return [CDVPluginResultWithSerializedMessage resultWithStatus:CDVCommandStatus_OK serializedMessage:cursorSerialized];
+        } else {
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
+        }
     } command:command];
 }
 
