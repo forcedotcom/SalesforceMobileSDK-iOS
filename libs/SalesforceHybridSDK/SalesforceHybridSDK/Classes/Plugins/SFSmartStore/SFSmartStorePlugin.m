@@ -293,6 +293,7 @@ NSString * const kStoreName           = @"storeName";
         SFSmartStore* store = [self getStoreInst:argsDict];
         NSError* error = nil;
         SFStoreCursor *cursor = [self cursorByCursorId:cursorId withArgs:argsDict];
+        [cursor setCurrentPageIndex:newPageIndex];
         NSString* cursorSerialized = [cursor getDataSerialized:store error:&error];
         if (error == nil) {
             return [CDVPluginResultWithSerializedMessage resultWithStatus:CDVCommandStatus_OK serializedMessage:cursorSerialized];

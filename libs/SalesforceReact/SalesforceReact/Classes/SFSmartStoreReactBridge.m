@@ -206,6 +206,7 @@ RCT_EXPORT_METHOD(moveCursorToPageIndex:(NSDictionary *)argsDict callback:(RCTRe
     SFSmartStore* store = [self getStoreInst:argsDict];
     NSError* error = nil;
     SFStoreCursor *cursor = [self cursorByCursorId:cursorId andArgs:argsDict];
+    [cursor setCurrentPageIndex:newPageIndex];
     NSString* cursorSerialized = [cursor getDataSerialized:store error:&error];
     if (error == nil) {
         callback(@[[NSNull null], [SFJsonUtils objectFromJSONString:cursorSerialized] /* TODO send the string and change the js to do a parse */]);
