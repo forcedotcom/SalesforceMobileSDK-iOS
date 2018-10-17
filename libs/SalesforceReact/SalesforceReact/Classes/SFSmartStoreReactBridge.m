@@ -135,7 +135,7 @@ RCT_EXPORT_METHOD(querySoup:(NSDictionary *)argsDict callback:(RCTResponseSender
         dispatch_sync(self->_dispatchQueue, ^{
             self.cursorCache[internalCursorId] = cursor;
         });
-        callback(@[[NSNull null], [SFJsonUtils objectFromJSONString:cursorSerialized] /* TODO send the string and change the js to do a parse */]);
+        callback(@[[NSNull null], cursorSerialized]);
     } else {
         [SFSDKReactLogger e:[self class] format:@"No cursor for query: %@", querySpec];
         callback(@[RCTMakeError(@"No cursor for query", error, nil)]);
@@ -209,7 +209,7 @@ RCT_EXPORT_METHOD(moveCursorToPageIndex:(NSDictionary *)argsDict callback:(RCTRe
     [cursor setCurrentPageIndex:newPageIndex];
     NSString* cursorSerialized = [cursor getDataSerialized:store error:&error];
     if (error == nil) {
-        callback(@[[NSNull null], [SFJsonUtils objectFromJSONString:cursorSerialized] /* TODO send the string and change the js to do a parse */]);
+        callback(@[[NSNull null], cursorSerialized]);
     } else {
         callback(@[RCTMakeError(@"moveCursorToPageIndex failed", error, nil)]);
     }
