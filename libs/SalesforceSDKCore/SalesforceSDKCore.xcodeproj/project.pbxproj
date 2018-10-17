@@ -102,8 +102,8 @@
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
 		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
-		A30831D42173AB0A00B156CD /* PasscodeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A30831D32173AB0A00B156CD /* PasscodeTextField.m */; };
-		A30831D62173CBBB00B156CD /* UIColor+SFSDKPasscode.h in Headers */ = {isa = PBXBuildFile; fileRef = A30831D52173CBBB00B156CD /* UIColor+SFSDKPasscode.h */; };
+		A30831D42173AB0A00B156CD /* SFSDKPasscodeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A30831D32173AB0A00B156CD /* SFSDKPasscodeTextField.m */; };
+		A30831D62173CBBB00B156CD /* UIColor+SFSDKPasscodeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A30831D52173CBBB00B156CD /* UIColor+SFSDKPasscodeView.h */; };
 		A33ACAA0216EA228000DCF05 /* SFPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD151BFD32140022F021 /* SFPasscodeViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A3457AAC216EA8CC00620098 /* SFAbstractPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3457AAA216EA89F00620098 /* SFAbstractPasscodeViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A3457AAD216EA91200620098 /* SFPasscodeViewControllerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD171BFD32140022F021 /* SFPasscodeViewControllerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1152,9 +1152,9 @@
 		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		A30831BF2173AAB300B156CD /* PasscodeTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PasscodeTextField.h; sourceTree = "<group>"; };
-		A30831D32173AB0A00B156CD /* PasscodeTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PasscodeTextField.m; sourceTree = "<group>"; };
-		A30831D52173CBBB00B156CD /* UIColor+SFSDKPasscode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+SFSDKPasscode.h"; sourceTree = "<group>"; };
+		A30831BF2173AAB300B156CD /* SFSDKPasscodeTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeTextField.h; sourceTree = "<group>"; };
+		A30831D32173AB0A00B156CD /* SFSDKPasscodeTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeTextField.m; sourceTree = "<group>"; };
+		A30831D52173CBBB00B156CD /* UIColor+SFSDKPasscodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+SFSDKPasscodeView.h"; sourceTree = "<group>"; };
 		A3457AAA216EA89F00620098 /* SFAbstractPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAbstractPasscodeViewController.h; sourceTree = "<group>"; };
 		A34E3C2B2174E75B005DA102 /* SFSDKPasscodeViewControllerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeViewControllerConfig.h; sourceTree = "<group>"; };
 		B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthErrorManager.h; sourceTree = "<group>"; };
@@ -1667,9 +1667,9 @@
 				B7CD6D641F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m */,
 				B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */,
 				B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */,
-				A30831BF2173AAB300B156CD /* PasscodeTextField.h */,
-				A30831D32173AB0A00B156CD /* PasscodeTextField.m */,
-				A30831D52173CBBB00B156CD /* UIColor+SFSDKPasscode.h */,
+				A30831BF2173AAB300B156CD /* SFSDKPasscodeTextField.h */,
+				A30831D32173AB0A00B156CD /* SFSDKPasscodeTextField.m */,
+				A30831D52173CBBB00B156CD /* UIColor+SFSDKPasscodeView.h */,
 				A34E3C2B2174E75B005DA102 /* SFSDKPasscodeViewControllerConfig.h */,
 			);
 			path = Security;
@@ -2065,7 +2065,7 @@
 				B7817550212E0118009DBCBA /* SFSDKAuthConstants.h in Headers */,
 				CE4CE3131C0E523B009F6029 /* NSString+SFAdditions.h in Headers */,
 				CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */,
-				A30831D62173CBBB00B156CD /* UIColor+SFSDKPasscode.h in Headers */,
+				A30831D62173CBBB00B156CD /* UIColor+SFSDKPasscodeView.h in Headers */,
 				CE4CE38C1C0E526A009F6029 /* SFSHA256PasscodeProvider.h in Headers */,
 				B7FB26D81F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.h in Headers */,
 				CEC75D0920276EA900A043AA /* SFSDKAuthConfigUtil.h in Headers */,
@@ -2865,7 +2865,7 @@
 				B7C273F01F7EEFB700CE539D /* SFSDKIDPConstants.m in Sources */,
 				CE4CE37C1C0E526A009F6029 /* SFPasscodeManager.m in Sources */,
 				B7C2745C1F8151E300CE539D /* SFSDKAuthErrorCommand.m in Sources */,
-				A30831D42173AB0A00B156CD /* PasscodeTextField.m in Sources */,
+				A30831D42173AB0A00B156CD /* SFSDKPasscodeTextField.m in Sources */,
 				CE4CE30A1C0E523B009F6029 /* NSURL+SFAdditions.m in Sources */,
 				E1DDC0FE1CAA2A8B002F51DD /* UIColor+SFColors.m in Sources */,
 				CE4CE3601C0E526A009F6029 /* SFAuthErrorHandlerList.m in Sources */,

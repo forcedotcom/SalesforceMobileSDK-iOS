@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A34601F72176B16700DC6900 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C0B9082175444F0037A7CB /* main.swift */; };
 		B79F072320EA936D00BC7D6F /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B79F06E520EA931200BC7D6F /* SmartSync.framework */; };
 		B79F072420EA936D00BC7D6F /* SmartSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B79F06E520EA931200BC7D6F /* SmartSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B79F072720EA938300BC7D6F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B79F070520EA931F00BC7D6F /* SalesforceAnalytics.framework */; };
@@ -313,6 +314,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A3C0B9082175444F0037A7CB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B79F06DC20EA931200BC7D6F /* SmartSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartSync.xcodeproj; path = ../../../libs/SmartSync/SmartSync.xcodeproj; sourceTree = "<group>"; };
 		B79F06EC20EA931900BC7D6F /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		B79F06FC20EA931F00BC7D6F /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
@@ -446,6 +448,7 @@
 				B7CEA6F220B7105E007D0564 /* AppDelegate.swift */,
 				B7CEA6FE20B71060007D0564 /* Info.plist */,
 				B7C5120920C084B100B39DAA /* bootconfig.plist */,
+				A3C0B9082175444F0037A7CB /* main.swift */,
 			);
 			path = RestAPIExplorer;
 			sourceTree = "<group>";
@@ -834,6 +837,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A34601F72176B16700DC6900 /* main.swift in Sources */,
 				B7CEA71820B71202007D0564 /* IDPLoginViewController.swift in Sources */,
 				B7CEA71920B71202007D0564 /* InitialViewController.swift in Sources */,
 				B7CEA71720B71202007D0564 /* RootViewController.swift in Sources */,
@@ -1000,13 +1004,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4PZ44KB26X;
 				INFOPLIST_FILE = RestAPIExplorer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.RestAPIExplorer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.RestAPIExplore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1019,13 +1024,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4PZ44KB26X;
 				INFOPLIST_FILE = RestAPIExplorer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.RestAPIExplorer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.RestAPIExplore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

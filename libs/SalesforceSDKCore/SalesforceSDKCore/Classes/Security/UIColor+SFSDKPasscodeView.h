@@ -1,8 +1,8 @@
 /*
- Actions.swift
- RestAPIExplorerSwift
-
- Created by Nicholas McDonald on 1/10/18.
+ UIColor+SFSDKPasscodeView.h
+ SalesforceSDKCore
+ 
+ Created by Brandon Page on 10/14/18.
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -27,40 +27,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+#import "UIColor+SFSDKPasscodeView.h"
 
-enum ActionType {
-    case versions
-    case resources
-    case describeGlobal
-    case metadataWithObjectType
-    case describeWithObjectType
-    case retrieveWithObjectType
-    case createWithObjectType
-    case upsertWithObjectType
-    case updateWithObjectType
-    case deleteWithObjectType
-    case query
-    case search
-    case searchScopeAndOrder
-    case searchResultLayout
-    case ownedFilesList
-    case filesInUserGroups
-    case filesSharedWithUser
-    case fileDetails
-    case batchFileDetails
-    case fileShares
-    case addFileShare
-    case deleteFileShare
-    case currentUserInfo
-    case enableBiometric
-    case logout
-    case switchUser
-    case exportCredentials
+@implementation UIColor (SFSDKPasscodeView)
+
++ (UIColor *)backgroundColor {
+    return [UIColor colorWithRed:245.0f/255.0f green:246.0f/255.0f blue:250.0f/255.0f alpha:1.0f];
 }
 
-struct Action {
-    let type:ActionType
-    let method:String
-    let objectTypes:String?
++ (UIColor *)titleTextColor {
+    return [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
 }
+
++ (UIColor *)instructionTextColor {
+    return [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
+}
+
++ (UIColor *)blueColor {
+    return [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:210.0f/255.0f alpha:1.0f];
+}
+
++ (UIColor *)borderColor {
+    return [UIColor colorWithRed:217.0f/255.0f green:221.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
+}
+@end

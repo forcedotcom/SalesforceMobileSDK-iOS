@@ -102,17 +102,26 @@ NS_SWIFT_NAME(AbstractPasscodeViewController)
 - (void)validatePasscodeFailed;
 
 /**
- * Method returns touch id can be shown
- * Touch id can only be shown on device that supports it and the passcode has been entered manually since app was launched
+ * Method returns biometric can be shown
+ * Biometric can only be shown on device that supports it, with org setting not disabled and valid
+ * passcode set.
+ * @return YES if biometric prompt can be show.  NO otherwise.
  */
-- (BOOL) canShowTouchId;
+- (BOOL) canShowBiometric;
 
 /**
- * Method to bring up touch id to authenticate device owner
- * If successful, the app will be unlocked
- * Will do nothing if touch id is supported on the device or the passcode has never been entered manually since app was launched
+ * Method to bring up biometric prompt to authenticate device owner
+ * Will do nothing if device does not support biometic, biometric is disabled in org, or passcode is
+ * not set.
+ * @return YES if biometric unlock was successful.  NO otherwise.
  */
-- (void) showTouchId;
+- (BOOL) showBiometric;
+
+/**
+ * Length of the users passcode.
+ * @return Actual passcode lenght.
+ */
+- (int) passcodeLength;
 
 @end
 

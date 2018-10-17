@@ -166,7 +166,14 @@ static  NSString * cachedPasscode;
         [[SFPasscodeManager sharedManager] changePasscode:passcode];
         [SFSecurityLockout setupTimer];
         SFSecurityLockoutAction action = [self controllerModeToLockoutAction];
-        [SFSecurityLockout unlock:YES action:action passcodeConfig:self.configData];
+        
+        if ([SFSecurityLockout passcodeLength] == 0) {
+            SFPasscodeConfigurationData newConfigData;
+            newConfigData.passcodeLength = passcode.length;
+            [SFSecurityLockout unlock:YES action:action passcodeConfig:newConfigData];
+        } else {
+            [SFSecurityLockout unlock:YES action:action passcodeConfig:self.configData];
+        }
     });
 }
 

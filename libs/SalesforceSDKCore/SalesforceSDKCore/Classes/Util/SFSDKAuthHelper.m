@@ -29,14 +29,19 @@
 #import "SFUserAccountManager.h"
 #import "SFSDKWindowManager.h"
 #import "SFDefaultUserManagementViewController.h"
+#import "SFSecurityLockout.h"
 
 @implementation SFSDKAuthHelper
 
 + (void)loginIfRequired:(void (^)(void))completionBlock {
+    
+    
+    
+    
     if (![SFUserAccountManager sharedInstance].currentUser) {
         SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
-           [SFUserAccountManager sharedInstance].currentUser = userAccount;
-           completionBlock();
+            [SFUserAccountManager sharedInstance].currentUser = userAccount;
+            completionBlock();
         };
         
         SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
@@ -45,8 +50,22 @@
         };
         [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
     } else {
-        completionBlock();
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+            [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
+            completionBlock();
+        }];
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            // Note: Failed passcode verification automatically logs out users, which the logout
+            // delegate handler will catch and pass on.  We just log the error and reset launch
+            // state here.
+            [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
+        }];
+        [self passcodeValidation:completionBlock];
     }
+}
+
++ (void) passcodeValidation:(void (^)(void))completionBlock  {
+    [SFSecurityLockout lock];
 }
 
 + (void)handleLogout:(void (^)(void))completionBlock {

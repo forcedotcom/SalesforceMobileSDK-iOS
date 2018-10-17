@@ -37,7 +37,7 @@
 "passcodeConfirmInstructions" = "Confirm the passcode you just entered.";
 "passcodeVerifyInstructions" = "Please enter your security passcode.";
 "passcodesDoNotMatchError" = "Passcodes do not match!";
-"passcodeInvalidError" = "The passcode you entered was invalid.";
+"passcodeInvalidError" = "The passcode you entered was invalid. %d attempts remaining.";
 "forgotPasscodeTitle" = "Forgot Passcode?";
 "touchIdReason" = "Please authenticate to proceed.";
 "logoutAlertViewTitle" = "Are you sure you want to logout?";

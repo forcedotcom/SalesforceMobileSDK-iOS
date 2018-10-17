@@ -20,12 +20,6 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
 + (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue passcodeConfig:(SFPasscodeConfigurationData)configData;
 
 /**
- * Presents the biometric controller when it's time to create or verify the biometric signature.
- */
-//+ (void)presentBiometricController:(SFBiometricControllerMode)modeValue;
-
-
-/**
  * Sets a retained instance of the current passcode view controller that's displayed.
  */
 + (void)setPasscodeViewController:(UIViewController *_Nullable)vc;

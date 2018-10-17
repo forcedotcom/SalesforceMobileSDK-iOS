@@ -25,10 +25,11 @@
 #import "SFPasscodeViewController.h"
 #import "SFPasscodeManager.h"
 #import "SFSDKResourceUtils.h"
-#import "UIColor+SFColors.h"
-#import "PasscodeTextField.h"
+#import "UIColor+SFSDKPasscodeView.h"
+#import "SFSDKPasscodeTextField.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "SFKeychainItemWrapper.h"
+#import "SFSDKWindowManager.h"
 
 // Private view layout constants
 static NSUInteger   const kMaxPasscodeLength                 = 8;
@@ -56,10 +57,11 @@ static CGFloat      const kSetupViewHeight                   = 173.0f;
 static CGFloat      const kPasscodeViewHeight                = 48.0;
 static CGFloat      const kPasscodeCircleDiameter            = 24.f;
 static CGFloat      const kPasscodeCircleSpacing             = 16.f;
-static CGFloat      const kInstructionLabelHeight            = 18.f;
+//static CGFloat      const kInstructionLabelHeight            = 18.f;
+static CGFloat      const kInstructionLabelHeight            = 40.f;
 static CGFloat      const kInstructionFieldFontSize          = 14.f;
 
-@interface SFPasscodeViewController() <UITextFieldDelegate, MDeleteProtocol> {
+@interface SFPasscodeViewController() <UITextFieldDelegate> {
     BOOL _firstPasscodeValidated;
     BOOL _PasscodeFallback;
 }
@@ -67,12 +69,7 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
 /**
  * Passcode Text Field for custom UI.
  */
-@property (strong, nonatomic) IBOutlet PasscodeTextField *passcodeTextView;
-
-/**
- * String containing the passcode as the user types.
- */
-@property (strong,nonatomic) NSMutableString *passcodeInput;
+@property (strong, nonatomic) IBOutlet SFSDKPasscodeTextField *passcodeTextView;
 
 /**
  * Known length of the user's passcode.  Zero if unknown.
@@ -140,35 +137,16 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
  */
 @property (nonatomic, copy) NSString *initialPasscode;
 
+- (void)showVerifyPasscode;
+
+/**
+ * The 'Log out' button
+ */
+@property (nonatomic, strong) UIBarButtonItem *logoutButton;
+
 @end
 
 @implementation SFPasscodeViewController
-
-/**
- *       DELETE THIS
- */
-- (UIColor*)backgroundColor {
-    return [UIColor colorWithRed:245.0f/255.0f green:246.0f/255.0f blue:250.0f/255.0f alpha:1.0f];
-}
-
-- (UIColor*)titleTextColor {
-    return [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
-}
-
-- (UIColor*)instructionTextColor {
-    return [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
-}
-
-- (UIColor*)blueColor {
-    return [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:210.0f/255.0f alpha:1.0f];
-}
-
-- (UIColor*)borderColor {
-    return [UIColor colorWithRed:217.0f/255.0f green:221.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
-}
-
- 
-
 
 - (id)initForPasscodeVerification
 {
@@ -198,44 +176,23 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
 
 - (id)initWithMode:(SFPasscodeControllerMode)mode passcodeConfig:(SFPasscodeConfigurationData)configData
 {
+    // if verify (or bio verify) then read passcode from keychain - but configData will be nil anyway
+    // if create - take config value
+    // if change - take config value - should have already considered length upgrade comparison in security lockout
     self = [super initWithMode:mode passcodeConfig:configData];
     
     if (configData.passcodeLength != SFPasscodeConfigurationDataNull.passcodeLength) {
         self.passcodeLength = (int)configData.passcodeLength;
         self.biometricAllowed = configData.biometricUnlockAllowed;
     } else {
-        self.passcodeLength = [[SFPasscodeManager sharedManager] passcodeLength];
+        self.passcodeLength = (int)[SFSecurityLockout passcodeLength];
         self.biometricAllowed = [SFSecurityLockout biometricUnlockAllowed];
     }
     
-    self.passcodeInput = [NSMutableString stringWithString:@""];
+    [self.passcodeTextView clearPasscode];
     _PasscodeFallback = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutVerifyButton:) name:UIKeyboardDidShowNotification object:nil];
     
-    /// change this to if.  use config for crate and keychain for verify
-    
-    /*
-    if (self) {
-        switch (mode) {
-            case SFPasscodeControllerModeCreate:
-            case SFPasscodeControllerModeChange:
-                _firstPasscodeValidated = NO;
-                //[self addPasscodeCreationNav];
-                //[self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"createPasscodeNavTitle"]];
-                break;
-            case SFPasscodeControllerModeVerify:
-                //[self addPasscodeVerificationNav];
-                //[self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"verifyPasscodeNavTitle"]];
-                break;
-            case SFBiometricControllerModeEnable:
-                //[self addBiometricEnableNav];
-                break;
-            case SFBiometricControllerModeVerify:
-                //Do something
-            default:
-                break;
-        }
-    }*/
     return self;
 }
 
@@ -251,23 +208,15 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     [super loadView];
     
     // Passcode Circles
-    self.passcodeInput = [NSMutableString stringWithString:@""]; // don't reset this???
-    self.passcodeTextView = [[PasscodeTextField alloc] initWithFrame:CGRectZero];
+    self.passcodeTextView = [[SFSDKPasscodeTextField alloc] initWithFrame:CGRectZero andLength:self.passcodeLength];
     self.passcodeTextView.delegate = self;
-    self.passcodeTextView.deleteDelegate = self;
-    self.passcodeTextView.keyboardType = UIKeyboardTypeNumberPad;
-    self.passcodeTextView.backgroundColor = [UIColor whiteColor];
-    self.passcodeTextView.tintColor = [UIColor clearColor];
-    self.passcodeTextView.borderStyle = UITextBorderStyleNone;
-    self.passcodeTextView.layer.borderColor = [self borderColor].CGColor;
-    self.passcodeTextView.layer.borderWidth = 1.0f;
+    [self.passcodeTextView clearPasscode]; // don't reset this???
     [self.view addSubview:self.passcodeTextView];
-    
     self.passcodeInstructionsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.passcodeInstructionsLabel setBackgroundColor:[UIColor clearColor]];
     self.passcodeInstructionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.passcodeInstructionsLabel.numberOfLines = 0;
-    self.passcodeInstructionsLabel.textColor = [self instructionTextColor];
+    self.passcodeInstructionsLabel.textColor = [UIColor instructionTextColor];
     self.passcodeInstructionsLabel.textAlignment = NSTextAlignmentCenter;
     self.passcodeInstructionsLabel.font = [UIFont fontWithName:kInstructionLabelFontName size:kInstructionTextLabelFontSize];
     [self.view addSubview:self.passcodeInstructionsLabel];
@@ -276,14 +225,19 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     
     self.verifyPasscodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.verifyPasscodeButton setTitle:@"Verify Pin Code" forState:UIControlStateNormal];
-    self.verifyPasscodeButton.backgroundColor = [self blueColor];
+    self.verifyPasscodeButton.backgroundColor = [UIColor blueColor];
     [self.verifyPasscodeButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [self.verifyPasscodeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.verifyPasscodeButton addTarget:self action:@selector(verifyPasscode:) forControlEvents:UIControlEventTouchUpInside];
+    [self.verifyPasscodeButton addTarget:self action:@selector(verifyPasscode) forControlEvents:UIControlEventTouchUpInside];
     self.verifyPasscodeButton.accessibilityLabel = @"verify pin code"; //[SFSDKResourceUtils localizedString:@"useTouchIdTitle"];
     self.verifyPasscodeButton.titleLabel.font = [UIFont fontWithName:kButtonFontName size:kButtonLabelFontSize];
     self.verifyPasscodeButton.layer.cornerRadius = kButtonCornerRadius;
     [self.view addSubview:self.verifyPasscodeButton];
+    
+    self.logoutButton = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"logoutButtonTitle"] style:UIBarButtonItemStylePlain target:self action:@selector(validatePasscodeFailed)];
+    [self.logoutButton setEnabled:NO];
+    [self.logoutButton setTintColor:[UIColor clearColor]];
+    [self.navigationItem setLeftBarButtonItem:self.logoutButton];
     
     // Biometric Setup View
     self.iconView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kIconCircleDiameter, kIconCircleDiameter)];
@@ -291,9 +245,9 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     
     CAShapeLayer *iconCircle = [CAShapeLayer layer];
     [iconCircle setPath:[UIBezierPath bezierPathWithRoundedRect:self.iconView.bounds cornerRadius:kIconCircleDiameter].CGPath];
-    [iconCircle setStrokeColor:[self borderColor].CGColor];
+    [iconCircle setStrokeColor:[UIColor borderColor].CGColor];
     [iconCircle setFillColor:[[UIColor whiteColor] CGColor]];
-    iconCircle.borderColor = [self borderColor].CGColor;
+    iconCircle.borderColor = [UIColor borderColor].CGColor;
     iconCircle.borderWidth = 2.0f;
     [[self.iconView layer]  addSublayer:iconCircle];
 
@@ -307,14 +261,14 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     
     self.setUpBiometricView = [[UIView alloc] initWithFrame:CGRectZero];
     self.setUpBiometricView.backgroundColor = [UIColor whiteColor];
-    self.setUpBiometricView.layer.borderColor = [self borderColor].CGColor;
+    self.setUpBiometricView.layer.borderColor = [UIColor borderColor].CGColor;
     self.setUpBiometricView.layer.borderWidth = 1.0f;
     [self.view addSubview:self.setUpBiometricView];
     
     // Biometric Instructions
     self.biometricSetupTitle = [[UILabel alloc] initWithFrame:CGRectZero];
     self.biometricSetupTitle.backgroundColor = [UIColor clearColor];
-    self.biometricSetupTitle.textColor = [self titleTextColor];
+    self.biometricSetupTitle.textColor = [UIColor titleTextColor];
     self.biometricSetupTitle.textAlignment = NSTextAlignmentLeft;
     //self.biometricSetupTitle.font = [UIFont fontWithName:kTitleLabelFontName size:kTitleTextLabelFontSize];
     self.biometricSetupTitle.font = [UIFont boldSystemFontOfSize:kTitleTextLabelFontSize];
@@ -326,7 +280,7 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     [self.biometricInstructionsLabel setBackgroundColor:[UIColor clearColor]];
     self.biometricInstructionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.biometricInstructionsLabel.numberOfLines = 3;
-    self.biometricInstructionsLabel.textColor = [self instructionTextColor];
+    self.biometricInstructionsLabel.textColor = [UIColor instructionTextColor];
     self.biometricInstructionsLabel.textAlignment = NSTextAlignmentLeft;
     //self.biometricInstructionsLabel.font = [UIFont fontWithName:kInstructionLabelFontName size:kInstructionTextLabelFontSize];
     //self.biometricInstructionsLabel.font = salesforceSansRegular;
@@ -336,7 +290,7 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     // Biometric enable buttons
     self.enableBiometricButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.enableBiometricButton setTitle:@"Enable" forState:UIControlStateNormal];
-    self.enableBiometricButton.backgroundColor = [self blueColor];
+    self.enableBiometricButton.backgroundColor = [UIColor blueColor];
     [self.enableBiometricButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [self.enableBiometricButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.enableBiometricButton addTarget:self action:@selector(showBiometric) forControlEvents:UIControlEventTouchUpInside];
@@ -350,13 +304,13 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     [self.cancelBiometricButton setTitle:@"Not Now" forState:UIControlStateNormal];
     self.cancelBiometricButton.backgroundColor = [UIColor whiteColor];
     [self.cancelBiometricButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.cancelBiometricButton setTitleColor:[self blueColor] forState:UIControlStateNormal];
+    [self.cancelBiometricButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.cancelBiometricButton addTarget:self action:@selector(userDenyBiometricEnablement) forControlEvents:UIControlEventTouchUpInside];
     self.cancelBiometricButton.accessibilityLabel = @"useBiometricTitle"; //[SFSDKResourceUtils localizedString:@"useTouchIdTitle"];
     self.cancelBiometricButton.titleLabel.font = [UIFont fontWithName:kButtonFontName size:kButtonLabelFontSize];
     //self.cancelBiometricButton.titleLabel.font = salesforceSansBold;
     self.cancelBiometricButton.layer.cornerRadius = kButtonCornerRadius;
-    self.cancelBiometricButton.layer.borderColor = [self borderColor].CGColor;
+    self.cancelBiometricButton.layer.borderColor = [UIColor borderColor].CGColor;
     self.cancelBiometricButton.layer.borderWidth = 1.0f;
     [self.setUpBiometricView addSubview:self.cancelBiometricButton];
     
@@ -370,7 +324,7 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = NO;
-    [self.view setBackgroundColor:[self backgroundColor]];
+    [self.view setBackgroundColor:[UIColor backgroundColor]];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
@@ -393,8 +347,9 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     [self.faceIdImage setHidden:YES];
     [self.touchIdImage setHidden:YES];
     [self.navigationItem setTitle:nil];
-    [self.navigationItem setLeftBarButtonItem:nil];
     [self.navigationItem setRightBarButtonItem:nil];
+    [self.navigationItem.leftBarButtonItem setEnabled:NO];
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor clearColor]];
 }
 
 - (void)layoutSubviews
@@ -404,51 +359,11 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     [self layoutSetupBiometric];
 }
 
-- (void)forgotPassAction
-{
-    __weak typeof(self) weakSelf = self;
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:[SFSDKResourceUtils localizedString:@"forgotPasscodeTitle"]
-                                                                   message:[SFSDKResourceUtils localizedString:@"logoutAlertViewTitle"]
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction
-                               actionWithTitle:[SFSDKResourceUtils localizedString:@"logoutYes"]
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction *action)
-                               {
-                                   __strong typeof(weakSelf) strongSelf = weakSelf;
-                                   [SFSDKCoreLogger d:[strongSelf class] format:@"User pressed Yes"];
-                                   [strongSelf validatePasscodeFailed];
-                               }];
-    UIAlertAction *cancelAction = [UIAlertAction
-                                   actionWithTitle:[SFSDKResourceUtils localizedString:@"logoutNo"]
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                       [SFSDKCoreLogger d:[weakSelf class] format:@"User pressed No"];
-                                   }];
-    [alert addAction:okAction];
-    [alert addAction:cancelAction];
-    [SFSDKCoreLogger d:[self class] format:@"SFPasscodeViewController forgotPassAction"];
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-/*
 - (void)viewWillLayoutSubviews
 {
     [self layoutSubviews];
     [super viewWillLayoutSubviews];
 }
-
-- (void)layoutSubviews
-{
-    [self layoutPasscodeField];
-    [self layoutErrorLabel];
-    [self layoutInstructionsLabel];
-    [self layoutForgotPasscodeButton];
-    [self layoutEnableBiometricButton];
-    [self layoutCancelBiometricButton];
-}
-*/
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -458,7 +373,7 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
             [self showCreateOrChangePasscode];
             break;
         case SFBiometricControllerModeVerify:
-            [self showVerifyPasscode];
+            [self showBiometric];
             break;
         case SFBiometricControllerModeEnable:
             [self showBiometricSetup];
@@ -480,46 +395,14 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
 
 #pragma mark - Private methods
 
-+ (NSString *)stringWithLength:(NSUInteger)length
+/*+ (NSString *)stringWithLength:(NSUInteger)length
 {
     NSMutableString *s = [NSMutableString string];
     for (int i = 0; i < length; i++) {
         [s appendString:@"a"];
     }
     return s;
-}
-
-- (void)finishedInitialPasscode
-{
-    /*if (self.passcodeField.text.length < self.minPasscodeLength) {
-        self.errorLabel.text = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"minPasscodeLengthError"], self.minPasscodeLength];
-    } else {
-        self.initialPasscode = self.passcodeField.text;
-        [self.passcodeField resignFirstResponder];
-        self.passcodeField.text = @"";
-        [self updateErrorLabel:@""];
-        [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeConfirmInstructions"]];
-        _firstPasscodeValidated = YES;
-        [self addPasscodeConfirmNav];
-    }*/
-}
-
-- (void)finishedConfirmPasscode
-{
-    /*if (self.passcodeField.text.length < self.minPasscodeLength) {
-        self.errorLabel.text = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"minPasscodeLengthError"], self.minPasscodeLength];
-    } else if (![self.passcodeField.text isEqualToString:self.initialPasscode]) {
-        [self resetInitialCreateView];
-        [self updateErrorLabel:[SFSDKResourceUtils localizedString:@"passcodesDoNotMatchError"]];
-    } else {
-        [self.passcodeField resignFirstResponder];
-        if ([self canShowBiometricEnrollmentScreen]) {
-            [self addBiometricEnableNav];
-        } else {
-            [self createPasscodeConfirmed:self.passcodeField.text];
-        }
-    }*/
-}
+}*/
 
 - (void)layoutSetupBiometric
 {
@@ -575,46 +458,6 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     self.passcodeTextView.layer.frame = CGRectMake(xView, yView, wView, hView);
 }
 
-/*- (void)showBiometric {
-    LAContext *context = [[LAContext alloc] init];
-    NSError *authError = nil;
-    
-    context.localizedCancelTitle = @"Use Passcode";
-    
-    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&authError]) {
-        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"Login yo"
-                          reply:^(BOOL success, NSError *error) {
-                              if (success) {
-                                  NSLog(@"Success!!!");
-                              } else {
-                                  NSLog(@"Cancelled");
-                              }
-                          }];
-    } else {
-        NSLog(@"Could not evaluate policy.");
-    }
-}*/
-
-- (void)finishedValidatePasscode
-{
-    /*[self.view endEditing:YES];
-    NSString *checkPasscode = [self.passcodeField text];
-    if ([[SFPasscodeManager sharedManager] verifyPasscode:checkPasscode]) {
-        [self.passcodeField resignFirstResponder];
-        if ([self canShowBiometricEnrollmentScreen]) {
-            [self addBiometricEnableNav];
-        } else {
-            [self validatePasscodeConfirmed:checkPasscode];
-        }
-    } else {
-        if ([self decrementPasscodeAttempts]) {
-            self.passcodeField.text = @"";
-            [self updateErrorLabel:[SFSDKResourceUtils localizedString:@"passcodeInvalidError"]];
-        }
-    }*/
-}
-
-
 - (BOOL)canShowBiometricEnrollmentScreen
 {
     BOOL canShow = NO;
@@ -638,29 +481,56 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
         LAContext *context = [[LAContext alloc] init];
         if ([SFSecurityLockout biometricUnlockEnabled]) {
             [context setLocalizedCancelTitle:[SFSDKResourceUtils localizedString:@"biometricFallbackActionLabel"]];
+            [context setLocalizedFallbackTitle:@""];
         }
+        
         [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"biometricReason"] reply:^(BOOL success, NSError *authenticationError) {
-            if (success) {
-                success = YES;
-                [SFSecurityLockout setBiometricUnlockEnabled:YES];
-                [self dismissBiometricScreen];
-            } else {
-                if ([SFSecurityLockout biometricUnlockEnabled]) {
-                    [self showVerifyPasscode];
+            __block BOOL succeeded = success;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                // Launched as a standalone window
+                if (self.mode == SFBiometricControllerModeEnable) {
+                if (succeeded) {
+                        [SFSecurityLockout setBiometricUnlockEnabled:YES];
+                    }
+                    [self dismissStandaloneBiometricSetup];
                 } else {
-                    [self dismissBiometricScreen];
+                    // Passcode flow
+                    if (succeeded) {
+                        [SFSecurityLockout setBiometricUnlockEnabled:YES];
+                        [self dismissBiometricScreen];
+                    } else {
+                        if ([SFSecurityLockout biometricUnlockEnabled]) {
+                            [self showVerifyPasscode];
+                        } else {
+                            [self dismissBiometricScreen];
+                        }
+                    }
                 }
-            }
+            });
         }];
     }
     
     return success;
 }
 
+- (void)dismissStandaloneBiometricSetup
+{
+    [[[SFSDKWindowManager sharedManager] passcodeWindow].viewController dismissViewControllerAnimated:NO completion:^{
+        [[SFSDKWindowManager sharedManager].passcodeWindow  dismissWindowAnimated:NO withCompletion:^{
+        }];
+    }];
+}
+
 - (void)userDenyBiometricEnablement
 {
-    [SFSecurityLockout setUserDeclinedBiometricUnlock:YES];
-    [self dismissBiometricScreen];
+    // Launched as a standalone window
+    if (self.mode == SFBiometricControllerModeEnable) {
+        [self dismissStandaloneBiometricSetup];
+    } else {
+        [SFSecurityLockout setUserDeclinedBiometricUnlock:YES];
+        [self dismissBiometricScreen];
+    }
 }
 
 - (void) dismissBiometricScreen
@@ -669,13 +539,12 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
         switch (self.mode) {
             case SFPasscodeControllerModeCreate:
             case SFPasscodeControllerModeChange:
-                [super createPasscodeConfirmed:self.passcodeInput];
+                [super createPasscodeConfirmed:self.passcodeTextView.passcodeInput];
                 break;
             case SFPasscodeControllerModeVerify:
-                [self validatePasscodeConfirmed:self.passcodeInput];
+                [self validatePasscodeConfirmed:self.passcodeTextView.passcodeInput];
                 break;
             case SFBiometricControllerModeEnable:
-                // dismiss view controller?
             default:
                 [SFSecurityLockout setupTimer];
                 [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionBiometricVerified passcodeConfig:SFPasscodeConfigurationDataNull];
@@ -685,24 +554,12 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
 }
 
 // USE THIS??
-- (void)updateInstructionsLabel:(NSString *)newLabel
+/*- (void)updateInstructionsLabel:(NSString *)newLabel
 {
-    /*self.instructionsLabel.text = newLabel;
+    /elf.instructionsLabel.text = newLabel;
     self.instructionsLabel.accessibilityLabel = newLabel;
-    [self.instructionsLabel setNeedsDisplay];*/
-}
-
-// NEEDED?
-- (void)resetInitialCreateView
-{
-    /*_firstPasscodeValidated = NO;
-    self.initialPasscode = nil;
-    self.passcodeField.text = @"";
-    [self.passcodeField resignFirstResponder];
-    [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"]];
-    [self updateErrorLabel:@""];
-    [self addPasscodeCreationNav];*/
-}
+    [self.instructionsLabel setNeedsDisplay];
+}*/
 
 - (void)showBiometricSetup
 {
@@ -750,8 +607,8 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     [self.passcodeInstructionsLabel setFont:[UIFont systemFontOfSize:kInstructionFieldFontSize]];
     [self.passcodeInstructionsLabel setHidden:NO];
     [self.passcodeTextView setHidden:NO];
-    [self.passcodeTextView becomeFirstResponder];
-    [self drawPasscodeCircles];
+   
+    [self.passcodeTextView refreshView];
     [self.passcodeTextView becomeFirstResponder];
 }
 
@@ -763,32 +620,32 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     [self.passcodeInstructionsLabel setFont:[UIFont systemFontOfSize:kInstructionFieldFontSize]];
     [self.passcodeInstructionsLabel setHidden:NO];
     [self.passcodeTextView setHidden:NO];
-    [self.passcodeTextView becomeFirstResponder];
     
     if (self.passcodeLength == 0) {
         [self.verifyPasscodeButton setHidden:NO];
     }
-    
-    [self drawPasscodeCircles];
+    [self.passcodeTextView refreshView];
     [self.passcodeTextView becomeFirstResponder];
 }
 
 - (void)verifyPasscode
 {
-    if ([[SFPasscodeManager sharedManager] verifyPasscode:self.passcodeInput]) {
+    if ([[SFPasscodeManager sharedManager] verifyPasscode:self.passcodeTextView.passcodeInput]) {
         [self.passcodeTextView resignFirstResponder];
         if ([self canShowBiometricEnrollmentScreen]) {
             [self showBiometricSetup];
         } else {
-            [self validatePasscodeConfirmed:self.passcodeInput];
+            [self validatePasscodeConfirmed:self.passcodeTextView.passcodeInput];
         }
     } else {
         if ([self decrementPasscodeAttempts]) {
-            [self.passcodeInput setString:@""];
-            [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeInvalidError"]];
-            if (self.navigationItem.leftBarButtonItem == nil) {
-                UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"logoutButtonTitle"] style:UIBarButtonItemStylePlain target:self action:@selector(validatePasscodeFailed)];
-                [self.navigationItem setLeftBarButtonItem:logoutButton];
+            [self.passcodeTextView clearPasscode];
+            [self.passcodeTextView refreshView];
+            NSString *passcodeFailedString = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"passcodeInvalidError"], self.remainingAttempts];
+            [self.passcodeInstructionsLabel setText:passcodeFailedString];
+            if (![self.navigationItem.leftBarButtonItem isEnabled]) {
+                [self.navigationItem.leftBarButtonItem setEnabled:YES];
+                [self.navigationItem.leftBarButtonItem setTintColor:[UIColor blueColor]];
             }
         }
     }
@@ -814,28 +671,26 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
     
     BOOL passcodeLengthKnown = (self.passcodeLength != 0);
     int length = (passcodeLengthKnown) ? self.passcodeLength : kMaxPasscodeLength;
-    [self.passcodeInput appendString:rString];
+    [self.passcodeTextView.passcodeInput appendString:rString];
+    self.passcodeTextView.passcodeLength = length;
     
-    if (passcodeLengthKnown && [self.passcodeInput length] == length) {
+    if (passcodeLengthKnown && [self.passcodeTextView.passcodeInput length] == length) {
         switch (self.mode) {
             case SFPasscodeControllerModeCreate:
             case SFPasscodeControllerModeChange:
                 if (_firstPasscodeValidated) {
-                    if ([self.passcodeInput isEqualToString:self.initialPasscode] ) {
-                        [self createPasscodeConfirmed:self.passcodeInput];
+                    if ([self.passcodeTextView.passcodeInput isEqualToString:self.initialPasscode] ) {
+                        [self createPasscodeConfirmed:self.passcodeTextView.passcodeInput];
                     } else {
-                        [self.passcodeInput setString:@""];
-                        [self drawPasscodeCircles];
+                        [self.passcodeTextView clearPasscode];
+                        [self.passcodeTextView refreshView];
                         [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodesDoNotMatchError"]];
-                        // TODO: extra credit
-                        // add back button here
-                        // back button must reset _firstPasscodeValidated, initialPasscode and change instruction label
                     }
                 } else {
-                    self.initialPasscode = [[NSString alloc] initWithString:self.passcodeInput];
-                    [self.passcodeInput setString:@""];
-                    //[self drawPasscodeCircles];
-                    //[self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"]];
+                    self.initialPasscode = [[NSString alloc] initWithString:self.passcodeTextView.passcodeInput];
+                    [self.passcodeTextView clearPasscode];
+                    [self.passcodeTextView refreshView];
+                    [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"]];
                     _firstPasscodeValidated = YES;
                     [self showVerifyPasscode];
                 }
@@ -848,74 +703,11 @@ static CGFloat      const kInstructionFieldFontSize          = 14.f;
                 // error?
                 break;
         }
-    } else if ([self.passcodeInput length] < length) {
-        [self drawPasscodeCircles];
+    } else if ([self.passcodeTextView.passcodeInput length] < length) {
+        [self.passcodeTextView refreshView];
     }
     
     return NO;
-}
-
-- (void)drawPasscodeCircles
-{
-    self.passcodeTextView.layer.sublayers = nil;
-    int diameter = kPasscodeCircleDiameter;
-    int horizontalSpacing = kPasscodeCircleSpacing;
-    int OpenCircleSpacingX = 0;
-    int filledCircleSpacingX = 0;
-    int lengthForSpacing = (self.passcodeLength == 0) ? kMaxPasscodeLength : self.passcodeLength;
-    int startX = (self.view.bounds.size.width - (diameter * lengthForSpacing) - (horizontalSpacing * (lengthForSpacing - 1))) / 2;
-    
-    if (self.passcodeLength == 0) {
-        startX = (startX > kDefaultPadding) ? kDefaultPadding : startX;
-    } else {
-        // Draw open cirlces
-        for (int count=0 ; count < self.passcodeLength; count++) {
-            CAShapeLayer *openCircle = [CAShapeLayer layer];
-            
-            // Make a circular shape
-            openCircle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, -12, diameter, diameter)cornerRadius:diameter].CGPath;
-            
-            // Center the shape in self.view
-            openCircle.position = CGPointMake(startX + OpenCircleSpacingX, diameter);
-            openCircle.fillColor = [UIColor clearColor].CGColor;
-            openCircle.strokeColor = [self blueColor].CGColor;
-            openCircle.lineWidth = 2;
-            openCircle.zPosition = 5;
-            OpenCircleSpacingX += (diameter + horizontalSpacing);
-            [self.passcodeTextView.layer addSublayer:openCircle];
-        }
-    }
-    
-    // Draw typed circles
-    NSUInteger noOfChars = [self.passcodeInput length];
-    for (int count=0 ; count < noOfChars; count++) {
-        CAShapeLayer *filledCircle = [CAShapeLayer layer];
-        
-        // Make a circular shape
-        filledCircle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, -12, diameter, diameter)cornerRadius:diameter].CGPath;
-        
-        // Center the shape in self.view
-        filledCircle.position = CGPointMake(startX + filledCircleSpacingX, diameter);
-        filledCircle.fillColor = [self blueColor].CGColor;
-        filledCircle.strokeColor = [self blueColor].CGColor;
-        filledCircle.lineWidth = 1;
-        filledCircle.zPosition = 5;
-        filledCircleSpacingX += (diameter + horizontalSpacing);
-        [self.passcodeTextView.layer addSublayer:filledCircle];
-    }
-}
-
-- (void)deleteBackward {
-    
-    if ([self.passcodeInput length] < 1) {
-        return;
-    }
-    
-    if (self.passcodeInput.length > 0) {
-        [self.passcodeInput deleteCharactersInRange:NSMakeRange([self.passcodeInput length]-1, 1)];
-    }
-    
-    [self drawPasscodeCircles];
 }
 
 - (void)layoutVerifyButton:(NSNotification *)notification

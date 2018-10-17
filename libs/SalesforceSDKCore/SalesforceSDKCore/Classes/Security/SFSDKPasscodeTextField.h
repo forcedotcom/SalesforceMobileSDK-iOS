@@ -1,5 +1,5 @@
 /*
- PasscodeTextField.m
+ SFSDKPasscodeTextField.h
  SalesforceSDKCore
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
@@ -25,13 +25,33 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "PasscodeTextField.h"
+#import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation PasscodeTextField
+@protocol SFSDKPasscodeDeleteProtocol
 
--(void) deleteBackward {
-    [self.deleteDelegate deleteBackward];
-}
+-(void)deleteBackward;
 
 @end
+
+@interface SFSDKPasscodeTextField : UITextField
+
+@property (weak,nonatomic) id deleteDelegate;
+
+@property (nonatomic) BOOL passcodeLengthKnown;
+
+@property (assign,assign) NSUInteger passcodeLength;
+
+@property (strong,nonatomic) NSMutableString *passcodeInput;
+
+- (void)clearPasscode;
+
+- (void)refreshView;
+
+- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length;
+
+@end
+
+NS_ASSUME_NONNULL_END
+

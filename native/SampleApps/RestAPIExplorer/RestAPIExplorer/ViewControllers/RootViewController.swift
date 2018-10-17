@@ -29,6 +29,7 @@
 
 import UIKit
 import SalesforceSDKCore
+import LocalAuthentication
 
 struct ContentSection {
     var title:String {
@@ -805,6 +806,13 @@ extension RootViewController: ActionTableViewDelegate {
                         }
                         self.showAlert("User Info", message:userInfoString)
                         return
+                    case .enableBiometric:
+                        let context = LAContext()
+                        if (context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) && SFSecurityLockout.biometricUnlockAllowed() && !SFSecurityLockout.biometricUnlockEnabled()) {
+                            SFSecurityLockout.presentBiometricEnrollment()
+                        }
+                        
+                        return
                     case .logout:
                         self.presentedViewController?.dismiss(animated: true, completion: nil)
                         self.createLogoutActionSheet()
@@ -818,6 +826,7 @@ extension RootViewController: ActionTableViewDelegate {
                     case .exportCredentials:
                         self.exportTestingCredentials()
                         return
+            
         }
         
         restApi.send(request: request!, onFailure: { (error, urlResponse) in
