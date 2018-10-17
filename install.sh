@@ -61,5 +61,8 @@ then
     rm -rf "${native_template_dir}"
 fi
 
-# Create test_credentials.json to avoid build errors
-cp shared/test/test_credentials.json.sample shared/test/test_credentials.json
+# Create test_credentials.json if needed to avoid build errors
+if [ ! -f "shared/test/test_credentials.json" ]
+then
+    cp shared/test/test_credentials.json.sample shared/test/test_credentials.json
+fi
