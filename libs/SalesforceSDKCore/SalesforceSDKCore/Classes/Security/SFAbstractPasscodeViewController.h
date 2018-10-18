@@ -52,9 +52,9 @@ NS_SWIFT_NAME(AbstractPasscodeViewController)
 @property (readonly) SFPasscodeConfigurationData configData;
 
 /**
- * The minimum passcode length, which this view controller will enforce.
+ Setup passcode view related preferences.
  */
-@property (readonly) NSInteger minPasscodeLength;
+@property (nonatomic, readonly) SFSDKPasscodeViewConfig *viewConfig;
 
 /**
  * Whether or not this controller is in a passcode creation or verification mode.
@@ -72,6 +72,14 @@ NS_SWIFT_NAME(AbstractPasscodeViewController)
  * @param configData The passcode configuration data used to create or update the passcode.
  */
 - (id)initWithMode:(SFPasscodeControllerMode)mode passcodeConfig:(SFPasscodeConfigurationData)configData;
+
+/**
+ * Initializer for SFAbstractPasscodeViewController.
+ * @param mode The mode of the passcode screen, either passcode creation or passcode verification.
+ * @param configData The passcode configuration data used to create or update the passcode.
+* @param viewConfig Customization for the passcode view controller.
+ */
+- (id)initWithMode:(SFPasscodeControllerMode)mode passcodeConfig:(SFPasscodeConfigurationData)configData viewConfig:(SFSDKPasscodeViewConfig *)viewConfig;
 
 /**
  * Method to be called after the creation of the passcode is confirmed to be successful.
@@ -116,12 +124,6 @@ NS_SWIFT_NAME(AbstractPasscodeViewController)
  * @return YES if biometric unlock was successful.  NO otherwise.
  */
 - (BOOL) showBiometric;
-
-/**
- * Length of the users passcode.
- * @return Actual passcode lenght.
- */
-- (int) passcodeLength;
 
 @end
 

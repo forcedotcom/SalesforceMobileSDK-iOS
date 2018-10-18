@@ -680,6 +680,10 @@ extension RootViewController: ActionTableViewDelegate {
       
         switch action.type {
                     case .versions:
+                        let clientID = UserAccountManager.sharedInstance().oauthClientId;
+                        let creditials = SFOAuthKeychainCredentials.init()
+                        creditials.revokeAccessToken();
+                        
                         request = restApi.buildGetVersionsRequest()
                     case .resources:
                         request =  restApi.buildGetResourcesRequest()
@@ -809,7 +813,7 @@ extension RootViewController: ActionTableViewDelegate {
                     case .enableBiometric:
                         let context = LAContext()
                         if (context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) && SFSecurityLockout.biometricUnlockAllowed() && !SFSecurityLockout.biometricUnlockEnabled()) {
-                            SFSecurityLockout.presentBiometricEnrollment()
+                            SFSecurityLockout.presentBiometricEnrollment(PasscodeViewControllerConfig.createDefault())
                         }
                         
                         return

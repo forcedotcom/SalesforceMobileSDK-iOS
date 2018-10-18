@@ -1,8 +1,6 @@
 /*
- SFSDKPasscodeViewControllerConfig.h
+ SFSDKPasscodeViewConfig.m
  SalesforceSDKCore
- 
- Created by Brandon Page on 10/15/18.
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -26,25 +24,37 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+ 
+#import "SFSDKPasscodeViewConfig.h"
+#import "UIColor+SFSDKPasscodeView.h"
+#import "SFSDKResourceUtils.h"
 
-#import <Foundation/Foundation.h>
-@protocol SFPasscodeViewControllerDelegate;
-@class SFPasscodeViewController;
+@implementation SFSDKPasscodeViewConfig
 
-/**
- Block typedef for setting up a custom SFLoginViewController.
- */
-//typedef SFPasscodeViewController * _Nonnull (^SFPasscodeViewControllerCreationBlock)(void) NS_SWIFT_NAME(PasscodeViewControllerCreationBlock);
+-(instancetype) init {
+    
+    if(self = [super init]) {
+        _forcePasscodeLength = NO;
+        _primaryColor = [UIColor salesforceBlueColor];
+        _secondaryColor = [UIColor whiteColor];
+        _backgroundColor = [UIColor backgroundColor];
+        _borderColor = [UIColor borderColor];
+        _instructionTextColor = [UIColor textColor];
+        _titleTextColor = [UIColor textColor];
+        _navBarColor = [UIColor whiteColor];
+        _navBarTextColor = [UIColor textColor];
+        _instructionFont = [UIFont systemFontOfSize:14];
+        _titleFont = [UIFont systemFontOfSize:18 weight:UIFontWeightBold];
+        _navBarFont = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];
+        _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
+        _touchIdImage = [[SFSDKResourceUtils imageNamed:@"touchId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        _faceIdImage = [[SFSDKResourceUtils imageNamed:@"faceId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    return self;
+}
 
-NS_SWIFT_NAME(PasscodeViewControllerConfig)
-@interface SFSDKPasscodeViewControllerConfig : NSObject
-
-/**
- *
- */
-
-@property (nonatomic, weak, nullable) id<SFPasscodeViewControllerDelegate> delegate;
-
-@property (nonatomic, copy, nullable) SFPasscodeViewControllerCreationBlock passcodeViewControllerCreationBlock;
++ (instancetype)createDefaultConfig {
+    return [[self alloc] init];
+}
 
 @end

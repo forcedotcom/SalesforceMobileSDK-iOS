@@ -27,19 +27,16 @@
 
 #import "SFSDKPasscodeTextField.h"
 #import "UIColor+SFSDKPasscodeView.h"
+#import "SFSDKPasscodeViewConfig.h"
+
 static NSUInteger   const kMaxPasscodeLength                 = 8;
 static CGFloat      const kDefaultPadding                    = 20.0f;
-static CGFloat      const kIconCircleDiameter                = 80.0f;
-static CGFloat      const kTopPadding                        = 64.5f;
 static CGFloat      const kPasscodeCircleDiameter            = 24.f;
 static CGFloat      const kPasscodeCircleSpacing             = 16.f;
 
 @interface SFSDKPasscodeTextField()
 
-/**
- * String containing the passcode as the user types.
- */
-//@property (strong,nonatomic) NSMutableString *passcodeInput;
+@property (nonatomic, strong) UIColor * fillColor;
 
 @end
 @implementation SFSDKPasscodeTextField
@@ -53,25 +50,32 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
 
 - (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length{
     if (self = [super initWithFrame:frame]) {
+        SFSDKPasscodeViewConfig *config = [SFSDKPasscodeViewConfig createDefaultConfig];
+        
         _passcodeLength = length;
         _passcodeLengthKnown = (length != 0);
         self.keyboardType = UIKeyboardTypeNumberPad;
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = config.secondaryColor;
         self.tintColor = [UIColor clearColor];
         self.borderStyle = UITextBorderStyleNone;
-        self.layer.borderColor = [UIColor borderColor].CGColor;
-        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = config.borderColor.CGColor;
+        self.fillColor = config.primaryColor;
     }
     return self;
 }
 
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder]) {
-        //self.passcodeInput = [NSMutableString stringWithString:@""];
+- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length andViewConfig:(SFSDKPasscodeViewConfig *)config{
+    if (self = [super initWithFrame:frame]) {
+        _passcodeLength = length;
+        _passcodeLengthKnown = (length != 0);
+        self.keyboardType = UIKeyboardTypeNumberPad;
+        self.backgroundColor = config.secondaryColor;
+        self.tintColor = [UIColor clearColor];
+        self.borderStyle = UITextBorderStyleNone;
+        self.layer.borderColor = config.borderColor.CGColor;
+        self.fillColor = config.primaryColor;
     }
     return self;
-    
 }
 
 - (void)clearPasscode {
@@ -88,6 +92,11 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
     if (self.deleteDelegate) {
         [self.deleteDelegate deleteBackward];
     }
+}
+
+- (void)refreshViewWithCompletion:(void (^) (void))completionBlock {
+    [self refreshView];
+   
 }
 
 - (void)refreshView {
@@ -108,7 +117,7 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
             // Center the shape in self.view
             openCircle.position = CGPointMake(startX + OpenCircleSpacingX, diameter);
             openCircle.fillColor = [UIColor clearColor].CGColor;
-            openCircle.strokeColor = [UIColor blueColor].CGColor;
+            openCircle.strokeColor = self.fillColor.CGColor;
             openCircle.lineWidth = 2;
             openCircle.zPosition = 5;
             OpenCircleSpacingX += (diameter + horizontalSpacing);
@@ -128,14 +137,20 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
         
         // Center the shape in self.view
         filledCircle.position = CGPointMake(startX + filledCircleSpacingX, diameter);
-        filledCircle.fillColor = [UIColor blueColor].CGColor;
-        filledCircle.strokeColor = [UIColor blueColor].CGColor;
+        filledCircle.fillColor = self.fillColor.CGColor;
+        filledCircle.strokeColor = self.fillColor.CGColor;
         filledCircle.lineWidth = 1;
         filledCircle.zPosition = 5;
         filledCircleSpacingX += (diameter + horizontalSpacing);
         [self.layer addSublayer:filledCircle];
     }
-    
+    [self setNeedsLayout];
+}
+
+// Disable paste or other interactions
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    return NO;
 }
 
 @end

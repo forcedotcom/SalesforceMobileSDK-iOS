@@ -28,6 +28,7 @@
 #import "SFPasscodeManager.h"
 #import "SFPasscodeManager+Internal.h"
 #import "SFInactivityTimerCenter.h"
+#import "SFSDKPasscodeViewConfig.h"
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 
@@ -35,10 +36,6 @@
 NSString * const kRemainingAttemptsKey = @"remainingAttempts";
 NSUInteger const kMaxNumberofAttempts = 10;
 
-// Passcode cached in memory (needed for touch id)
-static  NSString * cachedPasscode;
-
-//TODO: Swift Name?
 @interface SFAbstractPasscodeViewController ()
 
 /**
@@ -58,13 +55,19 @@ static  NSString * cachedPasscode;
 
 @synthesize configData = _configData;
 @synthesize mode = _mode;
+@synthesize viewConfig = _viewConfig;
 
-- (id)initWithMode:(SFPasscodeControllerMode)mode passcodeConfig:(SFPasscodeConfigurationData)configData
+- (id)initWithMode:(SFPasscodeControllerMode)mode passcodeConfig:(SFPasscodeConfigurationData)configData {
+    return [self initWithMode:mode passcodeConfig:configData viewConfig:[SFSDKPasscodeViewConfig createDefaultConfig]];
+}
+            
+- (id)initWithMode:(SFPasscodeControllerMode)mode passcodeConfig:(SFPasscodeConfigurationData)configData viewConfig:(SFSDKPasscodeViewConfig *)config
 {
     self = [super init];
     if (self) {
         _mode = mode;
         _configData = configData;
+        _viewConfig = config;
         if (mode == SFPasscodeControllerModeCreate || mode == SFPasscodeControllerModeChange) {
             NSAssert(_configData.passcodeLength >= 0, @"You must specify a positive pin code length when creating a pin code.");
         } else {
@@ -85,7 +88,6 @@ static  NSString * cachedPasscode;
 {
     [[SFPasscodeManager sharedManager] setEncryptionKeyForPasscode:validPasscode];
     [self setupPasscode:validPasscode];
-    cachedPasscode = validPasscode;
 }
 
 - (BOOL)decrementPasscodeAttempts
@@ -141,7 +143,7 @@ static  NSString * cachedPasscode;
 {
     return [[NSUserDefaults msdkUserDefaults] integerForKey:kRemainingAttemptsKey];
 }
-
+ 
 - (void)setRemainingAttempts:(NSInteger)remainingAttempts
 {
     [[NSUserDefaults msdkUserDefaults] setInteger:remainingAttempts forKey:kRemainingAttemptsKey];
@@ -150,11 +152,6 @@ static  NSString * cachedPasscode;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-}
-
-- (int)passcodeLength
-{
-    return [[SFPasscodeManager sharedManager] passcodeLength];
 }
 
 #pragma mark - Private methods
@@ -170,6 +167,8 @@ static  NSString * cachedPasscode;
         if ([SFSecurityLockout passcodeLength] == 0) {
             SFPasscodeConfigurationData newConfigData;
             newConfigData.passcodeLength = passcode.length;
+            newConfigData.lockoutTime = self.configData.lockoutTime;
+            newConfigData.biometricUnlockAllowed = self.configData.biometricUnlockAllowed;
             [SFSecurityLockout unlock:YES action:action passcodeConfig:newConfigData];
         } else {
             [SFSecurityLockout unlock:YES action:action passcodeConfig:self.configData];

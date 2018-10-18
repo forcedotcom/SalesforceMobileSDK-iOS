@@ -110,6 +110,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 @synthesize userAccountMap = _userAccountMap;
 @synthesize accountPersister = _accountPersister;
 @synthesize loginViewControllerConfig = _loginViewControllerConfig;
+@synthesize passcodeViewControllerConfig = _passcodeViewControllerConfig;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t pred;
@@ -246,6 +247,21 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         _loginViewControllerConfig = config;
     }
 }
+
+- (SFSDKPasscodeViewConfig *) passcodeViewControllerConfig {
+    if (!_passcodeViewControllerConfig) {
+        _passcodeViewControllerConfig = [SFSDKPasscodeViewConfig createDefaultConfig];
+    }
+    return _passcodeViewControllerConfig;
+}
+
+- (void) setPasscodeViewControllerConfig:(SFSDKPasscodeViewConfig *)config {
+    if (_passcodeViewControllerConfig != config) {
+        _passcodeViewControllerConfig = config;
+        [SFSecurityLockout setPasscodeViewConfig:config];
+    }
+}
+
 
 #pragma  mark - login & logout
 

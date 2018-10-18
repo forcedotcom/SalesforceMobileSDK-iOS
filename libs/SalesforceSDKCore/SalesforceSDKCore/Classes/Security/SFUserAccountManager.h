@@ -30,6 +30,8 @@
 #import "SFOAuthCoordinator.h"
 #import "SFSDKLoginViewControllerConfig.h"
 #import "SFSDKAuthConstants.h"
+#import "SFSDKPasscodeViewConfig.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -238,6 +240,12 @@ NS_SWIFT_NAME(UserAccountManager)
  *
  */
 @property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
+
+/** Use this property to indicate to provide PasscodeViewController customizations for themes,navbar, icons and settings.
+ *
+ */
+@property (nonatomic,strong) SFSDKPasscodeViewConfig *passcodeViewControllerConfig;
+
 
 /** Shared singleton
  */

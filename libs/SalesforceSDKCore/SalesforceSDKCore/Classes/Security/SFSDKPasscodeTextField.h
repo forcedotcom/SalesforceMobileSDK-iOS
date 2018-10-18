@@ -26,6 +26,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "SFSDKPasscodeViewConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -49,7 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)refreshView;
 
+- (void)refreshViewWithCompletion:(void (^) (void))completionBlock;
+
 - (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length;
+
+- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length andViewConfig:(SFSDKPasscodeViewConfig *)config;
 
 @end
 

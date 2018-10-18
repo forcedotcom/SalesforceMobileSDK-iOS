@@ -2,8 +2,6 @@
  UIColor+SFSDKPasscodeView.h
  SalesforceSDKCore
  
- Created by Brandon Page on 10/14/18.
- 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,27 +25,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "UIColor+SFSDKPasscodeView.h"
+#import <UIKit/UIKit.h>
+#import "UIColor+SFColors.h"
 
-@implementation UIColor (SFSDKPasscodeView)
+NS_ASSUME_NONNULL_BEGIN
 
-+ (UIColor *)backgroundColor {
-    return [UIColor colorWithRed:245.0f/255.0f green:246.0f/255.0f blue:250.0f/255.0f alpha:1.0f];
-}
+@interface UIColor (SFSDKPasscodeView)
 
-+ (UIColor *)titleTextColor {
-    return [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
-}
++ (UIColor *)backgroundColor;
 
-+ (UIColor *)instructionTextColor {
-    return [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
-}
++ (UIColor *)textColor;
 
-+ (UIColor *)blueColor {
-    return [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:210.0f/255.0f alpha:1.0f];
-}
++ (UIColor *)borderColor;
 
-+ (UIColor *)borderColor {
-    return [UIColor colorWithRed:217.0f/255.0f green:221.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
-}
 @end
+
+NS_ASSUME_NONNULL_END

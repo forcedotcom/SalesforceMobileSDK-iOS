@@ -1,5 +1,5 @@
 /*
- PasscodeTextField.h
+ UIColor+SFSDKPasscodeView.m
  SalesforceSDKCore
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
@@ -25,20 +25,20 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "UIColor+SFSDKPasscodeView.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation UIColor (SFSDKPasscodeView)
 
-@protocol MDeleteProtocol
--(void)deleteBackward;
++ (UIColor *)backgroundColor {
+    return [UIColor colorWithRed:245.0f/255.0f green:246.0f/255.0f blue:250.0f/255.0f alpha:1.0f];
+}
+
++ (UIColor *)textColor {
+    return [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
+}
+
++ (UIColor *)borderColor {
+    return [UIColor colorWithRed:217.0f/255.0f green:221.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
+}
 @end
-
-
-@interface PasscodeTextField : UITextField
-
-@property (weak,nonatomic) id deleteDelegate;
-
-@end
-
-NS_ASSUME_NONNULL_END
 

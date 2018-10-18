@@ -24,10 +24,9 @@
 
 #import <UIKit/UIKit.h>
 #import "SFAbstractPasscodeViewController.h"
-//#import "SFSDKPasscodeViewControllerConfig.h"
 
 @class SFPasscodeViewController;
-@class SFSDKPasscodeViewControllerConfig;
+@class SFSDKPasscodeViewConfig;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,18 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 NS_SWIFT_NAME(PasscodeViewControllerDelegate)
 @protocol SFPasscodeViewControllerDelegate <NSObject>
-
-@optional
-
-/**
- * Warning - only use this setting if the app has always enforced a passcode of the exact length of
- *           the connected app setting (not longer).  This setting is used to force a cleaner UI,
- *           but users will be unable to unlock the app if their pin is longer than the specified
- *           length.
- * @param passcodeGuaranteedMinLength Has the user ever been allowed to create a passcode longer
- *                                    than the minimum length.  
- */
-- (void)forcePasscodeIsMinLength:(BOOL)passcodeGuaranteedMinLength;
 
 @end
 
@@ -59,30 +46,35 @@ NS_SWIFT_NAME(PasscodeViewController)
 
 /**
  * Initializes the controller for verifying an existing passcode.
+ * @param viewConfig Configuration for the new passcode view controller.
  */
-- (id)initForPasscodeVerification;
+- (instancetype)initForPasscodeVerification:(SFSDKPasscodeViewConfig *)viewConfig;
 
 /**
  * Initializes the controller for creating a new passcode.
  * @param configData Configuration for the new passcode.
+ * @param viewConfig Configuration for the new passcode view controller.
  */
-- (id)initForPasscodeCreation:(SFPasscodeConfigurationData)configData;
+- (instancetype)initForPasscodeCreation:(SFPasscodeConfigurationData)configData andViewConfig:(SFSDKPasscodeViewConfig *)viewConfig;
 
 /**
  * Initializes the controller for changing the existing passcode.
  * @param configData Configuration for the new passcode.
+ * @param viewConfig Configuration for the new passcode view controller.
  */
-- (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData;
+- (instancetype)initForPasscodeChange:(SFPasscodeConfigurationData)configData andViewConfig:(SFSDKPasscodeViewConfig *)viewConfig;
 
 /**
  * Initializes the controller for verifying a existing biometric signature.
+ * @param viewConfig Configuration for the new passcode view controller.
  */
-- (id)initForBiometricVerification;
+- (instancetype)initForBiometricVerification:(SFSDKPasscodeViewConfig *)viewConfig;
 
 /**
  * Initializes the controller for displaying the biometric option to the user.
+ * @param viewConfig Configuration for the new passcode view controller.
  */
-- (id)initForBiometricEnablement;
+- (instancetype)initForBiometricEnablement:(SFSDKPasscodeViewConfig *)viewConfig;
 
 /**
  * Method returns biometric can be shown
