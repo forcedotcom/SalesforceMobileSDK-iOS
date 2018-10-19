@@ -48,6 +48,11 @@ NS_SWIFT_NAME(PasscodeViewControllerConfig)
 @property (nonatomic) BOOL forcePasscodeLength;
 
 /**
+ * The number of allowed passcode entry attempts before the user is logged out.
+ */
+@property (nonatomic, nullable) NSInteger * maxNumberOfAttempts;
+
+/**
  * Primary color used for passcode input circles and forward buttons.
  */
 @property (nonatomic, strong, nullable) UIColor * primaryColor;

@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, SFSecurityLockoutAction) {
     SFSecurityLockoutActionPasscodeCreated,
     
     /**
-     Passcode change functionality was called.libs/SalesforceSDKCore/SalesforceSDKCore/SalesforceSDKCore.h
+     Passcode change functionality was called.
      */
     SFSecurityLockoutActionPasscodeChanged,
     

@@ -1,2 +1,17 @@
 /* Localized versions of Info.plist keys */
 
+"createPasscodeNavTitle" = "Pin Code";
+"confirmPasscodeNavTitle" = "Pin Code";
+"verifyPasscodeNavTitle" = "Unlock";
+"passcodeCreateInstructions" = "Set up a pin code";
+"passcodeChangeInstructions" = "Create a new pin code.";
+"passcodeConfirmInstructions" = "Verify pin code";
+"passcodeVerifyInstructions" = "Enter your pin code";
+"passcodesDoNotMatchError" = "Pin codes do not match.";
+"passcodeInvalidError" = "The pin code you entered was invalid. %d attempts remaining.";
+
+"biometricEnableInstructionsFaceId" = "You can now unlock the Salesforce app using your face for extra security and convenience.";
+"biometricEnableInstructionsTouchId" = "You can now unlock the Salesforce app using your fingerprint for extra security and convenience.";
+
+"biometricFallbackActionLabel" = "Use pin code";
+

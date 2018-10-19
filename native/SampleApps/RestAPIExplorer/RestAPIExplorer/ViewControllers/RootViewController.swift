@@ -680,10 +680,6 @@ extension RootViewController: ActionTableViewDelegate {
       
         switch action.type {
                     case .versions:
-                        let clientID = UserAccountManager.sharedInstance().oauthClientId;
-                        let creditials = SFOAuthKeychainCredentials.init()
-                        creditials.revokeAccessToken();
-                        
                         request = restApi.buildGetVersionsRequest()
                     case .resources:
                         request =  restApi.buildGetResourcesRequest()

@@ -35,19 +35,6 @@
     return [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:210.0f/255.0f alpha:1.0f];
 }
 
-+(UIColor *) backgroundColor {
-    return [UIColor colorWithRed:245.0f/255.0f green:246.0f/255.0f blue:250.0f/255.0f alpha:1.0f];
-}
-
-+(UIColor *) textColor {
-    return [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
-}
-
-+(UIColor *) borderColor {
-    return [UIColor colorWithRed:217.0f/255.0f green:221.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
-}
-
-
 + (UIColor *)colorFromHexValue:(NSString *)hexString {
     UIColor *color = nil;
     hexString = [[self class] msdk_sixDigitHexFromString:hexString];

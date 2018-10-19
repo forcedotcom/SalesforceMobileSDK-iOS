@@ -1325,10 +1325,10 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
         [weakSelf handleFailure:client.context.authError client:client notifyDelegates:YES];
     }];
-    
-    // TODO FIX THIS BEFORE PR
+    // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
+    // identity service.
     [SFSecurityLockout setInactivityConfiguration:client.idData.mobileAppPinLength
-                                      lockoutTime:(client.idData.mobileAppScreenLockTimeout * 5)
+                                      lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
                                  biometricAllowed:biometricUnlockAvalible];
 }
 

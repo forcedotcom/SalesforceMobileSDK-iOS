@@ -72,7 +72,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
             NSAssert(_configData.passcodeLength >= 0, @"You must specify a positive pin code length when creating a pin code.");
         } else {
             if (0 == self.remainingAttempts) {
-                self.remainingAttempts = kMaxNumberofAttempts;
+                self.remainingAttempts = (_viewConfig.maxNumberOfAttempts) ? _viewConfig.maxNumberOfAttempts : kMaxNumberofAttempts;
             }
         }
     }
@@ -104,7 +104,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
 - (void)validatePasscodeFailed
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.remainingAttempts = kMaxNumberofAttempts;
+        self.remainingAttempts = (_viewConfig.maxNumberOfAttempts) ? _viewConfig.maxNumberOfAttempts : kMaxNumberofAttempts;
         [[SFPasscodeManager sharedManager] resetPasscode];
         [SFSecurityLockout unlock:NO action:SFSecurityLockoutActionNone passcodeConfig:self.configData];
     });
@@ -136,7 +136,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
 {
     return [[NSUserDefaults msdkUserDefaults] integerForKey:kRemainingAttemptsKey];
 }
- 
+
 - (void)setRemainingAttempts:(NSInteger)remainingAttempts
 {
     [[NSUserDefaults msdkUserDefaults] setInteger:remainingAttempts forKey:kRemainingAttemptsKey];
@@ -152,7 +152,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
 - (void)setupPasscode:(NSString *)passcode
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.remainingAttempts = kMaxNumberofAttempts;
+        self.remainingAttempts = (_viewConfig.maxNumberOfAttempts) ? _viewConfig.maxNumberOfAttempts : kMaxNumberofAttempts;
         [[SFPasscodeManager sharedManager] changePasscode:passcode];
         [SFSecurityLockout setupTimer];
         SFSecurityLockoutAction action = [self controllerModeToLockoutAction];

@@ -35,7 +35,6 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
     SFSDKWindowTypeMain,
     SFSDKWindowTypeAuth,
     SFSDKWindowTypePasscode,
-    SFSDKWindowTypeBiometric,
     SFSDKWindowTypeSnapshot,
     SFSDKWindowTypeOther
 };

@@ -51,16 +51,16 @@ static NSString * const kPasscodeLengthKey                   = @"security.passco
 static NSString * const kKeychainIdntifierPasscodeLengthKey  = @"com.salesforce.security.passcode.length";
 static NSString * const kPasscodeScreenAlreadyPresentMessage = @"A passcode screen is already present.";
 static NSString * const kKeychainIdentifierLockoutTime       = @"com.salesforce.security.lockoutTime";
-static NSString * const kKeychainIdentifierIsLocked          = @"com.salesforce.security.isLocked"; // Enabled in the Org
-static NSString * const kBiometricUnlockAllowed              = @"security.biometric.allowed"; // User declined biometric unlock
-static NSString * const kBiometricUnlockEnabled              = @"security.biometric.enabled"; // Biometric lock in use
-static NSString * const kUserDeclinedBiometric               = @"security.biometric.declined"; // Should show biometric instead of passcode
+static NSString * const kKeychainIdentifierIsLocked          = @"com.salesforce.security.isLocked";
+static NSString * const kBiometricUnlockAllowed              = @"security.biometric.allowed"; // Enabled in the Org
+static NSString * const kBiometricUnlockEnabled              = @"security.biometric.enabled"; // Should show biometric instead of passcode
+static NSString * const kUserDeclinedBiometric               = @"security.biometric.declined"; // User declined biometric unlock
 
 
 // Public constants
 
-NSString * const kSFPasscodeFlowWillBegin                         = @"SFAppLockFlowWillBegin";
-NSString * const kSFPasscodeFlowCompleted                         = @"SFAppLockFlowCompleted";
+NSString * const kSFPasscodeFlowWillBegin                         = @"SFPasscodeFlowWillBegin";
+NSString * const kSFPasscodeFlowCompleted                         = @"SFPasscodeFlowCompleted";
 SFPasscodeConfigurationData const SFPasscodeConfigurationDataNull = { -1, NSUIntegerMax, NO };
 
 // Static vars
@@ -220,10 +220,10 @@ static BOOL _showPasscode = YES;
 
 + (void)setInactivityConfiguration:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)newBiometricAllowed
 {
+    
     SFPasscodeConfigurationData configData;
     configData.lockoutTime = securityLockoutTime;
     configData.passcodeLength = [self passcodeLength];
-    configData.biometricUnlockAllowed = [self biometricUnlockAllowed];
     
     if (newBiometricAllowed) {
         // Biometric off -> on.
@@ -239,6 +239,7 @@ static BOOL _showPasscode = YES;
             [self setBiometricAllowed:NO];
         }
     }
+    configData.biometricUnlockAllowed = [self biometricUnlockAllowed];
     
     // Cases where there's initially no passcode configured.
     if (securityLockoutTime == 0) {
@@ -249,7 +250,6 @@ static BOOL _showPasscode = YES;
             // Passcode off -> on.  Trigger passcode creation.
             configData.lockoutTime = newLockoutTime;
             configData.passcodeLength = newPasscodeLength;
-            configData.biometricUnlockAllowed = newBiometricAllowed;
             [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate passcodeConfig:configData];
         }
         return;

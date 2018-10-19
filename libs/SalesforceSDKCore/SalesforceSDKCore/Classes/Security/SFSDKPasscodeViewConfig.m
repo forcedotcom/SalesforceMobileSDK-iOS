@@ -35,6 +35,7 @@
     
     if(self = [super init]) {
         _forcePasscodeLength = NO;
+        _maxNumberOfAttempts = 5;
         _primaryColor = [UIColor salesforceBlueColor];
         _secondaryColor = [UIColor whiteColor];
         _backgroundColor = [UIColor backgroundColor];

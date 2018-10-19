@@ -34,14 +34,10 @@
 @implementation SFSDKAuthHelper
 
 + (void)loginIfRequired:(void (^)(void))completionBlock {
-    
-    
-    
-    
     if (![SFUserAccountManager sharedInstance].currentUser) {
         SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
-            [SFUserAccountManager sharedInstance].currentUser = userAccount;
-            completionBlock();
+           [SFUserAccountManager sharedInstance].currentUser = userAccount;
+           completionBlock();
         };
         
         SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
