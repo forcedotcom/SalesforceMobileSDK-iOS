@@ -121,9 +121,8 @@ NS_SWIFT_NAME(AbstractPasscodeViewController)
  * Method to bring up biometric prompt to authenticate device owner
  * Will do nothing if device does not support biometic, biometric is disabled in org, or passcode is
  * not set.
- * @return YES if biometric unlock was successful.  NO otherwise.
  */
-- (BOOL) showBiometric;
+- (void) showBiometric;
 
 @end
 

@@ -177,16 +177,6 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 + (NSUInteger)passcodeLength;
 
 /**
- Set the passcode length and lockout time.  This asynchronous method will trigger passcode creation
- or passcode change, when necessary.
- @param newPasscodeLength The new passcode length to configure.  This can only be greater than or equal
- to the currently configured length, to support the most restrictive passcode policy across users.
- @param newLockoutTime The new lockout time to configure.  This can only be less than the currently
- configured time, to support the most restrictive passcode policy across users.
- */
-+ (void)setPasscodeLength:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime;
-
-/**
  Gets the custom attribute from the connected app that enables biometric unlock.
  @return Whether biometric unlock is enabled in the org.
  */

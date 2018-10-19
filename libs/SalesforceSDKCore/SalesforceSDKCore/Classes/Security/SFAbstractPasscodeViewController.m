@@ -117,26 +117,19 @@ NSUInteger const kMaxNumberofAttempts = 10;
     return [SFSecurityLockout biometricUnlockAllowed] && deviceHasBiometric;
 }
 
-- (BOOL)showBiometric
+- (void)showBiometric
 {
-    BOOL success = NO;
     if ([self canShowBiometric]) {
         LAContext *context = [[LAContext alloc] init];
-        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"biometricReason"] reply:^(BOOL success, NSError *authenticationError) {
-            if (success) {
-                success = YES;
-                [SFSecurityLockout setBiometricUnlockEnabled:YES];
-            } else {
-                NSLog(@"Failure: %@", authenticationError);
-                // Passcode fallback???
-            }
-        }];
-    } else {
-        NSLog(@"This is a big problem");
-        // Go back to pin???
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"biometricReason"] reply:^(BOOL success, NSError *authenticationError) {
+                if (success) {
+                    [SFSecurityLockout setBiometricUnlockEnabled:YES];
+                }
+            }];
+        });
     }
-    
-    return success;
 }
 
 - (NSInteger)remainingAttempts

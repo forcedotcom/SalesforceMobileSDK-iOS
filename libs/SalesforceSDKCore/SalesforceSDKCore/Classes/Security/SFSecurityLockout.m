@@ -220,8 +220,6 @@ static BOOL _showPasscode = YES;
 
 + (void)setInactivityConfiguration:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)newBiometricAllowed
 {
-    LAContext *context = [[LAContext alloc] init];
-    BOOL deviceHasBiometric = [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
     SFPasscodeConfigurationData configData;
     configData.lockoutTime = securityLockoutTime;
     configData.passcodeLength = [self passcodeLength];
@@ -251,7 +249,7 @@ static BOOL _showPasscode = YES;
             // Passcode off -> on.  Trigger passcode creation.
             configData.lockoutTime = newLockoutTime;
             configData.passcodeLength = newPasscodeLength;
-            configData.biometricUnlockAllowed = deviceHasBiometric && newBiometricAllowed; // todo: delete this
+            configData.biometricUnlockAllowed = newBiometricAllowed;
             [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate passcodeConfig:configData];
         }
         return;
@@ -617,9 +615,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         return;
     }
     
-    // TODO: Check if biometric has been enabled since the last time the app was unlocked
-    
-    
     if ([[SFSDKWindowManager sharedManager].snapshotWindow isEnabled]) {
         [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindow];
     }
@@ -656,16 +651,12 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         return;
     }
     
-    SFSDKPasscodeViewConfig *config = (viewConfig == nil) ? [SFSecurityLockout passcodeViewConfig] : viewConfig;
-    SFPasscodeViewController *controler = [[SFPasscodeViewController alloc] initForBiometricEnablement:config];
+    SFPasscodeViewController *controler = [[SFPasscodeViewController alloc] initForBiometricEnablement:self.passcodeViewConfig];
     [[SFSDKWindowManager sharedManager].passcodeWindow presentWindowAnimated:NO withCompletion:^{
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controler];
-        [[SFSDKWindowManager sharedManager].passcodeWindow.viewController presentViewController:nav animated:NO completion:^{
-           // todo: remove completion 
-        }];
+        [[SFSDKWindowManager sharedManager].passcodeWindow.viewController presentViewController:nav animated:NO completion:^{}];
     }];
-     
-     
+
 }
 
 + (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode

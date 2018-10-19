@@ -452,8 +452,8 @@ static CGFloat      const kViewBoarderWidth                  = 1.0f;
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        CGFloat xButton = CGRectGetMaxX(self.view.bounds) - wButton - kDefaultPadding;
-        CGFloat yButton = CGRectGetMaxY(self.view.bounds) - keyboardSize.height - hButton - kDefaultPadding;
+        CGFloat xButton = CGRectGetMaxX(self.view.bounds) - kVerifyButtonWidth - kDefaultPadding;
+        CGFloat yButton = CGRectGetMaxY(self.view.bounds) - keyboardSize.height - kButtonHeight - kDefaultPadding;
         self.verifyPasscodeButton.frame = CGRectMake(xButton, yButton, kVerifyButtonWidth, kButtonHeight);
     });
 }
@@ -474,9 +474,8 @@ static CGFloat      const kViewBoarderWidth                  = 1.0f;
     return canShow;
 }
 
-- (BOOL)showBiometric
+- (void)showBiometric
 {
-    BOOL success = NO;
     if ([self canShowBiometric]) {
         LAContext *context = [[LAContext alloc] init];
         if ([SFSecurityLockout biometricUnlockEnabled]) {
@@ -485,18 +484,17 @@ static CGFloat      const kViewBoarderWidth                  = 1.0f;
         }
         
         [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"biometricReason"] reply:^(BOOL success, NSError *authenticationError) {
-            __block BOOL succeeded = success;
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 // Launched as a standalone window
                 if (self.mode == SFBiometricControllerModeEnable) {
-                if (succeeded) {
+                if (success) {
                         [SFSecurityLockout setBiometricUnlockEnabled:YES];
                     }
                     [self dismissStandaloneBiometricSetup];
                 } else {
                     // Passcode flow
-                    if (succeeded) {
+                    if (success) {
                         [SFSecurityLockout setBiometricUnlockEnabled:YES];
                         [self dismissBiometricScreen];
                     } else {
@@ -510,8 +508,6 @@ static CGFloat      const kViewBoarderWidth                  = 1.0f;
             });
         }];
     }
-    
-    return success;
 }
 
 - (void)dismissStandaloneBiometricSetup
