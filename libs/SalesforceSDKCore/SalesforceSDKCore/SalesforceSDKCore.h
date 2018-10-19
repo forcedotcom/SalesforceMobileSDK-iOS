@@ -41,6 +41,7 @@
 #import <SalesforceSDKCore/SFPathUtil.h>
 #import <SalesforceSDKCore/SFDecryptStream.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
+#import <SalesforceSDKCore/SFSDKSafeMutableArray.h>
 #import <SalesforceSDKCore/SFSDKPasscodeViewConfig.h>
 #import <SalesforceSDKCore/SFGeneratedKeyStore.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>

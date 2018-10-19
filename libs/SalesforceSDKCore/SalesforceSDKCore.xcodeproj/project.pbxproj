@@ -102,6 +102,11 @@
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
 		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
+		93E423A12162993D00274DF3 /* SFSDKSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E423A02162993D00274DF3 /* SFSDKSafeMutableArray.m */; };
+		93E423A32162B85100274DF3 /* SFSDKSafeMutableArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E423A22162B85100274DF3 /* SFSDKSafeMutableArrayTests.m */; };
+		93E423A42162DAF200274DF3 /* SFSDKSafeMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E4238C216297BA00274DF3 /* SFSDKSafeMutableArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93E423A52162DB0E00274DF3 /* SFSDKSafeMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E4238C216297BA00274DF3 /* SFSDKSafeMutableArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93E423A62162DB1300274DF3 /* SFSDKSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E423A02162993D00274DF3 /* SFSDKSafeMutableArray.m */; };
 		A30831D42173AB0A00B156CD /* SFSDKPasscodeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A30831D32173AB0A00B156CD /* SFSDKPasscodeTextField.m */; };
 		A30831D62173CBBB00B156CD /* UIColor+SFSDKPasscodeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A30831D52173CBBB00B156CD /* UIColor+SFSDKPasscodeView.h */; };
 		A33ACAA0216EA228000DCF05 /* SFPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD151BFD32140022F021 /* SFPasscodeViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1154,13 +1159,9 @@
 		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		A30831BF2173AAB300B156CD /* SFSDKPasscodeTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeTextField.h; sourceTree = "<group>"; };
-		A30831D32173AB0A00B156CD /* SFSDKPasscodeTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeTextField.m; sourceTree = "<group>"; };
-		A30831D52173CBBB00B156CD /* UIColor+SFSDKPasscodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+SFSDKPasscodeView.h"; sourceTree = "<group>"; };
-		A3457AAA216EA89F00620098 /* SFAbstractPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAbstractPasscodeViewController.h; sourceTree = "<group>"; };
-		A34E3C2B2174E75B005DA102 /* SFSDKPasscodeViewConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeViewConfig.h; sourceTree = "<group>"; };
-		A3C411E221779FDA00523204 /* SFSDKPasscodeViewConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeViewConfig.m; sourceTree = "<group>"; };
-		A3C411F72177A3D000523204 /* UIColor+SFSDKPasscodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+SFSDKPasscodeView.m"; sourceTree = "<group>"; };
+		93E4238C216297BA00274DF3 /* SFSDKSafeMutableArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKSafeMutableArray.h; sourceTree = "<group>"; };
+		93E423A02162993D00274DF3 /* SFSDKSafeMutableArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableArray.m; sourceTree = "<group>"; };
+		93E423A22162B85100274DF3 /* SFSDKSafeMutableArrayTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKSafeMutableArrayTests.m; path = SalesforceSDKCoreTests/SFSDKSafeMutableArrayTests.m; sourceTree = SOURCE_ROOT; };
 		B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthErrorManager.h; sourceTree = "<group>"; };
 		B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAuthErrorManager.m; sourceTree = "<group>"; };
 		B70986331F5331A600803FDE /* SFSDKOAuthClientConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKOAuthClientConfig.h; sourceTree = "<group>"; };
@@ -1444,6 +1445,7 @@
 				B759CD881F8BDBAC0081AA87 /* SDSDKAlertMessageTest.m */,
 				B759CD8A1F8C10DC0081AA87 /* SFSDKErrorManagerTests.m */,
 				B7245C9720701E7C003A5CD5 /* SFSDKSafeMutableSetTests.m */,
+				93E423A22162B85100274DF3 /* SFSDKSafeMutableArrayTests.m */,
 			);
 			name = SalesforceSDKCoreTests;
 			path = SalesforceSDKCore;
@@ -1514,6 +1516,8 @@
 				B791409B1EC11ADE0051492F /* SFSDKWebViewStateManager.m */,
 				44EFFA2F1EE8C63600B30267 /* SFSDKSafeMutableDictionary.h */,
 				44EFFA301EE8C63600B30267 /* SFSDKSafeMutableDictionary.m */,
+				93E4238C216297BA00274DF3 /* SFSDKSafeMutableArray.h */,
+				93E423A02162993D00274DF3 /* SFSDKSafeMutableArray.m */,
 				B7245C7B206EFE1F003A5CD5 /* SFSDKSafeMutableSet.h */,
 				B7245C7C206EFE1F003A5CD5 /* SFSDKSafeMutableSet.m */,
 			);
@@ -2193,6 +2197,7 @@
 				CE675A331E0B2CC6002DBF5A /* SFSDKSoqlBuilder.h in Headers */,
 				B7A20FAD1F26C39700D1E4B0 /* SFSDKRootController.h in Headers */,
 				CE4CE33A1C0E5245009F6029 /* SFIdentityCoordinator.h in Headers */,
+				93E423A42162DAF200274DF3 /* SFSDKSafeMutableArray.h in Headers */,
 				B7FB26C31F78094A00FB25A2 /* SFSDKLoginFlowSelectionViewController.h in Headers */,
 				CE4CE3A91C0E5279009F6029 /* SFManagedPreferences.h in Headers */,
 				CE4CE31C1C0E523B009F6029 /* SFKeychainItemWrapper.h in Headers */,
@@ -2286,6 +2291,7 @@
 				CEA882FB1C18FB8E008D871B /* SFPBKDF2PasscodeProvider.h in Headers */,
 				CE27889D1DD52D1600DD3C39 /* SFSwiftDetectUtil.h in Headers */,
 				CED452DE1D808D38009266EB /* SFRestAPI+QueryBuilder.h in Headers */,
+				93E423A52162DB0E00274DF3 /* SFSDKSafeMutableArray.h in Headers */,
 				CEA883041C18FB8E008D871B /* SFSHA256PasscodeProvider.h in Headers */,
 				B71129141F8A789900436CFB /* SFSDKAlertMessageBuilder.h in Headers */,
 				B75233C31F4D390B00040B6E /* SFSDKOAuthClientContext.h in Headers */,
@@ -2791,6 +2797,7 @@
 				4F06AF921C49A18E00F70798 /* SFPreferencesTests.m in Sources */,
 				010A9B5B1CC1A150002AF4D3 /* SFEncryptDecryptStreamTests.m in Sources */,
 				4F755F5820D48F8600CE4E0E /* NSString+SFAdditionsTests.m in Sources */,
+				93E423A32162B85100274DF3 /* SFSDKSafeMutableArrayTests.m in Sources */,
 				CEB98EE01F86E7CF0083AB9C /* SFSDKAuthRequestCommandTest.m in Sources */,
 				010A9B591CC1A147002AF4D3 /* SFCryptoStreamTestUtils.m in Sources */,
 				E1DDC1441CAEEB34002F51DD /* SFSDKLoginHostTests.m in Sources */,
@@ -2982,6 +2989,7 @@
 				B7FB26DD1F78096300FB25A2 /* SFSDKIDPInitiatedAuthRequestHandler.m in Sources */,
 				CE4CE31D1C0E523B009F6029 /* SFKeychainItemWrapper.m in Sources */,
 				CE4CE3A81C0E5279009F6029 /* SFJsonUtils.m in Sources */,
+				93E423A12162993D00274DF3 /* SFSDKSafeMutableArray.m in Sources */,
 				FDCECBC89437CBD2378AC8CC /* SFSObjectTree.m in Sources */,
 				FDCECC6D14B002687225A4E6 /* SFSDKDevInfoViewController.m in Sources */,
 			);
@@ -3128,6 +3136,7 @@
 				CEA8830B1C18FB8E008D871B /* SFUserAccountIdentity.m in Sources */,
 				CEA882A51C18FAAB008D871B /* SalesforceSDKManager.m in Sources */,
 				CEA882881C18FAAB008D871B /* NSDictionary+SFAdditions.m in Sources */,
+				93E423A62162DB1300274DF3 /* SFSDKSafeMutableArray.m in Sources */,
 				CEA882951C18FAAB008D871B /* SFKeychainItemWrapper.m in Sources */,
 				CEA883201C18FC40008D871B /* SFJsonUtils.m in Sources */,
 			);

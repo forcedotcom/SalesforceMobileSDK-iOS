@@ -50,21 +50,22 @@
         };
         [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
     } else {
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-            [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
-            completionBlock();
-        }];
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            // Note: Failed passcode verification automatically logs out users, which the logout
-            // delegate handler will catch and pass on.  We just log the error and reset launch
-            // state here.
-            [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
-        }];
         [self passcodeValidation:completionBlock];
     }
 }
 
 + (void) passcodeValidation:(void (^)(void))completionBlock  {
+    
+    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+        [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
+        completionBlock();
+    }];
+    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        // Note: Failed passcode verification automatically logs out users, which the logout
+        // delegate handler will catch and pass on.  We just log the error and reset launch
+        // state here.
+        [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
+    }];
     [SFSecurityLockout lock];
 }
 

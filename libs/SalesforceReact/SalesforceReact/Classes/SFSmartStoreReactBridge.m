@@ -25,6 +25,7 @@
 #import "SFSmartStoreReactBridge.h"
 #import <React/RCTUtils.h>
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SmartStore/SFStoreCursor.h>
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFQuerySpec.h>
@@ -125,14 +126,16 @@ RCT_EXPORT_METHOD(querySoup:(NSDictionary *)argsDict callback:(RCTResponseSender
     NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
     SFQuerySpec* querySpec = [[SFQuerySpec alloc] initWithDictionary:querySpecDict withSoupName:soupName];
     [SFSDKReactLogger d:[self class] format:@"querySoup with name: %@, querySpec: %@", soupName, querySpecDict];
+    SFSmartStore* store = [self getStoreInst:argsDict];
     NSError* error = nil;
-    SFStoreCursor* cursor = [self runQuery:querySpec error:&error argsDict:argsDict];
-    if (cursor.cursorId) {
+    SFStoreCursor* cursor = [[SFStoreCursor alloc] initWithStore:store querySpec:querySpec];
+    NSString* cursorSerialized = [cursor getDataSerialized:store error:&error];
+    if (error == nil) {
         NSString *internalCursorId = [self internalCursorId:cursor.cursorId withArgs:argsDict];
         dispatch_sync(self->_dispatchQueue, ^{
             self.cursorCache[internalCursorId] = cursor;
         });
-        callback(@[[NSNull null], [cursor asDictionary]]);
+        callback(@[[NSNull null], cursorSerialized]);
     } else {
         [SFSDKReactLogger e:[self class] format:@"No cursor for query: %@", querySpec];
         callback(@[RCTMakeError(@"No cursor for query", error, nil)]);
@@ -200,9 +203,16 @@ RCT_EXPORT_METHOD(moveCursorToPageIndex:(NSDictionary *)argsDict callback:(RCTRe
     NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
     NSNumber *newPageIndex = [argsDict nonNullObjectForKey:kIndexArg];
     [SFSDKReactLogger d:[self class] format:@"moveCursorToPageIndex with cursor ID: %@, page index: %@", cursorId, newPageIndex];
+    SFSmartStore* store = [self getStoreInst:argsDict];
+    NSError* error = nil;
     SFStoreCursor *cursor = [self cursorByCursorId:cursorId andArgs:argsDict];
     [cursor setCurrentPageIndex:newPageIndex];
-    callback(@[[NSNull null],  [cursor asDictionary]]);
+    NSString* cursorSerialized = [cursor getDataSerialized:store error:&error];
+    if (error == nil) {
+        callback(@[[NSNull null], cursorSerialized]);
+    } else {
+        callback(@[RCTMakeError(@"moveCursorToPageIndex failed", error, nil)]);
+    }
 }
 
 RCT_EXPORT_METHOD(clearSoup:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
@@ -392,22 +402,6 @@ RCT_EXPORT_METHOD(removeAllStores:(NSDictionary *)argsDict callback:(RCTResponse
         storeName = kDefaultSmartStoreName;
     }
     return storeName;
-}
-
-- (SFStoreCursor*) runQuery:(SFQuerySpec*)querySpec error:(NSError**)error argsDict:(NSDictionary*)argsDict
-{
-    if (!querySpec) {
-        // XXX we could populate error
-        return nil;
-    }
-    NSUInteger totalEntries = [[[self getStoreInst:argsDict] countWithQuerySpec:querySpec error:error] unsignedIntegerValue];
-    if (*error) {
-        return nil;
-    }
-    NSArray* firstPageEntries = (totalEntries > 0
-                                 ? [[self getStoreInst:argsDict] queryWithQuerySpec:querySpec pageIndex:0 error:error]
-                                 : @[]);
-    return [[SFStoreCursor alloc] initWithStore:[self getStoreInst:argsDict] querySpec:querySpec totalEntries:totalEntries firstPageEntries:firstPageEntries];
 }
 
 - (NSString *)internalCursorId:(NSString *) cursorId withArgs:(NSDictionary *) argsDict {
