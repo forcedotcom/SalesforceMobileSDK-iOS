@@ -41,9 +41,6 @@
       <FileRef
          location = "group:libs/SmartSync/SmartSync.xcodeproj">
       </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
-      </FileRef>
    </Group>
    <Group
       location = "container:"
@@ -57,25 +54,9 @@
    </Group>
    <Group
       location = "container:"
-      name = "HybridSamples">
-      <FileRef
-         location = "group:hybrid/SampleApps/AccountEditor/AccountEditor.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/NoteSync/NoteSync.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/SmartSyncExplorerHybrid/SmartSyncExplorerHybrid.xcodeproj">
-      </FileRef>
-   </Group>
-   <Group
-      location = "container:"
       name = "External">
       <FileRef
          location = "group:external/CocoaLumberjack/Lumberjack.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
       </FileRef>
    </Group>
    <Group
