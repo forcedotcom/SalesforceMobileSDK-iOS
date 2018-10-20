@@ -125,13 +125,13 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 @optional
 
 /**
- Called just before the app lock flow begins and the view is displayed.
+ Called just before the passcode flow begins and the view is displayed.
  @param mode The mode of the passcode or biometric flow, i.e. passcode/biometric creation or verification.
  */
 - (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode;
 
 /**
- Called after the app lock flow has completed.
+ Called after the passcode flow has completed.
  @param success Whether or not the passcode or biometric flow was successful, i.e. the passcode/biometric
  was successfully created or verified.
  */

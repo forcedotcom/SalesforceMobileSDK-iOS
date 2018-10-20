@@ -57,13 +57,13 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
 + (void)unlockFailurePostProcessing;
 
 /**
- * Generate the notification for the beginning of the app unlock flow.
+ * Generate the notification for the beginning of the passcode flow.
  * @param mode The controller mode (create vs. verify) associated with the passcode or biometric flow.
  */
 + (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode;
 
 /**
- * Generate the notification for the completion of the app lock flow.
+ * Generate the notification for the completion of the passcode flow.
  * @param validationSuccess Whether the passcode or biometric validation was successful or not.
  */
 + (void)sendPasscodeFlowCompletedNotification:(BOOL)validationSuccess;
