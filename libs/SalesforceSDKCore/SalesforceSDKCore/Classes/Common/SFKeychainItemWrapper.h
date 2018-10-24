@@ -118,11 +118,11 @@ extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
 
 /** The passcode length.
  */
-- (int)passcodeLength;
+- (NSUInteger)passcodeLength;
 
 /** Set the passcode length;
  */
-- (void)setPasscodeLength:(int)length;
+- (void)setPasscodeLength:(NSUInteger)length;
  
 
 /** Performs passcode verification.

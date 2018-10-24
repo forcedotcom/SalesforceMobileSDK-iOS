@@ -456,16 +456,16 @@ static CFTypeRef sKeychainAccessibleAttribute;
     return matches;
 }
 
-- (void)setPasscodeLength:(int)length
+- (void)setPasscodeLength:(NSUInteger)length
 {
     @synchronized (self) {
-        [self setObject:[NSString stringWithFormat:@"%d",length] forKey:(id)kSecValueData];
-        [self.keychainData setObject:[NSString stringWithFormat:@"%d",length] forKey:(id)kSecValueData];
+        [self setObject:[NSString stringWithFormat:@"%lu",(unsigned long)length] forKey:(id)kSecValueData];
+        [self.keychainData setObject:[NSString stringWithFormat:@"%lu",(unsigned long)length] forKey:(id)kSecValueData];
         SecItemAdd((CFDictionaryRef)[self dictionaryToSecItemFormat:self.keychainData], NULL);
     }
 }
 
-- (int)passcodeLength
+- (NSUInteger)passcodeLength
 {
     @synchronized (self) {
         return [[self stringForKey:(id)kSecValueData] intValue];

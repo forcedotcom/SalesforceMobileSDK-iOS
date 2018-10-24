@@ -69,10 +69,10 @@ static NSString * const kKeychainIdentifierPasscodeLength = @"com.salesforce.sec
     [passcodeWrapper setPasscode:newPasscode];
 }
 
-- (int)passcodeLength
+- (NSUInteger)passcodeLength
 {
     SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscodeLength account:nil];
-    return [passcodeWrapper passcodeLength];
+    return passcodeWrapper.passcodeLength;
 }
 
 - (void)setPascodeLength:(int)length

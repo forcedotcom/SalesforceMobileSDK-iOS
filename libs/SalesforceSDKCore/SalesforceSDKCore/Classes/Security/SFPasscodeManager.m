@@ -47,6 +47,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 
 @synthesize encryptionKey = _encryptionKey;
 @synthesize preferredPasscodeProvider = _preferredPasscodeProvider;
+@synthesize passcodeLength = _passcodeLength;
 
 #pragma mark - Singleton initialization / management
 
@@ -149,6 +150,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
         [currentProvider resetPasscodeData];
     }
     [self setEncryptionKey:nil];
+    _passcodeLength = 0;
 }
 
 - (BOOL)verifyPasscode:(NSString *)passcode
@@ -221,6 +223,12 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
     [currentProvider setVerificationPasscode:newPasscode];
     NSString *encryptionKey = [currentProvider generateEncryptionKey:newPasscode];
     [self setEncryptionKey:encryptionKey];
+    _passcodeLength = newPasscode.length;
+}
+
+- (NSUInteger)passcodeLength
+{
+    return _passcodeLength;
 }
 
 @end

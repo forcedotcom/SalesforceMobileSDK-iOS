@@ -41,30 +41,18 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
 @end
 @implementation SFSDKPasscodeTextField
 
-- (instancetype)init {
-    if (self = [super init]) {
-        
-    }
-    return self;
+- (instancetype)init
+{
+    return [super init];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length{
-    if (self = [super initWithFrame:frame]) {
-        SFSDKPasscodeViewConfig *config = [SFSDKPasscodeViewConfig createDefaultConfig];
-        
-        _passcodeLength = length;
-        _passcodeLengthKnown = (length != 0);
-        self.keyboardType = UIKeyboardTypeNumberPad;
-        self.backgroundColor = config.secondaryColor;
-        self.tintColor = [UIColor clearColor];
-        self.borderStyle = UITextBorderStyleNone;
-        self.layer.borderColor = config.borderColor.CGColor;
-        self.fillColor = config.primaryColor;
-    }
-    return self;
+- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length
+{
+    return [self initWithFrame:frame andLength:length andViewConfig:[SFSDKPasscodeViewConfig createDefaultConfig]];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length andViewConfig:(SFSDKPasscodeViewConfig *)config{
+- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length andViewConfig:(SFSDKPasscodeViewConfig *)config
+{
     if (self = [super initWithFrame:frame]) {
         _passcodeLength = length;
         _passcodeLengthKnown = (length != 0);
@@ -80,10 +68,10 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
 
 - (void)clearPasscode {
     self.passcodeInput = [NSMutableString stringWithString:@""];
-    //[self updatePasscode];
 }
 
-- (void)deleteBackward {
+- (void)deleteBackward
+{
     if (self.passcodeInput.length < 1) {
         return;
     }
@@ -94,16 +82,12 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
     }
 }
 
-- (void)refreshViewWithCompletion:(void (^) (void))completionBlock {
-    [self refreshView];
-   
-}
-
-- (void)refreshView {
+- (void)refreshView
+{
     self.layer.sublayers = nil;
     int diameter = kPasscodeCircleDiameter;
     int horizontalSpacing = kPasscodeCircleSpacing;
-    int OpenCircleSpacingX = 0;
+    int openCircleSpacingX = 0;
     int filledCircleSpacingX = 0;
     NSUInteger lengthForSpacing = (self.passcodeLengthKnown) ? self.passcodeLength : kMaxPasscodeLength;
     int startX = (self.bounds.size.width - (diameter * lengthForSpacing) - (horizontalSpacing * (lengthForSpacing - 1))) / 2;
@@ -115,12 +99,12 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
             // Make a circular shape
             openCircle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, -12, diameter, diameter)cornerRadius:diameter].CGPath;
             // Center the shape in self.view
-            openCircle.position = CGPointMake(startX + OpenCircleSpacingX, diameter);
+            openCircle.position = CGPointMake(startX + openCircleSpacingX, diameter);
             openCircle.fillColor = [UIColor clearColor].CGColor;
             openCircle.strokeColor = self.fillColor.CGColor;
             openCircle.lineWidth = 2;
             openCircle.zPosition = 5;
-            OpenCircleSpacingX += (diameter + horizontalSpacing);
+            openCircleSpacingX += (diameter + horizontalSpacing);
             [self.layer addSublayer:openCircle];
         }
     } else {

@@ -88,6 +88,11 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
 @property (nonatomic, copy) NSString *preferredPasscodeProvider;
 
 /**
+ The lenght of the user's passcode.
+ */
+@property (nonatomic) NSUInteger passcodeLength;
+
+/**
  Adds a delegate to the list of passcode manager delegates.
  @param delegate Delegate to add to the list.
  */
@@ -133,9 +138,9 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
 
 /**
  Get passcode length for UX.
- @return int length
+ @return passcode length
  */
-- (int)passcodeLength;
+- (NSUInteger)passcodeLength;
 
 @end
 

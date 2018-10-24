@@ -78,7 +78,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //loginViewConfig.navBarFont = UIFont(name: "Helvetica", size: 16.0)
         //SFUserAccountManager.sharedInstance().loginViewControllerConfig = loginViewConfig
         
-        var passcodeViewConfig = PasscodeViewControllerConfig();
+        let passcodeViewConfig = PasscodeViewControllerConfig()
         passcodeViewConfig.forcePasscodeLength = true
         UserAccountManager.sharedInstance().passcodeViewControllerConfig = passcodeViewConfig
         

@@ -183,10 +183,9 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
     [keychainWrapper setValueData:passcodeDataObj];
 }
 
-- (int)passcodeLength
+- (NSUInteger)passcodeLength
 {
-    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscodeLength account:nil];
-    return [keychainWrapper passcodeLength];
+    return self.passcodeLength;
 }
 
 @end

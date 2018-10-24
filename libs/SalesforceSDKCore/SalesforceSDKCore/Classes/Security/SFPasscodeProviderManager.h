@@ -53,6 +53,11 @@ FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderPBKDF2;
 @property (nonatomic, readonly) SFPasscodeProviderId providerName;
 
 /**
+ * The length of the user's passcode.
+ */
+@property (nonatomic) NSUInteger passcodeLength;
+
+/**
  * Designated initializer for an SFPasscodeProvider.
  * @param providerName The canonical name of the provider.
  */
@@ -98,9 +103,9 @@ FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderPBKDF2;
 
 /**
  Get passcode length for UX.
- @return int length
+ @return NSUInteger length
  */
-- (int)passcodeLength;
+- (NSUInteger)passcodeLength;
 
 @optional
 
