@@ -56,15 +56,6 @@
 @synthesize config = _config;
 @synthesize oauthView = _oauthView;
 
-+ (instancetype)sharedInstance {
-    static dispatch_once_t onceToken;
-    static SFLoginViewController *loginViewController = nil;
-    dispatch_once(&onceToken, ^{
-        loginViewController = [[self alloc] initWithNibName:nil bundle:nil];
-    });
-    return loginViewController;
-}
-
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {

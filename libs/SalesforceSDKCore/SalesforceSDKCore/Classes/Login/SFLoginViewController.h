@@ -35,7 +35,7 @@
 /**
  * Delegate protocol for the owner of SFLoginViewController.
  */
-NS_SWIFT_NAME(LoginViewControllerDelegate)
+NS_SWIFT_NAME(SalesforceLoginViewControllerDelegate)
 @protocol SFLoginViewControllerDelegate <NSObject>
 
 @optional
@@ -49,15 +49,11 @@ NS_SWIFT_NAME(LoginViewControllerDelegate)
 
 @end
 
-
 /** The Salesforce login screen view.
  */
-NS_SWIFT_NAME(LoginViewController)
+NS_SWIFT_NAME(SalesforceLoginViewController)
 @interface SFLoginViewController : SFSDKViewController
 
-/** Returns a shared singleton of `SFLoginViewController` class.
- */
-+(_Nonnull instancetype)sharedInstance;
 
 /**
  * The delegate representing the owner of this object.
@@ -70,20 +66,20 @@ NS_SWIFT_NAME(LoginViewController)
 @property (nonatomic, strong, nullable) IBOutlet UIView *oauthView;
 
 /** Specify the font to use for navigation bar header text.*/
-@property (nonatomic, strong, nullable) UIFont * navBarFont;
+@property (nonatomic, strong, nullable) UIFont * navBarFont NS_SWIFT_NAME(navigationBarFont);
 
 /** Specify the text color to use for navigation bar header text. */
-@property (nonatomic, strong, nullable) UIColor * navBarTextColor;
+@property (nonatomic, strong, nullable) UIColor * navBarTextColor  NS_SWIFT_NAME(navigationBarTextColor);
 
 /** Specify navigation bar color. This color will be used by the login view header.
  */
-@property (nonatomic, strong, nullable) UIColor *navBarColor;
+@property (nonatomic, strong, nullable) UIColor *navBarColor NS_SWIFT_NAME(navigationBarColor);
 
 /** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
-@property (nonatomic) BOOL showNavbar;
+@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME(showsNavigationBar);
 
 /** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
-@property (nonatomic) BOOL showSettingsIcon;
+@property (nonatomic) BOOL showSettingsIcon NS_SWIFT_NAME(showsSettingsIcon);
 
 /** Specify all display properties in a config. All the above properties are backed by
  a config object */

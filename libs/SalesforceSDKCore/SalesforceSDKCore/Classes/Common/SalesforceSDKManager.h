@@ -286,7 +286,7 @@ NS_SWIFT_NAME(SalesforceSDK)
  @param launchActions Bit-coded descriptor of actions taken during launch.
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
  */
-+ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions NS_SWIFT_NAME(asString(actions:));
++ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
 
 /**
  * Show dev support dialog
@@ -298,12 +298,12 @@ NS_SWIFT_NAME(SalesforceSDK)
  * @param presentedViewController The view controller currently presented.
  * @return Dev actions (list of title1, handler1, title2, handler2 etc) to show in dev support dialog
  */
-- (NSArray *)getDevActions:(UIViewController *)presentedViewController;
+- (NSArray *)getDevActions:(UIViewController *)presentedViewController NS_SWIFT_NAME(devActionsList(presentedViewController:));
 
 /**
  * @return Dev info (list of name1, value1, name2, value2 etc) to show in SFSDKDevInfoController
  */
-- (NSArray*) getDevSupportInfos;
+- (NSArray*)getDevSupportInfos NS_SWIFT_NAME(devSupportInfoList());
 
 @end
 

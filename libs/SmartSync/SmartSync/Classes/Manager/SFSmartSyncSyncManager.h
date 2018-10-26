@@ -50,7 +50,7 @@ NS_SWIFT_NAME(SyncManager)
  *
  * @param user A user that will scope this manager instance data.
  */
-+ (instancetype)sharedInstance:(SFUserAccount*)user;
++ (instancetype)sharedInstance:(SFUserAccount*)user NS_SWIFT_NAME(sharedInstance(forUserAccount:));
 
 /**
  * Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
@@ -59,7 +59,15 @@ NS_SWIFT_NAME(SyncManager)
  * @param user The user associated with the store.
  * @param storeName The name of the SmartStore associated with the user.
  */
-+ (instancetype)sharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString *)storeName NS_SWIFT_NAME(sharedInstance(user:storeName:));
++ (instancetype)sharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString *)storeName  NS_SWIFT_UNAVAILABLE("");
+
+/**
+ * Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
+ * store will be the store with the given name for the given user.
+ * @param storeName The name of the SmartStore associated with the user.
+ * @param userAccount The user associated with the store.
+ */
++ (instancetype)sharedInstanceForStore:(nullable NSString *)storeName userAccount:(SFUserAccount*)userAccount NS_SWIFT_NAME(sharedInstance(named:forUserAccount:));
 
 /**
  * Singleton method for accessing sync manager instance by SmartStore store.
@@ -81,8 +89,14 @@ NS_SWIFT_NAME(SyncManager)
  * @param user The user associated with the store.
  * @param storeName The name of the store associated with the given user.
  */
-+ (void)removeSharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString*)storeName NS_SWIFT_NAME(removeSharedInstance(user:storeName:));
++ (void)removeSharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString*)storeName NS_SWIFT_UNAVAILABLE("");
 
+/**
+ * Removes the shared instance associated with the given user and store name.
+ * @param storeName The name of the store associated with the given user.
+ * @param userAccount The user associated with the store.
+ */
++ (void)removeSharedInstanceForStore:(nullable NSString*)storeName userAccount:(SFUserAccount*)userAccount  NS_SWIFT_NAME(removeSharedInstance(named:forUser:));
 /**
  * Removes the shared instance associated with the specified store.
  *
@@ -100,35 +114,35 @@ NS_SWIFT_NAME(SyncManager)
  *
  * @param syncId Sync ID.
  */
-- (nullable SFSyncState*)getSyncStatus:(NSNumber*)syncId;
+- (nullable SFSyncState*)getSyncStatus:(NSNumber*)syncId NS_SWIFT_NAME(syncStatus(forId:));
 
 /**
  * Returns details about a sync by name.
  *
  * @param syncName Sync name.
  */
-- (nullable SFSyncState*)getSyncStatusByName:(NSString*)syncName NS_SWIFT_NAME(getSyncStatus(syncName:));
+- (nullable SFSyncState*)getSyncStatusByName:(NSString*)syncName NS_SWIFT_NAME(syncStatus(forName:));
 
 /**
  * Returns YES if a sync with the given name exists.
  * @param syncName Sync name.
  * @return YES a sync with the given name exists.
  */
-- (BOOL)hasSyncWithName:(NSString*)syncName NS_SWIFT_NAME(hasSync(syncName:));
+- (BOOL)hasSyncWithName:(NSString*)syncName NS_SWIFT_NAME(hasSync(forName:));
 
 /**
  * Delete a sync.
  *
  * @param syncId Sync ID.
  */
-- (void)deleteSyncById:(NSNumber*)syncId NS_SWIFT_NAME(deleteSync(syncId:));
+- (void)deleteSyncById:(NSNumber*)syncId NS_SWIFT_NAME(deleteSync(forId:));
 
 /**
  * Delete a sync by name.
  *
  * @param syncName Sync name.
  */
-- (void)deleteSyncByName:(NSString*)syncName NS_SWIFT_NAME(deleteSync(syncName:));
+- (void)deleteSyncByName:(NSString*)syncName NS_SWIFT_NAME(deleteSync(forName:));
 
 
 /**
@@ -174,14 +188,14 @@ NS_SWIFT_NAME(SyncManager)
  * @param syncId Sync ID.
  * @param updateBlock The block to be called with updates.
  */
-- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(reSync(syncId:onUpdate:));
+- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(reSync(id:onUpdate:));
 
 /**
  * Performs a resync by name.
  * @param syncName Sync name.
  * @param updateBlock The block to be called with updates.
  */
-- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(reSync(syncName:onUpdate:));
+- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(reSync(named:onUpdate:));
 
 /**
  * Create a sync up without running it.
@@ -240,7 +254,7 @@ NS_SWIFT_NAME(SyncManager)
  * @param syncId Sync ID.
  * @param completionStatusBlock Completion status block.
  */
-- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock NS_SWIFT_NAME(cleanResyncGhosts(syncId:onComplete:));
+- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock NS_SWIFT_NAME(cleanResyncGhosts(id:onComplete:));
 
 @end
 
