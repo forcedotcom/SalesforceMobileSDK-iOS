@@ -1,5 +1,5 @@
 /*
- SFSDKPasscodeViewConfig.m
+ SFSDKBiometricViewController+Internal.h
  SalesforceSDKCore
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
@@ -24,38 +24,58 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
-#import "SFSDKPasscodeViewConfig.h"
-#import "UIColor+SFSDKPasscodeView.h"
-#import "SFSDKResourceUtils.h"
 
-@implementation SFSDKPasscodeViewConfig
+#import "SFSDKBiometricViewController.h"
 
--(instancetype) init {
-    
-    if(self = [super init]) {
-        _forcePasscodeLength = NO;
-        _maxNumberOfAttempts = (NSUInteger*)10;
-        _primaryColor = [UIColor salesforceBlueColor];
-        _secondaryColor = [UIColor whiteColor];
-        _backgroundColor = [UIColor backgroundColor];
-        _borderColor = [UIColor borderColor];
-        _instructionTextColor = [UIColor textColor];
-        _titleTextColor = [UIColor textColor];
-        _navBarColor = [UIColor whiteColor];
-        _navBarTextColor = [UIColor textColor];
-        _instructionFont = [UIFont systemFontOfSize:14];
-        _titleFont = [UIFont systemFontOfSize:18 weight:UIFontWeightBold];
-        _navBarFont = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];
-        _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
-        _touchIdImage = [[SFSDKResourceUtils imageNamed:@"touchId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        _faceIdImage = [[SFSDKResourceUtils imageNamed:@"faceId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    }
-    return self;
-}
+@interface SFSDKBiometricViewController ()
+/**
+ * Whether the device has biometric and the org allows it.
+ */
+@property (nonatomic) BOOL biometricAllowed;
 
-+ (instancetype)createDefaultConfig {
-    return [[self alloc] init];
-}
+/**
+ * Image for Touch Id enrollment.
+ */
+@property (nonatomic, strong) UIImageView *touchIdImage;
+
+/**
+ * Image for Face Id enrollment.
+ */
+@property (nonatomic, strong) UIImageView *faceIdImage;
+
+/**
+ * Icon view for biometric enrollment.
+ */
+@property (nonatomic, strong) UIView *iconView;
+
+/**
+ * View for biometric enrollment.
+ */
+@property (nonatomic, strong) UIView *setUpBiometricView;
+
+/**
+ * The label title for biometric enrollment.
+ */
+@property (nonatomic, strong) UILabel *biometricSetupTitle;
+
+/**
+ * The label displaying instructions for a given passcode section of the workflow.
+ */
+@property (nonatomic, strong) UILabel *biometricInstructionsLabel;
+
+/**
+ * The 'Enable' button for Biometric prompt.
+ */
+@property (nonatomic, strong) UIButton *enableBiometricButton;
+
+/**
+ * The 'Not Now' button.
+ */
+@property (nonatomic, strong) UIButton *cancelBiometricButton;
+
+/**
+ * The 'Not Now' button.
+ */
+@property (nonatomic, strong) NSString *currentPasscode;
 
 @end

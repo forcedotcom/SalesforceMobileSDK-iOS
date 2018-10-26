@@ -1315,7 +1315,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     // already exists.
     NSAssert(client.idData != nil, @"Identity data should not be nil/empty at this point.");
     NSNumber *biometricUnlockKey = [client.idData.customAttributes objectForKey:@"BIOMETRIC_UNLOCK"];
-    BOOL biometricUnlockAvalible = (biometricUnlockKey == nil) ? YES : [biometricUnlockKey boolValue];
+    BOOL biometricUnlockAvailable = (biometricUnlockKey == nil) ? YES : [biometricUnlockKey boolValue];
     __weak typeof(self) weakSelf = self;
     [client dismissAuthViewControllerIfPresent];
     
@@ -1328,8 +1328,8 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
     // identity service.
     [SFSecurityLockout setInactivityConfiguration:client.idData.mobileAppPinLength
-                                      lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
-                                 biometricAllowed:biometricUnlockAvalible];
+                                      lockoutTime:(client.idData.mobileAppScreenLockTimeout * 5)
+                                 biometricAllowed:biometricUnlockAvailable];
 }
 
 

@@ -109,6 +109,14 @@
 		93E423A62162DB1300274DF3 /* SFSDKSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E423A02162993D00274DF3 /* SFSDKSafeMutableArray.m */; };
 		A30831D42173AB0A00B156CD /* (null) in Sources */ = {isa = PBXBuildFile; };
 		A30831D62173CBBB00B156CD /* (null) in Headers */ = {isa = PBXBuildFile; };
+		A3161D062181104000437BD2 /* SFSDKPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D052181104000437BD2 /* SFSDKPasscodeViewController.m */; };
+		A3161D08218110A000437BD2 /* SFSDKPasscodeCreateUpdateController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D07218110A000437BD2 /* SFSDKPasscodeCreateUpdateController.h */; };
+		A3161D0A218110D400437BD2 /* SFSDKPasscodeCreateUpdateController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D09218110D400437BD2 /* SFSDKPasscodeCreateUpdateController.m */; };
+		A3161D0C2181110E00437BD2 /* SFSDKBiometricViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D0B2181110E00437BD2 /* SFSDKBiometricViewController.h */; };
+		A3161D0E2181113800437BD2 /* SFSDKBiometricViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D0D2181113800437BD2 /* SFSDKBiometricViewController.m */; };
+		A3161D102181117100437BD2 /* SFSDKBiometricViewController+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D0F2181117100437BD2 /* SFSDKBiometricViewController+Internal.h */; };
+		A3161D122182349200437BD2 /* SFSDKPasscodeVerifyController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D112182349200437BD2 /* SFSDKPasscodeVerifyController.h */; };
+		A3161D142182358900437BD2 /* SFSDKPasscodeVerifyController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D132182358900437BD2 /* SFSDKPasscodeVerifyController.m */; };
 		A32FA735217A972C006D7930 /* SFSDKPasscodeTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = A32FA720217A972B006D7930 /* SFSDKPasscodeTextField.h */; };
 		A32FA736217A972C006D7930 /* SFSDKPasscodeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A32FA734217A972C006D7930 /* SFSDKPasscodeTextField.m */; };
 		A32FA739217AA61E006D7930 /* UIColor+SFSDKPasscodeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A32FA737217AA61E006D7930 /* UIColor+SFSDKPasscodeView.h */; };
@@ -1169,6 +1177,15 @@
 		93E4238C216297BA00274DF3 /* SFSDKSafeMutableArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKSafeMutableArray.h; sourceTree = "<group>"; };
 		93E423A02162993D00274DF3 /* SFSDKSafeMutableArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableArray.m; sourceTree = "<group>"; };
 		93E423A22162B85100274DF3 /* SFSDKSafeMutableArrayTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKSafeMutableArrayTests.m; path = SalesforceSDKCoreTests/SFSDKSafeMutableArrayTests.m; sourceTree = SOURCE_ROOT; };
+		A3161D0421810D9D00437BD2 /* SFSDKPasscodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeViewController.h; sourceTree = "<group>"; };
+		A3161D052181104000437BD2 /* SFSDKPasscodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeViewController.m; sourceTree = "<group>"; };
+		A3161D07218110A000437BD2 /* SFSDKPasscodeCreateUpdateController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeCreateUpdateController.h; sourceTree = "<group>"; };
+		A3161D09218110D400437BD2 /* SFSDKPasscodeCreateUpdateController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeCreateUpdateController.m; sourceTree = "<group>"; };
+		A3161D0B2181110E00437BD2 /* SFSDKBiometricViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKBiometricViewController.h; sourceTree = "<group>"; };
+		A3161D0D2181113800437BD2 /* SFSDKBiometricViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKBiometricViewController.m; sourceTree = "<group>"; };
+		A3161D0F2181117100437BD2 /* SFSDKBiometricViewController+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKBiometricViewController+Internal.h"; sourceTree = "<group>"; };
+		A3161D112182349200437BD2 /* SFSDKPasscodeVerifyController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeVerifyController.h; sourceTree = "<group>"; };
+		A3161D132182358900437BD2 /* SFSDKPasscodeVerifyController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeVerifyController.m; sourceTree = "<group>"; };
 		A32FA720217A972B006D7930 /* SFSDKPasscodeTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeTextField.h; sourceTree = "<group>"; };
 		A32FA734217A972C006D7930 /* SFSDKPasscodeTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeTextField.m; sourceTree = "<group>"; };
 		A32FA737217AA61E006D7930 /* UIColor+SFSDKPasscodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+SFSDKPasscodeView.h"; sourceTree = "<group>"; };
@@ -1619,6 +1636,7 @@
 		4F96FCEA1BFD32130022F021 /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				A3161CF021810D2800437BD2 /* AppLockView */,
 				A32FA737217AA61E006D7930 /* UIColor+SFSDKPasscodeView.h */,
 				A32FA738217AA61E006D7930 /* UIColor+SFSDKPasscodeView.m */,
 				A32FA720217A972B006D7930 /* SFSDKPasscodeTextField.h */,
@@ -1883,6 +1901,22 @@
 			path = SalesforceSDKCoreTestApp;
 			sourceTree = SOURCE_ROOT;
 		};
+		A3161CF021810D2800437BD2 /* AppLockView */ = {
+			isa = PBXGroup;
+			children = (
+				A3161D0421810D9D00437BD2 /* SFSDKPasscodeViewController.h */,
+				A3161D052181104000437BD2 /* SFSDKPasscodeViewController.m */,
+				A3161D07218110A000437BD2 /* SFSDKPasscodeCreateUpdateController.h */,
+				A3161D09218110D400437BD2 /* SFSDKPasscodeCreateUpdateController.m */,
+				A3161D0B2181110E00437BD2 /* SFSDKBiometricViewController.h */,
+				A3161D0D2181113800437BD2 /* SFSDKBiometricViewController.m */,
+				A3161D0F2181117100437BD2 /* SFSDKBiometricViewController+Internal.h */,
+				A3161D112182349200437BD2 /* SFSDKPasscodeVerifyController.h */,
+				A3161D132182358900437BD2 /* SFSDKPasscodeVerifyController.m */,
+			);
+			path = AppLockView;
+			sourceTree = "<group>";
+		};
 		B7A20F7C1F25850E00D1E4B0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -2117,6 +2151,7 @@
 				CE4CE3751C0E526A009F6029 /* SFKeyStoreManager+Internal.h in Headers */,
 				CE4CE36E1C0E526A009F6029 /* SFGeneratedKeyStore.h in Headers */,
 				B7FB26C71F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.h in Headers */,
+				A3161D122182349200437BD2 /* SFSDKPasscodeVerifyController.h in Headers */,
 				CE4CE33E1C0E524B009F6029 /* SFInstrumentation.h in Headers */,
 				4F06AF811C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.h in Headers */,
 				4F06AF7F1C49A16A00F70798 /* SFOAuthTestFlow.h in Headers */,
@@ -2136,6 +2171,7 @@
 				B7A20F851F25850E00D1E4B0 /* SFSDKWindowContainer.h in Headers */,
 				CE4CE3A11C0E5279009F6029 /* NSURL+SFStringUtils.h in Headers */,
 				CED452B91D808D0C009266EB /* SFRestAPI+Files.h in Headers */,
+				A3161D102181117100437BD2 /* SFSDKBiometricViewController+Internal.h in Headers */,
 				4F06AF841C49A16A00F70798 /* SFSecurityLockoutTests.h in Headers */,
 				CED452C31D808D0C009266EB /* SFRestRequest.h in Headers */,
 				CE4CE3401C0E524B009F6029 /* SFMethodInterceptor.h in Headers */,
@@ -2160,6 +2196,7 @@
 				CE4CE3541C0E5261009F6029 /* SFPushNotificationManager.h in Headers */,
 				8214D96D205317BC0007349E /* SFSDKSalesforceAnalyticsManager+Internal.h in Headers */,
 				B7A20F871F25850E00D1E4B0 /* SFSDKWindowManager.h in Headers */,
+				A3161D08218110A000437BD2 /* SFSDKPasscodeCreateUpdateController.h in Headers */,
 				B79F03FB20D4684600BC7D6F /* UIColor+SFSDKIDP.h in Headers */,
 				CE4CE3B11C0E5279009F6029 /* SFSDKWebUtils.h in Headers */,
 				CE4CE3851C0E526A009F6029 /* SFPBKDFData.h in Headers */,
@@ -2171,6 +2208,7 @@
 				CE4CE3761C0E526A009F6029 /* SFKeyStoreManager.h in Headers */,
 				CE4CE3901C0E526A009F6029 /* SFUserAccount+Internal.h in Headers */,
 				CE4CE3891C0E526A009F6029 /* SFSecurityLockout+Internal.h in Headers */,
+				A3161D0C2181110E00437BD2 /* SFSDKBiometricViewController.h in Headers */,
 				CE4CE38A1C0E526A009F6029 /* SFSecurityLockout.h in Headers */,
 				4F06AF771C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h in Headers */,
 				010A9AE61CC176DD002AF4D3 /* SFDecryptStream.h in Headers */,
@@ -2887,6 +2925,7 @@
 				CE675A341E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m in Sources */,
 				A3D0B14D217A951800DDA414 /* SFSDKPasscodeViewConfig.m in Sources */,
 				B7BAD70E1FBAB8AA0046629F /* SFSDKStartURLHandler.m in Sources */,
+				A3161D142182358900437BD2 /* SFSDKPasscodeVerifyController.m in Sources */,
 				CE4CE3311C0E523B009F6029 /* SFSDKAppConfig.m in Sources */,
 				CED452C41D808D0C009266EB /* SFRestRequest.m in Sources */,
 				B79F03F720D4684600BC7D6F /* SFSDKUITableViewCell.m in Sources */,
@@ -2955,6 +2994,7 @@
 				CE50CE921DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m in Sources */,
 				CE4CE3A61C0E5279009F6029 /* SFDirectoryManager.m in Sources */,
 				CE4CE3811C0E526A009F6029 /* SFPasscodeViewController.m in Sources */,
+				A3161D062181104000437BD2 /* SFSDKPasscodeViewController.m in Sources */,
 				B7C274561F81507100CE539D /* SFSDKAuthResponseCommand.m in Sources */,
 				B7FB26C81F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.m in Sources */,
 				B78C27BA1FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.m in Sources */,
@@ -2967,6 +3007,7 @@
 				CEC75D2220276ECD00A043AA /* SFSDKAuthConfigUtil.m in Sources */,
 				CE4CE33D1C0E5245009F6029 /* SFIdentityData.m in Sources */,
 				CE4CE3A01C0E5272009F6029 /* TestSetupUtils.m in Sources */,
+				A3161D0E2181113800437BD2 /* SFSDKBiometricViewController.m in Sources */,
 				CE4CE32F1C0E523B009F6029 /* SFApplication.m in Sources */,
 				CE4CE3241C0E523B009F6029 /* UIDevice+SFHardware.m in Sources */,
 				CE675A381E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */,
@@ -2998,6 +3039,7 @@
 				B7FB26DB1F78096300FB25A2 /* SFSDKIDPErrorHandler.m in Sources */,
 				CE4CE3641C0E526A009F6029 /* SFCommunityData.m in Sources */,
 				A3C411E321779FDA00523204 /* (null) in Sources */,
+				A3161D0A218110D400437BD2 /* SFSDKPasscodeCreateUpdateController.m in Sources */,
 				010A9AE91CC176DD002AF4D3 /* SFEncryptStream.m in Sources */,
 				CE4CE3861C0E526A009F6029 /* SFPBKDFData.m in Sources */,
 				B79F03F320D4684600BC7D6F /* UIColor+SFSDKIDP.m in Sources */,

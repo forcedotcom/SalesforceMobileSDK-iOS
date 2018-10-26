@@ -1,5 +1,5 @@
 /*
- SFSDKPasscodeViewConfig.m
+ SFSDKPasscodeViewController.h
  SalesforceSDKCore
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
@@ -24,38 +24,19 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
-#import "SFSDKPasscodeViewConfig.h"
-#import "UIColor+SFSDKPasscodeView.h"
-#import "SFSDKResourceUtils.h"
 
-@implementation SFSDKPasscodeViewConfig
+#import <UIKit/UIKit.h>
+#import "SFSecurityLockout.h"
+#import "SFSDKNavigationController.h"
+NS_ASSUME_NONNULL_BEGIN
 
--(instancetype) init {
-    
-    if(self = [super init]) {
-        _forcePasscodeLength = NO;
-        _maxNumberOfAttempts = (NSUInteger*)10;
-        _primaryColor = [UIColor salesforceBlueColor];
-        _secondaryColor = [UIColor whiteColor];
-        _backgroundColor = [UIColor backgroundColor];
-        _borderColor = [UIColor borderColor];
-        _instructionTextColor = [UIColor textColor];
-        _titleTextColor = [UIColor textColor];
-        _navBarColor = [UIColor whiteColor];
-        _navBarTextColor = [UIColor textColor];
-        _instructionFont = [UIFont systemFontOfSize:14];
-        _titleFont = [UIFont systemFontOfSize:18 weight:UIFontWeightBold];
-        _navBarFont = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];
-        _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
-        _touchIdImage = [[SFSDKResourceUtils imageNamed:@"touchId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        _faceIdImage = [[SFSDKResourceUtils imageNamed:@"faceId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    }
-    return self;
-}
+@interface SFSDKPasscodeViewController : SFSDKNavigationController
 
-+ (instancetype)createDefaultConfig {
-    return [[self alloc] init];
-}
+- (instancetype)initWithPasscodeConfigData:(SFPasscodeConfigurationData)configData viewConfig:(SFSDKPasscodeViewConfig *)config mode:(SFPasscodeControllerMode)mode;
+
+
+- (UIViewController *)controllerFromMode:(SFPasscodeControllerMode) mode configData:(SFPasscodeConfigurationData)configData andViewConfig:(SFSDKPasscodeViewConfig *)viewConfig;
 
 @end
+
+NS_ASSUME_NONNULL_END
