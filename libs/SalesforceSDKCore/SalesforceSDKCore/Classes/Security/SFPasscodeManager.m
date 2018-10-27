@@ -231,4 +231,15 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
     return _passcodeLength;
 }
 
+- (BOOL)deviceHasBiometric
+{
+    LAContext *context = [[LAContext alloc] init];
+    NSError *biometricError;
+    BOOL deviceHasBiometric = [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&biometricError];
+    if (!deviceHasBiometric) {
+        [SFSDKCoreLogger d:[self class] format:@"Device cannot use Touch Id or Face Id.  Error: %@", biometricError];
+    }
+    return deviceHasBiometric;
+}
+
 @end

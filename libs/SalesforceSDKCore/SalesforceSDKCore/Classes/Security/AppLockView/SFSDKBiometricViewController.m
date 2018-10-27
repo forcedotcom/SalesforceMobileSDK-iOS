@@ -26,7 +26,7 @@
  */
 
 #import "SFSDKBiometricViewController+Internal.h"
-#import "SFSDKPasscodeViewConfig.h"
+#import "SFSDKAppLockViewConfig.h"
 #import "SFSDKResourceUtils.h"
 #import "SFSDKWindowManager.h"
 #import <LocalAuthentication/LocalAuthentication.h>
@@ -37,19 +37,17 @@ static CGFloat      const kSFIconCircleDiameter                = 80.0f;
 static CGFloat      const kSFFaceIconPadding                   = 22.0f;
 static CGFloat      const kSFTouchIconPadding                  = 19.0f;
 static CGFloat      const kSFTitleTextLabelHeight              = 20.0f;
-static CGFloat      const kSFBiometricInstructionsLabelHeight  = 40.0f;
 static CGFloat      const kSFButtonCornerRadius                = 4.0f;
 static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
 static CGFloat      const kSFTopPadding                        = 64.5f;
-static CGFloat      const kSFBioDefaultPadding                    = 20.0f;
-static CGFloat      const kSFBioButtonHeight                      = 47.0f;
-static CGFloat      const kSFBioTopPadding                        = 64.5f;
-static CGFloat      const kSFBioViewBorderWidth                  = 1.0f;
-static CGFloat      const kSFBioTitleTextLabelHeight              = 20.0f;
+static CGFloat      const kSFBioDefaultPadding                 = 20.0f;
+static CGFloat      const kSFBioButtonHeight                   = 47.0f;
+static CGFloat      const kSFBioTopPadding                     = 64.5f;
+static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
 
 @implementation SFSDKBiometricViewController
 
-- (instancetype)initWithPasscodeConfigData:(SFPasscodeConfigurationData)configData viewConfig:(SFSDKPasscodeViewConfig *)config {
+- (instancetype)initWithAppLockConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config {
     
     self = [super init];
     if (self) {
@@ -62,7 +60,6 @@ static CGFloat      const kSFBioTitleTextLabelHeight              = 20.0f;
 - (void)loadView {
     [super loadView];
     // Biometric Setup View
-    // TODO: No need to layout all components in verification mode
     self.iconView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSFIconCircleDiameter, kSFIconCircleDiameter)];
     self.iconView.backgroundColor = [UIColor clearColor];
     self.iconView.accessibilityIdentifier = @"iconView";
@@ -203,15 +200,11 @@ static CGFloat      const kSFBioTitleTextLabelHeight              = 20.0f;
 }
 
 // private methods
-
-//TODO: Checking for Biometric functionality should be moved elsewhere, if this view is shown it should imply that biometric is enabled.
 - (void)showBiometric
 {
-    //if ([self canShowBiometric]) {
     LAContext *context = [[LAContext alloc] init];
     __weak typeof (self) weakSelf = self;
     
-    //if [SFSecurityLockout biometricUnlockEnabled]
     if (self.verificationMode) {
         [context setLocalizedCancelTitle:[SFSDKResourceUtils localizedString:@"biometricFallbackActionLabel"]];
         [context setLocalizedFallbackTitle:@""];
@@ -230,13 +223,15 @@ static CGFloat      const kSFBioTitleTextLabelHeight              = 20.0f;
     }];
 }
 
-- (void)userDenyBiometricEnablement {
+- (void)userDenyBiometricEnablement
+{
     [self.biometricResponseDelgate biometricUnlockFailed:self.currentPasscode verificationMode:self.verificationMode];
 }
 
 - (void)showBiometricSetup
 {
     LAContext *context = [[LAContext alloc] init];
+    // Need to evaluate context to for biometricType to be populated
     [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
     NSString *bioInstructions = nil;
@@ -260,14 +255,6 @@ static CGFloat      const kSFBioTitleTextLabelHeight              = 20.0f;
             [SFSDKCoreLogger d:[self class] format:@"Biometric View should never show with LABiometricTypeNone.  Device does not have biometric enabled."];
             break;
     }
-}
-
-- (void)dismissStandaloneBiometricSetup
-{
-    [[[SFSDKWindowManager sharedManager] passcodeWindow].viewController dismissViewControllerAnimated:NO completion:^{
-        [[SFSDKWindowManager sharedManager].passcodeWindow  dismissWindowAnimated:NO withCompletion:^{
-        }];
-    }];
 }
 
 - (void)hideAll {

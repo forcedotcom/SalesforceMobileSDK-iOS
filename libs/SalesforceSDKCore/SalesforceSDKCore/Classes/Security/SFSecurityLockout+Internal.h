@@ -1,5 +1,4 @@
 #import "SFSecurityLockout.h"
-#import "SFPasscodeViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +16,7 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
 /**
  * Presents the passcode controller when it's time to create or verify the passcode.
  */
-+ (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue passcodeConfig:(SFPasscodeConfigurationData)configData;
++ (void)presentPasscodeController:(SFAppLockControllerMode)modeValue passcodeConfig:(SFAppLockConfigurationData)configData;
 
 /**
  * Sets a retained instance of the current passcode view controller that's displayed.
@@ -60,7 +59,7 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
  * Generate the notification for the beginning of the passcode flow.
  * @param mode The controller mode (create vs. verify) associated with the passcode or biometric flow.
  */
-+ (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode;
++ (void)sendPasscodeFlowWillBeginNotification:(SFAppLockControllerMode)mode;
 
 /**
  * Generate the notification for the completion of the passcode flow.

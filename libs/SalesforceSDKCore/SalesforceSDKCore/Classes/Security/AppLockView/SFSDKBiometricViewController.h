@@ -27,7 +27,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SFSecurityLockout.h"
-@class SFSDKPasscodeViewConfig;
+@class SFSDKAppLockViewConfig;
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol SFSDKBiometricViewDelegate <NSObject>
@@ -43,18 +43,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The configuration data used to create or update the passcode.
  */
-@property (readonly) SFPasscodeConfigurationData configData;
+@property (readonly) SFAppLockConfigurationData configData;
 
 /**
  Setup passcode view related preferences.
  */
-@property (nonatomic, readonly) SFSDKPasscodeViewConfig *viewConfig;
+@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig;
 
 @property (nonatomic,weak) id<SFSDKBiometricViewDelegate> biometricResponseDelgate;
 
 @property (nonatomic) BOOL verificationMode;
 
-- (instancetype)initWithPasscodeConfigData:(SFPasscodeConfigurationData)configData viewConfig:(SFSDKPasscodeViewConfig *)config;
+- (instancetype)initWithAppLockConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config;
 
 @end
 

@@ -1,8 +1,5 @@
 /*
- SFSDKPasscodeVerifyController.h
- SalesforceSDKCore
- 
- Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -25,43 +22,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import "SFSecurityLockout.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SFSDKPasscodeVerifyDelegate
-
-- (void)passcodeVerified:(NSString *)passcode;
-
-@end
-
-@interface SFSDKPasscodeVerifyController : UIViewController
-
 /**
- * The configuration data used to verify the passcode.
+ Mode constants indicating whether to create/verify an passcode or use biometric.
  */
-@property (readonly) SFAppLockConfigurationData configData;
-
-/**
- Setup passcode view related preferences.
- */
-@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig;
-
-/**
- * Known length of the user's passcode.
- */
-@property (nonatomic) NSUInteger passcodeLength;
-
-/**
- * Wether the passcode length is known.
- */
-@property (nonatomic) BOOL passcodeLengthKnown;
-
-@property (nonatomic,weak) id <SFSDKPasscodeVerifyDelegate> verifyDelegate;
-
-- (instancetype)initWithPasscodeConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config;
-
-@end
+typedef NS_ENUM(NSUInteger, SFAppLockControllerMode) {
+    SFPasscodeControllerModeCreate,
+    SFPasscodeControllerModeVerify,
+    SFPasscodeControllerModeChange,
+    SFBiometricControllerModeEnable,
+    SFBiometricControllerModeVerify
+} NS_SWIFT_NAME(AppLockViewController.AppLockControllerMode);
 
 NS_ASSUME_NONNULL_END

@@ -142,6 +142,11 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
  */
 - (NSUInteger)passcodeLength;
 
+/**
+ Checks if the device has biometric enabled.
+ */
+- (BOOL)deviceHasBiometric;
+
 @end
 
 NS_ASSUME_NONNULL_END

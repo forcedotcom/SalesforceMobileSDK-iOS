@@ -78,9 +78,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //loginViewConfig.navBarFont = UIFont(name: "Helvetica", size: 16.0)
         //SFUserAccountManager.sharedInstance().loginViewControllerConfig = loginViewConfig
         
-        let passcodeViewConfig = PasscodeViewControllerConfig()
+        let passcodeViewConfig = AppLockViewControllerConfig()
         passcodeViewConfig.forcePasscodeLength = true
-        UserAccountManager.sharedInstance().passcodeViewControllerConfig = passcodeViewConfig
+        UserAccountManager.sharedInstance().appLockViewControllerConfig = passcodeViewConfig
         
         AuthHelper.loginIfRequired { [weak self] in
             self?.setupRootViewController()

@@ -27,7 +27,7 @@
 
 #import "SFSDKPasscodeTextField.h"
 #import "UIColor+SFSDKPasscodeView.h"
-#import "SFSDKPasscodeViewConfig.h"
+#import "SFSDKAppLockViewConfig.h"
 
 static NSUInteger   const kMaxPasscodeLength                 = 8;
 static CGFloat      const kDefaultPadding                    = 20.0f;
@@ -48,10 +48,10 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
 
 - (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length
 {
-    return [self initWithFrame:frame andLength:length andViewConfig:[SFSDKPasscodeViewConfig createDefaultConfig]];
+    return [self initWithFrame:frame andLength:length andViewConfig:[SFSDKAppLockViewConfig createDefaultConfig]];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length andViewConfig:(SFSDKPasscodeViewConfig *)config
+- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length andViewConfig:(SFSDKAppLockViewConfig *)config
 {
     if (self = [super initWithFrame:frame]) {
         _passcodeLength = length;

@@ -26,7 +26,7 @@
  */
 
 #import "SFSDKPasscodeVerifyController.h"
-#import "SFSDKPasscodeViewConfig.h"
+#import "SFSDKAppLockViewConfig.h"
 #import "SFSecurityLockout.h"
 #import "SFSDKPasscodeTextField.h"
 #import "SFSDKResourceUtils.h"
@@ -37,9 +37,6 @@
 static NSUInteger   const kSFMaxPasscodeLength                 = 8;
 static CGFloat      const kSFDefaultPadding                    = 20.0f;
 static CGFloat      const kSFTopPadding                        = 64.5f;
-static CGFloat      const kSFTitleTextLabelHeight              = 20.0f;
-static CGFloat      const kSFPassodeInstructionsLabelHeight    = 20.0f;
-static CGFloat      const kSFBiometricInstructionsLabelHeight  = 40.0f;
 static CGFloat      const kSFButtonCornerRadius                = 4.0f;
 static CGFloat      const kSFButtonHeight                      = 47.0f;
 static CGFloat      const kSFVerifyButtonWidth                 = 143.0f;
@@ -93,7 +90,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 @synthesize configData = _configData;
 @synthesize viewConfig = _viewConfig;
 
-- (instancetype)initWithPasscodeConfigData:(SFPasscodeConfigurationData)configData viewConfig:(SFSDKPasscodeViewConfig *)config
+- (instancetype)initWithPasscodeConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config
 {
     self = [super init];
     if (self) {
@@ -103,11 +100,8 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
         if (self.remainingAttempts == 0) {
             [self resetReaminingAttemps];
         }
-        if (_configData.passcodeLength != SFPasscodeConfigurationDataNull.passcodeLength) {
-            self.passcodeLength = _configData.passcodeLength;
-        } else {
-            self.passcodeLength = [SFSecurityLockout passcodeLength];
-        }
+        self.passcodeLength = (&_configData != &SFAppLockConfigurationDataNull) ? _configData.passcodeLength : [SFSecurityLockout passcodeLength];
+        self.passcodeLengthKnown = (self.passcodeLength != 0);
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutVerifyButton:) name:UIKeyboardDidShowNotification object:nil];
     }
     return self;
@@ -170,8 +164,6 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     self.view.backgroundColor = self.viewConfig.backgroundColor;
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
@@ -231,10 +223,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     [self.passcodeInstructionsLabel setHidden:NO];
     [self layoutSubviews];
     [self.passcodeTextView setHidden:NO];
-    
-    if (self.passcodeLength == 0) {
-        [self.verifyPasscodeButton setHidden:NO];
-    }
+    [self.verifyPasscodeButton setHidden:self.passcodeLengthKnown];
     [self.passcodeTextView refreshView];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.passcodeTextView becomeFirstResponder];
@@ -243,26 +232,19 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)rString {
+    NSUInteger length = (self.passcodeLengthKnown) ? self.passcodeLength : kSFMaxPasscodeLength;
     
     // Check if input is an actual int
     if (rString.intValue == 0 && ![rString isEqualToString:@"0"]) {
         return NO;
     }
     
-    BOOL passcodeLengthKnown = (self.passcodeLength != 0);
-    NSUInteger length = (passcodeLengthKnown) ? self.passcodeLength : kSFMaxPasscodeLength;
-    self.passcodeTextView.passcodeLength = length;
-    
     // This prevents too many characters from being entered
-    if (passcodeLengthKnown) {
-        if (self.passcodeTextView.passcodeInput.length <= (length - 1)) {
-            [self.passcodeTextView.passcodeInput appendString:rString];
-        }
-    } else {
+    if (self.passcodeTextView.passcodeInput.length < length) {
         [self.passcodeTextView.passcodeInput appendString:rString];
     }
     
-    if (passcodeLengthKnown && [self.passcodeTextView.passcodeInput length] == length) {
+    if (self.passcodeLengthKnown && [self.passcodeTextView.passcodeInput length] == length) {
         [self verifyPasscode];
     } else {
         [self.passcodeTextView refreshView];
@@ -303,7 +285,6 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
         if ([self.passcodeTextView isFirstResponder]) {
             [self.passcodeTextView resignFirstResponder];
         }
-        [self.passcodeTextView refreshView];
         [self validatePasscodeConfirmed:self.passcodeTextView.passcodeInput];
     } else {
         if ([self decrementPasscodeAttempts]) {

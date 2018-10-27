@@ -1,5 +1,5 @@
 /*
- SFSDKPasscodeVerifyController.h
+ SFSDKAppLockViewConfig.m
  SalesforceSDKCore
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
@@ -24,44 +24,38 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+ 
+#import "SFSDKAppLockViewConfig.h"
+#import "UIColor+SFSDKPasscodeView.h"
+#import "SFSDKResourceUtils.h"
 
-#import <UIKit/UIKit.h>
-#import "SFSecurityLockout.h"
+@implementation SFSDKAppLockViewConfig
 
-NS_ASSUME_NONNULL_BEGIN
+-(instancetype) init {
+    
+    if(self = [super init]) {
+        _forcePasscodeLength = NO;
+        _maxNumberOfAttempts = (NSUInteger*)10;
+        _primaryColor = [UIColor salesforceBlueColor];
+        _secondaryColor = [UIColor whiteColor];
+        _backgroundColor = [UIColor backgroundColor];
+        _borderColor = [UIColor borderColor];
+        _instructionTextColor = [UIColor textColor];
+        _titleTextColor = [UIColor textColor];
+        _navBarColor = [UIColor whiteColor];
+        _navBarTextColor = [UIColor textColor];
+        _instructionFont = [UIFont systemFontOfSize:14];
+        _titleFont = [UIFont systemFontOfSize:18 weight:UIFontWeightBold];
+        _navBarFont = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];
+        _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
+        _touchIdImage = [[SFSDKResourceUtils imageNamed:@"touchId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        _faceIdImage = [[SFSDKResourceUtils imageNamed:@"faceId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    return self;
+}
 
-@protocol SFSDKPasscodeVerifyDelegate
-
-- (void)passcodeVerified:(NSString *)passcode;
-
-@end
-
-@interface SFSDKPasscodeVerifyController : UIViewController
-
-/**
- * The configuration data used to verify the passcode.
- */
-@property (readonly) SFAppLockConfigurationData configData;
-
-/**
- Setup passcode view related preferences.
- */
-@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig;
-
-/**
- * Known length of the user's passcode.
- */
-@property (nonatomic) NSUInteger passcodeLength;
-
-/**
- * Wether the passcode length is known.
- */
-@property (nonatomic) BOOL passcodeLengthKnown;
-
-@property (nonatomic,weak) id <SFSDKPasscodeVerifyDelegate> verifyDelegate;
-
-- (instancetype)initWithPasscodeConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config;
++ (instancetype)createDefaultConfig {
+    return [[self alloc] init];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

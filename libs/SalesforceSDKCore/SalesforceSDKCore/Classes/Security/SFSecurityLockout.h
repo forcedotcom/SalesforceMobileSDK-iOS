@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "SFPasscodeViewControllerTypes.h"
+#import "SFAppLockViewControllerTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -72,7 +72,8 @@ typedef NS_ENUM(NSUInteger, SFSecurityLockoutAction) {
 };
 
 /**
- Struct containing passcode configuration data, including passcode length and lockout time.
+ Struct containing passcode and biometric configuration data, including passcode length,
+ lockout time and if biometric unlock is allowed.
  This information will generally be passed through the passcode creation/update process, to
  allow the settings to ultimately be persisted once creation/update successfully completes.
  */
@@ -80,14 +81,14 @@ typedef struct {
     NSUInteger passcodeLength;
     NSUInteger lockoutTime;
     BOOL biometricUnlockAllowed;
-} SFPasscodeConfigurationData;
+} SFAppLockConfigurationData;
 
-@class SFSDKPasscodeViewConfig;
+@class SFSDKAppLockViewConfig;
 /**
  Special value for an empty SFPasscodeConfigurationData object, used when configuration data
  is not necessary.
  */
-extern SFPasscodeConfigurationData const SFPasscodeConfigurationDataNull;
+extern SFAppLockConfigurationData const SFAppLockConfigurationDataNull;
 
 /** Notification sent when the passcode or biometric screen will be displayed.
  */
@@ -110,7 +111,7 @@ typedef void (^SFLockScreenFailureCallbackBlock)(void);
 /**
  Block typedef for creating the passcode view controller.
  */
-typedef UIViewController* _Nullable  (^SFPasscodeViewControllerCreationBlock)(SFPasscodeControllerMode mode, SFPasscodeConfigurationData configData,SFSDKPasscodeViewConfig *viewConfig);
+typedef UIViewController* _Nullable  (^SFPasscodeViewControllerCreationBlock)(SFAppLockControllerMode mode, SFAppLockConfigurationData configData,SFSDKAppLockViewConfig *viewConfig);
 
 /**
  Block typedef for displaying and dismissing the passcode view controller.
@@ -133,7 +134,7 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
  Called just before the passcode flow begins and the view is displayed.
  @param mode The mode of the passcode or biometric flow, i.e. passcode/biometric creation or verification.
  */
-- (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode;
+- (void)passcodeFlowWillBegin:(SFAppLockControllerMode)mode;
 
 /**
  Called after the passcode flow has completed.
@@ -155,7 +156,7 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
 /**
  Setup passcode view related preferences.
  */
-@property (nonatomic,strong,class) SFSDKPasscodeViewConfig *passcodeViewConfig;
+@property (nonatomic,strong,class) SFSDKAppLockViewConfig *passcodeViewConfig;
 /**
  Adds a delegate to the list of SFSecurityLockout delegates.
  @param delegate The delegate to add to the list.
@@ -278,7 +279,7 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
  @param action In a successful challenge, what was the action taken?
  @param configData The round-trip passcode configuration data used to create or update the passcode.
  */
-+ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action passcodeConfig:(SFPasscodeConfigurationData)configData;
++ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action passcodeConfig:(SFAppLockConfigurationData)configData;
 
 /** Toggle the locked state
  @param locked Locks the device if `YES`, otherwise unlocks the device.
@@ -365,7 +366,7 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
  This can be used to prompt the user to enable biometric unlock if it was denied upon inital login or upgrade.
  @param viewConfig SFSDKPasscodeViewConfig used to create the view controller.  Supply nil to use the current SFSDKPasscodeViewConfig.
  */
-+ (void)presentBiometricEnrollment:(nullable SFSDKPasscodeViewConfig*)viewConfig;
++ (void)presentBiometricEnrollment:(nullable SFSDKAppLockViewConfig*)viewConfig;
 
 /**
  * Returns the currently displayed passcode view controller, or nil if the passcode view controller

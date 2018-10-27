@@ -1,5 +1,5 @@
 /*
- SFSDKPasscodeVerifyController.h
+ SFSDKAppLockViewController.h
  SalesforceSDKCore
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
@@ -27,40 +27,15 @@
 
 #import <UIKit/UIKit.h>
 #import "SFSecurityLockout.h"
-
+#import "SFSDKNavigationController.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SFSDKPasscodeVerifyDelegate
+@interface SFSDKAppLockViewController : SFSDKNavigationController
 
-- (void)passcodeVerified:(NSString *)passcode;
+- (instancetype)initWithAppLockConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config mode:(SFAppLockControllerMode)mode;
 
-@end
 
-@interface SFSDKPasscodeVerifyController : UIViewController
-
-/**
- * The configuration data used to verify the passcode.
- */
-@property (readonly) SFAppLockConfigurationData configData;
-
-/**
- Setup passcode view related preferences.
- */
-@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig;
-
-/**
- * Known length of the user's passcode.
- */
-@property (nonatomic) NSUInteger passcodeLength;
-
-/**
- * Wether the passcode length is known.
- */
-@property (nonatomic) BOOL passcodeLengthKnown;
-
-@property (nonatomic,weak) id <SFSDKPasscodeVerifyDelegate> verifyDelegate;
-
-- (instancetype)initWithPasscodeConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config;
+- (UIViewController *)controllerFromMode:(SFAppLockControllerMode) mode configData:(SFAppLockConfigurationData)configData andViewConfig:(SFSDKAppLockViewConfig *)viewConfig;
 
 @end
 

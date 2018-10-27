@@ -110,7 +110,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 @synthesize userAccountMap = _userAccountMap;
 @synthesize accountPersister = _accountPersister;
 @synthesize loginViewControllerConfig = _loginViewControllerConfig;
-@synthesize passcodeViewControllerConfig = _passcodeViewControllerConfig;
+@synthesize appLockViewControllerConfig = _appLockViewControllerConfig;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t pred;
@@ -248,16 +248,16 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     }
 }
 
-- (SFSDKPasscodeViewConfig *) passcodeViewControllerConfig {
-    if (!_passcodeViewControllerConfig) {
-        _passcodeViewControllerConfig = [SFSDKPasscodeViewConfig createDefaultConfig];
+- (SFSDKAppLockViewConfig *) appLockViewControllerConfig {
+    if (!_appLockViewControllerConfig) {
+        _appLockViewControllerConfig = [SFSDKAppLockViewConfig createDefaultConfig];
     }
-    return _passcodeViewControllerConfig;
+    return _appLockViewControllerConfig;
 }
 
-- (void) setPasscodeViewControllerConfig:(SFSDKPasscodeViewConfig *)config {
-    if (_passcodeViewControllerConfig != config) {
-        _passcodeViewControllerConfig = config;
+- (void) setAppLockViewControllerConfig:(SFSDKAppLockViewConfig *)config {
+    if (_appLockViewControllerConfig != config) {
+        _appLockViewControllerConfig = config;
         [SFSecurityLockout setPasscodeViewConfig:config];
     }
 }
@@ -1154,6 +1154,18 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     return [userDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
 }
 
+- (void)presentBiometricEnrollment:(nullable SFSDKAppLockViewConfig *)config {
+    [SFSecurityLockout presentBiometricEnrollment:config];
+}
+
+- (BOOL)deviceHasBiometric {
+    return [[SFPasscodeManager sharedManager] deviceHasBiometric];
+}
+
+- (BOOL)biometricUnlockEnabled {
+    return [SFSecurityLockout biometricUnlockEnabled];
+}
+
 #pragma mark - private methods
 - (void)populateErrorHandlers
 {
@@ -1328,7 +1340,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
     // identity service.
     [SFSecurityLockout setInactivityConfiguration:client.idData.mobileAppPinLength
-                                      lockoutTime:(client.idData.mobileAppScreenLockTimeout * 5)
+                                      lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
                                  biometricAllowed:biometricUnlockAvailable];
 }
 

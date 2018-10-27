@@ -1,5 +1,5 @@
 /*
- SFSDKPasscodeVerifyController.h
+ SFSDKPasscodeCreateController.h
  SalesforceSDKCore
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
@@ -30,16 +30,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SFSDKPasscodeVerifyDelegate
+@protocol SFSDKPasscodeCreateDelegate
 
-- (void)passcodeVerified:(NSString *)passcode;
+- (void)passcodeCreated:(NSString *)passcode updateMode: (BOOL)isUpdateMode;
 
 @end
 
-@interface SFSDKPasscodeVerifyController : UIViewController
+@interface SFSDKPasscodeCreateController : UIViewController
 
 /**
- * The configuration data used to verify the passcode.
+ * The configuration data used to create or update the passcode.
  */
 @property (readonly) SFAppLockConfigurationData configData;
 
@@ -48,17 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig;
 
-/**
- * Known length of the user's passcode.
- */
-@property (nonatomic) NSUInteger passcodeLength;
+@property (nonatomic) BOOL updateMode;
 
-/**
- * Wether the passcode length is known.
- */
-@property (nonatomic) BOOL passcodeLengthKnown;
-
-@property (nonatomic,weak) id <SFSDKPasscodeVerifyDelegate> verifyDelegate;
+@property (nonatomic,weak) id <SFSDKPasscodeCreateDelegate> createDelegate;
 
 - (instancetype)initWithPasscodeConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config;
 

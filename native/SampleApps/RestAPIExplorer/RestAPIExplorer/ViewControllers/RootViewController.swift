@@ -809,7 +809,11 @@ extension RootViewController: ActionTableViewDelegate {
                     case .enableBiometric:
                         let context = LAContext()
                         if (context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) && SFSecurityLockout.biometricUnlockAllowed() && !SFSecurityLockout.biometricUnlockEnabled()) {
-                            SFSecurityLockout.presentBiometricEnrollment(PasscodeViewControllerConfig.createDefault())
+                            SFSecurityLockout.presentBiometricEnrollment(AppLockViewControllerConfig.createDefault())
+                        }
+                        
+                        if (UserAccountManager.sharedInstance().deviceHasBiometric() && !UserAccountManager.sharedInstance().biometricUnlockEnabled()) {
+                            UserAccountManager.sharedInstance().presentBiometricEnrollment(nil);
                         }
                         
                         return
