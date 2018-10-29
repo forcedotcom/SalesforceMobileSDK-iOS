@@ -59,15 +59,28 @@
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated
+{
    [self setupNavBar];
 }
 
-- (void)setupNavBar {
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (void)setupNavBar
+{
     [self.navigationController.view setBackgroundColor:[UIColor clearColor]];
     self.navigationController.navigationBar.backgroundColor = self.viewConfig.navBarColor;
     self.navigationController.navigationBar.tintColor = self.viewConfig.navBarColor;
@@ -113,7 +126,8 @@
     }
 }
 
-- (void)biometricUnlockFailed:(NSString *)currentPasscode verificationMode:(BOOL)isVerificationMode  {
+- (void)biometricUnlockFailed:(NSString *)currentPasscode verificationMode:(BOOL)isVerificationMode
+{
     if (isVerificationMode) {
         [self.navigationController popViewControllerAnimated:NO];
         SFSDKPasscodeVerifyController *pvc = [[SFSDKPasscodeVerifyController alloc] initWithPasscodeConfigData:self.configData viewConfig:self.viewConfig];
@@ -198,4 +212,3 @@
     });
 }
 @end
-

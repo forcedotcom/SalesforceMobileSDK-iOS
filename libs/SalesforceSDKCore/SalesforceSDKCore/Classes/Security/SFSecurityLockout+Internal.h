@@ -86,6 +86,18 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
 + (void)writeLockoutTimeToKeychain:(NSNumber *_Nullable)lockoutTime;
 
 /**
+ * Retrieves the passcode length value from the keychain.
+ * @return NSNumber wrapping the NSUInteger value for passcode length, or `nil` if not set.
+ */
++ (NSNumber *)readPasscodeLengthFromKeychain;
+
+/**
+ * Writes the passcode length to the keychain.
+ * @param length The NSNumber wrapping the NSUInteger value to be written to the keychain.
+ */
++ (void)writePasscodeLengthToKeychain:(NSNumber *)length;
+
+/**
  * Retreives the "is locked" setting from the keychain.
  * @return The NSNumber wrapping the BOOL value for "is locked", or `nil` if not set.
  */

@@ -866,22 +866,22 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (NSNumber *)readNumberFromKeychain:(NSString *)identifier
 {
-    NSNumber *time = nil;
+    NSNumber *data = nil;
     SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:identifier account:nil];
     NSData *valueData = [keychainWrapper valueData];
     if (valueData) {
         NSUInteger i = 0;
         [valueData getBytes:&i length:sizeof(i)];
-        time = @(i);
+        data = @(i);
     }
-    return time;
+    return data;
 }
 
 + (void)writeNumberToKeychain:(NSNumber *)number identifier: (NSString *)identifier
 {
     SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:identifier account:nil];
     NSData *data = nil;
-    if (time != nil) {
+    if (number != nil) {
         NSUInteger i = [number unsignedIntegerValue];
         data = [NSData dataWithBytes:&i length:sizeof(i)];
     }
