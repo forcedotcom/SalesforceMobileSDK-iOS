@@ -3,8 +3,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 static NSUInteger const kDefaultLockoutTime        = 0;
+static NSUInteger const kDefaultPasscodeLength     = 0;
 static NSString * _Nullable const kSecurityTimeoutLegacyKey  = @"security.timeout";
 static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islocked";
+static NSString * const kBiometricUnlockAllowedKey           = @"security.biometric.allowed"; // Enabled in the Org
+static NSString * const kBiometricUnlockEnabledKey           = @"security.biometric.enabled"; // Should show biometric instead of passcode
+static NSString * const kUserDeclinedBiometricKey            = @"security.biometric.declined"; // User declined biometric unlock
 
 @interface SFSecurityLockout ()
 
@@ -93,9 +97,9 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
 
 /**
  * Writes the passcode length to the keychain.
- * @param length The NSNumber wrapping the NSUInteger value to be written to the keychain.
+ * @param passcodeLength The NSNumber wrapping the NSUInteger value to be written to the keychain.
  */
-+ (void)writePasscodeLengthToKeychain:(NSNumber *)length;
++ (void)writePasscodeLengthToKeychain:(NSNumber *_Nullable)passcodeLength;
 
 /**
  * Retreives the "is locked" setting from the keychain.
