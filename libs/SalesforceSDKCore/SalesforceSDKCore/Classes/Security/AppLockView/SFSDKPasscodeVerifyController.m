@@ -171,6 +171,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"verifyPasscodeNavTitle"]];
     [self.passcodeInstructionsLabel setFont:self.viewConfig.instructionFont];
     [self layoutSubviews];
@@ -207,6 +208,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self showVerifyPasscode];
     [self.passcodeTextView refreshView];
     [self.passcodeTextView becomeFirstResponder];

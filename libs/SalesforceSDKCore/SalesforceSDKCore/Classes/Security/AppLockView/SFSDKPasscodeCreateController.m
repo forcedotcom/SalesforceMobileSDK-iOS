@@ -167,7 +167,9 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     self.passcodeTextView.layer.frame = CGRectMake(xView, yView, wView, hView);
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     if (self.updateMode) {
        self.passcodeInstructionsLabel.text = [SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"];
     } else {

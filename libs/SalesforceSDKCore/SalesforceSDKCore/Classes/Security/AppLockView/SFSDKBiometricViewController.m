@@ -183,7 +183,9 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
 }
 
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
     self.view.backgroundColor = self.viewConfig.backgroundColor;
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];

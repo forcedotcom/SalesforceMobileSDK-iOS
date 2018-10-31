@@ -215,21 +215,18 @@ static BOOL _showPasscode = YES;
 
 + (void)setInactivityConfiguration:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)newBiometricAllowed
 {
-    
     SFAppLockConfigurationData configData;
     configData.lockoutTime = securityLockoutTime;
     configData.passcodeLength = [self passcodeLength];
     
-    if (newBiometricAllowed) {
+    if (newBiometricAllowed != [self biometricUnlockAllowed]) {
         // Biometric off -> on.
         // Don't set allowed if user had previously declined.
-        if (!configData.biometricUnlockAllowed && ![self userDeclinedBiometricUnlock]) {
+        if (newBiometricAllowed && ![self userDeclinedBiometricUnlock]) {
             [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"Biometric unlock is allowed."];
             [self setBiometricAllowed:YES];
-        }
-    } else {
-        // Biometric on -> off.
-        if([self biometricUnlockAllowed]) {
+        } else {
+            // Biometric on -> off.
             [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"Biometric unlock is not not allowed."];
             [self setBiometricAllowed:NO];
         }

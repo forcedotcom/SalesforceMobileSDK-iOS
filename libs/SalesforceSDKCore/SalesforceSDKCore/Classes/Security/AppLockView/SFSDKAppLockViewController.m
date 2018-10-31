@@ -66,7 +66,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-   [self setupNavBar];
+    [super viewWillAppear:animated];
+    [self setupNavBar];
 }
 
 - (BOOL)shouldAutorotate
