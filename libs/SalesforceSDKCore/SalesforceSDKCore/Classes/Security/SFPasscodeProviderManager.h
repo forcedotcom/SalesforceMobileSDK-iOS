@@ -101,12 +101,6 @@ FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderPBKDF2;
  */
 - (void)setPasscode:(NSString *)newPasscode;
 
-/**
- Get passcode length for UX.
- @return NSUInteger length
- */
-- (NSUInteger)passcodeLength;
-
 @optional
 
 

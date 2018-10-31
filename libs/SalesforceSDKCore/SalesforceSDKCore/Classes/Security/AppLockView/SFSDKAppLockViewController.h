@@ -34,9 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithAppLockConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config mode:(SFAppLockControllerMode)mode;
 
-
-- (UIViewController *)controllerFromMode:(SFAppLockControllerMode) mode configData:(SFAppLockConfigurationData)configData andViewConfig:(SFSDKAppLockViewConfig *)viewConfig;
-
 @end
 
 NS_ASSUME_NONNULL_END

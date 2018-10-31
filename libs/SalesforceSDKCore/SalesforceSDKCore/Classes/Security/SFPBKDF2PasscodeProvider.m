@@ -150,7 +150,7 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
     
     // Set Passcode length
     SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscodeLength account:nil];
-    [keychainWrapper setPasscodeLength:(int)[passcode length]];
+    keychainWrapper.passcodeLength = passcode.length;
     
     return encodedKey;
 }

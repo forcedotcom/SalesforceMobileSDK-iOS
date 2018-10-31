@@ -87,21 +87,18 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 @end
 
 @implementation SFSDKPasscodeVerifyController
-@synthesize configData = _configData;
 @synthesize viewConfig = _viewConfig;
 
-- (instancetype)initWithPasscodeConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config
+- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config
 {
     self = [super init];
     if (self) {
-        _configData = configData;
         _viewConfig = config;
         
         if (self.remainingAttempts == 0) {
             [self resetReaminingAttemps];
         }
-        self.passcodeLength = (&_configData != &SFAppLockConfigurationDataNull) ? _configData.passcodeLength : [SFSecurityLockout passcodeLength];
-        self.passcodeLengthKnown = (self.passcodeLength != 0);
+        self.passcodeLengthKnown = (self.viewConfig.passcodeLength != 0);
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutVerifyButton:) name:UIKeyboardDidShowNotification object:nil];
     }
     return self;
@@ -117,7 +114,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 - (void)loadView
 {
     [super loadView];
-    self.passcodeTextView = [[SFSDKPasscodeTextField alloc] initWithFrame:CGRectZero andLength:self.passcodeLength andViewConfig:self.viewConfig];
+    self.passcodeTextView = [[SFSDKPasscodeTextField alloc] initWithFrame:CGRectZero andViewConfig:self.viewConfig];
     self.passcodeTextView.delegate = self;
     self.passcodeTextView.layer.borderWidth = kSFViewBoarderWidth;
     self.passcodeTextView.accessibilityIdentifier = @"passcodeTextField";
@@ -232,7 +229,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)rString {
-    NSUInteger length = (self.passcodeLengthKnown) ? self.passcodeLength : kSFMaxPasscodeLength;
+    NSUInteger length = (self.passcodeLengthKnown) ? self.viewConfig.passcodeLength : kSFMaxPasscodeLength;
     
     // Check if input is an actual int
     if (rString.intValue == 0 && ![rString isEqualToString:@"0"]) {
@@ -255,12 +252,10 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 
 - (void)layoutVerifyButton:(NSNotification *)notification
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        CGFloat xButton = CGRectGetMaxX(self.view.bounds) - kSFVerifyButtonWidth - kSFDefaultPadding;
-        CGFloat yButton = CGRectGetMaxY(self.view.bounds) - keyboardSize.height - kSFButtonHeight - kSFDefaultPadding;
-        self.verifyPasscodeButton.frame = CGRectMake(xButton, yButton, kSFVerifyButtonWidth, kSFButtonHeight);
-    });
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    CGFloat xButton = CGRectGetMaxX(self.view.bounds) - kSFVerifyButtonWidth - kSFDefaultPadding;
+    CGFloat yButton = CGRectGetMaxY(self.view.bounds) - keyboardSize.height - kSFButtonHeight - kSFDefaultPadding;
+    self.verifyPasscodeButton.frame = CGRectMake(xButton, yButton, kSFVerifyButtonWidth, kSFButtonHeight);
 }
 
 - (NSInteger)remainingAttempts
@@ -323,8 +318,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 - (void)validatePasscodeFailed
 {
     [self resetReaminingAttemps];
-    [[SFPasscodeManager sharedManager] resetPasscode];
-    [SFSecurityLockout unlock:NO action:SFSecurityLockoutActionNone passcodeConfig:self.configData];
+    [self.verifyDelegate passcodeFailed];
 }
 
 @end

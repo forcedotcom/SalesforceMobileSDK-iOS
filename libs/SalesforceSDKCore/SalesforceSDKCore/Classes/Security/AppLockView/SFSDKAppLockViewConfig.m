@@ -28,6 +28,7 @@
 #import "SFSDKAppLockViewConfig.h"
 #import "UIColor+SFSDKPasscodeView.h"
 #import "SFSDKResourceUtils.h"
+#import "SFSecurityLockout.h"
 
 @implementation SFSDKAppLockViewConfig
 
@@ -35,7 +36,7 @@
     
     if(self = [super init]) {
         _forcePasscodeLength = NO;
-        _maxNumberOfAttempts = (NSUInteger*)10;
+        _maxNumberOfAttempts = (NSUInteger)10;
         _primaryColor = [UIColor salesforceBlueColor];
         _secondaryColor = [UIColor whiteColor];
         _backgroundColor = [UIColor backgroundColor];
@@ -50,6 +51,7 @@
         _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
         _touchIdImage = [[SFSDKResourceUtils imageNamed:@"touchId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         _faceIdImage = [[SFSDKResourceUtils imageNamed:@"faceId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        _passcodeLength = [SFSecurityLockout passcodeLength];
     }
     return self;
 }

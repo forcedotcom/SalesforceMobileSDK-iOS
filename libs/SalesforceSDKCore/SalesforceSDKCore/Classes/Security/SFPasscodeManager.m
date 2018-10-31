@@ -150,7 +150,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
         [currentProvider resetPasscodeData];
     }
     [self setEncryptionKey:nil];
-    _passcodeLength = 0;
+    self.passcodeLength = 0;
 }
 
 - (BOOL)verifyPasscode:(NSString *)passcode
@@ -223,12 +223,12 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
     [currentProvider setVerificationPasscode:newPasscode];
     NSString *encryptionKey = [currentProvider generateEncryptionKey:newPasscode];
     [self setEncryptionKey:encryptionKey];
-    _passcodeLength = newPasscode.length;
+    self.passcodeLength = newPasscode.length;
 }
 
 - (NSUInteger)passcodeLength
 {
-    return _passcodeLength;
+    return self.passcodeLength;
 }
 
 - (BOOL)deviceHasBiometric

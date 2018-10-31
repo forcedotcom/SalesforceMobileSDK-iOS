@@ -47,11 +47,10 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
 
 @implementation SFSDKBiometricViewController
 
-- (instancetype)initWithAppLockConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config {
+- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config {
     
     self = [super init];
     if (self) {
-        _configData = configData;
         _viewConfig = config;
     }
     return self;

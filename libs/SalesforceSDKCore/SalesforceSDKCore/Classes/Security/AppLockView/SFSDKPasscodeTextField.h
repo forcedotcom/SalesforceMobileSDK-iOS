@@ -1,5 +1,8 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFSDKPasscodeTextField.h
+ SalesforceSDKCore
+ 
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,19 +25,36 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "SFSDKAppLockViewConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- Mode constants indicating whether to create/verify an passcode or use biometric.
- */
-typedef NS_ENUM(NSUInteger, SFAppLockControllerMode) {
-    SFPasscodeControllerModeCreate,
-    SFPasscodeControllerModeVerify,
-    SFPasscodeControllerModeChange,
-    SFBiometricControllerModeEnable,
-    SFBiometricControllerModeVerify
-} NS_SWIFT_NAME(AppLockViewController.AppLockControllerMode);
+@protocol SFSDKPasscodeDeleteProtocol
+
+-(void)deleteBackward;
+
+@end
+
+@interface SFSDKPasscodeTextField : UITextField
+
+@property (weak,nonatomic) id deleteDelegate;
+
+@property (nonatomic) BOOL passcodeLengthKnown;
+
+@property (assign,assign) NSUInteger passcodeLength;
+
+@property (strong,nonatomic) NSMutableString *passcodeInput;
+
+- (void)clearPasscode;
+
+- (void)refreshView;
+
+- (instancetype)initWithFrame:(CGRect)frame;
+
+- (instancetype)initWithFrame:(CGRect)frame andViewConfig:(SFSDKAppLockViewConfig *)config;
+
+@end
 
 NS_ASSUME_NONNULL_END
+

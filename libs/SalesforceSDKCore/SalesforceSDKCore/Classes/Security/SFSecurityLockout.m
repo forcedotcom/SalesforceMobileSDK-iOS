@@ -245,7 +245,7 @@ static BOOL _showPasscode = YES;
             // Passcode off -> on.  Trigger passcode creation.
             configData.lockoutTime = newLockoutTime;
             configData.passcodeLength = newPasscodeLength;
-            [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate passcodeConfig:configData];
+            [SFSecurityLockout presentPasscodeController:SFAppLockControllerModeCreatePasscode passcodeConfig:configData];
         }
         return;
     }
@@ -277,7 +277,7 @@ static BOOL _showPasscode = YES;
     NSUInteger currentPasscodeLength = [self passcodeLength];
     if (newPasscodeLength > currentPasscodeLength) {
         configData.passcodeLength = newPasscodeLength;
-        [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeChange passcodeConfig:configData];
+        [SFSecurityLockout presentPasscodeController:SFAppLockControllerModeChangePasscode passcodeConfig:configData];
         return;
     }
     
@@ -563,7 +563,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             [self setBiometricUnlockEnabled:NO];
         }
         
-        SFAppLockControllerMode lockType = ([self biometricUnlockEnabled]) ? SFBiometricControllerModeVerify : SFPasscodeControllerModeVerify;
+        SFAppLockControllerMode lockType = ([self biometricUnlockEnabled]) ? SFAppLockControllerModeVerifyBiometric : SFAppLockControllerModeVerifyPasscode;
         [SFSecurityLockout presentPasscodeController:lockType passcodeConfig:configData];
     }
     [SFSDKCoreLogger i:[self class] format:@"Device locked."];
@@ -655,7 +655,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     SFSDKAppLockViewConfig *displayConfig = (viewConfig) ? viewConfig : self.passcodeViewConfig;
     [[SFSDKWindowManager sharedManager].passcodeWindow presentWindowAnimated:NO withCompletion:^{
-        SFSDKAppLockViewController *navController = [[SFSDKAppLockViewController alloc] initWithAppLockConfigData:SFAppLockConfigurationDataNull viewConfig:displayConfig mode:SFBiometricControllerModeEnable];
+        SFSDKAppLockViewController *navController = [[SFSDKAppLockViewController alloc] initWithAppLockConfigData:SFAppLockConfigurationDataNull viewConfig:displayConfig mode:SFAppLockControllerModeEnableBiometric];
         [[SFSDKWindowManager sharedManager].passcodeWindow.viewController presentViewController:navController animated:NO completion:^{}];
     }];
 }

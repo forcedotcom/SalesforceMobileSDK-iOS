@@ -122,6 +122,11 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
  */
 @property (nonatomic, strong, nullable) UIImage * faceIdImage;
 
+/**
+ * Length of the user's passcode.
+ */
+@property (nonatomic) NSUInteger passcodeLength;
+
 @end
 
 NS_ASSUME_NONNULL_END

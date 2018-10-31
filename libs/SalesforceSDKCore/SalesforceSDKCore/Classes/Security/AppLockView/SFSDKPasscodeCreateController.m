@@ -74,14 +74,12 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
 @end
 
 @implementation SFSDKPasscodeCreateController
-@synthesize configData = _configData;
 @synthesize viewConfig = _viewConfig;
 
-- (instancetype)initWithPasscodeConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config
+- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config
 {
     self = [super init];
     if (self) {
-        _configData = configData;
         _viewConfig = config;
     }
     return self;
@@ -97,7 +95,7 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
 - (void)loadView
 {
     [super loadView];
-    self.passcodeTextView = [[SFSDKPasscodeTextField alloc] initWithFrame:CGRectZero andLength:self.configData.passcodeLength andViewConfig:self.viewConfig];
+    self.passcodeTextView = [[SFSDKPasscodeTextField alloc] initWithFrame:CGRectZero andViewConfig:self.viewConfig];
     self.passcodeTextView.delegate = self;
     self.passcodeTextView.layer.borderWidth = kSFViewBoarderWidth;
     self.passcodeTextView.accessibilityIdentifier = @"passcodeTextField";
@@ -134,6 +132,7 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     NSString *instructions = self.updateMode ? @"passcodeChangeInstructions" : @"passcodeCreateInstructions";
     self.passcodeInstructionsLabel.text = [SFSDKResourceUtils localizedString:instructions];
     [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"createPasscodeNavTitle"]];
@@ -151,7 +150,6 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     [self layoutPasscodeCreateView];
 }
 
-
 - (void)layoutPasscodeCreateView
 {
     [self.passcodeInstructionsLabel sizeToFit];
@@ -160,7 +158,6 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     CGFloat wIns = self.view.bounds.size.width - (2 * kSFDefaultPadding);
     CGFloat hIns = self.passcodeInstructionsLabel.bounds.size.height;
     self.passcodeInstructionsLabel.frame = CGRectMake(xIns, yIns, wIns, hIns);
-    
     
     CGFloat xView = (0 - kSFViewBoarderWidth);
     CGFloat yView = yIns + hIns + (kSFDefaultPadding / 2.0);
@@ -194,11 +191,11 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
         return NO;
     }
     
-   if (self.passcodeTextView.passcodeInput.length < self.configData.passcodeLength) {
+   if (self.passcodeTextView.passcodeInput.length < self.viewConfig.passcodeLength) {
         [self.passcodeTextView.passcodeInput appendString:rString];
     }
     
-    if ([self.passcodeTextView.passcodeInput length] == self.configData.passcodeLength) {
+    if ([self.passcodeTextView.passcodeInput length] == self.viewConfig.passcodeLength) {
         if (self.firstPasscodeValidated) {
             if ([self.passcodeTextView.passcodeInput isEqualToString:self.initialPasscode] ) {
                 [self.createDelegate passcodeCreated:self.passcodeTextView.passcodeInput updateMode:self.updateMode];

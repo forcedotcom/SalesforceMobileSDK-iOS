@@ -41,11 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKBiometricViewController : UIViewController
 
 /**
- * The configuration data used to create or update the passcode.
- */
-@property (readonly) SFAppLockConfigurationData configData;
-
-/**
  Setup passcode view related preferences.
  */
 @property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig;
@@ -54,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) BOOL verificationMode;
 
-- (instancetype)initWithAppLockConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config;
+- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config;
 
 @end
 

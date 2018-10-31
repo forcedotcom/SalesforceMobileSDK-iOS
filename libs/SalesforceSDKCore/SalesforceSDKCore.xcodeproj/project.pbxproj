@@ -612,7 +612,6 @@
 		CEA882F51C18FB8E008D871B /* SFPasscodeProviderManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD121BFD32140022F021 /* SFPasscodeProviderManager+Internal.h */; };
 		CEA882F61C18FB8E008D871B /* SFPasscodeProviderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD131BFD32140022F021 /* SFPasscodeProviderManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA882F71C18FB8E008D871B /* SFPasscodeProviderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD141BFD32140022F021 /* SFPasscodeProviderManager.m */; };
-		CEA882FA1C18FB8E008D871B /* SFAppLockViewControllerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD171BFD32140022F021 /* SFAppLockViewControllerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA882FB1C18FB8E008D871B /* SFPBKDF2PasscodeProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD181BFD32140022F021 /* SFPBKDF2PasscodeProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA882FC1C18FB8E008D871B /* SFPBKDF2PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD191BFD32140022F021 /* SFPBKDF2PasscodeProvider.m */; };
 		CEA882FD1C18FB8E008D871B /* SFPBKDFData.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD1A1BFD32140022F021 /* SFPBKDFData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1626,10 +1625,6 @@
 			isa = PBXGroup;
 			children = (
 				A3161CF021810D2800437BD2 /* AppLockView */,
-				A32FA737217AA61E006D7930 /* UIColor+SFSDKPasscodeView.h */,
-				A32FA738217AA61E006D7930 /* UIColor+SFSDKPasscodeView.m */,
-				A32FA720217A972B006D7930 /* SFSDKPasscodeTextField.h */,
-				A32FA734217A972C006D7930 /* SFSDKPasscodeTextField.m */,
 				4F96FCF21BFD32130022F021 /* SFAuthErrorHandler.h */,
 				4F96FCF31BFD32130022F021 /* SFAuthErrorHandler.m */,
 				4F96FCF41BFD32130022F021 /* SFAuthErrorHandlerList.h */,
@@ -1663,7 +1658,6 @@
 				4F96FD121BFD32140022F021 /* SFPasscodeProviderManager+Internal.h */,
 				4F96FD131BFD32140022F021 /* SFPasscodeProviderManager.h */,
 				4F96FD141BFD32140022F021 /* SFPasscodeProviderManager.m */,
-				4F96FD171BFD32140022F021 /* SFAppLockViewControllerTypes.h */,
 				4F96FD181BFD32140022F021 /* SFPBKDF2PasscodeProvider.h */,
 				4F96FD191BFD32140022F021 /* SFPBKDF2PasscodeProvider.m */,
 				4F96FD1A1BFD32140022F021 /* SFPBKDFData.h */,
@@ -1696,8 +1690,6 @@
 				B7CD6D641F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m */,
 				B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */,
 				B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */,
-				A3D0B14C217A951700DDA414 /* SFSDKAppLockViewConfig.h */,
-				A3D0B138217A951700DDA414 /* SFSDKAppLockViewConfig.m */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -1889,6 +1881,13 @@
 		A3161CF021810D2800437BD2 /* AppLockView */ = {
 			isa = PBXGroup;
 			children = (
+				A32FA720217A972B006D7930 /* SFSDKPasscodeTextField.h */,
+				A32FA734217A972C006D7930 /* SFSDKPasscodeTextField.m */,
+				4F96FD171BFD32140022F021 /* SFAppLockViewControllerTypes.h */,
+				A3D0B14C217A951700DDA414 /* SFSDKAppLockViewConfig.h */,
+				A3D0B138217A951700DDA414 /* SFSDKAppLockViewConfig.m */,
+				A32FA737217AA61E006D7930 /* UIColor+SFSDKPasscodeView.h */,
+				A32FA738217AA61E006D7930 /* UIColor+SFSDKPasscodeView.m */,
 				A3161D0421810D9D00437BD2 /* SFSDKAppLockViewController.h */,
 				A3161D052181104000437BD2 /* SFSDKAppLockViewController.m */,
 				A3161D07218110A000437BD2 /* SFSDKPasscodeCreateController.h */,
@@ -2378,7 +2377,6 @@
 				CEA882C21C18FB4D008D871B /* SFOAuthInfo.h in Headers */,
 				CE7F66411E556CB200DC3FBB /* SFNetwork.h in Headers */,
 				CEA882A31C18FAAB008D871B /* SalesforceSDKManager+Internal.h in Headers */,
-				CEA882FA1C18FB8E008D871B /* SFAppLockViewControllerTypes.h in Headers */,
 				B7FB26E71F78097D00FB25A2 /* SFSDKIDPInitiatedAuthRequestHandler.h in Headers */,
 				B7C274551F81507100CE539D /* SFSDKAuthResponseCommand.h in Headers */,
 				BE2B46341DB03A10004DA618 /* NSObject+SFBlocks.h in Headers */,

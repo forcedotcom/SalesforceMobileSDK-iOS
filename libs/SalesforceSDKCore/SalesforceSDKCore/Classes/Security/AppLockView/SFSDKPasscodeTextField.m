@@ -35,10 +35,10 @@ static CGFloat      const kPasscodeCircleDiameter            = 24.f;
 static CGFloat      const kPasscodeCircleSpacing             = 16.f;
 
 @interface SFSDKPasscodeTextField()
-
 @property (nonatomic, strong) UIColor * fillColor;
-
+@property (nonatomic,strong) NSMutableArray *subLayerRefs;
 @end
+
 @implementation SFSDKPasscodeTextField
 
 - (instancetype)init
@@ -46,16 +46,17 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
     return [super init];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length
+- (instancetype)initWithFrame:(CGRect)frame
 {
-    return [self initWithFrame:frame andLength:length andViewConfig:[SFSDKAppLockViewConfig createDefaultConfig]];
+    return [self initWithFrame:frame andViewConfig:[SFSDKAppLockViewConfig createDefaultConfig]];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame andLength:(NSUInteger)length andViewConfig:(SFSDKAppLockViewConfig *)config
+- (instancetype)initWithFrame:(CGRect)frame andViewConfig:(SFSDKAppLockViewConfig *)config
 {
     if (self = [super initWithFrame:frame]) {
-        _passcodeLength = length;
-        _passcodeLengthKnown = (length != 0);
+        _subLayerRefs = [[NSMutableArray alloc] init];
+        _passcodeLength = config.passcodeLength;
+        _passcodeLengthKnown = (config.passcodeLength != 0);
         self.keyboardType = UIKeyboardTypeNumberPad;
         self.backgroundColor = config.secondaryColor;
         self.tintColor = [UIColor clearColor];
@@ -84,7 +85,8 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
 
 - (void)refreshView
 {
-    self.layer.sublayers = nil;
+    [self resetLayers];
+    [self.subLayerRefs removeAllObjects];
     int diameter = kPasscodeCircleDiameter;
     int horizontalSpacing = kPasscodeCircleSpacing;
     int openCircleSpacingX = 0;
@@ -105,6 +107,7 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
             openCircle.lineWidth = 2;
             openCircle.zPosition = 5;
             openCircleSpacingX += (diameter + horizontalSpacing);
+            [self.subLayerRefs addObject:openCircle];
             [self.layer addSublayer:openCircle];
         }
     } else {
@@ -115,7 +118,6 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
     NSUInteger noOfChars = [self.passcodeInput length];
     for (int count=0 ; count < noOfChars; count++) {
         CAShapeLayer *filledCircle = [CAShapeLayer layer];
-        
         // Make a circular shape
         filledCircle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, -12, diameter, diameter)cornerRadius:diameter].CGPath;
         
@@ -126,15 +128,31 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
         filledCircle.lineWidth = 1;
         filledCircle.zPosition = 5;
         filledCircleSpacingX += (diameter + horizontalSpacing);
+        [self.subLayerRefs addObject:filledCircle];
         [self.layer addSublayer:filledCircle];
     }
-    [self setNeedsLayout];
+   
+    [self.layer setNeedsLayout];
 }
 
 // Disable paste or other interactions
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
     return NO;
+}
+
+- (void)resetLayers {
+    [self.subLayerRefs enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CALayer* sublayer = (CALayer*) obj;
+        [sublayer removeFromSuperlayer];
+    }];
+}
+
+- (NSMutableArray *)subLayerRefs {
+    if (_subLayerRefs==nil) {
+        _subLayerRefs = [[NSMutableArray alloc] init];
+    }
+    return _subLayerRefs;
 }
 
 @end

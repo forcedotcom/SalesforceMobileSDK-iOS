@@ -32,16 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SFSDKPasscodeCreateDelegate
 
-- (void)passcodeCreated:(NSString *)passcode updateMode: (BOOL)isUpdateMode;
+- (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode;
 
 @end
 
 @interface SFSDKPasscodeCreateController : UIViewController
-
-/**
- * The configuration data used to create or update the passcode.
- */
-@property (readonly) SFAppLockConfigurationData configData;
 
 /**
  Setup passcode view related preferences.
@@ -52,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,weak) id <SFSDKPasscodeCreateDelegate> createDelegate;
 
-- (instancetype)initWithPasscodeConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config;
+- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config;
 
 @end
 
