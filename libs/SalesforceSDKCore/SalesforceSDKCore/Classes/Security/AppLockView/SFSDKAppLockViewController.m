@@ -166,23 +166,32 @@
 -(UIViewController *)controllerFromMode:(SFAppLockControllerMode) mode configData:(SFAppLockConfigurationData)configData andViewConfig:(SFSDKAppLockViewConfig *)viewConfig
 {
     UIViewController *currentViewController = nil;
+    SFSDKBiometricViewController *bvc = nil;
+    SFSDKPasscodeCreateController *pcvc = nil;
+    SFSDKPasscodeVerifyController *pvc = nil;
     
-    if (mode == SFAppLockControllerModeEnableBiometric || mode == SFAppLockControllerModeVerifyBiometric) {
-        SFSDKBiometricViewController *bvc = [[SFSDKBiometricViewController alloc] initWithViewConfig:viewConfig];
-        bvc.biometricResponseDelgate = self;
-        bvc.verificationMode = (mode == SFAppLockControllerModeVerifyBiometric);
-        currentViewController = bvc;
-    } else if (mode == SFAppLockControllerModeCreatePasscode || mode == SFAppLockControllerModeChangePasscode) {
-        viewConfig.passcodeLength = configData.passcodeLength;
-        SFSDKPasscodeCreateController *pvc = [[SFSDKPasscodeCreateController alloc] initWithViewConfig:viewConfig];
-        pvc.createDelegate = self;
-        pvc.updateMode = (mode == SFAppLockControllerModeChangePasscode);
-        currentViewController = pvc;
-    } else {
-        viewConfig.passcodeLength = (configData.passcodeLength != SFAppLockConfigurationDataNull.passcodeLength) ? configData.passcodeLength : [SFSecurityLockout passcodeLength];
-        SFSDKPasscodeVerifyController *pvc = [[SFSDKPasscodeVerifyController alloc] initWithViewConfig:viewConfig];
-        pvc.verifyDelegate = self;
-        currentViewController = pvc;
+    switch (mode) {
+        case SFAppLockControllerModeEnableBiometric:
+        case SFAppLockControllerModeVerifyBiometric:
+            bvc = [[SFSDKBiometricViewController alloc] initWithViewConfig:viewConfig];
+            bvc.biometricResponseDelgate = self;
+            bvc.verificationMode = (mode == SFAppLockControllerModeVerifyBiometric);
+            currentViewController = bvc;
+            break;
+        case SFAppLockControllerModeCreatePasscode:
+        case SFAppLockControllerModeChangePasscode:
+            viewConfig.passcodeLength = configData.passcodeLength;
+            pcvc = [[SFSDKPasscodeCreateController alloc] initWithViewConfig:viewConfig];
+            pcvc.createDelegate = self;
+            pcvc.updateMode = (mode == SFAppLockControllerModeChangePasscode);
+            currentViewController = pcvc;
+            break;
+        default:
+            viewConfig.passcodeLength = (configData.passcodeLength != SFAppLockConfigurationDataNull.passcodeLength) ? configData.passcodeLength : [SFSecurityLockout passcodeLength];
+            pvc = [[SFSDKPasscodeVerifyController alloc] initWithViewConfig:viewConfig];
+            pvc.verifyDelegate = self;
+            currentViewController = pvc;
+            break;
     }
     
     return currentViewController;
@@ -212,6 +221,8 @@
     [self.navigationController popViewControllerAnimated:NO];
     dispatch_async(dispatch_get_main_queue(), ^{
         [SFSecurityLockout setupTimer];
+        // Set passcode length if it is unknown.
+        // This can happen when upgrading to new UX that requires actual length.
         if ([SFSecurityLockout passcodeLength] == 0) {
             [[SFPasscodeManager sharedManager] changePasscode:passcode];
             SFAppLockConfigurationData newConfigData;

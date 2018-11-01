@@ -48,6 +48,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 @synthesize encryptionKey = _encryptionKey;
 @synthesize preferredPasscodeProvider = _preferredPasscodeProvider;
 @synthesize passcodeLength = _passcodeLength;
+@synthesize deviceHasBiometric = _deviceHasBiometric;
 
 #pragma mark - Singleton initialization / management
 

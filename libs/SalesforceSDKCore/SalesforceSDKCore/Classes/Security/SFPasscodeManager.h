@@ -93,6 +93,11 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
 @property (nonatomic) NSUInteger passcodeLength;
 
 /**
+ Whether the device has the capability to use biometric unlock.
+ */
+@property (nonatomic) BOOL deviceHasBiometric;
+
+/**
  Adds a delegate to the list of passcode manager delegates.
  @param delegate Delegate to add to the list.
  */
@@ -135,17 +140,6 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
  @param newPasscode The passcode to set.
  */
 - (void)setPasscode:(NSString *)newPasscode;
-
-/**
- Get passcode length for UX.
- @return passcode length
- */
-- (NSUInteger)passcodeLength;
-
-/**
- Checks if the device has biometric enabled.
- */
-- (BOOL)deviceHasBiometric;
 
 @end
 

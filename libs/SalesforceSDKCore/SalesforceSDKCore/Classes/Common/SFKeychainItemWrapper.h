@@ -72,6 +72,12 @@ extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
 @property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute;
 
 /**
+ The passcode length.
+ */
+@property (nonatomic) NSUInteger passcodeLength;
+ 
+
+/**
  @return Whether or not keychain access errors cause a fatal exception.  Default is YES.
  */
 + (BOOL)keychainAccessErrorsAreFatal;
@@ -115,15 +121,6 @@ extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
 /** The passcode.
  */
 - (nullable NSString *)passcode;
-
-/** The passcode length.
- */
-- (NSUInteger)passcodeLength;
-
-/** Set the passcode length;
- */
-- (void)setPasscodeLength:(NSUInteger)length;
- 
 
 /** Performs passcode verification.
  @param passcode The passcode to verify.

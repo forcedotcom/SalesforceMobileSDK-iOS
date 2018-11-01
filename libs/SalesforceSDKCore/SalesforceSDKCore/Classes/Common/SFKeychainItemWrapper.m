@@ -36,6 +36,8 @@
 
 @implementation SFKeychainItemWrapper
 
+@synthesize passcodeLength = _passcodeLength;
+
 // NSException constants
 NSString * const kSFKeychainItemExceptionType         = @"com.salesforce.security.keychainException";
 NSString * const kSFKeychainItemExceptionErrorCodeKey = @"com.salesforce.security.keychainException.errorCode";
