@@ -109,28 +109,6 @@ jobs:
           destination: Static-Analysis
       - run: *codecov
 
-  test-SalesforceReact:
-    <<: *defaults
-    environment:
-      - FASTLANE_LANE: "PR lib:SalesforceReact"
-      - LIB: "SalesforceReact"
-    steps:
-      - checkout
-      - restore_cache: *restore-gem-cache
-      - run: *install-dependecies
-      - save_cache: *save-gem-cache
-      - run: *run-tests
-      - run: *danger-lib
-      - store_test_results:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-          destination: Test-Results
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
-          destination: Static-Analysis
-      - run: *codecov
-
   test-SalesforceSDKCore:
     <<: *defaults
     environment:
@@ -206,8 +184,6 @@ workflows:
           *pr-filter
       - test-SalesforceHybridSDK:
           *pr-filter
-      - test-SalesforceReact:
-          *pr-filter
       - test-SalesforceSDKCore:
           *pr-filter
       - test-SmartStore:
@@ -228,8 +204,6 @@ workflows:
       - test-SalesforceAnalytics:
             context: nightly-test
       - test-SalesforceHybridSDK:
-            context: nightly-test
-      - test-SalesforceReact:
             context: nightly-test
       - test-SalesforceSDKCore:
             context: nightly-test

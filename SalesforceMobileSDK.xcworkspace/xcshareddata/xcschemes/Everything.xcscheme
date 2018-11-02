@@ -84,20 +84,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CE4CE2F71C0E4673009F6029"
-               BuildableName = "SalesforceReact.framework"
-               BlueprintName = "SalesforceReact"
-               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "B7CEA6EE20B7105E007D0564"
                BuildableName = "RestAPIExplorer.app"
                BlueprintName = "RestAPIExplorer"
@@ -406,34 +392,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4FA796932020E6D400CA9759"
-               BuildableName = "SalesforceReactTestApp.app"
-               BlueprintName = "SalesforceReactTestApp"
-               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4FA796AA2020E6D500CA9759"
-               BuildableName = "SalesforceReactTests.xctest"
-               BlueprintName = "SalesforceReactTests"
-               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "B7CEA6EE20B7105E007D0564"
                BuildableName = "RestAPIExplorer.app"
                BlueprintName = "RestAPIExplorer"
@@ -507,16 +465,6 @@
                BuildableName = "SalesforceAnalyticsTests.xctest"
                BlueprintName = "SalesforceAnalyticsTests"
                ReferencedContainer = "container:libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4FA796AA2020E6D500CA9759"
-               BuildableName = "SalesforceReactTests.xctest"
-               BlueprintName = "SalesforceReactTests"
-               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
