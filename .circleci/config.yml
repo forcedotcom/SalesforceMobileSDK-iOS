@@ -166,12 +166,12 @@ workflows:
           *pr-filter
       - test-SmartSync:
           *pr-filter
-  # Cron is UTC timezone, which is 7 hours ahead of PST.
-  # Run tests at 1am.
+  # Cron are on a timezone 8 hours ahead of PST
+  # Build everything at ~9:30pm Sunday/Wednesday Nights
   nightly-test-ios11:
     triggers:
       - schedule:
-          cron: "00 08 * * 2,4,6"
+          cron: "30 5 * * 1,4"
           filters:
             branches:
               only:
