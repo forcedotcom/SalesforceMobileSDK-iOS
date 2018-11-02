@@ -1,8 +1,6 @@
 /*
- Actions.swift
+ main.swift
  RestAPIExplorerSwift
-
- Created by Nicholas McDonald on 1/10/18.
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -27,40 +25,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+import UIKit
+import SalesforceSDKCore
 
-enum ActionType {
-    case versions
-    case resources
-    case describeGlobal
-    case metadataWithObjectType
-    case describeWithObjectType
-    case retrieveWithObjectType
-    case createWithObjectType
-    case upsertWithObjectType
-    case updateWithObjectType
-    case deleteWithObjectType
-    case query
-    case search
-    case searchScopeAndOrder
-    case searchResultLayout
-    case ownedFilesList
-    case filesInUserGroups
-    case filesSharedWithUser
-    case fileDetails
-    case batchFileDetails
-    case fileShares
-    case addFileShare
-    case deleteFileShare
-    case currentUserInfo
-    case enableBiometric
-    case logout
-    case switchUser
-    case exportCredentials
-}
-
-struct Action {
-    let type:ActionType
-    let method:String
-    let objectTypes:String?
-}
+UIApplicationMain(
+    CommandLine.argc,
+    UnsafeMutableRawPointer(CommandLine.unsafeArgv)
+        .bindMemory(
+            to: UnsafeMutablePointer<Int8>.self,
+            capacity: Int(CommandLine.argc)
+    ),
+    NSStringFromClass(SFApplication.self),
+    NSStringFromClass(AppDelegate.self)
+)

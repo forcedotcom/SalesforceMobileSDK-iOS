@@ -1,5 +1,8 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFSDKBiometricViewController+Internal.h
+ SalesforceSDKCore
+ 
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,17 +25,57 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFSDKBiometricViewController.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@interface SFSDKBiometricViewController ()
+/**
+ * Whether the device has biometric and the org allows it.
+ */
+@property (nonatomic) BOOL biometricAllowed;
 
 /**
- Mode constants indicating whether to create or verify an existing passcode.
+ * Image for Touch Id enrollment.
  */
-typedef NS_ENUM(NSUInteger, SFPasscodeControllerMode) {
-    SFPasscodeControllerModeCreate,
-    SFPasscodeControllerModeVerify,
-    SFPasscodeControllerModeChange
-} NS_SWIFT_NAME(PasscodeViewController.PasscodeControllerMode);
+@property (nonatomic, strong) UIImageView *touchIdImage;
 
-NS_ASSUME_NONNULL_END
+/**
+ * Image for Face Id enrollment.
+ */
+@property (nonatomic, strong) UIImageView *faceIdImage;
+
+/**
+ * Icon view for biometric enrollment.
+ */
+@property (nonatomic, strong) UIView *iconView;
+
+/**
+ * View for biometric enrollment.
+ */
+@property (nonatomic, strong) UIView *setUpBiometricView;
+
+/**
+ * The label title for biometric enrollment.
+ */
+@property (nonatomic, strong) UILabel *biometricSetupTitle;
+
+/**
+ * The label displaying instructions for a given passcode section of the workflow.
+ */
+@property (nonatomic, strong) UILabel *biometricInstructionsLabel;
+
+/**
+ * The 'Enable' button for Biometric prompt.
+ */
+@property (nonatomic, strong) UIButton *enableBiometricButton;
+
+/**
+ * The 'Not Now' button.
+ */
+@property (nonatomic, strong) UIButton *cancelBiometricButton;
+
+/**
+ * The 'Not Now' button.
+ */
+@property (nonatomic, strong) NSString *currentPasscode;
+
+@end
