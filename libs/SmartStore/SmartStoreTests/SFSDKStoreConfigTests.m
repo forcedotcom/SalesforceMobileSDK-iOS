@@ -41,7 +41,7 @@
 - (void) setUp
 {
     [super setUp];
-    [SFSDKSmartStoreLogger setLogLevel:DDLogLevelDebug];
+    [SFSDKSmartStoreLogger setLogLevel:SFLogLevelDebug];
     self.sdkManager = [[SmartStoreSDKManager alloc] init];
     self.smartStoreUser = [self setUpSmartStoreUser];
     self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];

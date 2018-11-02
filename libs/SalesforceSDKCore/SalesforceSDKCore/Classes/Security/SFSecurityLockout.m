@@ -39,7 +39,7 @@
 #import "SFSDKEventBuilderHelper.h"
 #import "SalesforceSDKManager+Internal.h"
 #import "SFSDKNavigationController.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 // Private constants
 

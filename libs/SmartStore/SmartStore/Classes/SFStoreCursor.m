@@ -93,7 +93,7 @@
 
 
 - (void)close {
-    [SFSDKSmartStoreLogger v:[self class] format:@"closing cursor id: %@",self.cursorId];
+    [SFSDKSmartStoreLogger d:[self class] format:@"closing cursor id: %@",self.cursorId];
      _store = nil;
     self.cursorId = nil;
     self.querySpec = nil;

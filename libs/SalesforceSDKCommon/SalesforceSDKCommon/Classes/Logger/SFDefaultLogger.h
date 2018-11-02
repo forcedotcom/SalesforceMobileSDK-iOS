@@ -1,10 +1,10 @@
 /*
- SFSDKLogFileManager.m
- SalesforceAnalytics
+ SFDefaultLogger.h
+ SFDefaultLogger
  
- Created by Bharath Hariharan on 6/8/17.
+ Created by Raj Rao on on 10/4/18.
  
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,36 +27,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKLogFileManager.h"
+#import <Foundation/Foundation.h>
+#import "SFLogger.h"
 
-static NSString * const kLogSuffix = @"_log";
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SFSDKLogFileManager ()
-
-@property (nonatomic, readwrite, strong) NSString *componentName;
-
-@end
-
-@implementation SFSDKLogFileManager
-
-- (instancetype)initWithComponent:(NSString *)componentName {
-    self = [super init];
-    if (self) {
-        self.componentName = componentName;
-        self.maximumNumberOfLogFiles = 1; // Disables archiving of log files and re-uses a single file that's rolled when the log file size limit is reached.
-    }
-    return self;
-}
-
-- (NSString *)newLogFileName {
-    return [NSString stringWithFormat:@"%@%@", self.componentName, kLogSuffix];
-}
-
-- (BOOL)isLogFile:(NSString *)fileName {
-    if (fileName && [fileName hasPrefix:[NSString stringWithFormat:@"%@%@", self.componentName, kLogSuffix]]) {
-        return YES;
-    }
-    return NO;
-}
+@interface SFDefaultLogger: NSObject<SFLogging>
 
 @end
+
+NS_ASSUME_NONNULL_END

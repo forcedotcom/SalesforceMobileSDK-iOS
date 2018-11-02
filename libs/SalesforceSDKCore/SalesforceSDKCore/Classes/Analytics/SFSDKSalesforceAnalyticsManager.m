@@ -39,7 +39,7 @@
 #import "SFApplicationHelper.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFSDKAppConfig.h"
 

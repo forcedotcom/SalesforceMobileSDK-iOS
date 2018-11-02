@@ -40,7 +40,7 @@
 - (void) setUp
 {
     [super setUp];
-    [SFSDKSmartStoreLogger setLogLevel:DDLogLevelDebug];
+    [SFSDKSmartStoreLogger setLogLevel:SFLogLevelDebug];
     _smartStoreUser = [super setUpSmartStoreUser];
     [self setupGlobalStores];
     [self setupUserStores];

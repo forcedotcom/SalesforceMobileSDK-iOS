@@ -1,10 +1,10 @@
 /*
- SFSDKFileLogger.h
- SalesforceAnalytics
- 
- Created by Bharath Hariharan on 6/8/17.
- 
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ SalesforceSDKCommon.h
+ SalesforceSDKCommon
+
+ Created by Raj Rao on Thu Nov  1 11:48:54 PDT 2018.
+
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,30 +27,15 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <CocoaLumberjack/DDFileLogger.h>
-
-@interface SFSDKFileLogger : DDFileLogger
-
-/**
- * Component name associated with this file logger.
- */
-@property (nonatomic, readonly, strong, nonnull) NSString *componentName;
-
-/**
- * Initializes a file logger for the specified component.
- */
-- (nonnull instancetype)initWithComponent:(nonnull NSString *)componentName;
-
-/**
- * Flushes the log file and resets it to its original state.
- */
-- (void)flushLogWithCompletionBlock:(void (^ _Nullable)(void))completionBlock;
-
-/**
- * Returns all log lines stored in this file.
- *
- * @return All log lines stored in this file.
- */
-- (nullable NSString *)readFile;
-
-@end
+#import <SalesforceSDKCommon/SFSDKSafeMutableSet.h>
+#import <SalesforceSDKCommon/SFTestContext.h>
+#import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
+#import <SalesforceSDKCommon/SFPathUtil.h>
+#import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
+#import <SalesforceSDKCommon/SFSDKSafeMutableArray.h>
+#import <SalesforceSDKCommon/SFFileProtectionHelper.h>
+#import <SalesforceSDKCommon/SFDefaultLogger.h>
+#import <SalesforceSDKCommon/SFLogger.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
+#import <SalesforceSDKCommon/SFSDKReachability.h>

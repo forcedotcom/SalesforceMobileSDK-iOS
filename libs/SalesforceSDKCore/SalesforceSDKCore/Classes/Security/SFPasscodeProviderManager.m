@@ -26,7 +26,7 @@
 #import "SFPasscodeProviderManager+Internal.h"
 #import "SFSHA256PasscodeProvider.h"
 #import "SFPBKDF2PasscodeProvider.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 // Public constants
 SFPasscodeProviderId const kSFPasscodeProviderSHA256 = @"sha256";

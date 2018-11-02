@@ -99,6 +99,7 @@
 		4FDCBD6E1E8DDC82008F8FCE /* SFMruSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDCBD511E8DDC5C008F8FCE /* SFMruSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E531AB398AA004E0AF2 /* TestSyncUpTarget.m */; };
 		829DA2AF1C12674D0040F5F1 /* SmartSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* SmartSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B78898CA218D0B76006E0C77 /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78898C9218D0B76006E0C77 /* SalesforceSDKCommon.framework */; };
 		CE01BB1020B759D3008E91B6 /* SFMetadataSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE01BB0B20B759D2008E91B6 /* SFMetadataSyncManager.m */; };
 		CE01BB1320B759EA008E91B6 /* SFMetadataSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE01BB0B20B759D2008E91B6 /* SFMetadataSyncManager.m */; };
 		CE01BB1520B75A07008E91B6 /* SFMetadataSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE01BB1420B75A07008E91B6 /* SFMetadataSyncManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -338,6 +339,7 @@
 		829DA2AE1C12674D0040F5F1 /* SmartSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSync.h; sourceTree = "<group>"; };
 		82D0AB371C497FFB0081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7282F481D8C715400475F79 /* SmartSyncTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartSyncTestApp.entitlements; sourceTree = "<group>"; };
+		B78898C9218D0B76006E0C77 /* SalesforceSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE01BB0B20B759D2008E91B6 /* SFMetadataSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFMetadataSyncManager.m; path = Manager/SFMetadataSyncManager.m; sourceTree = "<group>"; };
 		CE01BB1420B75A07008E91B6 /* SFMetadataSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMetadataSyncManager.h; path = Manager/SFMetadataSyncManager.h; sourceTree = "<group>"; };
 		CE01BB1720B761C1008E91B6 /* SFMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMetadata.h; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B78898CA218D0B76006E0C77 /* SalesforceSDKCommon.framework in Frameworks */,
 				CE2B8CF31CE931CB00C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE65C22A1C0FD45F00319E68 /* libz.tbd in Frameworks */,
 				CE65C2281C0FD45A00319E68 /* SalesforceSDKCore.framework in Frameworks */,
@@ -582,6 +585,7 @@
 		CEAAAE47195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B78898C9218D0B76006E0C77 /* SalesforceSDKCommon.framework */,
 				CE2B8CF21CE931CB00C6FC6A /* SalesforceAnalytics.framework */,
 				CEA884831C191F4E008D871B /* SalesforceSDKCore.framework */,
 				CEA884811C191F0A008D871B /* SalesforceSDKCore.framework */,

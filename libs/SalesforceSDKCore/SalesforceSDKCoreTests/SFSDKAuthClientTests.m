@@ -120,7 +120,7 @@
 
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials
 {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
 }
 
 @end
@@ -512,7 +512,7 @@
 
 #pragma mark SFOAuthCoordinatorFlow
 - (void)beginUserAgentFlow {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     if (!self->_currentClient.isTestingForErrorCallback) {
         [_currentClient.coordinator handleUserAgentResponse:[self userAgentSuccessUrl]];
     }else {
@@ -522,7 +522,7 @@
 }
 
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (!self->_currentClient.isTestingForErrorCallback) {
@@ -534,11 +534,11 @@
 }
 
 - (void)beginJwtTokenExchangeFlow {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
 }
 
 - (void)beginNativeBrowserFlow {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (!self->_currentClient.isTestingForErrorCallback) {
             [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
@@ -549,7 +549,7 @@
 }
 
 - (void)handleTokenEndpointResponse:(NSMutableData *) data{
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
   
 }
 

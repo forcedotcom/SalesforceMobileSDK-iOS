@@ -27,13 +27,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceAnalytics/SFSDKLogger.h>
+#import <SalesforceSDKCommon/SFLogger.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * _Nonnull const kSFSDKReactComponentName;
 
-@interface SFSDKReactLogger : SFSDKLogger
+@interface SFSDKReactLogger : SFLogger
 
 @end
 

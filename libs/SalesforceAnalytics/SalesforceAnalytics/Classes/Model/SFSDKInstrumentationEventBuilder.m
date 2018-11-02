@@ -28,10 +28,10 @@
  */
 
 #import "SFSDKInstrumentationEventBuilder.h"
-#import "SFSDKReachability.h"
 #import "SFSDKAnalyticsManager+Internal.h"
 #import "SFSDKInstrumentationEvent+Internal.h"
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <SalesforceSDKCommon/SFSDKReachability.h>
 
 @interface SFSDKInstrumentationEventBuilder ()
 
@@ -69,7 +69,7 @@
         errorMessage = @"Mandatory field 'page' not set!";
     }
     if (errorMessage) {
-        [SFSDKAnalyticsLogger w:[self class] format:@"WARNING: Building event failed! REASON: %@", errorMessage];
+        [SFSDKAnalyticsLogger log:[self class] format:@"WARNING: Building event failed! REASON: %@", errorMessage];
         return nil;
     }
     NSInteger sequenceId = self.analyticsManager.globalSequenceId + 1;

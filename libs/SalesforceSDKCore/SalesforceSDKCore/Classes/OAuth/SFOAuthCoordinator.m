@@ -43,7 +43,7 @@
 #import "SFNetwork.h"
 #import "NSURL+SFAdditions.h"
 #import "SFSDKURLHandlerManager.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 // Public constants
 

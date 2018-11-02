@@ -519,6 +519,16 @@
                ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7136D06216684A700F6A221"
+               BuildableName = "SalesforceSDKCommonTests.xctest"
+               BlueprintName = "SalesforceSDKCommonTests"
+               ReferencedContainer = "container:libs/SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

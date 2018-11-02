@@ -49,7 +49,7 @@
     self = [super init];
     [SalesforceSDKManager setInstanceClass:[SalesforceHybridSDKManager class]];
     if (self != nil) {
-        [SFSDKLogger log:[self class] level:DDLogLevelDebug message:@"Setting up auth credentials."];
+        [SFLogger log:[self class] level:SFLogLevelDebug message:@"Setting up auth credentials."];
         self.testAppHybridViewConfig = [self stageTestCredentials];
 
         // Logout and login host change handlers.
@@ -77,9 +77,9 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"runner: %@", runner];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"runner: %@", runner];
     BOOL runningOctest = [self isRunningOctest];
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"octest running: %d", runningOctest];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"octest running: %d", runningOctest];
 }
 
 - (NSString *) evalJS:(NSString *) js {
@@ -95,7 +95,7 @@
                     resultString = [NSString stringWithFormat:@"%@", result];
                 }
             } else {
-                [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
+                [SFLogger log:[self class] level:SFLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
             }
             finished = YES;
         }];
@@ -107,7 +107,7 @@
 }
 
 - (void)userDidLogout {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"Logout notification received. Resetting app."];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"Logout notification received. Resetting app."];
     self.viewController.appHomeUrl = nil;
     
     // Multi-user pattern:
@@ -141,7 +141,7 @@
          didSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser
 {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@. Resetting app.",
      fromUser.userName, toUser.userName];
     [self initializeAppViewState];
 }
@@ -166,7 +166,7 @@
     BOOL result = NO;
     NSDictionary *processEnv = [[NSProcessInfo processInfo] environment];
     NSString *injectBundle = [processEnv valueForKey:@"XCInjectBundle"];
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"XCInjectBundle: %@", injectBundle];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"XCInjectBundle: %@", injectBundle];
     if (nil != injectBundle) {
         NSRange found = [injectBundle rangeOfString:@".octest"];
         if (NSNotFound != found.location) {

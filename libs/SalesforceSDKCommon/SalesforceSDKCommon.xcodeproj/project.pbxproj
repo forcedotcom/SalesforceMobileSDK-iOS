@@ -1,0 +1,774 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B7136D08216684A700F6A221 /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7136CFE216684A700F6A221 /* SalesforceSDKCommon.framework */; };
+		B7136D0D216684A700F6A221 /* SalesforceSDKCommonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D0C216684A700F6A221 /* SalesforceSDKCommonTests.m */; };
+		B7136D0F216684A700F6A221 /* SalesforceSDKCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D01216684A700F6A221 /* SalesforceSDKCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D2F216686EB00F6A221 /* SFSDKDatasharingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D29216686EA00F6A221 /* SFSDKDatasharingHelper.m */; };
+		B7136D30216686EB00F6A221 /* SFSDKReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D2A216686EB00F6A221 /* SFSDKReachability.m */; };
+		B7136D31216686EB00F6A221 /* SFSDKReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D2B216686EB00F6A221 /* SFSDKReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D32216686EB00F6A221 /* NSUserDefaults+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D2C216686EB00F6A221 /* NSUserDefaults+SFAdditions.m */; };
+		B7136D33216686EB00F6A221 /* NSUserDefaults+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D2D216686EB00F6A221 /* NSUserDefaults+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D34216686EB00F6A221 /* SFSDKDatasharingHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D2E216686EB00F6A221 /* SFSDKDatasharingHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D4221668A5600F6A221 /* NSUserDefaults+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D2C216686EB00F6A221 /* NSUserDefaults+SFAdditions.m */; };
+		B7136D4321668A5900F6A221 /* SFSDKDatasharingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D29216686EA00F6A221 /* SFSDKDatasharingHelper.m */; };
+		B7136D4421668A5C00F6A221 /* SFSDKReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D2A216686EB00F6A221 /* SFSDKReachability.m */; };
+		B7136D4A21668B0100F6A221 /* NSUserDefaults+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D2D216686EB00F6A221 /* NSUserDefaults+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D4B21668B0100F6A221 /* SFSDKDatasharingHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D2E216686EB00F6A221 /* SFSDKDatasharingHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D4C21668B0100F6A221 /* SFSDKReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D2B216686EB00F6A221 /* SFSDKReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D4D21668B0100F6A221 /* SalesforceSDKCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D01216684A700F6A221 /* SalesforceSDKCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D5021669DA400F6A221 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D4E21669DA400F6A221 /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D5121669DA400F6A221 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D4E21669DA400F6A221 /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D5221669DA400F6A221 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D4F21669DA400F6A221 /* SFLogger.m */; };
+		B7136D5321669DA400F6A221 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D4F21669DA400F6A221 /* SFLogger.m */; };
+		B7136D5621669F7C00F6A221 /* SFDefaultLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D5421669F7C00F6A221 /* SFDefaultLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D5721669F7C00F6A221 /* SFDefaultLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D5421669F7C00F6A221 /* SFDefaultLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7136D5821669F7C00F6A221 /* SFDefaultLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D5521669F7C00F6A221 /* SFDefaultLogger.m */; };
+		B7136D5921669F7C00F6A221 /* SFDefaultLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D5521669F7C00F6A221 /* SFDefaultLogger.m */; };
+		B77F5CF02170FF74004F3005 /* SFSDKSafeMutableSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5CEA2170FF73004F3005 /* SFSDKSafeMutableSet.m */; };
+		B77F5CF12170FF74004F3005 /* SFSDKSafeMutableSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5CEA2170FF73004F3005 /* SFSDKSafeMutableSet.m */; };
+		B77F5CF22170FF74004F3005 /* SFSDKSafeMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5CEB2170FF73004F3005 /* SFSDKSafeMutableDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5CF32170FF74004F3005 /* SFSDKSafeMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5CEB2170FF73004F3005 /* SFSDKSafeMutableDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5CF42170FF74004F3005 /* SFSDKSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5CEC2170FF73004F3005 /* SFSDKSafeMutableDictionary.m */; };
+		B77F5CF52170FF74004F3005 /* SFSDKSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5CEC2170FF73004F3005 /* SFSDKSafeMutableDictionary.m */; };
+		B77F5CF62170FF74004F3005 /* SFSDKSafeMutableSet.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5CED2170FF73004F3005 /* SFSDKSafeMutableSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5CF72170FF74004F3005 /* SFSDKSafeMutableSet.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5CED2170FF73004F3005 /* SFSDKSafeMutableSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5CF82170FF74004F3005 /* SFSDKSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5CEE2170FF74004F3005 /* SFSDKSafeMutableArray.m */; };
+		B77F5CF92170FF74004F3005 /* SFSDKSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5CEE2170FF74004F3005 /* SFSDKSafeMutableArray.m */; };
+		B77F5CFA2170FF74004F3005 /* SFSDKSafeMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5CEF2170FF74004F3005 /* SFSDKSafeMutableArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5CFB2170FF74004F3005 /* SFSDKSafeMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5CEF2170FF74004F3005 /* SFSDKSafeMutableArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5D132170FFEE004F3005 /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D0F2170FFED004F3005 /* SFPathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5D142170FFEE004F3005 /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D0F2170FFED004F3005 /* SFPathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5D152170FFEE004F3005 /* SFFileProtectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D102170FFED004F3005 /* SFFileProtectionHelper.m */; };
+		B77F5D162170FFEE004F3005 /* SFFileProtectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D102170FFED004F3005 /* SFFileProtectionHelper.m */; };
+		B77F5D172170FFEE004F3005 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D112170FFED004F3005 /* SFPathUtil.m */; };
+		B77F5D182170FFEE004F3005 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D112170FFED004F3005 /* SFPathUtil.m */; };
+		B77F5D192170FFEE004F3005 /* SFFileProtectionHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D122170FFEE004F3005 /* SFFileProtectionHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5D1A2170FFEE004F3005 /* SFFileProtectionHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D122170FFEE004F3005 /* SFFileProtectionHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5D1F2171021F004F3005 /* SFTestContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D1B2171021E004F3005 /* SFTestContext.m */; };
+		B77F5D202171021F004F3005 /* SFTestContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D1B2171021E004F3005 /* SFTestContext.m */; };
+		B77F5D212171021F004F3005 /* SFTestContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D1C2171021E004F3005 /* SFTestContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5D222171021F004F3005 /* SFTestContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D1C2171021E004F3005 /* SFTestContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5D232171021F004F3005 /* SFSwiftDetectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D1D2171021F004F3005 /* SFSwiftDetectUtil.m */; };
+		B77F5D242171021F004F3005 /* SFSwiftDetectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D1D2171021F004F3005 /* SFSwiftDetectUtil.m */; };
+		B77F5D252171021F004F3005 /* SFSwiftDetectUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D1E2171021F004F3005 /* SFSwiftDetectUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B77F5D262171021F004F3005 /* SFSwiftDetectUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D1E2171021F004F3005 /* SFSwiftDetectUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B78898BC218D0329006E0C77 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78898BB218D0329006E0C77 /* Foundation.framework */; };
+		B78898BD218D0348006E0C77 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78898BB218D0329006E0C77 /* Foundation.framework */; };
+		B7D3CABA218BA32B00780B72 /* SFLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3CAB9218BA32B00780B72 /* SFLoggerTests.m */; };
+		B7D3CABE218BC80600780B72 /* SFSDKSafeMutableArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3CABB218BC80600780B72 /* SFSDKSafeMutableArrayTests.m */; };
+		B7D3CABF218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3CABC218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m */; };
+		B7D3CAC0218BC80600780B72 /* SFSDKSafeMutableSetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3CABD218BC80600780B72 /* SFSDKSafeMutableSetTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B7136D09216684A700F6A221 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B7136CF5216684A700F6A221 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B7136CFD216684A700F6A221;
+			remoteInfo = SalesforceSDKCommon;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B7136D3721668A2100F6A221 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		B7136CFE216684A700F6A221 /* SalesforceSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7136D01216684A700F6A221 /* SalesforceSDKCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKCommon.h; sourceTree = "<group>"; };
+		B7136D02216684A700F6A221 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B7136D07216684A700F6A221 /* SalesforceSDKCommonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceSDKCommonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7136D0C216684A700F6A221 /* SalesforceSDKCommonTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKCommonTests.m; sourceTree = "<group>"; };
+		B7136D0E216684A700F6A221 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B7136D29216686EA00F6A221 /* SFSDKDatasharingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKDatasharingHelper.m; sourceTree = "<group>"; };
+		B7136D2A216686EB00F6A221 /* SFSDKReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKReachability.m; sourceTree = "<group>"; };
+		B7136D2B216686EB00F6A221 /* SFSDKReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKReachability.h; sourceTree = "<group>"; };
+		B7136D2C216686EB00F6A221 /* NSUserDefaults+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+SFAdditions.m"; sourceTree = "<group>"; };
+		B7136D2D216686EB00F6A221 /* NSUserDefaults+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+SFAdditions.h"; sourceTree = "<group>"; };
+		B7136D2E216686EB00F6A221 /* SFSDKDatasharingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKDatasharingHelper.h; sourceTree = "<group>"; };
+		B7136D3921668A2100F6A221 /* libSalesforceSDKCommonStatic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDKCommonStatic.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7136D4E21669DA400F6A221 /* SFLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
+		B7136D4F21669DA400F6A221 /* SFLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFLogger.m; sourceTree = "<group>"; };
+		B7136D5421669F7C00F6A221 /* SFDefaultLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFDefaultLogger.h; sourceTree = "<group>"; };
+		B7136D5521669F7C00F6A221 /* SFDefaultLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFDefaultLogger.m; sourceTree = "<group>"; };
+		B77F5CEA2170FF73004F3005 /* SFSDKSafeMutableSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableSet.m; sourceTree = "<group>"; };
+		B77F5CEB2170FF73004F3005 /* SFSDKSafeMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSafeMutableDictionary.h; sourceTree = "<group>"; };
+		B77F5CEC2170FF73004F3005 /* SFSDKSafeMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableDictionary.m; sourceTree = "<group>"; };
+		B77F5CED2170FF73004F3005 /* SFSDKSafeMutableSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSafeMutableSet.h; sourceTree = "<group>"; };
+		B77F5CEE2170FF74004F3005 /* SFSDKSafeMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableArray.m; sourceTree = "<group>"; };
+		B77F5CEF2170FF74004F3005 /* SFSDKSafeMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSafeMutableArray.h; sourceTree = "<group>"; };
+		B77F5D0F2170FFED004F3005 /* SFPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPathUtil.h; sourceTree = "<group>"; };
+		B77F5D102170FFED004F3005 /* SFFileProtectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFFileProtectionHelper.m; sourceTree = "<group>"; };
+		B77F5D112170FFED004F3005 /* SFPathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPathUtil.m; sourceTree = "<group>"; };
+		B77F5D122170FFEE004F3005 /* SFFileProtectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFFileProtectionHelper.h; sourceTree = "<group>"; };
+		B77F5D1B2171021E004F3005 /* SFTestContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestContext.m; sourceTree = "<group>"; };
+		B77F5D1C2171021E004F3005 /* SFTestContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestContext.h; sourceTree = "<group>"; };
+		B77F5D1D2171021F004F3005 /* SFSwiftDetectUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSwiftDetectUtil.m; sourceTree = "<group>"; };
+		B77F5D1E2171021F004F3005 /* SFSwiftDetectUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSwiftDetectUtil.h; sourceTree = "<group>"; };
+		B78898BB218D0329006E0C77 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B7D3CAB9218BA32B00780B72 /* SFLoggerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFLoggerTests.m; sourceTree = "<group>"; };
+		B7D3CABB218BC80600780B72 /* SFSDKSafeMutableArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableArrayTests.m; sourceTree = "<group>"; };
+		B7D3CABC218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableDictionaryTests.m; sourceTree = "<group>"; };
+		B7D3CABD218BC80600780B72 /* SFSDKSafeMutableSetTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableSetTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B7136CFB216684A700F6A221 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B78898BC218D0329006E0C77 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7136D04216684A700F6A221 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7136D08216684A700F6A221 /* SalesforceSDKCommon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7136D3621668A2100F6A221 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B78898BD218D0348006E0C77 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B7136CF4216684A700F6A221 = {
+			isa = PBXGroup;
+			children = (
+				B7136D00216684A700F6A221 /* SalesforceSDKCommon */,
+				B7136D0B216684A700F6A221 /* SalesforceSDKCommonTests */,
+				B7136CFF216684A700F6A221 /* Products */,
+				B78898BA218D0329006E0C77 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		B7136CFF216684A700F6A221 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B7136CFE216684A700F6A221 /* SalesforceSDKCommon.framework */,
+				B7136D07216684A700F6A221 /* SalesforceSDKCommonTests.xctest */,
+				B7136D3921668A2100F6A221 /* libSalesforceSDKCommonStatic.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B7136D00216684A700F6A221 /* SalesforceSDKCommon */ = {
+			isa = PBXGroup;
+			children = (
+				B7136D182166865A00F6A221 /* Classes */,
+				B7136D01216684A700F6A221 /* SalesforceSDKCommon.h */,
+				B7136D02216684A700F6A221 /* Info.plist */,
+			);
+			path = SalesforceSDKCommon;
+			sourceTree = "<group>";
+		};
+		B7136D0B216684A700F6A221 /* SalesforceSDKCommonTests */ = {
+			isa = PBXGroup;
+			children = (
+				B7D3CABB218BC80600780B72 /* SFSDKSafeMutableArrayTests.m */,
+				B7D3CABC218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m */,
+				B7D3CABD218BC80600780B72 /* SFSDKSafeMutableSetTests.m */,
+				B7136D0C216684A700F6A221 /* SalesforceSDKCommonTests.m */,
+				B7136D0E216684A700F6A221 /* Info.plist */,
+				B7D3CAB9218BA32B00780B72 /* SFLoggerTests.m */,
+			);
+			path = SalesforceSDKCommonTests;
+			sourceTree = "<group>";
+		};
+		B7136D182166865A00F6A221 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B7136D1A2166866F00F6A221 /* Util */,
+				B7136D192166866700F6A221 /* Logger */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		B7136D192166866700F6A221 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				B7136D4E21669DA400F6A221 /* SFLogger.h */,
+				B7136D4F21669DA400F6A221 /* SFLogger.m */,
+				B7136D5421669F7C00F6A221 /* SFDefaultLogger.h */,
+				B7136D5521669F7C00F6A221 /* SFDefaultLogger.m */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		B7136D1A2166866F00F6A221 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				B77F5D1E2171021F004F3005 /* SFSwiftDetectUtil.h */,
+				B77F5D1D2171021F004F3005 /* SFSwiftDetectUtil.m */,
+				B77F5D1C2171021E004F3005 /* SFTestContext.h */,
+				B77F5D1B2171021E004F3005 /* SFTestContext.m */,
+				B77F5D122170FFEE004F3005 /* SFFileProtectionHelper.h */,
+				B77F5D102170FFED004F3005 /* SFFileProtectionHelper.m */,
+				B77F5D0F2170FFED004F3005 /* SFPathUtil.h */,
+				B77F5D112170FFED004F3005 /* SFPathUtil.m */,
+				B77F5CEF2170FF74004F3005 /* SFSDKSafeMutableArray.h */,
+				B77F5CEE2170FF74004F3005 /* SFSDKSafeMutableArray.m */,
+				B77F5CEB2170FF73004F3005 /* SFSDKSafeMutableDictionary.h */,
+				B77F5CEC2170FF73004F3005 /* SFSDKSafeMutableDictionary.m */,
+				B77F5CED2170FF73004F3005 /* SFSDKSafeMutableSet.h */,
+				B77F5CEA2170FF73004F3005 /* SFSDKSafeMutableSet.m */,
+				B7136D2D216686EB00F6A221 /* NSUserDefaults+SFAdditions.h */,
+				B7136D2C216686EB00F6A221 /* NSUserDefaults+SFAdditions.m */,
+				B7136D2E216686EB00F6A221 /* SFSDKDatasharingHelper.h */,
+				B7136D29216686EA00F6A221 /* SFSDKDatasharingHelper.m */,
+				B7136D2B216686EB00F6A221 /* SFSDKReachability.h */,
+				B7136D2A216686EB00F6A221 /* SFSDKReachability.m */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		B78898BA218D0329006E0C77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B78898BB218D0329006E0C77 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B7136CF9216684A700F6A221 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B77F5D132170FFEE004F3005 /* SFPathUtil.h in Headers */,
+				B7136D33216686EB00F6A221 /* NSUserDefaults+SFAdditions.h in Headers */,
+				B7136D5621669F7C00F6A221 /* SFDefaultLogger.h in Headers */,
+				B77F5D252171021F004F3005 /* SFSwiftDetectUtil.h in Headers */,
+				B77F5CFA2170FF74004F3005 /* SFSDKSafeMutableArray.h in Headers */,
+				B7136D0F216684A700F6A221 /* SalesforceSDKCommon.h in Headers */,
+				B77F5CF62170FF74004F3005 /* SFSDKSafeMutableSet.h in Headers */,
+				B77F5D192170FFEE004F3005 /* SFFileProtectionHelper.h in Headers */,
+				B7136D5021669DA400F6A221 /* SFLogger.h in Headers */,
+				B7136D31216686EB00F6A221 /* SFSDKReachability.h in Headers */,
+				B7136D34216686EB00F6A221 /* SFSDKDatasharingHelper.h in Headers */,
+				B77F5CF22170FF74004F3005 /* SFSDKSafeMutableDictionary.h in Headers */,
+				B77F5D212171021F004F3005 /* SFTestContext.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7136D4921668AEF00F6A221 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B77F5D142170FFEE004F3005 /* SFPathUtil.h in Headers */,
+				B7136D4A21668B0100F6A221 /* NSUserDefaults+SFAdditions.h in Headers */,
+				B7136D5721669F7C00F6A221 /* SFDefaultLogger.h in Headers */,
+				B77F5D262171021F004F3005 /* SFSwiftDetectUtil.h in Headers */,
+				B77F5CFB2170FF74004F3005 /* SFSDKSafeMutableArray.h in Headers */,
+				B7136D4B21668B0100F6A221 /* SFSDKDatasharingHelper.h in Headers */,
+				B77F5CF72170FF74004F3005 /* SFSDKSafeMutableSet.h in Headers */,
+				B77F5D1A2170FFEE004F3005 /* SFFileProtectionHelper.h in Headers */,
+				B7136D5121669DA400F6A221 /* SFLogger.h in Headers */,
+				B7136D4C21668B0100F6A221 /* SFSDKReachability.h in Headers */,
+				B7136D4D21668B0100F6A221 /* SalesforceSDKCommon.h in Headers */,
+				B77F5CF32170FF74004F3005 /* SFSDKSafeMutableDictionary.h in Headers */,
+				B77F5D222171021F004F3005 /* SFTestContext.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		B7136CFD216684A700F6A221 /* SalesforceSDKCommon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7136D12216684A700F6A221 /* Build configuration list for PBXNativeTarget "SalesforceSDKCommon" */;
+			buildPhases = (
+				B7136CF9216684A700F6A221 /* Headers */,
+				B7136CFA216684A700F6A221 /* Sources */,
+				B7136CFB216684A700F6A221 /* Frameworks */,
+				B7136CFC216684A700F6A221 /* Resources */,
+				B7D55E402181691800827C89 /* ShellScript */,
+				B7D55E412181696500827C89 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SalesforceSDKCommon;
+			productName = SalesforceSDKCommon;
+			productReference = B7136CFE216684A700F6A221 /* SalesforceSDKCommon.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B7136D06216684A700F6A221 /* SalesforceSDKCommonTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7136D15216684A700F6A221 /* Build configuration list for PBXNativeTarget "SalesforceSDKCommonTests" */;
+			buildPhases = (
+				B7136D03216684A700F6A221 /* Sources */,
+				B7136D04216684A700F6A221 /* Frameworks */,
+				B7136D05216684A700F6A221 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B7136D0A216684A700F6A221 /* PBXTargetDependency */,
+			);
+			name = SalesforceSDKCommonTests;
+			productName = SalesforceSDKCommonTests;
+			productReference = B7136D07216684A700F6A221 /* SalesforceSDKCommonTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B7136D3821668A2100F6A221 /* SalesforceSDKCommonStatic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7136D3F21668A2200F6A221 /* Build configuration list for PBXNativeTarget "SalesforceSDKCommonStatic" */;
+			buildPhases = (
+				B7136D4921668AEF00F6A221 /* Headers */,
+				B7136D3521668A2100F6A221 /* Sources */,
+				B7136D3621668A2100F6A221 /* Frameworks */,
+				B7136D3721668A2100F6A221 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SalesforceSDKCommonStatic;
+			productName = SalesforceSDKCommonStatic;
+			productReference = B7136D3921668A2100F6A221 /* libSalesforceSDKCommonStatic.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B7136CF5216684A700F6A221 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1000;
+				ORGANIZATIONNAME = Salesforce;
+				TargetAttributes = {
+					B7136CFD216684A700F6A221 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					B7136D06216684A700F6A221 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					B7136D3821668A2100F6A221 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+				};
+			};
+			buildConfigurationList = B7136CF8216684A700F6A221 /* Build configuration list for PBXProject "SalesforceSDKCommon" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B7136CF4216684A700F6A221;
+			productRefGroup = B7136CFF216684A700F6A221 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B7136CFD216684A700F6A221 /* SalesforceSDKCommon */,
+				B7136D06216684A700F6A221 /* SalesforceSDKCommonTests */,
+				B7136D3821668A2100F6A221 /* SalesforceSDKCommonStatic */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B7136CFC216684A700F6A221 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7136D05216684A700F6A221 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B7D55E402181691800827C89 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"\n";
+		};
+		B7D55E412181696500827C89 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s sdkcommon\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B7136CFA216684A700F6A221 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B77F5CF42170FF74004F3005 /* SFSDKSafeMutableDictionary.m in Sources */,
+				B77F5CF02170FF74004F3005 /* SFSDKSafeMutableSet.m in Sources */,
+				B7136D30216686EB00F6A221 /* SFSDKReachability.m in Sources */,
+				B7136D5821669F7C00F6A221 /* SFDefaultLogger.m in Sources */,
+				B7136D32216686EB00F6A221 /* NSUserDefaults+SFAdditions.m in Sources */,
+				B77F5D172170FFEE004F3005 /* SFPathUtil.m in Sources */,
+				B77F5D1F2171021F004F3005 /* SFTestContext.m in Sources */,
+				B77F5CF82170FF74004F3005 /* SFSDKSafeMutableArray.m in Sources */,
+				B7136D5221669DA400F6A221 /* SFLogger.m in Sources */,
+				B77F5D152170FFEE004F3005 /* SFFileProtectionHelper.m in Sources */,
+				B7136D2F216686EB00F6A221 /* SFSDKDatasharingHelper.m in Sources */,
+				B77F5D232171021F004F3005 /* SFSwiftDetectUtil.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7136D03216684A700F6A221 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7D3CABA218BA32B00780B72 /* SFLoggerTests.m in Sources */,
+				B7D3CABE218BC80600780B72 /* SFSDKSafeMutableArrayTests.m in Sources */,
+				B7D3CAC0218BC80600780B72 /* SFSDKSafeMutableSetTests.m in Sources */,
+				B7136D0D216684A700F6A221 /* SalesforceSDKCommonTests.m in Sources */,
+				B7D3CABF218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7136D3521668A2100F6A221 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7136D4321668A5900F6A221 /* SFSDKDatasharingHelper.m in Sources */,
+				B77F5CF52170FF74004F3005 /* SFSDKSafeMutableDictionary.m in Sources */,
+				B7136D4221668A5600F6A221 /* NSUserDefaults+SFAdditions.m in Sources */,
+				B77F5D182170FFEE004F3005 /* SFPathUtil.m in Sources */,
+				B7136D5321669DA400F6A221 /* SFLogger.m in Sources */,
+				B77F5CF12170FF74004F3005 /* SFSDKSafeMutableSet.m in Sources */,
+				B77F5CF92170FF74004F3005 /* SFSDKSafeMutableArray.m in Sources */,
+				B7136D4421668A5C00F6A221 /* SFSDKReachability.m in Sources */,
+				B77F5D202171021F004F3005 /* SFTestContext.m in Sources */,
+				B77F5D162170FFEE004F3005 /* SFFileProtectionHelper.m in Sources */,
+				B7136D5921669F7C00F6A221 /* SFDefaultLogger.m in Sources */,
+				B77F5D242171021F004F3005 /* SFSwiftDetectUtil.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B7136D0A216684A700F6A221 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B7136CFD216684A700F6A221 /* SalesforceSDKCommon */;
+			targetProxy = B7136D09216684A700F6A221 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B7136D10216684A700F6A221 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B7136D11216684A700F6A221 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B7136D13216684A700F6A221 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SalesforceSDKCommon/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCommon;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B7136D14216684A700F6A221 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SalesforceSDKCommon/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCommon;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B7136D16216684A700F6A221 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SalesforceSDKCommonTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCommonTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B7136D17216684A700F6A221 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SalesforceSDKCommonTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCommonTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B7136D4021668A2200F6A221 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B7136D4121668A2200F6A221 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B7136CF8216684A700F6A221 /* Build configuration list for PBXProject "SalesforceSDKCommon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7136D10216684A700F6A221 /* Debug */,
+				B7136D11216684A700F6A221 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B7136D12216684A700F6A221 /* Build configuration list for PBXNativeTarget "SalesforceSDKCommon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7136D13216684A700F6A221 /* Debug */,
+				B7136D14216684A700F6A221 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B7136D15216684A700F6A221 /* Build configuration list for PBXNativeTarget "SalesforceSDKCommonTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7136D16216684A700F6A221 /* Debug */,
+				B7136D17216684A700F6A221 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B7136D3F21668A2200F6A221 /* Build configuration list for PBXNativeTarget "SalesforceSDKCommonStatic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7136D4021668A2200F6A221 /* Debug */,
+				B7136D4121668A2200F6A221 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B7136CF5216684A700F6A221 /* Project object */;
+}

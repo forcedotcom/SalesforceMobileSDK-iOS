@@ -27,7 +27,7 @@
 #import "SFDirectoryManager.h"
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
-#import "SFFileProtectionHelper.h"
+#import <SalesforceSDKCommon/SFFileProtectionHelper.h>
 
 
 // Name of the individual file containing the archived SFUserAccount class
