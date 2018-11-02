@@ -25,6 +25,7 @@
 #import "SFSecurityLockoutTests.h"
 #import "SFSecurityLockout+Internal.h"
 #import "SFPreferences.h"
+#import "SFPasscodeManager.h"
 
 @interface SFSecurityLockoutTests ()
 
@@ -153,7 +154,11 @@
 {
     XCTAssertEqualObjects(legacyTimeoutNum, [[NSUserDefaults standardUserDefaults] objectForKey:kSecurityTimeoutLegacyKey], @"Legacy timeout values do not match.");
     XCTAssertEqual(legacyLockedVal, [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey], @"Legacy locked values do not match.");
-    XCTAssertEqual(biometricAllowedVal, [SFSecurityLockout biometricUnlockAllowed], @"Biometric unlock allowed values do not match.");
+    // Read value directly because [SFSecurityLockout biometricUnlockAllowed] takes takes device biometric into affect
+    BOOL bioAllowed = [[SFPreferences globalPreferences] boolForKey:kBiometricUnlockAllowedKey];
+    XCTAssertEqual(biometricAllowedVal, bioAllowed, @"Stored Biometric unlock allowed values do not match.");
+    BOOL deviceBio = [[SFPasscodeManager sharedManager] deviceHasBiometric];
+    XCTAssertEqual((biometricAllowedVal && deviceBio), [SFSecurityLockout biometricUnlockAllowed], @"Biometric unlock allowed values from SFSecuirtyLockout do not match.");
     XCTAssertEqual(biometricEnabledVal, [SFSecurityLockout biometricUnlockEnabled], @"Biometric unlock enabled values do not match.");
      XCTAssertEqual(userDeclinedBiometricVal, [SFSecurityLockout userDeclinedBiometricUnlock], @"User declined biometric unlock enabled values do not match.");
 }
