@@ -36,6 +36,8 @@
 
 @implementation SFKeychainItemWrapper
 
+@synthesize passcodeLength = _passcodeLength;
+
 // NSException constants
 NSString * const kSFKeychainItemExceptionType         = @"com.salesforce.security.keychainException";
 NSString * const kSFKeychainItemExceptionErrorCodeKey = @"com.salesforce.security.keychainException.errorCode";
@@ -454,6 +456,22 @@ static CFTypeRef sKeychainAccessibleAttribute;
 		[SFSDKCoreLogger d:[self class] format:@"Passcode does not match!"];
 	}       
     return matches;
+}
+
+- (void)setPasscodeLength:(NSUInteger)length
+{
+    @synchronized (self) {
+        [self setObject:[NSString stringWithFormat:@"%lu",(unsigned long)length] forKey:(id)kSecValueData];
+        [self.keychainData setObject:[NSString stringWithFormat:@"%lu",(unsigned long)length] forKey:(id)kSecValueData];
+        SecItemAdd((CFDictionaryRef)[self dictionaryToSecItemFormat:self.keychainData], NULL);
+    }
+}
+
+- (NSUInteger)passcodeLength
+{
+    @synchronized (self) {
+        return [[self stringForKey:(id)kSecValueData] intValue];
+    }
 }
 
 @end

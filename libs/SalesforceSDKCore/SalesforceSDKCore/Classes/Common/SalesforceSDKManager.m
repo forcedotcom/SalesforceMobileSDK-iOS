@@ -680,14 +680,14 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
         }
     }];
     
-    // Don't present snapshot during advanced authentication
-    // =====================================================
+    // Don't present snapshot during advanced authentication or Passcode Presentation
+    // ==============================================================================
     // During advanced authentication, application is briefly backgrounded then foregrounded
     // The SFAuthenticationSession's view controller is pushed into the key window
     // If we make the snapshot window the active window now, that's where the SFAuthenticationSession's view controller will end up
     // Then when the application is foregrounded and the snapshot window is dismissed, we will lose the SFAuthenticationSession
     SFSDKWindowContainer* activeWindow = [SFSDKWindowManager sharedManager].activeWindow;
-    if ([activeWindow isAuthWindow] && ![activeWindow.topViewController isKindOfClass:[SFLoginViewController class]]) {
+    if (([activeWindow isAuthWindow]  && ![activeWindow.topViewController isKindOfClass:[SFLoginViewController class]]) ||  [activeWindow isPasscodeWindow]) {
         return;
     }
   
@@ -1040,7 +1040,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 
 #pragma mark - SFSecurityLockoutDelegate
 
-- (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode
+- (void)passcodeFlowWillBegin:(SFAppLockControllerMode)mode
 {
     self.passcodeDisplayed = YES;
 }

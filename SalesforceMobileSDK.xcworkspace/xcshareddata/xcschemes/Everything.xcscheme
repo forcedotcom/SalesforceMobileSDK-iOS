@@ -84,20 +84,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CE4CE2F71C0E4673009F6029"
-               BuildableName = "SalesforceReact.framework"
-               BlueprintName = "SalesforceReact"
-               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "B7CEA6EE20B7105E007D0564"
                BuildableName = "RestAPIExplorer.app"
                BlueprintName = "RestAPIExplorer"
@@ -406,34 +392,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4FA796932020E6D400CA9759"
-               BuildableName = "SalesforceReactTestApp.app"
-               BlueprintName = "SalesforceReactTestApp"
-               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4FA796AA2020E6D500CA9759"
-               BuildableName = "SalesforceReactTests.xctest"
-               BlueprintName = "SalesforceReactTests"
-               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "B7CEA6EE20B7105E007D0564"
                BuildableName = "RestAPIExplorer.app"
                BlueprintName = "RestAPIExplorer"
@@ -510,24 +468,14 @@
             </BuildableReference>
          </TestableReference>
          <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4FA796AA2020E6D500CA9759"
-               BuildableName = "SalesforceReactTests.xctest"
-               BlueprintName = "SalesforceReactTests"
-               ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7136D06216684A700F6A221"
-               BuildableName = "SalesforceSDKCommonTests.xctest"
-               BlueprintName = "SalesforceSDKCommonTests"
-               ReferencedContainer = "container:libs/SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj">
-            </BuildableReference>
+             skipped = "NO">
+             <BuildableReference
+                 BuildableIdentifier = "primary"
+                 BlueprintIdentifier = "B7136D06216684A700F6A221"
+                 BuildableName = "SalesforceSDKCommonTests.xctest"
+                 BlueprintName = "SalesforceSDKCommonTests"
+                 ReferencedContainer = "container:libs/SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj">
+             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>

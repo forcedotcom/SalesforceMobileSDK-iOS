@@ -31,6 +31,11 @@ NS_SWIFT_NAME(SafeMutableArray)
 @property (nonatomic,readonly) NSUInteger count;
 
 /**
+* Returns a new instance that’s a mutable copy of the receiver.
+*/
+- (id)mutableCopyWithZone:(NSZone *)zone;
+
+/**
  * Returns true if the object exists in the array.
  */
 - (BOOL)containsObject:(id)anObject;

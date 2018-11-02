@@ -40,13 +40,17 @@
 #import "SalesforceSDKManager+Internal.h"
 #import "SFSDKNavigationController.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import "SFSDKAppLockViewConfig.h"
+#import "SFSDKAppLockViewController.h"
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import <LocalAuthentication/LocalAuthentication.h>
 
 // Private constants
 
-static NSUInteger const kDefaultPasscodeLength               = 4;
 static NSString * const kTimerSecurity                       = @"security.timer";
 static NSString * const kLegacyPasscodeLengthKey             = @"security.pinlength";
 static NSString * const kPasscodeLengthKey                   = @"security.passcode.length";
+static NSString * const kKeychainIdntifierPasscodeLengthKey  = @"com.salesforce.security.passcode.length";
 static NSString * const kPasscodeScreenAlreadyPresentMessage = @"A passcode screen is already present.";
 static NSString * const kKeychainIdentifierLockoutTime       = @"com.salesforce.security.lockoutTime";
 static NSString * const kKeychainIdentifierIsLocked          = @"com.salesforce.security.isLocked";
@@ -55,7 +59,7 @@ static NSString * const kKeychainIdentifierIsLocked          = @"com.salesforce.
 
 NSString * const kSFPasscodeFlowWillBegin                         = @"SFPasscodeFlowWillBegin";
 NSString * const kSFPasscodeFlowCompleted                         = @"SFPasscodeFlowCompleted";
-SFPasscodeConfigurationData const SFPasscodeConfigurationDataNull = { -1, NSUIntegerMax };
+SFAppLockConfigurationData const SFAppLockConfigurationDataNull = { -1, NSUIntegerMax, NO };
 
 // Static vars
 
@@ -65,10 +69,11 @@ static SFLockScreenSuccessCallbackBlock sLockScreenSuccessCallbackBlock = NULL;
 static SFLockScreenFailureCallbackBlock sLockScreenFailureCallbackBlock = NULL;
 static SFPasscodeViewControllerCreationBlock sPasscodeViewControllerCreationBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sPresentPasscodeViewControllerBlock = NULL;
-static SFPasscodeViewControllerPresentationBlock sDismissPasscodeViewControllerBlock = NULL;
+static SFPasscodeViewControllerDismissBlock sDismissPasscodeViewControllerBlock = NULL;
 static NSHashTable<id<SFSecurityLockoutDelegate>> *sDelegates = nil;
 static BOOL sForcePasscodeDisplay = NO;
 static BOOL sValidatePasscodeAtStartup = NO;
+static SFSDKAppLockViewConfig *_passcodeViewConfig = nil;
 
 // Flag used to prevent the display of the passcode view controller.
 // Note: it is used by the unit tests only.
@@ -84,25 +89,19 @@ static BOOL _showPasscode = YES;
         // If this is the first time the passcode functionality has been run in the lifetime of the app install,
         // reset passcode data, since keychain data can persist between app installs.
         if (![SFCrypto baseAppIdentifierIsConfigured] || [SFCrypto baseAppIdentifierConfiguredThisLaunch]) {
-            [SFSecurityLockout setSecurityLockoutTime:0];
+            [SFSecurityLockout setSecurityLockoutTime:kDefaultLockoutTime];
             [SFSecurityLockout setPasscodeLength:kDefaultPasscodeLength];
+            [SFSecurityLockout setBiometricUnlockEnabled:NO];
+            [SFSecurityLockout setUserDeclinedBiometricUnlock:NO];
         } else {
             securityLockoutTime = [[SFSecurityLockout readLockoutTimeFromKeychain] unsignedIntegerValue];
         }
         
         sDelegates = [NSHashTable weakObjectsHashTable];
         
-        [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFPasscodeControllerMode mode, SFPasscodeConfigurationData configData) {
-            SFPasscodeViewController *pvc = nil;
-            if (mode == SFPasscodeControllerModeCreate) {
-                pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:configData];
-            } else if (mode == SFPasscodeControllerModeChange) {
-                pvc = [[SFPasscodeViewController alloc] initForPasscodeChange:configData];
-            } else {
-                pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
-            }
-            SFSDKNavigationController *nc = [[SFSDKNavigationController alloc] initWithRootViewController:pvc];
-            return nc;
+        [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFAppLockControllerMode mode, SFAppLockConfigurationData configData,SFSDKAppLockViewConfig *viewConfig) {
+            UIViewController *pvc = [[SFSDKAppLockViewController alloc] initWithAppLockConfigData:configData viewConfig:viewConfig mode:mode];
+            return pvc;
         }];
         
         [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
@@ -112,10 +111,14 @@ static BOOL _showPasscode = YES;
 
         }];
         
-        [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {
-            [[[SFSDKWindowManager sharedManager].passcodeWindow.viewController presentedViewController] dismissViewControllerAnimated:NO completion:^{
-                [[SFSDKWindowManager sharedManager].passcodeWindow dismissWindow];
-            }];
+        [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController * pvc, void(^ completionBlock)(void) ) {
+                [[SFSDKWindowManager sharedManager].passcodeWindow.viewController  dismissViewControllerAnimated:NO completion:^{
+                    [[SFSDKWindowManager sharedManager].passcodeWindow dismissWindowAnimated:NO
+                                                                              withCompletion:^{
+                                                   if (completionBlock)
+                                                       completionBlock();
+                                                    }];
+                }];
         }];
     }
 }
@@ -134,6 +137,11 @@ static BOOL _showPasscode = YES;
         }
     }
     
+    BOOL biometricFileExists = [[SFPreferences globalPreferences] keyExists:kBiometricUnlockAllowedKey];
+    if (!biometricFileExists) {
+        [self setBiometricAllowed:YES];
+    }
+    
     // Is locked
     NSNumber *n = [SFSecurityLockout readIsLockedFromKeychain];
     if (n == nil) {
@@ -142,7 +150,7 @@ static BOOL _showPasscode = YES;
         [SFSecurityLockout writeIsLockedToKeychain:@(locked)];
     }
     
-    NSNumber *currentPasscodeLength = [[SFPreferences globalPreferences] objectForKey:kPasscodeLengthKey];
+    NSNumber *currentPasscodeLength = [SFSecurityLockout readPasscodeLengthFromKeychain];
     
     if (currentPasscodeLength) {
         NSNumber *previousLength = [[NSUserDefaults msdkUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
@@ -155,7 +163,7 @@ static BOOL _showPasscode = YES;
     NSNumber *previousLength = [[NSUserDefaults msdkUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
     if (previousLength) {
         [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
-        [self setPasscodeLength:[previousLength integerValue]];
+        [self setPasscodeLength:[previousLength unsignedIntegerValue]];
     }
 }
 
@@ -186,7 +194,7 @@ static BOOL _showPasscode = YES;
     }
 }
 
-+ (void)validateTimer;
++ (void)validateTimer
 {
     if ([SFSecurityLockout isPasscodeValid]) {
         if([SFSecurityLockout inactivityExpired] || [SFSecurityLockout locked]) {
@@ -202,11 +210,25 @@ static BOOL _showPasscode = YES;
     }
 }
 
-+ (void)setPasscodeLength:(NSInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime
++ (void)setInactivityConfiguration:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)newBiometricAllowed
 {
-    SFPasscodeConfigurationData configData;
+    SFAppLockConfigurationData configData;
     configData.lockoutTime = securityLockoutTime;
     configData.passcodeLength = [self passcodeLength];
+    
+    if (newBiometricAllowed != [self biometricUnlockAllowed]) {
+        // Biometric off -> on.
+        // Don't set allowed if user had previously declined.
+        if (newBiometricAllowed && ![self userDeclinedBiometricUnlock]) {
+            [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"Biometric unlock is allowed."];
+            [self setBiometricAllowed:YES];
+        } else {
+            // Biometric on -> off.
+            [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"Biometric unlock is not not allowed."];
+            [self setBiometricAllowed:NO];
+        }
+    }
+    configData.biometricUnlockAllowed = [self biometricUnlockAllowed];
     
     // Cases where there's initially no passcode configured.
     if (securityLockoutTime == 0) {
@@ -217,7 +239,7 @@ static BOOL _showPasscode = YES;
             // Passcode off -> on.  Trigger passcode creation.
             configData.lockoutTime = newLockoutTime;
             configData.passcodeLength = newPasscodeLength;
-            [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate passcodeConfig:configData];
+            [SFSecurityLockout presentPasscodeController:SFAppLockControllerModeCreatePasscode passcodeConfig:configData];
         }
         return;
     }
@@ -239,17 +261,17 @@ static BOOL _showPasscode = YES;
             // are also off.
             if (![SFSecurityLockout nonCurrentUsersHavePasscodePolicy]) {
                 [SFSecurityLockout clearAllPasscodeState];
-                [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeRemoved passcodeConfig:SFPasscodeConfigurationDataNull];  // config values already cleared.
+                [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeRemoved passcodeConfig:SFAppLockConfigurationDataNull];  // config values already cleared.
                 return;
             }
         }
     }
     
     // Passcode lengths can only go up; same reason as lockout times only going down.
-    NSInteger currentPasscodeLength = [self passcodeLength];
+    NSUInteger currentPasscodeLength = [self passcodeLength];
     if (newPasscodeLength > currentPasscodeLength) {
         configData.passcodeLength = newPasscodeLength;
-        [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeChange passcodeConfig:configData];
+        [SFSecurityLockout presentPasscodeController:SFAppLockControllerModeChangePasscode passcodeConfig:configData];
         return;
     }
     
@@ -306,23 +328,58 @@ static BOOL _showPasscode = YES;
     // cases where the passcode is no longer valid (user forgot the passcode, failed the maximum verification
     // attempts, etc.).  Calling this method should be reasonably followed upstream with a general resetting of
     // the app state.
-    [SFSecurityLockout setSecurityLockoutTime:0];
+    [SFSecurityLockout setSecurityLockoutTime:kDefaultLockoutTime];
     [SFSecurityLockout setPasscodeLength:kDefaultPasscodeLength];
+    [SFSecurityLockout setBiometricAllowed:NO];
+    [SFSecurityLockout setBiometricUnlockEnabled:NO];
+    [SFSecurityLockout setUserDeclinedBiometricUnlock:NO];
     [SFInactivityTimerCenter removeTimer:kTimerSecurity];
     [[SFPasscodeManager sharedManager] changePasscode:nil];
 }
 
-+ (NSInteger)passcodeLength
++ (NSUInteger)passcodeLength
 {
-    NSNumber *nPasscodeLength = [[SFPreferences globalPreferences] objectForKey:kPasscodeLengthKey];
+    NSNumber *nPasscodeLength = [SFSecurityLockout readPasscodeLengthFromKeychain];
     return (nPasscodeLength != nil ? [nPasscodeLength integerValue] : kDefaultPasscodeLength);
 }
 
-+ (void)setPasscodeLength:(NSInteger)newPasscodeLength
++ (void)setPasscodeLength:(NSUInteger)newPasscodeLength
 {
     // NOTE: This method directly alters the passcode length global preference persisted value.  Do not call if
     // passcode policy evaluation is required.
-    [[SFPreferences globalPreferences] setObject:@(newPasscodeLength) forKey:kPasscodeLengthKey];
+    [SFSecurityLockout writePasscodeLengthToKeychain:[NSNumber numberWithInteger:newPasscodeLength]];
+}
+
++ (BOOL)biometricUnlockAllowed
+{
+    return [[SFPreferences globalPreferences] boolForKey:kBiometricUnlockAllowedKey] && [[SFPasscodeManager sharedManager] deviceHasBiometric];
+}
+
++ (void)setBiometricAllowed:(BOOL)enabled
+{
+    [[SFPreferences globalPreferences] setBool:enabled forKey:kBiometricUnlockAllowedKey];
+    [[SFPreferences globalPreferences] synchronize];
+}
+
++ (BOOL)biometricUnlockEnabled
+{
+    return [[SFPreferences globalPreferences] boolForKey:kBiometricUnlockEnabledKey];
+}
+
++ (void)setBiometricUnlockEnabled:(BOOL)enabled
+{
+    [[SFPreferences globalPreferences] setBool:enabled forKey:kBiometricUnlockEnabledKey];
+    [[SFPreferences globalPreferences] synchronize];
+}
+
++ (BOOL)userDeclinedBiometricUnlock
+{
+    return [[SFPreferences globalPreferences] boolForKey:kUserDeclinedBiometricKey];
+}
+
++ (void)setUserDeclinedBiometricUnlock:(BOOL)declined
+{
+    [[SFPreferences globalPreferences] setBool:declined forKey:kUserDeclinedBiometricKey];
     [[SFPreferences globalPreferences] synchronize];
 }
 
@@ -376,9 +433,29 @@ static BOOL _showPasscode = YES;
     [SFInactivityTimerCenter removeTimer:kTimerSecurity];
 }
 
++ (void)setPasscodeViewConfig:(SFSDKAppLockViewConfig *)passcodeViewConfig {
+    _passcodeViewConfig = passcodeViewConfig;
+    
+    // This guarentees the user's passcode is the length specified in the connected app.
+    if (_passcodeViewConfig.forcePasscodeLength) {
+        // Set passcode length to the last minimum length we got from the connected app.
+        NSNumber *oldPasscodeLength = [[SFPreferences globalPreferences] objectForKey:kPasscodeLengthKey];
+        if (oldPasscodeLength) {
+            [SFSecurityLockout setPasscodeLength:[oldPasscodeLength unsignedIntegerValue]];
+        }
+    }
+}
+
++ (SFSDKAppLockViewConfig *)passcodeViewConfig {
+    if (_passcodeViewConfig == nil) {
+        _passcodeViewConfig = [SFSDKAppLockViewConfig createDefaultConfig];
+    }
+    return _passcodeViewConfig;
+}
+
 static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
-+ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action passcodeConfig:(SFPasscodeConfigurationData)configData
++ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action passcodeConfig:(SFAppLockConfigurationData)configData
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -390,31 +467,40 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [self sendPasscodeFlowCompletedNotification:success];
     UIViewController *passVc = [SFSecurityLockout passcodeViewController];
     if (passVc != nil) {
-        SFPasscodeViewControllerPresentationBlock dismissBlock = [SFSecurityLockout dismissPasscodeViewControllerBlock];
-        dismissBlock(passVc);
-        [SFSecurityLockout setPasscodeViewController:nil];
-    }
-    
-    if (success) {
-        if (action == SFSecurityLockoutActionPasscodeCreated || action == SFSecurityLockoutActionPasscodeChanged) {
-            if (&configData != &SFPasscodeConfigurationDataNull) {
-                [SFSecurityLockout setSecurityLockoutTime:configData.lockoutTime];
-                [SFSecurityLockout setPasscodeLength:configData.passcodeLength];
+        SFPasscodeViewControllerDismissBlock dismissBlock = [SFSecurityLockout dismissPasscodeViewControllerBlock];
+        __weak typeof (self) weakSelf = self;
+        dismissBlock(passVc, ^{
+             __strong typeof (weakSelf) strongSelf = weakSelf;
+            [SFSecurityLockout setPasscodeViewController:nil];
+            if (success) {
+                if (action == SFSecurityLockoutActionPasscodeCreated || action == SFSecurityLockoutActionPasscodeChanged) {
+                    if (&configData != &SFAppLockConfigurationDataNull) {
+                        [SFSecurityLockout setSecurityLockoutTime:configData.lockoutTime];
+                        [SFSecurityLockout setPasscodeLength:configData.passcodeLength];
+                    }
+                    // Set passcode length if it was not known before
+                } else if (action == SFSecurityLockoutActionPasscodeVerified && [SFSecurityLockout passcodeLength] == kDefaultPasscodeLength) {
+                    [SFSecurityLockout setPasscodeLength:configData.passcodeLength];
+                }
+                [SFSecurityLockout unlockSuccessPostProcessing:action];
+            } else {
+                // Clear the SFSecurityLockout passcode state, as it's no longer valid.
+                [SFSecurityLockout clearAllPasscodeState];
+                [[SFUserAccountManager sharedInstance] logoutAllUsers];
+                [SFSecurityLockout unlockFailurePostProcessing];
             }
-        }
-        [SFSecurityLockout unlockSuccessPostProcessing:action];
-    } else {
-        // Clear the SFSecurityLockout passcode state, as it's no longer valid.
-        [SFSecurityLockout clearAllPasscodeState];
-        [[SFUserAccountManager sharedInstance] logoutAllUsers];
-        [SFSecurityLockout unlockFailurePostProcessing];
+            
+            [SFSDKEventBuilderHelper createAndStoreEvent:@"passcodeUnlock" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:nil];
+            [strongSelf sendPasscodeFlowCompletedNotification:success];
+            
+            [strongSelf enumerateDelegates:^(id<SFSecurityLockoutDelegate> delegate) {
+                if ([delegate respondsToSelector:@selector(passcodeFlowDidComplete:)]) {
+                    [delegate passcodeFlowDidComplete:success];
+                }
+            }];
+        });
+        
     }
-    
-    [self enumerateDelegates:^(id<SFSecurityLockoutDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(passcodeFlowDidComplete:)]) {
-            [delegate passcodeFlowDidComplete:success];
-        }
-    }];
 }
 
 + (void)timerExpired:(NSTimer*)theTimer
@@ -462,15 +548,23 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         }
     }
     
-    SFPasscodeConfigurationData configData;
+    SFAppLockConfigurationData configData;
     configData.lockoutTime = [self lockoutTime];
     configData.passcodeLength = [self passcodeLength];
+    configData.biometricUnlockAllowed = [self biometricUnlockAllowed];
     if ([SFApplicationHelper sharedApplication].applicationState == UIApplicationStateActive || ![SFSDKWindowManager sharedManager].snapshotWindow.isEnabled) {
-        [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify passcodeConfig:configData];
+        if (![[SFPasscodeManager sharedManager] deviceHasBiometric]) {
+            [self setBiometricUnlockEnabled:NO];
+        }
+        
+        SFAppLockControllerMode lockType = ([self biometricUnlockEnabled]) ? SFAppLockControllerModeVerifyBiometric : SFAppLockControllerModeVerifyPasscode;
+        [SFSecurityLockout presentPasscodeController:lockType passcodeConfig:configData];
     }
     [SFSDKCoreLogger i:[self class] format:@"Device locked."];
     sForcePasscodeDisplay = NO;
 }
+
+
 
 + (SFPasscodeViewControllerCreationBlock)passcodeViewControllerCreationBlock
 {
@@ -496,19 +590,19 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
 }
 
-+ (SFPasscodeViewControllerPresentationBlock)dismissPasscodeViewControllerBlock
++ (SFPasscodeViewControllerDismissBlock)dismissPasscodeViewControllerBlock
 {
     return sDismissPasscodeViewControllerBlock;
 }
 
-+ (void)setDismissPasscodeViewControllerBlock:(SFPasscodeViewControllerPresentationBlock)vcBlock
++ (void)setDismissPasscodeViewControllerBlock:(SFPasscodeViewControllerDismissBlock)vcBlock
 {
     if (vcBlock != sDismissPasscodeViewControllerBlock) {
         sDismissPasscodeViewControllerBlock = vcBlock;
     }
 }
 
-+ (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue passcodeConfig:(SFPasscodeConfigurationData)configData
++ (void)presentPasscodeController:(SFAppLockControllerMode)modeValue passcodeConfig:(SFAppLockConfigurationData)configData
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -533,8 +627,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
                 [delegate passcodeFlowWillBegin:modeValue];
             }
         }];
+        
         SFPasscodeViewControllerCreationBlock passcodeVcCreationBlock = [SFSecurityLockout passcodeViewControllerCreationBlock];
-        UIViewController *passcodeViewController = passcodeVcCreationBlock(modeValue, configData);
+        UIViewController *passcodeViewController = passcodeVcCreationBlock(modeValue, configData,self.passcodeViewConfig);
         [SFSecurityLockout setPasscodeViewController:passcodeViewController];
         SFPasscodeViewControllerPresentationBlock presentBlock = [SFSecurityLockout presentPasscodeViewControllerBlock];
         if (presentBlock != nil) {
@@ -543,7 +638,23 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
 }
 
-+ (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode
++ (void)presentBiometricEnrollment:(SFSDKAppLockViewConfig*)viewConfig
+{
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentBiometricEnrollment:viewConfig];
+        });
+        return;
+    }
+    
+    SFSDKAppLockViewConfig *displayConfig = (viewConfig) ? viewConfig : self.passcodeViewConfig;
+    [[SFSDKWindowManager sharedManager].passcodeWindow presentWindowAnimated:NO withCompletion:^{
+        SFSDKAppLockViewController *navController = [[SFSDKAppLockViewController alloc] initWithAppLockConfigData:SFAppLockConfigurationDataNull viewConfig:displayConfig mode:SFAppLockControllerModeEnableBiometric];
+        [[SFSDKWindowManager sharedManager].passcodeWindow.viewController presentViewController:navController animated:NO completion:^{}];
+    }];
+}
+
++ (void)sendPasscodeFlowWillBeginNotification:(SFAppLockControllerMode)mode
 {
     [SFSDKCoreLogger d:[self class] format:@"Sending passcode flow will begin notification with mode %lu", (unsigned long)mode];
     NSNotification *n = [NSNotification notificationWithName:kSFPasscodeFlowWillBegin
@@ -620,9 +731,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         UIViewController *passVc = [SFSecurityLockout passcodeViewController];
         [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"App requested passcode screen cancel.  Screen %@ displayed.", (passVc != nil ? @"is" : @"is not")];
         if (passVc != nil) {
-            SFPasscodeViewControllerPresentationBlock dismissBlock = [SFSecurityLockout dismissPasscodeViewControllerBlock];
-            dismissBlock(passVc);
-            [SFSecurityLockout setPasscodeViewController:nil];
+            SFPasscodeViewControllerDismissBlock dismissBlock = [SFSecurityLockout dismissPasscodeViewControllerBlock];
+            dismissBlock(passVc,^{
+                [SFSecurityLockout setPasscodeViewController:nil];
+            });
+            
         }
     };
     
@@ -700,29 +813,22 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (NSNumber *)readLockoutTimeFromKeychain
 {
-    NSNumber *time = nil;
-    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierLockoutTime account:nil];
-    NSData *valueData = [keychainWrapper valueData];
-    if (valueData) {
-        NSUInteger i = 0;
-        [valueData getBytes:&i length:sizeof(i)];
-        time = @(i);
-    }
-    return time;
+    return [SFSecurityLockout readNumberFromKeychain:kKeychainIdentifierLockoutTime];
 }
 
-+ (void)writeLockoutTimeToKeychain:(NSNumber *)time
++ (void)writeLockoutTimeToKeychain:(nullable NSNumber *)time
 {
-    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierLockoutTime account:nil];
-    NSData *data = nil;
-    if (time != nil) {
-        NSUInteger i = [time unsignedIntegerValue];
-        data = [NSData dataWithBytes:&i length:sizeof(i)];
-    }
-    if (data != nil)
-        [keychainWrapper setValueData:data];
-    else
-        [keychainWrapper resetKeychainItem];  // Predominantly for unit tests
+    [SFSecurityLockout writeNumberToKeychain:time identifier:kKeychainIdentifierLockoutTime];
+}
+
++ (NSNumber *)readPasscodeLengthFromKeychain
+{
+    return [SFSecurityLockout readNumberFromKeychain:kKeychainIdntifierPasscodeLengthKey];
+}
+
++ (void)writePasscodeLengthToKeychain:(NSNumber *)length
+{
+    [SFSecurityLockout writeNumberToKeychain:length identifier:kKeychainIdntifierPasscodeLengthKey];
 }
 
 + (NSNumber *)readIsLockedFromKeychain
@@ -745,6 +851,33 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     if (locked != nil) {
         BOOL b = [locked boolValue];
         data = [NSData dataWithBytes:&b length:sizeof(b)];
+    }
+    if (data != nil)
+        [keychainWrapper setValueData:data];
+    else
+        [keychainWrapper resetKeychainItem];  // Predominantly for unit tests
+}
+
++ (NSNumber *)readNumberFromKeychain:(NSString *)identifier
+{
+    NSNumber *data = nil;
+    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:identifier account:nil];
+    NSData *valueData = [keychainWrapper valueData];
+    if (valueData) {
+        NSUInteger i = 0;
+        [valueData getBytes:&i length:sizeof(i)];
+        data = @(i);
+    }
+    return data;
+}
+
++ (void)writeNumberToKeychain:(NSNumber *)number identifier: (NSString *)identifier
+{
+    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:identifier account:nil];
+    NSData *data = nil;
+    if (number != nil) {
+        NSUInteger i = [number unsignedIntegerValue];
+        data = [NSData dataWithBytes:&i length:sizeof(i)];
     }
     if (data != nil)
         [keychainWrapper setValueData:data];

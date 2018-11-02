@@ -110,6 +110,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 @synthesize userAccountMap = _userAccountMap;
 @synthesize accountPersister = _accountPersister;
 @synthesize loginViewControllerConfig = _loginViewControllerConfig;
+@synthesize appLockViewControllerConfig = _appLockViewControllerConfig;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t pred;
@@ -246,6 +247,21 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         _loginViewControllerConfig = config;
     }
 }
+
+- (SFSDKAppLockViewConfig *) appLockViewControllerConfig {
+    if (!_appLockViewControllerConfig) {
+        _appLockViewControllerConfig = [SFSDKAppLockViewConfig createDefaultConfig];
+    }
+    return _appLockViewControllerConfig;
+}
+
+- (void) setAppLockViewControllerConfig:(SFSDKAppLockViewConfig *)config {
+    if (_appLockViewControllerConfig != config) {
+        _appLockViewControllerConfig = config;
+        [SFSecurityLockout setPasscodeViewConfig:config];
+    }
+}
+
 
 #pragma  mark - login & logout
 
@@ -1138,6 +1154,18 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     return [userDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
 }
 
+- (void)presentBiometricEnrollment:(nullable SFSDKAppLockViewConfig *)config {
+    [SFSecurityLockout presentBiometricEnrollment:config];
+}
+
+- (BOOL)deviceHasBiometric {
+    return [[SFPasscodeManager sharedManager] deviceHasBiometric];
+}
+
+- (BOOL)biometricUnlockEnabled {
+    return [SFSecurityLockout biometricUnlockEnabled];
+}
+
 #pragma mark - private methods
 - (void)populateErrorHandlers
 {
@@ -1298,8 +1326,11 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     // NB: This method is assumed to run after identity data has been refreshed from the service, or otherwise
     // already exists.
     NSAssert(client.idData != nil, @"Identity data should not be nil/empty at this point.");
+    NSNumber *biometricUnlockKey = [client.idData.customAttributes objectForKey:@"BIOMETRIC_UNLOCK"];
+    BOOL biometricUnlockAvailable = (biometricUnlockKey == nil) ? YES : [biometricUnlockKey boolValue];
     __weak typeof(self) weakSelf = self;
     [client dismissAuthViewControllerIfPresent];
+    
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
         [weakSelf finalizeAuthCompletion:client];
     }];
@@ -1308,8 +1339,9 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     }];
     // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
     // identity service.
-    [SFSecurityLockout setPasscodeLength:client.idData.mobileAppPinLength
-                             lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)];
+    [SFSecurityLockout setInactivityConfiguration:client.idData.mobileAppPinLength
+                                      lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
+                                 biometricAllowed:biometricUnlockAvailable];
 }
 
 
