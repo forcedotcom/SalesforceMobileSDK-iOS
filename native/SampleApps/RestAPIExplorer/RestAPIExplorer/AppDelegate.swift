@@ -32,7 +32,6 @@ import SalesforceSDKCore
 
 import MobileCoreServices
 
-@UIApplicationMain
 class AppDelegate : UIResponder, UIApplicationDelegate
 {
     var window: UIWindow?
@@ -78,6 +77,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //loginViewConfig.navBarTextColor = UIColor.white
         //loginViewConfig.navBarFont = UIFont(name: "Helvetica", size: 16.0)
         //SFUserAccountManager.sharedInstance().loginViewControllerConfig = loginViewConfig
+        
+        let passcodeViewConfig = AppLockViewControllerConfig()
+        passcodeViewConfig.forcePasscodeLength = true
+        UserAccountManager.sharedInstance().appLockViewControllerConfig = passcodeViewConfig
         
         AuthHelper.loginIfRequired { [weak self] in
             self?.setupRootViewController()
