@@ -323,8 +323,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         
     } else {
         [self makeTransparentWithCompletion:window completion:completion];
-    }
-    
+    }    
 }
 
 #pragma mark - private methods

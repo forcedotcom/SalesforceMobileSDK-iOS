@@ -24,6 +24,8 @@
 
 #import "SFPasscodeManager+Internal.h"
 #import "SFPasscodeProviderManager.h"
+#import <LocalAuthentication/LocalAuthentication.h>
+#import "SFKeychainItemWrapper.h"
 
 static SFPasscodeManager *sharedInstance = nil;
 
@@ -45,6 +47,8 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 
 @synthesize encryptionKey = _encryptionKey;
 @synthesize preferredPasscodeProvider = _preferredPasscodeProvider;
+@synthesize passcodeLength = _passcodeLength;
+@synthesize deviceHasBiometric = _deviceHasBiometric;
 
 #pragma mark - Singleton initialization / management
 
@@ -147,6 +151,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
         [currentProvider resetPasscodeData];
     }
     [self setEncryptionKey:nil];
+    self.passcodeLength = 0;
 }
 
 - (BOOL)verifyPasscode:(NSString *)passcode
@@ -219,6 +224,23 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
     [currentProvider setVerificationPasscode:newPasscode];
     NSString *encryptionKey = [currentProvider generateEncryptionKey:newPasscode];
     [self setEncryptionKey:encryptionKey];
+    self.passcodeLength = newPasscode.length;
+}
+
+- (NSUInteger)passcodeLength
+{
+    return self.passcodeLength;
+}
+
+- (BOOL)deviceHasBiometric
+{
+    LAContext *context = [[LAContext alloc] init];
+    NSError *biometricError;
+    BOOL deviceHasBiometric = [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&biometricError];
+    if (!deviceHasBiometric) {
+        [SFSDKCoreLogger d:[self class] format:@"Device cannot use Touch Id or Face Id.  Error: %@", biometricError];
+    }
+    return deviceHasBiometric;
 }
 
 @end

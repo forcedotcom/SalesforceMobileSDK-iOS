@@ -1,5 +1,8 @@
 /*
- Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
+ SFSDKAppLockViewController.h
+ SalesforceSDKCore
+ 
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,32 +26,13 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SFAbstractPasscodeViewController.h"
-
+#import "SFSecurityLockout.h"
+#import "SFSDKNavigationController.h"
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- * The view controller for managing the passcode screen.
- */
-NS_SWIFT_NAME(PasscodeViewController)
-@interface SFPasscodeViewController : SFAbstractPasscodeViewController <UITextFieldDelegate>
+@interface SFSDKAppLockViewController : SFSDKNavigationController
 
-/**
- * Initializes the controller for verifying an existing passcode.
- */
-- (id)initForPasscodeVerification;
-
-/**
- * Initializes the controller for creating a new passcode.
- * @param configData Configuration for the new passcode.
- */
-- (id)initForPasscodeCreation:(SFPasscodeConfigurationData)configData;
-
-/**
- * Initializes the controller for changing the existing passcode.
- * @param configData Configuration for the new passcode.
- */
-- (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData;
+- (instancetype)initWithAppLockConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config mode:(SFAppLockControllerMode)mode;
 
 @end
 

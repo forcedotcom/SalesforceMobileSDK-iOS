@@ -1,8 +1,6 @@
 /*
- Actions.swift
- RestAPIExplorerSwift
-
- Created by Nicholas McDonald on 1/10/18.
+ SFSDKBiometricViewController.h
+ SalesforceSDKCore
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -27,40 +25,33 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+#import <UIKit/UIKit.h>
+#import "SFSecurityLockout.h"
+@class SFSDKAppLockViewConfig;
 
-enum ActionType {
-    case versions
-    case resources
-    case describeGlobal
-    case metadataWithObjectType
-    case describeWithObjectType
-    case retrieveWithObjectType
-    case createWithObjectType
-    case upsertWithObjectType
-    case updateWithObjectType
-    case deleteWithObjectType
-    case query
-    case search
-    case searchScopeAndOrder
-    case searchResultLayout
-    case ownedFilesList
-    case filesInUserGroups
-    case filesSharedWithUser
-    case fileDetails
-    case batchFileDetails
-    case fileShares
-    case addFileShare
-    case deleteFileShare
-    case currentUserInfo
-    case enableBiometric
-    case logout
-    case switchUser
-    case exportCredentials
-}
+NS_ASSUME_NONNULL_BEGIN
+@protocol SFSDKBiometricViewDelegate <NSObject>
 
-struct Action {
-    let type:ActionType
-    let method:String
-    let objectTypes:String?
-}
+- (void)biometricUnlockSucceeded:(NSString *)currentPasscode verificationMode:(BOOL)isVerificationMode;
+
+- (void)biometricUnlockFailed:(NSString *)currentPasscode verificationMode:(BOOL)isVerificationMode;
+
+@end
+
+@interface SFSDKBiometricViewController : UIViewController
+
+/**
+ Setup passcode view related preferences.
+ */
+@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig;
+
+@property (nonatomic,weak) id<SFSDKBiometricViewDelegate> biometricResponseDelgate;
+
+@property (nonatomic) BOOL verificationMode;
+
+- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config;
+
+@end
+
+NS_ASSUME_NONNULL_END
+

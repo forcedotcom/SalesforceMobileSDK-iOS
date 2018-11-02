@@ -32,7 +32,7 @@
 @implementation UIColor (SFColors)
 
 +(UIColor *) salesforceBlueColor {
-    return [UIColor colorWithRed:0 green:0.439 blue:0.824 alpha:1];
+    return [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:210.0f/255.0f alpha:1.0f];
 }
 
 + (UIColor *)colorFromHexValue:(NSString *)hexString {

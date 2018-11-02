@@ -1,8 +1,6 @@
 /*
- Actions.swift
- RestAPIExplorerSwift
-
- Created by Nicholas McDonald on 1/10/18.
+ SFSDKAppLockViewConfig.m
+ SalesforceSDKCore
  
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -26,41 +24,40 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+ 
+#import "SFSDKAppLockViewConfig.h"
+#import "UIColor+SFSDKPasscodeView.h"
+#import "SFSDKResourceUtils.h"
+#import "SFSecurityLockout.h"
 
-import Foundation
+@implementation SFSDKAppLockViewConfig
 
-enum ActionType {
-    case versions
-    case resources
-    case describeGlobal
-    case metadataWithObjectType
-    case describeWithObjectType
-    case retrieveWithObjectType
-    case createWithObjectType
-    case upsertWithObjectType
-    case updateWithObjectType
-    case deleteWithObjectType
-    case query
-    case search
-    case searchScopeAndOrder
-    case searchResultLayout
-    case ownedFilesList
-    case filesInUserGroups
-    case filesSharedWithUser
-    case fileDetails
-    case batchFileDetails
-    case fileShares
-    case addFileShare
-    case deleteFileShare
-    case currentUserInfo
-    case enableBiometric
-    case logout
-    case switchUser
-    case exportCredentials
+-(instancetype) init {
+    
+    if(self = [super init]) {
+        _forcePasscodeLength = NO;
+        _maxNumberOfAttempts = (NSUInteger)10;
+        _primaryColor = [UIColor salesforceBlueColor];
+        _secondaryColor = [UIColor whiteColor];
+        _backgroundColor = [UIColor backgroundColor];
+        _borderColor = [UIColor borderColor];
+        _instructionTextColor = [UIColor textColor];
+        _titleTextColor = [UIColor textColor];
+        _navBarColor = [UIColor whiteColor];
+        _navBarTextColor = [UIColor textColor];
+        _instructionFont = [UIFont systemFontOfSize:14];
+        _titleFont = [UIFont systemFontOfSize:18 weight:UIFontWeightBold];
+        _navBarFont = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];
+        _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
+        _touchIdImage = [[SFSDKResourceUtils imageNamed:@"touchId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        _faceIdImage = [[SFSDKResourceUtils imageNamed:@"faceId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        _passcodeLength = [SFSecurityLockout passcodeLength];
+    }
+    return self;
 }
 
-struct Action {
-    let type:ActionType
-    let method:String
-    let objectTypes:String?
++ (instancetype)createDefaultConfig {
+    return [[self alloc] init];
 }
+
+@end
