@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Brandon Page on Thu Oct 25 19:01:44 PDT 2018.
+ Created by Brandon Page on Tue Nov  6 14:24:35 PST 2018.
 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -44,6 +44,7 @@
 #import <SalesforceSDKCore/SFSDKSafeMutableArray.h>
 #import <SalesforceSDKCore/SFGeneratedKeyStore.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
+#import <SalesforceSDKCore/SFSDKAppLockViewController.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFLoginViewController.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
