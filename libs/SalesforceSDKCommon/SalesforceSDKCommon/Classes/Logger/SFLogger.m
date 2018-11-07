@@ -36,10 +36,8 @@ static Class InstanceClass;
 static SFSDKSafeMutableDictionary *loggerList = nil;
 
 @interface SFLogger()
-
 - (instancetype)init:(NSString *)componentName;
 + (void)clearAllComponents;
-
 @property id<SFLogging> logger;
 
 @end

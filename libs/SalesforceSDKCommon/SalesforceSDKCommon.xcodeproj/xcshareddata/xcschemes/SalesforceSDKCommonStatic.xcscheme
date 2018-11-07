@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7136D3821668A2100F6A221"
-               BuildableName = "libSalesforceSDKCommonStatic.a"
+               BlueprintIdentifier = "B7686AD821929D3B00D4332A"
+               BuildableName = "libSalesforceSDKCommon.a"
                BlueprintName = "SalesforceSDKCommonStatic"
                ReferencedContainer = "container:SalesforceSDKCommon.xcodeproj">
             </BuildableReference>
@@ -45,8 +45,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B7136D3821668A2100F6A221"
-            BuildableName = "libSalesforceSDKCommonStatic.a"
+            BlueprintIdentifier = "B7686AD821929D3B00D4332A"
+            BuildableName = "libSalesforceSDKCommon.a"
             BlueprintName = "SalesforceSDKCommonStatic"
             ReferencedContainer = "container:SalesforceSDKCommon.xcodeproj">
          </BuildableReference>
@@ -63,8 +63,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B7136D3821668A2100F6A221"
-            BuildableName = "libSalesforceSDKCommonStatic.a"
+            BlueprintIdentifier = "B7686AD821929D3B00D4332A"
+            BuildableName = "libSalesforceSDKCommon.a"
             BlueprintName = "SalesforceSDKCommonStatic"
             ReferencedContainer = "container:SalesforceSDKCommon.xcodeproj">
          </BuildableReference>

@@ -529,8 +529,8 @@
 			children = (
 				B716A3C0218F6AB3009D407F /* SalesforceSDKCommon.framework */,
 				B716A3C2218F6AB3009D407F /* SalesforceSDKCommonTests.xctest */,
-				B716A3C4218F6AB3009D407F /* libSalesforceSDKCommonStatic.a */,
 				B716A413218F7A8F009D407F /* SalesforceSDKCommonTestApp.app */,
+				B716A3C4218F6AB3009D407F /* libSalesforceSDKCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -809,9 +809,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				B716A40E218F7A8F009D407F /* PBXTargetDependency */,
-				B716A410218F7A8F009D407F /* PBXTargetDependency */,
 				B716A3DD218F6D7A009D407F /* PBXTargetDependency */,
+				B716A410218F7A8F009D407F /* PBXTargetDependency */,
+				B716A40E218F7A8F009D407F /* PBXTargetDependency */,
 			);
 			name = SmartStore;
 			productName = SmartStore;
@@ -962,10 +962,10 @@
 			remoteRef = B716A3C1218F6AB3009D407F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B716A3C4218F6AB3009D407F /* libSalesforceSDKCommonStatic.a */ = {
+		B716A3C4218F6AB3009D407F /* libSalesforceSDKCommon.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libSalesforceSDKCommonStatic.a;
+			path = libSalesforceSDKCommon.a;
 			remoteRef = B716A3C3218F6AB3009D407F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
