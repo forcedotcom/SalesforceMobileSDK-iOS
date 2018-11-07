@@ -18,10 +18,10 @@ Pod::Spec.new do |s|
   s.default_subspec  = 'SalesforceSDKCommon'
 
   s.subspec 'SalesforceSDKCommon' do |sdkcommon|
-      sdkcommon.dependency 'SalesforceSDKCommon'
-      sdkcommon.source_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/**/*.{h,m}', 'libs/SalesforceAnalytics/SalesforceSDKCommon/SalesforceSDKCommon.h'
+      sdkcommon.source_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/**/*.{h,m}', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/SalesforceSDKCommon.h'
       sdkcommon.public_header_files =
-      'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSDKSafeMutableSet.h','libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFTestContext.h','libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSDKSafeMutableDictionary.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFPathUtil.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSwiftDetectUtil.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSDKSafeMutableArray.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFFileProtectionHelper.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Logger/SFLogger.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/NSUserDefaults+SFAdditions.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSDKDatasharingHelper.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSDKReachability.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/SalesforceSDKCommon.h'
+      'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSDKSafeMutableSet.h','libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFTestContext.h','libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSDKSafeMutableDictionary.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFPathUtil.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSwiftDetectUtil.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSDKSafeMutableArray.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFFileProtectionHelper.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Logger/SFLogger.h',
+      'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Logger/SFDefaultLogger.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/NSUserDefaults+SFAdditions.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSDKDatasharingHelper.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Util/SFSDKReachability.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/SalesforceSDKCommon.h'
       sdkcommon.prefix_header_contents = ''
       sdkcommon.requires_arc = true
 
