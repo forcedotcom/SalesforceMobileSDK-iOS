@@ -58,9 +58,6 @@
    <Group
       location = "container:"
       name = "External">
-      <FileRef
-         location = "group:external/CocoaLumberjack/Lumberjack.xcodeproj">
-      </FileRef>
    </Group>
    <Group
       location = "group:external/ThirdPartyDependencies"

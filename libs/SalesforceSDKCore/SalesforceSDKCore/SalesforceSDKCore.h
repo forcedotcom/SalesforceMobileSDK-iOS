@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Brandon Page on Thu Oct 25 19:01:44 PDT 2018.
+ Created by Raj Rao on Sun Nov  4 07:50:42 PST 2018.
 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -39,6 +39,7 @@
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/SFGeneratedKeyStore.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
+#import <SalesforceSDKCore/SFSDKAppLockViewController.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFLoginViewController.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
@@ -50,12 +51,14 @@
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
 #import <SalesforceSDKCore/SFPasscodeProviderManager.h>
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
+#import <SalesforceSDKCore/SFSDKPasscodeVerifyController.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCore/SFOAuthOrgAuthConfiguration.h>
 #import <SalesforceSDKCore/SFOAuthCredentials.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceSDKCore/SFSDKPasscodeTextField.h>
 #import <SalesforceSDKCore/SFSDKAppLockViewConfig.h>
 #import <SalesforceSDKCore/SFSDKWindowManager.h>
 #import <SalesforceSDKCore/NSNotificationCenter+SFAdditions.h>
@@ -113,6 +116,7 @@
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
+#import <SalesforceSDKCore/SFSDKPasscodeCreateController.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFAuthErrorHandler.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementListViewController.h>
@@ -121,6 +125,7 @@
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFSDKViewController.h>
 #import <SalesforceSDKCore/NSObject+SFBlocks.h>
+#import <SalesforceSDKCore/SFSDKBiometricViewController.h>
 #import <SalesforceSDKCore/SFNetwork.h>
 #import <SalesforceSDKCore/SFIdentityData.h>
 #import <SalesforceSDKCore/SFPreferences.h>

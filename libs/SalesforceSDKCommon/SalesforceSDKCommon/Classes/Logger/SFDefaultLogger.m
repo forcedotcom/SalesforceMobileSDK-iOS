@@ -58,7 +58,7 @@ static NSString * const kLogIdentifierFormat = @"CLASS: %@";
 - (void)log:(Class)cls level:(SFLogLevel)level message:(NSString *)message {
     const char *tag = [[NSString stringWithFormat:kLogIdentifierFormat, cls] cStringUsingEncoding:NSUTF8StringEncoding];
     const char * messageZ = [message cStringUsingEncoding:NSUTF8StringEncoding];
-    os_log_with_type(_logger, level,"%s %s",tag,messageZ);
+    os_log_with_type(_logger, level,"%{public}s %{public}s",tag,messageZ);
 }
 
 - (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format, ... {

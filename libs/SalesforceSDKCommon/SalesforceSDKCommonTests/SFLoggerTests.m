@@ -1,31 +1,84 @@
-//
-//  SFLoggerTests.m
-//  SalesforceSDKCommonTests
-//
-//  Created by Raj Rao on 11/1/18.
-//  Copyright © 2018 Salesforce. All rights reserved.
-//
-
+/*
+ SFLoggerTests.m
+ SFLoggerTests
+ 
+ Created by Raj Rao on Tue Nov  6 12:04:13 PST 2018.
+ 
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 #import <XCTest/XCTest.h>
 
 #import <XCTest/XCTest.h>
-#import <SalesforceSDKCommon/SFLogger.h>
+#import <SalesforceSDKCommon/SalesforceSDKCommon.h>
 
+static NSString * const kTestDefaultComponent = @"TestDefaultComponent";
 static NSString * const kTestComponent1 = @"TestComponent1";
 static NSString * const kTestComponent2 = @"TestComponent2";
 static NSString * const kTestLogLine1 = @"This is test log line 1!";
 static NSString * const kTestLogLine2 = @"This is test log line 2!";
 static NSString * const kTestLogLine3 = @"This is test log line 3!";
 static NSString * const kTestLogLine4 = @"This is test log line 4!";
-unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
+static NSString * const kLogNotification = @"LogNotification";
+static NSString * const kLogLevelKey = @"loglevel";
+static NSString * const kClassKey = @"class";
+static NSString * const kMessageKey = @"message";
 
-@interface TestLogger : NSObject<SFLogging>
+
+@interface SFLogger(Test)
++ (void)clearAllComponents;
+@end
+
+@interface TestLogger: SFLogger
+@property id<SFLogging> logger;
+- (id<SFLogging>)loggerImpl;
++ (void)clearAllComponents;
 
 @end
 
-
 @implementation TestLogger
-@dynamic componentName,logger,logLevel;
+@dynamic logger;
+
+- (id<SFLogging>)loggerImpl {
+    return self.logger;
+}
+
++ (instancetype)sharedInstance {
+    return [self sharedInstanceWithComponent:kTestDefaultComponent];
+}
+
++ (void)clearAllComponents {
+    [super clearAllComponents];
+}
+@end
+
+@interface TestLoggingImpl : NSObject<SFLogging>
+@property (nonatomic, readonly, strong, nonnull) NSString *componentName;
+@property (nonatomic, readonly, strong, nonnull) id logger;
+@property (nonatomic, readwrite, assign) SFLogLevel logLevel;
+@end
+
+@implementation TestLoggingImpl
+@synthesize  componentName,logger,logLevel = _logLevel;
 
 - (instancetype)initWithComponent:(NSString *)componentName {
     if (self == [super init]) {
@@ -35,18 +88,29 @@ unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
 }
 
 - (void)log:(nonnull Class)cls level:(SFLogLevel)level message:(nonnull NSString *)message {
-    
+    [[NSNotificationCenter defaultCenter]postNotificationName:kLogNotification object:self  userInfo:@{kLogLevelKey: [NSNumber numberWithInt:level],kMessageKey:message,kClassKey:cls}];
 }
 
 - (void)log:(nonnull Class)cls level:(SFLogLevel)level format:(nonnull NSString *)format, ... {
-    
+    va_list args;
+    va_start(args, format);
+    [self log:cls level:level format:format args:args];
+    va_end(args);
 }
-
 
 - (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format args:(va_list)args {
-    
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self log:cls level:level message:formattedMessage];
 }
 
+- (void)setLogLevel:(SFLogLevel)level {
+    if (_logLevel!=level) {
+       _logLevel = level;
+    }
+}
+- (SFLogLevel)logLevel {
+    return _logLevel;
+}
 @end
 
 
@@ -60,227 +124,146 @@ unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
 
 - (void)setUp {
     [super setUp];
-    [SFLogger setInstanceClass:[TestLogger class]];
-    _origLogLevel = [SFLogger sharedInstanceWithComponent:kTestComponent1].logLevel;
-    [[SFLogger sharedInstanceWithComponent:kTestComponent1] setLogLevel:SFLogLevelInfo];
-    [NSThread sleepForTimeInterval:1.0]; // Flushing the log file is asynchronous.
+    [TestLogger setInstanceClass:[TestLoggingImpl class]];
+    _origLogLevel = [TestLogger sharedInstanceWithComponent:kTestDefaultComponent].logLevel;
 }
 
-//- (void)tearDown {
-//    [SFSDKLogger flushAllComponents];
-//    [NSThread sleepForTimeInterval:1.0]; // Flushing the log file is asynchronous.
-//    [[SFSDKLogger sharedInstanceWithComponent:kTestComponent1] setLogLevel:_origLogLevel];
-//    [super tearDown];
-//}
-//
-///**
-// * Test for setting maximum size of log file.
-// */
-//- (void)testSetMaxSize {
-//    SFLogger *logger = [SFLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertEqual(kDefaultMaxFileSize, logger.fileLogger.maximumFileSize, @"Max size didn't match expected max size");
-//    long long newMaxSize = 1024;
-//    logger.fileLogger.maximumFileSize = newMaxSize;
-//    XCTAssertEqual(newMaxSize, logger.fileLogger.maximumFileSize, @"Max size didn't match expected max size");
-//}
-//
-///**
-// * Test for flushing the log file.
-// */
-//- (void)testFlushLogFile {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertEqualObjects(nil, [logger.fileLogger readFile], @"Log file should be empty");
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine1]];
-//    XCTAssertNotEqualObjects(nil, [logger.fileLogger readFile], @"Log file should not be empty");
-//    [logger.fileLogger flushLogWithCompletionBlock:nil];
-//
-//    // Flushing the log file is asynchronous.
-//    [NSThread sleepForTimeInterval:1.0];
-//    XCTAssertEqualObjects(nil, [logger.fileLogger readFile], @"Log file should be empty");
-//}
-//
-///**
-// * Test for adding a log line.
-// */
-//- (void)testAddLogLine {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertEqualObjects(nil, [logger.fileLogger readFile], @"Log file should be empty");
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine1]];
-//    XCTAssertNotEqualObjects(nil, [logger.fileLogger readFile], @"Log file should not be empty");
-//    XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine1], @"Log file doesn't contain expected log line");
-//}
-//
-///**
-// * Test for adding multiple log lines.
-// */
-//- (void) testAddMultipleLogLines {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertEqualObjects(nil, [logger.fileLogger readFile], @"Log file should be empty");
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine1]];
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine2]];
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine3]];
-//    XCTAssertNotEqualObjects(nil, [logger.fileLogger readFile], @"Log file should not be empty");
-//    XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine1], @"Log file doesn't contain expected log line");
-//    XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine2], @"Log file doesn't contain expected log line");
-//    XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine3], @"Log file doesn't contain expected log line");
-//}
-//
-//- (void)testChangeFileLogger {
-//    // Original file logger.
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    SFSDKFileLogger *origFileLogger = logger.fileLogger;
-//    XCTAssertNil([logger.fileLogger readFile], @"Log file should be empty");
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine1]];
-//    XCTAssertNotNil([logger.fileLogger readFile], @"Log file should not be empty");
-//    XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine1], @"Log file doesn't contain expected log line");
-//
-//    // New file logger.
-//    SFSDKFileLogger *newFileLogger = [[SFSDKFileLogger alloc] initWithComponent:kTestComponent2];
-//    logger.fileLogger = newFileLogger;
-//    XCTAssertNotEqual(logger.fileLogger, origFileLogger, @"File logger should have changed to the new file logger.");
-//    XCTAssertNil([logger.fileLogger readFile], @"Log file should be empty");
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine2]];
-//    XCTAssertNotNil([logger.fileLogger readFile], @"Log file should not be empty");
-//    XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine2], @"New log file doesn't contain expected log line");
-//    XCTAssertFalse([[logger.fileLogger readFile] containsString:kTestLogLine1], @"New log file contains unexpected log line");
-//    XCTAssertTrue([[origFileLogger readFile] containsString:kTestLogLine1], @"Original log file doesn't contain expected log line");
-//    XCTAssertFalse([[origFileLogger readFile] containsString:kTestLogLine2], @"Original log file contains unexpected log line");
-//
-//    // Clean up old file logger.
-//    XCTestExpectation *flushOrigFileLogger = [self expectationWithDescription:@"flushOrigFileLogger"];
-//    [origFileLogger flushLogWithCompletionBlock:^{
-//        [flushOrigFileLogger fulfill];
-//        XCTAssertNil([origFileLogger readFile], @"Original file log should be empty.");
-//    }];
-//    [self waitForExpectationsWithTimeout:5.0 handler:nil];
-//}
-//
-///**
-// * Test for logging to a shared file logger.
-// */
-//- (void) testLogToSharedFileLogger {
-//    SFSDKLogger *logger1 = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    SFSDKLogger *logger2 = [SFSDKLogger sharedInstanceWithComponent:kTestComponent2];
-//    logger2.fileLogger = logger1.fileLogger;
-//    XCTAssertEqual(logger1.fileLogger, logger2.fileLogger, @"File logger should be the same for both components.");
-//    XCTAssertNil([logger1.fileLogger readFile], @"Log file should be empty");
-//    [logger1.logger log:NO message:[self messageForLogLine:kTestLogLine1]];
-//    [logger2.logger log:NO message:[self messageForLogLine:kTestLogLine2]];
-//    [logger1.logger log:NO message:[self messageForLogLine:kTestLogLine3]];
-//    for (SFSDKFileLogger *fileLogger in @[ logger1.fileLogger, logger2.fileLogger ]) {
-//        XCTAssertNotNil([fileLogger readFile], @"Log file should not be empty");
-//        XCTAssertTrue([[fileLogger readFile] containsString:kTestLogLine1], @"Log file doesn't contain expected log line");
-//        XCTAssertTrue([[fileLogger readFile] containsString:kTestLogLine2], @"Log file doesn't contain expected log line");
-//        XCTAssertTrue([[fileLogger readFile] containsString:kTestLogLine3], @"Log file doesn't contain expected log line");
-//    }
-//}
-//
-///**
-// * Test for writing a log line after max size has been reached.
-// */
-//- (void)testWriteAfterMaxSizeReached {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertEqualObjects(nil, [logger.fileLogger readFile], @"Log file should be empty");
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine1]];
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine2]];
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine3]];
-//    XCTAssertNotEqualObjects(nil, [logger.fileLogger readFile], @"Log file should not be empty");
-//    logger.fileLogger.maximumFileSize = 1;
-//    XCTAssertEqual(1, logger.fileLogger.maximumFileSize, @"Max size didn't match expected max size");
-//    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine4]];
-//    XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine4], @"Log file doesn't contain expected log line");
-//    XCTAssertFalse([[logger.fileLogger readFile] containsString:kTestLogLine1], @"Log file contains unexpected log line");
-//}
-//
-///**
-// * Test for adding a single component.
-// */
-//- (void)testAddSingleComponent {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertNotNil(logger, @"SFSDKLogger instance should not be nil");
-//    XCTAssertEqual(1, [SFSDKLogger allComponents].count, @"Number of components should be 1");
-//}
-//
-///**
-// * Test for adding multiple components.
-// */
-//- (void)testAddMultipleComponents {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertNotNil(logger, @"SFSDKLogger instance should not be nil");
-//    logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent2];
-//    XCTAssertNotNil(logger, @"SFSDKLogger instance should not be nil");
-//    XCTAssertEqual(2, [SFSDKLogger allComponents].count, @"Number of components should be 2");
-//    XCTAssertTrue([[SFSDKLogger allComponents] containsObject:kTestComponent1], @"Component should be present in results");
-//    XCTAssertTrue([[SFSDKLogger allComponents] containsObject:kTestComponent2], @"Component should be present in results");
-//}
-//
-///**
-// * Test for setting log level.
-// */
-//- (void)testSetLogLevel {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertNotNil(logger, @"SFSDKLogger instance should not be nil");
-//    XCTAssertNotEqual(DDLogLevelVerbose, logger.logLevel, @"Log levels should not be same");
-//    logger.logLevel = DDLogLevelVerbose;
-//    XCTAssertEqual(DDLogLevelVerbose, logger.logLevel, @"Log levels should be the same");
-//}
-//
-///**
-// * Test for checking if the file logger is enabled by default.
-// */
-//- (void)testDefaultFileLoggerEnabled {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
-//}
-//
-///**
-// * Test for disabling the file logger.
-// */
-//- (void)testDisableFileLogger {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
-//    [logger setFileLoggingEnabled:NO];
-//    XCTAssertFalse([logger isFileLoggingEnabled], @"File logger should not be enabled");
-//    [logger setFileLoggingEnabled:YES];
-//}
-//
-///**
-// * Test for enabling the file logger.
-// */
-//- (void)testEnableFileLogger {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
-//    [logger setFileLoggingEnabled:NO];
-//    XCTAssertFalse([logger isFileLoggingEnabled], @"File logger should not be enabled");
-//    [logger setFileLoggingEnabled:YES];
-//    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
-//}
-//
-///**
-// * Test for disabling the file logger twice in a row.
-// */
-//- (void)testDisableFileLoggerTwice {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
-//    [logger setFileLoggingEnabled:NO];
-//    XCTAssertFalse([logger isFileLoggingEnabled], @"File logger should not be enabled");
-//    [logger setFileLoggingEnabled:NO];
-//    XCTAssertFalse([logger isFileLoggingEnabled], @"File logger should not be enabled");
-//    [logger setFileLoggingEnabled:YES];
-//}
-//
-///**
-// * Test for enabling the file logger twice in a row.
-// */
-//- (void)testEnableFileLoggerTwice {
-//    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
-//    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
-//    [logger setFileLoggingEnabled:YES];
-//    XCTAssertTrue([logger isFileLoggingEnabled], @"File logger should be enabled");
-//}
-//
-//- (DDLogMessage *)messageForLogLine:(NSString *)logLine {
-//    return [[DDLogMessage alloc] initWithMessage:logLine level:DDLogLevelError flag:DDLogFlagError context:0 file:nil function:nil line:0 tag:[self class] options:0 timestamp:[NSDate date]];
-//}
+- (void)tearDown {
+    [TestLogger setInstanceClass:nil];
+    [TestLogger clearAllComponents];
+}
 
+/**
+ * Test Logger Class is correct
+ */
+- (void)testLoggerInstance {
+    TestLogger *logger = [TestLogger sharedInstance];
+    XCTAssertNotNil(logger, "Logger instance should have been created");
+    XCTAssertTrue([logger.logger isKindOfClass:[TestLoggingImpl class]], "Logger should be an instance of TestLoggingImpl");
+    TestLogger.logLevel = SFLogLevelDebug;
+     XCTAssertTrue(TestLogger.logLevel == SFLogLevelDebug, "Logger level should be set to debug");
+}
+
+/**
+ * Test Logger Class is correct
+ */
+- (void)testMultipleLoggerComponents {
+    TestLogger *logger = [TestLogger sharedInstance];
+    TestLogger *anotherLogger = [TestLogger sharedInstanceWithComponent:kTestComponent1];
+    XCTAssertNotNil(logger, "Logger instance should have been created");
+    XCTAssertNotNil(anotherLogger, "Component Logger instance should have been created");
+    XCTAssertTrue(logger!=anotherLogger, "Should be 2 different instances of logger");
+    TestLogger.logLevel = SFLogLevelDebug;
+    XCTAssertTrue(TestLogger.logLevel == SFLogLevelDebug, "Logger level should be set to debug");
+    XCTAssertTrue(anotherLogger.logLevel == SFLogLevelDefault, "Component Logger level should not have changed");
+}
+
+/**
+ * Test Log Level debug
+ */
+- (void)testLoggerDebugLog {
+    TestLogger *logger = [TestLogger sharedInstance];
+    XCTAssertNotNil(logger, "Logger instance should have been created");
+    logger.logLevel = SFLogLevelDebug;
+    XCTAssertTrue(logger.logLevel == SFLogLevelDebug, "Logger level should be set to debug");
+
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Log Notification"];
+    
+    __block SFLogLevel logLevelUsed  = SFLogLevelDefault;
+    __block Class classUsed  = nil;
+    __block NSString *message = nil;
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"LogNotification" object:nil   queue:nil usingBlock:^(NSNotification *note) {
+         logLevelUsed = [(NSNumber *) note.userInfo[kLogLevelKey] intValue];
+         classUsed = (Class) note.userInfo[kClassKey];
+         message = (NSString *) note.userInfo[kMessageKey];
+         [expectation fulfill];
+    }];
+    
+    [logger d:self.class format:@"TestDebugStatement %@",@"TestValue"];
+    [self waitForExpectations:@[expectation] timeout:10];
+    XCTAssertTrue(logLevelUsed==SFLogLevelDebug,"Log statement should have been at Debug level");
+    XCTAssertTrue([self isKindOfClass:classUsed],"Log statement should have been logged against  the class");
+    XCTAssertTrue(message && message.length > 0 ,"Log statement should not be emtpty");
+}
+
+/**
+ * Test Log Level Info
+ */
+- (void)testLoggerInfoLog {
+    TestLogger *logger = [TestLogger sharedInstance];
+    XCTAssertNotNil(logger, "Logger instance should have been created");
+    logger.logLevel = SFLogLevelInfo;
+    XCTAssertTrue(logger.logLevel == SFLogLevelInfo, "Logger level should be set to info");
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Log Notification"];
+    __block SFLogLevel logLevelUsed  = SFLogLevelDefault;
+    __block Class classUsed  = nil;
+    __block NSString *message = nil;
+    [[NSNotificationCenter defaultCenter] addObserverForName:kLogNotification object:nil   queue:nil usingBlock:^(NSNotification *note) {
+        logLevelUsed = [(NSNumber *) note.userInfo[kLogLevelKey] intValue];
+        classUsed = (Class) note.userInfo[kClassKey];
+        message = (NSString *) note.userInfo[kMessageKey];
+        [expectation fulfill];
+    }];
+    
+    [logger i:self.class format:@"TestDebugStatement %@",@"TestValue"];
+    [self waitForExpectations:@[expectation] timeout:10];
+    XCTAssertTrue(logLevelUsed==SFLogLevelInfo,"Log statement should have been at Info  level");
+    XCTAssertTrue([self isKindOfClass:classUsed],"Log statement should have been logged against  the class");
+    XCTAssertTrue(message && message.length > 0 ,"Log statement should not be emtpty");
+}
+
+/**
+ * Test Log Level Error
+ */
+- (void)testLoggerErrorLog {
+    TestLogger *logger = [TestLogger sharedInstance];
+    XCTAssertNotNil(logger, "Logger instance should have been created");
+    logger.logLevel = SFLogLevelError;
+    XCTAssertTrue(logger.logLevel == SFLogLevelError, "Logger level should be set to error");
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Log Notification"];
+    __block SFLogLevel logLevelUsed  = SFLogLevelDefault;
+    __block Class classUsed  = nil;
+    __block NSString *message = nil;
+    [[NSNotificationCenter defaultCenter] addObserverForName:kLogNotification object:nil   queue:nil usingBlock:^(NSNotification *note) {
+        logLevelUsed = [(NSNumber *) note.userInfo[kLogLevelKey] intValue];
+        classUsed = (Class) note.userInfo[kClassKey];
+        message = (NSString *) note.userInfo[kMessageKey];
+        [expectation fulfill];
+    }];
+    
+    [logger e:self.class format:@"TestDebugStatement %@",@"TestValue"];
+    [self waitForExpectations:@[expectation] timeout:10];
+    XCTAssertTrue(logLevelUsed==SFLogLevelError,"Log statement should have been at Error  level");
+    XCTAssertTrue([self isKindOfClass:classUsed],"Log statement should have been logged against  the class");
+    XCTAssertTrue(message && message.length > 0 ,"Log statement should not be emtpty");
+}
+
+/**
+ * Test Log Level Fault
+ */
+- (void)testLoggerFaultLog {
+    TestLogger *logger = [TestLogger sharedInstance];
+    XCTAssertNotNil(logger, "Logger instance should have been created");
+    logger.logLevel = SFLogLevelFault;
+    XCTAssertTrue(logger.logLevel == SFLogLevelFault, "Logger level should be set to error");
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Log Notification"];
+    __block SFLogLevel logLevelUsed  = SFLogLevelDefault;
+    __block Class classUsed  = nil;
+    __block NSString *message = nil;
+    [[NSNotificationCenter defaultCenter] addObserverForName:kLogNotification object:nil   queue:nil usingBlock:^(NSNotification *note) {
+        logLevelUsed = [(NSNumber *) note.userInfo[kLogLevelKey] intValue];
+        classUsed = (Class) note.userInfo[kClassKey];
+        message = (NSString *) note.userInfo[kMessageKey];
+        [expectation fulfill];
+    }];
+    
+    [logger f:self.class format:@"TestDebugStatement %@",@"TestValue"];
+    [self waitForExpectations:@[expectation] timeout:10];
+    XCTAssertTrue(logLevelUsed==SFLogLevelFault,"Log statement should have been at Fault   level");
+    XCTAssertTrue([self isKindOfClass:classUsed],"Log statement should have been logged against  the class");
+    XCTAssertTrue(message && message.length > 0 ,"Log statement should not be emtpty");
+}
 @end

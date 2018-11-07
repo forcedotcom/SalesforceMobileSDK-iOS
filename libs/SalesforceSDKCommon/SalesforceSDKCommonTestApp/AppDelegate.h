@@ -1,9 +1,9 @@
 /*
- SalesforceSDKCommon.h
- SalesforceSDKCommon
-
- Created by Raj Rao on Tue Nov  6 16:08:07 PST 2018.
-
+ AppDelegate.h
+ AppDelegate
+ 
+ Created by Raj Rao on Tue Nov  6 12:04:13 PST 2018.
+ 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,14 +27,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCommon/SFSDKSafeMutableSet.h>
-#import <SalesforceSDKCommon/SFTestContext.h>
-#import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
-#import <SalesforceSDKCommon/SFPathUtil.h>
-#import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
-#import <SalesforceSDKCommon/SFSDKSafeMutableArray.h>
-#import <SalesforceSDKCommon/SFFileProtectionHelper.h>
-#import <SalesforceSDKCommon/SFLogger.h>
-#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
-#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
-#import <SalesforceSDKCommon/SFSDKReachability.h>
+#import <UIKit/UIKit.h>
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) UIWindow *window;
+
+
+@end
+

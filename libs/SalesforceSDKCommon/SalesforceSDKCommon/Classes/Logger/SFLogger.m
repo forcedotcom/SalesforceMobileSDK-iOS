@@ -29,15 +29,19 @@
 
 #import "SFLogger.h"
 #import "SFDefaultLogger.h"
-
+#import "SFSDKSafeMutableDictionary.h"
 static NSString * const kDefaultComponentName = @"SFSDK";
 
 static Class InstanceClass;
-static NSMutableDictionary<NSString *, id> *loggerList = nil;
+static SFSDKSafeMutableDictionary *loggerList = nil;
 
 @interface SFLogger()
+
 - (instancetype)init:(NSString *)componentName;
++ (void)clearAllComponents;
+
 @property id<SFLogging> logger;
+
 @end
 
 @implementation SFLogger
@@ -50,8 +54,8 @@ static NSMutableDictionary<NSString *, id> *loggerList = nil;
     return self;
 }
 
--(SFLogLevel)getLogLevel {
-    return [self.logger getLogLevel];
+-(SFLogLevel)logLevel {
+    return [self.logger logLevel];
 }
 
 -(void)setLogLevel:(SFLogLevel) logLevel {
@@ -138,14 +142,17 @@ static NSMutableDictionary<NSString *, id> *loggerList = nil;
     va_end(args);
 }
 
-+ (SFLogLevel)getLogLevel {
-    return [[self sharedInstance] getLogLevel];
++ (void)clearAllComponents {
+    [loggerList removeAllObjects];
+}
+
++ (SFLogLevel)logLevel {
+    return [[self sharedInstance] logLevel];
 }
 
 + (void)setLogLevel:(SFLogLevel)logLevel {
     [[self sharedInstance] setLogLevel:logLevel];
 }
-
 
 + (void)e:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
@@ -251,16 +258,16 @@ static NSMutableDictionary<NSString *, id> *loggerList = nil;
     
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        loggerList = [[NSMutableDictionary alloc] init];
+        loggerList = [[SFSDKSafeMutableDictionary alloc] init];
     });
-    @synchronized ([SFDefaultLogger class]) {
+    @synchronized ([SFLogger class]) {
         if (!componentName) {
             return nil;
         }
-        id logger = loggerList[componentName];
+        id logger = [loggerList objectForKey:componentName];
         if (!logger) {
             logger =  [[self alloc] init:componentName];
-            loggerList[componentName] = logger;
+            [loggerList setObject:logger forKey:componentName];
         }
         return logger;
     }

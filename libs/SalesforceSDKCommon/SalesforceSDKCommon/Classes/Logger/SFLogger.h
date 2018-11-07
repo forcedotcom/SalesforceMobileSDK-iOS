@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Used to get and set the current log level associated with this logger.
  */
-@property (nonatomic, readwrite, assign, getter=getLogLevel) SFLogLevel logLevel;
+@property (nonatomic, readwrite, assign) SFLogLevel logLevel;
 
 /**
  * Initialize a logger given component Name.
@@ -93,6 +93,13 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface SFLogger : NSObject
+
+
+/**
+ * Sets log level to be used by this logger.
+ *
+ */
+@property (nonatomic, readwrite, assign) SFLogLevel logLevel;
 
 /**
  * Logs an error log line.
@@ -195,12 +202,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @param ... The arguments to the message format string.
  */
 - (void)log:(nonnull Class)cls format:(nonnull NSString *)format, ...;
-
-/**
- * Sets log level to be used by this logger.
- *
- */
-@property (nonatomic, readwrite, assign, getter=getLogLevel) SFLogLevel logLevel;
 
 /**
  * Logs an error log line.
@@ -364,12 +365,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setInstanceClass:(Class<SFLogging>)logger;
 
 /**
- * Get aninstance of underlying of the Logger.
+ * Get an instance of the root Logger.
  */
 + (nonnull instancetype)sharedInstance;
 
 /**
- * Get an instanceof underlying of a component Logger.
+ * Get an instance of a component Logger.
  */
 + (nonnull instancetype)sharedInstanceWithComponent:(nonnull NSString *)componentName;
 
