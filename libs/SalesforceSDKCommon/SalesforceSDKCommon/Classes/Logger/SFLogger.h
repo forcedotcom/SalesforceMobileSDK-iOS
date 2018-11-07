@@ -178,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)f:(nonnull Class)cls message:(nonnull NSString *)message;
 
 /**
- * Logs a debug log line.
+ * Logs a fault log line.
  *
  * @param cls Class.
  * @param format The format message, and optional arguments to expand in the format.
