@@ -30,9 +30,17 @@
 #import "SFSDKNavigationController.h"
 NS_ASSUME_NONNULL_BEGIN
 
+/*@protocol SFSDKBiometricStateDelegate <NSObject>
+
+- (void)userAllowedBiometricUnlock:(BOOL)userAllowedBiometric;
+
+@end*/
+
 @interface SFSDKAppLockViewController : SFSDKNavigationController
 
-- (instancetype)initWithAppLockConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config mode:(SFAppLockControllerMode)mode;
+- (instancetype)initWithMode:(SFAppLockControllerMode)mode andViewConfig:(SFSDKAppLockViewConfig *)config;
+
+//@property (nonatomic,weak) id<SFSDKBiometricStateDelegate> biometricStateDelgate;
 
 @end
 

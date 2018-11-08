@@ -1162,8 +1162,8 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     return [[SFPasscodeManager sharedManager] deviceHasBiometric];
 }
 
-- (BOOL)biometricUnlockEnabled {
-    return [SFSecurityLockout biometricUnlockEnabled];
+- (SFBiometricUnlockState)biometricUnlockState {
+    return [SFSecurityLockout biometricState];
 }
 
 #pragma mark - private methods

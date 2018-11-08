@@ -31,6 +31,7 @@
 #import "SFSDKLoginViewControllerConfig.h"
 #import "SFSDKAuthConstants.h"
 #import "SFSDKAppLockViewConfig.h"
+#import "SFSecurityLockout.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -507,9 +508,9 @@ NS_SWIFT_NAME(UserAccountManager)
 
 /**
  Determines if the deivce is currently using Touch/Face Id instead of passcode.
- @return YES if the device is capable of biometric unlock, NO otherwise.
+ @return SFBiometricUnlockState UserAllowed, UserDeclined, PromptUser or Unavalible.  
  */
-- (BOOL)biometricUnlockEnabled;
+- (SFBiometricUnlockState)biometricUnlockState;
 
 @end
 
