@@ -47,7 +47,13 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
 - (instancetype)init:(NSString *)componentName {
     self = [super init];
     if (self) {
-        self.logger = [[InstanceClass alloc] initWithComponent:componentName];
+        //for backward compatibility with SFSDKLogger
+        //invoke the shared instance instead.
+        if ([InstanceClass respondsToSelector:@selector(sharedInstanceWithComponent:)]) {
+            self.logger = [InstanceClass sharedInstanceWithComponent:componentName];
+        } else {
+            self.logger = [[InstanceClass alloc] initWithComponent:componentName];
+        }
     }
     return self;
 }
