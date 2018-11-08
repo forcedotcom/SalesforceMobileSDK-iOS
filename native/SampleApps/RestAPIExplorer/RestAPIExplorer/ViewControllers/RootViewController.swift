@@ -690,44 +690,44 @@ extension RootViewController: ActionTableViewDelegate {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildMetadataRequest(forObjectType: objType)
+                        request = restApi.buildMetadataRequest(objectType: objType)
                     case .describeWithObjectType:
                         guard let objType = objectType else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildDescribeRequest(forObjectType: objType)
+                        request = restApi.buildDescribeRequest(objectType: objType)
                     case .retrieveWithObjectType:
                         guard let objType = objectType , let objId = objectId, let fList = fieldList else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildRetrieveRequest(forObjectType: objType, objectId: objId, fieldList: fList)
+                        request = restApi.buildRetrieveRequest(objectType: objType, objectId: objId, fieldList: fList)
                     case .createWithObjectType:
                         guard let objType = objectType, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildCreateRequest(forObjectType: objType, fields: f)
+                        request = restApi.buildCreateRequest(objectType: objType, fields: f)
             
                     case .upsertWithObjectType:
                         guard let objType = objectType, let extFId = externalFieldId, let extId = externalId, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request =  restApi.buildUpsertRequest(forObjectType: objType, externalIdField: extFId, externalId: extId, fields: f)
+                        request =  restApi.buildUpsertRequest(objectType: objType, externalIdField: extFId, externalId: extId, fields: f)
                    case .updateWithObjectType:
                         guard let objType = objectType, let objId = objectId, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildUpdateRequest(forObjectType: objType, objectId: objId, fields: f)
+                        request = restApi.buildUpdateRequest(objectType: objType, objectId: objId, fields: f)
                    case .deleteWithObjectType:
                         guard let objType = objectType, let objId = objectId else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildDeleteRequest(forObjectType: objType, objectId: objId)
+                        request = restApi.buildDeleteRequest(objectType: objType, objectId: objId)
                    case .query:
                         guard let q = query else {
                             self.showMissingFieldError(objectTypes)
@@ -798,7 +798,7 @@ extension RootViewController: ActionTableViewDelegate {
                         }
                         request = restApi.buildDeleteFileShareRequest(shareId: objId)
                     case .currentUserInfo:
-                        guard let currentAccount = UserAccountManager.sharedInstance().currentUser else {return}
+                        guard let currentAccount = UserAccountManager.sharedInstance().currentUserAccount else {return}
                         var userInfoString = "Name: " + currentAccount.fullName
                         userInfoString = userInfoString + "\nID: " + currentAccount.userName
                         if let e = currentAccount.email {
@@ -822,7 +822,7 @@ extension RootViewController: ActionTableViewDelegate {
                         self.createLogoutActionSheet()
                         return
                     case .switchUser:
-                        let umvc = UserManagementViewController.init(completionBlock: { (action) in
+                        let umvc = SalesforceUserManagementViewController.init(completionBlock: { (action) in
                             self.dismiss(animated: true, completion: nil)
                         })
                         self.present(umvc, animated: true, completion: nil)

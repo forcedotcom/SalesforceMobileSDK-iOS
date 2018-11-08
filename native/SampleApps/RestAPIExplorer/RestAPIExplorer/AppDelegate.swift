@@ -147,7 +147,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     }
 
     func exportTestingCredentials() {
-        guard let creds = UserAccountManager.sharedInstance().currentUser?.credentials,
+        guard let creds = UserAccountManager.sharedInstance().currentUserAccount?.credentials,
             let instance = creds.instanceUrl,
             let identity = creds.identityUrl
             else {
