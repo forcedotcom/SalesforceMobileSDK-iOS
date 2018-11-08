@@ -39,9 +39,10 @@
 #import "SFSDKEventBuilderHelper.h"
 #import "SalesforceSDKManager+Internal.h"
 #import "SFSDKNavigationController.h"
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import "SFSDKAppLockViewConfig.h"
 #import "SFSDKAppLockViewController.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 
 // Private constants

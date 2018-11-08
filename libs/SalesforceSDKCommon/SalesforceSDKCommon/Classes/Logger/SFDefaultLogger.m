@@ -1,10 +1,10 @@
 /*
- SFSDKLogFileManager.m
- SalesforceAnalytics
+ SFDefaultLogger.m
+ SFDefaultLogger
  
- Created by Bharath Hariharan on 6/8/17.
+ Created by Raj Rao on on 10/4/18.
  
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,36 +27,50 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKLogFileManager.h"
+#import "SFDefaultLogger.h"
+#import <OS/log.h>
 
-static NSString * const kLogSuffix = @"_log";
+static NSString * const kLogLevelKey = @"log_level";
+static NSString * const kLogIdentifierFormat = @"CLASS: %@";
 
-@interface SFSDKLogFileManager ()
+@interface SFDefaultLogger ()
 
 @property (nonatomic, readwrite, strong) NSString *componentName;
+@property (nonatomic, readwrite, strong) os_log_t logger;
 
 @end
 
-@implementation SFSDKLogFileManager
+@implementation SFDefaultLogger
+
+@synthesize componentName;
+@synthesize logLevel;
 
 - (instancetype)initWithComponent:(NSString *)componentName {
     self = [super init];
     if (self) {
         self.componentName = componentName;
-        self.maximumNumberOfLogFiles = 1; // Disables archiving of log files and re-uses a single file that's rolled when the log file size limit is reached.
+        NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+        _logger = os_log_create([appName cStringUsingEncoding: NSUTF8StringEncoding], [componentName cStringUsingEncoding: NSUTF8StringEncoding]);
     }
     return self;
 }
 
-- (NSString *)newLogFileName {
-    return [NSString stringWithFormat:@"%@%@", self.componentName, kLogSuffix];
+- (void)log:(Class)cls level:(SFLogLevel)level message:(NSString *)message {
+    const char *tag = [[NSString stringWithFormat:kLogIdentifierFormat, cls] cStringUsingEncoding:NSUTF8StringEncoding];
+    const char * messageZ = [message cStringUsingEncoding:NSUTF8StringEncoding];
+    os_log_with_type(_logger, level,"%{public}s %{public}s",tag,messageZ);
 }
 
-- (BOOL)isLogFile:(NSString *)fileName {
-    if (fileName && [fileName hasPrefix:[NSString stringWithFormat:@"%@%@", self.componentName, kLogSuffix]]) {
-        return YES;
-    }
-    return NO;
+- (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format, ... {
+    va_list args;
+    va_start(args, format);
+    [self log:cls level:level format:format args:args];
+    va_end(args);
+}
+
+- (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format args:(va_list)args {
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self log:cls level:level message:formattedMessage];
 }
 
 @end

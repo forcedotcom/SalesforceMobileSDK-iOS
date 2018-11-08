@@ -26,11 +26,11 @@
 #import <SalesforceSDKCore/UIDevice+SFHardware.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
-#import <SalesforceSDKCore/SFFileProtectionHelper.h>
-#import "SFSmartStoreUtils.h"
+#import <SalesforceSDKCommon/SFFileProtectionHelper.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
+#import "SFSmartStoreUtils.h"
 #import "FMDatabase.h"
 #import "FMDatabaseQueue.h"
 #import "FMResultSet.h"

@@ -175,7 +175,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 
     // queryTypeFromString returns kQuerySpecTypeSmart for anything that isn't exact/like/range/match
     if (queryType == kSFSoupQueryTypeSmart && ![rawQueryType isEqualToString:kQuerySpecTypeSmart]) {
-        [SFSDKSmartStoreLogger d:[self class] format:@"Invalid queryType: '%@'", rawQueryType];
+        [SFSDKSmartStoreLogger v:[self class] format:@"Invalid queryType: '%@'", rawQueryType];
         self = nil;
         return self;
     }
@@ -392,7 +392,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 
 - (NSString*)computeFieldReference:(NSString*) field {
     NSString* fieldRef = [@[@"{", self.soupName, @":", field, @"}"] componentsJoinedByString:@""];
-    [SFSDKSmartStoreLogger v:[self class] format:@"computeFieldReference: %@ --> %@", field, fieldRef];
+    [SFSDKSmartStoreLogger d:[self class] format:@"computeFieldReference: %@ --> %@", field, fieldRef];
     return fieldRef;
 }
 

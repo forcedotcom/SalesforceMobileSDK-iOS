@@ -31,7 +31,7 @@
 #import "SFSDKPasscodeTextField.h"
 #import "SFSDKResourceUtils.h"
 #import "SFPasscodeManager+Internal.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 // Private view layout constants
 static NSUInteger   const kSFMaxPasscodeLength                 = 8;

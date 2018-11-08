@@ -27,10 +27,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKLogger.h"
+#import <SalesforceSDKCommon/SFLogger.h>
 
 extern NSString * _Nonnull const kSFSDKAnalyticsComponentName;
 
-@interface SFSDKAnalyticsLogger : SFSDKLogger
+@interface SFSDKAnalyticsLogger : SFLogger
 
 @end

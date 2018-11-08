@@ -25,12 +25,12 @@
 #import <SmartSyncExplorerCommon/SmartSyncExplorerCommon.h>
 #import <NotificationCenter/NotificationCenter.h>
 #import <SmartStore/SmartStoreSDKManager.h>
-#import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
-#import <SalesforceAnalytics/SFSDKLogger.h>
+#import <SalesforceSDKCommon/SFLogger.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SmartSync/SmartSyncSDKManager.h>
@@ -69,7 +69,7 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
     
     if ([self userIsLoggedIn] ) {
-        [SFSDKLogger log:[self class] level:DDLogLevelError format:@"User has logged in"];
+        [SFLogger log:[self class] level:SFLogLevelError format:@"User has logged in"];
         [SmartSyncSDKManager initializeSDK];
         SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
         __weak typeof(self) weakSelf = self;

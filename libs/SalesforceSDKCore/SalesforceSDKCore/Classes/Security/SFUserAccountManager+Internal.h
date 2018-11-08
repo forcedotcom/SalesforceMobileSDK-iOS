@@ -23,12 +23,12 @@
  */
 
 #import "SFUserAccountManager.h"
-#import "SFSDKSafeMutableDictionary.h"
 #import "SFSDKIDPAuthClient.h"
 #import "SFSDKUserSelectionView.h"
 #import "SFSDKLoginFlowSelectionView.h"
 #import "SFSDKAlertView.h"
 #import "SFSDKAuthErrorManager.h"
+#import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 
 @class SFSDKAuthPreferences;
 

@@ -31,10 +31,10 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFApplicationHelper.h"
-#import "SFSwiftDetectUtil.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFSDKDevInfoViewController.h"
 #import "SFDefaultUserManagementViewController.h"
+#import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";

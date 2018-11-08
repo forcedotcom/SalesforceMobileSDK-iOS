@@ -1,10 +1,10 @@
 /*
- SFSDKFileLogger.h
- SalesforceAnalytics
+ SFDefaultLogger.h
+ SFDefaultLogger
  
- Created by Bharath Hariharan on 6/8/17.
+ Created by Raj Rao on on 10/4/18.
  
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,30 +27,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <CocoaLumberjack/DDFileLogger.h>
+#import <Foundation/Foundation.h>
+#import "SFLogger.h"
 
-@interface SFSDKFileLogger : DDFileLogger
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Component name associated with this file logger.
- */
-@property (nonatomic, readonly, strong, nonnull) NSString *componentName;
-
-/**
- * Initializes a file logger for the specified component.
- */
-- (nonnull instancetype)initWithComponent:(nonnull NSString *)componentName;
-
-/**
- * Flushes the log file and resets it to its original state.
- */
-- (void)flushLogWithCompletionBlock:(void (^ _Nullable)(void))completionBlock;
-
-/**
- * Returns all log lines stored in this file.
- *
- * @return All log lines stored in this file.
- */
-- (nullable NSString *)readFile;
+@interface SFDefaultLogger: NSObject<SFLogging>
 
 @end
+
+NS_ASSUME_NONNULL_END

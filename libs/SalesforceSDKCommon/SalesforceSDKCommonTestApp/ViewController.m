@@ -1,10 +1,10 @@
 /*
- SFSDKLogFileManager.h
- SalesforceAnalytics
+ ViewController.m
+ ViewController
  
- Created by Bharath Hariharan on 6/8/17.
+ Created by Raj Rao on Tue Nov  6 12:04:13 PST 2018.
  
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -26,19 +26,18 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "ViewController.h"
 
-#import <CocoaLumberjack/DDFileLogger.h>
+@interface ViewController ()
 
-@interface SFSDKLogFileManager : DDLogFileManagerDefault
+@end
 
-/**
- * Component name associated with this log file manager.
- */
-@property (nonatomic, readonly, strong, nonnull) NSString *componentName;
+@implementation ViewController
 
-/**
- * Initializes a log file manager for the specified component.
- */
-- (nonnull instancetype)initWithComponent:(nonnull NSString *)componentName;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+}
+
 
 @end

@@ -32,7 +32,7 @@
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/SFPasscodeManager.h>
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import "FMDatabase.h"
 
 static const char *const_key = "H347ergher/32hhj5%hff?Dn@21o";
