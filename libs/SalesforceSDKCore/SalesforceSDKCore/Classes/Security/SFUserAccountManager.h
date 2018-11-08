@@ -29,6 +29,8 @@
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCoordinator.h"
 #import "SFSDKLoginViewControllerConfig.h"
+#import "SFSDKAppLockViewConfig.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -343,6 +345,11 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 @property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
 
+/** Use this property to indicate to provide PasscodeViewController customizations for themes,navbar, icons and settings.
+ *
+ */
+@property (nonatomic,strong) SFSDKAppLockViewConfig *appLockViewControllerConfig;
+
 /** Shared singleton
  */
 + (instancetype)sharedInstance;
@@ -589,6 +596,24 @@ NS_SWIFT_NAME(UserAccountManager)
  @return YES if the error is due to invalid credentials, NO otherwise.
  */
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error NS_SWIFT_UNAVAILABLE("");
+
+/**
+ Presents the setup screen that allows the user to opt into Touch/Face Id as a replacement for Passcode.
+ @param config The AppLockViewConfig used to customize the Passcode and Biometric Screens.
+ */
+- (void)presentBiometricEnrollment:(nullable SFSDKAppLockViewConfig *)config;
+
+/**
+ Determines if the deivce has Touch/Face Id enabled.
+ @return YES if the device is capable of biometric unlock, NO otherwise.
+ */
+- (BOOL)deviceHasBiometric;
+
+/**
+ Determines if the deivce is currently using Touch/Face Id instead of passcode.
+ @return YES if the device is capable of biometric unlock, NO otherwise.
+ */
+- (BOOL)biometricUnlockEnabled;
 
 @end
 

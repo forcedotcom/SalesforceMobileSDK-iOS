@@ -87,50 +87,6 @@ jobs:
           destination: Static-Analysis
       - run: *codecov
 
-  test-SalesforceHybridSDK:
-    <<: *defaults
-    environment:
-      - FASTLANE_LANE: "PR lib:SalesforceHybridSDK"
-      - LIB: "SalesforceHybridSDK"
-    steps:
-      - checkout
-      - restore_cache: *restore-gem-cache
-      - run: *install-dependecies
-      - save_cache: *save-gem-cache
-      - run: *run-tests
-      - run: *danger-lib
-      - store_test_results:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-          destination: Test-Results
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
-          destination: Static-Analysis
-      - run: *codecov
-
-  test-SalesforceReact:
-    <<: *defaults
-    environment:
-      - FASTLANE_LANE: "PR lib:SalesforceReact"
-      - LIB: "SalesforceReact"
-    steps:
-      - checkout
-      - restore_cache: *restore-gem-cache
-      - run: *install-dependecies
-      - save_cache: *save-gem-cache
-      - run: *run-tests
-      - run: *danger-lib
-      - store_test_results:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
-          destination: Test-Results
-      - store_artifacts:
-          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
-          destination: Static-Analysis
-      - run: *codecov
-
   test-SalesforceSDKCore:
     <<: *defaults
     environment:
@@ -204,32 +160,24 @@ workflows:
     jobs:
       - test-SalesforceAnalytics:
           *pr-filter
-      - test-SalesforceHybridSDK:
-          *pr-filter
-      - test-SalesforceReact:
-          *pr-filter
       - test-SalesforceSDKCore:
           *pr-filter
       - test-SmartStore:
           *pr-filter
       - test-SmartSync:
           *pr-filter
-  # Cron is UTC timezone, which is 7 hours ahead of PST.
-  # Run tests at 1am.
+  # Cron are on a timezone 8 hours ahead of PST
+  # Build everything at ~9:30pm Sunday/Wednesday Nights
   nightly-test-ios11:
     triggers:
       - schedule:
-          cron: "00 08 * * 2,4,6"
+          cron: "30 5 * * 1,4"
           filters:
             branches:
               only:
                 - dev
     jobs:
       - test-SalesforceAnalytics:
-            context: nightly-test
-      - test-SalesforceHybridSDK:
-            context: nightly-test
-      - test-SalesforceReact:
             context: nightly-test
       - test-SalesforceSDKCore:
             context: nightly-test

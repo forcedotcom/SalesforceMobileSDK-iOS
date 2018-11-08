@@ -31,10 +31,10 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFApplicationHelper.h"
-#import "SFSwiftDetectUtil.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFSDKDevInfoViewController.h"
 #import "SFDefaultUserManagementViewController.h"
+#import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -1040,7 +1040,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 
 #pragma mark - SFSecurityLockoutDelegate
 
-- (void)passcodeFlowWillBegin:(SFPasscodeControllerMode)mode
+- (void)passcodeFlowWillBegin:(SFAppLockControllerMode)mode
 {
     self.passcodeDisplayed = YES;
 }

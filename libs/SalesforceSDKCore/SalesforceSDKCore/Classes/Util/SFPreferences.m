@@ -120,6 +120,12 @@ static NSMutableDictionary *instances = nil;
     }
 }
 
+- (BOOL)keyExists:(NSString*)key {
+    @synchronized (self) {
+        return [self.attributes valueForKey:key] != nil;
+    }
+}
+
 - (id)objectForKey:(NSString*)key {
     @synchronized (self) {
         return self.attributes[key];
@@ -144,6 +150,7 @@ static NSMutableDictionary *instances = nil;
 }
 
 - (BOOL)boolForKey:(NSString*)key {
+    
     return [[self objectForKey:key] boolValue];
 }
 

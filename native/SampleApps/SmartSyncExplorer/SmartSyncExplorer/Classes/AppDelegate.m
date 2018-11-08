@@ -31,8 +31,8 @@
 #import <SalesforceSDKcore/SFSDKWindowManager.h>
 #import <SalesforceSDKCore/SFSDKAuthHelper.h>
 #import <SmartSync/SmartSyncSDKManager.h>
-#import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
 #import <SalesforceSDKcore/SFSDKNavigationController.h>
 #import "IDPLoginNavViewController.h"
@@ -141,7 +141,7 @@
 - (void)setUserLoginStatus:(BOOL) loggedIn {
     [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
     [[NSUserDefaults msdkUserDefaults] synchronize];
-    [SFSDKSmartSyncLogger log:[self class] level:DDLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
+    [SFSDKSmartSyncLogger log:[self class] level:SFLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
 }
 
 - (void)initializeAppViewState

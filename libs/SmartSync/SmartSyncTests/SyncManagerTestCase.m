@@ -38,7 +38,7 @@ static NSException *authException = nil;
 + (void)setUp
 {
     @try {
-        [SFSDKSmartSyncLogger setLogLevel:DDLogLevelDebug];
+        [SFSDKSmartSyncLogger setLogLevel:SFLogLevelDebug];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
         [SFSmartStore removeAllStores];

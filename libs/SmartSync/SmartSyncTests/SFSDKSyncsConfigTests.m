@@ -40,7 +40,7 @@
 - (void) setUp
 {
     [super setUp];
-    [SFSDKSmartSyncLogger setLogLevel:DDLogLevelDebug];
+    [SFSDKSmartSyncLogger setLogLevel:SFLogLevelDebug];
     self.sdkManager = [[SmartSyncSDKManager alloc] init];
 }
 

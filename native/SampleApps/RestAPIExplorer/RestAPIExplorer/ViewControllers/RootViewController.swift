@@ -29,6 +29,7 @@
 
 import UIKit
 import SalesforceSDKCore
+import LocalAuthentication
 
 struct ContentSection {
     var title:String {
@@ -596,7 +597,7 @@ class RootViewController: UIViewController {
     }
     
     @objc func clearPopoversForPasscode() {
-        SFSDKLogger.log(RootViewController.self, level: .debug, message: "Passcode screen loading. Clearing popovers")
+        SFLogger.log(RootViewController.self, level: .debug, message: "Passcode screen loading. Clearing popovers")
         
         if let alert = self.logoutAlert {
             alert.dismiss(animated: true, completion: nil)
@@ -805,6 +806,17 @@ extension RootViewController: ActionTableViewDelegate {
                         }
                         self.showAlert("User Info", message:userInfoString)
                         return
+                    case .enableBiometric:
+                        let context = LAContext()
+                        if (context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) && SFSecurityLockout.biometricUnlockAllowed() && !SFSecurityLockout.biometricUnlockEnabled()) {
+                            SFSecurityLockout.presentBiometricEnrollment(AppLockViewControllerConfig.createDefault())
+                        }
+                        
+                        if (UserAccountManager.sharedInstance().deviceHasBiometric() && !UserAccountManager.sharedInstance().biometricUnlockEnabled()) {
+                            UserAccountManager.sharedInstance().presentBiometricEnrollment(nil);
+                        }
+                        
+                        return
                     case .logout:
                         self.presentedViewController?.dismiss(animated: true, completion: nil)
                         self.createLogoutActionSheet()
@@ -818,6 +830,7 @@ extension RootViewController: ActionTableViewDelegate {
                     case .exportCredentials:
                         self.exportTestingCredentials()
                         return
+            
         }
         
         restApi.send(request: request!, onFailure: { (error, urlResponse) in

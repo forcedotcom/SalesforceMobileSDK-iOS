@@ -31,7 +31,7 @@
 #import "SFOAuthSessionRefresher.h"
 #import "NSString+SFAdditions.h"
 #import "SFJsonUtils.h"
-#import "SFSDKSafeMutableDictionary.h"
+#import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 
 NSString* const kSFRestDefaultAPIVersion = @"v42.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";

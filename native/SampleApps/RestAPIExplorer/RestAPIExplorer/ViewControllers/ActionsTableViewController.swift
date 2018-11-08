@@ -62,12 +62,13 @@ class ActionTableViewController: UIViewController {
         let addFileShare = Action(type: ActionType.addFileShare, method: "addFileShare:entityId:shareType", objectTypes:"objectId, entityId, sharedType")
         let deleteFileShare = Action(type: ActionType.deleteFileShare, method: "deleteFileShares:", objectTypes:"objectId")
         let currentUserInfo = Action(type: ActionType.currentUserInfo, method: "current user info", objectTypes:nil)
+        let enableBiometric = Action(type: ActionType.enableBiometric, method: "Enable Touch/Face Id", objectTypes:nil)
         let logout = Action(type: ActionType.logout, method: "logout", objectTypes:nil)
         let switchUser = Action(type: ActionType.switchUser, method: "switch user", objectTypes:nil)
         let exportCredentials = Action(type: ActionType.exportCredentials, method: "Export Credentials to pasteboard", objectTypes:nil)
         
         
-        self.actions = [versions, resources, describeGlobal, metadata, describe, retrieve, create, upsert, update, delete, query, search, searchScope, searchResultLayout, ownedFiles, filesInUserGroups, filesShared, fileDetails, batchFileDetails, fileShares, addFileShare, deleteFileShare, currentUserInfo, logout, switchUser, exportCredentials]
+        self.actions = [versions, resources, describeGlobal, metadata, describe, retrieve, create, upsert, update, delete, query, search, searchScope, searchResultLayout, ownedFiles, filesInUserGroups, filesShared, fileDetails, batchFileDetails, fileShares, addFileShare, deleteFileShare, currentUserInfo, enableBiometric, logout, switchUser, exportCredentials]
         
         super.init(nibName: nil, bundle: nil)
         

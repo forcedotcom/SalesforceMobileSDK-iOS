@@ -30,8 +30,7 @@
 
 #import "SFSDKAuthPreferences.h"
 #import "SFManagedPreferences.h"
-#import "SFUserAccountManager.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 static NSString * const  kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 static NSString * const  kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";

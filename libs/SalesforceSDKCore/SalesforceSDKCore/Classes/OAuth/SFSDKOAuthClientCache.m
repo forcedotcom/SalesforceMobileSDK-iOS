@@ -29,9 +29,9 @@
 
 #import "SFSDKOAuthClientCache.h"
 #import "SFSDKOAuthClient.h"
-#import "SFSDKSafeMutableDictionary.h"
 #import "SFSDKOAuthClientConfig.h"
 #import "SFSDKAuthPreferences.h"
+#import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 
 static NSString *const kSFBasicSuffix = @"BASIC";
 static NSString *const kSFIDPSuffix = @"IDP";
