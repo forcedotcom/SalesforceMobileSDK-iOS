@@ -488,7 +488,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 - (void)testLoginViewCustomizationsBackwardCompatibility {
     
-    SFLoginViewController *controller = [SFLoginViewController sharedInstance];
+    SFLoginViewController *controller = [[SFLoginViewController alloc]init];
     SFSDKLoginViewControllerConfig *origConfig = controller.config;
     
     controller.navBarColor = [UIColor redColor];
