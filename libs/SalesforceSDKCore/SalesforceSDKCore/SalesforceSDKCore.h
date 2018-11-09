@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Brandon Page on Thu Oct 25 19:01:44 PDT 2018.
+ Created by Raj Rao on Tue Nov  6 16:46:08 PST 2018.
 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -30,20 +30,16 @@
 #import <SalesforceSDKCore/SFDefaultUserManagementDetailViewController.h>
 #import <SalesforceSDKCore/SFSDKCoreLogger.h>
 #import <SalesforceSDKCore/SFKeyStoreKey.h>
-#import <SalesforceSDKCore/SFSDKSafeMutableSet.h>
-#import <SalesforceSDKCore/SFTestContext.h>
-#import <SalesforceSDKCore/SFSDKSafeMutableDictionary.h>
 #import <SalesforceSDKCore/SFCryptChunks.h>
 #import <SalesforceSDKCore/SFSDKAlertMessageBuilder.h>
 #import <SalesforceSDKCore/SFSHA256PasscodeProvider.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
 #import <SalesforceSDKCore/SFOAuthInfo.h>
-#import <SalesforceSDKCore/SFPathUtil.h>
 #import <SalesforceSDKCore/SFDecryptStream.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
-#import <SalesforceSDKCore/SFSDKSafeMutableArray.h>
 #import <SalesforceSDKCore/SFGeneratedKeyStore.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
+#import <SalesforceSDKCore/SFSDKAppLockViewController.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFLoginViewController.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
@@ -51,7 +47,6 @@
 #import <SalesforceSDKCore/SFSDKUserSelectionNavViewController.h>
 #import <SalesforceSDKCore/SFSDKAsyncProcessListener.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
-#import <SalesforceSDKCore/SFFileProtectionHelper.h>
 #import <SalesforceSDKCore/UIColor+SFColors.h>
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
 #import <SalesforceSDKCore/SFPasscodeProviderManager.h>

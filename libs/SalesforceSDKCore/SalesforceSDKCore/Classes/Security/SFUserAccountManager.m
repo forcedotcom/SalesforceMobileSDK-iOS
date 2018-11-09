@@ -28,12 +28,12 @@
 #import "SFDefaultUserAccountPersister.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKAuthPreferences.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
-#import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import "SFSDKOAuthClientConfig.h"
 #import "SFSDKURLHandlerManager.h"
 #import "SFSDKOAuthClientCache.h"
 #import "SFSDKIDPConstants.h"
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 
 // Notifications
 UserAccountManagerNotification SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";

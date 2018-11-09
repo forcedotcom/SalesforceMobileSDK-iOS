@@ -27,7 +27,7 @@
 #import "SFIdentityData.h"
 #import "SFSDKEventBuilderHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 // See "Extending Your Apps for Enterprise and Education Use" in the WWDC 2013 videos
 // See https://developer.apple.com/library/ios/samplecode/sc2279/ManagedAppConfig.zip

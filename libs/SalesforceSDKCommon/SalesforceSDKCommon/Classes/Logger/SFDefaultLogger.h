@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ SFDefaultLogger.h
+ SFDefaultLogger
+ 
+ Created by Raj Rao on on 10/4/18.
+ 
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,62 +28,11 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFLogger.h"
 
 NS_ASSUME_NONNULL_BEGIN
-NS_SWIFT_NAME(SafeMutableDictionary)
-@interface SFSDKSafeMutableDictionary : NSObject
 
-@property (copy, nonatomic, readonly) NSArray *allKeys;
-@property (copy, nonatomic, readonly) NSArray *allValues;
-
-/**
- Retrieves object for the key specified (Thread Safe)
- @return object for specified key
- */
-- (id)objectForKey:(id<NSCopying>)aKey;
-
-/**
- Retreives all keys for object specified (Thread Safe)
- @return Array with keys
- */
-- (NSArray *)allKeysForObject:(id)anObject;
-
-/**
- Sets object for key specified (Thread Safe)
- @param object to add to collection
- @param aKey for to map the object to
- */
-- (void)setObject:(id)object forKey:(id<NSCopying>)aKey;
-
-/**
- Removes object for key specified (Thread Safe)
- @param aKey to remove from the collection.
- */
-- (void)removeObject:(id<NSCopying>)aKey;
-
-/**
- removes all objects (Thread Safe)
- */
-- (void)removeAllObjects;
-
-/**
- removes objects for keys (Thread Safe)
- @param keys to remove from the collection.
- */
-- (void)removeObjects:(NSArray<id<NSCopying>> *)keys;
-
-/**
- Adds entries from the dictionary passed in (Thread Safe)
- @param otherDictionary to add to collection
- */
-- (void)addEntries:(NSDictionary *)otherDictionary;
-
-/**
- Sets the dictionary collection to the dictionary passed in(Thread Safe)
- @param dictionary to set
- */
-- (void)setDictionary:(NSDictionary *)dictionary;
-
+@interface SFDefaultLogger: NSObject<SFLogging>
 
 @end
 

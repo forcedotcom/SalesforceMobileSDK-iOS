@@ -1,9 +1,4 @@
 /*
- SFSDKFileLogger.h
- SalesforceAnalytics
- 
- Created by Bharath Hariharan on 6/8/17.
- 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,30 +22,68 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <CocoaLumberjack/DDFileLogger.h>
+#import <Foundation/Foundation.h>
 
-@interface SFSDKFileLogger : DDFileLogger
+NS_ASSUME_NONNULL_BEGIN
+NS_SWIFT_NAME(SafeMutableDictionary)
+@interface SFSDKSafeMutableDictionary : NSObject
 
-/**
- * Component name associated with this file logger.
- */
-@property (nonatomic, readonly, strong, nonnull) NSString *componentName;
-
-/**
- * Initializes a file logger for the specified component.
- */
-- (nonnull instancetype)initWithComponent:(nonnull NSString *)componentName;
+@property (copy, nonatomic, readonly) NSArray *allKeys;
+@property (copy, nonatomic, readonly) NSArray *allValues;
 
 /**
- * Flushes the log file and resets it to its original state.
+ Retrieves object for the key specified (Thread Safe)
+ @return object for specified key
  */
-- (void)flushLogWithCompletionBlock:(void (^ _Nullable)(void))completionBlock;
+- (id)objectForKey:(id<NSCopying>)aKey;
 
 /**
- * Returns all log lines stored in this file.
- *
- * @return All log lines stored in this file.
+ Retreives all keys for object specified (Thread Safe)
+ @return Array with keys
  */
-- (nullable NSString *)readFile;
+- (NSArray *)allKeysForObject:(id)anObject;
+
+/**
+ * Get a NSDictionary from the mutable Dictionary (Thread Safe)
+ */
+- (NSDictionary *)dictionary;
+
+/**
+ Sets object for key specified (Thread Safe)
+ @param object to add to collection
+ @param aKey for to map the object to
+ */
+- (void)setObject:(id)object forKey:(id<NSCopying>)aKey;
+
+/**
+ Removes object for key specified (Thread Safe)
+ @param aKey to remove from the collection.
+ */
+- (void)removeObject:(id<NSCopying>)aKey;
+
+/**
+ removes all objects (Thread Safe)
+ */
+- (void)removeAllObjects;
+
+/**
+ removes objects for keys (Thread Safe)
+ @param keys to remove from the collection.
+ */
+- (void)removeObjects:(NSArray<id<NSCopying>> *)keys;
+
+/**
+ Adds entries from the dictionary passed in (Thread Safe)
+ @param otherDictionary to add to collection
+ */
+- (void)addEntries:(NSDictionary *)otherDictionary;
+
+/**
+ Sets the dictionary collection to the dictionary passed in(Thread Safe)
+ @param dictionary to set
+ */
+- (void)setDictionary:(NSDictionary *)dictionary;
 
 @end
+
+NS_ASSUME_NONNULL_END
