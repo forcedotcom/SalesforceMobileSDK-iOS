@@ -26,8 +26,10 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SFSecurityLockout.h"
 #import "SFSDKNavigationController.h"
+#import "SFAppLockViewControllerTypes.h"
+#import "SFSDKAppLockViewConfig.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSDKAppLockViewController : SFSDKNavigationController

@@ -26,8 +26,7 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SFSecurityLockout.h"
-@class SFSDKAppLockViewConfig;
+#import "SFSDKAppLockViewConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol SFSDKBiometricViewDelegate <NSObject>

@@ -34,6 +34,7 @@
 #import "SFSDKResourceUtils.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "SFSDKWindowManager.h"
+#import "SFSecurityLockout.h"
 
 @interface SFSDKAppLockViewController () <SFSDKPasscodeCreateDelegate,SFSDKBiometricViewDelegate,SFSDKPasscodeVerifyDelegate>
 
