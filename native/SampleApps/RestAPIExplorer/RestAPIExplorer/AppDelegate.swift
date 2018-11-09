@@ -82,16 +82,16 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         // Touch Id and Face Id lock screens.  To use this feature please enable inactivity timeout
         // in your connected app.
         //
-        let passcodeViewConfig = AppLockViewControllerConfig()
-        passcodeViewConfig.backgroundColor = UIColor.black
-        passcodeViewConfig.primaryColor = UIColor.orange
-        passcodeViewConfig.secondaryColor = UIColor.gray
-        passcodeViewConfig.titleTextColor = UIColor.white
-        passcodeViewConfig.instructionTextColor = UIColor.white
-        passcodeViewConfig.borderColor = UIColor.yellow
-        passcodeViewConfig.maxNumberOfAttempts = 3
-        passcodeViewConfig.forcePasscodeLength = true
-        UserAccountManager.sharedInstance().appLockViewControllerConfig = passcodeViewConfig
+        //let passcodeViewConfig = AppLockViewControllerConfig()
+        //passcodeViewConfig.backgroundColor = UIColor.black
+        //passcodeViewConfig.primaryColor = UIColor.orange
+        //passcodeViewConfig.secondaryColor = UIColor.gray
+        //passcodeViewConfig.titleTextColor = UIColor.white
+        //passcodeViewConfig.instructionTextColor = UIColor.white
+        //passcodeViewConfig.borderColor = UIColor.yellow
+        //passcodeViewConfig.maxNumberOfAttempts = 3
+        //passcodeViewConfig.forcePasscodeLength = true
+        //UserAccountManager.sharedInstance().appLockViewControllerConfig = passcodeViewConfig
         
         AuthHelper.loginIfRequired { [weak self] in
             self?.setupRootViewController()
