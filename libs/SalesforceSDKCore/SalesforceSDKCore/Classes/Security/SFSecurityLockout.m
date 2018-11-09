@@ -80,12 +80,6 @@ static SFSDKAppLockViewConfig *_passcodeViewConfig = nil;
 // Note: it is used by the unit tests only.
 static BOOL _showPasscode = YES;
 
-//SFBiometricUnlockState currentState = SFBiometricUnlockUnavalible;
-
-//@interface SFSecurityLockout () <SFSDKBiometricStateDelegate>
-
-//@end
-
 @implementation SFSecurityLockout
 
 + (void)initialize
@@ -107,7 +101,6 @@ static BOOL _showPasscode = YES;
     
         [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFAppLockControllerMode mode, SFSDKAppLockViewConfig *viewConfig) {
             SFSDKAppLockViewController *pvc = [[SFSDKAppLockViewController alloc] initWithMode:mode andViewConfig:viewConfig];
-            //pvc.biometricStateDelgate = [SFSecurityLockout self];
             return pvc;
         }];
         
@@ -232,7 +225,7 @@ static BOOL _showPasscode = YES;
             // are also off.
             if (![SFSecurityLockout nonCurrentUsersHavePasscodePolicy]) {
                 [SFSecurityLockout clearAllPasscodeState];
-                [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeRemoved passcodeLength:0];
+                [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeRemoved];
                 return;
             }
         }
@@ -466,11 +459,11 @@ static BOOL _showPasscode = YES;
 
 static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
-+ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action passcodeLength:(NSUInteger)passcodeLength
++ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self unlock:success action:action passcodeLength:passcodeLength];
+            [self unlock:success action:action];
         });
         return;
     }
@@ -485,10 +478,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
              __strong typeof (weakSelf) strongSelf = weakSelf;
             [SFSecurityLockout setPasscodeViewController:nil];
             if (success) {
-                // Update passcode length if not set, this should only happen on upgrade.
-                if ([SFSecurityLockout passcodeLength] == kDefaultPasscodeLength && passcodeLength) {
-                    [SFSecurityLockout setPasscodeLength:passcodeLength];
-                }
                 [SFSecurityLockout unlockSuccessPostProcessing:action];
             } else {
                 // Clear the SFSecurityLockout passcode state, as it's no longer valid.
@@ -813,6 +802,17 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
 }
 
++ (void)userAllowedBiometricUnlock:(BOOL)userAllowedBiometric
+{
+    [SFSecurityLockout setBiometricState:userAllowedBiometric ? SFBiometricUnlockUserAllowed : SFBiometricUnlockUserDeclined];
+}
+
++ (void)setUpgradePasscodeLength:(NSUInteger)length {
+    if ([SFSecurityLockout passcodeLength] == kDefaultPasscodeLength) {
+        [SFSecurityLockout setPasscodeLength:length];
+    }
+}
+
 #pragma mark keychain methods
 
 + (void)setCanShowPasscode:(BOOL)showPasscode
@@ -892,11 +892,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         [keychainWrapper setValueData:data];
     else
         [keychainWrapper resetKeychainItem];  // Predominantly for unit tests
-}
-
-+ (void)userAllowedBiometricUnlock:(BOOL)userAllowedBiometric
-{
-    [SFSecurityLockout setBiometricState:userAllowedBiometric ? SFBiometricUnlockUserAllowed : SFBiometricUnlockUserDeclined];
 }
 
 @end

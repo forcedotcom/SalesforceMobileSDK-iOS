@@ -216,9 +216,9 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
         dispatch_async(dispatch_get_main_queue(), ^{
             __weak typeof (weakSelf) strongSelf = weakSelf;
             if (success) {
-                [strongSelf.biometricResponseDelgate biometricUnlockSucceeded:strongSelf.currentPasscode  verificationMode:strongSelf.verificationMode];
+                [strongSelf.biometricResponseDelgate biometricUnlockSucceeded:strongSelf.verificationMode];
             } else {
-                [strongSelf.biometricResponseDelgate biometricUnlockFailed:strongSelf.currentPasscode verificationMode:strongSelf.verificationMode];
+                [strongSelf.biometricResponseDelgate biometricUnlockFailed:strongSelf.verificationMode];
             }
         });
     }];
@@ -226,7 +226,7 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
 
 - (void)userDenyBiometricEnablement
 {
-    [self.biometricResponseDelgate biometricUnlockFailed:self.currentPasscode verificationMode:self.verificationMode];
+    [self.biometricResponseDelgate biometricUnlockFailed:self.verificationMode];
 }
 
 - (void)showBiometricSetup

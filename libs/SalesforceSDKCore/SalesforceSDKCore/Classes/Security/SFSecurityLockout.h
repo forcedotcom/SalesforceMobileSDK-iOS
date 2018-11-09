@@ -178,7 +178,6 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
  */
 + (void)removeDelegate:(id<SFSecurityLockoutDelegate>)delegate;
 
-
 /**
  Get the current lockout time, in seconds
  @return The lockout time limit.
@@ -262,9 +261,8 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
  @param success Whether the device is being unlocked as the result of a successful passcode
  challenge, as opposed to unlocking to reset the application to to a failed challenge.
  @param action In a successful challenge, what was the action taken?
- @param length The length of the user's passcode.
  */
-+ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action passcodeLength:(NSUInteger)length;
++ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action;
 
 /** Toggle the locked state
  @param locked Locks the device if `YES`, otherwise unlocks the device.
@@ -377,7 +375,18 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
  */
 + (BOOL)validatePasscodeAtStartup;
 
+/**
+ * Set the response of the user being prompted to use biometric unlock.
+ * @param userAllowedBiometric YES if the user accpeted, NO otherwise.
+ */
 + (void)userAllowedBiometricUnlock:(BOOL)userAllowedBiometric;
+
+/**
+ * Set the passcode length upon upgrade if it was not previously set.
+ * @param length Length of the user's passcode.
+ */
++ (void)setUpgradePasscodeLength:(NSUInteger)length;
+
 @end
 
 NS_ASSUME_NONNULL_END

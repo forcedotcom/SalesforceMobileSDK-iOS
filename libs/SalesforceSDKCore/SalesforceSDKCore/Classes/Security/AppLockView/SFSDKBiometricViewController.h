@@ -32,9 +32,9 @@
 NS_ASSUME_NONNULL_BEGIN
 @protocol SFSDKBiometricViewDelegate <NSObject>
 
-- (void)biometricUnlockSucceeded:(NSString *)currentPasscode verificationMode:(BOOL)isVerificationMode;
+- (void)biometricUnlockSucceeded:(BOOL)isVerificationMode;
 
-- (void)biometricUnlockFailed:(NSString *)currentPasscode verificationMode:(BOOL)isVerificationMode;
+- (void)biometricUnlockFailed:(BOOL)isVerificationMode;
 
 @end
 
