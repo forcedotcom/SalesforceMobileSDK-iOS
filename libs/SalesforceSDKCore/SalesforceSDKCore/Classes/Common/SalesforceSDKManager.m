@@ -393,7 +393,6 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
     }
 }
 
-
 - (void) showDevSupportDialog:(UIViewController *)presentedViewController
 {
     // Do nothing if dev support is not enabled or dialog is already being shown

@@ -585,7 +585,7 @@ class RootViewController: UIViewController {
                                       preferredStyle: .alert)
         
         let logout = UIAlertAction(title: "Logout", style: .default) { (action) in
-            UserAccountManager.sharedInstance().logout()
+            UserAccountManager.shared.logout()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             self.presentedViewController?.dismiss(animated: true, completion: nil)
@@ -796,7 +796,7 @@ extension RootViewController: ActionTableViewDelegate {
                         }
                         request = restApi.request(forDeleteFileShare: objId)
                     case .currentUserInfo:
-                        guard let currentAccount = UserAccountManager.sharedInstance().currentUserAccount else {return}
+                        guard let currentAccount = UserAccountManager.shared.currentUserAccount else {return}
                         var userInfoString = "Name: " + currentAccount.fullName
                         userInfoString = userInfoString + "\nID: " + currentAccount.userName
                         if let e = currentAccount.email {
@@ -810,8 +810,8 @@ extension RootViewController: ActionTableViewDelegate {
                             SFSecurityLockout.presentBiometricEnrollment(AppLockViewControllerConfig.createDefault())
                         }
                         
-                        if (UserAccountManager.sharedInstance().deviceHasBiometric() && !UserAccountManager.sharedInstance().biometricUnlockEnabled()) {
-                            UserAccountManager.sharedInstance().presentBiometricEnrollment(nil);
+                        if (UserAccountManager.shared.deviceHasBiometric() && !UserAccountManager.shared.biometricUnlockEnabled()) {
+                            UserAccountManager.shared.presentBiometricEnrollment(nil);
                         }
                         
                         return

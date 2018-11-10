@@ -42,7 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Setup user store using config found in userstore.json
  */
-- (void) setupUserStoreFromDefaultConfig;
+- (void)setupUserStoreFromDefaultConfig;
+
+/**
+ @return The singleton instance of the SDK Manager.
+ */
+@property(class,nonatomic) SmartStoreSDKManager *sharedManager NS_SWIFT_NAME(shared);
 
 @end
 

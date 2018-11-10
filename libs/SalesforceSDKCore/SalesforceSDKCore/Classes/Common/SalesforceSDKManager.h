@@ -85,12 +85,26 @@ NS_SWIFT_NAME(SalesforceManagerDelegate)
 
 @end
 
+NS_SWIFT_NAME(DevAction)
 @interface SFSDKDevAction : NSObject
 
+/**
+ * Gets the  name being used by the action. Is used to display the option
+ * @return name.
+ */
 @property(nonatomic, readonly) NSString *name;
 
+/**
+ * Gets the  handler associated with the action. Is used to display the option
+ * @return name.
+ */
 @property(nonatomic, copy, nonnull) void (^handler)(void);
 
+/**
+ * Initialize with a name and a handler.
+ * @param name The name use  display an option in the dev options display action sheet.
+ * @param handler The handler that should be invoked when the option is selected.
+ */
 - (instancetype)initWith:(NSString *)name handler:(void (^)(void))handler;
 
 @end
@@ -295,7 +309,7 @@ NS_SWIFT_NAME(SalesforceManager)
 
 /**
  * @param presentedViewController The view controller currently presented.
- * @return Dev actions (list of title1, handler1, title2, handler2 etc) to show in dev support dialog
+ * @return Dev actions (list of DevAction objects) to show in dev support dialog
  */
 - (NSArray<SFSDKDevAction *> *)getDevActions:(UIViewController *)presentedViewController NS_SWIFT_NAME(devActionsList(presentedViewController:));
 
