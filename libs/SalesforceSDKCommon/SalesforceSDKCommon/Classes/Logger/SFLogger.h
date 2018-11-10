@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, SFLogLevel){
     SFLogLevelDebug   =  OS_LOG_TYPE_DEBUG,
     SFLogLevelError   =  OS_LOG_TYPE_ERROR,
     SFLogLevelFault   =  OS_LOG_TYPE_FAULT
-};
+} NS_SWIFT_NAME(SalesforceLogger.Level);
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol SFLogging <NSObject>
@@ -91,15 +91,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format args:(va_list)args;
 
 @end
-
+NS_SWIFT_NAME(SalesforceLogger)
 @interface SFLogger : NSObject
-
 
 /**
  * Sets log level to be used by this logger.
  *
  */
-@property (nonatomic, readwrite, assign) SFLogLevel logLevel;
+@property (nonatomic, readwrite, assign) SFLogLevel logLevel NS_SWIFT_NAME(level);
 
 /**
  * Logs an error log line.
@@ -365,14 +364,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setInstanceClass:(Class<SFLogging>)logger;
 
 /**
- * Get an instance of the root Logger.
+ * Get the default Logger.
  */
-+ (nonnull instancetype)sharedInstance;
+@property (class,nonatomic,readonly) SFLogger *defaultLogger;
 
 /**
  * Get an instance of a component Logger.
  */
-+ (nonnull instancetype)sharedInstanceWithComponent:(nonnull NSString *)componentName;
++ (nonnull instancetype)loggerForComponent:(nonnull NSString *)component  NS_SWIFT_NAME(logger(forComponent:));
 
 @end
 

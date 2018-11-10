@@ -42,7 +42,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         super.init()
       
-        SalesforceSDK.initializeSDK()
+        SalesforceManager.initializeSDK()
         
         //Uncomment following block to enable IDP Login flow.
         // SalesforceSDK.shared().idpAppURIScheme = "sampleidpapp"
@@ -154,9 +154,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 return
         }
         
-        var config = ["test_client_id": SalesforceSDK.shared().appConfig?.remoteAccessConsumerKey,
+        var config = ["test_client_id": SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey,
                       "test_login_domain": UserAccountManager.sharedInstance().loginHost,
-                      "test_redirect_uri": SalesforceSDK.shared().appConfig?.oauthRedirectURI,
+                      "test_redirect_uri": SalesforceManager.shared.bootConfig?.oauthRedirectURI,
                       "refresh_token": creds.refreshToken,
                       "instance_url": instance.absoluteString,
                       "identity_url": identity.absoluteString,

@@ -535,7 +535,7 @@ class RootViewController: UIViewController {
         }
         
         let request = RestRequest(method: method, path: path, queryParams: queryParams)
-        RestClient.sharedInstance().send(request: request, onFailure: { (error, urlResponse) in
+        RestClient.shared.send(request: request, onFailure: { (error, urlResponse) in
             DispatchQueue.main.async { [weak self] in
                 self?.updateUI(request, response: nil, error: nil)
             }
@@ -597,7 +597,7 @@ class RootViewController: UIViewController {
     }
     
     @objc func clearPopoversForPasscode() {
-        SFLogger.log(RootViewController.self, level: .debug, message: "Passcode screen loading. Clearing popovers")
+        SalesforceLogger.log(RootViewController.self, level: .debug, message: "Passcode screen loading. Clearing popovers")
         
         if let alert = self.logoutAlert {
             alert.dismiss(animated: true, completion: nil)
@@ -676,127 +676,125 @@ extension RootViewController: ActionTableViewDelegate {
         let objectIdList = self.objectIdListTextField.text?.components(separatedBy: ",")
         let entityId = self.entityIdTextField.text
         let shareType = self.shareTypeTextField.text
-        let restApi = RestClient.sharedInstance()
+        let restApi = RestClient.shared
       
         switch action.type {
                     case .versions:
-                        request = restApi.buildGetVersionsRequest()
+                        request = restApi.requestForVersions()
                     case .resources:
-                        request =  restApi.buildGetResourcesRequest()
+                        request =  restApi.requestForResources()
                     case .describeGlobal:
-                        request = restApi.buildDescribeGlobalRequest()
+                        request = restApi.requestForDescribeGlobal()
                     case .metadataWithObjectType:
                         guard let objType = objectType else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildMetadataRequest(objectType: objType)
+                        request = restApi.requestForMetadata(withObjectType: objType)
                     case .describeWithObjectType:
                         guard let objType = objectType else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildDescribeRequest(objectType: objType)
-                    case .retrieveWithObjectType:
+                        request = restApi.requestForDescribe(withObjectType: objType)
+                     case .retrieveWithObjectType:
                         guard let objType = objectType , let objId = objectId, let fList = fieldList else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildRetrieveRequest(objectType: objType, objectId: objId, fieldList: fList)
+                        request = restApi.requestForRetrieve(withObjectType: objType, objectId: objId, fieldList: fList)
                     case .createWithObjectType:
                         guard let objType = objectType, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildCreateRequest(objectType: objType, fields: f)
-            
+                        request = restApi.requestForCreate(withObjectType: objType, fields: f)
                     case .upsertWithObjectType:
                         guard let objType = objectType, let extFId = externalFieldId, let extId = externalId, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request =  restApi.buildUpsertRequest(objectType: objType, externalIdField: extFId, externalId: extId, fields: f)
+                        request =  restApi.requestForUpsert(withObjectType: objType, externalIdField: extFId, externalId: extId, fields: f)
                    case .updateWithObjectType:
                         guard let objType = objectType, let objId = objectId, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildUpdateRequest(objectType: objType, objectId: objId, fields: f)
+                        request = restApi.requestForUpdate(withObjectType: objType, objectId: objId, fields: f)
                    case .deleteWithObjectType:
                         guard let objType = objectType, let objId = objectId else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildDeleteRequest(objectType: objType, objectId: objId)
+                        request = restApi.requestForDelete(withObjectType: objType, objectId: objId)
                    case .query:
                         guard let q = query else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildQueryRequest(soql: q)
+                        request = restApi.request(forQuery: q)
                     case .search:
                         guard let s = search else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildSearchRequest(sosl: s)
+                        request = restApi.request(forSearch: s)
                     case .searchScopeAndOrder:
-                        request = restApi.buildSearchScopeAndOrderRequest()
-                    case .searchResultLayout:
+                        request = restApi.requestForSearchScopeAndOrder()                    case .searchResultLayout:
                         guard let objList = objectList else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildSearchResultLayoutRequest(commaSeparatedString: objList)
+                        request = restApi.request(forSearchResultLayout: objList)
                     case .ownedFilesList:
                         guard let uId = userId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildGetOwnedFilesListRequest(forUserId: uId, page: p)
+                        request = restApi.request(forOwnedFilesList: uId, page: p)
                     case .filesInUserGroups:
                         guard let uId = userId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildGetFilesInUsersGroupsRequest(forUserId: uId, page:  p)
+                        request = restApi.requestForFiles(inUsersGroups: uId, page: p)
                     case .filesSharedWithUser:
                         guard let uId = userId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildGetFilesSharedWithUserRequest(forUserId: uId, page: p)
+                        request = restApi.requestForFilesShared(withUser: uId, page: p)
                     case .fileDetails:
                         guard let objId = objectId, let v = version else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildGetFileDetailsRequest(sfdcId: objId, version: v)
-                            
+                        request = restApi.request(forFileDetails: objId, forVersion: objId)
                     case .batchFileDetails:
                         guard let objIdList = objectIdList else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildBatchGetFileDetailsRequest(sfdcIds: objIdList)
+                        request = restApi.request(forBatchFileDetails: objIdList)
                     case .fileShares:
                         guard let objId = objectId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildGetFileSharesRequest(sfdcId: objId, page: p)
+                        request = restApi.request(forFileShares: objId, page: p)
+           
                     case .addFileShare:
                         guard let objId = objectId, let eId = entityId, let sType = shareType else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildAddFileShareRequest(fileId: objId, entityId: eId, shareType: sType)
+                        request = restApi.request(forAddFileShare: objId, entityId: eId, shareType: sType)
                     case .deleteFileShare:
                         guard let objId = objectId else {
                         self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.buildDeleteFileShareRequest(shareId: objId)
+                        request = restApi.request(forDeleteFileShare: objId)
                     case .currentUserInfo:
                         guard let currentAccount = UserAccountManager.sharedInstance().currentUserAccount else {return}
                         var userInfoString = "Name: " + currentAccount.fullName

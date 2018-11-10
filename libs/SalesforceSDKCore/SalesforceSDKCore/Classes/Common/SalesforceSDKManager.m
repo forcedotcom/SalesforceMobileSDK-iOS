@@ -55,6 +55,12 @@ static NSString* ailtnAppName = nil;
 // Dev support
 static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNotification";
 
+// User agent constants
+static NSString * const kSFMobileSDKNativeDesignator = @"Native";
+static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
+static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
+static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
+
 @implementation UIWindow (SalesforceSDKManager)
 
 - (void)sfsdk_motionEnded:(__unused UIEventSubtype)motion withEvent:(UIEvent *)event
@@ -82,7 +88,16 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
    return UIInterfaceOrientationMaskAll;
 }
+@end
 
+@implementation SFSDKDevAction
+- (instancetype)initWith:(NSString *)name handler:(void (^)(void))handler {
+    if (self = [super init]) {
+        _name = name;
+        _handler = handler;
+    }
+    return self;
+}
 @end
 
 @interface SalesforceSDKManager ()
@@ -392,44 +407,48 @@ static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNoti
                                                        message:@""
                                                 preferredStyle:style];
 
-    NSArray* devActions = [self getDevActions:presentedViewController];
-    for (int i=0; i<devActions.count; i+=2) {
-        [self.actionSheet addAction:[UIAlertAction actionWithTitle:devActions[i]
+    NSArray<SFSDKDevAction *>* devActions = [self getDevActions:presentedViewController];
+    
+    
+    for (int i=0; i<devActions.count; i++) {
+        [self.actionSheet addAction:[UIAlertAction actionWithTitle:devActions[i].name
                                                              style:UIAlertActionStyleDefault
                                                            handler:^(__unused UIAlertAction *action) {
-                                                               ((dispatch_block_t) devActions[i+1])();
+                                                               devActions[i].handler();
                                                                self.actionSheet = nil;
                                                            }]];
     }
+    
     [self.actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(__unused UIAlertAction *action) {
                                                            self.actionSheet = nil;
                                                        }]];
 
+    
     [presentedViewController presentViewController:self.actionSheet animated:YES completion:nil];
 }
 
--(NSArray*) getDevActions:(UIViewController *)presentedViewController
+-(NSArray<SFSDKDevAction *>*) getDevActions:(UIViewController *)presentedViewController
 {
     return @[
-            @"Show dev info", ^{
-                SFSDKDevInfoViewController *devInfo = [[SFSDKDevInfoViewController alloc] init];
-                [presentedViewController presentViewController:devInfo animated:NO completion:nil];
-            },
-            @"Logout", ^{
-                [[SFUserAccountManager  sharedInstance] logout];
-            },
-            @"Switch user", ^{
-                SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
-                    [presentedViewController dismissViewControllerAnimated:YES completion:nil];
-                }];
-                [presentedViewController presentViewController:umvc animated:YES completion:nil];
-            }
+             [[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
+                 SFSDKDevInfoViewController *devInfo = [[SFSDKDevInfoViewController alloc] init];
+                 [presentedViewController presentViewController:devInfo animated:NO completion:nil];
+             }],
+             [[SFSDKDevAction alloc]initWith:@"Logout" handler:^{
+                 [[SFUserAccountManager  sharedInstance] logout];
+             }],
+             [[SFSDKDevAction alloc]initWith:@"Switch user" handler:^{
+                 SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+                     [presentedViewController dismissViewControllerAnimated:YES completion:nil];
+                 }];
+                 [presentedViewController presentViewController:umvc animated:YES completion:nil];
+             }]
     ];
 }
 
-- (NSArray*) getDevSupportInfos
+- (NSArray<NSString *>*) getDevSupportInfos
 {
     SFUserAccountManager* userAccountManager = [SFUserAccountManager sharedInstance];
     NSMutableArray * devInfos = [NSMutableArray arrayWithArray:@[
@@ -977,14 +996,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 }
 
 - (NSString *)getAppTypeAsString {
-    NSString* appTypeStr;
-    switch (self.appType) {
-            case kSFAppTypeNative: appTypeStr = kSFMobileSDKNativeDesignator; break;
-            case kSFAppTypeHybrid: appTypeStr = kSFMobileSDKHybridDesignator; break;
-            case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
-            case kSFAppTypeNativeSwift: appTypeStr = kSFMobileSDKNativeSwiftDesignator; break;
-        }
-    return appTypeStr;
+    return SFAppTypeGetDescription(self.appType);
 }
 
 - (void)addDelegate:(id<SalesforceSDKManagerDelegate>)delegate
@@ -1050,5 +1062,16 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     self.passcodeDisplayed = NO;
     [self sendPostAppForegroundIfRequired];
 }
-
 @end
+
+NSString *SFAppTypeGetDescription(SFAppType appType){
+    NSString* appTypeStr;
+    switch (appType) {
+            case kSFAppTypeNative: appTypeStr = kSFMobileSDKNativeDesignator; break;
+            case kSFAppTypeHybrid: appTypeStr = kSFMobileSDKHybridDesignator; break;
+            case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
+            case kSFAppTypeNativeSwift: appTypeStr = kSFMobileSDKNativeSwiftDesignator; break;
+    }
+    return appTypeStr;
+}
+
