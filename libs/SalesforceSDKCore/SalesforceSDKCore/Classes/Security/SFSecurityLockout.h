@@ -78,7 +78,7 @@ typedef NS_ENUM(NSUInteger, SFBiometricUnlockState) {
     /**
      Touch Id or Face Id should be the default unlock method.
      **/
-    SFBiometricUnlockUserAllowed,
+    SFBiometricUnlockUserApproved,
     
     /**
      User declined biometric unlock, do not prompt again.
@@ -88,7 +88,7 @@ typedef NS_ENUM(NSUInteger, SFBiometricUnlockState) {
     /**
      User has not been prompted to use biometric unlock.
      **/
-    SFBiometricUnlockPromptUser,
+    SFBiometricUnlockAvailable,
     
     /**
      Biometric unlock can not be used.
@@ -374,18 +374,6 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
  * @return Whether or not to validate the passcode at app startup.
  */
 + (BOOL)validatePasscodeAtStartup;
-
-/**
- * Set the response of the user being prompted to use biometric unlock.
- * @param userAllowedBiometric YES if the user accpeted, NO otherwise.
- */
-+ (void)userAllowedBiometricUnlock:(BOOL)userAllowedBiometric;
-
-/**
- * Set the passcode length upon upgrade if it was not previously set.
- * @param length Length of the user's passcode.
- */
-+ (void)setUpgradePasscodeLength:(NSUInteger)length;
 
 @end
 

@@ -33,6 +33,8 @@
 #import "SFPasscodeManager+Internal.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
+NSNotificationName AppLockViewSetUpgradePasscodeLength       = @"AppLockViewSetUpgradePasscodeLength";
+
 // Private view layout constants
 static NSUInteger   const kSFMaxPasscodeLength                 = 8;
 static CGFloat      const kSFDefaultPadding                    = 20.0f;
@@ -286,7 +288,10 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
         // Set passcode length if it is unknown.
         // This can happen when upgrading to new UX that requires actual length.
         if ([SFSecurityLockout passcodeLength] == 0) {
-            [SFSecurityLockout setUpgradePasscodeLength:[self.passcodeTextView.passcodeInput length]];
+            NSDictionary *userInfo = @{@"length": [NSNumber numberWithUnsignedInteger:[self.passcodeTextView.passcodeInput length]]};
+            [[NSNotificationCenter defaultCenter] postNotificationName:AppLockViewSetUpgradePasscodeLength object:self userInfo:userInfo];
+            
+            
         }
         [self validatePasscodeConfirmed:self.passcodeTextView.passcodeInput];
     } else {

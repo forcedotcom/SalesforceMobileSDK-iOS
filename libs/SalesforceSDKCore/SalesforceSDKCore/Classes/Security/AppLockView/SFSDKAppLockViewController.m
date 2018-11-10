@@ -36,6 +36,9 @@
 #import "SFSDKWindowManager.h"
 #import "SFSecurityLockout.h"
 
+NSNotificationName AppLockViewShouldUnlockNotification       = @"AppLockViewShouldUnlockNotification";
+NSNotificationName AppLockViewShouldAllowBiometricUnlock     = @"AppLockViewShouldAllowBiometricUnlock";
+
 @interface SFSDKAppLockViewController () <SFSDKPasscodeCreateDelegate,SFSDKBiometricViewDelegate,SFSDKPasscodeVerifyDelegate>
 
 /**
@@ -92,12 +95,12 @@
 - (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode
 {
     [[SFPasscodeManager sharedManager] changePasscode:passcode];
-    if ([SFSecurityLockout biometricState] == SFBiometricUnlockPromptUser) {
+    if ([SFSecurityLockout biometricState] == SFBiometricUnlockAvailable) {
         [self promptBiometricEnrollment];
     } else {
         SFSecurityLockoutAction action = isUpdateMode ? SFSecurityLockoutActionPasscodeChanged : SFSecurityLockoutActionPasscodeCreated;
         [self.navigationController popViewControllerAnimated:NO];
-        [SFSecurityLockout unlock:YES action:action];
+        [self fireUnlockNotification:YES action:action];
     }
 }
 
@@ -105,29 +108,29 @@
 
 - (void)passcodeVerified
 {
-    if ([SFSecurityLockout biometricState] == SFBiometricUnlockPromptUser) {
+    if ([SFSecurityLockout biometricState] == SFBiometricUnlockAvailable) {
         [self promptBiometricEnrollment];
     } else {
         [self.navigationController popViewControllerAnimated:NO];
-        [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeVerified];
+        [self fireUnlockNotification:YES action:SFSecurityLockoutActionPasscodeVerified];
     }
 }
 
 - (void)passcodeFailed
 {
     [[SFPasscodeManager sharedManager] resetPasscode];
-    [SFSecurityLockout unlock:NO action:SFSecurityLockoutActionNone];
+    [self fireUnlockNotification:NO  action:SFSecurityLockoutActionNone];
 }
 
 #pragma mark - SFSDKBiometricViewDelegate
 
 - (void)biometricUnlockSucceeded:(BOOL)isVerificationMode
 {
-    [SFSecurityLockout userAllowedBiometricUnlock:YES];
+    [self fireBiometricAllowedNotification:YES];
     
     if ([SFSecurityLockout locked]) {
         [self.navigationController popViewControllerAnimated:NO];
-        [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionBiometricVerified];
+        [self fireUnlockNotification:YES  action:SFSecurityLockoutActionBiometricVerified];
     } else {
         [self dismissStandaloneBiometricSetup];
     }
@@ -141,11 +144,11 @@
         pvc.verifyDelegate = self;
         [self pushViewController:pvc animated:NO];
     } else {
-        [SFSecurityLockout userAllowedBiometricUnlock:NO];
+        [self fireBiometricAllowedNotification:NO];
        
         if ([SFSecurityLockout locked]) {
             [self.navigationController popViewControllerAnimated:NO];
-            [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeCreated];
+            [self fireUnlockNotification:YES  action:SFSecurityLockoutActionPasscodeCreated];
         } else {
             [self dismissStandaloneBiometricSetup];
         }
@@ -199,6 +202,17 @@
     SFSDKBiometricViewController *pvc = [[SFSDKBiometricViewController alloc] initWithViewConfig:self.viewConfig];
     pvc.biometricResponseDelgate = self;
     [self pushViewController:pvc animated:NO];
+}
+
+- (void)fireBiometricAllowedNotification:(BOOL)allowed
+{
+    NSDictionary *userInfo = @{@"userAllowedBiometric": [NSNumber numberWithBool:allowed]};
+    [[NSNotificationCenter defaultCenter] postNotificationName:AppLockViewShouldAllowBiometricUnlock object:self userInfo:userInfo];
+}
+
+- (void)fireUnlockNotification:(BOOL)success action:(SFSecurityLockoutAction)lockoutAction {
+    NSDictionary *userInfo = @{@"success": [NSNumber numberWithBool:success], @"action": [NSNumber numberWithInt:lockoutAction]};
+    [[NSNotificationCenter defaultCenter] postNotificationName:AppLockViewShouldUnlockNotification object:self userInfo:userInfo];
 }
 
 @end
