@@ -32,9 +32,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXTERN NSNotificationName AppLockViewShouldUnlockNotification;
-FOUNDATION_EXTERN NSNotificationName AppLockViewShouldAllowBiometricUnlock;
-
 @interface SFSDKAppLockViewController : SFSDKNavigationController
 
 - (instancetype)initWithMode:(SFAppLockControllerMode)mode andViewConfig:(SFSDKAppLockViewConfig *)config;

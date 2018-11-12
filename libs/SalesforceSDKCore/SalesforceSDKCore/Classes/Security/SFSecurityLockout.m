@@ -86,11 +86,6 @@ static BOOL _showPasscode = YES;
 + (void)initialize
 {
     if (self == [SFSecurityLockout class]) {
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUnlockNotification:) name:AppLockViewShouldUnlockNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fireBiometricAllowedNotification:) name:AppLockViewShouldAllowBiometricUnlock object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setUpgradePasscodeLength:) name:AppLockViewSetUpgradePasscodeLength object:nil];
-        
         [SFSecurityLockout upgradeSettings];  // Ensures a lockout time value in the keychain.
         
         // If this is the first time the passcode functionality has been run in the lifetime of the app install,
@@ -149,7 +144,7 @@ static BOOL _showPasscode = YES;
     }
     BOOL biometricModeExists = [[SFPreferences globalPreferences] keyExists:kBiometricStateKey];
     if (!biometricModeExists) {
-        [self setBiometricState:SFBiometricUnlockAvailable];
+        [self setBiometricState:SFBiometricUnlockPromptUser];
     }
     
     // Is locked
@@ -242,7 +237,7 @@ static BOOL _showPasscode = YES;
         if (newBiometricAllowed) {
             [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"Biometric unlock is allowed."];
             [self setBiometricAllowed:YES];
-            [self setBiometricState:SFBiometricUnlockAvailable];
+            [self setBiometricState:SFBiometricUnlockPromptUser];
         } else {
             // Biometric on -> off.
             [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"Biometric unlock is not not allowed."];
@@ -364,15 +359,15 @@ static BOOL _showPasscode = YES;
     switch (currentState) {
         case SFBiometricUnlockUserDeclined:
             break;
-        case SFBiometricUnlockUserApproved:
-        case SFBiometricUnlockAvailable:
+        case SFBiometricUnlockUserAllowed:
+        case SFBiometricUnlockPromptUser:
             if (![self biometricUnlockAllowed]) {
                 currentState = SFBiometricUnlockUnavalible;
             }
             break;
         case SFBiometricUnlockUnavalible:
             if ([self biometricUnlockAllowed]) {
-                currentState = SFBiometricUnlockAvailable;
+                currentState = SFBiometricUnlockPromptUser;
             }
             break;
         default:
@@ -556,7 +551,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             [self setBiometricState:SFBiometricUnlockUnavalible];
         }
         
-        SFAppLockControllerMode lockType = ([self biometricState] == SFBiometricUnlockUserApproved) ? SFAppLockControllerModeVerifyBiometric : SFAppLockControllerModeVerifyPasscode;
+        SFAppLockControllerMode lockType = ([self biometricState] == SFBiometricUnlockUserAllowed) ? SFAppLockControllerModeVerifyBiometric : SFAppLockControllerModeVerifyPasscode;
         [SFSecurityLockout presentPasscodeController:lockType];
     }
     [SFSDKCoreLogger i:[self class] format:@"Device locked."];
@@ -808,6 +803,17 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
 }
 
++ (void)userAllowedBiometricUnlock:(BOOL)userAllowedBiometric
+{
+    [SFSecurityLockout setBiometricState:userAllowedBiometric ? SFBiometricUnlockUserAllowed : SFBiometricUnlockUserDeclined];
+}
+
++ (void)setUpgradePasscodeLength:(NSUInteger)length {
+    if ([SFSecurityLockout passcodeLength] == kDefaultPasscodeLength) {
+        [SFSecurityLockout setPasscodeLength:length];
+    }
+}
+
 #pragma mark keychain methods
 
 + (void)setCanShowPasscode:(BOOL)showPasscode
@@ -887,32 +893,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         [keychainWrapper setValueData:data];
     else
         [keychainWrapper resetKeychainItem];  // Predominantly for unit tests
-}
-
-#pragma mark notification methods
-
-+ (void)handleUnlockNotification:(NSNotification *)notification
-{
-    NSDictionary *userInfo = notification.userInfo;
-    BOOL success = [[userInfo objectForKey:@"success"] boolValue];
-    SFSecurityLockoutAction action = [[userInfo objectForKey:@"action"] intValue];
-    [self unlock:success action:action];
-}
-
-+ (void)userAllowedBiometricUnlock:(NSNotification *)notification
-{
-    NSDictionary *userInfo = notification.userInfo;
-    BOOL allowed = [[userInfo objectForKey:@"userAllowedBiometric"] boolValue];
-    [SFSecurityLockout setBiometricState:allowed ? SFBiometricUnlockUserApproved : SFBiometricUnlockUserDeclined];
-}
-
-+ (void)setUpgradePasscodeLength:(NSNotification *)notification
-{
-    NSDictionary *userInfo = notification.userInfo;
-    NSUInteger length = (NSUInteger)[userInfo objectForKey:@"length"];
-    if ([SFSecurityLockout passcodeLength] == kDefaultPasscodeLength) {
-        [SFSecurityLockout setPasscodeLength:length];
-    }
 }
 
 @end

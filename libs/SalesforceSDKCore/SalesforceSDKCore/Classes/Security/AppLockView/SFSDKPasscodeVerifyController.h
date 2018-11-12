@@ -28,8 +28,6 @@
 #import <UIKit/UIKit.h>
 #import "SFSDKAppLockViewConfig.h"
 
-FOUNDATION_EXTERN NSNotificationName AppLockViewSetUpgradePasscodeLength;
-
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol SFSDKPasscodeVerifyDelegate
