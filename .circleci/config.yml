@@ -50,7 +50,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/SalesforceMobileSDK-iOS
   macos:
-    xcode: "9.4.1"
+    xcode: "10.0.0"
   shell: /bin/bash --login -eo pipefail
   environment:
     BASH_ENV: ~/.bashrc
