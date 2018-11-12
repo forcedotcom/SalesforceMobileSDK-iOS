@@ -93,7 +93,7 @@ static BOOL _showPasscode = YES;
         if (![SFCrypto baseAppIdentifierIsConfigured] || [SFCrypto baseAppIdentifierConfiguredThisLaunch]) {
             [SFSecurityLockout setSecurityLockoutTime:kDefaultLockoutTime];
             [SFSecurityLockout setPasscodeLength:kDefaultPasscodeLength];
-            [SFSecurityLockout setBiometricState:SFBiometricUnlockUnavalible];
+            [SFSecurityLockout setBiometricState:SFBiometricUnlockUnavailable];
         } else {
             securityLockoutTime = [[SFSecurityLockout readLockoutTimeFromKeychain] unsignedIntegerValue];
         }
@@ -144,7 +144,7 @@ static BOOL _showPasscode = YES;
     }
     BOOL biometricModeExists = [[SFPreferences globalPreferences] keyExists:kBiometricStateKey];
     if (!biometricModeExists) {
-        [self setBiometricState:SFBiometricUnlockPromptUser];
+        [self setBiometricState:SFBiometricUnlockAvailable];
     }
     
     // Is locked
@@ -232,17 +232,17 @@ static BOOL _showPasscode = YES;
         }
     }
     
-    if (newBiometricAllowed != [self biometricUnlockAllowed] && [self biometricState] != SFBiometricUnlockUserDeclined) {
+    if (newBiometricAllowed != [self biometricUnlockAllowed] && [self biometricState] != SFBiometricUnlockDeclined) {
         // Biometric off -> on.
         if (newBiometricAllowed) {
             [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"Biometric unlock is allowed."];
             [self setBiometricAllowed:YES];
-            [self setBiometricState:SFBiometricUnlockPromptUser];
+            [self setBiometricState:SFBiometricUnlockAvailable];
         } else {
             // Biometric on -> off.
             [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"Biometric unlock is not not allowed."];
             [self setBiometricAllowed:NO];
-            [self setBiometricState:SFBiometricUnlockUnavalible];
+            [self setBiometricState:SFBiometricUnlockUnavailable];
         }
     }
     
@@ -323,7 +323,7 @@ static BOOL _showPasscode = YES;
     // the app state.
     [SFSecurityLockout setSecurityLockoutTime:kDefaultLockoutTime];
     [SFSecurityLockout setPasscodeLength:kDefaultPasscodeLength];
-    [SFSecurityLockout setBiometricState:SFBiometricUnlockUnavalible];
+    [SFSecurityLockout setBiometricState:SFBiometricUnlockUnavailable];
     [SFInactivityTimerCenter removeTimer:kTimerSecurity];
     [[SFPasscodeManager sharedManager] changePasscode:nil];
 }
@@ -357,22 +357,22 @@ static BOOL _showPasscode = YES;
     SFBiometricUnlockState currentState = [[SFPreferences globalPreferences] integerForKey:kBiometricStateKey];
     // Check if state should be updated
     switch (currentState) {
-        case SFBiometricUnlockUserDeclined:
+        case SFBiometricUnlockDeclined:
             break;
-        case SFBiometricUnlockUserAllowed:
-        case SFBiometricUnlockPromptUser:
+        case SFBiometricUnlockApproved:
+        case SFBiometricUnlockAvailable:
             if (![self biometricUnlockAllowed]) {
-                currentState = SFBiometricUnlockUnavalible;
+                currentState = SFBiometricUnlockUnavailable;
             }
             break;
-        case SFBiometricUnlockUnavalible:
+        case SFBiometricUnlockUnavailable:
             if ([self biometricUnlockAllowed]) {
-                currentState = SFBiometricUnlockPromptUser;
+                currentState = SFBiometricUnlockAvailable;
             }
             break;
         default:
             [SFSDKCoreLogger d:[self class] format:@"Invalid biometric state retrived."];
-            currentState = SFBiometricUnlockUnavalible;
+            currentState = SFBiometricUnlockUnavailable;
     }
     
     [SFSecurityLockout setBiometricState:currentState];
@@ -485,7 +485,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
                 [SFSecurityLockout clearAllPasscodeState];
                 [[SFUserAccountManager sharedInstance] logoutAllUsers];
                 [SFSecurityLockout unlockFailurePostProcessing];
-                [SFSecurityLockout setBiometricState:SFBiometricUnlockUnavalible];
+                [SFSecurityLockout setBiometricState:SFBiometricUnlockUnavailable];
             }
             
             [SFSDKEventBuilderHelper createAndStoreEvent:@"passcodeUnlock" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:nil];
@@ -548,10 +548,10 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     if ([SFApplicationHelper sharedApplication].applicationState == UIApplicationStateActive || ![SFSDKWindowManager sharedManager].snapshotWindow.isEnabled) {
         if (![[SFPasscodeManager sharedManager] deviceHasBiometric]) {
-            [self setBiometricState:SFBiometricUnlockUnavalible];
+            [self setBiometricState:SFBiometricUnlockUnavailable];
         }
         
-        SFAppLockControllerMode lockType = ([self biometricState] == SFBiometricUnlockUserAllowed) ? SFAppLockControllerModeVerifyBiometric : SFAppLockControllerModeVerifyPasscode;
+        SFAppLockControllerMode lockType = ([self biometricState] == SFBiometricUnlockApproved) ? SFAppLockControllerModeVerifyBiometric : SFAppLockControllerModeVerifyPasscode;
         [SFSecurityLockout presentPasscodeController:lockType];
     }
     [SFSDKCoreLogger i:[self class] format:@"Device locked."];
@@ -641,7 +641,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         return;
     }
     
-    if ([SFSecurityLockout biometricState] == SFBiometricUnlockUnavalible) {
+    if ([SFSecurityLockout biometricState] == SFBiometricUnlockUnavailable) {
         [SFSDKCoreLogger i:[self class] format:@"Biometric enrollemnt screen cannot be presented because biometric unlock is not permitted by either the org or device."];
     } else {
         SFSDKAppLockViewConfig *displayConfig = (viewConfig) ? viewConfig : self.passcodeViewConfig;
@@ -805,7 +805,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (void)userAllowedBiometricUnlock:(BOOL)userAllowedBiometric
 {
-    [SFSecurityLockout setBiometricState:userAllowedBiometric ? SFBiometricUnlockUserAllowed : SFBiometricUnlockUserDeclined];
+    [SFSecurityLockout setBiometricState:userAllowedBiometric ? SFBiometricUnlockApproved : SFBiometricUnlockDeclined];
 }
 
 + (void)setUpgradePasscodeLength:(NSUInteger)length {

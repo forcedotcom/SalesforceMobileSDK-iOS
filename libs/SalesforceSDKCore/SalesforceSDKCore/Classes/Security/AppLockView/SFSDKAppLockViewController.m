@@ -92,7 +92,7 @@
 - (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode
 {
     [[SFPasscodeManager sharedManager] changePasscode:passcode];
-    if ([SFSecurityLockout biometricState] == SFBiometricUnlockPromptUser) {
+    if ([SFSecurityLockout biometricState] == SFBiometricUnlockAvailable) {
         [self promptBiometricEnrollment];
     } else {
         SFSecurityLockoutAction action = isUpdateMode ? SFSecurityLockoutActionPasscodeChanged : SFSecurityLockoutActionPasscodeCreated;
@@ -105,7 +105,7 @@
 
 - (void)passcodeVerified
 {
-    if ([SFSecurityLockout biometricState] == SFBiometricUnlockPromptUser) {
+    if ([SFSecurityLockout biometricState] == SFBiometricUnlockAvailable) {
         [self promptBiometricEnrollment];
     } else {
         [self.navigationController popViewControllerAnimated:NO];

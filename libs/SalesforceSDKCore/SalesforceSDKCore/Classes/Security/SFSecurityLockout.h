@@ -76,24 +76,24 @@ typedef NS_ENUM(NSUInteger, SFSecurityLockoutAction) {
  */
 typedef NS_ENUM(NSUInteger, SFBiometricUnlockState) {
     /**
-     Touch Id or Face Id should be the default unlock method.
+     Biometric unlock was approved by user.
      **/
-    SFBiometricUnlockUserAllowed,
+    SFBiometricUnlockApproved,
     
     /**
-     User declined biometric unlock, do not prompt again.
+     Biometric unlock was declined by user - do not prompt user again.
      **/
-    SFBiometricUnlockUserDeclined,
+    SFBiometricUnlockDeclined,
     
     /**
-     User has not been prompted to use biometric unlock.
+     Biometric unlock is available - but user has not been prompted to approve it yet.
      **/
-    SFBiometricUnlockPromptUser,
+    SFBiometricUnlockAvailable,
     
     /**
-     Biometric unlock can not be used.
+     Biometric unlock is not available.
      */
-    SFBiometricUnlockUnavalible
+    SFBiometricUnlockUnavailable
 }NS_SWIFT_NAME(BiometricUnlockState);
 
 @class SFSDKAppLockViewConfig;
@@ -191,7 +191,7 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
 + (NSUInteger)passcodeLength;
 
 /**
- The current state of biometric unlock. SFBiometricUnlockEnabled, SFBiometricUnlockUserDeclined or SFBiometricUnlockPrompt
+ The current state of biometric unlock.
  @return biometric unlock state.
  */
 + (SFBiometricUnlockState)biometricState;
