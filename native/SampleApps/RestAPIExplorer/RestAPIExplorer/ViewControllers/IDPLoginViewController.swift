@@ -181,7 +181,7 @@ extension IDPLoginViewController: LoginHostDelegate {
     }
     
     func hostListViewController(_ hostListViewController: LoginHostListViewController, didChange newLoginHost: SalesforceLoginHost) {
-        UserAccountManager.sharedInstance().loginHost = newLoginHost.host
-        UserAccountManager.sharedInstance().switchToNewUserAccount()
+        UserAccountManager.shared.loginHost = newLoginHost.host
+        UserAccountManager.shared.switchToNewUserAccount()
     }
 }

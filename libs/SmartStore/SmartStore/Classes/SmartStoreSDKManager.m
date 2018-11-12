@@ -33,6 +33,7 @@
 @end
 
 @implementation SmartStoreSDKManager
+@dynamic sharedManager;
 
 -(instancetype)init {
     if (self = [super init]) {

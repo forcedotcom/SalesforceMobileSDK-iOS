@@ -145,98 +145,98 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
 }
 
 + (SFLogLevel)logLevel {
-    return [[self sharedInstance] logLevel];
+    return [[self defaultLogger] logLevel];
 }
 
 + (void)setLogLevel:(SFLogLevel)logLevel {
-    [[self sharedInstance] setLogLevel:logLevel];
+    [[self defaultLogger] setLogLevel:logLevel];
 }
 
 + (void)e:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:cls level:SFLogLevelError format:format args:args];
+    [[self defaultLogger] log:cls level:SFLogLevelError format:format args:args];
     va_end(args);
 }
 
 + (void)e:(nonnull Class)cls message:(nonnull NSString *)message {
-    [[self sharedInstance] e:cls message:message];
+    [[self defaultLogger] e:cls message:message];
 }
 
 + (void)d:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:cls level:SFLogLevelDebug format:format args:args];
+    [[self defaultLogger] log:cls level:SFLogLevelDebug format:format args:args];
     va_end(args);
 }
 
 + (void)d:(nonnull Class)cls message:(nonnull NSString *)message {
-    [[self sharedInstance] e:cls message:message];
+    [[self defaultLogger] e:cls message:message];
 }
 
 + (void)w:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:cls level:SFLogLevelDefault format:format args:args];
+    [[self defaultLogger] log:cls level:SFLogLevelDefault format:format args:args];
     va_end(args);
 }
 
 + (void)w:(nonnull Class)cls message:(nonnull NSString *)message {
-    [[self sharedInstance] log:cls message:message];
+    [[self defaultLogger] log:cls message:message];
 }
 
 + (void)i:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:cls level:SFLogLevelInfo format:format args:args];
+    [[self defaultLogger] log:cls level:SFLogLevelInfo format:format args:args];
     va_end(args);
 }
 
 + (void)i:(nonnull Class)cls message:(nonnull NSString *)message {
-    [[self sharedInstance] i:cls message:message];
+    [[self defaultLogger] i:cls message:message];
 }
 
 + (void)f:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:cls level:SFLogLevelFault format:format args:args];
+    [[self defaultLogger] log:cls level:SFLogLevelFault format:format args:args];
     va_end(args);
 }
 
 + (void)f:(nonnull Class)cls message:(nonnull NSString *)message {
-    [[self sharedInstance] f:cls message:message];
+    [[self defaultLogger] f:cls message:message];
 }
 
 + (void)v:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:cls level:SFLogLevelDefault format:format args:args];
+    [[self defaultLogger] log:cls level:SFLogLevelDefault format:format args:args];
     va_end(args);
 }
 
 + (void)v:(nonnull Class)cls message:(nonnull NSString *)message {
-    [[self sharedInstance] v:cls message:message];
+    [[self defaultLogger] log:cls level:SFLogLevelDefault message:message];
 }
 
 + (void)log:(nonnull Class)cls message:(nonnull NSString *)message {
-    [[self sharedInstance] log:cls message:message];
+    [[self defaultLogger] log:cls message:message];
 }
 
 + (void)log:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:cls level:SFLogLevelDefault format:format args:args];
+    [[self defaultLogger] log:cls level:SFLogLevelDefault format:format args:args];
     va_end(args);
 }
 
 + (void)log:(nonnull Class)cls level:(SFLogLevel)level message:(nonnull NSString *)message {
-    [[self sharedInstance] log:cls level:level  message:message];
+    [[self defaultLogger] log:cls level:level  message:message];
 }
 
 + (void)log:(nonnull Class)cls level:(SFLogLevel)level format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [[self sharedInstance] log:cls level:SFLogLevelDefault format:format args:args];
+    [[self defaultLogger] log:cls level:SFLogLevelDefault format:format args:args];
     va_end(args);
 }
 
@@ -248,11 +248,11 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
     InstanceClass = loggerClass;
 }
 
-+ (nonnull instancetype)sharedInstance {
-    return [self sharedInstanceWithComponent:kDefaultComponentName];
++ (nonnull instancetype)defaultLogger {
+    return [self loggerForComponent:kDefaultComponentName];
 }
 
-+ (nonnull instancetype)sharedInstanceWithComponent:(nonnull NSString *)componentName {
++ (nonnull instancetype)loggerForComponent:(nonnull NSString *)componentName {
     
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{

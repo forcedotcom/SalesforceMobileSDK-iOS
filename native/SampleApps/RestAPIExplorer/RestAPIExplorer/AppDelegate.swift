@@ -42,7 +42,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         super.init()
       
-        SalesforceSDK.initializeSDK()
+        SalesforceManager.initializeSDK()
         
         //Uncomment following block to enable IDP Login flow.
         // SalesforceSDK.shared().idpAppURIScheme = "sampleidpapp"
@@ -80,7 +80,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         let passcodeViewConfig = AppLockViewControllerConfig()
         passcodeViewConfig.forcePasscodeLength = true
-        UserAccountManager.sharedInstance().appLockViewControllerConfig = passcodeViewConfig
+        UserAccountManager.shared.appLockViewControllerConfig = passcodeViewConfig
         
         AuthHelper.loginIfRequired { [weak self] in
             self?.setupRootViewController()
@@ -147,16 +147,16 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     }
 
     func exportTestingCredentials() {
-        guard let creds = UserAccountManager.sharedInstance().currentUserAccount?.credentials,
+        guard let creds = UserAccountManager.shared.currentUserAccount?.credentials,
             let instance = creds.instanceUrl,
             let identity = creds.identityUrl
             else {
                 return
         }
         
-        var config = ["test_client_id": SalesforceSDK.shared().appConfig?.remoteAccessConsumerKey,
-                      "test_login_domain": UserAccountManager.sharedInstance().loginHost,
-                      "test_redirect_uri": SalesforceSDK.shared().appConfig?.oauthRedirectURI,
+        var config = ["test_client_id": SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey,
+                      "test_login_domain": UserAccountManager.shared.loginHost,
+                      "test_redirect_uri": SalesforceManager.shared.bootConfig?.oauthRedirectURI,
                       "refresh_token": creds.refreshToken,
                       "instance_url": instance.absoluteString,
                       "identity_url": identity.absoluteString,

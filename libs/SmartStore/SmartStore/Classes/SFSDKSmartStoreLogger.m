@@ -33,8 +33,8 @@ NSString * const kSFSDKSmartStoreComponentName = @"SmartStore";
 
 @implementation SFSDKSmartStoreLogger
 
-+ (instancetype)sharedInstance {
-    return [self sharedInstanceWithComponent:kSFSDKSmartStoreComponentName];
++ (instancetype)defaultLogger {
+    return [self loggerForComponent:kSFSDKSmartStoreComponentName];
 }
 
 @end

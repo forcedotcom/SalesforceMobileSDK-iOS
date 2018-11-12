@@ -75,7 +75,7 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void)  NS_SWIFT_NAME(AppForegrou
 /**
  Block to return a user agent string, with an optional qualifier.
  */
-typedef NSString*_Nonnull (^SFSDKUserAgentCreationBlock)(NSString *qualifier) NS_SWIFT_NAME(UserAgentCreationBlock);
+typedef NSString*_Nonnull (^SFSDKUserAgentCreationBlock)(NSString *qualifier) NS_SWIFT_NAME(UserAgentGeneratorBlock);
 
 /**
  Block typedef for creating a custom login flow selection dialog.
