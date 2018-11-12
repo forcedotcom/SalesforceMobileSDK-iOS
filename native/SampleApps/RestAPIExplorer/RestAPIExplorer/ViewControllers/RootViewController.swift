@@ -807,15 +807,10 @@ extension RootViewController: ActionTableViewDelegate {
                         self.showAlert("User Info", message:userInfoString)
                         return
                     case .enableBiometric:
-                        let context = LAContext()
-                        if (context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) && SFSecurityLockout.biometricUnlockAllowed() && !SFSecurityLockout.biometricUnlockEnabled()) {
-                            SFSecurityLockout.presentBiometricEnrollment(AppLockViewControllerConfig.createDefault())
-                        }
+                        // Uncomment this code to find the current state of biometric unlock
+                        //UserAccountManager.sharedInstance().biometricUnlockState()
                         
-                        if (UserAccountManager.sharedInstance().deviceHasBiometric() && !UserAccountManager.sharedInstance().biometricUnlockEnabled()) {
-                            UserAccountManager.sharedInstance().presentBiometricEnrollment(nil);
-                        }
-                        
+                        UserAccountManager.sharedInstance().presentBiometricEnrollment(nil)
                         return
                     case .logout:
                         self.presentedViewController?.dismiss(animated: true, completion: nil)

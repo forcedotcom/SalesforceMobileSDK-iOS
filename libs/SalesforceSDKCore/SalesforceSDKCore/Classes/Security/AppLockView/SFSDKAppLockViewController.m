@@ -34,12 +34,9 @@
 #import "SFSDKResourceUtils.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "SFSDKWindowManager.h"
+#import "SFSecurityLockout.h"
 
 @interface SFSDKAppLockViewController () <SFSDKPasscodeCreateDelegate,SFSDKBiometricViewDelegate,SFSDKPasscodeVerifyDelegate>
-/**
- * The configuration data used to create or update the passcode.
- */
-@property (readonly) SFAppLockConfigurationData configData;
 
 /**
  Setup passcode view related preferences.
@@ -50,11 +47,10 @@
 
 @implementation SFSDKAppLockViewController
 
-- (instancetype)initWithAppLockConfigData:(SFAppLockConfigurationData)configData viewConfig:(SFSDKAppLockViewConfig *)config mode:(SFAppLockControllerMode)mode
+- (instancetype)initWithMode:(SFAppLockControllerMode)mode andViewConfig:(SFSDKAppLockViewConfig *)config
 {
-    _configData = configData;
     _viewConfig = config;
-    UIViewController *controller = [self controllerFromMode:mode configData:configData andViewConfig:config];
+    UIViewController *controller = [self controllerFromMode:mode andViewConfig:config];
     self = [super initWithRootViewController:controller];
     return self;
 }
@@ -95,48 +91,49 @@
 
 - (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode
 {
-    if ([self canPromptBiometricEnrollment]) {
-        [self promptBiometricEnrollment:passcode];
+    [[SFPasscodeManager sharedManager] changePasscode:passcode];
+    if ([SFSecurityLockout biometricState] == SFBiometricUnlockAvailable) {
+        [self promptBiometricEnrollment];
     } else {
-        SFSecurityLockoutAction action = isUpdateMode?SFSecurityLockoutActionPasscodeChanged:SFSecurityLockoutActionPasscodeCreated;
-        [self unlock:passcode lockAction:action];
+        SFSecurityLockoutAction action = isUpdateMode ? SFSecurityLockoutActionPasscodeChanged : SFSecurityLockoutActionPasscodeCreated;
+        [self.navigationController popViewControllerAnimated:NO];
+        [SFSecurityLockout unlock:action];
     }
 }
 
 #pragma mark - SFSDKPasscodeVerifyDelegate
 
-- (void)passcodeVerified:(NSString *)passcode
+- (void)passcodeVerified
 {
-    if ([self canPromptBiometricEnrollment]) {
-        [self promptBiometricEnrollment:passcode];
+    if ([SFSecurityLockout biometricState] == SFBiometricUnlockAvailable) {
+        [self promptBiometricEnrollment];
     } else {
-        SFSecurityLockoutAction action = SFSecurityLockoutActionPasscodeVerified;
-        [self unlock:passcode lockAction:action];
+        [self.navigationController popViewControllerAnimated:NO];
+        [SFSecurityLockout unlock:SFSecurityLockoutActionPasscodeVerified];
     }
 }
 
 - (void)passcodeFailed
 {
     [[SFPasscodeManager sharedManager] resetPasscode];
-    [SFSecurityLockout unlock:NO action:SFSecurityLockoutActionNone passcodeConfig:self.configData];
+    [SFSecurityLockout wipeState];
 }
 
 #pragma mark - SFSDKBiometricViewDelegate
 
-- (void)biometricUnlockSucceeded:(NSString *)currentPasscode verificationMode:(BOOL)isVerificationMode
+- (void)biometricUnlockSucceeded:(BOOL)isVerificationMode
 {
-    [SFSecurityLockout setBiometricUnlockEnabled:YES];
+    [SFSecurityLockout userAllowedBiometricUnlock:YES];
     
-    if (!isVerificationMode && !currentPasscode) {
-        [self dismissStandaloneBiometricSetup];
-    } else {
-        SFSecurityLockoutAction action = isVerificationMode?SFSecurityLockoutActionPasscodeChanged:SFSecurityLockoutActionPasscodeCreated;
+    if ([SFSecurityLockout locked]) {
         [self.navigationController popViewControllerAnimated:NO];
-        [self unlock:currentPasscode lockAction:action];
+        [SFSecurityLockout unlock:SFSecurityLockoutActionBiometricVerified];
+    } else {
+        [self dismissStandaloneBiometricSetup];
     }
 }
 
-- (void)biometricUnlockFailed:(NSString *)currentPasscode verificationMode:(BOOL)isVerificationMode
+- (void)biometricUnlockFailed:(BOOL)isVerificationMode
 {
     if (isVerificationMode) {
         [self.navigationController popViewControllerAnimated:NO];
@@ -144,11 +141,11 @@
         pvc.verifyDelegate = self;
         [self pushViewController:pvc animated:NO];
     } else {
-        // No passcode means Biometric Setup screen was launched outside of Lock Flow
-        if (currentPasscode) {
-            [SFSecurityLockout setUserDeclinedBiometricUnlock:YES];
-            SFSecurityLockoutAction action = isVerificationMode?SFSecurityLockoutActionPasscodeVerified:SFSecurityLockoutActionPasscodeCreated;
-            [self unlock:currentPasscode lockAction:action];
+        [SFSecurityLockout userAllowedBiometricUnlock:NO];
+       
+        if ([SFSecurityLockout locked]) {
+            [self.navigationController popViewControllerAnimated:NO];
+            [SFSecurityLockout unlock:SFSecurityLockoutActionPasscodeCreated];
         } else {
             [self dismissStandaloneBiometricSetup];
         }
@@ -163,7 +160,7 @@
     }];
 }
 
--(UIViewController *)controllerFromMode:(SFAppLockControllerMode) mode configData:(SFAppLockConfigurationData)configData andViewConfig:(SFSDKAppLockViewConfig *)viewConfig
+-(UIViewController *)controllerFromMode:(SFAppLockControllerMode)mode andViewConfig:(SFSDKAppLockViewConfig *)viewConfig
 {
     UIViewController *currentViewController = nil;
     SFSDKBiometricViewController *bvc = nil;
@@ -180,14 +177,12 @@
             break;
         case SFAppLockControllerModeCreatePasscode:
         case SFAppLockControllerModeChangePasscode:
-            viewConfig.passcodeLength = configData.passcodeLength;
             pcvc = [[SFSDKPasscodeCreateController alloc] initWithViewConfig:viewConfig];
             pcvc.createDelegate = self;
             pcvc.updateMode = (mode == SFAppLockControllerModeChangePasscode);
             currentViewController = pcvc;
             break;
         default:
-            viewConfig.passcodeLength = (configData.passcodeLength != SFAppLockConfigurationDataNull.passcodeLength) ? configData.passcodeLength : [SFSecurityLockout passcodeLength];
             pvc = [[SFSDKPasscodeVerifyController alloc] initWithViewConfig:viewConfig];
             pvc.verifyDelegate = self;
             currentViewController = pvc;
@@ -198,41 +193,12 @@
 }
 
 #pragma mark - private methods
-- (BOOL)canPromptBiometricEnrollment
-{
-    return !([SFSecurityLockout userDeclinedBiometricUnlock] || [SFSecurityLockout biometricUnlockEnabled]) && [self canShowBiometric];
-}
 
-- (BOOL)canShowBiometric
-{
-    return [SFSecurityLockout biometricUnlockAllowed] && [[SFPasscodeManager sharedManager] deviceHasBiometric];
-}
-
-- (void)promptBiometricEnrollment:(NSString *)passcode
+- (void)promptBiometricEnrollment
 {
     SFSDKBiometricViewController *pvc = [[SFSDKBiometricViewController alloc] initWithViewConfig:self.viewConfig];
     pvc.biometricResponseDelgate = self;
-    pvc.currentPasscode = passcode;
     [self pushViewController:pvc animated:NO];
 }
 
-- (void)unlock:(NSString *)passcode lockAction:(SFSecurityLockoutAction) action
-{
-    [self.navigationController popViewControllerAnimated:NO];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SFSecurityLockout setupTimer];
-        // Set passcode length if it is unknown.
-        // This can happen when upgrading to new UX that requires actual length.
-        if ([SFSecurityLockout passcodeLength] == 0) {
-            [[SFPasscodeManager sharedManager] changePasscode:passcode];
-            SFAppLockConfigurationData newConfigData;
-            newConfigData.passcodeLength = passcode.length;
-            newConfigData.lockoutTime = self.configData.lockoutTime;
-            newConfigData.biometricUnlockAllowed = self.configData.biometricUnlockAllowed;
-            [SFSecurityLockout unlock:YES action:action passcodeConfig:newConfigData];
-        } else {
-            [SFSecurityLockout unlock:YES action:action passcodeConfig:self.configData];
-        }
-    });
-}
 @end

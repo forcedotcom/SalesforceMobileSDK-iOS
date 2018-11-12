@@ -282,6 +282,12 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
         if ([self.passcodeTextView isFirstResponder]) {
             [self.passcodeTextView resignFirstResponder];
         }
+        
+        // Set passcode length if it is unknown.
+        // This can happen when upgrading to new UX that requires actual length.
+        if ([SFSecurityLockout passcodeLength] == 0) {
+            [SFSecurityLockout setUpgradePasscodeLength:[self.passcodeTextView.passcodeInput length]];
+        }
         [self validatePasscodeConfirmed:self.passcodeTextView.passcodeInput];
     } else {
         if ([self decrementPasscodeAttempts]) {
@@ -314,7 +320,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 - (void)validatePasscodeConfirmed:(NSString *)validPasscode
 {
     [self resetReaminingAttemps];
-    [self.verifyDelegate passcodeVerified:self.passcodeTextView.passcodeInput];
+    [self.verifyDelegate passcodeVerified];
 }
 
 - (void)validatePasscodeFailed

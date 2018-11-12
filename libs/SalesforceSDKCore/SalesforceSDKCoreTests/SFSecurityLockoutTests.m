@@ -32,9 +32,7 @@
 + (void)cleanupSettings;
 - (void)verifyFileSettingsValues:(NSNumber *)legacyTimeoutNum
                  legacyLockedVal:(BOOL)legacyLockedVal
-             biometricAllowedVal:(BOOL)biometricAllowedVal
-             biometricEnabledVal:(BOOL)biometricEnabledVal
-        userDeclinedBiometricVal:(BOOL)userDeclinedBiometricVal;
+             biometricAllowedVal:(BOOL)biometricAllowedVal;
 - (void)verifyKeychainSettingsValues:(NSUInteger)keychainTimeoutVal
                    keychainLockedVal:(BOOL)keychainLockedVal
            keychainPasscodeLengthVal:(NSUInteger*)keychainPasscodeLengthVal;
@@ -95,7 +93,7 @@
     // No initial values: Defaults migrated to keychain.
     [SFSecurityLockoutTests cleanupSettings];
     [SFSecurityLockout upgradeSettings];
-    [self verifyFileSettingsValues:nil legacyLockedVal:NO biometricAllowedVal:YES biometricEnabledVal:NO userDeclinedBiometricVal:NO];
+    [self verifyFileSettingsValues:nil legacyLockedVal:NO biometricAllowedVal:YES];
     [self verifyKeychainSettingsValues:kDefaultLockoutTime keychainLockedVal:NO keychainPasscodeLengthVal:nil];
     
     // Initial legacy values, no keychain values: Legacy values migrated to keychain.
@@ -104,17 +102,13 @@
     NSNumber *legacyTimeoutNum = @(timeoutVal);
     BOOL legacyLockedVal = (arc4random() % 2 == 0);
     BOOL biometricAllowedVal = (arc4random() % 2 == 0);
-    BOOL biometricEnabledVal = (arc4random() % 2 == 0);
-    BOOL userDeclinedBiometricVal = (arc4random() % 2 == 0);
     [[NSUserDefaults standardUserDefaults] setObject:legacyTimeoutNum forKey:kSecurityTimeoutLegacyKey];
     [[NSUserDefaults standardUserDefaults] setBool:legacyLockedVal forKey:kSecurityIsLockedLegacyKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [[SFPreferences globalPreferences] setBool:biometricAllowedVal forKey:kBiometricUnlockAllowedKey];
     [[SFPreferences globalPreferences] synchronize];
-    [SFSecurityLockout setBiometricUnlockEnabled:biometricEnabledVal];
-    [SFSecurityLockout setUserDeclinedBiometricUnlock:userDeclinedBiometricVal];
     [SFSecurityLockout upgradeSettings];
-    [self verifyFileSettingsValues:legacyTimeoutNum legacyLockedVal:legacyLockedVal biometricAllowedVal:biometricAllowedVal biometricEnabledVal:biometricEnabledVal userDeclinedBiometricVal:userDeclinedBiometricVal];
+    [self verifyFileSettingsValues:legacyTimeoutNum legacyLockedVal:legacyLockedVal biometricAllowedVal:biometricAllowedVal];
     [self verifyKeychainSettingsValues:[legacyTimeoutNum unsignedIntegerValue] keychainLockedVal:legacyLockedVal keychainPasscodeLengthVal:nil];
     
     // Keychain values already defined: No further migration of values.
@@ -126,7 +120,7 @@
     [SFSecurityLockout writeLockoutTimeToKeychain:keychainTimeoutNum];
     [SFSecurityLockout writePasscodeLengthToKeychain:[NSNumber numberWithUnsignedInteger:passcodeLength]];
     [SFSecurityLockout upgradeSettings];
-    [self verifyFileSettingsValues:nil legacyLockedVal:NO biometricAllowedVal:YES biometricEnabledVal:NO userDeclinedBiometricVal:NO];
+    [self verifyFileSettingsValues:nil legacyLockedVal:NO biometricAllowedVal:YES];
     [self verifyKeychainSettingsValues:[keychainTimeoutNum unsignedIntegerValue] keychainLockedVal:[keychainLockedNum boolValue] keychainPasscodeLengthVal:&passcodeLength];
 }
 
@@ -141,26 +135,18 @@
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSecurityIsLockedLegacyKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [[SFPreferences globalPreferences] removeObjectForKey:kBiometricUnlockAllowedKey];
-    [[SFPreferences globalPreferences] removeObjectForKey:kBiometricUnlockEnabledKey];
-    [[SFPreferences globalPreferences] removeObjectForKey:kUserDeclinedBiometricKey];
     [[SFPreferences globalPreferences] synchronize];
 }
 
 - (void)verifyFileSettingsValues:(NSNumber *)legacyTimeoutNum
                  legacyLockedVal:(BOOL)legacyLockedVal
-             biometricAllowedVal:(BOOL)biometricAllowedVal
-             biometricEnabledVal:(BOOL)biometricEnabledVal
-        userDeclinedBiometricVal:(BOOL)userDeclinedBiometricVal;
+             biometricAllowedVal:(BOOL)biometricAllowedVal;
 {
     XCTAssertEqualObjects(legacyTimeoutNum, [[NSUserDefaults standardUserDefaults] objectForKey:kSecurityTimeoutLegacyKey], @"Legacy timeout values do not match.");
     XCTAssertEqual(legacyLockedVal, [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey], @"Legacy locked values do not match.");
     // Read value directly because [SFSecurityLockout biometricUnlockAllowed] takes takes device biometric into affect
     BOOL bioAllowed = [[SFPreferences globalPreferences] boolForKey:kBiometricUnlockAllowedKey];
     XCTAssertEqual(biometricAllowedVal, bioAllowed, @"Stored Biometric unlock allowed values do not match.");
-    BOOL deviceBio = [[SFPasscodeManager sharedManager] deviceHasBiometric];
-    XCTAssertEqual((biometricAllowedVal && deviceBio), [SFSecurityLockout biometricUnlockAllowed], @"Biometric unlock allowed values from SFSecuirtyLockout do not match.");
-    XCTAssertEqual(biometricEnabledVal, [SFSecurityLockout biometricUnlockEnabled], @"Biometric unlock enabled values do not match.");
-     XCTAssertEqual(userDeclinedBiometricVal, [SFSecurityLockout userDeclinedBiometricUnlock], @"User declined biometric unlock enabled values do not match.");
 }
 
 - (void)verifyKeychainSettingsValues:(NSUInteger)keychainTimeoutVal
