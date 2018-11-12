@@ -460,6 +460,16 @@ static BOOL _showPasscode = YES;
 
 static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
++ (void)unlock:(SFSecurityLockoutAction)action
+{
+    [self unlock:YES action:action];
+}
+
++ (void)wipeState
+{
+    [self unlock:NO action:SFSecurityLockoutActionNone];
+}
+
 + (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action
 {
     if (![NSThread isMainThread]) {

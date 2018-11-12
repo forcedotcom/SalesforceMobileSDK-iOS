@@ -257,12 +257,14 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
  */
 + (void)lock;
 
-/** Unlock the device
- @param success Whether the device is being unlocked as the result of a successful passcode
- challenge, as opposed to unlocking to reset the application to to a failed challenge.
- @param action In a successful challenge, what was the action taken?
+/** Unlock the device (e.g a result of a successful passcode/biometric challenge)
+ @param action Action that was taken during lockout.
  */
-+ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action;
++ (void)unlock:(SFSecurityLockoutAction)action;
+
+/** Wipe the device (e.g. because passcode/biometric challenge failed)
+*/
++ (void)wipeState;
 
 /** Toggle the locked state
  @param locked Locks the device if `YES`, otherwise unlocks the device.

@@ -97,7 +97,7 @@
     } else {
         SFSecurityLockoutAction action = isUpdateMode ? SFSecurityLockoutActionPasscodeChanged : SFSecurityLockoutActionPasscodeCreated;
         [self.navigationController popViewControllerAnimated:NO];
-        [SFSecurityLockout unlock:YES action:action];
+        [SFSecurityLockout unlock:action];
     }
 }
 
@@ -109,14 +109,14 @@
         [self promptBiometricEnrollment];
     } else {
         [self.navigationController popViewControllerAnimated:NO];
-        [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeVerified];
+        [SFSecurityLockout unlock:SFSecurityLockoutActionPasscodeVerified];
     }
 }
 
 - (void)passcodeFailed
 {
     [[SFPasscodeManager sharedManager] resetPasscode];
-    [SFSecurityLockout unlock:NO action:SFSecurityLockoutActionNone];
+    [SFSecurityLockout wipeState];
 }
 
 #pragma mark - SFSDKBiometricViewDelegate
@@ -127,7 +127,7 @@
     
     if ([SFSecurityLockout locked]) {
         [self.navigationController popViewControllerAnimated:NO];
-        [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionBiometricVerified];
+        [SFSecurityLockout unlock:SFSecurityLockoutActionBiometricVerified];
     } else {
         [self dismissStandaloneBiometricSetup];
     }
@@ -145,7 +145,7 @@
        
         if ([SFSecurityLockout locked]) {
             [self.navigationController popViewControllerAnimated:NO];
-            [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeCreated];
+            [SFSecurityLockout unlock:SFSecurityLockoutActionPasscodeCreated];
         } else {
             [self dismissStandaloneBiometricSetup];
         }
