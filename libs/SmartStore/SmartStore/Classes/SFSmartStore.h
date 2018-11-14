@@ -187,7 +187,7 @@ NS_SWIFT_NAME(SmartStore)
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @param userAccount The user associated with the store.
  */
-+ (nullable instancetype)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user NS_SWIFT_NAME(shared(withName:forUser:));
++ (nullable instancetype)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user NS_SWIFT_NAME(shared(withName:forUserAccount:));
 
 /**
  Use this method to obtain a shared global store instance with the given name.  This store will
@@ -210,7 +210,7 @@ NS_SWIFT_NAME(SmartStore)
  @param storeName The name of the store to remove.
  @param userAccount The User Account associated with the store.
  */
-+ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user NS_SWIFT_NAME(removeShared(withName:forUser:));
++ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user NS_SWIFT_NAME(removeShared(withName:forUserAccount:));
 
 /**
  You may use this method to completely remove a persisted global store with the given name.
@@ -227,7 +227,7 @@ NS_SWIFT_NAME(SmartStore)
  Removes all of the store for the given user from this app.
  @param user The user associated with the stores to remove.
  */
-+ (void)removeAllStoresForUser:(SFUserAccount *)user NS_SWIFT_NAME(removeAll(forUser:));
++ (void)removeAllStoresForUser:(SFUserAccount *)user NS_SWIFT_NAME(removeAll(forUserAccount:));
 
 /**
  Removes all of the global stores from this app.
@@ -316,7 +316,7 @@ NS_SWIFT_NAME(SmartStore)
  
  @return A set of entries given the pageSize provided in the querySpec.
  */
-- (NSArray * __nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(usingSpec:startFromPageIndex:));
+- (NSArray * __nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(using:startingFromPageIndex:));
 
 /**
  Search for entries matching the given query spec without deserializing any JSON
