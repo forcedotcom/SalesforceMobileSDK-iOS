@@ -636,11 +636,13 @@ class RootViewController: UIViewController {
         attributedString.append(descriptionString)
         self.responseSection.attributedTitle = attributedString
         
-        let jsonData = try? JSONSerialization.data(withJSONObject: response as Any, options: .prettyPrinted)
-        if let jsonObj = jsonData {
-            let jsonString = String(data: jsonObj, encoding: .utf8)
-            self.responseForTextView.setContentOffset(CGPoint.zero, animated: false)
-            self.responseForTextView.text = jsonString
+        if let r = response {
+            let jsonData = try? JSONSerialization.data(withJSONObject: r, options: .prettyPrinted)
+            if let jsonObj = jsonData {
+                let jsonString = String(data: jsonObj, encoding: .utf8)
+                self.responseForTextView.setContentOffset(CGPoint.zero, animated: false)
+                self.responseForTextView.text = jsonString
+            }
         }
       
         if let e = error {
@@ -830,7 +832,7 @@ extension RootViewController: ActionTableViewDelegate {
         
         restApi.send(request: request!, onFailure: { (error, urlResponse) in
             DispatchQueue.main.async { [weak self] in
-                self?.updateUI(request!, response: nil, error: nil)
+                self?.updateUI(request!, response: nil, error: error)
             }
         } , onSuccess: { [weak self] (reponse, urlResponse) in
             DispatchQueue.main.async {
