@@ -59,6 +59,28 @@ defaults: &defaults
 
 version: 2
 jobs:
+  test-SalesforceSDKCommon:
+    <<: *defaults
+    environment:
+      - FASTLANE_LANE: "PR lib:SalesforceSDKCommon"
+      - LIB: "SalesforceSDKCommon"
+    steps:
+      - checkout
+      - restore_cache: *restore-gem-cache
+      - run: *install-dependecies
+      - save_cache: *save-gem-cache
+      - run: *run-tests
+      - run: *danger-lib
+      - store_test_results:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
+          destination: Test-Results
+      - store_artifacts:
+          path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
+          destination: Static-Analysis
+      - run: *codecov
+
   test-SalesforceAnalytics:
     <<: *defaults
     environment:
@@ -68,12 +90,6 @@ jobs:
       - checkout
       - restore_cache: *restore-gem-cache
       - run: *install-dependecies
-      - run:
-          name: Danger PR
-          command:  |
-            chruby ${CHRUBY_VER}
-            DANGER_GITHUB_API_TOKEN="b676bc92bde5202b94d0""ec8dfecb2716044bf523" danger --dangerfile=.circleci/Dangerfile-PR.rb --danger_id=PR-Check --verbose
-          background: true
       - save_cache: *save-gem-cache
       - run: *run-tests
       - run: *danger-lib
@@ -158,6 +174,8 @@ workflows:
 
   build-test-pr:
     jobs:
+      - test-SalesforceSDKCommon:
+          *pr-filter
       - test-SalesforceAnalytics:
           *pr-filter
       - test-SalesforceSDKCore:
@@ -177,6 +195,8 @@ workflows:
               only:
                 - dev
     jobs:
+      - test-SaleforceSDKCommon:
+            context: nightly-test
       - test-SalesforceAnalytics:
             context: nightly-test
       - test-SalesforceSDKCore:
