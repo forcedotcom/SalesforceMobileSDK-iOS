@@ -269,7 +269,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             // 2xx indicates success.
             if ([SFRestAPI isStatusCodeSuccess:statusCode]) {
                 id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                [self notifyDelegateOfResponse:delegate request:request data:dataForDelegate rawResponse:response];
+                [strongSelf notifyDelegateOfResponse:delegate request:request data:dataForDelegate rawResponse:response];
             }
             // 401 (and sometimes 403) indicates refresh is required.
             else if (request.shouldRefreshOn403 ? (statusCode == 401 || statusCode == 403) : (statusCode == 401)) {
@@ -277,13 +277,13 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                     [strongSelf replayRequest:request response:response delegate:delegate];
                 } else {
                     NSError *retryError = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:nil];
-                    [self notifyDelegateOfFailure:delegate request:request error:retryError rawResponse:response];
+                    [strongSelf notifyDelegateOfFailure:delegate request:request error:retryError rawResponse:response];
                 }
             }
             // Other status codes indicate failure.
             else {
                 NSError* errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
-                [self notifyDelegateOfFailure:delegate request:request error:errorForDelegate rawResponse:response];
+                [strongSelf notifyDelegateOfFailure:delegate request:request error:errorForDelegate rawResponse:response];
             }
             
         }];
