@@ -97,13 +97,13 @@
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.15.2");
+    XCTAssertEqualObjects(version, @"3.20.1");
 }
 
 - (void) testSqlCipherVersion
 {
     NSString* version = [self.store getSQLCipherVersion];
-    XCTAssertEqualObjects(version, @"3.4.1");
+    XCTAssertEqualObjects(version, @"3.4.2");
 }
 
 /**
