@@ -43,6 +43,13 @@ static WKProcessPool *_processPool = nil;
 }
 
 + (void)removeSession {
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [SFSDKWebViewStateManager removeSession];
+        });
+        return;
+    }
+    
     //reset UIWebView related state if any
     [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
     [self removeWKWebViewCookies:self.domains withCompletion:NULL];
