@@ -43,7 +43,7 @@ extern NSString * const kSFSmartStoreErrorDomain NS_SWIFT_NAME(SmartStore.errorD
 /**
  The NSError exceptionName for errors loading external Soups.
  */
-extern NSString * const kSFSmartStoreErrorLoadExternalSoup NS_SWIFT_NAME(SmartStore.errorLoadExternalSoup);
+extern NSString * const kSFSmartStoreErrorLoadExternalSoup NS_SWIFT_NAME(SmartStore.externalSoupLoadingExceptionName);
 
 /**
  The label used to interact with the encryption key.
@@ -58,58 +58,58 @@ typedef SFEncryptionKey*  _Nullable (^SFSmartStoreEncryptionKeyBlock)(void) NS_S
 /**
  The columns of a soup table
  */
-extern NSString *const ID_COL;
-extern NSString *const CREATED_COL;
-extern NSString *const LAST_MODIFIED_COL;
-extern NSString *const SOUP_COL;
+extern NSString *const ID_COL NS_SWIFT_NAME(SmartStore.idColumn);
+extern NSString *const CREATED_COL NS_SWIFT_NAME(SmartStore.createdColumn);
+extern NSString *const LAST_MODIFIED_COL NS_SWIFT_NAME(SmartStore.lastModifiedColumn);
+extern NSString *const SOUP_COL NS_SWIFT_NAME(SmartStore.soupColumn);
 
 /**
  The columns of a soup fts table
  */
-extern NSString *const ROWID_COL;
+extern NSString *const ROWID_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
 
 /**
  Soup index map table
  */
-extern NSString *const SOUP_INDEX_MAP_TABLE;
+extern NSString *const SOUP_INDEX_MAP_TABLE NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
 
 /**
  Soup attributes table
  */
-extern NSString *const SOUP_ATTRS_TABLE;
+extern NSString *const SOUP_ATTRS_TABLE NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
 
 /**
  Table to keep track of status of long operations in flight
 */
-extern NSString *const LONG_OPERATIONS_STATUS_TABLE;
+extern NSString *const LONG_OPERATIONS_STATUS_TABLE NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
 
 /*
  Columns of the soup index map table
  */
-extern NSString *const SOUP_NAME_COL;
-extern NSString *const PATH_COL;
-extern NSString *const COLUMN_NAME_COL;
-extern NSString *const COLUMN_TYPE_COL;
+extern NSString *const SOUP_NAME_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const PATH_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const COLUMN_NAME_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const COLUMN_TYPE_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
 
 /*
  Columns of the long operations status table
  */
-extern NSString *const TYPE_COL;
-extern NSString *const DETAILS_COL;
-extern NSString *const STATUS_COL;
+extern NSString *const TYPE_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const DETAILS_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const STATUS_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
 
 /*
  JSON fields added to soup element on insert/update
 */
-extern NSString *const SOUP_ENTRY_ID;
-extern NSString *const SOUP_LAST_MODIFIED_DATE;
+extern NSString *const SOUP_ENTRY_ID NS_SWIFT_NAME(SmartStore.soupEntryId);
+extern NSString *const SOUP_LAST_MODIFIED_DATE NS_SWIFT_NAME(SmartStore.lastModifiedDate);
 
 /*
  Support for explain query plan
  */
-extern NSString *const EXPLAIN_SQL;
-extern NSString *const EXPLAIN_ARGS;
-extern NSString *const EXPLAIN_ROWS;
+extern NSString *const EXPLAIN_SQL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const EXPLAIN_ARGS NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const EXPLAIN_ROWS NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
 
 @class FMDatabaseQueue;
 @class SFQuerySpec;
@@ -159,26 +159,42 @@ NS_SWIFT_NAME(SmartStore)
 @property (nonatomic, strong) NSDictionary *lastExplainQueryPlan;
 
 /**
+ All of the store names for the current user from this app.
+ */
+@property (nonatomic, class, readonly) NSArray<NSString*> *allStoreNames;
+
+/**
+ All of the the global store names from this app.
+ */
+@property (nonatomic, class, readonly) NSArray<NSString*> *allGlobalStoreNames;
+
+/**
+ Block used to generate the encryption key.
+ Sticking with the default encryption key derivation is recommended.
+ */
+@property (nonatomic, class, readonly)  SFSmartStoreEncryptionKeyBlock encryptionKeyBlock;
+
+/**
  Use this method to obtain a shared store instance with a particular name for the current user.
  
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @return A shared instance of a store with the given name.
  */
-+ (nullable instancetype)sharedStoreWithName:(NSString*)storeName NS_SWIFT_NAME(sharedStore(name:));
++ (nullable instancetype)sharedStoreWithName:(NSString*)storeName NS_SWIFT_NAME(shared(withName:));
 
 /**
  Use this method to obtain a shared store instance with the given name for the given user.
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @param userAccount The user associated with the store.
  */
-+ (nullable instancetype)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)userAccount  NS_SWIFT_NAME(sharedStore(name:forUserAccount:));
++ (nullable instancetype)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user NS_SWIFT_NAME(shared(withName:forUserAccount:));
 
 /**
  Use this method to obtain a shared global store instance with the given name.  This store will
  not be specific to a particular user.
  @param storeName The name of the global store to retrieve.
  */
-+ (instancetype)sharedGlobalStoreWithName:(NSString *)storeName NS_SWIFT_NAME(sharedGlobalStore(name:));
++ (instancetype)sharedGlobalStoreWithName:(NSString *)storeName NS_SWIFT_NAME(sharedGlobal(withName:));
 
 /**
  You may use this method to completely remove a persistent shared store with
@@ -186,7 +202,7 @@ NS_SWIFT_NAME(SmartStore)
  
  @param storeName The name of the store. 
  */
-+ (void)removeSharedStoreWithName:(NSString *)storeName NS_SWIFT_NAME(removeSharedStore(named:));
++ (void)removeSharedStoreWithName:(NSString *)storeName NS_SWIFT_NAME(removeShared(withName:));
 
 /**
  You may use this method to completely remove a persisted shared store with the given name
@@ -194,45 +210,29 @@ NS_SWIFT_NAME(SmartStore)
  @param storeName The name of the store to remove.
  @param userAccount The User Account associated with the store.
  */
-+ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)userAccount NS_SWIFT_NAME(removeSharedStore(named:forUserAccount:));
++ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user NS_SWIFT_NAME(removeShared(withName:forUserAccount:));
 
 /**
  You may use this method to completely remove a persisted global store with the given name.
  @param storeName The name of the global store to remove.
  */
-+ (void)removeSharedGlobalStoreWithName:(NSString *)storeName NS_SWIFT_NAME(removeSharedGlobalStore(named:));
++ (void)removeSharedGlobalStoreWithName:(NSString *)storeName NS_SWIFT_NAME(removeSharedGlobal(withName:));
 
 /**
  Removes all of the stores for the current user from this app.
  */
-+ (void)removeAllStores;
++ (void)removeAllStores NS_SWIFT_NAME(removeAllForCurrentUser());
 
 /**
  Removes all of the store for the given user from this app.
  @param user The user associated with the stores to remove.
  */
-+ (void)removeAllStoresForUser:(SFUserAccount *)user NS_SWIFT_NAME(removeAllStores(forUserAccount:));
++ (void)removeAllStoresForUser:(SFUserAccount *)user NS_SWIFT_NAME(removeAll(forUserAccount:));
 
 /**
  Removes all of the global stores from this app.
  */
-+ (void)removeAllGlobalStores;
-
-/**
- Get all of the store names for the current user from this app.
- */
-+ (NSArray *)allStoreNames;
-
-/**
- Get all of the the global store names from this app.
- */
-+ (NSArray *)allGlobalStoreNames;
-
-/**
- @return The block used to generate the encryption key.  Sticking with the default encryption
- key derivation is recommended.
- */
-+ (SFSmartStoreEncryptionKeyBlock)encryptionKeyBlock;
++ (void)removeAllGlobalStores NS_SWIFT_NAME(removeAllGlobal());
 
 /**
  Sets a custom block for deriving the encryption key used to encrypt stores.
@@ -254,7 +254,7 @@ NS_SWIFT_NAME(SmartStore)
  *  @param soupName Name of the soup.
  *  @return Specs of the soup if it exists.
  */
-- (SFSoupSpec*)attributesForSoup:(NSString*)soupName NS_SWIFT_NAME(attributes(forSoupNamed:));
+- (SFSoupSpec*)attributesForSoup:(NSString*)soupName NS_SWIFT_NAME(specification(forSoupNamed:));
 
 /**
  @param soupName Name of the soup.
@@ -275,7 +275,7 @@ NS_SWIFT_NAME(SmartStore)
  @param error Sets/returns any error generated as part of the process.
  @return YES if the soup is registered or already exists.
  */
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(name:indexSpecs:));
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(withName:withIndices:));
 
 /**
  Creates a new soup or confirms the existence of an existing soup.
@@ -297,7 +297,7 @@ NS_SWIFT_NAME(SmartStore)
  @return YES if the soup is registered or already exists.
 
  */
-- (BOOL)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(soupSpec:indexSpecs:));
+- (BOOL)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(withSpecification:withIndices:));
 
 /**
  Get the number of entries that would be returned with the given query spec
@@ -316,7 +316,7 @@ NS_SWIFT_NAME(SmartStore)
  
  @return A set of entries given the pageSize provided in the querySpec.
  */
-- (NSArray * __nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(usingSpec:startFromPageIndex:));
+- (NSArray * __nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(using:startingFromPageIndex:));
 
 /**
  Search for entries matching the given query spec without deserializing any JSON
@@ -328,8 +328,7 @@ NS_SWIFT_NAME(SmartStore)
  
  @return YES if successful
  */
-- (BOOL) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(appendingTo:usingSpec:startFromPageIndex:));
-
+- (BOOL) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_UNAVAILABLE("Use query(querySpec:pageIndex:) in native applications");
 
 /**
  * Run a query given by its query Spec, only returned results from selected page

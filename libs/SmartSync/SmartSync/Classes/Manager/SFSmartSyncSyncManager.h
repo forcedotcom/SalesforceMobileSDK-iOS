@@ -96,7 +96,7 @@ NS_SWIFT_NAME(SyncManager)
  * @param storeName The name of the store associated with the given user.
  * @param userAccount The user associated with the store.
  */
-+ (void)removeSharedInstanceForStore:(nullable NSString*)storeName userAccount:(SFUserAccount*)userAccount  NS_SWIFT_NAME(removeSharedInstance(named:forUser:));
++ (void)removeSharedInstanceForStore:(nullable NSString*)storeName userAccount:(SFUserAccount*)userAccount  NS_SWIFT_NAME(removeSharedInstance(named:forUserAccount:));
 /**
  * Removes the shared instance associated with the specified store.
  *
@@ -254,7 +254,7 @@ NS_SWIFT_NAME(SyncManager)
  * @param syncId Sync ID.
  * @param completionStatusBlock Completion status block.
  */
-- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock NS_SWIFT_NAME(cleanResyncGhosts(id:onComplete:));
+- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock NS_SWIFT_NAME(cleanResyncGhosts(forId:onComplete:));
 
 @end
 

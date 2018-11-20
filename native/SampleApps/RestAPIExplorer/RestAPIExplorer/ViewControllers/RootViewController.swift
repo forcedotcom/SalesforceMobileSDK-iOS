@@ -813,7 +813,6 @@ extension RootViewController: ActionTableViewDelegate {
                         if (UserAccountManager.shared.deviceHasBiometric() && !UserAccountManager.shared.biometricUnlockEnabled()) {
                             UserAccountManager.shared.presentBiometricEnrollment(nil);
                         }
-                        
                         return
                     case .logout:
                         self.presentedViewController?.dismiss(animated: true, completion: nil)
