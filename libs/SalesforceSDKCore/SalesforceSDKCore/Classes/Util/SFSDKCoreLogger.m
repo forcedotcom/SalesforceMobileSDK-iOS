@@ -33,8 +33,8 @@ NSString * const kSFSDKCoreComponentName = @"SalesforceSDKCore";
 
 @implementation SFSDKCoreLogger
 
-+ (instancetype)sharedInstance {
-    return [self sharedInstanceWithComponent:kSFSDKCoreComponentName];
++ (instancetype)defaultLogger {
+    return [self loggerForComponent:kSFSDKCoreComponentName];
 }
 
 @end

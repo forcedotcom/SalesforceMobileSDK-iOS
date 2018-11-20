@@ -33,8 +33,8 @@ NSString * const kSFSDKAnalyticsComponentName = @"SalesforceAnalytics";
 
 @implementation SFSDKAnalyticsLogger
 
-+ (instancetype)sharedInstance {
-    return [self sharedInstanceWithComponent:kSFSDKAnalyticsComponentName];
++ (instancetype)defaultLogger {
+    return [self loggerForComponent:kSFSDKAnalyticsComponentName];
 }
 
 @end

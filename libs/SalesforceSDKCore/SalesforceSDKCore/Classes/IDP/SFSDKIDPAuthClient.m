@@ -42,6 +42,8 @@
 @property (nonatomic, strong) SFSDKOAuthClientContext *context;
 @end
 
+static NSString * const  kOAuthScopesKey = @"oauth_scopes";
+
 @implementation SFSDKIDPAuthClient
 
 @dynamic config;

@@ -88,7 +88,7 @@
 #pragma clang diagnostic pop
 
 - (void)testSetupNavigationBar {
-    SFLoginViewController *loginViewController = [SFLoginViewController sharedInstance];
+    SFLoginViewController *loginViewController = [[SFLoginViewController alloc] init];
     //Test default values
     XCTAssertNotNil(loginViewController.navBarColor, "Nav bar color should not be nil");
     XCTAssertNotNil(loginViewController.navBarTextColor, "Nav bar text color should not be nil");
