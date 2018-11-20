@@ -22,12 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFIdentityCoordinator.h"
 #import "SFIdentityCoordinator+Internal.h"
 #import "SFOAuthCredentials.h"
 #import "SFOAuthSessionRefresher.h"
 #import "SFIdentityData.h"
-#import "SFJsonUtils.h"
 #import "SFUserAccountManager.h"
 #import "SFNetwork.h"
 

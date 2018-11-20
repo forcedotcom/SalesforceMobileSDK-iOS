@@ -23,7 +23,7 @@
  */
 
 #import "SFQuerySpec.h"
-#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSmartStore.h"
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 

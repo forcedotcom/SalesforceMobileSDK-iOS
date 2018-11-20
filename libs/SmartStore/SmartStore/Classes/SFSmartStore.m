@@ -28,7 +28,7 @@
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
 #import "FMDatabaseQueue.h"
-#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSmartStore+Internal.h"
 #import "SFSmartStoreUpgrade.h"
 #import "SFSmartStoreUtils.h"
@@ -830,10 +830,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
     // If it doesn't look like proper json, it means the entry was encrypted with pre 6.2 SDK.
     // It needs to be stored back with a non-nil IV encryption.
     if (![entryAsString hasPrefix:@"{"]) {
-        NSError* error = nil;
-        NSDictionary* entry = [NSJSONSerialization JSONObjectWithData:[entryAsString dataUsingEncoding:kCFStringEncodingUTF8] options:NSJSONReadingAllowFragments error:&error];
+        NSDictionary* entry = [SFJsonUtils objectFromJSONString:entryAsString];
         
-        if(!entry && error) {
+        if(!entry) {
             if (initializationVector) {
                 entryAsString = [self readFromEncryptedFile:filePath key:key iv:nil];
                 if ([entryAsString length] > 0) {
@@ -842,6 +841,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
                     [SFSDKSmartStoreLogger e:[self class] format:@"Attempt to migrate an encrypted externally saved soup '%@' with a null IV  failed.", soupTableName];
                 }
             } else {
+                NSError* error = [SFJsonUtils lastError];
                 NSString *errorMessage = [NSString stringWithFormat:@"Loading external soup from file failed! encrypted: %@, soupEntryId: %@, soupTableName: %@, filePath: '%@', error: %@.",
                                           key ? @"YES" : @"NO",
                                           soupEntryId,

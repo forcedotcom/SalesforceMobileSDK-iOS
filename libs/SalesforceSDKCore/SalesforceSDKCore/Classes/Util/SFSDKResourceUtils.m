@@ -23,7 +23,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFJsonUtils.h"
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKResourceUtils.h"
 
 @implementation SFSDKResourceUtils

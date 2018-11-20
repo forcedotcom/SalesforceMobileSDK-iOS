@@ -22,6 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCommon/SFJsonUtils.h>
+#import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
 #import "SFSDKWebUtils.h"
@@ -30,8 +32,6 @@
 #import "SFNetwork.h"
 #import "SFOAuthSessionRefresher.h"
 #import "NSString+SFAdditions.h"
-#import "SFJsonUtils.h"
-#import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 
 NSString* const kSFRestDefaultAPIVersion = @"v42.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
@@ -298,10 +298,9 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     }
     // Parsing
     else {
-        NSError *parsingError;
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+        NSDictionary *jsonDict = [SFJsonUtils objectFromJSONData:data];
         // Parsing succeeded
-        if (!parsingError) {
+        if (jsonDict) {
             return jsonDict;
         }
         // Parsing failed
@@ -317,10 +316,9 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     
     // Parse error from data if any
     if (data) {
-        NSError *parsingError;
-        NSObject* errorObj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parsingError];
+        NSObject* errorObj = [SFJsonUtils objectFromJSONData:data];
         // Parsing succeeded
-        if (!parsingError) {
+        if (errorObj) {
             if ([errorObj isKindOfClass:[NSDictionary class]]) {
                 errorDict = (NSDictionary*) errorObj;
             } else {

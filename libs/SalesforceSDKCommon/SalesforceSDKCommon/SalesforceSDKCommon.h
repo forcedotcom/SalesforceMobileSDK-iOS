@@ -2,7 +2,7 @@
  SalesforceSDKCommon.h
  SalesforceSDKCommon
 
- Created by Raj Rao on Tue Nov  6 20:15:18 PST 2018.
+ Created by Wolfgang Mathurin on Tue Nov 20 13:25:57 PST 2018.
 
  Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
@@ -37,5 +37,6 @@
 #import <SalesforceSDKCommon/SFDefaultLogger.h>
 #import <SalesforceSDKCommon/SFLogger.h>
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <SalesforceSDKCommon/SFSDKReachability.h>

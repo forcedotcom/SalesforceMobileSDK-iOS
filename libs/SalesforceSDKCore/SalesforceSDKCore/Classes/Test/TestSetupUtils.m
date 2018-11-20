@@ -22,9 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
+#import "SFUserAccountManager.h"
 #import "TestSetupUtils.h"
-#import "SFJsonUtils.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccount.h"
 #import "SFSDKTestRequestListener.h"
@@ -42,7 +42,7 @@ static SFOAuthCredentials *credentials = nil;
     NSFileManager *fm = [[NSFileManager alloc] init];
     NSData *jsonData = [fm contentsAtPath:tokenPath];
     NSError *error = nil;
-    NSArray *jsonDataArray = [[NSArray alloc] initWithArray:[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error]];
+    NSArray *jsonDataArray = [[NSArray alloc] initWithArray:[SFJsonUtils objectFromJSONData:jsonData]];
     NSAssert(jsonDataArray != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);
     return jsonDataArray;
 }

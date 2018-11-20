@@ -22,12 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "NSString+SFAdditions.h"
 #import "SFPreferences.h"
 #import "SFUserAccountManager.h"
 #import "SFPushNotificationManager.h"
 #import "SFUserAccountManager.h"
-#import "SFJsonUtils.h"
 #import "SFApplicationHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFRestAPI+Blocks.h"
