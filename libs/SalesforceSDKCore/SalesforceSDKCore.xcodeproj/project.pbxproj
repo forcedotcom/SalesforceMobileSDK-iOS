@@ -174,8 +174,6 @@
 		B773CCF71F8200BD00D2D1B2 /* SFSDKIDPInitCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = B773CCF41F8200BD00D2D1B2 /* SFSDKIDPInitCommand.h */; };
 		B773CCF81F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B773CCF51F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m */; };
 		B773CCF91F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B773CCF51F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m */; };
-		B7817550212E0118009DBCBA /* SFSDKAuthConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = B781754F212E0118009DBCBA /* SFSDKAuthConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B7817551212E0118009DBCBA /* SFSDKAuthConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = B781754F212E0118009DBCBA /* SFSDKAuthConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B78A238B21014FCA00B19AB3 /* SFSDKAuthHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B78A238921014FCA00B19AB3 /* SFSDKAuthHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B78A238C21014FCA00B19AB3 /* SFSDKAuthHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B78A238921014FCA00B19AB3 /* SFSDKAuthHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B78A238D21014FCA00B19AB3 /* SFSDKAuthHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B78A238A21014FCA00B19AB3 /* SFSDKAuthHelper.m */; };
@@ -1095,7 +1093,6 @@
 		B767369020A4AB0200F04103 /* SFSDKNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKNavigationController.m; sourceTree = "<group>"; };
 		B773CCF41F8200BD00D2D1B2 /* SFSDKIDPInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKIDPInitCommand.h; sourceTree = "<group>"; };
 		B773CCF51F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKIDPInitCommand.m; sourceTree = "<group>"; };
-		B781754F212E0118009DBCBA /* SFSDKAuthConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthConstants.h; sourceTree = "<group>"; };
 		B78A238921014FCA00B19AB3 /* SFSDKAuthHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthHelper.h; sourceTree = "<group>"; };
 		B78A238A21014FCA00B19AB3 /* SFSDKAuthHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAuthHelper.m; sourceTree = "<group>"; };
 		B78C27B71FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSDKLoginViewControllerConfig.h; path = Login/SFSDKLoginViewControllerConfig.h; sourceTree = "<group>"; };
@@ -1470,7 +1467,6 @@
 				B70986341F5331A600803FDE /* SFSDKOAuthClientConfig.m */,
 				B7C273431F7D7EAA00CE539D /* SFSDKOAuthClientCache.h */,
 				B7C273441F7D7EAA00CE539D /* SFSDKOAuthClientCache.m */,
-				B781754F212E0118009DBCBA /* SFSDKAuthConstants.h */,
 			);
 			path = OAuth;
 			sourceTree = "<group>";
@@ -1961,7 +1957,6 @@
 				CE4CE30D1C0E523B009F6029 /* NSData+SFAdditions.h in Headers */,
 				B7FB26E21F78096300FB25A2 /* SFSDKURLHandler.h in Headers */,
 				CE4CE39D1C0E5272009F6029 /* SFSDKTestRequestListener.h in Headers */,
-				B7817550212E0118009DBCBA /* SFSDKAuthConstants.h in Headers */,
 				CE4CE3131C0E523B009F6029 /* NSString+SFAdditions.h in Headers */,
 				CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */,
 				CE4CE38C1C0E526A009F6029 /* SFSHA256PasscodeProvider.h in Headers */,
@@ -2149,7 +2144,6 @@
 				B7C5127120C1894D00B39DAA /* SFSDKViewController.h in Headers */,
 				CEA8832B1C18FC66008D871B /* SalesforceSDKCore.h in Headers */,
 				B7E1A7801F4C8844007AC36A /* SFSDKOAuthClient.h in Headers */,
-				B7817551212E0118009DBCBA /* SFSDKAuthConstants.h in Headers */,
 				CEA883191C18FC40008D871B /* NSURL+SFStringUtils.h in Headers */,
 				CEA882C61C18FB4D008D871B /* SFOAuthOrgAuthConfiguration.h in Headers */,
 				CEA882CB1C18FB79008D871B /* SFSDKAppDelegate.h in Headers */,

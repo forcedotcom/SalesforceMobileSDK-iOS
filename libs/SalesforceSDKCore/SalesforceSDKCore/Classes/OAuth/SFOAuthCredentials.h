@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
 
  @see SFOAuthCoordinator
  */
-NS_SWIFT_NAME(AuthCredentials)
+NS_SWIFT_NAME(OAuthCredentials)
 @interface SFOAuthCredentials : NSObject <NSSecureCoding, NSCopying>
 
 /** Protocol scheme for authenticating this account.

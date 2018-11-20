@@ -70,10 +70,14 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 + (instancetype)sharedInstanceForUser:(SFUserAccount *)user storeName:(NSString *)storeName {
-    if (user == nil) return nil;
+    return [self sharedInstanceForStore:storeName userAccount:user];
+}
+
++ (instancetype)sharedInstanceForStore:(NSString *)storeName userAccount:(SFUserAccount*)userAccount {
+    if (userAccount == nil) return nil;
     if (storeName.length == 0) storeName = kDefaultSmartStoreName;
     
-    SFSmartStore *store = [SFSmartStore sharedStoreWithName:storeName user:user];
+    SFSmartStore *store = [SFSmartStore sharedStoreWithName:storeName user:userAccount];
     return [self sharedInstanceForStore:store];
 }
 
@@ -106,9 +110,13 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 + (void)removeSharedInstanceForUser:(SFUserAccount *)user storeName:(NSString *)storeName {
-    if (user == nil) return;
+    [self removeSharedInstanceForStore:storeName userAccount:user];
+}
+
++ (void)removeSharedInstanceForStore:(nullable NSString*)storeName userAccount:(SFUserAccount*)userAccount {
+    if (userAccount == nil) return;
     if (storeName.length == 0) storeName = kDefaultSmartStoreName;
-    NSString* key = [SFSmartSyncSyncManager keyForUser:user storeName:storeName];
+    NSString* key = [SFSmartSyncSyncManager keyForUser:userAccount storeName:storeName];
     [SFSmartSyncSyncManager removeSharedInstanceForKey:key];
 }
 

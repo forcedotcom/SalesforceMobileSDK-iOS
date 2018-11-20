@@ -36,46 +36,45 @@
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 
 // Notifications
-UserAccountManagerNotification SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
-UserAccountManagerNotification SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
-UserAccountManagerNotification SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserAccountManagerDidFinishUserInitNotification";
+NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
+NSNotificationName SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
+NSNotificationName SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserAccountManagerDidFinishUserInitNotification";
 
 //login & logout notifications
-UserAccountManagerNotification kSFNotificationUserWillLogIn  = @"SFNotificationUserWillLogIn";
-UserAccountManagerNotification kSFNotificationUserDidLogIn   = @"SFNotificationUserDidLogIn";
-UserAccountManagerNotification kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout";
-UserAccountManagerNotification kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
-UserAccountManagerNotification kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
+NSNotificationName kSFNotificationUserWillLogIn  = @"SFNotificationUserWillLogIn";
+NSNotificationName kSFNotificationUserDidLogIn   = @"SFNotificationUserDidLogIn";
+NSNotificationName kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout";
+NSNotificationName kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
+NSNotificationName kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
 
-UserAccountManagerNotification kSFNotificationUserWillSwitch  = @"SFNotificationUserWillSwitch";
-UserAccountManagerNotification kSFNotificationUserDidSwitch   = @"SFNotificationUserDidSwitch";
+NSNotificationName kSFNotificationUserWillSwitch  = @"SFNotificationUserWillSwitch";
+NSNotificationName kSFNotificationUserDidSwitch   = @"SFNotificationUserDidSwitch";
 
 //Auth Display Notification
-UserAccountManagerNotification kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
-UserAccountManagerNotification kSFNotificationUserCanceledAuth = @"SFNotificationUserCanceledAuthentication";
+NSNotificationName kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
+NSNotificationName kSFNotificationUserCancelledAuth = @"SFNotificationUserCanceledAuthentication";
 //IDP-SP flow Notifications
-UserAccountManagerNotification kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
-UserAccountManagerNotification kSFNotificationUserWillSendIDPResponse     = @"kSFNotificationUserWillSendIDPResponse";
-UserAccountManagerNotification kSFNotificationUserDidReceiveIDPRequest    = @"SFNotificationUserDidReceiveIDPRequest";
-UserAccountManagerNotification kSFNotificationUserDidReceiveIDPResponse   = @"SFNotificationUserDidReceiveIDPResponse";
-UserAccountManagerNotification kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUserIDPInitDidLogIn";
+NSNotificationName kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
+NSNotificationName kSFNotificationUserWillSendIDPResponse     = @"kSFNotificationUserWillSendIDPResponse";
+NSNotificationName kSFNotificationUserDidReceiveIDPRequest    = @"SFNotificationUserDidReceiveIDPRequest";
+NSNotificationName kSFNotificationUserDidReceiveIDPResponse   = @"SFNotificationUserDidReceiveIDPResponse";
+NSNotificationName kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUserIDPInitDidLogIn";
 
 //keys used in notifications
-UserAccountManagerConstants kSFNotificationUserInfoAccountKey      = @"account";
-UserAccountManagerConstants kSFNotificationUserInfoCredentialsKey  = @"credentials";
-UserAccountManagerConstants kSFNotificationUserInfoAuthTypeKey     = @"authType";
-UserAccountManagerConstants kSFUserInfoAddlOptionsKey     = @"options";
-UserAccountManagerConstants kSFNotificationUserInfoKey    = @"sfuserInfo";
-UserAccountManagerConstants kSFNotificationFromUserKey    = @"fromUser";
-UserAccountManagerConstants kSFNotificationToUserKey      = @"toUser";
+NSString * const kSFNotificationUserInfoAccountKey      = @"account";
+NSString * const kSFNotificationUserInfoCredentialsKey  = @"credentials";
+NSString * const kSFNotificationUserInfoAuthTypeKey     = @"authType";
+NSString * const kSFUserInfoAddlOptionsKey     = @"options";
+NSString * const kSFNotificationUserInfoKey    = @"sfuserInfo";
+NSString * const kSFNotificationFromUserKey    = @"fromUser";
+NSString * const kSFNotificationToUserKey      = @"toUser";
+NSString * const SFUserAccountManagerUserChangeKey      = @"change";
+NSString * const SFUserAccountManagerUserChangeUserKey      = @"user";
 
-UserAccountManagerConstants SFUserAccountManagerUserChangeKey      = @"change";
-UserAccountManagerConstants SFUserAccountManagerUserChangeUserKey      = @"user";
 // Persistence Keys
 static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
 static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
-
 static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
 static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
 static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
@@ -516,7 +515,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     BOOL result = NO;
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: client.credentials,
                                 kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCanceledAuth
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCancelledAuth
                                                         object:self userInfo:userInfo];
     if (self.authCancelledByUserHandlerBlock) {
         [client cancelAuthentication:YES];
@@ -1537,7 +1536,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
  {
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey:credentials,
                                 kSFNotificationUserInfoAuthTypeKey: info };
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCanceledAuth
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCancelledAuth
                                                         object:self userInfo:userInfo];
 }
 - (void)reload {

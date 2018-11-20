@@ -27,6 +27,7 @@
 #import "SFSDKSyncsConfig.h"
 
 @implementation SmartSyncSDKManager
+@dynamic sharedManager;
 
 + (void)initializeSDK {
     [super initializeSDKWithClass:self.class];

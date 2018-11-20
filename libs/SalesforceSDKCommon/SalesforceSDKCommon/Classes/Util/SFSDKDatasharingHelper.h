@@ -28,31 +28,31 @@
  * @class SFSDKDatasharingHelper
  * Class used to app data sharing settings 
  */
-
+NS_SWIFT_NAME(DataSharingHelper)
 @interface SFSDKDatasharingHelper : NSObject
 
 /*!
  * @brief Set to YES to enable app group.
  */
-@property (nonatomic) BOOL appGroupEnabled;
+@property (nonatomic) BOOL appGroupEnabled NS_SWIFT_NAME(isAppGroupEnabled);
 
 /*!
  * @brief Set to YES to enable keychain sharing.
  */
-@property (nonatomic) BOOL keychainSharingEnabled;
+@property (nonatomic) BOOL keychainSharingEnabled NS_SWIFT_NAME(isKeychainSharingEnabled);
 
 /*!
  * @brief Name of the app group to use to share data.
  */
-@property (nonatomic, strong) NSString *appGroupName;
+@property (nonatomic, strong, nullable) NSString *appGroupName;
 
 /*!
  * @brief Name of the keychain group to use
  */
-@property (nonatomic, strong) NSString *keychainGroupName;
+@property (nonatomic, strong, nullable) NSString *keychainGroupName;
 
 /** Shared singleton
  */
-+ (instancetype)sharedInstance;
+@property (class,nonatomic,readonly) SFSDKDatasharingHelper *sharedInstance NS_SWIFT_NAME(shared);
 
 @end

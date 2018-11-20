@@ -63,7 +63,7 @@ static NSString * const kMessageKey = @"message";
 }
 
 + (instancetype)sharedInstance {
-    return [self sharedInstanceWithComponent:kTestDefaultComponent];
+    return [self loggerForComponent:kTestDefaultComponent];
 }
 
 + (void)clearAllComponents {
@@ -125,7 +125,7 @@ static NSString * const kMessageKey = @"message";
 - (void)setUp {
     [super setUp];
     [TestLogger setInstanceClass:[TestLoggingImpl class]];
-    _origLogLevel = [TestLogger sharedInstanceWithComponent:kTestDefaultComponent].logLevel;
+    _origLogLevel = [TestLogger loggerForComponent:kTestDefaultComponent].logLevel;
 }
 
 - (void)tearDown {
@@ -149,7 +149,7 @@ static NSString * const kMessageKey = @"message";
  */
 - (void)testMultipleLoggerComponents {
     TestLogger *logger = [TestLogger sharedInstance];
-    TestLogger *anotherLogger = [TestLogger sharedInstanceWithComponent:kTestComponent1];
+    TestLogger *anotherLogger = [TestLogger loggerForComponent:kTestComponent1];
     XCTAssertNotNil(logger, "Logger instance should have been created");
     XCTAssertNotNil(anotherLogger, "Component Logger instance should have been created");
     XCTAssertTrue(logger!=anotherLogger, "Should be 2 different instances of logger");
