@@ -26,13 +26,13 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SFSecurityLockout.h"
+#import "SFSDKAppLockViewConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol SFSDKPasscodeVerifyDelegate
 
-- (void)passcodeVerified:(NSString *)passcode;
+- (void)passcodeVerified;
 
 - (void)passcodeFailed;
 

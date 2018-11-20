@@ -7,8 +7,7 @@ static NSUInteger const kDefaultPasscodeLength     = 0;
 static NSString * _Nullable const kSecurityTimeoutLegacyKey  = @"security.timeout";
 static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islocked";
 static NSString * const kBiometricUnlockAllowedKey           = @"security.biometric.allowed"; // Enabled in the Org
-static NSString * const kBiometricUnlockEnabledKey           = @"security.biometric.enabled"; // Should show biometric instead of passcode
-static NSString * const kUserDeclinedBiometricKey            = @"security.biometric.declined"; // User declined biometric unlock
+static NSString * const kBiometricStateKey                   = @"secuirty.biometric.state";
 
 @interface SFSecurityLockout ()
 
@@ -20,7 +19,7 @@ static NSString * const kUserDeclinedBiometricKey            = @"security.biomet
 /**
  * Presents the passcode controller when it's time to create or verify the passcode.
  */
-+ (void)presentPasscodeController:(SFAppLockControllerMode)modeValue passcodeConfig:(SFAppLockConfigurationData)configData;
++ (void)presentPasscodeController:(SFAppLockControllerMode)modeValue;
 
 /**
  * Sets a retained instance of the current passcode view controller that's displayed.

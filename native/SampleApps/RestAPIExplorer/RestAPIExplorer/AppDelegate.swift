@@ -78,9 +78,20 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //loginViewConfig.navBarFont = UIFont(name: "Helvetica", size: 16.0)
         //SFUserAccountManager.sharedInstance().loginViewControllerConfig = loginViewConfig
         
-        let passcodeViewConfig = AppLockViewControllerConfig()
-        passcodeViewConfig.forcePasscodeLength = true
-        UserAccountManager.shared.appLockViewControllerConfig = passcodeViewConfig
+        // Uncomment the code below to customize the color, textcolor and font of the Passcode,
+        // Touch Id and Face Id lock screens.  To use this feature please enable inactivity timeout
+        // in your connected app.
+        //
+        //let passcodeViewConfig = AppLockViewControllerConfig()
+        //passcodeViewConfig.backgroundColor = UIColor.black
+        //passcodeViewConfig.primaryColor = UIColor.orange
+        //passcodeViewConfig.secondaryColor = UIColor.gray
+        //passcodeViewConfig.titleTextColor = UIColor.white
+        //passcodeViewConfig.instructionTextColor = UIColor.white
+        //passcodeViewConfig.borderColor = UIColor.yellow
+        //passcodeViewConfig.maxNumberOfAttempts = 3
+        //passcodeViewConfig.forcePasscodeLength = true
+        //UserAccountManager.sharedInstance().appLockViewControllerConfig = passcodeViewConfig
         
         AuthHelper.loginIfRequired { [weak self] in
             self?.setupRootViewController()

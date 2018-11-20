@@ -90,6 +90,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format args:(va_list)args;
 
+@optional
++ (nonnull instancetype)sharedInstanceWithComponent:(nonnull NSString *)componentName;
 @end
 NS_SWIFT_NAME(SalesforceLogger)
 @interface SFLogger : NSObject
