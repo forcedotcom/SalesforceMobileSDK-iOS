@@ -23,7 +23,7 @@
  */
 
 #import "SFSmartStoreTests.h"
-#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
 #import "FMDatabaseQueue.h"

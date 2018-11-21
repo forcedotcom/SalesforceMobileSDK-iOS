@@ -44,6 +44,7 @@
 #import "NSURL+SFAdditions.h"
 #import "SFSDKURLHandlerManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 
 // Public constants
 
@@ -485,13 +486,12 @@ static NSString * const kSFECParameter = @"ec";
             return;
         }
         self.credentials.jwt = nil;
-        NSError *jsonError = nil;
         id json = nil;
-        json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-        if (jsonError != nil) {
+        json = [SFJsonUtils objectFromJSONData:data];
+        if (json == nil) {
             NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeJWTLaunchFailed
                                                  description:@"Error parsing JWT token exchange response."
-                                             underlyingError:jsonError];
+                                             underlyingError:[SFJsonUtils lastError]];
                 [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             return;
         }
@@ -650,10 +650,9 @@ static NSString * const kSFECParameter = @"ec";
 - (void)handleTokenEndpointResponse:(NSMutableData *) data {
     self.responseData = data;
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
-    NSError *jsonError = nil;
     id json = nil;
-    json = [NSJSONSerialization JSONObjectWithData:self.responseData options:0 error:&jsonError];
-    if (nil == jsonError && [json isKindOfClass:[NSDictionary class]]) {
+    json = [SFJsonUtils objectFromJSONData:self.responseData];
+    if (json) {
         NSDictionary *dict = (NSDictionary *)json;
         if (nil != dict[kSFOAuthError]) {
             NSError *error = [[self class] errorWithType:dict[kSFOAuthError] description:dict[kSFOAuthErrorDescription]];
@@ -669,7 +668,7 @@ static NSString * const kSFECParameter = @"ec";
             [self notifyDelegateOfSuccess:self.authInfo];
         }
     } else {
-
+        NSError* jsonError = [SFJsonUtils lastError];
         // Failed to parse JSON.
         [SFSDKCoreLogger d:[self class] format:@"%@: JSON parse error: %@", NSStringFromSelector(_cmd), jsonError];
         NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"failed to parse response JSON"];

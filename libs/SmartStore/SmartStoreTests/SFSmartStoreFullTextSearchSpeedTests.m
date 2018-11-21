@@ -26,7 +26,7 @@
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
-#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
 

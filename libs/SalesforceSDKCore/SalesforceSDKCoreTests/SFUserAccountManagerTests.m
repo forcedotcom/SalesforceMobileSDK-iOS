@@ -23,6 +23,7 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFSDKAuthViewHandler.h"
 #import "SFUserAccountManager+Internal.h"

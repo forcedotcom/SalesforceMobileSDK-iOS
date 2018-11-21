@@ -23,6 +23,7 @@
  */
 
 #import "SFJsonUtils.h"
+#import "SFLogger.h"
 
 static NSError *sLastError = nil;
 
@@ -44,7 +45,7 @@ static NSError *sLastError = nil;
                   ];
 
         if (nil != err) {
-            [SFSDKCoreLogger d:[self class] format:@"WARNING error parsing json: %@", err];
+            [SFLogger log:[self class] level:SFLogLevelDebug format:@"WARNING error parsing json: %@", err];
             sLastError = err;
         }
     }
@@ -96,14 +97,14 @@ static NSError *sLastError = nil;
                                           error:&err
          ];
         if (nil != err) {
-            [SFSDKCoreLogger d:[self class] format:@"WARNING error writing json: %@", err];
+            [SFLogger log:[self class] level:SFLogLevelDebug format:@"WARNING error writing json: %@", err];
             sLastError = err;
         }
         if (nil == jsonData) {
-            [SFSDKCoreLogger d:[self class] format:@"unexpected nil json rep for: %@", obj];
+            [SFLogger log:[self class] level:SFLogLevelDebug format:@"unexpected nil json rep for: %@", obj];
         }
     } else {
-        [SFSDKCoreLogger d:[self class] format:@"invalid object passed to JSONDataRepresentation???"];
+        [SFLogger log:[self class] level:SFLogLevelDebug format:@"invalid object passed to JSONDataRepresentation???"];
     }
     return  jsonData;
 }

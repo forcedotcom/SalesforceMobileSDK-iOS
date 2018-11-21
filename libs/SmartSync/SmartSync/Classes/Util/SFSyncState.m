@@ -28,7 +28,7 @@
 #import "SFSyncUpTarget.h"
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFSoupIndex.h>
-#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 
 // soups and soup fields
 NSString * const kSFSyncStateSyncsSoupName = @"syncs_soup";
