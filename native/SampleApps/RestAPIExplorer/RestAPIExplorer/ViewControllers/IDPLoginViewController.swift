@@ -58,7 +58,7 @@ class IDPLoginViewController: UIViewController {
         UIApplication.shared.statusBarStyle = .lightContent
         
         guard let font = UIFont.appRegularFont(20) else { return }
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: font]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: font]
         self.title = "Log in"
         
         let container = UIView()

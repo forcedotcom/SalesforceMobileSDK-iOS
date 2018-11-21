@@ -185,7 +185,7 @@ NS_SWIFT_NAME(SmartStore)
 /**
  Use this method to obtain a shared store instance with the given name for the given user.
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
- @param userAccount The user associated with the store.
+ @param user The user associated with the store.
  */
 + (nullable instancetype)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user NS_SWIFT_NAME(shared(withName:forUserAccount:));
 

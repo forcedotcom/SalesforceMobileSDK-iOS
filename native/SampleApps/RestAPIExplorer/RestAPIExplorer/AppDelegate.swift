@@ -56,7 +56,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     
     // MARK: - App delegate lifecycle
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.initializeAppViewState();
@@ -118,7 +118,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         // Respond to any push notification registration errors here.
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
         // Uncomment following block to enable IDP Login flow
         // return  UserAccountManager.sharedInstance().handleIDPAuthenticationResponse(url, options: options)
