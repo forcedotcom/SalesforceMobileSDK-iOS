@@ -30,11 +30,7 @@ import SalesforceSDKCore
 
 UIApplicationMain(
     CommandLine.argc,
-    UnsafeMutableRawPointer(CommandLine.unsafeArgv)
-        .bindMemory(
-            to: UnsafeMutablePointer<Int8>.self,
-            capacity: Int(CommandLine.argc)
-    ),
+    CommandLine.unsafeArgv,
     NSStringFromClass(SFApplication.self),
     NSStringFromClass(AppDelegate.self)
 )

@@ -129,7 +129,7 @@ class RootViewController: UIViewController {
         guard let font = UIFont.appRegularFont(20) else {
             return
         }
-       self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: font]
+       self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: font]
         self.title = "RestAPI Explorer"
         
         guard let leftImage = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), let _ = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal) else {
@@ -624,10 +624,10 @@ class RootViewController: UIViewController {
         self.methodControl.selectedSegmentIndex = forRequest.method.rawValue
         
         guard let largeFont = UIFont.appRegularFont(20), let regFont = UIFont.appRegularFont(14) else {return}
-        let titleAttribs:[NSAttributedStringKey: Any] = [NSAttributedStringKey.font : largeFont,
-                                                         NSAttributedStringKey.foregroundColor: UIColor.appDarkBlue]
-        let descriptionAttribs:[NSAttributedStringKey: Any] = [NSAttributedStringKey.font: regFont,
-                                                               NSAttributedStringKey.foregroundColor: UIColor.appTextFieldBlue]
+        let titleAttribs:[NSAttributedString.Key: Any] = [NSAttributedString.Key.font : largeFont,
+                                                         NSAttributedString.Key.foregroundColor: UIColor.appDarkBlue]
+        let descriptionAttribs:[NSAttributedString.Key: Any] = [NSAttributedString.Key.font: regFont,
+                                                               NSAttributedString.Key.foregroundColor: UIColor.appTextFieldBlue]
         
         let attributedString = NSMutableAttributedString(string: "Response for: ", attributes: titleAttribs)
         
