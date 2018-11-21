@@ -32,6 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(AppLockViewController)
 @interface SFSDKAppLockViewController : SFSDKNavigationController
 
 - (instancetype)initWithMode:(SFAppLockControllerMode)mode andViewConfig:(SFSDKAppLockViewConfig *)config;

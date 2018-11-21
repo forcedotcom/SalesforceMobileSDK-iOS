@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
      OAuth credentials will be stored securely within the keychain.
      */
     SFOAuthCredentialsStorageTypeKeychain,
-} NS_SWIFT_NAME(AuthCredentials.StorageType);
+} NS_SWIFT_NAME(OAuthCredentials.StorageType);
 
 /** Object representing an individual user account's logon credentials.
  
