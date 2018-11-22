@@ -513,7 +513,7 @@
 - (UIInterfaceOrientation)interfaceOrientation {
     UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
     UIInterfaceOrientation orientation = (UIInterfaceOrientation)deviceOrientation;
-    if (!UIDeviceOrientationIsValidInterfaceOrientation(orientation)) {
+    if (!UIDeviceOrientationIsValidInterfaceOrientation(deviceOrientation)) {
         orientation = [[SFApplicationHelper sharedApplication] statusBarOrientation];
     }
     return orientation;

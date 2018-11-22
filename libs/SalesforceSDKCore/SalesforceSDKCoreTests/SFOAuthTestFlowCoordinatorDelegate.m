@@ -90,7 +90,7 @@ static NSString * const kSFAuthenticationSessionNotSupportedReasonFormat  = @"%@
     return self.isNetworkAvailable;
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session:(SFAuthenticationSession *)session {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
     [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     NSString *reason = [NSString stringWithFormat:kSFAuthenticationSessionNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
     @throw [NSException exceptionWithName:kSFAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];

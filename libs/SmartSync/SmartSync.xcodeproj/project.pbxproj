@@ -663,8 +663,8 @@
 			children = (
 				B716A359218F4FA3009D407F /* SalesforceSDKCommon.framework */,
 				B716A35B218F4FA3009D407F /* SalesforceSDKCommonTests.xctest */,
-				B716A35D218F4FA3009D407F /* libSalesforceSDKCommonStatic.a */,
 				B716A41C218F7AFF009D407F /* SalesforceSDKCommonTestApp.app */,
+				B716A35D218F4FA3009D407F /* libSalesforceSDKCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1164,10 +1164,10 @@
 			remoteRef = B716A35A218F4FA3009D407F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B716A35D218F4FA3009D407F /* libSalesforceSDKCommonStatic.a */ = {
+		B716A35D218F4FA3009D407F /* libSalesforceSDKCommon.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libSalesforceSDKCommonStatic.a;
+			path = libSalesforceSDKCommon.a;
 			remoteRef = B716A35C218F4FA3009D407F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1251,7 +1251,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"\n";
 		};
 		CE4CE4FF1C0E6E5C009F6029 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
