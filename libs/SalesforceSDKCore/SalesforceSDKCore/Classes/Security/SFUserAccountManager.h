@@ -396,7 +396,7 @@ NS_SWIFT_NAME(UserAccountManager)
  @param orgId The org to match accounts against
  @return An array of accounts that can access that org
  */
-- (NSArray<SFUserAccount*> *)accountsForOrgId:(NSString *)orgId NS_SWIFT_NAME(userAccounts(for:));
+- (NSArray<SFUserAccount*> *)accountsForOrgId:(NSString *)orgId NS_SWIFT_NAME(userAccounts(forOrg:));
 
 /** Returns all accounts that match a particular instance URL
  @param instanceURL The host parameter of a given instance URL
@@ -408,7 +408,7 @@ NS_SWIFT_NAME(UserAccountManager)
  @param domain The domain.
  @return An array of accounts that match that instance URL
  */
-- (NSArray<SFUserAccount*> *)userAccountsForDomain:(NSString *)domain NS_SWIFT_NAME(userAccounts(for:));
+- (NSArray<SFUserAccount*> *)userAccountsForDomain:(NSString *)domain NS_SWIFT_NAME(userAccounts(forDomain:));
 
 /** Adds/Updates a user account
  @param userAccount The account to be added
