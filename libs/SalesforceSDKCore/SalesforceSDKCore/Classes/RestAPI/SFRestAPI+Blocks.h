@@ -117,7 +117,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  */
 - (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType 
                                         failBlock:(SFRestFailBlock)failBlock 
-                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(describe(_:onFailure:onSuccess:));
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(metadata(_:onFailure:onSuccess:));
 
 /**
  * Executes a retrieve for a single record.

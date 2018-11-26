@@ -396,7 +396,7 @@ NS_SWIFT_NAME(UserAccountManager)
  @param orgId The org to match accounts against
  @return An array of accounts that can access that org
  */
-- (NSArray<SFUserAccount*> *)accountsForOrgId:(NSString *)orgId NS_SWIFT_NAME(userAccounts(for:));
+- (NSArray<SFUserAccount*> *)accountsForOrgId:(NSString *)orgId NS_SWIFT_NAME(userAccounts(forOrg:));
 
 /** Returns all accounts that match a particular instance URL
  @param instanceURL The host parameter of a given instance URL
@@ -408,7 +408,7 @@ NS_SWIFT_NAME(UserAccountManager)
  @param domain The domain.
  @return An array of accounts that match that instance URL
  */
-- (NSArray<SFUserAccount*> *)userAccountsForDomain:(NSString *)domain NS_SWIFT_NAME(userAccounts(for:));
+- (NSArray<SFUserAccount*> *)userAccountsForDomain:(NSString *)domain NS_SWIFT_NAME(userAccounts(forDomain:));
 
 /** Adds/Updates a user account
  @param userAccount The account to be added
@@ -498,7 +498,7 @@ NS_SWIFT_NAME(UserAccountManager)
  Switches away from the current user, to the given user account.
  @param userAccount The user to switch to.
  */
-- (void)switchToUser:(nullable SFUserAccount *)userAccount NS_SWIFT_NAME(switchToUserAccount(to:));
+- (void)switchToUser:(nullable SFUserAccount *)userAccount NS_SWIFT_NAME(switchToUserAccount(_:));
 
 /** Invoke this method to inform this manager that something has changed for the  user.
  @param user  The user
@@ -570,11 +570,11 @@ NS_SWIFT_NAME(UserAccountManager)
 
 /**
  Handle an authentication response from the IDP application
- @param appUrlResponse The URL response returned to the app from the IDP application.
+ @param url The URL response returned to the app from the IDP application.
  @options Dictionary of name-value pairs received from open URL
  @return YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.
  */
-- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options NS_SWIFT_UNAVAILABLE("");
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options  NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
 
 /**
  Set this block to handle presentation of the Authentication View Controller.
