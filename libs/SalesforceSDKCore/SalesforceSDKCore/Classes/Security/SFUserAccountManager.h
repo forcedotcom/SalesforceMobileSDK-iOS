@@ -498,7 +498,7 @@ NS_SWIFT_NAME(UserAccountManager)
  Switches away from the current user, to the given user account.
  @param userAccount The user to switch to.
  */
-- (void)switchToUser:(nullable SFUserAccount *)userAccount NS_SWIFT_NAME(switchToUserAccount(to:));
+- (void)switchToUser:(nullable SFUserAccount *)userAccount NS_SWIFT_NAME(switchToUserAccount(_:));
 
 /** Invoke this method to inform this manager that something has changed for the  user.
  @param user  The user
