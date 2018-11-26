@@ -208,7 +208,7 @@ NS_SWIFT_NAME(SmartStore)
  You may use this method to completely remove a persisted shared store with the given name
  for the given user.
  @param storeName The name of the store to remove.
- @param userAccount The User Account associated with the store.
+ @param user The User Account associated with the store.
  */
 + (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user NS_SWIFT_NAME(removeShared(withName:forUserAccount:));
 

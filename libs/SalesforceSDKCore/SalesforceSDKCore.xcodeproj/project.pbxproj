@@ -149,7 +149,6 @@
 		B716A2EE218F4C8D009D407F /* SFSDKPasscodeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A32FA734217A972C006D7930 /* SFSDKPasscodeTextField.m */; };
 		B716A2EF218F4C95009D407F /* SFSDKAppLockViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0B138217A951700DDA414 /* SFSDKAppLockViewConfig.m */; };
 		B716A2F0218F4C9C009D407F /* UIColor+SFSDKPasscodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A32FA738217AA61E006D7930 /* UIColor+SFSDKPasscodeView.m */; };
-		B716A2F1218F4CA2009D407F /* SFSDKAppLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D0421810D9D00437BD2 /* SFSDKAppLockViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B716A2F2218F4CA9009D407F /* SFSDKAppLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D052181104000437BD2 /* SFSDKAppLockViewController.m */; };
 		B716A2F3218F4CB3009D407F /* SFSDKPasscodeCreateController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D09218110D400437BD2 /* SFSDKPasscodeCreateController.m */; };
 		B716A2F4218F4CBB009D407F /* SFSDKBiometricViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D0D2181113800437BD2 /* SFSDKBiometricViewController.m */; };
@@ -1772,7 +1771,7 @@
 				B716A38A218F5E2D009D407F /* SalesforceSDKCommon.framework */,
 				B716A38C218F5E2D009D407F /* SalesforceSDKCommonTests.xctest */,
 				B7686ACA21926C2100D4332A /* SalesforceSDKCommonTestApp.app */,
-				B716A38E218F5E2D009D407F /* libSalesforceSDKCommonStatic.a */,
+				B716A38E218F5E2D009D407F /* libSalesforceSDKCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1984,7 +1983,6 @@
 				CE4CE36E1C0E526A009F6029 /* SFGeneratedKeyStore.h in Headers */,
 				B7FB26C71F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.h in Headers */,
 				A3161D122182349200437BD2 /* SFSDKPasscodeVerifyController.h in Headers */,
-				B716A2F1218F4CA2009D407F /* SFSDKAppLockViewController.h in Headers */,
 				CE4CE33E1C0E524B009F6029 /* SFInstrumentation.h in Headers */,
 				4F06AF811C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.h in Headers */,
 				4F06AF7F1C49A16A00F70798 /* SFOAuthTestFlow.h in Headers */,
@@ -2460,7 +2458,7 @@
 			remoteRef = B716A38B218F5E2D009D407F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B716A38E218F5E2D009D407F /* libSalesforceSDKCommonStatic.a */ = {
+		B716A38E218F5E2D009D407F /* libSalesforceSDKCommon.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libSalesforceSDKCommon.a;
