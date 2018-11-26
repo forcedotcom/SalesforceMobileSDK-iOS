@@ -46,10 +46,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         //Uncomment following block to enable IDP Login flow.
         // SalesforceSDK.shared().idpAppURIScheme = "sampleidpapp"
-        AuthHelper.registerBlock(forCurrentUserChangeNotifications: { [weak self] in
-            self?.resetViewState {
-                self?.initializeAppViewState()
-                self?.setupRootViewController()
+        AuthHelper.registerBlock(forCurrentUserChangeNotifications: {
+            self.resetViewState {
+                self.initializeAppViewState()
+                self.setupRootViewController()
             }
         })
     }
@@ -67,16 +67,20 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //
         // SFPushNotificationManager.sharedInstance().registerForRemoteNotifications()
         
-        //Uncomment the code below to see how you can customize the color, textcolor, font and fontsize of the navigation bar
-        //var loginViewConfig = SFSDKLoginViewControllerConfig()
-        //Set showSettingsIcon to NO if you want to hide the settings icon on the nav bar
-        //loginViewConfig.showSettingsIcon = false
-        //Set showNavBar to NO if you want to hide the top bar
-        //loginViewConfig.showNavbar = true
-        //loginViewConfig.navBarColor = UIColor(red: 0.051, green: 0.765, blue: 0.733, alpha: 1.0)
-        //loginViewConfig.navBarTextColor = UIColor.white
-        //loginViewConfig.navBarFont = UIFont(name: "Helvetica", size: 16.0)
-        //SFUserAccountManager.sharedInstance().loginViewControllerConfig = loginViewConfig
+        //Uncomment the code below to see how you can customize the color, textcolor,
+        //font and fontsize of the navigation bar
+        //let loginViewConfig = SalesforceLoginViewControllerConfig()
+        
+        //Set showSettingsIcon to false if you want to hide the settings
+        //icon on the nav bar
+        //loginViewConfig.showsSettingsIcon = false
+        
+        //Set showNavBar to false if you want to hide the top bar
+        //loginViewConfig.showsNavigationBar = false
+        //loginViewConfig.navigationBarColor = UIColor(red: 0.051, green: 0.765, blue: 0.733, alpha: 1.0)
+        //loginViewConfig.navigationBarTextColor = UIColor.white
+        //loginViewConfig.navigationBarFont = UIFont(name: "Helvetica", size: 16.0)
+        //UserAccountManager.shared.loginViewControllerConfig = loginViewConfig
         
         // Uncomment the code below to customize the color, textcolor and font of the Passcode,
         // Touch Id and Face Id lock screens.  To use this feature please enable inactivity timeout
@@ -91,10 +95,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //passcodeViewConfig.borderColor = UIColor.yellow
         //passcodeViewConfig.maxNumberOfAttempts = 3
         //passcodeViewConfig.forcePasscodeLength = true
-        //UserAccountManager.sharedInstance().appLockViewControllerConfig = passcodeViewConfig
+        //UserAccountManager.shared.appLockViewControllerConfig = passcodeViewConfig
         
-        AuthHelper.loginIfRequired { [weak self] in
-            self?.setupRootViewController()
+        AuthHelper.loginIfRequired {
+            self.setupRootViewController()
         }
         return true
     }
@@ -106,7 +110,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //
         //
         // SFPushNotificationManager.sharedInstance().didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
-        // if (SFUserAccountManager.sharedInstance().currentUser?.credentials.accessToken != nil)
+        // if (SFUserAccountManager.shared.currentUserAccount.credentials.accessToken != nil)
         // {
         //     SFPushNotificationManager.sharedInstance().registerSalesforceNotifications(completionBlock: nil, fail: nil)
         // }
@@ -121,7 +125,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
         // Uncomment following block to enable IDP Login flow
-        // return  UserAccountManager.sharedInstance().handleIDPAuthenticationResponse(url, options: options)
+        // return  UserAccountManager.shared.handleIdentityProviderResponse(from: url, with: options)
         return false;
     }
     

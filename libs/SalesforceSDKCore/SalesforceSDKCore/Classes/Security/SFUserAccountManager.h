@@ -570,11 +570,11 @@ NS_SWIFT_NAME(UserAccountManager)
 
 /**
  Handle an authentication response from the IDP application
- @param appUrlResponse The URL response returned to the app from the IDP application.
+ @param url The URL response returned to the app from the IDP application.
  @options Dictionary of name-value pairs received from open URL
  @return YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.
  */
-- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options NS_SWIFT_UNAVAILABLE("");
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options  NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
 
 /**
  Set this block to handle presentation of the Authentication View Controller.
