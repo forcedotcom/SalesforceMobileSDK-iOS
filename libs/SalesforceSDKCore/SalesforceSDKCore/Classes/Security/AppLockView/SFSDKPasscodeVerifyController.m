@@ -211,7 +211,6 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     [super viewDidAppear:animated];
     [self showVerifyPasscode];
     [self.passcodeTextView refreshView];
-    [self.passcodeTextView becomeFirstResponder];
 }
 
 - (void)showVerifyPasscode
@@ -224,9 +223,6 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     [self.passcodeTextView setHidden:NO];
     [self.verifyPasscodeButton setHidden:self.passcodeLengthKnown];
     [self.passcodeTextView refreshView];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.passcodeTextView becomeFirstResponder];
-    });
 }
 
 #pragma mark - UITextFieldDelegate

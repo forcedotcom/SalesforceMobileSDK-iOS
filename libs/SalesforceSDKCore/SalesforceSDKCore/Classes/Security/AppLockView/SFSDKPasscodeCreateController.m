@@ -117,8 +117,9 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     self.navigationController.navigationBar.backgroundColor = self.viewConfig.navBarColor;
     self.navigationController.navigationBar.tintColor = self.viewConfig.navBarColor;
     self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : self.viewConfig.navBarTextColor,
-                                                                    NSFontAttributeName : self.viewConfig.navBarFont};
+    self.navigationController.navigationBar.titleTextAttributes =
+        @{NSForegroundColorAttributeName : self.viewConfig.navBarTextColor,
+                     NSFontAttributeName : self.viewConfig.navBarFont};
 }
 
 - (void)viewDidLoad {
@@ -180,9 +181,6 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     [self.passcodeInstructionsLabel setHidden:NO];
     [self.passcodeTextView setHidden:NO];
     [self.passcodeTextView refreshView];
-    
-    [self.passcodeTextView becomeFirstResponder];
-    
 }
 
 #pragma mark - UITextFieldDelegate

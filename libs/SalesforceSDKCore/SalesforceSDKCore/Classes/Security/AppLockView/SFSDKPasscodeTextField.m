@@ -133,6 +133,11 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
     }
    
     [self.layer setNeedsLayout];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![self isFirstResponder]) {
+            [self becomeFirstResponder];
+        }
+    });
 }
 
 // Disable paste or other interactions
