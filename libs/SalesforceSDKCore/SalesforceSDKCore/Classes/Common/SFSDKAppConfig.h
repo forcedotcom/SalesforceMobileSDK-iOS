@@ -87,14 +87,14 @@ NS_SWIFT_NAME(BootConfig)
 /**
  * @return The app config from the default configuration file location.
  */
-+ (nullable instancetype)fromDefaultConfigFile NS_SWIFT_UNAVAILABLE("Use init(.defaultFilePath) instead");
++ (nullable instancetype)fromDefaultConfigFile;
 
 /**
  * Create an app config from the config file at the specified file path.
  * @param configFilePath The file path to the configuration file, relative to the resources root path.
  * @return The app config from the given file path.
  */
-+ (nullable instancetype)fromConfigFile:(NSString *)configFilePath NS_SWIFT_UNAVAILABLE("Use init(_:) instead");
++ (nullable instancetype)fromConfigFile:(NSString *)configFilePath;
 
 @end
 
