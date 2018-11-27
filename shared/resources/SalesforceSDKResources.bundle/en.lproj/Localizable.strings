@@ -34,7 +34,7 @@
 "passcodeChangeInstructions" = "Set up a passcode";
 "passcodeConfirmInstructions" = "Verify passcode";
 "passcodeVerifyInstructions" = "Verify passcode";
-"passcodesDoNotMatchError" = "Pin codes do not match";
+"passcodesDoNotMatchError" = "Passcodes do not match";
 "passcodeInvalidError" = "Incorrect passcode. %d attempts remaining.";
 "biometricEnableFaceIdNavTitle" = "Face ID";
 "biometricEnableTouchIdNavTitle" = "Touch ID";
