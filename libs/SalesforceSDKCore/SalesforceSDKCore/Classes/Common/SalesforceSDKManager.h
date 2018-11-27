@@ -121,7 +121,7 @@ NS_SWIFT_NAME(SalesforceManager)
  Class instance to be used to instantiate the singleton.
  @param className Name of instantiator class.
  */
-+ (void)setInstanceClass:(Class)className NS_SWIFT_UNAVAILABLE("");
++ (void)setInstanceClass:(Class)className;
 
 /**
  * Sets & Gets the app name being used by the analytics framework.
