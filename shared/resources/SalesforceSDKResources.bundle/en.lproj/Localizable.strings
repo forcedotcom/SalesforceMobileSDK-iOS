@@ -27,15 +27,15 @@
  */
 
 // Passcode view controller
-"createPasscodeNavTitle" = "Pin Code";
-"confirmPasscodeNavTitle" = "Pin Code";
+"createPasscodeNavTitle" = "Passcode";
+"confirmPasscodeNavTitle" = "Passcode";
 "verifyPasscodeNavTitle" = "Unlock";
-"passcodeCreateInstructions" = "Set up a pin code";
-"passcodeChangeInstructions" = "Set up a pin code";
-"passcodeConfirmInstructions" = "Verify pin code";
-"passcodeVerifyInstructions" = "Verify pin code";
+"passcodeCreateInstructions" = "Set up a passcode";
+"passcodeChangeInstructions" = "Set up a passcode";
+"passcodeConfirmInstructions" = "Verify passcode";
+"passcodeVerifyInstructions" = "Verify passcode";
 "passcodesDoNotMatchError" = "Pin codes do not match";
-"passcodeInvalidError" = "Incorrect pin code. %d attempts remaining.";
+"passcodeInvalidError" = "Incorrect passcode. %d attempts remaining.";
 "biometricEnableFaceIdNavTitle" = "Face ID";
 "biometricEnableTouchIdNavTitle" = "Touch ID";
 "biometricEnableTitleFaceId" = "Set up Face ID";
@@ -44,8 +44,8 @@
 "biometricEnableInstructionsTouchId" = "You can now unlock %@ using your fingerprint for extra security and convenience.";
 "biometricEnableButtonText" = "Enable";
 "biometricCancelButtonText" = "Not Now";
-"verifyPasscodeButtontext" = "Verify Pin Code";
-"biometricFallbackActionLabel" = "Use Pin Code";
+"verifyPasscodeButtontext" = "Verify Passcode";
+"biometricFallbackActionLabel" = "Use Passcode";
 "biometricReason" = "Unlock the app";
 "logoutButtonTitle" = "Log out";
 
