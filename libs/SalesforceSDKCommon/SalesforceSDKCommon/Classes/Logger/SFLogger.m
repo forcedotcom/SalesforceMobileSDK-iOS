@@ -247,7 +247,9 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
 }
 
 + (void)initialize {
-    InstanceClass = [SFDefaultLogger class];
+    if (self == [SFLogger self]) {
+        InstanceClass = [SFDefaultLogger class];
+    }
 }
 
 + (void)setInstanceClass:(Class<SFLogging>)loggerClass {
