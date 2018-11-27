@@ -63,10 +63,10 @@ static BOOL const kDefaultShouldAuthenticate = YES;
     return self;
 }
 
-- (instancetype)initWithConfigFile:(NSString *)configFilePath {
+- (instancetype)initWithConfigFile:(NSString *)configFile {
     self = [super init];
     if (self) {
-        NSString *fullPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:configFilePath];
+        NSString *fullPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:configFile];
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
             [SFSDKCoreLogger i:[self class] format:@"%@ Config file does not exist at path '%@'", NSStringFromSelector(_cmd), fullPath];
             return nil;
