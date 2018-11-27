@@ -85,7 +85,6 @@
 - (instancetype) initWithJson:(NSData *) jsonRepresentation {
     self = [super init];
     if (self && jsonRepresentation) {
-        NSError *error;
         NSDictionary *dict = [SFJsonUtils objectFromJSONData:jsonRepresentation];
 
         if (dict) {
