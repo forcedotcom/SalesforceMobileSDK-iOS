@@ -233,9 +233,9 @@ NS_SWIFT_NAME(OAuthCredentials)
  @param type Indicates whether the OAuth credentials are stored in the keychain
  @return An initialized authentication credential object.
  */
-- (_Nullable instancetype)initWithIdentifier:(NSString * _Nonnull )theIdentifier clientId:(NSString * _Nullable)theClientId encrypted:(BOOL)encrypted storageType:(SFOAuthCredentialsStorageType)type NS_DESIGNATED_INITIALIZER;
+- (_Nullable instancetype)initWithIdentifier:(NSString * _Nonnull )theIdentifier clientId:(NSString * _Nullable)theClientId encrypted:(BOOL)encrypted storageType:(SFOAuthCredentialsStorageType)type;
 
-- (id)initWithCoder:(NSCoder *)coder NS_DESIGNATED_INITIALIZER;
+- (id)initWithCoder:(NSCoder *)coder;
 /** Revoke the OAuth access and refresh tokens.
  
  @warning Calling this method when the identifier property is `nil` will raise an NSInternalInconsistencyException.

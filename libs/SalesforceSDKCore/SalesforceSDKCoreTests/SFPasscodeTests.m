@@ -42,6 +42,7 @@
 @end
 
 @implementation MockPasscodeProvider
+@synthesize passcodeLength;
 @synthesize providerName = _providerName;
 - (id)initWithProviderName:(NSString *)providerName
 {

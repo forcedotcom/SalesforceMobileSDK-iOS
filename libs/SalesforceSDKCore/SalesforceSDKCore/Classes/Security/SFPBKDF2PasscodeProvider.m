@@ -41,7 +41,7 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
 @end
 
 @implementation SFPBKDF2PasscodeProvider
-
+@synthesize passcodeLength;
 @synthesize saltLengthInBytes = _saltLengthInBytes;
 @synthesize numDerivationRounds = _numDerivationRounds;
 @synthesize derivedKeyLengthInBytes = _derivedKeyLengthInBytes;
