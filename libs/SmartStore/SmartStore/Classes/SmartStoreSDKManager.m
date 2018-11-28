@@ -83,12 +83,11 @@
 -(NSArray*) getDevActions:(UIViewController *)presentedViewController
 {
     NSMutableArray * devActions = [NSMutableArray arrayWithArray:[super getDevActions:presentedViewController]];
-    [devActions addObjectsFromArray:@[
-            @"Inspect SmartStore", ^{
-                SFSmartStoreInspectorViewController *devInfo = [[SFSmartStoreInspectorViewController alloc] init];
-                [presentedViewController presentViewController:devInfo animated:NO completion:nil];
-            }
-    ]];
+    SFSDKDevAction *action = [[SFSDKDevAction alloc]initWith:@"Inspect SmartStore" handler:^{
+        SFSmartStoreInspectorViewController *devInfo = [[SFSmartStoreInspectorViewController alloc] init];
+        [presentedViewController presentViewController:devInfo animated:NO completion:nil];
+    }];
+    [devActions addObjectsFromArray:@[action]];
     return devActions;
 }
 
