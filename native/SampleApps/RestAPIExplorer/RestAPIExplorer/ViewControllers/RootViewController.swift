@@ -113,6 +113,18 @@ class RootViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    override var prefersStatusBarHidden: Bool {
+        get {
+            return false
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return .lightContent
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -124,7 +136,6 @@ class RootViewController: UIViewController {
         
         self.navigationController?.navigationBar.barTintColor = UIColor.appDarkBlue
         self.navigationController?.navigationBar.isTranslucent = false
-        UIApplication.shared.statusBarStyle = .lightContent
         
         guard let font = UIFont.appRegularFont(20) else {
             return
@@ -767,7 +778,7 @@ extension RootViewController: ActionTableViewDelegate {
                         }
                         request = restApi.requestForFilesShared(withUser: uId, page: p)
                     case .fileDetails:
-                        guard let objId = objectId, let v = version else {
+                        guard let objId = objectId, let _ = version else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }

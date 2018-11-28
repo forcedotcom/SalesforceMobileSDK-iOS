@@ -29,7 +29,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
 static NSString * const kKeychainIdentifierPasscodeLength = @"com.salesforce.security.passcodeLength";
 
 @implementation SFSHA256PasscodeProvider
-
+@synthesize passcodeLength;
 @synthesize providerName = _providerName;
 
 #pragma mark - SFPasscodeProvider

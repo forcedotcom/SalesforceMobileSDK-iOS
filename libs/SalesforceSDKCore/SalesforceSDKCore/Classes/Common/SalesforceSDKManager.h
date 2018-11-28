@@ -134,7 +134,7 @@ NS_SWIFT_NAME(SalesforceManager)
 /**
  @return The singleton instance of the SDK Manager.
  */
-@property(class,nonatomic)SalesforceSDKManager *sharedManager NS_SWIFT_NAME(shared);
+@property(class,nonatomic,readonly)SalesforceSDKManager *sharedManager NS_SWIFT_NAME(shared);
 
 /**
  * Returns a unique device ID.

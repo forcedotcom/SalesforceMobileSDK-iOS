@@ -48,6 +48,18 @@ class IDPLoginViewController: UIViewController {
         return l
     }()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return .lightContent
+        }
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        get {
+            return false
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,7 +67,6 @@ class IDPLoginViewController: UIViewController {
 
         self.navigationController?.navigationBar.barTintColor = UIColor.appDarkBlue
         self.navigationController?.navigationBar.isTranslucent = false
-        UIApplication.shared.statusBarStyle = .lightContent
         
         guard let font = UIFont.appRegularFont(20) else { return }
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: font]
