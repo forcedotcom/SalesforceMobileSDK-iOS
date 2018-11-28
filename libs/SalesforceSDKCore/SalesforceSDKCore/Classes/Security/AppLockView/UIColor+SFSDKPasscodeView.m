@@ -34,7 +34,7 @@
 }
 
 + (UIColor *)textColor {
-    return [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
+    return [UIColor colorWithRed:22.0f/255.0f green:50.0f/255.0f blue:92.0f/255.0f alpha:1.0f];
 }
 
 + (UIColor *)borderColor {

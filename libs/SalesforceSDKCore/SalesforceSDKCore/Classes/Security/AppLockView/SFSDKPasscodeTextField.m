@@ -29,10 +29,12 @@
 #import "UIColor+SFSDKPasscodeView.h"
 #import "SFSDKAppLockViewConfig.h"
 
+static CGFloat      const kDefaultLineWidth                  = 1;
 static NSUInteger   const kMaxPasscodeLength                 = 8;
-static CGFloat      const kDefaultPadding                    = 20.0f;
-static CGFloat      const kPasscodeCircleDiameter            = 24.f;
+static CGFloat      const kDefaultPadding                    = 20.f;
 static CGFloat      const kPasscodeCircleSpacing             = 16.f;
+// Because of the outline weight, a value of 22 is need to make a circle with diameter 24.
+static CGFloat      const kPasscodeCircleDiameter            = 22.f;
 
 @interface SFSDKPasscodeTextField()
 @property (nonatomic, strong) UIColor * fillColor;
@@ -92,6 +94,7 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
     int openCircleSpacingX = 0;
     int filledCircleSpacingX = 0;
     NSUInteger lengthForSpacing = (self.passcodeLengthKnown) ? self.passcodeLength : kMaxPasscodeLength;
+    int positionY = -1 * ((diameter + (kDefaultLineWidth * 2)) / 2);  // Have to add outline line width to diameter
     int startX = (self.bounds.size.width - (diameter * lengthForSpacing) - (horizontalSpacing * (lengthForSpacing - 1))) / 2;
     
     if (self.passcodeLengthKnown) {
@@ -99,12 +102,12 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
         for (int count=0 ; count < self.passcodeLength; count++) {
             CAShapeLayer *openCircle = [CAShapeLayer layer];
             // Make a circular shape
-            openCircle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, -12, diameter, diameter)cornerRadius:diameter].CGPath;
+            openCircle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, positionY, diameter, diameter)cornerRadius:diameter].CGPath;
             // Center the shape in self.view
-            openCircle.position = CGPointMake(startX + openCircleSpacingX, diameter);
+            openCircle.position = CGPointMake(startX + openCircleSpacingX, diameter + (kDefaultLineWidth * 4));
             openCircle.fillColor = [UIColor clearColor].CGColor;
             openCircle.strokeColor = self.fillColor.CGColor;
-            openCircle.lineWidth = 2;
+            openCircle.lineWidth = kDefaultLineWidth * 2;
             openCircle.zPosition = 5;
             openCircleSpacingX += (diameter + horizontalSpacing);
             [self.subLayerRefs addObject:openCircle];
@@ -119,13 +122,13 @@ static CGFloat      const kPasscodeCircleSpacing             = 16.f;
     for (int count=0 ; count < noOfChars; count++) {
         CAShapeLayer *filledCircle = [CAShapeLayer layer];
         // Make a circular shape
-        filledCircle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, -12, diameter, diameter)cornerRadius:diameter].CGPath;
+        filledCircle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, positionY, diameter, diameter)cornerRadius:diameter].CGPath;
         
         // Center the shape in self.view
-        filledCircle.position = CGPointMake(startX + filledCircleSpacingX, diameter);
+        filledCircle.position = CGPointMake(startX + filledCircleSpacingX, diameter + (kDefaultLineWidth * 4));
         filledCircle.fillColor = self.fillColor.CGColor;
         filledCircle.strokeColor = self.fillColor.CGColor;
-        filledCircle.lineWidth = 1;
+        filledCircle.lineWidth = kDefaultLineWidth;
         filledCircle.zPosition = 5;
         filledCircleSpacingX += (diameter + horizontalSpacing);
         [self.subLayerRefs addObject:filledCircle];

@@ -29,19 +29,19 @@
 // Passcode view controller
 "createPasscodeNavTitle" = "Passcode";
 "confirmPasscodeNavTitle" = "Passcode";
-"verifyPasscodeNavTitle" = "Unlock";
-"passcodeCreateInstructions" = "Set up a passcode";
-"passcodeChangeInstructions" = "Set up a passcode";
+"verifyPasscodeNavTitle" = "Passcode";
+"passcodeCreateInstructions" = "Create a passcode";
+"passcodeChangeInstructions" = "Create a passcode";
 "passcodeConfirmInstructions" = "Verify passcode";
-"passcodeVerifyInstructions" = "Verify passcode";
-"passcodesDoNotMatchError" = "Passcodes do not match";
+"passcodeVerifyInstructions" = "Enter passcode";
+"passcodesDoNotMatchError" = "Passcodes do not match. Try again.";
 "passcodeInvalidError" = "Incorrect passcode. %d attempts remaining.";
 "biometricEnableFaceIdNavTitle" = "Face ID";
 "biometricEnableTouchIdNavTitle" = "Touch ID";
 "biometricEnableTitleFaceId" = "Set up Face ID";
 "biometricEnableTitleTouchId" = "Set up Touch ID";
-"biometricEnableInstructionsFaceId" = "You can now unlock %@ using your face for extra security and convenience.";
-"biometricEnableInstructionsTouchId" = "You can now unlock %@ using your fingerprint for extra security and convenience.";
+"biometricEnableInstructionsFaceId" = "You can now unlock %@ using Face ID for extra security and convenience.";
+"biometricEnableInstructionsTouchId" = "You can now unlock %@ using Touch ID for extra security and convenience.";
 "biometricEnableButtonText" = "Enable";
 "biometricCancelButtonText" = "Not Now";
 "verifyPasscodeButtontext" = "Verify Passcode";

@@ -208,10 +208,10 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
     
     if (self.verificationMode) {
         [context setLocalizedCancelTitle:[SFSDKResourceUtils localizedString:@"biometricFallbackActionLabel"]];
-        [context setLocalizedFallbackTitle:@""];
         [self hideAll];
     }
     
+    [context setLocalizedFallbackTitle:@""];
     [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"biometricReason"] reply:^(BOOL success, NSError *authenticationError) {
         dispatch_async(dispatch_get_main_queue(), ^{
             __weak typeof (weakSelf) strongSelf = weakSelf;

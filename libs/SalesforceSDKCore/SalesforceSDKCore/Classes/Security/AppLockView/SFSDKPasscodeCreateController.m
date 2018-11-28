@@ -163,9 +163,10 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     CGFloat xView = (0 - kSFViewBoarderWidth);
     CGFloat yView = yIns + hIns + (kSFDefaultPadding / 2.0);
     CGFloat wView = self.view.bounds.size.width + (kSFViewBoarderWidth * 2);
-    CGFloat hView = kSFPasscodeViewHeight;
+    CGFloat hView = kSFPasscodeViewHeight + (kSFViewBoarderWidth * 2);
     self.passcodeTextView.frame = CGRectMake(xView, yView, wView, hView);
     self.passcodeTextView.layer.frame = CGRectMake(xView, yView, wView, hView);
+    [self.passcodeTextView refreshView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -198,22 +199,25 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     if ([self.passcodeTextView.passcodeInput length] == self.viewConfig.passcodeLength) {
         if (self.firstPasscodeValidated) {
             if ([self.passcodeTextView.passcodeInput isEqualToString:self.initialPasscode] ) {
+                if ([self.passcodeTextView isFirstResponder]) {
+                    [self.passcodeTextView resignFirstResponder];
+                }
                 [self.createDelegate passcodeCreated:self.passcodeTextView.passcodeInput updateMode:self.updateMode];
             } else {
                 [self.passcodeTextView clearPasscode];
                 [self.passcodeTextView refreshView];
                 [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodesDoNotMatchError"]];
+                self.firstPasscodeValidated = NO;
             }
         } else {
             self.initialPasscode = [[NSString alloc] initWithString:self.passcodeTextView.passcodeInput];
             [self.passcodeTextView clearPasscode];
             [self.passcodeTextView refreshView];
-            [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"]];
             self.firstPasscodeValidated = YES;
             
             //Change labels for confirm passcode
             [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"verifyPasscodeNavTitle"]];
-            [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"]];
+            [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeConfirmInstructions"]];
             [self.passcodeInstructionsLabel setFont:self.viewConfig.instructionFont];
             [self layoutSubviews];
         }
