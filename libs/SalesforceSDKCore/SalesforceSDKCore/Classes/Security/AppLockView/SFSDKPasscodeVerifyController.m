@@ -204,6 +204,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     CGFloat hView = kSFPasscodeViewHeight;
     self.passcodeTextView.frame = CGRectMake(xView, yView, wView, hView);
     self.passcodeTextView.layer.frame = CGRectMake(xView, yView, wView, hView);
+    [self.passcodeTextView refreshView];
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -166,6 +166,7 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     CGFloat hView = kSFPasscodeViewHeight;
     self.passcodeTextView.frame = CGRectMake(xView, yView, wView, hView);
     self.passcodeTextView.layer.frame = CGRectMake(xView, yView, wView, hView);
+    [self.passcodeTextView refreshView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -198,11 +199,15 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     if ([self.passcodeTextView.passcodeInput length] == self.viewConfig.passcodeLength) {
         if (self.firstPasscodeValidated) {
             if ([self.passcodeTextView.passcodeInput isEqualToString:self.initialPasscode] ) {
+                if ([self.passcodeTextView isFirstResponder]) {
+                    [self.passcodeTextView resignFirstResponder];
+                }
                 [self.createDelegate passcodeCreated:self.passcodeTextView.passcodeInput updateMode:self.updateMode];
             } else {
                 [self.passcodeTextView clearPasscode];
                 [self.passcodeTextView refreshView];
                 [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodesDoNotMatchError"]];
+                self.firstPasscodeValidated = NO;
             }
         } else {
             self.initialPasscode = [[NSString alloc] initWithString:self.passcodeTextView.passcodeInput];
