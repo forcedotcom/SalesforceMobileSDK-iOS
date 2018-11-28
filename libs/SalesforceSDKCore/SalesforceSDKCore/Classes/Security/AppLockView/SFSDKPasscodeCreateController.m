@@ -163,7 +163,7 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     CGFloat xView = (0 - kSFViewBoarderWidth);
     CGFloat yView = yIns + hIns + (kSFDefaultPadding / 2.0);
     CGFloat wView = self.view.bounds.size.width + (kSFViewBoarderWidth * 2);
-    CGFloat hView = kSFPasscodeViewHeight;
+    CGFloat hView = kSFPasscodeViewHeight + (kSFViewBoarderWidth * 2);
     self.passcodeTextView.frame = CGRectMake(xView, yView, wView, hView);
     self.passcodeTextView.layer.frame = CGRectMake(xView, yView, wView, hView);
     [self.passcodeTextView refreshView];
@@ -213,12 +213,11 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
             self.initialPasscode = [[NSString alloc] initWithString:self.passcodeTextView.passcodeInput];
             [self.passcodeTextView clearPasscode];
             [self.passcodeTextView refreshView];
-            [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"]];
             self.firstPasscodeValidated = YES;
             
             //Change labels for confirm passcode
             [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"verifyPasscodeNavTitle"]];
-            [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"]];
+            [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeConfirmInstructions"]];
             [self.passcodeInstructionsLabel setFont:self.viewConfig.instructionFont];
             [self layoutSubviews];
         }
