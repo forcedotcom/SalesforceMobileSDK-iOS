@@ -250,8 +250,11 @@ static BOOL _showPasscode = YES;
     SFAppLockControllerMode mode = SFAppLockControllerModeCreatePasscode;
     if (currentPasscodeLength != newPasscodeLength || securityLockoutTime != newLockoutTime) {
         if (currentPasscodeLength == 0) {
-            // Set passcode length if necessary.
-            [SFSecurityLockout setPasscodeLength:newPasscodeLength];
+            // Add the passcode length to the view config, it should only be permanently stored
+            // after auth/passcode flow is complete.
+            SFSDKAppLockViewConfig *config = [self passcodeViewConfig];
+            config.passcodeLength = newPasscodeLength;
+            [self setPasscodeViewConfig:config];
         } else if (newPasscodeLength > currentPasscodeLength) {
             // Change passcode if security has increased.
             mode = SFAppLockControllerModeChangePasscode;
@@ -453,7 +456,10 @@ static BOOL _showPasscode = YES;
     if (_passcodeViewConfig == nil) {
         _passcodeViewConfig = [SFSDKAppLockViewConfig createDefaultConfig];
     } else {
-        _passcodeViewConfig.passcodeLength = [SFSecurityLockout passcodeLength];
+        NSUInteger storedLength = [SFSecurityLockout passcodeLength];
+        if (storedLength) {
+            _passcodeViewConfig.passcodeLength = storedLength;
+        }
     }
     return _passcodeViewConfig;
 }
