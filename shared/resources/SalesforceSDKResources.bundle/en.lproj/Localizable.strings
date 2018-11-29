@@ -46,7 +46,7 @@
 "biometricCancelButtonText" = "Not Now";
 "verifyPasscodeButtontext" = "Verify Passcode";
 "biometricFallbackActionLabel" = "Use Passcode";
-"biometricReason" = "Unlock the app";
+"biometricReason" = "Please authenticate to proceed.";
 "logoutButtonTitle" = "Log out";
 
 // OAuth flow
