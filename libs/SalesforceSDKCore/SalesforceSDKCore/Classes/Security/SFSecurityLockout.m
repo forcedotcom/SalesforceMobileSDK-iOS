@@ -447,8 +447,8 @@ static BOOL _showPasscode = YES;
         NSNumber *oldPasscodeLength = [[SFPreferences globalPreferences] objectForKey:kPasscodeLengthKey];
         if (oldPasscodeLength) {
             [SFSecurityLockout setPasscodeLength:[oldPasscodeLength unsignedIntegerValue]];
+            _passcodeViewConfig.passcodeLength = [SFSecurityLockout passcodeLength];
         }
-        _passcodeViewConfig.passcodeLength = [SFSecurityLockout passcodeLength];
     }
 }
 
