@@ -92,6 +92,7 @@
 - (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode
 {
     [[SFPasscodeManager sharedManager] changePasscode:passcode];
+    [SFSecurityLockout setUpgradePasscodeLength:[passcode length]];
     if ([SFSecurityLockout biometricState] == SFBiometricUnlockAvailable) {
         [self promptBiometricEnrollment];
     } else {
