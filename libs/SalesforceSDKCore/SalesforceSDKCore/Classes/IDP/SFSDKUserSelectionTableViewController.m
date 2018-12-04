@@ -166,6 +166,7 @@ static CGFloat kHorizontalSpace = 12;
     [stack addArrangedSubview:headerView];
     [stack addArrangedSubview:self.tableView];
     [self.view addSubview:stack];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     [stack.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
     [stack.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
     
