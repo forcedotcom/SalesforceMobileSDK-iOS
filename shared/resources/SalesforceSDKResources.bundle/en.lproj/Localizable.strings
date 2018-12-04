@@ -113,3 +113,11 @@
 "idpAddNewAccountLabel" = "Add new account";
 "idpSelectUserTitleLabel" = "Select user";
 
+//IDP Login Selection Screen
+"idpLoginFlowInfoLabel" = "Select the flow to use for login";
+"idpLoginLocalFlowDescriptionLabel" = "Local - Host App will be used for authentication";
+"idpLoginIdpFlowDescriptionLabel" = "IDP -  IDP App will be launched for authentication";
+"idpLoginButtonTitle" = "IDP Log In";
+"idpLocalLoginButtonTitle" = "Local Log In";
+
+
