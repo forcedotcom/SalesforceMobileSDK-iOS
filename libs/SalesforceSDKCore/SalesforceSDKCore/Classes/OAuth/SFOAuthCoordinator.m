@@ -468,7 +468,7 @@ static NSString * const kSFECParameter = @"ec";
     }
     
     NSString *approvalUrlString = [self generateApprovalUrlString];
-    [self loadWebViewWithUrlString:approvalUrlString cookie:NO];
+    [self loadWebViewWithUrlString:approvalUrlString cookie:YES];
 }
 
 - (void)beginJwtTokenExchangeFlow {
