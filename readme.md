@@ -33,32 +33,41 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 6.2
+### What's New in 7.0
 
-**Library Upgrades**
-- We've updated React Native to version 0.55.4.
+For iOS, Mobile SDK 7.0 marks the beginning of an ongoing collaboration with Apple, Inc., to enhance the usability and standardization
+of our Swift APIs. As a result of this partnership, our Swift offerings have undergone extensive changes. The revised APIs are “Swiftified”
+aliases for the Mobile SDK Objective-C APIs.
 
-**Tool Version Upgrades**
-- We now require Cordova CLI 8.0.0.
+**Swift API Updates**
+- `PromiseKit` APIs are no longer available in Mobile SDK. Instead, use delegates or blocks to handle asynchronous calls.
+- For improved readability, we’ve applied “Swifty” restyling to many class names, method names, and parameter names. The Xcode
+editor provides excellent support for these API names, so it’s easy to find what you want. If you don’t see what you’re looking for,
+you can search the Objective-C header files as follows:
+  - Look for customized Swift names in `NS_SWIFT_NAME()` macros next to their Objective-C counterparts.
+  - A few Objective-C APIs aren’t available in Swift. These APIs are marked with the `NS_SWIFT_UNAVAILABLE("")` macro.
+  - If an Objective-C API isn’t marked with either the `NS_SWIFT_NAME()` or `NS_SWIFT_UNAVAILABLE("")` macro, you
+call it in Swift using its Objective-C naming.
+- Mobile SDK no longer supports the `Cocoa Lumberjack` logging framework. For compiler-level logging, use the `os_log()` function
+from Apple’s unified logging system. See [iOS Compiler-Level Logging](https://developer.salesforce.com/docs/atlas.en-us.noversion.mobile_sdk.meta/mobile_sdk/analytics_logging_ios.htm).
 
-**SmartSync Data Framework Enhancements**
-- The SmartSync Data Framework now saves the error returned when records fail to sync up.
-- A new utility, `SFMetadataSyncManager`, harnesses the power of SmartSync Data Framework to query Salesforce object metadata.
-- Another new utility, `SFLayoutSyncManager`, harnesses the power of SmartSync Data Framework to query Salesforce object layouts.
-
-**Other Technical Improvements**
-- A Swift version of our `RestAPIExplorer` native sample app is now available.
-- A Swift version of our native sample app, `SmartSyncExplorer`, is now available as a template in our templates repository.
-- We’ve given the Switch User screen a face lift.
-- We've consolidated our templates under a [single repository](https://github.com/forcedotcom/SalesforceMobileSDK-Templates).
-- Improvements to sample apps.
-- Various bug fixes.
-
-**Deprecations**
-- `SFSmartSyncMetadataManager` is now deprecated and will be removed in Mobile SDK 7.0. Instead, use `SFMetadataSyncManager` and `SFLayoutSyncManager`.
-- `SFSmartSyncCacheManager` is now deprecated and will be removed in Mobile SDK 7.0. Offline caching is now automatically handled by the SmartSync Data Framework.
-- `SFObjectType` is now deprecated and will be removed in Mobile SDK 7.0. Instead, use `SFMetadata`.
-- `SFObjectTypeLayout` is now deprecated and will be removed in Mobile SDK 7.0. Instead, use `SFLayout`.
+**Miscellaneous Changes**
+- We’ve simplified `AppDelegate` initialization logic by decoupling login from SDK initialization. You’re no longer required to listen to
+and handle Mobile SDK launch events.
+- Advanced authentication is now allowed by default. The type of authentication used by a Mobile SDK app can be configured only
+through My Domain settings.
+- As recommended by Apple, we’ve updated iOS advanced authentication to use `SFAuthenticationSession` instead of
+`SFSafariViewController`. This notice is informational only and does not require any action on your part.
+- Mobile SDK apps now support both Face ID and Touch ID.
+- We’ve updated and improved the app passcode dialog box.
+  
+**iOS Version Updates**
+- iOS minimum version (deployment target): iOS 11
+- iOS base version: iOS 12
+- Xcode minimum version: 10
+  
+**Deprecation**
+- `PromiseKit` APIs are no longer supported. Instead, use standard delegates or blocks to handle asynchronous callbacks.
 
 Check http://developer.force.com/mobilesdk for additional articles and tutorials.
 
