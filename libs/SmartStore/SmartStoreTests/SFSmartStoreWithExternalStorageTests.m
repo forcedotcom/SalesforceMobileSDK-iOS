@@ -148,6 +148,83 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
+- (void)testMigrateNullIVtoIVWithExternalStorage {
+    
+    NSUInteger const iterations = 10;
+    SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
+    NSDictionary* soupIndex = @{@"path": @"name", @"type": @"string"};
+    
+    SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel autoCreate:YES];
+    
+    // create a nill IV based store
+    __block NSData *origIV = key.initializationVector;
+     origIV = key.initializationVector;
+ 
+    
+     NSMutableArray *entries = [[NSMutableArray alloc] initWithCapacity:iterations];
+    
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+       
+        SFSmartStore.encryptionKeyBlock = ^SFEncryptionKey *{
+            key.initializationVector= nil;
+            return key;
+        };
+        
+        [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:nil];
+        __block NSString *soupTableName;
+        [store.storeQueue inDatabase:^(FMDatabase *db) {
+            soupTableName = [store tableNameForSoup:kSSExternalStorage_TestSoupName withDb:db];
+        }];
+        
+        // Insert entries
+        for (NSUInteger i = 0; i < iterations; i++) {
+            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i]};
+            [store upsertEntries:@[entry] toSoup:kSSExternalStorage_TestSoupName];
+            [entries addObject:entry];
+        }
+        
+        // Check if entries are in DB
+        SFQuerySpec *query = [SFQuerySpec newAllQuerySpec:kSSExternalStorage_TestSoupName
+                                            withOrderPath:nil
+                                                withOrder:kSFSoupQuerySortOrderAscending
+                                             withPageSize:iterations];
+        NSArray *entriesInserted = [store queryWithQuerySpec:query
+                                                   pageIndex:0
+                                                       error:nil];
+        XCTAssertEqual(entriesInserted.count, iterations, @"Did not insert all entries.");
+        // Check if external files exist
+        for (NSDictionary *savedEntry in entriesInserted) {
+            NSString *externalEntryFilePath = [store externalStorageSoupFilePath:savedEntry[SOUP_ENTRY_ID]
+                                                                   soupTableName:soupTableName];
+            BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:externalEntryFilePath];
+           
+            XCTAssertTrue(fileExists, @"External file of a saved entry does not exists.");
+        }
+        // now lets change to IV and read files
+        SFSmartStore.encryptionKeyBlock = ^SFEncryptionKey *{
+            key.initializationVector= origIV;
+            return key;
+        };
+        
+        // Check if external files exist
+        NSArray *retrievedEntries = [store retrieveEntries:[self entriesIdFromEntries:entriesInserted]
+                                                  fromSoup:kSSExternalStorage_TestSoupName];
+        XCTAssertEqualObjects(retrievedEntries, entriesInserted, @"Retrieve entries failed.");
+        
+        // now lets change back to nil IV and try to read files
+        SFSmartStore.encryptionKeyBlock = ^SFEncryptionKey *{
+            key.initializationVector= nil;
+            return key;
+        };
+        
+        // The retrievedEntries now must be nill.
+        retrievedEntries = [store retrieveEntries:[self entriesIdFromEntries:entriesInserted]
+                                                  fromSoup:kSSExternalStorage_TestSoupName];
+        XCTAssertNil(retrievedEntries,@"Migration of External soup storage failed.");
+        
+    }
+}
+
 - (void)testUpdateEntryWithExternalStorage {
     NSUInteger const iterations = 10;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];

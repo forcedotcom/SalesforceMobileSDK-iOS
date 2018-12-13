@@ -50,6 +50,7 @@ static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
     [super setUp];
     self.manager = [[SFPushNotificationManager alloc] init];
     self.manager.isSimulator = NO;
+    self.manager.deviceSalesforceId = @"pretending-we-registered";
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"happy-user" clientId:[SFUserAccountManager sharedInstance].oauthClientId encrypted:YES];
     SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
@@ -61,6 +62,20 @@ static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
 
 - (void)tearDown {
     [super tearDown];
+}
+
+- (void)testRegisterSalesforceNotifications_NoUserCredentials {
+    self.user.credentials = (SFOAuthCredentials* _Nonnull)nil;
+    BOOL result = [self.manager registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+    XCTAssertFalse(result);
+}
+
+- (void)testRegisterSalesforceNotifications_NoDeviceIdPref {
+    SFPreferences *pref = [SFPreferences sharedPreferencesForScope:SFUserAccountScopeUser user:self.user];
+    [pref removeObjectForKey:kSFDeviceSalesforceId];
+    
+    BOOL result = [self.manager registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+    XCTAssertFalse(result);
 }
 
 - (void)testUnregisterSalesforceNotifications_NoUserCredentials {

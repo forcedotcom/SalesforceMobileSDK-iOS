@@ -7,6 +7,7 @@ node_modules
 shared/test/test_credentials.json
 /SalesforceMobileSDK.xcworkspace/xcshareddata/SalesforceMobileSDK.xccheckout
 /SalesforceMobileSDK.xcworkspace/xcshareddata/SalesforceMobileSDK.xcscmblueprint
+/SalesforceMobileSDK.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 /hybrid/SampleApps/ContactExplorer/build/
 /hybrid/SampleApps/VFConnector/build/
 /libs/SalesforceHybridSDK/build/
@@ -19,4 +20,6 @@ shared/test/test_credentials.json
 node_modules/
 .github/
 .idea/
-
+package-lock.json
+npm-debug.log
+index.ios.bundle*

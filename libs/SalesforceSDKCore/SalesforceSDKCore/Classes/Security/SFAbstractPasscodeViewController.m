@@ -114,16 +114,16 @@ static  NSString * cachedPasscode;
 - (BOOL) canShowTouchId;
 {
     LAContext *context = [[LAContext alloc] init];
-    return cachedPasscode != nil && [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
+    return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
 }
 
 - (void) showTouchId
 {
     if ([self canShowTouchId]) {
         LAContext *context = [[LAContext alloc] init];
-        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"touchIdReason"] reply:^(BOOL success, NSError *authenticationError){
-            if (success &&[[SFPasscodeManager sharedManager] verifyPasscode:cachedPasscode]) {
-                    [self validatePasscodeConfirmed:cachedPasscode];
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"touchIdReason"] reply:^(BOOL success, NSError *authenticationError) {
+            if (success) {
+                [self validatePasscodeConfirmed:cachedPasscode];
             }
         }];
     }
@@ -139,6 +139,10 @@ static  NSString * cachedPasscode;
 {
     [[NSUserDefaults msdkUserDefaults] setInteger:remainingAttempts forKey:kRemainingAttemptsKey];
     [[NSUserDefaults msdkUserDefaults] synchronize];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 #pragma mark - Private methods

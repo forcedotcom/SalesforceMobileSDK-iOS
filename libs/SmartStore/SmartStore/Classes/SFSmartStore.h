@@ -40,6 +40,11 @@ extern NSString *const kDefaultSmartStoreName;
 extern NSString * const kSFSmartStoreErrorDomain;
 
 /**
+ The NSError exceptionName for errors loading external Soups.
+ */
+extern NSString * const kSFSmartStoreErrorLoadExternalSoup;
+
+/**
  The label used to interact with the encryption key.
  */
 extern NSString * const kSFSmartStoreEncryptionKeyLabel;
@@ -153,7 +158,7 @@ extern NSString *const EXPLAIN_ROWS;
  @param storeName The name of the store.  If in doubt, use kDefaultSmartStoreName.
  @return A shared instance of a store with the given name.
  */
-+ (id)sharedStoreWithName:(NSString*)storeName;
++ (nullable id)sharedStoreWithName:(NSString*)storeName;
 
 /**
  Use this method to obtain a shared store instance with the given name for the given user.

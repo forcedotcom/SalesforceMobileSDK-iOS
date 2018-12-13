@@ -68,6 +68,11 @@ NSString * const kStoreName           = @"storeName";
     return self;
 }
 
++ (BOOL)requiresMainQueueSetup
+{
+    return NO;
+}
+
 RCT_EXPORT_MODULE();
 
 #pragma mark - Bridged methods

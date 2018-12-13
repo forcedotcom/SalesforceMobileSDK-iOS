@@ -31,11 +31,96 @@
 #import "SFSDKRootController.h"
 #import "SFApplicationHelper.h"
 #import "SFSecurityLockout.h"
+/*
+Attempt to resolve issues related to  the multi-windowing implementation in the SDK. Multiple visible UI windows tend to have some really bad side effects with rotations (keyboard and views) and status bar. We previously resorted to using the hidden property, unfortunately using hidden property on the UIWindow leads to really bad flicker issues ( black screen ). Reverted back to using alpha with a slightly different strategy.
+ 
+ A debugging of UIKIT revealed the following facts.
+ 
+ All UIWindows are rotated when rotation occurs.
+ 
+ All preference calls are delegated to the window's rootviewcontroller if present.
+ 
+ Multiple windows with different behaviors will lead to weird UI experience. For instance a visible window may be locked to portrait mode, but during rotation the status bar will still continue to rotate because another window may allow rotations. It will also lead to keyboard window being in the wrong orientation.
+ 
+ Strategy used.
+ 
+ Stash(nullify) the rootviewcontroller when the window is presented and unstash(restore) when dismissed. Extended UIWindow (SFSDKUIWindow) to handle the stash and unstash.
+ Windows are created lazily and the references are removed when the windows are dismissed.
+ */
+@interface SFSDKUIWindow ()
+- (instancetype)initWithFrame:(CGRect)frame;
+- (instancetype)initWithFrame:(CGRect)frame andName:(NSString *)windowName;
+- (void)stashRootViewController;
+- (void)unstashRootViewController;
+
+@end
+
+@implementation SFSDKUIWindow
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        _windowName = @"NONAME";
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame andName:(NSString *)windowName {
+    self = [super initWithFrame:frame];
+    if (self) {
+        _windowName = windowName;
+    }
+    return self;
+}
+
+- (void)stashRootViewController {
+    if (self.rootViewController) {
+        _stashedController = self.rootViewController;
+        super.rootViewController = nil;
+    }
+}
+
+- (void)unstashRootViewController {
+    if (_stashedController)
+        super.rootViewController = _stashedController;
+}
+
+- (void)setRootViewController:(UIViewController *)rootViewController {
+    _stashedController = rootViewController;
+    super.rootViewController = rootViewController;
+}
+
+- (void)makeKeyAndVisible {
+    [super makeKeyAndVisible];
+}
+
+- (void)becomeKeyWindow {
+    [self unstashRootViewController];
+    if (self.windowLevel <0)
+        self.windowLevel = self.windowLevel * -1;
+    self.alpha = 1.0;
+}
+
+- (void)resignKeyWindow{
+    if ([self isSnapshotWindow] || [SFApplicationHelper sharedApplication].applicationState == UIApplicationStateActive){
+        if (self.windowLevel>0)
+            self.windowLevel = self.windowLevel * -1;
+        self.alpha = 0.0;
+        super.rootViewController = nil;
+        [self stashRootViewController];
+    }
+}
+- (BOOL)isSnapshotWindow {
+    return [self.windowName isEqualToString:[SFSDKWindowManager sharedManager].snapshotWindow.windowName];
+}
+
+@end
 
 @interface SFSDKWindowManager()<SFSDKWindowContainerDelegate>
 
 @property (nonatomic, strong) NSHashTable *delegates;
 @property (nonatomic, strong,readonly) NSMapTable<NSString *,SFSDKWindowContainer *> * _Nonnull namedWindows;
+@property (nonatomic,weak) SFSDKWindowContainer *lastActiveWindow;
 
 - (void)makeTransparentWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion;
 - (void)makeOpaqueWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion;
@@ -68,7 +153,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     SFSDKWindowContainer *window = nil;
     NSEnumerator *enumerator = self.namedWindows.objectEnumerator;
     while ((window = [enumerator nextObject]))  {
-        if(window.window==activeWindow) {
+        if(window.isEnabled && window.window==activeWindow) {
             found = YES;
             break;
         }
@@ -101,7 +186,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         container = [self createAuthWindow];
     }
     //enforce WindowLevel
-    container.window.windowLevel = self.mainWindow.window.windowLevel + SFWindowLevelAuthOffset;
+    container.windowLevel = self.mainWindow.window.windowLevel + SFWindowLevelAuthOffset;
     return container;
 }
 
@@ -111,7 +196,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         container = [self createSnapshotWindow];
     }
     //enforce WindowLevel
-    container.window.windowLevel = self.mainWindow.window.windowLevel + SFWindowLevelSnapshotOffset;
+    container.windowLevel = self.mainWindow.window.windowLevel + SFWindowLevelSnapshotOffset;
     return container;
 }
 
@@ -121,17 +206,16 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         container = [self createPasscodeWindow];
     }
     //enforce WindowLevel
-    container.window.windowLevel = self.mainWindow.window.windowLevel + SFWindowLevelPasscodeOffset;
+    container.windowLevel = self.mainWindow.window.windowLevel + SFWindowLevelPasscodeOffset;
     return container;
 }
 
 - (SFSDKWindowContainer *)createNewNamedWindow:(NSString *)windowName {
     SFSDKWindowContainer * container = nil;
     if ( ![self isReservedName:windowName] ) {
-        UIWindow *window = [self createDefaultUIWindow];
-        container = [[SFSDKWindowContainer alloc] initWithWindow:window name:windowName];
+        container = [[SFSDKWindowContainer alloc] initWithName:windowName];
         container.windowDelegate = self;
-        container.window.windowLevel = UIWindowLevelNormal;
+        container.windowLevel = UIWindowLevelNormal;
         container.windowType = SFSDKWindowTypeOther;
         [self.namedWindows setObject:container forKey:windowName];
     }
@@ -186,14 +270,14 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 }
 #pragma mark - SFSDKWindowContainerDelegate
 - (void)presentWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion{
-
+    
     if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self presentWindow:window animated:animated withCompletion:completion];
         });
         return;
     }
-
+    
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:willPresentWindow:)]){
             [delegate windowManager:self willPresentWindow:window];
@@ -201,11 +285,12 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     }];
     
     if (animated) {
-        __weak typeof (self) weakSelf = self;
         UIViewPropertyAnimator *animator = [[UIViewPropertyAnimator alloc] initWithDuration:0.25 curve:UIViewAnimationCurveEaseInOut animations:^{
-            [weakSelf makeOpaqueWithCompletion:window completion:completion];
+            window.window.alpha = 1.0;
         }];
         [animator startAnimation];
+        [self makeOpaqueWithCompletion:window completion:completion];
+        
     } else {
         [self makeOpaqueWithCompletion:window completion:completion];
     }
@@ -218,44 +303,75 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
         });
         return;
     }
-
+    if (!window.isEnabled) {
+        if (completion)
+            completion();
+    }
+    
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:willDismissWindow:)]){
             [delegate windowManager:self willDismissWindow:window];
         }
     }];
-   
+    
     if (animated) {
-        __weak typeof (self) weakSelf = self;
         UIViewPropertyAnimator *animator = [[UIViewPropertyAnimator alloc] initWithDuration:0.25 curve:UIViewAnimationCurveEaseInOut animations:^{
-            [weakSelf makeTransparentWithCompletion:window completion:completion];
+            window.window.alpha = 1.0;
         }];
-        
         [animator startAnimation];
+        [self makeTransparentWithCompletion:window completion:completion];
+        
     } else {
         [self makeTransparentWithCompletion:window completion:completion];
     }
     
 }
 
-
 #pragma mark - private methods
 - (void)makeTransparentWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion {
-    window.window.alpha = 0.0; //make Transparent
+    SFSDKWindowContainer *fallbackWindow = self.mainWindow;
+   
+    if (window.isSnapshotWindow) {
+        
+        [window.window resignKeyWindow];
+        if (_lastActiveWindow) {
+            fallbackWindow = _lastActiveWindow;
+            _lastActiveWindow = nil;
+        }
+        
+    }
+    [window.window resignKeyWindow];
+    if (!window.isMainWindow) {
+        [self.namedWindows removeObjectForKey:window.windowName];
+    }
+    //fallback to a window
+    [fallbackWindow.window makeKeyAndVisible];
     
-    [self updateKeyWindow:nil];
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:didDismissWindow:)]){
             [delegate windowManager:self didDismissWindow:window];
         }
     }];
+    
     if (completion)
         completion();
 }
 
 - (void)makeOpaqueWithCompletion:(SFSDKWindowContainer *)window completion:(void (^)(void))completion {
-    window.window.alpha = 1.0; //make Opaque
-    [self updateKeyWindow:window];
+    if (window.isSnapshotWindow) {
+        SFSDKWindowContainer *activeWindow = [self activeWindow];
+        if (![activeWindow isSnapshotWindow]){
+            _lastActiveWindow = activeWindow;
+        }
+    }
+    
+    if ([window isEnabled]) {
+        if (completion)
+            completion();
+        return;
+    }
+    
+    [window.window makeKeyAndVisible];
     [self enumerateDelegates:^(id<SFSDKWindowManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(windowManager:didPresentWindow:)]){
             [delegate windowManager:self didPresentWindow:window];
@@ -263,11 +379,11 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     }];
     if (completion)
         completion();
-    
+
 }
+
 - (SFSDKWindowContainer *)createSnapshotWindow {
-    UIWindow *window = [self createDefaultUIWindow];
-    SFSDKWindowContainer *container = [[SFSDKWindowContainer alloc] initWithWindow:window name:kSFSnaphotWindowKey];
+    SFSDKWindowContainer *container = [[SFSDKWindowContainer alloc] initWithName:kSFSnaphotWindowKey];
     container.windowDelegate = self;
     container.windowType = SFSDKWindowTypeSnapshot;
     [self.namedWindows setObject:container forKey:kSFSnaphotWindowKey];
@@ -275,77 +391,34 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 }
 
 - (SFSDKWindowContainer *)createAuthWindow {
-    UIWindow *window = [self createDefaultUIWindow];
-    SFSDKWindowContainer *container = [[SFSDKWindowContainer alloc] initWithWindow:window name:kSFLoginWindowKey];
+    SFSDKWindowContainer *container = [[SFSDKWindowContainer alloc] initWithName:kSFLoginWindowKey];
     container.windowDelegate = self;
     container.windowType = SFSDKWindowTypeAuth;
-    
     [self.namedWindows setObject:container forKey:kSFLoginWindowKey];
     return container;
 }
 
 - (SFSDKWindowContainer *)createPasscodeWindow {
-    UIWindow *window = [self createDefaultUIWindow];
-    SFSDKWindowContainer *container = [[SFSDKWindowContainer alloc] initWithWindow:window name:kSFPasscodeWindowKey];
+    SFSDKWindowContainer *container = [[SFSDKWindowContainer alloc] initWithName:kSFPasscodeWindowKey];
     container.windowDelegate = self;
     container.windowType = SFSDKWindowTypePasscode;
     [self.namedWindows setObject:container forKey:kSFPasscodeWindowKey];
     return container;
 }
 
--(UIWindow *)createDefaultUIWindow {
-    UIWindow *window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+-(UIWindow *)createDefaultUIWindowNamed:(NSString *)name {
+    UIWindow *window = [[SFSDKUIWindow alloc]  initWithFrame:UIScreen.mainScreen.bounds andName:name];
     [window setAlpha:0.0];
     window.rootViewController = [[SFSDKRootController alloc] init];
     return  window;
 }
 
-- (BOOL)isKeyboard:(UIWindow *) window {
-    return ([NSStringFromClass([window class]) hasPrefix:@"UIRemoteKeyboardWindow"]
-            || [NSStringFromClass([window class])hasPrefix:@"UITextEffectsWindow"]);
-}
-
-- (void)updateKeyWindow:(SFSDKWindowContainer *)window {
-   
-    if ([self.snapshotWindow isEnabled])
-        return;
-
-    BOOL windowFound = NO;
-    for (NSInteger i = [SFApplicationHelper sharedApplication].windows.count - 1; i >= 0; i--) {
-        UIWindow *win = ([SFApplicationHelper sharedApplication].windows)[i];
-        if (win.alpha == 0.0 || [self isKeyboard:win]) {
-            continue;
-        } else if (window!=nil && window.window!=win) {
-            continue; // in case the window is not the keywindow is not the enabled window (applies for enable only)
-        } else {
-            windowFound = YES;
-            [win makeKeyWindow];
-            break;
-        }
-    }
-    //Should not be the case but if we do find ourselves in this situation, we can make the mainWindow
-    //the key window as a fallback
-    if (!windowFound) {
-        [SFSDKCoreLogger e:[self class] format:@"SFSDKWindowManager could not make a window key: %@ will fallback to making mainWindow as Key Window", window.windowName];
-        [[self mainWindow].window makeKeyWindow];
-    }
-    
+- (BOOL)isManagedWindow:(UIWindow *) window {
+    return [window isKindOfClass:[SFSDKUIWindow class]];
 }
 
 - (UIWindow *)findActiveWindow {
-
-    UIWindow *foundWindow = nil;
-    for (NSInteger i = [SFApplicationHelper sharedApplication].windows.count - 1; i >= 0; i--) {
-        UIWindow *win = ([SFApplicationHelper sharedApplication].windows)[i];
-        if (win.alpha == 0.0 || [self isKeyboard:win]) {
-            continue;
-        } else {
-            foundWindow = win;
-            break;
-        }
-    }
-
-    return foundWindow;
+    return [SFApplicationHelper sharedApplication].keyWindow;
 }
 
 + (instancetype)sharedManager {

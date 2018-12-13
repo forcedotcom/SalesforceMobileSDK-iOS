@@ -89,6 +89,13 @@
  */
 - (void)reload;
 
+/** Check if user accounts exist for a given org.
+ *
+ * @param orgId for org
+ * @return YES if accounts exist, otherwise NO.
+ */
+- (BOOL)orgHasLoggedInUsers:(nonnull NSString *)orgId;
+
 /** Get the Account Persister being used.
  * @return SFUserAccountPersister that is used.
  */

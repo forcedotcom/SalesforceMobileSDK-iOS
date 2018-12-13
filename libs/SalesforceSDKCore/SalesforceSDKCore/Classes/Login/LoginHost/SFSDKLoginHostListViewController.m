@@ -31,7 +31,6 @@
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 #import "SFSDKResourceUtils.h"
-#import "SFLoginViewController.h"
 #import "SFManagedPreferences.h"
 #import "SFUserAccountManager.h"
 
@@ -132,7 +131,6 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
     if (!(managedPreferences.hasManagedPreferences && managedPreferences.onlyShowAuthorizedHosts)) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showAddLoginHost:)];
-        [self.navigationItem.rightBarButtonItem setTintColor:[SFLoginViewController sharedInstance].navBarTextColor];
     }
     self.title = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
@@ -141,7 +139,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
                                              target:nil
                                              action:nil];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelLoginPicker:)];
-
+    
     // Make sure the current login host exists.
     NSUInteger index = [self indexOfCurrentLoginHost];
     if (NSNotFound == index) {
@@ -163,14 +161,27 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     // We need to make sure the table is refreshed
     // and the size updated when we appear because
     // a new host could have been added by the user.
-    
+    [self setupBrandingForNavBar];
     [self.tableView reloadData];
     [self resizeContentForPopover];
     // style navigiation bar
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [[SFLoginViewController sharedInstance] styleNavigationBar:self.navigationController.navigationBar];
-    
     [super viewWillAppear:animated];
+}
+
+- (void)setupBrandingForNavBar {
+    [self.navigationController.navigationBar setTranslucent:NO];
+    
+    SFSDKLoginViewControllerConfig *config = [SFUserAccountManager sharedInstance].loginViewControllerConfig;
+    if (config.navBarColor) {
+        [self.navigationController.navigationBar setBarTintColor:config.navBarColor];
+    }
+    if (config.navBarTextColor) {
+        self.navigationController.navigationBar.tintColor = config.navBarTextColor;
+    }
+    
+    if (config.navBarFont && config.navBarTitleColor) {
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTitleColor, NSFontAttributeName: config.navBarFont}];
+    }
 }
 
 #pragma mark - Action Methods

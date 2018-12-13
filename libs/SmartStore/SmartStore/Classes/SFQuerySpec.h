@@ -44,12 +44,13 @@ extern NSString * const kQuerySpecParamIndexPath;
 extern NSString * const kQuerySpecParamOrder;
 extern NSString * const kQuerySpecParamPageSize;
 extern NSUInteger const kQuerySpecDefaultPageSize;
+extern NSString * const kQuerySpecParamOrderPath;
 
 extern NSString * const kQuerySpecParamMatchKey;
 extern NSString * const kQuerySpecParamBeginKey;
 extern NSString * const kQuerySpecParamEndKey;
 extern NSString * const kQuerySpecParamLikeKey;
-
+extern NSString * const kQuerySpecParamSmartSql;
 
 typedef NS_ENUM(NSInteger, SFSoupQueryType) {
     kSFSoupQueryTypeExact = 2,
@@ -244,6 +245,14 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  * @return bind arguments.
  */
 - (nullable NSArray*) bindsForQuerySpec;
+
+
+/** Enum to/from string helper methods
+ */
++ (SFSoupQueryType) queryTypeFromString:(NSString*)queryType;
++ (NSString*) queryTypeFromEnum:(SFSoupQueryType)queryType;
++ (SFSoupQuerySortOrder) sortOrderFromString:(NSString*)sortOrder;
++ (NSString*) sortOrderFromEnum:(SFSoupQuerySortOrder)sortOrder;
 
 @end
 

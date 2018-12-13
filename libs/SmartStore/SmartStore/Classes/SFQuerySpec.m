@@ -166,31 +166,36 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     NSString* likeKey = [querySpec nonNullObjectForKey:kQuerySpecParamLikeKey];
     NSString* smartSql = [querySpec nonNullObjectForKey:kQuerySpecParamSmartSql];
     NSString* orderPath = [querySpec nonNullObjectForKey:kQuerySpecParamOrderPath];
-
     NSString* rawOrder =  [querySpec nonNullObjectForKey:kQuerySpecParamOrder];
-    SFSoupQuerySortOrder order;
-    if (rawOrder != nil && [rawOrder isEqualToString:kQuerySpecSortOrderDescending]) {
-        order = kSFSoupQuerySortOrderDescending;
-    } else {
-        order = kSFSoupQuerySortOrderAscending;
-    }
-    
     NSNumber* rawPageSize = [querySpec nonNullObjectForKey:kQuerySpecParamPageSize];
+
+    SFSoupQuerySortOrder order = [SFQuerySpec sortOrderFromString:rawOrder];
     NSUInteger pageSize = ([rawPageSize integerValue] > 0 ? [rawPageSize integerValue] : kQuerySpecDefaultPageSize);
-    
-    if ([rawQueryType isEqualToString:kQuerySpecTypeRange]) {
-        self = [SFQuerySpec newRangeQuerySpec:targetSoupName withSelectPaths:selectPaths withPath:path withBeginKey:beginKey withEndKey:endKey withOrderPath:orderPath withOrder:order withPageSize:pageSize];
-    } else if ([rawQueryType isEqualToString:kQuerySpecTypeLike]) {
-        self = [SFQuerySpec newLikeQuerySpec:targetSoupName withSelectPaths:selectPaths withPath:path withLikeKey:likeKey withOrderPath:orderPath withOrder:order withPageSize:pageSize];
-    } else if ([rawQueryType isEqualToString:kQuerySpecTypeExact]) {
-        self = [SFQuerySpec newExactQuerySpec:targetSoupName withSelectPaths:selectPaths withPath:path withMatchKey:matchKey withOrderPath:orderPath withOrder:order withPageSize:pageSize];
-    } else if ([rawQueryType isEqualToString:kQuerySpecTypeMatch]) {
-        self = [SFQuerySpec newMatchQuerySpec:targetSoupName withSelectPaths:selectPaths withPath:path withMatchKey:matchKey withOrderPath:orderPath withOrder:order withPageSize:pageSize];
-    } else if ([rawQueryType isEqualToString:kQuerySpecTypeSmart]) {
-        self = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize];
-    } else {
+    SFSoupQueryType queryType = [SFQuerySpec queryTypeFromString:rawQueryType];
+
+    // queryTypeFromString returns kQuerySpecTypeSmart for anything that isn't exact/like/range/match
+    if (queryType == kSFSoupQueryTypeSmart && ![rawQueryType isEqualToString:kQuerySpecTypeSmart]) {
         [SFSDKSmartStoreLogger d:[self class] format:@"Invalid queryType: '%@'", rawQueryType];
         self = nil;
+        return self;
+    }
+    
+    switch (queryType) {
+        case kSFSoupQueryTypeExact:
+            self = [SFQuerySpec newExactQuerySpec:targetSoupName withSelectPaths:selectPaths withPath:path withMatchKey:matchKey withOrderPath:orderPath withOrder:order withPageSize:pageSize];
+            break;
+        case kSFSoupQueryTypeRange:
+            self = [SFQuerySpec newRangeQuerySpec:targetSoupName withSelectPaths:selectPaths withPath:path withBeginKey:beginKey withEndKey:endKey withOrderPath:orderPath withOrder:order withPageSize:pageSize];
+            break;
+        case kSFSoupQueryTypeLike:
+            self = [SFQuerySpec newLikeQuerySpec:targetSoupName withSelectPaths:selectPaths withPath:path withLikeKey:likeKey withOrderPath:orderPath withOrder:order withPageSize:pageSize];
+            break;
+        case kSFSoupQueryTypeSmart:
+            self = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize];
+            break;
+        case kSFSoupQueryTypeMatch:
+            self = [SFQuerySpec newMatchQuerySpec:targetSoupName withSelectPaths:selectPaths withPath:path withMatchKey:matchKey withOrderPath:orderPath withOrder:order withPageSize:pageSize];
+            break;
     }
     
     return self;
@@ -425,15 +430,12 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         result[kQuerySpecParamOrderPath] = self.orderPath;
     }
     
-    if (self.order == kSFSoupQuerySortOrderDescending) {
-        result[kQuerySpecParamOrder] = kQuerySpecSortOrderDescending;
-    } else {
-        result[kQuerySpecParamOrder] = kQuerySpecSortOrderAscending;
-    }
-     
+    result[kQuerySpecParamOrder] = [SFQuerySpec sortOrderFromEnum:self.order];
+    
+    result[kQuerySpecParamQueryType] = [SFQuerySpec queryTypeFromEnum:self.queryType];
+    
     switch (self.queryType) {
         case kSFSoupQueryTypeRange:
-            result[kQuerySpecParamQueryType] = kQuerySpecTypeRange;
             if (nil != self.beginKey)
                 result[kQuerySpecParamBeginKey] = self.beginKey;
             if (nil != self.endKey)
@@ -441,22 +443,18 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
             break;
 
         case kSFSoupQueryTypeLike:
-            result[kQuerySpecParamQueryType] = kQuerySpecTypeLike;
             result[kQuerySpecParamLikeKey] = self.likeKey;
             break;
             
         case kSFSoupQueryTypeExact:
-            result[kQuerySpecParamQueryType] = kQuerySpecTypeExact;
             result[kQuerySpecParamMatchKey] = self.matchKey;
             break;
 
         case kSFSoupQueryTypeSmart:
-            result[kQuerySpecParamQueryType] = kQuerySpecTypeSmart;
             result[kQuerySpecParamSmartSql] = self.smartSql;
             break;
 
         case kSFSoupQueryTypeMatch:
-            result[kQuerySpecParamQueryType] = kQuerySpecTypeMatch;
             result[kQuerySpecParamMatchKey] = self.matchKey;
             break;
         }
@@ -470,5 +468,59 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     return [SFJsonUtils JSONRepresentation:[self asDictionary]];
 }
 
+#pragma mark - string to/from enum for query type
+
++ (SFSoupQueryType) queryTypeFromString:(NSString*)queryType {
+    if ([queryType isEqualToString:kQuerySpecTypeExact]) {
+        return kSFSoupQueryTypeExact;
+    }
+    else if ([queryType isEqualToString:kQuerySpecTypeRange]) {
+        return kSFSoupQueryTypeRange;
+    }
+    else if ([queryType isEqualToString:kQuerySpecTypeLike]) {
+        return kSFSoupQueryTypeLike;
+    }
+    else if ([queryType isEqualToString:kQuerySpecTypeMatch]) {
+        return kSFSoupQueryTypeMatch;
+    }
+    else {
+        return kSFSoupQueryTypeSmart;
+    }
+}
+
++ (NSString*) queryTypeFromEnum:(SFSoupQueryType)queryType {
+    switch(queryType) {             
+        case kSFSoupQueryTypeExact:
+            return kQuerySpecTypeExact;
+        case kSFSoupQueryTypeRange:
+            return kQuerySpecTypeRange;
+        case kSFSoupQueryTypeLike:
+            return kQuerySpecTypeLike;
+        case kSFSoupQueryTypeSmart:
+            return kQuerySpecTypeSmart;
+        case kSFSoupQueryTypeMatch:
+            return kQuerySpecTypeMatch;
+    }
+}
+
+#pragma mark - string to/from enum for sort order
+
++ (SFSoupQuerySortOrder) sortOrderFromString:(NSString*)sortOrder {
+    if ([sortOrder isEqualToString:kQuerySpecSortOrderDescending]) {
+        return kSFSoupQuerySortOrderDescending;
+    }
+    else {
+        return kSFSoupQuerySortOrderAscending;
+    }
+}
+
++ (NSString*) sortOrderFromEnum:(SFSoupQuerySortOrder)sortOrder {
+    switch(sortOrder) {
+        case kSFSoupQuerySortOrderDescending:
+            return kQuerySpecSortOrderDescending;
+        case kSFSoupQuerySortOrderAscending:
+            return kQuerySpecSortOrderAscending;
+    }
+}
 
 @end

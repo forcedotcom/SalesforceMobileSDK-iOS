@@ -29,6 +29,12 @@
 
 #import <Foundation/Foundation.h>
 @protocol SFLoginViewControllerDelegate;
+@class SFLoginViewController;
+
+/**
+ Block typedef for setting up a custom SFLoginViewController.
+ */
+typedef SFLoginViewController * _Nonnull (^SFLoginViewControllerCreationBlock)(void);
 
 @interface SFSDKLoginViewControllerConfig : NSObject
 
@@ -42,17 +48,23 @@
  */
 @property (nonatomic, strong, nullable) UIColor *navBarColor;
 
+/** Specify navigation bar title color. This color will be used by the login view header.
+ */
+@property (nonatomic, strong, nullable) UIColor *navBarTitleColor;
+
 /** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
 @property (nonatomic) BOOL showNavbar;
 
 /** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
 @property (nonatomic) BOOL showSettingsIcon;
 
-/** Specifiy the visibility of the back icon. This property will be used to hide/show the settings icon*/
-@property (nonatomic) BOOL shouldDisplayBackButton;
+/** Specifiy the visibility of the back icon. This property value can be changed by changing the value of shouldAuthenticate in bootconfig or by subclasssing SFLoginViewController.
+ */
+@property (nonatomic,readonly) BOOL shouldDisplayBackButton;
 
 /** Specifiy a delegate for LoginViewController. */
 @property (nonatomic, weak, nullable) id<SFLoginViewControllerDelegate> delegate;
 
+@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock  loginViewControllerCreationBlock;
 
 @end

@@ -27,6 +27,7 @@
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
 #import "SFNativeRestRequestListener.h"
+#import "SFUserAccount+Internal.h"
  
  // Constants only used in the tests below
 #define ENTITY_PREFIX_NAME @"RestClientTestsiOS"
@@ -175,6 +176,13 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
 }
 
+// simple: just invoke requestForUserInfo
+- (void)testGetUserInfo {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUserInfo];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
 // simple: just invoke requestForResources
 - (void)testGetResources {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
@@ -223,6 +231,20 @@ static NSException *authException = nil;
 // simple: just invoke requestForDescribeWithObjectType:@"Contact"
 - (void)testGetDescribeWithObjectType {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:CONTACT];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" without layoutType.
+- (void)testGetLayoutWithObjectTypeWithoutLayoutType {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:nil];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" with layoutType:@"Compact".
+- (void)testGetLayoutWithObjectTypeWithLayoutType {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:@"Compact"];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -1222,6 +1244,7 @@ static NSException *authException = nil;
         origCreds.accessToken = origAccessToken;
         origCreds.refreshToken = origRefreshToken;
         _currentUser.credentials = origCreds;
+        [_currentUser transitionToLoginState:SFUserAccountLoginStateLoggedIn];
         [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
         [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
@@ -1271,6 +1294,62 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidLoad, @"request3 failed");
     XCTAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
     
+    // let's make sure we have a new access token
+    NSString *newAccessToken = _currentUser.credentials.accessToken;
+    XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
+}
+
+// - set an invalid access token (simulate expired)
+// - make multiple simultaneous requests (some not requiring authentication)
+// - requests not requiring authentication should succeed and only be sent once
+// - other requests will fail in some arbitrary order
+// - ensure that a new access token is retrieved using refresh token
+// - ensure that all requests eventually succeed
+//
+-(void)testInvalidAccessToken_UnAuthAndAuthRequests {
+    
+    // save invalid token
+    NSString *invalidAccessToken = @"xyz";
+    [self changeOauthTokens:invalidAccessToken refreshToken:nil];
+
+    // create requests (some that require authentications and some that don't)
+    SFRestRequest* unauthenticatedRequest1 = [[SFRestAPI sharedInstance] requestForVersions];
+    SFRestRequest* unauthenticatedRequest2 = [[SFRestAPI sharedInstance] requestForVersions];
+    SFRestRequest* authenticatedRequest1 = [[SFRestAPI sharedInstance] requestForUserInfo];
+    SFRestRequest* authenticatedRequest2 = [[SFRestAPI sharedInstance] requestForUserInfo];
+
+    SFNativeRestRequestListener* unauthenticatedListener1 = [[SFNativeRestRequestListener alloc] initWithRequest:unauthenticatedRequest1];
+    unauthenticatedListener1.sleepDuringLoad = 0.5;
+    SFNativeRestRequestListener* unauthenticatedListener2 = [[SFNativeRestRequestListener alloc] initWithRequest:unauthenticatedRequest2];
+    unauthenticatedListener2.sleepDuringLoad = 0.5;
+    SFNativeRestRequestListener* authenticatedListener1 = [[SFNativeRestRequestListener alloc] initWithRequest:authenticatedRequest1];
+    SFNativeRestRequestListener* authenticatedListener2 = [[SFNativeRestRequestListener alloc] initWithRequest:authenticatedRequest2];
+    
+    NSArray<SFNativeRestRequestListener*>* listeners = @[unauthenticatedListener1, authenticatedListener1, unauthenticatedListener2, authenticatedListener2];
+    
+    // send requests
+    for (SFNativeRestRequestListener* listener in listeners) {
+        [[SFRestAPI sharedInstance] send:listener.request delegate:listener];
+    }
+    
+    // wait for requests to complete
+    for (SFNativeRestRequestListener* listener in listeners) {
+        [listener waitForCompletion];
+    }
+    
+    // make sure they all succeeded
+    for (SFNativeRestRequestListener* listener in listeners) {
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"a request failed");
+    }
+
+    // make sure unauthenticated requests don't complete a second time
+    for (SFNativeRestRequestListener* listener in @[unauthenticatedListener1, unauthenticatedListener2]) {
+        // reset listener return status and lower max wait time
+        listener.returnStatus = kTestRequestStatusWaiting;
+        listener.maxWaitTime = 2.0;
+        XCTAssertEqualObjects([listener waitForCompletion], kTestRequestStatusDidTimeout, @"Unauthenticated user should not have completed a second time");
+    }
+
     // let's make sure we have a new access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
@@ -1344,6 +1423,7 @@ static NSException *authException = nil;
         origCreds.accessToken = origAccessToken;
         origCreds.refreshToken = origRefreshToken;
         _currentUser.credentials = origCreds;
+        [_currentUser transitionToLoginState:SFUserAccountLoginStateLoggedIn];
         [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
         [SFUserAccountManager sharedInstance].currentUser = _currentUser;
     }
@@ -1421,25 +1501,6 @@ static NSException *authException = nil;
                              [self.currentExpectation fulfill];
                          }];
     [self waitForExpectation];
-    self.currentExpectation = [self expectationWithDescription:@"performUpsertWithObjectType-upserting contact"];
-    fields[LAST_NAME] = lastName;
-    [api performUpsertWithObjectType:CONTACT
-                     externalIdField:ID
-                          externalId:recordId
-                              fields:fields
-                           failBlock:failWithUnexpectedFail
-                       completeBlock:responseSuccessBlock];
-    [self waitForExpectation];
-    self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-retrieving contact"];
-    [api performRetrieveWithObjectType:CONTACT
-                              objectId:recordId
-                             fieldList:@[LAST_NAME]
-                             failBlock:failWithUnexpectedFail
-                         completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
-                             XCTAssertEqualObjects(lastName, d[LAST_NAME]);
-                             [self.currentExpectation fulfill];
-                         }];
-    [self waitForExpectation];
     self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-deleting contact"];
     [api performDeleteWithObjectType:CONTACT
                             objectId:recordId
@@ -1450,7 +1511,7 @@ static NSException *authException = nil;
 
 - (void) testBlocks {
     SFRestAPI *api = [SFRestAPI sharedInstance];
-    
+
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e, NSURLResponse *rawResponse) {
         [self.currentExpectation fulfill];
@@ -1461,28 +1522,30 @@ static NSException *authException = nil;
         XCTFail(@"Unexpected error %@", e);
         [self.currentExpectation fulfill];
     };
-    
-    
+
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d, NSURLResponse *rawResponse) {
         XCTFail(@"Unexpected success %@", d);
         [self.currentExpectation fulfill];
     };
-    
+
     // An success block that we expected to succeed
     SFRestDictionaryResponseBlock dictSuccessBlock = ^(NSDictionary *d, NSURLResponse *rawResponse) {
+        XCTAssertTrue([d isKindOfClass:[NSDictionary class]], @"Response should be a dictionary");
         [self.currentExpectation fulfill];
     };
-    
-    // An array success block that we expected to succeed
-    SFRestArrayResponseBlock arraySuccessBlock = ^(NSArray *arr, NSURLResponse *rawResponse) {
+
+    // An success block that we expected to succeed
+    SFRestArrayResponseBlock arraySuccessBlock = ^(NSArray *a, NSURLResponse *rawResponse) {
+        XCTAssertTrue([a isKindOfClass:[NSArray class]], @"Response should be an array");
         [self.currentExpectation fulfill];
     };
+
     
     // Class helper function that creates an error.
     NSString *errorStr = @"Sample error.";
-    XCTAssertTrue( [errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]],
-                  @"Generated error should match description." );
+    XCTAssertTrue([errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]],
+                  @"Generated error should match description.");
     
     // Block functions that should always fail
     self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-nil"];
@@ -1490,58 +1553,55 @@ static NSException *authException = nil;
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performCreateWithObjectType-nil"];
     [api performCreateWithObjectType:(NSString* _Nonnull)nil fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performMetadataWithObjectType-nil"];
     [api performMetadataWithObjectType:(NSString* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performDescribeWithObjectType-nil"];
     [api performDescribeWithObjectType:(NSString* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-nil"];
     [api performRetrieveWithObjectType:(NSString* _Nonnull)nil objectId:(NSString* _Nonnull)nil fieldList:(NSArray<NSString*>* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performUpdateWithObjectType-nil"];
     [api performUpdateWithObjectType:(NSString* _Nonnull)nil objectId:(NSString* _Nonnull)nil fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performUpsertWithObjectType-nil"];
     [api performUpsertWithObjectType:(NSString* _Nonnull)nil externalIdField:(NSString* _Nonnull)nil externalId:(NSString* _Nonnull)nil
                               fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performSOQLQuery-nil"];
     [api performSOQLQuery:(NSString* _Nonnull)nil
                 failBlock:failWithExpectedFail
             completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-    
+
     self.currentExpectation = [self expectationWithDescription:@"performSOQLQueryAll-nil"];
     [api performSOQLQueryAll:(NSString* _Nonnull)nil
                    failBlock:failWithExpectedFail
                completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
-
-    // NB: sosl with nil used to fail but now returns the dict { layout = "/services/data/v41.0/search/layout" ... }
-    //     as a result performSOSLSearch can't be used since it expects an array in the response
     
     // Block functions that should always succeed
     self.currentExpectation = [self expectationWithDescription:@"performRequestForResourcesWithFailBlock"];
@@ -1551,7 +1611,7 @@ static NSException *authException = nil;
 
     self.currentExpectation = [self expectationWithDescription:@"performRequestForVersionsWithFailBlock"];
     [api performRequestForVersionsWithFailBlock:failWithUnexpectedFail
-                                  completeBlock:dictSuccessBlock];
+                                  completeBlock:arraySuccessBlock];
     [self waitForExpectation];
 
     self.currentExpectation = [self expectationWithDescription:@"performDescribeGlobalWithFailBlock"];
@@ -1574,7 +1634,7 @@ static NSException *authException = nil;
     self.currentExpectation = [self expectationWithDescription:@"performSOSLSearch-find {batman}"];
     [api performSOSLSearch:@"find {batman}"
                  failBlock:failWithUnexpectedFail
-             completeBlock:arraySuccessBlock];
+             completeBlock:dictSuccessBlock];
     [self waitForExpectation];
 
     self.currentExpectation = [self expectationWithDescription:@"performDescribeWithObjectType-Contact"];
@@ -1589,7 +1649,6 @@ static NSException *authException = nil;
                          completeBlock:dictSuccessBlock];
     [self waitForExpectation];
 }
-
 
 - (void)testBlocksCancel {
     self.currentExpectation = [self expectationWithDescription:@"performRequestForResourcesWithFailBlock-with-cancel"];
@@ -1766,6 +1825,61 @@ static NSException *authException = nil;
     NSURLRequest *finalRequest = [request prepareRequestForSend:_currentUser];
     NSString *expectedURL = [NSString stringWithFormat:@"http://www.apple.com%@%@", kSFDefaultRestEndpoint, @"/test/testing"];
     XCTAssertEqualObjects(finalRequest.URL.absoluteString, expectedURL, @"Final URL should utilize base URL that was passed in");
+}
+
+#pragma mark - miscellaneous tests
+
+- (void)testRestUrlForBaseUrl {
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:@"somedomain.example.com"
+                                                       instanceUrl:[NSURL URLWithString:@"https://someinstance.example.com"]
+                                                      communityUrl:[NSURL URLWithString:@"https://somecommunity.example.com/community"]];
+    NSString *baseUrl = @"https://somebaseurl.example.com";
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:baseUrl serviceHostType:SFSDKRestServiceHostTypeInstance credentials:creds];
+    XCTAssertEqualObjects(restUrl, baseUrl, @"Base URL should take precedence");
+    
+    restUrl = [SFRestRequest restUrlForBaseUrl:baseUrl serviceHostType:SFSDKRestServiceHostTypeLogin credentials:creds];
+    XCTAssertEqualObjects(restUrl, baseUrl, @"Base URL should take precedence");
+}
+
+- (void)testRestUrlForCommunityUrl {
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:@"somedomain.example.com"
+                                                       instanceUrl:[NSURL URLWithString:@"https://someinstance.example.com"]
+                                                      communityUrl:[NSURL URLWithString:@"https://somecommunity.example.com/community"]];
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeInstance credentials:creds];
+    XCTAssertEqualObjects(restUrl, creds.communityUrl.absoluteString, @"Community URL should take precedence");
+    
+    restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeLogin credentials:creds];
+    XCTAssertEqualObjects(restUrl, creds.communityUrl.absoluteString, @"Community URL should take precedence");
+}
+
+- (void)testRestUrlForLoginServiceHost {
+    NSString *loginDomain = @"somedomain.example.com";
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:loginDomain
+                                                       instanceUrl:[NSURL URLWithString:@"https://someinstance.example.com"]
+                                                      communityUrl:nil];
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeLogin credentials:creds];
+    NSString *loginDomainUrl = [NSString stringWithFormat:@"https://%@", loginDomain];
+    XCTAssertEqualObjects(restUrl, loginDomainUrl, @"Login URL should take precedence");
+}
+
+- (void)testRestUrlForInstanceServiceHost {
+    NSURL *instanceUrl = [NSURL URLWithString:@"https://someinstance.example.com"];
+    SFOAuthCredentials *creds = [self getTestCredentialsWithDomain:@"somdomain.example.com"
+                                                       instanceUrl:instanceUrl
+                                                      communityUrl:nil];
+    NSString *restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeInstance credentials:creds];
+    XCTAssertEqualObjects(restUrl, instanceUrl.absoluteString, @"Instance URL should take precedence");
+}
+
+- (SFOAuthCredentials *)getTestCredentialsWithDomain:(nonnull NSString *)domain
+                                            instanceUrl:(nonnull NSURL *)instanceUrl
+                                           communityUrl:(nullable NSURL *)communityUrl {
+    NSString *credsId = [NSString stringWithFormat:@"testRestUrl_%u", arc4random()];
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:credsId clientId:@"TestClientID" encrypted:YES];
+    creds.communityUrl = communityUrl;
+    creds.domain = domain;
+    creds.instanceUrl = instanceUrl;
+    return creds;
 }
 
 @end

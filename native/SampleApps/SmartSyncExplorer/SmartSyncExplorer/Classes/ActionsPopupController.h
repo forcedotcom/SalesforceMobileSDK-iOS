@@ -35,7 +35,7 @@ extern NSString *const kActionDbInspector;
 @interface ActionsPopupController : UITableViewController
 
 @property (nonatomic, strong) NSArray *actions;
-@property (nonatomic, strong) ContactListViewController *appViewController;
+@property (nonatomic, weak) ContactListViewController *appViewController;
 
 - (id)initWithAppViewController:(ContactListViewController *)appViewController;
 

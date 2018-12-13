@@ -28,41 +28,53 @@
  */
 
 #import "SFNetwork.h"
+#import "SalesforceSDKManager.h"
 
 @interface SFNetwork()
 
-@property (nonatomic, readwrite, strong, nonnull) NSURLSession *ephemeralSession;
-@property (nonatomic, readwrite, strong, nonnull) NSURLSession *backgroundSession;
+@property (nonatomic, readwrite, assign) BOOL useBackground;
+@property (nonatomic, readwrite, strong) NSURLSession *activeSession;
 
 @end
 
 @implementation SFNetwork
 
-static NSURLSessionConfiguration *kSFEphemeralSessionConfig;
-static NSURLSessionConfiguration *kSFBackgroundSessionConfig;
+static NSURLSessionConfiguration *kSFSessionConfig;
 
-- (instancetype)init {
+- (instancetype)initWithEphemeralSession {
     self = [super init];
     if (self) {
         NSURLSessionConfiguration *ephemeralSessionConfig = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-        if (kSFEphemeralSessionConfig) {
-            ephemeralSessionConfig = kSFEphemeralSessionConfig;
+        if (kSFSessionConfig) {
+            ephemeralSessionConfig = kSFSessionConfig;
         }
-        self.ephemeralSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
-        
-        NSString *identifier = [NSString stringWithFormat:@"com.salesforce.network.%lu", (unsigned long)self.hash];
-        NSURLSessionConfiguration *backgroundSessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
-        if (kSFBackgroundSessionConfig) {
-            backgroundSessionConfig = kSFBackgroundSessionConfig;
-        }
-        self.backgroundSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
+        self.activeSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
         self.useBackground = NO;
     }
     return self;
 }
 
-- (NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock {
-    NSURLSessionDataTask *dataTask = [[self activeSession] dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+- (instancetype)initWithBackgroundSession {
+    self = [super init];
+    if (self) {
+        NSString *identifier = [NSString stringWithFormat:@"com.salesforce.network.%lu", (unsigned long)self.hash];
+        NSURLSessionConfiguration *backgroundSessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
+        if (kSFSessionConfig) {
+            backgroundSessionConfig = kSFSessionConfig;
+        }
+        self.activeSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
+        self.useBackground = YES;
+    }
+    return self;
+}
+
+- (NSURLSessionDataTask *)sendRequest:(NSMutableURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    // Sets Mobile SDK user agent if it hasn't been set already elsewhere.
+    if (![urlRequest.allHTTPHeaderFields.allKeys containsObject:@"User-Agent"]) {
+        [urlRequest setValue:[SalesforceSDKManager sharedManager].userAgentString(@"") forHTTPHeaderField:@"User-Agent"];
+    }
+
+    NSURLSessionDataTask *dataTask = [self.activeSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (dataResponseBlock) {
             dataResponseBlock(data, response, error);
         }
@@ -71,16 +83,12 @@ static NSURLSessionConfiguration *kSFBackgroundSessionConfig;
     return dataTask;
 }
 
-- (NSURLSession *)activeSession {
-    return (self.useBackground ? self.backgroundSession : self.ephemeralSession);
++ (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession {
+    [SFNetwork setSessionConfiguration:sessionConfig];
 }
 
-+ (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession {
-    if (isBackgroundSession) {
-        kSFBackgroundSessionConfig = sessionConfig;
-    } else {
-        kSFEphemeralSessionConfig = sessionConfig;
-    }
++ (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig {
+    kSFSessionConfig = sessionConfig;
 }
 
 @end

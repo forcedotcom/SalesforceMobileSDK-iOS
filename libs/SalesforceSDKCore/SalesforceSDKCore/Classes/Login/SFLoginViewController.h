@@ -25,10 +25,12 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "SFSDKViewController.h"
 
 @class SFLoginViewController;
 @class SFSDKLoginHost;
 @class SFSDKLoginViewControllerConfig;
+@class SFSDKLoginHostListViewController;
 
 /**
  * Delegate protocol for the owner of SFLoginViewController.
@@ -49,7 +51,7 @@
 
 /** The Salesforce login screen view.
  */
-@interface SFLoginViewController : UIViewController
+@interface SFLoginViewController : SFSDKViewController
 
 /** Returns a shared singleton of `SFLoginViewController` class.
  */
@@ -85,8 +87,45 @@
  a config object */
 @property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config;
 
+/** Get the instance of nav bar. Use this property to get the instance of navBar*/
+@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar;
+
 /** Applies the view's style attributes to the given navigation bar.
  @param navigationBar The navigation bar that the style is applied to.
  */
 - (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar;
+
+/** Present the Host List View.
+ */
+- (void)showHostListView;
+
+/** Hide the Host List View.
+ @param animated Indicates whether or not the hiding should be animated.
+ */
+- (void)hideHostListView:(BOOL)animated;
+
+/** Factory Method to create the back button.
+ */
+- (nonnull UIBarButtonItem *)createBackButton;
+
+/** Factory Method to create the settings button.
+ */
+- (nonnull UIBarButtonItem *)createSettingsButton;
+
+/** Factory Method to create the navigation title.
+ */
+- (nonnull UIView *)createTitleItem;
+
+/** Logic to show back button.
+ */
+- (BOOL)shouldShowBackButton;
+
+/** Back Button was pressed by user
+ */
+- (void)handleBackButtonAction;
+
+/** User Selected a host from the host list
+ @param host SFSDKLoginHost
+ */
+- (void)handleLoginHostSelectedAction:(nonnull SFSDKLoginHost *)host;
 @end

@@ -36,6 +36,8 @@ NSString * const kSyncTargetLocal = @"__local__";
 NSString * const kSyncTargetLocallyCreated = @"__locally_created__";
 NSString * const kSyncTargetLocallyUpdated = @"__locally_updated__";
 NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
+NSString * const kSyncTargetSyncId = @"__sync_id__";
+NSString * const kSyncTargetLastError = @"__last_error__";
 
 @implementation SFSyncTarget
 
@@ -75,11 +77,11 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 
 - (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
     [SFSDKSmartSyncLogger d:[self class] format:@"cleanAndSaveInLocalStore:%@", record];
-    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:@[record] idFieldName:self.idFieldName];
+    [self saveInSmartStore:syncManager.store soupName:soupName records:@[record] idFieldName:self.idFieldName syncId:nil lastError:nil cleanFirst:YES /* method called from sync up - not setting syncId field then */];
 }
 
-- (void) saveRecordsToLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName records:(NSArray*)records {
-    [self cleanAndSaveInSmartStore:syncManager.store soupName:soupName records:records idFieldName:self.idFieldName];
+- (void)cleanAndSaveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId {
+    [self saveInSmartStore:syncManager.store soupName:soupName records:records idFieldName:self.idFieldName syncId:syncId lastError:nil cleanFirst:YES];
 }
 
 - (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
@@ -145,14 +147,22 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
     return ids;
 }
 
-- (void)cleanAndSaveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName {
+- (void)saveInLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId lastError:(NSString *)lastError cleanFirst:(BOOL)cleanFirst {
+    [self saveInSmartStore:syncManager.store soupName:soupName records:records idFieldName:idFieldName syncId:syncId lastError:lastError cleanFirst:cleanFirst];
+}
+
+- (void)saveInSmartStore:(SFSmartStore *)smartStore soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId lastError:(NSString *)lastError cleanFirst:(BOOL)cleanFirst  {
 
     NSMutableArray* recordsFromSmartStore = [NSMutableArray new];
     NSMutableArray* recordsFromServer = [NSMutableArray new];
 
     for (NSDictionary * record in records) {
         NSMutableDictionary *mutableRecord = [record mutableCopy];
-        [self cleanRecord:mutableRecord];
+        if (cleanFirst) {
+            [self cleanRecord:mutableRecord];
+        }
+        [self addSyncId:mutableRecord syncId:syncId];
+        [self addLastError:mutableRecord lastError:lastError];
         if (mutableRecord[SOUP_ENTRY_ID]) {
             // Record came from smartstore
             [recordsFromSmartStore addObject:mutableRecord];
@@ -168,11 +178,24 @@ NSString * const kSyncTargetLocallyDeleted = @"__locally_deleted__";
 
 }
 
+- (void) addSyncId:(NSMutableDictionary*)record syncId:(NSNumber*)syncId {
+    if (syncId) {
+        record[kSyncTargetSyncId] = syncId;
+    }
+}
+
+- (void) addLastError:(NSMutableDictionary*)record lastError:(NSString*)lastError {
+    if (lastError) {
+        record[kSyncTargetLastError] = lastError;
+    }
+}
+
 - (void) cleanRecord:(NSMutableDictionary*)record {
     record[kSyncTargetLocal] = @NO;
     record[kSyncTargetLocallyCreated] = @NO;
     record[kSyncTargetLocallyUpdated] = @NO;
     record[kSyncTargetLocallyDeleted] = @NO;
+    record[kSyncTargetLastError] = nil;
 }
 
 - (NSArray*) flatten:(NSArray*)results {

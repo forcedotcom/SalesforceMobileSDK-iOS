@@ -40,8 +40,10 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
 - (NSString *)getSoqlForRemoteIds;
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField;
+
+- (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate;
+
+- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate;
 
 @end
 
@@ -187,8 +189,8 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
                       childrenFieldlist:@[@"ChildName", @"School"]
                        relationshipType:SFParentChildrenRelationpshipLookup];
 
-    NSString *expectedQuery = @"SELECT DISTINCT {parentsSoup:IdForQuery} FROM {parentsSoup} WHERE {parentsSoup:__local__} = 0 AND NOT EXISTS (SELECT {childrenSoup:ChildId} FROM {childrenSoup} WHERE {childrenSoup:ChildParentId} = {parentsSoup:ParentId} AND {childrenSoup:__local__} = 1)";
-    XCTAssertEqualObjects([target getNonDirtyRecordIdsSql:@"parentsSoup" idField:@"IdForQuery"], expectedQuery);
+    NSString *expectedQuery = @"SELECT DISTINCT {parentsSoup:IdForQuery} FROM {parentsSoup} WHERE {parentsSoup:__local__} = 0 AND {parentsSoup:__sync_id__} = 123 AND NOT EXISTS (SELECT {childrenSoup:ChildId} FROM {childrenSoup} WHERE {childrenSoup:ChildParentId} = {parentsSoup:ParentId} AND {childrenSoup:__local__} = 1)";
+    XCTAssertEqualObjects([target getNonDirtyRecordIdsSql:@"parentsSoup" idField:@"IdForQuery" additionalPredicate:@"AND {parentsSoup:__sync_id__} = 123"], expectedQuery);
 }
 
 /**
@@ -250,6 +252,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     // - not have _soupEntryId field
     NSUInteger numberAccounts = 4;
     NSUInteger numberContactsPerAccount = 3;
+    NSNumber* syncId = [NSNumber numberWithInteger:123];
 
     NSDictionary * accountAttributes = @{TYPE: ACCOUNT_TYPE};
     NSDictionary * contactAttributes = @{TYPE: CONTACT_TYPE};
@@ -280,7 +283,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
     // Now calling saveRecordsToLocalStore
     SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTarget];
-    [target saveRecordsToLocalStore:self.syncManager soupName:ACCOUNTS_SOUP records:records];
+    [target cleanAndSaveRecordsToLocalStore:self.syncManager soupName:ACCOUNTS_SOUP records:records syncId:syncId];
 
     // Checking accounts and contacts soup
     // Making sure local fields are populated
@@ -303,6 +306,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         XCTAssertEqualObjects(@NO, accountFromDb[kSyncTargetLocallyCreated]);
         XCTAssertEqualObjects(@NO, accountFromDb[kSyncTargetLocallyUpdated]);
         XCTAssertEqualObjects(@NO, accountFromDb[kSyncTargetLocallyDeleted]);
+        XCTAssertEqualObjects(syncId, accountFromDb[kSyncTargetSyncId]);
 
         NSArray<NSDictionary *>* contactsFromDb = [self queryWithInClause:CONTACTS_SOUP fieldName:ACCOUNT_ID values:@[account[ID]] orderBy:SOUP_ENTRY_ID];
         NSArray<NSDictionary *>* contacts = mapAccountContacts[account];
@@ -318,6 +322,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
             XCTAssertEqualObjects(@NO, contactFromDb[kSyncTargetLocallyCreated]);
             XCTAssertEqualObjects(@NO, contactFromDb[kSyncTargetLocallyUpdated]);
             XCTAssertEqualObjects(@NO, contactFromDb[kSyncTargetLocallyDeleted]);
+            XCTAssertEqualObjects(syncId, contactFromDb[kSyncTargetSyncId]);
             XCTAssertEqualObjects(accountFromDb[ID], contactFromDb[ACCOUNT_ID]);
         }
     }
@@ -655,6 +660,81 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 }
 
 /**
+  * Tests clean ghosts when soup is populated through more than one sync down
+  */
+- (void) testCleanResyncGhostsForParentChildrenWithMultipleSyncs
+{
+    NSUInteger numberAccounts = 6;
+    NSUInteger numberContactsPerAccount = 3;
+
+    // Creating test accounts and contacts on server
+    [self createAccountsAndContactsOnServer:numberAccounts numberContactsPerAccount:numberContactsPerAccount];
+
+    NSArray* accountIds = [accountIdContactIdToFields allKeys];
+    NSArray* accountIdsFirstSubset = [accountIds subarrayWithRange:NSMakeRange(0, 3)];  // id0, id1, id2
+    NSArray* accountIdsSecondSubset = [accountIds subarrayWithRange:NSMakeRange(2, 4)]; //           id2, id3, id4, id5
+
+    // Runs a first sync down (bringing down accounts id0, id1, id2 and their contacts)
+    SFParentChildrenSyncDownTarget * firstTarget = [self getAccountContactsSyncDownTargetWithParentSoqlFilter:[NSString stringWithFormat:@"%@ IN %@", ID, [self buildInClause:accountIdsFirstSubset]]];
+    NSNumber* firstSyncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeOverwrite
+                                                                   target:firstTarget
+                                                                 soupName:ACCOUNTS_SOUP
+                                                                totalSize:accountIdsFirstSubset.count
+                                                            numberFetches:1]];
+    [self checkDbExists:ACCOUNTS_SOUP ids:accountIdsFirstSubset idField:@"Id"];
+    [self checkDbSyncIdField:accountIdsFirstSubset soupName:ACCOUNTS_SOUP syncId:firstSyncId];
+
+    // Runs a second sync down (bringing down accounts id2, id3, id4, id5 and their contacts)
+    SFParentChildrenSyncDownTarget * secondTarget = [self getAccountContactsSyncDownTargetWithParentSoqlFilter:[NSString stringWithFormat:@"%@ IN %@", ID, [self buildInClause:accountIdsSecondSubset]]];
+    NSNumber* secondSyncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeOverwrite
+                                                                   target:secondTarget
+                                                                 soupName:ACCOUNTS_SOUP
+                                                                totalSize:accountIdsSecondSubset.count
+                                                            numberFetches:1]];
+    [self checkDbExists:ACCOUNTS_SOUP ids:accountIdsSecondSubset idField:@"Id"];
+    [self checkDbSyncIdField:accountIdsSecondSubset soupName:ACCOUNTS_SOUP syncId:secondSyncId];
+
+    // Deletes id0, id2, id5 on the server
+    [self deleteRecordsOnServer:@[accountIds[0], accountIds[2], accountIds[5]] objectType:ACCOUNT_TYPE];
+
+    // Cleaning ghosts of first sync (should only remove id0)
+    XCTestExpectation* firstCleanExpectation = [self expectationWithDescription:@"firstCleanGhosts"];
+    [self.syncManager cleanResyncGhosts:firstSyncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+        if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
+            [firstCleanExpectation fulfill];
+        }
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[2], accountIds[3], accountIds[4], accountIds[5]] idField:@"Id"];
+    [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
+    for (NSString* accountId in [accountIdContactIdToFields allKeys]) {
+        if ([accountId isEqualToString:accountIds[0]]) {
+            [self checkDbDeleted:CONTACTS_SOUP ids:[((NSDictionary *) accountIdContactIdToFields[accountId]) allKeys] idField:ID];
+        } else {
+            [self checkDb:accountIdContactIdToFields[accountId] soupName:CONTACTS_SOUP];
+        }
+    }
+
+    // Cleaning ghosts of second sync (should remove id2 and id5)
+    XCTestExpectation* secondCleanExpectation = [self expectationWithDescription:@"secondCleanGhosts"];
+    [self.syncManager cleanResyncGhosts:secondSyncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+        if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
+            [secondCleanExpectation fulfill];
+        }
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[3], accountIds[4]] idField:@"Id"];
+    [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0], accountIds[2], accountIds[5]] idField:@"Id"];
+    for (NSString* accountId in [accountIdContactIdToFields allKeys]) {
+        if ([accountId isEqualToString:accountIds[0]] || [accountId isEqualToString:accountIds[2]] || [accountId isEqualToString:accountIds[5]]) {
+            [self checkDbDeleted:CONTACTS_SOUP ids:[((NSDictionary *) accountIdContactIdToFields[accountId]) allKeys] idField:ID];
+        } else {
+            [self checkDb:accountIdContactIdToFields[accountId] soupName:CONTACTS_SOUP];
+        }
+    }
+}
+
+/**
  * Create accounts and contacts locally, sync up with merge mode OVERWRITE, check smartstore and server afterwards
  */
 - (void) testSyncUpWithLocallyCreatedRecords {
@@ -748,7 +828,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
 /**
  * Create accounts on server, sync down
- * Create contacts locally associated the accounts with them and run sync up
+ * Create contacts locally, associates them with the accounts and run sync up
  * Check smartstore and server afterwards
  */
 - (void) testSyncUpWithLocallyCreatedChildrenRecords {
@@ -785,6 +865,61 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
     // Cleanup
     [self deleteRecordsOnServer:[accountIdToFieldsCreated allKeys] objectType:ACCOUNT_TYPE];
+    [self deleteRecordsOnServer:[contactIdToFieldsCreated allKeys] objectType:CONTACT_TYPE];
+}
+
+/**
+ * Create account on server, sync down
+ * Remotely delete account
+ * Create contacts locally, associates them with the account and run sync up
+ * Check smartstore and server afterwards
+ * The account should be recreated and the contacts should be associated to the new account id
+ */
+- (void) testSyncUpWithLocallyCreatedChildrenRemotelyDeletedParent {
+    
+    // Create account on server
+    NSDictionary* accountIdToName = [self createRecordsOnServer:1 objectType:ACCOUNT_TYPE];
+    NSString* accountId = [accountIdToName allKeys][0];
+    NSString* accountName = accountIdToName[accountId];
+    
+    // Sync down remote accounts
+    NSString *soql = [NSString stringWithFormat:@"SELECT Id, Name, LastModifiedDate FROM Account WHERE Id = '%@'", accountId];
+    SFSyncDownTarget* accountSyncDownTarget = [SFSoqlSyncDownTarget newSyncTarget:soql];
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:accountSyncDownTarget soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
+    
+    // Create a few contacts locally associated with account
+    NSDictionary *contactsForAccountsLocally = [self createContactsForAccountLocally:3 accountIds:@[accountId]];
+    NSMutableArray * contactNames = [NSMutableArray new];
+    for (NSArray * contacts in [contactsForAccountsLocally allValues]) {
+        for (NSDictionary * contact in contacts) {
+            [contactNames addObject:contact[LAST_NAME]];
+        }
+    }
+    
+    // Delete account remotely
+    [self deleteRecordsOnServer:@[accountId] objectType:ACCOUNT_TYPE];
+    
+    // Sync up
+    SFParentChildrenSyncUpTarget * target = [self getAccountContactsSyncUpTarget];
+    [self trySyncUp:1 target:target mergeMode:SFSyncStateMergeModeOverwrite];
+    
+    // Make sure account got recreated
+    NSString* newAccountId = [self checkRecordRecreated:accountId fields:@{NAME:accountName} nameField:NAME soupName:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE parentId:nil parentIdField:nil];
+    
+    // Check that db doesn't show contact entries as locally updated anymore
+    NSDictionary * contactIdToFieldsCreated = [self getIdToFieldsByName:CONTACTS_SOUP fieldNames:@[LAST_NAME, ACCOUNT_ID] nameField:LAST_NAME names:contactNames];
+    [self checkDbStateFlags:[contactIdToFieldsCreated allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
+    // Check contacts on server
+    [self checkServer:contactIdToFieldsCreated objectType:CONTACT_TYPE];
+    
+    // Check that contact use new account id in accountId field
+    for (NSString* contactId in [contactIdToFieldsCreated allKeys]) {
+        XCTAssertEqualObjects(contactIdToFieldsCreated[contactId][ACCOUNT_ID], newAccountId);
+    }
+    
+    // Cleanup
+    [self deleteRecordsOnServer:@[newAccountId] objectType:ACCOUNT_TYPE];
     [self deleteRecordsOnServer:[contactIdToFieldsCreated allKeys] objectType:CONTACT_TYPE];
 }
 
@@ -1054,6 +1189,93 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     [self trySyncUpsWithVariousChangesWithNumberAccounts:2 numberContactsPerAccount:0 localChangeForAccount:DELETE remoteChangeForAccount:DELETE localChangeForContact:NONE remoteChangeForContact:NONE];
 }
 
+/**
+ * Create accounts and contacts on server, sync down
+ * Update some of the accounts and contacts - using bad names (too long) for some
+ * Sync up
+ * Check smartstore and server afterwards
+ */
+- (void) testSyncUpWithErrors
+{
+    // Creating test accounts and contacts on server
+    [self createAccountsAndContactsOnServer:3 numberContactsPerAccount:3];
+
+    // Sync down
+    SFParentChildrenSyncDownTarget * syncTarget = [self getAccountContactsSyncDownTargetWithParentSoqlFilter:
+            [NSString stringWithFormat:@"Id IN %@", [self buildInClause:[accountIdContactIdToFields allKeys]]]];
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:syncTarget soupName:ACCOUNTS_SOUP totalSize:3 numberFetches:1];
+
+    // Picking accounts / contacts
+    NSArray* accountIds = [accountIdToFields allKeys];
+    NSString* account1Id = accountIds[0];
+    NSArray* contactIdsOfAccount1 = [accountIdContactIdToFields[account1Id] allKeys];
+    NSString* contact11Id = contactIdsOfAccount1[0];
+    NSString* contact12Id = contactIdsOfAccount1[1];
+
+    NSString* account2Id = accountIds[1];
+    NSArray* contactIdsOfAccount2 = [accountIdContactIdToFields[account2Id] allKeys];
+    NSString* contact21Id = contactIdsOfAccount2[0];
+    NSString* contact22Id = contactIdsOfAccount2[1];
+
+    // Build long suffix
+    NSMutableString* suffixTooLong = [NSMutableString new];
+    for (int i = 0; i < 255; i++) [suffixTooLong appendString:@"x"];
+
+    // Updating with valid values
+    NSDictionary * updatedAccount1Fields = [self updateRecordLocally:accountIdToFields[account1Id] idToUpdate:account1Id soupName:ACCOUNTS_SOUP][account1Id];
+    NSDictionary * updatedContact11Fields = [self updateRecordLocally:accountIdContactIdToFields[account1Id][contact11Id] idToUpdate:contact11Id soupName:CONTACTS_SOUP][contact11Id];
+    NSDictionary * updatedContact21Fields = [self updateRecordLocally:accountIdContactIdToFields[account2Id][contact22Id] idToUpdate:contact21Id soupName:CONTACTS_SOUP][contact21Id];
+
+    // Updating with invalid values
+    [self updateRecordLocally:accountIdToFields[account2Id] idToUpdate:account2Id soupName:ACCOUNTS_SOUP suffix:suffixTooLong];
+    [self updateRecordLocally:accountIdContactIdToFields[account1Id][contact12Id] idToUpdate:contact12Id soupName:CONTACTS_SOUP suffix:suffixTooLong];
+    [self updateRecordLocally:accountIdContactIdToFields[account2Id][contact22Id] idToUpdate:contact22Id soupName:CONTACTS_SOUP suffix:suffixTooLong];
+
+    // Sync up
+    [self trySyncUp:2 target:[self getAccountContactsSyncUpTarget] mergeMode:SFSyncStateMergeModeOverwrite];
+
+    // Check valid records in db: should no longer be marked as dirty
+    [self checkDbStateFlags:@[account1Id] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+    [self checkDbStateFlags:@[contact11Id, contact21Id] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+
+    // Check invalid records in db
+    // Should still be marked as dirty
+    [self checkDbStateFlags:@[account2Id] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:YES expectedLocallyDeleted:NO];
+    [self checkDbStateFlags:@[contact12Id, contact22Id] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:YES expectedLocallyDeleted:NO];
+
+    // Should have populated last error fields
+    [self checkDbLastErrorField:@[ account2Id ] soupName:ACCOUNTS_SOUP lastErrorSubString:@"Account Name: data value too large"];
+    [self checkDbLastErrorField:@[ contact12Id, contact22Id ] soupName:CONTACTS_SOUP lastErrorSubString:@"Last Name: data value too large"];
+
+    // Check server
+    NSMutableDictionary * accountIdToFieldsExpectedOnServer = [NSMutableDictionary new];
+    for (NSString* id in accountIds) {
+        // Only update to account1 should have gone through
+        if ([id isEqualToString:account1Id]) {
+            accountIdToFieldsExpectedOnServer[id] = updatedAccount1Fields;
+        }
+        else {
+            accountIdToFieldsExpectedOnServer[id] = accountIdToFields[id];
+        }
+    }
+    [self checkServer:accountIdToFieldsExpectedOnServer objectType:ACCOUNT_TYPE];
+
+    NSMutableDictionary * contactIdToFieldsExpectedOnServer = [NSMutableDictionary new];
+    for (NSString* id in accountIds) {
+        NSDictionary * contactIdToFields = accountIdContactIdToFields[id];
+        for (NSString* cid in [contactIdToFields allKeys]) {
+            // Only update to contact11 and contact21 should have gone through
+            if ([cid isEqualToString:contact11Id]) {
+                contactIdToFieldsExpectedOnServer[cid] = updatedContact11Fields;
+            } else if ([cid isEqualToString:contact21Id]) {
+                contactIdToFieldsExpectedOnServer[cid] = updatedContact21Fields;
+            } else {
+                contactIdToFieldsExpectedOnServer[cid] = contactIdToFields[cid];
+            }
+        }
+    }
+    [self checkServer:contactIdToFieldsExpectedOnServer objectType:CONTACT_TYPE];
+}
 
 #pragma mark - Helper methods
 
@@ -1154,7 +1376,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 - (void) tryGetNonDirtyRecordIds:(NSArray*) expectedRecords
 {
     SFParentChildrenSyncDownTarget * target = [self getAccountContactsSyncDownTarget];
-    NSOrderedSet* nonDirtyRecordIds = [target getNonDirtyRecordIds:self.syncManager soupName:ACCOUNTS_SOUP idField:ID];
+    NSOrderedSet* nonDirtyRecordIds = [target getNonDirtyRecordIds:self.syncManager soupName:ACCOUNTS_SOUP idField:ID additionalPredicate:@""];
     XCTAssertEqual(nonDirtyRecordIds.count, expectedRecords.count);
 
     for (NSDictionary * expectedRecord in expectedRecords) {
@@ -1693,6 +1915,5 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
                        relationshipType:SFParentChildrenRelationpshipMasterDetail]; // account-contacts are master-detail
     return target;
 }
-
 
 @end

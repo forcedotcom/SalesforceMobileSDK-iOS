@@ -34,7 +34,6 @@
 @interface SFSDKUserSelectionNavViewController ()<SFSDKUserSelectionTableViewControllerDelegate> {
     SFSDKUserSelectionTableViewController *_selectionView;
 }
-
 @end
 
 @implementation SFSDKUserSelectionNavViewController
@@ -43,7 +42,7 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _selectionView= [[SFSDKUserSelectionTableViewController alloc] initWithNibName:nil bundle:nil];
+        _selectionView= [self createUserSelectionController];
     }
     return self;
 }
@@ -63,11 +62,11 @@
 }
 
 - (NSDictionary *)spAppOptions {
-    return _selectionView.options;
+    return _selectionView.spAppOptions;
 }
 
 - (void)setSpAppOptions:(NSDictionary *)spAppOptions {
-    _selectionView.options = spAppOptions;
+    _selectionView.spAppOptions = spAppOptions;
 }
 
 
@@ -84,4 +83,7 @@
     [self.userSelectionDelegate cancel:options];
 }
 
+- (SFSDKUserSelectionTableViewController *)createUserSelectionController {
+    return [[SFSDKUserSelectionTableViewController alloc] initWithNibName:nil bundle:nil];
+}
 @end

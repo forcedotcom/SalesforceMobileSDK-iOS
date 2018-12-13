@@ -1,0 +1,116 @@
+$git_pr_api = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
+$schemes = ['SalesforceAnalytics', 'SalesforceHybridSDK', 'SalesforceReact', 'SalesforceSDKCore', 'SmartStore', 'SmartSync', 'SalesforceSwiftSDK']
+ENV['DEVICE'] = 'iPhone 8' unless ENV.has_key?('DEVICE')
+ENV['IOS_VERSION'] = ' (11.3)' unless ENV.has_key?('IOS_VERSION')
+
+lane :PR do |options|
+  lib_to_test = options[:lib]
+  Dir.chdir('../')
+  schemes = Set.new
+
+  # Determine CI platform or exit
+  if ENV.has_key?('CIRCLE_PULL_REQUEST')
+    # No PR Number indicates that this PR is running in a CircleCI env linked to a fork, so force the url to forcedotcom project.
+    if ENV.has_key?('CIRCLE_PR_NUMBER')
+      pr_files_api = $git_pr_api % [ENV['CIRCLE_PROJECT_USERNAME'], ENV['CIRCLE_PR_NUMBER']]
+    else
+      pr_files_api = $git_pr_api % ['forcedotcom', ENV['CIRCLE_PULL_REQUEST'].split('/').last]
+    end
+    pull_files = `#{"curl %s" % [pr_files_api]}`
+  else
+    UI.error 'Not a PR on CircleCI, stopping stop execution now.'
+    next
+  end
+
+  # Determine which libs have been modified
+  pr_files = JSON.parse(pull_files)
+  for pr_file in pr_files
+    path = pr_file['filename']
+    for scheme in $schemes
+      if path.include? scheme
+        schemes.add(scheme)
+      end
+    end
+  end
+  UI.important "Schemes to test: " + schemes.to_a().join(',')
+
+  if schemes.include? lib_to_test
+    test_scheme(lib_to_test)
+  else
+    UI.important "Lib #{lib_to_test} not modified by this PR, no need to test."
+  end
+end
+
+lane :LCL do
+  Dir.chdir('../')
+  index = 1
+  puts 'Select scheme: '
+  for scheme in $schemes
+    puts index.to_s + ': ' + scheme
+    index = index + 1
+  end
+
+  print 'Just enter a number or name: '
+  selection = STDIN.gets.strip
+
+  if $schemes.include? selection
+    test_scheme(selection)
+  # Not the best error handling, but sufficient for catching typos
+  elsif selection.to_i > 0 and selection.to_i <= $schemes.count
+    test_scheme($schemes[selection.to_i - 1])
+  else
+    UI.user_error!('Invalid test selection.')
+  end
+end
+
+lane :CI do
+  Dir.chdir('../')
+  test_scheme('UnitTests')
+end
+
+def test_scheme(scheme)
+  analyze_scheme(scheme)
+  begin
+    scan(
+        workspace: 'SalesforceMobileSDK.xcworkspace',
+        scheme: scheme,
+        device: ENV['DEVICE'] + ENV['IOS_VERSION'],
+        output_directory: 'test_output',
+        output_types: 'html',
+        code_coverage: true,
+        skip_build: true
+    )
+  ensure
+    system("mv ../test_output/report.html ../test_output/#{scheme}_results.html")
+  end
+end
+
+def analyze_scheme(scheme)
+  if scheme.eql? 'SalesforceSwiftSDK'
+    system('brew install swiftlint')
+    swiftlint(
+        mode: :lint,
+        output_file: 'swiftlint.result.json',
+        reporter: 'json',
+        ignore_exit_status: true
+    )
+  else
+    begin
+      xcodebuild(
+          xcargs: 'CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES',
+          workspace: 'SalesforceMobileSDK.xcworkspace',
+          scheme: scheme,
+          sdk: 'iphonesimulator',
+          )
+    ensure
+      #move clangReports to one folder
+      system('mkdir -p ../clangReport/StaticAnalyzer')
+      system('mv ../libs/SalesforceAnalytics/clangReport/StaticAnalyzer/SalesforceAnalytics ../clangReport/StaticAnalyzer/')
+      system('mv ../libs/SalesforceHybridSDK/clangReport/StaticAnalyzer/SalesforceHybridSDK ../clangReport/StaticAnalyzer/')
+      system('mv ../libs/SalesforceReact/clangReport/StaticAnalyzer/SalesforceReact ../clangReport/StaticAnalyzer/')
+      system('mv ../libs/SalesforceSDKCore/clangReport/StaticAnalyzer/SalesforceSDKCore ../clangReport/StaticAnalyzer/')
+      system('mv ../libs/SmartStore/clangReport/StaticAnalyzer/SmartStore ../clangReport/StaticAnalyzer/')
+      system('mv ../libs/SmartSync/clangReport/StaticAnalyzer/SmartSync ../clangReport/StaticAnalyzer/')
+    end
+  end
+end

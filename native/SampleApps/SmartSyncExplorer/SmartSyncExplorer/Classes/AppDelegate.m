@@ -35,6 +35,7 @@
 #import <SalesforceAnalytics/SFSDKDatasharingHelper.h>
 #import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
 #import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
+#import <SalesforceSDKcore/SFSDKNavigationController.h>
 #import "IDPLoginNavViewController.h"
 
 @interface AppDelegate () <SalesforceSDKManagerDelegate>
@@ -70,9 +71,7 @@
         [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = config.remoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:config.oauthScopes];
-        
         __weak typeof(self) weakSelf = self;
-        
         [[SalesforceSDKManager sharedManager] addDelegate:self];
         
         //Uncomment following block to enable IDP Login flow.
@@ -131,7 +130,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    // The Mobile SDK uses multiple UIWindow's inorder to present views. Having
+    // Multiple windows with different controllers varying rotational behaviors
+    // lead to weird UIWindow behaviors. To avoid such rotation and other issues
+    // between visible and hidden windows use the SFSDKUIWindow instead of  
+    // UIWindow.
+    self.window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
     [[SalesforceSDKManager sharedManager] launch];
     return YES;
@@ -176,7 +180,7 @@
 - (void)setupRootViewController
 {
     ContactListViewController *rootVC = [[ContactListViewController alloc] initWithStyle:UITableViewStylePlain];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
+    SFSDKNavigationController *navVC = [[SFSDKNavigationController alloc] initWithRootViewController:rootVC];
     self.window.rootViewController = navVC;
 }
 

@@ -1,0 +1,18 @@
+module: SalesforceSwiftSDK
+author: Salesforce
+author_url: https://github.com/forcedotcom
+github_url: https://github.com/forcedotcom/SalesforceMobileSDK-iOS
+exclude:
+  - "**/*.h"
+  - "**/*-ObjC.swift"
+  - "**/*Deprecations.swift"
+  - "**/SwiftExtensions.swift"
+readme: '../libs/SalesforceSwiftSDK/readme.md'
+copyright: '© Copyright 2017–current salesforce.com, inc. All rights reserved. Salesforce is a registered trademark of salesforce.com, inc.,
+as are other names and marks. Other marks appearing herein may be trademarks of their respective owners.'
+swift_version: 4.0.3
+skip_undocumented: true
+theme: fullwidth
+clean: false
+xcodebuild_arguments: [-configuration, Release, -sdk, iphonesimulator, -scheme, SalesforceSwiftSDK, -workspace, SalesforceMobileSDK.xcworkspace]
+output: ../build/artifacts/doc/SalesforceSwiftSDK

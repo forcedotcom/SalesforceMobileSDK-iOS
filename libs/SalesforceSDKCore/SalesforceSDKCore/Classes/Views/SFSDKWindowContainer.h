@@ -69,6 +69,8 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  */
 @property (nonatomic, copy, readonly) NSString * windowName;
 
+@property(nonatomic) UIWindowLevel windowLevel; 
+
 /** UIViewController viewController
  */
 @property (nonatomic, strong) UIViewController * _Nullable viewController;
@@ -85,6 +87,13 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
 - (instancetype)initWithWindow:(UIWindow *)window name:(NSString *) windowName;
 
 /**
+ Create an instance of a Window
+ @param windowName key for the UIWindow
+ @return SFSDKWindowComtainer
+ */
+- (instancetype)initWithName:(NSString *) windowName;
+
+/**
  * Returns true if window alpha is set to 1.0
  */
 - (BOOL)isEnabled;
@@ -93,6 +102,7 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  * Make window visible, set alpha to 1.0
  */
 - (void)presentWindow;
+
 /**
  * Make window visible, set alpha to 1.0 invoke completion block
  */
@@ -132,6 +142,11 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  * Tries to return top view controller of this window
  */
 - (UIViewController*) topViewController;
+
+/**
+ * Tries to return top view controller given a rootViewcontroller
+ */
++ (UIViewController*)topViewControllerWithRootViewController:(UIViewController*)viewController;
 @end
 
 NS_ASSUME_NONNULL_END

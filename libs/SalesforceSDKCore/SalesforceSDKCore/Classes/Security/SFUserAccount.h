@@ -79,7 +79,7 @@ typedef NS_ENUM(NSUInteger, SFUserAccountLoginState) {
  on the server-side. This URL takes into account the
  current community if available (see `communityId`).
  */
-@property (nonatomic, copy, readonly) NSURL *apiUrl;
+@property (nonatomic, copy, readonly, nullable) NSURL *apiUrl;
 
 /** The user's email
  */
@@ -178,6 +178,18 @@ typedef NS_ENUM(NSUInteger, SFUserAccountLoginState) {
  @return a key identifying this user account for the specified scope
  */
 NSString *_Nullable SFKeyForUserAndScope(SFUserAccount * _Nullable user, SFUserAccountScope scope);
+
+/** Function that returns a key that uniquely identifies this user,org & community for the
+ given scope. Note that if you use SFUserAccountScopeGlobal,
+ the same key will be returned regardless of the user account.
+ 
+ @param userId The user identifier
+ @param orgId The org identifier
+ @param communityId The community id identifier
+ @param scope The scope
+ @return a key identifying this user account for the specified scope
+ */
+NSString *_Nullable SFKeyForUserIdAndScope(NSString *userId,NSString *orgId, NSString *_Nullable communityId, SFUserAccountScope scope);
 
 @end
 

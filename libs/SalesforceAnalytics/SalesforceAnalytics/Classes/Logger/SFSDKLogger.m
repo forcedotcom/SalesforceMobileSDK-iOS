@@ -41,7 +41,6 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
 
 @property (nonatomic, readwrite, strong) NSString *componentName;
 @property (nonatomic, readwrite, strong) DDLog *logger;
-@property (nonatomic, readwrite, strong) SFSDKFileLogger *fileLogger;
 
 @end
 
@@ -98,6 +97,16 @@ static NSMutableDictionary<NSString *, SFSDKLogger *> *loggerList = nil;
         }
     }
     return self;
+}
+
+- (void)setFileLogger:(SFSDKFileLogger *)fileLogger {
+    if (fileLogger != _fileLogger) {
+        if (self.isFileLoggingEnabled) {
+            [_logger removeLogger:_fileLogger];
+            [_logger addLogger:fileLogger withLevel:self.logLevel];
+        }
+        _fileLogger = fileLogger;
+    }
 }
 
 - (void)setFileLoggingEnabled:(BOOL)loggingEnabled {

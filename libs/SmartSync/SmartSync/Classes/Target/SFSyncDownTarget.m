@@ -22,6 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFSoupIndex.h>
 #import "SFSyncTarget+Internal.h"
 #import "SFMruSyncDownTarget.h"
 #import "SFRefreshSyncDownTarget.h"
@@ -30,6 +32,8 @@
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFParentChildrenSyncDownTarget.h"
+#import "SFMetadataSyncDownTarget.h"
+#import "SFLayoutSyncDownTarget.h"
 
 // query types
 NSString * const kSFSyncTargetQueryTypeMru = @"mru";
@@ -38,6 +42,8 @@ NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
 NSString * const kSFSyncTargetQueryTypeRefresh = @"refresh";
 NSString * const kSFSyncTargetQueryTypeParentChidlren = @"parentChildren";
 NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
+NSString * const kSFSyncTargetQueryTypeMetadata = @"metadata";
+NSString * const kSFSyncTargetQueryTypeLayout = @"layout";
 
 @implementation SFSyncDownTarget
 
@@ -68,6 +74,10 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
                 return [[SFRefreshSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeParentChildren:
                 return [[SFParentChildrenSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeMetadata:
+                return [[SFMetadataSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypeLayout:
+                return [[SFLayoutSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeCustom:
                 [SFSDKSmartSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
@@ -104,13 +114,10 @@ ABSTRACT_METHOD
     return [self getLatestModificationTimeStamp:records modificationDateFieldName:self.modificationDateFieldName];
 }
 
-- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
-                 soupName:(NSString *)soupName
-               errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-            completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
     // Fetches list of IDs present in local soup that have not been modified locally.
-    NSMutableOrderedSet* localIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName]];
+    NSMutableOrderedSet *localIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName additionalPredicate:[self buildSyncIdPredicateIfIndexed:syncManager soupName:soupName syncId:syncId]]];
 
     // Fetches list of IDs still present on the server from the list of local IDs
     // and removes the list of IDs that are still present on the server.
@@ -120,11 +127,20 @@ ABSTRACT_METHOD
             errorBlock:errorBlock
          completeBlock:^(NSArray *remoteIds) {
              [localIds removeObjectsInArray:remoteIds];
-
              // Deletes extra IDs from SmartStore.
              [self deleteRecordsFromLocalStore:syncManager soupName:soupName ids:localIdsArr idField:self.idFieldName];
              completeBlock(localIdsArr);
          }];
+}
+
+- (NSString*) buildSyncIdPredicateIfIndexed:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId {
+    NSArray *indexSpecs = [syncManager.store indicesForSoup:soupName];
+    for (SFSoupIndex* indexSpec in indexSpecs) {
+        if ([indexSpec.path isEqualToString:kSyncTargetSyncId]) {
+            return [NSString stringWithFormat:@"AND {%@:%@} = %@", soupName, kSyncTargetSyncId, [syncId stringValue]];
+        }
+    }
+    return @"";
 }
 
 - (NSOrderedSet*) getIdsToSkip:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName {
@@ -147,6 +163,16 @@ ABSTRACT_METHOD
     if ([queryType isEqualToString:kSFSyncTargetQueryTypeRefresh]) {
         return SFSyncDownTargetQueryTypeRefresh;
     }
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypeParentChidlren]) {
+        return SFSyncDownTargetQueryTypeParentChildren;
+    }
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypeMetadata]) {
+        return SFSyncDownTargetQueryTypeMetadata;
+    }
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypeLayout]) {
+        return SFSyncDownTargetQueryTypeLayout;
+    }
+
     // Must be custom
     return SFSyncDownTargetQueryTypeCustom;
 }
@@ -159,6 +185,8 @@ ABSTRACT_METHOD
         case SFSyncDownTargetQueryTypeRefresh: return kSFSyncTargetQueryTypeRefresh;
         case SFSyncDownTargetQueryTypeParentChildren: return kSFSyncTargetQueryTypeParentChidlren;
         case SFSyncDownTargetQueryTypeCustom: return kSFSyncTargetQueryTypeCustom;
+        case SFSyncDownTargetQueryTypeMetadata: return kSFSyncTargetQueryTypeMetadata;
+        case SFSyncDownTargetQueryTypeLayout: return kSFSyncTargetQueryTypeLayout;
     }
 }
 
@@ -178,14 +206,14 @@ ABSTRACT_METHOD
 }
 
 
-- (NSOrderedSet*) getNonDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField {
-    NSString* nonDirtyRecordsSql = [self getNonDirtyRecordIdsSql:soupName idField:idField];
+- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate {
+    NSString* nonDirtyRecordsSql = [self getNonDirtyRecordIdsSql:soupName idField:idField additionalPredicate:additionalPredicate];
     return [self getIdsWithQuery:nonDirtyRecordsSql syncManager:syncManager];
 }
 
-- (NSString*) getNonDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField {
-    return [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '0' ORDER BY {%@:%@} ASC",
-                                      soupName, idField, soupName, soupName, kSyncTargetLocal, soupName, idField];
+- (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate {
+    return [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '0' %@ ORDER BY {%@:%@} ASC",
+                                      soupName, idField, soupName, soupName, kSyncTargetLocal, additionalPredicate, soupName, idField];
 }
 
 @end

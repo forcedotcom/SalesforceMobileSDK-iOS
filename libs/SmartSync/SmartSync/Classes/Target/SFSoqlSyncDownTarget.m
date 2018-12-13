@@ -150,14 +150,26 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     }
     NSString* soql = [self getSoqlForRemoteIds];
     __block NSMutableSet* remoteIds = [NSMutableSet new];
+    NSString* idFieldName = self.idFieldName;
     __block SFSyncDownTargetFetchCompleteBlock fetchBlockRecurse = ^(NSArray *records) {};
+    
+    SFSyncDownTargetFetchErrorBlock fetchErrorBlock = ^(NSError *error) {
+        fetchBlockRecurse = nil;
+        errorBlock(error);
+    };
+    
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
         if (records == nil) {
             completeBlock([remoteIds allObjects]);
+            fetchBlockRecurse = nil;
             return;
         }
-        [remoteIds unionSet:[self parseIdsFromResponse:records]];
-        [self continueFetch:syncManager errorBlock:errorBlock completeBlock:fetchBlockRecurse];
+        
+        for (NSDictionary * record in records) {
+            [remoteIds addObject:record[idFieldName]];
+        }
+        
+        [self continueFetch:syncManager errorBlock:fetchErrorBlock completeBlock:fetchBlockRecurse];
     };
     fetchBlockRecurse = fetchBlock;
     [self startFetch:syncManager queryToRun:soql errorBlock:errorBlock completeBlock:fetchBlock];

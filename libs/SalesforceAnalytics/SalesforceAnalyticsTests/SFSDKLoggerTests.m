@@ -111,7 +111,56 @@ unsigned long long const kDefaultMaxFileSize = 1024 * 1024; // 1 MB.
     XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine1], @"Log file doesn't contain expected log line");
     XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine2], @"Log file doesn't contain expected log line");
     XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine3], @"Log file doesn't contain expected log line");
+}
+
+- (void)testChangeFileLogger {
+    // Original file logger.
+    SFSDKLogger *logger = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
+    SFSDKFileLogger *origFileLogger = logger.fileLogger;
+    XCTAssertNil([logger.fileLogger readFile], @"Log file should be empty");
+    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine1]];
+    XCTAssertNotNil([logger.fileLogger readFile], @"Log file should not be empty");
+    XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine1], @"Log file doesn't contain expected log line");
     
+    // New file logger.
+    SFSDKFileLogger *newFileLogger = [[SFSDKFileLogger alloc] initWithComponent:kTestComponent2];
+    logger.fileLogger = newFileLogger;
+    XCTAssertNotEqual(logger.fileLogger, origFileLogger, @"File logger should have changed to the new file logger.");
+    XCTAssertNil([logger.fileLogger readFile], @"Log file should be empty");
+    [logger.logger log:NO message:[self messageForLogLine:kTestLogLine2]];
+    XCTAssertNotNil([logger.fileLogger readFile], @"Log file should not be empty");
+    XCTAssertTrue([[logger.fileLogger readFile] containsString:kTestLogLine2], @"New log file doesn't contain expected log line");
+    XCTAssertFalse([[logger.fileLogger readFile] containsString:kTestLogLine1], @"New log file contains unexpected log line");
+    XCTAssertTrue([[origFileLogger readFile] containsString:kTestLogLine1], @"Original log file doesn't contain expected log line");
+    XCTAssertFalse([[origFileLogger readFile] containsString:kTestLogLine2], @"Original log file contains unexpected log line");
+    
+    // Clean up old file logger.
+    XCTestExpectation *flushOrigFileLogger = [self expectationWithDescription:@"flushOrigFileLogger"];
+    [origFileLogger flushLogWithCompletionBlock:^{
+        [flushOrigFileLogger fulfill];
+        XCTAssertNil([origFileLogger readFile], @"Original file log should be empty.");
+    }];
+    [self waitForExpectationsWithTimeout:5.0 handler:nil];
+}
+
+/**
+ * Test for logging to a shared file logger.
+ */
+- (void) testLogToSharedFileLogger {
+    SFSDKLogger *logger1 = [SFSDKLogger sharedInstanceWithComponent:kTestComponent1];
+    SFSDKLogger *logger2 = [SFSDKLogger sharedInstanceWithComponent:kTestComponent2];
+    logger2.fileLogger = logger1.fileLogger;
+    XCTAssertEqual(logger1.fileLogger, logger2.fileLogger, @"File logger should be the same for both components.");
+    XCTAssertNil([logger1.fileLogger readFile], @"Log file should be empty");
+    [logger1.logger log:NO message:[self messageForLogLine:kTestLogLine1]];
+    [logger2.logger log:NO message:[self messageForLogLine:kTestLogLine2]];
+    [logger1.logger log:NO message:[self messageForLogLine:kTestLogLine3]];
+    for (SFSDKFileLogger *fileLogger in @[ logger1.fileLogger, logger2.fileLogger ]) {
+        XCTAssertNotNil([fileLogger readFile], @"Log file should not be empty");
+        XCTAssertTrue([[fileLogger readFile] containsString:kTestLogLine1], @"Log file doesn't contain expected log line");
+        XCTAssertTrue([[fileLogger readFile] containsString:kTestLogLine2], @"Log file doesn't contain expected log line");
+        XCTAssertTrue([[fileLogger readFile] containsString:kTestLogLine3], @"Log file doesn't contain expected log line");
+    }
 }
 
 /**

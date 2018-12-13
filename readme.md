@@ -1,4 +1,5 @@
-[![Build Status](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/dev/latest/buildstatus.svg)](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/dev/latest/index.html)
+[![CircleCI](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev.svg?style=svg)](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev)
+[![codecov](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev/graph/badge.svg)](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev)
 
 # Salesforce.com Mobile SDK for iOS
 
@@ -34,53 +35,32 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 6.0
-
-**OS Version Support**
-- iOS 11 is fully supported in Mobile SDK 6.0.
-- The minimum iOS version we support has been bumped up from iOS 9 to iOS 10.
-
-**IDE Support**
-- Xcode 9 is the minimum version of Xcode required by Mobile SDK 6.0.
+### What's New in 6.2
 
 **Library Upgrades**
-- We've updated React Native to version 0.50.4.
-- We've updated Cordova to version 4.5.4.
+- We've updated React Native to version 0.55.4.
 
-**Login Enhancements**
-- In version 6.0, Mobile SDK enhances its authentication handling by adding identity provider services.
-- Identity providers help known users avoid reentering their Salesforce credentials every time they log in to a Mobile SDK app.
-- A Mobile SDK app can be used to provide authentication services to other Mobile SDK apps.
-- We have created a template that can be used with `forcedroid` that demonstrates this functionality. This template can be found [here](https://github.com/forcedotcom/SalesforceMobileSDK-AuthTemplates).
+**Tool Version Upgrades**
+- We now require Cordova CLI 8.0.0.
 
-**SmartStore Enhancements**
-- Mobile SDK 6.0 introduces the ability to define your SmartStore schemas through configuration files rather than code.
-- To define soups for the default global store, provide a file named `globalstore.json`.
-- To define soups for the default user store, provide a file named `userstore.json`.
-
-**SmartSync Enhancements**
-- Beginning in Mobile SDK 6.0, you can define sync configuration files and assign names to sync configurations.
-- You can use sync names to run, edit, or delete a saved sync operation.
-- You can define “sync down” and “sync up” operations through configuration files rather than code.
-- To define sync operations for the default global store, provide a file named `globalsyncs.json`.
-- To define sync operations for the default user store, provide a file named `usersyncs.json`.
-
-**Mobile SDK Developer Tools**
-- The Developer Support dialog box is the launchpad for all available support screens and other useful actions.
-- The dialog box presents only the options that are pertinent to the type of app you’re running.
-- During debugging on a desktop, you can access the home screen through a keyboard shortcut or gesture (`^⌘z` keyboard shortcut or `Shake Gesture` in the `Hardware` menu).
-- By default, these tools are available only in debug builds. However, you can use an API call to enable or disable the Developer Support screen at other times.
-
-**SDK Manager Classes**
-- The `SalesforceSDKManager` class welcomes several new SDK manager cousins that handle specific types of apps.
-- This architecture now matches the analogous architecture in Mobile SDK for Android.
+**SmartSync Data Framework Enhancements**
+- The SmartSync Data Framework now saves the error returned when records fail to sync up.
+- A new utility, `SFMetadataSyncManager`, harnesses the power of SmartSync Data Framework to query Salesforce object metadata.
+- Another new utility, `SFLayoutSyncManager`, harnesses the power of SmartSync Data Framework to query Salesforce object layouts.
 
 **Other Technical Improvements**
+- A Swift version of our `RestAPIExplorer` native sample app is now available.
+- A Swift version of our native sample app, `SmartSyncExplorer`, is now available as a template in our templates repository.
+- We’ve given the Switch User screen a face lift.
+- We've consolidated our templates under a [single repository](https://github.com/forcedotcom/SalesforceMobileSDK-Templates).
 - Improvements to sample apps.
 - Various bug fixes.
 
 **Deprecations**
-- `SFAuthenticationManager` and all its delegates are now deprecated and will be removed in Mobile SDK 7.0. Instead, use `SFUserAccountManager` for authentication related functionality.
+- `SFSmartSyncMetadataManager` is now deprecated and will be removed in Mobile SDK 7.0. Instead, use `SFMetadataSyncManager` and `SFLayoutSyncManager`.
+- `SFSmartSyncCacheManager` is now deprecated and will be removed in Mobile SDK 7.0. Offline caching is now automatically handled by the SmartSync Data Framework.
+- `SFObjectType` is now deprecated and will be removed in Mobile SDK 7.0. Instead, use `SFMetadata`.
+- `SFObjectTypeLayout` is now deprecated and will be removed in Mobile SDK 7.0. Instead, use `SFLayout`.
 
 Check http://developer.force.com/mobilesdk for additional articles and tutorials.
 
@@ -108,6 +88,7 @@ Documentation
 * [SmartSync Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartSync/html/index.html)
 * [SalesforceHybridSDK Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceHybridSDK/html/index.html)
 * [SalesforceReact Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceReact/html/index.html)
+* [SalesforceSwiftSDK Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSwiftSDK/index.html)
 * Salesforce Mobile SDK Development Guide -- [PDF](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf) | [HTML](https://developer.salesforce.com/docs/atlas.en-us.mobile_sdk.meta/mobile_sdk/preface_intro.htm)
 * [Mobile SDK Trail](https://trailhead.salesforce.com/trails/mobile_sdk_intro)
 

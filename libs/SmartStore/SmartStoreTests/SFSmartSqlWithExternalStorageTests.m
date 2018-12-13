@@ -149,4 +149,15 @@
 {
     [super testSmartQueryWithSpecialFields];
 }
+
+- (void) testSmartQueryMatchingNullField
+{
+    [super testSmartQueryMatchingNullField];
+}
+
+- (void) testSmartQueryMachingBooleanInJSON1Field
+{
+    // Doesn't apply to external storage case
+}
+
 @end

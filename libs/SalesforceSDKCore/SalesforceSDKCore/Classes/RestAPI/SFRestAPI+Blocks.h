@@ -84,7 +84,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  */
 - (SFRestRequest *) performSOSLSearch:(NSString *)search 
                             failBlock:(SFRestFailBlock)failBlock 
-                        completeBlock:(SFRestArrayResponseBlock)completeBlock;
+                        completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 /**
  * Executes a global describe.
@@ -206,7 +206,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock 
-                                             completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                             completeBlock:(SFRestArrayResponseBlock)completeBlock;
 
 /**
  * Executes a request to get a file rendition

@@ -23,7 +23,7 @@
  */
 
 #import "SalesforceHybridSDKManager.h"
-
+#import "SFHybridViewConfig.h"
 @interface SmartStoreSDKManager ()
 
 - (NSString*) pathForGlobalStoreConfig;
@@ -39,7 +39,15 @@
 @end
 
 @implementation SalesforceHybridSDKManager
+@synthesize appConfig = _appConfig;
 
+- (SFSDKAppConfig *)appConfig {
+    if (_appConfig == nil) {
+        SFSDKAppConfig *config = [SFHybridViewConfig fromDefaultConfigFile];
+        _appConfig = config?:[[SFHybridViewConfig alloc] init];
+    }
+    return _appConfig;
+}
 - (SFAppType) appType {
     return kSFAppTypeHybrid;
 }

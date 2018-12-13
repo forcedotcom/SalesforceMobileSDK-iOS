@@ -27,6 +27,7 @@
 #import "SFSmartSyncNetworkUtils.h"
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncObjectUtils.h"
+#import "SFSyncTarget+Internal.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SmartStore/SFSmartStore.h>
 
@@ -53,6 +54,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 @interface  SFSyncUpTarget ()
 @property (nonatomic, strong) NSArray*  createFieldlist;
 @property (nonatomic, strong) NSArray*  updateFieldlist;
+@property (nonatomic, strong) NSString* lastError;
 @end
 
 @implementation SFSyncUpTarget
@@ -224,6 +226,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        self.lastError = e.description;
         failBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         completionBlock(d);
@@ -238,6 +241,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        self.lastError = e.description;
         failBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         completionBlock(d);
@@ -251,6 +255,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        self.lastError = e.description;
         failBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         completionBlock(d);
@@ -292,6 +297,31 @@ if ((localModDate.timestamp != nil && remoteModDate.timestamp != nil
         return true;
     }
     return false;
+}
+
+- (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
+                                    soupName:(NSString*) soupName
+                                      record:(NSDictionary*) record {
+    [self saveRecordToLocalStoreWithLastError:syncManager
+                                     soupName:soupName
+                                       record:record
+                                    lastError:self.lastError];
+    self.lastError = nil;
+}
+
+- (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
+                                    soupName:(NSString*) soupName
+                                      record:(NSDictionary*) record
+                                   lastError:(NSString*) lastError {
+    if (lastError) {
+        [self saveInLocalStore:syncManager
+                      soupName:soupName
+                       records:@[record]
+                   idFieldName:self.idFieldName
+                        syncId:nil
+                     lastError:lastError
+                    cleanFirst:NO];
+    }
 }
 
 @end

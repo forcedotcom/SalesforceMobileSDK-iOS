@@ -48,10 +48,7 @@
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-    [[SFUserAccountManager sharedInstance] handleNativeAuthResponse:url options:options];
-    // return NO so that another handler  interested in consuming this event cna also participate.
-    return NO;
-
+    return [[SFUserAccountManager sharedInstance] handleNativeAuthResponse:url options:options];
 }
 
 

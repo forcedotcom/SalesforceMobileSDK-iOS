@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 49;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,8 +28,6 @@
 		4FC276C319DCBC93008F4AA6 /* underscore-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */; };
 		4FC276C419DCBCA5008F4AA6 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FC2768519DCBAA3008F4AA6 /* com.salesforce.plugin.smartsync.js */; };
 		4FC276C719DCC9CD008F4AA6 /* ratchet-theme-ios.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FC276C519DCC9BD008F4AA6 /* ratchet-theme-ios.css */; };
-		4FCA4AE31FBE78BA00F081B3 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FCA4ABD1FBE78B900F081B3 /* userstore.json */; };
-		4FCA4AE41FBE78BA00F081B3 /* usersyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FCA4AE21FBE78BA00F081B3 /* usersyncs.json */; };
 		4FCA4AE51FBE7A8700F081B3 /* userstore.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FCA4ABD1FBE78B900F081B3 /* userstore.json */; };
 		4FCA4AE61FBE7A8700F081B3 /* usersyncs.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FCA4AE21FBE78BA00F081B3 /* usersyncs.json */; };
 		4FD3FC901DB05B7F00646D6D /* force+promise.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FD3FC6B1DB05B6A00646D6D /* force+promise.js */; };
@@ -1071,7 +1069,7 @@
 		824A9BC61721FCA400C9BD79 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = salesforce.com;
 				TargetAttributes = {
 					824A9BCD1721FCA400C9BD79 = {
@@ -1411,8 +1409,6 @@
 				B7168FB81FACC31100A48DB5 /* LaunchScreen.storyboard in Resources */,
 				B7BAD78E1FBB7EE50046629F /* IDPLoginViewController.xib in Resources */,
 				CED7473C1E8C82F00019AA9D /* ios-wkwebview-exec.js in Resources */,
-				4FCA4AE41FBE78BA00F081B3 /* usersyncs.json in Resources */,
-				4FCA4AE31FBE78BA00F081B3 /* userstore.json in Resources */,
 				CEBDA0BD1D3C05F500DBDBD0 /* MainViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1510,11 +1506,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -1568,11 +1566,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;

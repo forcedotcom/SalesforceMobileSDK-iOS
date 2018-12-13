@@ -138,7 +138,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param syncName The name for this sync.
  * @return The sync state associated with this sync down.
  */
-- (SFSyncState *)createSyncDown:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName;
+- (SFSyncState *)createSyncDown:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName;
 
 /**
  * Creates and runs a sync down that will overwrite any modified records.
@@ -166,7 +166,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param syncName The name for this sync.
  * @param updateBlock The block to be called with updates.
  */
-- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString* __nullable)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(nullable NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /**
  * Performs a resync.
@@ -190,7 +190,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param syncName The name for this sync.
  * @return The sync state associated with this sync up.
  */
-- (SFSyncState *)createSyncUp:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName;
+- (SFSyncState *)createSyncUp:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName;
 
 /**
  * Creates and runs a sync up with the default SFSyncUpTarget.
@@ -229,7 +229,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
 - (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget*)target
                           options:(SFSyncOptions*)options
                          soupName:(NSString*)soupName
-                         syncName:(NSString*)syncName
+                         syncName:(nullable NSString*)syncName
                       updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /**

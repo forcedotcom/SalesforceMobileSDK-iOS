@@ -295,8 +295,12 @@ static Class InstanceClass = nil;
                                         strongSelf.authViewController.delegate = strongSelf;
                                     }
                                     [strongSelf.authViewController setOauthView:authWebView];
-                                    SFSDKWindowManager.sharedManager.authWindow.viewController = strongSelf.authViewController;
-                                    [SFSDKWindowManager.sharedManager.authWindow presentWindow];
+                                    
+                                    [[SFSDKWindowManager sharedManager].authWindow presentWindowAnimated:NO withCompletion:^{
+                                        __strong typeof (weakSelf) strongSelf = weakSelf;
+                                        [[SFSDKWindowManager sharedManager].authWindow.viewController  presentViewController:strongSelf.authViewController animated:NO completion:nil];
+                                    }];
+                                    
                                 } dismissBlock:^(SFAuthenticationManager *authViewManager) {
                                     __strong typeof(weakSelf) strongSelf = weakSelf;
                                     [SFLoginViewController sharedInstance].oauthView = nil;
@@ -306,8 +310,9 @@ static Class InstanceClass = nil;
         // Default auth safari controller handler
         self.authSafariControllerHandler = [[SFAuthenticationSafariControllerHandler alloc]
                 initWithPresentBlock:^(SFAuthenticationManager *manager, SFSafariViewController *controller) {
-                    SFSDKWindowManager.sharedManager.authWindow.viewController = controller;
-                    [SFSDKWindowManager.sharedManager.authWindow presentWindow];
+                    [[SFSDKWindowManager sharedManager].authWindow presentWindowAnimated:NO withCompletion:^{
+                        [[SFSDKWindowManager sharedManager].authWindow.viewController  presentViewController:controller animated:NO completion:nil];
+                    }];
                 }];
 
         [[SFUserAccountManager sharedInstance] addDelegate:self];
@@ -406,9 +411,26 @@ static Class InstanceClass = nil;
         // SFUserAccount already logs the transition failure.
         return;
     }
+
+    // Before starting actual logout (which will tear down SFRestAPI), first unregister from push notifications if needed
+    __weak typeof(self) weakSelf = self;
+    [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:user completionBlock:^void() {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf postPushUnregistration:user];
+    }];
+}
+
+- (void)postPushUnregistration:(SFUserAccount *)user {
     
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self postPushUnregistration:user];
+        });
+        return;
+    }
+    
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : user };
     [SFSDKCoreLogger d:[self class] format:@"Logging out user '%@'.", user.userName];
-    NSDictionary *userInfo = @{ @"account" : user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
                                                         object:self
                                                       userInfo:userInfo];
@@ -423,16 +445,12 @@ static Class InstanceClass = nil;
     // If it's not the current user, this is really just about clearing the account data and
     // user-specific state for the given account.
     if (![user isEqual:userAccountManager.currentUser]) {
-        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         [userAccountManager deleteAccountForUser:user error:nil];
         [self revokeRefreshToken:user];
     }else {
         // Otherwise, the current user is being logged out.  Supply the user account to the
         // "Will Logout" notification before the credentials are revoked.  This will ensure
         // that databases and other resources keyed off of the userID can be destroyed/cleaned up.
-        if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
-            [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
-        }
         [self cancelAuthentication];
         [self clearAccountState:YES];
 
@@ -706,7 +724,7 @@ static Class InstanceClass = nil;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setHTTPMethod:@"GET"];
         [request setHTTPShouldHandleCookies:NO];
-        SFNetwork *network = [[SFNetwork alloc] init];
+        SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
         [network sendRequest:request dataResponseBlock:nil];
     }
     [user.credentials revoke];
@@ -842,7 +860,13 @@ static Class InstanceClass = nil;
         });
         return;
     }
-    [SFSDKWindowManager.sharedManager.authWindow dismissWindow];
+    if ([SFSDKWindowManager.sharedManager.authWindow.viewController presentedViewController]) {
+        [[SFSDKWindowManager.sharedManager.authWindow.viewController presentedViewController] dismissViewControllerAnimated:NO completion:^{
+            [SFSDKWindowManager.sharedManager.authWindow dismissWindow];
+        }];
+    }else {
+        [SFSDKWindowManager.sharedManager.authWindow dismissWindow];
+    }
 }
 
 - (void)retrievedIdentityData
@@ -935,13 +959,10 @@ static Class InstanceClass = nil;
         
         [self.statusAlert addAction:cancelAction];
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
             [SFSDKWindowManager.sharedManager.authWindow presentWindowAnimated:YES withCompletion:^{
-                [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
+                [SFSDKWindowManager.sharedManager.authWindow.viewController  presentViewController:weakSelf.statusAlert animated:NO completion:nil];
             }];
         });
-
     }
 }
 
@@ -1114,8 +1135,9 @@ static Class InstanceClass = nil;
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
-        SFSDKWindowManager.sharedManager.authWindow.viewController = hostListViewController;
-        [SFSDKWindowManager.sharedManager.authWindow presentWindow];
+        [[SFSDKWindowManager sharedManager].authWindow presentWindowAnimated:NO withCompletion:^{
+            [[SFSDKWindowManager sharedManager].authWindow.viewController presentViewController:hostListViewController animated:NO completion:nil];
+        }];
     }
 }
 
@@ -1242,9 +1264,8 @@ static Class InstanceClass = nil;
 
         // Logging events for add user and number of servers.
         NSArray *accounts = [SFUserAccountManager sharedInstance].allUserAccounts;
-        NSMutableDictionary *userAttributes = [[NSMutableDictionary alloc] init];
-        userAttributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:userAccount  className:NSStringFromClass([self class]) attributes:userAttributes];
+        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+        attributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
         NSInteger numHosts = [SFSDKLoginHostStorage sharedInstance].numberOfLoginHosts;
         NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
         for (int i = 0; i < numHosts; i++) {
@@ -1253,10 +1274,9 @@ static Class InstanceClass = nil;
                 [hosts addObject:host.host];
             }
         }
-        NSMutableDictionary *serverAttributes = [[NSMutableDictionary alloc] init];
-        serverAttributes[@"numLoginServers"] = [NSNumber numberWithInteger:numHosts];
-        serverAttributes[@"loginServers"] = hosts;
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:serverAttributes];
+        attributes[@"numLoginServers"] = [NSNumber numberWithInteger:numHosts];
+        attributes[@"loginServers"] = hosts;
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:userAccount  className:NSStringFromClass([self class]) attributes:attributes];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -1323,8 +1343,11 @@ static Class InstanceClass = nil;
         [self cancelAuthentication];
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
-        SFSDKWindowManager.sharedManager.authWindow.viewController = hostListViewController;
-        [SFSDKWindowManager.sharedManager.authWindow presentWindow];
+        
+        [[SFSDKWindowManager sharedManager].authWindow presentWindowAnimated:NO withCompletion:^{
+            [[SFSDKWindowManager sharedManager].authWindow.viewController presentViewController:hostListViewController animated:NO completion:nil];
+        }];
+
     }
 }
 
@@ -1340,7 +1363,6 @@ static Class InstanceClass = nil;
     
     [alert addAction:defaultAction];
     __weak typeof(self) weakSelf = self;
-    SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
     [SFSDKWindowManager.sharedManager.authWindow presentWindowAnimated:NO withCompletion:^{
         [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:weakSelf.statusAlert animated:NO completion:nil];
     }];
@@ -1364,7 +1386,6 @@ static Class InstanceClass = nil;
                                                           }];
     [alert addAction:cancelAction];
 
-    SFSDKWindowManager.sharedManager.authWindow.viewController = [self blankViewController];
     [SFSDKWindowManager.sharedManager.authWindow presentWindowAnimated:NO withCompletion:^{
         [SFSDKWindowManager.sharedManager.authWindow.viewController presentViewController:alert animated:NO completion:nil];
     }];

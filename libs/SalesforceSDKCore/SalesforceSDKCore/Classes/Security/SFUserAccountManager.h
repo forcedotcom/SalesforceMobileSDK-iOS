@@ -110,6 +110,10 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserWillLogout;
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserDidLogout;
 
+/** Notification sent when all users of org have logged off.
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationOrgDidLogout;
+
 /** Notification sent prior to display of Auth View
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserWillShowAuthView;
@@ -162,6 +166,10 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAuthTypeKey;
  */
 FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 
+/**  Key to use to lookup SFNotificationUserInfo object in Notitications dictionary
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoKey;
+
 @protocol SFSDKOAuthClientDelegate;
 @protocol SFSDKOAuthClientSafariViewDelegate;
 @protocol SFSDKOAuthClientWebViewDelegate;
@@ -191,8 +199,9 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
  * @param userAccountManager The instance of SFUserAccountManager
  * @param error The Error that occurred
  * @param info  The info for the auth request
+ * @return YES if the error has been handled by the delegate. SDK will attempt to handle the error if the result is NO.
  */
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError*)error info:(SFOAuthInfo *)info;
+- (BOOL)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError*)error info:(SFOAuthInfo *)info;
 
 /**
  Called before the user account manager switches from one user to another.
@@ -246,6 +255,12 @@ FOUNDATION_EXTERN NSString * const kSFUserInfoAddlOptionsKey;
 
 @end
 
+/** User Information for post logout notifications.
+ */
+@interface SFNotificationUserInfo : NSObject
+@property (nonatomic,readonly) SFUserAccountIdentity *accountIdentity;
+@property (nonatomic, readonly, nullable) NSString *communityId;
+@end
 
 /** Class used to manage the accounts functions used across the app.
  It supports multiple accounts and their associated credentials.

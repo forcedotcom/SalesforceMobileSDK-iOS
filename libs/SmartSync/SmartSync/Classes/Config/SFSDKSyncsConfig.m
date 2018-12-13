@@ -85,4 +85,8 @@ static NSString *const kSyncsConfigTarget = @"target";
     }
 }
 
+- (BOOL)hasSyncs {
+    return self.syncConfigs != nil && self.syncConfigs.count > 0;
+}
+
 @end
