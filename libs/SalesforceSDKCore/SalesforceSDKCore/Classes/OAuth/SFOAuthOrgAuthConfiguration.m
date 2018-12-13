@@ -26,6 +26,8 @@
 
 static NSString * const kAuthConfigMobileSDKKey        = @"MobileSDK";
 static NSString * const kAuthConfigUseNativeBrowserKey = @"UseiOSNativeBrowserForAuthentication";
+static NSString * const kAuthConfigSamlProvidersKey    = @"SamlProviders";
+static NSString * const kAuthConfigSSOUrlKey           = @"SsoUrl";
 
 @interface SFOAuthOrgAuthConfiguration ()
 
@@ -47,6 +49,20 @@ static NSString * const kAuthConfigUseNativeBrowserKey = @"UseiOSNativeBrowserFo
 
 - (BOOL)useNativeBrowserForAuth {
     return [self.authConfigDict[kAuthConfigMobileSDKKey][kAuthConfigUseNativeBrowserKey] boolValue];
+}
+
+- (NSArray<NSString *> *)ssoUrls {
+    NSMutableArray<NSString *> *ssoUrls = [[NSMutableArray alloc] init];
+    NSArray *samlProviders = self.authConfigDict[kAuthConfigSamlProvidersKey];
+    if (samlProviders && samlProviders.count > 0) {
+        for (int i = 0; i < samlProviders.count; i++) {
+            NSDictionary *provider = samlProviders[i];
+            if (provider) {
+                ssoUrls[i] = provider[kAuthConfigSSOUrlKey];
+            }
+        }
+    }
+    return ssoUrls;
 }
 
 - (NSString *) description {

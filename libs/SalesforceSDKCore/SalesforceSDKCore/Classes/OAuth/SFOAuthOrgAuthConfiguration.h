@@ -24,8 +24,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  Data class representing the org authentication configuration.
  */
@@ -37,16 +35,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL useNativeBrowserForAuth;
 
 /**
+ List of configured SSO URLs.
+ */
+@property (nonatomic, strong, readonly, nullable) NSArray<NSString *> *ssoUrls;
+
+/**
  The raw dictionary data representing the org auth configuration.
  */
-@property (nonatomic, strong, readonly) NSDictionary *authConfigDict;
+@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict;
 
 /**
  Designated initializer.
  @param authConfigDict The NSDictionary containing the org auth configuration.
  */
-- (id)initWithConfigDict:(NSDictionary *)authConfigDict;
+- (nonnull id)initWithConfigDict:(nullable NSDictionary *)authConfigDict;
 
 @end
-
-NS_ASSUME_NONNULL_END

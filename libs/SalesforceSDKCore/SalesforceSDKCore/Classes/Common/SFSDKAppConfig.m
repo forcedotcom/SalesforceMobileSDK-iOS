@@ -26,6 +26,7 @@
 #import "SFSDKResourceUtils.h"
 
 // Config error constants
+NSString * const SFSDKDefaultNativeAppConfigFilePath = @"/bootconfig.plist";
 NSString * const SFSDKAppConfigErrorDomain = @"com.salesforce.mobilesdk.AppConfigErrorDomain";
 
 static NSString* const kRemoteAccessConsumerKey = @"remoteAccessConsumerKey";
@@ -33,6 +34,10 @@ static NSString* const kOauthRedirectURI = @"oauthRedirectURI";
 static NSString* const kOauthScopes = @"oauthScopes";
 static NSString* const kShouldAuthenticate = @"shouldAuthenticate";
 static BOOL const kDefaultShouldAuthenticate = YES;
+
+@interface SFSDKAppConfig()
++ (void)createError:(NSError * _Nullable * _Nullable)error withCode:(NSInteger)errorCode message:(nonnull NSString *)message;
+@end
 
 @implementation SFSDKAppConfig
 
@@ -54,6 +59,25 @@ static BOOL const kDefaultShouldAuthenticate = YES;
         if ((self.configDict)[kShouldAuthenticate] == nil) {
             self.shouldAuthenticate = kDefaultShouldAuthenticate;
         }
+    }
+    return self;
+}
+
+- (instancetype)initWithConfigFile:(NSString *)configFile {
+    self = [super init];
+    if (self) {
+        NSString *fullPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:configFile];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+            [SFSDKCoreLogger i:[self class] format:@"%@ Config file does not exist at path '%@'", NSStringFromSelector(_cmd), fullPath];
+            return nil;
+        }
+        NSDictionary *configDict = [NSDictionary dictionaryWithContentsOfFile:fullPath];
+        if (configDict == nil) {
+            [SFSDKCoreLogger i:[self class] format:@"%@ Could not parse the config file at path '%@'.  Config file is not in a valid plist format.", NSStringFromSelector(_cmd), fullPath];
+            return nil;
+        }
+        
+       self = [self initWithDict:configDict];
     }
     return self;
 }
@@ -133,20 +157,7 @@ static BOOL const kDefaultShouldAuthenticate = YES;
 + (instancetype)fromConfigFile:(NSString *)configFilePath
 {
     NSAssert(configFilePath.length > 0, @"Must specify a config file path.");
-    
-    NSString *fullPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:configFilePath];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
-        [SFSDKCoreLogger i:self format:@"%@ Config file does not exist at path '%@'", NSStringFromSelector(_cmd), fullPath];
-        return nil;
-    }
-    NSDictionary *configDict = [NSDictionary dictionaryWithContentsOfFile:fullPath];
-    if (configDict == nil) {
-        [SFSDKCoreLogger i:self format:@"%@ Could not parse the config file at path '%@'.  Config file is not in a valid plist format.", NSStringFromSelector(_cmd), fullPath];
-        return nil;
-    }
-    
-    SFSDKAppConfig *config = [[SFSDKAppConfig alloc] initWithDict:configDict];
-    return config;
+    return [[self alloc] initWithConfigFile:configFilePath];
 }
 
 #pragma mark - Helper Methods

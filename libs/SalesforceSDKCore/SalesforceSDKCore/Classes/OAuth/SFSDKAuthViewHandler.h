@@ -28,32 +28,34 @@
  */
 #import <Foundation/Foundation.h>
 @class WKWebView;
-@class SFSafariViewController;
+@class SFAuthenticationSession;
 @class SFSDKAuthViewHolder;
 @class SFLoginViewController;
 NS_ASSUME_NONNULL_BEGIN
 /**
  Block definition for displaying the auth view.
  */
-typedef void (^SFSDKAuthViewDisplayBlock)(SFSDKAuthViewHolder *);
+typedef void (^SFSDKAuthViewDisplayBlock)(SFSDKAuthViewHolder *) NS_SWIFT_NAME(AuthViewDisplayBlock);
 
 /**
  Block definition for dismissing the auth view.
  */
-typedef void (^SFSDKAuthViewDismissBlock)(void);
+typedef void (^SFSDKAuthViewDismissBlock)(void) NS_SWIFT_NAME(AuthViewDismissBlock);;
 
+NS_SWIFT_NAME(AuthViewHolder)
 @interface SFSDKAuthViewHolder : NSObject
 
 @property (nonatomic,weak,nullable) WKWebView *wkWebView;
 
 @property (nonatomic,weak) SFLoginViewController *loginController;
 
-@property (nonatomic,weak,nullable) SFSafariViewController *safariViewController;
+@property (nonatomic,weak,nullable) SFAuthenticationSession *session;
 
 @property (nonatomic,assign) BOOL isAdvancedAuthFlow;
 
 @end
 
+NS_SWIFT_NAME(AuthViewHandler)
 @interface SFSDKAuthViewHandler : NSObject
 /**
  The block used to display the auth view.

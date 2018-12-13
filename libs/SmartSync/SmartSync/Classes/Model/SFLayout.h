@@ -38,6 +38,7 @@
  *
  * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_responses_record_layout.htm
  */
+NS_SWIFT_NAME(Layout)
 @interface SFLayout : NSObject
 
 @property (nonatomic, strong, readonly, nullable) NSString *id;

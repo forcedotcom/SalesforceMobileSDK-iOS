@@ -34,33 +34,34 @@
 /**
  Block typedef for setting up a custom SFLoginViewController.
  */
-typedef SFLoginViewController * _Nonnull (^SFLoginViewControllerCreationBlock)(void);
+typedef SFLoginViewController * _Nonnull (^SFLoginViewControllerCreationBlock)(void) NS_SWIFT_NAME(LoginViewControllerCreationBlock);
 
+NS_SWIFT_NAME(SalesforceLoginViewControllerConfig)
 @interface SFSDKLoginViewControllerConfig : NSObject
 
 /** Specify the font to use for navigation bar header text.*/
-@property (nonatomic, strong, nullable) UIFont * navBarFont;
+@property (nonatomic, strong, nullable) UIFont * navBarFont NS_SWIFT_NAME(navigationBarFont);
 
 /** Specify the text color to use for navigation bar header text. */
-@property (nonatomic, strong, nullable) UIColor * navBarTextColor;
+@property (nonatomic, strong, nullable) UIColor * navBarTextColor  NS_SWIFT_NAME(navigationBarTextColor);
 
 /** Specify navigation bar color. This color will be used by the login view header.
  */
-@property (nonatomic, strong, nullable) UIColor *navBarColor;
+@property (nonatomic, strong, nullable) UIColor *navBarColor NS_SWIFT_NAME(navigationBarColor);
 
 /** Specify navigation bar title color. This color will be used by the login view header.
  */
-@property (nonatomic, strong, nullable) UIColor *navBarTitleColor;
+@property (nonatomic, strong, nullable) UIColor *navBarTitleColor NS_SWIFT_NAME(navigationTitleColor);
 
 /** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
-@property (nonatomic) BOOL showNavbar;
+@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME(showsNavigationBar);
 
 /** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
-@property (nonatomic) BOOL showSettingsIcon;
+@property (nonatomic) BOOL showSettingsIcon NS_SWIFT_NAME(showsSettingsIcon);
 
 /** Specifiy the visibility of the back icon. This property value can be changed by changing the value of shouldAuthenticate in bootconfig or by subclasssing SFLoginViewController.
  */
-@property (nonatomic,readonly) BOOL shouldDisplayBackButton;
+@property (nonatomic,readonly) BOOL shouldDisplayBackButton NS_SWIFT_NAME(showsBackButton);
 
 /** Specifiy a delegate for LoginViewController. */
 @property (nonatomic, weak, nullable) id<SFLoginViewControllerDelegate> delegate;

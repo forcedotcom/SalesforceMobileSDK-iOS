@@ -23,7 +23,7 @@
  */
 
 #import "SFSmartStoreTests.h"
-#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
 #import "FMDatabaseQueue.h"
@@ -59,7 +59,7 @@
 - (void) setUp
 {
     [super setUp];
-    [SFSDKSmartStoreLogger setLogLevel:DDLogLevelDebug];
+    [SFSDKSmartStoreLogger setLogLevel:SFLogLevelDebug];
     self.smartStoreUser = [self setUpSmartStoreUser];
     self.store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
     self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kTestSmartStoreName];
@@ -97,13 +97,13 @@
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.15.2");
+    XCTAssertEqualObjects(version, @"3.20.1");
 }
 
 - (void) testSqlCipherVersion
 {
     NSString* version = [self.store getSQLCipherVersion];
-    XCTAssertEqualObjects(version, @"3.4.1");
+    XCTAssertEqualObjects(version, @"3.4.2");
 }
 
 /**
@@ -865,40 +865,6 @@
     querySpecPageSize = querySpec.pageSize;
     XCTAssertEqual(querySpecPageSize, expectedPageSize, @"Page size value should reflect input value.");
 }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-
-- (void)testCursorTotalPages
-{
-    NSUInteger totalEntries = 50;
-    
-    // Entries divided evenly by the page size.
-    NSUInteger evenDividePageSize = 25;
-    NSUInteger expectedPageSize = totalEntries / evenDividePageSize;
-    NSDictionary *allQuery = @{kQuerySpecParamQueryType: kQuerySpecTypeRange,
-                                          kQuerySpecParamIndexPath: @"a",
-                                          kQuerySpecParamPageSize: @(evenDividePageSize)};
-    SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:kTestSoupName];
-    SFStoreCursor *cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries firstPageEntries:nil];
-    XCTAssertEqual([cursor.totalEntries unsignedIntValue], totalEntries, @"Wrong value for totalEntries");
-    int cursorTotalPages = [cursor.totalPages intValue];
-    XCTAssertEqual(cursorTotalPages, expectedPageSize, @"%lu entries across a page size of %lu should make %lu total pages.", (unsigned long)totalEntries, (unsigned long)evenDividePageSize, (unsigned long)expectedPageSize);
-
-    // Entries not evenly divided across the page size.
-    NSUInteger unevenDividePageSize = 24;
-    expectedPageSize = totalEntries / unevenDividePageSize + 1;
-    allQuery = @{kQuerySpecParamQueryType: kQuerySpecTypeRange,
-                              kQuerySpecParamIndexPath: @"a",
-                              kQuerySpecParamPageSize: @(unevenDividePageSize)};
-    querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:kTestSoupName];
-    cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries firstPageEntries:nil];
-    XCTAssertEqual([cursor.totalEntries unsignedIntValue], totalEntries, @"Wrong value for totalEntries");
-    cursorTotalPages = [cursor.totalPages intValue];
-    XCTAssertEqual(cursorTotalPages, expectedPageSize, @"%lu entries across a page size of %lu should make %lu total pages.", (unsigned long)totalEntries, (unsigned long)unevenDividePageSize, (unsigned long)expectedPageSize);
-}
-
-#pragma clang diagnostic pop
 
 - (void)testPersistentStoreExists
 {

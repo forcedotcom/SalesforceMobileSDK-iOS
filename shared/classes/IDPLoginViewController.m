@@ -42,19 +42,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     [self setTitle:@"Log In"];
-    
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0 green:0.439 blue:0.824 alpha:1.0];
     [self showSettingsIcon];
 }
 
 - (void)showSettingsIcon {
-    
     UIImage *image = [[SFSDKResourceUtils imageNamed:@"login-window-gear"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
-    
     rightButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
     self.navigationController.navigationBar.topItem.rightBarButtonItem = rightButton;
     self.navigationController.navigationBar.topItem.rightBarButtonItem.tintColor = [UIColor  whiteColor];
@@ -84,7 +80,6 @@
         [self.loginSelectionDelegate loginUsingApp];
     }
 }
-
 
 - (IBAction)showLoginHost:(id)sender {
     [self showHostListView];
@@ -117,6 +112,5 @@
     [SFUserAccountManager sharedInstance].loginHost = newLoginHost.host;
     [[SFUserAccountManager sharedInstance] switchToNewUser];
 }
-
 
 @end

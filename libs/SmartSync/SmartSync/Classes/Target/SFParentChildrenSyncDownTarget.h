@@ -28,7 +28,7 @@
 #import "SFSoqlSyncDownTarget.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+NS_SWIFT_NAME(ParentChildrenSyncDownTarget)
 @interface SFParentChildrenSyncDownTarget : SFSoqlSyncDownTarget
 
 /** Factory methods

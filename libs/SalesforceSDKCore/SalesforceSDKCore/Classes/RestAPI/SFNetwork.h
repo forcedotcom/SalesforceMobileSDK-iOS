@@ -29,12 +29,11 @@
 
 #import <Foundation/Foundation.h>
 #import "SalesforceSDKConstants.h"
-
+NS_SWIFT_NAME(Network)
 @interface SFNetwork : NSObject
 
-typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
+typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) NS_SWIFT_NAME(DataResponseBlock);
 
-@property (nonatomic, readonly, assign) BOOL useBackground;
 @property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession;
 
 /**
@@ -59,14 +58,6 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  * @return NSURLSessionDataTask instance.
  */
 - (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
-
-/**
- * Sets a session configuration to be used for network requests in the Mobile SDK.
- *
- * @param sessionConfig Session configuration to be used.
- * @param isBackgroundSession YES - if it is a background session configuration, NO - otherwise.
- */
-+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig isBackgroundSession:(BOOL)isBackgroundSession SFSDK_DEPRECATED(6.2, 7.0, "Use 'setSessionConfiguration:' instead.");
 
 /**
  * Sets a session configuration to be used for network requests in the Mobile SDK.

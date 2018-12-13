@@ -24,15 +24,14 @@
 
 #import "SFRestAPI.h"
 #import "SFUserAccountManager.h"
-#import "SFAuthenticationManager.h"
-#import "SFSDKSafeMutableSet.h"
+#import <SalesforceSDKCommon/SFSDKSafeMutableSet.h>
 /**
  We declare here a set of interfaces that are meant to be used by code running internally
  to SFRestAPI or close "friend" classes such as unit test helpers. You SHOULD NOT access these interfaces
  from application code.  If you find yourself accessing properties or calling methods
  declared in this file from app code, you're probably doing something wrong.
  */
-@interface SFRestAPI () <SFUserAccountManagerDelegate>
+@interface SFRestAPI ()
 
 /**
  * Active requests property.

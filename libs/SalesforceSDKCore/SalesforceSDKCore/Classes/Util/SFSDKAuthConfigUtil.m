@@ -28,6 +28,7 @@
 
 #import "SFSDKAuthConfigUtil.h"
 #import "SFNetwork.h"
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 
 static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-configuration";
 
@@ -59,9 +60,9 @@ static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-
             }
 
             // Attempts to parse the data returned by the server.
-            NSError *jsonParseError = nil;
-            NSDictionary *configDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonParseError];
-            if (jsonParseError) {
+            NSDictionary *configDict = [SFJsonUtils objectFromJSONData:data];
+            if (configDict == nil) {
+                NSError *jsonParseError = [SFJsonUtils lastError];
                 [SFSDKCoreLogger d:[strongSelf class] format:@"Could not parse org auth config response from %@: %@", orgConfigUrl, [jsonParseError localizedDescription]];
                 authConfigBlock(nil, jsonParseError);
                 return;

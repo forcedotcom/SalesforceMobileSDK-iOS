@@ -42,6 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void) setupUserSyncsFromDefaultConfig;
 
+/**
+ @return The singleton instance of the SDK Manager.
+ */
+@property(class,nonatomic)SmartSyncSDKManager *sharedManager NS_SWIFT_NAME(shared);
+
 @end
 
 NS_ASSUME_NONNULL_END

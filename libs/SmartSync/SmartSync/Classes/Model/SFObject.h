@@ -27,6 +27,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(SObject)
 @interface SFObject : SFSmartSyncPersistableObject <NSCoding>
 
 /** Object Id */

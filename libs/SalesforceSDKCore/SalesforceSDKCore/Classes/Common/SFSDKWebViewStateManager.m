@@ -43,6 +43,13 @@ static WKProcessPool *_processPool = nil;
 }
 
 + (void)removeSession {
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [SFSDKWebViewStateManager removeSession];
+        });
+        return;
+    }
+    
     //reset UIWebView related state if any
     [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
     [self removeWKWebViewCookies:self.domains withCompletion:NULL];
@@ -51,6 +58,7 @@ static WKProcessPool *_processPool = nil;
 
 + (WKProcessPool *)sharedProcessPool {
     if (!_processPool) {
+        [SFSDKCoreLogger i:self format:@"[%@ %@]: No process pool exists.  Creating new instance.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
         _processPool = [[WKProcessPool alloc] init];
     }
     return _processPool;
@@ -58,6 +66,7 @@ static WKProcessPool *_processPool = nil;
 
 + (void)setSharedProcessPool:(WKProcessPool *)sharedProcessPool {
     if (sharedProcessPool != _processPool) {
+        [SFSDKCoreLogger i:self format:@"[%@ %@]: changing from process pool %@ to %@", NSStringFromClass(self), NSStringFromSelector(_cmd), _processPool, sharedProcessPool];
         _processPool = sharedProcessPool;
     }
 }

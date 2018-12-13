@@ -229,7 +229,7 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
     //     since not all records will have changed
     if (self.page == 0) {
         NSError* error = nil;
-        self.totalSize = [syncManager.store countWithQuerySpec:querySpec error:&error];
+        self.totalSize = [[syncManager.store countWithQuerySpec:querySpec error:&error] unsignedIntegerValue];
         if (error != nil) {
             errorBlock(error);
             return;

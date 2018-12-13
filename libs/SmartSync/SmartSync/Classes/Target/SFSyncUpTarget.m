@@ -28,7 +28,7 @@
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSyncTarget+Internal.h"
-#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SmartStore/SFSmartStore.h>
 
 // target types

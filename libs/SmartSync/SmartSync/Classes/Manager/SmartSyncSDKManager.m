@@ -27,6 +27,11 @@
 #import "SFSDKSyncsConfig.h"
 
 @implementation SmartSyncSDKManager
+@dynamic sharedManager;
+
++ (void)initializeSDK {
+    [super initializeSDKWithClass:self.class];
+}
 
 - (void) setupGlobalSyncsFromDefaultConfig {
     NSString *configPath = [self pathForGlobalSyncsConfig];
@@ -54,7 +59,4 @@
     return @"usersyncs.json";
 }
 
-
-
 @end
-

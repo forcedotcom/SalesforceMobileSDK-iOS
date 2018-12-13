@@ -23,6 +23,7 @@
  */
 
 #import "SFNativeRestRequestListener.h"
+#import <SalesforceSDKCommon/SFLogger.h>
 
 int class_uid = 0;
 
@@ -44,7 +45,7 @@ int class_uid = 0;
         self.request.delegate = self;
         self->uid = class_uid++;
     }
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## created listener %d", self->uid];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"## created listener %d", self->uid];
     return self;
 }
 
@@ -71,13 +72,13 @@ int class_uid = 0;
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## error for request %d", self->uid];
+    [SFLogger log:[self class] level:SFLogLevelDebug  format:@"## error for request %d", self->uid];
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"## cancel for request %d", self->uid];
+    [SFLogger log:[self class] level:SFLogLevelDebug  format:@"## cancel for request %d", self->uid];
     self.returnStatus = kTestRequestStatusDidCancel;
 }
 

@@ -27,6 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKInstrumentationEvent+Internal.h"
 
 @interface SFSDKInstrumentationEvent ()
@@ -84,10 +85,8 @@
 - (instancetype) initWithJson:(NSData *) jsonRepresentation {
     self = [super init];
     if (self && jsonRepresentation) {
-        NSError *error;
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonRepresentation
-                                                             options:NSJSONReadingAllowFragments
-                                                               error:&error];
+        NSDictionary *dict = [SFJsonUtils objectFromJSONData:jsonRepresentation];
+
         if (dict) {
             self.eventId = dict[kEventIdKey];
             if (dict[kStartTimeKey]) {

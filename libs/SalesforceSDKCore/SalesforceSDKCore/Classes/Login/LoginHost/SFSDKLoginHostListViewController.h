@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  * View controller that displays a list of hosts that can be used for login.
  * The user can either add a new host or select an existing host to reload the login web page.
  */
+NS_SWIFT_NAME(LoginHostListViewController)
 @interface SFSDKLoginHostListViewController : UITableViewController
 
 /**

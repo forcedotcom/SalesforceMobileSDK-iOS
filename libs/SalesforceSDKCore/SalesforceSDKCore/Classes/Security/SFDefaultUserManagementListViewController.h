@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  Shows the list of users who have authenticated to this app, allowing the user to switch between
  users, revoke credentials, etc.
  */
+NS_SWIFT_NAME(SalesforceUserManagementListViewController)
 @interface SFDefaultUserManagementListViewController : UITableViewController
 
 @end

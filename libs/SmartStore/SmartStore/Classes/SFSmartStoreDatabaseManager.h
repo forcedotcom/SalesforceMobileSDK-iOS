@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  The NSError domain for SmartStore database errors.
  */
 extern NSString * const kSFSmartStoreDbErrorDomain;
-
+NS_SWIFT_NAME(DatabaseManager)
 @interface SFSmartStoreDatabaseManager : NSObject
 
 /**

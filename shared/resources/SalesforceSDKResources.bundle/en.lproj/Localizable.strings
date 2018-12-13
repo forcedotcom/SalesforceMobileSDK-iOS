@@ -27,24 +27,27 @@
  */
 
 // Passcode view controller
-"nextScreenNavButtonTitle" = "Next";
-"prevScreenNavButtonTitle" = "Back";
-"createPasscodeNavTitle" = "Create Passcode";
-"confirmPasscodeNavTitle" = "Confirm Passcode";
-"verifyPasscodeNavTitle" = "Verify Passcode";
-"passcodeCreateInstructions" = "For increased security, please create a passcode that you will use to access the app when the session has timed out due to inactivity.";
-"passcodeChangeInstructions" = "For increased security, your admininstrator requires you to change your passcode.";
-"passcodeConfirmInstructions" = "Confirm the passcode you just entered.";
-"passcodeVerifyInstructions" = "Please enter your security passcode.";
-"minPasscodeLengthError" = "Your passcode must be at least %d characters long.";
-"passcodesDoNotMatchError" = "Passcodes do not match!";
-"passcodeInvalidError" = "The passcode you entered was invalid.";
-"forgotPasscodeTitle" = "Forgot Passcode?";
-"useTouchIdTitle" = "Use TouchId";
-"touchIdReason" = "Please authenticate to proceed.";
-"logoutAlertViewTitle" = "Are you sure you want to logout?";
-"logoutNo" = "No";
-"logoutYes" = "Yes";
+"createPasscodeNavTitle" = "Passcode";
+"confirmPasscodeNavTitle" = "Passcode";
+"verifyPasscodeNavTitle" = "Passcode";
+"passcodeCreateInstructions" = "Create a passcode";
+"passcodeChangeInstructions" = "Create a passcode";
+"passcodeConfirmInstructions" = "Verify passcode";
+"passcodeVerifyInstructions" = "Enter passcode";
+"passcodesDoNotMatchError" = "Passcodes do not match. Try again.";
+"passcodeInvalidError" = "Incorrect passcode. %d attempts remaining.";
+"biometricEnableFaceIdNavTitle" = "Face ID";
+"biometricEnableTouchIdNavTitle" = "Touch ID";
+"biometricEnableTitleFaceId" = "Set up Face ID";
+"biometricEnableTitleTouchId" = "Set up Touch ID";
+"biometricEnableInstructionsFaceId" = "You can now unlock %@ using Face ID for extra security and convenience.";
+"biometricEnableInstructionsTouchId" = "You can now unlock %@ using Touch ID for extra security and convenience.";
+"biometricEnableButtonText" = "Enable";
+"biometricCancelButtonText" = "Not Now";
+"verifyPasscodeButtontext" = "Verify Passcode";
+"biometricFallbackActionLabel" = "Use Passcode";
+"biometricReason" = "Please authenticate to proceed.";
+"logoutButtonTitle" = "Log out";
 
 // OAuth flow
 "authAlertContinueButton"="Continue";
@@ -56,7 +59,6 @@
 "authAlertConnectionErrorFormatString" = "Can't connect to the server: %@";
 "authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
 "authAlertBrowserFlowTitle"="Log In";
-"authAlertBrowserFlowMessage"="To log you in to %1$@, Safari will open briefly. You'll switch back to %2$@ after authentication.";
 
 // LoginViewController
 "TITLE_LOGIN" = "Log In";
@@ -91,7 +93,7 @@
 "inspectorTitle" = "Inspect SmartStore";
 "inspectorBackButtonTitle" = "Back";
 "inspectorRunButtonTitle" = "Run";
-"inspectorPageSizeHint" = "Page size (default: 10)";
+"inspectorPageSizeHint" = "Page size (default: 100)";
 "inspectorPageIndexHint" = "Page index (default: 0)";
 "inspectorClearButtonTitle" = "Clear";
 "inspectorSoupsButtonTitle" = "Soups";
@@ -110,4 +112,12 @@
 "idpSelectUserLabel" = "Select your account to log into";
 "idpAddNewAccountLabel" = "Add new account";
 "idpSelectUserTitleLabel" = "Select user";
+
+//IDP Login Selection Screen
+"idpLoginFlowInfoLabel" = "Select the flow to use for login";
+"idpLoginLocalFlowDescriptionLabel" = "Local - Host App will be used for authentication";
+"idpLoginIdpFlowDescriptionLabel" = "IDP - Identity Provider App will be launched for authentication";
+"idpLoginButtonTitle" = "IDP Log In";
+"idpLocalLoginButtonTitle" = "Local Log In";
+
 

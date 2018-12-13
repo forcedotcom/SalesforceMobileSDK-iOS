@@ -31,6 +31,7 @@
 @class SFSDKAlertMessageBuilder;
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(AlertMessage)
 @interface SFSDKAlertMessage : NSObject
 @property (nonatomic,readonly) NSString *alertTitle;
 @property (nonatomic,readonly) NSString *alertMessage;

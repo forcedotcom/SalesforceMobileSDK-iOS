@@ -27,13 +27,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceAnalytics/SFSDKLogger.h>
+#import <SalesforceSDKCommon/SFLogger.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * _Nonnull const kSFSDKSmartSyncComponentName;
 
-@interface SFSDKSmartSyncLogger : SFSDKLogger
+NS_SWIFT_NAME(SmartSyncLogger)
+@interface SFSDKSmartSyncLogger : SFLogger
 
 @end
 

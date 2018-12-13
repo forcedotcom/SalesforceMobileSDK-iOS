@@ -34,6 +34,7 @@ extern NSString * const kSFParentInfoModifificationDateFieldName;
 /**
  * Simple object to capture details of parent in parent-child relationship
  */
+NS_SWIFT_NAME(ParentInfo)
 @interface SFParentInfo : NSObject
 
 @property (nonatomic, readonly) NSString* sobjectType;

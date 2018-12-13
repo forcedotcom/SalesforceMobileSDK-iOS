@@ -30,6 +30,7 @@
 
 static NSString * const kKeychainIdentifierPasscodeVerify = @"com.salesforce.security.passcode.pbkdf2.verify";
 static NSString * const kKeychainIdentifierPasscodeEncrypt = @"com.salesforce.security.passcode.pbkdf2.encrypt";
+static NSString * const kKeychainIdentifierPasscodeLength = @"com.salesforce.security.passcode.pbkdf2.passcodeLength";
 static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
 
 @interface SFPBKDF2PasscodeProvider ()
@@ -40,7 +41,7 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
 @end
 
 @implementation SFPBKDF2PasscodeProvider
-
+@synthesize passcodeLength;
 @synthesize saltLengthInBytes = _saltLengthInBytes;
 @synthesize numDerivationRounds = _numDerivationRounds;
 @synthesize derivedKeyLengthInBytes = _derivedKeyLengthInBytes;
@@ -147,6 +148,10 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
         [self setPasscodeData:generatedKeyData keychainId:kKeychainIdentifierPasscodeEncrypt];
     }
     
+    // Set Passcode length
+    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscodeLength account:nil];
+    keychainWrapper.passcodeLength = passcode.length;
+    
     return encodedKey;
 }
 
@@ -176,7 +181,11 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
     
     SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:keychainIdentifier account:nil];
     [keychainWrapper setValueData:passcodeDataObj];
-    
+}
+
+- (NSUInteger)passcodeLength
+{
+    return self.passcodeLength;
 }
 
 @end

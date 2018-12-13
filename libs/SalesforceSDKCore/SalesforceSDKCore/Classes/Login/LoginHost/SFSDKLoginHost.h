@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Class that encapsulates the information about a login host.
  */
+NS_SWIFT_NAME(SalesforceLoginHost)
 @interface SFSDKLoginHost : NSObject
 
 /** The name of the login host.

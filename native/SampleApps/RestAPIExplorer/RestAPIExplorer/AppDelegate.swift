@@ -29,10 +29,9 @@
 
 import UIKit
 import SalesforceSDKCore
-import SalesforceSwiftSDK
+
 import MobileCoreServices
 
-@UIApplicationMain
 class AppDelegate : UIResponder, UIApplicationDelegate
 {
     var window: UIWindow?
@@ -40,58 +39,24 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     override
     init()
     {
+        
         super.init()
+      
+        SalesforceManager.initializeSDK()
         
-        SalesforceSwiftSDKManager.initSDK()
-            .Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
-                //set custom config if needed. By default this object should read from the bootconfig.plist
-            }.postInit {
-                //Uncomment the following line inorder to enable/force the use of advanced authentication flow.
-                SFUserAccountManager.sharedInstance().advancedAuthConfiguration = SFOAuthAdvancedAuthConfiguration.require;
-                // OR
-                // To  retrieve advanced auth configuration from the org, to determine whether to initiate advanced authentication.
-                // SFUserAccountManager.sharedInstance().advancedAuthConfiguration = SFOAuthAdvancedAuthConfiguration.allow;
-                
-                // NOTE: If advanced authentication is configured or forced,  it will launch Safari to handle authentication
-                // instead of a webview. You must implement application:openURL:options  to handle the callback.
-                
-                //Uncomment following block to enable IDP Login flow.
-                /*
-                 // scheme of idpApp
-                 SFUserAccountManager.sharedInstance().advancedAuthConfiguration = .none
-                 SalesforceSwiftSDKManager.shared().idpAppURIScheme = "sampleidpapp"
-                 // user friendly display name
-                 SalesforceSwiftSDKManager.shared().appDisplayName = "RestAPIExplorerSwift"
-                 
-                 // Use the following code to replace the login flow selection dialog
-                 SalesforceSwiftSDKManager.shared().idpLoginFlowSelectionBlock = {
-                 let controller = IDPLoginNavViewController()
-                 return controller as UIViewController & SFSDKLoginFlowSelectionView
-                 }
-                 */
-                
-            }
-            .postLaunch {  [unowned self] (launchActionList: SFSDKLaunchAction) in
-                let launchActionString = SalesforceSwiftSDKManager.launchActionsStringRepresentation(launchActionList)
-                SalesforceSwiftLogger.log(type(of:self), level:.info, message:"Post-launch: launch actions taken: \(launchActionString)")
-                self.setupRootViewController()
-                
-            }.postLogout {  [unowned self] in
-                self.handleSdkManagerLogout()
-            }.switchUser{ [unowned self] (fromUser: SFUserAccount?, toUser: SFUserAccount?) -> () in
-                self.handleUserSwitch(fromUser, toUser: toUser)
-            }.launchError {  [unowned self] (error: Error, launchActionList: SFSDKLaunchAction) in
-                SalesforceSwiftLogger.log(type(of:self), level:.error, message:"Error during SDK launch: \(error.localizedDescription)")
+        //Uncomment following block to enable IDP Login flow.
+        // SalesforceSDK.shared().idpAppURIScheme = "sampleidpapp"
+        AuthHelper.registerBlock(forCurrentUserChangeNotifications: {
+            self.resetViewState {
                 self.initializeAppViewState()
-                SalesforceSwiftSDKManager.shared().launch()
+                self.setupRootViewController()
             }
-            .done()
-        
+        })
     }
     
     // MARK: - App delegate lifecycle
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.initializeAppViewState();
@@ -102,18 +67,39 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //
         // SFPushNotificationManager.sharedInstance().registerForRemoteNotifications()
         
-        //Uncomment the code below to see how you can customize the color, textcolor, font and fontsize of the navigation bar
-        //var loginViewConfig = SFSDKLoginViewControllerConfig()
-        //Set showSettingsIcon to NO if you want to hide the settings icon on the nav bar
-        //loginViewConfig.showSettingsIcon = false
-        //Set showNavBar to NO if you want to hide the top bar
-        //loginViewConfig.showNavbar = true
-        //loginViewConfig.navBarColor = UIColor(red: 0.051, green: 0.765, blue: 0.733, alpha: 1.0)
-        //loginViewConfig.navBarTextColor = UIColor.white
-        //loginViewConfig.navBarFont = UIFont(name: "Helvetica", size: 16.0)
-        //SFUserAccountManager.sharedInstance().loginViewControllerConfig = loginViewConfig
+        //Uncomment the code below to see how you can customize the color, textcolor,
+        //font and fontsize of the navigation bar
+        //let loginViewConfig = SalesforceLoginViewControllerConfig()
         
-        SalesforceSwiftSDKManager.shared().launch()
+        //Set showSettingsIcon to false if you want to hide the settings
+        //icon on the nav bar
+        //loginViewConfig.showsSettingsIcon = false
+        
+        //Set showNavBar to false if you want to hide the top bar
+        //loginViewConfig.showsNavigationBar = false
+        //loginViewConfig.navigationBarColor = UIColor(red: 0.051, green: 0.765, blue: 0.733, alpha: 1.0)
+        //loginViewConfig.navigationBarTextColor = UIColor.white
+        //loginViewConfig.navigationBarFont = UIFont(name: "Helvetica", size: 16.0)
+        //UserAccountManager.shared.loginViewControllerConfig = loginViewConfig
+        
+        // Uncomment the code below to customize the color, textcolor and font of the Passcode,
+        // Touch Id and Face Id lock screens.  To use this feature please enable inactivity timeout
+        // in your connected app.
+        //
+        //let passcodeViewConfig = AppLockViewControllerConfig()
+        //passcodeViewConfig.backgroundColor = UIColor.black
+        //passcodeViewConfig.primaryColor = UIColor.orange
+        //passcodeViewConfig.secondaryColor = UIColor.gray
+        //passcodeViewConfig.titleTextColor = UIColor.white
+        //passcodeViewConfig.instructionTextColor = UIColor.white
+        //passcodeViewConfig.borderColor = UIColor.yellow
+        //passcodeViewConfig.maxNumberOfAttempts = 3
+        //passcodeViewConfig.forcePasscodeLength = true
+        //UserAccountManager.shared.appLockViewControllerConfig = passcodeViewConfig
+        
+        AuthHelper.loginIfRequired {
+            self.setupRootViewController()
+        }
         return true
     }
     
@@ -124,9 +110,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //
         //
         // SFPushNotificationManager.sharedInstance().didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
-        // if (SFUserAccountManager.sharedInstance().currentUser?.credentials.accessToken != nil)
+        // if (SFUserAccountManager.shared.currentUserAccount.credentials.accessToken != nil)
         // {
-        //    SFPushNotificationManager.sharedInstance().registerForSalesforceNotifications()
+        //     SFPushNotificationManager.sharedInstance().registerSalesforceNotifications(completionBlock: nil, fail: nil)
         // }
     }
     
@@ -136,15 +122,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         // Respond to any push notification registration errors here.
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        // If you're using advanced authentication:
-        // --Configure your app to handle incoming requests to your
-        //   OAuth Redirect URI custom URL scheme.
-        // --Uncomment the following line and delete the original return statement:
-        
-        return  SFUserAccountManager.sharedInstance().handleAdvancedAuthenticationResponse(url, options: options)
-        //        return false;
+        // Uncomment following block to enable IDP Login flow
+        // return  UserAccountManager.shared.handleIdentityProviderResponse(from: url, with: options)
+        return false;
     }
     
     // MARK: - Private methods
@@ -176,72 +158,24 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 return
             }
         }
-        
         postResetBlock()
     }
-    
-    func handleSdkManagerLogout()
-    {
-        SalesforceSwiftLogger.log(type(of:self), level:.debug, message: "SFUserAccountManager logged out.  Resetting app.")
-        self.resetViewState { () -> () in
-            self.initializeAppViewState()
-            
-            // Multi-user pattern:
-            // - If there are two or more existing accounts after logout, let the user choose the account
-            //   to switch to.
-            // - If there is one existing account, automatically switch to that account.
-            // - If there are no further authenticated accounts, present the login screen.
-            //
-            // Alternatively, you could just go straight to re-initializing your app state, if you know
-            // your app does not support multiple accounts.  The logic below will work either way.
-            
-            var numberOfAccounts : Int;
-            let allAccounts = SFUserAccountManager.sharedInstance().allUserAccounts()
-            numberOfAccounts = (allAccounts!.count);
-            
-            if numberOfAccounts > 1 {
-                let userSwitchVc = SFDefaultUserManagementViewController(completionBlock: {
-                    action in
-                    self.window!.rootViewController!.dismiss(animated:true, completion: nil)
-                })
-                if let actualRootViewController = self.window!.rootViewController {
-                    actualRootViewController.present(userSwitchVc, animated: true, completion: nil)
-                }
-            } else {
-                if (numberOfAccounts == 1) {
-                    SFUserAccountManager.sharedInstance().currentUser = allAccounts![0]
-                }
-                SalesforceSwiftSDKManager.shared().launch()
-            }
-        }
-    }
-    
-    func handleUserSwitch(_ fromUser: SFUserAccount?, toUser: SFUserAccount?)
-    {
-        let fromUserName = (fromUser != nil) ? fromUser?.userName : "<none>"
-        let toUserName = (toUser != nil) ? toUser?.userName : "<none>"
-        SalesforceSwiftLogger.log(type(of:self), level:.debug, message:"SFUserAccountManager changed from user \(String(describing: fromUserName)) to \(String(describing: toUserName)).  Resetting app.")
-        self.resetViewState { () -> () in
-            self.initializeAppViewState()
-            SalesforceSwiftSDKManager.shared().launch()
-        }
-    }
-    
+
     func exportTestingCredentials() {
-        guard let creds = SFUserAccountManager.sharedInstance().currentUser?.credentials,
+        guard let creds = UserAccountManager.shared.currentUserAccount?.credentials,
             let instance = creds.instanceUrl,
             let identity = creds.identityUrl
             else {
                 return
         }
         
-        var config = ["test_client_id": SalesforceSwiftSDKManager.shared().appConfig?.remoteAccessConsumerKey,
-                      "test_login_domain": SFUserAccountManager.sharedInstance().loginHost,
-                      "test_redirect_uri": SalesforceSwiftSDKManager.shared().appConfig?.oauthRedirectURI,
+        var config = ["test_client_id": SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey,
+                      "test_login_domain": UserAccountManager.shared.loginHost,
+                      "test_redirect_uri": SalesforceManager.shared.bootConfig?.oauthRedirectURI,
                       "refresh_token": creds.refreshToken,
                       "instance_url": instance.absoluteString,
                       "identity_url": identity.absoluteString,
-                      "access_token": "__NOT_REQUIRED"]
+                      "access_token": "__NOT_REQUIRED__"]
         if let community = creds.communityUrl {
             config["community_url"] = community.absoluteString
         }

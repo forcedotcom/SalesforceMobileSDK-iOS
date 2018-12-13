@@ -32,11 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFRestAPI (Blocks) <SFRestDelegate>
 
 // Block types
-typedef void (^SFRestFailBlock) (NSError * _Nullable e, NSURLResponse * _Nullable rawResponse);
-typedef void (^SFRestDictionaryResponseBlock) (NSDictionary * _Nullable dict, NSURLResponse * _Nullable rawResponse);
-typedef void (^SFRestArrayResponseBlock) (NSArray * _Nullable arr, NSURLResponse * _Nullable rawResponse);
-typedef void (^SFRestDataResponseBlock) (NSData* _Nullable data, NSURLResponse * _Nullable rawResponse);
-typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nullable rawResponse);
+typedef void (^SFRestFailBlock) (NSError * _Nullable e, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestFailBlock);
+typedef void (^SFRestDictionaryResponseBlock) (NSDictionary * _Nullable dict, NSURLResponse * _Nullable rawResponse)  NS_SWIFT_NAME(RestDictionaryResponseBlock);
+typedef void (^SFRestArrayResponseBlock) (NSArray * _Nullable arr, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestArrayResponseBlock);
+typedef void (^SFRestDataResponseBlock) (NSData* _Nullable data, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestDataResponseBlock);
+typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestResponseBlock);
 /** Creates an error object with the given description.
  @param description Description
  */
@@ -49,7 +49,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
  */
-- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock;    
+- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock NS_SWIFT_NAME(send(request:onFailure:onSuccess:));
 
 // Various request types.
 
@@ -62,7 +62,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  */
 - (SFRestRequest *) performSOQLQuery:(NSString *)query 
                            failBlock:(SFRestFailBlock)failBlock 
-                       completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                       completeBlock:(SFRestDictionaryResponseBlock)completeBlock  NS_SWIFT_NAME(query(_:onFailure:onSuccess:));
 
 /**
  * Executes a SOQL query that returns the deleted objects.
@@ -73,7 +73,8 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  */
 - (SFRestRequest *) performSOQLQueryAll:(NSString *)query
                               failBlock:(SFRestFailBlock)failBlock
-                          completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                          completeBlock:(SFRestDictionaryResponseBlock)completeBlock
+                          NS_SWIFT_NAME(queryAll(_:onFailure:onSuccess:));
 
 /**
  * Executes a SOSL search.
@@ -84,7 +85,8 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  */
 - (SFRestRequest *) performSOSLSearch:(NSString *)search 
                             failBlock:(SFRestFailBlock)failBlock 
-                        completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                        completeBlock:(SFRestDictionaryResponseBlock)completeBlock
+                        NS_SWIFT_NAME(search(_:onFailure:onSuccess:));
 
 /**
  * Executes a global describe.
@@ -93,7 +95,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performDescribeGlobalWithFailBlock:(SFRestFailBlock)failBlock 
-                                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(describeGlobal(onFailure:onSuccess:));
 
 /**
  * Executes a describe on a single sObject.
@@ -104,7 +106,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  */
 - (SFRestRequest *) performDescribeWithObjectType:(NSString *)objectType 
                                         failBlock:(SFRestFailBlock)failBlock 
-                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(describe(_:onFailure:onSuccess:));
 
 /**
  * Executes a metadata describe on a single sObject.
@@ -115,7 +117,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  */
 - (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType 
                                         failBlock:(SFRestFailBlock)failBlock 
-                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(metadata(_:onFailure:onSuccess:));
 
 /**
  * Executes a retrieve for a single record.
@@ -130,7 +132,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
                                          objectId:(NSString *)objectId 
                                         fieldList:(NSArray<NSString*> *)fieldList
                                         failBlock:(SFRestFailBlock)failBlock 
-                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(retrieve(_:objectId:fields:onFailure:onSuccess:));
 
 /**
  * Executes a DML update for a single record.
@@ -145,7 +147,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
                                        objectId:(NSString *)objectId 
                                          fields:(NSDictionary<NSString*, id> *)fields
                                       failBlock:(SFRestFailBlock)failBlock 
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(update(_:objectId:fields:onFailure:onSuccess:));
 
 /**
  * Executes a DML upsert for a single record.
@@ -162,7 +164,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
                                      externalId:(NSString *)externalId 
                                          fields:(NSDictionary<NSString*, id> *)fields
                                       failBlock:(SFRestFailBlock)failBlock 
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(upsert(_:externalIdField:externalId:fields:onFailure:onSuccess:));
 
 /**
  * Executes a DML delete on a single record
@@ -175,7 +177,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
 - (SFRestRequest *) performDeleteWithObjectType:(NSString *)objectType 
                                        objectId:(NSString *)objectId 
                                       failBlock:(SFRestFailBlock)failBlock 
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(delete(_:objectId:onFailure:onSuccess:));
 
 /**
  * Executes a DML insert.
@@ -188,7 +190,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
 - (SFRestRequest *) performCreateWithObjectType:(NSString *)objectType 
                                          fields:(NSDictionary<NSString*, id> *)fields
                                       failBlock:(SFRestFailBlock)failBlock 
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(create(_:fields:onFailure:onSuccess:));
 
 /**
  * Executes a request to list REST API resources
@@ -197,7 +199,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForResourcesWithFailBlock:(SFRestFailBlock)failBlock 
-                                              completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+                                              completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(resources(onFailure:onSuccess:));
 
 /**
  * Executes a request to list REST API versions
@@ -206,7 +208,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock 
-                                             completeBlock:(SFRestArrayResponseBlock)completeBlock;
+                                             completeBlock:(SFRestArrayResponseBlock)completeBlock  NS_SWIFT_NAME(apiVersions(onFailure:onSuccess:));
 
 /**
  * Executes a request to get a file rendition
@@ -223,7 +225,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
                                      renditionType:(NSString *)renditionType
                                               page:(NSUInteger)page
                                          failBlock:(SFRestFailBlock)failBlock
-                                     completeBlock:(SFRestDataResponseBlock)completeBlock;
+                                     completeBlock:(SFRestDataResponseBlock)completeBlock NS_SWIFT_NAME(fileRendition(fileId:version:renditionType:page:onFailure:onSuccess:));
 
 /**
  * Executes a request to get search scope and order
@@ -232,7 +234,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForSearchScopeAndOrderWithFailBlock:(SFRestFailBlock)failBlock
-                                     completeBlock:(SFRestArrayResponseBlock)completeBlock;
+                                     completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_NAME(searchScopeOrder(onFailure:onSuccess:));
 
 /**
  * Executes a request to get search result layout
@@ -244,7 +246,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  */
 - (SFRestRequest *) performRequestForSearchResultLayout:(NSString*)objectList
                                               failBlock:(SFRestFailBlock)failBlock
-                                          completeBlock:(SFRestArrayResponseBlock)completeBlock;
+                                          completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_NAME(searchResultLayout(list:onFailure:onSuccess:));
 
 @end
 

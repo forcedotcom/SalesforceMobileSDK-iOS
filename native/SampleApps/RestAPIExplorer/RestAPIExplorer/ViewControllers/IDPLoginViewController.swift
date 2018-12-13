@@ -41,12 +41,24 @@ import SalesforceSDKCore.SFSDKLoginHost
 class IDPLoginViewController: UIViewController {
 
     weak var loginSelectionDelegate:IDPLoginViewControllerDelegate?
-    fileprivate var loginHostViewController:SFSDKLoginHostListViewController?
-    fileprivate lazy var loginHostListViewController:SFSDKLoginHostListViewController = {
-        let l = SFSDKLoginHostListViewController(style: .plain)
+    fileprivate var loginHostViewController:LoginHostListViewController?
+    fileprivate lazy var loginHostListViewController:LoginHostListViewController = {
+        let l = LoginHostListViewController(style: .plain)
         l.delegate = self
         return l
     }()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return .lightContent
+        }
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        get {
+            return false
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,10 +67,9 @@ class IDPLoginViewController: UIViewController {
 
         self.navigationController?.navigationBar.barTintColor = UIColor.appDarkBlue
         self.navigationController?.navigationBar.isTranslucent = false
-        UIApplication.shared.statusBarStyle = .lightContent
         
         guard let font = UIFont.appRegularFont(20) else { return }
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: font]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: font]
         self.title = "Log in"
         
         let container = UIView()
@@ -167,21 +178,21 @@ class IDPLoginViewController: UIViewController {
     }
 }
 
-extension IDPLoginViewController: SFSDKLoginHostDelegate {
-    func hostListViewControllerDidAddLoginHost(_ hostListViewController: SFSDKLoginHostListViewController) {
+extension IDPLoginViewController: LoginHostDelegate {
+    func hostListViewControllerDidAddLoginHost(_ hostListViewController: LoginHostListViewController) {
         self.hideHostListView(false)
     }
     
-    func hostListViewControllerDidSelectLoginHost(_ hostListViewController: SFSDKLoginHostListViewController) {
+    internal func hostListViewControllerDidSelectLoginHost(_ hostListViewController: LoginHostListViewController) {
         self.hideHostListView(false)
     }
     
-    func hostListViewControllerDidCancelLoginHost(_ hostListViewController: SFSDKLoginHostListViewController) {
+    func hostListViewControllerDidCancelLoginHost(_ hostListViewController: LoginHostListViewController) {
         self.hideHostListView(true)
     }
     
-    func hostListViewController(_ hostListViewController: SFSDKLoginHostListViewController, didChange newLoginHost: SFSDKLoginHost) {
-        SFUserAccountManager.sharedInstance().loginHost = newLoginHost.host
-        SFUserAccountManager.sharedInstance().switchToNewUser()
+    func hostListViewController(_ hostListViewController: LoginHostListViewController, didChange newLoginHost: SalesforceLoginHost) {
+        UserAccountManager.shared.loginHost = newLoginHost.host
+        UserAccountManager.shared.switchToNewUserAccount()
     }
 }

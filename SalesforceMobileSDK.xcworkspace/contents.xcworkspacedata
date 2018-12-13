@@ -30,7 +30,7 @@
       location = "container:"
       name = "Libs">
       <FileRef
-         location = "group:libs/SalesforceSwiftSDK/SalesforceSwiftSDK.xcodeproj">
+         location = "group:libs/SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj">
@@ -43,12 +43,6 @@
       </FileRef>
       <FileRef
          location = "group:libs/SmartSync/SmartSync.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceReact/SalesforceReact.xcodeproj">
       </FileRef>
    </Group>
    <Group
@@ -63,41 +57,7 @@
    </Group>
    <Group
       location = "container:"
-      name = "HybridSamples">
-      <FileRef
-         location = "group:hybrid/SampleApps/AccountEditor/AccountEditor.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/NoteSync/NoteSync.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/SmartSyncExplorerHybrid/SmartSyncExplorerHybrid.xcodeproj">
-      </FileRef>
-   </Group>
-   <Group
-      location = "container:"
       name = "External">
-      <FileRef
-         location = "group:external/PromiseKit/PromiseKit.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:external/CocoaLumberjack/Lumberjack.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceReact/node_modules/react-native/React/React.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceReact/node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceReact/node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:external/ocmock/Source/OCMock.xcodeproj">
-      </FileRef>
    </Group>
    <Group
       location = "group:external/ThirdPartyDependencies"

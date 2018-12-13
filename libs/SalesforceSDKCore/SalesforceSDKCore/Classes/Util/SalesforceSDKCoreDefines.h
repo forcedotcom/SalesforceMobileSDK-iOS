@@ -23,12 +23,13 @@
  */
 
 #import <Foundation/Foundation.h>
-
 @class SFUserAccount;
 @class UIViewController;
 @protocol SFSDKLoginFlowSelectionView;
 @protocol SFSDKUserSelectionView;
+
 NS_ASSUME_NONNULL_BEGIN
+
 // Errors
 extern NSString * const kSalesforceSDKManagerErrorDomain;
 extern NSString * const kSalesforceSDKManagerErrorDetailsKey;
@@ -44,46 +45,46 @@ typedef NS_OPTIONS(NSInteger, SFSDKLaunchAction) {
     SFSDKLaunchActionAlreadyAuthenticated = 1 << 1,
     SFSDKLaunchActionAuthBypassed         = 1 << 2,
     SFSDKLaunchActionPasscodeVerified     = 1 << 3
-};
+} NS_SWIFT_NAME(LaunchAction);
 
 /**
  Callback block to implement for post launch actions.
  */
-typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction);
+typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction) NS_SWIFT_NAME(PostLaunchBlock);
 
 /**
  Callback block to implement for handling launch errors.
  */
-typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction);
+typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction) NS_SWIFT_NAME(LaunchErrorBlock);
 
 /**
  Callback block to implement for post logout actions.
  */
-typedef void (^SFSDKLogoutCallbackBlock)(void);
+typedef void (^SFSDKLogoutCallbackBlock)(void) NS_SWIFT_NAME(LogoutBlock);
 
 /**
  Callback block to implement for user switching.
  */
-typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
+typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*) NS_SWIFT_NAME(SwitchUserBlock);
 
 /**
  Callback block to implement for post app foregrounding actions.
  */
-typedef void (^SFSDKAppForegroundCallbackBlock)(void);
+typedef void (^SFSDKAppForegroundCallbackBlock)(void)  NS_SWIFT_NAME(AppForegroundBlock);
 
 /**
  Block to return a user agent string, with an optional qualifier.
  */
-typedef NSString*_Nonnull (^SFSDKUserAgentCreationBlock)(NSString *qualifier);
+typedef NSString*_Nonnull (^SFSDKUserAgentCreationBlock)(NSString *qualifier) NS_SWIFT_NAME(UserAgentGeneratorBlock);
 
 /**
  Block typedef for creating a custom login flow selection dialog.
  */
-typedef UIViewController<SFSDKLoginFlowSelectionView>*_Nonnull (^SFIDPLoginFlowSelectionBlock)(void);
-
+typedef UIViewController<SFSDKLoginFlowSelectionView>*_Nonnull (^SFIDPLoginFlowSelectionBlock)(void) NS_SWIFT_NAME(IDPLoginFlowSelectionBlock);
 
 /**
  Block typedef for creating a custom user selection flow for idp provider app.
  */
-typedef UIViewController<SFSDKUserSelectionView>*_Nonnull (^SFIDPUserSelectionBlock)(void);
+typedef UIViewController<SFSDKUserSelectionView>*_Nonnull (^SFIDPUserSelectionBlock)(void) NS_SWIFT_NAME(IDPUserSelectionBlock);
+
 NS_ASSUME_NONNULL_END

@@ -35,6 +35,7 @@
 #import "SFUserAccountManager.h"
 #import "SFSDKLoginHost.h"
 #import "SFManagedPreferences.h"
+static CGFloat kSpace = 20.0;
 
 @interface SFSDKLoginFlowSelectionViewController ()<SFSDKLoginHostDelegate>
 
@@ -99,17 +100,6 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    [self layoutViews];
-}
-
-
-- (void)layoutViews {
-    
-    // Let navBar tell us what height it would prefer at the current orientation
-    CGFloat navBarHeight = [self.navBar sizeThatFits:self.view.bounds.size].height;
-    // Resize navBar
-    self.navBar.frame = CGRectMake(0, self.topLayoutGuide.length, self.view.bounds.size.width, navBarHeight);
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -117,7 +107,6 @@
     if (self.showNavbar) {
         [self styleNavigationBar:self.navBar];
     }
-   
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -125,14 +114,19 @@
 }
 
 - (void)setupNavigationBar {
-    self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectZero];
-    NSString *title = @"Login";
     
+    self.navBar =self.navigationController.navigationBar;
+    NSString *title = [SFSDKResourceUtils localizedString:@"TITLE_LOGIN"];
+    if ( !title ) {
+        title = @"Log In";
+    }
     // Setup top item.
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
-    self.navBar.items = @[item];
+    UILabel *item = [[UILabel alloc] initWithFrame:CGRectZero];
+    item.text = title;
+    [item sizeToFit];
+    
+    self.navBar.topItem.titleView = item;
     [self styleNavigationBar:self.navBar];
-    [self.view addSubview:self.navBar];
     [self showSettingsIcon];
     [self setNeedsStatusBarAppearanceUpdate];
 }
@@ -149,17 +143,20 @@
 }
 
 - (void)setupViews {
-    
+    self.view.translatesAutoresizingMaskIntoConstraints  = NO;
     UILabel *infoLabel = [[UILabel alloc] init];
-    infoLabel.text = @"Select the flow to use for login";
+    infoLabel.text = [SFSDKResourceUtils localizedString:@"idpLoginFlowInfoLabel"];
+    
     infoLabel.translatesAutoresizingMaskIntoConstraints = NO;
     infoLabel.numberOfLines = 1;
     [infoLabel setFont:[UIFont systemFontOfSize:20]];
     [infoLabel setTextColor:[UIColor salesforceBlueColor]];
-
+    
     UILabel *descLabel = [[UILabel alloc]init];
     descLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    descLabel.text = [NSString stringWithFormat:@"Local - Host App will be used for authentication \n IDP -  %@ will be launched for authentication",[[SFSDKAuthPreferences alloc] init].idpAppURIScheme];
+    descLabel.text =
+    [SFSDKResourceUtils localizedString:@"idpLoginLocalFlowDescriptionLabel"];
+    descLabel.textAlignment = NSTextAlignmentCenter;
     [descLabel setFont:[UIFont systemFontOfSize:15]];
     [descLabel setTextColor:[UIColor grayColor]];
     
@@ -167,20 +164,19 @@
     UILabel *descLabel2 = [[UILabel alloc]init];
     descLabel2.numberOfLines = 3;
     descLabel2.translatesAutoresizingMaskIntoConstraints = NO;
-    descLabel2.text = [NSString stringWithFormat:@"IDP -  IDP App will be launched for authentication"];
+    descLabel2.text = [SFSDKResourceUtils localizedString:@"idpLoginIDPFlowDescriptionLabel"];
     [descLabel2 setFont:[UIFont systemFontOfSize:15]];
     [descLabel2 setTextColor:[UIColor grayColor]];
     
     
     UIButton *idpButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [idpButton setTitle:@"IDP Login" forState:UIControlStateNormal];
+    [idpButton setTitle:[SFSDKResourceUtils localizedString:@"idpLoginButtonTitle"]  forState:UIControlStateNormal];
     idpButton.translatesAutoresizingMaskIntoConstraints = NO;
     [idpButton.titleLabel setFont:[UIFont systemFontOfSize:20]];
     [idpButton addTarget:self action:@selector(useIDPAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    
     UIButton *localButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [localButton setTitle:@"Local Login" forState:UIControlStateNormal];
+    [localButton setTitle:[SFSDKResourceUtils localizedString:@"idpLocalLoginButtonTitle"]   forState:UIControlStateNormal];
     localButton.translatesAutoresizingMaskIntoConstraints = NO;
     [localButton.titleLabel setFont:[UIFont systemFontOfSize:20]];
     [localButton addTarget:self action:@selector(useLocalAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -191,17 +187,18 @@
     [self.view addSubview:idpButton];
     [self.view addSubview:localButton];
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:infoLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.navBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:infoLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.navBar attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:descLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:infoLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:descLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.navBar attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:descLabel2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:descLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:descLabel2 attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:descLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:idpButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:descLabel2 attribute:NSLayoutAttributeBottom multiplier:1.0 constant:55.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:idpButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:infoLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:20.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:localButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:descLabel2 attribute:NSLayoutAttributeBottom multiplier:1.0 constant:55.0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:localButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:idpButton attribute:NSLayoutAttributeRight multiplier:1.0 constant:20.0]];
-  
+    [infoLabel.topAnchor constraintEqualToAnchor:self.view.topAnchor  constant:kSpace].active = YES;
+    [infoLabel.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.75].active = YES;
+    [infoLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
+    [descLabel.topAnchor constraintEqualToAnchor:infoLabel.bottomAnchor constant:kSpace].active = YES;
+    [descLabel.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:kSpace].active = YES;
+    [descLabel2.topAnchor constraintEqualToAnchor:descLabel.bottomAnchor  constant:kSpace].active = YES;
+    [descLabel2.leftAnchor constraintEqualToAnchor:descLabel.leftAnchor].active = YES;
+    [idpButton.topAnchor constraintEqualToAnchor:descLabel2.bottomAnchor  constant:kSpace].active = YES;
+    [idpButton.leftAnchor constraintEqualToAnchor:descLabel.leftAnchor  constant:kSpace].active = YES;
+    [localButton.topAnchor constraintEqualToAnchor:descLabel2.bottomAnchor  constant:kSpace].active = YES;
+    [localButton.leftAnchor constraintEqualToAnchor:idpButton.rightAnchor  constant:kSpace*2].active = YES;
+    
 }
 
 - (void) styleNavigationBar:(UINavigationBar *)navigationBar {
@@ -258,11 +255,11 @@
 }
 
 - (IBAction)useIDPAction:(id)sender {
-   [self.selectionFlowDelegate loginFlowSelectionIDPSelected:self options:self.appOptions];
+    [self.selectionFlowDelegate loginFlowSelectionIDPSelected:self options:self.appOptions];
 }
 
 - (IBAction)useLocalAction:(id)sender {
-   [self.selectionFlowDelegate loginFlowSelectionLocalLoginSelected:self options:self.appOptions];
+    [self.selectionFlowDelegate loginFlowSelectionLocalLoginSelected:self options:self.appOptions];
 }
 
 
@@ -304,6 +301,5 @@
     UIGraphicsEndImageContext();
     return image;
 }
-
 
 @end

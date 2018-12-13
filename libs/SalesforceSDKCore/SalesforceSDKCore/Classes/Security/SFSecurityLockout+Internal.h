@@ -1,11 +1,13 @@
 #import "SFSecurityLockout.h"
-#import "SFPasscodeViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 static NSUInteger const kDefaultLockoutTime        = 0;
+static NSUInteger const kDefaultPasscodeLength     = 0;
 static NSString * _Nullable const kSecurityTimeoutLegacyKey  = @"security.timeout";
 static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islocked";
+static NSString * const kBiometricUnlockAllowedKey           = @"security.biometric.allowed"; // Enabled in the Org
+static NSString * const kBiometricStateKey                   = @"secuirty.biometric.state";
 
 @interface SFSecurityLockout ()
 
@@ -17,7 +19,7 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
 /**
  * Presents the passcode controller when it's time to create or verify the passcode.
  */
-+ (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue passcodeConfig:(SFPasscodeConfigurationData)configData;
++ (void)presentPasscodeController:(SFAppLockControllerMode)modeValue;
 
 /**
  * Sets a retained instance of the current passcode view controller that's displayed.
@@ -58,13 +60,13 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
 
 /**
  * Generate the notification for the beginning of the passcode flow.
- * @param mode The controller mode (create vs. verify) associated with the passcode flow.
+ * @param mode The controller mode (create vs. verify) associated with the passcode or biometric flow.
  */
-+ (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode;
++ (void)sendPasscodeFlowWillBeginNotification:(SFAppLockControllerMode)mode;
 
 /**
  * Generate the notification for the completion of the passcode flow.
- * @param validationSuccess Whether the passcode validation was successful or not.
+ * @param validationSuccess Whether the passcode or biometric validation was successful or not.
  */
 + (void)sendPasscodeFlowCompletedNotification:(BOOL)validationSuccess;
 
@@ -85,6 +87,18 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
  * @param lockoutTime The NSNumber wrapping the NSUInteger value to be written to the keychain.
  */
 + (void)writeLockoutTimeToKeychain:(NSNumber *_Nullable)lockoutTime;
+
+/**
+ * Retrieves the passcode length value from the keychain.
+ * @return NSNumber wrapping the NSUInteger value for passcode length, or `nil` if not set.
+ */
++ (NSNumber *)readPasscodeLengthFromKeychain;
+
+/**
+ * Writes the passcode length to the keychain.
+ * @param passcodeLength The NSNumber wrapping the NSUInteger value to be written to the keychain.
+ */
++ (void)writePasscodeLengthToKeychain:(NSNumber *_Nullable)passcodeLength;
 
 /**
  * Retreives the "is locked" setting from the keychain.
