@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFPasscodeProvider.html">
+	<File path="Protocols/SFSDKLoginHostDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">Protocol that a passcode provider class must implement.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginHostDelegate</TokenIdentifier>
+			<Abstract type="html">Use the SFSDKLoginHostDelegate to be notified of the actions taken by the user on the login host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="170"/>
@@ -13,132 +13,95 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setProviderName:</TokenIdentifier>
-			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewController:willPresentLoginHostViewController:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a new login host viewcontroller will be presented.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
-			
-			
-			<Anchor>//api/name/providerName</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/providerName</TokenIdentifier>
-			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
-			
-			
-			<Anchor>//api/name/providerName</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFPasscodeProvider/providerName</TokenIdentifier>
-			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
-			
-			
-			<Anchor>//api/name/providerName</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/initWithProviderName:</TokenIdentifier>
-			<Abstract type="html">Designated initializer for an SFPasscodeProvider.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithProviderName:(SFPasscodeProviderId)providerName</Declaration>
+			<Declaration>- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController willPresentLoginHostViewController:(UIViewController *)loginHostViewController</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>providerName</Name>
-					<Abstract type="html">The canonical name of the provider.</Abstract>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>loginHostViewController</Name>
+					<Abstract type="html">The view controller that will be presented.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithProviderName:</Anchor>
+			<Anchor>//api/name/hostListViewController:willPresentLoginHostViewController:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/resetPasscodeData</TokenIdentifier>
-			<Abstract type="html">Reset (unset) the passcode and any persisted data associated with it.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidSelectLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a login host has been selected by the user.
+This will be a good time to dismiss the host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>- (void)resetPasscodeData</Declaration>
-			
-			
-			<Anchor>//api/name/resetPasscodeData</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/verifyPasscode:</TokenIdentifier>
-			<Abstract type="html">Verify that the input passcode is the correct passcode.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
+			<Declaration>- (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>passcode</Name>
-					<Abstract type="html">The passcode to verify.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the passcode is verified, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/verifyPasscode:</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/hashedVerificationPasscode</TokenIdentifier>
-			<Abstract type="html">The hashed verification passcode, or nil if not configured.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)hashedVerificationPasscode</Declaration>
-			
-			<ReturnValue><Abstract type="html">The hashed verification passcode, or nil if not configured.</Abstract></ReturnValue>
-			<Anchor>//api/name/hashedVerificationPasscode</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setVerificationPasscode:</TokenIdentifier>
-			<Abstract type="html">Set/persist the verification passcode, based on the input passcode.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>- (void)setVerificationPasscode:(NSString *)newPasscode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newPasscode</Name>
-					<Abstract type="html">The new (plaintext) passcode to set.</Abstract>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setVerificationPasscode:</Anchor>
+			<Anchor>//api/name/hostListViewControllerDidSelectLoginHost:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/generateEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">Generates an encryption key, based on the input passcode.
-NOTE: This method must generate the same encryption key for the given
-input passcode.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidAddLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a login host has been added to the list of hosts.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)generateEncryptionKey:(NSString *)passcode</Declaration>
+			<Declaration>- (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>passcode</Name>
-					<Abstract type="html">The (plaintext) passcode used to generate the encryption key.</Abstract>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The encryption key generated from the passcode.</Abstract></ReturnValue>
-			<Anchor>//api/name/generateEncryptionKey:</Anchor>
+			
+			<Anchor>//api/name/hostListViewControllerDidAddLoginHost:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidCancelLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that user cancels out from the login host picking flow</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)hostListViewControllerDidCancelLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/hostListViewControllerDidCancelLoginHost:</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewController:didChangeLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that the login host has been changed in some capacity (user-selected, host entry edited,
+custom login host added, previous current login host deleted, etc.).</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>newLoginHost</Name>
+					<Abstract type="html">The updated login host.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/hostListViewController:didChangeLoginHost:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		

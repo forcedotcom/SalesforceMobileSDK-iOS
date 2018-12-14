@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFFileProtectionHelper.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFFileProtectionHelper</TokenIdentifier>
+			<Abstract type="html">This helper class aims at providing a centralized
+place where NSFileProtection can be configured and retrieved.</Abstract>
+			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+            
+			
+			<NodeRef refid="3"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/set:</TokenIdentifier>
+			<Abstract type="html">Contains the default NSFileProtection mode to use
+if no protection is specified. By default, this property
+is NSFileProtectionComplete</Abstract>
+			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *NS_SWIFT_NAME ( defaultMode )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/)</TokenIdentifier>
+			<Abstract type="html">Contains the default NSFileProtection mode to use
+if no protection is specified. By default, this property
+is NSFileProtectionComplete</Abstract>
+			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *NS_SWIFT_NAME ( defaultMode )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFFileProtectionHelper/)</TokenIdentifier>
+			<Abstract type="html">Contains the default NSFileProtection mode to use
+if no protection is specified. By default, this property
+is NSFileProtectionComplete</Abstract>
+			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *NS_SWIFT_NAME ( defaultMode )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFFileProtectionHelper/fileProtectionForPath:NS_SWIFT_NAME:</TokenIdentifier>
+			<Abstract type="html">Helper method that will return the file protection
+for the specified file path.</Abstract>
+			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)fileProtectionForPath:(NSString *)path NS_SWIFT_NAME</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">The path for which to return the file protection</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The file protection</Abstract></ReturnValue>
+			<Anchor>//api/name/fileProtectionForPath:NS_SWIFT_NAME:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/addProtection:forPath:NS_SWIFT_NAME:</TokenIdentifier>
+			<Abstract type="html">Add a valid file protection attribute to a path</Abstract>
+			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			
+			<Declaration>- (void)addProtection:(NSString *)fileProtection forPath:(NSString *)path NS_SWIFT_NAME</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fileProtection</Name>
+					<Abstract type="html">Type of file protection to apply to the path</Abstract>
+				</Parameter><Parameter>
+					<Name>path</Name>
+					<Abstract type="html">The path for which to return the file protection</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/addProtection:forPath:NS_SWIFT_NAME:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFJsonUtils.html">
+	<File path="Classes/SFManagedPreferences.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFJsonUtils</TokenIdentifier>
-			<Abstract type="html">This class helps decouple framework code from the underlying JSON implementation.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFManagedPreferences</TokenIdentifier>
+			<Abstract type="html">Class to handle preferences set by an MDM provider.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
             
 			
 			<NodeRef refid="30"/>
@@ -13,142 +13,374 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/lastError</TokenIdentifier>
-			<Abstract type="html">The last error that was logged during a JSON conversion operation.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFManagedPreferences/sharedPreferences</TokenIdentifier>
+			<Abstract type="html">The shared instance of this class.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (NSError *)lastError</Declaration>
+			<Declaration>+ (instancetype)sharedPreferences</Declaration>
 			
-			<ReturnValue><Abstract type="html">The last error that was logged during a JSON conversion operation.</Abstract></ReturnValue>
-			<Anchor>//api/name/lastError</Anchor>
+			<ReturnValue><Abstract type="html">The shared instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedPreferences</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONRepresentation:</TokenIdentifier>
-			<Abstract type="html">Creates the JSON representation of an object.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setHasManagedPreferences:</TokenIdentifier>
+			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)JSONRepresentation:(id)object</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>object</Name>
-					<Abstract type="html">The object to JSON-ify</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a JSON string representation of an Objective-C object</Abstract></ReturnValue>
-			<Anchor>//api/name/JSONRepresentation:</Anchor>
+			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/hasManagedPreferences</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONRepresentation:options:</TokenIdentifier>
-			<Abstract type="html">Creates the JSON representation of an object.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
+			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)JSONRepresentation:(id)object options:(NSJSONWritingOptions)options</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>object</Name>
-					<Abstract type="html">The object to JSON-ify</Abstract>
-				</Parameter><Parameter>
-					<Name>options</Name>
-					<Abstract type="html">for json-ization</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a JSON string representation of an Objective-C object</Abstract></ReturnValue>
-			<Anchor>//api/name/JSONRepresentation:options:</Anchor>
+			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/hasManagedPreferences</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONDataRepresentation:</TokenIdentifier>
-			<Abstract type="html">Creates the JSON-as-NSData representation of an object.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
+			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)JSONDataRepresentation:(id)obj</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>obj</Name>
-					<Abstract type="html">The object to JSON-ify.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A JSON string in NSData format, UTF8 encoded.</Abstract></ReturnValue>
-			<Anchor>//api/name/JSONDataRepresentation:</Anchor>
+			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/hasManagedPreferences</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONDataRepresentation:options:</TokenIdentifier>
-			<Abstract type="html">Creates the JSON-as-NSData representation of an object.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRequireCertificateAuthentication:</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSData *)JSONDataRepresentation:(id)obj options:(NSJSONWritingOptions)options</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>obj</Name>
-					<Abstract type="html">The object to JSON-ify.</Abstract>
-				</Parameter><Parameter>
-					<Name>options</Name>
-					<Abstract type="html">for json-ization</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A JSON string in NSData format, UTF8 encoded.</Abstract></ReturnValue>
-			<Anchor>//api/name/JSONDataRepresentation:options:</Anchor>
+			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/objectFromJSONString:</TokenIdentifier>
-			<Abstract type="html">Creates an object from a string of JSON data.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (nullable id)objectFromJSONString:(NSString *)jsonString</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>jsonString</Name>
-					<Abstract type="html">A JSON object string.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An Objective-C object such as an NSDictionary or NSArray.</Abstract></ReturnValue>
-			<Anchor>//api/name/objectFromJSONString:</Anchor>
+			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/objectFromJSONData:</TokenIdentifier>
-			<Abstract type="html">Creates an object from a JSON-as-NSData object.</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (id)objectFromJSONData:(NSData *)jsonData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>jsonData</Name>
-					<Abstract type="html">JSON data in an NSData wrapper (UTF8 encoding assumed).</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An Objective-C object such as an NSDictionary or NSArray.</Abstract></ReturnValue>
-			<Anchor>//api/name/objectFromJSONData:</Anchor>
+			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/projectIntoJson:path:</TokenIdentifier>
-			<Abstract type="html">Pull a value from the json-derived object by path (&quot;.&quot; delimited).</Abstract>
-			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHosts:</TokenIdentifier>
+			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>jsonObj</Name>
-					<Abstract type="html">The JSON object that contains the requested JSON path.</Abstract>
-				</Parameter><Parameter>
-					<Name>path</Name>
-					<Abstract type="html">Requested JSON path.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
 			
-			<Anchor>//api/name/projectIntoJson:path:</Anchor>
+			
+			<Anchor>//api/name/loginHosts</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHosts</TokenIdentifier>
+			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			
+			
+			<Anchor>//api/name/loginHosts</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHosts</TokenIdentifier>
+			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			
+			
+			<Anchor>//api/name/loginHosts</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHostLabels:</TokenIdentifier>
+			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostLabels</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHostLabels</TokenIdentifier>
+			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostLabels</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHostLabels</TokenIdentifier>
+			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostLabels</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppId:</TokenIdentifier>
+			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppId</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppId</TokenIdentifier>
+			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppId</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppId</TokenIdentifier>
+			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppId</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppCallbackUri:</TokenIdentifier>
+			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
+			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
+			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setClearClipboardOnBackground:</TokenIdentifier>
+			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			
+			
+			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
+			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			
+			
+			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
+			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			
+			
+			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setOnlyShowAuthorizedHosts:</TokenIdentifier>
+			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
+			
+			
+			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
+			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
+			
+			
+			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
+			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
+			
+			
+			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setIdpAppURLScheme:</TokenIdentifier>
+			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURLScheme</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/idpAppURLScheme</TokenIdentifier>
+			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURLScheme</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/idpAppURLScheme</TokenIdentifier>
+			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURLScheme</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRawPreferences:</TokenIdentifier>
+			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/rawPreferences</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/rawPreferences</TokenIdentifier>
+			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/rawPreferences</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/rawPreferences</TokenIdentifier>
+			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/rawPreferences</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		

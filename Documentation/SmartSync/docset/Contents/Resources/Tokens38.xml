@@ -1,65 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSyncUpdateCallbackQueue.html">
+	<File path="Constants/SFParentChildrenRelationshipType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSyncUpdateCallbackQueue</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFParentChildrenRelationshipType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="38"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runSync:syncManager:</TokenIdentifier>
-			<Abstract type="html">Run sync</Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
-			
-			<Declaration>- (void)runSync:(SFSyncState *)sync syncManager:(SFSmartSyncSyncManager *)syncManager</Declaration>
-			
-			
-			<Anchor>//api/name/runSync:syncManager:</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFParentChildrenRelationpshipMasterDetail</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFParentChildrenRelationpshipMasterDetail</Declaration>
+            
+            <DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+            
             <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runReSync:syncManager:</TokenIdentifier>
-			<Abstract type="html">Run re-sync</Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)runReSync:(NSNumber *)syncId syncManager:(SFSmartSyncSyncManager *)syncManager</Declaration>
-			
-			
-			<Anchor>//api/name/runReSync:syncManager:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFParentChildrenRelationpshipLookup</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFParentChildrenRelationpshipLookup</Declaration>
+            
+            <DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+            
             <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/getNextSyncUpdate</TokenIdentifier>
-			<Abstract type="html">Get next sync update</Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)getNextSyncUpdate</Declaration>
-			
-			
-			<Anchor>//api/name/getNextSyncUpdate</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/getNextSyncUpdate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)getNextSyncUpdate:(NSTimeInterval)maxWaitTime</Declaration>
-			
-			
-			<Anchor>//api/name/getNextSyncUpdate:</Anchor>
-            <NodeRef refid="38"/>
-		</Token>
-		
+        </Token>
         
         
 	</File>

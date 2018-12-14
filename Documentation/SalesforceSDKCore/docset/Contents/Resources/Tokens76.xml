@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthResponseCommand.html">
+	<File path="Classes/SFSDKDevAction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthResponseCommand</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDevAction</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="76"/>
@@ -13,110 +13,94 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setState:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/setName:</TokenIdentifier>
+			<Abstract type="html">Gets the  name being used by the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
 			
-			
-			<Anchor>//api/name/state</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/state</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/name</TokenIdentifier>
+			<Abstract type="html">Gets the  name being used by the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
 			
-			
-			<Anchor>//api/name/state</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/state</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDevAction/name</TokenIdentifier>
+			<Abstract type="html">Gets the  name being used by the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
 			
-			
-			<Anchor>//api/name/state</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setAuthCode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/setHandler:</TokenIdentifier>
+			<Abstract type="html">Gets the  handler associated with the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) handler</Declaration>
 			
-			
-			<Anchor>//api/name/authCode</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/handler</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/authCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/handler</TokenIdentifier>
+			<Abstract type="html">Gets the  handler associated with the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) handler</Declaration>
 			
-			
-			<Anchor>//api/name/authCode</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/handler</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/authCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDevAction/handler</TokenIdentifier>
+			<Abstract type="html">Gets the  handler associated with the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) handler</Declaration>
 			
-			
-			<Anchor>//api/name/authCode</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/handler</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setDomain:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/initWith:handler:</TokenIdentifier>
+			<Abstract type="html">Initialize with a name and a handler.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			<Declaration>- (instancetype)initWith:(NSString *)name handler:(void ( ^ ) ( void ))handler</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">The name use  display an option in the dev options display action sheet.</Abstract>
+				</Parameter><Parameter>
+					<Name>handler</Name>
+					<Abstract type="html">The handler that should be invoked when the option is selected.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/domain</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/domain</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
-			
-			
-			<Anchor>//api/name/domain</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/domain</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
-			
-			
-			<Anchor>//api/name/domain</Anchor>
+			<Anchor>//api/name/initWith:handler:</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		

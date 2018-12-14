@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFCryptoOperation.html">
+	<File path="Constants/SFOAuthAdvancedAuthState.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthState</TokenIdentifier>
+			<Abstract type="html">Enumeration of different advanced authentication stages.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
 			
 			<NodeRef refid="198"/>
@@ -14,21 +14,35 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationEncrypt</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateNotStarted</TokenIdentifier>
+            <Abstract type="html">     No advanced authentication is currently under way.
+     </Abstract>
+            <Declaration>SFOAuthAdvancedAuthStateNotStarted</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="198"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationDecrypt</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateBrowserRequestInitiated</TokenIdentifier>
+            <Abstract type="html">     The advanced authentication flow has initiated a request through Safari view controller.
+     </Abstract>
+            <Declaration>SFOAuthAdvancedAuthStateBrowserRequestInitiated</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+            
+            <NodeRef refid="198"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateTokenRequestInitiated</TokenIdentifier>
+            <Abstract type="html">     The advanced authentication flow has received a response from Safari view controller, and has
+     initiated a token exchange request.
+     </Abstract>
+            <Declaration>SFOAuthAdvancedAuthStateTokenRequestInitiated</Declaration>
+            
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="198"/>
         </Token>

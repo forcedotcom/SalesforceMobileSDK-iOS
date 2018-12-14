@@ -1,61 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountScope.html">
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
-			<Abstract type="html">The various scopes related to a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-			
-			<NodeRef refid="221"/>
-		</Token>
+	<File path="">
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
-            <Abstract type="html">Global scope (one per application)
-     </Abstract>
-            <Declaration>SFUserAccountScopeGlobal</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="221"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
-            <Abstract type="html">Scope by organization
-     </Abstract>
-            <Declaration>SFUserAccountScopeOrg</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="221"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
-            <Abstract type="html">Scope by user
-     </Abstract>
-            <Declaration>SFUserAccountScopeUser</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="221"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
-            <Abstract type="html">Scope by community
-     </Abstract>
-            <Declaration>SFUserAccountScopeCommunity</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="221"/>
-        </Token>
         
         
 	</File>

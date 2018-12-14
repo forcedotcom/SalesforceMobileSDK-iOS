@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKLoginFlowSelectionViewDelegate.html">
+	<File path="Protocols/SFSDKPasscodeCreateDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKPasscodeCreateDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
             
 			
 			<NodeRef refid="176"/>
@@ -13,42 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionIDPSelected:options:</TokenIdentifier>
-			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeCreateDelegate/passcodeCreated:updateMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>- (void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>controller</Name>
-					<Abstract type="html">instance invoking this delegate</Abstract>
-				</Parameter><Parameter>
-					<Name>appOptions</Name>
-					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionView</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode</Declaration>
 			
-			<Anchor>//api/name/loginFlowSelectionIDPSelected:options:</Anchor>
-            <NodeRef refid="176"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionLocalLoginSelected:options:</TokenIdentifier>
-			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>controller</Name>
-					<Abstract type="html">instance invoking this delegate</Abstract>
-				</Parameter><Parameter>
-					<Name>appOptions</Name>
-					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionVie</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/loginFlowSelectionLocalLoginSelected:options:</Anchor>
+			<Anchor>//api/name/passcodeCreated:updateMode:</Anchor>
             <NodeRef refid="176"/>
 		</Token>
 		

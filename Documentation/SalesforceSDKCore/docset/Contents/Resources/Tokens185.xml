@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionView.html">
+	<File path="Protocols/SFSecurityLockoutDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSecurityLockoutDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate protocol for SFSecurityLockout events and callbacks.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
 			
 			<NodeRef refid="185"/>
@@ -13,74 +13,37 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setUserSelectionDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSecurityLockoutDelegate/passcodeFlowWillBegin:</TokenIdentifier>
+			<Abstract type="html">Called just before the passcode flow begins and the view is displayed.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>- (void)passcodeFlowWillBegin:(SFAppLockControllerMode)mode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>mode</Name>
+					<Abstract type="html">The mode of the passcode or biometric flow, i.e. passcode/biometric creation or verification.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/passcodeFlowWillBegin:</Anchor>
             <NodeRef refid="185"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSecurityLockoutDelegate/passcodeFlowDidComplete:</TokenIdentifier>
+			<Abstract type="html">Called after the passcode flow has completed.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>- (void)passcodeFlowDidComplete:(BOOL)success</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>success</Name>
+					<Abstract type="html">Whether or not the passcode or biometric flow was successful, i.e. the passcode/biometric
+was successfully created or verified.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
-            <NodeRef refid="185"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
-            <NodeRef refid="185"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setSpAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="185"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="185"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/passcodeFlowDidComplete:</Anchor>
             <NodeRef refid="185"/>
 		</Token>
 		

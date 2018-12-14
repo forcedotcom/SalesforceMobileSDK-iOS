@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFAuthenticationViewHandler.html">
+	<File path="Classes/SFCryptoStreamTestUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationViewHandler</TokenIdentifier>
-			<Abstract type="html">Class encompassing the custom actions to take when displaying and dismissing an auth view during the auth process.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCryptoStreamTestUtils</TokenIdentifier>
+			<Abstract type="html">Utilities for crypto stream testing.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>
@@ -13,94 +13,93 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/setAuthViewDisplayBlock:</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/defaultKeyWithSize:</TokenIdentifier>
+			<Abstract type="html">The default test key bounded by a size.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
-			
-			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/authViewDisplayBlock</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
-			
-			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationViewHandler/authViewDisplayBlock</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDisplayBlock authViewDisplayBlock</Declaration>
-			
-			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/setAuthViewDismissBlock:</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
-			
-			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/authViewDismissBlock</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
-			
-			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationViewHandler/authViewDismissBlock</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFAuthViewDismissBlock authViewDismissBlock</Declaration>
-			
-			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationViewHandler/initWithDisplayBlock:dismissBlock:</TokenIdentifier>
-			<Abstract type="html">Designated initializer for the class.</Abstract>
-			<DeclaredIn>SFAuthenticationViewHandler.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithDisplayBlock:(SFAuthViewDisplayBlock)displayBlock dismissBlock:(SFAuthViewDismissBlock)dismissBlock</Declaration>
+			<Declaration>+ (NSData *)defaultKeyWithSize:(size_t)keySize</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>displayBlock</Name>
-					<Abstract type="html">The block used to display the auth view.</Abstract>
-				</Parameter><Parameter>
-					<Name>dismissBlock</Name>
-					<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+					<Name>keySize</Name>
+					<Abstract type="html">the key size.</Abstract>
 				</Parameter>
 			</Parameters>
+			<ReturnValue><Abstract type="html">the default test key data.</Abstract></ReturnValue>
+			<Anchor>//api/name/defaultKeyWithSize:</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/defaultInitializationVectorWithBlockSize:</TokenIdentifier>
+			<Abstract type="html">The default initialization vector bounded by a size.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
 			
-			<Anchor>//api/name/initWithDisplayBlock:dismissBlock:</Anchor>
+			<Declaration>+ (NSData *)defaultInitializationVectorWithBlockSize:(size_t)blockSize</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>blockSize</Name>
+					<Abstract type="html">the iv size.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the default test iv data.</Abstract></ReturnValue>
+			<Anchor>//api/name/defaultInitializationVectorWithBlockSize:</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/defaultTestDataWithSize:</TokenIdentifier>
+			<Abstract type="html">The default test data bounded by a size.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSData *)defaultTestDataWithSize:(size_t)testDataSize</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>testDataSize</Name>
+					<Abstract type="html">the test data size.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the default test data.</Abstract></ReturnValue>
+			<Anchor>//api/name/defaultTestDataWithSize:</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/encryptDecryptData:usingCrypto:withInitializationVector:</TokenIdentifier>
+			<Abstract type="html">Encrypt or decrypted in one-shot, based on the operation type of crypto.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSData *)encryptDecryptData:(NSData *)data usingCrypto:(CCCryptorRef)crypto withInitializationVector:(NSData *)iv</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">the data to be encrypted/decrypted.</Abstract>
+				</Parameter><Parameter>
+					<Name>crypto</Name>
+					<Abstract type="html">a crypto reference to be used in the operation.</Abstract>
+				</Parameter><Parameter>
+					<Name>iv</Name>
+					<Abstract type="html">the initialization vector desired to be used.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the encrypted/decrypted result.</Abstract></ReturnValue>
+			<Anchor>//api/name/encryptDecryptData:usingCrypto:withInitializationVector:</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCryptoStreamTestUtils/filePathForFileName:</TokenIdentifier>
+			<Abstract type="html">A file path where test files are stored.</Abstract>
+			<DeclaredIn>SFCryptoStreamTestUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)filePathForFileName:(NSString *)fileName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fileName</Name>
+					<Abstract type="html">the file name.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the complete path to reach the test file name passed.</Abstract></ReturnValue>
+			<Anchor>//api/name/filePathForFileName:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		

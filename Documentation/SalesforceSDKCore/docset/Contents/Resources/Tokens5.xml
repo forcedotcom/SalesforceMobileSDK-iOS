@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFApplication.html">
+	<File path="Classes/SFApplicationHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFApplication</TokenIdentifier>
-			<Abstract type="html">Mobile SDK extension of the UIApplication object.  Currently just gathers
-date/time information about user events.</Abstract>
-			<DeclaredIn>SFApplication.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFApplicationHelper</TokenIdentifier>
+			<Abstract type="html">This class is abstracting the UIApplication class
+and making it possible to use it when compiling for
+application extension such as with watchOS which
+doesn&apos;t have such a class.</Abstract>
+			<DeclaredIn>SFApplicationHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="5"/>
@@ -14,38 +16,32 @@ date/time information about user events.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFApplication/setLastEventDate:</TokenIdentifier>
-			<Abstract type="html">The date of the last user event in the application.</Abstract>
-			<DeclaredIn>SFApplication.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFApplicationHelper/sharedApplication</TokenIdentifier>
+			<Abstract type="html">Returns the shared application or nil
+on platform that doesn&apos;t have one (such as extension).</Abstract>
+			<DeclaredIn>SFApplicationHelper.h</DeclaredIn>
 			
-			<Declaration>@property (atomic, readonly) NSDate *lastEventDate</Declaration>
+			<Declaration>+ (nullable UIApplication *)sharedApplication</Declaration>
 			
-			
-			<Anchor>//api/name/lastEventDate</Anchor>
+			<ReturnValue><Abstract type="html">The shared application object.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedApplication</Anchor>
             <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFApplication/lastEventDate</TokenIdentifier>
-			<Abstract type="html">The date of the last user event in the application.</Abstract>
-			<DeclaredIn>SFApplication.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFApplicationHelper/openURL:</TokenIdentifier>
+			<Abstract type="html">Opens the specified URL.</Abstract>
+			<DeclaredIn>SFApplicationHelper.h</DeclaredIn>
 			
-			<Declaration>@property (atomic, readonly) NSDate *lastEventDate</Declaration>
-			
-			
-			<Anchor>//api/name/lastEventDate</Anchor>
-            <NodeRef refid="5"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFApplication/lastEventDate</TokenIdentifier>
-			<Abstract type="html">The date of the last user event in the application.</Abstract>
-			<DeclaredIn>SFApplication.h</DeclaredIn>
-			
-			<Declaration>@property (atomic, readonly) NSDate *lastEventDate</Declaration>
-			
-			
-			<Anchor>//api/name/lastEventDate</Anchor>
+			<Declaration>+ (BOOL)openURL:(NSURL *)url</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>url</Name>
+					<Abstract type="html">The URL to be opened.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the URL is successfully opened.</Abstract></ReturnValue>
+			<Anchor>//api/name/openURL:</Anchor>
             <NodeRef refid="5"/>
 		</Token>
 		

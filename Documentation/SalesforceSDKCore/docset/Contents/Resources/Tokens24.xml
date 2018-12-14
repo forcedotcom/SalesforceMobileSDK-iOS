@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFFileProtectionHelper.html">
+	<File path="Classes/SFInstrumentation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFFileProtectionHelper</TokenIdentifier>
-			<Abstract type="html">This helper class aims at providing a centralized
-place where NSFileProtection can be configured and retrieved.</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFInstrumentation</TokenIdentifier>
+			<Abstract type="html">This class exposes API that allow to intercept
+method call and introspect the object being intercepted.
+It can be used to record timing &amp;amp; usage information for example.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
             
 			
 			<NodeRef refid="24"/>
@@ -14,130 +15,273 @@ place where NSFileProtection can be configured and retrieved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/setDefaultNSFileProtectionMode:</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/setEnabled:</TokenIdentifier>
+			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *defaultNSFileProtectionMode</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/defaultNSFileProtectionMode</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/defaultNSFileProtectionMode</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/enabled</TokenIdentifier>
+			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *defaultNSFileProtectionMode</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/defaultNSFileProtectionMode</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFFileProtectionHelper/defaultNSFileProtectionMode</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFInstrumentation/enabled</TokenIdentifier>
+			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *defaultNSFileProtectionMode</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/defaultNSFileProtectionMode</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/setPathsToFileProtection:</TokenIdentifier>
-			<Abstract type="html">A mapping of paths to custom file protection statuses</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInstrumentation/instrumentationForClass:</TokenIdentifier>
+			<Abstract type="html">Returns an instrumentation instance for the specified class</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *pathsToFileProtection</Declaration>
-			
-			
-			<Anchor>//api/name/pathsToFileProtection</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/pathsToFileProtection</TokenIdentifier>
-			<Abstract type="html">A mapping of paths to custom file protection statuses</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *pathsToFileProtection</Declaration>
-			
-			
-			<Anchor>//api/name/pathsToFileProtection</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFFileProtectionHelper/pathsToFileProtection</TokenIdentifier>
-			<Abstract type="html">A mapping of paths to custom file protection statuses</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *pathsToFileProtection</Declaration>
-			
-			
-			<Anchor>//api/name/pathsToFileProtection</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFFileProtectionHelper/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the shared instance</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
-			
-			
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="24"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFFileProtectionHelper/fileProtectionForPath:</TokenIdentifier>
-			<Abstract type="html">Helper method that will return the file protection
-for the specified file path.</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)fileProtectionForPath:(NSString *)path</Declaration>
+			<Declaration>+ (instancetype)instrumentationForClass:(Class)clazz</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">The path for which to return the file protection</Abstract>
+					<Name>clazz</Name>
+					<Abstract type="html">The class to be instrumented</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The file protection</Abstract></ReturnValue>
-			<Anchor>//api/name/fileProtectionForPath:</Anchor>
+			
+			<Anchor>//api/name/instrumentationForClass:</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/addProtection:forPath:</TokenIdentifier>
-			<Abstract type="html">Add a valid file protection attribute to a path</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInstrumentation/instrumentationForClassWithName:</TokenIdentifier>
+			<Abstract type="html">Returns an instrumentation instance for the class with the specified name.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>- (void)addProtection:(NSString *)fileProtection forPath:(NSString *)path</Declaration>
+			<Declaration>+ (instancetype)instrumentationForClassWithName:(NSString *)className</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>fileProtection</Name>
-					<Abstract type="html">Type of file protection to apply to the path</Abstract>
+					<Name>className</Name>
+					<Abstract type="html">The name of the class to be instrumented.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/instrumentationForClassWithName:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptorForSelector:isInstanceSelector:</TokenIdentifier>
+			<Abstract type="html">Returns the interceptor configured for the class with the given selector, or nil
+if an interceptor is not configured for the given selector.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>- (nullable SFMethodInterceptor *)interceptorForSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selector</Name>
+					<Abstract type="html">The selector to check</Abstract>
 				</Parameter><Parameter>
-					<Name>path</Name>
-					<Abstract type="html">The path for which to return the file protection</Abstract>
+					<Name>isInstanceSelector</Name>
+					<Abstract type="html">Whether or not the selector is an instance selector.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The configured SFMethodInterceptor instance, or nil if an interceptor is
+not configured.</Abstract></ReturnValue>
+			<Anchor>//api/name/interceptorForSelector:isInstanceSelector:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptInstanceMethod:beforeBlock:afterBlock:</TokenIdentifier>
+			<Abstract type="html">Use this method to intercept the instance method specified by selector</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>- (void)interceptInstanceMethod:(SEL)selector beforeBlock:(nullable SFMethodInterceptorInvocationCallback)before afterBlock:(nullable SFMethodInterceptorInvocationAfterCallback)after</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selector</Name>
+					<Abstract type="html">The selector to intercept</Abstract>
+				</Parameter><Parameter>
+					<Name>before</Name>
+					<Abstract type="html">An optional block invoked before the selector is executed</Abstract>
+				</Parameter><Parameter>
+					<Name>after</Name>
+					<Abstract type="html">An optional block invoked after the selector is executed</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addProtection:forPath:</Anchor>
+			<Anchor>//api/name/interceptInstanceMethod:beforeBlock:afterBlock:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptInstanceMethod:replaceWithInvocationBlock:</TokenIdentifier>
+			<Abstract type="html">Use this method to intercept the instance method specified by selector
+and provide a block that will be invoked instead of the method.
+Note: the block contains a single argument which is the NSInvocation of the message.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>- (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(nullable SFMethodInterceptorInvocationCallback)replace</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selector</Name>
+					<Abstract type="html">The instance method to be intercepted</Abstract>
+				</Parameter><Parameter>
+					<Name>replace</Name>
+					<Abstract type="html">The block to be invoked</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/interceptInstanceMethod:replaceWithInvocationBlock:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptClassMethod:beforeBlock:afterBlock:</TokenIdentifier>
+			<Abstract type="html">Use this method to intercept the class method specified by selector</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>- (void)interceptClassMethod:(SEL)selector beforeBlock:(nullable SFMethodInterceptorInvocationCallback)before afterBlock:(nullable SFMethodInterceptorInvocationAfterCallback)after</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selector</Name>
+					<Abstract type="html">The selector to intercept</Abstract>
+				</Parameter><Parameter>
+					<Name>before</Name>
+					<Abstract type="html">An optional block invoked before the selector is executed</Abstract>
+				</Parameter><Parameter>
+					<Name>after</Name>
+					<Abstract type="html">An optional block invoked after the selector is executed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/interceptClassMethod:beforeBlock:afterBlock:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptClassMethod:replaceWithInvocationBlock:</TokenIdentifier>
+			<Abstract type="html">Use this method to intercept the class method specified by selector
+and provide a block that will be invoked instead of the method.
+Note: the block contains a single argument which is the NSInvocation of the message.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>- (void)interceptClassMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selector</Name>
+					<Abstract type="html">The instance method to be intercepted</Abstract>
+				</Parameter><Parameter>
+					<Name>replace</Name>
+					<Abstract type="html">The block to be invoked</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/interceptClassMethod:replaceWithInvocationBlock:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/instrumentForTiming:afterBlock:</TokenIdentifier>
+			<Abstract type="html">Instrument some selectors of a the target class for performance timing.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selectorFilter</Name>
+					<Abstract type="html">A block invoked when to select selectors from the class to instrument</Abstract>
+				</Parameter><Parameter>
+					<Name>after</Name>
+					<Abstract type="html">An optional block invoked after any selector is executed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/instrumentForTiming:afterBlock:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/instrumentForTiming:inheritanceLevels:afterBlock:</TokenIdentifier>
+			<Abstract type="html">Instrument some selectors of the target class and its parent class(es)
+for performance timing.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter inheritanceLevels:(NSUInteger)numInheritanceLevels afterBlock:(SFMethodInterceptorInvocationAfterCallback)after</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selectorFilter</Name>
+					<Abstract type="html">A block invoked when to select selectors from the class to instrument</Abstract>
+				</Parameter><Parameter>
+					<Name>numInheritanceLevels</Name>
+					<Abstract type="html">The number of inherited classes whose selectors will be made available.</Abstract>
+				</Parameter><Parameter>
+					<Name>after</Name>
+					<Abstract type="html">An optional block invoked after any selector is executed</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/instrumentForTiming:inheritanceLevels:afterBlock:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/loadInstructions:completion:</TokenIdentifier>
+			<Abstract type="html">Loads the array of instructions execute them. The instructions usually
+comes from a JSON file.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>- (void)loadInstructions:(NSArray *)instructions completion:(dispatch_block_t)completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>instructions</Name>
+					<Abstract type="html">The array of instructions</Abstract>
+				</Parameter><Parameter>
+					<Name>completion</Name>
+					<Abstract type="html">Optional completion block</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/loadInstructions:completion:</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/startMeasure</TokenIdentifier>
+			<Abstract type="html">Start the timing measurement</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>- (void)startMeasure</Declaration>
+			
+			
+			<Anchor>//api/name/startMeasure</Anchor>
+            <NodeRef refid="24"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/stopMeasure</TokenIdentifier>
+			<Abstract type="html">Stop the timing measurement</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>- (void)stopMeasure</Declaration>
+			
+			
+			<Anchor>//api/name/stopMeasure</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		

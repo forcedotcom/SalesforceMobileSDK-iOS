@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKURLHandler.html">
+	<File path="Protocols/SFSDKWindowContainerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKURLHandler</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKWindowContainerDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="183"/>
@@ -13,26 +13,36 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/canHandleRequest:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowContainerDelegate/presentWindow:animated:withCompletion:</TokenIdentifier>
+			<Abstract type="html">Called when the window has to be enabled</Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
+			<Declaration>- (void)presentWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>window</Name>
+					<Abstract type="html">The window</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/canHandleRequest:options:</Anchor>
+			<Anchor>//api/name/presentWindow:animated:withCompletion:</Anchor>
             <NodeRef refid="183"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/processRequest:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowContainerDelegate/dismissWindow:animated:withCompletion:</TokenIdentifier>
+			<Abstract type="html">Called when the window has to be disabled</Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
+			<Declaration>- (void)dismissWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>window</Name>
+					<Abstract type="html">The window</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/processRequest:options:</Anchor>
+			<Anchor>//api/name/dismissWindow:animated:withCompletion:</Anchor>
             <NodeRef refid="183"/>
 		</Token>
 		

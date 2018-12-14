@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthTestFlowCoordinatorDelegate.html">
+	<File path="Classes/SFPushNotificationManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthTestFlowCoordinatorDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPushNotificationManager</TokenIdentifier>
+			<Abstract type="html">Handles push notification registration and unregistration, both for Salesforce notifications and remote notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="49"/>
@@ -13,254 +13,192 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setWillBeginAuthenticationCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setDeviceToken:</TokenIdentifier>
+			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
 			
 			
-			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
+			<Anchor>//api/name/deviceToken</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/willBeginAuthenticationCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/deviceToken</TokenIdentifier>
+			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
 			
 			
-			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
+			<Anchor>//api/name/deviceToken</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/willBeginAuthenticationCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/deviceToken</TokenIdentifier>
+			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
 			
 			
-			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
+			<Anchor>//api/name/deviceToken</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidAuthenticateCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setDeviceSalesforceId:</TokenIdentifier>
+			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
 			
 			
-			<Anchor>//api/name/didAuthenticateCalled</Anchor>
+			<Anchor>//api/name/deviceSalesforceId</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didAuthenticateCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/deviceSalesforceId</TokenIdentifier>
+			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
 			
 			
-			<Anchor>//api/name/didAuthenticateCalled</Anchor>
+			<Anchor>//api/name/deviceSalesforceId</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didAuthenticateCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/deviceSalesforceId</TokenIdentifier>
+			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
 			
 			
-			<Anchor>//api/name/didAuthenticateCalled</Anchor>
+			<Anchor>//api/name/deviceSalesforceId</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setAuthInfo:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setCustomPushRegistrationBody:</TokenIdentifier>
+			<Abstract type="html">Custom push notification for additional HTTP POST body.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSDictionary *customPushRegistrationBody</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/customPushRegistrationBody</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/authInfo</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/customPushRegistrationBody</TokenIdentifier>
+			<Abstract type="html">Custom push notification for additional HTTP POST body.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSDictionary *customPushRegistrationBody</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/customPushRegistrationBody</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/authInfo</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/customPushRegistrationBody</TokenIdentifier>
+			<Abstract type="html">Custom push notification for additional HTTP POST body.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSDictionary *customPushRegistrationBody</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/customPushRegistrationBody</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidFailWithErrorCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPushNotificationManager/sharedInstance</TokenIdentifier>
+			<Abstract type="html">The share instance of this class.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			<Declaration>+ (SFPushNotificationManager *)sharedInstance</Declaration>
 			
 			
-			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didFailWithErrorCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerForRemoteNotifications</TokenIdentifier>
+			<Abstract type="html">Register with APNS</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			<Declaration>- (void)registerForRemoteNotifications</Declaration>
 			
 			
-			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+			<Anchor>//api/name/registerForRemoteNotifications</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didFailWithErrorCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/didRegisterForRemoteNotificationsWithDeviceToken:</TokenIdentifier>
+			<Abstract type="html">Call this method from your app delegate&apos;s didRegisterForRemoteNotificationsWithDeviceToken</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			<Declaration>- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceTokenData</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>deviceTokenData</Name>
+					<Abstract type="html">The device token returned by APNS.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+			<Anchor>//api/name/didRegisterForRemoteNotificationsWithDeviceToken:</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setIsNetworkAvailableCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerSalesforceNotificationsWithCompletionBlock:failBlock:</TokenIdentifier>
+			<Abstract type="html">Register for notifications with Salesforce.
+Call this method after authenticating with Salesforce and registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
-			
-			
-			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+			<Declaration>- (BOOL)registerSalesforceNotificationsWithCompletionBlock:(nullable void ( ^ ) ( void ))completionBlock failBlock:(nullable void ( ^ ) ( void ))failBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Completion block.</Abstract>
+				</Parameter><Parameter>
+					<Name>failBlock</Name>
+					<Abstract type="html">fail block.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES for successful registration call being made.</Abstract></ReturnValue>
+			<Anchor>//api/name/registerSalesforceNotificationsWithCompletionBlock:failBlock:</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailableCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:</TokenIdentifier>
+			<Abstract type="html">Unregister from notifications with Salesforce for a specific user. This method is called at logout.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
-			
-			
-			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailableCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
-			
-			
-			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidFailWithError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
-			
-			
-			<Anchor>//api/name/didFailWithError</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didFailWithError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
-			
-			
-			<Anchor>//api/name/didFailWithError</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didFailWithError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
-			
-			
-			<Anchor>//api/name/didFailWithError</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setIsNetworkAvailable:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
-			
-			
-			<Anchor>//api/name/isNetworkAvailable</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
-			
-			
-			<Anchor>//api/name/isNetworkAvailable</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
-			
-			
-			<Anchor>//api/name/isNetworkAvailable</Anchor>
+			<Declaration>- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount *)user completionBlock:(nullable void ( ^ ) ( void ))completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Completion block.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
+			<Anchor>//api/name/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		

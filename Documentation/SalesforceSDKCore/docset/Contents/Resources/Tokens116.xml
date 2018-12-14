@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUIWindow.html">
+	<File path="Classes/SFSDKWebUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUIWindow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebUtils</TokenIdentifier>
+			<Abstract type="html">Class containing web-based utility/helper functionality for the SDK.</Abstract>
+			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="116"/>
@@ -13,98 +13,19 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/initWithFrame:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebUtils/configureUserAgent:</TokenIdentifier>
+			<Abstract type="html">Configures a user agent for the app.</Abstract>
+			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
 			
-			<Declaration>- (instancetype _Nonnull)initWithFrame:(CGRect)frame</Declaration>
+			<Declaration>+ (void)configureUserAgent:(NSString *)userAgentString</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAgentString</Name>
+					<Abstract type="html">The string to configure as the user agent.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/initWithFrame:</Anchor>
-            <NodeRef refid="116"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/initWithFrame:andName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>- (instancetype _Nonnull)initWithFrame:(CGRect)frame andName:(NSString *_Nonnull)windowName</Declaration>
-			
-			
-			<Anchor>//api/name/initWithFrame:andName:</Anchor>
-            <NodeRef refid="116"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/setStashedController:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
-			
-			
-			<Anchor>//api/name/stashedController</Anchor>
-            <NodeRef refid="116"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/stashedController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
-			
-			
-			<Anchor>//api/name/stashedController</Anchor>
-            <NodeRef refid="116"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUIWindow/stashedController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
-			
-			
-			<Anchor>//api/name/stashedController</Anchor>
-            <NodeRef refid="116"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/setWindowName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
-			
-			
-			<Anchor>//api/name/windowName</Anchor>
-            <NodeRef refid="116"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/windowName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
-			
-			
-			<Anchor>//api/name/windowName</Anchor>
-            <NodeRef refid="116"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUIWindow/windowName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
-			
-			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/configureUserAgent:</Anchor>
             <NodeRef refid="116"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKAppConfigErrorCode.html">
+	<File path="Constants/SFUserAccountAccessRestriction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountAccessRestriction</TokenIdentifier>
+			<Abstract type="html">User account restrictions</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="212"/>
@@ -14,31 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionNone</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionChatter</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionChatter</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionREST</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionREST</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="212"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionOther</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFUserAccountAccessRestrictionOther</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="212"/>
         </Token>

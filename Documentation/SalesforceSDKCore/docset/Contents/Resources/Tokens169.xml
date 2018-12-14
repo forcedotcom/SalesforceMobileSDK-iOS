@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFPasscodeManagerDelegate.html">
+	<File path="Protocols/SFSDKLoginFlowSelectionViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFPasscodeManagerDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate protocol for SFPasscodeManager callbacks</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="169"/>
@@ -13,25 +13,42 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeManagerDelegate/passcodeManager:didChangeEncryptionKey:toEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">Notifies delegates of an encryption key change.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionIDPSelected:options:</TokenIdentifier>
+			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeManager:(SFPasscodeManager *)manager didChangeEncryptionKey:(NSString *)oldKey toEncryptionKey:(NSString *)newKey</Declaration>
+			<Declaration>- (void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>manager</Name>
-					<Abstract type="html">The passcode manager instance making the change.</Abstract>
+					<Name>controller</Name>
+					<Abstract type="html">instance invoking this delegate</Abstract>
 				</Parameter><Parameter>
-					<Name>oldKey</Name>
-					<Abstract type="html">The old encryption key.</Abstract>
-				</Parameter><Parameter>
-					<Name>newKey</Name>
-					<Abstract type="html">The new encryption key.</Abstract>
+					<Name>appOptions</Name>
+					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionView</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/passcodeManager:didChangeEncryptionKey:toEncryptionKey:</Anchor>
+			<Anchor>//api/name/loginFlowSelectionIDPSelected:options:</Anchor>
+            <NodeRef refid="169"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionLocalLoginSelected:options:</TokenIdentifier>
+			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			
+			<Declaration>- (void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">instance invoking this delegate</Abstract>
+				</Parameter><Parameter>
+					<Name>appOptions</Name>
+					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionVie</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/loginFlowSelectionLocalLoginSelected:options:</Anchor>
             <NodeRef refid="169"/>
 		</Token>
 		

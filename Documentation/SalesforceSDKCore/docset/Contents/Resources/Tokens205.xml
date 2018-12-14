@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthCredsEncryptionType.html">
+	<File path="Constants/SFOAuthType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredsEncryptionType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthType</TokenIdentifier>
+			<Abstract type="html">The type of authentication being attempted, in a given OAuth coordinator cycle.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="205"/>
@@ -14,51 +14,61 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeNotSet</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeNotSet</Declaration>
+            <Declaration>SFOAuthTypeUnknown</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeMac</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUserAgent</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeMac</Declaration>
+            <Declaration>SFOAuthTypeUserAgent</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeIdForVendor</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeRefresh</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeIdForVendor</Declaration>
+            <Declaration>SFOAuthTypeRefresh</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeBaseAppId</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeAdvancedBrowser</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeBaseAppId</Declaration>
+            <Declaration>SFOAuthTypeAdvancedBrowser</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeKeyStore</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeJwtTokenExchange</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeKeyStore</Declaration>
+            <Declaration>SFOAuthTypeJwtTokenExchange</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
+            <NodeRef refid="205"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeIDP</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeIDP</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>

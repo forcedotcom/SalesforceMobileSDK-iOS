@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKLaunchAction.html">
+	<File path="Constants/SFUserAccountChange.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKLaunchAction</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
+			<Abstract type="html">The various changes that can affect a user account</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="213"/>
@@ -14,51 +14,34 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionNone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionNone</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
+            <Abstract type="html">Unknown change
+     </Abstract>
+            <Declaration>SFUserAccountChangeUnknown</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="213"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthenticated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthenticated</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="213"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAlreadyAuthenticated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAlreadyAuthenticated</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
+            <Abstract type="html">New User
+      </Abstract>
+            <Declaration>SFUserAccountChangeNewUser</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="213"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthBypassed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthBypassed</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="213"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionPasscodeVerified</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionPasscodeVerified</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCurrentUser</TokenIdentifier>
+            <Abstract type="html">Change of Current User
+     </Abstract>
+            <Declaration>SFUserAccountChangeCurrentUser</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="213"/>
         </Token>

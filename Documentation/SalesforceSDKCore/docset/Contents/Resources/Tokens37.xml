@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFMethodInterceptor.html">
+	<File path="Classes/SFOAuthInfo.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFMethodInterceptor</TokenIdentifier>
-			<Abstract type="html">This class provides a simple way to intercept an
-instance method or a class method and forward message
-to the original method if needed.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthInfo</TokenIdentifier>
+			<Abstract type="html">Data class containing members denoting state information for an OAuth coordinator authentication
+cycle.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="37"/>
@@ -15,257 +14,91 @@ to the original method if needed.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setClassToIntercept:</TokenIdentifier>
-			<Abstract type="html">Class to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/setAuthType:</TokenIdentifier>
+			<Abstract type="html">The type of authentication being performed.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
 			
 			
-			<Anchor>//api/name/classToIntercept</Anchor>
+			<Anchor>//api/name/authType</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/classToIntercept</TokenIdentifier>
-			<Abstract type="html">Class to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/authType</TokenIdentifier>
+			<Abstract type="html">The type of authentication being performed.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
 			
 			
-			<Anchor>//api/name/classToIntercept</Anchor>
+			<Anchor>//api/name/authType</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/classToIntercept</TokenIdentifier>
-			<Abstract type="html">Class to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthInfo/authType</TokenIdentifier>
+			<Abstract type="html">The type of authentication being performed.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
 			
 			
-			<Anchor>//api/name/classToIntercept</Anchor>
+			<Anchor>//api/name/authType</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setSelectorToIntercept:</TokenIdentifier>
-			<Abstract type="html">Selector to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/setAuthTypeDescription:</TokenIdentifier>
+			<Abstract type="html">The string description of the auth type.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *authTypeDescription</Declaration>
 			
 			
-			<Anchor>//api/name/selectorToIntercept</Anchor>
+			<Anchor>//api/name/authTypeDescription</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/selectorToIntercept</TokenIdentifier>
-			<Abstract type="html">Selector to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/authTypeDescription</TokenIdentifier>
+			<Abstract type="html">The string description of the auth type.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *authTypeDescription</Declaration>
 			
 			
-			<Anchor>//api/name/selectorToIntercept</Anchor>
+			<Anchor>//api/name/authTypeDescription</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/selectorToIntercept</TokenIdentifier>
-			<Abstract type="html">Selector to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthInfo/authTypeDescription</TokenIdentifier>
+			<Abstract type="html">The string description of the auth type.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *authTypeDescription</Declaration>
 			
 			
-			<Anchor>//api/name/selectorToIntercept</Anchor>
+			<Anchor>//api/name/authTypeDescription</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setInstanceMethod:</TokenIdentifier>
-			<Abstract type="html">YES if the selectorToIntercept is an instance
-method, NO if it&apos;s a class method.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/initWithAuthType:</TokenIdentifier>
+			<Abstract type="html">Creates a new instance with the given auth type.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
+			<Declaration>- (id)initWithAuthType:(SFOAuthType)authType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>authType</Name>
+					<Abstract type="html">The type of authentication being performed.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/instanceMethod</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/instanceMethod</TokenIdentifier>
-			<Abstract type="html">YES if the selectorToIntercept is an instance
-method, NO if it&apos;s a class method.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
-			
-			
-			<Anchor>//api/name/instanceMethod</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/instanceMethod</TokenIdentifier>
-			<Abstract type="html">YES if the selectorToIntercept is an instance
-method, NO if it&apos;s a class method.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
-			
-			
-			<Anchor>//api/name/instanceMethod</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetBeforeBlock:</TokenIdentifier>
-			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetBeforeBlock</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetBeforeBlock</TokenIdentifier>
-			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetBeforeBlock</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetBeforeBlock</TokenIdentifier>
-			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetBeforeBlock</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetReplaceBlock:</TokenIdentifier>
-			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetReplaceBlock</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetReplaceBlock</TokenIdentifier>
-			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetReplaceBlock</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetReplaceBlock</TokenIdentifier>
-			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetReplaceBlock</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetAfterBlock:</TokenIdentifier>
-			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetAfterBlock</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetAfterBlock</TokenIdentifier>
-			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetAfterBlock</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetAfterBlock</TokenIdentifier>
-			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetAfterBlock</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setEnabled:</TokenIdentifier>
-			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/enabled</TokenIdentifier>
-			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
-            <NodeRef refid="37"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/enabled</TokenIdentifier>
-			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
+			<Anchor>//api/name/initWithAuthType:</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFAuthenticationSafariControllerHandler.html">
+	<File path="Classes/SFCrypto.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationSafariControllerHandler</TokenIdentifier>
-			<Abstract type="html">Class encompassing the custom action to take when presenting an auth safari controller during the auth process.</Abstract>
-			<DeclaredIn>SFAuthenticationSafariControllerHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCrypto</TokenIdentifier>
+			<Abstract type="html">Utility class for data encryption operations.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="10"/>
@@ -13,55 +13,407 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationSafariControllerHandler/setAuthSafariControllerPresentBlock:</TokenIdentifier>
-			<Abstract type="html">The block used to present the auth safari controller.</Abstract>
-			<DeclaredIn>SFAuthenticationSafariControllerHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/setFile:</TokenIdentifier>
+			<Abstract type="html">The output file for encrypted/decrypted data in CHCryptoModeDisk mode.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFAuthSafariControllerPresentBlock authSafariControllerPresentBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *file</Declaration>
 			
 			
-			<Anchor>//api/name/authSafariControllerPresentBlock</Anchor>
+			<Anchor>//api/name/file</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationSafariControllerHandler/authSafariControllerPresentBlock</TokenIdentifier>
-			<Abstract type="html">The block used to present the auth safari controller.</Abstract>
-			<DeclaredIn>SFAuthenticationSafariControllerHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/file</TokenIdentifier>
+			<Abstract type="html">The output file for encrypted/decrypted data in CHCryptoModeDisk mode.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFAuthSafariControllerPresentBlock authSafariControllerPresentBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *file</Declaration>
 			
 			
-			<Anchor>//api/name/authSafariControllerPresentBlock</Anchor>
+			<Anchor>//api/name/file</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthenticationSafariControllerHandler/authSafariControllerPresentBlock</TokenIdentifier>
-			<Abstract type="html">The block used to present the auth safari controller.</Abstract>
-			<DeclaredIn>SFAuthenticationSafariControllerHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCrypto/file</TokenIdentifier>
+			<Abstract type="html">The output file for encrypted/decrypted data in CHCryptoModeDisk mode.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFAuthSafariControllerPresentBlock authSafariControllerPresentBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *file</Declaration>
 			
 			
-			<Anchor>//api/name/authSafariControllerPresentBlock</Anchor>
+			<Anchor>//api/name/file</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthenticationSafariControllerHandler/initWithPresentBlock:</TokenIdentifier>
-			<Abstract type="html">Designated initializer for the class.</Abstract>
-			<DeclaredIn>SFAuthenticationSafariControllerHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/setMode:</TokenIdentifier>
+			<Abstract type="html">Returns the current mode of operation for the CHCrypto class.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithPresentBlock:(SFAuthSafariControllerPresentBlock)presentBlock</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFCryptoMode mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/mode</TokenIdentifier>
+			<Abstract type="html">Returns the current mode of operation for the CHCrypto class.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFCryptoMode mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCrypto/mode</TokenIdentifier>
+			<Abstract type="html">Returns the current mode of operation for the CHCrypto class.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFCryptoMode mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/initWithOperation:key:mode:</TokenIdentifier>
+			<Abstract type="html">Initializer. Calls the designated initializer, passing nil to &lt;code&gt;iv&lt;/code&gt;.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithOperation:(SFCryptoOperation)operation key:(nullable NSData *)key mode:(SFCryptoMode)mode</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>presentBlock</Name>
-					<Abstract type="html">The block used to present the auth safari controller.</Abstract>
+					<Name>operation</Name>
+					<Abstract type="html">Operation to be performed encrypt/decrypt.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">Key used for encyption/decryption. Pass nil to use the default key.</Abstract>
+				</Parameter><Parameter>
+					<Name>mode</Name>
+					<Abstract type="html">Mode which determines whether to perform operation in memory at once or in chunks writing to the disk.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithPresentBlock:</Anchor>
+			<Anchor>//api/name/initWithOperation:key:mode:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/initWithOperation:key:iv:mode:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>- (nullable instancetype)initWithOperation:(SFCryptoOperation)operation key:(nullable NSData *)key iv:(nullable NSData *)iv mode:(SFCryptoMode)mode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>operation</Name>
+					<Abstract type="html">Operation to be performed encrypt/decrypt.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">Key used for encyption/decryption pass nil to use the default key.</Abstract>
+				</Parameter><Parameter>
+					<Name>iv</Name>
+					<Abstract type="html">Initialization vector. If set to nil, uses the default initialization vector.</Abstract>
+				</Parameter><Parameter>
+					<Name>mode</Name>
+					<Abstract type="html">Mode which determines whether to perform operation in memory at once or in chunks writing to the disk.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithOperation:key:iv:mode:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/cryptData:</TokenIdentifier>
+			<Abstract type="html">Encrypts or decrypts the passed in data. The input data is assumed to be passed in as a chunk.
+This method requires a call to &lt;code&gt;- finalizeCipher&lt;/code&gt;.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>- (void)cryptData:(NSData *)inData</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>inData</Name>
+					<Abstract type="html">Input data.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/cryptData:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/decryptDataInMemory:</TokenIdentifier>
+			<Abstract type="html">Decrypts the passed in data initializer, performing the decryption in memory.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)decryptDataInMemory:(NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Encrypted input data.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Decrypted data.</Abstract></ReturnValue>
+			<Anchor>//api/name/decryptDataInMemory:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/encryptDataInMemory:</TokenIdentifier>
+			<Abstract type="html">Encrypts the passed in data initializer, performing the encryption in memory.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)encryptDataInMemory:(NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Input data.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Encrypted data.</Abstract></ReturnValue>
+			<Anchor>//api/name/encryptDataInMemory:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/finalizeCipher</TokenIdentifier>
+			<Abstract type="html">Finalizes the encryption/decryption process.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)finalizeCipher</Declaration>
+			
+			
+			<Anchor>//api/name/finalizeCipher</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/decrypt:to:</TokenIdentifier>
+			<Abstract type="html">Decrypts a file.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)decrypt:(NSString *)inputFile to:(NSString *)outputFile</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>inputFile</Name>
+					<Abstract type="html">Name of the encrypted file.</Abstract>
+				</Parameter><Parameter>
+					<Name>outputFile</Name>
+					<Abstract type="html">Name of the decrypted file.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the file was successfully decrypted; NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/decrypt:to:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/secretWithKey:</TokenIdentifier>
+			<Abstract type="html">Creates a secret key, based in part on the input key.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>+ (NSData *)secretWithKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The base key which will seed the return key.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The secret key, based on the input key.</Abstract></ReturnValue>
+			<Anchor>//api/name/secretWithKey:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifier</TokenIdentifier>
+			<Abstract type="html">Returns a unique identifier associated with this app install.  The identifier will
+remain the same for the lifetime of the app&apos;s installation on the device.  If the
+app is uninstalled, a new identifier will be created if it is ever reinstalled.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)baseAppIdentifier</Declaration>
+			
+			<ReturnValue><Abstract type="html">A unique identifier for the app install on the particular device.</Abstract></ReturnValue>
+			<Anchor>//api/name/baseAppIdentifier</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifierIsConfigured</TokenIdentifier>
+			<Abstract type="html">Whether or not the base app identifier has been configured for this app install.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)baseAppIdentifierIsConfigured</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if the base app ID has already been configured, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/baseAppIdentifierIsConfigured</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifierConfiguredThisLaunch</TokenIdentifier>
+			<Abstract type="html">Whether or not the base app identifier was configured at some point during this launch of
+the app.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)baseAppIdentifierConfiguredThisLaunch</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if the base app ID was configured during this app launch; NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/baseAppIdentifierConfiguredThisLaunch</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/hasInitializationVector</TokenIdentifier>
+			<Abstract type="html">Returns whether we have an initialization vector used for encryption stored in the keychain.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)hasInitializationVector</Declaration>
+			
+			
+			<Anchor>//api/name/hasInitializationVector</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/setStatus:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) CCCryptorStatus status</Declaration>
+			
+			
+			<Anchor>//api/name/status</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/status</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) CCCryptorStatus status</Declaration>
+			
+			
+			<Anchor>//api/name/status</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCrypto/status</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) CCCryptorStatus status</Declaration>
+			
+			
+			<Anchor>//api/name/status</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/setOutputStream:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSOutputStream *outputStream</Declaration>
+			
+			
+			<Anchor>//api/name/outputStream</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/outputStream</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSOutputStream *outputStream</Declaration>
+			
+			
+			<Anchor>//api/name/outputStream</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCrypto/outputStream</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, retain) NSOutputStream *outputStream</Declaration>
+			
+			
+			<Anchor>//api/name/outputStream</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/setDataBuffer:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSMutableData *dataBuffer</Declaration>
+			
+			
+			<Anchor>//api/name/dataBuffer</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/dataBuffer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSMutableData *dataBuffer</Declaration>
+			
+			
+			<Anchor>//api/name/dataBuffer</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCrypto/dataBuffer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSMutableData *dataBuffer</Declaration>
+			
+			
+			<Anchor>//api/name/dataBuffer</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/appendToBuffer:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)appendToBuffer:(NSData *)data</Declaration>
+			
+			
+			<Anchor>//api/name/appendToBuffer:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/setBaseAppIdentifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)setBaseAppIdentifier:(NSString *)appId</Declaration>
+			
+			
+			<Anchor>//api/name/setBaseAppIdentifier:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

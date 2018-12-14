@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKDeviceAppAttributes.html">
+	<File path="Classes/SFSDKEventStoreManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDeviceAppAttributes</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKEventStoreManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="7"/>
@@ -13,396 +13,346 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setAppVersion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setStoreDirectory:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appVersion</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory</Declaration>
 			
 			
-			<Anchor>//api/name/appVersion</Anchor>
+			<Anchor>//api/name/storeDirectory</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/appVersion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/storeDirectory</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appVersion</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory</Declaration>
 			
 			
-			<Anchor>//api/name/appVersion</Anchor>
+			<Anchor>//api/name/storeDirectory</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/appVersion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/storeDirectory</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appVersion</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory</Declaration>
 			
 			
-			<Anchor>//api/name/appVersion</Anchor>
+			<Anchor>//api/name/storeDirectory</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setAppName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setDataEncryptorBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appName</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock</Declaration>
 			
 			
-			<Anchor>//api/name/appName</Anchor>
+			<Anchor>//api/name/dataEncryptorBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/appName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/dataEncryptorBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appName</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock</Declaration>
 			
 			
-			<Anchor>//api/name/appName</Anchor>
+			<Anchor>//api/name/dataEncryptorBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/appName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/dataEncryptorBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appName</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock</Declaration>
 			
 			
-			<Anchor>//api/name/appName</Anchor>
+			<Anchor>//api/name/dataEncryptorBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setOsVersion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setDataDecryptorBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osVersion</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock</Declaration>
 			
 			
-			<Anchor>//api/name/osVersion</Anchor>
+			<Anchor>//api/name/dataDecryptorBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/osVersion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/dataDecryptorBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osVersion</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock</Declaration>
 			
 			
-			<Anchor>//api/name/osVersion</Anchor>
+			<Anchor>//api/name/dataDecryptorBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/osVersion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/dataDecryptorBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osVersion</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock</Declaration>
 			
 			
-			<Anchor>//api/name/osVersion</Anchor>
+			<Anchor>//api/name/dataDecryptorBlock</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setOsName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setNumStoredEvents:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osName</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger numStoredEvents</Declaration>
 			
 			
-			<Anchor>//api/name/osName</Anchor>
+			<Anchor>//api/name/numStoredEvents</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/osName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/numStoredEvents</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osName</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger numStoredEvents</Declaration>
 			
 			
-			<Anchor>//api/name/osName</Anchor>
+			<Anchor>//api/name/numStoredEvents</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/osName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/numStoredEvents</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osName</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger numStoredEvents</Declaration>
 			
 			
-			<Anchor>//api/name/osName</Anchor>
+			<Anchor>//api/name/numStoredEvents</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setNativeAppType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setLoggingEnabled:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *nativeAppType</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/nativeAppType</Anchor>
+			<Anchor>//api/name/loggingEnabled</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/nativeAppType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/isLoggingEnabled</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *nativeAppType</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/nativeAppType</Anchor>
+			<Anchor>//api/name/loggingEnabled</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/nativeAppType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/loggingEnabled</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *nativeAppType</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/nativeAppType</Anchor>
+			<Anchor>//api/name/loggingEnabled</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setMobileSdkVersion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setMaxEvents:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *mobileSdkVersion</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) NSInteger maxEvents</Declaration>
 			
 			
-			<Anchor>//api/name/mobileSdkVersion</Anchor>
+			<Anchor>//api/name/maxEvents</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/mobileSdkVersion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/maxEvents</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *mobileSdkVersion</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) NSInteger maxEvents</Declaration>
 			
 			
-			<Anchor>//api/name/mobileSdkVersion</Anchor>
+			<Anchor>//api/name/maxEvents</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/mobileSdkVersion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/maxEvents</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *mobileSdkVersion</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) NSInteger maxEvents</Declaration>
 			
 			
-			<Anchor>//api/name/mobileSdkVersion</Anchor>
+			<Anchor>//api/name/maxEvents</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setDeviceModel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceModel</Declaration>
-			
-			
-			<Anchor>//api/name/deviceModel</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/deviceModel</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceModel</Declaration>
-			
-			
-			<Anchor>//api/name/deviceModel</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/deviceModel</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceModel</Declaration>
-			
-			
-			<Anchor>//api/name/deviceModel</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setDeviceId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceId</Declaration>
-			
-			
-			<Anchor>//api/name/deviceId</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/deviceId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceId</Declaration>
-			
-			
-			<Anchor>//api/name/deviceId</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/deviceId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceId</Declaration>
-			
-			
-			<Anchor>//api/name/deviceId</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setClientId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/initWithAppVersion:appName:osVersion:osName:nativeAppType:mobileSdkVersion:deviceModel:deviceId:clientId:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/initWithStoreDirectory:dataEncryptorBlock:dataDecryptorBlock:</TokenIdentifier>
 			<Abstract type="html">Parameterized initializer.</Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>- (nonnull instancetype)initWithAppVersion:(nonnull NSString *)appVersion appName:(nonnull NSString *)appName osVersion:(nonnull NSString *)osVersion osName:(nonnull NSString *)osName nativeAppType:(nonnull NSString *)nativeAppType mobileSdkVersion:(nonnull NSString *)mobileSdkVersion deviceModel:(nonnull NSString *)deviceModel deviceId:(nonnull NSString *)deviceId clientId:(nonnull NSString *)clientId</Declaration>
+			<Declaration>- (nonnull instancetype)initWithStoreDirectory:(nonnull NSString *)storeDirectory dataEncryptorBlock:(nullable DataEncryptorBlock)dataEncryptorBlock dataDecryptorBlock:(nullable DataDecryptorBlock)dataDecryptorBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>appVersion</Name>
-					<Abstract type="html">App version.</Abstract>
+					<Name>storeDirectory</Name>
+					<Abstract type="html">Store directory.</Abstract>
 				</Parameter><Parameter>
-					<Name>appName</Name>
-					<Abstract type="html">App name.</Abstract>
+					<Name>dataEncryptorBlock</Name>
+					<Abstract type="html">Block that performs encryption.</Abstract>
 				</Parameter><Parameter>
-					<Name>osVersion</Name>
-					<Abstract type="html">OS version.</Abstract>
-				</Parameter><Parameter>
-					<Name>osName</Name>
-					<Abstract type="html">OS name.</Abstract>
-				</Parameter><Parameter>
-					<Name>nativeAppType</Name>
-					<Abstract type="html">Native app type.</Abstract>
-				</Parameter><Parameter>
-					<Name>mobileSdkVersion</Name>
-					<Abstract type="html">Mobile SDK version.</Abstract>
-				</Parameter><Parameter>
-					<Name>deviceModel</Name>
-					<Abstract type="html">Device model.</Abstract>
-				</Parameter><Parameter>
-					<Name>deviceId</Name>
-					<Abstract type="html">Device ID.</Abstract>
-				</Parameter><Parameter>
-					<Name>clientId</Name>
-					<Abstract type="html">Client ID.</Abstract>
+					<Name>dataDecryptorBlock</Name>
+					<Abstract type="html">Block that performs decryption.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithAppVersion:appName:osVersion:osName:nativeAppType:mobileSdkVersion:deviceModel:deviceId:clientId:</Anchor>
+			<Anchor>//api/name/initWithStoreDirectory:dataEncryptorBlock:dataDecryptorBlock:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/initWithJson:</TokenIdentifier>
-			<Abstract type="html">Parameterized initializer.</Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/storeEvent:</TokenIdentifier>
+			<Abstract type="html">Stores an event to the filesystem. A combination of event&apos;s unique ID and
+filename suffix is used to generate a unique filename per event.</Abstract>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>- (nonnull instancetype)initWithJson:(nonnull NSDictionary *)jsonRepresentation</Declaration>
+			<Declaration>- (void)storeEvent:(nullable SFSDKInstrumentationEvent *)event</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>jsonRepresentation</Name>
-					<Abstract type="html">JSON representation.</Abstract>
+					<Name>event</Name>
+					<Abstract type="html">Event to be persisted.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithJson:</Anchor>
+			
+			<Anchor>//api/name/storeEvent:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/jsonRepresentation</TokenIdentifier>
-			<Abstract type="html">Returns a JSON representation of device app attributes.</Abstract>
-			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/storeEvents:</TokenIdentifier>
+			<Abstract type="html">Stores a list of events to the filesystem.</Abstract>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
 			
-			<Declaration>- (nonnull NSDictionary *)jsonRepresentation</Declaration>
+			<Declaration>- (void)storeEvents:(nullable NSArray&lt;SFSDKInstrumentationEvent*&gt; *)events</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>events</Name>
+					<Abstract type="html">List of events.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">JSON representation.</Abstract></ReturnValue>
-			<Anchor>//api/name/jsonRepresentation</Anchor>
+			<Anchor>//api/name/storeEvents:</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/fetchEvent:</TokenIdentifier>
+			<Abstract type="html">Returns a specific event stored on the filesystem.</Abstract>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable SFSDKInstrumentationEvent *)fetchEvent:(nullable NSString *)eventId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>eventId</Name>
+					<Abstract type="html">Unique identifier for the event.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Event.</Abstract></ReturnValue>
+			<Anchor>//api/name/fetchEvent:</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/fetchAllEvents</TokenIdentifier>
+			<Abstract type="html">Returns all the events stored on the filesystem for that unique identifier.</Abstract>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSArray&lt;SFSDKInstrumentationEvent*&gt; *)fetchAllEvents</Declaration>
+			
+			<ReturnValue><Abstract type="html">List of events.</Abstract></ReturnValue>
+			<Anchor>//api/name/fetchAllEvents</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/deleteEvent:</TokenIdentifier>
+			<Abstract type="html">Deletes a specific event stored on the filesystem.</Abstract>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)deleteEvent:(nullable NSString *)eventId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>eventId</Name>
+					<Abstract type="html">Unique identifier for the event.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">True - if successful, False - otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/deleteEvent:</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/deleteEvents:</TokenIdentifier>
+			<Abstract type="html">Deletes the events stored on the filesystem for that unique identifier.</Abstract>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			
+			<Declaration>- (void)deleteEvents:(nullable NSArray&lt;NSString*&gt; *)eventIds</Declaration>
+			
+			
+			<Anchor>//api/name/deleteEvents:</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/deleteAllEvents</TokenIdentifier>
+			<Abstract type="html">Deletes all the events stored on the filesystem for that unique identifier.</Abstract>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			
+			<Declaration>- (void)deleteAllEvents</Declaration>
+			
+			
+			<Anchor>//api/name/deleteAllEvents</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		

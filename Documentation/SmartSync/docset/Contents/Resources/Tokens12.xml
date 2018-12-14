@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFObject.html">
+	<File path="Classes/SFParentChildrenSyncHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFObject</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncHelper</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObject.h</DeclaredIn>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="12"/>
@@ -13,98 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/setObjectId:</TokenIdentifier>
-			<Abstract type="html">Object Id</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
-			
-			
-			<Anchor>//api/name/objectId</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/objectId</TokenIdentifier>
-			<Abstract type="html">Object Id</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
-			
-			
-			<Anchor>//api/name/objectId</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFObject/objectId</TokenIdentifier>
-			<Abstract type="html">Object Id</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
-			
-			
-			<Anchor>//api/name/objectId</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/setName:</TokenIdentifier>
-			<Abstract type="html">Object name</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/name</TokenIdentifier>
-			<Abstract type="html">Object name</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFObject/name</TokenIdentifier>
-			<Abstract type="html">Object name</Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/encodeObject:forKey:encoder:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/registerAppFeature</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>- (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder</Declaration>
+			<Declaration>+ (void)registerAppFeature</Declaration>
 			
 			
-			<Anchor>//api/name/encodeObject:forKey:encoder:</Anchor>
+			<Anchor>//api/name/registerAppFeature</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObject/configureDataWithDictionary:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/relationshipTypeFromString:</TokenIdentifier>
+			<Abstract type="html">Enum to/from string helper methods</Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			
+			<Declaration>+ (SFParentChildrenRelationshipType)relationshipTypeFromString:(NSString *)relationshipType</Declaration>
+			
+			
+			<Anchor>//api/name/relationshipTypeFromString:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/relationshipTypeToString:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
 			
-			<Declaration>- (void)configureDataWithDictionary:(NSDictionary *)dataDiction</Declaration>
+			<Declaration>+ (NSString *)relationshipTypeToString:(SFParentChildrenRelationshipType)relationshipType</Declaration>
 			
 			
-			<Anchor>//api/name/configureDataWithDictionary:</Anchor>
+			<Anchor>//api/name/relationshipTypeToString:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)getDirtyRecordIdsSql:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentFieldToSelect:(NSString *)parentFieldToSelect</Declaration>
+			
+			
+			<Anchor>//api/name/getDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getNonDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:additionalPredicate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)getNonDirtyRecordIdsSql:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentFieldToSelect:(NSString *)parentFieldToSelect additionalPredicate:(NSString *)additionalPredicate</Declaration>
+			
+			
+			<Anchor>//api/name/getNonDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:additionalPredicate:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/saveRecordTreesToLocalStore:target:parentInfo:childrenInfo:recordTrees:syncId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			
+			<Declaration>+ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees syncId:(NSNumber *)syncId</Declaration>
+			
+			
+			<Anchor>//api/name/saveRecordTreesToLocalStore:target:parentInfo:childrenInfo:recordTrees:syncId:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getMutableChildrenFromLocalStore:parentInfo:childrenInfo:parent:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			
+			<Declaration>+ (NSArray&lt;NSMutableDictionary*&gt; *)getMutableChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent</Declaration>
+			
+			
+			<Anchor>//api/name/getMutableChildrenFromLocalStore:parentInfo:childrenInfo:parent:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/deleteChildrenFromLocalStore:parentInfo:childrenInfo:parentIds:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			
+			<Declaration>+ (void)deleteChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentIds:(NSArray *)parentIds</Declaration>
+			
+			
+			<Anchor>//api/name/deleteChildrenFromLocalStore:parentInfo:childrenInfo:parentIds:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		

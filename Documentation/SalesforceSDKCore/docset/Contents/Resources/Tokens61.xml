@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAILTNPublisher.html">
+	<File path="Classes/SFSDKAppLockViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAILTNPublisher</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAppLockViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAILTNPublisher.h</DeclaredIn>
+			<DeclaredIn>SFSDKAppLockViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="61"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewController/initWithMode:andViewConfig:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAppLockViewController.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithMode:(SFAppLockControllerMode)mode andViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
+			
+			
+			<Anchor>//api/name/initWithMode:andViewConfig:</Anchor>
+            <NodeRef refid="61"/>
+		</Token>
 		
         
         

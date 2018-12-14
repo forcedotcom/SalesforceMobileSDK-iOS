@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFMetadataSyncManager.html">
+	<File path="Classes/SFObject.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFMetadataSyncManager</TokenIdentifier>
-			<Abstract type="html">Provides an easy way to fetch metadata using SFMetadataSyncDownTarget.
-This class handles creating a soup, storing synched data and reading it into
-a meaningful data structure, i.e. SFMetadata.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFObject</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObject.h</DeclaredIn>
             
 			
 			<NodeRef refid="10"/>
@@ -15,176 +13,98 @@ a meaningful data structure, i.e. SFMetadata.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncManager/setSmartStore:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/setObjectId:</TokenIdentifier>
+			<Abstract type="html">Object Id</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
+			
+			
+			<Anchor>//api/name/objectId</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/objectId</TokenIdentifier>
+			<Abstract type="html">Object Id</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
+			
+			
+			<Anchor>//api/name/objectId</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFObject/objectId</TokenIdentifier>
+			<Abstract type="html">Object Id</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
+			
+			
+			<Anchor>//api/name/objectId</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/setName:</TokenIdentifier>
+			<Abstract type="html">Object name</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/name</TokenIdentifier>
+			<Abstract type="html">Object name</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFObject/name</TokenIdentifier>
+			<Abstract type="html">Object name</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/encodeObject:forKey:encoder:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore</Declaration>
+			<Declaration>- (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder</Declaration>
 			
 			
-			<Anchor>//api/name/smartStore</Anchor>
+			<Anchor>//api/name/encodeObject:forKey:encoder:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncManager/smartStore</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/configureDataWithDictionary:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore</Declaration>
-			
-			
-			<Anchor>//api/name/smartStore</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMetadataSyncManager/smartStore</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore</Declaration>
+			<Declaration>- (void)configureDataWithDictionary:(NSDictionary *)dataDiction</Declaration>
 			
 			
-			<Anchor>//api/name/smartStore</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncManager/setSyncManager:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager</Declaration>
-			
-			
-			<Anchor>//api/name/syncManager</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncManager/syncManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager</Declaration>
-			
-			
-			<Anchor>//api/name/syncManager</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMetadataSyncManager/syncManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager</Declaration>
-			
-			
-			<Anchor>//api/name/syncManager</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the instance of this class associated with current user.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull instancetype)sharedInstance</Declaration>
-			
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncManager/sharedInstance:</TokenIdentifier>
-			<Abstract type="html">Returns the instance of this class associated with this user account.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull instancetype)sharedInstance:(nullable SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">User account.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstance:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncManager/sharedInstance:smartStore:</TokenIdentifier>
-			<Abstract type="html">Returns the instance of this class associated with this user and SmartStore.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull instancetype)sharedInstance:(nullable SFUserAccount *)user smartStore:(nullable NSString *)smartStore</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">User account. Pass null to use current user.</Abstract>
-				</Parameter><Parameter>
-					<Name>smartStore</Name>
-					<Abstract type="html">SmartStore name. Pass nil to use current user default SmartStore.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstance:smartStore:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncManager/reset</TokenIdentifier>
-			<Abstract type="html">Resets all the metadata sync managers.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)reset</Declaration>
-			
-			
-			<Anchor>//api/name/reset</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncManager/reset:</TokenIdentifier>
-			<Abstract type="html">Resets the metadata sync manager for this user account.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)reset:(nullable SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">User account.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/reset:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncManager/fetchMetadataForObject:mode:completionBlock:</TokenIdentifier>
-			<Abstract type="html">Fetches metadata for the specified object type using the specified
-mode and triggers the supplied completion block once complete.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>- (void)fetchMetadataForObject:(nonnull NSString *)objectType mode:(SFSDKFetchMode)mode completionBlock:(nonnull SFMetadataSyncCompletionBlock)completionBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>objectType</Name>
-					<Abstract type="html">Object type.</Abstract>
-				</Parameter><Parameter>
-					<Name>mode</Name>
-					<Abstract type="html">Fetch mode. See SFSDKFetchMode for available modes.</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Metadata sync completion block.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/fetchMetadataForObject:mode:completionBlock:</Anchor>
+			<Anchor>//api/name/configureDataWithDictionary:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

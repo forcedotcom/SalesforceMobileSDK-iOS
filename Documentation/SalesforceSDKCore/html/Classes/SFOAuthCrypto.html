@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>SFOAuthCrypto Class Reference</title>
+	<title></title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+	
 </head>
 <body class="appledoc">
 	<header>
@@ -43,33 +43,9 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
-	<option value="overview">Overview</option>
-	
-
-	
-	
-	<option value="tasks">Tasks</option>
-	
-	
-
-	
-	
 
 	
 
-	
-	<optgroup label="Instance Methods">
-		
-		<option value="//api/name/decryptData:">- decryptData:</option>
-		
-		<option value="//api/name/encryptData:">- encryptData:</option>
-		
-		<option value="//api/name/finalizeCipher">- finalizeCipher</option>
-		
-		<option value="//api/name/initWithOperation:key:">- initWithOperation:key:</option>
-		
-	</optgroup>
-	
 	
 </select>
 						</label>
@@ -83,275 +59,22 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title">SFOAuthCrypto Class Reference</h1>
+					<h1 class="title"></h1>
 
-					
-					<div class="section section-specification"><table cellspacing="0"><tbody>
-						<tr>
-	<th>Inherits from</th>
-	<td>NSObject</td>
-</tr><tr>
-	<th>Declared in</th>
-	<td>SFOAuthCrypto.h</td>
-</tr>
-						</tbody></table></div>
 					
 
                     
-					
-					<div class="section section-overview">
-						<a title="Overview" name="overview"></a>
-						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Provides a wrapper for cryptographic services.</p><div class="warning"><p><strong>Warning:</strong> Once the <code>decryptData</code> or <a href="#//api/name/finalizeCipher"><code>finalizeCipher</code></a> method is called this object cannot be reused.</p></div>
-					</div>
-					
-					
 
-					
-					
-					<div class="section section-tasks">
-						<a title="Tasks" name="tasks"></a>
-						
-
-						
-						
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/initWithOperation:key:" title="initWithOperation:key:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/initWithOperation:key:">&ndash;&nbsp;initWithOperation:key:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Initializes a new <code>SFOAuthCrypto</code> object to perform the specified cryptographic operation.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (id)initWithOperation:(SFOAuthCryptoOperation)<em>operation</em> key:(NSData *)<em>key</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>operation</code></th>
-						<td><p>Operation to be performed: <code>SFOAuthCryptoEncrypt</code> or <code>SFOAuthCryptoDecrypt</code></p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>key</code></th>
-						<td><p>Key used for encyption/decryption. <code>nil</code> may be specified to use the default key.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFOAuthCrypto.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/encryptData:" title="encryptData:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/encryptData:">&ndash;&nbsp;encryptData:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Encrypts the supplied data. To complete the encryption process and retrieve the encrypted data, call <a href="#//api/name/finalizeCipher"><code>finalizeCipher</code></a>.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)encryptData:(NSData *)<em>data</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>Unencrypted data to encrypt.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFOAuthCrypto.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/decryptData:" title="decryptData:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/decryptData:">&ndash;&nbsp;decryptData:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns a decrypted representation of the supplied data if the data can be decrypted using the current key. Returns <code>nil</code>
-if decryption fails. Decryption is performed on the current thread.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (NSData *)decryptData:(NSData *)<em>data</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>Encrypted data to decrypt.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<div class="warning"><p><strong>Warning:</strong> After this method is called this object must no longer be used.</p></div>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFOAuthCrypto.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/finalizeCipher" title="finalizeCipher"></a>
-	<h3 class="method-title"><code><a href="#//api/name/finalizeCipher">&ndash;&nbsp;finalizeCipher</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Finalizes the the data encryption process and returns the encrypted data.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (nullable NSData *)finalizeCipher</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<div class="warning"><p><strong>Warning:</strong> After this method is called this object must no longer be used.</p></div>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFOAuthCrypto.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-					</div>
-					
 					
 
                     
-                    
-          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-06-29</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
 						
-						
-						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

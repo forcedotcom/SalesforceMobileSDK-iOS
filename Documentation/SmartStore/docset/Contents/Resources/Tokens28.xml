@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/ViewController.html">
+	<File path="Categories/SFUserAccount+SmartStoreTest.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cat/SFUserAccount(SmartStoreTest)</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>ViewController.h</DeclaredIn>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
             
 			
 			<NodeRef refid="28"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/transitionToLoginState:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)transitionToLoginState:(SFUserAccountLoginState)newLoginState</Declaration>
+			
+			
+			<Anchor>//api/name/transitionToLoginState:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
 		
         
         

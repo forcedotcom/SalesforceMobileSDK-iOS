@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/TestSyncUpTarget.html">
+	<File path="Constants/SFSyncStateMergeMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/TestSyncUpTarget</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateMergeMode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFSyncState.h</DeclaredIn>
             
 			
 			<NodeRef refid="41"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/TestSyncUpTarget/initWithRemoteModDateCompare:sendRemoteModError:sendSyncUpError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithRemoteModDateCompare:(TestSyncUpTargetModDateCompare)dateCompare sendRemoteModError:(BOOL)sendRemoteModError sendSyncUpError:(BOOL)sendSyncUpError</Declaration>
-			
-			
-			<Anchor>//api/name/initWithRemoteModDateCompare:sendRemoteModError:sendSyncUpError:</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateMergeModeOverwrite</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncStateMergeModeOverwrite</Declaration>
+            
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            
             <NodeRef refid="41"/>
-		</Token>
-		
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateMergeModeLeaveIfChanged</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncStateMergeModeLeaveIfChanged</Declaration>
+            
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            
+            <NodeRef refid="41"/>
+        </Token>
         
         
 	</File>

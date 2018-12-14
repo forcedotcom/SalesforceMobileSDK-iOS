@@ -1,67 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/UIDeviceFamily.html">
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/UIDeviceFamily</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-            
-			
-			<NodeRef refid="223"/>
-		</Token>
+	<File path="">
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPhone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPhone</Declaration>
-            
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-            
-            <NodeRef refid="223"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPod</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPod</Declaration>
-            
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-            
-            <NodeRef refid="223"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPad</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPad</Declaration>
-            
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-            
-            <NodeRef refid="223"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyAppleTV</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyAppleTV</Declaration>
-            
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-            
-            <NodeRef refid="223"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyUnknown</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyUnknown</Declaration>
-            
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-            
-            <NodeRef refid="223"/>
-        </Token>
         
         
 	</File>

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFAuthErrorHandlerList.html">
+	<File path="Classes/SFCommunityData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFAuthErrorHandlerList</TokenIdentifier>
-			<Abstract type="html">Manages the authentication handler filter list, for processing authentication errors.  Note that
-order of entries is important: the list will be processed serially, starting with the first item
-and ending with the last.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCommunityData</TokenIdentifier>
+			<Abstract type="html">Class that groups the data describing a community</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
             
 			
 			<NodeRef refid="8"/>
@@ -15,132 +13,326 @@ and ending with the last.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/setAuthHandlerArray:</TokenIdentifier>
-			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setEntityId:</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *entityId</Declaration>
 			
 			
-			<Anchor>//api/name/authHandlerArray</Anchor>
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/authHandlerArray</TokenIdentifier>
-			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/entityId</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *entityId</Declaration>
 			
 			
-			<Anchor>//api/name/authHandlerArray</Anchor>
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandlerList/authHandlerArray</TokenIdentifier>
-			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/entityId</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *entityId</Declaration>
 			
 			
-			<Anchor>//api/name/authHandlerArray</Anchor>
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/addAuthErrorHandler:</TokenIdentifier>
-			<Abstract type="html">Adds an authentication error handler to the end of the filter list.  Note: Error handler
-names must be unique within the list, so if an error handler already exists with the
-given name, it will be removed before adding the new handler.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setName:</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (void)addAuthErrorHandler:(SFAuthErrorHandler *)errorHandler</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to add to the list.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *name</Declaration>
 			
-			<Anchor>//api/name/addAuthErrorHandler:</Anchor>
+			
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/addAuthErrorHandler:atIndex:</TokenIdentifier>
-			<Abstract type="html">Adds an authentication error handler at a specific index in the list.  Note: Error handler
-names must be unique within the list, so if an error handler already exists with the
-given name, it will be removed before adding the new handler.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/name</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (void)addAuthErrorHandler:(SFAuthErrorHandler *)errorHandler atIndex:(NSUInteger)index</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to add to the list.</Abstract>
-				</Parameter><Parameter>
-					<Name>index</Name>
-					<Abstract type="html">The index at which to add the error handler.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *name</Declaration>
 			
-			<Anchor>//api/name/addAuthErrorHandler:atIndex:</Anchor>
+			
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/removeAuthErrorHandlerWithName:</TokenIdentifier>
-			<Abstract type="html">Removes the error handler with the given name from the list.  If no error handler exists
-in the list with the name, no action is taken.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/name</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (void)removeAuthErrorHandlerWithName:(NSString *)errorHandlerName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandlerName</Name>
-					<Abstract type="html">The name of the error handler to remove.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonnull, nonatomic, strong) NSString *name</Declaration>
 			
-			<Anchor>//api/name/removeAuthErrorHandlerWithName:</Anchor>
+			
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/removeAuthErrorHandler:</TokenIdentifier>
-			<Abstract type="html">Removes the given error handler from the list.  If the error handler cannot be found, no
-action is taken.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setDescriptionText:</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (void)removeAuthErrorHandler:(SFAuthErrorHandler *)errorHandler</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to remove.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nullable, nonatomic, strong) NSString *descriptionText</Declaration>
 			
-			<Anchor>//api/name/removeAuthErrorHandler:</Anchor>
+			
+			<Anchor>//api/name/descriptionText</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/authErrorHandlerInList:</TokenIdentifier>
-			<Abstract type="html">Determines whether the given error handler is in the list.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/descriptionText</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)authErrorHandlerInList:(SFAuthErrorHandler *)errorHandler</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to look for in the list.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the error handler is in the list, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/authErrorHandlerInList:</Anchor>
+			<Declaration>@property (nullable, nonatomic, strong) NSString *descriptionText</Declaration>
+			
+			
+			<Anchor>//api/name/descriptionText</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/descriptionText</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) NSString *descriptionText</Declaration>
+			
+			
+			<Anchor>//api/name/descriptionText</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setSiteUrl:</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *siteUrl</Declaration>
+			
+			
+			<Anchor>//api/name/siteUrl</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/siteUrl</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *siteUrl</Declaration>
+			
+			
+			<Anchor>//api/name/siteUrl</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/siteUrl</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *siteUrl</Declaration>
+			
+			
+			<Anchor>//api/name/siteUrl</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setUrl:</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/url</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/url</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setUrlPathPrefix:</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) NSURL *urlPathPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/urlPathPrefix</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/urlPathPrefix</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) NSURL *urlPathPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/urlPathPrefix</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/urlPathPrefix</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) NSURL *urlPathPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/urlPathPrefix</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setEnabled:</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/enabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/enabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setInvitationsEnabled:</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/invitationsEnabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/invitationsEnabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/invitationsEnabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/invitationsEnabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/invitationsEnabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setSendWelcomeEmail:</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
+			
+			
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/sendWelcomeEmail</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
+			
+			
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/sendWelcomeEmail</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
+			
+			
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		

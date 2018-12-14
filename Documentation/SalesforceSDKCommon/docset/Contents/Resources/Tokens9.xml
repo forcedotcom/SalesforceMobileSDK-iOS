@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSDKSafeMutableArray.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSafeMutableArray</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+            
+			
+			<NodeRef refid="9"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/setCount:</TokenIdentifier>
+			<Abstract type="html">The number of elements in this array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger count</Declaration>
+			
+			
+			<Anchor>//api/name/count</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/count</TokenIdentifier>
+			<Abstract type="html">The number of elements in this array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger count</Declaration>
+			
+			
+			<Anchor>//api/name/count</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSafeMutableArray/count</TokenIdentifier>
+			<Abstract type="html">The number of elements in this array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger count</Declaration>
+			
+			
+			<Anchor>//api/name/count</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/mutableCopyWithZone:</TokenIdentifier>
+			<Abstract type="html">Returns a new instance that’s a mutable copy of the receiver.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (id)mutableCopyWithZone:(NSZone *)zone</Declaration>
+			
+			
+			<Anchor>//api/name/mutableCopyWithZone:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/containsObject:</TokenIdentifier>
+			<Abstract type="html">Returns true if the object exists in the array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)containsObject:(id)anObject</Declaration>
+			
+			
+			<Anchor>//api/name/containsObject:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/objectAtIndexedSubscript:</TokenIdentifier>
+			<Abstract type="html">Returns the object at the specified index.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (id)objectAtIndexedSubscript:(NSUInteger)idx</Declaration>
+			
+			
+			<Anchor>//api/name/objectAtIndexedSubscript:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/objectAtIndexed:</TokenIdentifier>
+			<Abstract type="html">Returns the object at the specified index.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (id)objectAtIndexed:(NSUInteger)idx</Declaration>
+			
+			
+			<Anchor>//api/name/objectAtIndexed:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/asArray</TokenIdentifier>
+			<Abstract type="html">Get a NSArray from the mutable array</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)asArray</Declaration>
+			
+			
+			<Anchor>//api/name/asArray</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/enumerateObjectsUsingBlock:</TokenIdentifier>
+			<Abstract type="html">Enumerate objects in the array safely, using a block.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)enumerateObjectsUsingBlock:(void ( ^ ) ( id obj , NSUInteger idx , BOOL *stop ))block</Declaration>
+			
+			
+			<Anchor>//api/name/enumerateObjectsUsingBlock:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/addObject:</TokenIdentifier>
+			<Abstract type="html">Inserts a given object at the end of the array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)addObject:(id)obj</Declaration>
+			
+			
+			<Anchor>//api/name/addObject:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/addObjectsFromArray:</TokenIdentifier>
+			<Abstract type="html">Adds the objects contained in another given array to the end of the receiving array’s content.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)addObjectsFromArray:(NSArray *)array</Declaration>
+			
+			
+			<Anchor>//api/name/addObjectsFromArray:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/insertObject:atIndex:</TokenIdentifier>
+			<Abstract type="html">Inserts a given object into the array’s contents at a given index.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)insertObject:(id)obj atIndex:(NSUInteger)index</Declaration>
+			
+			
+			<Anchor>//api/name/insertObject:atIndex:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/insertObjects:atIndexes:</TokenIdentifier>
+			<Abstract type="html">Inserts the objects in the provided array into the receiving array at the specified indexes.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)insertObjects:(id)obj atIndexes:(NSIndexSet *)indexes</Declaration>
+			
+			
+			<Anchor>//api/name/insertObjects:atIndexes:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/removeAllObjects</TokenIdentifier>
+			<Abstract type="html">Removes all objects from the array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)removeAllObjects</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllObjects</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/removeLastObject</TokenIdentifier>
+			<Abstract type="html">Removes the object with the highest-valued index in the array</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)removeLastObject</Declaration>
+			
+			
+			<Anchor>//api/name/removeLastObject</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/removeObject:</TokenIdentifier>
+			<Abstract type="html">Removes all occurrences in the array of a given object.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)removeObject:(id)object</Declaration>
+			
+			
+			<Anchor>//api/name/removeObject:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/removeObjectAtIndex:</TokenIdentifier>
+			<Abstract type="html">Removes the object at index.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)removeObjectAtIndex:(NSUInteger)index</Declaration>
+			
+			
+			<Anchor>//api/name/removeObjectAtIndex:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/removeObjectsAtIndexes:</TokenIdentifier>
+			<Abstract type="html">Removes the objects at the specified indexes from the array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)removeObjectsAtIndexes:(NSIndexSet *)indexes</Declaration>
+			
+			
+			<Anchor>//api/name/removeObjectsAtIndexes:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/removeObjectIdenticalTo:</TokenIdentifier>
+			<Abstract type="html">Removes all occurrences of a given object in the array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)removeObjectIdenticalTo:(id)object</Declaration>
+			
+			
+			<Anchor>//api/name/removeObjectIdenticalTo:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/removeObjectIdenticalTo:inRange:</TokenIdentifier>
+			<Abstract type="html">Removes all occurrences of anObject within the specified range in the array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)removeObjectIdenticalTo:(id)object inRange:(NSRange)range</Declaration>
+			
+			
+			<Anchor>//api/name/removeObjectIdenticalTo:inRange:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/removeObject:inRange:</TokenIdentifier>
+			<Abstract type="html">Removes all occurrences within a specified range in the array of a given object.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)removeObject:(id)object inRange:(NSRange)range</Declaration>
+			
+			
+			<Anchor>//api/name/removeObject:inRange:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/removeObjectsInArray:</TokenIdentifier>
+			<Abstract type="html">Removes from the receiving array the objects in another given array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)removeObjectsInArray:(NSArray *)otherArray</Declaration>
+			
+			
+			<Anchor>//api/name/removeObjectsInArray:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/removeObjectsInRange:</TokenIdentifier>
+			<Abstract type="html">Removes from the array each of the objects within a given range.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)removeObjectsInRange:(NSRange)range</Declaration>
+			
+			
+			<Anchor>//api/name/removeObjectsInRange:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/setObject:atIndexedSubscript:</TokenIdentifier>
+			<Abstract type="html">Replaces the object at the index with the new object, possibly adding the object..</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)object atIndexedSubscript:(NSUInteger)index</Declaration>
+			
+			
+			<Anchor>//api/name/setObject:atIndexedSubscript:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/setArray:</TokenIdentifier>
+			<Abstract type="html">Empties the receiving set, then adds each object contained in another given array.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)setArray:(NSArray *)otherArray</Declaration>
+			
+			
+			<Anchor>//api/name/setArray:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableArray/filterUsingPredicate:</TokenIdentifier>
+			<Abstract type="html">Filter the array using a predicate.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>- (void)filterUsingPredicate:(NSPredicate *)predicate</Declaration>
+			
+			
+			<Anchor>//api/name/filterUsingPredicate:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSafeMutableArray/array</TokenIdentifier>
+			<Abstract type="html">A convenience method to allocate and initialize a new instance of a SFSDKSafeMutableArray.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>+ (id)array</Declaration>
+			
+			<ReturnValue><Abstract type="html">A new SFSDKSafeMutableArray instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/array</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSafeMutableArray/arrayWithCapacity:</TokenIdentifier>
+			<Abstract type="html">A convenience method to allocate and initialize a new instance of a SFSDKSafeMutableArrayWithCapacity.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableArray.h</DeclaredIn>
+			
+			<Declaration>+ (id)arrayWithCapacity:(NSUInteger)numItems</Declaration>
+			
+			<ReturnValue><Abstract type="html">A new SFSDKSafeMutableArray instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/arrayWithCapacity:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

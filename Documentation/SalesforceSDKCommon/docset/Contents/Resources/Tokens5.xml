@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFLogger.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLogger</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+            
+			
+			<NodeRef refid="5"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/set:</TokenIdentifier>
+			<Abstract type="html">Sets log level to be used by this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign) SFLogLevel logLevel NS_SWIFT_NAME ( level )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/)</TokenIdentifier>
+			<Abstract type="html">Sets log level to be used by this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign) SFLogLevel logLevel NS_SWIFT_NAME ( level )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogger/)</TokenIdentifier>
+			<Abstract type="html">Sets log level to be used by this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign) SFLogLevel logLevel NS_SWIFT_NAME ( level )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/e:message:</TokenIdentifier>
+			<Abstract type="html">Logs an error log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)e:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/e:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/e:format:</TokenIdentifier>
+			<Abstract type="html">Logs an error log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)e:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/e:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/i:message:</TokenIdentifier>
+			<Abstract type="html">Logs an info log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)i:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/i:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/i:format:</TokenIdentifier>
+			<Abstract type="html">Logs an info log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)i:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/i:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/d:message:</TokenIdentifier>
+			<Abstract type="html">Logs a debug log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)d:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/d:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/d:format:</TokenIdentifier>
+			<Abstract type="html">Logs a debug log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)d:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/d:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/w:format:</TokenIdentifier>
+			<Abstract type="html">Logs a default log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)w:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/w:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/w:message:</TokenIdentifier>
+			<Abstract type="html">Logs a default log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)w:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/w:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/f:message:</TokenIdentifier>
+			<Abstract type="html">Logs a fault log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)f:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/f:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/f:format:</TokenIdentifier>
+			<Abstract type="html">Logs a fault log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)f:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/f:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/log:message:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the default level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/log:format:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the default level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/e:format:</TokenIdentifier>
+			<Abstract type="html">Logs an error log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)e:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/e:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/e:message:</TokenIdentifier>
+			<Abstract type="html">Logs an error log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)e:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/e:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/i:format:</TokenIdentifier>
+			<Abstract type="html">Logs an info log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)i:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/i:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/i:message:</TokenIdentifier>
+			<Abstract type="html">Logs an info log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)i:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/i:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/d:format:</TokenIdentifier>
+			<Abstract type="html">Logs a debug log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)d:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/d:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/d:message:</TokenIdentifier>
+			<Abstract type="html">Logs a debug log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)d:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/d:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/w:format:</TokenIdentifier>
+			<Abstract type="html">Logs a default log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)w:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/w:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/w:message:</TokenIdentifier>
+			<Abstract type="html">Logs a default log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)w:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/w:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/f:message:</TokenIdentifier>
+			<Abstract type="html">Logs a fault log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)f:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/f:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/f:format:</TokenIdentifier>
+			<Abstract type="html">Logs a fault log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)f:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/f:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/v:message:</TokenIdentifier>
+			<Abstract type="html">Logs a default/verbose log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)v:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/v:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/v:format:</TokenIdentifier>
+			<Abstract type="html">Logs a default/verbose log line.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)v:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/v:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/log:message:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the default level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)log:(nonnull Class)cls message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/log:format:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the default level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)log:(nonnull Class)cls format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/log:level:message:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the specified level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)log:(nonnull Class)cls level:(SFLogLevel)level message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>level</Name>
+					<Abstract type="html">Log level.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:level:message:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/log:level:format:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the specified level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)log:(nonnull Class)cls level:(SFLogLevel)level format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.
+@level Log level.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:level:format:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/logLevel</TokenIdentifier>
+			<Abstract type="html">Returns current log level used by this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (SFLogLevel)logLevel</Declaration>
+			
+			<ReturnValue><Abstract type="html">Current log level.</Abstract></ReturnValue>
+			<Anchor>//api/name/logLevel</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/setLogLevel:</TokenIdentifier>
+			<Abstract type="html">Sets log level to be used by this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)setLogLevel:(SFLogLevel)logLevel</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>logLevel</Name>
+					<Abstract type="html">Log level.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setLogLevel:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/setInstanceClass:</TokenIdentifier>
+			<Abstract type="html">Set an instance of underlying logger class that complies with SFLogging.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)setInstanceClass:(Class&lt;SFLogging&gt;)logger</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>logger</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setInstanceClass:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/setDefaultLogger:</TokenIdentifier>
+			<Abstract type="html">Get the default Logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) SFLogger *defaultLogger</Declaration>
+			
+			
+			<Anchor>//api/name/defaultLogger</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/defaultLogger</TokenIdentifier>
+			<Abstract type="html">Get the default Logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) SFLogger *defaultLogger</Declaration>
+			
+			
+			<Anchor>//api/name/defaultLogger</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogger/defaultLogger</TokenIdentifier>
+			<Abstract type="html">Get the default Logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) SFLogger *defaultLogger</Declaration>
+			
+			
+			<Anchor>//api/name/defaultLogger</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/loggerForComponent:NS_SWIFT_NAME:</TokenIdentifier>
+			<Abstract type="html">Get an instance of a component Logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)loggerForComponent:(nonnull NSString *)component NS_SWIFT_NAME</Declaration>
+			
+			
+			<Anchor>//api/name/loggerForComponent:NS_SWIFT_NAME:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

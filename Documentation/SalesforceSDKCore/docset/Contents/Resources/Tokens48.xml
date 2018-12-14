@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthTestFlow.html">
+	<File path="Classes/SFPreferences.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthTestFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPreferences</TokenIdentifier>
+			<Abstract type="html">Preferences class that handles scoped preferences.
+A scope binds the preferences to a specific user,
+org or community.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
             
 			
 			<NodeRef refid="48"/>
@@ -13,374 +15,332 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginUserAgentFlowCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setPath:</TokenIdentifier>
+			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginUserAgentFlowCalled</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
 			
 			
-			<Anchor>//api/name/beginUserAgentFlowCalled</Anchor>
+			<Anchor>//api/name/path</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginUserAgentFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/path</TokenIdentifier>
+			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginUserAgentFlowCalled</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
 			
 			
-			<Anchor>//api/name/beginUserAgentFlowCalled</Anchor>
+			<Anchor>//api/name/path</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginUserAgentFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPreferences/path</TokenIdentifier>
+			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginUserAgentFlowCalled</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
 			
 			
-			<Anchor>//api/name/beginUserAgentFlowCalled</Anchor>
+			<Anchor>//api/name/path</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginTokenEndpointFlowCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setDictionaryRepresentation:</TokenIdentifier>
+			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
 			
 			
-			<Anchor>//api/name/beginTokenEndpointFlowCalled</Anchor>
+			<Anchor>//api/name/dictionaryRepresentation</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginTokenEndpointFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/dictionaryRepresentation</TokenIdentifier>
+			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
 			
 			
-			<Anchor>//api/name/beginTokenEndpointFlowCalled</Anchor>
+			<Anchor>//api/name/dictionaryRepresentation</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginTokenEndpointFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPreferences/dictionaryRepresentation</TokenIdentifier>
+			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
 			
 			
-			<Anchor>//api/name/beginTokenEndpointFlowCalled</Anchor>
+			<Anchor>//api/name/dictionaryRepresentation</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginNativeBrowserFlowCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/globalPreferences</TokenIdentifier>
+			<Abstract type="html">Returns the global instance of the preferences (one per application)</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled</Declaration>
+			<Declaration>+ (instancetype)globalPreferences</Declaration>
 			
 			
-			<Anchor>//api/name/beginNativeBrowserFlowCalled</Anchor>
+			<Anchor>//api/name/globalPreferences</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginNativeBrowserFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/sharedPreferencesForScope:user:</TokenIdentifier>
+			<Abstract type="html">Returns the preferences instance related to the specified user&apos;s organization
+or nil if there is no specified user or scope.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled</Declaration>
+			<Declaration>+ (nullable instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(nullable SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>scope</Name>
+					<Abstract type="html">The scope to which the preferences apply: global, user&apos;s org, user&apos;s community, or user&apos;s account.</Abstract>
+				</Parameter><Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The account to which the preferences apply. Not used if scope is global.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/beginNativeBrowserFlowCalled</Anchor>
+			<Anchor>//api/name/sharedPreferencesForScope:user:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginNativeBrowserFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentOrgLevelPreferences</TokenIdentifier>
+			<Abstract type="html">Returns the preferences instance related to the current user&apos;s organization
+or nil if there is no current user.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled</Declaration>
+			<Declaration>+ (nullable instancetype)currentOrgLevelPreferences</Declaration>
 			
 			
-			<Anchor>//api/name/beginNativeBrowserFlowCalled</Anchor>
+			<Anchor>//api/name/currentOrgLevelPreferences</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginJwtTokenExchangeFlowCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentUserLevelPreferences</TokenIdentifier>
+			<Abstract type="html">Returns the preferences instance related to the currrent user
+or nil if there is no current user.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginJwtTokenExchangeFlowCalled</Declaration>
+			<Declaration>+ (nullable instancetype)currentUserLevelPreferences</Declaration>
 			
 			
-			<Anchor>//api/name/beginJwtTokenExchangeFlowCalled</Anchor>
+			<Anchor>//api/name/currentUserLevelPreferences</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginJwtTokenExchangeFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentCommunityLevelPreferences</TokenIdentifier>
+			<Abstract type="html">Returns the preferences instance related to the currrent user&apos;s community
+or nil if there is no current user.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginJwtTokenExchangeFlowCalled</Declaration>
+			<Declaration>+ (nullable instancetype)currentCommunityLevelPreferences</Declaration>
 			
 			
-			<Anchor>//api/name/beginJwtTokenExchangeFlowCalled</Anchor>
+			<Anchor>//api/name/currentCommunityLevelPreferences</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginJwtTokenExchangeFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/objectForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the preferences object for the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginJwtTokenExchangeFlowCalled</Declaration>
+			<Declaration>- (nullable id)objectForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the requested object.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/beginJwtTokenExchangeFlowCalled</Anchor>
+			<Anchor>//api/name/objectForKey:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setTokenEndpointFlowType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setObject:forKey:</TokenIdentifier>
+			<Abstract type="html">Sets the preference object for the given attribute key. Logs an SFLogLevelError if the key is not found.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType</Declaration>
+			<Declaration>- (void)setObject:(id)object forKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>object</Name>
+					<Abstract type="html">Object to be set.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">Key of object to be set.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/tokenEndpointFlowType</Anchor>
+			<Anchor>//api/name/setObject:forKey:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/tokenEndpointFlowType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/removeObjectForKey:</TokenIdentifier>
+			<Abstract type="html">Removes the preference object for the given attribute key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType</Declaration>
+			<Declaration>- (void)removeObjectForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">Key of object to be removed.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/tokenEndpointFlowType</Anchor>
+			<Anchor>//api/name/removeObjectForKey:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/tokenEndpointFlowType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/keyExists:</TokenIdentifier>
+			<Abstract type="html">Returns a YES if the key exits, otherwise NO.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType</Declaration>
+			<Declaration>- (BOOL)keyExists:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">THe key to check the existance of.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/tokenEndpointFlowType</Anchor>
+			<Anchor>//api/name/keyExists:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setHandleTokenEndpointResponseCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/boolForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the Boolean preference value for the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled</Declaration>
+			<Declaration>- (BOOL)boolForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the requested preference value.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/handleTokenEndpointResponseCalled</Anchor>
+			<Anchor>//api/name/boolForKey:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/handleTokenEndpointResponseCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setBool:forKey:</TokenIdentifier>
+			<Abstract type="html">Assigns the given Boolean preference value to the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled</Declaration>
+			<Declaration>- (void)setBool:(BOOL)value forKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>value</Name>
+					<Abstract type="html">The Boolean value.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the preference value to be edited.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/handleTokenEndpointResponseCalled</Anchor>
+			<Anchor>//api/name/setBool:forKey:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/handleTokenEndpointResponseCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/integerForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the integer preference value for the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled</Declaration>
+			<Declaration>- (NSInteger)integerForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the requested preference value.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/handleTokenEndpointResponseCalled</Anchor>
+			<Anchor>//api/name/integerForKey:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setTimeBeforeUserAgentCompletion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setInteger:forKey:</TokenIdentifier>
+			<Abstract type="html">Assigns the given integer preference value to the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion</Declaration>
+			<Declaration>- (void)setInteger:(NSInteger)value forKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>value</Name>
+					<Abstract type="html">The integer value.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the preference value to be edited.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/timeBeforeUserAgentCompletion</Anchor>
+			<Anchor>//api/name/setInteger:forKey:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/timeBeforeUserAgentCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/stringForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the string preference value for the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion</Declaration>
+			<Declaration>- (nullable NSString *)stringForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the requested preference value.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/timeBeforeUserAgentCompletion</Anchor>
+			<Anchor>//api/name/stringForKey:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/timeBeforeUserAgentCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/synchronize</TokenIdentifier>
+			<Abstract type="html">Saves the preferences to the disk</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion</Declaration>
+			<Declaration>- (void)synchronize</Declaration>
 			
 			
-			<Anchor>//api/name/timeBeforeUserAgentCompletion</Anchor>
+			<Anchor>//api/name/synchronize</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setTimeBeforeRefreshTokenCompletion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/removeAllObjects</TokenIdentifier>
+			<Abstract type="html">Remove all saved objects</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion</Declaration>
-			
-			
-			<Anchor>//api/name/timeBeforeRefreshTokenCompletion</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/timeBeforeRefreshTokenCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion</Declaration>
+			<Declaration>- (void)removeAllObjects</Declaration>
 			
 			
-			<Anchor>//api/name/timeBeforeRefreshTokenCompletion</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/timeBeforeRefreshTokenCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion</Declaration>
-			
-			
-			<Anchor>//api/name/timeBeforeRefreshTokenCompletion</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setUserAgentFlowIsSuccessful:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentFlowIsSuccessful</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/userAgentFlowIsSuccessful</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentFlowIsSuccessful</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/userAgentFlowIsSuccessful</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentFlowIsSuccessful</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setRefreshTokenFlowIsSuccessful:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful</Declaration>
-			
-			
-			<Anchor>//api/name/refreshTokenFlowIsSuccessful</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/refreshTokenFlowIsSuccessful</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful</Declaration>
-			
-			
-			<Anchor>//api/name/refreshTokenFlowIsSuccessful</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/refreshTokenFlowIsSuccessful</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful</Declaration>
-			
-			
-			<Anchor>//api/name/refreshTokenFlowIsSuccessful</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/initWithCoordinator:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator</Declaration>
-			
-			
-			<Anchor>//api/name/initWithCoordinator:</Anchor>
+			<Anchor>//api/name/removeAllObjects</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		

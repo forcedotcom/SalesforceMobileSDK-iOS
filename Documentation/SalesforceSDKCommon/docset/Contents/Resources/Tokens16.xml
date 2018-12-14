@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/SFLogging.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/SFLogging</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+            
+			
+			<NodeRef refid="16"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/setComponentName:</TokenIdentifier>
+			<Abstract type="html">Component name associated with this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
+			
+			
+			<Anchor>//api/name/componentName</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/componentName</TokenIdentifier>
+			<Abstract type="html">Component name associated with this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
+			
+			
+			<Anchor>//api/name/componentName</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFLogging/componentName</TokenIdentifier>
+			<Abstract type="html">Component name associated with this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
+			
+			
+			<Anchor>//api/name/componentName</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/setLogger:</TokenIdentifier>
+			<Abstract type="html">Instance of the underlying logger implementation being used.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) id logger</Declaration>
+			
+			
+			<Anchor>//api/name/logger</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/logger</TokenIdentifier>
+			<Abstract type="html">Instance of the underlying logger implementation being used.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) id logger</Declaration>
+			
+			
+			<Anchor>//api/name/logger</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFLogging/logger</TokenIdentifier>
+			<Abstract type="html">Instance of the underlying logger implementation being used.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) id logger</Declaration>
+			
+			
+			<Anchor>//api/name/logger</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/setLogLevel:</TokenIdentifier>
+			<Abstract type="html">Used to get and set the current log level associated with this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign) SFLogLevel logLevel</Declaration>
+			
+			
+			<Anchor>//api/name/logLevel</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/logLevel</TokenIdentifier>
+			<Abstract type="html">Used to get and set the current log level associated with this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign) SFLogLevel logLevel</Declaration>
+			
+			
+			<Anchor>//api/name/logLevel</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFLogging/logLevel</TokenIdentifier>
+			<Abstract type="html">Used to get and set the current log level associated with this logger.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign) SFLogLevel logLevel</Declaration>
+			
+			
+			<Anchor>//api/name/logLevel</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/initWithComponent:</TokenIdentifier>
+			<Abstract type="html">Initialize a logger given component Name.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithComponent:(NSString *)componentName</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithComponent:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/log:level:message:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the specified level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(nonnull Class)cls level:(SFLogLevel)level message:(nonnull NSString *)message</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.</Abstract>
+				</Parameter><Parameter>
+					<Name>level</Name>
+					<Abstract type="html">Log level.</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">Log message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:level:message:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/log:level:format:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the specified level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(nonnull Class)cls level:(SFLogLevel)level format:(nonnull NSString *)format, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.
+@level Log level.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:level:format:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/log:level:format:args:</TokenIdentifier>
+			<Abstract type="html">Logs a log line of the specified level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format args:(va_list)args</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cls</Name>
+					<Abstract type="html">Class.
+@level Log level.</Abstract>
+				</Parameter><Parameter>
+					<Name>format</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>args</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:level:format:args:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogging/sharedInstanceWithComponent:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedInstanceWithComponent:(nonnull NSString *)componentName</Declaration>
+			
+			
+			<Anchor>//api/name/sharedInstanceWithComponent:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

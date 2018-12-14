@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKResourceUtils.html">
+	<File path="Classes/SFSDKSoqlBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKResourceUtils</TokenIdentifier>
-			<Abstract type="html">Class that handles access to Mobile SDK&apos;s main bundle.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoqlBuilder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
             
 			
 			<NodeRef refid="103"/>
@@ -13,65 +13,230 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/mainSdkBundle</TokenIdentifier>
-			<Abstract type="html">The main bundle associated with the SDK.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlBuilder/withFields:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (NSBundle *)mainSdkBundle</Declaration>
-			
-			<ReturnValue><Abstract type="html">The main bundle associated with the SDK.</Abstract></ReturnValue>
-			<Anchor>//api/name/mainSdkBundle</Anchor>
+			<Declaration>+ (SFSDKSoqlBuilder *)withFields:(NSString *)fields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">a list of one or more fields, separated by commas, that are to be retrieved from the specified object</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withFields:</Anchor>
             <NodeRef refid="103"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/localizedString:</TokenIdentifier>
-			<Abstract type="html">Gets a localized string from the main bundle of the SDK.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlBuilder/withFieldsArray:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)localizedString:(NSString *)localizationKey</Declaration>
+			<Declaration>+ (SFSDKSoqlBuilder *)withFieldsArray:(NSArray *)fields</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>localizationKey</Name>
-					<Abstract type="html">The localization key used to look up the localized string.</Abstract>
+					<Name>fields</Name>
+					<Abstract type="html">an array of one or more fields, that are to be retrieved from the specified object</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The localized string associated with the key.</Abstract></ReturnValue>
-			<Anchor>//api/name/localizedString:</Anchor>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withFieldsArray:</Anchor>
             <NodeRef refid="103"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/imageNamed:</TokenIdentifier>
-			<Abstract type="html">Gets an image from the Images asset catalog from the framework bundle of the SDK</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/from:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (UIImage *)imageNamed:(NSString *)name</Declaration>
+			<Declaration>- (SFSDKSoqlBuilder *)from:(NSString *)from</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">The name of the image in the asset catalog.</Abstract>
+					<Name>from</Name>
+					<Abstract type="html">the object to be queried</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The image from the asset catalog with the provided name.</Abstract></ReturnValue>
-			<Anchor>//api/name/imageNamed:</Anchor>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/from:</Anchor>
             <NodeRef refid="103"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/loadConfigFromFile:</TokenIdentifier>
-			<Abstract type="html">Read config and parse its content (which is expected to be json)</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/whereClause:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath</Declaration>
+			<Declaration>- (SFSDKSoqlBuilder *)whereClause:(NSString *)whereClause</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>configFilePath</Name>
-					<Abstract type="html">Path of resource file.</Abstract>
+					<Name>whereClause</Name>
+					<Abstract type="html">a conditional statement</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">NSDictionary built from content of tile.</Abstract></ReturnValue>
-			<Anchor>//api/name/loadConfigFromFile:</Anchor>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/whereClause:</Anchor>
+            <NodeRef refid="103"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/with:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKSoqlBuilder *)with:(NSString *)with</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>with</Name>
+					<Abstract type="html">used to filter records based on field values.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/with:</Anchor>
+            <NodeRef refid="103"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/groupBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKSoqlBuilder *)groupBy:(NSString *)groupBy</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>groupBy</Name>
+					<Abstract type="html">a list of one or more fields, separated by commas, the resutls are to be grouped by</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/groupBy:</Anchor>
+            <NodeRef refid="103"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/having:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKSoqlBuilder *)having:(NSString *)having</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>having</Name>
+					<Abstract type="html">specifies one or more conditional expressions using aggregate functions to filter the query results</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/having:</Anchor>
+            <NodeRef refid="103"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/orderBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKSoqlBuilder *)orderBy:(NSString *)orderBy</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">controls the order of the query results</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/orderBy:</Anchor>
+            <NodeRef refid="103"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/limit:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKSoqlBuilder *)limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">specifies the maximum number of rows to return</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/limit:</Anchor>
+            <NodeRef refid="103"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/offset:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKSoqlBuilder *)offset:(NSInteger)offset</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">specifies the starting row offset into the result set returned by the query</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/offset:</Anchor>
+            <NodeRef refid="103"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/encodeAndBuild</TokenIdentifier>
+			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)encodeAndBuild</Declaration>
+			
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/encodeAndBuild</Anchor>
+            <NodeRef refid="103"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/encodeAndBuildWithPath:</TokenIdentifier>
+			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the path to build the query for</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/encodeAndBuildWithPath:</Anchor>
+            <NodeRef refid="103"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/buildWithPath:</TokenIdentifier>
+			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the path to build the query for</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/buildWithPath:</Anchor>
+            <NodeRef refid="103"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/build</TokenIdentifier>
+			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)build</Declaration>
+			
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/build</Anchor>
             <NodeRef refid="103"/>
 		</Token>
 		

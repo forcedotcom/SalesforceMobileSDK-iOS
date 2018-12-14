@@ -1,4 +1,0 @@
-Documentation set was installed to Xcode!
-
-Path: /Users/bhariharan/Library/Developer/Shared/Documentation/DocSets/com.salesforce.SalesforceHybridSDK.docset
-Time: 2018-06-29 18:38:39 +0000

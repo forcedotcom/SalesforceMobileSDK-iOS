@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFEntityIdLength.html">
+	<File path="Constants/SFOAuthClientKeyType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFEntityIdLength</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthClientKeyType</TokenIdentifier>
+			<Abstract type="html">Enumeration of types of different types of client maintained in cache.</Abstract>
+			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
             
 			
 			<NodeRef refid="199"/>
@@ -14,41 +14,34 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength15</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength15</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeBasic</TokenIdentifier>
+            <Abstract type="html">     The default server target, which uses standard REST requests to post updates.
+     </Abstract>
+            <Declaration>SFOAuthClientKeyTypeBasic</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-            
-            <NodeRef refid="199"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength18</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength18</Declaration>
-            
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMin</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMin</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeAdvanced</TokenIdentifier>
+            <Abstract type="html">     Server target is a custom target, that manages its own server update logic.
+     </Abstract>
+            <Declaration>SFOAuthClientKeyTypeAdvanced</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMax</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMax</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeIDP</TokenIdentifier>
+            <Abstract type="html">     Server target is a custom target, that manages its own server update logic.
+     </Abstract>
+            <Declaration>SFOAuthClientKeyTypeIDP</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>

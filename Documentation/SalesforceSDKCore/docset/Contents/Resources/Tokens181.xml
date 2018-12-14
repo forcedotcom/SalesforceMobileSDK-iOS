@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthClientSafariViewDelegate.html">
+	<File path="Protocols/SFSDKUserSelectionView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientSafariViewDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate that will be used to notify of all the OAuth Client WebView Events.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="181"/>
@@ -13,68 +13,74 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClient:willBeginBrowserAuthentication:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setUserSelectionDelegate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKOAuthClient *)client willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/authClient:willBeginBrowserAuthentication:</Anchor>
+			<Anchor>//api/name/userSelectionDelegate</Anchor>
             <NodeRef refid="181"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClientDidProceedWithBrowserFlow:</TokenIdentifier>
-			<Abstract type="html">Called when a browser flow authentication is proceeded.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDidProceedWithBrowserFlow:(SFSDKOAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
 			
-			<Anchor>//api/name/authClientDidProceedWithBrowserFlow:</Anchor>
+			
+			<Anchor>//api/name/userSelectionDelegate</Anchor>
             <NodeRef refid="181"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClientDidCancelBrowserFlow:</TokenIdentifier>
-			<Abstract type="html">Called when a browser flow authentication is cancelled.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
 			
-			<Anchor>//api/name/authClientDidCancelBrowserFlow:</Anchor>
+			
+			<Anchor>//api/name/userSelectionDelegate</Anchor>
             <NodeRef refid="181"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClient:willDisplayAuthSafariViewController:</TokenIdentifier>
-			<Abstract type="html">Called when the auth client is going to present the safari view controller.</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setSpAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKOAuthClient *)client willDisplayAuthSafariViewController:(SFSafariViewController *_Nonnull)svc</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter><Parameter>
-					<Name>svc</Name>
-					<Abstract type="html">The instance of the safari view controller to be presented.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
 			
-			<Anchor>//api/name/authClient:willDisplayAuthSafariViewController:</Anchor>
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
+            <NodeRef refid="181"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
+            <NodeRef refid="181"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
             <NodeRef refid="181"/>
 		</Token>
 		
