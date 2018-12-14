@@ -26,11 +26,10 @@
 #import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
 #import "SFOAuthCoordinator.h"
-#import "SFAuthenticationManager+Internal.h"
 #import "SFIdentityCoordinator.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
-SFSDK_USE_DEPRECATED_BEGIN
+
 /**
  * Private interface for this tests module.
  */
@@ -56,7 +55,7 @@ static NSException *authException = nil;
 {
     @try {
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
-        [TestSetupUtils synchronousAuthRefreshLegacy];
+        [TestSetupUtils synchronousAuthRefresh];
     }
     @catch (NSException *exception) {
         authException = exception;
@@ -80,10 +79,12 @@ static NSException *authException = nil;
 
 - (void)sendSyncIdentityRequest
 {
-    SFAuthenticationManager *authMgr = [SFAuthenticationManager sharedManager];
+    
+    SFIdentityCoordinator *idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
     _requestListener = nil;
-    _requestListener = [[SFSDKTestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeIdentity];
-    [authMgr.idCoordinator initiateIdentityDataRetrieval];
+    _requestListener = [[SFSDKTestRequestListener alloc] init];
+    idCoordinator.delegate = _requestListener;
+    [idCoordinator initiateIdentityDataRetrieval];
     [_requestListener waitForCompletion];
 }
 
@@ -94,43 +95,16 @@ static NSException *authException = nil;
  */
 - (void)testRetrieveIdentitySuccess
 {
-    [SFAuthenticationManager sharedManager].idCoordinator.idData = nil;
     [self sendSyncIdentityRequest];
     XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
     [self validateIdentityData];
-}
-
-- (void)testIdentityAuthRefreshSuccess
-{
-    SFAuthenticationManager *sharedManager = [SFAuthenticationManager sharedManager];
-    sharedManager.coordinator.credentials.accessToken = @"BadToken";
-    NSURL *instanceURL = sharedManager.coordinator.credentials.instanceUrl;
-    sharedManager.coordinator.credentials.instanceUrl = [NSURL URLWithString:@"https://www.example.com"]; //set to an invalid url
-    sharedManager.idCoordinator.credentials.instanceUrl = [NSURL URLWithString:@"https://www.example.com"]; //set to an invalid url
-    [TestSetupUtils synchronousAuthRefreshLegacy];
-    XCTAssertEqualObjects(sharedManager.coordinator.credentials.instanceUrl, instanceURL, @"Expect instance URL is also updated");
-    XCTAssertEqualObjects(sharedManager.idCoordinator.credentials.instanceUrl, instanceURL, @"Expect instance URL is also updated");
-    [self validateIdentityData];
-}
-
-- (void)testIdentityAuthRefreshFailure
-{
-    [SFAuthenticationManager sharedManager].idCoordinator.idData = nil;
-    NSString *origAccessToken = [SFAuthenticationManager sharedManager].idCoordinator.credentials.accessToken;
-    NSString *origRefreshToken = [SFAuthenticationManager sharedManager].idCoordinator.credentials.refreshToken;
-    [SFAuthenticationManager sharedManager].idCoordinator.credentials.accessToken = @"BadToken";
-    [SFAuthenticationManager sharedManager].idCoordinator.credentials.refreshToken = @"BadRefreshToken";
-    [self sendSyncIdentityRequest];
-    XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"Identity request should have failed.");
-    [SFAuthenticationManager sharedManager].idCoordinator.credentials.accessToken = origAccessToken;
-    [SFAuthenticationManager sharedManager].idCoordinator.credentials.refreshToken = origRefreshToken;
 }
 
 #pragma mark - Private helper methods
 
 - (void)validateIdentityData
 {
-    SFIdentityData *idData = [SFAuthenticationManager sharedManager].idCoordinator.idData;
+    SFIdentityData *idData = [SFUserAccountManager sharedInstance].currentUser.idData;
     XCTAssertNotNil(idData, @"Identity data is nil.");
     XCTAssertNotNil(idData.dictRepresentation, @"idData.dictRepresentation should not be nil.");
     XCTAssertNotNil(idData.idUrl, @"idUrl should not be nil.");
@@ -167,4 +141,4 @@ static NSException *authException = nil;
 }
 
 @end
-SFSDK_USE_DEPRECATED_END
+

@@ -29,22 +29,18 @@
 
 #import <SmartSync/SFObject.h>
 #import <SmartSync/SFParentChildrenSyncDownTarget.h>
-#import <SmartSync/SFSmartSyncCacheManager.h>
 #import <SmartSync/SFRefreshSyncDownTarget.h>
-#import <SmartSync/SFObjectTypeLayout.h>
 #import <SmartSync/SFMetadataSyncDownTarget.h>
 #import <SmartSync/SFLayout.h>
 #import <SmartSync/SFMetadata.h>
 #import <SmartSync/SFMetadataSyncManager.h>
 #import <SmartSync/SFSmartSyncConstants.h>
 #import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSmartSyncMetadataManager.h>
 #import <SmartSync/SFSoslSyncDownTarget.h>
 #import <SmartSync/SFChildrenInfo.h>
 #import <SmartSync/SFSyncTarget.h>
 #import <SmartSync/SFLayoutSyncManager.h>
 #import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFObjectType.h>
 #import <SmartSync/SFParentChildrenSyncHelper.h>
 #import <SmartSync/SFSmartSyncObjectUtils.h>
 #import <SmartSync/SFSyncUpTarget.h>

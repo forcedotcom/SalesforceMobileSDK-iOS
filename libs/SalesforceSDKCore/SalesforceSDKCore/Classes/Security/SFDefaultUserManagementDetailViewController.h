@@ -31,13 +31,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  View controller for showing the user management details of a given user.
  */
+NS_SWIFT_NAME(SalesforceUserManagementDetailViewController)
 @interface SFDefaultUserManagementDetailViewController : UIViewController
 
 /**
  Initialize to provide the details of the given user.
  @param user The user providing the details.
  */
-- (id)initWithUser:(SFUserAccount *)user;
+- (instancetype)initWithUser:(SFUserAccount *)user ;
 
 @end
 

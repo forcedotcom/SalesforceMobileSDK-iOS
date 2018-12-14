@@ -29,7 +29,7 @@
 #import "SFSmartStoreInspectorViewController.h"
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import "SFQuerySpec.h"
-#import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/UIColor+SFColors.h>
 
@@ -220,7 +220,7 @@ static NSString * const kInspectorPickerDefault = @"default";
     [self stopEditing];
     NSString* smartSql = self.queryField.text;
     NSInteger pageSize = [self.pageSizeField.text integerValue];
-    pageSize = (pageSize <= 0 && ![self.pageSizeField.text isEqualToString:@"0"] ? 10 : pageSize);
+    pageSize = (pageSize <= 0 && ![self.pageSizeField.text isEqualToString:@"0"] ? 100 : pageSize);
     NSInteger pageIndex = [self.pageIndexField.text integerValue];
     NSError* error = nil;
     NSArray* results = [self.store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize] pageIndex:pageIndex error:&error];
@@ -257,8 +257,8 @@ static NSString * const kInspectorPickerDefault = @"default";
         NSString* errorAlertTitle = [SFSDKResourceUtils localizedString:kInspectorQueryFailedKey];
         [self showAlert:[SFSDKResourceUtils localizedString:kInspectorNoSoupsFoundKey] title:errorAlertTitle];
     }
-    if ([names count] > 10) {
-        self.queryField.text = @"SELECT soupName from soup_names";
+    if ([names count] > 100) {
+        self.queryField.text = [NSString stringWithFormat:@"select %@ from %@", SOUP_NAME_COL, SOUP_ATTRS_TABLE];
     } else {
         NSMutableString* q = [NSMutableString string];
         BOOL first = YES;
@@ -275,7 +275,7 @@ static NSString * const kInspectorPickerDefault = @"default";
 
 - (void) indicesButtonClicked
 {
-    self.queryField.text = @"select soupName, path, columnType from soup_index_map";
+    self.queryField.text = [NSString stringWithFormat:@"select %@,%@,%@ from %@", SOUP_NAME_COL, PATH_COL, COLUMN_TYPE_COL, SOUP_INDEX_MAP_TABLE];
     [self runQuery];
 }
 

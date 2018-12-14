@@ -29,11 +29,8 @@
 
 @interface SFStoreCursor ()
 
-@property (nonatomic, readwrite, strong) NSString *cursorId;
-@property (nonatomic, readwrite, strong) NSString *soupName;
-
 @property (nonatomic, readwrite, strong) SFQuerySpec *querySpec;
-@property (nonatomic, readwrite, strong) NSArray *currentPageOrderedEntries;
+@property (nonatomic, readwrite, strong) NSString *cursorId;
 @property (nonatomic, readwrite, strong) NSNumber *pageSize;
 @property (nonatomic, readwrite, strong) NSNumber *totalPages;
 @property (nonatomic, readwrite, strong) NSNumber *totalEntries;
@@ -42,51 +39,30 @@
 
 @implementation SFStoreCursor
 
-@synthesize cursorId = _cursorId;
-@synthesize querySpec = _querySpec;
-
-@synthesize currentPageOrderedEntries = _currentPageOrderedEntries;
-@synthesize currentPageIndex = _currentPageIndex;
-@synthesize pageSize = _pageSize;
-@synthesize totalPages = _totalPages;
-@synthesize totalEntries = _totalEntries;
-
-
-
-
-- (id)initWithStore:(SFSmartStore*)store
-             querySpec:(SFQuerySpec*)querySpec  
-          totalEntries:(NSUInteger)totalEntries
-   firstPageEntries:(NSArray*) firstPageEntries
+- (id)initWithStore:(SFSmartStore*)store querySpec:(SFQuerySpec*)querySpec;
 {
     self = [super init];
     
     if (nil != self) {
-        _store = store;
-        [self setCursorId:[NSString stringWithFormat:@"0x%lx",(unsigned long)[self hash]]];
-        
         self.querySpec = querySpec;
-        
-        NSInteger myPageSize = 10;
-        myPageSize =  [querySpec pageSize];
+        self.cursorId = [NSString stringWithFormat:@"0x%lx",(unsigned long)[self hash]];
+        self.pageSize = @(querySpec.pageSize);
 
-        self.pageSize = @(myPageSize); 
-        
-        float totalPagesFloat = totalEntries / (float)querySpec.pageSize;
-        int totalPages = ceilf(totalPagesFloat);
+        NSUInteger totalEntries = [[store countWithQuerySpec:querySpec error:nil] unsignedIntegerValue];
+        float totalPagesFloat = totalEntries / (float) querySpec.pageSize;
+        NSUInteger totalPages = ceilf(totalPagesFloat);
         if (0 == totalEntries)
             totalPages = 0;
         
         self.totalPages = @(totalPages);
         self.totalEntries = @(totalEntries);
-        _currentPageIndex = @0;
-        self.currentPageOrderedEntries = firstPageEntries;
+        self.currentPageIndex = @0;
     }
     return self;
 }
 
                             
-- (void)dealloc {
+- (void) dealloc {
     if (self.cursorId) // otherwise close has already been called
         [self close];
 }
@@ -94,60 +70,26 @@
 
 - (void)close {
     [SFSDKSmartStoreLogger v:[self class] format:@"closing cursor id: %@",self.cursorId];
-     _store = nil;
     self.cursorId = nil;
     self.querySpec = nil;
-    self.currentPageOrderedEntries = nil;
     self.currentPageIndex = nil;
     self.pageSize = nil;
     self.totalPages = nil;
 }
 
-#pragma mark - Properties
-
-- (void)setCurrentPageIndex:(NSNumber *)pageIdx {
-    //TODO check bounds?
-    if (![pageIdx isEqual:_currentPageIndex]) {
-        _currentPageIndex = pageIdx;
-        
-        if (nil != _currentPageIndex) {
-            if ([self.totalPages integerValue] > 0) {
-                NSUInteger pageIdx = [_currentPageIndex integerValue];
-                NSArray *newEntries = [_store queryWithQuerySpec:self.querySpec pageIndex:pageIdx error:nil];
-                self.currentPageOrderedEntries = newEntries;
-            } else {
-                self.currentPageOrderedEntries = @[];
-            }
-        } 
-    }
-}
-
-#pragma mark - Converting to JSON
-
-- (NSDictionary*)asDictionary
-{
-    NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    result[@"cursorId"] = self.cursorId;
-    //note that we only encode the current page worth of entries
-    result[@"currentPageOrderedEntries"] = self.currentPageOrderedEntries ?: @[];
-    result[@"currentPageIndex"] = self.currentPageIndex ?: @0;
-    result[@"pageSize"] = self.pageSize ?: @0;
-    result[@"totalPages"] = self.totalPages ?: @0;
-    result[@"totalEntries"] = self.totalEntries ?: @0;
-    
-    return result;
-}
-
-
-- (NSString*)description {
-    return [NSString stringWithFormat:@"<SFStoreCursor: %p> {\n cursorId: %@ \n totalEntries:%@ \n totalPages:%@ \n currentPage:%@ \n currentPageOrderedEntries: [%lu] \n querySpec: %@ \n }",
-            self,self.cursorId,
-            self.totalEntries,
-            self.totalPages,
-            self.currentPageIndex,
-            (unsigned long)[self.currentPageOrderedEntries count],
-            self.querySpec
-            ];
+- (NSString*)getDataSerialized:(SFSmartStore*)store error:(NSError**)error {
+    NSMutableString* resultBuilder = [NSMutableString new];
+    [resultBuilder appendString:@"{"];
+    [resultBuilder appendFormat:@"\"%@\":\"%@\", ", @"cursorId", self.cursorId];
+    [resultBuilder appendFormat:@"\"%@\":%@, ", @"currentPageIndex", self.currentPageIndex ?: @0];
+    [resultBuilder appendFormat:@"\"%@\":%@, ", @"pageSize", self.pageSize ?: @0];
+    [resultBuilder appendFormat:@"\"%@\":%@, ", @"totalPages", self.totalPages ?: @0];
+    [resultBuilder appendFormat:@"\"%@\":%@, ", @"totalEntries", self.totalEntries ?: @0];
+    [resultBuilder appendFormat:@"\"%@\":", @"currentPageOrderedEntries"];
+    [store queryAsString:resultBuilder querySpec:self.querySpec pageIndex:[self.currentPageIndex integerValue] error:error];
+    [resultBuilder appendString:@"}"];
+    return resultBuilder;
 }
 
 @end
+

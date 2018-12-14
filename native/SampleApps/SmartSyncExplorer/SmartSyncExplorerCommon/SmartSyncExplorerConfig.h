@@ -27,15 +27,6 @@
  */
 @interface SmartSyncExplorerConfig : NSObject
 
-/* The Connected App key associated with this application.
-*/
-@property (readonly,nonatomic, copy) NSString *remoteAccessConsumerKey;
-
-/**
- * The OAuth Redirect URI associated with the configured Connected Application.
- */
-@property (readonly,nonatomic, copy) NSString *oauthRedirectURI;
-
 /**
  * The App GroupName ("group.*") associated with the configured Connected Application.
  */
@@ -44,11 +35,6 @@
 /* Indicated whether appgroups are enabled for SmartSyncExplorer.
  */
 @property (readonly,assign) BOOL appGroupsEnabled;
-
-/**
- * The OAuth Scopes being requested for this app.
- */
-@property (readonly,nonatomic, strong) NSArray *oauthScopes;
 
 /**
  * Returns flag associated with NSUSerDefauts for users logged in state.

@@ -24,25 +24,14 @@
 
 #import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
-#import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
-
-
 NSString* const kTestRequestStatusWaiting = @"waiting";
 NSString* const kTestRequestStatusDidLoad = @"didLoad";
 NSString* const kTestRequestStatusDidFail = @"didFail";
 NSString* const kTestRequestStatusDidCancel = @"didCancel";
 NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
-SFSDK_USE_DEPRECATED_BEGIN
+
 @interface SFSDKTestRequestListener ()
-{
-    SFAccountManagerServiceType _serviceType;
-}
-
-- (id)initInternal;
-- (void)configureAccountServiceDelegate;
-- (void)clearAccountManagerDelegate;
-
 @end
 
 @implementation SFSDKTestRequestListener
@@ -55,22 +44,6 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 - (id)init
 {
-    return [self initInternal];
-}
-
-- (id)initWithServiceType:(SFAccountManagerServiceType)serviceType
-{
-    self = [self initInternal];
-    if (nil != self) {
-        _serviceType = serviceType;
-        [self configureAccountServiceDelegate];
-    }
-    
-    return self;
-}
-
-- (id)initInternal
-{
     self = [super init];
     if (nil != self) {
         self.maxWaitTime = 30.0;
@@ -81,11 +54,6 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 - (void)dealloc {
-    
-    if (_serviceType != SFAccountManagerServiceTypeNone) {
-        [self clearAccountManagerDelegate];
-    }
-    
     self.dataResponse = nil;
     self.lastError = nil;
     self.returnStatus = nil;
@@ -99,7 +67,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     while ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > self.maxWaitTime) {
-            [SFSDKCoreLogger d:[self class] format:@"'%@' Request took too long (> %f secs) to complete.", [self serviceTypeDescription], elapsed];
+            [SFSDKCoreLogger d:[self class] format:@"Request took too long (> %f secs) to complete.", elapsed];
             return kTestRequestStatusDidTimeout;
         }
         
@@ -107,39 +75,6 @@ SFSDK_USE_DEPRECATED_BEGIN
     }
     
     return self.returnStatus;
-}
-
-#pragma mark - Private methods
-
-- (void)configureAccountServiceDelegate
-{
-    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
-        [SFAuthenticationManager sharedManager].idCoordinator.delegate = self;
-    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
-        [SFAuthenticationManager sharedManager].coordinator.delegate = self;
-    } else {
-        NSAssert1(NO, @"Service type '%lu' is not supported as a service object.", (unsigned long)_serviceType);
-    }
-}
-
-- (void)clearAccountManagerDelegate
-{
-    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
-        [SFAuthenticationManager sharedManager].idCoordinator.delegate = nil;
-    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
-        [SFAuthenticationManager sharedManager].coordinator.delegate = nil;
-    }
-}
-
-- (NSString *)serviceTypeDescription
-{
-    if (_serviceType == SFAccountManagerServiceTypeIdentity) {
-        return @"SFIdentityCoordinator";
-    } else if (_serviceType == SFAccountManagerServiceTypeOAuth) {
-        return @"SFOAuthCoordinator";
-    } else {
-        return @"Unknown";
-    }
 }
 
 #pragma mark - SFIdentityCoordinatorDelegate
@@ -179,10 +114,9 @@ SFSDK_USE_DEPRECATED_BEGIN
     NSAssert(NO, @"User Agent flow not supported in this class.");
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
     NSAssert(NO, @"Web Server flow not supported in this class.");
 }
-
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
     NSAssert(NO, @"Web Server flow not supported in this class.");
 }
@@ -201,4 +135,4 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 @end
-SFSDK_USE_DEPRECATED_END
+

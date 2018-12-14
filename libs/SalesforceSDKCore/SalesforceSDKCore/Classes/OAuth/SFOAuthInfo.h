@@ -36,12 +36,13 @@ typedef NS_ENUM(NSUInteger, SFOAuthType) {
     SFOAuthTypeAdvancedBrowser,
     SFOAuthTypeJwtTokenExchange,
     SFOAuthTypeIDP
-};
+} NS_SWIFT_NAME(AuthInfo.AuthType);
 
 /**
  Data class containing members denoting state information for an OAuth coordinator authentication
  cycle.
  */
+NS_SWIFT_NAME(AuthInfo)
 @interface SFOAuthInfo : NSObject
 
 /**

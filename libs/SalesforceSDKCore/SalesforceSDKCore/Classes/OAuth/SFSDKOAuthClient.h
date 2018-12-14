@@ -159,31 +159,21 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)authClient:(SFSDKOAuthClient *_Nonnull)client willDisplayAuthWebView:(WKWebView *_Nonnull)view;
 @end
 
-/** Delegate that will be used to notify of all the OAuth Client WebView Events.
+/** Delegate that will be used to notify of all the OAuth Client Browser Events.
  */
 @protocol SFSDKOAuthClientSafariViewDelegate <NSObject>
 
 @optional
 
 - (void)authClient:(SFSDKOAuthClient *)client willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock;
-/**
- Called when a browser flow authentication is proceeded.
- @param client The instance of SFSDKOAuthClient making the call.
- */
-- (void)authClientDidProceedWithBrowserFlow:(SFSDKOAuthClient *)client;
+
+- (void)authClient:(SFSDKOAuthClient *)client didBeginAuthenticationWithSession:(SFAuthenticationSession *)session;
 
 /**
  Called when a browser flow authentication is cancelled.
  @param client The instance of SFSDKOAuthClient making the call.
  */
 - (BOOL)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client;
-
-/**
- Called when the auth client is going to present the safari view controller.
- @param client The instance of SFSDKOAuthClient making the call.
- @param svc The instance of the safari view controller to be presented.
- */
-- (void)authClient:(SFSDKOAuthClient *)client willDisplayAuthSafariViewController:(SFSafariViewController *_Nonnull)svc;
 
 @end
 

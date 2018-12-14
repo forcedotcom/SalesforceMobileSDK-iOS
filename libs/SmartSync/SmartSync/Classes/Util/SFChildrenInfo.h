@@ -32,6 +32,7 @@ extern NSString * const kSFChildrenInfoParentIdFieldName;
 /**
  * Simple object to capture details of children in parent-child relationship
  */
+NS_SWIFT_NAME(ChildrenInfo)
 @interface SFChildrenInfo : SFParentInfo
 
 @property (nonatomic, readonly) NSString* sobjectTypePlural;

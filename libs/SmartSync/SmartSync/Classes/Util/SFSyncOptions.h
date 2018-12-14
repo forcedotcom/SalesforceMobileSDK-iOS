@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString * const kSFSyncOptionsFieldlist;
 extern NSString * const kSFSyncOptionsMergeMode;
 
+NS_SWIFT_NAME(SyncOptions)
 @interface SFSyncOptions : NSObject
 
 @property (nonatomic, strong, readonly) NSArray*  fieldlist;

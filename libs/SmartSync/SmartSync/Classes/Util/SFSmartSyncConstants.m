@@ -24,9 +24,6 @@
 
 #import "SFSmartSyncConstants.h"
 
-NSString * const kEmptyString = @"";
-NSString * const kNullString = @"null";
-
 NSString * const kId = @"Id";
 NSString * const kCreatedId = @"id"; // id in sobject create response
 NSString * const kName = @"Name";
@@ -47,38 +44,11 @@ NSString * const kReferenceId = @"referenceId";
 NSString * const kBody = @"body";
 
 NSString * const kAccount = @"Account";
-NSString * const kLead = @"Lead";
-NSString * const kCase = @"Case";
-NSString * const kOpportunity = @"Opportunity";
 NSString * const kTask = @"Task";
 NSString * const kContact = @"Contact";
-NSString * const kCampaign = @"Campaign";
 NSString * const kUser = @"User";
 NSString * const kGroup = @"CollaborationGroup";
-NSString * const kDashboard = @"Dashboard";
 NSString * const kContent = @"ContentDocument";
-NSString * const kContentVersion = @"ContentVersion";
-
-NSString * const kKeyPrefixField = @"keyPrefix";
-NSString * const kNameField = @"name";
-NSString * const kLabelField = @"label";
-NSString * const kLabelPluralField = @"labelPlural";
-NSString * const kFieldsField = @"fields";
-NSString * const kLayoutableField = @"layoutable";
-NSString * const kSearchableField = @"searchable";
-NSString * const kHiddenField = @"deprecatedAndHidden";
-NSString * const kNameFieldField = @"nameField";
-NSString * const kNetworkIdField = @"NetworkId";
-NSString * const kNetworkScopeField = @"NetworkScope";
-
-NSString * const kLayoutNameField = @"name";
-NSString * const kLayoutFieldField = @"field";
-NSString * const kLayoutFormatField = @"format";
-NSString * const kLayoutLabelField = @"label";
-
-NSString * const kLayoutLimitsField = @"limitRows";
-NSString * const kLayoutColumnsField = @"searchColumns";
-NSString * const kLayoutObjectTypeField = @"objectType";
 
 NSString * const kSFSyncTargetTypeKey = @"type";
 NSString * const kSFSyncTargetiOSImplKey = @"iOSImpl";

@@ -66,7 +66,7 @@ NSString * const kSFIdentityCustomAttributesKey           = @"custom_attributes"
 NSString * const kSFIdentityCustomPermissionsKey          = @"custom_permissions";
 NSString * const kSFIdentityLastModifiedDateKey           = @"last_modified_date";
 
-NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ";
+NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm:ssZZZ";
 NSString * const kIdJsonDictKey                           = @"dictRepresentation";
 
 @implementation SFIdentityData

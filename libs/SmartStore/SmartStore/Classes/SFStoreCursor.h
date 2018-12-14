@@ -32,17 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Defines a cursor into data stored in a soup.
  */
-@interface SFStoreCursor : NSObject {
-    SFSmartStore *_store;
-    NSString *_cursorId;
-    SFQuerySpec *_querySpec;
-    
-    NSArray *_currentPageOrderedEntries;
-    NSNumber *_currentPageIndex;
-    NSNumber *_pageSize;
-    NSNumber *_totalPages;
-    NSNumber *_totalEntries;
-}
+NS_SWIFT_NAME(StoreCursor)
+@interface SFStoreCursor : NSObject
 
 /**
  * A unique ID for this cursor.
@@ -84,17 +75,14 @@ NS_ASSUME_NONNULL_BEGIN
  * Initializes a new instance of a soup cursor.
  * @param store The store where the soup is contained.
  * @param querySpec The query used to retrieve the data.
- * @param totalEntries The total number of entries retrieved from the query.
- * @param firstPageEntries The entries of the first page
  */
-- (id)initWithStore:(SFSmartStore*)store querySpec:(SFQuerySpec*)querySpec totalEntries:(NSUInteger)totalEntries firstPageEntries:(NSArray*)firstPageEntries;
+- (id)initWithStore:(SFSmartStore*)store querySpec:(SFQuerySpec*)querySpec;
 
 /**
- * The NSDictionary representation of this object.
- * @return Dictionary representation of this object, for translation to JSON.
+ * Run query and resturn JSON serialized representation of the cursor.
+ * @return JSON serialized representation of this object.
  */
-- (NSDictionary*)asDictionary;
-
+- (NSString*)getDataSerialized:(SFSmartStore*)store error:(NSError**)error;
 
 /**
  Close this cursor when finished operating on it.

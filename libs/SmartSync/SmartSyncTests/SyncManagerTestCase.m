@@ -27,7 +27,6 @@
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SmartStore/SFSoupIndex.h>
 #import <SmartStore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import "TestSyncUpTarget.h"
 #import "SyncManagerTestCase.h"
@@ -39,11 +38,10 @@ static NSException *authException = nil;
 + (void)setUp
 {
     @try {
-        [SFSDKSmartSyncLogger setLogLevel:DDLogLevelDebug];
+        [SFSDKSmartSyncLogger setLogLevel:SFLogLevelDebug];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
         [SFSmartStore removeAllStores];
-
     } @catch (NSException *exception) {
         [SFSDKSmartSyncLogger d:[self class] format:@"Populating auth from config failed: %@", exception];
         authException = exception;
@@ -695,4 +693,5 @@ static NSException *authException = nil;
         XCTAssertEqualObjects(childRecord[parentIdFieldName], expectedParentId, @"Wrong parent id");
     }
 }
+
 @end

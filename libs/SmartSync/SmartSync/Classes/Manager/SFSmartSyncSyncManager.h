@@ -33,12 +33,13 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFUserAccount;
 
 // block type
-typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
-typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncStatus);
+typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync) NS_SWIFT_NAME(SyncUpdateBlock);
+typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncStatus, NSUInteger numRecords) NS_SWIFT_NAME(SyncCompletionBlock);
 
 /**
  * This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
+NS_SWIFT_NAME(SyncManager)
 @interface SFSmartSyncSyncManager : NSObject
 
 @property (nonatomic, strong, readonly) SFSmartStore *store;
@@ -49,7 +50,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  *
  * @param user A user that will scope this manager instance data.
  */
-+ (instancetype)sharedInstance:(SFUserAccount*)user;
++ (instancetype)sharedInstance:(SFUserAccount*)user NS_SWIFT_NAME(sharedInstance(forUserAccount:));
 
 /**
  * Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
@@ -58,14 +59,22 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param user The user associated with the store.
  * @param storeName The name of the SmartStore associated with the user.
  */
-+ (instancetype)sharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString *)storeName;
++ (instancetype)sharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString *)storeName  NS_SWIFT_UNAVAILABLE("");
+
+/**
+ * Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
+ * store will be the store with the given name for the given user.
+ * @param storeName The name of the SmartStore associated with the user.
+ * @param userAccount The user associated with the store.
+ */
++ (instancetype)sharedInstanceForStore:(nullable NSString *)storeName userAccount:(SFUserAccount*)userAccount NS_SWIFT_NAME(sharedInstance(named:forUserAccount:));
 
 /**
  * Singleton method for accessing sync manager instance by SmartStore store.
  *
  * @param store The store instance to configure.
  */
-+ (nullable instancetype)sharedInstanceForStore:(SFSmartStore*)store;
++ (nullable instancetype)sharedInstanceForStore:(SFSmartStore*)store NS_SWIFT_NAME(sharedInstance(store:));
 
 /**
  * Removes the shared instance associated with the specified user.
@@ -80,14 +89,20 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param user The user associated with the store.
  * @param storeName The name of the store associated with the given user.
  */
-+ (void)removeSharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString*)storeName;
++ (void)removeSharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString*)storeName NS_SWIFT_UNAVAILABLE("");
 
+/**
+ * Removes the shared instance associated with the given user and store name.
+ * @param storeName The name of the store associated with the given user.
+ * @param userAccount The user associated with the store.
+ */
++ (void)removeSharedInstanceForStore:(nullable NSString*)storeName userAccount:(SFUserAccount*)userAccount  NS_SWIFT_NAME(removeSharedInstance(named:forUserAccount:));
 /**
  * Removes the shared instance associated with the specified store.
  *
  * @param store The store instance.
  */
-+ (void)removeSharedInstanceForStore:(SFSmartStore*)store;
++ (void)removeSharedInstanceForStore:(SFSmartStore*)store NS_SWIFT_NAME(removeSharedInstance(store:));
 
 /**
  * Removes all shared instances
@@ -99,35 +114,35 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  *
  * @param syncId Sync ID.
  */
-- (nullable SFSyncState*)getSyncStatus:(NSNumber*)syncId;
+- (nullable SFSyncState*)getSyncStatus:(NSNumber*)syncId NS_SWIFT_NAME(syncStatus(forId:));
 
 /**
  * Returns details about a sync by name.
  *
  * @param syncName Sync name.
  */
-- (nullable SFSyncState*)getSyncStatusByName:(NSString*)syncName;
+- (nullable SFSyncState*)getSyncStatusByName:(NSString*)syncName NS_SWIFT_NAME(syncStatus(forName:));
 
 /**
  * Returns YES if a sync with the given name exists.
  * @param syncName Sync name.
  * @return YES a sync with the given name exists.
  */
-- (BOOL)hasSyncWithName:(NSString*)syncName;
+- (BOOL)hasSyncWithName:(NSString*)syncName NS_SWIFT_NAME(hasSync(forName:));
 
 /**
  * Delete a sync.
  *
  * @param syncId Sync ID.
  */
-- (void)deleteSyncById:(NSNumber*)syncId;
+- (void)deleteSyncById:(NSNumber*)syncId NS_SWIFT_NAME(deleteSync(forId:));
 
 /**
  * Delete a sync by name.
  *
  * @param syncName Sync name.
  */
-- (void)deleteSyncByName:(NSString*)syncName;
+- (void)deleteSyncByName:(NSString*)syncName NS_SWIFT_NAME(deleteSync(forName:));
 
 
 /**
@@ -147,7 +162,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param updateBlock The block to be called with updates.
  * @return The sync state associated with this sync down.
  */
-- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(syncDown(target:soupName:onUpdate:));
 
 /**
  * Creates and runs a sync down.
@@ -156,7 +171,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param soupName The soup name where the local entries are stored.
  * @param updateBlock The block to be called with updates.
  */
-- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(syncDown(target:options:soupName:onUpdate:));
 
 /**
  * Creates and runs a named sync down.
@@ -166,21 +181,21 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param syncName The name for this sync.
  * @param updateBlock The block to be called with updates.
  */
-- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(nullable NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(nullable NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(syncDown(target:options:soupName:syncName:onUpdate:));
 
 /**
  * Performs a resync.
  * @param syncId Sync ID.
  * @param updateBlock The block to be called with updates.
  */
-- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(reSync(id:onUpdate:));
 
 /**
  * Performs a resync by name.
  * @param syncName Sync name.
  * @param updateBlock The block to be called with updates.
  */
-- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(reSync(named:onUpdate:));
 
 /**
  * Create a sync up without running it.
@@ -200,7 +215,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param updateBlock The block to be called with updates.
  * @return The sync state associated with this sync up.
  */
-- (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(syncUp(options:soupName:onUpdate:));
 
 /**
  * Creates and runs a sync up with the configured SFSyncUpTarget.
@@ -214,7 +229,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
 - (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget*)target
                           options:(SFSyncOptions*)options
                          soupName:(NSString*)soupName
-                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(syncUp(target:options:soupName:onUpdate:));
 
 /**
  * Creates and runs a named sync up.
@@ -230,7 +245,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
                           options:(SFSyncOptions*)options
                          soupName:(NSString*)soupName
                          syncName:(nullable NSString*)syncName
-                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(syncUp(target:options:soupName:syncName:onUpdate:));
 
 /**
  * Removes local copies of records that have been deleted on the server
@@ -239,7 +254,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param syncId Sync ID.
  * @param completionStatusBlock Completion status block.
  */
-- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock;
+- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock NS_SWIFT_NAME(cleanResyncGhosts(forId:onComplete:));
 
 @end
 

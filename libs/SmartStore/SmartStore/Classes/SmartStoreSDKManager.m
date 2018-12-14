@@ -22,17 +22,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import "SFSmartStore.h"
 #import "SmartStoreSDKManager.h"
 #import "SFSDKStoreConfig.h"
 #import "SFSmartStoreInspectorViewController.h"
 
-SFSDK_USE_DEPRECATED_BEGIN
-@interface SalesforceSDKManager()<SFAuthenticationManagerDelegate>
+
+@interface SalesforceSDKManager()
 @end
 
 @implementation SmartStoreSDKManager
+@dynamic sharedManager;
 
 -(instancetype)init {
     if (self = [super init]) {
@@ -41,13 +42,9 @@ SFSDK_USE_DEPRECATED_BEGIN
     return self;
 }
 
-
-- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
-{
-    [super authManager:manager willLogoutUser:user];
-    [SFSmartStore removeAllStoresForUser:user];
++ (void)initializeSDK {
+    [super initializeSDKWithClass:self.class];
 }
-
 
 - (void)handleUserWillLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
@@ -86,12 +83,11 @@ SFSDK_USE_DEPRECATED_BEGIN
 -(NSArray*) getDevActions:(UIViewController *)presentedViewController
 {
     NSMutableArray * devActions = [NSMutableArray arrayWithArray:[super getDevActions:presentedViewController]];
-    [devActions addObjectsFromArray:@[
-            @"Inspect SmartStore", ^{
-                SFSmartStoreInspectorViewController *devInfo = [[SFSmartStoreInspectorViewController alloc] init];
-                [presentedViewController presentViewController:devInfo animated:NO completion:nil];
-            }
-    ]];
+    SFSDKDevAction *action = [[SFSDKDevAction alloc]initWith:@"Inspect SmartStore" handler:^{
+        SFSmartStoreInspectorViewController *devInfo = [[SFSmartStoreInspectorViewController alloc] init];
+        [presentedViewController presentViewController:devInfo animated:NO completion:nil];
+    }];
+    [devActions addObjectsFromArray:@[action]];
     return devActions;
 }
 
@@ -114,4 +110,4 @@ SFSDK_USE_DEPRECATED_BEGIN
 
 
 @end
-SFSDK_USE_DEPRECATED_END
+

@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Class to provide network utilities related to SmartSync actions.
  */
+NS_SWIFT_NAME(NetworkUtils)
 @interface SFSmartSyncNetworkUtils : NSObject
 
 /**

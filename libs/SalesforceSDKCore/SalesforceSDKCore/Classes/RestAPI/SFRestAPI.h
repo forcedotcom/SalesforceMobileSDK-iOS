@@ -33,23 +33,23 @@ NS_ASSUME_NONNULL_BEGIN
  * Domain used for errors reported by the rest API (non HTTP errors)
  * (for example, passing an invalid SOQL string when doing a query)
  */
-extern NSString* const kSFRestErrorDomain;
+extern NSString* const kSFRestErrorDomain NS_SWIFT_NAME(SFRestErrorDomain);
 /*
  * Error code used for all rest API errors (non HTTP errors)
  * (for example, passing an invalid SOQL string when doing a query)
  */
-extern NSInteger const kSFRestErrorCode;
+extern NSInteger const kSFRestErrorCode NS_SWIFT_NAME(SFRestErrorCode);
 
 /*
  * Default API version (currently "v42.0")
  * You can override this by using setApiVersion:
  */
-extern NSString* const kSFRestDefaultAPIVersion;
+extern NSString* const kSFRestDefaultAPIVersion NS_SWIFT_NAME(SFRestDefaultAPIVersion);
 
 /*
  * Misc keys appearing in requests
  */
-extern NSString* const kSFRestIfUnmodifiedSince;
+extern NSString* const kSFRestIfUnmodifiedSince NS_SWIFT_NAME(SFRestIfUnmodifiedSince);
 
 /**
  Main class used to issue REST requests to the standard Force.com REST API.
@@ -133,6 +133,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  The error passed will be a standard `RestKit` error with an error domain of `RKRestKitErrorDomain`. 
 
  */
+NS_SWIFT_NAME(RestClient)
 @interface SFRestAPI : NSObject
 
 /**
@@ -144,28 +145,28 @@ extern NSString* const kSFRestIfUnmodifiedSince;
 /**
  * The user associated with this instance of SFRestAPI.
  */
-@property (nonatomic, strong, readonly) SFUserAccount *user;
+@property (nonatomic, strong, readonly) SFUserAccount *user NS_SWIFT_NAME(userAccount);
 
 /**
  * Returns the singleton instance of `SFRestAPI` associated with the current user.
  */
-+ (SFRestAPI *)sharedInstance;
+@property (class, nonatomic, readonly) SFRestAPI *sharedInstance NS_SWIFT_NAME(shared);
 
 /**
  * Returns the singleton instance of `SFRestAPI` associated with the specified user.
  */
-+ (nullable SFRestAPI *)sharedInstanceWithUser:(nonnull SFUserAccount *)user;
++ (nullable SFRestAPI *)sharedInstanceWithUser:(nonnull SFUserAccount *)userAccount NS_SWIFT_NAME(restClient(for:));
 
 /**
  * Specifies whether the current execution is a test run or not.
  @param isTestRun YES if this is a test run
  */
-+ (void) setIsTestRun:(BOOL)isTestRun;
++ (void)setIsTestRun:(BOOL)isTestRun NS_SWIFT_UNAVAILABLE("");
 
 /**
  * Specifies whether the current execution is a test run or not.
  */
-+ (BOOL) getIsTestRun;
++ (BOOL)getIsTestRun NS_SWIFT_UNAVAILABLE("");
 
 /**
  * Clean up due to host change or logout.
@@ -360,7 +361,7 @@ extern NSString* const kSFRestIfUnmodifiedSince;
  *               to return values; for example, "Account,Contact".
  * @see  http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search_layouts.htm
  */
-- (SFRestRequest *)requestForSearchResultLayout:(NSString*)objectList;
+  - (SFRestRequest *)requestForSearchResultLayout:(NSString*)objectList;
 
 /**
  * Retursn an `SFRestRequest` which executes a batch of requests.

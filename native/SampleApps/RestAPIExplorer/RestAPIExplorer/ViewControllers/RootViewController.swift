@@ -29,8 +29,7 @@
 
 import UIKit
 import SalesforceSDKCore
-import SalesforceSwiftSDK
-import PromiseKit
+import LocalAuthentication
 
 struct ContentSection {
     var title:String {
@@ -114,6 +113,18 @@ class RootViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    override var prefersStatusBarHidden: Bool {
+        get {
+            return false
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return .lightContent
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -125,15 +136,14 @@ class RootViewController: UIViewController {
         
         self.navigationController?.navigationBar.barTintColor = UIColor.appDarkBlue
         self.navigationController?.navigationBar.isTranslucent = false
-        UIApplication.shared.statusBarStyle = .lightContent
         
         guard let font = UIFont.appRegularFont(20) else {
             return
         }
-       self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: font]
+       self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: font]
         self.title = "RestAPI Explorer"
         
-        guard let leftImage = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), let rightImage = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal) else {
+        guard let leftImage = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), let _ = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal) else {
             return
         }
         let left = UIBarButtonItem(image: leftImage, style: .plain, target: self, action: #selector(didPressLeftNavButton(_:)))
@@ -528,25 +538,23 @@ class RootViewController: UIViewController {
     @objc func userDidTapQueryButton(_ sender:UIButton) {
         print("handle tapped query button")
         self.view.endEditing(true)
-        guard let path = self.manualQueryTextField.text, let method = SFRestMethod(rawValue: self.methodControl.selectedSegmentIndex) else {return}
+        guard let path = self.manualQueryTextField.text, let method = RestRequest.Method(rawValue: self.methodControl.selectedSegmentIndex) else {return}
         
         var queryParams:[String: Any]?
         if let params = self.paramsTextView.text {
             queryParams = SFJsonUtils.object(fromJSONString: params) as? [String: Any]
         }
         
-        let request = SFRestRequest(method: method, path: path, queryParams: queryParams)
-        SFRestAPI.sharedInstance().Promises
-            .send(request: request)
-            .done { [weak self] response in
-                DispatchQueue.main.async {
-                    self?.updateUI(request, response: response, error: nil)
-                }
-            }.catch {  [weak self]  error in
-                DispatchQueue.main.async {
-                    self?.updateUI(request, response: nil, error: error)
-                }
+        let request = RestRequest(method: method, path: path, queryParams: queryParams)
+        RestClient.shared.send(request: request, onFailure: { (error, urlResponse) in
+            DispatchQueue.main.async { [weak self] in
+                self?.updateUI(request, response: nil, error: nil)
             }
+        } , onSuccess: { [weak self] (reponse, urlResponse) in
+            DispatchQueue.main.async {
+                self?.updateUI(request, response: reponse, error: nil)
+            }
+        })
     }
     
     @objc func userDidTapExpandButton(_ sender:UIButton) {
@@ -588,7 +596,7 @@ class RootViewController: UIViewController {
                                       preferredStyle: .alert)
         
         let logout = UIAlertAction(title: "Logout", style: .default) { (action) in
-            SFUserAccountManager.sharedInstance().logout()
+            UserAccountManager.shared.logout()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             self.presentedViewController?.dismiss(animated: true, completion: nil)
@@ -600,7 +608,7 @@ class RootViewController: UIViewController {
     }
     
     @objc func clearPopoversForPasscode() {
-        SFSDKLogger.log(RootViewController.self, level: .debug, message: "Passcode screen loading. Clearing popovers")
+        SalesforceLogger.log(RootViewController.self, level: .debug, message: "Passcode screen loading. Clearing popovers")
         
         if let alert = self.logoutAlert {
             alert.dismiss(animated: true, completion: nil)
@@ -621,16 +629,16 @@ class RootViewController: UIViewController {
         }
     }
 
-    func updateUI(_ forRequest:SFRestRequest, response: SFRestResponse?, error:Error?) {
+    func updateUI(_ forRequest:RestRequest, response: Any? , error:Error?) {
         self.manualQueryTextField.text = forRequest.path
         self.paramsTextView.text = SFJsonUtils.jsonRepresentation(forRequest.queryParams as Any)
         self.methodControl.selectedSegmentIndex = forRequest.method.rawValue
         
         guard let largeFont = UIFont.appRegularFont(20), let regFont = UIFont.appRegularFont(14) else {return}
-        let titleAttribs:[NSAttributedStringKey: Any] = [NSAttributedStringKey.font : largeFont,
-                                                         NSAttributedStringKey.foregroundColor: UIColor.appDarkBlue]
-        let descriptionAttribs:[NSAttributedStringKey: Any] = [NSAttributedStringKey.font: regFont,
-                                                               NSAttributedStringKey.foregroundColor: UIColor.appTextFieldBlue]
+        let titleAttribs:[NSAttributedString.Key: Any] = [NSAttributedString.Key.font : largeFont,
+                                                         NSAttributedString.Key.foregroundColor: UIColor.appDarkBlue]
+        let descriptionAttribs:[NSAttributedString.Key: Any] = [NSAttributedString.Key.font: regFont,
+                                                               NSAttributedString.Key.foregroundColor: UIColor.appTextFieldBlue]
         
         let attributedString = NSMutableAttributedString(string: "Response for: ", attributes: titleAttribs)
         
@@ -639,15 +647,15 @@ class RootViewController: UIViewController {
         attributedString.append(descriptionString)
         self.responseSection.attributedTitle = attributedString
         
-        if let obj = response?.asData() {
-            let json = try? JSONSerialization.jsonObject(with: obj, options: [])
-            let jsonData = try? JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted)
+        if let r = response {
+            let jsonData = try? JSONSerialization.data(withJSONObject: r, options: .prettyPrinted)
             if let jsonObj = jsonData {
                 let jsonString = String(data: jsonObj, encoding: .utf8)
                 self.responseForTextView.setContentOffset(CGPoint.zero, animated: false)
                 self.responseForTextView.text = jsonString
             }
         }
+      
         if let e = error {
             self.responseForTextView.text = e.localizedDescription
         }
@@ -664,7 +672,7 @@ extension RootViewController: ActionTableViewDelegate {
     
     func handleAction(_ action: Action) {
         let objectTypes = action.objectTypes
-        var request: Promise<SFRestRequest>?
+        var request: RestRequest?
         
         let objectType = self.objectTypeTextField.text
         let objectId = self.objectIdTextField.text
@@ -681,163 +689,166 @@ extension RootViewController: ActionTableViewDelegate {
         let objectIdList = self.objectIdListTextField.text?.components(separatedBy: ",")
         let entityId = self.entityIdTextField.text
         let shareType = self.shareTypeTextField.text
-        let restApi = SFRestAPI.sharedInstance()
-        let restApiPromises = restApi.Promises
-        
+        let restApi = RestClient.shared
+      
         switch action.type {
                     case .versions:
-                        request = restApiPromises.versions()
+                        request = restApi.requestForVersions()
                     case .resources:
-                        request = restApiPromises.resources()
+                        request =  restApi.requestForResources()
                     case .describeGlobal:
-                        request = restApiPromises.describeGlobal()
+                        request = restApi.requestForDescribeGlobal()
                     case .metadataWithObjectType:
                         guard let objType = objectType else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.metadata(objectType: objType)
+                        request = restApi.requestForMetadata(withObjectType: objType)
                     case .describeWithObjectType:
                         guard let objType = objectType else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.describe(objectType: objType)
-                    case .retrieveWithObjectType:
+                        request = restApi.requestForDescribe(withObjectType: objType)
+                     case .retrieveWithObjectType:
                         guard let objType = objectType , let objId = objectId, let fList = fieldList else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.retrieve(objectType: objType, objectId: objId, fieldList: fList)
+                        request = restApi.requestForRetrieve(withObjectType: objType, objectId: objId, fieldList: fList)
                     case .createWithObjectType:
                         guard let objType = objectType, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.create(objectType: objType, fields: f)
+                        request = restApi.requestForCreate(withObjectType: objType, fields: f)
                     case .upsertWithObjectType:
                         guard let objType = objectType, let extFId = externalFieldId, let extId = externalId, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.upsert(objectType: objType, externalIdField: extFId, externalId: extId, fieldList: f)
-                    case .updateWithObjectType:
+                        request =  restApi.requestForUpsert(withObjectType: objType, externalIdField: extFId, externalId: extId, fields: f)
+                   case .updateWithObjectType:
                         guard let objType = objectType, let objId = objectId, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.update(objectType: objType, objectId: objId, fieldList: f)
-                    case .deleteWithObjectType:
+                        request = restApi.requestForUpdate(withObjectType: objType, objectId: objId, fields: f)
+                   case .deleteWithObjectType:
                         guard let objType = objectType, let objId = objectId else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.delete(objectType: objType, objectId: objId)
-                    case .query:
+                        request = restApi.requestForDelete(withObjectType: objType, objectId: objId)
+                   case .query:
                         guard let q = query else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.query(soql: q)
+                        request = restApi.request(forQuery: q)
                     case .search:
                         guard let s = search else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.search(sosl: s)
+                        request = restApi.request(forSearch: s)
                     case .searchScopeAndOrder:
-                        request = restApiPromises.searchScopeAndOrder()
-                    case .searchResultLayout:
+                        request = restApi.requestForSearchScopeAndOrder()                    case .searchResultLayout:
                         guard let objList = objectList else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.searchResultLayout(objectList: objList)
+                        request = restApi.request(forSearchResultLayout: objList)
                     case .ownedFilesList:
                         guard let uId = userId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.filesOwned(userId: uId, page: p)
+                        request = restApi.request(forOwnedFilesList: uId, page: p)
                     case .filesInUserGroups:
                         guard let uId = userId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.filesInUsersGroups(userId: uId, page: p)
+                        request = restApi.requestForFiles(inUsersGroups: uId, page: p)
                     case .filesSharedWithUser:
                         guard let uId = userId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.filesShared(userId: uId, page: p)
+                        request = restApi.requestForFilesShared(withUser: uId, page: p)
                     case .fileDetails:
-                        guard let objId = objectId, let v = version else {
+                        guard let objId = objectId, let _ = version else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.fileDetails(sfdcFileId: objId, version: v)
+                        request = restApi.request(forFileDetails: objId, forVersion: objId)
                     case .batchFileDetails:
                         guard let objIdList = objectIdList else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.batchDetails(sfdcFileIds: objIdList)
+                        request = restApi.request(forBatchFileDetails: objIdList)
                     case .fileShares:
                         guard let objId = objectId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.fileShares(sfdcId: objId, page: p)
+                        request = restApi.request(forFileShares: objId, page: p)
+           
                     case .addFileShare:
                         guard let objId = objectId, let eId = entityId, let sType = shareType else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.addFileShare(fileId: objId, entityId: eId, shareType: sType)
+                        request = restApi.request(forAddFileShare: objId, entityId: eId, shareType: sType)
                     case .deleteFileShare:
                         guard let objId = objectId else {
                         self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApiPromises.deleteFileShare(shareId: objId)
+                        request = restApi.request(forDeleteFileShare: objId)
                     case .currentUserInfo:
-                        guard let currentAccount = SFUserAccountManager.sharedInstance().currentUser else {return}
+                        guard let currentAccount = UserAccountManager.shared.currentUserAccount else {return}
                         var userInfoString = "Name: " + currentAccount.fullName
                         userInfoString = userInfoString + "\nID: " + currentAccount.userName
                         if let e = currentAccount.email {
                             userInfoString = userInfoString + "\nEmail: " + e
                         }
                         self.showAlert("User Info", message:userInfoString)
+                        return
+                    case .enableBiometric:
+                        // Uncomment this code to find the current state of biometric unlock
+                        //UserAccountManager.shared.biometricUnlockState()
+                        
+                        UserAccountManager.shared.presentBiometricEnrollment(nil)
+                        return
                     case .logout:
                         self.presentedViewController?.dismiss(animated: true, completion: nil)
                         self.createLogoutActionSheet()
                         return
                     case .switchUser:
-                        let umvc = SFDefaultUserManagementViewController.init(completionBlock: { (action) in
+                        let umvc = SalesforceUserManagementViewController.init(completionBlock: { (action) in
                             self.dismiss(animated: true, completion: nil)
                         })
                         self.present(umvc, animated: true, completion: nil)
                         return
                     case .exportCredentials:
                         self.exportTestingCredentials()
-                }
-        
-        guard let req = request, let requestVal = request?.value else {
-          return
+                        return
+            
         }
         
-        req.then { request ->Promise<SFRestResponse> in
-                return restApiPromises.send(request: request)
-        }.done { [weak self] response in
-                DispatchQueue.main.async {
-                    self?.updateUI(requestVal, response: response, error: nil)
-                }
-         }.catch {  [weak self]  error in
-                DispatchQueue.main.async {
-                    self?.updateUI(requestVal, response: nil,error: error)
+        restApi.send(request: request!, onFailure: { (error, urlResponse) in
+            DispatchQueue.main.async { [weak self] in
+                self?.updateUI(request!, response: nil, error: error)
             }
-        }
+        } , onSuccess: { [weak self] (reponse, urlResponse) in
+            DispatchQueue.main.async {
+                self?.updateUI(request!, response: reponse, error: nil)
+            }
+        })
+        
 
     }
 }

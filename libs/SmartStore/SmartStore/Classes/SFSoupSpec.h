@@ -40,6 +40,7 @@ extern NSString * const kSoupFeatureExternalStorage;
 /**
  * Object containing soup specifications, such as soup name and features.
  */
+NS_SWIFT_NAME(SoupSpec)
 @interface SFSoupSpec : NSObject
 
 /**

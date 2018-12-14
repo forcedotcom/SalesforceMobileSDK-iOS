@@ -32,6 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(MetadataSyncDownTarget)
 @interface SFMetadataSyncDownTarget : SFSyncDownTarget
 
 @property (nonatomic, strong, readonly) NSString *objectType;

@@ -24,20 +24,20 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * _Nonnull const SFSDKAppConfigErrorDomain;
-
 typedef NS_ENUM(NSInteger, SFSDKAppConfigErrorCode) {
     SFSDKAppConfigErrorCodeNoConsumerKey = 966,
     SFSDKAppConfigErrorCodeNoRedirectURI,
     SFSDKAppConfigErrorCodeNoOAuthScopes
-};
+} NS_SWIFT_NAME(BootConfig.ErrorCode);
 
+extern NSString * _Nonnull const SFSDKAppConfigErrorDomain NS_SWIFT_NAME(BootConfig.errorDomain);
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *const SFSDKDefaultNativeAppConfigFilePath = @"/bootconfig.plist";
+extern NSString *const SFSDKDefaultNativeAppConfigFilePath NS_SWIFT_NAME(BootConfig.defaultFilePath);
 
 /** Contains this app's OAuth configuration as defined in the developer's Salesforce connected app.
  */
+NS_SWIFT_NAME(BootConfig)
 @interface SFSDKAppConfig : NSObject
 
 /**
@@ -53,12 +53,12 @@ static NSString *const SFSDKDefaultNativeAppConfigFilePath = @"/bootconfig.plist
 /**
  * The OAuth Scopes being requested for this app.
  */
-@property (nonatomic, strong) NSSet *oauthScopes;
+@property (nonatomic, strong) NSSet<NSString *> *oauthScopes;
 
 /**
  * Whether or not this app should authenticate when it first starts.
  */
-@property (nonatomic, assign) BOOL shouldAuthenticate;
+@property (nonatomic, assign) BOOL shouldAuthenticate NS_SWIFT_NAME(shouldAuthenticateOnFirstLaunch);
 
 /**
  * The config as a dictionary
@@ -69,7 +69,13 @@ static NSString *const SFSDKDefaultNativeAppConfigFilePath = @"/bootconfig.plist
  * Initializer with a given JSON-based configuration dictionary.
  * @param configDict The dictionary containing the configuration.
  */
-- (nullable instancetype)initWithDict:(nullable NSDictionary *)configDict;
+- (nullable instancetype)initWithDict:(nullable NSDictionary *)configDict NS_SWIFT_NAME(init(_:));
+
+/**
+ * Initializer with a given a config file.
+ * @param configFile The path to config file
+ */
+- (nullable instancetype)initWithConfigFile:(NSString *)configFile NS_SWIFT_NAME(init(_:));
 
 /**
  * Validate the app config inputs.
@@ -89,8 +95,6 @@ static NSString *const SFSDKDefaultNativeAppConfigFilePath = @"/bootconfig.plist
  * @return The app config from the given file path.
  */
 + (nullable instancetype)fromConfigFile:(NSString *)configFilePath;
-
-+ (void)createError:(NSError * _Nullable * _Nullable)error withCode:(NSInteger)errorCode message:(nonnull NSString *)message;
 
 @end
 

@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Helper class for sobject tree requests
  */
-
+NS_SWIFT_NAME(SObjectTree)
 @interface SFSObjectTree : NSObject
 
 /**
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param fields             Fields for the root sobject
  * @param childrenTrees      Array of SFSObjectTree for the children sobject's
  */
-- (nullable id)initWithObjectType:(NSString*)objectType
+- (nullable instancetype)initWithObjectType:(NSString*)objectType
         objectTypePlural:(nullable NSString*)objectTypePlural
         referenceId:(NSString *)referenceId
              fields:(NSDictionary<NSString *, id> *)fields

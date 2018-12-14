@@ -26,7 +26,6 @@
 #import "SFDefaultUserManagementViewController+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
-#import "SFAuthenticationManager.h"
 
 static CGFloat const kButtonWidth = 150.0f;
 static CGFloat const kButtonHeight = 40.0f;
@@ -155,14 +154,8 @@ static CGFloat const kControlVerticalPadding = 5.0f;
     } else {
         // Logging out a different user than the current user.  Clear the account state and go
         // back to the user list.
-        
-        if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-            SFSDK_USE_DEPRECATED_BEGIN
-            [[SFAuthenticationManager sharedManager] logoutUser:_user];
-            SFSDK_USE_DEPRECATED_END
-        } else {
-           [[SFUserAccountManager sharedInstance] logoutUser:_user];
-        }
+        [[SFUserAccountManager sharedInstance] logoutUser:_user];
+       
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

@@ -45,16 +45,17 @@ typedef NS_ENUM(NSUInteger, SFUserManagementAction) {
     /** Logging in as a new user.
      */
     SFUserManagementActionCreateNewUser
-};
+} NS_SWIFT_NAME(SalesforceUserManagementAction);
 
 /**
  Type definition for the user management completion block.
  */
-typedef void (^SFUserManagementCompletionBlock)(SFUserManagementAction action);
+typedef void (^SFUserManagementCompletionBlock)(SFUserManagementAction action)  NS_SWIFT_NAME(SalesforceUserCompletionBlock);
 
 /**
  View controller for managing the different users of the app.
  */
+NS_SWIFT_NAME(SalesforceUserManagementViewController)
 @interface SFDefaultUserManagementViewController : UINavigationController
 
 /**

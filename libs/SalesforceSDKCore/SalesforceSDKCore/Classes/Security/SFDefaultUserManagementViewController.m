@@ -24,8 +24,7 @@
 
 #import "SFDefaultUserManagementViewController+Internal.h"
 #import "SFDefaultUserManagementListViewController.h"
-#import "SFAuthenticationManager.h"
-
+#import "SFUserAccountManager.h"
 @implementation SFDefaultUserManagementViewController
 
 - (id)initWithCompletionBlock:(SFUserManagementCompletionBlock)completionBlock
@@ -68,14 +67,7 @@
 
 - (void)actionLogout
 {
-    // If we got here, logging out the current user is implied.
-    if ([SFUserAccountManager sharedInstance].useLegacyAuthenticationManager) {
-        SFSDK_USE_DEPRECATED_BEGIN
-        [[SFAuthenticationManager sharedManager] logout];
-        SFSDK_USE_DEPRECATED_END
-    }else {
-         [[SFUserAccountManager sharedInstance] logout];
-    }
+    [[SFUserAccountManager sharedInstance] logout];
 }
 
 - (void)actionSwitchUser:(SFUserAccount *)user

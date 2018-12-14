@@ -28,7 +28,6 @@
  */
 
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @interface SFSDKAnalyticsTransformPublisherPair : NSObject
 
@@ -38,11 +37,9 @@
 - (nonnull instancetype)initWithTransform:(nonnull id<SFSDKTransform>)transform publisher:(nonnull id<SFSDKAnalyticsPublisher>)publisher;
 
 @end
-SFSDK_USE_DEPRECATED_BEGIN
 
-@interface SFSDKSalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
-SFSDK_USE_DEPRECATED_END
+@interface SFSDKSalesforceAnalyticsManager ()
 @property (nonnull, nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonnull, nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nullable, nonatomic, readwrite, strong) SFUserAccount *userAccount;

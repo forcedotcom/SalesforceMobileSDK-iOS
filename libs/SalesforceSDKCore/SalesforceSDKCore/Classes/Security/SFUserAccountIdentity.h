@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Represents the unique identity of a given user account.
  */
+NS_SWIFT_NAME(UserAccountIdentity)
 @interface SFUserAccountIdentity : NSObject <NSSecureCoding, NSCopying>
 
 /**

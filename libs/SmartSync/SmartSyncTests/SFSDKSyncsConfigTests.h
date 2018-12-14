@@ -27,7 +27,3 @@
 @interface SFSDKSyncsConfigTests : SyncManagerTestCase
 
 @end
-
-
-
-

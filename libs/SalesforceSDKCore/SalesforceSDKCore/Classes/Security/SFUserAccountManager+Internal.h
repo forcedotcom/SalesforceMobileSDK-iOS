@@ -23,12 +23,12 @@
  */
 
 #import "SFUserAccountManager.h"
-#import "SFSDKSafeMutableDictionary.h"
 #import "SFSDKIDPAuthClient.h"
 #import "SFSDKUserSelectionView.h"
 #import "SFSDKLoginFlowSelectionView.h"
 #import "SFSDKAlertView.h"
 #import "SFSDKAuthErrorManager.h"
+#import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 
 @class SFSDKAuthPreferences;
 
@@ -64,6 +64,11 @@
  *
  */
 @property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager;
+
+/**
+ Indicates if the app is configured to require browser based authentication.
+ */
+@property (nonatomic, assign) BOOL useBrowserAuth;
 
 /**
  Executes the given block for each configured delegate.

@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
      OAuth credentials will be stored securely within the keychain.
      */
     SFOAuthCredentialsStorageTypeKeychain,
-};
+} NS_SWIFT_NAME(OAuthCredentials.StorageType);
 
 /** Object representing an individual user account's logon credentials.
  
@@ -63,6 +63,7 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
 
  @see SFOAuthCoordinator
  */
+NS_SWIFT_NAME(OAuthCredentials)
 @interface SFOAuthCredentials : NSObject <NSSecureCoding, NSCopying>
 
 /** Protocol scheme for authenticating this account.
@@ -177,12 +178,6 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  */
 @property (nonatomic, copy, nullable) NSURL *identityUrl;
 
-/**
- Contains legacy identity service information from some previous app versions. Not
- applicable to most applications.  See SFIdentityData for current identity management.
- */
-@property (nonatomic, readonly, nullable) NSDictionary *legacyIdentityInformation;
-
 /** The community URL, if present. The instance URL, otherwise.
  */
 @property (readonly, nullable) NSURL *apiUrl;
@@ -202,7 +197,7 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
 @property (nonatomic, readonly, getter = isEncrypted) BOOL encrypted;
 
 /**
- A dictionary containing key-value pairs for any of the keys provided via the additionalOAuthParameterKeys property of SFAuthenticationManager.
+ A dictionary containing key-value pairs for any of the keys provided via the additionalOAuthParameterKeys property of SFUserAccountManager.
  If a key does not match a value in the parsed response, then it will not exist in the dictionary.
  */
 @property (nonatomic, readonly, nullable) NSDictionary * additionalOAuthFields;
@@ -225,7 +220,7 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  @param encrypted Determines if the sensitive data like refreshToken and accessToken should be encrypted
  @return An initialized authentication credential object.
  */
-- (_Nullable instancetype)initWithIdentifier:( NSString * _Nonnull)theIdentifier clientId:( NSString * _Nullable )theClientId encrypted:(BOOL)encrypted;
+- (_Nullable instancetype)initWithIdentifier:(NSString * _Nonnull)theIdentifier clientId:(NSString * _Nullable )theClientId encrypted:(BOOL)encrypted;
 
 /** Initializes an authentication credential object with the given identifier and client ID. This is the designated initializer.
  
@@ -240,6 +235,7 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  */
 - (_Nullable instancetype)initWithIdentifier:(NSString * _Nonnull )theIdentifier clientId:(NSString * _Nullable)theClientId encrypted:(BOOL)encrypted storageType:(SFOAuthCredentialsStorageType)type;
 
+- (id)initWithCoder:(NSCoder *)coder;
 /** Revoke the OAuth access and refresh tokens.
  
  @warning Calling this method when the identifier property is `nil` will raise an NSInternalInconsistencyException.

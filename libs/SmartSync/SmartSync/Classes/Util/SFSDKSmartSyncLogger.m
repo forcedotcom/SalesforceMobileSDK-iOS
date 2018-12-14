@@ -33,8 +33,8 @@ NSString * const kSFSDKSmartSyncComponentName = @"SmartSync";
 
 @implementation SFSDKSmartSyncLogger
 
-+ (instancetype)sharedInstance {
-    return [self sharedInstanceWithComponent:kSFSDKSmartSyncComponentName];
++ (instancetype)defaultLogger {
+    return [self loggerForComponent:kSFSDKSmartSyncComponentName];
 }
 
 @end

@@ -27,7 +27,7 @@
 #import "NSString+SFAdditions.h"
 #import "NSData+SFAdditions.h"
 #import "SFKeychainItemWrapper.h"
-#import <SalesforceAnalytics/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
 static NSString * const kKeychainIdentifierIV = @"com.salesforce.security.IV";

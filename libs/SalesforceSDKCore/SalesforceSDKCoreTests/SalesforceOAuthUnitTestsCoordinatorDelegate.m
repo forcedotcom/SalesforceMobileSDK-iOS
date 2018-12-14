@@ -39,28 +39,15 @@
     XCTFail(@"user agent authentication flow should not begin");
 }
 
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator {
-    // authentication is performed against localhost (which presumably has no oauth process listening) 
-    // and authentication is immediately cancelled after being started, so the authentication should 
-    // never succeed.
-    XCTFail(@"coordinator test should not be able to authenticate");
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
+
+    // SFAuthenticationSession auth flow is not supported in unit test framework.
+    XCTFail(@"SFAuthenticationSession auth flow is not supported in unit test framework");
 }
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error {
-    // authentication is cancelled before a timeout can occur, so the test should not fail
-    XCTFail(@"user agent authentication flow should not fail");
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
-
-    // Safari auth flow is not supported in unit test framework.
-    XCTFail(@"Safari auth flow is not supported in unit test framework");
-}
-
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
 
-    // Safari auth flow is not supported in unit test framework.
-    XCTFail(@"Safari auth flow is not supported in unit test framework");
+    // SFAuthenticationSession auth flow is not supported in unit test framework.
+    XCTFail(@"SFAuthenticationSession auth flow is not supported in unit test framework");
 }
 
 @end

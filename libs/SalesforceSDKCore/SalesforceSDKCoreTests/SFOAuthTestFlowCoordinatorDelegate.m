@@ -27,7 +27,7 @@
 
 static NSString * const kWebNotSupportedExceptionName = @"com.salesforce.oauth.tests.WebNotSupported";
 static NSString * const kWebNotSupportedReasonFormat  = @"%@ WKWebView transactions not supported in unit test framework.";
-static NSString * const kSafariNotSupportedReasonFormat  = @"%@ SFSafariViewController transactions not supported in unit test framework.";
+static NSString * const kSFAuthenticationSessionNotSupportedReasonFormat  = @"%@ SFAuthenticationSession transactions not supported in unit test framework.";
 
 @implementation SFOAuthTestFlowCoordinatorDelegate
 
@@ -42,64 +42,63 @@ static NSString * const kSafariNotSupportedReasonFormat  = @"%@ SFSafariViewCont
 #pragma mark - SFOAuthCoordinatorDelegate
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     NSString *reason = [NSString stringWithFormat:kWebNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
     @throw [NSException exceptionWithName:kWebNotSupportedExceptionName reason:reason userInfo:nil];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     NSString *reason = [NSString stringWithFormat:kWebNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
     @throw [NSException exceptionWithName:kWebNotSupportedExceptionName reason:reason userInfo:nil];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(WKWebView *)view {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     NSString *reason = [NSString stringWithFormat:kWebNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
     @throw [NSException exceptionWithName:kWebNotSupportedExceptionName reason:reason userInfo:nil];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(NSError*)errorOrNil {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     NSString *reason = [NSString stringWithFormat:kWebNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
     @throw [NSException exceptionWithName:kWebNotSupportedExceptionName reason:reason userInfo:nil];
 }
 
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.willBeginAuthenticationCalled = YES;
     self.authInfo = info;
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.didAuthenticateCalled = YES;
     self.authInfo = info;
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.didFailWithErrorCalled = YES;
     self.didFailWithError = error;
     self.authInfo = info;
 }
 
 - (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator*)coordinator {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.isNetworkAvailableCalled = YES;
     return self.isNetworkAvailable;
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSafariViewController:(SFSafariViewController *)svc {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kSafariNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kSafariNotSupportedReasonFormat reason:reason userInfo:nil];
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    NSString *reason = [NSString stringWithFormat:kSFAuthenticationSessionNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
+    @throw [NSException exceptionWithName:kSFAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
 }
-
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
-    [SFSDKLogger log:[self class] level:DDLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kSafariNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kSafariNotSupportedReasonFormat reason:reason userInfo:nil];
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    NSString *reason = [NSString stringWithFormat:kSFAuthenticationSessionNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
+    @throw [NSException exceptionWithName:kSFAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
 }
 
 @end

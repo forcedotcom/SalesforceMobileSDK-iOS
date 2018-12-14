@@ -24,15 +24,18 @@
 
 #import "SFSecurityLockoutTests.h"
 #import "SFSecurityLockout+Internal.h"
+#import "SFPreferences.h"
+#import "SFPasscodeManager.h"
 
 @interface SFSecurityLockoutTests ()
 
 + (void)cleanupSettings;
-- (void)verifySettingsValues:(NSNumber *)legacyTimeoutNum
-             legacyLockedVal:(BOOL)legacyLockedVal
-          keychainTimeoutVal:(NSUInteger)keychainTimeoutVal
-           keychainLockedVal:(BOOL)keychainLockedVal;
-
+- (void)verifyFileSettingsValues:(NSNumber *)legacyTimeoutNum
+                 legacyLockedVal:(BOOL)legacyLockedVal
+             biometricAllowedVal:(BOOL)biometricAllowedVal;
+- (void)verifyKeychainSettingsValues:(NSUInteger)keychainTimeoutVal
+                   keychainLockedVal:(BOOL)keychainLockedVal
+           keychainPasscodeLengthVal:(NSUInteger*)keychainPasscodeLengthVal;
 @end
 
 @implementation SFSecurityLockoutTests
@@ -73,6 +76,16 @@
     XCTAssertEqual(inIsLocked, [retrievedIsLocked boolValue], @"'Is Locked' values are not the same.");
 }
 
+- (void)testReadWritePasscodeLength
+{
+    NSNumber *retrivedPasscodeLength = [SFSecurityLockout readPasscodeLengthFromKeychain];
+    XCTAssertNil(retrivedPasscodeLength, @"Retrived passcode length should not be set at the beginning of the test.");
+    NSUInteger randInt = arc4random();
+    [SFSecurityLockout writePasscodeLengthToKeychain:@(randInt)];
+    retrivedPasscodeLength = [SFSecurityLockout readPasscodeLengthFromKeychain];
+    XCTAssertEqual(randInt, [retrivedPasscodeLength unsignedIntegerValue], @"Passcode length values are not the same.");
+}
+
 - (void)testSettingsUpgrade
 {
     [SFSecurityLockout class];  // Make sure initialize call for SFSecurityLockout is out of the way.
@@ -80,27 +93,35 @@
     // No initial values: Defaults migrated to keychain.
     [SFSecurityLockoutTests cleanupSettings];
     [SFSecurityLockout upgradeSettings];
-    [self verifySettingsValues:nil legacyLockedVal:NO keychainTimeoutVal:kDefaultLockoutTime keychainLockedVal:NO];
+    [self verifyFileSettingsValues:nil legacyLockedVal:NO biometricAllowedVal:YES];
+    [self verifyKeychainSettingsValues:kDefaultLockoutTime keychainLockedVal:NO keychainPasscodeLengthVal:nil];
     
     // Initial legacy values, no keychain values: Legacy values migrated to keychain.
     [SFSecurityLockoutTests cleanupSettings];
     NSUInteger timeoutVal = arc4random();
     NSNumber *legacyTimeoutNum = @(timeoutVal);
     BOOL legacyLockedVal = (arc4random() % 2 == 0);
+    BOOL biometricAllowedVal = (arc4random() % 2 == 0);
     [[NSUserDefaults standardUserDefaults] setObject:legacyTimeoutNum forKey:kSecurityTimeoutLegacyKey];
     [[NSUserDefaults standardUserDefaults] setBool:legacyLockedVal forKey:kSecurityIsLockedLegacyKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [[SFPreferences globalPreferences] setBool:biometricAllowedVal forKey:kBiometricUnlockAllowedKey];
+    [[SFPreferences globalPreferences] synchronize];
     [SFSecurityLockout upgradeSettings];
-    [self verifySettingsValues:legacyTimeoutNum legacyLockedVal:legacyLockedVal keychainTimeoutVal:timeoutVal keychainLockedVal:legacyLockedVal];
+    [self verifyFileSettingsValues:legacyTimeoutNum legacyLockedVal:legacyLockedVal biometricAllowedVal:biometricAllowedVal];
+    [self verifyKeychainSettingsValues:[legacyTimeoutNum unsignedIntegerValue] keychainLockedVal:legacyLockedVal keychainPasscodeLengthVal:nil];
     
     // Keychain values already defined: No further migration of values.
     [SFSecurityLockoutTests cleanupSettings];
     NSNumber *keychainTimeoutNum = @(arc4random());
     NSNumber *keychainLockedNum = [NSNumber numberWithBool:(arc4random() % 2 == 0)];
+    NSUInteger passcodeLength = (arc4random() % 8);
     [SFSecurityLockout writeIsLockedToKeychain:keychainLockedNum];
     [SFSecurityLockout writeLockoutTimeToKeychain:keychainTimeoutNum];
+    [SFSecurityLockout writePasscodeLengthToKeychain:[NSNumber numberWithUnsignedInteger:passcodeLength]];
     [SFSecurityLockout upgradeSettings];
-    [self verifySettingsValues:nil legacyLockedVal:NO keychainTimeoutVal:[keychainTimeoutNum unsignedIntegerValue] keychainLockedVal:[keychainLockedNum boolValue]];
+    [self verifyFileSettingsValues:nil legacyLockedVal:NO biometricAllowedVal:YES];
+    [self verifyKeychainSettingsValues:[keychainTimeoutNum unsignedIntegerValue] keychainLockedVal:[keychainLockedNum boolValue] keychainPasscodeLengthVal:&passcodeLength];
 }
 
 #pragma mark - Helper methods
@@ -109,22 +130,35 @@
 {
     [SFSecurityLockout writeLockoutTimeToKeychain:nil];
     [SFSecurityLockout writeIsLockedToKeychain:nil];
+    [SFSecurityLockout writePasscodeLengthToKeychain:nil];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSecurityTimeoutLegacyKey];
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSecurityIsLockedLegacyKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [[SFPreferences globalPreferences] removeObjectForKey:kBiometricUnlockAllowedKey];
+    [[SFPreferences globalPreferences] synchronize];
 }
 
-- (void)verifySettingsValues:(NSNumber *)legacyTimeoutNum
-             legacyLockedVal:(BOOL)legacyLockedVal
-          keychainTimeoutVal:(NSUInteger)keychainTimeoutVal
-           keychainLockedVal:(BOOL)keychainLockedVal
+- (void)verifyFileSettingsValues:(NSNumber *)legacyTimeoutNum
+                 legacyLockedVal:(BOOL)legacyLockedVal
+             biometricAllowedVal:(BOOL)biometricAllowedVal;
 {
     XCTAssertEqualObjects(legacyTimeoutNum, [[NSUserDefaults standardUserDefaults] objectForKey:kSecurityTimeoutLegacyKey], @"Legacy timeout values do not match.");
     XCTAssertEqual(legacyLockedVal, [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey], @"Legacy locked values do not match.");
+    // Read value directly because [SFSecurityLockout biometricUnlockAllowed] takes takes device biometric into affect
+    BOOL bioAllowed = [[SFPreferences globalPreferences] boolForKey:kBiometricUnlockAllowedKey];
+    XCTAssertEqual(biometricAllowedVal, bioAllowed, @"Stored Biometric unlock allowed values do not match.");
+}
+
+- (void)verifyKeychainSettingsValues:(NSUInteger)keychainTimeoutVal
+                   keychainLockedVal:(BOOL)keychainLockedVal
+           keychainPasscodeLengthVal:(NSUInteger*)keychainPasscodeLengthVal
+{
     NSNumber *keychainTimeoutNum = @(keychainTimeoutVal);
     XCTAssertEqualObjects(keychainTimeoutNum, [SFSecurityLockout readLockoutTimeFromKeychain], @"Keychain timeout values do not match.");
     NSNumber *keychainLockedNum = @(keychainLockedVal);
     XCTAssertEqualObjects(keychainLockedNum, [SFSecurityLockout readIsLockedFromKeychain], @"Keychain locked values do not match.");
+    NSNumber *keychainPasscodeNum = (keychainPasscodeLengthVal) ? [NSNumber numberWithUnsignedInteger:*keychainPasscodeLengthVal] : nil;
+    XCTAssertEqualObjects(keychainPasscodeNum, [SFSecurityLockout readPasscodeLengthFromKeychain], @"Keychain passcode length values do not match.");
 }
 
 @end

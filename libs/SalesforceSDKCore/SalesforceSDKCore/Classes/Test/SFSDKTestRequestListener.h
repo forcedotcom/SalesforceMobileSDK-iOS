@@ -56,17 +56,12 @@ typedef NS_ENUM(NSUInteger, SFAccountManagerServiceType) {
 /// Max time to wait for request completion
 @property (nonatomic, assign) NSTimeInterval maxWaitTime;
 
-- (id)initWithServiceType:(SFAccountManagerServiceType)serviceType;
-
 /**
  * Wait for the request to complete (success or fail)
  * Waits for up to maxWaitTime.
  * @return returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded
  */
 - (NSString *)waitForCompletion;
-
-- (NSString *)serviceTypeDescription;
-
 @end
 
 NS_ASSUME_NONNULL_END

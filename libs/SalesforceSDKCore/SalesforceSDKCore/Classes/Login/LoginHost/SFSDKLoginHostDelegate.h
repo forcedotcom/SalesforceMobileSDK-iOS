@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Use the SFSDKLoginHostDelegate to be notified of the actions taken by the user on the login host list view controller.
  */
+NS_SWIFT_NAME(LoginHostDelegate)
 @protocol SFSDKLoginHostDelegate <NSObject>
 
 @optional

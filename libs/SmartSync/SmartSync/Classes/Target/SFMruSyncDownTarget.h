@@ -26,7 +26,7 @@
 #import "SFSyncDownTarget.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+NS_SWIFT_NAME(MruSyncDownTarget)
 @interface SFMruSyncDownTarget : SFSyncDownTarget
 
 @property (nonatomic, strong, readonly) NSString* objectType;

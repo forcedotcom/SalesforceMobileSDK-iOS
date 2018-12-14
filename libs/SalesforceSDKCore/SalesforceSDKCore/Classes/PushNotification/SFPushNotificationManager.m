@@ -22,12 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "NSString+SFAdditions.h"
 #import "SFPreferences.h"
-#import "SFPushNotificationManager.h"
-#import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
-#import "SFJsonUtils.h"
+#import "SFPushNotificationManager.h"
+#import "SFUserAccountManager.h"
 #import "SFApplicationHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFRestAPI+Blocks.h"
@@ -92,7 +92,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
         _deviceSalesforceId = [[SFPreferences currentUserLevelPreferences] stringForKey:kSFDeviceSalesforceId];
         
         // Watching logged in events (to register)
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserLoggedIn:) name:kSFUserLoggedInNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserLoggedIn:) name:kSFNotificationUserDidLogIn object:nil];
         
         // Watching foreground events (to re-register)
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAppWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -156,11 +156,6 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 
 #pragma mark - Salesforce registration
 
-- (BOOL)registerForSalesforceNotifications
-{
-    return [self registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
-}
-
 - (BOOL)registerSalesforceNotificationsWithCompletionBlock:(void (^)(void))completionBlock failBlock:(nullable void (^)(void))failBlock
 {
     if (self.isSimulator) {  // remote notifications are not supported in the simulator
@@ -202,9 +197,13 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeaturePushNotifications];
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) rawResponse;
         NSInteger statusCode = httpResponse.statusCode;
+
         if (statusCode < 200 || statusCode >= 300) {
             [SFSDKCoreLogger e:[strongSelf class] format:@"Registration for notifications with Salesforce failed with status %ld", statusCode];
             [SFSDKCoreLogger e:[strongSelf class] format:@"Response:%@", response];
+            [strongSelf postPushNotificationRegistration:failBlock];
+        } else if (![response isKindOfClass:[NSDictionary class]]) {
+            [SFSDKCoreLogger e:[strongSelf class] format:@"Registration for notifications with Salesforce failed due to unexpected response: %@", response];
             [strongSelf postPushNotificationRegistration:failBlock];
         } else {
             [SFSDKCoreLogger i:[strongSelf class] format:@"Registration for notifications with Salesforce succeeded"];
@@ -223,20 +222,6 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     if (completionBlock != nil) {
         completionBlock();
     }
-}
-
-- (BOOL)unregisterSalesforceNotifications
-{
-    if (self.isSimulator) {
-        return YES;  // "Successful".  Simulator does not register/unregister for notifications.
-    } else {
-        return [self unregisterSalesforceNotificationsWithCompletionBlock:[SFUserAccountManager sharedInstance].currentUser completionBlock:nil];
-    }
-}
-
-- (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user
-{
-    return [self unregisterSalesforceNotificationsWithCompletionBlock:[SFUserAccountManager sharedInstance].currentUser completionBlock:nil];
 }
 
 - (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount*)user completionBlock:(void (^)(void))completionBlock

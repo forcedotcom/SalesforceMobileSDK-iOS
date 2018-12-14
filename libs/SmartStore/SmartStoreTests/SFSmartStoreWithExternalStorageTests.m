@@ -23,6 +23,7 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSmartStoreTests.h"
 #import "SFSoupSpec.h"
 #import "SFSoupIndex.h"
