@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SmartSyncSDKManager.html">
+	<File path="Constants/SFSDKFetchMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SmartSyncSDKManager</TokenIdentifier>
-			<Abstract type="html">Version of SalesforceSDKManager to be used with all SmartSync-enabled apps.</Abstract>
-			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKFetchMode</TokenIdentifier>
+			<Abstract type="html">Enum for available SmartSync data fetch modes.</Abstract>
+			<DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="39"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/setupGlobalSyncsFromDefaultConfig</TokenIdentifier>
-			<Abstract type="html">Setup global syncs using config found globalsyncs.json</Abstract>
-			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)setupGlobalSyncsFromDefaultConfig</Declaration>
-			
-			
-			<Anchor>//api/name/setupGlobalSyncsFromDefaultConfig</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKFetchModeCacheOnly</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKFetchModeCacheOnly</Declaration>
+            
+            <DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
+            
             <NodeRef refid="39"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/setupUserSyncsFromDefaultConfig</TokenIdentifier>
-			<Abstract type="html">Setup user syncs using config found in usersyncs.json</Abstract>
-			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)setupUserSyncsFromDefaultConfig</Declaration>
-			
-			
-			<Anchor>//api/name/setupUserSyncsFromDefaultConfig</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKFetchModeCacheFirst</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKFetchModeCacheFirst</Declaration>
+            
+            <DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
+            
             <NodeRef refid="39"/>
-		</Token>
-		
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKFetchModeServerFirst</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKFetchModeServerFirst</Declaration>
+            
+            <DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
+            
+            <NodeRef refid="39"/>
+        </Token>
         
         
 	</File>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncDownTargetQueryType.html">
+	<File path="Constants/TestSyncUpTargetModDateCompare.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncDownTargetQueryType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/TestSyncUpTargetModDateCompare</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="46"/>
@@ -14,81 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeMru</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/TestSyncUpTargetRemoteModDateSameAsLocal</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeMru</Declaration>
+            <Declaration>TestSyncUpTargetRemoteModDateSameAsLocal</Declaration>
             
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+            <DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
             
             <NodeRef refid="46"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeSosl</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/TestSyncUpTargetRemoteModDateGreaterThanLocal</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeSosl</Declaration>
+            <Declaration>TestSyncUpTargetRemoteModDateGreaterThanLocal</Declaration>
             
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+            <DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
             
             <NodeRef refid="46"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeSoql</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/TestSyncUpTargetRemoteModDateLessThanLocal</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeSoql</Declaration>
+            <Declaration>TestSyncUpTargetRemoteModDateLessThanLocal</Declaration>
             
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="46"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeRefresh</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeRefresh</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="46"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeParentChildren</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeParentChildren</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="46"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeCustom</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeCustom</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="46"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeMetadata</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeMetadata</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="46"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeLayout</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeLayout</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+            <DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
             
             <NodeRef refid="46"/>
         </Token>

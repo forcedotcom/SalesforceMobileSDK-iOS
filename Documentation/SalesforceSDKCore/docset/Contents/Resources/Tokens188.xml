@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKWindowManagerDelegate.html">
+	<File path="Protocols/SalesforceSDKManagerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKWindowManagerDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate of the SFSDKWindowManager</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="188"/>
@@ -13,82 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:willPresentWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window will be made opaque</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillResignActive</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationWillResignActiveNotification is received</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willPresentWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
-					<Name>window</Name>
-					<Abstract type="html">The window that will be made opaque</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)sdkManagerWillResignActive</Declaration>
 			
-			<Anchor>//api/name/windowManager:willPresentWindow:</Anchor>
+			
+			<Anchor>//api/name/sdkManagerWillResignActive</Anchor>
             <NodeRef refid="188"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:didPresentWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window has been made opaque</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidBecomeActive</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationDidBecomeActiveNotification is received.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didPresentWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
-					<Name>window</Name>
-					<Abstract type="html">The window that has been made opaque</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)sdkManagerDidBecomeActive</Declaration>
 			
-			<Anchor>//api/name/windowManager:didPresentWindow:</Anchor>
+			
+			<Anchor>//api/name/sdkManagerDidBecomeActive</Anchor>
             <NodeRef refid="188"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:willDismissWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window will be made transparent</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillEnterForeground</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationWillEnterForegroundNotification is received.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willDismissWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
-					<Name>window</Name>
-					<Abstract type="html">The window will be made transparent</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)sdkManagerWillEnterForeground</Declaration>
 			
-			<Anchor>//api/name/windowManager:willDismissWindow:</Anchor>
+			
+			<Anchor>//api/name/sdkManagerWillEnterForeground</Anchor>
             <NodeRef refid="188"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:didDismissWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window is made transparent</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidEnterBackground</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationDidEnterBackgroundNotification is received</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didDismissWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
-					<Name>window</Name>
-					<Abstract type="html">The window that has been made transparent</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)sdkManagerDidEnterBackground</Declaration>
 			
-			<Anchor>//api/name/windowManager:didDismissWindow:</Anchor>
+			
+			<Anchor>//api/name/sdkManagerDidEnterBackground</Anchor>
             <NodeRef refid="188"/>
 		</Token>
 		

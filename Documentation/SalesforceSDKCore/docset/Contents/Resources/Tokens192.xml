@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SalesforceSDKManagerDelegate.html">
+	<File path="Constants/SFAppType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.</Abstract>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAppType</TokenIdentifier>
+			<Abstract type="html">Block typedef for creating a custom snapshot view controller.</Abstract>
 			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
@@ -12,54 +12,46 @@
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillResignActive</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationWillResignActiveNotification is received</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)sdkManagerWillResignActive</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerWillResignActive</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNative</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFAppTypeNative</Declaration>
+            
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            
             <NodeRef refid="192"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidBecomeActive</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationDidBecomeActiveNotification is received.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)sdkManagerDidBecomeActive</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerDidBecomeActive</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeHybrid</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFAppTypeHybrid</Declaration>
+            
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            
             <NodeRef refid="192"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillEnterForeground</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationWillEnterForegroundNotification is received.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)sdkManagerWillEnterForeground</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerWillEnterForeground</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeReactNative</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFAppTypeReactNative</Declaration>
+            
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            
             <NodeRef refid="192"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidEnterBackground</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationDidEnterBackgroundNotification is received</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)sdkManagerDidEnterBackground</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerDidEnterBackground</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNativeSwift</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFAppTypeNativeSwift</Declaration>
+            
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            
             <NodeRef refid="192"/>
-		</Token>
-		
+        </Token>
         
         
 	</File>

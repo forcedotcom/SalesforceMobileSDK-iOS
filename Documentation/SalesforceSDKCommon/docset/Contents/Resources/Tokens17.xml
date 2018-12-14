@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/SFLogLevel.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFLogLevel</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+            
+			
+			<NodeRef refid="17"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelDefault</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFLogLevelDefault</Declaration>
+            
+            <DeclaredIn>SFLogger.h</DeclaredIn>
+            
+            <NodeRef refid="17"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelInfo</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFLogLevelInfo</Declaration>
+            
+            <DeclaredIn>SFLogger.h</DeclaredIn>
+            
+            <NodeRef refid="17"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelDebug</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFLogLevelDebug</Declaration>
+            
+            <DeclaredIn>SFLogger.h</DeclaredIn>
+            
+            <NodeRef refid="17"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFLogLevelError</Declaration>
+            
+            <DeclaredIn>SFLogger.h</DeclaredIn>
+            
+            <NodeRef refid="17"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelFault</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFLogLevelFault</Declaration>
+            
+            <DeclaredIn>SFLogger.h</DeclaredIn>
+            
+            <NodeRef refid="17"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKURLHandlerManager.html">
+	<File path="Classes/SFSDKWebViewStateManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKURLHandlerManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebViewStateManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="117"/>
@@ -13,38 +13,78 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/canHandleRequest:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionWithNewAccessToken:isSecureProtocol:</TokenIdentifier>
+			<Abstract type="html">  Reset some associated state with WKWebView and UIWebView e.g. Remove Cookies then add SID cookie</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
+			<Declaration>+ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure</Declaration>
 			
 			
-			<Anchor>//api/name/canHandleRequest:options:</Anchor>
+			<Anchor>//api/name/resetSessionWithNewAccessToken:isSecureProtocol:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/processRequest:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/removeSession</TokenIdentifier>
+			<Abstract type="html">  Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
+			<Declaration>+ (void)removeSession</Declaration>
 			
 			
-			<Anchor>//api/name/processRequest:options:</Anchor>
+			<Anchor>//api/name/removeSession</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKURLHandlerManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/setSharedProcessPool:</TokenIdentifier>
+			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
+  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
+			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
 			
 			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<Anchor>//api/name/sharedProcessPool</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
+			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
+  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			
+			
+			<Anchor>//api/name/sharedProcessPool</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
+			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
+  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			
+			
+			<Anchor>//api/name/sharedProcessPool</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionCookie</TokenIdentifier>
+			<Abstract type="html">Clears session cookie data from the cookie store, and sets a new session cookie based on the
+OAuth credentials.</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)resetSessionCookie</Declaration>
+			
+			
+			<Anchor>//api/name/resetSessionCookie</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		

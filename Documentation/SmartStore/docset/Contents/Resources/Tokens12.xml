@@ -13,146 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setStoreName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/set:</TokenIdentifier>
 			<Abstract type="html">The name of this store.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *storeName</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSString *NS_SWIFT_NAME ( name )</Declaration>
 			
 			
-			<Anchor>//api/name/storeName</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/storeName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/)</TokenIdentifier>
 			<Abstract type="html">The name of this store.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *storeName</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSString *NS_SWIFT_NAME ( name )</Declaration>
 			
 			
-			<Anchor>//api/name/storeName</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/storeName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/)</TokenIdentifier>
 			<Abstract type="html">The name of this store.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong) NSString *storeName</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSString *NS_SWIFT_NAME ( name )</Declaration>
 			
 			
-			<Anchor>//api/name/storeName</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setStorePath:</TokenIdentifier>
-			<Abstract type="html">The full path to the store database.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nullable) NSString *storePath</Declaration>
-			
-			
-			<Anchor>//api/name/storePath</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/storePath</TokenIdentifier>
-			<Abstract type="html">The full path to the store database.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nullable) NSString *storePath</Declaration>
-			
-			
-			<Anchor>//api/name/storePath</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/storePath</TokenIdentifier>
-			<Abstract type="html">The full path to the store database.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nullable) NSString *storePath</Declaration>
-			
-			
-			<Anchor>//api/name/storePath</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setUser:</TokenIdentifier>
-			<Abstract type="html">User for this store - nil for global stores</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *user</Declaration>
-			
-			
-			<Anchor>//api/name/user</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/user</TokenIdentifier>
-			<Abstract type="html">User for this store - nil for global stores</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *user</Declaration>
-			
-			
-			<Anchor>//api/name/user</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/user</TokenIdentifier>
-			<Abstract type="html">User for this store - nil for global stores</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *user</Declaration>
-			
-			
-			<Anchor>//api/name/user</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setCaptureExplainQueryPlan:</TokenIdentifier>
-			<Abstract type="html">Flag to cause explain plan to be captured for every query</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL captureExplainQueryPlan</Declaration>
-			
-			
-			<Anchor>//api/name/captureExplainQueryPlan</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/captureExplainQueryPlan</TokenIdentifier>
-			<Abstract type="html">Flag to cause explain plan to be captured for every query</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL captureExplainQueryPlan</Declaration>
-			
-			
-			<Anchor>//api/name/captureExplainQueryPlan</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/captureExplainQueryPlan</TokenIdentifier>
-			<Abstract type="html">Flag to cause explain plan to be captured for every query</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL captureExplainQueryPlan</Declaration>
-			
-			
-			<Anchor>//api/name/captureExplainQueryPlan</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
@@ -193,11 +85,122 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/sharedStoreWithName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setAllStoreNames:</TokenIdentifier>
+			<Abstract type="html">All of the store names for the current user from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) NSArray&lt;NSString*&gt; *allStoreNames</Declaration>
+			
+			
+			<Anchor>//api/name/allStoreNames</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/allStoreNames</TokenIdentifier>
+			<Abstract type="html">All of the store names for the current user from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) NSArray&lt;NSString*&gt; *allStoreNames</Declaration>
+			
+			
+			<Anchor>//api/name/allStoreNames</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/allStoreNames</TokenIdentifier>
+			<Abstract type="html">All of the store names for the current user from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) NSArray&lt;NSString*&gt; *allStoreNames</Declaration>
+			
+			
+			<Anchor>//api/name/allStoreNames</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setAllGlobalStoreNames:</TokenIdentifier>
+			<Abstract type="html">All of the the global store names from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) NSArray&lt;NSString*&gt; *allGlobalStoreNames</Declaration>
+			
+			
+			<Anchor>//api/name/allGlobalStoreNames</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/allGlobalStoreNames</TokenIdentifier>
+			<Abstract type="html">All of the the global store names from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) NSArray&lt;NSString*&gt; *allGlobalStoreNames</Declaration>
+			
+			
+			<Anchor>//api/name/allGlobalStoreNames</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/allGlobalStoreNames</TokenIdentifier>
+			<Abstract type="html">All of the the global store names from this app.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) NSArray&lt;NSString*&gt; *allGlobalStoreNames</Declaration>
+			
+			
+			<Anchor>//api/name/allGlobalStoreNames</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setEncryptionKeyBlock:</TokenIdentifier>
+			<Abstract type="html">Block used to generate the encryption key.
+Sticking with the default encryption key derivation is recommended.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyBlock</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/encryptionKeyBlock</TokenIdentifier>
+			<Abstract type="html">Block used to generate the encryption key.
+Sticking with the default encryption key derivation is recommended.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyBlock</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/encryptionKeyBlock</TokenIdentifier>
+			<Abstract type="html">Block used to generate the encryption key.
+Sticking with the default encryption key derivation is recommended.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyBlock</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/sharedStoreWithName:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Use this method to obtain a shared store instance with a particular name for the current user.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (nullable id)sharedStoreWithName:(NSString *)storeName</Declaration>
+			<Declaration>+ (nullable instancetype)sharedStoreWithName:(NSString *)storeName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
@@ -205,16 +208,16 @@
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A shared instance of a store with the given name.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedStoreWithName:</Anchor>
+			<Anchor>//api/name/sharedStoreWithName:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/sharedStoreWithName:user:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/sharedStoreWithName:user:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Use this method to obtain a shared store instance with the given name for the given user.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (nullable id)sharedStoreWithName:(NSString *)storeName user:(SFUserAccount *)user</Declaration>
+			<Declaration>+ (nullable instancetype)sharedStoreWithName:(NSString *)storeName user:(SFUserAccount *)user NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
@@ -225,17 +228,17 @@
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/sharedStoreWithName:user:</Anchor>
+			<Anchor>//api/name/sharedStoreWithName:user:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/sharedGlobalStoreWithName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/sharedGlobalStoreWithName:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Use this method to obtain a shared global store instance with the given name.  This store will
 not be specific to a particular user.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (id)sharedGlobalStoreWithName:(NSString *)storeName</Declaration>
+			<Declaration>+ (instancetype)sharedGlobalStoreWithName:(NSString *)storeName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
@@ -243,17 +246,17 @@ not be specific to a particular user.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/sharedGlobalStoreWithName:</Anchor>
+			<Anchor>//api/name/sharedGlobalStoreWithName:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeSharedStoreWithName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeSharedStoreWithName:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">You may use this method to completely remove a persistent shared store with
 the given name for the current user.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSharedStoreWithName:(NSString *)storeName</Declaration>
+			<Declaration>+ (void)removeSharedStoreWithName:(NSString *)storeName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
@@ -261,37 +264,37 @@ the given name for the current user.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removeSharedStoreWithName:</Anchor>
+			<Anchor>//api/name/removeSharedStoreWithName:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeSharedStoreWithName:forUser:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeSharedStoreWithName:forUser:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">You may use this method to completely remove a persisted shared store with the given name
 for the given user.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user</Declaration>
+			<Declaration>+ (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
 					<Abstract type="html">The name of the store to remove.</Abstract>
 				</Parameter><Parameter>
 					<Name>user</Name>
-					<Abstract type="html">The user associated with the store.</Abstract>
+					<Abstract type="html">The User Account associated with the store.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removeSharedStoreWithName:forUser:</Anchor>
+			<Anchor>//api/name/removeSharedStoreWithName:forUser:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeSharedGlobalStoreWithName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeSharedGlobalStoreWithName:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">You may use this method to completely remove a persisted global store with the given name.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSharedGlobalStoreWithName:(NSString *)storeName</Declaration>
+			<Declaration>+ (void)removeSharedGlobalStoreWithName:(NSString *)storeName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
@@ -299,7 +302,7 @@ for the given user.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removeSharedGlobalStoreWithName:</Anchor>
+			<Anchor>//api/name/removeSharedGlobalStoreWithName:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
@@ -316,11 +319,11 @@ for the given user.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeAllStoresForUser:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/removeAllStoresForUser:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Removes all of the store for the given user from this app.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeAllStoresForUser:(SFUserAccount *)user</Declaration>
+			<Declaration>+ (void)removeAllStoresForUser:(SFUserAccount *)user NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>user</Name>
@@ -328,7 +331,7 @@ for the given user.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removeAllStoresForUser:</Anchor>
+			<Anchor>//api/name/removeAllStoresForUser:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
@@ -341,44 +344,6 @@ for the given user.</Abstract>
 			
 			
 			<Anchor>//api/name/removeAllGlobalStores</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/allStoreNames</TokenIdentifier>
-			<Abstract type="html">Get all of the store names for the current user from this app.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>+ (NSArray *)allStoreNames</Declaration>
-			
-			
-			<Anchor>//api/name/allStoreNames</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/allGlobalStoreNames</TokenIdentifier>
-			<Abstract type="html">Get all of the the global store names from this app.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>+ (NSArray *)allGlobalStoreNames</Declaration>
-			
-			
-			<Anchor>//api/name/allGlobalStoreNames</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/encryptionKeyBlock</TokenIdentifier>
-			<Abstract type="html">The block used to generate the encryption key.  Sticking with the default encryption
-key derivation is recommended.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>+ (SFSmartStoreEncryptionKeyBlock)encryptionKeyBlock</Declaration>
-			
-			<ReturnValue><Abstract type="html">The block used to generate the encryption key.  Sticking with the default encryption
-key derivation is recommended.</Abstract></ReturnValue>
-			<Anchor>//api/name/encryptionKeyBlock</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
@@ -400,11 +365,11 @@ key derivation is recommended.</Abstract></ReturnValue>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/attributesForSoup:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/attributesForSoup:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Name of the soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (SFSoupSpec *)attributesForSoup:(NSString *)soupName</Declaration>
+			<Declaration>- (SFSoupSpec *)attributesForSoup:(NSString *)soupName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -412,16 +377,16 @@ key derivation is recommended.</Abstract></ReturnValue>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">Specs of the soup if it exists.</Abstract></ReturnValue>
-			<Anchor>//api/name/attributesForSoup:</Anchor>
+			<Anchor>//api/name/attributesForSoup:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/indicesForSoup:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/indicesForSoup:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Name of the soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)indicesForSoup:(NSString *)soupName</Declaration>
+			<Declaration>- (NSArray&lt;SFSoupIndex*&gt; *)indicesForSoup:(NSString *)soupName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -429,16 +394,16 @@ key derivation is recommended.</Abstract></ReturnValue>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">NSArray of SFSoupIndex for the given soup.</Abstract></ReturnValue>
-			<Anchor>//api/name/indicesForSoup:</Anchor>
+			<Anchor>//api/name/indicesForSoup:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/soupExists:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/soupExists:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Name of the soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)soupExists:(NSString *)soupName</Declaration>
+			<Declaration>- (BOOL)soupExists:(NSString *)soupName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -446,16 +411,16 @@ key derivation is recommended.</Abstract></ReturnValue>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if a soup with the given name already exists.</Abstract></ReturnValue>
-			<Anchor>//api/name/soupExists:</Anchor>
+			<Anchor>//api/name/soupExists:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoup:withIndexSpecs:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoup:withIndexSpecs:error:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Creates a new soup or confirms the existence of an existing soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)registerSoup:(NSString *)soupName withIndexSpecs:(NSArray *)indexSpecs error:(NSError **)error</Declaration>
+			<Declaration>- (BOOL)registerSoup:(NSString *)soupName withIndexSpecs:(NSArray&lt;SFSoupIndex*&gt; *)indexSpecs error:(NSError **)error NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -469,7 +434,7 @@ key derivation is recommended.</Abstract></ReturnValue>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the soup is registered or already exists.</Abstract></ReturnValue>
-			<Anchor>//api/name/registerSoup:withIndexSpecs:error:</Anchor>
+			<Anchor>//api/name/registerSoup:withIndexSpecs:error:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
@@ -478,7 +443,7 @@ key derivation is recommended.</Abstract></ReturnValue>
 			<Abstract type="html">Creates a new soup or confirms the existence of an existing soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)registerSoup:(NSString *)soupName withIndexSpecs:(NSArray *)indexSpecs</Declaration>
+			<Declaration>- (BOOL)registerSoup:(NSString *)soupName withIndexSpecs:(NSArray&lt;SFSoupIndex*&gt; *)indexSpecs</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -494,11 +459,11 @@ key derivation is recommended.</Abstract></ReturnValue>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoupWithSpec:withIndexSpecs:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoupWithSpec:withIndexSpecs:error:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Creates a new soup or confirms the existence of an existing soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)registerSoupWithSpec:(SFSoupSpec *)soupSpec withIndexSpecs:(NSArray *)indexSpecs error:(NSError **)error</Declaration>
+			<Declaration>- (BOOL)registerSoupWithSpec:(SFSoupSpec *)soupSpec withIndexSpecs:(NSArray&lt;SFSoupIndex*&gt; *)indexSpecs error:(NSError **)error NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupSpec</Name>
@@ -512,16 +477,16 @@ key derivation is recommended.</Abstract></ReturnValue>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the soup is registered or already exists.</Abstract></ReturnValue>
-			<Anchor>//api/name/registerSoupWithSpec:withIndexSpecs:error:</Anchor>
+			<Anchor>//api/name/registerSoupWithSpec:withIndexSpecs:error:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/countWithQuerySpec:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/countWithQuerySpec:error:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Get the number of entries that would be returned with the given query spec</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)countWithQuerySpec:(SFQuerySpec *)querySpec error:(NSError **)error</Declaration>
+			<Declaration>- (NSNumber *__nullable)countWithQuerySpec:(SFQuerySpec *)querySpec error:(NSError **)error NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>querySpec</Name>
@@ -532,16 +497,16 @@ key derivation is recommended.</Abstract></ReturnValue>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/countWithQuerySpec:error:</Anchor>
+			<Anchor>//api/name/countWithQuerySpec:error:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/queryWithQuerySpec:pageIndex:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/queryWithQuerySpec:pageIndex:error:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Search for entries matching the given query spec.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error</Declaration>
+			<Declaration>- (NSArray *__nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>querySpec</Name>
@@ -555,16 +520,42 @@ key derivation is recommended.</Abstract></ReturnValue>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A set of entries given the pageSize provided in the querySpec.</Abstract></ReturnValue>
-			<Anchor>//api/name/queryWithQuerySpec:pageIndex:error:</Anchor>
+			<Anchor>//api/name/queryWithQuerySpec:pageIndex:error:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/retrieveEntries:fromSoup:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/queryAsString:querySpec:pageIndex:error:</TokenIdentifier>
+			<Abstract type="html">Search for entries matching the given query spec without deserializing any JSON</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)queryAsString:(NSMutableString *)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>resultString</Name>
+					<Abstract type="html">A mutable string to which the result (serialized) is appended</Abstract>
+				</Parameter><Parameter>
+					<Name>querySpec</Name>
+					<Abstract type="html">A native query spec.</Abstract>
+				</Parameter><Parameter>
+					<Name>pageIndex</Name>
+					<Abstract type="html">The page index to start the entries at (this supports paging).</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if successful</Abstract></ReturnValue>
+			<Anchor>//api/name/queryAsString:querySpec:pageIndex:error:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/retrieveEntries:fromSoup:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Search soup for entries exactly matching the soup entry IDs.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)retrieveEntries:(NSArray *)soupEntryIds fromSoup:(NSString *)soupName</Declaration>
+			<Declaration>- (NSArray&lt;NSDictionary*&gt; *)retrieveEntries:(NSArray&lt;NSNumber*&gt; *)soupEntryIds fromSoup:(NSString *)soupName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupEntryIds</Name>
@@ -575,18 +566,18 @@ key derivation is recommended.</Abstract></ReturnValue>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">An array with zero or more entries matching the input IDs. Order is not guaranteed.</Abstract></ReturnValue>
-			<Anchor>//api/name/retrieveEntries:fromSoup:</Anchor>
+			<Anchor>//api/name/retrieveEntries:fromSoup:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/upsertEntries:toSoup:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/upsertEntries:toSoup:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Insert/update entries to the soup.  Insert vs. update will be determined by the internal
 soup entry ID generated from intial entry.  If you want to specify a different identifier
 for determining existing entries, use upsertEntries:toSoup:withExternalIdPath:</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName</Declaration>
+			<Declaration>- (NSArray&lt;NSDictionary*&gt; *)upsertEntries:(NSArray&lt;NSDictionary*&gt; *)entries toSoup:(NSString *)soupName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>entries</Name>
@@ -597,17 +588,17 @@ for determining existing entries, use upsertEntries:toSoup:withExternalIdPath:</
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The array of updated entries in the soup.</Abstract></ReturnValue>
-			<Anchor>//api/name/upsertEntries:toSoup:</Anchor>
+			<Anchor>//api/name/upsertEntries:toSoup:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/upsertEntries:toSoup:withExternalIdPath:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/upsertEntries:toSoup:withExternalIdPath:error:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Insert/update entries to the soup.  Insert vs. update will be determined by the specified
 external ID path argument.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error</Declaration>
+			<Declaration>- (NSArray *_Nullable)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>entries</Name>
@@ -624,16 +615,16 @@ external ID path argument.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The array of updated entries in the soup.</Abstract></ReturnValue>
-			<Anchor>//api/name/upsertEntries:toSoup:withExternalIdPath:error:</Anchor>
+			<Anchor>//api/name/upsertEntries:toSoup:withExternalIdPath:error:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Look up the ID for an entry in a soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName forFieldPath:(NSString *)fieldPath fieldValue:(NSString *)fieldValue error:(NSError **)error</Declaration>
+			<Declaration>- (NSNumber *__nullable)lookupSoupEntryIdForSoupName:(NSString *)soupName forFieldPath:(NSString *)fieldPath fieldValue:(NSString *)fieldValue error:(NSError **)error NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -650,16 +641,16 @@ external ID path argument.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The ID of the specified soup entry.</Abstract></ReturnValue>
-			<Anchor>//api/name/lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:</Anchor>
+			<Anchor>//api/name/lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeEntries:fromSoup:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeEntries:fromSoup:error:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Remove soup entries exactly matching the soup entry IDs.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (void)removeEntries:(NSArray *)entryIds fromSoup:(NSString *)soupName error:(NSError **)error</Declaration>
+			<Declaration>- (BOOL)removeEntries:(NSArray&lt;NSNumber*&gt; *)entryIds fromSoup:(NSString *)soupName error:(NSError **)error NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>entryIds</Name>
@@ -672,8 +663,8 @@ external ID path argument.</Abstract>
 					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/removeEntries:fromSoup:error:</Anchor>
+			<ReturnValue><Abstract type="html">YES if no error occurs</Abstract></ReturnValue>
+			<Anchor>//api/name/removeEntries:fromSoup:error:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
@@ -682,7 +673,7 @@ external ID path argument.</Abstract>
 			<Abstract type="html">Remove soup entries exactly matching the soup entry IDs.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (void)removeEntries:(NSArray *)entryIds fromSoup:(NSString *)soupName</Declaration>
+			<Declaration>- (void)removeEntries:(NSArray&lt;NSNumber*&gt; *)entryIds fromSoup:(NSString *)soupName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>entryIds</Name>
@@ -698,12 +689,12 @@ external ID path argument.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeEntriesByQuery:fromSoup:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/removeEntriesByQuery:fromSoup:error:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Remove soup entries returned by the given query spec.
 NB: A single SQL call is executed to improve performance.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (void)removeEntriesByQuery:(SFQuerySpec *)querySpec fromSoup:(NSString *)soupName error:(NSError **)error</Declaration>
+			<Declaration>- (BOOL)removeEntriesByQuery:(SFQuerySpec *)querySpec fromSoup:(NSString *)soupName error:(NSError **)error NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>querySpec</Name>
@@ -716,8 +707,8 @@ NB: A single SQL call is executed to improve performance.</Abstract>
 					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/removeEntriesByQuery:fromSoup:error:</Anchor>
+			<ReturnValue><Abstract type="html">YES if no error occurs</Abstract></ReturnValue>
+			<Anchor>//api/name/removeEntriesByQuery:fromSoup:error:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
@@ -801,11 +792,11 @@ NB: A single SQL call is executed to improve performance.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getExternalFileStorageSizeForSoup:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getExternalFileStorageSizeForSoup:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Returns sum of all external file sizes for a given soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (unsigned long long)getExternalFileStorageSizeForSoup:(NSString *)soupName</Declaration>
+			<Declaration>- (unsigned long long)getExternalFileStorageSizeForSoup:(NSString *)soupName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -813,16 +804,16 @@ NB: A single SQL call is executed to improve performance.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">External file storage size, in bytes.</Abstract></ReturnValue>
-			<Anchor>//api/name/getExternalFileStorageSizeForSoup:</Anchor>
+			<Anchor>//api/name/getExternalFileStorageSizeForSoup:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getExternalFilesCountForSoup:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getExternalFilesCountForSoup:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Return the number of external storage files for a given soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)getExternalFilesCountForSoup:(NSString *)soupName</Declaration>
+			<Declaration>- (NSUInteger)getExternalFilesCountForSoup:(NSString *)soupName NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -830,16 +821,16 @@ NB: A single SQL call is executed to improve performance.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">Number of external files.</Abstract></ReturnValue>
-			<Anchor>//api/name/getExternalFilesCountForSoup:</Anchor>
+			<Anchor>//api/name/getExternalFilesCountForSoup:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/alterSoup:withIndexSpecs:reIndexData:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/alterSoup:withIndexSpecs:reIndexData:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Alter soup indexes.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)alterSoup:(NSString *)soupName withIndexSpecs:(NSArray *)indexSpecs reIndexData:(BOOL)reIndexData</Declaration>
+			<Declaration>- (BOOL)alterSoup:(NSString *)soupName withIndexSpecs:(NSArray&lt;SFSoupIndex*&gt; *)indexSpecs reIndexData:(BOOL)reIndexData NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -853,16 +844,16 @@ NB: A single SQL call is executed to improve performance.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the soup was altered successfully.</Abstract></ReturnValue>
-			<Anchor>//api/name/alterSoup:withIndexSpecs:reIndexData:</Anchor>
+			<Anchor>//api/name/alterSoup:withIndexSpecs:reIndexData:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/alterSoup:withSoupSpec:withIndexSpecs:reIndexData:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/alterSoup:withSoupSpec:withIndexSpecs:reIndexData:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Alter soup indexes.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)alterSoup:(NSString *)soupName withSoupSpec:(SFSoupSpec *)soupSpec withIndexSpecs:(NSArray *)indexSpecs reIndexData:(BOOL)reIndexData</Declaration>
+			<Declaration>- (BOOL)alterSoup:(NSString *)soupName withSoupSpec:(SFSoupSpec *)soupSpec withIndexSpecs:(NSArray&lt;SFSoupIndex*&gt; *)indexSpecs reIndexData:(BOOL)reIndexData NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -879,16 +870,16 @@ NB: A single SQL call is executed to improve performance.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the soup was altered successfully.</Abstract></ReturnValue>
-			<Anchor>//api/name/alterSoup:withSoupSpec:withIndexSpecs:reIndexData:</Anchor>
+			<Anchor>//api/name/alterSoup:withSoupSpec:withIndexSpecs:reIndexData:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/reIndexSoup:withIndexPaths:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/reIndexSoup:withIndexPaths:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Reindex a soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)reIndexSoup:(NSString *)soupName withIndexPaths:(NSArray *)indexPaths</Declaration>
+			<Declaration>- (BOOL)reIndexSoup:(NSString *)soupName withIndexPaths:(NSArray&lt;NSString*&gt; *)indexPaths NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -899,7 +890,7 @@ NB: A single SQL call is executed to improve performance.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if soup reindexing succeeded.</Abstract></ReturnValue>
-			<Anchor>//api/name/reIndexSoup:withIndexPaths:</Anchor>
+			<Anchor>//api/name/reIndexSoup:withIndexPaths:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
@@ -958,7 +949,7 @@ Note that on the simulator currently, data protection is NEVER active.</Abstract
 			<Abstract type="html">Return all soup names.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)allSoupNames</Declaration>
+			<Declaration>- (NSArray&lt;NSString*&gt; *)allSoupNames</Declaration>
 			
 			<ReturnValue><Abstract type="html">Array containing all soup names.</Abstract></ReturnValue>
 			<Anchor>//api/name/allSoupNames</Anchor>
@@ -966,11 +957,11 @@ Note that on the simulator currently, data protection is NEVER active.</Abstract
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/dateFromLastModifiedValue:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/dateFromLastModifiedValue:NS_SWIFT_NAME:</TokenIdentifier>
 			<Abstract type="html">Creates a date object from the last modified date column value, which is numeric.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>+ (NSDate *)dateFromLastModifiedValue:(NSNumber *)lastModifiedValue</Declaration>
+			<Declaration>+ (NSDate *)dateFromLastModifiedValue:(NSNumber *)lastModifiedValue NS_SWIFT_NAME</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>lastModifiedValue</Name>
@@ -978,7 +969,7 @@ Note that on the simulator currently, data protection is NEVER active.</Abstract
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The NSDate representation of the last modified date.</Abstract></ReturnValue>
-			<Anchor>//api/name/dateFromLastModifiedValue:</Anchor>
+			<Anchor>//api/name/dateFromLastModifiedValue:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		

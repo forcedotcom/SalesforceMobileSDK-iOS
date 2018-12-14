@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPBKDF2PasscodeProvider.html">
+	<File path="Classes/SFRestAPI.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDF2PasscodeProvider</TokenIdentifier>
-			<Abstract type="html">Contains configuration values for generating an encryption key.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFRestAPI</TokenIdentifier>
+			<Abstract type="html">Main class used to issue REST requests to the standard Force.com REST API.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
             
 			
 			<NodeRef refid="50"/>
@@ -13,137 +13,1054 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setSaltLengthInBytes:</TokenIdentifier>
-			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
-kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setApiVersion:</TokenIdentifier>
+			<Abstract type="html">The REST API version used for all the calls.
+The default value is kSFRestDefaultAPIVersion (currently &quot;v42.0&quot;)</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *apiVersion</Declaration>
 			
 			
-			<Anchor>//api/name/saltLengthInBytes</Anchor>
+			<Anchor>//api/name/apiVersion</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/saltLengthInBytes</TokenIdentifier>
-			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
-kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/apiVersion</TokenIdentifier>
+			<Abstract type="html">The REST API version used for all the calls.
+The default value is kSFRestDefaultAPIVersion (currently &quot;v42.0&quot;)</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *apiVersion</Declaration>
 			
 			
-			<Anchor>//api/name/saltLengthInBytes</Anchor>
+			<Anchor>//api/name/apiVersion</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/saltLengthInBytes</TokenIdentifier>
-			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
-kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/apiVersion</TokenIdentifier>
+			<Abstract type="html">The REST API version used for all the calls.
+The default value is kSFRestDefaultAPIVersion (currently &quot;v42.0&quot;)</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *apiVersion</Declaration>
 			
 			
-			<Anchor>//api/name/saltLengthInBytes</Anchor>
+			<Anchor>//api/name/apiVersion</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setNumDerivationRounds:</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
-to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/set:</TokenIdentifier>
+			<Abstract type="html">The user associated with this instance of SFRestAPI.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) SFUserAccount *NS_SWIFT_NAME ( userAccount )</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/numDerivationRounds</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
-to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/)</TokenIdentifier>
+			<Abstract type="html">The user associated with this instance of SFRestAPI.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) SFUserAccount *NS_SWIFT_NAME ( userAccount )</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/numDerivationRounds</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
-to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/)</TokenIdentifier>
+			<Abstract type="html">The user associated with this instance of SFRestAPI.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) SFUserAccount *NS_SWIFT_NAME ( userAccount )</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setDerivedKeyLengthInBytes:</TokenIdentifier>
-			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
-value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/sharedInstanceWithUser:NS_SWIFT_NAME:</TokenIdentifier>
+			<Abstract type="html">Returns the singleton instance of SFRestAPI associated with the specified user.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
+			<Declaration>+ (nullable SFRestAPI *)sharedInstanceWithUser:(nonnull SFUserAccount *)userAccount NS_SWIFT_NAME</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
+			<Anchor>//api/name/sharedInstanceWithUser:NS_SWIFT_NAME:</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/derivedKeyLengthInBytes</TokenIdentifier>
-			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
-value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/setIsTestRun:</TokenIdentifier>
+			<Abstract type="html">* Specifies whether the current execution is a test run or not.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
+			<Declaration>+ (void)setIsTestRun:(BOOL)isTestRun</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>isTestRun</Name>
+					<Abstract type="html">YES if this is a test run</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
+			<Anchor>//api/name/setIsTestRun:</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/derivedKeyLengthInBytes</TokenIdentifier>
-			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
-value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/getIsTestRun</TokenIdentifier>
+			<Abstract type="html">Specifies whether the current execution is a test run or not.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
+			<Declaration>+ (BOOL)getIsTestRun</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
+			<Anchor>//api/name/getIsTestRun</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/cleanup</TokenIdentifier>
+			<Abstract type="html">Clean up due to host change or logout.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (void)cleanup</Declaration>
+			
+			
+			<Anchor>//api/name/cleanup</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/cancelAllRequests</TokenIdentifier>
+			<Abstract type="html">Cancel all requests that are waiting to be excecuted.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (void)cancelAllRequests</Declaration>
+			
+			
+			<Anchor>//api/name/cancelAllRequests</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/send:delegate:</TokenIdentifier>
+			<Abstract type="html">Sends a REST request to the Salesforce server and invokes the appropriate delegate method.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (void)send:(SFRestRequest *)request delegate:(nullable id&lt;SFRestDelegate&gt;)delegate</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">the SFRestRequest to be sent</Abstract>
+				</Parameter><Parameter>
+					<Name>delegate</Name>
+					<Abstract type="html">the delegate object used when the response from the server is returned.
+This overwrites the delegate property of the request.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/send:delegate:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForUserInfo</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which gets information aassociated with the current user.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForUserInfo</Declaration>
+			
+			
+			<Anchor>//api/name/requestForUserInfo</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForVersions</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which lists summary information about each
+Salesforce.com version currently available, including the version,
+label, and a link to each version&apos;s root.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForVersions</Declaration>
+			
+			
+			<Anchor>//api/name/requestForVersions</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForResources</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which lists available resources for the
+client&apos;s API version, including resource name and URI.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForResources</Declaration>
+			
+			
+			<Anchor>//api/name/requestForResources</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForDescribeGlobal</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which lists the available objects and their
+metadata for your organization&apos;s data.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForDescribeGlobal</Declaration>
+			
+			
+			<Anchor>//api/name/requestForDescribeGlobal</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForMetadataWithObjectType:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which describes the individual metadata for the
+specified object.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">object type; for example, &quot;Account&quot;</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForMetadataWithObjectType:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForDescribeWithObjectType:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which completely describes the individual metadata
+at all levels for the
+specified object.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">object type; for example, &quot;Account&quot;</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForDescribeWithObjectType:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForLayoutWithObjectType:layoutType:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which provides layout data for the specified object and layout type.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">Object type. For example, &quot;Account&quot;.</Abstract>
+				</Parameter><Parameter>
+					<Name>layoutType</Name>
+					<Abstract type="html">Layout type. Could be &quot;Full&quot; or &quot;Compact&quot;. Default is &quot;Full&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForLayoutWithObjectType:layoutType:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForRetrieveWithObjectType:objectId:fieldList:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which retrieves field values for a record of the given type.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fieldList:(nullable NSString *)fieldList</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">object type; for example, &quot;Account&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>objectId</Name>
+					<Abstract type="html">the record&apos;s object ID</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldList</Name>
+					<Abstract type="html">comma-separated list of fields for which
+to return values; for example, &quot;Name,Industry,TickerSymbol&quot;.
+Pass nil to retrieve all the fields.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForRetrieveWithObjectType:objectId:fieldList:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForCreateWithObjectType:fields:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which creates a new record of the given type.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType fields:(nullable NSDictionary&lt;NSString*,id&gt; *)fields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">object type; for example, &quot;Account&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">an NSDictionary containing initial field names and values for
+the record, for example, {Name: &quot;salesforce.com&quot;, TickerSymbol:
+&quot;CRM&quot;}</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForCreateWithObjectType:fields:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForUpsertWithObjectType:externalIdField:externalId:fields:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which creates or updates record of the given type, based on the
+given external ID.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType externalIdField:(NSString *)externalIdField externalId:(nullable NSString *)externalId fields:(NSDictionary&lt;NSString*,id&gt; *)fields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">object type; for example, &quot;Account&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>externalIdField</Name>
+					<Abstract type="html">external ID field name; for example, &quot;accountMaster__c&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>externalId</Name>
+					<Abstract type="html">the record&apos;s external ID value</Abstract>
+				</Parameter><Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">an NSDictionary containing field names and values for
+the record, for example, {Name: &quot;salesforce.com&quot;, TickerSymbol
+&quot;CRM&quot;}</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForUpsertWithObjectType:externalIdField:externalId:fields:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForUpdateWithObjectType:objectId:fields:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which updates field values on a record of the given type.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fields:(nullable NSDictionary&lt;NSString*,id&gt; *)fields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">object type; for example, &quot;Account&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>objectId</Name>
+					<Abstract type="html">the record&apos;s object ID</Abstract>
+				</Parameter><Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">an object containing initial field names and values for
+the record, for example, {Name: &quot;salesforce.com&quot;, TickerSymbol
+&quot;CRM&quot;}</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForUpdateWithObjectType:objectId:fields:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForUpdateWithObjectType:objectId:fields:ifUnmodifiedSinceDate:</TokenIdentifier>
+			<Abstract type="html">Same as requestForUpdateWithObjectType:objectId:fields but only executing update
+if the server record was not modified since ifModifiedSinceDate.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fields:(nullable NSDictionary&lt;NSString*,id&gt; *)fields ifUnmodifiedSinceDate:(nullable NSDate *)ifUnmodifiedSinceDate</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">object type; for example, &quot;Account&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>objectId</Name>
+					<Abstract type="html">the record&apos;s object ID</Abstract>
+				</Parameter><Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">an object containing initial field names and values for record</Abstract>
+				</Parameter><Parameter>
+					<Name>ifUnmodifiedSinceDate</Name>
+					<Abstract type="html">update will only happens if current last modified date of record is
+older than ifUnmodifiedSinceDate
+otherwise a 412 (precondition failed) will be returned</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForUpdateWithObjectType:objectId:fields:ifUnmodifiedSinceDate:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForDeleteWithObjectType:objectId:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which deletes a record of the given type.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType objectId:(NSString *)objectId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">object type; for example, &quot;Account&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>objectId</Name>
+					<Abstract type="html">the record&apos;s object ID</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForDeleteWithObjectType:objectId:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForQuery:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which executes the specified SOQL query.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForQuery:(NSString *)soql</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soql</Name>
+					<Abstract type="html">a string containing the query to execute - for example, &quot;SELECT Id,
+Name from Account ORDER BY Name LIMIT 20&quot;</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForQuery:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForQueryAll:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which executes the specified SOQL query.
+The result contains the deleted objects.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForQueryAll:(NSString *)soql</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soql</Name>
+					<Abstract type="html">a string containing the query to execute - for example, &quot;SELECT Id,
+Name from Account ORDER BY Name LIMIT 20&quot;</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForQueryAll:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForSearch:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which executes the specified SOSL search.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForSearch:(NSString *)sosl</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sosl</Name>
+					<Abstract type="html">a string containing the search to execute - for example, &quot;FIND {needle}&quot;</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForSearch:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForSearchScopeAndOrder</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which returns an ordered list of objects in the default global search scope of a logged-in user.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForSearchScopeAndOrder</Declaration>
+			
+			
+			<Anchor>//api/name/requestForSearchScopeAndOrder</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForSearchResultLayout:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest which returns search result layout information for the objects in the query string.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForSearchResultLayout:(NSString *)objectList</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectList</Name>
+					<Abstract type="html">comma-separated list of objects for which
+to return values; for example, &quot;Account,Contact&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForSearchResultLayout:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/batchRequest:haltOnError:</TokenIdentifier>
+			<Abstract type="html">Retursn an SFRestRequest which executes a batch of requests.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)batchRequest:(NSArray&lt;SFRestRequest*&gt; *)requests haltOnError:(BOOL)haltOnError</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>requests</Name>
+					<Abstract type="html">Array of subrequests to execute.</Abstract>
+				</Parameter><Parameter>
+					<Name>haltOnError</Name>
+					<Abstract type="html">Controls whether Salesforce should stop processing subrequests if a subrequest fails.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/batchRequest:haltOnError:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/compositeRequest:refIds:allOrNone:</TokenIdentifier>
+			<Abstract type="html">Retursn an SFRestRequest which executes a composite request.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)compositeRequest:(NSArray&lt;SFRestRequest*&gt; *)requests refIds:(NSArray&lt;NSString*&gt; *)refIds allOrNone:(BOOL)allOrNone</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>requests</Name>
+					<Abstract type="html">Array of subrequests to execute.</Abstract>
+				</Parameter><Parameter>
+					<Name>refIds</Name>
+					<Abstract type="html">Array of reference id for the requests (should have the same number of element than requests)</Abstract>
+				</Parameter><Parameter>
+					<Name>allOrNone</Name>
+					<Abstract type="html">Specifies what to do when an error occurs while processing a subrequest.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/compositeRequest:refIds:allOrNone:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForSObjectTree:objectTrees:</TokenIdentifier>
+			<Abstract type="html">Retursn an SFRestRequest which executes a sobject tree request.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray&lt;SFSObjectTree*&gt; *)objectTrees</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">object type; for example, &quot;Account&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>objectTrees</Name>
+					<Abstract type="html">Array of sobject trees</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForSObjectTree:objectTrees:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/isStatusCodeSuccess:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isStatusCodeSuccess:(NSUInteger)statusCode</Declaration>
+			
+			
+			<Anchor>//api/name/isStatusCodeSuccess:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/isStatusCodeNotFound:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isStatusCodeNotFound:(NSUInteger)statusCode</Declaration>
+			
+			
+			<Anchor>//api/name/isStatusCodeNotFound:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/userAgentString</TokenIdentifier>
+			<Abstract type="html">Provides the User-Agent string used by the SDK</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)userAgentString</Declaration>
+			
+			
+			<Anchor>//api/name/userAgentString</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/userAgentString:</TokenIdentifier>
+			<Abstract type="html">* Returns the User-Agent string used by the SDK, adding the qualifier after the app type.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)userAgentString:(NSString *)qualifier</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>qualifier</Name>
+					<Abstract type="html">Optional sub-type of native or hybrid Mobile SDK app.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/userAgentString:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/sanitizeSOSLSearchTerm:</TokenIdentifier>
+			<Abstract type="html">The search term to be sanitized.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)searchTerm</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>searchTerm</Name>
+					<Abstract type="html">The search term to be sanitized.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">SOSL-safe version of search term</Abstract></ReturnValue>
+			<Anchor>//api/name/sanitizeSOSLSearchTerm:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:objectScope:</TokenIdentifier>
+			<Abstract type="html">Generate a SOSL search.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>term</Name>
+					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
+				</Parameter><Parameter>
+					<Name>objectScope</Name>
+					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOSLSearchWithSearchTerm:objectScope:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOSL search.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term fieldScope:(nullable NSString *)fieldScope objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>term</Name>
+					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldScope</Name>
+					<Abstract type="html">- nil OR the SOSL scope, e.g. &quot;IN ALL FIELDS&quot;. if nil, defaults to &quot;IN NAME FIELDS&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>objectScope</Name>
+					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- overall search limit (max 200)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOQL query.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">- NSArray of fields to select</Abstract>
+				</Parameter><Parameter>
+					<Name>sObject</Name>
+					<Abstract type="html">- object to query</Abstract>
+				</Parameter><Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">- nil OR where clause</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:limit:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOQL query.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause groupBy:(nullable NSArray&lt;NSString*&gt; *)groupBy having:(nullable NSString *)having orderBy:(nullable NSArray&lt;NSString*&gt; *)orderBy limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">- NSArray of fields to select</Abstract>
+				</Parameter><Parameter>
+					<Name>sObject</Name>
+					<Abstract type="html">- object to query</Abstract>
+				</Parameter><Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">- nil OR where clause</Abstract>
+				</Parameter><Parameter>
+					<Name>groupBy</Name>
+					<Abstract type="html">- nil OR NSArray of strings, each string is an individual group by clause</Abstract>
+				</Parameter><Parameter>
+					<Name>having</Name>
+					<Abstract type="html">- nil OR having clause</Abstract>
+				</Parameter><Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">- nil OR NSArray of strings, each string is an individual order by clause</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForOwnedFilesList:page:</TokenIdentifier>
+			<Abstract type="html">Build a Request that can fetch a page from the files owned by the
+specified user.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForOwnedFilesList:(nullable NSString *)userId page:(NSUInteger)page</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">if nil the context user is used, otherwise it should be an Id of a user.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForOwnedFilesList:page:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFilesInUsersGroups:page:</TokenIdentifier>
+			<Abstract type="html">Build a Request that can fetch a page from the list of files from groups
+that the user is a member of.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFilesInUsersGroups:(nullable NSString *)userId page:(NSUInteger)page</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">if nil the context user is used, otherwise it should be an Id of a user.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFilesInUsersGroups:page:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFilesSharedWithUser:page:</TokenIdentifier>
+			<Abstract type="html">Build a Request that can fetch a page from the list of files that have
+been shared with the user.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFilesSharedWithUser:(nullable NSString *)userId page:(NSUInteger)page</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">if nil the context user is used, otherwise it should be an Id of a user.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFilesSharedWithUser:page:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileDetails:forVersion:</TokenIdentifier>
+			<Abstract type="html">Build a Request that can fetch the file details of a particular version
+of a file.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFileDetails:(NSString *)sfdcId forVersion:(nullable NSString *)version</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sfdcId</Name>
+					<Abstract type="html">The Id of the file</Abstract>
+				</Parameter><Parameter>
+					<Name>version</Name>
+					<Abstract type="html">if nil fetches the most recent version, otherwise fetches this specific version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFileDetails:forVersion:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForBatchFileDetails:</TokenIdentifier>
+			<Abstract type="html">Build a request that can fetch the latest file details of one or more
+files in a single request.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForBatchFileDetails:(NSArray&lt;NSString*&gt; *)sfdcIds</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sfdcIds</Name>
+					<Abstract type="html">The list of file Ids to fetch.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForBatchFileDetails:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileRendition:version:renditionType:page:</TokenIdentifier>
+			<Abstract type="html">Build a Request that can fetch the a preview/rendition of a particular
+page of the file (and version)</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFileRendition:(NSString *)sfdcId version:(nullable NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sfdcId</Name>
+					<Abstract type="html">The Id of the file</Abstract>
+				</Parameter><Parameter>
+					<Name>version</Name>
+					<Abstract type="html">if nil fetches the most recent version, otherwise fetches this specific version</Abstract>
+				</Parameter><Parameter>
+					<Name>renditionType</Name>
+					<Abstract type="html">What format of rendition do you want to get</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">which page to fetch, pages start at 0.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFileRendition:version:renditionType:page:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileContents:version:</TokenIdentifier>
+			<Abstract type="html">Builds a request that can fetch the actual binary file contents of this
+particular file.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFileContents:(NSString *)sfdcId version:(nullable NSString *)version</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sfdcId</Name>
+					<Abstract type="html">The Id of the file</Abstract>
+				</Parameter><Parameter>
+					<Name>version</Name>
+					<Abstract type="html">The version of the file</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFileContents:version:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileShares:page:</TokenIdentifier>
+			<Abstract type="html">Build a request that can fetch a page from the list of entities that this
+file is shared to.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sfdcId</Name>
+					<Abstract type="html">The Id of the file.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFileShares:page:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForAddFileShare:entityId:shareType:</TokenIdentifier>
+			<Abstract type="html">Build a request that will add a file share for the specified fileId to
+the specified entityId</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForAddFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString *)shareType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fileId</Name>
+					<Abstract type="html">the Id of the file being shared.</Abstract>
+				</Parameter><Parameter>
+					<Name>entityId</Name>
+					<Abstract type="html">the Id of the entity to share the file to (e.g. a user or a group)</Abstract>
+				</Parameter><Parameter>
+					<Name>shareType</Name>
+					<Abstract type="html">the type of share (V - View, C - Collaboration)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that be can used to create this share.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForAddFileShare:entityId:shareType:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForDeleteFileShare:</TokenIdentifier>
+			<Abstract type="html">Build a request that will delete the specified file share.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForDeleteFileShare:(NSString *)shareId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>shareId</Name>
+					<Abstract type="html">The Id of the file share record (aka ContentDocumentLink)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to delete this share</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForDeleteFileShare:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForUploadFile:name:description:mimeType:</TokenIdentifier>
+			<Abstract type="html">Build a request that can upload a new file to the server, this will
+create a new file at version 1.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Data to upload to the server.</Abstract>
+				</Parameter><Parameter>
+					<Name>name</Name>
+					<Abstract type="html">The name/title of this file.</Abstract>
+				</Parameter><Parameter>
+					<Name>description</Name>
+					<Abstract type="html">A description of the file.</Abstract>
+				</Parameter><Parameter>
+					<Name>mimeType</Name>
+					<Abstract type="html">The mime-type of the file, if known.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A SFRestRequest that can perform this upload.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForUploadFile:name:description:mimeType:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setActiveRequests:</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/activeRequests</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/activeRequests</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/removeActiveRequestObject:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)removeActiveRequestObject:(SFRestRequest *)request</Declaration>
+			
+			
+			<Anchor>//api/name/removeActiveRequestObject:</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/forceTimeoutRequest:</TokenIdentifier>
+			<Abstract type="html">Force a request to timeout: for testing only!</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)forceTimeoutRequest:(SFRestRequest *)req</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>req</Name>
+					<Abstract type="html">The request to force a timeout on, or nil to grab any active request and force it to timeout</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if we were able to find and timeout the request, NO if the request could not be found</Abstract></ReturnValue>
+			<Anchor>//api/name/forceTimeoutRequest:</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		

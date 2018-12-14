@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSoslReturningBuilder.html">
+	<File path="Classes/SFSDKUITableViewCell.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoslReturningBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUITableViewCell</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
             
 			
 			<NodeRef refid="110"/>
@@ -13,152 +13,218 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/setObjectName:</TokenIdentifier>
-			<Abstract type="html">Returns the object name for this builder</Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setUserName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/objectName</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/objectName</TokenIdentifier>
-			<Abstract type="html">Returns the object name for this builder</Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/userName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/objectName</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSoslReturningBuilder/objectName</TokenIdentifier>
-			<Abstract type="html">Returns the object name for this builder</Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/userName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/objectName</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoslReturningBuilder/withObjectName:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a returning statement.</Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setHostName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKSoslReturningBuilder *)withObjectName:(NSString *)name</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">the object to return.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withObjectName:</Anchor>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
+			
+			
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/fields:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a returning statement.</Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/hostName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslReturningBuilder *)fields:(NSString *)fields</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">a list of one or more fields to return for a given object, comma separated</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/fields:</Anchor>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
+			
+			
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/whereClause:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a returning statement.</Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/hostName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslReturningBuilder *)whereClause:(NSString *)whereClause</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>whereClause</Name>
-					<Abstract type="html">a description of how search results for the given object should be filtered, based on individual field values. If unspecified, the search retrieves all the rows in the object that are visible to the user</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/whereClause:</Anchor>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
+			
+			
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/withNetwork:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a returning statement.</Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setImageURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslReturningBuilder *)withNetwork:(NSString *)networkId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>networkId</Name>
-					<Abstract type="html">The network id to scope this returning statement with, if necessary</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withNetwork:</Anchor>
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
+			
+			
+			<Anchor>//api/name/imageURL</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/orderBy:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a returning statement.</Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/imageURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslReturningBuilder *)orderBy:(NSString *)orderBy</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>orderBy</Name>
-					<Abstract type="html">a description of how to order the returned result, including ascending and descending order, and how nulls are ordered</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/orderBy:</Anchor>
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
+			
+			
+			<Anchor>//api/name/imageURL</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/limit:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a returning statement.</Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/imageURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoslReturningBuilder *)limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">the maximum number of records returned for the given object. If unspecified, all matching records are returned, up to the limit set for the query as a whole</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/limit:</Anchor>
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
+			
+			
+			<Anchor>//api/name/imageURL</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoslReturningBuilder/build</TokenIdentifier>
-			<Abstract type="html">Builds a returning statement from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoslReturningBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setProfileImage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)build</Declaration>
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
 			
-			<ReturnValue><Abstract type="html">the built returning statement</Abstract></ReturnValue>
-			<Anchor>//api/name/build</Anchor>
+			
+			<Anchor>//api/name/profileImage</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/profileImage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
+			
+			
+			<Anchor>//api/name/profileImage</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/profileImage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
+			
+			
+			<Anchor>//api/name/profileImage</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setReuseCellIdentifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/reuseCellIdentifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/reuseCellIdentifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setCellHeight:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/cellHeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/cellHeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		

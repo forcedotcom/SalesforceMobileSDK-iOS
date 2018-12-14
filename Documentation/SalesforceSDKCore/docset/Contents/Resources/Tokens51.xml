@@ -1,184 +1,919 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPBKDFData.html">
+	<File path="Classes/SFRestRequest.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDFData</TokenIdentifier>
-			<Abstract type="html">Data class for PBKDF-generated keys.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFRestRequest</TokenIdentifier>
+			<Abstract type="html">Request object used to send a REST request to Salesforce.com</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFRestAPI</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<NodeRef refid="51"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKey:</TokenIdentifier>
-			<Abstract type="html">The PBKDF-derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setMethod:</TokenIdentifier>
+			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) SFRestMethod method</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKey</Anchor>
+			<Anchor>//api/name/method</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKey</TokenIdentifier>
-			<Abstract type="html">The PBKDF-derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/method</TokenIdentifier>
+			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) SFRestMethod method</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKey</Anchor>
+			<Anchor>//api/name/method</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKey</TokenIdentifier>
-			<Abstract type="html">The PBKDF-derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/method</TokenIdentifier>
+			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) SFRestMethod method</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKey</Anchor>
+			<Anchor>//api/name/method</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setSalt:</TokenIdentifier>
-			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setServiceHostType:</TokenIdentifier>
+			<Abstract type="html">The type of service host for the request (e.g. login or instance).</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType</Declaration>
 			
 			
-			<Anchor>//api/name/salt</Anchor>
+			<Anchor>//api/name/serviceHostType</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/salt</TokenIdentifier>
-			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/serviceHostType</TokenIdentifier>
+			<Abstract type="html">The type of service host for the request (e.g. login or instance).</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType</Declaration>
 			
 			
-			<Anchor>//api/name/salt</Anchor>
+			<Anchor>//api/name/serviceHostType</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/salt</TokenIdentifier>
-			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/serviceHostType</TokenIdentifier>
+			<Abstract type="html">The type of service host for the request (e.g. login or instance).</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			<Declaration>@property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType</Declaration>
 			
 			
-			<Anchor>//api/name/salt</Anchor>
+			<Anchor>//api/name/serviceHostType</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setNumDerivationRounds:</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setSessionDataTask:</TokenIdentifier>
+			<Abstract type="html">The NSURLSesssionDataTask instance associated with the request. This is set only
+once the request is queued and could be &apos;nil&apos; before that happens.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/sessionDataTask</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/numDerivationRounds</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/sessionDataTask</TokenIdentifier>
+			<Abstract type="html">The NSURLSesssionDataTask instance associated with the request. This is set only
+once the request is queued and could be &apos;nil&apos; before that happens.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/sessionDataTask</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/numDerivationRounds</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/sessionDataTask</TokenIdentifier>
+			<Abstract type="html">The NSURLSesssionDataTask instance associated with the request. This is set only
+once the request is queued and could be &apos;nil&apos; before that happens.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/sessionDataTask</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKeyLength:</TokenIdentifier>
-			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setBaseURL:</TokenIdentifier>
+			<Abstract type="html">The base URL of the request, to be prepended to the value of the path property.
+By default, this will be the API URL associated with the current user&apos;s account.
+One use would be when in a community setting and you want to send a request against the base API URL.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSString *baseURL</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLength</Anchor>
+			<Anchor>//api/name/baseURL</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKeyLength</TokenIdentifier>
-			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/baseURL</TokenIdentifier>
+			<Abstract type="html">The base URL of the request, to be prepended to the value of the path property.
+By default, this will be the API URL associated with the current user&apos;s account.
+One use would be when in a community setting and you want to send a request against the base API URL.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSString *baseURL</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLength</Anchor>
+			<Anchor>//api/name/baseURL</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKeyLength</TokenIdentifier>
-			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/baseURL</TokenIdentifier>
+			<Abstract type="html">The base URL of the request, to be prepended to the value of the path property.
+By default, this will be the API URL associated with the current user&apos;s account.
+One use would be when in a community setting and you want to send a request against the base API URL.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSString *baseURL</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLength</Anchor>
+			<Anchor>//api/name/baseURL</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/initWithKey:salt:derivationRounds:derivedKeyLength:</TokenIdentifier>
-			<Abstract type="html">Initializes the data object with its core components.</Abstract>
-			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setPath:</TokenIdentifier>
+			<Abstract type="html">The path of the request or the full URL to be used. If a full URL is passed in, the endpoint ceases to matter.
+For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0/query&quot;.
+Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithKey:(NSData *)key salt:(NSData *)salt derivationRounds:(NSUInteger)derivationRounds derivedKeyLength:(NSUInteger)derivedKeyLength</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/path</TokenIdentifier>
+			<Abstract type="html">The path of the request or the full URL to be used. If a full URL is passed in, the endpoint ceases to matter.
+For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0/query&quot;.
+Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/path</TokenIdentifier>
+			<Abstract type="html">The path of the request or the full URL to be used. If a full URL is passed in, the endpoint ceases to matter.
+For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0/query&quot;.
+Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setParseResponse:</TokenIdentifier>
+			<Abstract type="html">Used to specify if the response should be parsed. YES by default.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
+			
+			
+			<Anchor>//api/name/parseResponse</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/parseResponse</TokenIdentifier>
+			<Abstract type="html">Used to specify if the response should be parsed. YES by default.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
+			
+			
+			<Anchor>//api/name/parseResponse</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/parseResponse</TokenIdentifier>
+			<Abstract type="html">Used to specify if the response should be parsed. YES by default.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
+			
+			
+			<Anchor>//api/name/parseResponse</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setQueryParams:</TokenIdentifier>
+			<Abstract type="html">The query parameters of the request (could be nil).
+Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*id&gt; *queryParams</Declaration>
+			
+			
+			<Anchor>//api/name/queryParams</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/queryParams</TokenIdentifier>
+			<Abstract type="html">The query parameters of the request (could be nil).
+Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*id&gt; *queryParams</Declaration>
+			
+			
+			<Anchor>//api/name/queryParams</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/queryParams</TokenIdentifier>
+			<Abstract type="html">The query parameters of the request (could be nil).
+Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*id&gt; *queryParams</Declaration>
+			
+			
+			<Anchor>//api/name/queryParams</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomHeaders:</TokenIdentifier>
+			<Abstract type="html">Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
+setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
+			
+			
+			<Anchor>//api/name/customHeaders</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/customHeaders</TokenIdentifier>
+			<Abstract type="html">Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
+setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
+			
+			
+			<Anchor>//api/name/customHeaders</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/customHeaders</TokenIdentifier>
+			<Abstract type="html">Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
+setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
+			
+			
+			<Anchor>//api/name/customHeaders</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The delegate for this request. Notified of request status.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, weak) id&lt;SFRestDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate for this request. Notified of request status.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, weak) id&lt;SFRestDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate for this request. Notified of request status.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, weak) id&lt;SFRestDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setEndpoint:</TokenIdentifier>
+			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint</Declaration>
+			
+			
+			<Anchor>//api/name/endpoint</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/endpoint</TokenIdentifier>
+			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint</Declaration>
+			
+			
+			<Anchor>//api/name/endpoint</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/endpoint</TokenIdentifier>
+			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint</Declaration>
+			
+			
+			<Anchor>//api/name/endpoint</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequiresAuthentication:</TokenIdentifier>
+			<Abstract type="html">Whether or not this request requires authentication.  If YES, the credentials will be added to
+the request headers before sending the request.  If NO, they will not.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether or not this request requires authentication.  If YES, the credentials will be added to
+the request headers before sending the request.  If NO, they will not.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether or not this request requires authentication.  If YES, the credentials will be added to
+the request headers before sending the request.  If NO, they will not.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setShouldRefreshOn403:</TokenIdentifier>
+			<Abstract type="html">Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
+attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL shouldRefreshOn403</Declaration>
+			
+			
+			<Anchor>//api/name/shouldRefreshOn403</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/shouldRefreshOn403</TokenIdentifier>
+			<Abstract type="html">Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
+attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL shouldRefreshOn403</Declaration>
+			
+			
+			<Anchor>//api/name/shouldRefreshOn403</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/shouldRefreshOn403</TokenIdentifier>
+			<Abstract type="html">Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
+attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL shouldRefreshOn403</Declaration>
+			
+			
+			<Anchor>//api/name/shouldRefreshOn403</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/prepareRequestForSend:</TokenIdentifier>
+			<Abstract type="html">Prepares the request before sending it out.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSURLRequest *)prepareRequestForSend:(nonnull SFUserAccount *)user</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The derived key.</Abstract>
+					<Name>user</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">NSURLRequest instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/prepareRequestForSend:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setHeaderValue:forHeaderName:</TokenIdentifier>
+			<Abstract type="html">Sets the value for the specified HTTP header.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)setHeaderValue:(nullable NSString *)value forHeaderName:(NSString *)name</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>value</Name>
+					<Abstract type="html">The header value. If value is nil, this method will remove the HTTP header
+from the collection of headers.</Abstract>
 				</Parameter><Parameter>
-					<Name>salt</Name>
-					<Abstract type="html">The salt used with the input value to create the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>derivationRounds</Name>
-					<Abstract type="html">The number of derivation rounds used to generate the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>derivedKeyLength</Name>
-					<Abstract type="html">The length of the derived key, in bytes.</Abstract>
+					<Name>name</Name>
+					<Abstract type="html">The name of the HTTP header to set.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithKey:salt:derivationRounds:derivedKeyLength:</Anchor>
+			<Anchor>//api/name/setHeaderValue:forHeaderName:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/cancel</TokenIdentifier>
+			<Abstract type="html">Cancels this request if it is running.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)cancel</Declaration>
+			
+			
+			<Anchor>//api/name/cancel</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/addPostFileData:paramName:description:fileName:mimeType:</TokenIdentifier>
+			<Abstract type="html">Add file to upload.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName description:(nullable NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fileData</Name>
+					<Abstract type="html">Value of this POST parameter</Abstract>
+				</Parameter><Parameter>
+					<Name>paramName</Name>
+					<Abstract type="html">Name of the POST parameter</Abstract>
+				</Parameter><Parameter>
+					<Name>description</Name>
+					<Abstract type="html">Description of the file</Abstract>
+				</Parameter><Parameter>
+					<Name>fileName</Name>
+					<Abstract type="html">Name of the file</Abstract>
+				</Parameter><Parameter>
+					<Name>mimeType</Name>
+					<Abstract type="html">MIME type of the file</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/addPostFileData:paramName:description:fileName:mimeType:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyString:contentType:</TokenIdentifier>
+			<Abstract type="html">Sets a custom request body based on an NSString representation.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)setCustomRequestBodyString:(NSString *)bodyString contentType:(NSString *)contentType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>bodyString</Name>
+					<Abstract type="html">The NSString object representing the request body.</Abstract>
+				</Parameter><Parameter>
+					<Name>contentType</Name>
+					<Abstract type="html">The content type associated with this request.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setCustomRequestBodyString:contentType:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyDictionary:contentType:</TokenIdentifier>
+			<Abstract type="html">Sets a custom request body based on an NSDictionary representation.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)setCustomRequestBodyDictionary:(NSDictionary *)bodyDictionary contentType:(NSString *)contentType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>bodyDictionary</Name>
+					<Abstract type="html">The NSDictionary object representing the request body.</Abstract>
+				</Parameter><Parameter>
+					<Name>contentType</Name>
+					<Abstract type="html">The content type associated with this request.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setCustomRequestBodyDictionary:contentType:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyData:contentType:</TokenIdentifier>
+			<Abstract type="html">Sets a custom request body based on an NSData representation.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)setCustomRequestBodyData:(NSData *)bodyData contentType:(NSString *)contentType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>bodyData</Name>
+					<Abstract type="html">The NSData object representing the request body.</Abstract>
+				</Parameter><Parameter>
+					<Name>contentType</Name>
+					<Abstract type="html">The content type associated with this request.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setCustomRequestBodyData:contentType:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyStream:contentType:</TokenIdentifier>
+			<Abstract type="html">Sets a custom request body based on an NSInputStream representation.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>- (void)setCustomRequestBodyStream:(NSInputStream *( ^ ) ( void ))bodyStreamBlock contentType:(NSString *)contentType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>bodyStreamBlock</Name>
+					<Abstract type="html">The block that will return an NSInputStream object representing the request body.</Abstract>
+				</Parameter><Parameter>
+					<Name>contentType</Name>
+					<Abstract type="html">The content type associated with this request.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setCustomRequestBodyStream:contentType:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/isNetworkError:</TokenIdentifier>
+			<Abstract type="html">Indicates whether the error code of the given error specifies a network error.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isNetworkError:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error object to check</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the error code of the given error specifies a network error</Abstract></ReturnValue>
+			<Anchor>//api/name/isNetworkError:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/httpMethodFromSFRestMethod:</TokenIdentifier>
+			<Abstract type="html">Return HTTP method as string for SFRestMethod</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>restMethod</Name>
+					<Abstract type="html">The SFRestMethod</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the HTTP string for the given SFRestMethod</Abstract></ReturnValue>
+			<Anchor>//api/name/httpMethodFromSFRestMethod:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/sfRestMethodFromHTTPMethod:</TokenIdentifier>
+			<Abstract type="html">* Return SFRestMethod from string</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>+ (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)httpMethod</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>httpMethod</Name>
+					<Abstract type="html">An HTTP method; for example, &quot;get&quot; or &quot;post&quot;</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The SFRestMethod enumerator for the given HTTP method</Abstract></ReturnValue>
+			<Anchor>//api/name/sfRestMethodFromHTTPMethod:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/requestWithMethod:path:queryParams:</TokenIdentifier>
+			<Abstract type="html">Creates an SFRestRequest object. See SFRestMethod. If you need to set body on the request, use one of the &apos;setCustomRequestBody...&apos; methods to do so with the instance returned by this method.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)queryParams</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>method</Name>
+					<Abstract type="html">the HTTP method</Abstract>
+				</Parameter><Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the request path</Abstract>
+				</Parameter><Parameter>
+					<Name>queryParams</Name>
+					<Abstract type="html">the parameters of the request (could be nil)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestWithMethod:path:queryParams:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/requestWithMethod:serviceHostType:path:queryParams:</TokenIdentifier>
+			<Abstract type="html">Creates an SFRestRequest object. See SFRestMethod. If you need to set body on the request, use one of the &apos;setCustomRequestBody...&apos; methods to do so with the instance returned by this method.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)requestWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)queryParams</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>method</Name>
+					<Abstract type="html">the HTTP method</Abstract>
+				</Parameter><Parameter>
+					<Name>hostType</Name>
+					<Abstract type="html">the type of service host for the request.</Abstract>
+				</Parameter><Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the request path</Abstract>
+				</Parameter><Parameter>
+					<Name>queryParams</Name>
+					<Abstract type="html">the parameters of the request (could be nil)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestWithMethod:serviceHostType:path:queryParams:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/requestWithMethod:baseURL:path:queryParams:</TokenIdentifier>
+			<Abstract type="html">Creates an SFRestRequest object. See SFRestMethod. If you need to set body on the request, use one of the &apos;setCustomRequestBody...&apos; methods to do so with the instance returned by this method.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)queryParams</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>method</Name>
+					<Abstract type="html">the HTTP method</Abstract>
+				</Parameter><Parameter>
+					<Name>baseURL</Name>
+					<Abstract type="html">the request URL</Abstract>
+				</Parameter><Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the request path</Abstract>
+				</Parameter><Parameter>
+					<Name>queryParams</Name>
+					<Abstract type="html">the parameters of the request (could be nil)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestWithMethod:baseURL:path:queryParams:</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request</Declaration>
+			
+			
+			<Anchor>//api/name/request</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequestBodyStreamBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSInputStream *( ^ ) ( void ) requestBodyStreamBlock</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requestBodyStreamBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSInputStream *( ^ ) ( void ) requestBodyStreamBlock</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requestBodyStreamBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSInputStream *( ^ ) ( void ) requestBodyStreamBlock</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequestBodyAsDictionary:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyAsDictionary</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requestBodyAsDictionary</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyAsDictionary</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requestBodyAsDictionary</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/requestBodyAsDictionary</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequestContentType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *requestContentType</Declaration>
+			
+			
+			<Anchor>//api/name/requestContentType</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requestContentType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *requestContentType</Declaration>
+			
+			
+			<Anchor>//api/name/requestContentType</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requestContentType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, copy) NSString *requestContentType</Declaration>
+			
+			
+			<Anchor>//api/name/requestContentType</Anchor>
+            <NodeRef refid="51"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/restUrlForBaseUrl:serviceHostType:credentials:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull NSString *)restUrlForBaseUrl:(nullable NSString *)baseUrl serviceHostType:(SFSDKRestServiceHostType)hostType credentials:(nonnull SFOAuthCredentials *)credentials</Declaration>
+			
+			
+			<Anchor>//api/name/restUrlForBaseUrl:serviceHostType:credentials:</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		

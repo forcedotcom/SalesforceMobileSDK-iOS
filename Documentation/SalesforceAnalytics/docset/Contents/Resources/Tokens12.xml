@@ -1,65 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLogFileManager.html">
+	<File path="Constants/SFAErrorType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLogFileManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLogFileManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAErrorType</TokenIdentifier>
+			<Abstract type="html">Represents the type of error being logged.</Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
             
 			
 			<NodeRef refid="12"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogFileManager/setComponentName:</TokenIdentifier>
-			<Abstract type="html">Component name associated with this log file manager.</Abstract>
-			<DeclaredIn>SFSDKLogFileManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
-			
-			
-			<Anchor>//api/name/componentName</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/ErrorTypeInfo</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>ErrorTypeInfo</Declaration>
+            
+            <DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+            
             <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogFileManager/componentName</TokenIdentifier>
-			<Abstract type="html">Component name associated with this log file manager.</Abstract>
-			<DeclaredIn>SFSDKLogFileManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
-			
-			
-			<Anchor>//api/name/componentName</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/ErrorTypeWarn</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>ErrorTypeWarn</Declaration>
+            
+            <DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+            
             <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLogFileManager/componentName</TokenIdentifier>
-			<Abstract type="html">Component name associated with this log file manager.</Abstract>
-			<DeclaredIn>SFSDKLogFileManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSString *componentName</Declaration>
-			
-			
-			<Anchor>//api/name/componentName</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/ErrorTypeError</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>ErrorTypeError</Declaration>
+            
+            <DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+            
             <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLogFileManager/initWithComponent:</TokenIdentifier>
-			<Abstract type="html">Initializes a log file manager for the specified component.</Abstract>
-			<DeclaredIn>SFSDKLogFileManager.h</DeclaredIn>
-			
-			<Declaration>- (nonnull instancetype)initWithComponent:(nonnull NSString *)componentName</Declaration>
-			
-			
-			<Anchor>//api/name/initWithComponent:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
+        </Token>
         
         
 	</File>

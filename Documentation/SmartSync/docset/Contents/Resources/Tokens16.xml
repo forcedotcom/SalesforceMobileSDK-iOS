@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFParentChildrenSyncHelper.html">
+	<File path="Classes/SFRefreshSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncHelper</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFRefreshSyncDownTarget</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="16"/>
@@ -13,98 +13,122 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/registerAppFeature</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/setSoupName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (void)registerAppFeature</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
 			
 			
-			<Anchor>//api/name/registerAppFeature</Anchor>
+			<Anchor>//api/name/soupName</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/relationshipTypeFromString:</TokenIdentifier>
-			<Abstract type="html">Enum to/from string helper methods</Abstract>
-			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/soupName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (SFParentChildrenRelationshipType)relationshipTypeFromString:(NSString *)relationshipType</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
 			
 			
-			<Anchor>//api/name/relationshipTypeFromString:</Anchor>
+			<Anchor>//api/name/soupName</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/relationshipTypeToString:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRefreshSyncDownTarget/soupName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)relationshipTypeToString:(SFParentChildrenRelationshipType)relationshipType</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *soupName</Declaration>
 			
 			
-			<Anchor>//api/name/relationshipTypeToString:</Anchor>
+			<Anchor>//api/name/soupName</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/setObjectType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)getDirtyRecordIdsSql:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentFieldToSelect:(NSString *)parentFieldToSelect</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/getDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getNonDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:additionalPredicate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)getNonDirtyRecordIdsSql:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentFieldToSelect:(NSString *)parentFieldToSelect additionalPredicate:(NSString *)additionalPredicate</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/getNonDirtyRecordIdsSql:childrenInfo:parentFieldToSelect:additionalPredicate:</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/saveRecordTreesToLocalStore:target:parentInfo:childrenInfo:recordTrees:syncId:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRefreshSyncDownTarget/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees syncId:(NSNumber *)syncId</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/saveRecordTreesToLocalStore:target:parentInfo:childrenInfo:recordTrees:syncId:</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/getMutableChildrenFromLocalStore:parentInfo:childrenInfo:parent:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/setFieldlist:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (NSArray&lt;NSMutableDictionary*&gt; *)getMutableChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/getMutableChildrenFromLocalStore:parentInfo:childrenInfo:parent:</Anchor>
+			<Anchor>//api/name/fieldlist</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncHelper/deleteChildrenFromLocalStore:parentInfo:childrenInfo:parentIds:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRefreshSyncDownTarget/fieldlist</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (void)deleteChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentIds:(NSArray *)parentIds</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/deleteChildrenFromLocalStore:parentInfo:childrenInfo:parentIds:</Anchor>
+			<Anchor>//api/name/fieldlist</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRefreshSyncDownTarget/fieldlist</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			
+			
+			<Anchor>//api/name/fieldlist</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRefreshSyncDownTarget/newSyncTarget:objectType:fieldlist:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFRefreshSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>+ (SFRefreshSyncDownTarget *)newSyncTarget:(NSString *)soupName objectType:(NSString *)objectType fieldlist:(NSArray *)fieldlist</Declaration>
+			
+			
+			<Anchor>//api/name/newSyncTarget:objectType:fieldlist:</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		

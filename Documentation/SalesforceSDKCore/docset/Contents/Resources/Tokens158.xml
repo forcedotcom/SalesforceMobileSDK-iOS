@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIColor+SFColors.html">
+	<File path="Protocols/SFIdentityCoordinatorDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFColors)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFIdentityCoordinatorDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol for being a delegate to the SFIdentityCoordinator process.  Delegates may receive
+notifications about the success or failure of the identity request process.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
             
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<NodeRef refid="158"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBlueColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinatorRetrievedData:</TokenIdentifier>
+			<Abstract type="html">Called when the identity coordinator successfully receives identity data from the service.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>+ (UIColor *)salesforceBlueColor</Declaration>
+			<Declaration>- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">the SFIdentityCoordinator instance associated with the requested data.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/salesforceBlueColor</Anchor>
+			<Anchor>//api/name/identityCoordinatorRetrievedData:</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/colorFromHexValue:</TokenIdentifier>
-			<Abstract type="html">Construct a color given hex color, like &quot;#00FF00&quot; (#RRGGBB).</Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinator:didFailWithError:</TokenIdentifier>
+			<Abstract type="html">Called if there was an error while retrieving the identity data from the service.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>+ (nullable UIColor *)colorFromHexValue:(NSString *)hexString</Declaration>
+			<Declaration>- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFIdentityCoordinator instance associated with the request.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error that occurred during the request.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/colorFromHexValue:</Anchor>
-            <NodeRef refid="158"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/hexStringFromColor</TokenIdentifier>
-			<Abstract type="html">Returns a CSS hex color representation
-of this color</Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)hexStringFromColor</Declaration>
-			
-			
-			<Anchor>//api/name/hexStringFromColor</Anchor>
+			<Anchor>//api/name/identityCoordinator:didFailWithError:</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		

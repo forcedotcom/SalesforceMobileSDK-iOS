@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKEventStoreManager.html">
+	<File path="Classes/SFSDKInstrumentationEvent.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKEventStoreManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInstrumentationEvent</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
             
 			
 			<NodeRef refid="8"/>
@@ -13,346 +13,837 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setStoreDirectory:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setEventId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nonnull) NSString *eventId</Declaration>
 			
 			
-			<Anchor>//api/name/storeDirectory</Anchor>
+			<Anchor>//api/name/eventId</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/storeDirectory</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/eventId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nonnull) NSString *eventId</Declaration>
 			
 			
-			<Anchor>//api/name/storeDirectory</Anchor>
+			<Anchor>//api/name/eventId</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/storeDirectory</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/eventId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nonnull) NSString *eventId</Declaration>
 			
 			
-			<Anchor>//api/name/storeDirectory</Anchor>
+			<Anchor>//api/name/eventId</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setDataEncryptorBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setStartTime:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger startTime</Declaration>
 			
 			
-			<Anchor>//api/name/dataEncryptorBlock</Anchor>
+			<Anchor>//api/name/startTime</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/dataEncryptorBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/startTime</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger startTime</Declaration>
 			
 			
-			<Anchor>//api/name/dataEncryptorBlock</Anchor>
+			<Anchor>//api/name/startTime</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/dataEncryptorBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/startTime</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger startTime</Declaration>
 			
 			
-			<Anchor>//api/name/dataEncryptorBlock</Anchor>
+			<Anchor>//api/name/startTime</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setDataDecryptorBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setEndTime:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger endTime</Declaration>
 			
 			
-			<Anchor>//api/name/dataDecryptorBlock</Anchor>
+			<Anchor>//api/name/endTime</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/dataDecryptorBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/endTime</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger endTime</Declaration>
 			
 			
-			<Anchor>//api/name/dataDecryptorBlock</Anchor>
+			<Anchor>//api/name/endTime</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/dataDecryptorBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/endTime</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock</Declaration>
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger endTime</Declaration>
 			
 			
-			<Anchor>//api/name/dataDecryptorBlock</Anchor>
+			<Anchor>//api/name/endTime</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setNumStoredEvents:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger numStoredEvents</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nonnull) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/numStoredEvents</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/numStoredEvents</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/name</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger numStoredEvents</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nonnull) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/numStoredEvents</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/numStoredEvents</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/name</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readonly) NSInteger numStoredEvents</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nonnull) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/numStoredEvents</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setLoggingEnabled:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setAttributes:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *attributes</Declaration>
 			
 			
-			<Anchor>//api/name/loggingEnabled</Anchor>
+			<Anchor>//api/name/attributes</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/isLoggingEnabled</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/attributes</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *attributes</Declaration>
 			
 			
-			<Anchor>//api/name/loggingEnabled</Anchor>
+			<Anchor>//api/name/attributes</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/loggingEnabled</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/attributes</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite, getter=isLoggingEnabled) BOOL loggingEnabled</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *attributes</Declaration>
 			
 			
-			<Anchor>//api/name/loggingEnabled</Anchor>
+			<Anchor>//api/name/attributes</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/setMaxEvents:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setSessionId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite) NSInteger maxEvents</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSString *sessionId</Declaration>
 			
 			
-			<Anchor>//api/name/maxEvents</Anchor>
+			<Anchor>//api/name/sessionId</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/maxEvents</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/sessionId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite) NSInteger maxEvents</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSString *sessionId</Declaration>
 			
 			
-			<Anchor>//api/name/maxEvents</Anchor>
+			<Anchor>//api/name/sessionId</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKEventStoreManager/maxEvents</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/sessionId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite) NSInteger maxEvents</Declaration>
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSString *sessionId</Declaration>
 			
 			
-			<Anchor>//api/name/maxEvents</Anchor>
+			<Anchor>//api/name/sessionId</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/initWithStoreDirectory:dataEncryptorBlock:dataDecryptorBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setSequenceId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger sequenceId</Declaration>
+			
+			
+			<Anchor>//api/name/sequenceId</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/sequenceId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger sequenceId</Declaration>
+			
+			
+			<Anchor>//api/name/sequenceId</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/sequenceId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger sequenceId</Declaration>
+			
+			
+			<Anchor>//api/name/sequenceId</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setSenderId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSString *senderId</Declaration>
+			
+			
+			<Anchor>//api/name/senderId</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/senderId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSString *senderId</Declaration>
+			
+			
+			<Anchor>//api/name/senderId</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/senderId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSString *senderId</Declaration>
+			
+			
+			<Anchor>//api/name/senderId</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setSenderContext:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *senderContext</Declaration>
+			
+			
+			<Anchor>//api/name/senderContext</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/senderContext</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *senderContext</Declaration>
+			
+			
+			<Anchor>//api/name/senderContext</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/senderContext</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *senderContext</Declaration>
+			
+			
+			<Anchor>//api/name/senderContext</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setSchemaType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFASchemaType schemaType</Declaration>
+			
+			
+			<Anchor>//api/name/schemaType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/schemaType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFASchemaType schemaType</Declaration>
+			
+			
+			<Anchor>//api/name/schemaType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/schemaType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFASchemaType schemaType</Declaration>
+			
+			
+			<Anchor>//api/name/schemaType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setEventType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFAEventType eventType</Declaration>
+			
+			
+			<Anchor>//api/name/eventType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/eventType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFAEventType eventType</Declaration>
+			
+			
+			<Anchor>//api/name/eventType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/eventType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFAEventType eventType</Declaration>
+			
+			
+			<Anchor>//api/name/eventType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setErrorType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFAErrorType errorType</Declaration>
+			
+			
+			<Anchor>//api/name/errorType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/errorType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFAErrorType errorType</Declaration>
+			
+			
+			<Anchor>//api/name/errorType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/errorType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) SFAErrorType errorType</Declaration>
+			
+			
+			<Anchor>//api/name/errorType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setDeviceAppAttributes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSDKDeviceAppAttributes *deviceAppAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/deviceAppAttributes</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/deviceAppAttributes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSDKDeviceAppAttributes *deviceAppAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/deviceAppAttributes</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/deviceAppAttributes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSDKDeviceAppAttributes *deviceAppAttributes</Declaration>
+			
+			
+			<Anchor>//api/name/deviceAppAttributes</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setConnectionType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nonnull) NSString *connectionType</Declaration>
+			
+			
+			<Anchor>//api/name/connectionType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/connectionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nonnull) NSString *connectionType</Declaration>
+			
+			
+			<Anchor>//api/name/connectionType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/connectionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nonnull) NSString *connectionType</Declaration>
+			
+			
+			<Anchor>//api/name/connectionType</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setSenderParentId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSString *senderParentId</Declaration>
+			
+			
+			<Anchor>//api/name/senderParentId</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/senderParentId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSString *senderParentId</Declaration>
+			
+			
+			<Anchor>//api/name/senderParentId</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/senderParentId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSString *senderParentId</Declaration>
+			
+			
+			<Anchor>//api/name/senderParentId</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setSessionStartTime:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger sessionStartTime</Declaration>
+			
+			
+			<Anchor>//api/name/sessionStartTime</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/sessionStartTime</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger sessionStartTime</Declaration>
+			
+			
+			<Anchor>//api/name/sessionStartTime</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/sessionStartTime</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) NSInteger sessionStartTime</Declaration>
+			
+			
+			<Anchor>//api/name/sessionStartTime</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setPage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *page</Declaration>
+			
+			
+			<Anchor>//api/name/page</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/page</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *page</Declaration>
+			
+			
+			<Anchor>//api/name/page</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/page</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *page</Declaration>
+			
+			
+			<Anchor>//api/name/page</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setPreviousPage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *previousPage</Declaration>
+			
+			
+			<Anchor>//api/name/previousPage</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/previousPage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *previousPage</Declaration>
+			
+			
+			<Anchor>//api/name/previousPage</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/previousPage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *previousPage</Declaration>
+			
+			
+			<Anchor>//api/name/previousPage</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/setMarks:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *marks</Declaration>
+			
+			
+			<Anchor>//api/name/marks</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/marks</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *marks</Declaration>
+			
+			
+			<Anchor>//api/name/marks</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationEvent/marks</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly, nullable) NSDictionary *marks</Declaration>
+			
+			
+			<Anchor>//api/name/marks</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/initWithJson:</TokenIdentifier>
 			<Abstract type="html">Parameterized initializer.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>- (nonnull instancetype)initWithStoreDirectory:(nonnull NSString *)storeDirectory dataEncryptorBlock:(nullable DataEncryptorBlock)dataEncryptorBlock dataDecryptorBlock:(nullable DataDecryptorBlock)dataDecryptorBlock</Declaration>
+			<Declaration>- (nonnull instancetype)initWithJson:(nonnull NSData *)jsonRepresentation</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>storeDirectory</Name>
-					<Abstract type="html">Store directory.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataEncryptorBlock</Name>
-					<Abstract type="html">Block that performs encryption.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataDecryptorBlock</Name>
-					<Abstract type="html">Block that performs decryption.</Abstract>
+					<Name>jsonRepresentation</Name>
+					<Abstract type="html">JSON representation.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithStoreDirectory:dataEncryptorBlock:dataDecryptorBlock:</Anchor>
+			<Anchor>//api/name/initWithJson:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/storeEvent:</TokenIdentifier>
-			<Abstract type="html">Stores an event to the filesystem. A combination of event&apos;s unique ID and
-filename suffix is used to generate a unique filename per event.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/jsonRepresentation</TokenIdentifier>
+			<Abstract type="html">Returns a JSON representation of this event.</Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>- (void)storeEvent:(nullable SFSDKInstrumentationEvent *)event</Declaration>
+			<Declaration>- (nonnull NSData *)jsonRepresentation</Declaration>
+			
+			<ReturnValue><Abstract type="html">JSON representation.</Abstract></ReturnValue>
+			<Anchor>//api/name/jsonRepresentation</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/stringValueOfSchemaType:</TokenIdentifier>
+			<Abstract type="html">Returns a string representation of schema type.</Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
+			
+			<Declaration>- (nonnull NSString *)stringValueOfSchemaType:(SFASchemaType)schemaType</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>event</Name>
-					<Abstract type="html">Event to be persisted.</Abstract>
+					<Name>schemaType</Name>
+					<Abstract type="html">Schema type.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/storeEvent:</Anchor>
+			<ReturnValue><Abstract type="html">String representation of schema type.</Abstract></ReturnValue>
+			<Anchor>//api/name/stringValueOfSchemaType:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/storeEvents:</TokenIdentifier>
-			<Abstract type="html">Stores a list of events to the filesystem.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/stringValueOfEventType:</TokenIdentifier>
+			<Abstract type="html">Returns a string representation of event type.</Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>- (void)storeEvents:(nullable NSArray&lt;SFSDKInstrumentationEvent*&gt; *)events</Declaration>
+			<Declaration>- (nonnull NSString *)stringValueOfEventType:(SFAEventType)eventType</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>events</Name>
-					<Abstract type="html">List of events.</Abstract>
+					<Name>eventType</Name>
+					<Abstract type="html">Event type.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/storeEvents:</Anchor>
+			<ReturnValue><Abstract type="html">String representation of event type.</Abstract></ReturnValue>
+			<Anchor>//api/name/stringValueOfEventType:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/fetchEvent:</TokenIdentifier>
-			<Abstract type="html">Returns a specific event stored on the filesystem.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/stringValueOfErrorType:</TokenIdentifier>
+			<Abstract type="html">Returns a string representation of error type.</Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent.h</DeclaredIn>
 			
-			<Declaration>- (nullable SFSDKInstrumentationEvent *)fetchEvent:(nullable NSString *)eventId</Declaration>
+			<Declaration>- (nonnull NSString *)stringValueOfErrorType:(SFAErrorType)errorType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>errorType</Name>
+					<Abstract type="html">Error type.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">String representation of error type.</Abstract></ReturnValue>
+			<Anchor>//api/name/stringValueOfErrorType:</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/initWithEventId:startTime:endTime:name:attributes:sessionId:sequenceId:senderId:senderContext:schemaType:eventType:errorType:deviceAppAttributes:connectionType:senderParentId:sessionStartTime:page:previousPage:marks:</TokenIdentifier>
+			<Abstract type="html">Parameterized initializer.</Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent+Internal.h</DeclaredIn>
+			
+			<Declaration>- (nonnull instancetype)initWithEventId:(nonnull NSString *)eventId startTime:(NSInteger)startTime endTime:(NSInteger)endTime name:(nonnull NSString *)name attributes:(nullable NSDictionary *)attributes sessionId:(nullable NSString *)sessionId sequenceId:(NSInteger)sequenceId senderId:(nullable NSString *)senderId senderContext:(nullable NSDictionary *)senderContext schemaType:(SFASchemaType)schemaType eventType:(SFAEventType)eventType errorType:(SFAErrorType)errorType deviceAppAttributes:(nonnull SFSDKDeviceAppAttributes *)deviceAppAttributes connectionType:(nonnull NSString *)connectionType senderParentId:(nullable NSString *)senderParentId sessionStartTime:(NSInteger)sessionStartTime page:(nullable NSDictionary *)page previousPage:(nullable NSDictionary *)previousPage marks:(nullable NSDictionary *)marks</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>eventId</Name>
-					<Abstract type="html">Unique identifier for the event.</Abstract>
+					<Abstract type="html">Event ID.</Abstract>
+				</Parameter><Parameter>
+					<Name>startTime</Name>
+					<Abstract type="html">Start time.</Abstract>
+				</Parameter><Parameter>
+					<Name>endTime</Name>
+					<Abstract type="html">End time.</Abstract>
+				</Parameter><Parameter>
+					<Name>name</Name>
+					<Abstract type="html">Name.</Abstract>
+				</Parameter><Parameter>
+					<Name>attributes</Name>
+					<Abstract type="html">Attributes.</Abstract>
+				</Parameter><Parameter>
+					<Name>sessionId</Name>
+					<Abstract type="html">Session ID.</Abstract>
+				</Parameter><Parameter>
+					<Name>sequenceId</Name>
+					<Abstract type="html">Sequence ID.</Abstract>
+				</Parameter><Parameter>
+					<Name>senderId</Name>
+					<Abstract type="html">Sender ID.</Abstract>
+				</Parameter><Parameter>
+					<Name>senderContext</Name>
+					<Abstract type="html">Sender context.</Abstract>
+				</Parameter><Parameter>
+					<Name>schemaType</Name>
+					<Abstract type="html">Schema type.</Abstract>
+				</Parameter><Parameter>
+					<Name>eventType</Name>
+					<Abstract type="html">Event type.</Abstract>
+				</Parameter><Parameter>
+					<Name>errorType</Name>
+					<Abstract type="html">Error type.</Abstract>
+				</Parameter><Parameter>
+					<Name>deviceAppAttributes</Name>
+					<Abstract type="html">Device app attributes.</Abstract>
+				</Parameter><Parameter>
+					<Name>connectionType</Name>
+					<Abstract type="html">Connection type.</Abstract>
+				</Parameter><Parameter>
+					<Name>senderParentId</Name>
+					<Abstract type="html">Sender parent ID.</Abstract>
+				</Parameter><Parameter>
+					<Name>sessionStartTime</Name>
+					<Abstract type="html">Session start time.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">Page.</Abstract>
+				</Parameter><Parameter>
+					<Name>previousPage</Name>
+					<Abstract type="html">Previous page.</Abstract>
+				</Parameter><Parameter>
+					<Name>marks</Name>
+					<Abstract type="html">Marks.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Event.</Abstract></ReturnValue>
-			<Anchor>//api/name/fetchEvent:</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/fetchAllEvents</TokenIdentifier>
-			<Abstract type="html">Returns all the events stored on the filesystem for that unique identifier.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSArray&lt;SFSDKInstrumentationEvent*&gt; *)fetchAllEvents</Declaration>
-			
-			<ReturnValue><Abstract type="html">List of events.</Abstract></ReturnValue>
-			<Anchor>//api/name/fetchAllEvents</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/deleteEvent:</TokenIdentifier>
-			<Abstract type="html">Deletes a specific event stored on the filesystem.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)deleteEvent:(nullable NSString *)eventId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>eventId</Name>
-					<Abstract type="html">Unique identifier for the event.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">True - if successful, False - otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/deleteEvent:</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/deleteEvents:</TokenIdentifier>
-			<Abstract type="html">Deletes the events stored on the filesystem for that unique identifier.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)deleteEvents:(nullable NSArray&lt;NSString*&gt; *)eventIds</Declaration>
-			
-			
-			<Anchor>//api/name/deleteEvents:</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/deleteAllEvents</TokenIdentifier>
-			<Abstract type="html">Deletes all the events stored on the filesystem for that unique identifier.</Abstract>
-			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)deleteAllEvents</Declaration>
-			
-			
-			<Anchor>//api/name/deleteAllEvents</Anchor>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithEventId:startTime:endTime:name:attributes:sessionId:sequenceId:senderId:senderContext:schemaType:eventType:errorType:deviceAppAttributes:connectionType:senderParentId:sessionStartTime:page:previousPage:marks:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		

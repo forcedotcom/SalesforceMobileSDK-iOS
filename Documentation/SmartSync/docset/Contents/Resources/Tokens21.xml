@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRow.html">
+	<File path="Classes/SFSmartSyncNetworkUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRow</TokenIdentifier>
-			<Abstract type="html">Represents a record layout row.</Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncNetworkUtils</TokenIdentifier>
+			<Abstract type="html">Class to provide network utilities related to SmartSync actions.</Abstract>
+			<DeclaredIn>SFSmartSyncNetworkUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="21"/>
@@ -13,55 +13,25 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRow/setLayoutItems:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncNetworkUtils/sendRequestWithSmartSyncUserAgent:failBlock:completeBlock:</TokenIdentifier>
+			<Abstract type="html">Sends a REST request, applying the SmartSync user agent string.</Abstract>
+			<DeclaredIn>SFSmartSyncNetworkUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
-			
-			
-			<Anchor>//api/name/layoutItems</Anchor>
-            <NodeRef refid="21"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRow/layoutItems</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
-			
-			
-			<Anchor>//api/name/layoutItems</Anchor>
-            <NodeRef refid="21"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRow/layoutItems</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
-			
-			
-			<Anchor>//api/name/layoutItems</Anchor>
-            <NodeRef refid="21"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRow/fromJSON:</TokenIdentifier>
-			<Abstract type="html">Creates an instance of this class from its JSON representation.</Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data</Declaration>
+			<Declaration>+ (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">JSON data.</Abstract>
+					<Name>request</Name>
+					<Abstract type="html">The request to send.</Abstract>
+				</Parameter><Parameter>
+					<Name>failBlock</Name>
+					<Abstract type="html">The block to call if the request fails.</Abstract>
+				</Parameter><Parameter>
+					<Name>completeBlock</Name>
+					<Abstract type="html">The block to call if the request succeeds.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/fromJSON:</Anchor>
+			
+			<Anchor>//api/name/sendRequestWithSmartSyncUserAgent:failBlock:completeBlock:</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		

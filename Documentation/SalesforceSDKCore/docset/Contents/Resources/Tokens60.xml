@@ -1,919 +1,647 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRestRequest.html">
+	<File path="Classes/SFSDKAppLockViewConfig.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRestRequest</TokenIdentifier>
-			<Abstract type="html">Request object used to send a REST request to Salesforce.com</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAppLockViewConfig</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
             
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFRestAPI</TokenIdentifier>
-		
-	</RelatedTokens>
-	
 			<NodeRef refid="60"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setMethod:</TokenIdentifier>
-			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppLockViewConfig/createDefaultConfig</TokenIdentifier>
+			<Abstract type="html">factory method to create a default config instance</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite) SFRestMethod method</Declaration>
+			<Declaration>+ (instancetype)createDefaultConfig</Declaration>
 			
 			
-			<Anchor>//api/name/method</Anchor>
+			<Anchor>//api/name/createDefaultConfig</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/method</TokenIdentifier>
-			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setForcePasscodeLength:</TokenIdentifier>
+			<Abstract type="html">Warning - only set to YES/true if the app has always enforced a passcode of the exact length of
+the connected app setting (not longer).  This setting is used to force a cleaner UI,
+but users will be unable to unlock the app if their pin is longer than the specified
+length.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite) SFRestMethod method</Declaration>
+			<Declaration>@property (nonatomic) BOOL forcePasscodeLength</Declaration>
 			
 			
-			<Anchor>//api/name/method</Anchor>
+			<Anchor>//api/name/forcePasscodeLength</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/method</TokenIdentifier>
-			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/forcePasscodeLength</TokenIdentifier>
+			<Abstract type="html">Warning - only set to YES/true if the app has always enforced a passcode of the exact length of
+the connected app setting (not longer).  This setting is used to force a cleaner UI,
+but users will be unable to unlock the app if their pin is longer than the specified
+length.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite) SFRestMethod method</Declaration>
+			<Declaration>@property (nonatomic) BOOL forcePasscodeLength</Declaration>
 			
 			
-			<Anchor>//api/name/method</Anchor>
+			<Anchor>//api/name/forcePasscodeLength</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setServiceHostType:</TokenIdentifier>
-			<Abstract type="html">The type of service host for the request (e.g. login or instance).</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/forcePasscodeLength</TokenIdentifier>
+			<Abstract type="html">Warning - only set to YES/true if the app has always enforced a passcode of the exact length of
+the connected app setting (not longer).  This setting is used to force a cleaner UI,
+but users will be unable to unlock the app if their pin is longer than the specified
+length.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType</Declaration>
+			<Declaration>@property (nonatomic) BOOL forcePasscodeLength</Declaration>
 			
 			
-			<Anchor>//api/name/serviceHostType</Anchor>
+			<Anchor>//api/name/forcePasscodeLength</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/serviceHostType</TokenIdentifier>
-			<Abstract type="html">The type of service host for the request (e.g. login or instance).</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setMaxNumberOfAttempts:</TokenIdentifier>
+			<Abstract type="html">The number of allowed passcode entry attempts before the user is logged out.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType</Declaration>
+			<Declaration>@property (nonatomic) NSUInteger maxNumberOfAttempts</Declaration>
 			
 			
-			<Anchor>//api/name/serviceHostType</Anchor>
+			<Anchor>//api/name/maxNumberOfAttempts</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/serviceHostType</TokenIdentifier>
-			<Abstract type="html">The type of service host for the request (e.g. login or instance).</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/maxNumberOfAttempts</TokenIdentifier>
+			<Abstract type="html">The number of allowed passcode entry attempts before the user is logged out.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType</Declaration>
+			<Declaration>@property (nonatomic) NSUInteger maxNumberOfAttempts</Declaration>
 			
 			
-			<Anchor>//api/name/serviceHostType</Anchor>
+			<Anchor>//api/name/maxNumberOfAttempts</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setSessionDataTask:</TokenIdentifier>
-			<Abstract type="html">The NSURLSesssionDataTask instance associated with the request. This is set only
-once the request is queued and could be &apos;nil&apos; before that happens.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/maxNumberOfAttempts</TokenIdentifier>
+			<Abstract type="html">The number of allowed passcode entry attempts before the user is logged out.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask</Declaration>
+			<Declaration>@property (nonatomic) NSUInteger maxNumberOfAttempts</Declaration>
 			
 			
-			<Anchor>//api/name/sessionDataTask</Anchor>
+			<Anchor>//api/name/maxNumberOfAttempts</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/sessionDataTask</TokenIdentifier>
-			<Abstract type="html">The NSURLSesssionDataTask instance associated with the request. This is set only
-once the request is queued and could be &apos;nil&apos; before that happens.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setPrimaryColor:</TokenIdentifier>
+			<Abstract type="html">Primary color used for passcode input circles and forward buttons.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *primaryColor</Declaration>
 			
 			
-			<Anchor>//api/name/sessionDataTask</Anchor>
+			<Anchor>//api/name/primaryColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/sessionDataTask</TokenIdentifier>
-			<Abstract type="html">The NSURLSesssionDataTask instance associated with the request. This is set only
-once the request is queued and could be &apos;nil&apos; before that happens.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/primaryColor</TokenIdentifier>
+			<Abstract type="html">Primary color used for passcode input circles and forward buttons.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *primaryColor</Declaration>
 			
 			
-			<Anchor>//api/name/sessionDataTask</Anchor>
+			<Anchor>//api/name/primaryColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setBaseURL:</TokenIdentifier>
-			<Abstract type="html">The base URL of the request, to be prepended to the value of the path property.
-By default, this will be the API URL associated with the current user&apos;s account.
-One use would be when in a community setting and you want to send a request against the base API URL.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/primaryColor</TokenIdentifier>
+			<Abstract type="html">Primary color used for passcode input circles and forward buttons.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSString *baseURL</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *primaryColor</Declaration>
 			
 			
-			<Anchor>//api/name/baseURL</Anchor>
+			<Anchor>//api/name/primaryColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/baseURL</TokenIdentifier>
-			<Abstract type="html">The base URL of the request, to be prepended to the value of the path property.
-By default, this will be the API URL associated with the current user&apos;s account.
-One use would be when in a community setting and you want to send a request against the base API URL.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setSecondaryColor:</TokenIdentifier>
+			<Abstract type="html">Secondary color used for the background of the passcode and biometric enable fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSString *baseURL</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *secondaryColor</Declaration>
 			
 			
-			<Anchor>//api/name/baseURL</Anchor>
+			<Anchor>//api/name/secondaryColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/baseURL</TokenIdentifier>
-			<Abstract type="html">The base URL of the request, to be prepended to the value of the path property.
-By default, this will be the API URL associated with the current user&apos;s account.
-One use would be when in a community setting and you want to send a request against the base API URL.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/secondaryColor</TokenIdentifier>
+			<Abstract type="html">Secondary color used for the background of the passcode and biometric enable fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSString *baseURL</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *secondaryColor</Declaration>
 			
 			
-			<Anchor>//api/name/baseURL</Anchor>
+			<Anchor>//api/name/secondaryColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setPath:</TokenIdentifier>
-			<Abstract type="html">The path of the request.
-For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0/query&quot;.
-Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/secondaryColor</TokenIdentifier>
+			<Abstract type="html">Secondary color used for the background of the passcode and biometric enable fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *path</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *secondaryColor</Declaration>
 			
 			
-			<Anchor>//api/name/path</Anchor>
+			<Anchor>//api/name/secondaryColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/path</TokenIdentifier>
-			<Abstract type="html">The path of the request.
-For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0/query&quot;.
-Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setBackgroundColor:</TokenIdentifier>
+			<Abstract type="html">The background color of the screen.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *path</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *backgroundColor</Declaration>
 			
 			
-			<Anchor>//api/name/path</Anchor>
+			<Anchor>//api/name/backgroundColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/path</TokenIdentifier>
-			<Abstract type="html">The path of the request.
-For instance, &quot;&quot; (empty string), &quot;v22.0/recent&quot;, &quot;v22.0/query&quot;.
-Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance, passing &quot;v22.0/recent&quot; is the same as passing &quot;/v22.0/recent&quot;.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/backgroundColor</TokenIdentifier>
+			<Abstract type="html">The background color of the screen.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *path</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *backgroundColor</Declaration>
 			
 			
-			<Anchor>//api/name/path</Anchor>
+			<Anchor>//api/name/backgroundColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setParseResponse:</TokenIdentifier>
-			<Abstract type="html">Used to specify if the response should be parsed. YES by default.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/backgroundColor</TokenIdentifier>
+			<Abstract type="html">The background color of the screen.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *backgroundColor</Declaration>
 			
 			
-			<Anchor>//api/name/parseResponse</Anchor>
+			<Anchor>//api/name/backgroundColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/parseResponse</TokenIdentifier>
-			<Abstract type="html">Used to specify if the response should be parsed. YES by default.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setBorderColor:</TokenIdentifier>
+			<Abstract type="html">Border color for the passcode and biometric enable fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *borderColor</Declaration>
 			
 			
-			<Anchor>//api/name/parseResponse</Anchor>
+			<Anchor>//api/name/borderColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/parseResponse</TokenIdentifier>
-			<Abstract type="html">Used to specify if the response should be parsed. YES by default.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/borderColor</TokenIdentifier>
+			<Abstract type="html">Border color for the passcode and biometric enable fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL parseResponse</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *borderColor</Declaration>
 			
 			
-			<Anchor>//api/name/parseResponse</Anchor>
+			<Anchor>//api/name/borderColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setQueryParams:</TokenIdentifier>
-			<Abstract type="html">The query parameters of the request (could be nil).
-Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/borderColor</TokenIdentifier>
+			<Abstract type="html">Border color for the passcode and biometric enable fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*id&gt; *queryParams</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *borderColor</Declaration>
 			
 			
-			<Anchor>//api/name/queryParams</Anchor>
+			<Anchor>//api/name/borderColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/queryParams</TokenIdentifier>
-			<Abstract type="html">The query parameters of the request (could be nil).
-Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setInstructionTextColor:</TokenIdentifier>
+			<Abstract type="html">Color of the instruction text for passcode and biometric fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*id&gt; *queryParams</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *instructionTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/queryParams</Anchor>
+			<Anchor>//api/name/instructionTextColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/queryParams</TokenIdentifier>
-			<Abstract type="html">The query parameters of the request (could be nil).
-Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/instructionTextColor</TokenIdentifier>
+			<Abstract type="html">Color of the instruction text for passcode and biometric fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*id&gt; *queryParams</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *instructionTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/queryParams</Anchor>
+			<Anchor>//api/name/instructionTextColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomHeaders:</TokenIdentifier>
-			<Abstract type="html">Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
-setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/instructionTextColor</TokenIdentifier>
+			<Abstract type="html">Color of the instruction text for passcode and biometric fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *instructionTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/customHeaders</Anchor>
+			<Anchor>//api/name/instructionTextColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/customHeaders</TokenIdentifier>
-			<Abstract type="html">Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
-setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setTitleTextColor:</TokenIdentifier>
+			<Abstract type="html">Color of the title text for passcode and biometric fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *titleTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/customHeaders</Anchor>
+			<Anchor>//api/name/titleTextColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/customHeaders</TokenIdentifier>
-			<Abstract type="html">Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
-setHeaderValue:forHeaderName: to add headers to this property.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/titleTextColor</TokenIdentifier>
+			<Abstract type="html">Color of the title text for passcode and biometric fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*NSString*&gt; *customHeaders</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *titleTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/customHeaders</Anchor>
+			<Anchor>//api/name/titleTextColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setDelegate:</TokenIdentifier>
-			<Abstract type="html">The delegate for this request. Notified of request status.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/titleTextColor</TokenIdentifier>
+			<Abstract type="html">Color of the title text for passcode and biometric fields.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, weak) id&lt;SFRestDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *titleTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/titleTextColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate for this request. Notified of request status.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setNavBarColor:</TokenIdentifier>
+			<Abstract type="html">Color of the navigation bar.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, weak) id&lt;SFRestDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate for this request. Notified of request status.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/navBarColor</TokenIdentifier>
+			<Abstract type="html">Color of the navigation bar.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, weak) id&lt;SFRestDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setEndpoint:</TokenIdentifier>
-			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/navBarColor</TokenIdentifier>
+			<Abstract type="html">Color of the navigation bar.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/endpoint</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/endpoint</TokenIdentifier>
-			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setNavBarTextColor:</TokenIdentifier>
+			<Abstract type="html">Color of the text displayed in the navigation bar.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/endpoint</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/endpoint</TokenIdentifier>
-			<Abstract type="html">Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/navBarTextColor</TokenIdentifier>
+			<Abstract type="html">Color of the text displayed in the navigation bar.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/endpoint</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequiresAuthentication:</TokenIdentifier>
-			<Abstract type="html">Whether or not this request requires authentication.  If YES, the credentials will be added to
-the request headers before sending the request.  If NO, they will not.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/navBarTextColor</TokenIdentifier>
+			<Abstract type="html">Color of the text displayed in the navigation bar.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requiresAuthentication</TokenIdentifier>
-			<Abstract type="html">Whether or not this request requires authentication.  If YES, the credentials will be added to
-the request headers before sending the request.  If NO, they will not.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setInstructionFont:</TokenIdentifier>
+			<Abstract type="html">Font used for displaying instructions.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *instructionFont</Declaration>
 			
 			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
+			<Anchor>//api/name/instructionFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requiresAuthentication</TokenIdentifier>
-			<Abstract type="html">Whether or not this request requires authentication.  If YES, the credentials will be added to
-the request headers before sending the request.  If NO, they will not.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/instructionFont</TokenIdentifier>
+			<Abstract type="html">Font used for displaying instructions.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *instructionFont</Declaration>
 			
 			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
+			<Anchor>//api/name/instructionFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setShouldRefreshOn403:</TokenIdentifier>
-			<Abstract type="html">Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
-attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/instructionFont</TokenIdentifier>
+			<Abstract type="html">Font used for displaying instructions.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL shouldRefreshOn403</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *instructionFont</Declaration>
 			
 			
-			<Anchor>//api/name/shouldRefreshOn403</Anchor>
+			<Anchor>//api/name/instructionFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/shouldRefreshOn403</TokenIdentifier>
-			<Abstract type="html">Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
-attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setTitleFont:</TokenIdentifier>
+			<Abstract type="html">Font used for displaying titles.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL shouldRefreshOn403</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *titleFont</Declaration>
 			
 			
-			<Anchor>//api/name/shouldRefreshOn403</Anchor>
+			<Anchor>//api/name/titleFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/shouldRefreshOn403</TokenIdentifier>
-			<Abstract type="html">Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
-attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/titleFont</TokenIdentifier>
+			<Abstract type="html">Font used for displaying titles.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL shouldRefreshOn403</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *titleFont</Declaration>
 			
 			
-			<Anchor>//api/name/shouldRefreshOn403</Anchor>
+			<Anchor>//api/name/titleFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/prepareRequestForSend:</TokenIdentifier>
-			<Abstract type="html">Prepares the request before sending it out.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/titleFont</TokenIdentifier>
+			<Abstract type="html">Font used for displaying titles.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSURLRequest *)prepareRequestForSend:(nonnull SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">User account.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">NSURLRequest instance.</Abstract></ReturnValue>
-			<Anchor>//api/name/prepareRequestForSend:</Anchor>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *titleFont</Declaration>
+			
+			
+			<Anchor>//api/name/titleFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setHeaderValue:forHeaderName:</TokenIdentifier>
-			<Abstract type="html">Sets the value for the specified HTTP header.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setNavBarFont:</TokenIdentifier>
+			<Abstract type="html">Font used for displaying nav bar titles.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>- (void)setHeaderValue:(nullable NSString *)value forHeaderName:(NSString *)name</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The header value. If value is nil, this method will remove the HTTP header
-from the collection of headers.</Abstract>
-				</Parameter><Parameter>
-					<Name>name</Name>
-					<Abstract type="html">The name of the HTTP header to set.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
-			<Anchor>//api/name/setHeaderValue:forHeaderName:</Anchor>
+			
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/cancel</TokenIdentifier>
-			<Abstract type="html">Cancels this request if it is running.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/navBarFont</TokenIdentifier>
+			<Abstract type="html">Font used for displaying nav bar titles.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>- (void)cancel</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
 			
-			<Anchor>//api/name/cancel</Anchor>
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/addPostFileData:paramName:description:fileName:mimeType:</TokenIdentifier>
-			<Abstract type="html">Add file to upload.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/navBarFont</TokenIdentifier>
+			<Abstract type="html">Font used for displaying nav bar titles.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName description:(nullable NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fileData</Name>
-					<Abstract type="html">Value of this POST parameter</Abstract>
-				</Parameter><Parameter>
-					<Name>paramName</Name>
-					<Abstract type="html">Name of the POST parameter</Abstract>
-				</Parameter><Parameter>
-					<Name>description</Name>
-					<Abstract type="html">Description of the file</Abstract>
-				</Parameter><Parameter>
-					<Name>fileName</Name>
-					<Abstract type="html">Name of the file</Abstract>
-				</Parameter><Parameter>
-					<Name>mimeType</Name>
-					<Abstract type="html">MIME type of the file</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
-			<Anchor>//api/name/addPostFileData:paramName:description:fileName:mimeType:</Anchor>
+			
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyString:contentType:</TokenIdentifier>
-			<Abstract type="html">Sets a custom request body based on an NSString representation.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setButtonFont:</TokenIdentifier>
+			<Abstract type="html">Font used for displaying buttons.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>- (void)setCustomRequestBodyString:(NSString *)bodyString contentType:(NSString *)contentType</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>bodyString</Name>
-					<Abstract type="html">The NSString object representing the request body.</Abstract>
-				</Parameter><Parameter>
-					<Name>contentType</Name>
-					<Abstract type="html">The content type associated with this request.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *buttonFont</Declaration>
 			
-			<Anchor>//api/name/setCustomRequestBodyString:contentType:</Anchor>
+			
+			<Anchor>//api/name/buttonFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyDictionary:contentType:</TokenIdentifier>
-			<Abstract type="html">Sets a custom request body based on an NSDictionary representation.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/buttonFont</TokenIdentifier>
+			<Abstract type="html">Font used for displaying buttons.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>- (void)setCustomRequestBodyDictionary:(NSDictionary *)bodyDictionary contentType:(NSString *)contentType</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>bodyDictionary</Name>
-					<Abstract type="html">The NSDictionary object representing the request body.</Abstract>
-				</Parameter><Parameter>
-					<Name>contentType</Name>
-					<Abstract type="html">The content type associated with this request.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *buttonFont</Declaration>
 			
-			<Anchor>//api/name/setCustomRequestBodyDictionary:contentType:</Anchor>
+			
+			<Anchor>//api/name/buttonFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyData:contentType:</TokenIdentifier>
-			<Abstract type="html">Sets a custom request body based on an NSData representation.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/buttonFont</TokenIdentifier>
+			<Abstract type="html">Font used for displaying buttons.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>- (void)setCustomRequestBodyData:(NSData *)bodyData contentType:(NSString *)contentType</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>bodyData</Name>
-					<Abstract type="html">The NSData object representing the request body.</Abstract>
-				</Parameter><Parameter>
-					<Name>contentType</Name>
-					<Abstract type="html">The content type associated with this request.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *buttonFont</Declaration>
 			
-			<Anchor>//api/name/setCustomRequestBodyData:contentType:</Anchor>
+			
+			<Anchor>//api/name/buttonFont</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setCustomRequestBodyStream:contentType:</TokenIdentifier>
-			<Abstract type="html">Sets a custom request body based on an NSInputStream representation.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setTouchIdImage:</TokenIdentifier>
+			<Abstract type="html">Image used when enabling Touch Id.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>- (void)setCustomRequestBodyStream:(NSInputStream *( ^ ) ( void ))bodyStreamBlock contentType:(NSString *)contentType</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>bodyStreamBlock</Name>
-					<Abstract type="html">The block that will return an NSInputStream object representing the request body.</Abstract>
-				</Parameter><Parameter>
-					<Name>contentType</Name>
-					<Abstract type="html">The content type associated with this request.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, nullable) UIImage *touchIdImage</Declaration>
 			
-			<Anchor>//api/name/setCustomRequestBodyStream:contentType:</Anchor>
+			
+			<Anchor>//api/name/touchIdImage</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/isNetworkError:</TokenIdentifier>
-			<Abstract type="html">Indicates whether the error code of the given error specifies a network error.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/touchIdImage</TokenIdentifier>
+			<Abstract type="html">Image used when enabling Touch Id.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)isNetworkError:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error object to check</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the error code of the given error specifies a network error</Abstract></ReturnValue>
-			<Anchor>//api/name/isNetworkError:</Anchor>
+			<Declaration>@property (nonatomic, strong, nullable) UIImage *touchIdImage</Declaration>
+			
+			
+			<Anchor>//api/name/touchIdImage</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/httpMethodFromSFRestMethod:</TokenIdentifier>
-			<Abstract type="html">Return HTTP method as string for SFRestMethod</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/touchIdImage</TokenIdentifier>
+			<Abstract type="html">Image used when enabling Touch Id.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>restMethod</Name>
-					<Abstract type="html">The SFRestMethod</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the HTTP string for the given SFRestMethod</Abstract></ReturnValue>
-			<Anchor>//api/name/httpMethodFromSFRestMethod:</Anchor>
+			<Declaration>@property (nonatomic, strong, nullable) UIImage *touchIdImage</Declaration>
+			
+			
+			<Anchor>//api/name/touchIdImage</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/sfRestMethodFromHTTPMethod:</TokenIdentifier>
-			<Abstract type="html">* Return SFRestMethod from string</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setFaceIdImage:</TokenIdentifier>
+			<Abstract type="html">Image used when enabling Face Id.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>+ (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)httpMethod</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>httpMethod</Name>
-					<Abstract type="html">An HTTP method; for example, &quot;get&quot; or &quot;post&quot;</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The SFRestMethod enumerator for the given HTTP method</Abstract></ReturnValue>
-			<Anchor>//api/name/sfRestMethodFromHTTPMethod:</Anchor>
+			<Declaration>@property (nonatomic, strong, nullable) UIImage *faceIdImage</Declaration>
+			
+			
+			<Anchor>//api/name/faceIdImage</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/requestWithMethod:path:queryParams:</TokenIdentifier>
-			<Abstract type="html">Creates an SFRestRequest object. See SFRestMethod. If you need to set body on the request, use one of the &apos;setCustomRequestBody...&apos; methods to do so with the instance returned by this method.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/faceIdImage</TokenIdentifier>
+			<Abstract type="html">Image used when enabling Face Id.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)queryParams</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>method</Name>
-					<Abstract type="html">the HTTP method</Abstract>
-				</Parameter><Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the request path</Abstract>
-				</Parameter><Parameter>
-					<Name>queryParams</Name>
-					<Abstract type="html">the parameters of the request (could be nil)</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, nullable) UIImage *faceIdImage</Declaration>
 			
-			<Anchor>//api/name/requestWithMethod:path:queryParams:</Anchor>
+			
+			<Anchor>//api/name/faceIdImage</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/requestWithMethod:serviceHostType:path:queryParams:</TokenIdentifier>
-			<Abstract type="html">Creates an SFRestRequest object. See SFRestMethod. If you need to set body on the request, use one of the &apos;setCustomRequestBody...&apos; methods to do so with the instance returned by this method.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/faceIdImage</TokenIdentifier>
+			<Abstract type="html">Image used when enabling Face Id.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)requestWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)queryParams</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>method</Name>
-					<Abstract type="html">the HTTP method</Abstract>
-				</Parameter><Parameter>
-					<Name>hostType</Name>
-					<Abstract type="html">the type of service host for the request.</Abstract>
-				</Parameter><Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the request path</Abstract>
-				</Parameter><Parameter>
-					<Name>queryParams</Name>
-					<Abstract type="html">the parameters of the request (could be nil)</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, nullable) UIImage *faceIdImage</Declaration>
 			
-			<Anchor>//api/name/requestWithMethod:serviceHostType:path:queryParams:</Anchor>
+			
+			<Anchor>//api/name/faceIdImage</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/requestWithMethod:baseURL:path:queryParams:</TokenIdentifier>
-			<Abstract type="html">Creates an SFRestRequest object. See SFRestMethod. If you need to set body on the request, use one of the &apos;setCustomRequestBody...&apos; methods to do so with the instance returned by this method.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setPasscodeLength:</TokenIdentifier>
+			<Abstract type="html">Length of the user&apos;s passcode.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)queryParams</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>method</Name>
-					<Abstract type="html">the HTTP method</Abstract>
-				</Parameter><Parameter>
-					<Name>baseURL</Name>
-					<Abstract type="html">the request URL</Abstract>
-				</Parameter><Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the request path</Abstract>
-				</Parameter><Parameter>
-					<Name>queryParams</Name>
-					<Abstract type="html">the parameters of the request (could be nil)</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
 			
-			<Anchor>//api/name/requestWithMethod:baseURL:path:queryParams:</Anchor>
+			
+			<Anchor>//api/name/passcodeLength</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequest:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/passcodeLength</TokenIdentifier>
+			<Abstract type="html">Length of the user&apos;s passcode.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request</Declaration>
+			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
 			
 			
-			<Anchor>//api/name/request</Anchor>
+			<Anchor>//api/name/passcodeLength</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/request</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/passcodeLength</TokenIdentifier>
+			<Abstract type="html">Length of the user&apos;s passcode.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request</Declaration>
-			
-			
-			<Anchor>//api/name/request</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/request</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request</Declaration>
+			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
 			
 			
-			<Anchor>//api/name/request</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequestBodyStreamBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, copy) NSInputStream *( ^ ) ( void ) requestBodyStreamBlock</Declaration>
-			
-			
-			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requestBodyStreamBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, copy) NSInputStream *( ^ ) ( void ) requestBodyStreamBlock</Declaration>
-			
-			
-			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requestBodyStreamBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, copy) NSInputStream *( ^ ) ( void ) requestBodyStreamBlock</Declaration>
-			
-			
-			<Anchor>//api/name/requestBodyStreamBlock</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequestBodyAsDictionary:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary</Declaration>
-			
-			
-			<Anchor>//api/name/requestBodyAsDictionary</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requestBodyAsDictionary</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary</Declaration>
-			
-			
-			<Anchor>//api/name/requestBodyAsDictionary</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requestBodyAsDictionary</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary</Declaration>
-			
-			
-			<Anchor>//api/name/requestBodyAsDictionary</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequestContentType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, copy) NSString *requestContentType</Declaration>
-			
-			
-			<Anchor>//api/name/requestContentType</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/requestContentType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, copy) NSString *requestContentType</Declaration>
-			
-			
-			<Anchor>//api/name/requestContentType</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/requestContentType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, copy) NSString *requestContentType</Declaration>
-			
-			
-			<Anchor>//api/name/requestContentType</Anchor>
-            <NodeRef refid="60"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/restUrlForBaseUrl:serviceHostType:credentials:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull NSString *)restUrlForBaseUrl:(nullable NSString *)baseUrl serviceHostType:(SFSDKRestServiceHostType)hostType credentials:(nonnull SFOAuthCredentials *)credentials</Declaration>
-			
-			
-			<Anchor>//api/name/restUrlForBaseUrl:serviceHostType:credentials:</Anchor>
+			<Anchor>//api/name/passcodeLength</Anchor>
             <NodeRef refid="60"/>
 		</Token>
 		

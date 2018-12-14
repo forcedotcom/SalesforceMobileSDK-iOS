@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthSessionRefreshErrorCode.html">
+	<File path="Constants/SFSDKAppConfigErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthSessionRefreshErrorCode</TokenIdentifier>
-			<Abstract type="html">Error codes for refresh failures.</Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="207"/>
@@ -14,11 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthSessionRefreshErrorCodeInvalidCredentials</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthSessionRefreshErrorCodeInvalidCredentials</Declaration>
+            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
             
-            <DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            
+            <NodeRef refid="207"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
+            
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            
+            <NodeRef refid="207"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
+            
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="207"/>
         </Token>

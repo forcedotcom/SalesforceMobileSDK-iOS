@@ -17,7 +17,7 @@
 			<Abstract type="html">Constructor</Abstract>
 			<DeclaredIn>SFSDKStoreConfig.h</DeclaredIn>
 			
-			<Declaration>- (nullable id)initWithResourceAtPath:(NSString *)path</Declaration>
+			<Declaration>- (nullable instancetype)initWithResourceAtPath:(NSString *)path</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>path</Name>

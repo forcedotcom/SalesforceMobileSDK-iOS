@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthViewHolder.html">
+	<File path="Classes/SFSDKEventBuilderHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthViewHolder</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKEventBuilderHelper</TokenIdentifier>
+			<Abstract type="html">// Event startTime and endTime can be specified by passing values for attributes STARTTIME and ENDTIME</Abstract>
+			<DeclaredIn>SFSDKEventBuilderHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="78"/>
@@ -13,146 +13,28 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setWkWebView:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKEventBuilderHelper/createAndStoreEvent:userAccount:className:attributes:</TokenIdentifier>
+			<Abstract type="html">Creates and stores an analytics event with the supplied parameters.</Abstract>
+			<DeclaredIn>SFSDKEventBuilderHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			<Declaration>+ (void)createAndStoreEvent:(NSString *)name userAccount:(nullable SFUserAccount *)userAccount className:(NSString *)className attributes:(nullable NSDictionary *)attributes</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">Event name.</Abstract>
+				</Parameter><Parameter>
+					<Name>userAccount</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter><Parameter>
+					<Name>className</Name>
+					<Abstract type="html">Class name or context where the event was generated.</Abstract>
+				</Parameter><Parameter>
+					<Name>attributes</Name>
+					<Abstract type="html">Addiitonal attributes.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/wkWebView</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/wkWebView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
-			
-			
-			<Anchor>//api/name/wkWebView</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/wkWebView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
-			
-			
-			<Anchor>//api/name/wkWebView</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setLoginController:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
-			
-			
-			<Anchor>//api/name/loginController</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/loginController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
-			
-			
-			<Anchor>//api/name/loginController</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/loginController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
-			
-			
-			<Anchor>//api/name/loginController</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setSafariViewController:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
-			
-			
-			<Anchor>//api/name/safariViewController</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/safariViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
-			
-			
-			<Anchor>//api/name/safariViewController</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/safariViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) SFSafariViewController *safariViewController</Declaration>
-			
-			
-			<Anchor>//api/name/safariViewController</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setIsAdvancedAuthFlow:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
-			
-			
-			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/isAdvancedAuthFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
-			
-			
-			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
-            <NodeRef refid="78"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/isAdvancedAuthFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
-			
-			
-			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
+			<Anchor>//api/name/createAndStoreEvent:userAccount:className:attributes:</Anchor>
             <NodeRef refid="78"/>
 		</Token>
 		

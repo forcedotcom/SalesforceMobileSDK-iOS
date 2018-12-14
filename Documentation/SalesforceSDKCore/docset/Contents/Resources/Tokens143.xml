@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/TestSetupUtils.html">
+	<File path="Categories/NSData+SFSDKUtilsInternal.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/TestSetupUtils</TokenIdentifier>
-			<Abstract type="html">This class provides utilities useful to all unit tests based on the Salesforce SDK</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtilsInternal)</TokenIdentifier>
+			<Abstract type="html">Internal definitions for the Mobile SDK NSData utilities.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="143"/>
@@ -13,70 +13,19 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateUILoginInfoFromConfigFileForClass:</TokenIdentifier>
-			<Abstract type="html">Loads a set of auth credentials from the &apos;uitestcredentials.json&apos; file located in the bundle associated
-with the given class, and return a dictionary of login info</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/replaceBase64CharsForBase64UrlString:</TokenIdentifier>
+			<Abstract type="html">Replace the base64 characters that are invalid in a base64url string.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
 			
-			<Declaration>+ (NSArray *)populateUILoginInfoFromConfigFileForClass:(Class)testClass</Declaration>
+			<Declaration>+ (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>testClass</Name>
-					<Abstract type="html">The class associated with the bundle where the test credentials file lives.</Abstract>
+					<Name>base64String</Name>
+					<Abstract type="html">The input string with characters to replace.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">a dictionary of login username, password, url</Abstract></ReturnValue>
-			<Anchor>//api/name/populateUILoginInfoFromConfigFileForClass:</Anchor>
-            <NodeRef refid="143"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFileForClass:</TokenIdentifier>
-			<Abstract type="html">Loads a set of auth credentials from the &apos;test_credentials.json&apos; file located in the bundle associated
-with the given class, and configures SFUserAccountManager and the current account with the data from
-that file.</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
-			
-			<Declaration>+ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>testClass</Name>
-					<Abstract type="html">The class associated with the bundle where the test credentials file lives.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The configuration data used to configure SFUserAccountManager (useful e.g. for hybrid
-apps which need the data to bootstrap SFHybridViewController.</Abstract></ReturnValue>
-			<Anchor>//api/name/populateAuthCredentialsFromConfigFileForClass:</Anchor>
-            <NodeRef refid="143"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/synchronousAuthRefresh</TokenIdentifier>
-			<Abstract type="html">Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
-data (access token, User ID, Org ID, etc.) in SFUserAccountManager.
-populateAuthCredentialsFromConfigFile is required to run once before this method will attempt
-to refresh authentication.</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
-			
-			<Declaration>+ (void)synchronousAuthRefresh</Declaration>
-			
-			
-			<Anchor>//api/name/synchronousAuthRefresh</Anchor>
-            <NodeRef refid="143"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/synchronousAuthRefreshLegacy</TokenIdentifier>
-			<Abstract type="html">Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
-data (access token, User ID, Org ID, etc.) in SFUserAccountManager.
-populateAuthCredentialsFromConfigFile is required to run once before this method will attempt
-to refresh authentication using SFAuthenticationManager.</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
-			
-			<Declaration>+ (void)synchronousAuthRefreshLegacy</Declaration>
-			
-			
-			<Anchor>//api/name/synchronousAuthRefreshLegacy</Anchor>
+			<ReturnValue><Abstract type="html">The base64 string with the URL chars replaced (i.e. the base64url string).</Abstract></ReturnValue>
+			<Anchor>//api/name/replaceBase64CharsForBase64UrlString:</Anchor>
             <NodeRef refid="143"/>
 		</Token>
 		

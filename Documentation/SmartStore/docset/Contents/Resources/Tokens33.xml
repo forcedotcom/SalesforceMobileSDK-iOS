@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSoupQuerySortOrder.html">
+	<File path="Constants/SFSoupQueryType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSoupQuerySortOrder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSoupQueryType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQuerySortOrderAscending</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeExact</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQuerySortOrderAscending</Declaration>
+            <Declaration>kSFSoupQueryTypeExact</Declaration>
             
             <DeclaredIn>SFQuerySpec.h</DeclaredIn>
             
@@ -24,9 +24,39 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQuerySortOrderDescending</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeRange</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQuerySortOrderDescending</Declaration>
+            <Declaration>kSFSoupQueryTypeRange</Declaration>
+            
+            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeLike</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFSoupQueryTypeLike</Declaration>
+            
+            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeSmart</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFSoupQueryTypeSmart</Declaration>
+            
+            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeMatch</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFSoupQueryTypeMatch</Declaration>
             
             <DeclaredIn>SFQuerySpec.h</DeclaredIn>
             

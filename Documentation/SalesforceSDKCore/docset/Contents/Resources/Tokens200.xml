@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFKeychainItemExceptionErrorCode.html">
+	<File path="Constants/SFOAuthCredentialsStorageType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFKeychainItemExceptionErrorCode</TokenIdentifier>
-			<Abstract type="html">This class is left to remain non-ARC INTENTIONALLY!</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredentialsStorageType</TokenIdentifier>
+			<Abstract type="html">@enum OAuth credential storage type</Abstract>
+			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
             
 			
 			<NodeRef refid="200"/>
@@ -14,11 +14,23 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFKeychainItemExceptionKeychainInaccessible</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFKeychainItemExceptionKeychainInaccessible</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeNone</TokenIdentifier>
+            <Abstract type="html">     No storage or persistence of OAuth credentials will be attempted
+     </Abstract>
+            <Declaration>SFOAuthCredentialsStorageTypeNone</Declaration>
             
-            <DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            
+            <NodeRef refid="200"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeKeychain</TokenIdentifier>
+            <Abstract type="html">     OAuth credentials will be stored securely within the keychain.
+     </Abstract>
+            <Declaration>SFOAuthCredentialsStorageTypeKeychain</Declaration>
+            
+            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>

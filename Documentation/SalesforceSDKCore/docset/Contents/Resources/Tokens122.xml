@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKWebViewStateManager.html">
+	<File path="Classes/SFSecurityLockout.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebViewStateManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSecurityLockout</TokenIdentifier>
+			<Abstract type="html">This class interacts with the inactivity timer.
+It is responsible for locking and unlocking the device by presenting the passcode modal controller when the timer expires.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
 			
 			<NodeRef refid="122"/>
@@ -13,78 +14,873 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionWithNewAccessToken:isSecureProtocol:</TokenIdentifier>
-			<Abstract type="html">  Reset some associated state with WKWebView and UIWebView e.g. Remove Cookies then add SID cookie</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSecurityLockout/setPasscodeViewConfig:</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure</Declaration>
+			<Declaration>@property (nonatomic, strong, class) SFSDKAppLockViewConfig *passcodeViewConfig</Declaration>
 			
 			
-			<Anchor>//api/name/resetSessionWithNewAccessToken:isSecureProtocol:</Anchor>
+			<Anchor>//api/name/passcodeViewConfig</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/removeSession</TokenIdentifier>
-			<Abstract type="html">  Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSecurityLockout/passcodeViewConfig</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSession</Declaration>
+			<Declaration>@property (nonatomic, strong, class) SFSDKAppLockViewConfig *passcodeViewConfig</Declaration>
 			
 			
-			<Anchor>//api/name/removeSession</Anchor>
+			<Anchor>//api/name/passcodeViewConfig</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/setSharedProcessPool:</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSecurityLockout/passcodeViewConfig</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>@property (nonatomic, strong, class) SFSDKAppLockViewConfig *passcodeViewConfig</Declaration>
 			
 			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/passcodeViewConfig</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/addDelegate:</TokenIdentifier>
+			<Abstract type="html">Adds a delegate to the list of SFSecurityLockout delegates.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>+ (void)addDelegate:(id&lt;SFSecurityLockoutDelegate&gt;)delegate</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>delegate</Name>
+					<Abstract type="html">The delegate to add to the list.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/addDelegate:</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/removeDelegate:</TokenIdentifier>
+			<Abstract type="html">Removes a delegate from the list of SFSecurityLockout delegates.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>+ (void)removeDelegate:(id&lt;SFSecurityLockoutDelegate&gt;)delegate</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>delegate</Name>
+					<Abstract type="html">The delegate to remove from the list.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/removeDelegate:</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionCookie</TokenIdentifier>
-			<Abstract type="html">Clears session cookie data from the cookie store, and sets a new session cookie based on the
-OAuth credentials.</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/lockoutTime</TokenIdentifier>
+			<Abstract type="html">Get the current lockout time, in seconds</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetSessionCookie</Declaration>
+			<Declaration>+ (NSUInteger)lockoutTime</Declaration>
+			
+			<ReturnValue><Abstract type="html">The lockout time limit.</Abstract></ReturnValue>
+			<Anchor>//api/name/lockoutTime</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/passcodeLength</TokenIdentifier>
+			<Abstract type="html">Gets the configured passcode length.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (NSUInteger)passcodeLength</Declaration>
+			
+			<ReturnValue><Abstract type="html">The passcode length.</Abstract></ReturnValue>
+			<Anchor>//api/name/passcodeLength</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/biometricState</TokenIdentifier>
+			<Abstract type="html">The current state of biometric unlock.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (SFBiometricUnlockState)biometricState</Declaration>
+			
+			<ReturnValue><Abstract type="html">biometric unlock state.</Abstract></ReturnValue>
+			<Anchor>//api/name/biometricState</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setInactivityConfiguration:lockoutTime:biometricAllowed:</TokenIdentifier>
+			<Abstract type="html">Set the passcode length, lockout time and if biometric is enabled.  This asynchronous method will trigger
+passcode creation or passcode change, and biometric enablement prompt when necessary.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setInactivityConfiguration:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)newBiometricAllowed</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newPasscodeLength</Name>
+					<Abstract type="html">The new passcode length to configure.  This can only be greater than or equal
+to the currently configured length, to support the most restrictive passcode policy across users.</Abstract>
+				</Parameter><Parameter>
+					<Name>newLockoutTime</Name>
+					<Abstract type="html">The new lockout time to configure.  This can only be less than the currently
+configured time, to support the most restrictive passcode policy across users.</Abstract>
+				</Parameter><Parameter>
+					<Name>newBiometricAllowed</Name>
+					<Abstract type="html">Wether biometric unlock is enabled in the org.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setInactivityConfiguration:lockoutTime:biometricAllowed:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/clearPasscodeState</TokenIdentifier>
+			<Abstract type="html">Resets the passcode state of the app, if there aren&apos;t other users with an overriding passcode
+policy.  I.e. passcode state can only be cleared if the current user is the only user who would
+be subject to that policy.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)clearPasscodeState</Declaration>
 			
 			
-			<Anchor>//api/name/resetSessionCookie</Anchor>
+			<Anchor>//api/name/clearPasscodeState</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/clearPasscodeState:</TokenIdentifier>
+			<Abstract type="html">Resets the passcode state of the app, if there aren&apos;t other users with an overriding passcode
+policy.  I.e. passcode state can only be cleared if the  user is the only user who would
+be subject to that policy.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)clearPasscodeState:(SFUserAccount *)userLoggingOut</Declaration>
+			
+			
+			<Anchor>//api/name/clearPasscodeState:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setupTimer</TokenIdentifier>
+			<Abstract type="html">Initialize the timer</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setupTimer</Declaration>
+			
+			
+			<Anchor>//api/name/setupTimer</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/removeTimer</TokenIdentifier>
+			<Abstract type="html">Unregister and invalidate the timer</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeTimer</Declaration>
+			
+			
+			<Anchor>//api/name/removeTimer</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/validateTimer</TokenIdentifier>
+			<Abstract type="html">Validate the timer upon app entering the foreground</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)validateTimer</Declaration>
+			
+			
+			<Anchor>//api/name/validateTimer</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/isLockoutEnabled</TokenIdentifier>
+			<Abstract type="html">Check if passcode is enabled.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isLockoutEnabled</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if passcode is enabled and required.</Abstract></ReturnValue>
+			<Anchor>//api/name/isLockoutEnabled</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/inactivityExpired</TokenIdentifier>
+			<Abstract type="html">Indicates if the inactivity period has expired.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)inactivityExpired</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if the inactivity timeout has expired, otherwise NO.</Abstract></ReturnValue>
+			<Anchor>//api/name/inactivityExpired</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/startActivityMonitoring</TokenIdentifier>
+			<Abstract type="html">Starts monitoring for user activity, to determine activity expiration and passcode screen display.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)startActivityMonitoring</Declaration>
+			
+			
+			<Anchor>//api/name/startActivityMonitoring</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/stopActivityMonitoring</TokenIdentifier>
+			<Abstract type="html">Stops monitoring for user activity.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)stopActivityMonitoring</Declaration>
+			
+			
+			<Anchor>//api/name/stopActivityMonitoring</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/lock</TokenIdentifier>
+			<Abstract type="html">Lock the device immediately.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)lock</Declaration>
+			
+			
+			<Anchor>//api/name/lock</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/unlock:</TokenIdentifier>
+			<Abstract type="html">Unlock the device (e.g a result of a successful passcode/biometric challenge)</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)unlock:(SFSecurityLockoutAction)action</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>action</Name>
+					<Abstract type="html">Action that was taken during lockout.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/unlock:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/wipeState</TokenIdentifier>
+			<Abstract type="html">Wipe the device (e.g. because passcode/biometric challenge failed)</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)wipeState</Declaration>
+			
+			
+			<Anchor>//api/name/wipeState</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setIsLocked:</TokenIdentifier>
+			<Abstract type="html">Toggle the locked state</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setIsLocked:(BOOL)locked</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>locked</Name>
+					<Abstract type="html">Locks the device if YES, otherwise unlocks the device.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setIsLocked:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/locked</TokenIdentifier>
+			<Abstract type="html">Check if device is locked</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)locked</Declaration>
+			
+			
+			<Anchor>//api/name/locked</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/isPasscodeValid</TokenIdentifier>
+			<Abstract type="html">Check if the passcode is valid</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isPasscodeValid</Declaration>
+			
+			
+			<Anchor>//api/name/isPasscodeValid</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/isPasscodeNeeded</TokenIdentifier>
+			<Abstract type="html">Check to see if the passcode screen is needed.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isPasscodeNeeded</Declaration>
+			
+			
+			<Anchor>//api/name/isPasscodeNeeded</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setCanShowPasscode:</TokenIdentifier>
+			<Abstract type="html">Show the passcode view. Used by unit tests.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setCanShowPasscode:(BOOL)showPasscode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>showPasscode</Name>
+					<Abstract type="html">If YES, passcode view can be displayed.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setCanShowPasscode:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setLockScreenSuccessCallbackBlock:</TokenIdentifier>
+			<Abstract type="html">Sets the callback block to be called on any action that triggers screen lock, and unlocks
+successfully.  Optional.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setLockScreenSuccessCallbackBlock:(SFLockScreenSuccessCallbackBlock _Nullable)block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to be executed on successful unlock.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setLockScreenSuccessCallbackBlock:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/lockScreenSuccessCallbackBlock</TokenIdentifier>
+			<Abstract type="html">Returns the callback block to be executed on successful screen unlock.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (SFLockScreenSuccessCallbackBlock)lockScreenSuccessCallbackBlock</Declaration>
+			
+			
+			<Anchor>//api/name/lockScreenSuccessCallbackBlock</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setLockScreenFailureCallbackBlock:</TokenIdentifier>
+			<Abstract type="html">Sets the callback block to be called on any action that triggers screen lock, and fails to
+verify the passcode to unlock the screen.  Optional.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setLockScreenFailureCallbackBlock:(nullable SFLockScreenFailureCallbackBlock)block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to be executed on a failed unlock.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setLockScreenFailureCallbackBlock:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/lockScreenFailureCallbackBlock</TokenIdentifier>
+			<Abstract type="html">Returns the callback block to be executed on a screen unlock failure.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (SFLockScreenFailureCallbackBlock)lockScreenFailureCallbackBlock</Declaration>
+			
+			
+			<Anchor>//api/name/lockScreenFailureCallbackBlock</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/passcodeViewControllerCreationBlock</TokenIdentifier>
+			<Abstract type="html">The block used to create the passcode view controller</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (SFPasscodeViewControllerCreationBlock)passcodeViewControllerCreationBlock</Declaration>
+			
+			<ReturnValue><Abstract type="html">The block used to create the passcode view controller</Abstract></ReturnValue>
+			<Anchor>//api/name/passcodeViewControllerCreationBlock</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setPasscodeViewControllerCreationBlock:</TokenIdentifier>
+			<Abstract type="html">Sets the block that will create the passcode view controller.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setPasscodeViewControllerCreationBlock:(SFPasscodeViewControllerCreationBlock)vcBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vcBlock</Name>
+					<Abstract type="html">The passcode view controller creation block to use.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setPasscodeViewControllerCreationBlock:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/presentPasscodeViewControllerBlock</TokenIdentifier>
+			<Abstract type="html">The block used to present the passcode view controller.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (SFPasscodeViewControllerPresentationBlock)presentPasscodeViewControllerBlock</Declaration>
+			
+			<ReturnValue><Abstract type="html">The block used to present the passcode view controller.</Abstract></ReturnValue>
+			<Anchor>//api/name/presentPasscodeViewControllerBlock</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setPresentPasscodeViewControllerBlock:</TokenIdentifier>
+			<Abstract type="html">Sets the block that will present the passcode view controller.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setPresentPasscodeViewControllerBlock:(SFPasscodeViewControllerPresentationBlock)vcBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vcBlock</Name>
+					<Abstract type="html">The block to use to present the passcode view controller.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setPresentPasscodeViewControllerBlock:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setDismissPasscodeViewControllerBlock:</TokenIdentifier>
+			<Abstract type="html">Set the block that will dismiss the passcode view controller.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setDismissPasscodeViewControllerBlock:(SFPasscodeViewControllerDismissBlock)vcBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vcBlock</Name>
+					<Abstract type="html">The block defined to dismiss the passcode view controller.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setDismissPasscodeViewControllerBlock:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setPasscodeViewController:</TokenIdentifier>
+			<Abstract type="html">Sets a retained instance of the current passcode view controller that&apos;s displayed.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)setPasscodeViewController:(nullable UIViewController *)vc</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>vc</Name>
+					<Abstract type="html">The passcode view controller.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setPasscodeViewController:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/presentBiometricEnrollment:</TokenIdentifier>
+			<Abstract type="html">Presents the biometric enrollment view controller block.
+This can be used to prompt the user to enable biometric unlock if it was denied upon inital login or upgrade.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)presentBiometricEnrollment:(nullable SFSDKAppLockViewConfig *)viewConfig</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>viewConfig</Name>
+					<Abstract type="html">SFSDKPasscodeViewConfig used to create the view controller.  Supply nil to use the current SFSDKPasscodeViewConfig.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/presentBiometricEnrollment:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/passcodeViewController</TokenIdentifier>
+			<Abstract type="html">Returns the currently displayed passcode view controller, or nil if the passcode view controller
+is not currently displayed.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (UIViewController *)passcodeViewController</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewController</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setForcePasscodeDisplay:</TokenIdentifier>
+			<Abstract type="html">Whether to force the passcode screen to be displayed, despite sanity conditions for whether passcodes
+are configured.  This method is only useful for unit test code, and the value should otherwise be left
+to its default value of NO.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setForcePasscodeDisplay:(BOOL)forceDisplay</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>forceDisplay</Name>
+					<Abstract type="html">Whether to force the passcode screen to be displayed.  Default value is NO.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setForcePasscodeDisplay:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/forcePasscodeDisplay</TokenIdentifier>
+			<Abstract type="html">Whether or not the app is configured to force the display of the passcode screen.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)forcePasscodeDisplay</Declaration>
+			
+			<ReturnValue><Abstract type="html">Whether or not the app is configured to force the display of the passcode screen.</Abstract></ReturnValue>
+			<Anchor>//api/name/forcePasscodeDisplay</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/validatePasscodeAtStartup</TokenIdentifier>
+			<Abstract type="html">Whether or not to validate the passcode at app startup.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)validatePasscodeAtStartup</Declaration>
+			
+			<ReturnValue><Abstract type="html">Whether or not to validate the passcode at app startup.</Abstract></ReturnValue>
+			<Anchor>//api/name/validatePasscodeAtStartup</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/userAllowedBiometricUnlock:</TokenIdentifier>
+			<Abstract type="html">Set the response of the user being prompted to use biometric unlock.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)userAllowedBiometricUnlock:(BOOL)userAllowedBiometric</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAllowedBiometric</Name>
+					<Abstract type="html">YES if the user accpeted, NO otherwise.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/userAllowedBiometricUnlock:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setUpgradePasscodeLength:</TokenIdentifier>
+			<Abstract type="html">Set the passcode length upon upgrade if it was not previously set.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (void)setUpgradePasscodeLength:(NSUInteger)length</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>length</Name>
+					<Abstract type="html">Length of the user&apos;s passcode.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setUpgradePasscodeLength:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/timerExpired:</TokenIdentifier>
+			<Abstract type="html">Called when the user activity timer expires.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)timerExpired:(NSTimer *_Nullable)theTimer</Declaration>
+			
+			
+			<Anchor>//api/name/timerExpired:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/presentPasscodeController:</TokenIdentifier>
+			<Abstract type="html">Presents the passcode controller when it&apos;s time to create or verify the passcode.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)presentPasscodeController:(SFAppLockControllerMode)modeValue</Declaration>
+			
+			
+			<Anchor>//api/name/presentPasscodeController:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/passcodeScreenIsPresent</TokenIdentifier>
+			<Abstract type="html">Whether or not the passcode screen is currently displayed.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)passcodeScreenIsPresent</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeScreenIsPresent</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/cancelPasscodeScreen</TokenIdentifier>
+			<Abstract type="html">Closes/dismisses the passcode screen, if it&apos;s visible.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)cancelPasscodeScreen</Declaration>
+			
+			
+			<Anchor>//api/name/cancelPasscodeScreen</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/hasValidSession</TokenIdentifier>
+			<Abstract type="html">Whether or not the app currently has a valid authenticated session.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)hasValidSession</Declaration>
+			
+			
+			<Anchor>//api/name/hasValidSession</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/unlockSuccessPostProcessing:</TokenIdentifier>
+			<Abstract type="html">Runs in the event of a successful passcode unlock.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)unlockSuccessPostProcessing:(SFSecurityLockoutAction)action</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>action</Name>
+					<Abstract type="html">The action taken, if any.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/unlockSuccessPostProcessing:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/unlockFailurePostProcessing</TokenIdentifier>
+			<Abstract type="html">Runs in the event that a passcode unlock attempt failed.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)unlockFailurePostProcessing</Declaration>
+			
+			
+			<Anchor>//api/name/unlockFailurePostProcessing</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/sendPasscodeFlowWillBeginNotification:</TokenIdentifier>
+			<Abstract type="html">Generate the notification for the beginning of the passcode flow.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)sendPasscodeFlowWillBeginNotification:(SFAppLockControllerMode)mode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>mode</Name>
+					<Abstract type="html">The controller mode (create vs. verify) associated with the passcode or biometric flow.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sendPasscodeFlowWillBeginNotification:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/sendPasscodeFlowCompletedNotification:</TokenIdentifier>
+			<Abstract type="html">Generate the notification for the completion of the passcode flow.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)sendPasscodeFlowCompletedNotification:(BOOL)validationSuccess</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>validationSuccess</Name>
+					<Abstract type="html">Whether the passcode or biometric validation was successful or not.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sendPasscodeFlowCompletedNotification:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setLockoutTimeInternal:</TokenIdentifier>
+			<Abstract type="html">FOR UNIT TESTS ONLY: Sets the lockout time directly, without accompanying business logic.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)setLockoutTimeInternal:(NSUInteger)seconds</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>seconds</Name>
+					<Abstract type="html">The number of seconds for the lockout time.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setLockoutTimeInternal:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/readLockoutTimeFromKeychain</TokenIdentifier>
+			<Abstract type="html">Retrieves the lockout time value from the keychain.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSNumber *_Nullable)readLockoutTimeFromKeychain</Declaration>
+			
+			<ReturnValue><Abstract type="html">NSNumber wrapping the NSUInteger value for lockout time, or nil if not set.</Abstract></ReturnValue>
+			<Anchor>//api/name/readLockoutTimeFromKeychain</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/writeLockoutTimeToKeychain:</TokenIdentifier>
+			<Abstract type="html">Writes the lockout time to the keychain.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)writeLockoutTimeToKeychain:(NSNumber *_Nullable)lockoutTime</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>lockoutTime</Name>
+					<Abstract type="html">The NSNumber wrapping the NSUInteger value to be written to the keychain.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/writeLockoutTimeToKeychain:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/readPasscodeLengthFromKeychain</TokenIdentifier>
+			<Abstract type="html">Retrieves the passcode length value from the keychain.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSNumber *)readPasscodeLengthFromKeychain</Declaration>
+			
+			<ReturnValue><Abstract type="html">NSNumber wrapping the NSUInteger value for passcode length, or nil if not set.</Abstract></ReturnValue>
+			<Anchor>//api/name/readPasscodeLengthFromKeychain</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/writePasscodeLengthToKeychain:</TokenIdentifier>
+			<Abstract type="html">Writes the passcode length to the keychain.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)writePasscodeLengthToKeychain:(NSNumber *_Nullable)passcodeLength</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>passcodeLength</Name>
+					<Abstract type="html">The NSNumber wrapping the NSUInteger value to be written to the keychain.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/writePasscodeLengthToKeychain:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/readIsLockedFromKeychain</TokenIdentifier>
+			<Abstract type="html">Retreives the &quot;is locked&quot; setting from the keychain.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSNumber *_Nullable)readIsLockedFromKeychain</Declaration>
+			
+			<ReturnValue><Abstract type="html">The NSNumber wrapping the BOOL value for &quot;is locked&quot;, or nil if not set.</Abstract></ReturnValue>
+			<Anchor>//api/name/readIsLockedFromKeychain</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/writeIsLockedToKeychain:</TokenIdentifier>
+			<Abstract type="html">Writes the &quot;is locked&quot; value to the keychain.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)writeIsLockedToKeychain:(NSNumber *_Nullable)locked</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>locked</Name>
+					<Abstract type="html">The NSNumber wrapping the BOOL value for &quot;is locked&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/writeIsLockedToKeychain:</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/upgradeSettings</TokenIdentifier>
+			<Abstract type="html">Upgrades settings as part of SFSecurityLockout initialization.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)upgradeSettings</Declaration>
+			
+			
+			<Anchor>//api/name/upgradeSettings</Anchor>
+            <NodeRef refid="122"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/enumerateDelegates:</TokenIdentifier>
+			<Abstract type="html">Runs the given block of code against the list of security lockout delegates.</Abstract>
+			<DeclaredIn>SFSecurityLockout+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)enumerateDelegates:(void ( ^ ) ( id&lt;SFSecurityLockoutDelegate&gt; delegate ))block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block of code to execute for each delegate.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/enumerateDelegates:</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		

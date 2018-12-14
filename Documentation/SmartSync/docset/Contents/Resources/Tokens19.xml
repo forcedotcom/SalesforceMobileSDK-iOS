@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRecordModDate.html">
+	<File path="Classes/SFSDKSyncsConfig.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRecordModDate</TokenIdentifier>
-			<Abstract type="html">Helper class for isNewerThanServer</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSyncsConfig</TokenIdentifier>
+			<Abstract type="html">Class encapsulating syncs definition.</Abstract>
+			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="19"/>
@@ -13,86 +13,49 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setTimestamp:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/initWithResourceAtPath:</TokenIdentifier>
+			<Abstract type="html">Constructor for config stored in resource file</Abstract>
+			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
-			
-			
-			<Anchor>//api/name/timestamp</Anchor>
+			<Declaration>- (nullable instancetype)initWithResourceAtPath:(NSString *)path</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">to the config file</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">instance of SFSDKSyncsConfig</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithResourceAtPath:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/timestamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/createSyncs:</TokenIdentifier>
+			<Abstract type="html">Create the syncs from the config in the given store
+NB: only feedback is through the logs - the config is static so getting it right is something the developer should do while writing the app</Abstract>
+			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
+			<Declaration>- (void)createSyncs:(SFSmartStore *)store</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>store</Name>
+					<Abstract type="html">to create syncs in.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/timestamp</Anchor>
+			<Anchor>//api/name/createSyncs:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/timestamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/hasSyncs</TokenIdentifier>
+			<Abstract type="html">Check for syncs in config</Abstract>
+			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
+			<Declaration>- (BOOL)hasSyncs</Declaration>
 			
-			
-			<Anchor>//api/name/timestamp</Anchor>
-            <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setIsDeleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/isDeleted</Anchor>
-            <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/isDeleted</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/isDeleted</Anchor>
-            <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/isDeleted</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/isDeleted</Anchor>
-            <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/initWithTimestamp:isDeleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithTimestamp:(nullable NSString *)timestamp isDeleted:(BOOL)isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/initWithTimestamp:isDeleted:</Anchor>
+			<ReturnValue><Abstract type="html">YES if syncs are defined in config</Abstract></ReturnValue>
+			<Anchor>//api/name/hasSyncs</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFDirectoryManager.html">
+	<File path="Classes/SFIdentityCoordinator.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFDirectoryManager</TokenIdentifier>
-			<Abstract type="html">Global directory manager that returns scoped directory. The scoping is enforced
-by taking into account the organizationId, the userId and the communityId.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
+			<Abstract type="html">The SFIdentityCoordinator class is used to retrieve identity data from the ID endpoint of the
+Salesforce service.  This data will be based on the requesting user, and the OAuth app
+credentials he/she is using to request this information.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
             
 			
 			<NodeRef refid="21"/>
@@ -14,171 +15,414 @@ by taking into account the organizationId, the userId and the communityId.</Abst
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFDirectoryManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">Returns the singleton of this manager</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/initWithCredentials:</TokenIdentifier>
+			<Abstract type="html">The designated initializer of SFIdentityCoordinator.  Creates an instance with the specified
+OAuth credentials.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedManager</Declaration>
+			<Declaration>- (id)initWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">The OAuth credentials used to query the identity service.  At a minimum,
+the OAuth credentials must specify a value for accessToken and instanceUrl.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/sharedManager</Anchor>
+			<Anchor>//api/name/initWithCredentials:</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFDirectoryManager/ensureDirectoryExists:error:</TokenIdentifier>
-			<Abstract type="html">Ensures the specified directory exists on the disk.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/initiateIdentityDataRetrieval</TokenIdentifier>
+			<Abstract type="html">Begins the identity request.  This request is asynchronous.  Implement the
+SFIdentityCoordinatorDelegate protocol to receive events related to the identity response from
+the service.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)ensureDirectoryExists:(nullable NSString *)directory error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>directory</Name>
-					<Abstract type="html">The directory to ensure exists.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error on output or nil if no error is desired</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the directory exists or has been successfully created, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/ensureDirectoryExists:error:</Anchor>
+			<Declaration>- (void)initiateIdentityDataRetrieval</Declaration>
+			
+			
+			<Anchor>//api/name/initiateIdentityDataRetrieval</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFDirectoryManager/safeStringForDiskRepresentation:</TokenIdentifier>
-			<Abstract type="html">Ensure the specified string contains only characters that can be
-safely used to identify a path on the disk.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/cancelRetrieval</TokenIdentifier>
+			<Abstract type="html">Cancels a request in progress.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)safeStringForDiskRepresentation:(NSString *)candidate</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>candidate</Name>
-					<Abstract type="html">The string to be checked for compatibility.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)cancelRetrieval</Declaration>
 			
-			<Anchor>//api/name/safeStringForDiskRepresentation:</Anchor>
+			
+			<Anchor>//api/name/cancelRetrieval</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryForOrg:user:community:type:components:</TokenIdentifier>
-			<Abstract type="html">Returns the path to the directory type for the specified org, user and community.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setCredentials:</TokenIdentifier>
+			<Abstract type="html">The OAuth credentials associated with this instance.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)directoryForOrg:(nullable NSString *)orgId user:(nullable NSString *)userId community:(nullable NSString *)communityId type:(NSSearchPathDirectory)type components:(nullable NSArray *)components</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>orgId</Name>
-					<Abstract type="html">The organization ID. If nil, this method returns the global directory type requested (eg Library/Caches)</Abstract>
-				</Parameter><Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">The user ID. If nil, this method returns the directory type requested, scoped at the org level (eg Library/Caches/&lt;orgId&gt;/)</Abstract>
-				</Parameter><Parameter>
-					<Name>communityId</Name>
-					<Abstract type="html">The community ID. If nil, this method returns the directory type requested, scoped at the user level (eg Library/Caches/&lt;orgId&gt;/&lt;userId&gt;)</Abstract>
-				</Parameter><Parameter>
-					<Name>type</Name>
-					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
-				</Parameter><Parameter>
-					<Name>components</Name>
-					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
-			<Anchor>//api/name/directoryForOrg:user:community:type:components:</Anchor>
+			<Declaration>@property (nonatomic, strong, nullable) SFOAuthCredentials *credentials</Declaration>
+			
+			
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryForUser:scope:type:components:</TokenIdentifier>
-			<Abstract type="html">Returns the path to the directory type for the specified user and scope</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/credentials</TokenIdentifier>
+			<Abstract type="html">The OAuth credentials associated with this instance.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(nullable NSArray *)components</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user account to use. If nil, the path returned corresponds to the global path type</Abstract>
-				</Parameter><Parameter>
-					<Name>scope</Name>
-					<Abstract type="html">The scope to use</Abstract>
-				</Parameter><Parameter>
-					<Name>type</Name>
-					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
-				</Parameter><Parameter>
-					<Name>components</Name>
-					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
-			<Anchor>//api/name/directoryForUser:scope:type:components:</Anchor>
+			<Declaration>@property (nonatomic, strong, nullable) SFOAuthCredentials *credentials</Declaration>
+			
+			
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryForUser:type:components:</TokenIdentifier>
-			<Abstract type="html">Returns the path to the directory type for the specified user.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/credentials</TokenIdentifier>
+			<Abstract type="html">The OAuth credentials associated with this instance.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)directoryForUser:(nullable SFUserAccount *)account type:(NSSearchPathDirectory)type components:(nullable NSArray *)components</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>account</Name>
-					<Abstract type="html">The user account to use. If nil, the path returned corresponds to the global path type</Abstract>
-				</Parameter><Parameter>
-					<Name>type</Name>
-					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
-				</Parameter><Parameter>
-					<Name>components</Name>
-					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
-			<Anchor>//api/name/directoryForUser:type:components:</Anchor>
+			<Declaration>@property (nonatomic, strong, nullable) SFOAuthCredentials *credentials</Declaration>
+			
+			
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/directoryOfCurrentUserForType:components:</TokenIdentifier>
-			<Abstract type="html">Returns the path to the directory type for the current user and current community.</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setIdData:</TokenIdentifier>
+			<Abstract type="html">The SFIdentityData that will be populated with the response data from the service.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>type</Name>
-					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
-				</Parameter><Parameter>
-					<Name>components</Name>
-					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
-			<Anchor>//api/name/directoryOfCurrentUserForType:components:</Anchor>
+			<Declaration>@property (nonatomic, strong, nullable) SFIdentityData *idData</Declaration>
+			
+			
+			<Anchor>//api/name/idData</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDirectoryManager/globalDirectoryOfType:components:</TokenIdentifier>
-			<Abstract type="html">Returns the path to the global directory of the specified type. For example, NSCachesDirectory will
-return &quot;Library/Caches/&lt;bundleIdentifier&gt;/&quot;</Abstract>
-			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/idData</TokenIdentifier>
+			<Abstract type="html">The SFIdentityData that will be populated with the response data from the service.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>type</Name>
-					<Abstract type="html">The type of directory to return (see NSSearchPathDirectory)</Abstract>
-				</Parameter><Parameter>
-					<Name>components</Name>
-					<Abstract type="html">The additional path components to be added at the end of the directory (eg [&apos;mybundle&apos;, &apos;common&apos;])</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The path to the directory</Abstract></ReturnValue>
-			<Anchor>//api/name/globalDirectoryOfType:components:</Anchor>
+			<Declaration>@property (nonatomic, strong, nullable) SFIdentityData *idData</Declaration>
+			
+			
+			<Anchor>//api/name/idData</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/idData</TokenIdentifier>
+			<Abstract type="html">The SFIdentityData that will be populated with the response data from the service.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFIdentityData *idData</Declaration>
+			
+			
+			<Anchor>//api/name/idData</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
+This property must be set prior to initiating an identity request.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFIdentityCoordinatorDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/delegate</TokenIdentifier>
+			<Abstract type="html">The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
+This property must be set prior to initiating an identity request.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFIdentityCoordinatorDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/delegate</TokenIdentifier>
+			<Abstract type="html">The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
+This property must be set prior to initiating an identity request.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFIdentityCoordinatorDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setTimeout:</TokenIdentifier>
+			<Abstract type="html">The amount of time, in seconds, to attempt the request, before it times out.  If not set, the
+default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds property.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
+			
+			
+			<Anchor>//api/name/timeout</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/timeout</TokenIdentifier>
+			<Abstract type="html">The amount of time, in seconds, to attempt the request, before it times out.  If not set, the
+default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds property.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
+			
+			
+			<Anchor>//api/name/timeout</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/timeout</TokenIdentifier>
+			<Abstract type="html">The amount of time, in seconds, to attempt the request, before it times out.  If not set, the
+default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds property.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
+			
+			
+			<Anchor>//api/name/timeout</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setRetrievingData:</TokenIdentifier>
+			<Abstract type="html">Whether or not a request is already in progress.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (assign) BOOL retrievingData</Declaration>
+			
+			
+			<Anchor>//api/name/retrievingData</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/retrievingData</TokenIdentifier>
+			<Abstract type="html">Whether or not a request is already in progress.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (assign) BOOL retrievingData</Declaration>
+			
+			
+			<Anchor>//api/name/retrievingData</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/retrievingData</TokenIdentifier>
+			<Abstract type="html">Whether or not a request is already in progress.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (assign) BOOL retrievingData</Declaration>
+			
+			
+			<Anchor>//api/name/retrievingData</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setSession:</TokenIdentifier>
+			<Abstract type="html">The NSURLSession associated with the ID request.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLSession *session</Declaration>
+			
+			
+			<Anchor>//api/name/session</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/session</TokenIdentifier>
+			<Abstract type="html">The NSURLSession associated with the ID request.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLSession *session</Declaration>
+			
+			
+			<Anchor>//api/name/session</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/session</TokenIdentifier>
+			<Abstract type="html">The NSURLSession associated with the ID request.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLSession *session</Declaration>
+			
+			
+			<Anchor>//api/name/session</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setOauthSessionRefresher:</TokenIdentifier>
+			<Abstract type="html">The OAuth sesssion refresher to use if the identity request fails with expired credentials.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher</Declaration>
+			
+			
+			<Anchor>//api/name/oauthSessionRefresher</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/oauthSessionRefresher</TokenIdentifier>
+			<Abstract type="html">The OAuth sesssion refresher to use if the identity request fails with expired credentials.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher</Declaration>
+			
+			
+			<Anchor>//api/name/oauthSessionRefresher</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/oauthSessionRefresher</TokenIdentifier>
+			<Abstract type="html">The OAuth sesssion refresher to use if the identity request fails with expired credentials.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher</Declaration>
+			
+			
+			<Anchor>//api/name/oauthSessionRefresher</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setTypeToCodeDict:</TokenIdentifier>
+			<Abstract type="html">Dictionary mapping error codes to their respective types.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic, readonly) NSDictionary *typeToCodeDict</Declaration>
+			
+			
+			<Anchor>//api/name/typeToCodeDict</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/typeToCodeDict</TokenIdentifier>
+			<Abstract type="html">Dictionary mapping error codes to their respective types.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic, readonly) NSDictionary *typeToCodeDict</Declaration>
+			
+			
+			<Anchor>//api/name/typeToCodeDict</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/typeToCodeDict</TokenIdentifier>
+			<Abstract type="html">Dictionary mapping error codes to their respective types.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic, readonly) NSDictionary *typeToCodeDict</Declaration>
+			
+			
+			<Anchor>//api/name/typeToCodeDict</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/notifyDelegateOfSuccess</TokenIdentifier>
+			<Abstract type="html">Triggers the success notifictation to the delegate.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)notifyDelegateOfSuccess</Declaration>
+			
+			
+			<Anchor>//api/name/notifyDelegateOfSuccess</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/notifyDelegateOfFailure:</TokenIdentifier>
+			<Abstract type="html">Triggers the failure notification and error to the delegate.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)notifyDelegateOfFailure:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/notifyDelegateOfFailure:</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/sendRequest</TokenIdentifier>
+			<Abstract type="html">Sends the request to the identity service, and processes the response.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)sendRequest</Declaration>
+			
+			
+			<Anchor>//api/name/sendRequest</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/processResponse:</TokenIdentifier>
+			<Abstract type="html">Process a completed response from the service, populating the ID data.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)processResponse:(NSData *)responseData</Declaration>
+			
+			
+			<Anchor>//api/name/processResponse:</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/cleanupData</TokenIdentifier>
+			<Abstract type="html">Cleans up the in-process properties and vars, once a request is completed.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)cleanupData</Declaration>
+			
+			
+			<Anchor>//api/name/cleanupData</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/errorWithType:description:</TokenIdentifier>
+			<Abstract type="html">Creates an NSError instance based on type and description, for notifying the delegate
+of a failure.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSError *)errorWithType:(NSString *)type description:(NSString *)description</Declaration>
+			
+			
+			<Anchor>//api/name/errorWithType:description:</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		

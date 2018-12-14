@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFzlib.html">
+	<File path="Categories/UIColor+SFColors.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFzlib)</TokenIdentifier>
-			<Abstract type="html">Provides gzip uncompressed conversion support.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFColors)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
             
 			
 			<NodeRef refid="151"/>
@@ -13,26 +13,39 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipInflate</TokenIdentifier>
-			<Abstract type="html">Converts this data to gzip uncompressed format.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBlueColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSData *)gzipInflate</Declaration>
+			<Declaration>+ (UIColor *)salesforceBlueColor</Declaration>
 			
-			<ReturnValue><Abstract type="html">This data in gzip uncompressed format.</Abstract></ReturnValue>
-			<Anchor>//api/name/gzipInflate</Anchor>
+			
+			<Anchor>//api/name/salesforceBlueColor</Anchor>
             <NodeRef refid="151"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipDeflate</TokenIdentifier>
-			<Abstract type="html">Converts this data to gzip compressed format.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/colorFromHexValue:</TokenIdentifier>
+			<Abstract type="html">Construct a color given hex color, like &quot;#00FF00&quot; (#RRGGBB).</Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSData *)gzipDeflate</Declaration>
+			<Declaration>+ (nullable UIColor *)colorFromHexValue:(NSString *)hexString</Declaration>
 			
-			<ReturnValue><Abstract type="html">This data in gzip compressed format.</Abstract></ReturnValue>
-			<Anchor>//api/name/gzipDeflate</Anchor>
+			
+			<Anchor>//api/name/colorFromHexValue:</Anchor>
+            <NodeRef refid="151"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/hexStringFromColor</TokenIdentifier>
+			<Abstract type="html">Returns a CSS hex color representation
+of this color</Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)hexStringFromColor</Declaration>
+			
+			
+			<Anchor>//api/name/hexStringFromColor</Anchor>
             <NodeRef refid="151"/>
 		</Token>
 		

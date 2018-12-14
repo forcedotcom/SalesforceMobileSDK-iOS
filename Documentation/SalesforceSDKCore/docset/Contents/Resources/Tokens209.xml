@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthType.html">
+	<File path="Constants/SFSDKRestServiceHostType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthType</TokenIdentifier>
-			<Abstract type="html">The type of authentication being attempted, in a given OAuth coordinator cycle.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKRestServiceHostType</TokenIdentifier>
+			<Abstract type="html">The type of service host to use for Rest requests.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="209"/>
@@ -14,61 +14,23 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUnknown</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTypeUnknown</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeLogin</TokenIdentifier>
+            <Abstract type="html">Request uses the login endpoint.
+     </Abstract>
+            <Declaration>SFSDKRestServiceHostTypeLogin</Declaration>
             
-            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
-            
-            <NodeRef refid="209"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUserAgent</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTypeUserAgent</Declaration>
-            
-            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeRefresh</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTypeRefresh</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeInstance</TokenIdentifier>
+            <Abstract type="html">Request uses the instance endpoint.
+     </Abstract>
+            <Declaration>SFSDKRestServiceHostTypeInstance</Declaration>
             
-            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
-            
-            <NodeRef refid="209"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeAdvancedBrowser</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTypeAdvancedBrowser</Declaration>
-            
-            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
-            
-            <NodeRef refid="209"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeJwtTokenExchange</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTypeJwtTokenExchange</Declaration>
-            
-            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
-            
-            <NodeRef refid="209"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeIDP</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTypeIDP</Declaration>
-            
-            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>

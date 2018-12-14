@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFObjectTypeLayout.html">
+	<File path="Classes/SFParentInfo.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFObjectTypeLayout</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFParentInfo</TokenIdentifier>
+			<Abstract type="html">Simple object to capture details of parent in parent-child relationship</Abstract>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="14"/>
@@ -13,158 +13,194 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/set:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/setSobjectType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSNumber *SFSDK_DEPRECATED ( 6.2 , 7.0 , &quot;Will be removed in Mobile SDK 7.0.&quot; )</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *sobjectType</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/sobjectType</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/)</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/sobjectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSNumber *SFSDK_DEPRECATED ( 6.2 , 7.0 , &quot;Will be removed in Mobile SDK 7.0.&quot; )</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *sobjectType</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/sobjectType</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFObjectTypeLayout/)</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFParentInfo/sobjectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSNumber *SFSDK_DEPRECATED ( 6.2 , 7.0 , &quot;Will be removed in Mobile SDK 7.0.&quot; )</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *sobjectType</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/sobjectType</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFObjectTypeLayout/parseColumnName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/setIdFieldName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)parseColumnName:(NSString *)columnName</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *idFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/parseColumnName:</Anchor>
+			<Anchor>//api/name/idFieldName</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFObjectTypeLayout/isMatchColumns:target:</TokenIdentifier>
-			<Abstract type="html">Return YES if columns matches including # of columns and column name and order</Abstract>
-			<DeclaredIn>SFObjectTypeLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/idFieldName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)isMatchColumns:(NSArray *)sourceColumnNames target:(NSArray *)targetColumnNames</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *idFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/isMatchColumns:target:</Anchor>
+			<Anchor>//api/name/idFieldName</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/setLimit:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFParentInfo/idFieldName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite) NSNumber *limit</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *idFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/limit</Anchor>
+			<Anchor>//api/name/idFieldName</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/limit</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/setModificationDateFieldName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite) NSNumber *limit</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *modificationDateFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/limit</Anchor>
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFObjectTypeLayout/limit</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/modificationDateFieldName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite) NSNumber *limit</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *modificationDateFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/limit</Anchor>
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/setColumns:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFParentInfo/modificationDateFieldName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite) NSArray *columns</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *modificationDateFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/columns</Anchor>
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/columns</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/setSoupName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite) NSArray *columns</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *soupName</Declaration>
 			
 			
-			<Anchor>//api/name/columns</Anchor>
+			<Anchor>//api/name/soupName</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFObjectTypeLayout/columns</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/soupName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite) NSArray *columns</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *soupName</Declaration>
 			
 			
-			<Anchor>//api/name/columns</Anchor>
+			<Anchor>//api/name/soupName</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/encodeObject:forKey:encoder:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFParentInfo/soupName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>- (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *soupName</Declaration>
 			
 			
-			<Anchor>//api/name/encodeObject:forKey:encoder:</Anchor>
+			<Anchor>//api/name/soupName</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/configureDataWithDictionary:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentInfo/newWithSObjectType:soupName:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
+			
+			<Declaration>+ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName</Declaration>
+			
+			
+			<Anchor>//api/name/newWithSObjectType:soupName:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentInfo/newWithSObjectType:soupName:idFieldName:modificationDateFieldName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
 			
-			<Declaration>- (void)configureDataWithDictionary:(NSDictionary *)dataDiction</Declaration>
+			<Declaration>+ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/configureDataWithDictionary:</Anchor>
+			<Anchor>//api/name/newWithSObjectType:soupName:idFieldName:modificationDateFieldName:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentInfo/newFromDict:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
+			
+			<Declaration>+ (SFParentInfo *)newFromDict:(NSDictionary *)dict</Declaration>
+			
+			
+			<Anchor>//api/name/newFromDict:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/asDict</TokenIdentifier>
+			<Abstract type="html">Method to translate to dictionary</Abstract>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)asDict</Declaration>
+			
+			
+			<Anchor>//api/name/asDict</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		

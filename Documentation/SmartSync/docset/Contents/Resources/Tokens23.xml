@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSyncsConfig.html">
+	<File path="Classes/SFSmartSyncPersistableObject.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSyncsConfig</TokenIdentifier>
-			<Abstract type="html">Class encapsulating syncs definition.</Abstract>
-			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncPersistableObject</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
             
 			
 			<NodeRef refid="23"/>
@@ -13,49 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/initWithResourceAtPath:</TokenIdentifier>
-			<Abstract type="html">Constructor for config stored in resource file</Abstract>
-			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setRawData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>- (nullable id)initWithResourceAtPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">to the config file</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">instance of SFSDKSyncsConfig</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithResourceAtPath:</Anchor>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/createSyncs:</TokenIdentifier>
-			<Abstract type="html">Create the syncs from the config in the given store
-NB: only feedback is through the logs - the config is static so getting it right is something the developer should do while writing the app</Abstract>
-			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>- (void)createSyncs:(SFSmartStore *)store</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>store</Name>
-					<Abstract type="html">to create syncs in.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
 			
-			<Anchor>//api/name/createSyncs:</Anchor>
+			
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/hasSyncs</TokenIdentifier>
-			<Abstract type="html">Check for syncs in config</Abstract>
-			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasSyncs</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
 			
-			<ReturnValue><Abstract type="html">YES if syncs are defined in config</Abstract></ReturnValue>
-			<Anchor>//api/name/hasSyncs</Anchor>
+			
+			<Anchor>//api/name/rawData</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setObjectType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)data</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDictionary:</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:forObjectType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)data forObjectType:(nullable NSString *)objectType</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDictionary:forObjectType:</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		

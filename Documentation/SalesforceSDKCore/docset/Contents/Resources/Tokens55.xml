@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPasscodeViewController.html">
+	<File path="Classes/SFSDKAlertMessageBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeViewController</TokenIdentifier>
-			<Abstract type="html">The view controller for managing the passcode screen.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAlertMessageBuilder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
             
 			
 			<NodeRef refid="55"/>
@@ -13,48 +13,230 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeVerification</TokenIdentifier>
-			<Abstract type="html">Initializes the controller for verifying an existing passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setAlertTitle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
 			
-			<Declaration>- (id)initForPasscodeVerification</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *alertTitle</Declaration>
 			
 			
-			<Anchor>//api/name/initForPasscodeVerification</Anchor>
+			<Anchor>//api/name/alertTitle</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeCreation:</TokenIdentifier>
-			<Abstract type="html">Initializes the controller for creating a new passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/alertTitle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
 			
-			<Declaration>- (id)initForPasscodeCreation:(SFPasscodeConfigurationData)configData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>configData</Name>
-					<Abstract type="html">Configuration for the new passcode.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *alertTitle</Declaration>
 			
-			<Anchor>//api/name/initForPasscodeCreation:</Anchor>
+			
+			<Anchor>//api/name/alertTitle</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeChange:</TokenIdentifier>
-			<Abstract type="html">Initializes the controller for changing the existing passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/alertTitle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
 			
-			<Declaration>- (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>configData</Name>
-					<Abstract type="html">Configuration for the new passcode.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *alertTitle</Declaration>
 			
-			<Anchor>//api/name/initForPasscodeChange:</Anchor>
+			
+			<Anchor>//api/name/alertTitle</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setAlertMessage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *alertMessage</Declaration>
+			
+			
+			<Anchor>//api/name/alertMessage</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/alertMessage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *alertMessage</Declaration>
+			
+			
+			<Anchor>//api/name/alertMessage</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/alertMessage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *alertMessage</Declaration>
+			
+			
+			<Anchor>//api/name/alertMessage</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setActionOneTitle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *actionOneTitle</Declaration>
+			
+			
+			<Anchor>//api/name/actionOneTitle</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/actionOneTitle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *actionOneTitle</Declaration>
+			
+			
+			<Anchor>//api/name/actionOneTitle</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/actionOneTitle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *actionOneTitle</Declaration>
+			
+			
+			<Anchor>//api/name/actionOneTitle</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setActionTwoTitle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *actionTwoTitle</Declaration>
+			
+			
+			<Anchor>//api/name/actionTwoTitle</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/actionTwoTitle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *actionTwoTitle</Declaration>
+			
+			
+			<Anchor>//api/name/actionTwoTitle</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/actionTwoTitle</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *actionTwoTitle</Declaration>
+			
+			
+			<Anchor>//api/name/actionTwoTitle</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setActionOneCompletion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionOneCompletion</Declaration>
+			
+			
+			<Anchor>//api/name/actionOneCompletion</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/actionOneCompletion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionOneCompletion</Declaration>
+			
+			
+			<Anchor>//api/name/actionOneCompletion</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/actionOneCompletion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionOneCompletion</Declaration>
+			
+			
+			<Anchor>//api/name/actionOneCompletion</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setActionTwoCompletion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
+			
+			
+			<Anchor>//api/name/actionTwoCompletion</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/actionTwoCompletion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
+			
+			
+			<Anchor>//api/name/actionTwoCompletion</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/actionTwoCompletion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
+			
+			
+			<Anchor>//api/name/actionTwoCompletion</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/build</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKAlertMessage *)build</Declaration>
+			
+			
+			<Anchor>//api/name/build</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		

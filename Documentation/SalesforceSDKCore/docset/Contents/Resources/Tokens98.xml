@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNewLoginHostViewController.html">
+	<File path="Classes/SFSDKPasscodeTextField.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNewLoginHostViewController</TokenIdentifier>
-			<Abstract type="html">View controller that allows the user to enter a new login host that contains
-a host (the server address) and an optional name.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPasscodeTextField</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
             
 			
 			<NodeRef refid="98"/>
@@ -14,113 +13,194 @@ a host (the server address) and an optional name.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setServer:</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setDeleteDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (weak, nonatomic) id deleteDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/deleteDelegate</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/server</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/deleteDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (weak, nonatomic) id deleteDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/deleteDelegate</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/server</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/deleteDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (weak, nonatomic) id deleteDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/deleteDelegate</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setName:</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setPasscodeLengthKnown:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/name</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/passcodeLengthKnown</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/name</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/passcodeLengthKnown</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setLoginHostListViewController:</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setPasscodeLength:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (assign, assign) NSUInteger passcodeLength</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/passcodeLength</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/passcodeLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (assign, assign) NSUInteger passcodeLength</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/passcodeLength</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/passcodeLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (assign, assign) NSUInteger passcodeLength</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/passcodeLength</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setPasscodeInput:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) NSMutableString *passcodeInput</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeInput</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/passcodeInput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) NSMutableString *passcodeInput</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeInput</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/passcodeInput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) NSMutableString *passcodeInput</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeInput</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/clearPasscode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (void)clearPasscode</Declaration>
+			
+			
+			<Anchor>//api/name/clearPasscode</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/refreshView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (void)refreshView</Declaration>
+			
+			
+			<Anchor>//api/name/refreshView</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/initWithFrame:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/initWithFrame:andViewConfig:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame andViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:andViewConfig:</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		

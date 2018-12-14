@@ -1,41 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SmartStoreSDKManager.html">
+	<File path="Classes/ViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SmartStoreSDKManager</TokenIdentifier>
-			<Abstract type="html">Version of SalesforceSDKManager to be used with all SmartStore-enabled apps.
-By default, forceios apps use an instance of this class instead of SalesforceSDKManager.</Abstract>
-			<DeclaredIn>SmartStoreSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="27"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SmartStoreSDKManager/setupGlobalStoreFromDefaultConfig</TokenIdentifier>
-			<Abstract type="html">Setup global store using config found globalstore.json</Abstract>
-			<DeclaredIn>SmartStoreSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)setupGlobalStoreFromDefaultConfig</Declaration>
-			
-			
-			<Anchor>//api/name/setupGlobalStoreFromDefaultConfig</Anchor>
-            <NodeRef refid="27"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SmartStoreSDKManager/setupUserStoreFromDefaultConfig</TokenIdentifier>
-			<Abstract type="html">Setup user store using config found in userstore.json</Abstract>
-			<DeclaredIn>SmartStoreSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)setupUserStoreFromDefaultConfig</Declaration>
-			
-			
-			<Anchor>//api/name/setupUserStoreFromDefaultConfig</Anchor>
-            <NodeRef refid="27"/>
-		</Token>
 		
         
         

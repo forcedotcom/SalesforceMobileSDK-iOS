@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAlertView.html">
+	<File path="Classes/SFSDKAuthErrorCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAlertView</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthErrorCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="65"/>
@@ -13,98 +13,146 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/setController:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorCode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
 			
 			
-			<Anchor>//api/name/controller</Anchor>
+			<Anchor>//api/name/errorCode</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/controller</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
 			
 			
-			<Anchor>//api/name/controller</Anchor>
+			<Anchor>//api/name/errorCode</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertView/controller</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
 			
 			
-			<Anchor>//api/name/controller</Anchor>
+			<Anchor>//api/name/errorCode</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/setWindow:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorReason:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/errorReason</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/window</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorReason</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/errorReason</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertView/window</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorReason</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/errorReason</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/presentViewController:completion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorDescription:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>- (void)presentViewController:(BOOL)animated completion:(void ( ^ __nullable ) ( void ))completion</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
 			
 			
-			<Anchor>//api/name/presentViewController:completion:</Anchor>
+			<Anchor>//api/name/errorDescription</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/initWithMessage:window:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorDescription</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithMessage:(SFSDKAlertMessage *)message window:(SFSDKWindowContainer *)window</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
 			
 			
-			<Anchor>//api/name/initWithMessage:window:</Anchor>
+			<Anchor>//api/name/errorDescription</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
+			
+			
+			<Anchor>//api/name/errorDescription</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setState:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			
+			
+			<Anchor>//api/name/state</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/state</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			
+			
+			<Anchor>//api/name/state</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/state</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			
+			
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
