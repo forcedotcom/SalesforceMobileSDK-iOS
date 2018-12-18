@@ -88,6 +88,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @property (nonatomic, strong) SFUserAccountManager *uam;
 @property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;
 @property (nonatomic, strong) SFSDKLoginViewControllerConfig *config;
+@property (nonatomic, strong) NSString *origLoginHost;
 
 - (SFUserAccount *)createNewUserWithIndex:(NSUInteger)index;
 - (NSArray *)createAndVerifyUserAccounts:(NSUInteger)numAccounts;
@@ -104,7 +105,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     // Set the oauth client ID after deleting the content of the global library directory
     // to ensure the SFUserAccountManager sharedInstance loads from an empty directory
     self.uam = [SFUserAccountManager sharedInstance];
-    
+    _origLoginHost = self.uam.loginHost;
     // Ensure the user account manager doesn't contain any account
     NSArray *userAccounts = [[SFUserAccountManager sharedInstance] allUserAccounts];
     for (SFUserAccount *account in userAccounts) {
@@ -115,6 +116,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     }
     [self.uam clearAllAccountState];
     self.uam.currentUser = nil;
+    self.uam.loginHost = nil;
     self.uam.useBrowserAuth = NO;
     self.authViewHandler = [SFUserAccountManager sharedInstance].authViewHandler;
     self.config = self.uam.loginViewControllerConfig;
@@ -123,6 +125,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 - (void)tearDown {
     [SFUserAccountManager sharedInstance].authViewHandler = self.authViewHandler;
     self.uam.loginViewControllerConfig = self.config;
+    self.uam.loginHost = _origLoginHost;
     [super tearDown];
 }
 
@@ -289,6 +292,26 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqual(acctDelegate.didSwitchOrigUserAccount, origUser, @"origUser is not equal.");
     XCTAssertEqual(acctDelegate.didSwitchNewUserAccount, newUser, @"New user should be the same as the argument to switchToUser.");
     XCTAssertEqual(self.uam.currentUser, newUser, @"The current user should be set to newUser.");
+}
+
+- (void)testLoginHostForSwitchToUser {
+    NSArray *accounts = [self createAndVerifyUserAccounts:2];
+    SFUserAccount *origUser = accounts[0];
+    self.uam.loginHost = @"my.prev.domain";
+    SFUserAccount *newUser = accounts[1];
+    NSString *testDomain = @"my.test.domain";
+    newUser.credentials.domain = testDomain;
+    self.uam.currentUser = origUser;
+    TestUserAccountManagerDelegate *acctDelegate = [[TestUserAccountManagerDelegate alloc] init];
+    XCTAssertNotEqual(self.uam.loginHost, testDomain, @"The domains should be different before the test.");
+    XCTAssertEqual(newUser.credentials.domain, testDomain, @"User domain should have been set in the credentials.");
+    
+    [self.uam switchToUser:newUser];
+    XCTAssertEqual(acctDelegate.didSwitchOrigUserAccount, origUser, @"The user switched from is not the same user as expected.");
+    XCTAssertEqual(acctDelegate.didSwitchNewUserAccount, newUser, @"The user switched to is not the same user as expected.");
+    XCTAssertEqual(self.uam.currentUser, newUser, @"The current user should be set to the new user.");
+    XCTAssertEqual(newUser.credentials.domain, testDomain, @"Switch user should not have changed users domain in credentials.");
+    XCTAssertEqual(self.uam.loginHost, newUser.credentials.domain, @"Switch user should set current login host to users domain.");
 }
 
 - (void)testIdentityDataModification {
