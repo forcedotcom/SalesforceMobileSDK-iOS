@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SnapshotViewController.html">
+	<File path="Classes/SalesforceRestAPITests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SnapshotViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SalesforceRestAPITests</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SalesforceRestAPITests.h</DeclaredIn>
             
 			
 			<NodeRef refid="135"/>

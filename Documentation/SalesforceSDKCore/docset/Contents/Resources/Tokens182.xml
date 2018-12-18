@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionViewDelegate.html">
+	<File path="Protocols/SFSDKPasscodeVerifyDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKPasscodeVerifyDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
             
 			
 			<NodeRef refid="182"/>
@@ -13,38 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/createNewUser:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeVerifyDelegate/passcodeVerified</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
 			
-			<Declaration>- (void)createNewUser:(NSDictionary *)spAppOptions</Declaration>
+			<Declaration>- (void)passcodeVerified</Declaration>
 			
 			
-			<Anchor>//api/name/createNewUser:</Anchor>
+			<Anchor>//api/name/passcodeVerified</Anchor>
             <NodeRef refid="182"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/selectedUser:spAppContext:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeVerifyDelegate/passcodeFailed</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
 			
-			<Declaration>- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/selectedUser:spAppContext:</Anchor>
-            <NodeRef refid="182"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/cancel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>- (void)cancel:(NSDictionary *)spAppOptions</Declaration>
+			<Declaration>- (void)passcodeFailed</Declaration>
 			
 			
-			<Anchor>//api/name/cancel:</Anchor>
+			<Anchor>//api/name/passcodeFailed</Anchor>
             <NodeRef refid="182"/>
 		</Token>
 		

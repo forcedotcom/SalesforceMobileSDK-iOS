@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncStateStatus.html">
+	<File path="Constants/SFSyncDownTargetQueryType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateStatus</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncDownTargetQueryType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="42"/>
@@ -14,41 +14,81 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusNew</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeMru</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateStatusNew</Declaration>
+            <Declaration>SFSyncDownTargetQueryTypeMru</Declaration>
             
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
             
             <NodeRef refid="42"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusRunning</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeSosl</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateStatusRunning</Declaration>
+            <Declaration>SFSyncDownTargetQueryTypeSosl</Declaration>
             
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
             
             <NodeRef refid="42"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusDone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeSoql</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateStatusDone</Declaration>
+            <Declaration>SFSyncDownTargetQueryTypeSoql</Declaration>
             
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
             
             <NodeRef refid="42"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusFailed</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeRefresh</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateStatusFailed</Declaration>
+            <Declaration>SFSyncDownTargetQueryTypeRefresh</Declaration>
             
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+            
+            <NodeRef refid="42"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeParentChildren</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncDownTargetQueryTypeParentChildren</Declaration>
+            
+            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+            
+            <NodeRef refid="42"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeCustom</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncDownTargetQueryTypeCustom</Declaration>
+            
+            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+            
+            <NodeRef refid="42"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeMetadata</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncDownTargetQueryTypeMetadata</Declaration>
+            
+            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+            
+            <NodeRef refid="42"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeLayout</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncDownTargetQueryTypeLayout</Declaration>
+            
+            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
             
             <NodeRef refid="42"/>
         </Token>

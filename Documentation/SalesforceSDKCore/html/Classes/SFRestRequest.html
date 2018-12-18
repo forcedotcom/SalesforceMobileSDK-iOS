@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFRestRequest Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -43,9 +43,95 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
-
+	<option value="overview">Overview</option>
 	
 
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/baseURL">baseURL</option>
+		
+		<option value="//api/name/customHeaders">customHeaders</option>
+		
+		<option value="//api/name/delegate">delegate</option>
+		
+		<option value="//api/name/endpoint">endpoint</option>
+		
+		<option value="//api/name/method">method</option>
+		
+		<option value="//api/name/parseResponse">parseResponse</option>
+		
+		<option value="//api/name/path">path</option>
+		
+		<option value="//api/name/queryParams">queryParams</option>
+		
+		<option value="//api/name/request">request</option>
+		
+		<option value="//api/name/requestBodyAsDictionary">requestBodyAsDictionary</option>
+		
+		<option value="//api/name/requestBodyStreamBlock">requestBodyStreamBlock</option>
+		
+		<option value="//api/name/requestContentType">requestContentType</option>
+		
+		<option value="//api/name/requiresAuthentication">requiresAuthentication</option>
+		
+		<option value="//api/name/serviceHostType">serviceHostType</option>
+		
+		<option value="//api/name/sessionDataTask">sessionDataTask</option>
+		
+		<option value="//api/name/shouldRefreshOn403">shouldRefreshOn403</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/httpMethodFromSFRestMethod:">+ httpMethodFromSFRestMethod:</option>
+		
+		<option value="//api/name/isNetworkError:">+ isNetworkError:</option>
+		
+		<option value="//api/name/requestWithMethod:baseURL:path:queryParams:">+ requestWithMethod:baseURL:path:queryParams:</option>
+		
+		<option value="//api/name/requestWithMethod:path:queryParams:">+ requestWithMethod:path:queryParams:</option>
+		
+		<option value="//api/name/requestWithMethod:serviceHostType:path:queryParams:">+ requestWithMethod:serviceHostType:path:queryParams:</option>
+		
+		<option value="//api/name/restUrlForBaseUrl:serviceHostType:credentials:">+ restUrlForBaseUrl:serviceHostType:credentials:</option>
+		
+		<option value="//api/name/sfRestMethodFromHTTPMethod:">+ sfRestMethodFromHTTPMethod:</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/addPostFileData:paramName:description:fileName:mimeType:">- addPostFileData:paramName:description:fileName:mimeType:</option>
+		
+		<option value="//api/name/cancel">- cancel</option>
+		
+		<option value="//api/name/prepareRequestForSend:">- prepareRequestForSend:</option>
+		
+		<option value="//api/name/setCustomRequestBodyData:contentType:">- setCustomRequestBodyData:contentType:</option>
+		
+		<option value="//api/name/setCustomRequestBodyDictionary:contentType:">- setCustomRequestBodyDictionary:contentType:</option>
+		
+		<option value="//api/name/setCustomRequestBodyStream:contentType:">- setCustomRequestBodyStream:contentType:</option>
+		
+		<option value="//api/name/setCustomRequestBodyString:contentType:">- setCustomRequestBodyString:contentType:</option>
+		
+		<option value="//api/name/setHeaderValue:forHeaderName:">- setHeaderValue:forHeaderName:</option>
+		
+	</optgroup>
+	
 	
 </select>
 						</label>
@@ -59,22 +145,1492 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFRestRequest Class Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFRestRequest.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Request object used to send a REST <a href="#//api/name/request">request</a> to Salesforce.com</p>
+					</div>
+					
+					
 
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/method" title="method"></a>
+	<h3 class="method-title"><code><a href="#//api/name/method">&nbsp;&nbsp;method</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The HTTP method of the <a href="#//api/name/request">request</a>. See <a href="../Constants/SFRestMethod.html">SFRestMethod</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readwrite) SFRestMethod method</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/serviceHostType" title="serviceHostType"></a>
+	<h3 class="method-title"><code><a href="#//api/name/serviceHostType">&nbsp;&nbsp;serviceHostType</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The type of service host for the <a href="#//api/name/request">request</a> (e.g. login or instance).</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sessionDataTask" title="sessionDataTask"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sessionDataTask">&nbsp;&nbsp;sessionDataTask</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The NSURLSesssionDataTask instance associated with the <a href="#//api/name/request">request</a>. This is set only
+once the <a href="#//api/name/request">request</a> is queued and could be &lsquo;nil&rsquo; before that happens.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong, readwrite) NSURLSessionDataTask *sessionDataTask</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/baseURL" title="baseURL"></a>
+	<h3 class="method-title"><code><a href="#//api/name/baseURL">&nbsp;&nbsp;baseURL</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The base URL of the <a href="#//api/name/request">request</a>, to be prepended to the value of the <a href="#//api/name/path"><code>path</code></a> property.
+By default, this will be the API URL associated with the current user&rsquo;s account.
+One use would be when in a community setting and you want to send a <a href="#//api/name/request">request</a> against the base API URL.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong, readwrite) NSString *baseURL</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/path" title="path"></a>
+	<h3 class="method-title"><code><a href="#//api/name/path">&nbsp;&nbsp;path</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The path of the <a href="#//api/name/request">request</a> or the full URL to be used. If a full URL is passed in, the <a href="#//api/name/endpoint">endpoint</a> ceases to matter.
+For instance, &ldquo;&rdquo; (empty string), &ldquo;v22.0/recent&rdquo;, &ldquo;v22.0/query&rdquo;.
+Note that the path doesn&rsquo;t have to start with a &lsquo;/&rsquo;. For instance, passing &ldquo;v22.0/recent&rdquo; is the same as passing &ldquo;/v22.0/recent&rdquo;.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonnull, nonatomic, strong, readwrite) NSString *path</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<div class="warning"><p><strong>Warning:</strong> Do not pass URL encoded query parameters in the path. Use the <a href="#//api/name/queryParams"><code>queryParams</code></a> property instead.</p></div>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/parseResponse" title="parseResponse"></a>
+	<h3 class="method-title"><code><a href="#//api/name/parseResponse">&nbsp;&nbsp;parseResponse</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Used to specify if the response should be parsed. YES by default.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL parseResponse</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/queryParams" title="queryParams"></a>
+	<h3 class="method-title"><code><a href="#//api/name/queryParams">&nbsp;&nbsp;queryParams</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The query parameters of the <a href="#//api/name/request">request</a> (could be nil).
+Note that URL encoding of the parameters will automatically happen when the <a href="#//api/name/request">request</a> is sent.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*id&gt; *queryParams</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/customHeaders" title="customHeaders"></a>
+	<h3 class="method-title"><code><a href="#//api/name/customHeaders">&nbsp;&nbsp;customHeaders</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Dictionary of any custom HTTP headers you wish to add to your <a href="#//api/name/request">request</a>.  You can also use
+<a href="#//api/name/setHeaderValue:forHeaderName:"><code>setHeaderValue:forHeaderName:</code></a> to add headers to this property.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong, readwrite) NSMutableDictionary&lt;NSString*NSString*&gt; *customHeaders</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/delegate" title="delegate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The delegate for this <a href="#//api/name/request">request</a>. Notified of <a href="#//api/name/request">request</a> status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, weak) id&lt;SFRestDelegate&gt; delegate</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/endpoint" title="endpoint"></a>
+	<h3 class="method-title"><code><a href="#//api/name/endpoint">&nbsp;&nbsp;endpoint</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonnull, nonatomic, strong, readwrite) NSString *endpoint</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requiresAuthentication" title="requiresAuthentication"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requiresAuthentication">&nbsp;&nbsp;requiresAuthentication</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Whether or not this <a href="#//api/name/request">request</a> requires authentication.  If YES, the credentials will be added to
+the <a href="#//api/name/request">request</a> headers before sending the <a href="#//api/name/request">request</a>.  If NO, they will not.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL requiresAuthentication</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/shouldRefreshOn403" title="shouldRefreshOn403"></a>
+	<h3 class="method-title"><code><a href="#//api/name/shouldRefreshOn403">&nbsp;&nbsp;shouldRefreshOn403</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
+attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL shouldRefreshOn403</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/prepareRequestForSend:" title="prepareRequestForSend:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/prepareRequestForSend:">&ndash;&nbsp;prepareRequestForSend:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Prepares the <a href="#//api/name/request">request</a> before sending it out.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (nullable NSURLRequest *)prepareRequestForSend:(nonnull SFUserAccount *)<em>user</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>User account.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>NSURLRequest instance.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setHeaderValue:forHeaderName:" title="setHeaderValue:forHeaderName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setHeaderValue:forHeaderName:">&ndash;&nbsp;setHeaderValue:forHeaderName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets the value for the specified HTTP header.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setHeaderValue:(nullable NSString *)<em>value</em> forHeaderName:(NSString *)<em>name</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>value</code></th>
+						<td><p>The header value. If value is <code>nil</code>, this <a href="#//api/name/method">method</a> will remove the HTTP header
+from the collection of headers.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>name</code></th>
+						<td><p>The name of the HTTP header to set.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/cancel" title="cancel"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cancel">&ndash;&nbsp;cancel</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Cancels this <a href="#//api/name/request">request</a> if it is running.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)cancel</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/addPostFileData:paramName:description:fileName:mimeType:" title="addPostFileData:paramName:description:fileName:mimeType:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/addPostFileData:paramName:description:fileName:mimeType:">&ndash;&nbsp;addPostFileData:paramName:description:fileName:mimeType:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Add file to upload.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)addPostFileData:(NSData *)<em>fileData</em> paramName:(NSString *)<em>paramName</em> description:(nullable NSString *)<em>description</em> fileName:(NSString *)<em>fileName</em> mimeType:(NSString *)<em>mimeType</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fileData</code></th>
+						<td><p>Value of this POST parameter</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>paramName</code></th>
+						<td><p>Name of the POST parameter</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>description</code></th>
+						<td><p>Description of the file</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fileName</code></th>
+						<td><p>Name of the file</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>mimeType</code></th>
+						<td><p>MIME type of the file</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setCustomRequestBodyString:contentType:" title="setCustomRequestBodyString:contentType:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setCustomRequestBodyString:contentType:">&ndash;&nbsp;setCustomRequestBodyString:contentType:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets a custom <a href="#//api/name/request">request</a> body based on an NSString representation.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setCustomRequestBodyString:(NSString *)<em>bodyString</em> contentType:(NSString *)<em>contentType</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>bodyString</code></th>
+						<td><p>The NSString object representing the <a href="#//api/name/request">request</a> body.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>contentType</code></th>
+						<td><p>The content type associated with this <a href="#//api/name/request">request</a>.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setCustomRequestBodyDictionary:contentType:" title="setCustomRequestBodyDictionary:contentType:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setCustomRequestBodyDictionary:contentType:">&ndash;&nbsp;setCustomRequestBodyDictionary:contentType:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets a custom <a href="#//api/name/request">request</a> body based on an NSDictionary representation.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setCustomRequestBodyDictionary:(NSDictionary *)<em>bodyDictionary</em> contentType:(NSString *)<em>contentType</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>bodyDictionary</code></th>
+						<td><p>The NSDictionary object representing the <a href="#//api/name/request">request</a> body.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>contentType</code></th>
+						<td><p>The content type associated with this <a href="#//api/name/request">request</a>.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setCustomRequestBodyData:contentType:" title="setCustomRequestBodyData:contentType:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setCustomRequestBodyData:contentType:">&ndash;&nbsp;setCustomRequestBodyData:contentType:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets a custom <a href="#//api/name/request">request</a> body based on an NSData representation.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setCustomRequestBodyData:(NSData *)<em>bodyData</em> contentType:(NSString *)<em>contentType</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>bodyData</code></th>
+						<td><p>The NSData object representing the <a href="#//api/name/request">request</a> body.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>contentType</code></th>
+						<td><p>The content type associated with this <a href="#//api/name/request">request</a>.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setCustomRequestBodyStream:contentType:" title="setCustomRequestBodyStream:contentType:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setCustomRequestBodyStream:contentType:">&ndash;&nbsp;setCustomRequestBodyStream:contentType:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets a custom <a href="#//api/name/request">request</a> body based on an NSInputStream representation.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setCustomRequestBodyStream:(NSInputStream *( ^ ) ( void ))<em>bodyStreamBlock</em> contentType:(NSString *)<em>contentType</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>bodyStreamBlock</code></th>
+						<td><p>The block that will return an NSInputStream object representing the <a href="#//api/name/request">request</a> body.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>contentType</code></th>
+						<td><p>The content type associated with this <a href="#//api/name/request">request</a>.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isNetworkError:" title="isNetworkError:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isNetworkError:">+&nbsp;isNetworkError:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Indicates whether the error code of the given error specifies a network error.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)isNetworkError:(NSError *)<em>error</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>The error object to check</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if the error code of the given error specifies a network error</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/httpMethodFromSFRestMethod:" title="httpMethodFromSFRestMethod:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/httpMethodFromSFRestMethod:">+&nbsp;httpMethodFromSFRestMethod:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Return HTTP <a href="#//api/name/method">method</a> as string for <a href="../Constants/SFRestMethod.html">SFRestMethod</a></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)<em>restMethod</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>restMethod</code></th>
+						<td><p>The <a href="../Constants/SFRestMethod.html">SFRestMethod</a></p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>the HTTP string for the given <a href="../Constants/SFRestMethod.html">SFRestMethod</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sfRestMethodFromHTTPMethod:" title="sfRestMethodFromHTTPMethod:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sfRestMethodFromHTTPMethod:">+&nbsp;sfRestMethodFromHTTPMethod:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<ul>
+<li>Return <a href="../Constants/SFRestMethod.html">SFRestMethod</a> from string</li>
+</ul>
+
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)<em>httpMethod</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>httpMethod</code></th>
+						<td><p>An HTTP <a href="#//api/name/method">method</a>; for example, &ldquo;get&rdquo; or &ldquo;post&rdquo;</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The <a href="../Constants/SFRestMethod.html">SFRestMethod</a> enumerator for the given HTTP <a href="#//api/name/method">method</a></p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestWithMethod:path:queryParams:" title="requestWithMethod:path:queryParams:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestWithMethod:path:queryParams:">+&nbsp;requestWithMethod:path:queryParams:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates an <code>SFRestRequest</code> object. See <a href="../Constants/SFRestMethod.html">SFRestMethod</a>. If you need to set body on the <a href="#//api/name/request">request</a>, use one of the &lsquo;setCustomRequestBody&hellip;&rsquo; methods to do so with the instance returned by this <a href="#//api/name/method">method</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)requestWithMethod:(SFRestMethod)<em>method</em> path:(NSString *)<em>path</em> queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)<em>queryParams</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>method</code></th>
+						<td><p>the HTTP <a href="#//api/name/method">method</a></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>path</code></th>
+						<td><p>the <a href="#//api/name/request">request</a> <a href="#//api/name/path">path</a></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>queryParams</code></th>
+						<td><p>the parameters of the <a href="#//api/name/request">request</a> (could be nil)</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestWithMethod:serviceHostType:path:queryParams:" title="requestWithMethod:serviceHostType:path:queryParams:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestWithMethod:serviceHostType:path:queryParams:">+&nbsp;requestWithMethod:serviceHostType:path:queryParams:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates an <code>SFRestRequest</code> object. See <a href="../Constants/SFRestMethod.html">SFRestMethod</a>. If you need to set body on the <a href="#//api/name/request">request</a>, use one of the &lsquo;setCustomRequestBody&hellip;&rsquo; methods to do so with the instance returned by this <a href="#//api/name/method">method</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)requestWithMethod:(SFRestMethod)<em>method</em> serviceHostType:(SFSDKRestServiceHostType)<em>hostType</em> path:(NSString *)<em>path</em> queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)<em>queryParams</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>method</code></th>
+						<td><p>the HTTP <a href="#//api/name/method">method</a></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>hostType</code></th>
+						<td><p>the type of service host for the <a href="#//api/name/request">request</a>.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>path</code></th>
+						<td><p>the <a href="#//api/name/request">request</a> <a href="#//api/name/path">path</a></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>queryParams</code></th>
+						<td><p>the parameters of the <a href="#//api/name/request">request</a> (could be nil)</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestWithMethod:baseURL:path:queryParams:" title="requestWithMethod:baseURL:path:queryParams:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestWithMethod:baseURL:path:queryParams:">+&nbsp;requestWithMethod:baseURL:path:queryParams:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates an <code>SFRestRequest</code> object. See <a href="../Constants/SFRestMethod.html">SFRestMethod</a>. If you need to set body on the <a href="#//api/name/request">request</a>, use one of the &lsquo;setCustomRequestBody&hellip;&rsquo; methods to do so with the instance returned by this <a href="#//api/name/method">method</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)requestWithMethod:(SFRestMethod)<em>method</em> baseURL:(NSString *)<em>baseURL</em> path:(NSString *)<em>path</em> queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)<em>queryParams</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>method</code></th>
+						<td><p>the HTTP <a href="#//api/name/method">method</a></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>baseURL</code></th>
+						<td><p>the <a href="#//api/name/request">request</a> URL</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>path</code></th>
+						<td><p>the <a href="#//api/name/request">request</a> <a href="#//api/name/path">path</a></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>queryParams</code></th>
+						<td><p>the parameters of the <a href="#//api/name/request">request</a> (could be nil)</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestRequest.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/request" title="request"></a>
+	<h3 class="method-title"><code><a href="#//api/name/request">&nbsp;&nbsp;request</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonnull, nonatomic, strong, readwrite) NSMutableURLRequest *request</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestBodyStreamBlock" title="requestBodyStreamBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestBodyStreamBlock">&nbsp;&nbsp;requestBodyStreamBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, copy) NSInputStream *( ^ ) ( void ) requestBodyStreamBlock</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestBodyAsDictionary" title="requestBodyAsDictionary"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestBodyAsDictionary">&nbsp;&nbsp;requestBodyAsDictionary</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestContentType" title="requestContentType"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestContentType">&nbsp;&nbsp;requestContentType</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, copy) NSString *requestContentType</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/restUrlForBaseUrl:serviceHostType:credentials:" title="restUrlForBaseUrl:serviceHostType:credentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/restUrlForBaseUrl:serviceHostType:credentials:">+&nbsp;restUrlForBaseUrl:serviceHostType:credentials:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull NSString *)restUrlForBaseUrl:(nullable NSString *)<em>baseUrl</em> serviceHostType:(SFSDKRestServiceHostType)<em>hostType</em> credentials:(nonnull SFOAuthCredentials *)<em>credentials</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
 					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

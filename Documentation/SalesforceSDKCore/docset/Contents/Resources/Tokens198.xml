@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthAdvancedAuthState.html">
+	<File path="Constants/SFCryptoMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthState</TokenIdentifier>
-			<Abstract type="html">Enumeration of different advanced authentication stages.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoMode</TokenIdentifier>
+			<Abstract type="html">This class is responsible for encrypting and decrypting the content data for chatter.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="198"/>
@@ -14,35 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateNotStarted</TokenIdentifier>
-            <Abstract type="html">     No advanced authentication is currently under way.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateNotStarted</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoModeInMemory</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoModeInMemory</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-            
-            <NodeRef refid="198"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateBrowserRequestInitiated</TokenIdentifier>
-            <Abstract type="html">     The advanced authentication flow has initiated a request through Safari view controller.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateBrowserRequestInitiated</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="198"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateTokenRequestInitiated</TokenIdentifier>
-            <Abstract type="html">     The advanced authentication flow has received a response from Safari view controller, and has
-     initiated a token exchange request.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateTokenRequestInitiated</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoModeDisk</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoModeDisk</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="198"/>
         </Token>

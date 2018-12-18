@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthResponseCommand.html">
+	<File path="Classes/SFSDKAuthRequestCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthResponseCommand</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthRequestCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="70"/>
@@ -13,110 +13,362 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setState:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpState:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
 			
 			
-			<Anchor>//api/name/state</Anchor>
+			<Anchor>//api/name/spState</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/state</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spState</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
 			
 			
-			<Anchor>//api/name/state</Anchor>
+			<Anchor>//api/name/spState</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/state</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spState</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
 			
 			
-			<Anchor>//api/name/state</Anchor>
+			<Anchor>//api/name/spState</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setAuthCode:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpClientId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
 			
 			
-			<Anchor>//api/name/authCode</Anchor>
+			<Anchor>//api/name/spClientId</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/authCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spClientId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
 			
 			
-			<Anchor>//api/name/authCode</Anchor>
+			<Anchor>//api/name/spClientId</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/authCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spClientId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
 			
 			
-			<Anchor>//api/name/authCode</Anchor>
+			<Anchor>//api/name/spClientId</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setDomain:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpRedirectURI:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/domain</Anchor>
+			<Anchor>//api/name/spRedirectURI</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/domain</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spRedirectURI</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/domain</Anchor>
+			<Anchor>//api/name/spRedirectURI</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/domain</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spRedirectURI</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/domain</Anchor>
+			<Anchor>//api/name/spRedirectURI</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpCodeChallenge:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
+			
+			
+			<Anchor>//api/name/spCodeChallenge</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spCodeChallenge</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
+			
+			
+			<Anchor>//api/name/spCodeChallenge</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spCodeChallenge</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
+			
+			
+			<Anchor>//api/name/spCodeChallenge</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpUserHint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
+			
+			
+			<Anchor>//api/name/spUserHint</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spUserHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
+			
+			
+			<Anchor>//api/name/spUserHint</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spUserHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
+			
+			
+			<Anchor>//api/name/spUserHint</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setCallingAppUrl:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *callingAppUrl</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppUrl</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/callingAppUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *callingAppUrl</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppUrl</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/callingAppUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *callingAppUrl</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppUrl</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpAppName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
+			
+			
+			<Anchor>//api/name/spAppName</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spAppName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
+			
+			
+			<Anchor>//api/name/spAppName</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spAppName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
+			
+			
+			<Anchor>//api/name/spAppName</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpAppDescription:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppDescription</Declaration>
+			
+			
+			<Anchor>//api/name/spAppDescription</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spAppDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppDescription</Declaration>
+			
+			
+			<Anchor>//api/name/spAppDescription</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spAppDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppDescription</Declaration>
+			
+			
+			<Anchor>//api/name/spAppDescription</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpLoginHost:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
+			
+			
+			<Anchor>//api/name/spLoginHost</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spLoginHost</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
+			
+			
+			<Anchor>//api/name/spLoginHost</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spLoginHost</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
+			
+			
+			<Anchor>//api/name/spLoginHost</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpAppScopes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
+			
+			
+			<Anchor>//api/name/spAppScopes</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spAppScopes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
+			
+			
+			<Anchor>//api/name/spAppScopes</Anchor>
+            <NodeRef refid="70"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spAppScopes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
+			
+			
+			<Anchor>//api/name/spAppScopes</Anchor>
             <NodeRef refid="70"/>
 		</Token>
 		

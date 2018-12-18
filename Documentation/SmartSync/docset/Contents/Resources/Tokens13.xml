@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFParentChildrenSyncUpTarget.html">
+	<File path="Classes/SFParentChildrenSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncUpTarget</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncDownTarget</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="13"/>
@@ -13,21 +13,21 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncUpTarget/newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncDownTarget/newSyncTargetWithParentInfo:parentFieldlist:parentSoqlFilter:childrenInfo:childrenFieldlist:relationshipType:</TokenIdentifier>
 			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFParentChildrenSyncUpTarget.h</DeclaredIn>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo parentCreateFieldlist:(NSArray&lt;NSString*&gt; *)parentCreateFieldlist parentUpdateFieldlist:(NSArray&lt;NSString*&gt; *)parentUpdateFieldlist childrenInfo:(SFChildrenInfo *)childrenInfo childrenCreateFieldlist:(NSArray&lt;NSString*&gt; *)childrenCreateFieldlist childrenUpdateFieldlist:(NSArray&lt;NSString*&gt; *)childrenUpdateFieldlist relationshipType:(SFParentChildrenRelationshipType)relationshipType</Declaration>
+			<Declaration>+ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo parentFieldlist:(NSArray&lt;NSString*&gt; *)parentFieldlist parentSoqlFilter:(NSString *)parentSoqlFilter childrenInfo:(SFChildrenInfo *)childrenInfo childrenFieldlist:(NSArray&lt;NSString*&gt; *)childrenFieldlist relationshipType:(SFParentChildrenRelationshipType)relationshipType</Declaration>
 			
 			
-			<Anchor>//api/name/newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:</Anchor>
+			<Anchor>//api/name/newSyncTargetWithParentInfo:parentFieldlist:parentSoqlFilter:childrenInfo:childrenFieldlist:relationshipType:</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncUpTarget/newFromDict:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncDownTarget/newFromDict:</TokenIdentifier>
+			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
 			
 			<Declaration>+ (instancetype)newFromDict:(NSDictionary *)dict</Declaration>
 			

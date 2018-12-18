@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFUserAccountManagerDelegate Protocol Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -43,9 +43,33 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
 
 	
 
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/userAccountManager:didSwitchFromUser:toUser:">- userAccountManager:didSwitchFromUser:toUser:</option>
+		
+		<option value="//api/name/userAccountManager:error:info:">- userAccountManager:error:info:</option>
+		
+		<option value="//api/name/userAccountManager:willSwitchFromUser:toUser:">- userAccountManager:willSwitchFromUser:toUser:</option>
+		
+		<option value="//api/name/userAccountManagerIsNetworkAvailable:">- userAccountManagerIsNetworkAvailable:</option>
+		
+	</optgroup>
+	
 	
 </select>
 						</label>
@@ -59,22 +83,313 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFUserAccountManagerDelegate Protocol Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Conforms to</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFUserAccountManager.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Protocol for handling callbacks from <a href="../Classes/SFUserAccountManager.html">SFUserAccountManager</a>.</p>
+					</div>
+					
+					
 
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/userAccountManagerIsNetworkAvailable:" title="userAccountManagerIsNetworkAvailable:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/userAccountManagerIsNetworkAvailable:">&ndash;&nbsp;userAccountManagerIsNetworkAvailable:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when the account manager wants to determine if the network is available.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)userAccountManagerIsNetworkAvailable:(SFUserAccountManager *)<em>userAccountManager</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userAccountManager</code></th>
+						<td><p>The instance of <a href="../Classes/SFUserAccountManager.html">SFUserAccountManager</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if the network is available, NO otherwise</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/userAccountManager:error:info:" title="userAccountManager:error:info:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/userAccountManager:error:info:">&ndash;&nbsp;userAccountManager:error:info:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The instance of <a href="../Classes/SFUserAccountManager.html">SFUserAccountManager</a></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)userAccountManager:(SFUserAccountManager *)<em>userAccountManager</em> error:(NSError *)<em>error</em> info:(SFOAuthInfo *)<em>info</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userAccountManager</code></th>
+						<td><p>The instance of <a href="../Classes/SFUserAccountManager.html">SFUserAccountManager</a></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>The Error that occurred</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>info</code></th>
+						<td><p>The info for the auth request</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if the error has been handled by the delegate. SDK will attempt to handle the error if the result is NO.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/userAccountManager:willSwitchFromUser:toUser:" title="userAccountManager:willSwitchFromUser:toUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/userAccountManager:willSwitchFromUser:toUser:">&ndash;&nbsp;userAccountManager:willSwitchFromUser:toUser:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called before the user account manager switches from one user to another.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)userAccountManager:(SFUserAccountManager *)<em>userAccountManager</em> willSwitchFromUser:(SFUserAccount *)<em>currentUserAccount</em> toUser:(nullable SFUserAccount *)<em>anotherUserAccount</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userAccountManager</code></th>
+						<td><p>The <a href="../Classes/SFUserAccountManager.html">SFUserAccountManager</a> instance making the switch.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>currentUserAccount</code></th>
+						<td><p>The user being switched away from.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>anotherUserAccount</code></th>
+						<td><p>The user to be switched to.  <code>nil</code> if the user context is being switched back
+to no user.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/userAccountManager:didSwitchFromUser:toUser:" title="userAccountManager:didSwitchFromUser:toUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/userAccountManager:didSwitchFromUser:toUser:">&ndash;&nbsp;userAccountManager:didSwitchFromUser:toUser:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called after the user account manager switches from one user to another.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)userAccountManager:(SFUserAccountManager *)<em>userAccountManager</em> didSwitchFromUser:(SFUserAccount *)<em>previousUserAccount</em> toUser:(nullable SFUserAccount *)<em>currentUserAccount</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userAccountManager</code></th>
+						<td><p>The <a href="../Classes/SFUserAccountManager.html">SFUserAccountManager</a> instance making the switch.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>previousUserAccount</code></th>
+						<td><p>The user that was switched away from.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>currentUserAccount</code></th>
+						<td><p>The user that was switched to.  <code>nil</code> if the user context is being switched back
+to no user.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
 					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionTableViewControllerDelegate.html">
+	<File path="Protocols/SFSDKPasscodeCreateDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionTableViewControllerDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKPasscodeCreateDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
             
 			
 			<NodeRef refid="180"/>
@@ -13,38 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/createNewuser:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeCreateDelegate/passcodeCreated:updateMode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>- (void)createNewuser:(NSDictionary *)options</Declaration>
-			
-			
-			<Anchor>//api/name/createNewuser:</Anchor>
-            <NodeRef refid="180"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/selectedUser:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)selectedUser:(SFUserAccount *)user options:(NSDictionary *)options</Declaration>
+			<Declaration>- (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode</Declaration>
 			
 			
-			<Anchor>//api/name/selectedUser:options:</Anchor>
-            <NodeRef refid="180"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/cancel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)cancel:(NSDictionary *)options</Declaration>
-			
-			
-			<Anchor>//api/name/cancel:</Anchor>
+			<Anchor>//api/name/passcodeCreated:updateMode:</Anchor>
             <NodeRef refid="180"/>
 		</Token>
 		

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthClientWebViewDelegate.html">
+	<File path="Protocols/SFSDKOAuthClient.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientWebViewDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate that will be used to notify of all the OAuth Client WebView Events.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClient</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
             
 			
@@ -13,73 +13,331 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClientWillBeginAuthWithView:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process with an auth view.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/setIsAuthenticating:</TokenIdentifier>
+			<Abstract type="html">Indicates the status of Authentication</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientWillBeginAuthWithView:(SFSDKOAuthClient *_Nonnull)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, assign) BOOL isAuthenticating</Declaration>
 			
-			<Anchor>//api/name/authClientWillBeginAuthWithView:</Anchor>
+			
+			<Anchor>//api/name/isAuthenticating</Anchor>
             <NodeRef refid="175"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClientDidStartAuthWebViewLoad:</TokenIdentifier>
-			<Abstract type="html">Called when the auth view starts its load.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/isAuthenticating</TokenIdentifier>
+			<Abstract type="html">Indicates the status of Authentication</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDidStartAuthWebViewLoad:(SFSDKOAuthClient *_Nonnull)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, assign) BOOL isAuthenticating</Declaration>
 			
-			<Anchor>//api/name/authClientDidStartAuthWebViewLoad:</Anchor>
+			
+			<Anchor>//api/name/isAuthenticating</Anchor>
             <NodeRef refid="175"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClientDidFinishAuthWebViewLoad:</TokenIdentifier>
-			<Abstract type="html">Called when the auth view load has finished.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKOAuthClient/isAuthenticating</TokenIdentifier>
+			<Abstract type="html">Indicates the status of Authentication</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDidFinishAuthWebViewLoad:(SFSDKOAuthClient *_Nonnull)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, assign) BOOL isAuthenticating</Declaration>
 			
-			<Anchor>//api/name/authClientDidFinishAuthWebViewLoad:</Anchor>
+			
+			<Anchor>//api/name/isAuthenticating</Anchor>
             <NodeRef refid="175"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientWebViewDelegate/authClient:willDisplayAuthWebView:</TokenIdentifier>
-			<Abstract type="html">Called when the OAuth Client is going to display the auth view.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/setCredentials:</TokenIdentifier>
+			<Abstract type="html">Credentials used to create this client</Abstract>
 			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKOAuthClient *_Nonnull)client willDisplayAuthWebView:(WKWebView *_Nonnull)view</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFOAuthCredentials *credentials</Declaration>
+			
+			
+			<Anchor>//api/name/credentials</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/credentials</TokenIdentifier>
+			<Abstract type="html">Credentials used to create this client</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFOAuthCredentials *credentials</Declaration>
+			
+			
+			<Anchor>//api/name/credentials</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKOAuthClient/credentials</TokenIdentifier>
+			<Abstract type="html">Credentials used to create this client</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFOAuthCredentials *credentials</Declaration>
+			
+			
+			<Anchor>//api/name/credentials</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/setIdData:</TokenIdentifier>
+			<Abstract type="html">Identity data that is populated during authentication.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFIdentityData *idData</Declaration>
+			
+			
+			<Anchor>//api/name/idData</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/idData</TokenIdentifier>
+			<Abstract type="html">Identity data that is populated during authentication.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFIdentityData *idData</Declaration>
+			
+			
+			<Anchor>//api/name/idData</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKOAuthClient/idData</TokenIdentifier>
+			<Abstract type="html">Identity data that is populated during authentication.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFIdentityData *idData</Declaration>
+			
+			
+			<Anchor>//api/name/idData</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/setContext:</TokenIdentifier>
+			<Abstract type="html">The context for this client</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nullable) SFSDKOAuthClientContext *context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/context</TokenIdentifier>
+			<Abstract type="html">The context for this client</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nullable) SFSDKOAuthClientContext *context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKOAuthClient/context</TokenIdentifier>
+			<Abstract type="html">The context for this client</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nullable) SFSDKOAuthClientContext *context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/setConfig:</TokenIdentifier>
+			<Abstract type="html">The Client Config that was configured</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) SFSDKOAuthClientConfig *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/config</TokenIdentifier>
+			<Abstract type="html">The Client Config that was configured</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) SFSDKOAuthClientConfig *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKOAuthClient/config</TokenIdentifier>
+			<Abstract type="html">The Client Config that was configured</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) SFSDKOAuthClientConfig *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/authWindow</TokenIdentifier>
+			<Abstract type="html">An Auth window in which the auth flow will be presented</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKWindowContainer *)authWindow</Declaration>
+			
+			
+			<Anchor>//api/name/authWindow</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/retrieveIdentityDataWithCompletion:failure:</TokenIdentifier>
+			<Abstract type="html">An Auth window in which the auth flow will be presented</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)retrieveIdentityDataWithCompletion:(SFIdentitySuccessCallbackBlock)successBlock failure:(SFIdentityFailureCallbackBlock)failureBlock</Declaration>
+			
+			
+			<Anchor>//api/name/retrieveIdentityDataWithCompletion:failure:</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/cancelAuthentication:</TokenIdentifier>
+			<Abstract type="html">Cancel authentication for a given authentication context</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)cancelAuthentication:(BOOL)authenticationCanceledByUser</Declaration>
+			
+			
+			<Anchor>//api/name/cancelAuthentication:</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/refreshCredentials</TokenIdentifier>
+			<Abstract type="html">Refresh credentials request.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)refreshCredentials</Declaration>
+			
+			
+			<Anchor>//api/name/refreshCredentials</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/revokeCredentials</TokenIdentifier>
+			<Abstract type="html">Revoke credentials request.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)revokeCredentials</Declaration>
+			
+			
+			<Anchor>//api/name/revokeCredentials</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/restartAuthentication</TokenIdentifier>
+			<Abstract type="html">Restart Authentication for a given context.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)restartAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/restartAuthentication</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/dismissAuthViewControllerIfPresent</TokenIdentifier>
+			<Abstract type="html">Dismiss the AuthViewController if presented</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)dismissAuthViewControllerIfPresent</Declaration>
+			
+			
+			<Anchor>//api/name/dismissAuthViewControllerIfPresent</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/dismissAuthWindow</TokenIdentifier>
+			<Abstract type="html">Dismiss the Auth Window</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (void)dismissAuthWindow</Declaration>
+			
+			
+			<Anchor>//api/name/dismissAuthWindow</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/handleURLAuthenticationResponse:</TokenIdentifier>
+			<Abstract type="html">Restart Authentication for a given context.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleURLAuthenticationResponse:(NSURL *)appUrlResponse</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter><Parameter>
-					<Name>view</Name>
-					<Abstract type="html">The instance of the auth view to be displayed.</Abstract>
+					<Name>appUrlResponse</Name>
+					<Abstract type="html">to digest.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/authClient:willDisplayAuthWebView:</Anchor>
+			<Anchor>//api/name/handleURLAuthenticationResponse:</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/clientWithCredentials:configBlock:</TokenIdentifier>
+			<Abstract type="html">Provide an instance</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>+ (SFSDKOAuthClient *)clientWithCredentials:(SFOAuthCredentials *_Nullable)credentials configBlock:(void ( ^ ) ( SFSDKOAuthClientConfig *))configBlock</Declaration>
+			
+			<ReturnValue><Abstract type="html">Provide an instance</Abstract></ReturnValue>
+			<Anchor>//api/name/clientWithCredentials:configBlock:</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/clientProvider</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>+ (Class&lt;SFSDKOAuthClientProvider&gt;)clientProvider</Declaration>
+			
+			
+			<Anchor>//api/name/clientProvider</Anchor>
+            <NodeRef refid="175"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClient/setClientProvider:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>+ (void)setClientProvider:(Class&lt;SFSDKOAuthClientProvider&gt;)className</Declaration>
+			
+			
+			<Anchor>//api/name/setClientProvider:</Anchor>
             <NodeRef refid="175"/>
 		</Token>
 		

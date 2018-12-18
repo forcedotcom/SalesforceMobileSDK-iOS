@@ -56,12 +56,12 @@ is NSFileProtectionComplete</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFFileProtectionHelper/fileProtectionForPath:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFFileProtectionHelper/fileProtectionForPath:</TokenIdentifier>
 			<Abstract type="html">Helper method that will return the file protection
 for the specified file path.</Abstract>
 			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)fileProtectionForPath:(NSString *)path NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (NSString *)fileProtectionForPath:(NSString *)path</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>path</Name>
@@ -69,16 +69,16 @@ for the specified file path.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The file protection</Abstract></ReturnValue>
-			<Anchor>//api/name/fileProtectionForPath:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/fileProtectionForPath:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/addProtection:forPath:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/addProtection:forPath:</TokenIdentifier>
 			<Abstract type="html">Add a valid file protection attribute to a path</Abstract>
 			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
 			
-			<Declaration>- (void)addProtection:(NSString *)fileProtection forPath:(NSString *)path NS_SWIFT_NAME</Declaration>
+			<Declaration>- (void)addProtection:(NSString *)fileProtection forPath:(NSString *)path</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>fileProtection</Name>
@@ -89,7 +89,7 @@ for the specified file path.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addProtection:forPath:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/addProtection:forPath:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		

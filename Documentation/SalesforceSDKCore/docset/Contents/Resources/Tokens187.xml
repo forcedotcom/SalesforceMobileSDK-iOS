@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFUserAccountPersister.html">
+	<File path="Protocols/SFSDKWindowContainerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountPersister</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKWindowContainerDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="187"/>
@@ -13,62 +13,36 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/saveAccountForUser:error:</TokenIdentifier>
-			<Abstract type="html">Called when the Account manager requires to save the state of an account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowContainerDelegate/presentWindow:animated:withCompletion:</TokenIdentifier>
+			<Abstract type="html">Called when the window has to be enabled</Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **)error</Declaration>
+			<Declaration>- (void)presentWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>userAccount</Name>
-					<Abstract type="html">The instance of SFUserAccount making the call.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, the error if the return value is NO</Abstract>
+					<Name>window</Name>
+					<Abstract type="html">The window</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the account was saved properly, NO in case of error</Abstract></ReturnValue>
-			<Anchor>//api/name/saveAccountForUser:error:</Anchor>
+			
+			<Anchor>//api/name/presentWindow:animated:withCompletion:</Anchor>
             <NodeRef refid="187"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/fetchAllAccounts:</TokenIdentifier>
-			<Abstract type="html">Fetches all the accounts.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowContainerDelegate/dismissWindow:animated:withCompletion:</TokenIdentifier>
+			<Abstract type="html">Called when the window has to be disabled</Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary&lt;SFUserAccountIdentity*,SFUserAccount*&gt; *)fetchAllAccounts:(NSError **)error</Declaration>
+			<Declaration>- (void)dismissWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>error</Name>
-					<Abstract type="html">On output, the error if the return value is NO</Abstract>
+					<Name>window</Name>
+					<Abstract type="html">The window</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">NSDictionary with SFUserAccountIdentity as keys and SFUserAccount as values
-  </Abstract></ReturnValue>
-			<Anchor>//api/name/fetchAllAccounts:</Anchor>
-            <NodeRef refid="187"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountPersister/deleteAccountForUser:error:</TokenIdentifier>
-			<Abstract type="html">Allows you to remove the given user account.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user account to remove.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Output error parameter, populated if there was an error deleting
-the account (likely from the filesystem operations).</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
-the user parameter is found, no action will be taken, and deletion will be reported as successful.</Abstract></ReturnValue>
-			<Anchor>//api/name/deleteAccountForUser:error:</Anchor>
+			<Anchor>//api/name/dismissWindow:animated:withCompletion:</Anchor>
             <NodeRef refid="187"/>
 		</Token>
 		

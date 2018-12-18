@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAppConfig.html">
+	<File path="Classes/SFSDKAnalyticsTransformPublisherPair.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAppConfig</TokenIdentifier>
-			<Abstract type="html">Contains this app&apos;s OAuth configuration as defined in the developer&apos;s Salesforce connected app.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAnalyticsTransformPublisherPair</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="58"/>
@@ -13,262 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setRemoteAccessConsumerKey:</TokenIdentifier>
-			<Abstract type="html">The Connected App key associated with this application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/setTransform:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *remoteAccessConsumerKey</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
 			
 			
-			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
+			<Anchor>//api/name/transform</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/remoteAccessConsumerKey</TokenIdentifier>
-			<Abstract type="html">The Connected App key associated with this application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/transform</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *remoteAccessConsumerKey</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
 			
 			
-			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
+			<Anchor>//api/name/transform</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/remoteAccessConsumerKey</TokenIdentifier>
-			<Abstract type="html">The Connected App key associated with this application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsTransformPublisherPair/transform</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *remoteAccessConsumerKey</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
 			
 			
-			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
+			<Anchor>//api/name/transform</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setOauthRedirectURI:</TokenIdentifier>
-			<Abstract type="html">The OAuth Redirect URI associated with the configured Connected Application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/setPublisher:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *oauthRedirectURI</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
 			
 			
-			<Anchor>//api/name/oauthRedirectURI</Anchor>
+			<Anchor>//api/name/publisher</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/oauthRedirectURI</TokenIdentifier>
-			<Abstract type="html">The OAuth Redirect URI associated with the configured Connected Application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/publisher</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *oauthRedirectURI</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
 			
 			
-			<Anchor>//api/name/oauthRedirectURI</Anchor>
+			<Anchor>//api/name/publisher</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/oauthRedirectURI</TokenIdentifier>
-			<Abstract type="html">The OAuth Redirect URI associated with the configured Connected Application.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsTransformPublisherPair/publisher</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *oauthRedirectURI</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
 			
 			
-			<Anchor>//api/name/oauthRedirectURI</Anchor>
+			<Anchor>//api/name/publisher</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setOauthScopes:</TokenIdentifier>
-			<Abstract type="html">The OAuth Scopes being requested for this app.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/initWithTransform:publisher:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSSet&lt;NSString*&gt; *oauthScopes</Declaration>
-			
-			
-			<Anchor>//api/name/oauthScopes</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/oauthScopes</TokenIdentifier>
-			<Abstract type="html">The OAuth Scopes being requested for this app.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSSet&lt;NSString*&gt; *oauthScopes</Declaration>
+			<Declaration>- (nonnull instancetype)initWithTransform:(nonnull id&lt;SFSDKTransform&gt;)transform publisher:(nonnull id&lt;SFSDKAnalyticsPublisher&gt;)publisher</Declaration>
 			
 			
-			<Anchor>//api/name/oauthScopes</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/oauthScopes</TokenIdentifier>
-			<Abstract type="html">The OAuth Scopes being requested for this app.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSSet&lt;NSString*&gt; *oauthScopes</Declaration>
-			
-			
-			<Anchor>//api/name/oauthScopes</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/set:</TokenIdentifier>
-			<Abstract type="html">Whether or not this app should authenticate when it first starts.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL shouldAuthenticate NS_SWIFT_NAME ( shouldAuthenticateOnFirstLaunch )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/)</TokenIdentifier>
-			<Abstract type="html">Whether or not this app should authenticate when it first starts.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL shouldAuthenticate NS_SWIFT_NAME ( shouldAuthenticateOnFirstLaunch )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/)</TokenIdentifier>
-			<Abstract type="html">Whether or not this app should authenticate when it first starts.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL shouldAuthenticate NS_SWIFT_NAME ( shouldAuthenticateOnFirstLaunch )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setConfigDict:</TokenIdentifier>
-			<Abstract type="html">The config as a dictionary</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *configDict</Declaration>
-			
-			
-			<Anchor>//api/name/configDict</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/configDict</TokenIdentifier>
-			<Abstract type="html">The config as a dictionary</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *configDict</Declaration>
-			
-			
-			<Anchor>//api/name/configDict</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/configDict</TokenIdentifier>
-			<Abstract type="html">The config as a dictionary</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *configDict</Declaration>
-			
-			
-			<Anchor>//api/name/configDict</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/initWithDict:NS_SWIFT_NAME:</TokenIdentifier>
-			<Abstract type="html">Initializer with a given JSON-based configuration dictionary.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>- (nullable instancetype)initWithDict:(nullable NSDictionary *)configDict NS_SWIFT_NAME</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>configDict</Name>
-					<Abstract type="html">The dictionary containing the configuration.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithDict:NS_SWIFT_NAME:</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/initWithConfigFile:NS_SWIFT_NAME:</TokenIdentifier>
-			<Abstract type="html">Initializer with a given a config file.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>- (nullable instancetype)initWithConfigFile:(NSString *)configFile NS_SWIFT_NAME</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>configFile</Name>
-					<Abstract type="html">The path to config file</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithConfigFile:NS_SWIFT_NAME:</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/validate:</TokenIdentifier>
-			<Abstract type="html">Validate the app config inputs.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)validate:(NSError *_Nullable *_Nullable)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error associated with validation, if an error occurs.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if validation was successful, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/validate:</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppConfig/fromDefaultConfigFile</TokenIdentifier>
-			<Abstract type="html">The app config from the default configuration file location.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>+ (nullable instancetype)fromDefaultConfigFile</Declaration>
-			
-			<ReturnValue><Abstract type="html">The app config from the default configuration file location.</Abstract></ReturnValue>
-			<Anchor>//api/name/fromDefaultConfigFile</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppConfig/fromConfigFile:</TokenIdentifier>
-			<Abstract type="html">Create an app config from the config file at the specified file path.</Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-			
-			<Declaration>+ (nullable instancetype)fromConfigFile:(NSString *)configFilePath</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>configFilePath</Name>
-					<Abstract type="html">The file path to the configuration file, relative to the resources root path.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The app config from the given file path.</Abstract></ReturnValue>
-			<Anchor>//api/name/fromConfigFile:</Anchor>
+			<Anchor>//api/name/initWithTransform:publisher:</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		

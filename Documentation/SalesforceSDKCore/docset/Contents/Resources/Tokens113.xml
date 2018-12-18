@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUserSelectionNavViewController.html">
+	<File path="Classes/SFSDKUITableViewCell.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUserSelectionNavViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUITableViewCell</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
             
 			
 			<NodeRef refid="113"/>
@@ -13,86 +13,218 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/setUserSelectionDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setUserName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/userSelectionDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/userName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionNavViewController/userSelectionDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/userName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/setSpAppOptions:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setHostName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
 			
 			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/spAppOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/hostName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
 			
 			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionNavViewController/spAppOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/hostName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
 			
 			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/createUserSelectionController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setImageURL:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKUserSelectionTableViewController *)createUserSelectionController</Declaration>
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
 			
 			
-			<Anchor>//api/name/createUserSelectionController</Anchor>
+			<Anchor>//api/name/imageURL</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/imageURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
+			
+			
+			<Anchor>//api/name/imageURL</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/imageURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
+			
+			
+			<Anchor>//api/name/imageURL</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setProfileImage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
+			
+			
+			<Anchor>//api/name/profileImage</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/profileImage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
+			
+			
+			<Anchor>//api/name/profileImage</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/profileImage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
+			
+			
+			<Anchor>//api/name/profileImage</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setReuseCellIdentifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/reuseCellIdentifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/reuseCellIdentifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setCellHeight:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/cellHeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
+            <NodeRef refid="113"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/cellHeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		

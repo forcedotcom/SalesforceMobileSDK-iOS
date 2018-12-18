@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUserSelectionTableViewController.html">
+	<File path="Classes/SFSDKUIWindow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUserSelectionTableViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUIWindow</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="114"/>
@@ -13,206 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSelectedAccount:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/initWithFrame:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
+			<Declaration>- (instancetype _Nonnull)initWithFrame:(CGRect)frame</Declaration>
 			
 			
-			<Anchor>//api/name/selectedAccount</Anchor>
+			<Anchor>//api/name/initWithFrame:</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/initWithFrame:andName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
+			<Declaration>- (instancetype _Nonnull)initWithFrame:(CGRect)frame andName:(NSString *_Nonnull)windowName</Declaration>
 			
 			
-			<Anchor>//api/name/selectedAccount</Anchor>
+			<Anchor>//api/name/initWithFrame:andName:</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/setStashedController:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
+			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
 			
 			
-			<Anchor>//api/name/selectedAccount</Anchor>
+			<Anchor>//api/name/stashedController</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setListViewDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/stashedController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
+			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
 			
 			
-			<Anchor>//api/name/listViewDelegate</Anchor>
+			<Anchor>//api/name/stashedController</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUIWindow/stashedController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
+			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
 			
 			
-			<Anchor>//api/name/listViewDelegate</Anchor>
+			<Anchor>//api/name/stashedController</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/setWindowName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
 			
 			
-			<Anchor>//api/name/listViewDelegate</Anchor>
+			<Anchor>//api/name/windowName</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSpAppOptions:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/windowName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
 			
 			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/windowName</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/spAppOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUIWindow/windowName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
 			
 			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setNavigationBar:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
-			
-			
-			<Anchor>//api/name/navigationBar</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/navigationBar</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
-			
-			
-			<Anchor>//api/name/navigationBar</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/navigationBar</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
-			
-			
-			<Anchor>//api/name/navigationBar</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setTableView:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
-			
-			
-			<Anchor>//api/name/tableView</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/tableView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
-			
-			
-			<Anchor>//api/name/tableView</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/tableView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
-			
-			
-			<Anchor>//api/name/tableView</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/createFooterView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (UIView *)createFooterView</Declaration>
-			
-			
-			<Anchor>//api/name/createFooterView</Anchor>
-            <NodeRef refid="114"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/createHeaderView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (UIView *)createHeaderView</Declaration>
-			
-			
-			<Anchor>//api/name/createHeaderView</Anchor>
+			<Anchor>//api/name/windowName</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		

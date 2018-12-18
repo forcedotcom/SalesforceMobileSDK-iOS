@@ -1,16 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/ViewController.html">
+	<File path="Classes/SmartStoreSDKManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SmartStoreSDKManager</TokenIdentifier>
+			<Abstract type="html">Version of SalesforceSDKManager to be used with all SmartStore-enabled apps.
+By default, forceios apps use an instance of this class instead of SalesforceSDKManager.</Abstract>
+			<DeclaredIn>SmartStoreSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="27"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartStoreSDKManager/setupGlobalStoreFromDefaultConfig</TokenIdentifier>
+			<Abstract type="html">Setup global store using config found globalstore.json</Abstract>
+			<DeclaredIn>SmartStoreSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setupGlobalStoreFromDefaultConfig</Declaration>
+			
+			
+			<Anchor>//api/name/setupGlobalStoreFromDefaultConfig</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartStoreSDKManager/setupUserStoreFromDefaultConfig</TokenIdentifier>
+			<Abstract type="html">Setup user store using config found in userstore.json</Abstract>
+			<DeclaredIn>SmartStoreSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setupUserStoreFromDefaultConfig</Declaration>
+			
+			
+			<Anchor>//api/name/setupUserStoreFromDefaultConfig</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartStoreSDKManager/set:</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>SmartStoreSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) SmartStoreSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartStoreSDKManager/)</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>SmartStoreSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) SmartStoreSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SmartStoreSDKManager/)</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>SmartStoreSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) SmartStoreSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
 		
         
         

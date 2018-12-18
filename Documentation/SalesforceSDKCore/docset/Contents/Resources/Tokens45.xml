@@ -1,16 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPasscodeKeyStore.html">
+	<File path="Classes/SFPBKDFData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeKeyStore</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPasscodeKeyStore.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDFData</TokenIdentifier>
+			<Abstract type="html">Data class for PBKDF-generated keys.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
             
 			
 			<NodeRef refid="45"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKey:</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKey</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKey</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKey</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKey</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSData *derivedKey</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKey</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setSalt:</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			
+			
+			<Anchor>//api/name/salt</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/salt</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			
+			
+			<Anchor>//api/name/salt</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/salt</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
+			
+			
+			<Anchor>//api/name/salt</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setNumDerivationRounds:</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			
+			
+			<Anchor>//api/name/numDerivationRounds</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			
+			
+			<Anchor>//api/name/numDerivationRounds</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			
+			
+			<Anchor>//api/name/numDerivationRounds</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKeyLength:</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKeyLength</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKeyLength</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKeyLength</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKeyLength</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKeyLength</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/initWithKey:salt:derivationRounds:derivedKeyLength:</TokenIdentifier>
+			<Abstract type="html">Initializes the data object with its core components.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithKey:(NSData *)key salt:(NSData *)salt derivationRounds:(NSUInteger)derivationRounds derivedKeyLength:(NSUInteger)derivedKeyLength</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The derived key.</Abstract>
+				</Parameter><Parameter>
+					<Name>salt</Name>
+					<Abstract type="html">The salt used with the input value to create the key.</Abstract>
+				</Parameter><Parameter>
+					<Name>derivationRounds</Name>
+					<Abstract type="html">The number of derivation rounds used to generate the key.</Abstract>
+				</Parameter><Parameter>
+					<Name>derivedKeyLength</Name>
+					<Abstract type="html">The length of the derived key, in bytes.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithKey:salt:derivationRounds:derivedKeyLength:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
 		
         
         

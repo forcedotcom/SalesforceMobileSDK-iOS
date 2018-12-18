@@ -737,14 +737,14 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/loggerForComponent:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/loggerForComponent:</TokenIdentifier>
 			<Abstract type="html">Get an instance of a component Logger.</Abstract>
 			<DeclaredIn>SFLogger.h</DeclaredIn>
 			
-			<Declaration>+ (nonnull instancetype)loggerForComponent:(nonnull NSString *)component NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (nonnull instancetype)loggerForComponent:(nonnull NSString *)component</Declaration>
 			
 			
-			<Anchor>//api/name/loggerForComponent:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/loggerForComponent:</Anchor>
             <NodeRef refid="5"/>
 		</Token>
 		

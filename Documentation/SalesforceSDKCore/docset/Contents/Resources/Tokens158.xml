@@ -1,57 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFIdentityCoordinatorDelegate.html">
+	<File path="Categories/UIFont+SFSDKIDP.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFIdentityCoordinatorDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol for being a delegate to the SFIdentityCoordinator process.  Delegates may receive
-notifications about the success or failure of the identity request process.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIFont(SFSDKIDP)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
             
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
 			<NodeRef refid="158"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinatorRetrievedData:</TokenIdentifier>
-			<Abstract type="html">Called when the identity coordinator successfully receives identity data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIFont/textRegular:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
 			
-			<Declaration>- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">the SFIdentityCoordinator instance associated with the requested data.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (UIFont *)textRegular:(CGFloat)size</Declaration>
 			
-			<Anchor>//api/name/identityCoordinatorRetrievedData:</Anchor>
+			
+			<Anchor>//api/name/textRegular:</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinator:didFailWithError:</TokenIdentifier>
-			<Abstract type="html">Called if there was an error while retrieving the identity data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIFont/textBold:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
 			
-			<Declaration>- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFIdentityCoordinator instance associated with the request.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error that occurred during the request.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (UIFont *)textBold:(CGFloat)size</Declaration>
 			
-			<Anchor>//api/name/identityCoordinator:didFailWithError:</Anchor>
+			
+			<Anchor>//api/name/textBold:</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		

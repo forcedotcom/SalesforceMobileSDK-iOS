@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSyncTarget.html">
+	<File path="Classes/SFSyncOptions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSyncTarget</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncOptions</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
             
 			
 			<NodeRef refid="30"/>
@@ -13,339 +13,134 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/setIdFieldName:</TokenIdentifier>
-			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/setFieldlist:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/idFieldName</Anchor>
+			<Anchor>//api/name/fieldlist</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/idFieldName</TokenIdentifier>
-			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/fieldlist</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/idFieldName</Anchor>
+			<Anchor>//api/name/fieldlist</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncTarget/idFieldName</TokenIdentifier>
-			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncOptions/fieldlist</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
 			
 			
-			<Anchor>//api/name/idFieldName</Anchor>
+			<Anchor>//api/name/fieldlist</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/setModificationDateFieldName:</TokenIdentifier>
-			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/setMergeMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
 			
 			
-			<Anchor>//api/name/modificationDateFieldName</Anchor>
+			<Anchor>//api/name/mergeMode</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/modificationDateFieldName</TokenIdentifier>
-			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/mergeMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
 			
 			
-			<Anchor>//api/name/modificationDateFieldName</Anchor>
+			<Anchor>//api/name/mergeMode</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncTarget/modificationDateFieldName</TokenIdentifier>
-			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncOptions/mergeMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode</Declaration>
 			
 			
-			<Anchor>//api/name/modificationDateFieldName</Anchor>
+			<Anchor>//api/name/mergeMode</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/initWithDict:</TokenIdentifier>
-			<Abstract type="html">Designated initializer that initializes a sync target from the given dictionary.</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncDown:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithDict:(NSDictionary *)dict</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>dict</Name>
-					<Abstract type="html">The sync target serialized to an NSDictionary.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode</Declaration>
 			
-			<Anchor>//api/name/initWithDict:</Anchor>
+			
+			<Anchor>//api/name/newSyncOptionsForSyncDown:</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/asDict</TokenIdentifier>
-			<Abstract type="html">The target represented as a dictionary.  Note: inheriting classes should initialize their
-dictionary from the super representation, as each parent class can add fields to the
-dictionary along the way.</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncUp:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
 			
-			<Declaration>- (NSMutableDictionary *)asDict</Declaration>
+			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncUp:(NSArray *)fieldlist</Declaration>
 			
-			<ReturnValue><Abstract type="html">The target represented as a dictionary.</Abstract></ReturnValue>
+			
+			<Anchor>//api/name/newSyncOptionsForSyncUp:</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newSyncOptionsForSyncUp:mergeMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			
+			<Declaration>+ (SFSyncOptions *)newSyncOptionsForSyncUp:(NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode</Declaration>
+			
+			
+			<Anchor>//api/name/newSyncOptionsForSyncUp:mergeMode:</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncOptions/newFromDict:</TokenIdentifier>
+			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			
+			<Declaration>+ (nullable SFSyncOptions *)newFromDict:(NSDictionary *)dict</Declaration>
+			
+			
+			<Anchor>//api/name/newFromDict:</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncOptions/asDict</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncOptions.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)asDict</Declaration>
+			
+			
 			<Anchor>//api/name/asDict</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/cleanAndSaveInLocalStore:soupName:record:NS_SWIFT_NAME:</TokenIdentifier>
-			<Abstract type="html">Save record in local store (marked as clean)</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
-			
-			<Declaration>- (void)cleanAndSaveInLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName record:(NSDictionary *)record NS_SWIFT_NAME</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>syncManager</Name>
-					<Abstract type="html">The sync manager</Abstract>
-				</Parameter><Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The soup</Abstract>
-				</Parameter><Parameter>
-					<Name>record</Name>
-					<Abstract type="html">The record</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/cleanAndSaveInLocalStore:soupName:record:NS_SWIFT_NAME:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/cleanAndSaveRecordsToLocalStore:soupName:records:syncId:NS_SWIFT_NAME:</TokenIdentifier>
-			<Abstract type="html">Save records in local store (marked as clean)</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
-			
-			<Declaration>- (void)cleanAndSaveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId NS_SWIFT_NAME</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>syncManager</Name>
-					<Abstract type="html">The sync manager</Abstract>
-				</Parameter><Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The soup</Abstract>
-				</Parameter><Parameter>
-					<Name>records</Name>
-					<Abstract type="html">The records to save</Abstract>
-				</Parameter><Parameter>
-					<Name>syncId</Name>
-					<Abstract type="html">The sync id</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/cleanAndSaveRecordsToLocalStore:soupName:records:syncId:NS_SWIFT_NAME:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/isLocallyCreated:</TokenIdentifier>
-			<Abstract type="html">The record</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isLocallyCreated:(NSDictionary *)record</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>record</Name>
-					<Abstract type="html">The record</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if record was locally created</Abstract></ReturnValue>
-			<Anchor>//api/name/isLocallyCreated:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/isLocallyUpdated:</TokenIdentifier>
-			<Abstract type="html">The record</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isLocallyUpdated:(NSDictionary *)record</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>record</Name>
-					<Abstract type="html">The record</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if record was locally updated</Abstract></ReturnValue>
-			<Anchor>//api/name/isLocallyUpdated:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/isLocallyDeleted:</TokenIdentifier>
-			<Abstract type="html">The record</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isLocallyDeleted:(NSDictionary *)record</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>record</Name>
-					<Abstract type="html">The record</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if record was locally deleted</Abstract></ReturnValue>
-			<Anchor>//api/name/isLocallyDeleted:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/isDirty:</TokenIdentifier>
-			<Abstract type="html">The record</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isDirty:(NSDictionary *)record</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>record</Name>
-					<Abstract type="html">The record</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if record was locally created/updated or deleted</Abstract></ReturnValue>
-			<Anchor>//api/name/isDirty:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/getDirtyRecordIds:soupName:idField:</TokenIdentifier>
-			<Abstract type="html">The sync manager</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
-			
-			<Declaration>- (NSOrderedSet *)getDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>syncManager</Name>
-					<Abstract type="html">The sync manager</Abstract>
-				</Parameter><Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The soup</Abstract>
-				</Parameter><Parameter>
-					<Name>idField</Name>
-					<Abstract type="html">The field containing the ids to return</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">ids of &quot;dirty&quot; records (records locally created/upated or deleted)</Abstract></ReturnValue>
-			<Anchor>//api/name/getDirtyRecordIds:soupName:idField:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/getFromLocalStore:soupName:storeId:</TokenIdentifier>
-			<Abstract type="html">The sync manager</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)getFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName storeId:(NSNumber *)storeId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>syncManager</Name>
-					<Abstract type="html">The sync manager</Abstract>
-				</Parameter><Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The soup</Abstract>
-				</Parameter><Parameter>
-					<Name>storeId</Name>
-					<Abstract type="html">The soup entry id</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Record from local store by storeId</Abstract></ReturnValue>
-			<Anchor>//api/name/getFromLocalStore:soupName:storeId:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/deleteFromLocalStore:soupName:record:NS_SWIFT_NAME:</TokenIdentifier>
-			<Abstract type="html">Delete record from local store</Abstract>
-			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
-			
-			<Declaration>- (void)deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName record:(NSDictionary *)record NS_SWIFT_NAME</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>syncManager</Name>
-					<Abstract type="html">The sync manager</Abstract>
-				</Parameter><Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The soup</Abstract>
-				</Parameter><Parameter>
-					<Name>record</Name>
-					<Abstract type="html">The record to delete</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/deleteFromLocalStore:soupName:record:NS_SWIFT_NAME:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/getIdsWithQuery:syncManager:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncTarget+Internal.h</DeclaredIn>
-			
-			<Declaration>- (NSOrderedSet *)getIdsWithQuery:(id)idsSql syncManager:(SFSmartSyncSyncManager *)syncManager</Declaration>
-			
-			
-			<Anchor>//api/name/getIdsWithQuery:syncManager:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/getDirtyRecordIdsSql:idField:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncTarget+Internal.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)getDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField</Declaration>
-			
-			
-			<Anchor>//api/name/getDirtyRecordIdsSql:idField:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/deleteRecordsFromLocalStore:soupName:ids:idField:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncTarget+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)deleteRecordsFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName ids:(NSArray *)ids idField:(NSString *)idField</Declaration>
-			
-			
-			<Anchor>//api/name/deleteRecordsFromLocalStore:soupName:ids:idField:</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/saveInLocalStore:soupName:records:idFieldName:syncId:lastError:cleanFirst:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncTarget+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)saveInLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId lastError:(NSString *)lastError cleanFirst:(BOOL)cleanFirst</Declaration>
-			
-			
-			<Anchor>//api/name/saveInLocalStore:soupName:records:idFieldName:syncId:lastError:cleanFirst:</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		

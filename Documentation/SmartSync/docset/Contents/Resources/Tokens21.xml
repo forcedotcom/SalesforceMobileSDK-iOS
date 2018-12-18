@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncNetworkUtils.html">
+	<File path="Classes/SFSDKSyncsConfig.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncNetworkUtils</TokenIdentifier>
-			<Abstract type="html">Class to provide network utilities related to SmartSync actions.</Abstract>
-			<DeclaredIn>SFSmartSyncNetworkUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSyncsConfig</TokenIdentifier>
+			<Abstract type="html">Class encapsulating syncs definition.</Abstract>
+			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="21"/>
@@ -13,25 +13,49 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncNetworkUtils/sendRequestWithSmartSyncUserAgent:failBlock:completeBlock:</TokenIdentifier>
-			<Abstract type="html">Sends a REST request, applying the SmartSync user agent string.</Abstract>
-			<DeclaredIn>SFSmartSyncNetworkUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/initWithResourceAtPath:</TokenIdentifier>
+			<Abstract type="html">Constructor for config stored in resource file</Abstract>
+			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
 			
-			<Declaration>+ (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock</Declaration>
+			<Declaration>- (nullable instancetype)initWithResourceAtPath:(NSString *)path</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The request to send.</Abstract>
-				</Parameter><Parameter>
-					<Name>failBlock</Name>
-					<Abstract type="html">The block to call if the request fails.</Abstract>
-				</Parameter><Parameter>
-					<Name>completeBlock</Name>
-					<Abstract type="html">The block to call if the request succeeds.</Abstract>
+					<Name>path</Name>
+					<Abstract type="html">to the config file</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">instance of SFSDKSyncsConfig</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithResourceAtPath:</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/createSyncs:</TokenIdentifier>
+			<Abstract type="html">Create the syncs from the config in the given store
+NB: only feedback is through the logs - the config is static so getting it right is something the developer should do while writing the app</Abstract>
+			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
+			
+			<Declaration>- (void)createSyncs:(SFSmartStore *)store</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>store</Name>
+					<Abstract type="html">to create syncs in.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/sendRequestWithSmartSyncUserAgent:failBlock:completeBlock:</Anchor>
+			<Anchor>//api/name/createSyncs:</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/hasSyncs</TokenIdentifier>
+			<Abstract type="html">Check for syncs in config</Abstract>
+			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)hasSyncs</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if syncs are defined in config</Abstract></ReturnValue>
+			<Anchor>//api/name/hasSyncs</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAlertMessageBuilder.html">
+	<File path="Classes/SFSDKAlertMessage.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAlertMessageBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAlertMessage</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
             
 			
 			<NodeRef refid="55"/>
@@ -13,11 +13,11 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setAlertTitle:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setAlertTitle:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *alertTitle</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *alertTitle</Declaration>
 			
 			
 			<Anchor>//api/name/alertTitle</Anchor>
@@ -25,11 +25,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/alertTitle</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/alertTitle</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *alertTitle</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *alertTitle</Declaration>
 			
 			
 			<Anchor>//api/name/alertTitle</Anchor>
@@ -37,11 +37,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/alertTitle</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/alertTitle</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *alertTitle</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *alertTitle</Declaration>
 			
 			
 			<Anchor>//api/name/alertTitle</Anchor>
@@ -49,11 +49,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setAlertMessage:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setAlertMessage:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *alertMessage</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *alertMessage</Declaration>
 			
 			
 			<Anchor>//api/name/alertMessage</Anchor>
@@ -61,11 +61,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/alertMessage</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/alertMessage</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *alertMessage</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *alertMessage</Declaration>
 			
 			
 			<Anchor>//api/name/alertMessage</Anchor>
@@ -73,11 +73,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/alertMessage</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/alertMessage</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *alertMessage</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *alertMessage</Declaration>
 			
 			
 			<Anchor>//api/name/alertMessage</Anchor>
@@ -85,11 +85,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setActionOneTitle:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setActionOneTitle:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *actionOneTitle</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *actionOneTitle</Declaration>
 			
 			
 			<Anchor>//api/name/actionOneTitle</Anchor>
@@ -97,11 +97,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/actionOneTitle</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/actionOneTitle</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *actionOneTitle</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *actionOneTitle</Declaration>
 			
 			
 			<Anchor>//api/name/actionOneTitle</Anchor>
@@ -109,11 +109,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/actionOneTitle</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/actionOneTitle</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *actionOneTitle</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *actionOneTitle</Declaration>
 			
 			
 			<Anchor>//api/name/actionOneTitle</Anchor>
@@ -121,11 +121,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setActionTwoTitle:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setActionTwoTitle:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *actionTwoTitle</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *actionTwoTitle</Declaration>
 			
 			
 			<Anchor>//api/name/actionTwoTitle</Anchor>
@@ -133,11 +133,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/actionTwoTitle</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/actionTwoTitle</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *actionTwoTitle</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *actionTwoTitle</Declaration>
 			
 			
 			<Anchor>//api/name/actionTwoTitle</Anchor>
@@ -145,11 +145,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/actionTwoTitle</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/actionTwoTitle</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *actionTwoTitle</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *actionTwoTitle</Declaration>
 			
 			
 			<Anchor>//api/name/actionTwoTitle</Anchor>
@@ -157,11 +157,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setActionOneCompletion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setActionOneCompletion:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionOneCompletion</Declaration>
+			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionOneCompletion</Declaration>
 			
 			
 			<Anchor>//api/name/actionOneCompletion</Anchor>
@@ -169,11 +169,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/actionOneCompletion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/actionOneCompletion</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionOneCompletion</Declaration>
+			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionOneCompletion</Declaration>
 			
 			
 			<Anchor>//api/name/actionOneCompletion</Anchor>
@@ -181,11 +181,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/actionOneCompletion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/actionOneCompletion</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionOneCompletion</Declaration>
+			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionOneCompletion</Declaration>
 			
 			
 			<Anchor>//api/name/actionOneCompletion</Anchor>
@@ -193,11 +193,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/setActionTwoCompletion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setActionTwoCompletion:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
+			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
 			
 			
 			<Anchor>//api/name/actionTwoCompletion</Anchor>
@@ -205,11 +205,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/actionTwoCompletion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/actionTwoCompletion</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
+			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
 			
 			
 			<Anchor>//api/name/actionTwoCompletion</Anchor>
@@ -217,11 +217,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessageBuilder/actionTwoCompletion</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/actionTwoCompletion</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
+			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
 			
 			
 			<Anchor>//api/name/actionTwoCompletion</Anchor>
@@ -229,14 +229,26 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessageBuilder/build</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/initWithBuilder:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessageBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKAlertMessage *)build</Declaration>
+			<Declaration>- (instancetype)initWithBuilder:(SFSDKAlertMessageBuilder *)builder</Declaration>
 			
 			
-			<Anchor>//api/name/build</Anchor>
+			<Anchor>//api/name/initWithBuilder:</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAlertMessage/messageWithBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			
+			<Declaration>+ (SFSDKAlertMessage *)messageWithBlock:(void ( ^ ) ( SFSDKAlertMessageBuilder *))builderBlock</Declaration>
+			
+			
+			<Anchor>//api/name/messageWithBlock:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		

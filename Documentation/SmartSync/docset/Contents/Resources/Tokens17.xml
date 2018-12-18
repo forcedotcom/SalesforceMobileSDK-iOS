@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRow.html">
+	<File path="Classes/SFRecordModDate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRow</TokenIdentifier>
-			<Abstract type="html">Represents a record layout row.</Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFRecordModDate</TokenIdentifier>
+			<Abstract type="html">Helper class for isNewerThanServer</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="17"/>
@@ -13,55 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRow/setLayoutItems:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setTimestamp:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
 			
 			
-			<Anchor>//api/name/layoutItems</Anchor>
+			<Anchor>//api/name/timestamp</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRow/layoutItems</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/timestamp</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
 			
 			
-			<Anchor>//api/name/layoutItems</Anchor>
+			<Anchor>//api/name/timestamp</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRow/layoutItems</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/timestamp</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
 			
 			
-			<Anchor>//api/name/layoutItems</Anchor>
+			<Anchor>//api/name/timestamp</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRow/fromJSON:</TokenIdentifier>
-			<Abstract type="html">Creates an instance of this class from its JSON representation.</Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setIsDeleted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>+ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">JSON data.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/fromJSON:</Anchor>
+			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
+			
+			
+			<Anchor>//api/name/isDeleted</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/isDeleted</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
+			
+			
+			<Anchor>//api/name/isDeleted</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/isDeleted</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
+			
+			
+			<Anchor>//api/name/isDeleted</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/initWithTimestamp:isDeleted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithTimestamp:(nullable NSString *)timestamp isDeleted:(BOOL)isDeleted</Declaration>
+			
+			
+			<Anchor>//api/name/initWithTimestamp:isDeleted:</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		

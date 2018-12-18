@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/TestSyncUpTarget.html">
+	<File path="Classes/SmartSyncSDKManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/TestSyncUpTarget</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SmartSyncSDKManager</TokenIdentifier>
+			<Abstract type="html">Version of SalesforceSDKManager to be used with all SmartSync-enabled apps.</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="35"/>
@@ -13,14 +13,62 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/TestSyncUpTarget/initWithRemoteModDateCompare:sendRemoteModError:sendSyncUpError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>TestSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/setupGlobalSyncsFromDefaultConfig</TokenIdentifier>
+			<Abstract type="html">Setup global syncs using config found globalsyncs.json</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithRemoteModDateCompare:(TestSyncUpTargetModDateCompare)dateCompare sendRemoteModError:(BOOL)sendRemoteModError sendSyncUpError:(BOOL)sendSyncUpError</Declaration>
+			<Declaration>- (void)setupGlobalSyncsFromDefaultConfig</Declaration>
 			
 			
-			<Anchor>//api/name/initWithRemoteModDateCompare:sendRemoteModError:sendSyncUpError:</Anchor>
+			<Anchor>//api/name/setupGlobalSyncsFromDefaultConfig</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/setupUserSyncsFromDefaultConfig</TokenIdentifier>
+			<Abstract type="html">Setup user syncs using config found in usersyncs.json</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setupUserSyncsFromDefaultConfig</Declaration>
+			
+			
+			<Anchor>//api/name/setupUserSyncsFromDefaultConfig</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/set:</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) SmartSyncSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/)</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) SmartSyncSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SmartSyncSDKManager/)</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) SmartSyncSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="35"/>
 		</Token>
 		

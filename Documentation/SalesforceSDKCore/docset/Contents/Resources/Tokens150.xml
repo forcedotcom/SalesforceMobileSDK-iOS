@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/SFOAuthCoordinator+.html">
+	<File path="Categories/NSObject+SFBlocks.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/SFOAuthCoordinator()</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cat/NSObject(SFBlocks)</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
             
 			
 			<NodeRef refid="150"/>
@@ -13,547 +13,138 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setOauthCoordinatorFlow:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCoordinatorFlow</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/oauthCoordinatorFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCoordinatorFlow</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/oauthCoordinatorFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCoordinatorFlow</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setAuthenticating:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (assign) BOOL authenticating</Declaration>
-			
-			
-			<Anchor>//api/name/authenticating</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/authenticating</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (assign) BOOL authenticating</Declaration>
-			
-			
-			<Anchor>//api/name/authenticating</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/authenticating</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (assign) BOOL authenticating</Declaration>
-			
-			
-			<Anchor>//api/name/authenticating</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setSession:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSURLSession *session</Declaration>
-			
-			
-			<Anchor>//api/name/session</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/session</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSURLSession *session</Declaration>
-			
-			
-			<Anchor>//api/name/session</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/session</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSURLSession *session</Declaration>
-			
-			
-			<Anchor>//api/name/session</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setResponseData:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
-			
-			
-			<Anchor>//api/name/responseData</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/responseData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
-			
-			
-			<Anchor>//api/name/responseData</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/responseData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
-			
-			
-			<Anchor>//api/name/responseData</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setInitialRequestLoaded:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL initialRequestLoaded</Declaration>
-			
-			
-			<Anchor>//api/name/initialRequestLoaded</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/initialRequestLoaded</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL initialRequestLoaded</Declaration>
-			
-			
-			<Anchor>//api/name/initialRequestLoaded</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/initialRequestLoaded</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL initialRequestLoaded</Declaration>
-			
-			
-			<Anchor>//api/name/initialRequestLoaded</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setApprovalCode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *approvalCode</Declaration>
-			
-			
-			<Anchor>//api/name/approvalCode</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/approvalCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *approvalCode</Declaration>
-			
-			
-			<Anchor>//api/name/approvalCode</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/approvalCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *approvalCode</Declaration>
-			
-			
-			<Anchor>//api/name/approvalCode</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setView:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) WKWebView *view</Declaration>
-			
-			
-			<Anchor>//api/name/view</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/view</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) WKWebView *view</Declaration>
-			
-			
-			<Anchor>//api/name/view</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/view</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) WKWebView *view</Declaration>
-			
-			
-			<Anchor>//api/name/view</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setCodeVerifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *codeVerifier</Declaration>
-			
-			
-			<Anchor>//api/name/codeVerifier</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/codeVerifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *codeVerifier</Declaration>
-			
-			
-			<Anchor>//api/name/codeVerifier</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/codeVerifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *codeVerifier</Declaration>
-			
-			
-			<Anchor>//api/name/codeVerifier</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setAuthInfo:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
-			
-			
-			<Anchor>//api/name/authInfo</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/authInfo</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
-			
-			
-			<Anchor>//api/name/authInfo</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/authInfo</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
-			
-			
-			<Anchor>//api/name/authInfo</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setAdvancedAuthState:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState</Declaration>
-			
-			
-			<Anchor>//api/name/advancedAuthState</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/advancedAuthState</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState</Declaration>
-			
-			
-			<Anchor>//api/name/advancedAuthState</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/advancedAuthState</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState</Declaration>
-			
-			
-			<Anchor>//api/name/advancedAuthState</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setOrigWebUserAgent:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *origWebUserAgent</Declaration>
-			
-			
-			<Anchor>//api/name/origWebUserAgent</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/origWebUserAgent</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *origWebUserAgent</Declaration>
-			
-			
-			<Anchor>//api/name/origWebUserAgent</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/origWebUserAgent</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *origWebUserAgent</Declaration>
-			
-			
-			<Anchor>//api/name/origWebUserAgent</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setSpAppCredentials:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *spAppCredentials</Declaration>
-			
-			
-			<Anchor>//api/name/spAppCredentials</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/spAppCredentials</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *spAppCredentials</Declaration>
-			
-			
-			<Anchor>//api/name/spAppCredentials</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/spAppCredentials</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *spAppCredentials</Declaration>
-			
-			
-			<Anchor>//api/name/spAppCredentials</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/updateCredentials:</TokenIdentifier>
-			<Abstract type="html">UpdateCredentials and record changes to instanceUrl,accessToken,communityId</Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)updateCredentials:(NSDictionary *)params</Declaration>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlock:onThread:waitUntilDone:</TokenIdentifier>
+			<Abstract type="html">Perform a block on a specific thread.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
+			
+			<Declaration>- (void)performBlock:(SFThreadBlock)block onThread:(NSThread *)thread waitUntilDone:(BOOL)waitUntilDone</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>params</Name>
-					<Abstract type="html">NV pairs received from token endpoint.</Abstract>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute on the thread</Abstract>
+				</Parameter><Parameter>
+					<Name>thread</Name>
+					<Abstract type="html">The thread in which to execute the block</Abstract>
+				</Parameter><Parameter>
+					<Name>waitUntilDone</Name>
+					<Abstract type="html">Flag that indicates if this method should block until the block is done executing</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/updateCredentials:</Anchor>
+			<Anchor>//api/name/performBlock:onThread:waitUntilDone:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/handleUserAgentResponse:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlockOnGlobalQueue:afterDelay:</TokenIdentifier>
+			<Abstract type="html">Perform a block on a global queue thread after a delay.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>- (void)handleUserAgentResponse:(NSURL *)requestUrl</Declaration>
+			<Declaration>- (void)performBlockOnGlobalQueue:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter><Parameter>
+					<Name>delay</Name>
+					<Abstract type="html">The delay before executing the block</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/handleUserAgentResponse:</Anchor>
+			<Anchor>//api/name/performBlockOnGlobalQueue:afterDelay:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/notifyDelegateOfFailure:authInfo:</TokenIdentifier>
-			<Abstract type="html">Notify our delegate that we could not log in, and clear authenticating flag</Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlockOnMainThread:afterDelay:</TokenIdentifier>
+			<Abstract type="html">Perform a block on the main thread after a delay.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>- (void)notifyDelegateOfFailure:(NSError *)error authInfo:(SFOAuthInfo *)info</Declaration>
+			<Declaration>- (void)performBlockOnMainThread:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter><Parameter>
+					<Name>delay</Name>
+					<Abstract type="html">The delay before executing the block</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/notifyDelegateOfFailure:authInfo:</Anchor>
+			<Anchor>//api/name/performBlockOnMainThread:afterDelay:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/notifyDelegateOfSuccess:</TokenIdentifier>
-			<Abstract type="html">Notify our delegate that login succeeded, and clear authenticating flag</Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/waitForBlockCondition:timeout:</TokenIdentifier>
+			<Abstract type="html">Wait until a block return value is YES or a time-out happens.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>- (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo</Declaration>
-			
-			
-			<Anchor>//api/name/notifyDelegateOfSuccess:</Anchor>
+			<Declaration>- (BOOL)waitForBlockCondition:(BOOL ( ^ ) ( void ))block timeout:(NSTimeInterval)duration</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block that will be invoked regularily until it returns YES or a time-out happen.</Abstract>
+				</Parameter><Parameter>
+					<Name>duration</Name>
+					<Abstract type="html">Time-out duration.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the block returned YES or NO if a time-out happened</Abstract></ReturnValue>
+			<Anchor>//api/name/waitForBlockCondition:timeout:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/generateApprovalUrlString</TokenIdentifier>
-			<Abstract type="html">Used for testing only.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/synchronouslyExecuteBlockOnMainThread:</TokenIdentifier>
+			<Abstract type="html">Executes the given block directly if called from the main thread. Otherwise the block
+is synchronously dispatched for execution on the main thread.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)generateApprovalUrlString</Declaration>
+			<Declaration>- (void)synchronouslyExecuteBlockOnMainThread:(void ( ^ ) ( void ))block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">A String representing the prepared authorize url</Abstract></ReturnValue>
-			<Anchor>//api/name/generateApprovalUrlString</Anchor>
+			<Anchor>//api/name/synchronouslyExecuteBlockOnMainThread:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/parseQueryString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/asynchronouslyExecuteBlockOnMainThread:</TokenIdentifier>
+			<Abstract type="html">The block is asynchronously dispatched for execution on the main thread.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query</Declaration>
+			<Declaration>- (void)asynchronouslyExecuteBlockOnMainThread:(void ( ^ ) ( void ))block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/parseQueryString:</Anchor>
+			<Anchor>//api/name/asynchronouslyExecuteBlockOnMainThread:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/errorWithType:description:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/executeBlockOrDispatchIfNotMainThread:</TokenIdentifier>
+			<Abstract type="html">Executes the given block directly if called from the main thread. Otherwise the block
+is asynchronously dispatched for execution on the main thread.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description</Declaration>
+			<Declaration>- (void)executeBlockOrDispatchIfNotMainThread:(void ( ^ ) ( void ))block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/errorWithType:description:</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/errorWithType:description:underlyingError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *)underlyingError</Declaration>
-			
-			
-			<Anchor>//api/name/errorWithType:description:underlyingError:</Anchor>
-            <NodeRef refid="150"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/timestampStringToDate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (NSDate *)timestampStringToDate:(NSString *)timestamp</Declaration>
-			
-			
-			<Anchor>//api/name/timestampStringToDate:</Anchor>
+			<Anchor>//api/name/executeBlockOrDispatchIfNotMainThread:</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		

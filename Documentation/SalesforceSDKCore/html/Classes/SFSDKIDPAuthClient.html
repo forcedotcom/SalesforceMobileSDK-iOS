@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFSDKIDPAuthClient Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -45,7 +45,47 @@
 	
 
 	
+	
+	<option value="tasks">Tasks</option>
+	
+	
 
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/idpLoginFlowSelectionBlock">idpLoginFlowSelectionBlock</option>
+		
+		<option value="//api/name/idpUserSelectionBlock">idpUserSelectionBlock</option>
+		
+		<option value="//api/name/loginFlowSelectionController">loginFlowSelectionController</option>
+		
+	</optgroup>
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/beginIDPFlow:">- beginIDPFlow:</option>
+		
+		<option value="//api/name/beginIDPFlowForNewUser">- beginIDPFlowForNewUser</option>
+		
+		<option value="//api/name/beginIDPInitiatedFlow:">- beginIDPInitiatedFlow:</option>
+		
+		<option value="//api/name/continueIDPFlow:">- continueIDPFlow:</option>
+		
+		<option value="//api/name/initiateIDPFlowInSPApp">- initiateIDPFlowInSPApp</option>
+		
+		<option value="//api/name/initiateLocalLoginInSPApp">- initiateLocalLoginInSPApp</option>
+		
+		<option value="//api/name/launchSPAppWithError:reason:">- launchSPAppWithError:reason:</option>
+		
+		<option value="//api/name/setCallingAppOptionsInContext:">- setCallingAppOptionsInContext:</option>
+		
+	</optgroup>
+	
 	
 </select>
 						</label>
@@ -59,22 +99,227 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFSDKIDPAuthClient Class Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td><a href="../Classes/SFSDKOAuthClient.html">SFSDKOAuthClient</a> : NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFSDKIDPAuthClient.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
 
 					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/loginFlowSelectionController" title="loginFlowSelectionController"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginFlowSelectionController">&nbsp;&nbsp;loginFlowSelectionController</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, class) SFSDKLoginFlowSelectionViewController *loginFlowSelectionController</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/idpUserSelectionBlock" title="idpUserSelectionBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/idpUserSelectionBlock">&nbsp;&nbsp;idpUserSelectionBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFIDPUserSelectionBlock idpUserSelectionBlock</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/idpLoginFlowSelectionBlock" title="idpLoginFlowSelectionBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/idpLoginFlowSelectionBlock">&nbsp;&nbsp;idpLoginFlowSelectionBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionBlock</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setCallingAppOptionsInContext:" title="setCallingAppOptionsInContext:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setCallingAppOptionsInContext:">&ndash;&nbsp;setCallingAppOptionsInContext:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setCallingAppOptionsInContext:(NSDictionary *)<em>values</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/launchSPAppWithError:reason:" title="launchSPAppWithError:reason:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/launchSPAppWithError:reason:">&ndash;&nbsp;launchSPAppWithError:reason:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)launchSPAppWithError:(NSError *_Nullable)<em>error</em> reason:(NSString *_Nullable)<em>reason</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/continueIDPFlow:" title="continueIDPFlow:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/continueIDPFlow:">&ndash;&nbsp;continueIDPFlow:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)continueIDPFlow:(SFOAuthCredentials *)<em>userCredentials</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/beginIDPFlow:" title="beginIDPFlow:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/beginIDPFlow:">&ndash;&nbsp;beginIDPFlow:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)beginIDPFlow:(SFSDKAuthRequestCommand *)<em>request</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/beginIDPFlowForNewUser" title="beginIDPFlowForNewUser"></a>
+	<h3 class="method-title"><code><a href="#//api/name/beginIDPFlowForNewUser">&ndash;&nbsp;beginIDPFlowForNewUser</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)beginIDPFlowForNewUser</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/beginIDPInitiatedFlow:" title="beginIDPInitiatedFlow:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/beginIDPInitiatedFlow:">&ndash;&nbsp;beginIDPInitiatedFlow:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)beginIDPInitiatedFlow:(SFSDKIDPInitCommand *)<em>command</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initiateIDPFlowInSPApp" title="initiateIDPFlowInSPApp"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initiateIDPFlowInSPApp">&ndash;&nbsp;initiateIDPFlowInSPApp</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)initiateIDPFlowInSPApp</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initiateLocalLoginInSPApp" title="initiateLocalLoginInSPApp"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initiateLocalLoginInSPApp">&ndash;&nbsp;initiateLocalLoginInSPApp</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)initiateLocalLoginInSPApp</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

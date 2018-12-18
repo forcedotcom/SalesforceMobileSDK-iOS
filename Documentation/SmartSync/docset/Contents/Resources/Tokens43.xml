@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncStateSyncType.html">
+	<File path="Constants/SFSyncStateMergeMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateSyncType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateMergeMode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncState.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeDown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateMergeModeOverwrite</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateSyncTypeDown</Declaration>
+            <Declaration>SFSyncStateMergeModeOverwrite</Declaration>
             
             <DeclaredIn>SFSyncState.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeUp</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateMergeModeLeaveIfChanged</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateSyncTypeUp</Declaration>
+            <Declaration>SFSyncStateMergeModeLeaveIfChanged</Declaration>
             
             <DeclaredIn>SFSyncState.h</DeclaredIn>
             

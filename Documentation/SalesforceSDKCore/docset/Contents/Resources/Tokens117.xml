@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKWebViewStateManager.html">
+	<File path="Classes/SFSDKUserSelectionTableViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebViewStateManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUserSelectionTableViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="117"/>
@@ -13,78 +13,206 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionWithNewAccessToken:isSecureProtocol:</TokenIdentifier>
-			<Abstract type="html">  Reset some associated state with WKWebView and UIWebView e.g. Remove Cookies then add SID cookie</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSelectedAccount:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
 			
-			<Anchor>//api/name/resetSessionWithNewAccessToken:isSecureProtocol:</Anchor>
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/removeSession</TokenIdentifier>
-			<Abstract type="html">  Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSession</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
 			
-			<Anchor>//api/name/removeSession</Anchor>
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/setSharedProcessPool:</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
 			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setListViewDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/listViewDelegate</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/listViewDelegate</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionCookie</TokenIdentifier>
-			<Abstract type="html">Clears session cookie data from the cookie store, and sets a new session cookie based on the
-OAuth credentials.</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetSessionCookie</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/resetSessionCookie</Anchor>
+			<Anchor>//api/name/listViewDelegate</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSpAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/spAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/spAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setNavigationBar:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			
+			
+			<Anchor>//api/name/navigationBar</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/navigationBar</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			
+			
+			<Anchor>//api/name/navigationBar</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/navigationBar</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			
+			
+			<Anchor>//api/name/navigationBar</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setTableView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
+			
+			
+			<Anchor>//api/name/tableView</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/tableView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
+			
+			
+			<Anchor>//api/name/tableView</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/tableView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
+			
+			
+			<Anchor>//api/name/tableView</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/createFooterView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)createFooterView</Declaration>
+			
+			
+			<Anchor>//api/name/createFooterView</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/createHeaderView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)createHeaderView</Declaration>
+			
+			
+			<Anchor>//api/name/createHeaderView</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		

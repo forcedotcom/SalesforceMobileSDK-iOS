@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountChange.html">
+	<File path="Constants/SFSDKRestServiceHostType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
-			<Abstract type="html">The various changes that can affect a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKRestServiceHostType</TokenIdentifier>
+			<Abstract type="html">The type of service host to use for Rest requests.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="213"/>
@@ -14,34 +14,23 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
-            <Abstract type="html">Unknown change
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeLogin</TokenIdentifier>
+            <Abstract type="html">Request uses the login endpoint.
      </Abstract>
-            <Declaration>SFUserAccountChangeUnknown</Declaration>
+            <Declaration>SFSDKRestServiceHostTypeLogin</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="213"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
-            <Abstract type="html">New User
-      </Abstract>
-            <Declaration>SFUserAccountChangeNewUser</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="213"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCurrentUser</TokenIdentifier>
-            <Abstract type="html">Change of Current User
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeInstance</TokenIdentifier>
+            <Abstract type="html">Request uses the instance endpoint.
      </Abstract>
-            <Declaration>SFUserAccountChangeCurrentUser</Declaration>
+            <Declaration>SFSDKRestServiceHostTypeInstance</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="213"/>
         </Token>

@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFParentChildrenSyncUpTarget Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -45,7 +45,25 @@
 	
 
 	
+	
+	<option value="tasks">Tasks</option>
+	
+	
 
+	
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/newFromDict:">+ newFromDict:</option>
+		
+		<option value="//api/name/newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:">+ newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:</option>
+		
+	</optgroup>
+	
+
+	
 	
 </select>
 						</label>
@@ -59,22 +77,148 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFParentChildrenSyncUpTarget Class Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td><a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a> : <a href="../Classes/SFSyncTarget.html">SFSyncTarget</a> : NSObject</td>
+</tr><tr>
+	<th>Conforms to</th>
+	<td><a href="../Protocols/SFAdvancedSyncUpTarget.html">SFAdvancedSyncUpTarget</a></td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFParentChildrenSyncUpTarget.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
 
 					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:" title="newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:">+&nbsp;newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Factory methods</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)<em>parentInfo</em> parentCreateFieldlist:(NSArray&lt;NSString*&gt; *)<em>parentCreateFieldlist</em> parentUpdateFieldlist:(NSArray&lt;NSString*&gt; *)<em>parentUpdateFieldlist</em> childrenInfo:(SFChildrenInfo *)<em>childrenInfo</em> childrenCreateFieldlist:(NSArray&lt;NSString*&gt; *)<em>childrenCreateFieldlist</em> childrenUpdateFieldlist:(NSArray&lt;NSString*&gt; *)<em>childrenUpdateFieldlist</em> relationshipType:(SFParentChildrenRelationshipType)<em>relationshipType</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFParentChildrenSyncUpTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newFromDict:" title="newFromDict:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newFromDict:">+&nbsp;newFromDict:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates a new instance of a server target from a serialized dictionary.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)newFromDict:(NSDictionary *)<em>dict</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>dict</code></th>
+						<td><p>The dictionary with the serialized server target.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncUpTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

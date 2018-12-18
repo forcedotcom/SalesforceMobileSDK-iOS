@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFSmartStoreUpgrade Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -43,9 +43,51 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
-
+	<option value="overview">Overview</option>
 	
 
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/legacyDefaultEncryptionTypeForStore:">+ legacyDefaultEncryptionTypeForStore:</option>
+		
+		<option value="//api/name/legacyDefaultKey">+ legacyDefaultKey</option>
+		
+		<option value="//api/name/legacyDefaultKeyBaseAppId">+ legacyDefaultKeyBaseAppId</option>
+		
+		<option value="//api/name/legacyDefaultKeyIdForVendor">+ legacyDefaultKeyIdForVendor</option>
+		
+		<option value="//api/name/legacyDefaultKeyMac">+ legacyDefaultKeyMac</option>
+		
+		<option value="//api/name/legacyDefaultKeyWithSeed:">+ legacyDefaultKeyWithSeed:</option>
+		
+		<option value="//api/name/setLegacyDefaultEncryptionType:forStore:">+ setLegacyDefaultEncryptionType:forStore:</option>
+		
+		<option value="//api/name/setUsesKeyStoreEncryption:forUser:store:">+ setUsesKeyStoreEncryption:forUser:store:</option>
+		
+		<option value="//api/name/setUsesLegacyDefaultKey:forStore:">+ setUsesLegacyDefaultKey:forStore:</option>
+		
+		<option value="//api/name/updateEncryption">+ updateEncryption</option>
+		
+		<option value="//api/name/updateStoreLocations">+ updateStoreLocations</option>
+		
+		<option value="//api/name/usesKeyStoreEncryptionForUser:store:">+ usesKeyStoreEncryptionForUser:store:</option>
+		
+		<option value="//api/name/usesLegacyDefaultKey:">+ usesLegacyDefaultKey:</option>
+		
+	</optgroup>
+	
+
+	
 	
 </select>
 						</label>
@@ -59,22 +101,749 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFSmartStoreUpgrade Class Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFSmartStoreUpgrade.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Used internally for upgrading SmartStore.</p>
+					</div>
+					
+					
 
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/updateStoreLocations" title="updateStoreLocations"></a>
+	<h3 class="method-title"><code><a href="#//api/name/updateStoreLocations">+&nbsp;updateStoreLocations</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Updates any existing stores from their legacy location to their new user-specific location.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)updateStoreLocations</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/updateEncryption" title="updateEncryption"></a>
+	<h3 class="method-title"><code><a href="#//api/name/updateEncryption">+&nbsp;updateEncryption</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Updates the encryption scheme of each SmartStore database to the currently supported scheme.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)updateEncryption</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/usesKeyStoreEncryptionForUser:store:" title="usesKeyStoreEncryptionForUser:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/usesKeyStoreEncryptionForUser:store:">+&nbsp;usesKeyStoreEncryptionForUser:store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Whether or not a given store for the given user is encrypted based on the key store key.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)usesKeyStoreEncryptionForUser:(SFUserAccount *)<em>user</em> store:(NSString *)<em>storeName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The user associated with the store.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeName</code></th>
+						<td><p>The store to query.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if the store is encrypted with the key store, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setUsesKeyStoreEncryption:forUser:store:" title="setUsesKeyStoreEncryption:forUser:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setUsesKeyStoreEncryption:forUser:store:">+&nbsp;setUsesKeyStoreEncryption:forUser:store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets a flag denoting whether or not the store for the given user uses encryption based the key store key.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setUsesKeyStoreEncryption:(BOOL)<em>usesKeyStoreEncryption</em> forUser:(SFUserAccount *)<em>user</em> store:(NSString *)<em>storeName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>usesKeyStoreEncryption</code></th>
+						<td><p>YES if it does, NO if it doesn&rsquo;t.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The user associated with the store.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeName</code></th>
+						<td><p>The store to which the flag applies.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/legacyDefaultKey" title="legacyDefaultKey"></a>
+	<h3 class="method-title"><code><a href="#//api/name/legacyDefaultKey">+&nbsp;legacyDefaultKey</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The default key to use, if no encryption key exists.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)legacyDefaultKey</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The default key to use, if no encryption key exists.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/usesLegacyDefaultKey:" title="usesLegacyDefaultKey:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/usesLegacyDefaultKey:">+&nbsp;usesLegacyDefaultKey:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Determines whether the given store uses a legacy default key for encryption.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)usesLegacyDefaultKey:(NSString *)<em>storeName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeName</code></th>
+						<td><p>The store associated with the setting.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if it does, NO if it doesn&rsquo;t.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setUsesLegacyDefaultKey:forStore:" title="setUsesLegacyDefaultKey:forStore:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setUsesLegacyDefaultKey:forStore:">+&nbsp;setUsesLegacyDefaultKey:forStore:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets a property specifying whether the given store uses a default key for encryption.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setUsesLegacyDefaultKey:(BOOL)<em>usesDefault</em> forStore:(NSString *)<em>storeName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>usesDefault</code></th>
+						<td><p>Whether the store uses a default key.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeName</code></th>
+						<td><p>The store for which the setting applies.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setLegacyDefaultEncryptionType:forStore:" title="setLegacyDefaultEncryptionType:forStore:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setLegacyDefaultEncryptionType:forStore:">+&nbsp;setLegacyDefaultEncryptionType:forStore:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets the default encryption type for the given store.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setLegacyDefaultEncryptionType:(SFSmartStoreLegacyDefaultEncryptionType)<em>encType</em> forStore:(NSString *)<em>storeName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>encType</code></th>
+						<td><p>The type of default encryption being used for the store.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeName</code></th>
+						<td><p>The name of the store to set the value for.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/legacyDefaultEncryptionTypeForStore:" title="legacyDefaultEncryptionTypeForStore:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/legacyDefaultEncryptionTypeForStore:">+&nbsp;legacyDefaultEncryptionTypeForStore:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Gets the default encryption type for the given store.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFSmartStoreLegacyDefaultEncryptionType)legacyDefaultEncryptionTypeForStore:(NSString *)<em>storeName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeName</code></th>
+						<td><p>The name of the story to query for its default encryption type.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>An SFSmartStoreDefaultEncryptionType enumerated value specifying the default encryption type.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/legacyDefaultKeyMac" title="legacyDefaultKeyMac"></a>
+	<h3 class="method-title"><code><a href="#//api/name/legacyDefaultKeyMac">+&nbsp;legacyDefaultKeyMac</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The default key, based on the MAC address.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)legacyDefaultKeyMac</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The default key, based on the MAC address.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/legacyDefaultKeyIdForVendor" title="legacyDefaultKeyIdForVendor"></a>
+	<h3 class="method-title"><code><a href="#//api/name/legacyDefaultKeyIdForVendor">+&nbsp;legacyDefaultKeyIdForVendor</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The default key, based on the idForVendor value.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)legacyDefaultKeyIdForVendor</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The default key, based on the idForVendor value.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/legacyDefaultKeyBaseAppId" title="legacyDefaultKeyBaseAppId"></a>
+	<h3 class="method-title"><code><a href="#//api/name/legacyDefaultKeyBaseAppId">+&nbsp;legacyDefaultKeyBaseAppId</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The default key, based on the base app id.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)legacyDefaultKeyBaseAppId</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The default key, based on the base app id.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/legacyDefaultKeyWithSeed:" title="legacyDefaultKeyWithSeed:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/legacyDefaultKeyWithSeed:">+&nbsp;legacyDefaultKeyWithSeed:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates a default key with the given seed.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)legacyDefaultKeyWithSeed:(NSString *)<em>seed</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>seed</code></th>
+						<td><p>The seed for creating the default key.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The default key, based on the seed.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreUpgrade+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
 					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

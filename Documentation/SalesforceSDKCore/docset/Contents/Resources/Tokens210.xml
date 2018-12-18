@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKWindowType.html">
+	<File path="Constants/SFRestMethod.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFRestMethod</TokenIdentifier>
+			<Abstract type="html">HTTP methods for requests.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="210"/>
@@ -14,51 +14,61 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodGET</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeMain</Declaration>
+            <Declaration>SFRestMethodGET</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="210"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPOST</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeAuth</Declaration>
+            <Declaration>SFRestMethodPOST</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="210"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypePasscode</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPUT</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypePasscode</Declaration>
+            <Declaration>SFRestMethodPUT</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="210"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodDELETE</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
+            <Declaration>SFRestMethodDELETE</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="210"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodHEAD</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeOther</Declaration>
+            <Declaration>SFRestMethodHEAD</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="210"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPATCH</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPATCH</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="210"/>
         </Token>

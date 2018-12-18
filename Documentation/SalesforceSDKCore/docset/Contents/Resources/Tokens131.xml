@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SalesforceOAuthUnitTestsCoordinatorDelegate.html">
+	<File path="Classes/SFUserAccountPersisterEphemeral.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SalesforceOAuthUnitTestsCoordinatorDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountPersisterEphemeral</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceOAuthUnitTestsCoordinatorDelegate.h</DeclaredIn>
+			<DeclaredIn>SFUserAccountPersisterEphemeral.h</DeclaredIn>
             
 			
 			<NodeRef refid="131"/>

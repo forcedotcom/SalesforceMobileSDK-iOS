@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUIWindow.html">
+	<File path="Classes/SFSDKTestRequestListener.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUIWindow</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestRequestListener</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="111"/>
@@ -13,98 +13,159 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/initWithFrame:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setDataResponse:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>- (instancetype _Nonnull)initWithFrame:(CGRect)frame</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
 			
 			
-			<Anchor>//api/name/initWithFrame:</Anchor>
+			<Anchor>//api/name/dataResponse</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/initWithFrame:andName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>- (instancetype _Nonnull)initWithFrame:(CGRect)frame andName:(NSString *_Nonnull)windowName</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
 			
 			
-			<Anchor>//api/name/initWithFrame:andName:</Anchor>
+			<Anchor>//api/name/dataResponse</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/setStashedController:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
 			
 			
-			<Anchor>//api/name/stashedController</Anchor>
+			<Anchor>//api/name/dataResponse</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/stashedController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setLastError:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
 			
 			
-			<Anchor>//api/name/stashedController</Anchor>
+			<Anchor>//api/name/lastError</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUIWindow/stashedController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/lastError</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
 			
 			
-			<Anchor>//api/name/stashedController</Anchor>
+			<Anchor>//api/name/lastError</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/setWindowName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/lastError</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
 			
 			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/lastError</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/windowName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setReturnStatus:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
 			
 			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/returnStatus</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUIWindow/windowName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
 			
 			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/returnStatus</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
+			
+			
+			<Anchor>//api/name/returnStatus</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setMaxWaitTime:</TokenIdentifier>
+			<Abstract type="html">Max time to wait for request completion</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			
+			
+			<Anchor>//api/name/maxWaitTime</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
+			<Abstract type="html">Max time to wait for request completion</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			
+			
+			<Anchor>//api/name/maxWaitTime</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
+			<Abstract type="html">Max time to wait for request completion</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			
+			
+			<Anchor>//api/name/maxWaitTime</Anchor>
+            <NodeRef refid="111"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/waitForCompletion</TokenIdentifier>
+			<Abstract type="html">Wait for the request to complete (success or fail)
+Waits for up to maxWaitTime.</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)waitForCompletion</Declaration>
+			
+			<ReturnValue><Abstract type="html">returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded</Abstract></ReturnValue>
+			<Anchor>//api/name/waitForCompletion</Anchor>
             <NodeRef refid="111"/>
 		</Token>
 		

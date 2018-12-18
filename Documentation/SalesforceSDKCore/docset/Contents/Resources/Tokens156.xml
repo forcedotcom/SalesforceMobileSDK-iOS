@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIScreen+SFAdditions.html">
+	<File path="Categories/UIColor+SFSDKPasscodeView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIScreen(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Salesforce Mobile SDK additions to the UIScreen class.</Abstract>
-			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFSDKPasscodeView)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
             
 			
 			<NodeRef refid="156"/>
@@ -13,14 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIScreen/portraitScreenBounds</TokenIdentifier>
-			<Abstract type="html">Returns the rectangle that describes the screen boundaries in portrait orientation.</Abstract>
-			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/backgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
 			
-			<Declaration>- (CGRect)portraitScreenBounds</Declaration>
+			<Declaration>+ (UIColor *)backgroundColor</Declaration>
 			
-			<ReturnValue><Abstract type="html">Screen boundaries in portrait orientation.</Abstract></ReturnValue>
-			<Anchor>//api/name/portraitScreenBounds</Anchor>
+			
+			<Anchor>//api/name/backgroundColor</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/textColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)textColor</Declaration>
+			
+			
+			<Anchor>//api/name/textColor</Anchor>
+            <NodeRef refid="156"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/borderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)borderColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderColor</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		

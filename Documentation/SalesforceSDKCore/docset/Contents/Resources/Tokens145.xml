@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSDictionary+SFAdditions.html">
+	<File path="Categories/NSData+SFSDKUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSDictionary(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Extension to NSDictionary object</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtils)</TokenIdentifier>
+			<Abstract type="html">Mobile SDK utility additions to NSData.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="145"/>
@@ -13,48 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/objectAtPath:</TokenIdentifier>
-			<Abstract type="html">Get object from NSDictionary with &quot;/&quot; separated path.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkBase64UrlString</TokenIdentifier>
+			<Abstract type="html">Creates a base64url string based on the data.  See RFC 4648.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
-			<Declaration>- (nullable id)objectAtPath:(nullable NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">Path for the object to retrieve. Use &quot;/&quot; to separate between levels. For example, root/child/valueKey will retrieve value from the root NSDictionary object to its child dictionary&apos;s value with key &quot;valueKey&quot;</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSString *)msdkBase64UrlString</Declaration>
 			
-			<Anchor>//api/name/objectAtPath:</Anchor>
+			<ReturnValue><Abstract type="html">The base64url string based on the data.</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkBase64UrlString</Anchor>
             <NodeRef refid="145"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/nonNullObjectForKey:</TokenIdentifier>
-			<Abstract type="html">Returns an object whose ID is key, or nil.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkSha256Data</TokenIdentifier>
+			<Abstract type="html">Creates an SHA256 hash of the given data.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
-			<Declaration>- (nullable id)nonNullObjectForKey:(nullable id)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The ID of an object, or a null value</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An object whose ID is key, or else nil if the key has a value of NSNull or an NSString value of &quot;&lt;nil&gt;&quot; or &quot;&lt;null&gt;&quot;.</Abstract></ReturnValue>
-			<Anchor>//api/name/nonNullObjectForKey:</Anchor>
-            <NodeRef refid="145"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/jsonString</TokenIdentifier>
-			<Abstract type="html">Returns the dictionary&apos;s contents reformatted as a JSON string.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<Declaration>- (nullable NSData *)msdkSha256Data</Declaration>
 			
-			<Declaration>- (nullable NSString *)jsonString</Declaration>
-			
-			
-			<Anchor>//api/name/jsonString</Anchor>
+			<ReturnValue><Abstract type="html">The SHA256 hash of the given data.</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkSha256Data</Anchor>
             <NodeRef refid="145"/>
 		</Token>
 		

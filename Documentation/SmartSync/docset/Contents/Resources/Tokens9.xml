@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFMruSyncDownTarget.html">
+	<File path="Classes/SFMetadataSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFMruSyncDownTarget</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFMetadataSyncDownTarget</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="9"/>
@@ -13,9 +13,9 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/setObjectType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncDownTarget/setObjectType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
@@ -25,9 +25,9 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncDownTarget/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
@@ -37,9 +37,9 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMruSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadataSyncDownTarget/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
@@ -49,50 +49,14 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/setFieldlist:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncDownTarget/newSyncTarget:</TokenIdentifier>
+			<Abstract type="html">Factory method.</Abstract>
+			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
-			
-			
-			<Anchor>//api/name/fieldlist</Anchor>
-            <NodeRef refid="9"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMruSyncDownTarget/fieldlist</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
+			<Declaration>+ (SFMetadataSyncDownTarget *)newSyncTarget:(NSString *)objectType</Declaration>
 			
 			
-			<Anchor>//api/name/fieldlist</Anchor>
-            <NodeRef refid="9"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMruSyncDownTarget/fieldlist</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray *fieldlist</Declaration>
-			
-			
-			<Anchor>//api/name/fieldlist</Anchor>
-            <NodeRef refid="9"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMruSyncDownTarget/newSyncTarget:fieldlist:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFMruSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>+ (SFMruSyncDownTarget *)newSyncTarget:(NSString *)objectType fieldlist:(NSArray *)fieldlist</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncTarget:fieldlist:</Anchor>
+			<Anchor>//api/name/newSyncTarget:</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthClientProvider.html">
+	<File path="Protocols/SFSDKLoginFlowSelectionViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientProvider</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionViewDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="173"/>
@@ -13,38 +13,42 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/idpAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionIDPSelected:options:</TokenIdentifier>
+			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>- (void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">instance invoking this delegate</Abstract>
+				</Parameter><Parameter>
+					<Name>appOptions</Name>
+					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionView</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract></ReturnValue>
-			<Anchor>//api/name/idpAuthInstance:</Anchor>
+			<Anchor>//api/name/loginFlowSelectionIDPSelected:options:</Anchor>
             <NodeRef refid="173"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/nativeBrowserAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionLocalLoginSelected:options:</TokenIdentifier>
+			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>- (void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>controller</Name>
+					<Abstract type="html">instance invoking this delegate</Abstract>
+				</Parameter><Parameter>
+					<Name>appOptions</Name>
+					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionVie</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract></ReturnValue>
-			<Anchor>//api/name/nativeBrowserAuthInstance:</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/webviewAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide a newInstance</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
-			
-			<Declaration>+ (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
-			
-			<ReturnValue><Abstract type="html">Provide a newInstance</Abstract></ReturnValue>
-			<Anchor>//api/name/webviewAuthInstance:</Anchor>
+			<Anchor>//api/name/loginFlowSelectionLocalLoginSelected:options:</Anchor>
             <NodeRef refid="173"/>
 		</Token>
 		
