@@ -1068,6 +1068,8 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                 [self willChangeValueForKey:@"currentUser"];
                 _currentUser = user;
                 [self setCurrentUserIdentity:user.accountIdentity];
+                if (user.credentials.domain)
+                    self.loginHost = user.credentials.domain;
                 [self didChangeValueForKey:@"currentUser"];
                 userChanged = YES;
             } else {
@@ -1267,7 +1269,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         __weak typeof(self) weakSelf = self;
         client = [SFSDKOAuthClient clientWithCredentials:credentials configBlock:^(SFSDKOAuthClientConfig *config) {
             __strong typeof(self) strongSelf = weakSelf;
-            config.loginHost = strongSelf.loginHost;
+            config.loginHost = credentials.domain ?: strongSelf.loginHost;
             config.brandLoginPath = strongSelf.brandLoginPath;
             config.additionalTokenRefreshParams = strongSelf.additionalTokenRefreshParams;
             config.additionalOAuthParameterKeys = strongSelf.additionalOAuthParameterKeys;
