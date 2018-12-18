@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFCryptoOperation.html">
+	<File path="Constants/SFAppLockControllerMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAppLockControllerMode</TokenIdentifier>
+			<Abstract type="html">Mode constants indicating whether to create/verify an passcode or use biometric.</Abstract>
+			<DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
 			
 			<NodeRef refid="195"/>
@@ -14,21 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeCreatePasscode</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationEncrypt</Declaration>
+            <Declaration>SFAppLockControllerModeCreatePasscode</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="195"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyPasscode</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationDecrypt</Declaration>
+            <Declaration>SFAppLockControllerModeVerifyPasscode</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            
+            <NodeRef refid="195"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeChangePasscode</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAppLockControllerModeChangePasscode</Declaration>
+            
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            
+            <NodeRef refid="195"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeEnableBiometric</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAppLockControllerModeEnableBiometric</Declaration>
+            
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            
+            <NodeRef refid="195"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyBiometric</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAppLockControllerModeVerifyBiometric</Declaration>
+            
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="195"/>
         </Token>

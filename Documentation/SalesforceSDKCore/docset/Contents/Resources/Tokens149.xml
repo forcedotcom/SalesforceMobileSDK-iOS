@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSURL+SFStringUtils.html">
+	<File path="Categories/NSNotificationCenter+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFStringUtils)</TokenIdentifier>
-			<Abstract type="html">Utilities for interacting with NSURL objects.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSNotificationCenter(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Posts notifications either once with a run loop, or on the main thread.</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="149"/>
@@ -13,80 +13,48 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/redactedAbsoluteString:</TokenIdentifier>
-			<Abstract type="html">Will return the absolute string of a URL, with potentially sensitive querystring
-parameter values redacted.  Useful for logging URL values without sensitive data
-included.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSNotificationCenter/postNotificationOnceWithName:object:userInfo:</TokenIdentifier>
+			<Abstract type="html">Posts a notification once within a runloop - coalescing on the name.</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact</Declaration>
+			<Declaration>+ (void)postNotificationOnceWithName:(NSString *)notificationName object:(id)object userInfo:(nullable NSDictionary *)userInfo</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>queryStringParamsToRedact</Name>
-					<Abstract type="html">An array of querystring parameter names whose values
-should be redacted.</Abstract>
+					<Name>notificationName</Name>
+					<Abstract type="html">The name of the notification.</Abstract>
+				</Parameter><Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object for the new notification.</Abstract>
+				</Parameter><Parameter>
+					<Name>userInfo</Name>
+					<Abstract type="html">The user information dictionary for the new notification. May be nil.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The redacted version of the absolute string value.</Abstract></ReturnValue>
-			<Anchor>//api/name/redactedAbsoluteString:</Anchor>
+			
+			<Anchor>//api/name/postNotificationOnceWithName:object:userInfo:</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/stringUrlWithBaseUrl:pathComponents:</TokenIdentifier>
-			<Abstract type="html">Helper method that constructs an absolute URL string given the specified components.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSNotificationCenter/postNotificationOnMainThreadWithName:object:userInfo:</TokenIdentifier>
+			<Abstract type="html">Posts a notification on the main thread.</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)stringUrlWithBaseUrl:(NSURL *)baseUrl pathComponents:(NSArray *)pathComponents</Declaration>
+			<Declaration>- (void)postNotificationOnMainThreadWithName:(NSString *)notificationName object:(id)object userInfo:(nullable NSDictionary *)userInfo</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>baseUrl</Name>
-					<Abstract type="html">The base URL</Abstract>
+					<Name>notificationName</Name>
+					<Abstract type="html">The name of the notification.</Abstract>
 				</Parameter><Parameter>
-					<Name>pathComponents</Name>
-					<Abstract type="html">The components of the path</Abstract>
+					<Name>object</Name>
+					<Abstract type="html">The object for the new notificaiton.</Abstract>
+				</Parameter><Parameter>
+					<Name>userInfo</Name>
+					<Abstract type="html">The user information dictionary for the new notification. May be nil.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">an absolute string URL representation</Abstract></ReturnValue>
-			<Anchor>//api/name/stringUrlWithBaseUrl:pathComponents:</Anchor>
-            <NodeRef refid="149"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/stringUrlWithScheme:host:port:pathComponents:</TokenIdentifier>
-			<Abstract type="html">Helper method that constructs an absolute URL string given the specified components.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)stringUrlWithScheme:(NSString *)scheme host:(NSString *)host port:(NSNumber *)port pathComponents:(NSArray *)pathComponents</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>scheme</Name>
-					<Abstract type="html">The scheme of the URL</Abstract>
-				</Parameter><Parameter>
-					<Name>host</Name>
-					<Abstract type="html">The host of the URL</Abstract>
-				</Parameter><Parameter>
-					<Name>port</Name>
-					<Abstract type="html">The port of the URL</Abstract>
-				</Parameter><Parameter>
-					<Name>pathComponents</Name>
-					<Abstract type="html">The components of the path</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">an absolute string URL representation</Abstract></ReturnValue>
-			<Anchor>//api/name/stringUrlWithScheme:host:port:pathComponents:</Anchor>
-            <NodeRef refid="149"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/slashTerminatedUrl</TokenIdentifier>
-			<Abstract type="html">Adds a trailing slash to the URL&apos;s path, if necessary</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
-			
-			<Declaration>- (NSURL *)slashTerminatedUrl</Declaration>
-			
-			<ReturnValue><Abstract type="html">A URL whose path ends in a forward slash</Abstract></ReturnValue>
-			<Anchor>//api/name/slashTerminatedUrl</Anchor>
+			<Anchor>//api/name/postNotificationOnMainThreadWithName:object:userInfo:</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFUserAccountManagerDelegate.html">
+	<File path="Protocols/SFSDKUserSelectionViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountManagerDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol for handling callbacks from SFUserAccountManager.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="186"/>
@@ -13,90 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManagerIsNetworkAvailable:</TokenIdentifier>
-			<Abstract type="html">Called when the account manager wants to determine if the network is available.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/createNewUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)userAccountManagerIsNetworkAvailable:(SFUserAccountManager *)userAccountManager</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAccountManager</Name>
-					<Abstract type="html">The instance of SFUserAccountManager making the call.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the network is available, NO otherwise</Abstract></ReturnValue>
-			<Anchor>//api/name/userAccountManagerIsNetworkAvailable:</Anchor>
+			<Declaration>- (void)createNewUser:(NSDictionary *)spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/createNewUser:</Anchor>
             <NodeRef refid="186"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:error:info:NS_SWIFT_NAME:</TokenIdentifier>
-			<Abstract type="html">The instance of SFUserAccountManager</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/selectedUser:spAppContext:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)userAccountManager:(SFUserAccountManager *)userAccountManager error:(NSError *)error info:(SFOAuthInfo *)info NS_SWIFT_NAME</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAccountManager</Name>
-					<Abstract type="html">The instance of SFUserAccountManager</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The Error that occurred</Abstract>
-				</Parameter><Parameter>
-					<Name>info</Name>
-					<Abstract type="html">The info for the auth request</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the error has been handled by the delegate. SDK will attempt to handle the error if the result is NO.</Abstract></ReturnValue>
-			<Anchor>//api/name/userAccountManager:error:info:NS_SWIFT_NAME:</Anchor>
+			<Declaration>- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/selectedUser:spAppContext:</Anchor>
             <NodeRef refid="186"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:willSwitchFromUser:toUser:NS_SWIFT_NAME:</TokenIdentifier>
-			<Abstract type="html">Called before the user account manager switches from one user to another.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/cancel:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willSwitchFromUser:(SFUserAccount *)currentUserAccount toUser:(nullable SFUserAccount *)anotherUserAccount NS_SWIFT_NAME</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAccountManager</Name>
-					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
-				</Parameter><Parameter>
-					<Name>currentUserAccount</Name>
-					<Abstract type="html">The user being switched away from.</Abstract>
-				</Parameter><Parameter>
-					<Name>anotherUserAccount</Name>
-					<Abstract type="html">The user to be switched to.  nil if the user context is being switched back
-to no user.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)cancel:(NSDictionary *)spAppOptions</Declaration>
 			
-			<Anchor>//api/name/userAccountManager:willSwitchFromUser:toUser:NS_SWIFT_NAME:</Anchor>
-            <NodeRef refid="186"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:didSwitchFromUser:toUser:NS_SWIFT_NAME:</TokenIdentifier>
-			<Abstract type="html">Called after the user account manager switches from one user to another.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didSwitchFromUser:(SFUserAccount *)previousUserAccount toUser:(nullable SFUserAccount *)currentUserAccount NS_SWIFT_NAME</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAccountManager</Name>
-					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
-				</Parameter><Parameter>
-					<Name>previousUserAccount</Name>
-					<Abstract type="html">The user that was switched away from.</Abstract>
-				</Parameter><Parameter>
-					<Name>currentUserAccount</Name>
-					<Abstract type="html">The user that was switched to.  nil if the user context is being switched back
-to no user.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/userAccountManager:didSwitchFromUser:toUser:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/cancel:</Anchor>
             <NodeRef refid="186"/>
 		</Token>
 		

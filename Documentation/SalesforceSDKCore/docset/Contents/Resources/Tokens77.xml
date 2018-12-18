@@ -1,16 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKDevInfoViewController.html">
+	<File path="Classes/SFSDKDevAction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDevInfoViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDevAction</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDevInfoViewController.h</DeclaredIn>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="77"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/setName:</TokenIdentifier>
+			<Abstract type="html">Gets the  name being used by the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
+			
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="77"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/name</TokenIdentifier>
+			<Abstract type="html">Gets the  name being used by the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
+			
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="77"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDevAction/name</TokenIdentifier>
+			<Abstract type="html">Gets the  name being used by the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
+			
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="77"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/setHandler:</TokenIdentifier>
+			<Abstract type="html">Gets the  handler associated with the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) handler</Declaration>
+			
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/handler</Anchor>
+            <NodeRef refid="77"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/handler</TokenIdentifier>
+			<Abstract type="html">Gets the  handler associated with the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) handler</Declaration>
+			
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/handler</Anchor>
+            <NodeRef refid="77"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDevAction/handler</TokenIdentifier>
+			<Abstract type="html">Gets the  handler associated with the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) handler</Declaration>
+			
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/handler</Anchor>
+            <NodeRef refid="77"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/initWith:handler:</TokenIdentifier>
+			<Abstract type="html">Initialize with a name and a handler.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWith:(NSString *)name handler:(void ( ^ ) ( void ))handler</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">The name use  display an option in the dev options display action sheet.</Abstract>
+				</Parameter><Parameter>
+					<Name>handler</Name>
+					<Abstract type="html">The handler that should be invoked when the option is selected.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWith:handler:</Anchor>
+            <NodeRef refid="77"/>
+		</Token>
 		
         
         

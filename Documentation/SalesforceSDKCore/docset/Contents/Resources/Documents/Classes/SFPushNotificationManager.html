@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFPushNotificationManager Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -43,9 +43,49 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
-
+	<option value="overview">Overview</option>
 	
 
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/customPushRegistrationBody">customPushRegistrationBody</option>
+		
+		<option value="//api/name/deviceSalesforceId">deviceSalesforceId</option>
+		
+		<option value="//api/name/deviceToken">deviceToken</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/sharedInstance">+ sharedInstance</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/didRegisterForRemoteNotificationsWithDeviceToken:">- didRegisterForRemoteNotificationsWithDeviceToken:</option>
+		
+		<option value="//api/name/registerForRemoteNotifications">- registerForRemoteNotifications</option>
+		
+		<option value="//api/name/registerSalesforceNotificationsWithCompletionBlock:failBlock:">- registerSalesforceNotificationsWithCompletionBlock:failBlock:</option>
+		
+		<option value="//api/name/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:">- unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:</option>
+		
+	</optgroup>
+	
 	
 </select>
 						</label>
@@ -59,22 +99,444 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFPushNotificationManager Class Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFPushNotificationManager.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Handles push notification registration and unregistration, both for Salesforce notifications and remote notifications.</p>
+					</div>
+					
+					
 
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/deviceToken" title="deviceToken"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deviceToken">&nbsp;&nbsp;deviceToken</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Device token returned when registering with APNS.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *deviceToken</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/deviceSalesforceId" title="deviceSalesforceId"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deviceSalesforceId">&nbsp;&nbsp;deviceSalesforceId</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>ID returned when registering for Salesforce push notifications.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *deviceSalesforceId</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/customPushRegistrationBody" title="customPushRegistrationBody"></a>
+	<h3 class="method-title"><code><a href="#//api/name/customPushRegistrationBody">&nbsp;&nbsp;customPushRegistrationBody</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Custom push notification for additional HTTP POST body.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) NSDictionary *customPushRegistrationBody</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sharedInstance" title="sharedInstance"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedInstance">+&nbsp;sharedInstance</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The share instance of this class.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFPushNotificationManager *)sharedInstance</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerForRemoteNotifications" title="registerForRemoteNotifications"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerForRemoteNotifications">&ndash;&nbsp;registerForRemoteNotifications</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Register with APNS</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)registerForRemoteNotifications</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/didRegisterForRemoteNotificationsWithDeviceToken:" title="didRegisterForRemoteNotificationsWithDeviceToken:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/didRegisterForRemoteNotificationsWithDeviceToken:">&ndash;&nbsp;didRegisterForRemoteNotificationsWithDeviceToken:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Call this method from your app delegate&rsquo;s didRegisterForRemoteNotificationsWithDeviceToken</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)<em>deviceTokenData</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>deviceTokenData</code></th>
+						<td><p>The device token returned by APNS.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerSalesforceNotificationsWithCompletionBlock:failBlock:" title="registerSalesforceNotificationsWithCompletionBlock:failBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerSalesforceNotificationsWithCompletionBlock:failBlock:">&ndash;&nbsp;registerSalesforceNotificationsWithCompletionBlock:failBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Register for notifications with Salesforce.
+Call this method after authenticating with Salesforce and registering with APNS.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)registerSalesforceNotificationsWithCompletionBlock:(nullable void ( ^ ) ( void ))<em>completionBlock</em> failBlock:(nullable void ( ^ ) ( void ))<em>failBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>Completion block.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>fail block.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES for successful registration call being made.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:" title="unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:">&ndash;&nbsp;unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Unregister from notifications with Salesforce for a specific user. This method is called at logout.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(SFUserAccount *)<em>user</em> completionBlock:(nullable void ( ^ ) ( void ))<em>completionBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>User account.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>Completion block.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES for successful unregistration call being made.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
 					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

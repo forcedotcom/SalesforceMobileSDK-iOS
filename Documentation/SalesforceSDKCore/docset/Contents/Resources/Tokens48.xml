@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPreferences.html">
+	<File path="Classes/SFPasscodeProviderManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPreferences</TokenIdentifier>
-			<Abstract type="html">Preferences class that handles scoped preferences.
-A scope binds the preferences to a specific user,
-org or community.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeProviderManager</TokenIdentifier>
+			<Abstract type="html">Class for managing passcode providers.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="48"/>
@@ -15,332 +13,114 @@ org or community.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setPath:</TokenIdentifier>
-			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/currentPasscodeProviderName</TokenIdentifier>
+			<Abstract type="html">The name of the currently configured passcode provider.  There can only be one &quot;current&quot;
+passcode provider at any given time, though multiple passcode providers can be worked
+with, usign the [SFPasscodeProviderManager passcodeProviderForProviderName:] method.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
+			<Declaration>+ (SFPasscodeProviderId)currentPasscodeProviderName</Declaration>
 			
-			
-			<Anchor>//api/name/path</Anchor>
+			<ReturnValue><Abstract type="html">The name of the currently configured passcode provider.</Abstract></ReturnValue>
+			<Anchor>//api/name/currentPasscodeProviderName</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/path</TokenIdentifier>
-			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/setCurrentPasscodeProviderByName:</TokenIdentifier>
+			<Abstract type="html">Sets the current passcode provider.  Note: the passcode provider implementation class itself
+must first be configured through the [SFPasscodeProviderManager addPasscodeProvider:name:]
+method.  The default providers in the SDK will already be configured.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
-			
-			
-			<Anchor>//api/name/path</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPreferences/path</TokenIdentifier>
-			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
-			
-			
-			<Anchor>//api/name/path</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setDictionaryRepresentation:</TokenIdentifier>
-			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
-			
-			
-			<Anchor>//api/name/dictionaryRepresentation</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/dictionaryRepresentation</TokenIdentifier>
-			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
-			
-			
-			<Anchor>//api/name/dictionaryRepresentation</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPreferences/dictionaryRepresentation</TokenIdentifier>
-			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
-			
-			
-			<Anchor>//api/name/dictionaryRepresentation</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/globalPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the global instance of the preferences (one per application)</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)globalPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/globalPreferences</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/sharedPreferencesForScope:user:</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the specified user&apos;s organization
-or nil if there is no specified user or scope.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>+ (nullable instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(nullable SFUserAccount *)user</Declaration>
+			<Declaration>+ (void)setCurrentPasscodeProviderByName:(SFPasscodeProviderId)providerName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>scope</Name>
-					<Abstract type="html">The scope to which the preferences apply: global, user&apos;s org, user&apos;s community, or user&apos;s account.</Abstract>
-				</Parameter><Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The account to which the preferences apply. Not used if scope is global.</Abstract>
+					<Name>providerName</Name>
+					<Abstract type="html">The name of the passcode provider that will become the current provider.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/sharedPreferencesForScope:user:</Anchor>
+			<Anchor>//api/name/setCurrentPasscodeProviderByName:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentOrgLevelPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the current user&apos;s organization
-or nil if there is no current user.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/currentPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">The provider implementation for the current passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>+ (nullable instancetype)currentOrgLevelPreferences</Declaration>
+			<Declaration>+ (id&lt;SFPasscodeProvider&gt;)currentPasscodeProvider</Declaration>
 			
-			
-			<Anchor>//api/name/currentOrgLevelPreferences</Anchor>
+			<ReturnValue><Abstract type="html">The provider implementation for the current passcode provider.</Abstract></ReturnValue>
+			<Anchor>//api/name/currentPasscodeProvider</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentUserLevelPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the currrent user
-or nil if there is no current user.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/passcodeProviderForProviderName:</TokenIdentifier>
+			<Abstract type="html">Returns the passcode provider implementation associated with the given provider name, or
+nil if no provider is configured for the given name.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>+ (nullable instancetype)currentUserLevelPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/currentUserLevelPreferences</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentCommunityLevelPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the currrent user&apos;s community
-or nil if there is no current user.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>+ (nullable instancetype)currentCommunityLevelPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/currentCommunityLevelPreferences</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/objectForKey:</TokenIdentifier>
-			<Abstract type="html">Returns the preferences object for the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (nullable id)objectForKey:(NSString *)key</Declaration>
+			<Declaration>+ (nullable id&lt;SFPasscodeProvider&gt;)passcodeProviderForProviderName:(SFPasscodeProviderId)providerName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the requested object.</Abstract>
+					<Name>providerName</Name>
+					<Abstract type="html">The name associated with the requested provider.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The passcode provider implementation.</Abstract></ReturnValue>
+			<Anchor>//api/name/passcodeProviderForProviderName:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/addPasscodeProvider:</TokenIdentifier>
+			<Abstract type="html">Adds a custom passcode provider implementation to the global provider configuration.
+Note: custom providers are not persisted across app restarts.  You should call this method
+to add your provider in your app&apos;s initialization logic.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)addPasscodeProvider:(id&lt;SFPasscodeProvider&gt;)provider</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>provider</Name>
+					<Abstract type="html">The passcode provider implementation.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/objectForKey:</Anchor>
+			<Anchor>//api/name/addPasscodeProvider:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setObject:forKey:</TokenIdentifier>
-			<Abstract type="html">Sets the preference object for the given attribute key. Logs an SFLogLevelError if the key is not found.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/removePasscodeProviderWithName:</TokenIdentifier>
+			<Abstract type="html">Removes a passcode provider from configuration.  If it is designated as the current-configured provider,
+the current provider will be reset to the default value.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)setObject:(id)object forKey:(NSString *)key</Declaration>
+			<Declaration>+ (void)removePasscodeProviderWithName:(SFPasscodeProviderId)providerName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>object</Name>
-					<Abstract type="html">Object to be set.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Key of object to be set.</Abstract>
+					<Name>providerName</Name>
+					<Abstract type="html">The name of the provider to remove.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setObject:forKey:</Anchor>
+			<Anchor>//api/name/removePasscodeProviderWithName:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/removeObjectForKey:</TokenIdentifier>
-			<Abstract type="html">Removes the preference object for the given attribute key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/resetCurrentPasscodeProviderName</TokenIdentifier>
+			<Abstract type="html">Clears the persisted value for the passcode provider name.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)removeObjectForKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Key of object to be removed.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeObjectForKey:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/keyExists:</TokenIdentifier>
-			<Abstract type="html">Returns a YES if the key exits, otherwise NO.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)keyExists:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">THe key to check the existance of.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/keyExists:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/boolForKey:</TokenIdentifier>
-			<Abstract type="html">Returns the Boolean preference value for the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)boolForKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the requested preference value.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/boolForKey:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setBool:forKey:</TokenIdentifier>
-			<Abstract type="html">Assigns the given Boolean preference value to the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)setBool:(BOOL)value forKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The Boolean value.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the preference value to be edited.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setBool:forKey:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/integerForKey:</TokenIdentifier>
-			<Abstract type="html">Returns the integer preference value for the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (NSInteger)integerForKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the requested preference value.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/integerForKey:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setInteger:forKey:</TokenIdentifier>
-			<Abstract type="html">Assigns the given integer preference value to the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)setInteger:(NSInteger)value forKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The integer value.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the preference value to be edited.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setInteger:forKey:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/stringForKey:</TokenIdentifier>
-			<Abstract type="html">Returns the string preference value for the given key.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)stringForKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key of the requested preference value.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/stringForKey:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/synchronize</TokenIdentifier>
-			<Abstract type="html">Saves the preferences to the disk</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)synchronize</Declaration>
+			<Declaration>+ (void)resetCurrentPasscodeProviderName</Declaration>
 			
 			
-			<Anchor>//api/name/synchronize</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/removeAllObjects</TokenIdentifier>
-			<Abstract type="html">Remove all saved objects</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)removeAllObjects</Declaration>
-			
-			
-			<Anchor>//api/name/removeAllObjects</Anchor>
+			<Anchor>//api/name/resetCurrentPasscodeProviderName</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRecordModDate.html">
+	<File path="Classes/SFParentChildrenSyncUpTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRecordModDate</TokenIdentifier>
-			<Abstract type="html">Helper class for isNewerThanServer</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncUpTarget</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncUpTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="15"/>
@@ -13,86 +13,31 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setTimestamp:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncUpTarget/newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFParentChildrenSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
+			<Declaration>+ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo parentCreateFieldlist:(NSArray&lt;NSString*&gt; *)parentCreateFieldlist parentUpdateFieldlist:(NSArray&lt;NSString*&gt; *)parentUpdateFieldlist childrenInfo:(SFChildrenInfo *)childrenInfo childrenCreateFieldlist:(NSArray&lt;NSString*&gt; *)childrenCreateFieldlist childrenUpdateFieldlist:(NSArray&lt;NSString*&gt; *)childrenUpdateFieldlist relationshipType:(SFParentChildrenRelationshipType)relationshipType</Declaration>
 			
 			
-			<Anchor>//api/name/timestamp</Anchor>
+			<Anchor>//api/name/newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:</Anchor>
             <NodeRef refid="15"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/timestamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncUpTarget/newFromDict:</TokenIdentifier>
+			<Abstract type="html">Creates a new instance of a server target from a serialized dictionary.</Abstract>
+			<DeclaredIn>SFParentChildrenSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
+			<Declaration>+ (instancetype)newFromDict:(NSDictionary *)dict</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dict</Name>
+					<Abstract type="html">The dictionary with the serialized server target.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/timestamp</Anchor>
-            <NodeRef refid="15"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/timestamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
-			
-			
-			<Anchor>//api/name/timestamp</Anchor>
-            <NodeRef refid="15"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setIsDeleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/isDeleted</Anchor>
-            <NodeRef refid="15"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/isDeleted</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/isDeleted</Anchor>
-            <NodeRef refid="15"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/isDeleted</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/isDeleted</Anchor>
-            <NodeRef refid="15"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/initWithTimestamp:isDeleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithTimestamp:(nullable NSString *)timestamp isDeleted:(BOOL)isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/initWithTimestamp:isDeleted:</Anchor>
+			<Anchor>//api/name/newFromDict:</Anchor>
             <NodeRef refid="15"/>
 		</Token>
 		

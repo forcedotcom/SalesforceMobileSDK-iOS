@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFInactivityTimerCenter Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -43,9 +43,39 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
-
+	<option value="overview">Overview</option>
 	
 
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/lastActivityTimestamp">+ lastActivityTimestamp</option>
+		
+		<option value="//api/name/registerTimer:target:selector:timerInterval:">+ registerTimer:target:selector:timerInterval:</option>
+		
+		<option value="//api/name/removeAllTimers">+ removeAllTimers</option>
+		
+		<option value="//api/name/removeTimer:">+ removeTimer:</option>
+		
+		<option value="//api/name/saveActivityTimestamp">+ saveActivityTimestamp</option>
+		
+		<option value="//api/name/updateActivityTimestamp">+ updateActivityTimestamp</option>
+		
+		<option value="//api/name/updateActivityTimestampTo:">+ updateActivityTimestampTo:</option>
+		
+	</optgroup>
+	
+
+	
 	
 </select>
 						</label>
@@ -59,22 +89,406 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFInactivityTimerCenter Class Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFInactivityTimerCenter.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>This class manages manages the inactivity timer. See NSTimer in the Objective-C documentation for more details.</p>
+					</div>
+					
+					
 
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/registerTimer:target:selector:timerInterval:" title="registerTimer:target:selector:timerInterval:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerTimer:target:selector:timerInterval:">+&nbsp;registerTimer:target:selector:timerInterval:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<ul>
+<li>Register the timer.</li>
+</ul>
+
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)registerTimer:(NSString *)<em>timerName</em> target:(id)<em>target</em> selector:(SEL)<em>aSelector</em> timerInterval:(NSTimeInterval)<em>interval</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>timerName</code></th>
+						<td><p>Name to use to register the timer.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>target</code></th>
+						<td><p>The object to which to send the message specified by aSelector when the timer fires. See NSTimer documentation.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>aSelector</code></th>
+						<td><p>The message to send to target when the timer fires. See NSTimer documentation.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>interval</code></th>
+						<td><p>For a repeating timer, this parameter contains the number of seconds between firings of the timer. See NSTimer documentation.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInactivityTimerCenter.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeTimer:" title="removeTimer:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeTimer:">+&nbsp;removeTimer:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<ul>
+<li>Remove a specific timer.</li>
+</ul>
+
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeTimer:(NSString *)<em>timerName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>timerName</code></th>
+						<td><p>Name of the timer to remove.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInactivityTimerCenter.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeAllTimers" title="removeAllTimers"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeAllTimers">+&nbsp;removeAllTimers</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Remove all timers.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeAllTimers</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInactivityTimerCenter.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/updateActivityTimestamp" title="updateActivityTimestamp"></a>
+	<h3 class="method-title"><code><a href="#//api/name/updateActivityTimestamp">+&nbsp;updateActivityTimestamp</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Update last activity timestamp to current time.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)updateActivityTimestamp</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInactivityTimerCenter.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/updateActivityTimestampTo:" title="updateActivityTimestampTo:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/updateActivityTimestampTo:">+&nbsp;updateActivityTimestampTo:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<ul>
+<li>Update last activity timestamp to specified time.</li>
+</ul>
+
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)updateActivityTimestampTo:(NSDate *)<em>date</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>date</code></th>
+						<td><p>The NSDate object that specifies the new timestamp.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInactivityTimerCenter.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/lastActivityTimestamp" title="lastActivityTimestamp"></a>
+	<h3 class="method-title"><code><a href="#//api/name/lastActivityTimestamp">+&nbsp;lastActivityTimestamp</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Return the timestamp for the latest activity.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSDate *)lastActivityTimestamp</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInactivityTimerCenter.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/saveActivityTimestamp" title="saveActivityTimestamp"></a>
+	<h3 class="method-title"><code><a href="#//api/name/saveActivityTimestamp">+&nbsp;saveActivityTimestamp</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Save the activity timestamp to persistant storage.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)saveActivityTimestamp</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInactivityTimerCenter.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
 					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

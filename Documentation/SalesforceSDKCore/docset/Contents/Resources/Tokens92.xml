@@ -1,16 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNavigationController.html">
+	<File path="Classes/SFSDKLoginViewControllerConfig.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNavigationController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKNavigationController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginViewControllerConfig</TokenIdentifier>
+			<Abstract type="html">Block typedef for setting up a custom SFLoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="92"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/set:</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/)</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/)</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setDelegate:</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setLoginViewControllerCreationBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
+			
+			
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
+			
+			
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
+			
+			
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
 		
         
         

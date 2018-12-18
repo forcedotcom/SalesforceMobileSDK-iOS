@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFSoqlSyncDownTarget Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -45,7 +45,45 @@
 	
 
 	
+	
+	<option value="tasks">Tasks</option>
+	
+	
 
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/query">query</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/newSyncTarget:">+ newSyncTarget:</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/getLatestModificationTimeStamp:modificationDateFieldName:">- getLatestModificationTimeStamp:modificationDateFieldName:</option>
+		
+		<option value="//api/name/getQueryToRun">- getQueryToRun</option>
+		
+		<option value="//api/name/getQueryToRun:">- getQueryToRun:</option>
+		
+		<option value="//api/name/getRecordsFromResponse:">- getRecordsFromResponse:</option>
+		
+		<option value="//api/name/parseIdsFromResponse:">- parseIdsFromResponse:</option>
+		
+		<option value="//api/name/startFetch:queryToRun:errorBlock:completeBlock:">- startFetch:queryToRun:errorBlock:completeBlock:</option>
+		
+	</optgroup>
+	
 	
 </select>
 						</label>
@@ -59,22 +97,284 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFSoqlSyncDownTarget Class Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td><a href="../Classes/SFSyncDownTarget.html">SFSyncDownTarget</a> : <a href="../Classes/SFSyncTarget.html">SFSyncTarget</a> : NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFSoqlSyncDownTarget.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
 
 					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/query" title="query"></a>
+	<h3 class="method-title"><code><a href="#//api/name/query">&nbsp;&nbsp;query</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *query</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newSyncTarget:" title="newSyncTarget:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newSyncTarget:">+&nbsp;newSyncTarget:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Factory methods</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFSoqlSyncDownTarget *)newSyncTarget:(NSString *)<em>query</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSoqlSyncDownTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getQueryToRun" title="getQueryToRun"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getQueryToRun">&ndash;&nbsp;getQueryToRun</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p><a href="#//api/name/query">query</a> to run</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSString *)getQueryToRun</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p><a href="#//api/name/query">query</a> to run</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSoqlSyncDownTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getQueryToRun:" title="getQueryToRun:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getQueryToRun:">&ndash;&nbsp;getQueryToRun:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>max time stamp to use in <a href="#//api/name/query">query</a> (can be 0)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSString *)getQueryToRun:(long long)<em>maxTimeStamp</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>maxTimeStamp</code></th>
+						<td><p>max time stamp to use in <a href="#//api/name/query">query</a> (can be 0)</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p><a href="#//api/name/query">query</a> to run taking into account max time stamp</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSoqlSyncDownTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/startFetch:queryToRun:errorBlock:completeBlock:" title="startFetch:queryToRun:errorBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/startFetch:queryToRun:errorBlock:completeBlock:">&ndash;&nbsp;startFetch:queryToRun:errorBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)startFetch:(SFSmartSyncSyncManager *)<em>syncManager</em> queryToRun:(NSString *)<em>queryToRun</em> errorBlock:(SFSyncDownTargetFetchErrorBlock)<em>errorBlock</em> completeBlock:(SFSyncDownTargetFetchCompleteBlock)<em>completeBlock</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/parseIdsFromResponse:" title="parseIdsFromResponse:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/parseIdsFromResponse:">&ndash;&nbsp;parseIdsFromResponse:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSSet&lt;NSString*&gt; *)parseIdsFromResponse:(NSArray *)<em>records</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getRecordsFromResponse:" title="getRecordsFromResponse:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getRecordsFromResponse:">&ndash;&nbsp;getRecordsFromResponse:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSArray&lt;NSDictionary*&gt; *)getRecordsFromResponse:(NSDictionary *)<em>responseJson</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getLatestModificationTimeStamp:modificationDateFieldName:" title="getLatestModificationTimeStamp:modificationDateFieldName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getLatestModificationTimeStamp:modificationDateFieldName:">&ndash;&nbsp;getLatestModificationTimeStamp:modificationDateFieldName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (long long)getLatestModificationTimeStamp:(NSArray *)<em>records</em> modificationDateFieldName:(NSString *)<em>modificationDateFieldName</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

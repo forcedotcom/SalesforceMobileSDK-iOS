@@ -148,6 +148,9 @@
 						<NodeRef refid="135"/>
 						<NodeRef refid="136"/>
 						<NodeRef refid="137"/>
+						<NodeRef refid="138"/>
+						<NodeRef refid="139"/>
+						<NodeRef refid="140"/>
 						
 					</Subnodes>
 				</Node>
@@ -157,9 +160,6 @@
 					<Name>Categories</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="138"/>
-						<NodeRef refid="139"/>
-						<NodeRef refid="140"/>
 						<NodeRef refid="141"/>
 						<NodeRef refid="142"/>
 						<NodeRef refid="143"/>
@@ -176,6 +176,9 @@
 						<NodeRef refid="154"/>
 						<NodeRef refid="155"/>
 						<NodeRef refid="156"/>
+						<NodeRef refid="157"/>
+						<NodeRef refid="158"/>
+						<NodeRef refid="159"/>
 						
 					</Subnodes>
 				</Node>
@@ -185,9 +188,6 @@
 					<Name>Protocols</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="157"/>
-						<NodeRef refid="158"/>
-						<NodeRef refid="159"/>
 						<NodeRef refid="160"/>
 						<NodeRef refid="161"/>
 						<NodeRef refid="162"/>
@@ -218,6 +218,10 @@
 						<NodeRef refid="187"/>
 						<NodeRef refid="188"/>
 						<NodeRef refid="189"/>
+						<NodeRef refid="190"/>
+						<NodeRef refid="191"/>
+						<NodeRef refid="192"/>
+						<NodeRef refid="193"/>
 						
 					</Subnodes>
 				</Node>
@@ -227,10 +231,6 @@
 					<Name>Constants</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="190"/>
-						<NodeRef refid="191"/>
-						<NodeRef refid="192"/>
-						<NodeRef refid="193"/>
 						<NodeRef refid="194"/>
 						<NodeRef refid="195"/>
 						<NodeRef refid="196"/>
@@ -257,6 +257,10 @@
 						<NodeRef refid="217"/>
 						<NodeRef refid="218"/>
 						<NodeRef refid="219"/>
+						<NodeRef refid="220"/>
+						<NodeRef refid="221"/>
+						<NodeRef refid="222"/>
+						<NodeRef refid="223"/>
 						
 					</Subnodes>
 				</Node>
@@ -266,10 +270,6 @@
                     <Name>Blocks</Name>
                     <Path>index.html</Path>
                     <Subnodes>
-                        <NodeRef refid="220"/>
-                        <NodeRef refid="221"/>
-                        <NodeRef refid="222"/>
-                        <NodeRef refid="223"/>
                         <NodeRef refid="224"/>
                         <NodeRef refid="225"/>
                         <NodeRef refid="226"/>
@@ -291,6 +291,21 @@
                         <NodeRef refid="242"/>
                         <NodeRef refid="243"/>
                         <NodeRef refid="244"/>
+                        <NodeRef refid="245"/>
+                        <NodeRef refid="246"/>
+                        <NodeRef refid="247"/>
+                        <NodeRef refid="248"/>
+                        <NodeRef refid="249"/>
+                        <NodeRef refid="250"/>
+                        <NodeRef refid="251"/>
+                        <NodeRef refid="252"/>
+                        <NodeRef refid="253"/>
+                        <NodeRef refid="254"/>
+                        <NodeRef refid="255"/>
+                        <NodeRef refid="256"/>
+                        <NodeRef refid="257"/>
+                        <NodeRef refid="258"/>
+                        <NodeRef refid="259"/>
                         
                     </Subnodes>
                 </Node>
@@ -1218,6 +1233,40 @@
             <Name>SFNetwork</Name>
             <Path>Classes/SFNetwork.html</Path>
             
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFNetwork.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFNetwork.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFNetwork.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFNetwork.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFNetwork.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
         </Node>
 		<Node id="34" type="file" documentType="reference">
             <Name>SFNotificationUserInfo</Name>
@@ -1247,6 +1296,45 @@
             
         </Node>
 		<Node id="35" type="file" documentType="reference">
+            <Name>SFOAuthCoordinator</Name>
+            <Path>Classes/SFOAuthCoordinator.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFOAuthCoordinator.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFOAuthCoordinator.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthCoordinator.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthCoordinator.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFOAuthCoordinator.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="36" type="file" documentType="reference">
             <Name>SFOAuthCredentials</Name>
             <Path>Classes/SFOAuthCredentials.html</Path>
             
@@ -1279,7 +1367,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="36" type="file" documentType="reference">
+		<Node id="37" type="file" documentType="reference">
             <Name>SFOAuthCrypto</Name>
             <Path>Classes/SFOAuthCrypto.html</Path>
             
@@ -1306,7 +1394,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="37" type="file" documentType="reference">
+		<Node id="38" type="file" documentType="reference">
             <Name>SFOAuthInfo</Name>
             <Path>Classes/SFOAuthInfo.html</Path>
             
@@ -1339,7 +1427,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="38" type="file" documentType="reference">
+		<Node id="39" type="file" documentType="reference">
             <Name>SFOAuthKeychainCredentials</Name>
             <Path>Classes/SFOAuthKeychainCredentials.html</Path>
             
@@ -1366,7 +1454,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="39" type="file" documentType="reference">
+		<Node id="40" type="file" documentType="reference">
             <Name>SFOAuthOrgAuthConfiguration</Name>
             <Path>Classes/SFOAuthOrgAuthConfiguration.html</Path>
             
@@ -1399,7 +1487,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="40" type="file" documentType="reference">
+		<Node id="41" type="file" documentType="reference">
             <Name>SFOAuthSessionRefresher</Name>
             <Path>Classes/SFOAuthSessionRefresher.html</Path>
             
@@ -1432,7 +1520,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="41" type="file" documentType="reference">
+		<Node id="42" type="file" documentType="reference">
             <Name>SFOAuthTestFlow</Name>
             <Path>Classes/SFOAuthTestFlow.html</Path>
             
@@ -1465,7 +1553,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="42" type="file" documentType="reference">
+		<Node id="43" type="file" documentType="reference">
             <Name>SFOAuthTestFlowCoordinatorDelegate</Name>
             <Path>Classes/SFOAuthTestFlowCoordinatorDelegate.html</Path>
             
@@ -1492,7 +1580,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="43" type="file" documentType="reference">
+		<Node id="44" type="file" documentType="reference">
             <Name>SFPBKDF2PasscodeProvider</Name>
             <Path>Classes/SFPBKDF2PasscodeProvider.html</Path>
             
@@ -1519,7 +1607,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="44" type="file" documentType="reference">
+		<Node id="45" type="file" documentType="reference">
             <Name>SFPBKDFData</Name>
             <Path>Classes/SFPBKDFData.html</Path>
             
@@ -1552,12 +1640,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="45" type="file" documentType="reference">
+		<Node id="46" type="file" documentType="reference">
             <Name>SFPasscodeKeyStore</Name>
             <Path>Classes/SFPasscodeKeyStore.html</Path>
             
         </Node>
-		<Node id="46" type="file" documentType="reference">
+		<Node id="47" type="file" documentType="reference">
             <Name>SFPasscodeManager</Name>
             <Path>Classes/SFPasscodeManager.html</Path>
             
@@ -1596,7 +1684,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="47" type="file" documentType="reference">
+		<Node id="48" type="file" documentType="reference">
             <Name>SFPasscodeProviderManager</Name>
             <Path>Classes/SFPasscodeProviderManager.html</Path>
             
@@ -1623,7 +1711,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="48" type="file" documentType="reference">
+		<Node id="49" type="file" documentType="reference">
             <Name>SFPreferences</Name>
             <Path>Classes/SFPreferences.html</Path>
             
@@ -1662,7 +1750,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="49" type="file" documentType="reference">
+		<Node id="50" type="file" documentType="reference">
             <Name>SFPushNotificationManager</Name>
             <Path>Classes/SFPushNotificationManager.html</Path>
             
@@ -1701,7 +1789,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="50" type="file" documentType="reference">
+		<Node id="51" type="file" documentType="reference">
             <Name>SFRestAPI</Name>
             <Path>Classes/SFRestAPI.html</Path>
             
@@ -1740,7 +1828,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="51" type="file" documentType="reference">
+		<Node id="52" type="file" documentType="reference">
             <Name>SFRestRequest</Name>
             <Path>Classes/SFRestRequest.html</Path>
             
@@ -1779,17 +1867,17 @@
             </Subnodes>
             
         </Node>
-		<Node id="52" type="file" documentType="reference">
+		<Node id="53" type="file" documentType="reference">
             <Name>SFSDKAILTNPublisher</Name>
             <Path>Classes/SFSDKAILTNPublisher.html</Path>
             
         </Node>
-		<Node id="53" type="file" documentType="reference">
+		<Node id="54" type="file" documentType="reference">
             <Name>SFSDKAdvancedAuthURLHandler</Name>
             <Path>Classes/SFSDKAdvancedAuthURLHandler.html</Path>
             
         </Node>
-		<Node id="54" type="file" documentType="reference">
+		<Node id="55" type="file" documentType="reference">
             <Name>SFSDKAlertMessage</Name>
             <Path>Classes/SFSDKAlertMessage.html</Path>
             
@@ -1828,7 +1916,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="55" type="file" documentType="reference">
+		<Node id="56" type="file" documentType="reference">
             <Name>SFSDKAlertMessageBuilder</Name>
             <Path>Classes/SFSDKAlertMessageBuilder.html</Path>
             
@@ -1861,7 +1949,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="56" type="file" documentType="reference">
+		<Node id="57" type="file" documentType="reference">
             <Name>SFSDKAlertView</Name>
             <Path>Classes/SFSDKAlertView.html</Path>
             
@@ -1894,7 +1982,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="57" type="file" documentType="reference">
+		<Node id="58" type="file" documentType="reference">
             <Name>SFSDKAnalyticsTransformPublisherPair</Name>
             <Path>Classes/SFSDKAnalyticsTransformPublisherPair.html</Path>
             
@@ -1927,7 +2015,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="58" type="file" documentType="reference">
+		<Node id="59" type="file" documentType="reference">
             <Name>SFSDKAppConfig</Name>
             <Path>Classes/SFSDKAppConfig.html</Path>
             
@@ -1966,7 +2054,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="59" type="file" documentType="reference">
+		<Node id="60" type="file" documentType="reference">
             <Name>SFSDKAppFeatureMarkers</Name>
             <Path>Classes/SFSDKAppFeatureMarkers.html</Path>
             
@@ -1993,7 +2081,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="60" type="file" documentType="reference">
+		<Node id="61" type="file" documentType="reference">
             <Name>SFSDKAppLockViewConfig</Name>
             <Path>Classes/SFSDKAppLockViewConfig.html</Path>
             
@@ -2026,7 +2114,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="61" type="file" documentType="reference">
+		<Node id="62" type="file" documentType="reference">
             <Name>SFSDKAppLockViewController</Name>
             <Path>Classes/SFSDKAppLockViewController.html</Path>
             
@@ -2053,7 +2141,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="62" type="file" documentType="reference">
+		<Node id="63" type="file" documentType="reference">
             <Name>SFSDKAsyncProcessListener</Name>
             <Path>Classes/SFSDKAsyncProcessListener.html</Path>
             
@@ -2080,7 +2168,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="63" type="file" documentType="reference">
+		<Node id="64" type="file" documentType="reference">
             <Name>SFSDKAuthCommand</Name>
             <Path>Classes/SFSDKAuthCommand.html</Path>
             
@@ -2113,7 +2201,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="64" type="file" documentType="reference">
+		<Node id="65" type="file" documentType="reference">
             <Name>SFSDKAuthConfigUtil</Name>
             <Path>Classes/SFSDKAuthConfigUtil.html</Path>
             
@@ -2140,7 +2228,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="65" type="file" documentType="reference">
+		<Node id="66" type="file" documentType="reference">
             <Name>SFSDKAuthErrorCommand</Name>
             <Path>Classes/SFSDKAuthErrorCommand.html</Path>
             
@@ -2167,7 +2255,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="66" type="file" documentType="reference">
+		<Node id="67" type="file" documentType="reference">
             <Name>SFSDKAuthErrorManager</Name>
             <Path>Classes/SFSDKAuthErrorManager.html</Path>
             
@@ -2206,7 +2294,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="67" type="file" documentType="reference">
+		<Node id="68" type="file" documentType="reference">
             <Name>SFSDKAuthHelper</Name>
             <Path>Classes/SFSDKAuthHelper.html</Path>
             
@@ -2233,7 +2321,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="68" type="file" documentType="reference">
+		<Node id="69" type="file" documentType="reference">
             <Name>SFSDKAuthPreferences</Name>
             <Path>Classes/SFSDKAuthPreferences.html</Path>
             
@@ -2260,7 +2348,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="69" type="file" documentType="reference">
+		<Node id="70" type="file" documentType="reference">
             <Name>SFSDKAuthRequestCommand</Name>
             <Path>Classes/SFSDKAuthRequestCommand.html</Path>
             
@@ -2287,7 +2375,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="70" type="file" documentType="reference">
+		<Node id="71" type="file" documentType="reference">
             <Name>SFSDKAuthResponseCommand</Name>
             <Path>Classes/SFSDKAuthResponseCommand.html</Path>
             
@@ -2314,7 +2402,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="71" type="file" documentType="reference">
+		<Node id="72" type="file" documentType="reference">
             <Name>SFSDKAuthViewHandler</Name>
             <Path>Classes/SFSDKAuthViewHandler.html</Path>
             
@@ -2347,7 +2435,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="72" type="file" documentType="reference">
+		<Node id="73" type="file" documentType="reference">
             <Name>SFSDKAuthViewHolder</Name>
             <Path>Classes/SFSDKAuthViewHolder.html</Path>
             
@@ -2374,7 +2462,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="73" type="file" documentType="reference">
+		<Node id="74" type="file" documentType="reference">
             <Name>SFSDKBiometricViewController</Name>
             <Path>Classes/SFSDKBiometricViewController.html</Path>
             
@@ -2407,12 +2495,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="74" type="file" documentType="reference">
+		<Node id="75" type="file" documentType="reference">
             <Name>SFSDKCoreLogger</Name>
             <Path>Classes/SFSDKCoreLogger.html</Path>
             
         </Node>
-		<Node id="75" type="file" documentType="reference">
+		<Node id="76" type="file" documentType="reference">
             <Name>SFSDKCryptoUtils</Name>
             <Path>Classes/SFSDKCryptoUtils.html</Path>
             
@@ -2439,7 +2527,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="76" type="file" documentType="reference">
+		<Node id="77" type="file" documentType="reference">
             <Name>SFSDKDevAction</Name>
             <Path>Classes/SFSDKDevAction.html</Path>
             
@@ -2472,12 +2560,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="77" type="file" documentType="reference">
+		<Node id="78" type="file" documentType="reference">
             <Name>SFSDKDevInfoViewController</Name>
             <Path>Classes/SFSDKDevInfoViewController.html</Path>
             
         </Node>
-		<Node id="78" type="file" documentType="reference">
+		<Node id="79" type="file" documentType="reference">
             <Name>SFSDKEventBuilderHelper</Name>
             <Path>Classes/SFSDKEventBuilderHelper.html</Path>
             
@@ -2504,7 +2592,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="79" type="file" documentType="reference">
+		<Node id="80" type="file" documentType="reference">
             <Name>SFSDKIDPAuthClient</Name>
             <Path>Classes/SFSDKIDPAuthClient.html</Path>
             
@@ -2537,17 +2625,17 @@
             </Subnodes>
             
         </Node>
-		<Node id="80" type="file" documentType="reference">
+		<Node id="81" type="file" documentType="reference">
             <Name>SFSDKIDPConstants</Name>
             <Path>Classes/SFSDKIDPConstants.html</Path>
             
         </Node>
-		<Node id="81" type="file" documentType="reference">
+		<Node id="82" type="file" documentType="reference">
             <Name>SFSDKIDPErrorHandler</Name>
             <Path>Classes/SFSDKIDPErrorHandler.html</Path>
             
         </Node>
-		<Node id="82" type="file" documentType="reference">
+		<Node id="83" type="file" documentType="reference">
             <Name>SFSDKIDPInitCommand</Name>
             <Path>Classes/SFSDKIDPInitCommand.html</Path>
             
@@ -2574,22 +2662,22 @@
             </Subnodes>
             
         </Node>
-		<Node id="83" type="file" documentType="reference">
+		<Node id="84" type="file" documentType="reference">
             <Name>SFSDKIDPInitiatedAuthRequestHandler</Name>
             <Path>Classes/SFSDKIDPInitiatedAuthRequestHandler.html</Path>
             
         </Node>
-		<Node id="84" type="file" documentType="reference">
+		<Node id="85" type="file" documentType="reference">
             <Name>SFSDKIDPRequestHandler</Name>
             <Path>Classes/SFSDKIDPRequestHandler.html</Path>
             
         </Node>
-		<Node id="85" type="file" documentType="reference">
+		<Node id="86" type="file" documentType="reference">
             <Name>SFSDKIDPResponseHandler</Name>
             <Path>Classes/SFSDKIDPResponseHandler.html</Path>
             
         </Node>
-		<Node id="86" type="file" documentType="reference">
+		<Node id="87" type="file" documentType="reference">
             <Name>SFSDKInstrumentationPostExecutionData</Name>
             <Path>Classes/SFSDKInstrumentationPostExecutionData.html</Path>
             
@@ -2616,7 +2704,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="87" type="file" documentType="reference">
+		<Node id="88" type="file" documentType="reference">
             <Name>SFSDKLoginFlowSelectionViewController</Name>
             <Path>Classes/SFSDKLoginFlowSelectionViewController.html</Path>
             
@@ -2643,7 +2731,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="88" type="file" documentType="reference">
+		<Node id="89" type="file" documentType="reference">
             <Name>SFSDKLoginHost</Name>
             <Path>Classes/SFSDKLoginHost.html</Path>
             
@@ -2676,7 +2764,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="89" type="file" documentType="reference">
+		<Node id="90" type="file" documentType="reference">
             <Name>SFSDKLoginHostListViewController</Name>
             <Path>Classes/SFSDKLoginHostListViewController.html</Path>
             
@@ -2709,7 +2797,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="90" type="file" documentType="reference">
+		<Node id="91" type="file" documentType="reference">
             <Name>SFSDKLoginHostStorage</Name>
             <Path>Classes/SFSDKLoginHostStorage.html</Path>
             
@@ -2742,7 +2830,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="91" type="file" documentType="reference">
+		<Node id="92" type="file" documentType="reference">
             <Name>SFSDKLoginViewControllerConfig</Name>
             <Path>Classes/SFSDKLoginViewControllerConfig.html</Path>
             
@@ -2769,12 +2857,39 @@
             </Subnodes>
             
         </Node>
-		<Node id="92" type="file" documentType="reference">
+		<Node id="93" type="file" documentType="reference">
+            <Name>SFSDKMutableOAuthClientContext</Name>
+            <Path>Classes/SFSDKMutableOAuthClientContext.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKMutableOAuthClientContext.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKMutableOAuthClientContext.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKMutableOAuthClientContext.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="94" type="file" documentType="reference">
             <Name>SFSDKNavigationController</Name>
             <Path>Classes/SFSDKNavigationController.html</Path>
             
         </Node>
-		<Node id="93" type="file" documentType="reference">
+		<Node id="95" type="file" documentType="reference">
             <Name>SFSDKNewLoginHostViewController</Name>
             <Path>Classes/SFSDKNewLoginHostViewController.html</Path>
             
@@ -2801,7 +2916,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="94" type="file" documentType="reference">
+		<Node id="96" type="file" documentType="reference">
             <Name>SFSDKOAuthClient</Name>
             <Path>Classes/SFSDKOAuthClient.html</Path>
             
@@ -2834,7 +2949,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="95" type="file" documentType="reference">
+		<Node id="97" type="file" documentType="reference">
             <Name>SFSDKOAuthClientCache</Name>
             <Path>Classes/SFSDKOAuthClientCache.html</Path>
             
@@ -2867,7 +2982,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="96" type="file" documentType="reference">
+		<Node id="98" type="file" documentType="reference">
             <Name>SFSDKOAuthClientConfig</Name>
             <Path>Classes/SFSDKOAuthClientConfig.html</Path>
             
@@ -2894,7 +3009,40 @@
             </Subnodes>
             
         </Node>
-		<Node id="97" type="file" documentType="reference">
+		<Node id="99" type="file" documentType="reference">
+            <Name>SFSDKOAuthClientContext</Name>
+            <Path>Classes/SFSDKOAuthClientContext.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKOAuthClientContext.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKOAuthClientContext.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKOAuthClientContext.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKOAuthClientContext.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="100" type="file" documentType="reference">
             <Name>SFSDKPasscodeCreateController</Name>
             <Path>Classes/SFSDKPasscodeCreateController.html</Path>
             
@@ -2927,7 +3075,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="98" type="file" documentType="reference">
+		<Node id="101" type="file" documentType="reference">
             <Name>SFSDKPasscodeTextField</Name>
             <Path>Classes/SFSDKPasscodeTextField.html</Path>
             
@@ -2960,7 +3108,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="99" type="file" documentType="reference">
+		<Node id="102" type="file" documentType="reference">
             <Name>SFSDKPasscodeVerifyController</Name>
             <Path>Classes/SFSDKPasscodeVerifyController.html</Path>
             
@@ -2993,7 +3141,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="100" type="file" documentType="reference">
+		<Node id="103" type="file" documentType="reference">
             <Name>SFSDKResourceUtils</Name>
             <Path>Classes/SFSDKResourceUtils.html</Path>
             
@@ -3020,12 +3168,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="101" type="file" documentType="reference">
+		<Node id="104" type="file" documentType="reference">
             <Name>SFSDKRootController</Name>
             <Path>Classes/SFSDKRootController.html</Path>
             
         </Node>
-		<Node id="102" type="file" documentType="reference">
+		<Node id="105" type="file" documentType="reference">
             <Name>SFSDKSalesforceAnalyticsManager</Name>
             <Path>Classes/SFSDKSalesforceAnalyticsManager.html</Path>
             
@@ -3064,7 +3212,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="103" type="file" documentType="reference">
+		<Node id="106" type="file" documentType="reference">
             <Name>SFSDKSoqlBuilder</Name>
             <Path>Classes/SFSDKSoqlBuilder.html</Path>
             
@@ -3097,7 +3245,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="104" type="file" documentType="reference">
+		<Node id="107" type="file" documentType="reference">
             <Name>SFSDKSoslBuilder</Name>
             <Path>Classes/SFSDKSoslBuilder.html</Path>
             
@@ -3130,7 +3278,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="105" type="file" documentType="reference">
+		<Node id="108" type="file" documentType="reference">
             <Name>SFSDKSoslReturningBuilder</Name>
             <Path>Classes/SFSDKSoslReturningBuilder.html</Path>
             
@@ -3169,12 +3317,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="106" type="file" documentType="reference">
+		<Node id="109" type="file" documentType="reference">
             <Name>SFSDKStartURLHandler</Name>
             <Path>Classes/SFSDKStartURLHandler.html</Path>
             
         </Node>
-		<Node id="107" type="file" documentType="reference">
+		<Node id="110" type="file" documentType="reference">
             <Name>SFSDKTestCredentialsData</Name>
             <Path>Classes/SFSDKTestCredentialsData.html</Path>
             
@@ -3207,7 +3355,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="108" type="file" documentType="reference">
+		<Node id="111" type="file" documentType="reference">
             <Name>SFSDKTestRequestListener</Name>
             <Path>Classes/SFSDKTestRequestListener.html</Path>
             
@@ -3240,7 +3388,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="109" type="file" documentType="reference">
+		<Node id="112" type="file" documentType="reference">
             <Name>SFSDKTextFieldTableViewCell</Name>
             <Path>Classes/SFSDKTextFieldTableViewCell.html</Path>
             
@@ -3267,7 +3415,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="110" type="file" documentType="reference">
+		<Node id="113" type="file" documentType="reference">
             <Name>SFSDKUITableViewCell</Name>
             <Path>Classes/SFSDKUITableViewCell.html</Path>
             
@@ -3294,7 +3442,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="111" type="file" documentType="reference">
+		<Node id="114" type="file" documentType="reference">
             <Name>SFSDKUIWindow</Name>
             <Path>Classes/SFSDKUIWindow.html</Path>
             
@@ -3327,7 +3475,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="112" type="file" documentType="reference">
+		<Node id="115" type="file" documentType="reference">
             <Name>SFSDKURLHandlerManager</Name>
             <Path>Classes/SFSDKURLHandlerManager.html</Path>
             
@@ -3360,7 +3508,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="113" type="file" documentType="reference">
+		<Node id="116" type="file" documentType="reference">
             <Name>SFSDKUserSelectionNavViewController</Name>
             <Path>Classes/SFSDKUserSelectionNavViewController.html</Path>
             
@@ -3393,7 +3541,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="114" type="file" documentType="reference">
+		<Node id="117" type="file" documentType="reference">
             <Name>SFSDKUserSelectionTableViewController</Name>
             <Path>Classes/SFSDKUserSelectionTableViewController.html</Path>
             
@@ -3426,7 +3574,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="115" type="file" documentType="reference">
+		<Node id="118" type="file" documentType="reference">
             <Name>SFSDKViewController</Name>
             <Path>Classes/SFSDKViewController.html</Path>
             
@@ -3453,7 +3601,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="116" type="file" documentType="reference">
+		<Node id="119" type="file" documentType="reference">
             <Name>SFSDKWebUtils</Name>
             <Path>Classes/SFSDKWebUtils.html</Path>
             
@@ -3480,7 +3628,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="117" type="file" documentType="reference">
+		<Node id="120" type="file" documentType="reference">
             <Name>SFSDKWebViewStateManager</Name>
             <Path>Classes/SFSDKWebViewStateManager.html</Path>
             
@@ -3513,7 +3661,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="118" type="file" documentType="reference">
+		<Node id="121" type="file" documentType="reference">
             <Name>SFSDKWindowContainer</Name>
             <Path>Classes/SFSDKWindowContainer.html</Path>
             
@@ -3552,7 +3700,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="119" type="file" documentType="reference">
+		<Node id="122" type="file" documentType="reference">
             <Name>SFSDKWindowManager</Name>
             <Path>Classes/SFSDKWindowManager.html</Path>
             
@@ -3591,12 +3739,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="120" type="file" documentType="reference">
+		<Node id="123" type="file" documentType="reference">
             <Name>SFSHA256PasscodeProvider</Name>
             <Path>Classes/SFSHA256PasscodeProvider.html</Path>
             
         </Node>
-		<Node id="121" type="file" documentType="reference">
+		<Node id="124" type="file" documentType="reference">
             <Name>SFSObjectTree</Name>
             <Path>Classes/SFSObjectTree.html</Path>
             
@@ -3623,7 +3771,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="122" type="file" documentType="reference">
+		<Node id="125" type="file" documentType="reference">
             <Name>SFSecurityLockout</Name>
             <Path>Classes/SFSecurityLockout.html</Path>
             
@@ -3656,12 +3804,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="123" type="file" documentType="reference">
+		<Node id="126" type="file" documentType="reference">
             <Name>SFSecurityLockoutTests</Name>
             <Path>Classes/SFSecurityLockoutTests.html</Path>
             
         </Node>
-		<Node id="124" type="file" documentType="reference">
+		<Node id="127" type="file" documentType="reference">
             <Name>SFTestSDKManagerFlow</Name>
             <Path>Classes/SFTestSDKManagerFlow.html</Path>
             
@@ -3694,7 +3842,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="125" type="file" documentType="reference">
+		<Node id="128" type="file" documentType="reference">
             <Name>SFUserAccount</Name>
             <Path>Classes/SFUserAccount.html</Path>
             
@@ -3727,7 +3875,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="126" type="file" documentType="reference">
+		<Node id="129" type="file" documentType="reference">
             <Name>SFUserAccountIdentity</Name>
             <Path>Classes/SFUserAccountIdentity.html</Path>
             
@@ -3766,7 +3914,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="127" type="file" documentType="reference">
+		<Node id="130" type="file" documentType="reference">
             <Name>SFUserAccountManager</Name>
             <Path>Classes/SFUserAccountManager.html</Path>
             
@@ -3805,12 +3953,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="128" type="file" documentType="reference">
+		<Node id="131" type="file" documentType="reference">
             <Name>SFUserAccountPersisterEphemeral</Name>
             <Path>Classes/SFUserAccountPersisterEphemeral.html</Path>
             
         </Node>
-		<Node id="129" type="file" documentType="reference">
+		<Node id="132" type="file" documentType="reference">
             <Name>SFUserActivityMonitor</Name>
             <Path>Classes/SFUserActivityMonitor.html</Path>
             
@@ -3843,27 +3991,27 @@
             </Subnodes>
             
         </Node>
-		<Node id="130" type="file" documentType="reference">
+		<Node id="133" type="file" documentType="reference">
             <Name>SalesforceOAuthUnitTests</Name>
             <Path>Classes/SalesforceOAuthUnitTests.html</Path>
             
         </Node>
-		<Node id="131" type="file" documentType="reference">
+		<Node id="134" type="file" documentType="reference">
             <Name>SalesforceOAuthUnitTestsCoordinatorDelegate</Name>
             <Path>Classes/SalesforceOAuthUnitTestsCoordinatorDelegate.html</Path>
             
         </Node>
-		<Node id="132" type="file" documentType="reference">
+		<Node id="135" type="file" documentType="reference">
             <Name>SalesforceRestAPITests</Name>
             <Path>Classes/SalesforceRestAPITests.html</Path>
             
         </Node>
-		<Node id="133" type="file" documentType="reference">
+		<Node id="136" type="file" documentType="reference">
             <Name>SalesforceSDKIdentityTests</Name>
             <Path>Classes/SalesforceSDKIdentityTests.html</Path>
             
         </Node>
-		<Node id="134" type="file" documentType="reference">
+		<Node id="137" type="file" documentType="reference">
             <Name>SalesforceSDKManager</Name>
             <Path>Classes/SalesforceSDKManager.html</Path>
             
@@ -3902,12 +4050,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="135" type="file" documentType="reference">
+		<Node id="138" type="file" documentType="reference">
             <Name>SnapshotViewController</Name>
             <Path>Classes/SnapshotViewController.html</Path>
             
         </Node>
-		<Node id="136" type="file" documentType="reference">
+		<Node id="139" type="file" documentType="reference">
             <Name>TestSetupUtils</Name>
             <Path>Classes/TestSetupUtils.html</Path>
             
@@ -3934,13 +4082,13 @@
             </Subnodes>
             
         </Node>
-		<Node id="137" type="file" documentType="reference">
+		<Node id="140" type="file" documentType="reference">
             <Name>ViewController</Name>
             <Path>Classes/ViewController.html</Path>
             
         </Node>
 		
-		<Node id="138" type="file" documentType="reference">
+		<Node id="141" type="file" documentType="reference">
             <Name>NSArray(SFAdditions)</Name>
             <Path>Categories/NSArray+SFAdditions.html</Path>
             
@@ -3967,7 +4115,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="139" type="file" documentType="reference">
+		<Node id="142" type="file" documentType="reference">
             <Name>NSData(SFBase64)</Name>
             <Path>Categories/NSData+SFBase64.html</Path>
             
@@ -4000,7 +4148,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="140" type="file" documentType="reference">
+		<Node id="143" type="file" documentType="reference">
             <Name>NSData(SFHexSupport)</Name>
             <Path>Categories/NSData+SFHexSupport.html</Path>
             
@@ -4027,7 +4175,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="141" type="file" documentType="reference">
+		<Node id="144" type="file" documentType="reference">
             <Name>NSData(SFMD5)</Name>
             <Path>Categories/NSData+SFMD5.html</Path>
             
@@ -4054,7 +4202,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="142" type="file" documentType="reference">
+		<Node id="145" type="file" documentType="reference">
             <Name>NSData(SFSDKUtils)</Name>
             <Path>Categories/NSData+SFSDKUtils.html</Path>
             
@@ -4081,7 +4229,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="143" type="file" documentType="reference">
+		<Node id="146" type="file" documentType="reference">
             <Name>NSData(SFSDKUtilsInternal)</Name>
             <Path>Categories/NSData+SFSDKUtilsInternal.html</Path>
             
@@ -4108,7 +4256,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="144" type="file" documentType="reference">
+		<Node id="147" type="file" documentType="reference">
             <Name>NSData(SFzlib)</Name>
             <Path>Categories/NSData+SFzlib.html</Path>
             
@@ -4135,7 +4283,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="145" type="file" documentType="reference">
+		<Node id="148" type="file" documentType="reference">
             <Name>NSDictionary(SFAdditions)</Name>
             <Path>Categories/NSDictionary+SFAdditions.html</Path>
             
@@ -4162,7 +4310,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="146" type="file" documentType="reference">
+		<Node id="149" type="file" documentType="reference">
             <Name>NSNotificationCenter(SFAdditions)</Name>
             <Path>Categories/NSNotificationCenter+SFAdditions.html</Path>
             
@@ -4195,7 +4343,34 @@
             </Subnodes>
             
         </Node>
-		<Node id="147" type="file" documentType="reference">
+		<Node id="150" type="file" documentType="reference">
+            <Name>NSObject(SFBlocks)</Name>
+            <Path>Categories/NSObject+SFBlocks.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Categories/NSObject+SFBlocks.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Categories/NSObject+SFBlocks.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Categories/NSObject+SFBlocks.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="151" type="file" documentType="reference">
             <Name>NSString(SFAdditions)</Name>
             <Path>Categories/NSString+SFAdditions.html</Path>
             
@@ -4228,7 +4403,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="148" type="file" documentType="reference">
+		<Node id="152" type="file" documentType="reference">
             <Name>NSURL(SFAdditions)</Name>
             <Path>Categories/NSURL+SFAdditions.html</Path>
             
@@ -4255,7 +4430,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="149" type="file" documentType="reference">
+		<Node id="153" type="file" documentType="reference">
             <Name>NSURL(SFStringUtils)</Name>
             <Path>Categories/NSURL+SFStringUtils.html</Path>
             
@@ -4288,46 +4463,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="150" type="file" documentType="reference">
-            <Name>SFOAuthCoordinator()</Name>
-            <Path>Categories/SFOAuthCoordinator+.html</Path>
-            
-                <Subnodes>
-                <Node type="section">
-                    <Path>Categories/SFOAuthCoordinator+.html</Path>
-                    <Name>Overview</Name>
-                    <Anchor>overview</Anchor>
-                </Node>
-                <Node type="section">
-                    <Path>Categories/SFOAuthCoordinator+.html</Path>
-                    <Name>Tasks</Name>
-                    <Anchor>tasks</Anchor>
-                </Node>
-                
-                <Node type="section">
-                    <Path>Categories/SFOAuthCoordinator+.html</Path>
-                    <Name>Properties</Name>
-                    <Anchor>properties</Anchor>
-                </Node>
-                
-                
-                <Node type="section">
-                    <Path>Categories/SFOAuthCoordinator+.html</Path>
-                    <Name>Class Methods</Name>
-                    <Anchor>class_methods</Anchor>
-                </Node>
-                
-                
-                <Node type="section">
-                    <Path>Categories/SFOAuthCoordinator+.html</Path>
-                    <Name>Instance Methods</Name>
-                    <Anchor>instance_methods</Anchor>
-                </Node>
-                
-            </Subnodes>
-            
-        </Node>
-		<Node id="151" type="file" documentType="reference">
+		<Node id="154" type="file" documentType="reference">
             <Name>UIColor(SFColors)</Name>
             <Path>Categories/UIColor+SFColors.html</Path>
             
@@ -4360,7 +4496,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="152" type="file" documentType="reference">
+		<Node id="155" type="file" documentType="reference">
             <Name>UIColor(SFSDKIDP)</Name>
             <Path>Categories/UIColor+SFSDKIDP.html</Path>
             
@@ -4387,7 +4523,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="153" type="file" documentType="reference">
+		<Node id="156" type="file" documentType="reference">
             <Name>UIColor(SFSDKPasscodeView)</Name>
             <Path>Categories/UIColor+SFSDKPasscodeView.html</Path>
             
@@ -4414,7 +4550,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="154" type="file" documentType="reference">
+		<Node id="157" type="file" documentType="reference">
             <Name>UIDevice(SFHardware)</Name>
             <Path>Categories/UIDevice+SFHardware.html</Path>
             
@@ -4447,7 +4583,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="155" type="file" documentType="reference">
+		<Node id="158" type="file" documentType="reference">
             <Name>UIFont(SFSDKIDP)</Name>
             <Path>Categories/UIFont+SFSDKIDP.html</Path>
             
@@ -4474,7 +4610,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="156" type="file" documentType="reference">
+		<Node id="159" type="file" documentType="reference">
             <Name>UIScreen(SFAdditions)</Name>
             <Path>Categories/UIScreen+SFAdditions.html</Path>
             
@@ -4502,7 +4638,7 @@
             
         </Node>
 		
-        <Node id="157" type="file" documentType="reference">
+        <Node id="160" type="file" documentType="reference">
             <Name>SFCryptChunksDelegate</Name>
             <Path>Protocols/SFCryptChunksDelegate.html</Path>
             
@@ -4529,7 +4665,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="158" type="file" documentType="reference">
+		<Node id="161" type="file" documentType="reference">
             <Name>SFIdentityCoordinatorDelegate</Name>
             <Path>Protocols/SFIdentityCoordinatorDelegate.html</Path>
             
@@ -4556,7 +4692,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="159" type="file" documentType="reference">
+		<Node id="162" type="file" documentType="reference">
             <Name>SFLoginViewControllerDelegate</Name>
             <Path>Protocols/SFLoginViewControllerDelegate.html</Path>
             
@@ -4583,7 +4719,34 @@
             </Subnodes>
             
         </Node>
-		<Node id="160" type="file" documentType="reference">
+		<Node id="163" type="file" documentType="reference">
+            <Name>SFOAuthCoordinatorDelegate</Name>
+            <Path>Protocols/SFOAuthCoordinatorDelegate.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/SFOAuthCoordinatorDelegate.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/SFOAuthCoordinatorDelegate.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Protocols/SFOAuthCoordinatorDelegate.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="164" type="file" documentType="reference">
             <Name>SFOAuthCoordinatorFlow</Name>
             <Path>Protocols/SFOAuthCoordinatorFlow.html</Path>
             
@@ -4610,7 +4773,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="161" type="file" documentType="reference">
+		<Node id="165" type="file" documentType="reference">
             <Name>SFPasscodeManagerDelegate</Name>
             <Path>Protocols/SFPasscodeManagerDelegate.html</Path>
             
@@ -4637,7 +4800,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="162" type="file" documentType="reference">
+		<Node id="166" type="file" documentType="reference">
             <Name>SFPasscodeProvider</Name>
             <Path>Protocols/SFPasscodeProvider.html</Path>
             
@@ -4670,7 +4833,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="163" type="file" documentType="reference">
+		<Node id="167" type="file" documentType="reference">
             <Name>SFRestDelegate</Name>
             <Path>Protocols/SFRestDelegate.html</Path>
             
@@ -4697,7 +4860,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="164" type="file" documentType="reference">
+		<Node id="168" type="file" documentType="reference">
             <Name>SFSDKAnalyticsPublisher</Name>
             <Path>Protocols/SFSDKAnalyticsPublisher.html</Path>
             
@@ -4724,7 +4887,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="165" type="file" documentType="reference">
+		<Node id="169" type="file" documentType="reference">
             <Name>SFSDKAppDelegate</Name>
             <Path>Protocols/SFSDKAppDelegate.html</Path>
             
@@ -4757,7 +4920,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="166" type="file" documentType="reference">
+		<Node id="170" type="file" documentType="reference">
             <Name>SFSDKBiometricViewDelegate</Name>
             <Path>Protocols/SFSDKBiometricViewDelegate.html</Path>
             
@@ -4784,7 +4947,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="167" type="file" documentType="reference">
+		<Node id="171" type="file" documentType="reference">
             <Name>SFSDKIDPAuthClientDelegate</Name>
             <Path>Protocols/SFSDKIDPAuthClientDelegate.html</Path>
             
@@ -4811,7 +4974,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="168" type="file" documentType="reference">
+		<Node id="172" type="file" documentType="reference">
             <Name>SFSDKLoginFlowSelectionView</Name>
             <Path>Protocols/SFSDKLoginFlowSelectionView.html</Path>
             
@@ -4838,7 +5001,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="169" type="file" documentType="reference">
+		<Node id="173" type="file" documentType="reference">
             <Name>SFSDKLoginFlowSelectionViewDelegate</Name>
             <Path>Protocols/SFSDKLoginFlowSelectionViewDelegate.html</Path>
             
@@ -4865,7 +5028,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="170" type="file" documentType="reference">
+		<Node id="174" type="file" documentType="reference">
             <Name>SFSDKLoginHostDelegate</Name>
             <Path>Protocols/SFSDKLoginHostDelegate.html</Path>
             
@@ -4892,7 +5055,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="171" type="file" documentType="reference">
+		<Node id="175" type="file" documentType="reference">
             <Name>SFSDKOAuthClient</Name>
             <Path>Protocols/SFSDKOAuthClient.html</Path>
             
@@ -4931,7 +5094,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="172" type="file" documentType="reference">
+		<Node id="176" type="file" documentType="reference">
             <Name>SFSDKOAuthClientDelegate</Name>
             <Path>Protocols/SFSDKOAuthClientDelegate.html</Path>
             
@@ -4958,7 +5121,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="173" type="file" documentType="reference">
+		<Node id="177" type="file" documentType="reference">
             <Name>SFSDKOAuthClientProvider</Name>
             <Path>Protocols/SFSDKOAuthClientProvider.html</Path>
             
@@ -4985,7 +5148,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="174" type="file" documentType="reference">
+		<Node id="178" type="file" documentType="reference">
             <Name>SFSDKOAuthClientSafariViewDelegate</Name>
             <Path>Protocols/SFSDKOAuthClientSafariViewDelegate.html</Path>
             
@@ -5012,7 +5175,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="175" type="file" documentType="reference">
+		<Node id="179" type="file" documentType="reference">
             <Name>SFSDKOAuthClientWebViewDelegate</Name>
             <Path>Protocols/SFSDKOAuthClientWebViewDelegate.html</Path>
             
@@ -5039,7 +5202,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="176" type="file" documentType="reference">
+		<Node id="180" type="file" documentType="reference">
             <Name>SFSDKPasscodeCreateDelegate</Name>
             <Path>Protocols/SFSDKPasscodeCreateDelegate.html</Path>
             
@@ -5066,7 +5229,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="177" type="file" documentType="reference">
+		<Node id="181" type="file" documentType="reference">
             <Name>SFSDKPasscodeDeleteProtocol</Name>
             <Path>Protocols/SFSDKPasscodeDeleteProtocol.html</Path>
             
@@ -5093,7 +5256,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="178" type="file" documentType="reference">
+		<Node id="182" type="file" documentType="reference">
             <Name>SFSDKPasscodeVerifyDelegate</Name>
             <Path>Protocols/SFSDKPasscodeVerifyDelegate.html</Path>
             
@@ -5120,7 +5283,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="179" type="file" documentType="reference">
+		<Node id="183" type="file" documentType="reference">
             <Name>SFSDKURLHandler</Name>
             <Path>Protocols/SFSDKURLHandler.html</Path>
             
@@ -5147,7 +5310,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="180" type="file" documentType="reference">
+		<Node id="184" type="file" documentType="reference">
             <Name>SFSDKUserSelectionTableViewControllerDelegate</Name>
             <Path>Protocols/SFSDKUserSelectionTableViewControllerDelegate.html</Path>
             
@@ -5174,7 +5337,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="181" type="file" documentType="reference">
+		<Node id="185" type="file" documentType="reference">
             <Name>SFSDKUserSelectionView</Name>
             <Path>Protocols/SFSDKUserSelectionView.html</Path>
             
@@ -5201,7 +5364,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="182" type="file" documentType="reference">
+		<Node id="186" type="file" documentType="reference">
             <Name>SFSDKUserSelectionViewDelegate</Name>
             <Path>Protocols/SFSDKUserSelectionViewDelegate.html</Path>
             
@@ -5228,7 +5391,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="183" type="file" documentType="reference">
+		<Node id="187" type="file" documentType="reference">
             <Name>SFSDKWindowContainerDelegate</Name>
             <Path>Protocols/SFSDKWindowContainerDelegate.html</Path>
             
@@ -5255,7 +5418,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="184" type="file" documentType="reference">
+		<Node id="188" type="file" documentType="reference">
             <Name>SFSDKWindowManagerDelegate</Name>
             <Path>Protocols/SFSDKWindowManagerDelegate.html</Path>
             
@@ -5282,7 +5445,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="185" type="file" documentType="reference">
+		<Node id="189" type="file" documentType="reference">
             <Name>SFSecurityLockoutDelegate</Name>
             <Path>Protocols/SFSecurityLockoutDelegate.html</Path>
             
@@ -5309,7 +5472,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="186" type="file" documentType="reference">
+		<Node id="190" type="file" documentType="reference">
             <Name>SFUserAccountManagerDelegate</Name>
             <Path>Protocols/SFUserAccountManagerDelegate.html</Path>
             
@@ -5336,7 +5499,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="187" type="file" documentType="reference">
+		<Node id="191" type="file" documentType="reference">
             <Name>SFUserAccountPersister</Name>
             <Path>Protocols/SFUserAccountPersister.html</Path>
             
@@ -5363,7 +5526,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="188" type="file" documentType="reference">
+		<Node id="192" type="file" documentType="reference">
             <Name>SalesforceSDKManagerDelegate</Name>
             <Path>Protocols/SalesforceSDKManagerDelegate.html</Path>
             
@@ -5390,7 +5553,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="189" type="file" documentType="reference">
+		<Node id="193" type="file" documentType="reference">
             <Name>SalesforceSDKManagerFlow</Name>
             <Path>Protocols/SalesforceSDKManagerFlow.html</Path>
             
@@ -5418,278 +5581,333 @@
             
         </Node>
 		
-        <Node id="190" type="file" documentType="reference">
+        <Node id="194" type="file" documentType="reference">
             <Name>SFAccountManagerServiceType</Name>
             <Path>Constants/SFAccountManagerServiceType.html</Path>
             
         </Node>
-		<Node id="191" type="file" documentType="reference">
+		<Node id="195" type="file" documentType="reference">
             <Name>SFAppLockControllerMode</Name>
             <Path>Constants/SFAppLockControllerMode.html</Path>
             
         </Node>
-		<Node id="192" type="file" documentType="reference">
+		<Node id="196" type="file" documentType="reference">
             <Name>SFAppType</Name>
             <Path>Constants/SFAppType.html</Path>
             
         </Node>
-		<Node id="193" type="file" documentType="reference">
+		<Node id="197" type="file" documentType="reference">
             <Name>SFBiometricUnlockState</Name>
             <Path>Constants/SFBiometricUnlockState.html</Path>
             
         </Node>
-		<Node id="194" type="file" documentType="reference">
+		<Node id="198" type="file" documentType="reference">
             <Name>SFCryptoMode</Name>
             <Path>Constants/SFCryptoMode.html</Path>
             
         </Node>
-		<Node id="195" type="file" documentType="reference">
+		<Node id="199" type="file" documentType="reference">
             <Name>SFCryptoOperation</Name>
             <Path>Constants/SFCryptoOperation.html</Path>
             
         </Node>
-		<Node id="196" type="file" documentType="reference">
+		<Node id="200" type="file" documentType="reference">
             <Name>SFEntityIdLength</Name>
             <Path>Constants/SFEntityIdLength.html</Path>
             
         </Node>
-		<Node id="197" type="file" documentType="reference">
+		<Node id="201" type="file" documentType="reference">
             <Name>SFKeychainItemExceptionErrorCode</Name>
             <Path>Constants/SFKeychainItemExceptionErrorCode.html</Path>
             
         </Node>
-		<Node id="198" type="file" documentType="reference">
+		<Node id="202" type="file" documentType="reference">
             <Name>SFOAuthAdvancedAuthState</Name>
             <Path>Constants/SFOAuthAdvancedAuthState.html</Path>
             
         </Node>
-		<Node id="199" type="file" documentType="reference">
+		<Node id="203" type="file" documentType="reference">
             <Name>SFOAuthClientKeyType</Name>
             <Path>Constants/SFOAuthClientKeyType.html</Path>
             
         </Node>
-		<Node id="200" type="file" documentType="reference">
+		<Node id="204" type="file" documentType="reference">
             <Name>SFOAuthCredentialsStorageType</Name>
             <Path>Constants/SFOAuthCredentialsStorageType.html</Path>
             
         </Node>
-		<Node id="201" type="file" documentType="reference">
+		<Node id="205" type="file" documentType="reference">
             <Name>SFOAuthCredsEncryptionType</Name>
             <Path>Constants/SFOAuthCredsEncryptionType.html</Path>
             
         </Node>
-		<Node id="202" type="file" documentType="reference">
+		<Node id="206" type="file" documentType="reference">
             <Name>SFOAuthCryptoOperation</Name>
             <Path>Constants/SFOAuthCryptoOperation.html</Path>
             
         </Node>
-		<Node id="203" type="file" documentType="reference">
+		<Node id="207" type="file" documentType="reference">
             <Name>SFOAuthSessionRefreshErrorCode</Name>
             <Path>Constants/SFOAuthSessionRefreshErrorCode.html</Path>
             
         </Node>
-		<Node id="204" type="file" documentType="reference">
+		<Node id="208" type="file" documentType="reference">
             <Name>SFOAuthTokenEndpointFlow</Name>
             <Path>Constants/SFOAuthTokenEndpointFlow.html</Path>
             
         </Node>
-		<Node id="205" type="file" documentType="reference">
+		<Node id="209" type="file" documentType="reference">
             <Name>SFOAuthType</Name>
             <Path>Constants/SFOAuthType.html</Path>
             
         </Node>
-		<Node id="206" type="file" documentType="reference">
+		<Node id="210" type="file" documentType="reference">
             <Name>SFRestMethod</Name>
             <Path>Constants/SFRestMethod.html</Path>
             
         </Node>
-		<Node id="207" type="file" documentType="reference">
+		<Node id="211" type="file" documentType="reference">
             <Name>SFSDKAppConfigErrorCode</Name>
             <Path>Constants/SFSDKAppConfigErrorCode.html</Path>
             
         </Node>
-		<Node id="208" type="file" documentType="reference">
+		<Node id="212" type="file" documentType="reference">
             <Name>SFSDKLaunchAction</Name>
             <Path>Constants/SFSDKLaunchAction.html</Path>
             
         </Node>
-		<Node id="209" type="file" documentType="reference">
+		<Node id="213" type="file" documentType="reference">
             <Name>SFSDKRestServiceHostType</Name>
             <Path>Constants/SFSDKRestServiceHostType.html</Path>
             
         </Node>
-		<Node id="210" type="file" documentType="reference">
+		<Node id="214" type="file" documentType="reference">
             <Name>SFSDKWindowType</Name>
             <Path>Constants/SFSDKWindowType.html</Path>
             
         </Node>
-		<Node id="211" type="file" documentType="reference">
+		<Node id="215" type="file" documentType="reference">
             <Name>SFSecurityLockoutAction</Name>
             <Path>Constants/SFSecurityLockoutAction.html</Path>
             
         </Node>
-		<Node id="212" type="file" documentType="reference">
+		<Node id="216" type="file" documentType="reference">
             <Name>SFUserAccountAccessRestriction</Name>
             <Path>Constants/SFUserAccountAccessRestriction.html</Path>
             
         </Node>
-		<Node id="213" type="file" documentType="reference">
+		<Node id="217" type="file" documentType="reference">
             <Name>SFUserAccountChange</Name>
             <Path>Constants/SFUserAccountChange.html</Path>
             
         </Node>
-		<Node id="214" type="file" documentType="reference">
+		<Node id="218" type="file" documentType="reference">
             <Name>SFUserAccountDataChange</Name>
             <Path>Constants/SFUserAccountDataChange.html</Path>
             
         </Node>
-		<Node id="215" type="file" documentType="reference">
+		<Node id="219" type="file" documentType="reference">
             <Name>SFUserAccountLoginState</Name>
             <Path>Constants/SFUserAccountLoginState.html</Path>
             
         </Node>
-		<Node id="216" type="file" documentType="reference">
+		<Node id="220" type="file" documentType="reference">
             <Name>SFUserAccountScope</Name>
             <Path>Constants/SFUserAccountScope.html</Path>
             
         </Node>
-		<Node id="217" type="file" documentType="reference">
+		<Node id="221" type="file" documentType="reference">
             <Name>SFUserManagementAction</Name>
             <Path>Constants/SFUserManagementAction.html</Path>
             
         </Node>
-		<Node id="218" type="file" documentType="reference">
+		<Node id="222" type="file" documentType="reference">
             <Name>UIDeviceFamily</Name>
             <Path>Constants/UIDeviceFamily.html</Path>
             
         </Node>
-		<Node id="219" type="file" documentType="reference">
+		<Node id="223" type="file" documentType="reference">
             <Name>UIDevicePlatform</Name>
             <Path>Constants/UIDevicePlatform.html</Path>
             
         </Node>
 		
-        <Node id="220" type="file" documentType="reference">
+        <Node id="224" type="file" documentType="reference">
             <Name>SFAuthErrorHandlerEvalBlock</Name>
             <Path>Blocks/SFAuthErrorHandlerEvalBlock.html</Path>
             
         </Node>
-        <Node id="221" type="file" documentType="reference">
+        <Node id="225" type="file" documentType="reference">
+            <Name>SFAuthErrorHandlerOptionsEvalBlock</Name>
+            <Path>Blocks/SFAuthErrorHandlerOptionsEvalBlock.html</Path>
+            
+        </Node>
+        <Node id="226" type="file" documentType="reference">
+            <Name>SFAuthenticationFailureCallbackBlock</Name>
+            <Path>Blocks/SFAuthenticationFailureCallbackBlock.html</Path>
+            
+        </Node>
+        <Node id="227" type="file" documentType="reference">
             <Name>SFAuthenticationSuccessCallbackBlock</Name>
             <Path>Blocks/SFAuthenticationSuccessCallbackBlock.html</Path>
             
         </Node>
-        <Node id="222" type="file" documentType="reference">
+        <Node id="228" type="file" documentType="reference">
             <Name>SFDataResponseBlock</Name>
             <Path>Blocks/SFDataResponseBlock.html</Path>
             
         </Node>
-        <Node id="223" type="file" documentType="reference">
+        <Node id="229" type="file" documentType="reference">
             <Name>SFIdentityFailureCallbackBlock</Name>
             <Path>Blocks/SFIdentityFailureCallbackBlock.html</Path>
             
         </Node>
-        <Node id="224" type="file" documentType="reference">
+        <Node id="230" type="file" documentType="reference">
             <Name>SFIdentitySuccessCallbackBlock</Name>
             <Path>Blocks/SFIdentitySuccessCallbackBlock.html</Path>
             
         </Node>
-        <Node id="225" type="file" documentType="reference">
+        <Node id="231" type="file" documentType="reference">
             <Name>SFInstrumentationSelectorFilter</Name>
             <Path>Blocks/SFInstrumentationSelectorFilter.html</Path>
             
         </Node>
-        <Node id="226" type="file" documentType="reference">
+        <Node id="232" type="file" documentType="reference">
+            <Name>SFLockScreenFailureCallbackBlock</Name>
+            <Path>Blocks/SFLockScreenFailureCallbackBlock.html</Path>
+            
+        </Node>
+        <Node id="233" type="file" documentType="reference">
             <Name>SFLockScreenSuccessCallbackBlock</Name>
             <Path>Blocks/SFLockScreenSuccessCallbackBlock.html</Path>
             
         </Node>
-        <Node id="227" type="file" documentType="reference">
+        <Node id="234" type="file" documentType="reference">
             <Name>SFMethodInterceptorInvocationAfterCallback</Name>
             <Path>Blocks/SFMethodInterceptorInvocationAfterCallback.html</Path>
             
         </Node>
-        <Node id="228" type="file" documentType="reference">
+        <Node id="235" type="file" documentType="reference">
             <Name>SFMethodInterceptorInvocationCallback</Name>
             <Path>Blocks/SFMethodInterceptorInvocationCallback.html</Path>
             
         </Node>
-        <Node id="229" type="file" documentType="reference">
+        <Node id="236" type="file" documentType="reference">
             <Name>SFOAuthBrowserFlowCallbackBlock</Name>
             <Path>Blocks/SFOAuthBrowserFlowCallbackBlock.html</Path>
             
         </Node>
-        <Node id="230" type="file" documentType="reference">
+        <Node id="237" type="file" documentType="reference">
+            <Name>SFPasscodeViewControllerDismissBlock</Name>
+            <Path>Blocks/SFPasscodeViewControllerDismissBlock.html</Path>
+            
+        </Node>
+        <Node id="238" type="file" documentType="reference">
             <Name>SFPasscodeViewControllerPresentationBlock</Name>
             <Path>Blocks/SFPasscodeViewControllerPresentationBlock.html</Path>
             
         </Node>
-        <Node id="231" type="file" documentType="reference">
+        <Node id="239" type="file" documentType="reference">
             <Name>SFRestArrayResponseBlock</Name>
             <Path>Blocks/SFRestArrayResponseBlock.html</Path>
             
         </Node>
-        <Node id="232" type="file" documentType="reference">
+        <Node id="240" type="file" documentType="reference">
+            <Name>SFRestDataResponseBlock</Name>
+            <Path>Blocks/SFRestDataResponseBlock.html</Path>
+            
+        </Node>
+        <Node id="241" type="file" documentType="reference">
+            <Name>SFRestDictionaryResponseBlock</Name>
+            <Path>Blocks/SFRestDictionaryResponseBlock.html</Path>
+            
+        </Node>
+        <Node id="242" type="file" documentType="reference">
             <Name>SFRestFailBlock</Name>
             <Path>Blocks/SFRestFailBlock.html</Path>
             
         </Node>
-        <Node id="233" type="file" documentType="reference">
+        <Node id="243" type="file" documentType="reference">
             <Name>SFRestResponseBlock</Name>
             <Path>Blocks/SFRestResponseBlock.html</Path>
             
         </Node>
-        <Node id="234" type="file" documentType="reference">
+        <Node id="244" type="file" documentType="reference">
             <Name>SFSDKAppForegroundCallbackBlock</Name>
             <Path>Blocks/SFSDKAppForegroundCallbackBlock.html</Path>
             
         </Node>
-        <Node id="235" type="file" documentType="reference">
+        <Node id="245" type="file" documentType="reference">
+            <Name>SFSDKAuthViewDismissBlock</Name>
+            <Path>Blocks/SFSDKAuthViewDismissBlock.html</Path>
+            
+        </Node>
+        <Node id="246" type="file" documentType="reference">
             <Name>SFSDKAuthViewDisplayBlock</Name>
             <Path>Blocks/SFSDKAuthViewDisplayBlock.html</Path>
             
         </Node>
-        <Node id="236" type="file" documentType="reference">
+        <Node id="247" type="file" documentType="reference">
+            <Name>SFSDKErrorHandlerBlock</Name>
+            <Path>Blocks/SFSDKErrorHandlerBlock.html</Path>
+            
+        </Node>
+        <Node id="248" type="file" documentType="reference">
             <Name>SFSDKFailureNotificationBlock</Name>
             <Path>Blocks/SFSDKFailureNotificationBlock.html</Path>
             
         </Node>
-        <Node id="237" type="file" documentType="reference">
+        <Node id="249" type="file" documentType="reference">
+            <Name>SFSDKLaunchErrorCallbackBlock</Name>
+            <Path>Blocks/SFSDKLaunchErrorCallbackBlock.html</Path>
+            
+        </Node>
+        <Node id="250" type="file" documentType="reference">
             <Name>SFSDKLogoutCallbackBlock</Name>
             <Path>Blocks/SFSDKLogoutCallbackBlock.html</Path>
             
         </Node>
-        <Node id="238" type="file" documentType="reference">
+        <Node id="251" type="file" documentType="reference">
             <Name>SFSDKPostLaunchCallbackBlock</Name>
             <Path>Blocks/SFSDKPostLaunchCallbackBlock.html</Path>
             
         </Node>
-        <Node id="239" type="file" documentType="reference">
+        <Node id="252" type="file" documentType="reference">
+            <Name>SFSDKSwitchUserCallbackBlock</Name>
+            <Path>Blocks/SFSDKSwitchUserCallbackBlock.html</Path>
+            
+        </Node>
+        <Node id="253" type="file" documentType="reference">
             <Name>SFSnapshotViewControllerDismissalBlock</Name>
             <Path>Blocks/SFSnapshotViewControllerDismissalBlock.html</Path>
             
         </Node>
-        <Node id="240" type="file" documentType="reference">
+        <Node id="254" type="file" documentType="reference">
             <Name>SFSnapshotViewControllerPresentationBlock</Name>
             <Path>Blocks/SFSnapshotViewControllerPresentationBlock.html</Path>
             
         </Node>
-        <Node id="241" type="file" documentType="reference">
+        <Node id="255" type="file" documentType="reference">
             <Name>SFThreadBlock</Name>
             <Path>Blocks/SFThreadBlock.html</Path>
             
         </Node>
-        <Node id="242" type="file" documentType="reference">
+        <Node id="256" type="file" documentType="reference">
+            <Name>SFUserAccountManagerFailureCallbackBlock</Name>
+            <Path>Blocks/SFUserAccountManagerFailureCallbackBlock.html</Path>
+            
+        </Node>
+        <Node id="257" type="file" documentType="reference">
             <Name>SFUserAccountManagerSuccessCallbackBlock</Name>
             <Path>Blocks/SFUserAccountManagerSuccessCallbackBlock.html</Path>
             
         </Node>
-        <Node id="243" type="file" documentType="reference">
+        <Node id="258" type="file" documentType="reference">
             <Name>SFUserManagementCompletionBlock</Name>
             <Path>Blocks/SFUserManagementCompletionBlock.html</Path>
             
         </Node>
-        <Node id="244" type="file" documentType="reference">
+        <Node id="259" type="file" documentType="reference">
             <Name>_Nonnull</Name>
             <Path>Blocks/_Nonnull.html</Path>
             

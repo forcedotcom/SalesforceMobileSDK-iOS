@@ -1,16 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKIDPInitiatedAuthRequestHandler.html">
+	<File path="Classes/SFSDKIDPInitCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPInitiatedAuthRequestHandler</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPInitCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitiatedAuthRequestHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="83"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/setUserHint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="83"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="83"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPInitCommand/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="83"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/setDomain:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
+            <NodeRef refid="83"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/domain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
+            <NodeRef refid="83"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPInitCommand/domain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
+            <NodeRef refid="83"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/setStartURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *startURL</Declaration>
+			
+			
+			<Anchor>//api/name/startURL</Anchor>
+            <NodeRef refid="83"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/startURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *startURL</Declaration>
+			
+			
+			<Anchor>//api/name/startURL</Anchor>
+            <NodeRef refid="83"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPInitCommand/startURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *startURL</Declaration>
+			
+			
+			<Anchor>//api/name/startURL</Anchor>
+            <NodeRef refid="83"/>
+		</Token>
 		
         
         

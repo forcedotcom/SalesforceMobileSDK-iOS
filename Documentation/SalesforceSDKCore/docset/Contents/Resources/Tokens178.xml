@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKPasscodeVerifyDelegate.html">
+	<File path="Protocols/SFSDKOAuthClientSafariViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKPasscodeVerifyDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientSafariViewDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate that will be used to notify of all the OAuth Client Browser Events.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
             
 			
 			<NodeRef refid="178"/>
@@ -13,26 +13,43 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeVerifyDelegate/passcodeVerified</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClient:willBeginBrowserAuthentication:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeVerified</Declaration>
+			<Declaration>- (void)authClient:(SFSDKOAuthClient *)client willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock</Declaration>
 			
 			
-			<Anchor>//api/name/passcodeVerified</Anchor>
+			<Anchor>//api/name/authClient:willBeginBrowserAuthentication:</Anchor>
             <NodeRef refid="178"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeVerifyDelegate/passcodeFailed</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClient:didBeginAuthenticationWithSession:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeFailed</Declaration>
+			<Declaration>- (void)authClient:(SFSDKOAuthClient *)client didBeginAuthenticationWithSession:(SFAuthenticationSession *)session</Declaration>
 			
 			
-			<Anchor>//api/name/passcodeFailed</Anchor>
+			<Anchor>//api/name/authClient:didBeginAuthenticationWithSession:</Anchor>
+            <NodeRef refid="178"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientSafariViewDelegate/authClientDidCancelBrowserFlow:</TokenIdentifier>
+			<Abstract type="html">Called when a browser flow authentication is cancelled.</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>client</Name>
+					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authClientDidCancelBrowserFlow:</Anchor>
             <NodeRef refid="178"/>
 		</Token>
 		

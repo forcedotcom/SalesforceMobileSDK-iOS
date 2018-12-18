@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFMetadataSyncDownTarget.html">
+	<File path="Classes/SFMetadata.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFMetadataSyncDownTarget</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFMetadata</TokenIdentifier>
+			<Abstract type="html">Represents the metadata of a Salesforce object.</Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
             
 			
 			<NodeRef refid="8"/>
@@ -13,50 +13,1099 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncDownTarget/setObjectType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setActivateable:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL activateable</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/activateable</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/activateable</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL activateable</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/activateable</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMetadataSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/activateable</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL activateable</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/activateable</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncDownTarget/newSyncTarget:</TokenIdentifier>
-			<Abstract type="html">Factory method.</Abstract>
-			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setCompactLayoutable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
 			
-			<Declaration>+ (SFMetadataSyncDownTarget *)newSyncTarget:(NSString *)objectType</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL compactLayoutable</Declaration>
 			
 			
-			<Anchor>//api/name/newSyncTarget:</Anchor>
+			<Anchor>//api/name/compactLayoutable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/compactLayoutable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL compactLayoutable</Declaration>
+			
+			
+			<Anchor>//api/name/compactLayoutable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/compactLayoutable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL compactLayoutable</Declaration>
+			
+			
+			<Anchor>//api/name/compactLayoutable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setCreateable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL createable</Declaration>
+			
+			
+			<Anchor>//api/name/createable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/createable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL createable</Declaration>
+			
+			
+			<Anchor>//api/name/createable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/createable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL createable</Declaration>
+			
+			
+			<Anchor>//api/name/createable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setCustom:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL custom</Declaration>
+			
+			
+			<Anchor>//api/name/custom</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/custom</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL custom</Declaration>
+			
+			
+			<Anchor>//api/name/custom</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/custom</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL custom</Declaration>
+			
+			
+			<Anchor>//api/name/custom</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setCustomSetting:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL customSetting</Declaration>
+			
+			
+			<Anchor>//api/name/customSetting</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/customSetting</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL customSetting</Declaration>
+			
+			
+			<Anchor>//api/name/customSetting</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/customSetting</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL customSetting</Declaration>
+			
+			
+			<Anchor>//api/name/customSetting</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setDeletable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL deletable</Declaration>
+			
+			
+			<Anchor>//api/name/deletable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/deletable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL deletable</Declaration>
+			
+			
+			<Anchor>//api/name/deletable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/deletable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL deletable</Declaration>
+			
+			
+			<Anchor>//api/name/deletable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setDeprecatedAndHidden:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL deprecatedAndHidden</Declaration>
+			
+			
+			<Anchor>//api/name/deprecatedAndHidden</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/deprecatedAndHidden</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL deprecatedAndHidden</Declaration>
+			
+			
+			<Anchor>//api/name/deprecatedAndHidden</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/deprecatedAndHidden</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL deprecatedAndHidden</Declaration>
+			
+			
+			<Anchor>//api/name/deprecatedAndHidden</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setFeedEnabled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL feedEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/feedEnabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/feedEnabled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL feedEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/feedEnabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/feedEnabled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL feedEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/feedEnabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setChildRelationships:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSDictionary*&gt; *childRelationships</Declaration>
+			
+			
+			<Anchor>//api/name/childRelationships</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/childRelationships</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSDictionary*&gt; *childRelationships</Declaration>
+			
+			
+			<Anchor>//api/name/childRelationships</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/childRelationships</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSDictionary*&gt; *childRelationships</Declaration>
+			
+			
+			<Anchor>//api/name/childRelationships</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setHasSubtypes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL hasSubtypes</Declaration>
+			
+			
+			<Anchor>//api/name/hasSubtypes</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/hasSubtypes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL hasSubtypes</Declaration>
+			
+			
+			<Anchor>//api/name/hasSubtypes</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/hasSubtypes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL hasSubtypes</Declaration>
+			
+			
+			<Anchor>//api/name/hasSubtypes</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setIsSubtype:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL isSubtype</Declaration>
+			
+			
+			<Anchor>//api/name/isSubtype</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/isSubtype</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL isSubtype</Declaration>
+			
+			
+			<Anchor>//api/name/isSubtype</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/isSubtype</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL isSubtype</Declaration>
+			
+			
+			<Anchor>//api/name/isSubtype</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setKeyPrefix:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *keyPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/keyPrefix</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/keyPrefix</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *keyPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/keyPrefix</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/keyPrefix</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *keyPrefix</Declaration>
+			
+			
+			<Anchor>//api/name/keyPrefix</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setLabel:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *label</Declaration>
+			
+			
+			<Anchor>//api/name/label</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/label</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *label</Declaration>
+			
+			
+			<Anchor>//api/name/label</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/label</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *label</Declaration>
+			
+			
+			<Anchor>//api/name/label</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setLabelPlural:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *labelPlural</Declaration>
+			
+			
+			<Anchor>//api/name/labelPlural</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/labelPlural</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *labelPlural</Declaration>
+			
+			
+			<Anchor>//api/name/labelPlural</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/labelPlural</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *labelPlural</Declaration>
+			
+			
+			<Anchor>//api/name/labelPlural</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setLayoutable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL layoutable</Declaration>
+			
+			
+			<Anchor>//api/name/layoutable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/layoutable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL layoutable</Declaration>
+			
+			
+			<Anchor>//api/name/layoutable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/layoutable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL layoutable</Declaration>
+			
+			
+			<Anchor>//api/name/layoutable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setMergeable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL mergeable</Declaration>
+			
+			
+			<Anchor>//api/name/mergeable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/mergeable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL mergeable</Declaration>
+			
+			
+			<Anchor>//api/name/mergeable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/mergeable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL mergeable</Declaration>
+			
+			
+			<Anchor>//api/name/mergeable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setMruEnabled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL mruEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/mruEnabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/mruEnabled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL mruEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/mruEnabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/mruEnabled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL mruEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/mruEnabled</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/name</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/name</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setFields:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSDictionary*&gt; *fields</Declaration>
+			
+			
+			<Anchor>//api/name/fields</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/fields</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSDictionary*&gt; *fields</Declaration>
+			
+			
+			<Anchor>//api/name/fields</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/fields</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSDictionary*&gt; *fields</Declaration>
+			
+			
+			<Anchor>//api/name/fields</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setNetworkScopeFieldName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *networkScopeFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/networkScopeFieldName</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/networkScopeFieldName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *networkScopeFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/networkScopeFieldName</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/networkScopeFieldName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *networkScopeFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/networkScopeFieldName</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setQueryable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL queryable</Declaration>
+			
+			
+			<Anchor>//api/name/queryable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/queryable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL queryable</Declaration>
+			
+			
+			<Anchor>//api/name/queryable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/queryable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL queryable</Declaration>
+			
+			
+			<Anchor>//api/name/queryable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setReplicateable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL replicateable</Declaration>
+			
+			
+			<Anchor>//api/name/replicateable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/replicateable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL replicateable</Declaration>
+			
+			
+			<Anchor>//api/name/replicateable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/replicateable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL replicateable</Declaration>
+			
+			
+			<Anchor>//api/name/replicateable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setRetrieveable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL retrieveable</Declaration>
+			
+			
+			<Anchor>//api/name/retrieveable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/retrieveable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL retrieveable</Declaration>
+			
+			
+			<Anchor>//api/name/retrieveable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/retrieveable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL retrieveable</Declaration>
+			
+			
+			<Anchor>//api/name/retrieveable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setSearchLayoutable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL searchLayoutable</Declaration>
+			
+			
+			<Anchor>//api/name/searchLayoutable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/searchLayoutable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL searchLayoutable</Declaration>
+			
+			
+			<Anchor>//api/name/searchLayoutable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/searchLayoutable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL searchLayoutable</Declaration>
+			
+			
+			<Anchor>//api/name/searchLayoutable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setSearchable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL searchable</Declaration>
+			
+			
+			<Anchor>//api/name/searchable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/searchable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL searchable</Declaration>
+			
+			
+			<Anchor>//api/name/searchable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/searchable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL searchable</Declaration>
+			
+			
+			<Anchor>//api/name/searchable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setTriggerable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL triggerable</Declaration>
+			
+			
+			<Anchor>//api/name/triggerable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/triggerable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL triggerable</Declaration>
+			
+			
+			<Anchor>//api/name/triggerable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/triggerable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL triggerable</Declaration>
+			
+			
+			<Anchor>//api/name/triggerable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setUndeletable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL undeletable</Declaration>
+			
+			
+			<Anchor>//api/name/undeletable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/undeletable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL undeletable</Declaration>
+			
+			
+			<Anchor>//api/name/undeletable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/undeletable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL undeletable</Declaration>
+			
+			
+			<Anchor>//api/name/undeletable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setUpdateable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL updateable</Declaration>
+			
+			
+			<Anchor>//api/name/updateable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/updateable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL updateable</Declaration>
+			
+			
+			<Anchor>//api/name/updateable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/updateable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL updateable</Declaration>
+			
+			
+			<Anchor>//api/name/updateable</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setUrls:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSDictionary *urls</Declaration>
+			
+			
+			<Anchor>//api/name/urls</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/urls</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSDictionary *urls</Declaration>
+			
+			
+			<Anchor>//api/name/urls</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/urls</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSDictionary *urls</Declaration>
+			
+			
+			<Anchor>//api/name/urls</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/setRawData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMetadata/rawData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMetadata/rawData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFMetadata/fromJSON:</TokenIdentifier>
+			<Abstract type="html">Creates an instance of this class from its JSON representation.</Abstract>
+			<DeclaredIn>SFMetadata.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">JSON data.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/fromJSON:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		

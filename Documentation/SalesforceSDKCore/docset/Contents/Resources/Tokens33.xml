@@ -12,6 +12,103 @@
 		</Token>
 		
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/setActiveSession:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
+			
+			
+			<Anchor>//api/name/activeSession</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/activeSession</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
+			
+			
+			<Anchor>//api/name/activeSession</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetwork/activeSession</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
+			
+			
+			<Anchor>//api/name/activeSession</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/initWithEphemeralSession</TokenIdentifier>
+			<Abstract type="html">Initializes this class with an ephemeral session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (nonnull instancetype)initWithEphemeralSession</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithEphemeralSession</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/initWithBackgroundSession</TokenIdentifier>
+			<Abstract type="html">Initializes this class with a background session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (nonnull instancetype)initWithBackgroundSession</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithBackgroundSession</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/sendRequest:dataResponseBlock:</TokenIdentifier>
+			<Abstract type="html">Sends a REST request and calls the appropriate completion block.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>urlRequest</Name>
+					<Abstract type="html">NSURLRequest instance.</Abstract>
+				</Parameter><Parameter>
+					<Name>dataResponseBlock</Name>
+					<Abstract type="html">Network response block.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">NSURLSessionDataTask instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/sendRequest:dataResponseBlock:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/setSessionConfiguration:</TokenIdentifier>
+			<Abstract type="html">Sets a session configuration to be used for network requests in the Mobile SDK.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sessionConfig</Name>
+					<Abstract type="html">Session configuration to be used.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setSessionConfiguration:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
         
         
 	</File>

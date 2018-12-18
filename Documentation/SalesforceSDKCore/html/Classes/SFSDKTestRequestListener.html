@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFSDKTestRequestListener Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -45,7 +45,35 @@
 	
 
 	
+	
+	<option value="tasks">Tasks</option>
+	
+	
 
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/dataResponse">dataResponse</option>
+		
+		<option value="//api/name/lastError">lastError</option>
+		
+		<option value="//api/name/maxWaitTime">maxWaitTime</option>
+		
+		<option value="//api/name/returnStatus">returnStatus</option>
+		
+	</optgroup>
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/waitForCompletion">- waitForCompletion</option>
+		
+	</optgroup>
+	
 	
 </select>
 						</label>
@@ -59,22 +87,190 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFSDKTestRequestListener Class Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Conforms to</th>
+	<td><a href="../Protocols/SFIdentityCoordinatorDelegate.html">SFIdentityCoordinatorDelegate</a><br /><a href="../Protocols/SFOAuthCoordinatorDelegate.html">SFOAuthCoordinatorDelegate</a></td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFSDKTestRequestListener.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
 
 					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/dataResponse" title="dataResponse"></a>
+	<h3 class="method-title"><code><a href="#//api/name/dataResponse">&nbsp;&nbsp;dataResponse</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, retain) id dataResponse</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/lastError" title="lastError"></a>
+	<h3 class="method-title"><code><a href="#//api/name/lastError">&nbsp;&nbsp;lastError</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, retain) NSError *lastError</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/returnStatus" title="returnStatus"></a>
+	<h3 class="method-title"><code><a href="#//api/name/returnStatus">&nbsp;&nbsp;returnStatus</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, retain) NSString *returnStatus</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/maxWaitTime" title="maxWaitTime"></a>
+	<h3 class="method-title"><code><a href="#//api/name/maxWaitTime">&nbsp;&nbsp;maxWaitTime</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Max time to wait for request completion</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSTimeInterval maxWaitTime</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKTestRequestListener.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/waitForCompletion" title="waitForCompletion"></a>
+	<h3 class="method-title"><code><a href="#//api/name/waitForCompletion">&ndash;&nbsp;waitForCompletion</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Wait for the request to complete (success or fail)
+Waits for up to <a href="#//api/name/maxWaitTime">maxWaitTime</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSString *)waitForCompletion</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>returnStatus:  kTestRequestStatusDidTimeout if <a href="#//api/name/maxWaitTime">maxWaitTime</a> was exceeded</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKTestRequestListener.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

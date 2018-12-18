@@ -1,149 +1,379 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFRestDelegate.html">
+	<File path="Protocols/SFOAuthCoordinatorDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFRestDelegate</TokenIdentifier>
-			<Abstract type="html">Lifecycle events for SFRestRequests.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol for objects intending to be a delegate for an OAuth coordinator.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<NodeRef refid="163"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didLoadResponse:rawResponse:</TokenIdentifier>
-			<Abstract type="html">Sent when a request has finished loading.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:willBeginAuthenticationWithView:</TokenIdentifier>
+			<Abstract type="html">Sent when authentication will begin.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The request that was loaded.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
 				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.</Abstract>
-				</Parameter><Parameter>
-					<Name>rawResponse</Name>
-					<Abstract type="html">Raw response returned by the server.</Abstract>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/request:didLoadResponse:rawResponse:</Anchor>
+			<Anchor>//api/name/oauthCoordinator:willBeginAuthenticationWithView:</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didLoadResponse:</TokenIdentifier>
-			<Abstract type="html">Sent when a request has finished loading.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didStartLoad:</TokenIdentifier>
+			<Abstract type="html">Sent when the web will starts to load its content.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse</Declaration>
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(WKWebView *)view</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The request that was loaded.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
 				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.
-
-The pre SDK 6.0 signature
-Is called only if request:didLoadResponse:rawResponse: is not provided</Abstract>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/request:didLoadResponse:</Anchor>
+			<Anchor>//api/name/oauthCoordinator:didStartLoad:</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didFailLoadWithError:rawResponse:</TokenIdentifier>
-			<Abstract type="html">Sent when a request has failed due to an error.
-This includes HTTP network errors, as well as Salesforce errors
-(for example, passing an invalid SOQL string when doing a query).</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didFinishLoad:error:</TokenIdentifier>
+			<Abstract type="html">Sent when the web will completed to load its content.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error rawResponse:(NSURLResponse *)rawResponse</Declaration>
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(nullable NSError *)errorOrNil</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The attempted request.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter><Parameter>
+					<Name>errorOrNil</Name>
+					<Abstract type="html">Contains the error or nil if no error</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:didFinishLoad:error:</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidAuthenticate:</TokenIdentifier>
+			<Abstract type="html">Sent when authentication successfully completes. Note: This method is deprecated.  You should use
+the oauthCoordinatorDidAuthenticate:authInfo: method instead.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinatorDidAuthenticate:</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorWillBeginAuthentication:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent before oauthcoordinator will begin any kind of authentication</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">The SFOAuthInfo instance containing details about the type of authentication.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinatorWillBeginAuthentication:authInfo:</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidAuthenticate:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent when authentication successfully completes.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">Object containing info associated with this authentication attempt.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinatorDidAuthenticate:authInfo:</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didFailWithError:</TokenIdentifier>
+			<Abstract type="html">Sent if authentication fails due to an error. Note: This method is deprecated.  You should use the
+oauthCoordinator:didFailWithError:authInfo method instead.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
-					<Abstract type="html">The error associated with the failed request.</Abstract>
-				</Parameter><Parameter>
-					<Name>rawResponse</Name>
-					<Abstract type="html">Raw response returned by the server.</Abstract>
+					<Abstract type="html">The error message</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/request:didFailLoadWithError:rawResponse:</Anchor>
+			<Anchor>//api/name/oauthCoordinator:didFailWithError:</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/request:didFailLoadWithError:</TokenIdentifier>
-			<Abstract type="html">Sent when a request has failed due to an error.
-This includes HTTP network errors, as well as Salesforce errors
-(for example, passing an invalid SOQL string when doing a query).</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didFailWithError:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent if authentication fails due to an error.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(nullable SFOAuthInfo *)info</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The attempted request.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
-					<Abstract type="html">The error associated with the failed request.
-
-The pre SDK 6.0 signature
-Is called only if request:didFailLoadWithError:rawResponse: is not provided</Abstract>
+					<Abstract type="html">The error associated with the failure.</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">Object containing info associated with the authentication attempt.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/request:didFailLoadWithError:</Anchor>
+			<Anchor>//api/name/oauthCoordinator:didFailWithError:authInfo:</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidCancelLoad:</TokenIdentifier>
-			<Abstract type="html">Sent to the delegate when a request was cancelled.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorIsNetworkAvailable:</TokenIdentifier>
+			<Abstract type="html">The delegate can implement this method to return a BOOL indicating whether the network is available.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)requestDidCancelLoad:(SFRestRequest *)request</Declaration>
+			<Declaration>- (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)coordinator</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The canceled request.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator object to be queried (typically self).</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/requestDidCancelLoad:</Anchor>
+			<Anchor>//api/name/oauthCoordinatorIsNetworkAvailable:</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestDelegate/requestDidTimeout:</TokenIdentifier>
-			<Abstract type="html">Sent to the delegate when a request has timed out. This is sent when a
-backgrounded request expired before completion.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:willBeginBrowserAuthentication:</TokenIdentifier>
+			<Abstract type="html">Sent to notify the delegate that a browser authentication flow is about to begin.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)requestDidTimeout:(SFRestRequest *)request</Declaration>
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The request that timed out.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>callbackBlock</Name>
+					<Abstract type="html">A callback block used to notify the coordinator if it should continue with the authentication flow.
+Pass in YES to proceed, NO to cancel the authentication flow.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/requestDidTimeout:</Anchor>
+			<Anchor>//api/name/oauthCoordinator:willBeginBrowserAuthentication:</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:displayAlertMessage:completion:</TokenIdentifier>
+			<Abstract type="html">The delegate is expected to display an alert with the specific message and callback the completion block when
+the user dismisses the alert.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayAlertMessage:(NSString *)message completion:(dispatch_block_t)completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The message to display</Abstract>
+				</Parameter><Parameter>
+					<Name>completion</Name>
+					<Abstract type="html">The completion block to invoke</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:displayAlertMessage:completion:</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:displayConfirmationMessage:completion:</TokenIdentifier>
+			<Abstract type="html">The delegate is expected to display a confirmation alert with the specific message and callback the completion block when
+the user dismisses the alert.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void ( ^ ) ( BOOL result ))completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The message to display</Abstract>
+				</Parameter><Parameter>
+					<Name>completion</Name>
+					<Abstract type="html">The completion block to invoke with YES as result if the user confirmed the alert or NO if the user cancelled the alert.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:displayConfirmationMessage:completion:</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidFetchAuthCode:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent to notify the delegate that a  authentication code was retrieved during idp flow.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinatorDidFetchAuthCode:authInfo:</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didBeginAuthenticationWithView:</TokenIdentifier>
+			<Abstract type="html">Sent after authentication has begun and the view parameter is displaying the first page of authentication content.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:didBeginAuthenticationWithView:</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didBeginAuthenticationWithSession:</TokenIdentifier>
+			<Abstract type="html">Sent after SFAuthenticationSession was initialized with authentication URL.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>session</Name>
+					<Abstract type="html">The SFAuthenticationSession instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:didBeginAuthenticationWithSession:</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidCancelBrowserAuthentication:</TokenIdentifier>
+			<Abstract type="html">Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinatorDidCancelBrowserAuthentication:</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		

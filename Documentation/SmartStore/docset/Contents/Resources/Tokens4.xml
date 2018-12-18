@@ -553,12 +553,12 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newExactQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newExactQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html">Factory method to build an exact query spec
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (nullable SFQuerySpec *)newExactQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (nullable SFQuerySpec *)newExactQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -584,29 +584,29 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
-			<Anchor>//api/name/newExactQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newExactQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newExactQuerySpec:(NSString *)soupName withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (SFQuerySpec *)newExactQuerySpec:(NSString *)soupName withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			
 			
-			<Anchor>//api/name/newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newLikeQuerySpec:withSelectPaths:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newLikeQuerySpec:withSelectPaths:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html">Factory method to build an like query spec
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (nullable SFQuerySpec *)newLikeQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(NSString *)path withLikeKey:(NSString *)likeKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (nullable SFQuerySpec *)newLikeQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(NSString *)path withLikeKey:(NSString *)likeKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -632,29 +632,29 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
-			<Anchor>//api/name/newLikeQuerySpec:withSelectPaths:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newLikeQuerySpec:withSelectPaths:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newLikeQuerySpec:(NSString *)soupName withPath:(NSString *)path withLikeKey:(NSString *)likeKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (SFQuerySpec *)newLikeQuerySpec:(NSString *)soupName withPath:(NSString *)path withLikeKey:(NSString *)likeKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			
 			
-			<Anchor>//api/name/newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newRangeQuerySpec:withSelectPaths:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newRangeQuerySpec:withSelectPaths:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html">Factory method to build an range query spec
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (nullable SFQuerySpec *)newRangeQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(nullable NSString *)path withBeginKey:(nullable NSString *)beginKey withEndKey:(nullable NSString *)endKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (nullable SFQuerySpec *)newRangeQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(nullable NSString *)path withBeginKey:(nullable NSString *)beginKey withEndKey:(nullable NSString *)endKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -683,28 +683,28 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
-			<Anchor>//api/name/newRangeQuerySpec:withSelectPaths:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newRangeQuerySpec:withSelectPaths:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newRangeQuerySpec:(NSString *)soupName withPath:(NSString *)path withBeginKey:(NSString *)beginKey withEndKey:(NSString *)endKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (SFQuerySpec *)newRangeQuerySpec:(NSString *)soupName withPath:(NSString *)path withBeginKey:(NSString *)beginKey withEndKey:(NSString *)endKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			
 			
-			<Anchor>//api/name/newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newAllQuerySpec:withSelectPaths:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newAllQuerySpec:withSelectPaths:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html">Factory method to build a query spec to return all data from a soup.</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -724,29 +724,29 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/newAllQuerySpec:withSelectPaths:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newAllQuerySpec:withSelectPaths:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newAllQuerySpec:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newAllQuerySpec:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)soupName withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)soupName withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			
 			
-			<Anchor>//api/name/newAllQuerySpec:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newAllQuerySpec:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newMatchQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newMatchQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html">Factory method to build a match query spec (full-text search)
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (nullable SFQuerySpec *)newMatchQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (nullable SFQuerySpec *)newMatchQuerySpec:(NSString *)soupName withSelectPaths:(nullable NSArray *)selectPaths withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
@@ -772,29 +772,29 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
-			<Anchor>//api/name/newMatchQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newMatchQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newMatchQuerySpec:(NSString *)soupName withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (SFQuerySpec *)newMatchQuerySpec:(NSString *)soupName withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			
 			
-			<Anchor>//api/name/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newSmartQuerySpec:withPageSize:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newSmartQuerySpec:withPageSize:</TokenIdentifier>
 			<Abstract type="html">Factory method to build a smart query spec
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (nullable SFQuerySpec *)newSmartQuerySpec:(NSString *)smartSql withPageSize:(NSUInteger)pageSize NS_SWIFT_NAME</Declaration>
+			<Declaration>+ (nullable SFQuerySpec *)newSmartQuerySpec:(NSString *)smartSql withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>smartSql</Name>
@@ -805,16 +805,16 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
-			<Anchor>//api/name/newSmartQuerySpec:withPageSize:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/newSmartQuerySpec:withPageSize:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFQuerySpec/initWithDictionary:withSoupName:NS_SWIFT_NAME:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFQuerySpec/initWithDictionary:withSoupName:</TokenIdentifier>
 			<Abstract type="html">Initializes the object with the given query spec.</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDictionary:(NSDictionary *)querySpec withSoupName:(NSString *)targetSoupName NS_SWIFT_NAME</Declaration>
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)querySpec withSoupName:(NSString *)targetSoupName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>querySpec</Name>
@@ -825,7 +825,7 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A new instance of the object.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithDictionary:withSoupName:NS_SWIFT_NAME:</Anchor>
+			<Anchor>//api/name/initWithDictionary:withSoupName:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		

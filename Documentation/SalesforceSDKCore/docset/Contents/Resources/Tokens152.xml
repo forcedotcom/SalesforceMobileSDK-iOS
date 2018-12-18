@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIColor+SFSDKIDP.html">
+	<File path="Categories/NSURL+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFSDKIDP)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Salesforce Mobile SDK additions to the NSURL class</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="152"/>
@@ -13,110 +13,31 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/backgroundcolor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/valueForParameterName:</TokenIdentifier>
+			<Abstract type="html">Get value for a parameter name from the URL</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (UIColor *)backgroundcolor</Declaration>
+			<Declaration>- (nullable NSString *)valueForParameterName:(NSString *)name</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">Name of the parameter</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/backgroundcolor</Anchor>
+			<Anchor>//api/name/valueForParameterName:</Anchor>
             <NodeRef refid="152"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/backgroundRowSelectedColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/dictionaryFromQuery</TokenIdentifier>
+			<Abstract type="html">Get all query params as dictionary</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (UIColor *)backgroundRowSelectedColor</Declaration>
-			
-			
-			<Anchor>//api/name/backgroundRowSelectedColor</Anchor>
-            <NodeRef refid="152"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/borderColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
-			
-			<Declaration>+ (UIColor *)borderColor</Declaration>
+			<Declaration>- (nullable NSDictionary *)dictionaryFromQuery</Declaration>
 			
 			
-			<Anchor>//api/name/borderColor</Anchor>
-            <NodeRef refid="152"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/weakTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
-			
-			<Declaration>+ (UIColor *)weakTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/weakTextColor</Anchor>
-            <NodeRef refid="152"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/defaultTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
-			
-			<Declaration>+ (UIColor *)defaultTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/defaultTextColor</Anchor>
-            <NodeRef refid="152"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/altTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
-			
-			<Declaration>+ (UIColor *)altTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/altTextColor</Anchor>
-            <NodeRef refid="152"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/alt2BackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
-			
-			<Declaration>+ (UIColor *)alt2BackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/alt2BackgroundColor</Anchor>
-            <NodeRef refid="152"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/altBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
-			
-			<Declaration>+ (UIColor *)altBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/altBackgroundColor</Anchor>
-            <NodeRef refid="152"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/tableCellBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
-			
-			<Declaration>+ (UIColor *)tableCellBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/tableCellBackgroundColor</Anchor>
+			<Anchor>//api/name/dictionaryFromQuery</Anchor>
             <NodeRef refid="152"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPasscodeVerifyController.html">
+	<File path="Classes/SFSDKOAuthClientContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPasscodeVerifyController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuthClientContext</TokenIdentifier>
+			<Abstract type="html">Object representing state of a current authentication context. Provides a means to isolate individual authentication requests</Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
             
 			
 			<NodeRef refid="99"/>
@@ -13,122 +13,194 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setViewConfig:</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/viewConfig</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/viewConfig</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setPasscodeLengthKnown:</TokenIdentifier>
-			<Abstract type="html">Wether the passcode length is known.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLengthKnown</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/passcodeLengthKnown</TokenIdentifier>
-			<Abstract type="html">Wether the passcode length is known.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLengthKnown</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/passcodeLengthKnown</TokenIdentifier>
-			<Abstract type="html">Wether the passcode length is known.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLengthKnown</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setVerifyDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/setCredentials:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/verifyDelegate</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/verifyDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/credentials</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/verifyDelegate</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/verifyDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClientContext/credentials</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/verifyDelegate</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/initWithViewConfig:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/setAuthInfo:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/initWithViewConfig:</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClientContext/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/setAuthError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSError *authError</Declaration>
+			
+			
+			<Anchor>//api/name/authError</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/authError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSError *authError</Declaration>
+			
+			
+			<Anchor>//api/name/authError</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClientContext/authError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSError *authError</Declaration>
+			
+			
+			<Anchor>//api/name/authError</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/setUserHint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClientContext/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/setCallingAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthClientContext/callingAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *callingAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppOptions</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientContext/initWithAuthType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithAuthType:(SFOAuthType)oauthType</Declaration>
+			
+			
+			<Anchor>//api/name/initWithAuthType:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		

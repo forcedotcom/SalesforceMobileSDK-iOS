@@ -1,61 +1,185 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFBiometricUnlockState.html">
+	<File path="Protocols/SalesforceSDKManagerFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFBiometricUnlockState</TokenIdentifier>
-			<Abstract type="html">The state of biometric unlock.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="193"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockApproved</TokenIdentifier>
-            <Abstract type="html">     Biometric unlock was approved by user.
-     *</Abstract>
-            <Declaration>SFBiometricUnlockApproved</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/passcodeValidationAtLaunch</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)passcodeValidationAtLaunch</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeValidationAtLaunch</Anchor>
             <NodeRef refid="193"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockDeclined</TokenIdentifier>
-            <Abstract type="html">     Biometric unlock was declined by user - do not prompt user again.
-     *</Abstract>
-            <Declaration>SFBiometricUnlockDeclined</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/authAtLaunch</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)authAtLaunch</Declaration>
+			
+			
+			<Anchor>//api/name/authAtLaunch</Anchor>
             <NodeRef refid="193"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockAvailable</TokenIdentifier>
-            <Abstract type="html">     Biometric unlock is available - but user has not been prompted to approve it yet.
-     *</Abstract>
-            <Declaration>SFBiometricUnlockAvailable</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/authBypassAtLaunch</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)authBypassAtLaunch</Declaration>
+			
+			
+			<Anchor>//api/name/authBypassAtLaunch</Anchor>
             <NodeRef refid="193"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockUnavailable</TokenIdentifier>
-            <Abstract type="html">     Biometric unlock is not available.
-     </Abstract>
-            <Declaration>SFBiometricUnlockUnavailable</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppForeground:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppForeground:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppForeground:</Anchor>
             <NodeRef refid="193"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppBackground:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppBackground:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppBackground:</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppTerminate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppTerminate:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppTerminate:</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppDidBecomeActive:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppDidBecomeActive:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppDidBecomeActive:</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppWillResignActive:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppWillResignActive:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppWillResignActive:</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handlePostLogout</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handlePostLogout</Declaration>
+			
+			
+			<Anchor>//api/name/handlePostLogout</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAuthCompleted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAuthCompleted:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAuthCompleted:</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleIDPInitiatedAuthCompleted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleIDPInitiatedAuthCompleted:</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserDidLogout:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleUserDidLogout:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleUserDidLogout:</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserWillSwitch:toUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleUserWillSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
+			
+			
+			<Anchor>//api/name/handleUserWillSwitch:toUser:</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserDidSwitch:toUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleUserDidSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
+			
+			
+			<Anchor>//api/name/handleUserDidSwitch:toUser:</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
         
         
 	</File>

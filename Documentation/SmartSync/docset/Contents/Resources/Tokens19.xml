@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSyncsConfig.html">
+	<File path="Classes/SFRow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSyncsConfig</TokenIdentifier>
-			<Abstract type="html">Class encapsulating syncs definition.</Abstract>
-			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFRow</TokenIdentifier>
+			<Abstract type="html">Represents a record layout row.</Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
             
 			
 			<NodeRef refid="19"/>
@@ -13,49 +13,55 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/initWithResourceAtPath:</TokenIdentifier>
-			<Abstract type="html">Constructor for config stored in resource file</Abstract>
-			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRow/setLayoutItems:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>- (nullable instancetype)initWithResourceAtPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">to the config file</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">instance of SFSDKSyncsConfig</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithResourceAtPath:</Anchor>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
+			
+			
+			<Anchor>//api/name/layoutItems</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/createSyncs:</TokenIdentifier>
-			<Abstract type="html">Create the syncs from the config in the given store
-NB: only feedback is through the logs - the config is static so getting it right is something the developer should do while writing the app</Abstract>
-			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRow/layoutItems</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>- (void)createSyncs:(SFSmartStore *)store</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>store</Name>
-					<Abstract type="html">to create syncs in.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
 			
-			<Anchor>//api/name/createSyncs:</Anchor>
+			
+			<Anchor>//api/name/layoutItems</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSyncsConfig/hasSyncs</TokenIdentifier>
-			<Abstract type="html">Check for syncs in config</Abstract>
-			<DeclaredIn>SFSDKSyncsConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRow/layoutItems</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasSyncs</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
 			
-			<ReturnValue><Abstract type="html">YES if syncs are defined in config</Abstract></ReturnValue>
-			<Anchor>//api/name/hasSyncs</Anchor>
+			
+			<Anchor>//api/name/layoutItems</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRow/fromJSON:</TokenIdentifier>
+			<Abstract type="html">Creates an instance of this class from its JSON representation.</Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">JSON data.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/fromJSON:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		

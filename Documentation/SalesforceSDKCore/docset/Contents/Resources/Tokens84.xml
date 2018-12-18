@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKIDPRequestHandler.html">
+	<File path="Classes/SFSDKIDPInitiatedAuthRequestHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPRequestHandler</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPInitiatedAuthRequestHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPRequestHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKIDPInitiatedAuthRequestHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="84"/>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKPasscodeDeleteProtocol.html">
+	<File path="Protocols/SFSDKOAuthClientProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKPasscodeDeleteProtocol</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientProvider</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
             
 			
 			<NodeRef refid="177"/>
@@ -13,14 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeDeleteProtocol/deleteBackward</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/idpAuthInstance:</TokenIdentifier>
+			<Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Declaration>- (void)deleteBackward</Declaration>
+			<Declaration>+ (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
 			
+			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract></ReturnValue>
+			<Anchor>//api/name/idpAuthInstance:</Anchor>
+            <NodeRef refid="177"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/nativeBrowserAuthInstance:</TokenIdentifier>
+			<Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
 			
-			<Anchor>//api/name/deleteBackward</Anchor>
+			<Declaration>+ (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			
+			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract></ReturnValue>
+			<Anchor>//api/name/nativeBrowserAuthInstance:</Anchor>
+            <NodeRef refid="177"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/webviewAuthInstance:</TokenIdentifier>
+			<Abstract type="html">Provide a newInstance</Abstract>
+			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			
+			<Declaration>+ (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			
+			<ReturnValue><Abstract type="html">Provide a newInstance</Abstract></ReturnValue>
+			<Anchor>//api/name/webviewAuthInstance:</Anchor>
             <NodeRef refid="177"/>
 		</Token>
 		

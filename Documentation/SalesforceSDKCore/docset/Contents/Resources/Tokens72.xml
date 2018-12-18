@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthViewHolder.html">
+	<File path="Classes/SFSDKAuthViewHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthViewHolder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthViewHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
             
@@ -13,146 +13,94 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setWkWebView:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/setAuthViewDisplayBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
 			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/wkWebView</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/wkWebView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/authViewDisplayBlock</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
 			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/wkWebView</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/wkWebView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHandler/authViewDisplayBlock</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
 			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) WKWebView *wkWebView</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/wkWebView</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setLoginController:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/setAuthViewDismissBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
 			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginController</Anchor>
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/loginController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/authViewDismissBlock</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
 			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginController</Anchor>
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/loginController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHandler/authViewDismissBlock</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
 			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFLoginViewController *loginController</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginController</Anchor>
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setSession:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/initWithDisplayBlock:dismissBlock:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for the class.</Abstract>
 			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) SFAuthenticationSession *session</Declaration>
+			<Declaration>- (id)initWithDisplayBlock:(SFSDKAuthViewDisplayBlock)displayBlock dismissBlock:(SFSDKAuthViewDismissBlock _Nullable)dismissBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>displayBlock</Name>
+					<Abstract type="html">The block used to display the auth view.</Abstract>
+				</Parameter><Parameter>
+					<Name>dismissBlock</Name>
+					<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/session</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/session</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) SFAuthenticationSession *session</Declaration>
-			
-			
-			<Anchor>//api/name/session</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/session</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) SFAuthenticationSession *session</Declaration>
-			
-			
-			<Anchor>//api/name/session</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/setIsAdvancedAuthFlow:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
-			
-			
-			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHolder/isAdvancedAuthFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
-			
-			
-			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHolder/isAdvancedAuthFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isAdvancedAuthFlow</Declaration>
-			
-			
-			<Anchor>//api/name/isAdvancedAuthFlow</Anchor>
+			<Anchor>//api/name/initWithDisplayBlock:dismissBlock:</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		

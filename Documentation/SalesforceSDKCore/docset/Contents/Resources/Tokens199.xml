@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthClientKeyType.html">
+	<File path="Constants/SFCryptoOperation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthClientKeyType</TokenIdentifier>
-			<Abstract type="html">Enumeration of types of different types of client maintained in cache.</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="199"/>
@@ -14,34 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeBasic</TokenIdentifier>
-            <Abstract type="html">     The default server target, which uses standard REST requests to post updates.
-     </Abstract>
-            <Declaration>SFOAuthClientKeyTypeBasic</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoOperationEncrypt</Declaration>
             
-            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
-            
-            <NodeRef refid="199"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeAdvanced</TokenIdentifier>
-            <Abstract type="html">     Server target is a custom target, that manages its own server update logic.
-     </Abstract>
-            <Declaration>SFOAuthClientKeyTypeAdvanced</Declaration>
-            
-            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthClientKeyTypeIDP</TokenIdentifier>
-            <Abstract type="html">     Server target is a custom target, that manages its own server update logic.
-     </Abstract>
-            <Declaration>SFOAuthClientKeyTypeIDP</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoOperationDecrypt</Declaration>
             
-            <DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>

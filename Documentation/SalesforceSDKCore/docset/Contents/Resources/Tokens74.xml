@@ -1,16 +1,496 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKCoreLogger.html">
+	<File path="Classes/SFSDKBiometricViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCoreLogger</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBiometricViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCoreLogger.h</DeclaredIn>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="74"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setViewConfig:</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
+			
+			
+			<Anchor>//api/name/viewConfig</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/viewConfig</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
+			
+			
+			<Anchor>//api/name/viewConfig</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/viewConfig</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
+			
+			
+			<Anchor>//api/name/viewConfig</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setBiometricResponseDelgate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKBiometricViewDelegate&gt; biometricResponseDelgate</Declaration>
+			
+			
+			<Anchor>//api/name/biometricResponseDelgate</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/biometricResponseDelgate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKBiometricViewDelegate&gt; biometricResponseDelgate</Declaration>
+			
+			
+			<Anchor>//api/name/biometricResponseDelgate</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/biometricResponseDelgate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKBiometricViewDelegate&gt; biometricResponseDelgate</Declaration>
+			
+			
+			<Anchor>//api/name/biometricResponseDelgate</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setVerificationMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL verificationMode</Declaration>
+			
+			
+			<Anchor>//api/name/verificationMode</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/verificationMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL verificationMode</Declaration>
+			
+			
+			<Anchor>//api/name/verificationMode</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/verificationMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL verificationMode</Declaration>
+			
+			
+			<Anchor>//api/name/verificationMode</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/initWithViewConfig:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
+			
+			
+			<Anchor>//api/name/initWithViewConfig:</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setBiometricAllowed:</TokenIdentifier>
+			<Abstract type="html">Whether the device has biometric and the org allows it.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL biometricAllowed</Declaration>
+			
+			
+			<Anchor>//api/name/biometricAllowed</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/biometricAllowed</TokenIdentifier>
+			<Abstract type="html">Whether the device has biometric and the org allows it.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL biometricAllowed</Declaration>
+			
+			
+			<Anchor>//api/name/biometricAllowed</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/biometricAllowed</TokenIdentifier>
+			<Abstract type="html">Whether the device has biometric and the org allows it.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL biometricAllowed</Declaration>
+			
+			
+			<Anchor>//api/name/biometricAllowed</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setTouchIdImage:</TokenIdentifier>
+			<Abstract type="html">Image for Touch Id enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIImageView *touchIdImage</Declaration>
+			
+			
+			<Anchor>//api/name/touchIdImage</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/touchIdImage</TokenIdentifier>
+			<Abstract type="html">Image for Touch Id enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIImageView *touchIdImage</Declaration>
+			
+			
+			<Anchor>//api/name/touchIdImage</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/touchIdImage</TokenIdentifier>
+			<Abstract type="html">Image for Touch Id enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIImageView *touchIdImage</Declaration>
+			
+			
+			<Anchor>//api/name/touchIdImage</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setFaceIdImage:</TokenIdentifier>
+			<Abstract type="html">Image for Face Id enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIImageView *faceIdImage</Declaration>
+			
+			
+			<Anchor>//api/name/faceIdImage</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/faceIdImage</TokenIdentifier>
+			<Abstract type="html">Image for Face Id enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIImageView *faceIdImage</Declaration>
+			
+			
+			<Anchor>//api/name/faceIdImage</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/faceIdImage</TokenIdentifier>
+			<Abstract type="html">Image for Face Id enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIImageView *faceIdImage</Declaration>
+			
+			
+			<Anchor>//api/name/faceIdImage</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setIconView:</TokenIdentifier>
+			<Abstract type="html">Icon view for biometric enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIView *iconView</Declaration>
+			
+			
+			<Anchor>//api/name/iconView</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/iconView</TokenIdentifier>
+			<Abstract type="html">Icon view for biometric enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIView *iconView</Declaration>
+			
+			
+			<Anchor>//api/name/iconView</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/iconView</TokenIdentifier>
+			<Abstract type="html">Icon view for biometric enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIView *iconView</Declaration>
+			
+			
+			<Anchor>//api/name/iconView</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setSetUpBiometricView:</TokenIdentifier>
+			<Abstract type="html">View for biometric enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIView *setUpBiometricView</Declaration>
+			
+			
+			<Anchor>//api/name/setUpBiometricView</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setUpBiometricView</TokenIdentifier>
+			<Abstract type="html">View for biometric enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIView *setUpBiometricView</Declaration>
+			
+			
+			<Anchor>//api/name/setUpBiometricView</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/setUpBiometricView</TokenIdentifier>
+			<Abstract type="html">View for biometric enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIView *setUpBiometricView</Declaration>
+			
+			
+			<Anchor>//api/name/setUpBiometricView</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setBiometricSetupTitle:</TokenIdentifier>
+			<Abstract type="html">The label title for biometric enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UILabel *biometricSetupTitle</Declaration>
+			
+			
+			<Anchor>//api/name/biometricSetupTitle</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/biometricSetupTitle</TokenIdentifier>
+			<Abstract type="html">The label title for biometric enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UILabel *biometricSetupTitle</Declaration>
+			
+			
+			<Anchor>//api/name/biometricSetupTitle</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/biometricSetupTitle</TokenIdentifier>
+			<Abstract type="html">The label title for biometric enrollment.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UILabel *biometricSetupTitle</Declaration>
+			
+			
+			<Anchor>//api/name/biometricSetupTitle</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setBiometricInstructionsLabel:</TokenIdentifier>
+			<Abstract type="html">The label displaying instructions for a given passcode section of the workflow.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UILabel *biometricInstructionsLabel</Declaration>
+			
+			
+			<Anchor>//api/name/biometricInstructionsLabel</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/biometricInstructionsLabel</TokenIdentifier>
+			<Abstract type="html">The label displaying instructions for a given passcode section of the workflow.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UILabel *biometricInstructionsLabel</Declaration>
+			
+			
+			<Anchor>//api/name/biometricInstructionsLabel</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/biometricInstructionsLabel</TokenIdentifier>
+			<Abstract type="html">The label displaying instructions for a given passcode section of the workflow.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UILabel *biometricInstructionsLabel</Declaration>
+			
+			
+			<Anchor>//api/name/biometricInstructionsLabel</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setEnableBiometricButton:</TokenIdentifier>
+			<Abstract type="html">The &apos;Enable&apos; button for Biometric prompt.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIButton *enableBiometricButton</Declaration>
+			
+			
+			<Anchor>//api/name/enableBiometricButton</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/enableBiometricButton</TokenIdentifier>
+			<Abstract type="html">The &apos;Enable&apos; button for Biometric prompt.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIButton *enableBiometricButton</Declaration>
+			
+			
+			<Anchor>//api/name/enableBiometricButton</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/enableBiometricButton</TokenIdentifier>
+			<Abstract type="html">The &apos;Enable&apos; button for Biometric prompt.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIButton *enableBiometricButton</Declaration>
+			
+			
+			<Anchor>//api/name/enableBiometricButton</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setCancelBiometricButton:</TokenIdentifier>
+			<Abstract type="html">The &apos;Not Now&apos; button.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIButton *cancelBiometricButton</Declaration>
+			
+			
+			<Anchor>//api/name/cancelBiometricButton</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/cancelBiometricButton</TokenIdentifier>
+			<Abstract type="html">The &apos;Not Now&apos; button.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIButton *cancelBiometricButton</Declaration>
+			
+			
+			<Anchor>//api/name/cancelBiometricButton</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/cancelBiometricButton</TokenIdentifier>
+			<Abstract type="html">The &apos;Not Now&apos; button.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIButton *cancelBiometricButton</Declaration>
+			
+			
+			<Anchor>//api/name/cancelBiometricButton</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/setCurrentPasscode:</TokenIdentifier>
+			<Abstract type="html">The &apos;Not Now&apos; button.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *currentPasscode</Declaration>
+			
+			
+			<Anchor>//api/name/currentPasscode</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBiometricViewController/currentPasscode</TokenIdentifier>
+			<Abstract type="html">The &apos;Not Now&apos; button.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *currentPasscode</Declaration>
+			
+			
+			<Anchor>//api/name/currentPasscode</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBiometricViewController/currentPasscode</TokenIdentifier>
+			<Abstract type="html">The &apos;Not Now&apos; button.</Abstract>
+			<DeclaredIn>SFSDKBiometricViewController+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *currentPasscode</Declaration>
+			
+			
+			<Anchor>//api/name/currentPasscode</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
 		
         
         

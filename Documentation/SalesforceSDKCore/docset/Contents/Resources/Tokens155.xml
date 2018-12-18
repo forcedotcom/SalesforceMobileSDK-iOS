@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIFont+SFSDKIDP.html">
+	<File path="Categories/UIColor+SFSDKIDP.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIFont(SFSDKIDP)</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFSDKIDP)</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
             
 			
 			<NodeRef refid="155"/>
@@ -13,26 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIFont/textRegular:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/backgroundcolor</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
 			
-			<Declaration>+ (UIFont *)textRegular:(CGFloat)size</Declaration>
+			<Declaration>+ (UIColor *)backgroundcolor</Declaration>
 			
 			
-			<Anchor>//api/name/textRegular:</Anchor>
+			<Anchor>//api/name/backgroundcolor</Anchor>
             <NodeRef refid="155"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIFont/textBold:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/backgroundRowSelectedColor</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
 			
-			<Declaration>+ (UIFont *)textBold:(CGFloat)size</Declaration>
+			<Declaration>+ (UIColor *)backgroundRowSelectedColor</Declaration>
 			
 			
-			<Anchor>//api/name/textBold:</Anchor>
+			<Anchor>//api/name/backgroundRowSelectedColor</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/borderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)borderColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderColor</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/weakTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)weakTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/weakTextColor</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/defaultTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)defaultTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/defaultTextColor</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/altTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)altTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/altTextColor</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/alt2BackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)alt2BackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/alt2BackgroundColor</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/altBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)altBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/altBackgroundColor</Anchor>
+            <NodeRef refid="155"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/tableCellBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)tableCellBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/tableCellBackgroundColor</Anchor>
             <NodeRef refid="155"/>
 		</Token>
 		

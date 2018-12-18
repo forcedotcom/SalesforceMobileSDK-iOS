@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKResourceUtils.html">
+	<File path="Classes/SFSDKPasscodeCreateController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKResourceUtils</TokenIdentifier>
-			<Abstract type="html">Class that handles access to Mobile SDK&apos;s main bundle.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPasscodeCreateController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
             
 			
 			<NodeRef refid="100"/>
@@ -13,65 +13,122 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/mainSdkBundle</TokenIdentifier>
-			<Abstract type="html">The main bundle associated with the SDK.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/setViewConfig:</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>+ (NSBundle *)mainSdkBundle</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
 			
-			<ReturnValue><Abstract type="html">The main bundle associated with the SDK.</Abstract></ReturnValue>
-			<Anchor>//api/name/mainSdkBundle</Anchor>
+			
+			<Anchor>//api/name/viewConfig</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/localizedString:</TokenIdentifier>
-			<Abstract type="html">Gets a localized string from the main bundle of the SDK.</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/viewConfig</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)localizedString:(NSString *)localizationKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>localizationKey</Name>
-					<Abstract type="html">The localization key used to look up the localized string.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The localized string associated with the key.</Abstract></ReturnValue>
-			<Anchor>//api/name/localizedString:</Anchor>
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
+			
+			
+			<Anchor>//api/name/viewConfig</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/imageNamed:</TokenIdentifier>
-			<Abstract type="html">Gets an image from the Images asset catalog from the framework bundle of the SDK</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeCreateController/viewConfig</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>+ (UIImage *)imageNamed:(NSString *)name</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">The name of the image in the asset catalog.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The image from the asset catalog with the provided name.</Abstract></ReturnValue>
-			<Anchor>//api/name/imageNamed:</Anchor>
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
+			
+			
+			<Anchor>//api/name/viewConfig</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKResourceUtils/loadConfigFromFile:</TokenIdentifier>
-			<Abstract type="html">Read config and parse its content (which is expected to be json)</Abstract>
-			<DeclaredIn>SFSDKResourceUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/setUpdateMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>configFilePath</Name>
-					<Abstract type="html">Path of resource file.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">NSDictionary built from content of tile.</Abstract></ReturnValue>
-			<Anchor>//api/name/loadConfigFromFile:</Anchor>
+			<Declaration>@property (nonatomic) BOOL updateMode</Declaration>
+			
+			
+			<Anchor>//api/name/updateMode</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/updateMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL updateMode</Declaration>
+			
+			
+			<Anchor>//api/name/updateMode</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeCreateController/updateMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL updateMode</Declaration>
+			
+			
+			<Anchor>//api/name/updateMode</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/setCreateDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeCreateDelegate&gt; createDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/createDelegate</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/createDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeCreateDelegate&gt; createDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/createDelegate</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeCreateController/createDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeCreateDelegate&gt; createDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/createDelegate</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/initWithViewConfig:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
+			
+			
+			<Anchor>//api/name/initWithViewConfig:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		

@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFJsonUtils Class Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -43,9 +43,41 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
-
+	<option value="overview">Overview</option>
 	
 
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/JSONDataRepresentation:">+ JSONDataRepresentation:</option>
+		
+		<option value="//api/name/JSONDataRepresentation:options:">+ JSONDataRepresentation:options:</option>
+		
+		<option value="//api/name/JSONRepresentation:">+ JSONRepresentation:</option>
+		
+		<option value="//api/name/JSONRepresentation:options:">+ JSONRepresentation:options:</option>
+		
+		<option value="//api/name/lastError">+ lastError</option>
+		
+		<option value="//api/name/objectFromJSONData:">+ objectFromJSONData:</option>
+		
+		<option value="//api/name/objectFromJSONString:">+ objectFromJSONString:</option>
+		
+		<option value="//api/name/projectIntoJson:path:">+ projectIntoJson:path:</option>
+		
+	</optgroup>
+	
+
+	
 	
 </select>
 						</label>
@@ -59,22 +91,533 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFJsonUtils Class Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFJsonUtils.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>This class helps decouple framework code from the underlying JSON implementation.</p>
+					</div>
+					
+					
 
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/lastError" title="lastError"></a>
+	<h3 class="method-title"><code><a href="#//api/name/lastError">+&nbsp;lastError</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The last error that was logged during a JSON conversion operation.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSError *)lastError</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The last error that was logged during a JSON conversion operation.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFJsonUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/JSONRepresentation:" title="JSONRepresentation:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/JSONRepresentation:">+&nbsp;JSONRepresentation:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates the JSON representation of an object.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)JSONRepresentation:(id)<em>object</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>object</code></th>
+						<td><p>The object to JSON-ify</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>a JSON string representation of an Objective-C object</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFJsonUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/JSONRepresentation:options:" title="JSONRepresentation:options:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/JSONRepresentation:options:">+&nbsp;JSONRepresentation:options:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates the JSON representation of an object.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)JSONRepresentation:(id)<em>object</em> options:(NSJSONWritingOptions)<em>options</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>object</code></th>
+						<td><p>The object to JSON-ify</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>options</code></th>
+						<td><p>for json-ization</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>a JSON string representation of an Objective-C object</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFJsonUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/JSONDataRepresentation:" title="JSONDataRepresentation:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/JSONDataRepresentation:">+&nbsp;JSONDataRepresentation:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates the JSON-as-NSData representation of an object.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSData *)JSONDataRepresentation:(id)<em>obj</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>obj</code></th>
+						<td><p>The object to JSON-ify.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A JSON string in NSData format, UTF8 encoded.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFJsonUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/JSONDataRepresentation:options:" title="JSONDataRepresentation:options:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/JSONDataRepresentation:options:">+&nbsp;JSONDataRepresentation:options:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates the JSON-as-NSData representation of an object.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSData *)JSONDataRepresentation:(id)<em>obj</em> options:(NSJSONWritingOptions)<em>options</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>obj</code></th>
+						<td><p>The object to JSON-ify.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>options</code></th>
+						<td><p>for json-ization</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A JSON string in NSData format, UTF8 encoded.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFJsonUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/objectFromJSONString:" title="objectFromJSONString:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/objectFromJSONString:">+&nbsp;objectFromJSONString:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates an object from a string of JSON data.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable id)objectFromJSONString:(NSString *)<em>jsonString</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>jsonString</code></th>
+						<td><p>A JSON object string.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>An Objective-C object such as an NSDictionary or NSArray.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFJsonUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/objectFromJSONData:" title="objectFromJSONData:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/objectFromJSONData:">+&nbsp;objectFromJSONData:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates an object from a JSON-as-NSData object.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (id)objectFromJSONData:(NSData *)<em>jsonData</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>jsonData</code></th>
+						<td><p>JSON data in an NSData wrapper (UTF8 encoding assumed).</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>An Objective-C object such as an NSDictionary or NSArray.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFJsonUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/projectIntoJson:path:" title="projectIntoJson:path:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/projectIntoJson:path:">+&nbsp;projectIntoJson:path:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Pull a value from the json-derived object by path (&ldquo;.&rdquo; delimited).</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (id)projectIntoJson:(NSDictionary *)<em>jsonObj</em> path:(NSString *)<em>path</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>jsonObj</code></th>
+						<td><p>The JSON object that contains the requested JSON path.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>path</code></th>
+						<td><p>Requested JSON path.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>Examples (in pseudo code):</p>
+
+<p>json = {&ldquo;a&rdquo;: {&ldquo;b&rdquo;: [{&ldquo;c&rdquo;:&ldquo;xx&rdquo;}, {&ldquo;c&rdquo;:&ldquo;xy&rdquo;}, {&ldquo;d&rdquo;: [{&ldquo;e&rdquo;:1}, {&ldquo;e&rdquo;:2}]}, {&ldquo;d&rdquo;: [{&ldquo;e&rdquo;:3}, {&ldquo;e&rdquo;:4}]}] }}
+projectIntoJson(jsonObj, &ldquo;a&rdquo;) = {&ldquo;b&rdquo;: [{&ldquo;c&rdquo;:&ldquo;xx&rdquo;}, {&ldquo;c&rdquo;:&ldquo;xy&rdquo;}, {&ldquo;d&rdquo;: [{&ldquo;e&rdquo;:1}, {&ldquo;e&rdquo;:2}]}, {&ldquo;d&rdquo;: [{&ldquo;e&rdquo;:3}, {&ldquo;e&rdquo;:4}]} ]}
+projectIntoJson(json, &ldquo;a.b&rdquo;) = [{c:&ldquo;xx&rdquo;}, {c:&ldquo;xy&rdquo;}, {&ldquo;d&rdquo;: [{&ldquo;e&rdquo;:1}, {&ldquo;e&rdquo;:2}]}, {&ldquo;d&rdquo;: [{&ldquo;e&rdquo;:3}, {&ldquo;e&rdquo;:4}]}]
+projectIntoJson(json, &ldquo;a.b.c&rdquo;) = [&ldquo;xx&rdquo;, &ldquo;xy&rdquo;]                                     // new in 4.1
+projectIntoJson(json, &ldquo;a.b.d&rdquo;) = [[{&ldquo;e&rdquo;:1}, {&ldquo;e&rdquo;:2}], [{&ldquo;e&rdquo;:3}, {&ldquo;e&rdquo;:4}]]         // new in 4.1
+projectIntoJson(json, &ldquo;a.b.d.e&rdquo;) = [[1, 2], [3, 4]]                               // new in 4.1</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFJsonUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
 					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

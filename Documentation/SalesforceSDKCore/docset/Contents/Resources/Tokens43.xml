@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPBKDF2PasscodeProvider.html">
+	<File path="Classes/SFOAuthTestFlowCoordinatorDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDF2PasscodeProvider</TokenIdentifier>
-			<Abstract type="html">Contains configuration values for generating an encryption key.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthTestFlowCoordinatorDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="43"/>
@@ -13,137 +13,254 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setSaltLengthInBytes:</TokenIdentifier>
-			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
-kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setWillBeginAuthenticationCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
 			
 			
-			<Anchor>//api/name/saltLengthInBytes</Anchor>
+			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/saltLengthInBytes</TokenIdentifier>
-			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
-kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/willBeginAuthenticationCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
 			
 			
-			<Anchor>//api/name/saltLengthInBytes</Anchor>
+			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/saltLengthInBytes</TokenIdentifier>
-			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
-kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/willBeginAuthenticationCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
 			
 			
-			<Anchor>//api/name/saltLengthInBytes</Anchor>
+			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setNumDerivationRounds:</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
-to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidAuthenticateCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/didAuthenticateCalled</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/numDerivationRounds</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
-to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didAuthenticateCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/didAuthenticateCalled</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/numDerivationRounds</TokenIdentifier>
-			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
-to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didAuthenticateCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
 			
 			
-			<Anchor>//api/name/numDerivationRounds</Anchor>
+			<Anchor>//api/name/didAuthenticateCalled</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setDerivedKeyLengthInBytes:</TokenIdentifier>
-			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
-value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setAuthInfo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/derivedKeyLengthInBytes</TokenIdentifier>
-			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
-value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/derivedKeyLengthInBytes</TokenIdentifier>
-			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
-value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
-NOTE: Differences in this value affect the generated key.  You must keep track of
-this value if you wish to generate the same key at a future date.</Abstract>
-			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidFailWithErrorCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didFailWithErrorCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didFailWithErrorCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setIsNetworkAvailableCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailableCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailableCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidFailWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithError</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didFailWithError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithError</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didFailWithError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithError</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setIsNetworkAvailable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailable</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailable</Anchor>
+            <NodeRef refid="43"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailable</Anchor>
             <NodeRef refid="43"/>
 		</Token>
 		

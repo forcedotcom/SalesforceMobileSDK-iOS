@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title></title>
+	<title>SFSDKIDPAuthClientDelegate Protocol Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
-	
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
 </head>
 <body class="appledoc">
 	<header>
@@ -45,7 +45,37 @@
 	
 
 	
+	
+	<option value="tasks">Tasks</option>
+	
+	
 
+	
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/authClient:didReceiveRequestForIDPAuth:">- authClient:didReceiveRequestForIDPAuth:</option>
+		
+		<option value="//api/name/authClient:didReceiveResponseForIDPAuth:">- authClient:didReceiveResponseForIDPAuth:</option>
+		
+		<option value="//api/name/authClient:didSendRequestForIDPAuth:">- authClient:didSendRequestForIDPAuth:</option>
+		
+		<option value="//api/name/authClient:error:">- authClient:error:</option>
+		
+		<option value="//api/name/authClient:willSendRequestForIDPAuth:">- authClient:willSendRequestForIDPAuth:</option>
+		
+		<option value="//api/name/authClient:willSendResponseForIDPAuth:">- authClient:willSendResponseForIDPAuth:</option>
+		
+		<option value="//api/name/authClientDidFetchAuthCode:">- authClientDidFetchAuthCode:</option>
+		
+		<option value="//api/name/authClientDisplayIDPLoginFlowSelection:">- authClientDisplayIDPLoginFlowSelection:</option>
+		
+	</optgroup>
+	
 	
 </select>
 						</label>
@@ -59,22 +89,475 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title"></h1>
+					<h1 class="title">SFSDKIDPAuthClientDelegate Protocol Reference</h1>
 
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Conforms to</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFSDKIDPAuthClient.h</td>
+</tr>
+						</tbody></table></div>
 					
 
                     
 
 					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/authClientDisplayIDPLoginFlowSelection:" title="authClientDisplayIDPLoginFlowSelection:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authClientDisplayIDPLoginFlowSelection:">&ndash;&nbsp;authClientDisplayIDPLoginFlowSelection:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when the Oauth Client requires Delegate to choose the login flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authClientDisplayIDPLoginFlowSelection:(SFSDKIDPAuthClient *)<em>client</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>client</code></th>
+						<td><p>The instance of <a href="../Classes/SFSDKOAuthClient.html">SFSDKOAuthClient</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKIDPAuthClient.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authClient:willSendRequestForIDPAuth:" title="authClient:willSendRequestForIDPAuth:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authClient:willSendRequestForIDPAuth:">&ndash;&nbsp;authClient:willSendRequestForIDPAuth:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when the Oauth Client is starting the auth process using IDP APP</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)<em>client</em> willSendRequestForIDPAuth:(NSDictionary *)<em>options</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>client</code></th>
+						<td><p>The instance of <a href="../Classes/SFSDKOAuthClient.html">SFSDKOAuthClient</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKIDPAuthClient.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authClient:didSendRequestForIDPAuth:" title="authClient:didSendRequestForIDPAuth:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authClient:didSendRequestForIDPAuth:">&ndash;&nbsp;authClient:didSendRequestForIDPAuth:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when the Oauth Client is starting the auth process using IDP APP</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)<em>client</em> didSendRequestForIDPAuth:(NSDictionary *)<em>options</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>client</code></th>
+						<td><p>The instance of <a href="../Classes/SFSDKOAuthClient.html">SFSDKOAuthClient</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKIDPAuthClient.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authClient:didReceiveRequestForIDPAuth:" title="authClient:didReceiveRequestForIDPAuth:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authClient:didReceiveRequestForIDPAuth:">&ndash;&nbsp;authClient:didReceiveRequestForIDPAuth:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when the Oauth Client is starting the auth process using IDP APP</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)<em>client</em> didReceiveRequestForIDPAuth:(NSURL *)<em>request</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>client</code></th>
+						<td><p>The instance of <a href="../Classes/SFSDKOAuthClient.html">SFSDKOAuthClient</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKIDPAuthClient.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authClient:error:" title="authClient:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authClient:error:">&ndash;&nbsp;authClient:error:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when the Oauth Client is starting the auth process using IDP APP</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)<em>client</em> error:(NSError *)<em>error</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>client</code></th>
+						<td><p>The instance of <a href="../Classes/SFSDKOAuthClient.html">SFSDKOAuthClient</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKIDPAuthClient.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authClientDidFetchAuthCode:" title="authClientDidFetchAuthCode:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authClientDidFetchAuthCode:">&ndash;&nbsp;authClientDidFetchAuthCode:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when the Oauth Client is starting the auth process using IDP APP</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authClientDidFetchAuthCode:(SFSDKIDPAuthClient *_Nonnull)<em>client</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>client</code></th>
+						<td><p>The instance of <a href="../Classes/SFSDKOAuthClient.html">SFSDKOAuthClient</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKIDPAuthClient.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authClient:didReceiveResponseForIDPAuth:" title="authClient:didReceiveResponseForIDPAuth:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authClient:didReceiveResponseForIDPAuth:">&ndash;&nbsp;authClient:didReceiveResponseForIDPAuth:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when the Oauth Client is starting the auth process with an auth view.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)<em>client</em> didReceiveResponseForIDPAuth:(NSDictionary *)<em>options</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>client</code></th>
+						<td><p>The instance of <a href="../Classes/SFSDKOAuthClient.html">SFSDKOAuthClient</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKIDPAuthClient.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authClient:willSendResponseForIDPAuth:" title="authClient:willSendResponseForIDPAuth:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authClient:willSendResponseForIDPAuth:">&ndash;&nbsp;authClient:willSendResponseForIDPAuth:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when the Oauth Client is starting the auth process with an auth view.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)<em>client</em> willSendResponseForIDPAuth:(NSDictionary *)<em>options</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>client</code></th>
+						<td><p>The instance of <a href="../Classes/SFSDKOAuthClient.html">SFSDKOAuthClient</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKIDPAuthClient.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
 
                     
+                    
+          
 				</main>
 
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-13</p>
+						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
 						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
 						
 					</div>
 				</footer>

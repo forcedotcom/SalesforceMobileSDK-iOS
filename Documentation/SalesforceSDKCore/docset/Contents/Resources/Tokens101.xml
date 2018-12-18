@@ -1,16 +1,208 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKRootController.html">
+	<File path="Classes/SFSDKPasscodeTextField.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKRootController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPasscodeTextField</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKRootController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
             
 			
 			<NodeRef refid="101"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setDeleteDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (weak, nonatomic) id deleteDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/deleteDelegate</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/deleteDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (weak, nonatomic) id deleteDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/deleteDelegate</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/deleteDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (weak, nonatomic) id deleteDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/deleteDelegate</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setPasscodeLengthKnown:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/passcodeLengthKnown</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/passcodeLengthKnown</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setPasscodeLength:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (assign, assign) NSUInteger passcodeLength</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeLength</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/passcodeLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (assign, assign) NSUInteger passcodeLength</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeLength</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/passcodeLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (assign, assign) NSUInteger passcodeLength</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeLength</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setPasscodeInput:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) NSMutableString *passcodeInput</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeInput</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/passcodeInput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) NSMutableString *passcodeInput</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeInput</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/passcodeInput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) NSMutableString *passcodeInput</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeInput</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/clearPasscode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (void)clearPasscode</Declaration>
+			
+			
+			<Anchor>//api/name/clearPasscode</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/refreshView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (void)refreshView</Declaration>
+			
+			
+			<Anchor>//api/name/refreshView</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/initWithFrame:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/initWithFrame:andViewConfig:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame andViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:andViewConfig:</Anchor>
+            <NodeRef refid="101"/>
+		</Token>
 		
         
         

@@ -1,52 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTextFieldTableViewCell.html">
+	<File path="Classes/SFSDKStartURLHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTextFieldTableViewCell</TokenIdentifier>
-			<Abstract type="html">A custom UITableViewCell which contains a UITextField for inserting and editing text.</Abstract>
-			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKStartURLHandler</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKStartURLHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="109"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/setTextField:</TokenIdentifier>
-			<Abstract type="html">Text field for inserting and editing text.</Abstract>
-			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
-			
-			
-			<Anchor>//api/name/textField</Anchor>
-            <NodeRef refid="109"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
-			<Abstract type="html">Text field for inserting and editing text.</Abstract>
-			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
-			
-			
-			<Anchor>//api/name/textField</Anchor>
-            <NodeRef refid="109"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
-			<Abstract type="html">Text field for inserting and editing text.</Abstract>
-			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
-			
-			
-			<Anchor>//api/name/textField</Anchor>
-            <NodeRef refid="109"/>
-		</Token>
 		
         
         
