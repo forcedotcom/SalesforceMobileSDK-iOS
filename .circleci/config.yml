@@ -195,7 +195,7 @@ workflows:
               only:
                 - dev
     jobs:
-      - test-SaleforceSDKCommon:
+      - test-SalesforceSDKCommon:
             context: nightly-test
       - test-SalesforceAnalytics:
             context: nightly-test
