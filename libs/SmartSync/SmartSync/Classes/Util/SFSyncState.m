@@ -257,7 +257,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 #pragma mark - Setter for status
 - (void) setStatus: (SFSyncStateStatus) newStatus
 {
-    if (_status == SFSyncStateStatusNew && newStatus == SFSyncStateStatusRunning) {
+    if (_status != SFSyncStateStatusRunning && newStatus == SFSyncStateStatusRunning) {
         self.startTime = [[NSDate date] timeIntervalSince1970] * 1000; // milliseconds expecteed
     }
     if (_status == SFSyncStateStatusRunning
