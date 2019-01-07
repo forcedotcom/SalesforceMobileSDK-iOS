@@ -26,21 +26,18 @@ After cloning the repo:
 
 This script pulls the submodule dependencies from GitHub, to finalize setup of the workspace.  You can then work with the Mobile SDK by opening `SalesforceMobileSDK.xcworkspace` from Xcode.
 
-The Salesforce Mobile SDK for iOS requires iOS 11.0 or greater.  The install.sh script checks for this, and aborts if the configured SDK version is incorrect.  Building from the command line has been tested using ant 1.8.  Older versions might work, but we recommend using the latest version of ant.
-
-If you have problems building any of the projects, take a look at the online [FAQ](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/wiki/FAQ) for troubleshooting tips.
+The Salesforce Mobile SDK for iOS requires iOS 11.0 or greater.  The install.sh script checks for this, and aborts if the configured SDK version is incorrect.
 
 Introduction
 ==
 
 ### What's New in 7.0
 
-For iOS, Mobile SDK 7.0 marks the beginning of an ongoing collaboration with Apple, Inc., to enhance the usability and standardization
+For iOS, Mobile SDK 7.0 marks the beginning of an ongoing collaboration with Apple Inc., to enhance the usability and standardization
 of our Swift APIs. As a result of this partnership, our Swift offerings have undergone extensive changes. The revised APIs are “Swiftified”
 aliases for the Mobile SDK Objective-C APIs.
 
 **Swift API Updates**
-- `PromiseKit` APIs are no longer available in Mobile SDK. Instead, use delegates or blocks to handle asynchronous calls.
 - For improved readability, we’ve applied “Swifty” restyling to many class names, method names, and parameter names. The Xcode
 editor provides excellent support for these API names, so it’s easy to find what you want. If you don’t see what you’re looking for,
 you can search the Objective-C header files as follows:
@@ -48,7 +45,8 @@ you can search the Objective-C header files as follows:
   - A few Objective-C APIs aren’t available in Swift. These APIs are marked with the `NS_SWIFT_UNAVAILABLE("")` macro.
   - If an Objective-C API isn’t marked with either the `NS_SWIFT_NAME()` or `NS_SWIFT_UNAVAILABLE("")` macro, you
 call it in Swift using its Objective-C naming.
-- Mobile SDK no longer supports the `Cocoa Lumberjack` logging framework. For compiler-level logging, use the `os_log()` function
+- We've redesigned our Swift APIs to use closures and/or delegates for asynchronous calls.
+- Mobile SDK no longer requires the `Cocoa Lumberjack` logging framework. For compiler-level logging, use the `os_log()` function
 from Apple’s unified logging system. See [iOS Compiler-Level Logging](https://developer.salesforce.com/docs/atlas.en-us.noversion.mobile_sdk.meta/mobile_sdk/analytics_logging_ios.htm).
 
 **Miscellaneous Changes**
@@ -63,16 +61,16 @@ through My Domain settings.
   
 **iOS Version Updates**
 - iOS minimum version (deployment target): iOS 11
-- iOS base version: iOS 12
+- iOS base SDK version: iOS 12
 - Xcode minimum version: 10
   
 **Deprecation**
-- `PromiseKit` APIs are no longer supported. Instead, use standard delegates or blocks to handle asynchronous callbacks.
-
+- `PromiseKit` is no longer a dependency of Mobile SDK. Instead, you can use standard delegates or blocks to handle asynchronous calls.
+- `SFSDKLogger` is now deprecated in Mobile SDK apps. Use `os_log()` instead.
 Check http://developer.force.com/mobilesdk for additional articles and tutorials.
 
 ### Native Applications
-The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides Objective-C wrappers for the Salesforce REST API, making it easy to retrieve and manipulate data.
+The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides wrappers for the Salesforce REST API that you can use from both Swift and Objective-C.
 
 Documentation
 ==
