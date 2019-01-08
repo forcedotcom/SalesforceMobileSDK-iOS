@@ -1703,16 +1703,40 @@ NSString *const EXPLAIN_ROWS = @"rows";
 }
 
 -(NSString*) escapeStringValue:(NSString*) raw {
-    NSString* escaped = raw;
-    escaped = [escaped stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
-    escaped = [escaped stringByReplacingOccurrencesOfString:@"/" withString:@"\\/"];
-    escaped = [escaped stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-    escaped = [escaped stringByReplacingOccurrencesOfString:@"\b" withString:@"\\b"];
-    escaped = [escaped stringByReplacingOccurrencesOfString:@"\f" withString:@"\\f"];
-    escaped = [escaped stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
-    escaped = [escaped stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"];
-    escaped = [escaped stringByReplacingOccurrencesOfString:@"\t" withString:@"\\t"];
-    return escaped;
+    NSMutableString* escaped = [NSMutableString new];
+    
+    for (NSUInteger i = 0; i < raw.length; i += 1) {
+        unichar c = [raw characterAtIndex:i];
+        switch (c) {
+            case '\\':
+            case '/':
+            case '"':
+                [escaped appendFormat:@"\\%C", c];
+                break;
+            case '\b':
+                [escaped appendString:@"\\b"];
+                break;
+            case '\f':
+                [escaped appendString:@"\\f"];
+                break;
+            case '\n':
+                [escaped appendString:@"\\n"];
+                break;
+            case '\r':
+                [escaped appendString:@"\\r"];
+                break;
+            case '\t':
+                [escaped appendString:@"\\t"];
+                break;
+            default:
+                if (c < ' ') {
+                    [escaped appendFormat:@"\\u%04x", c];
+                } else {
+                    [escaped appendFormat:@"%C", c];
+                }
+        }
+    }
+    return [NSString stringWithString:escaped];
 }
 
 - (NSString *)idsInPredicate:(NSArray *)ids idCol:(NSString*)idCol
