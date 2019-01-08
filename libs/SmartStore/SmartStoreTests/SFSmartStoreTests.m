@@ -583,6 +583,62 @@
 }
 
 /**
+ * Test query against soup with special characters when soup has string index
+ */
+-(void) testQueryDataWithSpecialCharactersWithStringIndex
+{
+    [self tryQueryDataWithSpecialCharacters:kSoupIndexTypeString];
+}
+
+/**
+ * Test query against soup with special characters when soup has json1 index
+ */
+-(void) testQueryDataWithSpecialCharactersWithJSON1Index
+{
+    [self tryQueryDataWithSpecialCharacters:kSoupIndexTypeJSON1];
+}
+
+-(void) tryQueryDataWithSpecialCharacters:(NSString*)indexType
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}, @{@"path": @"value",@"type": indexType}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        
+        NSMutableString* value = [NSMutableString new];
+        for (unichar i=1; i<1000; i++) {
+            [value appendFormat:@"%C", i];
+        }
+        NSString* valueForAbcd = [NSString stringWithFormat:@"abcd%@", value];
+        NSString* valueForDefg = [NSString stringWithFormat:@"defg%@", value];
+
+        // Populate soup
+        NSDictionary* soupElt0 = @{@"key": @"abcd", @"value":valueForAbcd};
+        NSDictionary* soupElt1 = @{@"key": @"defg", @"value":valueForDefg};
+        
+        /* NSArray* soupEltsCreated = */[store upsertEntries:@[soupElt0, soupElt1] toSoup:kTestSoupName];
+        
+        // Smart query
+        NSString* smartSql = [NSString stringWithFormat:@"SELECT {%1$@:value} FROM {%1$@} ORDER BY {%1$@:key}", kTestSoupName];
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10]
+                                            page:0
+                                 expectedResults:@[@[valueForAbcd], @[valueForDefg]]
+                                        covering:NO
+                             expectedDbOperation:nil
+                                           store:store];
+    }
+}
+
+/**
  * Test remove entries with ids
  */
 -(void) testRemoveEntriesByIds
