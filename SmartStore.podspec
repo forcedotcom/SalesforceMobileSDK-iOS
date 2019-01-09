@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SmartStore"
-  s.version      = "7.0.0-rc"
+  s.version      = "7.0.0"
   s.summary      = "Salesforce Mobile SDK for iOS - SmartStore"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
