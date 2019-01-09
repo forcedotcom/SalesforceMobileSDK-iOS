@@ -347,6 +347,10 @@ static NSString * const kGlobalScopingKey = @"-global-";
     }
 }
 
+NSString *SFKeyForGlobalScope() {
+    return  SFKeyForUserIdAndScope(nil,nil,nil,SFUserAccountScopeGlobal);
+}
+
 NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope) {
     return  SFKeyForUserIdAndScope(user.credentials.userId,user.credentials.organizationId,user.credentials.communityId,scope);
 }

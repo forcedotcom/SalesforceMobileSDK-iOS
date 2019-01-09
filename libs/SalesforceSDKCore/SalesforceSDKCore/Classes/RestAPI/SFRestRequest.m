@@ -39,7 +39,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.baseURL = baseURL;
         self.path = path;
         self.queryParams = [queryParams mutableCopy];
-        self.endpoint = kSFDefaultRestEndpoint;
+        self.endpoint = (hostType == SFSDKRestServiceHostTypeCustom)?@"":kSFDefaultRestEndpoint;
         self.requiresAuthentication = YES;
         self.parseResponse = YES;
         self.shouldRefreshOn403 = YES;
@@ -54,6 +54,10 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 + (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
     return [[self alloc] initWithMethod:method serviceHostType:SFSDKRestServiceHostTypeInstance baseURL:baseURL path:path queryParams:queryParams];
+}
+
++ (instancetype)customUrlRequestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
+    return [[self alloc] initWithMethod:method  serviceHostType:SFSDKRestServiceHostTypeCustom baseURL:baseURL path:path queryParams:queryParams];
 }
 
 + (instancetype)requestWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
@@ -122,84 +126,79 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 # pragma mark - send and cancel
 
 - (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user {
-    if (user) {
-
-        /*
-         * If an absolute URL is passed in, use it as-is. If a relative URL is passed in,
-         * parse it and put the pieces together to construct the full URL.
-         */
-        NSMutableString *fullUrl = nil;
-        if ([[self.path lowercaseString] hasPrefix:@"https://"]) {
-            fullUrl = [[NSMutableString alloc] initWithString:self.path];
-        } else {
-            NSString *baseUrl = [[self class] restUrlForBaseUrl:self.baseURL serviceHostType:self.serviceHostType credentials:user.credentials];
-            
-            // Performs sanity checks on the path against the endpoint value.
-            if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
-                self.path = [self.path substringFromIndex:self.endpoint.length];
-            }
-            
-            // Puts the pieces together and constructs a full URL.
-            fullUrl = [[NSMutableString alloc] initWithString:baseUrl];
-            if (![fullUrl hasSuffix:@"/"]) {
-                [fullUrl appendString:@"/"];
-            }
-            
-            // 'endpoint' could be empty for a custom endpoint like 'apexrest'.
-            NSMutableString *endpoint = [[NSMutableString alloc] initWithString:self.endpoint];
-            if (endpoint.length > 0) {
-                if ([endpoint hasPrefix:@"/"]) {
-                    [endpoint deleteCharactersInRange:NSMakeRange(0, 1)];
-                }
-                if (![endpoint hasSuffix:@"/"]) {
-                    [endpoint appendString:@"/"];
-                }
-                [fullUrl appendString:endpoint];
-            }
-            NSMutableString *path = [[NSMutableString alloc] initWithString:self.path];
-            if ([path hasPrefix:@"/"]) {
-                [path deleteCharactersInRange:NSMakeRange(0, 1)];
-            }
-            [fullUrl appendString:path];
+    /*
+     * If an absolute URL is passed in, use it as-is. If a relative URL is passed in,
+     * parse it and put the pieces together to construct the full URL.
+     */
+    NSMutableString *fullUrl = nil;
+    NSString *baseUrl = [[self class] restUrlForBaseUrl:self.baseURL serviceHostType:self.serviceHostType credentials:user.credentials];
+    
+    // Performs sanity checks on the path against the endpoint value.
+    if (self.serviceHostType != SFSDKRestServiceHostTypeCustom) {
+        if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
+            self.path = [self.path substringFromIndex:self.endpoint.length];
         }
-
-        // Adds query parameters to the request if any are set.
-        if (self.queryParams) {
-
-            // Not using NSUrlQueryItems because of https://stackoverflow.com/questions/41273994/special-characters-not-being-encoded-properly-inside-urlqueryitems
-            [fullUrl appendString:[SFRestRequest toQueryString:self.queryParams]];
-        }
-        self.request = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:fullUrl]];
-
-        // Sets HTTP method on the request.
-        [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
-
-        // Sets OAuth Bearer token header on the request (if not already present).
-        if (self.requiresAuthentication && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
-            NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
-            [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
-        }
-
-        // Adds custom headers to the request if any are set.
-        if (self.customHeaders) {
-            for (NSString *key in self.customHeaders.allKeys) {
-                if (key != nil) {
-                    NSString *value = self.customHeaders[key];
-                    [self.request setValue:value forHTTPHeaderField:key];
-                }
-            }
-        }
-
-        // Sets HTTP body if body exists.
-        if (self.requestBodyStreamBlock != nil) {
-            if (self.requestContentType != nil) {
-                [self.request setValue:self.requestContentType forHTTPHeaderField:@"Content-Type"];
-                self.request.HTTPBodyStream = self.requestBodyStreamBlock();
-            }
-        }
-        return self.request;
     }
-    return nil;
+    
+    // Puts the pieces together and constructs a full URL.
+    fullUrl = [[NSMutableString alloc] initWithString:baseUrl];
+    if (![fullUrl hasSuffix:@"/"]) {
+        [fullUrl appendString:@"/"];
+    }
+    
+    // 'endpoint' could be empty for a custom endpoint like 'apexrest'.
+    NSMutableString *endpoint = [[NSMutableString alloc] initWithString:self.endpoint];
+    if (endpoint.length > 0) {
+        if ([endpoint hasPrefix:@"/"]) {
+            [endpoint deleteCharactersInRange:NSMakeRange(0, 1)];
+        }
+        if (![endpoint hasSuffix:@"/"]) {
+            [endpoint appendString:@"/"];
+        }
+        [fullUrl appendString:endpoint];
+    }
+    NSMutableString *path = [[NSMutableString alloc] initWithString:self.path];
+    if ([path hasPrefix:@"/"]) {
+        [path deleteCharactersInRange:NSMakeRange(0, 1)];
+    }
+    [fullUrl appendString:path];
+
+    // Adds query parameters to the request if any are set.
+    if (self.queryParams) {
+
+        // Not using NSUrlQueryItems because of https://stackoverflow.com/questions/41273994/special-characters-not-being-encoded-properly-inside-urlqueryitems
+        [fullUrl appendString:[SFRestRequest toQueryString:self.queryParams]];
+    }
+    self.request = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:fullUrl]];
+
+    // Sets HTTP method on the request.
+    [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
+
+    // Sets OAuth Bearer token header on the request (if not already present).
+    if (self.requiresAuthentication && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
+        NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
+        [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
+    }
+
+    // Adds custom headers to the request if any are set.
+    if (self.customHeaders) {
+        for (NSString *key in self.customHeaders.allKeys) {
+            if (key != nil) {
+                NSString *value = self.customHeaders[key];
+                [self.request setValue:value forHTTPHeaderField:key];
+            }
+        }
+    }
+
+    // Sets HTTP body if body exists.
+    if (self.requestBodyStreamBlock != nil) {
+        if (self.requestContentType != nil) {
+            [self.request setValue:self.requestContentType forHTTPHeaderField:@"Content-Type"];
+            self.request.HTTPBodyStream = self.requestBodyStreamBlock();
+        }
+    }
+    return self.request;
+   
 }
 
 - (void)cancel {

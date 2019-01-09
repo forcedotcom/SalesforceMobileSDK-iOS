@@ -806,6 +806,46 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+- (void)testOwnedFilesListWithCommunity {
+    // with nil for userId
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
+    creds.userId = @"USERID";
+    creds.organizationId = @"ORGID";
+    creds.communityId = @"COMMUNITYID";
+    creds.instanceUrl = [NSURL URLWithString:@"https://sample.domain"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    [account setLoginState:SFUserAccountLoginStateLoggedIn];
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
+    XCTAssertNotNil(restAPI,@"RestApi instance for this user must exist");
+    SFRestRequest *request = [restAPI requestForOwnedFilesList:creds.userId page:0];
+    XCTAssertNotNil(request,@"Request should have been created");
+    NSURLRequest *urlRequest = [request prepareRequestForSend:account];
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
+}
+
+- (void)testOwnedFilesListWithCommunityWithHeaders {
+    // with nil for userId
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
+    creds.userId = @"USERID";
+    creds.organizationId = @"ORGID";
+    creds.communityId = @"COMMUNITYID";
+    creds.instanceUrl = [NSURL URLWithString:@"https://sample.domain"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    [account setLoginState:SFUserAccountLoginStateLoggedIn];
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
+    XCTAssertNotNil(restAPI,@"RestApi instance for this user must exist");
+    SFRestRequest *request = [restAPI requestForOwnedFilesList:creds.userId page:0];
+    NSString *simpleType = @"ASimpleType";
+    NSString *simpleTypeLength = @"100000";
+    [request setHeaderValue:simpleType forHeaderName:@"Content-type"];
+    [request setHeaderValue:simpleTypeLength forHeaderName:@"Content-Length"];
+    XCTAssertNotNil(request,@"Request should have been created");
+    NSURLRequest *urlRequest = [request prepareRequestForSend:account];
+    XCTAssertEqualObjects(simpleTypeLength,[urlRequest valueForHTTPHeaderField:@"Content-Length"]);
+    XCTAssertEqualObjects(simpleType,[urlRequest valueForHTTPHeaderField:@"Content-Type"]);
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
+}
+
 // simple: just invoke requestForFilesInUsersGroups
 - (void)testFilesInUsersGroups {
     // with nil for userId
@@ -816,6 +856,24 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:_currentUser.credentials.userId page:0];
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// test url for  testFilesInUsersGroupsWithCommunity
+- (void)testFilesInUsersGroupsWithCommunity {
+    // with nil for userId
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
+    creds.userId = @"USERID";
+    creds.organizationId = @"ORGID";
+    creds.communityId = @"COMMUNITYID";
+    creds.instanceUrl = [NSURL URLWithString:@"https://sample.domain"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    [account setLoginState:SFUserAccountLoginStateLoggedIn];
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
+    XCTAssertNotNil(restAPI,@"RestApi instance for this user must exist");
+    SFRestRequest *request = [restAPI requestForFilesInUsersGroups:creds.userId page:0];
+    XCTAssertNotNil(request,@"Request should have been created");
+    NSURLRequest *urlRequest = [request prepareRequestForSend:account];
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
 }
 
 // simple: just invoke requestForFilesSharedWithUser
@@ -830,6 +888,26 @@ static NSException *authException = nil;
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
+
+
+// test url for  testFileSharesWithUserCommunity
+- (void)testFileSharesWithUserCommunity {
+    // with nil for userId
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
+    creds.userId = @"USERID";
+    creds.organizationId = @"ORGID";
+    creds.communityId = @"COMMUNITYID";
+    creds.instanceUrl = [NSURL URLWithString:@"https://sample.domain"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    [account setLoginState:SFUserAccountLoginStateLoggedIn];
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
+    XCTAssertNotNil(restAPI,@"RestApi instance for this user must exist");
+    SFRestRequest* request = [restAPI requestForFilesSharedWithUser:@"someid" page:0];
+    XCTAssertNotNil(request,@"Request should have been created");
+    NSURLRequest *urlRequest = [request prepareRequestForSend:account];
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
+}
+
 
 // Upload file / download content / download rendition (expect 403) / delete file / download again (expect 404)
 - (void)testUploadDownloadDeleteFile {
@@ -860,6 +938,35 @@ static NSException *authException = nil;
     XCTAssertEqual(listener.lastError.code, 404, @"invalid code");
 }
 
+// test url for  testUploadDownloadDeleteFileWithCommunity
+- (void)testUploadDownloadDeleteFileWithCommunity {
+    // with nil for userId
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
+    creds.userId = @"USERID";
+    creds.organizationId = @"ORGID";
+    creds.communityId = @"COMMUNITYID";
+    creds.instanceUrl = [NSURL URLWithString:@"https://sample.domain"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    [account setLoginState:SFUserAccountLoginStateLoggedIn];
+    
+    NSDictionary *fileAttrs = [self uploadFile];
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
+    XCTAssertNotNil(restAPI,@"RestApi instance for this user must exist");
+    SFRestRequest *request =  [restAPI requestForFileRendition:fileAttrs[LID] version:nil renditionType:@"PDF" page:0];
+    XCTAssertNotNil(request,@"Request should have been created");
+    NSURLRequest *urlRequest = [request prepareRequestForSend:account];
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
+    
+    request = [restAPI requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[LID]];
+    urlRequest = [request prepareRequestForSend:account];
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
+    
+    request = [restAPI requestForFileContents:fileAttrs[LID] version:nil];
+    urlRequest = [request prepareRequestForSend:account];
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
+    
+}
+
 // Upload file / get details / delete file / get details again (expect 404)
 - (void)testUploadDetailsDeleteFile {
 
@@ -882,6 +989,26 @@ static NSException *authException = nil;
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
     XCTAssertEqual(listener.lastError.code, 404, @"invalid code");
+}
+
+- (void)testUploadDetailsDeleteFileWithCommunity {
+    // with nil for userId
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
+    creds.userId = @"USERID";
+    creds.organizationId = @"ORGID";
+    creds.communityId = @"COMMUNITYID";
+    creds.instanceUrl = [NSURL URLWithString:@"https://sample.domain"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    [account setLoginState:SFUserAccountLoginStateLoggedIn];
+    
+    NSDictionary *fileAttrs = [self uploadFile];
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
+    XCTAssertNotNil(restAPI,@"RestApi instance for this user must exist");
+    SFRestRequest *request =  [restAPI requestForFileDetails:fileAttrs[LID] forVersion:nil];;
+    XCTAssertNotNil(request,@"Request should have been created");
+    NSURLRequest *urlRequest = [request prepareRequestForSend:account];
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
+    
 }
 
 // Upload files / get batch details / delete files / get batch details again (expect 404)
@@ -928,6 +1055,51 @@ static NSException *authException = nil;
     XCTAssertEqual([listener.dataResponse[RESULTS][1][STATUS_CODE] intValue], 404, @"expected 404");
 }
 
+- (void)testUploadBatchDetailsDeleteFilesCommunity {
+    
+    // upload first file
+    NSDictionary *fileAttrs = [self uploadFile];
+    NSDictionary *fileAttrs2 = [self uploadFile];
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
+    creds.userId = @"USERID";
+    creds.organizationId = @"ORGID";
+    creds.communityId = @"COMMUNITYID";
+    creds.instanceUrl = [NSURL URLWithString:@"https://sample.domain"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    [account setLoginState:SFUserAccountLoginStateLoggedIn];
+    
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
+    XCTAssertNotNil(restAPI,@"RestApi instance for this user must exist");
+    SFRestRequest *request =  [restAPI  requestForBatchFileDetails:@[fileAttrs[LID], fileAttrs2[LID]]];
+    XCTAssertNotNil(request,@"Request should have been created");
+    NSURLRequest *urlRequest = [request prepareRequestForSend:account];
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
+    
+}
+
+- (void)testrequestForDeleteFileShareAndAddFileShareCommunity {
+    
+    // upload first file
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
+    creds.userId = @"USERID";
+    creds.organizationId = @"ORGID";
+    creds.communityId = @"COMMUNITYID";
+    creds.instanceUrl = [NSURL URLWithString:@"https://sample.domain"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    [account setLoginState:SFUserAccountLoginStateLoggedIn];
+    
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
+    XCTAssertNotNil(restAPI,@"RestApi instance for this user must exist");
+    SFRestRequest *request =  [restAPI  requestForDeleteFileShare:@"100"];
+    XCTAssertNotNil(request,@"Request should have been created");
+    NSURLRequest *urlRequest = [request prepareRequestForSend:account];
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
+    
+    request =  [restAPI  requestForFilesSharedWithUser:@"200" page:0];
+    urlRequest = [request prepareRequestForSend:account];
+    XCTAssertTrue([[[urlRequest URL] absoluteString] rangeOfString:@"/communities/COMMUNITYID/connect"].location >= 0, "The URL must have communities pasth");
+    
+}
 // Upload files / get owned files / delete files / get owned files again
 - (void)testUploadOwnedFilesDelete {
 
@@ -966,6 +1138,7 @@ static NSException *authException = nil;
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
+
 
 // Upload file / share file / get file shares and shared files / unshare file / get file shares and shared files / delete file
 - (void)testUploadShareFileSharesSharedFilesUnshareDelete {
@@ -1870,6 +2043,44 @@ static NSException *authException = nil;
     NSString *restUrl = [SFRestRequest restUrlForBaseUrl:nil serviceHostType:SFSDKRestServiceHostTypeInstance credentials:creds];
     XCTAssertEqualObjects(restUrl, instanceUrl.absoluteString, @"Instance URL should take precedence");
 }
+
+#pragma mark Unauthenticated CLient tests
+
+- (void)testRestApiGlobalInstance {
+    
+    SFRestAPI *sharedInstance  = [SFRestAPI sharedInstance];
+    SFRestAPI *globalInstance = [SFRestAPI sharedGlobalInstance];
+    XCTAssertNotNil(globalInstance, @"SFRestAPI should have a gloabl instance available");
+    
+    XCTAssertTrue(globalInstance != sharedInstance, @"SFRestAPI globalInstance and sharedInstance must be different");
+}
+
+
+- (void)testPublicApiCalls {
+     XCTestExpectation *getExpectation = [self expectationWithDescription:@"Get"];
+    __block NSError *error = nil;
+    __block NSDictionary *response = nil;
+    SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
+    request.requiresAuthentication = NO;
+    XCTAssertEqual(request.baseURL, @"https://api.github.com", @"Base URL should match");
+    
+    [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request failBlock:^(NSError *  e, NSURLResponse * rawResponse) {
+        error = e;
+        [getExpectation fulfill];
+        
+    } completeBlock:^(id  resp, NSURLResponse *  rawResponse) {
+        response = resp;
+        [getExpectation fulfill];
+    }];
+    [self waitForExpectations:@[getExpectation] timeout:20];
+    
+    XCTAssertFalse(response.count > 0 ,@"The reponse should have github/forcedotcom repos");
+    XCTAssertTrue(error == nil,@"RestApi call to a public api should not fail");
+    XCTAssertTrue(error == nil,@"RestApi call to a public api should not fail");
+    XCTAssertFalse(response == nil,@"RestApi call to a public api should not have a nil response");
+}
+
+
 
 - (SFOAuthCredentials *)getTestCredentialsWithDomain:(nonnull NSString *)domain
                                             instanceUrl:(nonnull NSURL *)instanceUrl

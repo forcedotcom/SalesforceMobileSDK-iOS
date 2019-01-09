@@ -39,6 +39,17 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
 } NS_SWIFT_NAME(RestRequest.Method);
 
 /**
+ * HTTP methods for requests.
+ */
+typedef NS_ENUM(NSInteger, SFNetworkServiceType) {
+    SFNetworkServiceTypeDefault = NSURLNetworkServiceTypeDefault,
+    SFNetworkServiceTypeResponsiveData = NSURLNetworkServiceTypeResponsiveData,
+    SFNetworkServiceTypeBackground = NSURLNetworkServiceTypeBackground,
+   
+} NS_SWIFT_NAME(RestRequest.ServiceType);
+
+
+/**
  * The type of service host to use for Rest requests.
  */
 typedef NS_ENUM(NSUInteger, SFSDKRestServiceHostType) {
@@ -51,7 +62,12 @@ typedef NS_ENUM(NSUInteger, SFSDKRestServiceHostType) {
     /**
      *  Request uses the instance endpoint.
      */
-    SFSDKRestServiceHostTypeInstance
+    SFSDKRestServiceHostTypeInstance,
+    
+    /**
+     *  Request uses a custom endpoint.
+     */
+    SFSDKRestServiceHostTypeCustom
 } NS_SWIFT_NAME(RestRequest.ServiceHostType);
 
 NS_ASSUME_NONNULL_BEGIN
@@ -141,6 +157,11 @@ NS_SWIFT_NAME(RestRequest)
  * The HTTP method of the request. See SFRestMethod.
  */
 @property (nonatomic, assign, readwrite) SFRestMethod method;
+
+/**
+ * The HTTP method of the request. See SFRestMethod.
+ */
+@property (nonatomic, assign, readwrite) SFNetworkServiceType serviceType;
 
 /**
  * The type of service host for the request (e.g. login or instance).
@@ -311,6 +332,8 @@ NS_SWIFT_NAME(RestRequest)
  * @param queryParams the parameters of the request (could be nil)
  */
 + (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
+
++ (instancetype)customUrlRequestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 @end
 

@@ -192,6 +192,11 @@ NSString *_Nullable SFKeyForUserAndScope(SFUserAccount * _Nullable user, SFUserA
  */
 NSString *_Nullable SFKeyForUserIdAndScope(NSString *userId,NSString *orgId, NSString *_Nullable communityId, SFUserAccountScope scope);
 
+/** Function that returns a key for scope SFUserAccountScopeGlobal,
+  @return a key identifying this scope for the specified scope
+ */
+NSString *SFKeyForGlobalScope();
+
 @end
 
 NS_ASSUME_NONNULL_END
