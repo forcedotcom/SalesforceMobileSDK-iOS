@@ -1,9 +1,9 @@
-#!/bin/bash
+!#!/bin/bash
 
 #set -x
 
 OPT_VERSION=""
-OPT_IS_DEV=""
+OPT_IS_DEV="no"
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
@@ -11,7 +11,9 @@ NC='\033[0m' # No Color
 usage ()
 {
     echo "Use this script to set Mobile SDK version number in source files"
-    echo "Usage: $0 -v <versionName e.g. 7.1.0> [-d <isDev e.g. yes>]"
+    echo "Usage: $0 -v <version> [-d <isDev>]"
+    echo "  where: version is the version e.g. 7.1.0"
+    echo "         isDev is yes or no (default) to indicate whether it is a dev build"
 }
 
 parse_opts ()
@@ -19,41 +21,17 @@ parse_opts ()
     while getopts v:d: command_line_opt
     do
         case ${command_line_opt} in
-            v)
-                OPT_VERSION=${OPTARG};;
-            d)
-                OPT_IS_DEV=${OPTARG};;
-            ?)
-                echo "Unknown option '-${OPTARG}'."
-                usage
-                exit 1;;
+            v)  OPT_VERSION=${OPTARG};;
+            d)  OPT_IS_DEV=${OPTARG};;
         esac
     done
 
     if [ "${OPT_VERSION}" == "" ]
     then
-        echo "You must specify a value for the version."
+        echo -e "${RED}You must specify a value for the version.${NC}"
         usage
         exit 1
     fi
-
-    valid_version_regex='^[0-9]+\.[0-9]+\.[0-9]+$'
-    if [[ "${OPT_VERSION}" =~ $valid_version_regex ]]
-     then
-         # No action
-            :
-     else
-        echo "${OPT_VERSION} is not a valid version name.  Should be in the format <integer.integer.interger>"
-        exit 2
-    fi
-
-    if [ "${OPT_IS_DEV}" == "yes" ]
-    then
-       OPT_IS_DEV=1
-    else
-       OPT_IS_DEV=0
-    fi
-
 }
 
 # Helper functions
@@ -71,6 +49,21 @@ update_podspec ()
     sed -i "s/s\.version.*=.*$/s.version      = \"${version}\"/g" ${file}
 }
 
+update_salesforce_sdk_constants ()
+{
+    local file=$1
+    local isDev=$2
+    local isProdBool="YES"
+
+    if [ $isDev == "yes" ]
+    then
+        isProdBool="NO"
+    fi
+
+    sed -i "s/\#define\ SALESFORCE_SDK_IS_PRODUCTION_VERSION\ .*/#define SALESFORCE_SDK_IS_PRODUCTION_VERSION ${isProdBool}/g" ${file}
+
+}
+
 parse_opts "$@"
 
 echo -e "${YELLOW}*** SETTING VERSION TO ${OPT_VERSION}, IS DEV = ${OPT_IS_DEV} ***${NC}"
@@ -85,4 +78,7 @@ update_podspec "./SalesforceSDKCore.podspec" "${OPT_VERSION}"
 update_podspec "./SmartStore.podspec" "${OPT_VERSION}"
 update_podspec "./SmartSync.podspec" "${OPT_VERSION}"
 
-echo -e "${RED}!!! You still need to update ./libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h !!!${NC}"
+echo "*** Updating SalesforceSDKConstants.h ***"
+update_salesforce_sdk_constants "./libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h" "${OPT_IS_DEV}"
+
+echo -e "${RED}!!! You still need to update SALESFORCE_SDK_VERSION_MIN_REQUIRED in ./libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h !!!${NC}"
