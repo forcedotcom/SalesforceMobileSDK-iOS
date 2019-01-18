@@ -182,13 +182,28 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 + (FMDatabase*) setKeyForDb:(FMDatabase*) db key:(NSString *)key error:(NSError **)error {
     [db setLogsErrors:YES];
     [db setCrashOnErrors:NO];
-    FMDatabase* unlockedDb = [self unlockDatabase:db key:key kdfIter:4000];
+    FMDatabase* unlockedDb = [self unlockDatabase:db key:key pragmas:@[@"PRAGMA cipher_default_kdf_iter = 4000"]];
     
+    if (!unlockedDb) {
+        // You muast have created your database with SDK 7.0 or older
+        // And therefore you are using sqlcipher 3.x which uses different page size / kdf iter / hmac algo / kdf algo
+        unlockedDb = [self unlockDatabase:db key:key pragmas:@[@"PRAGMA cipher_default_page_size = 1024",
+                                                               @"PRAGMA cipher_default_kdf_iter = 4000",
+                                                               @"PRAGMA cipher_default_hmac_algorithm = HMAC_SHA1",
+                                                               @"PRAGMA cipher_default_kdf_algorithm = PBKDF2_HMAC_SHA1" ]];
+        
+    }
+        
     if (!unlockedDb) {
         // You must be have created your database with SDK 3.2 or 3.1 and cocoapods
         // And therefore you are using sqlcipher 3.1 with 64000 iterations
-        unlockedDb = [self unlockDatabase:db key:key kdfIter:64000];
+        unlockedDb = [self unlockDatabase:db key:key pragmas:@[@"PRAGMA cipher_default_page_size = 1024",
+                                                               @"PRAGMA cipher_default_kdf_iter = 64000",
+                                                               @"PRAGMA cipher_default_hmac_algorithm = HMAC_SHA1",
+                                                               @"PRAGMA cipher_default_kdf_algorithm = PBKDF2_HMAC_SHA1" ]];
     }
+    
+    
     if (!unlockedDb) {
         [SFSDKSmartStoreLogger d:[self class] format:@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]];
         if (error != nil)
@@ -198,10 +213,12 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return unlockedDb;
 }
 
-+ (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key kdfIter:(int)kdfIter {
++ (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key pragmas:(NSArray<NSString*>*)pragmas {
     if ([db open]) {
-        NSString* pragmaQuery = [NSString stringWithFormat:@"PRAGMA cipher_default_kdf_iter = '%d'", kdfIter];
-        [[db executeQuery:pragmaQuery] close];
+        for (NSString* pragma in pragmas) {
+            [[db executeQuery:pragma] close];
+        }
+        
         if(key) {
             [db setKey:key];
         }
