@@ -182,27 +182,8 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 + (FMDatabase*) setKeyForDb:(FMDatabase*) db key:(NSString *)key error:(NSError **)error {
     [db setLogsErrors:YES];
     [db setCrashOnErrors:NO];
-    FMDatabase* unlockedDb = [self unlockDatabase:db key:key pragmas:@[@"PRAGMA cipher_default_kdf_iter = 4000"]];
     
-    if (!unlockedDb) {
-        // You muast have created your database with SDK 7.0 or older
-        // And therefore you are using sqlcipher 3.x which uses different page size / kdf iter / hmac algo / kdf algo
-        unlockedDb = [self unlockDatabase:db key:key pragmas:@[@"PRAGMA cipher_default_page_size = 1024",
-                                                               @"PRAGMA cipher_default_kdf_iter = 4000",
-                                                               @"PRAGMA cipher_default_hmac_algorithm = HMAC_SHA1",
-                                                               @"PRAGMA cipher_default_kdf_algorithm = PBKDF2_HMAC_SHA1" ]];
-        
-    }
-        
-    if (!unlockedDb) {
-        // You must be have created your database with SDK 3.2 or 3.1 and cocoapods
-        // And therefore you are using sqlcipher 3.1 with 64000 iterations
-        unlockedDb = [self unlockDatabase:db key:key pragmas:@[@"PRAGMA cipher_default_page_size = 1024",
-                                                               @"PRAGMA cipher_default_kdf_iter = 64000",
-                                                               @"PRAGMA cipher_default_hmac_algorithm = HMAC_SHA1",
-                                                               @"PRAGMA cipher_default_kdf_algorithm = PBKDF2_HMAC_SHA1" ]];
-    }
-    
+    FMDatabase* unlockedDb = [self unlockDatabase:db key:key];
     
     if (!unlockedDb) {
         [SFSDKSmartStoreLogger d:[self class] format:@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]];
@@ -213,12 +194,15 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return unlockedDb;
 }
 
-+ (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key pragmas:(NSArray<NSString*>*)pragmas {
++ (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key {
     if ([db open]) {
-        for (NSString* pragma in pragmas) {
-            [[db executeQuery:pragma] close];
-        }
-        
+        // Using sqlcipher 3.x default settings
+        // => should open 3.x databases without any migration
+        [[db executeQuery:@"PRAGMA cipher_default_compatibility = 3"] close];
+        // Using sqlcipher 2.x kdf iter because 3.x default (64000) and 4.x default (256000) are too slow
+        // => should open 2.x databases without any migration
+        [[db executeQuery:@"PRAGMA cipher_default_kdf_iter = 4000"] close];
+
         if(key) {
             [db setKey:key];
         }
