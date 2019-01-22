@@ -171,6 +171,10 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     }
     self.request = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:fullUrl]];
 
+    //Set the service host type
+    NSURLRequestNetworkServiceType serviceType = [self urlRequestServiceType:self.serviceType];
+    [self.request setNetworkServiceType:serviceType];
+    
     // Sets HTTP method on the request.
     [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
 
@@ -340,6 +344,17 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         [queryString appendString:[parts componentsJoinedByString:@"&"]];
     }
     return queryString;
+}
+
+- (NSURLRequestNetworkServiceType)urlRequestServiceType:(SFNetworkServiceType) sfNetworkServiceType {
+    switch (sfNetworkServiceType) {
+        case SFNetworkServiceTypeBackground:
+            return NSURLNetworkServiceTypeBackground;
+        case SFNetworkServiceTypeResponsiveData:
+            return NSURLNetworkServiceTypeResponsiveData;
+         default:
+            return NSURLNetworkServiceTypeDefault;
+    }
 }
 
 @end

@@ -42,11 +42,11 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
  * HTTP methods for requests.
  */
 typedef NS_ENUM(NSInteger, SFNetworkServiceType) {
-    SFNetworkServiceTypeDefault = NSURLNetworkServiceTypeDefault,
-    SFNetworkServiceTypeResponsiveData = NSURLNetworkServiceTypeResponsiveData,
-    SFNetworkServiceTypeBackground = NSURLNetworkServiceTypeBackground,
+    SFNetworkServiceTypeDefault,
+    SFNetworkServiceTypeResponsiveData,
+    SFNetworkServiceTypeBackground,
    
-} NS_SWIFT_NAME(RestRequest.ServiceType);
+} NS_SWIFT_NAME(RestRequest.NetWorkServiceType);
 
 
 /**
