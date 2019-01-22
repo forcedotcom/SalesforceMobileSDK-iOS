@@ -2029,6 +2029,23 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(restUrl, instanceUrl.absoluteString, @"Instance URL should take precedence");
 }
 
+- (void)testRestUrlForNetworkServiceType {
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET baseURL:@"http://www.apple.com" path:@"/test/testing" queryParams:nil];
+    
+    request.networkServiceType = SFNetworkServiceTypeDefault;
+    NSURLRequest *finalRequest = [request prepareRequestForSend:_currentUser];
+    XCTAssertTrue(finalRequest.networkServiceType == NSURLNetworkServiceTypeDefault,  @"Network Service Type should have been set to NSURLNetworkServiceTypeDefault");
+    
+    request.networkServiceType = SFNetworkServiceTypeResponsiveData;
+    finalRequest = [request prepareRequestForSend:_currentUser];
+    
+    XCTAssertTrue(finalRequest.networkServiceType == NSURLNetworkServiceTypeResponsiveData,  @"Network Service Type should have been set to NSURLNetworkServiceTypeResponsiveData");
+   
+    request.networkServiceType = SFNetworkServiceTypeBackground;
+    finalRequest = [request prepareRequestForSend:_currentUser];
+    XCTAssertTrue(finalRequest.networkServiceType == NSURLNetworkServiceTypeBackground,  @"Network Service Type should have been set to NSURLNetworkServiceTypeBackground");
+}
+
 #pragma mark Unauthenticated CLient tests
 
 - (void)testRestApiGlobalInstance {

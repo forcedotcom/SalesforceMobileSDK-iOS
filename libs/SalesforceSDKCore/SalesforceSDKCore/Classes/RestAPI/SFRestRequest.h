@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
 /**
  * HTTP methods for requests.
  */
-typedef NS_ENUM(NSInteger, SFNetworkServiceType) {
+typedef NS_ENUM(NSInteger, SFSDKNetworkServiceType) {
     SFNetworkServiceTypeDefault,
     SFNetworkServiceTypeResponsiveData,
     SFNetworkServiceTypeBackground,
@@ -161,7 +161,7 @@ NS_SWIFT_NAME(RestRequest)
 /**
  * The HTTP method of the request. See SFRestMethod.
  */
-@property (nonatomic, assign, readwrite) SFNetworkServiceType serviceType;
+@property (nonatomic, assign, readwrite) SFSDKNetworkServiceType networkServiceType;
 
 /**
  * The type of service host for the request (e.g. login or instance).
