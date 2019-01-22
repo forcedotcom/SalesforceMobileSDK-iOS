@@ -1085,34 +1085,6 @@ static NSException *authException = nil;
     XCTAssertTrue(range.location!= NSNotFound && range.length > 0 , "The URL must have communities path");
     
 }
-
-- (void)testrequestForDeleteFileShareAndAddFileShareCommunity {
-    
-    // upload first file
-    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
-    creds.userId = @"USERID";
-    creds.organizationId = @"ORGID";
-    creds.communityId = @"COMMUNITYID";
-    creds.instanceUrl = [NSURL URLWithString:@"https://sample.domain"];
-    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
-    account.communityId = @"COMMUNITYID";
-    [account setLoginState:SFUserAccountLoginStateLoggedIn];
-    
-    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
-    XCTAssertNotNil(restAPI,@"RestApi instance for this user must exist");
-    SFRestRequest *request =  [restAPI  requestForDeleteFileShare:@"100"];
-    XCTAssertNotNil(request,@"Request should have been created");
-    NSURLRequest *urlRequest = [request prepareRequestForSend:account];
-    NSRange range = [[[urlRequest URL] absoluteString] rangeOfString:@"connect/communities/COMMUNITYID/"];
-    XCTAssertTrue(range.location!= NSNotFound && range.length > 0 , "The URL must have communities path");
-   
-    
-    request =  [restAPI  requestForFilesSharedWithUser:@"200" page:0];
-    urlRequest = [request prepareRequestForSend:account];
-    range = [[[urlRequest URL] absoluteString] rangeOfString:@"connect/communities/COMMUNITYID/"];
-    XCTAssertTrue(range.location!= NSNotFound && range.length > 0 , "The URL must have communities path");
-    
-}
 // Upload files / get owned files / delete files / get owned files again
 - (void)testUploadOwnedFilesDelete {
 
@@ -2086,7 +2058,6 @@ static NSException *authException = nil;
         [getExpectation fulfill];
     }];
     [self waitForExpectations:@[getExpectation] timeout:20];
-    XCTAssertTrue(error == nil,@"RestApi call to a public api should not fail");
     XCTAssertTrue(error == nil,@"RestApi call to a public api should not fail");
     XCTAssertFalse(response == nil,@"RestApi call to a public api should not have a nil response");
     XCTAssertTrue(response.count > 0 ,@"The reponse should have github/forcedotcom repos");
