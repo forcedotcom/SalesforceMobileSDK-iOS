@@ -209,7 +209,7 @@ static dispatch_once_t pred;
 #pragma mark - send method
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-    [self send:request delegate:delegate shouldRetry:YES];
+    [self send:request delegate:delegate shouldRetry:request.requiresAuthentication];
 }
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
@@ -289,7 +289,7 @@ static dispatch_once_t pred;
                 [strongSelf notifyDelegateOfResponse:delegate request:request data:dataForDelegate rawResponse:response];
             }
             // 401 (and sometimes 403) indicates refresh is required.
-            else if (request.requiresAuthentication && request.shouldRefreshOn403 ? (statusCode == 401 || statusCode == 403) : (statusCode == 401)) {
+            else if (request.shouldRefreshOn403 ? (statusCode == 401 || statusCode == 403) : (statusCode == 401)) {
                 if (shouldRetry) {
                     [strongSelf replayRequest:request response:response delegate:delegate];
                 } else {
