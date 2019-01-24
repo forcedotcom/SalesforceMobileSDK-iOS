@@ -30,6 +30,12 @@
 NS_SWIFT_NAME(AuthHelper)
 @interface SFSDKAuthHelper : NSObject
 
+/**
+ Do a login flow if user is not already logged in and app config's shouldAuthenticate is false
+ 
+ @param completionBlock Block is executed right away if user was already logged in (or app config's shouldAuthenticate is false)
+                        Block is executed following successfull login if a login was required
+ */
 + (void)loginIfRequired:(void (^)(void))completionBlock;
 
 + (void)handleLogout:(void (^)(void))completionBlock;
