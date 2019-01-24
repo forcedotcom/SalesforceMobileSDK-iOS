@@ -25,6 +25,8 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "SalesforceSDKManager.h"
+#import "SFSDKAppConfig.h"
 #import "SFSDKAuthHelper.h"
 #import "SFUserAccountManager.h"
 #import "SFSDKWindowManager.h"
@@ -34,7 +36,7 @@
 @implementation SFSDKAuthHelper
 
 + (void)loginIfRequired:(void (^)(void))completionBlock {
-    if (![SFUserAccountManager sharedInstance].currentUser) {
+    if (![SFUserAccountManager sharedInstance].currentUser && [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate) {
         SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
            [SFUserAccountManager sharedInstance].currentUser = userAccount;
            completionBlock();
