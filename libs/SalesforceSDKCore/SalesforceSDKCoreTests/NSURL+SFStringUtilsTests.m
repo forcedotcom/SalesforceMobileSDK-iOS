@@ -101,7 +101,7 @@
     XCTAssertEqualObjects(@"http://test.salesforce.com", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com"] pathComponents:nil], @"Invalid URL string");
     XCTAssertEqualObjects(@"http://test.salesforce.com:8080", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080"] pathComponents:nil], @"Invalid URL string");
     XCTAssertEqualObjects(@"http://test.salesforce.com:8080/customers", [NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:nil], @"Invalid URL string");
-    XCTAssertEqualObjects(@"http://test.salesforce.com:8080/customers/service/data/v42.0", ([NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:@[@"service/data", @"v42.0"]]), @"Invalid URL string");
+    XCTAssertEqualObjects(@"http://test.salesforce.com:8080/customers/service/data/v44.0", ([NSURL stringUrlWithBaseUrl:[NSURL URLWithString:@"http://test.salesforce.com:8080/customers"] pathComponents:@[@"service/data", @"v44.0"]]), @"Invalid URL string");
 }
 
 - (void)testStringUrlWithComponents
@@ -113,8 +113,8 @@
     XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers"]], @"Invalid URL string");
     XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"customers/"]], @"Invalid URL string");
     XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/", [NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/"]], @"Invalid URL string");
-    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v42.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers", @"service/data/v42.0/", @"settings"]]), @"Invalid URL string");
-    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v42.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/", @"/service/data/v42.0/", @"/settings"]]), @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v44.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers", @"service/data/v44.0/", @"settings"]]), @"Invalid URL string");
+    XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v44.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/", @"/service/data/v44.0/", @"/settings"]]), @"Invalid URL string");
 }
 
 - (void)testStringURLWithNil
