@@ -334,13 +334,22 @@ NS_SWIFT_NAME(RestRequest)
 + (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 /**
- * Creates an `SFRestRequest` object to be used with a custom endpoint. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
+ * Creates an `SFRestRequest` object to be used with non-Salesforce endpoints. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
  * @param method the HTTP method
  * @param baseURL the request URL
  * @param path the request path
  * @param queryParams the parameters of the request (could be nil)
  */
 + (instancetype)customUrlRequestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
+
+/**
+ * Creates an `SFRestRequest` object to be used with custom Salesforce endpoints. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
+ * @param method the HTTP method
+ * @param path the request path
+ * @param queryParams the parameters of the request (could be nil)
+ */
+
++ (instancetype)customEndPointRequestWithMethod:(SFRestMethod)method endPoint:(NSString *)endPoint path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 @end
 

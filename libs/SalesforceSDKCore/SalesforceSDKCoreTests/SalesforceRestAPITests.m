@@ -2053,17 +2053,14 @@ static NSException *authException = nil;
     SFRestAPI *sharedInstance  = [SFRestAPI sharedInstance];
     SFRestAPI *globalInstance = [SFRestAPI sharedGlobalInstance];
     XCTAssertNotNil(globalInstance, @"SFRestAPI should have a gloabl instance available");
-    
     XCTAssertTrue(globalInstance != sharedInstance, @"SFRestAPI globalInstance and sharedInstance must be different");
 }
-
 
 - (void)testPublicApiCalls {
      XCTestExpectation *getExpectation = [self expectationWithDescription:@"Get"];
     __block NSError *error = nil;
     __block NSDictionary *response = nil;
     SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
-    request.requiresAuthentication = NO;
     XCTAssertEqual(request.baseURL, @"https://api.github.com", @"Base URL should match");
     
     [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request failBlock:^(NSError *  e, NSURLResponse * rawResponse) {
@@ -2080,7 +2077,29 @@ static NSException *authException = nil;
     XCTAssertTrue(response.count > 0 ,@"The reponse should have github/forcedotcom repos");
 }
 
+- (void)testCustomSalesforceEndpoint {
+    
+    NSString *endpoint = @"/custom/endpoint";
+    NSString *path = @"/custom/endpoint";
+    SFRestRequest *request =  [SFRestRequest customEndPointRequestWithMethod:SFRestMethodGET endPoint:endpoint path:path queryParams:nil];
+    NSURLRequest *urlRequest = [request prepareRequestForSend:[SFUserAccountManager sharedInstance].currentUser];
+    XCTAssertNotNil(urlRequest, @"UrlRequest URL should not be nil");
+    NSRange range = [[[urlRequest URL] absoluteString] rangeOfString:endpoint];
+    XCTAssertTrue(range.location!= NSNotFound && range.length > 0 , "The URL must have custom endpoint path");
+    range = [[[urlRequest URL] absoluteString] rangeOfString:path];
+    XCTAssertTrue(range.location!= NSNotFound && range.length > 0 , "The URL must have custom path");
+}
 
+/* NOTE: For backward compatibility purposes we allow for fullUrl in the Path component of SFRestRequest. This test should be removed once the handling of fullUrl in Path is removed.
+ */
+- (void)testSalesforceFullUrlPath {
+    NSString *fullPathURL = @"https://some.custom.url/A/B/C";
+    SFRestRequest *request =  [SFRestRequest requestWithMethod:SFRestMethodGET path:fullPathURL  queryParams:nil];
+    NSURLRequest *urlRequest = [request prepareRequestForSend:[SFUserAccountManager sharedInstance].currentUser];
+    XCTAssertNotNil(urlRequest, @"UrlRequest URL should not be nil");
+    NSRange range = [[[urlRequest URL] absoluteString] rangeOfString:fullPathURL];
+    XCTAssertTrue(range.location == 0 && range.length > 0 , "The URL must match the setting of full URL in path");
+}
 
 - (SFOAuthCredentials *)getTestCredentialsWithDomain:(nonnull NSString *)domain
                                             instanceUrl:(nonnull NSURL *)instanceUrl
