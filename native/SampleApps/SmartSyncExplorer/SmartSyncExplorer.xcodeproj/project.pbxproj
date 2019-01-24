@@ -19,7 +19,6 @@
 		4F1DA6D61C84FF3D0014FAD3 /* TestCaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6CC1C84FF3D0014FAD3 /* TestCaseManager.swift */; };
 		4F1DA6DA1C8799810014FAD3 /* SearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6D91C8799810014FAD3 /* SearchScreen.swift */; };
 		4F1DA6DC1C879D800014FAD3 /* DetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6DB1C879D800014FAD3 /* DetailScreen.swift */; };
-		4F60B2291B9A2C2900923174 /* WYPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F60B2281B9A2C2900923174 /* WYPopoverController.m */; };
 		4F941E951F8C43370035EB03 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F941E941F8C43370035EB03 /* userstore.json */; };
 		4F941E961F8C43370035EB03 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F941E941F8C43370035EB03 /* userstore.json */; };
 		4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */; };
@@ -1180,7 +1179,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7BAD7341FBB7DC30046629F /* IDPLoginViewController.m in Sources */,
-				4F60B2291B9A2C2900923174 /* WYPopoverController.m in Sources */,
 				B7BAD7361FBB7DC30046629F /* IDPLoginNavViewController.m in Sources */,
 				820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */,
 				820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */,
