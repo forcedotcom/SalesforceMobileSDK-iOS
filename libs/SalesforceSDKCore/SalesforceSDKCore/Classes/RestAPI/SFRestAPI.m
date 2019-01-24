@@ -101,13 +101,30 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 }
 
 #pragma mark - singleton
+static dispatch_once_t pred;
+
++ (SFRestAPI *)sharedGlobalInstance {
+    dispatch_once(&pred, ^{
+        sfRestApiList = [[SFSDKSafeMutableDictionary alloc] init];
+    });
+    
+    @synchronized ([SFRestAPI class]) {
+        NSString *key = SFKeyForGlobalScope();
+        id sfRestApi = [sfRestApiList objectForKey:key];
+        if (!sfRestApi) {
+            sfRestApi = [[SFRestAPI alloc] initWithUser:nil];
+            [sfRestApiList setObject:sfRestApi forKey:key];
+        }
+        return sfRestApi;
+   }
+}
 
 + (SFRestAPI *)sharedInstance {
     return [SFRestAPI sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
 }
 
 + (SFRestAPI *)sharedInstanceWithUser:(SFUserAccount *)user {
-    static dispatch_once_t pred;
+    
     dispatch_once(&pred, ^{
         sfRestApiList = [[SFSDKSafeMutableDictionary alloc] init];
     });
@@ -192,7 +209,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 #pragma mark - send method
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-    [self send:request delegate:delegate shouldRetry:YES];
+    [self send:request delegate:delegate shouldRetry:request.requiresAuthentication];
 }
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {

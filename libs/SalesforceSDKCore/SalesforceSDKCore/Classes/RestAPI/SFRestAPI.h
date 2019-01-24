@@ -153,6 +153,11 @@ NS_SWIFT_NAME(RestClient)
 @property (class, nonatomic, readonly) SFRestAPI *sharedInstance NS_SWIFT_NAME(shared);
 
 /**
+ * Returns the singleton instance of `SFRestAPI` for unauthenticated calls.
+ */
+@property (class, nonatomic, readonly) SFRestAPI *sharedGlobalInstance NS_SWIFT_NAME(sharedGlobal);
+
+/**
  * Returns the singleton instance of `SFRestAPI` associated with the specified user.
  */
 + (nullable SFRestAPI *)sharedInstanceWithUser:(nonnull SFUserAccount *)userAccount NS_SWIFT_NAME(restClient(for:));
