@@ -38,6 +38,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.serviceHostType = hostType;
         self.baseURL = baseURL;
         self.path = path;
+        self.requiresAuthentication = YES;
         self.queryParams = [queryParams mutableCopy];
         self.endpoint = (hostType == SFSDKRestServiceHostTypeCustom)?@"":kSFDefaultRestEndpoint;
         self.parseResponse = YES;
@@ -57,6 +58,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 + (instancetype)customUrlRequestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
     SFRestRequest *request = [[self alloc] initWithMethod:method  serviceHostType:SFSDKRestServiceHostTypeCustom baseURL:baseURL path:path queryParams:queryParams];
+    request.requiresAuthentication = NO;
     return request;
 }
 
@@ -194,7 +196,8 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
 
         // Sets OAuth Bearer token header on the request (if not already present).
-        if (user && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
+        // Allows Authenticated clients to make api calls that dont require access token.
+        if (self.requiresAuthentication && user && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
             NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
             [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
         }

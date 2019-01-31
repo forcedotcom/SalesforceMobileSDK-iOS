@@ -149,6 +149,13 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+- (void)testGetVersionsUnAuthenticated {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
+    request.requiresAuthentication = NO;
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"Unauthenticated request failed");
+}
+
 - (void)testGetVersion_SetDelegate {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];

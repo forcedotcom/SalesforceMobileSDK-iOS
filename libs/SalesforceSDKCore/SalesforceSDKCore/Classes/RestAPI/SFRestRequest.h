@@ -220,7 +220,7 @@ NS_SWIFT_NAME(RestRequest)
  * Whether or not this request requires authentication.  If YES, the credentials will be added to
  * the request headers before sending the request.  If NO, they will not.
  */
-@property (nonatomic, assign) BOOL requiresAuthentication SFSDK_DEPRECATED(7.1, 8.0, "Use SFRestAPI:sharedGlobalInstance for unauthenticated calls or SFRestAPI:sharedInstance for authenticated calls");
+@property (nonatomic, assign) BOOL requiresAuthentication;
 ;
 
 /**

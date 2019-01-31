@@ -210,7 +210,7 @@ static dispatch_once_t pred;
 #pragma mark - send method
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-    [self send:request delegate:delegate shouldRetry:self.requiresAuthentication];
+    [self send:request delegate:delegate shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
 }
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
@@ -218,10 +218,9 @@ static dispatch_once_t pred;
         request.delegate = delegate;
     }
     
-    SFSDK_USE_DEPRECATED_BEGIN
-        NSAssert(!request.requiresAuthentication, @"Use SFRestAPI, sharedGlobalInstance for unauthenticated requests or sharedInstance for authenticated requests");
-    SFSDK_USE_DEPRECATED_END
-    
+    if (!self.requiresAuthentication) {
+         NSAssert(!request.requiresAuthentication , @"Use SFRestAPI sharedInstance for authenticated requests");
+    }
     // Adds this request to the list of active requests if it's not already on the list.
     [self.activeRequests addObject:request];
     __weak __typeof(self) weakSelf = self;
