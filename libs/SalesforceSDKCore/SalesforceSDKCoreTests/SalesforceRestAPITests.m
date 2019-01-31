@@ -195,8 +195,7 @@ static NSException *authException = nil;
     RestApiAssertionCheckHandler *assertionHandler = [[RestApiAssertionCheckHandler alloc] initWithExpectation:assertExpectation];
     [[[NSThread currentThread] threadDictionary] setValue:assertionHandler
                                                    forKey:NSAssertionHandlerKey];
-    SFRestRequest* request = [[SFRestAPI sharedGlobalInstance] requestForVersions];
-    request.requiresAuthentication = YES;
+    SFRestRequest* request = [[SFRestAPI sharedGlobalInstance] requestForResources];
     @try {
         [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *  rawResponse) {
             
