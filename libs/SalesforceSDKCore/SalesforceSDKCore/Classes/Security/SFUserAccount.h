@@ -115,7 +115,7 @@ NS_SWIFT_NAME(UserAccount)
 
 /** The list of communities (as SFCommunityData item)
  */
-@property (nonatomic, copy, nullable) NSArray<SFCommunityData *> *communities;
+@property (atomic, copy, nullable) NSArray<SFCommunityData *> *communities;
 
 /** Returns YES if the user has an access token and, presumably,
  a valid session.
