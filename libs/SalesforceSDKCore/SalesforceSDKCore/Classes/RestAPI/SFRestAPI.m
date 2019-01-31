@@ -414,9 +414,7 @@ static dispatch_once_t pred;
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
-            if (self.requiresAuthentication) {
-                [self send:request delegate:request.delegate shouldRetry:NO];
-            }
+           [self send:request delegate:request.delegate shouldRetry:NO];
         }
         self.pendingRequestsBeingProcessed = NO;
     }
@@ -473,6 +471,7 @@ static dispatch_once_t pred;
 - (SFRestRequest *)requestForVersions {
     NSString *path = @"/";
     SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+    request.requiresAuthentication = NO;
     return request;
 }
 

@@ -63,6 +63,41 @@ static NSException *authException = nil;
 
  @class exception;
 
+@interface RestApiAssertionCheckHandler : NSAssertionHandler
+@property (assign) BOOL assertionRaised;
+@property (strong,nonatomic,readonly) XCTestExpectation *expectation;
+- (instancetype)initWithExpectation:(XCTestExpectation *) expectation;
+@end
+
+@implementation RestApiAssertionCheckHandler
+
+- (instancetype)initWithExpectation:(XCTestExpectation *)expectation {
+    self = [super init];
+    if (self) {
+        _expectation = expectation;
+    }
+    return self;
+}
+
+- (void)handleFailureInMethod:(SEL)selector
+                       object:(id)object
+                         file:(NSString *)fileName
+                   lineNumber:(NSInteger)line
+                  description:(NSString *)format, ...
+{    
+    [self.expectation fulfill];
+}
+
+- (void)handleFailureInFunction:(NSString *)functionName
+                           file:(NSString *)fileName
+                     lineNumber:(NSInteger)line
+                    description:(NSString *)format, ...
+{
+    [self.expectation fulfill];
+}
+
+@end
+
  @implementation SalesforceRestAPITests
 
 + (void)setUp
@@ -92,6 +127,7 @@ static NSException *authException = nil;
 {
     // Tear-down code here.
     [self cleanup];
+    [[SFRestAPI sharedGlobalInstance] cleanup];
     [[SFRestAPI sharedInstance] cleanup];
     [NSThread sleepForTimeInterval:0.1];  // Some test runs were failing, saying the run didn't complete.  This seems to fix that.
     [super tearDown];
@@ -129,9 +165,13 @@ static NSException *authException = nil;
     return [NSString stringWithFormat:@"%@%f", ENTITY_PREFIX_NAME, timecode];
 }
 
-- (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request {
+- (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request{
+    return [self sendSyncRequest:request usingInstance:[SFRestAPI sharedInstance]];
+}
+
+- (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request usingInstance:(SFRestAPI *) instance {
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [[SFRestAPI sharedInstance] send:request delegate:listener];
+    [instance send:request delegate:listener];
     [listener waitForCompletion];
     return listener;
 }
@@ -149,11 +189,28 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
-- (void)testGetVersionsUnAuthenticated {
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
-    request.requiresAuthentication = NO;
-    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"Unauthenticated request failed");
+// Using an unauthenticated client to make authenicated requests should result in an assertin failure.
+- (void)testAssertionForUnauthenticatedClient {
+    XCTestExpectation *assertExpectation = [[XCTestExpectation alloc] initWithDescription:@"Assert Expectation"];
+    RestApiAssertionCheckHandler *assertionHandler = [[RestApiAssertionCheckHandler alloc] initWithExpectation:assertExpectation];
+    [[[NSThread currentThread] threadDictionary] setValue:assertionHandler
+                                                   forKey:NSAssertionHandlerKey];
+    SFRestRequest* request = [[SFRestAPI sharedGlobalInstance] requestForVersions];
+    request.requiresAuthentication = YES;
+    @try {
+        [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *  rawResponse) {
+            
+        } completeBlock:^(id response, NSURLResponse *rawResponse) {
+            
+        }];
+    }
+    @catch(NSException *ignored) {
+        
+    }
+    [self waitForExpectations:@[assertExpectation] timeout:30];
+    [[[NSThread currentThread] threadDictionary] setValue:nil
+                                                   forKey:NSAssertionHandlerKey];
+   
 }
 
 - (void)testGetVersion_SetDelegate {
