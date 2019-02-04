@@ -63,6 +63,41 @@ static NSException *authException = nil;
 
  @class exception;
 
+@interface RestApiAssertionCheckHandler : NSAssertionHandler
+@property (assign) BOOL assertionRaised;
+@property (strong,nonatomic,readonly) XCTestExpectation *expectation;
+- (instancetype)initWithExpectation:(XCTestExpectation *) expectation;
+@end
+
+@implementation RestApiAssertionCheckHandler
+
+- (instancetype)initWithExpectation:(XCTestExpectation *)expectation {
+    self = [super init];
+    if (self) {
+        _expectation = expectation;
+    }
+    return self;
+}
+
+- (void)handleFailureInMethod:(SEL)selector
+                       object:(id)object
+                         file:(NSString *)fileName
+                   lineNumber:(NSInteger)line
+                  description:(NSString *)format, ...
+{    
+    [self.expectation fulfill];
+}
+
+- (void)handleFailureInFunction:(NSString *)functionName
+                           file:(NSString *)fileName
+                     lineNumber:(NSInteger)line
+                    description:(NSString *)format, ...
+{
+    [self.expectation fulfill];
+}
+
+@end
+
  @implementation SalesforceRestAPITests
 
 + (void)setUp
@@ -92,6 +127,7 @@ static NSException *authException = nil;
 {
     // Tear-down code here.
     [self cleanup];
+    [[SFRestAPI sharedGlobalInstance] cleanup];
     [[SFRestAPI sharedInstance] cleanup];
     [NSThread sleepForTimeInterval:0.1];  // Some test runs were failing, saying the run didn't complete.  This seems to fix that.
     [super tearDown];
@@ -129,9 +165,13 @@ static NSException *authException = nil;
     return [NSString stringWithFormat:@"%@%f", ENTITY_PREFIX_NAME, timecode];
 }
 
-- (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request {
+- (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request{
+    return [self sendSyncRequest:request usingInstance:[SFRestAPI sharedInstance]];
+}
+
+- (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request usingInstance:(SFRestAPI *) instance {
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [[SFRestAPI sharedInstance] send:request delegate:listener];
+    [instance send:request delegate:listener];
     [listener waitForCompletion];
     return listener;
 }
@@ -147,6 +187,29 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// Using an unauthenticated client to make authenicated requests should result in an assertin failure.
+- (void)testAssertionForUnauthenticatedClient {
+    XCTestExpectation *assertExpectation = [[XCTestExpectation alloc] initWithDescription:@"Assert Expectation"];
+    RestApiAssertionCheckHandler *assertionHandler = [[RestApiAssertionCheckHandler alloc] initWithExpectation:assertExpectation];
+    [[[NSThread currentThread] threadDictionary] setValue:assertionHandler
+                                                   forKey:NSAssertionHandlerKey];
+    SFRestRequest* request = [[SFRestAPI sharedGlobalInstance] requestForResources];
+    @try {
+        [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *  rawResponse) {
+            
+        } completeBlock:^(id response, NSURLResponse *rawResponse) {
+            
+        }];
+    }
+    @catch(NSException *ignored) {
+        
+    }
+    [self waitForExpectations:@[assertExpectation] timeout:30];
+    [[[NSThread currentThread] threadDictionary] setValue:nil
+                                                   forKey:NSAssertionHandlerKey];
+   
 }
 
 - (void)testGetVersion_SetDelegate {
@@ -1452,62 +1515,6 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidLoad, @"request3 failed");
     XCTAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
     
-    // let's make sure we have a new access token
-    NSString *newAccessToken = _currentUser.credentials.accessToken;
-    XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
-}
-
-// - set an invalid access token (simulate expired)
-// - make multiple simultaneous requests (some not requiring authentication)
-// - requests not requiring authentication should succeed and only be sent once
-// - other requests will fail in some arbitrary order
-// - ensure that a new access token is retrieved using refresh token
-// - ensure that all requests eventually succeed
-//
--(void)testInvalidAccessToken_UnAuthAndAuthRequests {
-    
-    // save invalid token
-    NSString *invalidAccessToken = @"xyz";
-    [self changeOauthTokens:invalidAccessToken refreshToken:nil];
-
-    // create requests (some that require authentications and some that don't)
-    SFRestRequest* unauthenticatedRequest1 = [[SFRestAPI sharedInstance] requestForVersions];
-    SFRestRequest* unauthenticatedRequest2 = [[SFRestAPI sharedInstance] requestForVersions];
-    SFRestRequest* authenticatedRequest1 = [[SFRestAPI sharedInstance] requestForUserInfo];
-    SFRestRequest* authenticatedRequest2 = [[SFRestAPI sharedInstance] requestForUserInfo];
-
-    SFNativeRestRequestListener* unauthenticatedListener1 = [[SFNativeRestRequestListener alloc] initWithRequest:unauthenticatedRequest1];
-    unauthenticatedListener1.sleepDuringLoad = 0.5;
-    SFNativeRestRequestListener* unauthenticatedListener2 = [[SFNativeRestRequestListener alloc] initWithRequest:unauthenticatedRequest2];
-    unauthenticatedListener2.sleepDuringLoad = 0.5;
-    SFNativeRestRequestListener* authenticatedListener1 = [[SFNativeRestRequestListener alloc] initWithRequest:authenticatedRequest1];
-    SFNativeRestRequestListener* authenticatedListener2 = [[SFNativeRestRequestListener alloc] initWithRequest:authenticatedRequest2];
-    
-    NSArray<SFNativeRestRequestListener*>* listeners = @[unauthenticatedListener1, authenticatedListener1, unauthenticatedListener2, authenticatedListener2];
-    
-    // send requests
-    for (SFNativeRestRequestListener* listener in listeners) {
-        [[SFRestAPI sharedInstance] send:listener.request delegate:listener];
-    }
-    
-    // wait for requests to complete
-    for (SFNativeRestRequestListener* listener in listeners) {
-        [listener waitForCompletion];
-    }
-    
-    // make sure they all succeeded
-    for (SFNativeRestRequestListener* listener in listeners) {
-        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"a request failed");
-    }
-
-    // make sure unauthenticated requests don't complete a second time
-    for (SFNativeRestRequestListener* listener in @[unauthenticatedListener1, unauthenticatedListener2]) {
-        // reset listener return status and lower max wait time
-        listener.returnStatus = kTestRequestStatusWaiting;
-        listener.maxWaitTime = 2.0;
-        XCTAssertEqualObjects([listener waitForCompletion], kTestRequestStatusDidTimeout, @"Unauthenticated user should not have completed a second time");
-    }
-
     // let's make sure we have a new access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");

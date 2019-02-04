@@ -48,7 +48,7 @@ static SFSDKSafeMutableDictionary *sfRestApiList = nil;
 @property (readwrite, assign) BOOL pendingRequestsBeingProcessed;
 @property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
 @property (nonatomic, strong, readwrite) SFUserAccount *user;
-
+@property (nonatomic, assign) BOOL requiresAuthentication;
 @end
 
 @implementation SFRestAPI
@@ -75,6 +75,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         self.apiVersion = kSFRestDefaultAPIVersion;
         self.sessionRefreshInProgress = NO;
         self.pendingRequestsBeingProcessed = NO;
+        self.requiresAuthentication = ( user!=nil && user.credentials.accessToken!=nil );
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
     return self;
@@ -209,18 +210,21 @@ static dispatch_once_t pred;
 #pragma mark - send method
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-    [self send:request delegate:delegate shouldRetry:request.requiresAuthentication];
+    [self send:request delegate:delegate shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
 }
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
     if (nil != delegate) {
         request.delegate = delegate;
     }
-
+    
+    if (!self.requiresAuthentication) {
+         NSAssert(!request.requiresAuthentication , @"Use SFRestAPI sharedInstance for authenticated requests");
+    }
     // Adds this request to the list of active requests if it's not already on the list.
     [self.activeRequests addObject:request];
     __weak __typeof(self) weakSelf = self;
-    if (self.user.credentials.accessToken == nil && self.user.credentials.refreshToken == nil && request.requiresAuthentication) {
+    if (self.user.credentials.accessToken == nil && self.user.credentials.refreshToken == nil && self.requiresAuthentication) {
         [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request: %@", request.description];
         [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -410,9 +414,7 @@ static dispatch_once_t pred;
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
-            if (request.requiresAuthentication) {
-                [self send:request delegate:request.delegate shouldRetry:NO];
-            }
+           [self send:request delegate:request.delegate shouldRetry:NO];
         }
         self.pendingRequestsBeingProcessed = NO;
     }
