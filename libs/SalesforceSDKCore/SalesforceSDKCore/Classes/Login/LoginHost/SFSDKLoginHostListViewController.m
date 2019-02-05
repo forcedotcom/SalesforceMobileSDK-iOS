@@ -170,27 +170,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 
 - (void)setupBrandingForNavBar {
     [self.navigationController.navigationBar setTranslucent:NO];
-    
-    SFSDKLoginViewControllerConfig *config = [SFUserAccountManager sharedInstance].loginViewControllerConfig;
-    if (config.navBarColor) {
-        [self.navigationController.navigationBar setBarTintColor:config.navBarColor];
-    }
-    if (config.navBarTextColor) {
-        self.navigationController.navigationBar.tintColor = config.navBarTextColor;
-    }
-    
-    NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc]init];
-    if (config.navBarTitleColor){
-        [textAttributes setObject:config.navBarTitleColor forKey:NSForegroundColorAttributeName];
-    }
-    
-    if (config.navBarFont) {
-        [textAttributes setObject:config.navBarFont forKey:NSFontAttributeName];
-    }
-    
-    if ([textAttributes count] > 0) {
-        [self.navigationController.navigationBar setTitleTextAttributes:textAttributes];
-    }
+    [SFSDKViewUtils styleNavigationBar:self.navigationController.navigationBar config:[SFUserAccountManager sharedInstance].loginViewControllerConfig];
 }
 
 #pragma mark - Action Methods
