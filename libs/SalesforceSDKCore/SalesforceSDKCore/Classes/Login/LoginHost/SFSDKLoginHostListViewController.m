@@ -33,7 +33,7 @@
 #import "SFSDKResourceUtils.h"
 #import "SFManagedPreferences.h"
 #import "SFUserAccountManager.h"
-
+#import "SFSDKViewUtils.h"
 static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCellIdentifier";
 
 @interface SFSDKLoginHostListViewController () <UINavigationControllerDelegate>
@@ -170,18 +170,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 
 - (void)setupBrandingForNavBar {
     [self.navigationController.navigationBar setTranslucent:NO];
-    
-    SFSDKLoginViewControllerConfig *config = [SFUserAccountManager sharedInstance].loginViewControllerConfig;
-    if (config.navBarColor) {
-        [self.navigationController.navigationBar setBarTintColor:config.navBarColor];
-    }
-    if (config.navBarTextColor) {
-        self.navigationController.navigationBar.tintColor = config.navBarTextColor;
-    }
-    
-    if (config.navBarFont && config.navBarTitleColor) {
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTitleColor, NSFontAttributeName: config.navBarFont}];
-    }
+    [SFSDKViewUtils styleNavigationBar:self.navigationController.navigationBar config:[SFUserAccountManager sharedInstance].loginViewControllerConfig];
 }
 
 #pragma mark - Action Methods

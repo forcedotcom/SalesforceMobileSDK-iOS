@@ -1,10 +1,9 @@
 /*
- SFSDKLoginViewControllerConfig.m
+ SFSDKViewUtils.h
  SalesforceSDKCore
  
- Created by Raj Rao on 11/15/17.
- 
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Created by Raj Rao on 2/5/19.
+ Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -26,31 +25,16 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #import <Foundation/Foundation.h>
-#import "SFSDKLoginViewControllerConfig.h"
-#import "UIColor+SFColors.h"
-#import "SFSDKAppConfig.h"
-#import "SalesforceSDKManager.h"
 
-@implementation SFSDKLoginViewControllerConfig
-@synthesize shouldDisplayBackButton;
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init {
+@class SFSDKLoginViewControllerConfig;
 
-    self = [super init];
-    if (self) {
-        _navBarColor = [UIColor salesforceBlueColor];
-        _navBarTitleColor = [UIColor whiteColor];
-        _navBarTintColor = [UIColor whiteColor];
-        _navBarFont = nil;
-        _showNavbar = YES;
-        _showSettingsIcon = YES;
-    }
-    return self;
-}
+@interface SFSDKViewUtils : NSObject
 
-- (BOOL)shouldDisplayBackButton {
-    return ![SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate;
-}
-
++ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKLoginViewControllerConfig *) config;
 @end
+
+NS_ASSUME_NONNULL_END
