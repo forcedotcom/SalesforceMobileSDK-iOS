@@ -33,7 +33,7 @@
 #import "SFSDKResourceUtils.h"
 #import "SFManagedPreferences.h"
 #import "SFUserAccountManager.h"
-
+#import "SFSDKViewUtils.h"
 static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCellIdentifier";
 
 @interface SFSDKLoginHostListViewController () <UINavigationControllerDelegate>

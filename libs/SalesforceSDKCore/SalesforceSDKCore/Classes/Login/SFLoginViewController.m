@@ -107,12 +107,20 @@
     self.config.navBarFont = navBarFont;
 }
 
-- (UIColor *)navBarTextColor {
-    return self.config.navBarTextColor;
+- (UIColor *)navBarTintColor {
+    return self.config.navBarTintColor;
 }
 
-- (void)setNavBarTextColor:(UIColor *)color {
-    self.config.navBarTextColor = color;
+- (void)setNavBarTintColor:(UIColor *)color {
+    self.config.navBarTintColor = color;
+}
+
+- (UIColor *)navBarTitleColor {
+    return self.config.navBarTitleColor;
+}
+
+- (void)setNavBarTitleColor:(UIColor *)color {
+    self.config.navBarTitleColor = color;
 }
 
 - (UIColor *)navBarColor {

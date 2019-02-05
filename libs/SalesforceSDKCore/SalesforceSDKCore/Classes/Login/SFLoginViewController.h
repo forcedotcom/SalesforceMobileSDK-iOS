@@ -69,7 +69,10 @@ NS_SWIFT_NAME(SalesforceLoginViewController)
 @property (nonatomic, strong, nullable) UIFont * navBarFont NS_SWIFT_NAME(navigationBarFont);
 
 /** Specify the text color to use for navigation bar header text. */
-@property (nonatomic, strong, nullable) UIColor * navBarTextColor  NS_SWIFT_NAME(navigationBarTextColor);
+@property (nonatomic, strong, nullable) UIColor * navBarTintColor  NS_SWIFT_NAME(navigationBarTintColor);
+
+/** Specify the text color to use for navigation bar header text. */
+@property (nonatomic, strong, nullable) UIColor * navBarTitleColor  NS_SWIFT_NAME(navigationBarTitleColor);
 
 /** Specify navigation bar color. This color will be used by the login view header.
  */

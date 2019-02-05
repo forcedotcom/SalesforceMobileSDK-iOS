@@ -41,9 +41,9 @@
         [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
     }
     
-    if (config.navBarTextColor) {
-        navigationBar.tintColor = config.navBarTextColor;
-        [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTextColor}];
+    if (config.navBarTintColor) {
+        navigationBar.tintColor = config.navBarTintColor;
+        [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTintColor}];
         
     } else {
         // default color
