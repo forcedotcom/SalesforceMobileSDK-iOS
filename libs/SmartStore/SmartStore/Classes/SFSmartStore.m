@@ -1681,7 +1681,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
         }
         NSString* columnName = [frs columnNameForIndex:i];
         id value = valuesMap[columnName];
-        if ([value isKindOfClass:[NSString class]] &&
+        if ([value isKindOfClass:[NSNull class]]) {
+            [resultString appendString:@"null"];
+        }
+        else if ([value isKindOfClass:[NSString class]] &&
             ([columnName isEqualToString:SOUP_COL] || [columnName hasPrefix:[NSString stringWithFormat:@"%@:", SOUP_COL]])) {
             [resultString appendString:value];
         }

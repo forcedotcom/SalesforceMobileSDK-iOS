@@ -150,9 +150,9 @@
     [super testSmartQueryWithSpecialFields];
 }
 
-- (void) testSmartQueryMatchingNullField
+- (void) testSmartQueryWithNullField
 {
-    [super testSmartQueryMatchingNullField];
+    [super testSmartQueryWithNullField];
 }
 
 - (void) testSmartQueryMachingBooleanInJSON1Field
