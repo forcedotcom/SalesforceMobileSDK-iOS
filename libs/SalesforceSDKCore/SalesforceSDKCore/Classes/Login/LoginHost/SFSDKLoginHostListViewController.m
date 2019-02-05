@@ -179,8 +179,17 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
         self.navigationController.navigationBar.tintColor = config.navBarTextColor;
     }
     
-    if (config.navBarFont && config.navBarTitleColor) {
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTitleColor, NSFontAttributeName: config.navBarFont}];
+    NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc]init];
+    if (config.navBarTitleColor){
+        [textAttributes setObject:config.navBarTitleColor forKey:NSForegroundColorAttributeName];
+    }
+    
+    if (config.navBarFont) {
+        [textAttributes setObject:config.navBarFont forKey:NSFontAttributeName];
+    }
+    
+    if ([textAttributes count] > 0) {
+        [self.navigationController.navigationBar setTitleTextAttributes:textAttributes];
     }
 }
 

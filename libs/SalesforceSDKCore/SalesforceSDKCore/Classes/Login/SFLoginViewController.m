@@ -223,6 +223,7 @@
     UILabel *item = [[UILabel alloc] initWithFrame:CGRectZero];
     if (self.config.navBarTitleColor) {
         item.textColor = self.config.navBarTextColor;
+        item.textColor = self.config.navBarTitleColor;
     }
     if (self.config.navBarFont) {
         item.font = self.config.navBarFont;
