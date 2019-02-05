@@ -91,7 +91,7 @@
     SFLoginViewController *loginViewController = [[SFLoginViewController alloc] init];
     //Test default values
     XCTAssertNotNil(loginViewController.navBarColor, "Nav bar color should not be nil");
-    XCTAssertNotNil(loginViewController.navBarTextColor, "Nav bar text color should not be nil");
+    XCTAssertNotNil(loginViewController.navBarTintColor, "Nav bar tint color should not be nil");
     XCTAssertNil(loginViewController.navBarFont, "Nav bar font should be nil");
     XCTAssertEqual(YES, loginViewController.showNavbar, "Show Nav bar should be set to yes by default");
     XCTAssertEqual(YES, loginViewController.showSettingsIcon, "Show Settings Icon should be set to yes by default");
