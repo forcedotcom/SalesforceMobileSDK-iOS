@@ -131,6 +131,28 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     [self doesNotRecognizeSelector:_cmd];
 }
 
+- (NSUInteger) maxBatchSize {
+    return 1;
+}
+
+- (void)syncUpRecords:(SFSmartSyncSyncManager *)syncManager
+              records:(NSArray<NSMutableDictionary*>*)records
+            fieldlist:(NSArray*)fieldlist
+            mergeMode:(SFSyncStateMergeMode)mergeMode
+         syncSoupName:(NSString*)syncSoupName
+      completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+            failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+    
+    
+    if (records.count == 0) {
+        // Nothing to do
+        completionBlock(nil);
+    }
+    else {
+        [self syncUpRecord:syncManager record:records[0] fieldlist:fieldlist mergeMode:mergeMode completionBlock:completionBlock failBlock:failBlock];
+    }
+}
+
 - (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager
               record:(NSMutableDictionary *)record
            fieldlist:(NSArray *)fieldlist
