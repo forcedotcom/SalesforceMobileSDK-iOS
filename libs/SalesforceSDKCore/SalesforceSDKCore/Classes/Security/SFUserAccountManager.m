@@ -670,7 +670,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 -(NSMutableDictionary *)userAccountMap {
-    if(!_userAccountMap || _userAccountMap.count < 1) {
+    if(!_userAccountMap) {
         [self reload];
     }
     return _userAccountMap;
@@ -823,8 +823,11 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
     NSError *internalError = nil;
     NSDictionary<SFUserAccountIdentity *,SFUserAccount *> *accounts = [self.accountPersister fetchAllAccounts:&internalError];
-    [_userAccountMap removeAllObjects];
-    _userAccountMap = [NSMutableDictionary  dictionaryWithDictionary:accounts];
+    
+    if (_userAccountMap)
+        [_userAccountMap removeAllObjects];
+    
+    _userAccountMap = [NSMutableDictionary dictionaryWithDictionary:accounts];
 
     if (internalError)
         success = NO;
@@ -895,7 +898,8 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 - (void)clearAllAccountState {
     [_accountsLock lock];
     _currentUser = nil;
-    [self.userAccountMap removeAllObjects];
+    [_userAccountMap removeAllObjects];
+    _userAccountMap = nil;
     [[SFSDKOAuthClientCache sharedInstance] removeAllClients];
     [_accountsLock unlock];
 }
@@ -1082,7 +1086,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         [self notifyUserChange:SFUserAccountManagerDidChangeUserNotification withUser:_currentUser andChange:SFUserAccountChangeCurrentUser];
 }
 
--(SFUserAccountIdentity *) currentUserIdentity {
+- (SFUserAccountIdentity *)currentUserIdentity {
     SFUserAccountIdentity *accountIdentity = nil;
     [_accountsLock lock];
     if (!_currentUser) {
@@ -1546,12 +1550,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
     if(!_accountPersister)
         _accountPersister = [SFDefaultUserAccountPersister new];
-
-    if (!_userAccountMap)
-        _userAccountMap = [NSMutableDictionary new];
-    else
-        [_userAccountMap removeAllObjects];
-
     [self loadAccounts:nil];
     [_accountsLock unlock];
 }

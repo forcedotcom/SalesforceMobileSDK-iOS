@@ -27,6 +27,8 @@
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthTestFlow.h"
+#import "SFUserAccount+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 
 @interface SFOAuthSessionRefresherTests : XCTestCase
 

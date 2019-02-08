@@ -37,6 +37,7 @@
 #import "SFSDKAuthErrorCommand.h"
 #import "SFSDKIDPInitCommand.h"
 #import "SFSDKAuthPreferences.h"
+#import "SFOAuthCredentials+Internal.h"
 
 @interface SFSDKIDPAuthClient()
 @property (nonatomic, strong) SFSDKOAuthClientContext *context;

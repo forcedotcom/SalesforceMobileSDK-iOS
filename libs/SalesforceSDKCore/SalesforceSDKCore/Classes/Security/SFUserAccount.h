@@ -190,12 +190,12 @@ NSString *_Nullable SFKeyForUserAndScope(SFUserAccount * _Nullable user, SFUserA
  @param scope The scope
  @return a key identifying this user account for the specified scope
  */
-NSString *_Nullable SFKeyForUserIdAndScope(NSString *userId,NSString *orgId, NSString *_Nullable communityId, SFUserAccountScope scope);
+NSString *_Nullable SFKeyForUserIdAndScope(NSString *_Nullable userId,NSString *_Nullable orgId, NSString *_Nullable communityId, SFUserAccountScope scope);
 
 /** Function that returns a key for scope SFUserAccountScopeGlobal,
   @return a key identifying this scope for the specified scope
  */
-NSString *SFKeyForGlobalScope();
+NSString *SFKeyForGlobalScope(void);
 
 @end
 

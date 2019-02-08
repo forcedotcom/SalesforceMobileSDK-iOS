@@ -46,7 +46,7 @@ NSException * SFOAuthInvalidIdentifierException() {
 @interface SFOAuthCredentials () 
 
 //This property is intentionally readonly in the public header files.
-@property (nonatomic, readwrite, strong) NSString *protocol;
+//@property (nonatomic, readwrite, strong) NSString *protocol;
 
 @end
 

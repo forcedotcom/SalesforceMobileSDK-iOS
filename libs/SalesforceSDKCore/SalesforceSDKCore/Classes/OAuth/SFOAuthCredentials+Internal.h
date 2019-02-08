@@ -42,18 +42,33 @@ extern NSException * SFOAuthInvalidIdentifierException(void);
 
 @interface SFOAuthCredentials ()
 
-@property (nonatomic, strong) NSDictionary * additionalOAuthFields;
 
-// Facilitates NSCopying implementation.
-@property (nonatomic, readwrite) NSDictionary *legacyIdentityInformation;
+@property (nonatomic, readwrite, nullable) NSString *protocol;
+@property (nonatomic, readwrite, nullable) NSString *domain;
+@property (nonatomic,readwrite) NSString *identifier;
+@property (nonatomic, readwrite, nullable) NSString *clientId;
+@property (nonatomic, readwrite, nullable) NSString *redirectUri;
+@property (nonatomic, readwrite, nullable) NSString *jwt;
+@property (nonatomic, readwrite, nullable) NSString *refreshToken;
+@property (nonatomic, readwrite, nullable) NSString *accessToken;
+@property (nonatomic, readwrite, nullable) NSString *organizationId;
+@property (nonatomic, readwrite, nullable) NSURL *instanceUrl;
+@property (nonatomic, readwrite, nullable) NSString *communityId;
+@property (nonatomic, readwrite, nullable) NSURL *communityUrl;
+@property (nonatomic, readwrite, nullable) NSDate *issuedAt;
+@property (nonatomic, readwrite, nullable) NSURL *identityUrl;
+@property (nonatomic, readwrite, nullable) NSURL *apiUrl;
+@property (nonatomic, readwrite, nullable) NSString *userId;
 
-/** Holds the attributes that have changed during auth flow.
- */
-@property (nonatomic) NSMutableDictionary * credentialsChangeSet;
+@property (nonatomic, readwrite, strong, nullable) NSDictionary * additionalOAuthFields;
+@property (nonatomic, readwrite, nullable) NSString *challengeString;
+@property (nonatomic, readwrite, nullable) NSString *authCode;
+@property (nonatomic, readwrite, nullable) NSDictionary *legacyIdentityInformation;
+@property (nonatomic, readwrite, nullable) NSMutableDictionary * credentialsChangeSet;
 
-- (void)setPropertyForKey:(NSString *) key withValue:(id) newValue;
+- (void)setPropertyForKey:(NSString *_Nonnull) key withValue:(id _Nullable ) newValue;
 
-- (BOOL)hasPropertyValueChangedForKey:(NSString *) key;
+- (BOOL)hasPropertyValueChangedForKey:(NSString *_Nullable) key;
 
 /** Reset changes to credentials, called at the end of auth flow.
  */

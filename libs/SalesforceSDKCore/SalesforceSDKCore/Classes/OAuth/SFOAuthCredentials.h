@@ -75,7 +75,7 @@ NS_SWIFT_NAME(OAuthCredentials)
  The domain used to initiate a user login, for example _login.salesforce.com_
  or _test.salesforce.com_. The default is _login.salesforce.com_.
  */
-@property (nonatomic, copy, nullable) NSString *domain;
+@property (nonatomic, readonly, nullable) NSString *domain;
 
 /** Credential identifier used to uniquely identify this credential in the keychain. 
  
@@ -83,7 +83,7 @@ NS_SWIFT_NAME(OAuthCredentials)
  `nil` or empty value prior to accessing properties or methods identified in the documentation regarding this prohibition.
  @warning This property must not be modified while authenticating.
  */
-@property (copy, nonnull) NSString *identifier;
+@property (nonatomic, readonly, nonnull) NSString *identifier;
 
 /** Client consumer key.
  
@@ -92,13 +92,13 @@ NS_SWIFT_NAME(OAuthCredentials)
  @warning This property must not be `nil` or empty when authentication is initiated or an exception will be raised.
  @warning This property must not be modified while authenticating.
  */
-@property (copy, nullable) NSString *clientId;
+@property (nonatomic, readonly, nullable) NSString *clientId;
 
 /** Callback URL to load at the end of the authentication process.
  
  This must match the callback URL in the Remote Access object exactly, or authentication will fail.
  */
-@property (nonatomic, copy, nullable) NSString *redirectUri;
+@property (nonatomic, readonly, nullable) NSString *redirectUri;
 
 /** JWT.
  
@@ -106,7 +106,7 @@ NS_SWIFT_NAME(OAuthCredentials)
  @warning This property must not be modified while authenticating.
  @warning This property should be set to nil after authentication.
  */
-@property (nonatomic, copy, nullable) NSString *jwt;
+@property (nonatomic, readonly, nullable) NSString *jwt;
 
 /** Token used to refresh the user's session.
  
@@ -115,7 +115,7 @@ NS_SWIFT_NAME(OAuthCredentials)
  @warning The setter for this property is exposed publicly only for unit tests. Client code should use the revoke methods instead.
  @exception NSInternalInconsistencyException If this property is accessed when the identifier property is `nil`.
  */
-@property (nonatomic, copy, nullable) NSString *refreshToken;
+@property (nonatomic, readonly, nullable) NSString *refreshToken;
 
 /** The access token for the user's session.
  
@@ -124,7 +124,7 @@ NS_SWIFT_NAME(OAuthCredentials)
  @warning The setter for this property is exposed publicly only for unit tests. Client code should use the revoke methods instead.
  @exception NSInternalInconsistencyException If accessed while the identifier property is `nil`.
  */
-@property (nonatomic, copy, nullable) NSString *accessToken;
+@property (nonatomic, readonly, nullable) NSString *accessToken;
 
 /** A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.
  
@@ -133,7 +133,7 @@ NS_SWIFT_NAME(OAuthCredentials)
  @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  @exception NSInternalInconsistencyException If accessed while the identifier property is `nil`.
  */
-@property (nonatomic, copy, nullable) NSString *organizationId;
+@property (nonatomic, readonly, nullable) NSString *organizationId;
 
 /** The URL of the server instance for this session. This URL always refers to the base organization
  instance, even if the user has logged through a community-based login flow.
@@ -144,21 +144,21 @@ NS_SWIFT_NAME(OAuthCredentials)
  
  @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
-@property (nonatomic, copy, nullable) NSURL *instanceUrl;
+@property (nonatomic, readonly, nullable) NSURL *instanceUrl;
 
 /** The community ID the user choose to log into. This usually happens when the user
  logs into the app using a community-based login page
  
  Note: this property is nil of the user logs into the internal community or into an org that doesn't have communities.
  */
-@property (nonatomic, copy, nullable) NSString *communityId;
+@property (nonatomic, readonly, nullable) NSString *communityId;
 
 /** The community-base URL the user choose to log into. This usually happens when the user
  logs into the app using a community-based login page
  
  Note: this property is nil if the user logs into the internal community or into an org that doesn't have communities.
  */
-@property (nonatomic, copy, nullable) NSURL *communityUrl;
+@property (nonatomic, readonly, nullable) NSURL *communityUrl;
 
 /** The timestamp when the session access token was issued.
  
@@ -166,7 +166,7 @@ NS_SWIFT_NAME(OAuthCredentials)
  
  @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
-@property (nonatomic, copy, nullable) NSDate *issuedAt;
+@property (nonatomic, readonly, nullable) NSDate *issuedAt;
 
 /** The identity URL for the user returned as part of a successful authentication response.
  The format of the URL is: _https://login.salesforce.com/ID/orgID/userID_ where orgId is the ID of the Salesforce organization 
@@ -176,11 +176,11 @@ NS_SWIFT_NAME(OAuthCredentials)
  
  @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
-@property (nonatomic, copy, nullable) NSURL *identityUrl;
+@property (nonatomic, readonly, nullable) NSURL *identityUrl;
 
 /** The community URL, if present. The instance URL, otherwise.
  */
-@property (readonly, nullable) NSURL *apiUrl;
+@property (nonatomic, readonly, nullable) NSURL *apiUrl;
 
 /** A readonly convenience property returning the first 15 characters of the Salesforce User ID provided in the final path 
  component of the identityUrl.
@@ -189,7 +189,7 @@ NS_SWIFT_NAME(OAuthCredentials)
  
  @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
-@property (nonatomic, copy, nullable) NSString *userId;
+@property (nonatomic, readonly, nullable) NSString *userId;
 
 /**
  Determines if sensitive data such as the `refreshToken` and `accessToken` are encrypted
@@ -202,9 +202,9 @@ NS_SWIFT_NAME(OAuthCredentials)
  */
 @property (nonatomic, readonly, nullable) NSDictionary * additionalOAuthFields;
 
-@property (nonatomic, copy, nullable) NSString *challengeString;
+@property (nonatomic, readonly, nullable) NSString *challengeString;
 
-@property (nonatomic, copy, nullable) NSString *authCode;
+@property (nonatomic, readonly, nullable) NSString *authCode;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
