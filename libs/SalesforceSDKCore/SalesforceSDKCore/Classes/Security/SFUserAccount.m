@@ -27,17 +27,12 @@
 #import "SFDirectoryManager.h"
 #import "SFOAuthCredentials.h"
 #import "SFCommunityData.h"
-#import "SFIdentityData.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFUserAccountIdentity+Internal.h"
 
 static NSString * const kUser_ACCESS_SCOPES       = @"accessScopes";
 static NSString * const kUser_CREDENTIALS         = @"credentials";
-static NSString * const kUser_EMAIL               = @"email";
-static NSString * const kUser_FULL_NAME           = @"fullName";
-static NSString * const kUser_ORGANIZATION_NAME   = @"organizationName";
-static NSString * const kUser_USER_NAME           = @"userName";
 static NSString * const kUser_COMMUNITY_ID        = @"communityId";
 static NSString * const kUser_COMMUNITIES         = @"communities";
 static NSString * const kUser_ID_DATA             = @"idData";
@@ -403,8 +398,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
     NSString *theFullName = @"*****";
     
 #ifdef DEBUG
-    theUserName = self.userName;
-    theFullName = self.fullName;
+    theUserName = self.idData.username;
+    theFullName = [NSString stringWithFormat:@"%@ %@",self.idData.firstName,self.idData.lastName];
 #endif
     
     NSString * s = [NSString stringWithFormat:@"<SFUserAccount username=%@ fullName=%@ accessScopes=%@ credentials=%@, community=%@>",

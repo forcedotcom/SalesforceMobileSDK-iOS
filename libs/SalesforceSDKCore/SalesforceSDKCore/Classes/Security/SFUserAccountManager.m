@@ -332,7 +332,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         return;
     }
 
-    [SFSDKCoreLogger d:[self class] format:@"Logging out user '%@'.", user.userName];
+    [SFSDKCoreLogger d:[self class] format:@"Logging out user '%@'.", user.idData.username];
     
     //save for use with didLogout notification
     NSString *userId = user.credentials.userId;

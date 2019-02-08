@@ -25,12 +25,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "SFUserAccountConstants.h"
+#import "SFIdentityData.h"
+#import "SalesforceSDKConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFCommunityData;
 @class SFUserAccountIdentity;
-@class SFIdentityData;
 @class SFOAuthCredentials;
 
 /**
@@ -84,19 +85,19 @@ NS_SWIFT_NAME(UserAccount)
 
 /** The user's email
  */
-@property (nonatomic, copy, nullable) NSString *email;
+@property (nonatomic, copy, nullable) NSString *email SFSDK_DEPRECATED(7.1, 8.0, "Use SFUserAccount.idData properties instead");
 
 /** The user's organization name
  */
-@property (nonatomic, copy) NSString *organizationName;
+@property (nonatomic, copy) NSString *organizationName SFSDK_DEPRECATED(7.1, 8.0, "Will be removed");
 
 /** The user's full name
  */
-@property (nonatomic, copy) NSString *fullName;
+@property (nonatomic, copy) NSString *fullName SFSDK_DEPRECATED(7.1, 8.0, "Use SFUserAccount.idData properties instead");
 
 /** The user's name
  */
-@property (nonatomic, copy) NSString *userName;
+@property (nonatomic, copy) NSString *userName SFSDK_DEPRECATED(7.1, 8.0, "Use SFUserAccount.idData properties instead");
 
 /** The user's photo. Usually store a thumbnail of the user.
  Note: the consumer of this class must set the photo at least once,
