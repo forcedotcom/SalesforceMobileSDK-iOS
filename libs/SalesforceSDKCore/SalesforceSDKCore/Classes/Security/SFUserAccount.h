@@ -116,7 +116,7 @@ NS_SWIFT_NAME(UserAccount)
 
 /** The list of communities (as SFCommunityData item)
  */
-@property (nonatomic, copy, nullable) NSArray<SFCommunityData *> *communities;
+@property (nonatomic, copy, nullable) NSArray<SFCommunityData *> *communities SFSDK_DEPRECATED(7.1, 8.0, "Save these types of properties in your app.");
 
 /** Returns YES if the user has an access token and, presumably,
  a valid session.
@@ -150,7 +150,7 @@ NS_SWIFT_NAME(UserAccount)
  @param communityId The ID of the community
  @return The dictionary for the given community
  */
-- (nullable SFCommunityData*)communityWithId:(NSString*)communityId;
+- (nullable SFCommunityData*)communityWithId:(NSString*)communityId SFSDK_DEPRECATED(7.1, 8.0, "Store SFCommunityData in your app.");
 
 /** Set object in customData dictionary
  

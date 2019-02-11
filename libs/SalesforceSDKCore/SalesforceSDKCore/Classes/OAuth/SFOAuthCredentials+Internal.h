@@ -33,19 +33,17 @@ typedef NS_ENUM(NSUInteger, SFOAuthCredsEncryptionType) {
     kSFOAuthCredsEncryptionTypeKeyStore
 };
 
-extern NSString * const kSFOAuthEncryptionTypeKey;
-extern NSString * const kSFOAuthServiceAccess;
-extern NSString * const kSFOAuthServiceRefresh;
-extern NSString * const kSFOAuthServiceActivation;
+extern NSString * _Nonnull const kSFOAuthEncryptionTypeKey;
+extern NSString * _Nonnull const kSFOAuthServiceAccess;
+extern NSString * _Nonnull const kSFOAuthServiceRefresh;
+extern NSString * _Nonnull const kSFOAuthServiceActivation;
 
-extern NSException * SFOAuthInvalidIdentifierException(void);
+extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 
 @interface SFOAuthCredentials ()
-
-
 @property (nonatomic, readwrite, nullable) NSString *protocol;
 @property (nonatomic, readwrite, nullable) NSString *domain;
-@property (nonatomic,readwrite) NSString *identifier;
+@property (nonatomic,readwrite, nonnull) NSString *identifier;
 @property (nonatomic, readwrite, nullable) NSString *clientId;
 @property (nonatomic, readwrite, nullable) NSString *redirectUri;
 @property (nonatomic, readwrite, nullable) NSString *jwt;
@@ -59,11 +57,9 @@ extern NSException * SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 @property (nonatomic, readwrite, nullable) NSURL *apiUrl;
 @property (nonatomic, readwrite, nullable) NSString *userId;
-
 @property (nonatomic, readwrite, strong, nullable) NSDictionary * additionalOAuthFields;
 @property (nonatomic, readwrite, nullable) NSString *challengeString;
 @property (nonatomic, readwrite, nullable) NSString *authCode;
-@property (nonatomic, readwrite, nullable) NSDictionary *legacyIdentityInformation;
 @property (nonatomic, readwrite, nullable) NSMutableDictionary * credentialsChangeSet;
 
 - (void)setPropertyForKey:(NSString *_Nonnull) key withValue:(id _Nullable ) newValue;

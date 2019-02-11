@@ -186,10 +186,12 @@ static NSString * const kGlobalScopingKey = @"-global-";
         return nil;
     }
     __block NSURL *siteUrl = nil;
+    SFSDK_USE_DEPRECATED_BEGIN
     dispatch_sync(_syncQueue, ^{
         SFCommunityData *info = [self communityWithId:communityId];
         siteUrl = info.siteUrl;
     });
+    SFSDK_USE_DEPRECATED_END
     return siteUrl;
 }
 

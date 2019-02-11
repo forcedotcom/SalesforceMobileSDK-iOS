@@ -1006,6 +1006,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         SFCommunityData *communityData = [[SFCommunityData alloc] init];
         communityData.entityId = credentials.communityId;
         communityData.siteUrl = credentials.communityUrl;
+        SFSDK_USE_DEPRECATED_BEGIN
         if (![currentAccount communityWithId:credentials.communityId]) {
             if (currentAccount.communities) {
                 currentAccount.communities = [currentAccount.communities arrayByAddingObject:communityData];
@@ -1013,6 +1014,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                 currentAccount.communities = @[communityData];
             }
         }
+        SFSDK_USE_DEPRECATED_END
     }
 
     [self saveAccountForUser:currentAccount error:nil];
