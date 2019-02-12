@@ -29,7 +29,7 @@
 #import "SFUserAccount.h"
 #import "SFSDKTestRequestListener.h"
 #import "SFSDKTestCredentialsData.h"
-
+#import "SFOAuthCredentials+Internal.h"
 
 static SFOAuthCredentials *credentials = nil;
 

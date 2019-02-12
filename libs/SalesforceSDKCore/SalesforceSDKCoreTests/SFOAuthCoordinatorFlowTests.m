@@ -27,6 +27,9 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthTestFlow.h"
 #import "SFOAuthTestFlowCoordinatorDelegate.h"
+#import "SFOAuthCredentials+Internal.h"
+#import "SFUserAccount+Internal.h"
+#import "SFUserAccountIdentity+Internal.h"
 
 @interface SFOAuthCoordinatorFlowTests : XCTestCase
 

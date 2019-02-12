@@ -30,6 +30,8 @@
 #import "SFSDKAuthConfigUtil.h"
 #import "TestSetupUtils.h"
 #import "SFUserAccountManager.h"
+#import "SFUserAccount+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 
 static NSString * const kSFTestId = @"test_id";
 static NSString * const kSFTestClientId = @"test_client_id";

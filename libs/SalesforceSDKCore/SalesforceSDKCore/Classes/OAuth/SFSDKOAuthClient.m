@@ -40,6 +40,7 @@
 #import "SFSDKWebViewStateManager.h"
 #import "SFSecurityLockout.h"
 #import "SFSDKIDPAuthClient.h"
+#import "SFOAuthCredentials+Internal.h"
 
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";

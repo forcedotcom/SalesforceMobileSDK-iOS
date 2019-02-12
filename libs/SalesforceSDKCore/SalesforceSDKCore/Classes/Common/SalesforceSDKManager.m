@@ -473,7 +473,7 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
 }
 
 - (NSString*) userToString:(SFUserAccount*)user {
-    return user ? user.userName : @"";
+    return user ? user.idData.username : @"";
 }
 
 - (NSString*) usersToString:(NSArray<SFUserAccount*>*)userAccounts {

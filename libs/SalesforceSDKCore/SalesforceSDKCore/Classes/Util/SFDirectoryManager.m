@@ -29,7 +29,7 @@
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 
 static NSString * const kDefaultOrgName = @"org";
-static NSString * const kDefaultCommunityName = @"internal";
+NSString * const kDefaultCommunityName = @"internal";
 static NSString * const kSharedLibraryLocation = @"Library";
 static NSString * const kFilesSharedKey = @"filesShared";
 

@@ -109,6 +109,13 @@ class RootViewController: UIViewController {
     fileprivate var responseContractedTopConstraint:NSLayoutConstraint!
     fileprivate var responseExpandedTopConstraint:NSLayoutConstraint!
     
+    fileprivate var fullName: String {
+        if let currentAccount = UserAccountManager.shared.currentUserAccount, let id =  currentAccount.idData  {
+            return (id.firstName ?? "") + " " + (id.lastName)
+        }
+        return ""
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -753,7 +760,8 @@ extension RootViewController: ActionTableViewDelegate {
                         }
                         request = restApi.request(forSearch: s)
                     case .searchScopeAndOrder:
-                        request = restApi.requestForSearchScopeAndOrder()                    case .searchResultLayout:
+                        request = restApi.requestForSearchScopeAndOrder()
+                    case .searchResultLayout:
                         guard let objList = objectList else {
                             self.showMissingFieldError(objectTypes)
                             return
@@ -810,11 +818,10 @@ extension RootViewController: ActionTableViewDelegate {
                         request = restApi.request(forDeleteFileShare: objId)
                     case .currentUserInfo:
                         guard let currentAccount = UserAccountManager.shared.currentUserAccount else {return}
-                        var userInfoString = "Name: " + currentAccount.fullName
-                        userInfoString = userInfoString + "\nID: " + currentAccount.userName
-                        if let e = currentAccount.email {
-                            userInfoString = userInfoString + "\nEmail: " + e
-                        }
+                        guard let idData = currentAccount.idData else {return}
+                        var userInfoString = "Name: " + self.fullName
+                        userInfoString = userInfoString + "\nID: " + idData.username
+                        userInfoString = userInfoString + "\nEmail: " + idData.email
                         self.showAlert("User Info", message:userInfoString)
                         return
                     case .enableBiometric:

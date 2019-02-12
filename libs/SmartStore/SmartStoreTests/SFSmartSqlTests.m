@@ -28,7 +28,10 @@
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
+@interface SFOAuthCredentials ()
+@property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 
+@end
 @interface SFSmartSqlTests ()
 
 @property (nonatomic, strong) SFSmartStore *store;

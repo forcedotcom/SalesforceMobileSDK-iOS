@@ -165,7 +165,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSURL *identityUrlToCheck = [NSURL URLWithString:@"https://login.salesforce.com/id/someOrg/someUser"];
     NSString *userIdToCheck = @"userID";
     NSDictionary *additionalFieldsToCheck = @{ @"field1": @"field1Val" };
-    NSDictionary *legacyIdInfoToCheck = @{ @"idInfo1": @"idInfo1Val" };
     
     SFOAuthCredentials *origCreds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     origCreds.domain = domainToCheck;
@@ -185,7 +184,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.userId = userIdToCheck;
     
     origCreds.additionalOAuthFields = additionalFieldsToCheck;
-    origCreds.legacyIdentityInformation = legacyIdInfoToCheck;
     
     SFOAuthCredentials *copiedCreds = [origCreds copy];
     
@@ -202,7 +200,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.identityUrl = nil;
     origCreds.userId = nil;
     origCreds.additionalOAuthFields = nil;
-    origCreds.legacyIdentityInformation = nil;
     
     XCTAssertNotEqual(origCreds, copiedCreds);
     XCTAssertEqual(copiedCreds.domain, domainToCheck);
@@ -234,8 +231,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertNotEqual(origCreds.userId, copiedCreds.userId);
     XCTAssertEqual(copiedCreds.additionalOAuthFields, additionalFieldsToCheck);
     XCTAssertNotEqual(origCreds.additionalOAuthFields, copiedCreds.additionalOAuthFields);
-    XCTAssertEqual(copiedCreds.legacyIdentityInformation, legacyIdInfoToCheck);
-    XCTAssertNotEqual(origCreds.legacyIdentityInformation, copiedCreds.legacyIdentityInformation);
 }
 
 /** Test the SFOAuthCoordinator

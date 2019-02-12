@@ -26,7 +26,7 @@
 #import "SFDefaultUserManagementViewController+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
-
+#import "SFIdentityData.h"
 static CGFloat const kButtonWidth = 150.0f;
 static CGFloat const kButtonHeight = 40.0f;
 static CGFloat const kButtonPadding = 10.0f;
@@ -70,14 +70,14 @@ static CGFloat const kControlVerticalPadding = 5.0f;
     
     // fullName label
     self.fullNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.fullNameLabel.text = _user.fullName;
+    self.fullNameLabel.text = [NSString stringWithFormat:@"%@ %@",_user.idData.firstName,_user.idData.lastName];
     self.fullNameLabel.textAlignment = NSTextAlignmentCenter;
     self.fullNameLabel.font = [UIFont systemFontOfSize:20.0];
     [self.view addSubview:self.fullNameLabel];
     
     // userName label
     self.userNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.userNameLabel.text = _user.userName;
+    self.userNameLabel.text = _user.idData.username;
     self.userNameLabel.textAlignment = NSTextAlignmentCenter;
     self.userNameLabel.font = [UIFont systemFontOfSize:16.0];
     [self.view addSubview:self.userNameLabel];

@@ -40,6 +40,7 @@
 #import "SFSDKAlertMessage.h"
 #import "SFSDKAlertMessageBuilder.h"
 #import "SFSDKStartURLHandler.h"
+#import "SFOAuthCredentials+Internal.h"
 @implementation SFUserAccountManager (URLHandlers)
 
 - (BOOL)handleNativeAuthResponse:(NSURL *_Nonnull)appUrlResponse options:(NSDictionary *_Nullable)options {

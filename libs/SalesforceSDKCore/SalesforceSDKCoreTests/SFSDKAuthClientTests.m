@@ -34,6 +34,9 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFSDKOAuthClientCache.h"
 #import "SFUserAccountManager+Internal.h"
+#import "SFUserAccount+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
+
 @class SFSDKTestOAuthClient;
 
 @interface SFSDKTestOAuthClient : SFSDKOAuthClient
