@@ -79,14 +79,14 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return [self initWithCredentials:[SFOAuthCredentials new]];
 }
 
-- (instancetype)initWithCredentials:(SFOAuthCredentials*) credentials {
+- (instancetype)initWithCredentials:(SFOAuthCredentials*)credentials {
     self = [super init];
     if (self) {
         _syncQueue = dispatch_queue_create(kSyncQueue, DISPATCH_QUEUE_CONCURRENT);
         _observingCredentials = NO;
         self.credentials = credentials;
         _loginState = (credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
-        _accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:_credentials.userId orgId:_credentials.organizationId];
+        _accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:credentials.userId orgId:credentials.organizationId];
         if (_loginState == SFUserAccountLoginStateLoggedIn) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureOAuth];
         }
