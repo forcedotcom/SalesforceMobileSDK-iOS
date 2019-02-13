@@ -84,9 +84,9 @@ static NSString * const kGlobalScopingKey = @"-global-";
     if (self) {
         _syncQueue = dispatch_queue_create(kSyncQueue, DISPATCH_QUEUE_CONCURRENT);
         _observingCredentials = NO;
-        self.credentials = credentials;
+        [self setCredentialsInternal:credentials];
         _loginState = (credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
-        _accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:credentials.userId orgId:credentials.organizationId];
+        _accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:_credentials.userId orgId:_credentials.organizationId];
         if (_loginState == SFUserAccountLoginStateLoggedIn) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureOAuth];
         }
@@ -117,7 +117,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _syncQueue = dispatch_queue_create(kSyncQueue, DISPATCH_QUEUE_CONCURRENT);
         _accessScopes     = [decoder decodeObjectOfClass:[NSSet class] forKey:kUser_ACCESS_SCOPES];
          _accountIdentity = [[SFUserAccountIdentity alloc] init];
-        self.credentials      = [decoder decodeObjectOfClass:[SFOAuthCredentials class] forKey:kUser_CREDENTIALS];
+        SFOAuthCredentials *creds = [decoder decodeObjectOfClass:[SFOAuthCredentials class] forKey:kUser_CREDENTIALS];
+        [self setCredentialsInternal:creds];
         _idData           = [decoder decodeObjectOfClass:[SFIdentityData class] forKey:kUser_ID_DATA];
         _communityId      = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_COMMUNITY_ID];
         _communities      = [decoder decodeObjectOfClass:[NSArray class] forKey:kUser_COMMUNITIES];
@@ -310,27 +311,31 @@ static NSString * const kGlobalScopingKey = @"-global-";
 
 - (void)setCredentials:(SFOAuthCredentials *)credentials
 {
+    dispatch_barrier_async(_syncQueue, ^{
+        [self setCredentialsInternal:credentials];
+    });
+}
+    
+- (void)setCredentialsInternal:(SFOAuthCredentials *)credentials {
     SFOAuthCredentials *currentCredentials = _credentials;
     SFUserAccountIdentity *accIdentity =  _accountIdentity;
-    dispatch_barrier_async(_syncQueue, ^{
-        if (credentials != currentCredentials) {
-            if (self->_observingCredentials) {
-                [currentCredentials removeObserver:self  forKeyPath:kCredentialsUserIdPropName];
-                [currentCredentials removeObserver:self  forKeyPath:kCredentialsOrgIdPropName];
-                self->_observingCredentials = NO;
-            }
-            if (credentials != nil) {
-                [credentials addObserver:self forKeyPath:kCredentialsUserIdPropName options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
-                [credentials addObserver:self forKeyPath:kCredentialsOrgIdPropName options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
-                self->_observingCredentials = YES;
-            }
-            self->_credentials = credentials;
-            if (accIdentity) {
-                accIdentity.userId = credentials.userId;
-                accIdentity.orgId =  credentials.organizationId;
-            }
+    if (credentials != currentCredentials) {
+        if (_observingCredentials) {
+            [currentCredentials removeObserver:self  forKeyPath:kCredentialsUserIdPropName];
+            [currentCredentials removeObserver:self  forKeyPath:kCredentialsOrgIdPropName];
+            _observingCredentials = NO;
         }
-    });
+        if (credentials != nil) {
+            [credentials addObserver:self forKeyPath:kCredentialsUserIdPropName options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
+            [credentials addObserver:self forKeyPath:kCredentialsOrgIdPropName options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
+            _observingCredentials = YES;
+        }
+        _credentials = credentials;
+        if (accIdentity) {
+            accIdentity.userId = credentials.userId;
+            accIdentity.orgId =  credentials.organizationId;
+        }
+    }
 }
 
 - (void)setCustomDataObject:(id<NSCoding>)object forKey:(id<NSCopying>)key {
@@ -400,8 +405,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
     NSString *theFullName = @"*****";
     
 #ifdef DEBUG
-    theUserName = self.idData.username;
-    theFullName = [NSString stringWithFormat:@"%@ %@",self.idData.firstName,self.idData.lastName];
+    theUserName = _idData.username;
+    theFullName = [NSString stringWithFormat:@"%@ %@",_idData.firstName,_idData.lastName];
 #endif
     
     NSString * s = [NSString stringWithFormat:@"<SFUserAccount username=%@ fullName=%@ accessScopes=%@ credentials=%@, community=%@>",
