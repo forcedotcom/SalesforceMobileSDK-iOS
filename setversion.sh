@@ -35,6 +35,13 @@ parse_opts ()
 }
 
 # Helper functions
+update_version_xcconfig ()
+{
+    local file=$1
+    local version=$2
+    sed -i "s/CURRENT_PROJECT_VERSION.*=.*$/CURRENT_PROJECT_VERSION = ${version}/g" ${file}
+}
+
 update_package_json ()
 {
     local file=$1
@@ -67,6 +74,9 @@ update_salesforce_sdk_constants ()
 parse_opts "$@"
 
 echo -e "${YELLOW}*** SETTING VERSION TO ${OPT_VERSION}, IS DEV = ${OPT_IS_DEV} ***${NC}"
+
+echo "*** Updating Version.xcconfig ***"
+update_version_xcconfig "./configuration/Version.xcconfig" "${OPT_VERSION}"
 
 echo "*** Updating package.json ***"
 update_package_json "./package.json" "${OPT_VERSION}"
