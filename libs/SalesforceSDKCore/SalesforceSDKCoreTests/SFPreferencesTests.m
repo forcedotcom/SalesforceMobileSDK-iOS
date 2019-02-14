@@ -27,7 +27,9 @@
 #import "SFUserAccount.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFDirectoryManager.h"
-
+#import "SFUserAccount+Internal.h"
+#import "SFUserAccountIdentity+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 /** Class that tests the various scoped preferences
  */
 @interface SFPreferencesTests : XCTestCase
@@ -50,7 +52,7 @@
 
 - (void)testOrgLevelPreferences {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"happy-user" clientId:[SFUserAccountManager  sharedInstance].oauthClientId encrypted:YES];
-    SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithCredentials:credentials];
     NSError *error = nil;
     BOOL success = [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
     XCTAssertNil(error, @"Should be able to create user account");

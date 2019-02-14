@@ -28,7 +28,7 @@
 #import "SFRestRequest+Internal.h"
 #import "SFNativeRestRequestListener.h"
 #import "SFUserAccount+Internal.h"
- 
+#import "SFOAuthCredentials+Internal.h"
  // Constants only used in the tests below
 #define ENTITY_PREFIX_NAME @"RestClientTestsiOS"
 #define ACCOUNT @"Account"

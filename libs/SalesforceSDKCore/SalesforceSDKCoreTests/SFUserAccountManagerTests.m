@@ -30,6 +30,7 @@
 #import "SFDefaultUserAccountPersister.h"
 #import "SFSDKOAuthClient.h"
 #import "SFSDKOAuthClientConfig.h"
+#import "SFOAuthCredentials+Internal.h"
 
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";

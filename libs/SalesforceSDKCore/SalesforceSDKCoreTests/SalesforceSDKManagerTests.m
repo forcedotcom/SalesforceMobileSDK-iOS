@@ -30,6 +30,7 @@
 #import "SFSDKSalesforceAnalyticsManager.h"
 #import "SFSDKAppConfig.h"
 #import "SFUserAccount+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 
 static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 static NSString* const kTestAppName = @"OverridenAppName";

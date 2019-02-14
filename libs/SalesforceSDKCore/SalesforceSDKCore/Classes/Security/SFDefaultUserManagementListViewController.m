@@ -27,6 +27,7 @@
 #import "SFDefaultUserManagementDetailViewController.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
+#import "SFIdentityData.h"
 
 @interface SFDefaultUserManagementListViewController ()
 {
@@ -160,8 +161,8 @@
     SFUserAccount *displayUser = (indexPath.section == 0 ?
                                   [SFUserAccountManager sharedInstance].currentUser :
                                   _userAccountList[indexPath.row]);
-    cell.textLabel.text = displayUser.fullName;
-    cell.detailTextLabel.text = displayUser.userName;
+    cell.textLabel.text = displayUser.idData.displayName;
+    cell.detailTextLabel.text = displayUser.idData.username;
     
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     

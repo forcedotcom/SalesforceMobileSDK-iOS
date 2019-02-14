@@ -27,6 +27,10 @@
  */
 
 #import "SFMultipleSmartStoresTest.h"
+@interface SFOAuthCredentials ()
+@property (nonatomic, readwrite, nullable) NSURL *identityUrl;
+
+@end
 @interface SFMultipleSmartStoresTests()
 
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;

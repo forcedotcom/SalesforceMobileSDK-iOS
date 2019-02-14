@@ -43,13 +43,6 @@ NSException * SFOAuthInvalidIdentifierException() {
                                     userInfo:nil];
 }
 
-@interface SFOAuthCredentials () 
-
-//This property is intentionally readonly in the public header files.
-@property (nonatomic, readwrite, strong) NSString *protocol;
-
-@end
-
 @implementation SFOAuthCredentials
 
 @synthesize identifier                = _identifier;
@@ -63,7 +56,6 @@ NSException * SFOAuthInvalidIdentifierException() {
 @synthesize issuedAt                  = _issuedAt;
 @synthesize protocol                  = _protocol;
 @synthesize encrypted                 = _encrypted;
-@synthesize legacyIdentityInformation = _legacyIdentityInformation;
 @synthesize additionalOAuthFields     = _additionalOAuthFields;
 @synthesize jwt                       = _jwt;
 
@@ -106,7 +98,6 @@ NSException * SFOAuthInvalidIdentifierException() {
             _encrypted = (encryptedBool
                           ? [encryptedBool boolValue]
                           : [coder decodeBoolForKey:@"SFOAuthEncrypted"]);
-            _legacyIdentityInformation = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"SFOAuthIdentityInformation"];
             
             if ([self isMemberOfClass:[SFOAuthCredentials class]]) {
                 self.refreshToken = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthRefreshToken"];
@@ -192,7 +183,6 @@ NSException * SFOAuthInvalidIdentifierException() {
     copyCreds.organizationId = self.organizationId;
     copyCreds.userId = self.userId;
     
-    copyCreds.legacyIdentityInformation = [self.legacyIdentityInformation copy];
     copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
     
     return copyCreds;

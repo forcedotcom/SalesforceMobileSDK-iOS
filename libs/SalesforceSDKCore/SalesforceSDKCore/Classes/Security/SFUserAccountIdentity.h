@@ -37,12 +37,12 @@ NS_SWIFT_NAME(UserAccountIdentity)
 /**
  The user ID associated with the account.
  */
-@property (nonatomic, copy, nonnull) NSString *userId;
+@property (nonatomic, readonly, nonnull) NSString *userId;
 
 /**
  The organization ID associated with the account.
  */
-@property (nonatomic, copy, nonnull) NSString *orgId;
+@property (nonatomic, readonly, nonnull) NSString *orgId;
 
 /**
  Convenience method to return a new account identity with the given User ID and Org ID.
