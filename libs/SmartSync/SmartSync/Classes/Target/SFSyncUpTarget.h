@@ -25,6 +25,9 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncTarget.h"
 
+extern NSString * const kSFSyncUpTargetCreateFieldlist;
+extern NSString * const kSFSyncUpTargetUpdateFieldlist;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFSmartSyncSyncManager;

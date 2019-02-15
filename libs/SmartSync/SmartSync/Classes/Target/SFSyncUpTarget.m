@@ -31,6 +31,10 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SmartStore/SFSmartStore.h>
 
+//
+NSString * const kSFSyncUpTargetCreateFieldlist = @"createFieldlist";
+NSString * const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
+
 // target types
 static NSString *const kSFSyncUpTargetTypeRestStandard = @"rest";
 static NSString *const kSFSyncUpTargetTypeCustom = @"custom";

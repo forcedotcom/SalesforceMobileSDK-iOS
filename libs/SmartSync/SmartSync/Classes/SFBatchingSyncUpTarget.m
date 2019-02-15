@@ -28,24 +28,25 @@
 #import "SmartSync.h"
 #import "SFSyncUpTarget+Internal.h"
 
-static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
-static NSString * const kSFMaxBatchSize = @"maxBatchSize";
+NSString * const kSFSyncUpTargetMaxBatchSize = @"maxBatchSize";
 
-@interface SFBatchingSyncUpSyncUpTarget ()
+static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
+
+@interface SFBatchingSyncUpTarget ()
 
 @property(nonatomic, readwrite) NSUInteger maxBatchSize;
 
 @end
 
 
-@implementation SFBatchingSyncUpSyncUpTarget
+@implementation SFBatchingSyncUpTarget
 
 #pragma mark - Initialization methods
 
 - (instancetype)initWithDict:(NSDictionary *)dict {
     return [self initWithCreateFieldlist:dict[kSFSyncUpTargetCreateFieldlist]
                          updateFieldlist:dict[kSFSyncUpTargetUpdateFieldlist]
-                            maxBatchSize:dict[kSFMaxBatchSize]
+                            maxBatchSize:dict[kSFSyncUpTargetMaxBatchSize]
             ];
 }
 
@@ -72,26 +73,22 @@ static NSString * const kSFMaxBatchSize = @"maxBatchSize";
                                  updateFieldlist:(NSArray *)updateFieldList
                                     maxBatchSize:(NSNumber*)maxBatchSize {
 
-    return [[SFBatchingSyncUpSyncUpTarget alloc] initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldList maxBatchSize:maxBatchSize];
+    return [[SFBatchingSyncUpTarget alloc] initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldList maxBatchSize:maxBatchSize];
 }
 
 + (instancetype)newFromDict:(NSDictionary *)dict {
-    return [[SFBatchingSyncUpSyncUpTarget alloc] initWithDict:dict];
+    return [[SFBatchingSyncUpTarget alloc] initWithDict:dict];
 }
 
 #pragma mark - To dictionary
 
 - (NSMutableDictionary *)asDict {
     NSMutableDictionary *dict = [super asDict];
-    dict[kSFMaxBatchSize] = [NSNumber numberWithUnsignedInteger:self.maxBatchSize];
+    dict[kSFSyncUpTargetMaxBatchSize] = [NSNumber numberWithUnsignedInteger:self.maxBatchSize];
     return dict;
 }
 
 #pragma mark - SFAdvancedSyncUpTarget methods
-
-- (NSUInteger) maxBatchSize {
-    return self.maxBatchSize;
-}
 
 - (void)syncUpRecords:(nonnull SFSmartSyncSyncManager *)syncManager records:(nonnull NSArray<NSMutableDictionary *> *)records fieldlist:(nonnull NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode syncSoupName:(nonnull NSString *)syncSoupName completionBlock:(nonnull SFSyncUpTargetCompleteBlock)completionBlock failBlock:(nonnull SFSyncUpTargetErrorBlock)failBlock {
     

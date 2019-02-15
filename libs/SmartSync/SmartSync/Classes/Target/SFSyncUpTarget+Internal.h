@@ -24,9 +24,6 @@
 
 #import "SFSyncUpTarget.h"
 
-static NSString * _Nonnull const kSFSyncUpTargetCreateFieldlist = @"createFieldlist";
-static NSString * _Nonnull const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
-
 @interface SFSyncUpTarget ()
 
 @property (nonatomic, strong) NSArray*  createFieldlist;

@@ -25,19 +25,21 @@
 #import "SFSyncUpTarget.h"
 #import "SFAdvancedSyncUpTarget.h"
 
+extern NSString * const kSFSyncUpTargetMaxBatchSize;
+
 NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(BatchingSyncUpTarget)
 /**
  * Subclass of SFSyncUpTarget that batches create/update/delete operations by using composite api
  */
-@interface SFBatchingSyncUpSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
+@interface SFBatchingSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
 
 /** Factory methods
  */
 
-+ (instancetype)newSyncTargetWithCreateFieldlist:(NSArray *)createFieldlist
-                                 updateFieldlist:(NSArray *)updateFieldList
-                                    maxBatchSize:(NSNumber*)maxBatchSize;
++ (instancetype)newSyncTargetWithCreateFieldlist:(nullable NSArray *)createFieldlist
+                                 updateFieldlist:(nullable NSArray *)updateFieldList
+                                    maxBatchSize:(nullable NSNumber*)maxBatchSize;
 
 + (instancetype)newFromDict:(NSDictionary *)dict;
 
