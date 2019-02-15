@@ -463,7 +463,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         if (successStatusCode)
         {
             // Plugging server id in id field
-            [self updateReferences:record fieldWithRefId:idFieldName refIdToServerId:refIdToServerId];
+            [SFCompositeRequestHelper updateReferences:record fieldWithRefId:idFieldName refIdToServerId:refIdToServerId];
 
             // Clean and save
             [self cleanAndSaveInLocalStore:syncManager soupName:soupName record:record];
@@ -534,10 +534,10 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         if (successStatusCode)
         {
             // Plugging server id in id field
-            [self updateReferences:record fieldWithRefId:self.childrenInfo.idFieldName refIdToServerId:refIdToServerId];
+            [SFCompositeRequestHelper updateReferences:record fieldWithRefId:self.childrenInfo.idFieldName refIdToServerId:refIdToServerId];
 
             // Plugging server id in parent id field
-            [self updateReferences:record fieldWithRefId:self.childrenInfo.parentIdFieldName refIdToServerId:refIdToServerId];
+            [SFCompositeRequestHelper updateReferences:record fieldWithRefId:self.childrenInfo.parentIdFieldName refIdToServerId:refIdToServerId];
 
             // Clean and save
             [self cleanAndSaveInLocalStore:syncManager soupName:soupName record:record];
@@ -578,16 +578,6 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     return needReRun;
 }
 
-
-- (void)updateReferences:(NSMutableDictionary *)record
-          fieldWithRefId:(NSString *)fieldWithRefId
-         refIdToServerId:(NSDictionary *)refIdToServerId {
-
-    NSString *refId = record[fieldWithRefId];
-    if (refId && refIdToServerId[refId]) {
-        record[fieldWithRefId] = refIdToServerId[refId];
-    }
-}
 
 - (SFRestRequest*) getRequestForTimestamps:(NSString*) parentId {
     SFSDKSoqlBuilder * builderNested = [SFSDKSoqlBuilder withFieldsArray:@[self.childrenInfo.idFieldName, self.childrenInfo.modificationDateFieldName]];

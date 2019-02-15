@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SmartSync.h"
 #import "SFSyncTarget+Internal.h"
 #import "SFSyncUpTarget+Internal.h"
@@ -126,7 +127,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         for (NSMutableDictionary *record in records) {
             if ([strongSelf isDirty:record]) {
                 needReRun = needReRun || [strongSelf updateRecordInLocalStore:syncManager
-                                                                 syncSoupName:syncSoupName
+                                                                     soupName:syncSoupName
                                                                        record:record
                                                                     mergeMode:mergeMode
                                                               refIdToServerId:refIdToServerId
@@ -160,15 +161,92 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 #pragma mark - helper methods
 
 - (SFRestRequest*) buildRequestForRecord:(nonnull NSDictionary*)record fieldlist:(nonnull NSArray *)fieldlist {
-    return nil; // TBD
-}
-
-- (BOOL) updateRecordInLocalStore:(nonnull SFSmartSyncSyncManager *)syncManager syncSoupName:(nonnull NSString *)syncSoupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(NSDictionary*)response {
-
-    return NO; // TBD
+    if (![self isDirty:record]) {
+        return nil; // nothing to do
+    }
     
+    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
+    NSString* objectId = record[self.idFieldName];
+
+    // Delete case
+    BOOL isCreate = [self isLocallyCreated:record];
+    BOOL isDelete = [self isLocallyDeleted:record];
+    
+    if (isDelete) {
+        if (isCreate) {
+            return nil; // no need to go to server
+        } else {
+            return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
+        }
+    }
+    // Create/update cases
+    else {
+        NSMutableDictionary *fields;
+        
+        if (isCreate) {
+            fieldlist = self.createFieldlist ? self.createFieldlist : fieldlist;
+            fields = [self buildFieldsMap:record fieldlist:fieldlist idFieldName:self.idFieldName modificationDateFieldName:self.modificationDateFieldName];
+            return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
+
+        }
+        else {
+            fieldlist = self.updateFieldlist ? self.updateFieldlist : fieldlist;
+            fields = [self buildFieldsMap:record fieldlist:fieldlist idFieldName:self.idFieldName modificationDateFieldName:self.modificationDateFieldName];
+            return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
+        }
+    }
 }
 
+- (BOOL) updateRecordInLocalStore:(nonnull SFSmartSyncSyncManager *)syncManager soupName:(nonnull NSString *)soupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(NSDictionary*)response {
+
+    BOOL needReRun = NO;
+    NSUInteger statusCode = [((NSNumber *) response[kHttpStatusCode]) unsignedIntegerValue];
+    BOOL successStatusCode = [SFRestAPI isStatusCodeSuccess:statusCode];
+    BOOL notFoundStatusCode = [SFRestAPI isStatusCodeNotFound:statusCode];
+    
+    // Delete case
+    if ([self isLocallyDeleted:record]) {
+        if ([self isLocallyCreated:record]  // we didn't go to the sever
+            || successStatusCode  // or we successfully deleted on the server
+            || notFoundStatusCode) // or the record was already deleted on the server
+        {
+            [self deleteFromLocalStore:syncManager soupName:soupName record:record];
+        }
+        // Failure
+        else {
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+        }
+    }
+    
+    // Create / update case
+    else {
+        // Success case
+        if (successStatusCode)
+        {
+            // Plugging server id in id field
+            [SFCompositeRequestHelper updateReferences:record fieldWithRefId:self.idFieldName refIdToServerId:refIdToServerId];
+            
+            // Clean and save
+            [self cleanAndSaveInLocalStore:syncManager soupName:soupName record:record];
+        }
+        // Handling remotely deleted records
+        else if (notFoundStatusCode) {
+            // Record needs to be recreated
+            if (mergeMode == SFSyncStateMergeModeOverwrite) {
+                record[kSyncTargetLocal] = @YES;
+                record[kSyncTargetLocallyCreated] = @YES;
+                needReRun = YES;
+            }
+        }
+        // Failure
+        else {
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+        }
+        
+    }
+    
+    return needReRun;    
+}
 
 
 @end

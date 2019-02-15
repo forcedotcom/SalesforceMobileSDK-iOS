@@ -62,4 +62,16 @@
     return refIdToId;
 }
 
++ (void)updateReferences:(NSMutableDictionary *)record
+          fieldWithRefId:(NSString *)fieldWithRefId
+         refIdToServerId:(NSDictionary *)refIdToServerId {
+    
+    NSString *refId = record[fieldWithRefId];
+    if (refId && refIdToServerId[refId]) {
+        record[fieldWithRefId] = refIdToServerId[refId];
+    }
+}
+
+
+
 @end

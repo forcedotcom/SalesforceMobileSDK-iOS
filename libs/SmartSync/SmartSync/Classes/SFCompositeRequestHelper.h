@@ -45,6 +45,10 @@ NS_SWIFT_NAME(CompositeRequestHelper)
 
 + (NSDictionary *)parseIdsFromResponse:(NSDictionary *)refIdToResponses;
 
++ (void)updateReferences:(NSMutableDictionary *)record
+          fieldWithRefId:(NSString *)fieldWithRefId
+         refIdToServerId:(NSDictionary *)refIdToServerId;
+
 @end
 
 NS_ASSUME_NONNULL_END
