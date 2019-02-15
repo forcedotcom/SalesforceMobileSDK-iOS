@@ -23,13 +23,11 @@
  */
 
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
-#import "SFSyncTarget+Internal.h"
-#import "SFParentChildrenSyncUpTarget.h"
-#import "SFSmartSyncNetworkUtils.h"
 #import "SmartSync.h"
+#import "SFSyncTarget+Internal.h"
 #import "SFSyncUpTarget+Internal.h"
+#import "SFCompositeRequestHelper.h"
 
-typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToResponses);
 typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, NSString *> * idToLastModifiedDates);
 
 @interface SFParentChildrenSyncUpTarget ()
@@ -271,28 +269,6 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                                                  }];
 }
 
-- (void)sendCompositeRequest:(SFSmartSyncSyncManager *)syncManager
-                             allOrNone:(BOOL)allOrNone
-                                refIds:(NSArray<NSString *> *)refIds
-                              requests:(NSArray<SFRestRequest *> *)requests
-                       completionBlock:(SFSendCompositeRequestCompleteBlock)completionBlock
-                             failBlock:(SFSyncUpTargetErrorBlock)failBlock {
-
-    SFRestRequest *compositeRequest = [[SFRestAPI sharedInstance] compositeRequest:requests refIds:refIds allOrNone:allOrNone];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:compositeRequest
-                                                     failBlock:^(NSError *e, NSURLResponse *rawResponse) {
-                                                         failBlock(e);
-                                                     }
-                                                 completeBlock:^(id compositeResponse, NSURLResponse *rawResponse) {
-                                                     NSMutableDictionary *refIdToResponses = [NSMutableDictionary new];
-                                                     NSArray *responses = compositeResponse[kCompositeResponse];
-                                                     for (NSDictionary *response in responses) {
-                                                         refIdToResponses[response[kReferenceId]] = response;
-                                                     }
-                                                     completionBlock(refIdToResponses);
-                                                 }];
-}
-
 - (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager
               record:(NSMutableDictionary *)record
             children:(NSArray<NSMutableDictionary *> *)children
@@ -346,7 +322,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     // Sending composite request
     SFSendCompositeRequestCompleteBlock sendCompositeRequestCompleteBlock = ^(NSDictionary *refIdToResponses) {
         // Build refId to server id
-        NSDictionary *refIdToServerId = [self parseIdsFromResponse:refIdToResponses];
+        NSDictionary *refIdToServerId = [SFCompositeRequestHelper parseIdsFromResponse:refIdToResponses];
 
         // Will a re-run be required?
         BOOL needReRun = NO;
@@ -383,12 +359,12 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
     };
 
-    [self sendCompositeRequest:syncManager
-                     allOrNone:NO
-                        refIds:refIds
-                      requests:requests
-               completionBlock:sendCompositeRequestCompleteBlock
-                     failBlock:failBlock];
+    [SFCompositeRequestHelper sendCompositeRequest:syncManager
+                                         allOrNone:NO
+                                            refIds:refIds
+                                          requests:requests
+                                   completionBlock:sendCompositeRequestCompleteBlock
+                                         failBlock:failBlock];
 }
 
 
@@ -448,18 +424,6 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
             return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:info.sobjectType objectId:id fields:fields];
         }
     }
-}
-
-- (NSDictionary *)parseIdsFromResponse:(NSDictionary *)refIdToResponses {
-    NSMutableDictionary *refIdToId = [NSMutableDictionary new];
-    for (NSString *refId in [refIdToResponses allKeys]) {
-        NSDictionary *response = refIdToResponses[refId];
-        if ([((NSNumber *) response[kHttpStatusCode]) unsignedIntegerValue] == 201) {
-            NSString *serverId = response[kBody][kCreatedId];
-            refIdToId[refId] = serverId;
-        }
-    }
-    return refIdToId;
 }
 
 - (BOOL)updateParentRecordInLocalStore:(SFSmartSyncSyncManager *)syncManager

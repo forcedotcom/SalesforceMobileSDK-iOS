@@ -22,11 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncTarget+Internal.h"
-#import "SFBatchingSyncUpTarget.h"
-#import "SFSmartSyncNetworkUtils.h"
 #import "SmartSync.h"
+#import "SFSyncTarget+Internal.h"
 #import "SFSyncUpTarget+Internal.h"
+#import "SFCompositeRequestHelper.h"
 
 NSString * const kSFSyncUpTargetMaxBatchSize = @"maxBatchSize";
 
@@ -92,8 +91,84 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 
 - (void)syncUpRecords:(nonnull SFSmartSyncSyncManager *)syncManager records:(nonnull NSArray<NSMutableDictionary *> *)records fieldlist:(nonnull NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode syncSoupName:(nonnull NSString *)syncSoupName completionBlock:(nonnull SFSyncUpTargetCompleteBlock)completionBlock failBlock:(nonnull SFSyncUpTargetErrorBlock)failBlock {
     
-    // TBD
+    if (records.count == 0) {
+        completionBlock(nil);
+        return;
+    }
+    
+    NSMutableArray<NSString *> *refIds = [NSMutableArray new];
+    NSMutableArray<SFRestRequest *> *requests = [NSMutableArray new];
+
+    // Preparing requests
+    for (NSMutableDictionary* record in records) {
+        NSString *recordId = record[self.idFieldName];
+        
+        SFRestRequest *request = [self buildRequestForRecord:record fieldlist:fieldlist];
+        
+        if (request) {
+            [refIds addObject:recordId];
+            [requests addObject:request];
+        }
+    }
+    
+    // Sending composite request
+    __weak typeof(self) weakSelf = self;
+    SFSendCompositeRequestCompleteBlock sendCompositeRequestCompleteBlock = ^(NSDictionary *refIdToResponses) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        
+        // Build refId to server id
+        NSDictionary *refIdToServerId = [SFCompositeRequestHelper parseIdsFromResponse:refIdToResponses];
+        
+        // Will a re-run be required?
+        BOOL needReRun = NO;
+        
+        // Update local store
+        for (NSMutableDictionary *record in records) {
+            if ([strongSelf isDirty:record]) {
+                needReRun = needReRun || [strongSelf updateRecordInLocalStore:syncManager
+                                                                 syncSoupName:syncSoupName
+                                                                       record:record
+                                                                    mergeMode:mergeMode
+                                                              refIdToServerId:refIdToServerId
+                                                                     response:refIdToResponses[record[strongSelf.idFieldName]]];
+            }
+        }
+        
+        // Re-run if required
+        if (needReRun) {
+            [strongSelf syncUpRecords:syncManager
+                              records:records
+                            fieldlist:fieldlist
+                            mergeMode:mergeMode
+                         syncSoupName:syncSoupName
+                      completionBlock:completionBlock
+                            failBlock:failBlock];
+        } else {
+            // Done
+            completionBlock(nil);
+        }
+    };
+        
+    [SFCompositeRequestHelper sendCompositeRequest:syncManager
+                                         allOrNone:NO
+                                            refIds:refIds
+                                          requests:requests
+                                   completionBlock:sendCompositeRequestCompleteBlock
+                                         failBlock:failBlock];
+}
+
+#pragma mark - helper methods
+
+- (SFRestRequest*) buildRequestForRecord:(nonnull NSDictionary*)record fieldlist:(nonnull NSArray *)fieldlist {
+    return nil; // TBD
+}
+
+- (BOOL) updateRecordInLocalStore:(nonnull SFSmartSyncSyncManager *)syncManager syncSoupName:(nonnull NSString *)syncSoupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(NSDictionary*)response {
+
+    return NO; // TBD
     
 }
+
+
 
 @end
