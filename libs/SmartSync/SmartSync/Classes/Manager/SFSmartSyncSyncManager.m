@@ -600,20 +600,6 @@ static NSMutableDictionary *syncMgrList = nil;
         [weakSelf syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
     };
 
-    // Advanced sync up target take it from here
-    if ([target conformsToProtocol:@protocol(SFAdvancedSyncUpTarget)]) {
-        SFSyncUpTarget<SFAdvancedSyncUpTarget>* advancedTarget = (SFSyncUpTarget<SFAdvancedSyncUpTarget>*) target;
-        [advancedTarget syncUpRecords:self
-                              records:@[record]
-                            fieldlist:sync.options.fieldlist
-                            mergeMode:sync.options.mergeMode
-                         syncSoupName:sync.soupName
-                      completionBlock:^(NSDictionary *syncUpResult) { nextBlock();}
-                            failBlock:^(NSError *error) { failBlock(error);}
-         ];
-        return;
-    }
-
     // If it is not a advanced sync up target and there is no changes on the record, go to next
     if (action == SFSyncUpTargetActionNone) {
         // Next

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,26 +23,24 @@
  */
 
 #import "SFSyncUpTarget.h"
+#import "SFAdvancedSyncUpTarget.h"
 
-static NSString * _Nonnull const kSFSyncUpTargetCreateFieldlist = @"createFieldlist";
-static NSString * _Nonnull const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
+NS_ASSUME_NONNULL_BEGIN
+NS_SWIFT_NAME(BatchingSyncUpTarget)
+/**
+ * Subclass of SFSyncUpTarget that batches create/update/delete operations by using composite api
+ */
+@interface SFBatchingSyncUpSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
 
-@interface SFSyncUpTarget ()
+/** Factory methods
+ */
 
-@property (nonatomic, strong) NSArray*  createFieldlist;
-@property (nonatomic, strong) NSArray*  updateFieldlist;
++ (instancetype)newSyncTargetWithCreateFieldlist:(NSArray *)createFieldlist
+                                 updateFieldlist:(NSArray *)updateFieldList
+                                    maxBatchSize:(NSNumber*)maxBatchSize;
 
-- (NSMutableDictionary *)buildFieldsMap:(NSDictionary *)record
-                              fieldlist:(NSArray *)fieldlist
-                            idFieldName:(NSString *)idFieldName
-              modificationDateFieldName:(NSString *)modificationDateFieldName;
-
-- (BOOL)isNewerThanServer:(SFRecordModDate*)localModDate
-            remoteModDate:(SFRecordModDate*)remoteModDate;
-
-- (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
-                                    soupName:(NSString*) soupName
-                                      record:(NSDictionary*) record
-                                   lastError:(NSString*) lastError;
++ (instancetype)newFromDict:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

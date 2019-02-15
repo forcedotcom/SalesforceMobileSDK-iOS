@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncUpTarget.h"
+#import "SFSyncUpTarget+Internal.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncNetworkUtils.h"
 #import "SFSmartSyncSyncManager.h"
@@ -34,8 +34,6 @@
 // target types
 static NSString *const kSFSyncUpTargetTypeRestStandard = @"rest";
 static NSString *const kSFSyncUpTargetTypeCustom = @"custom";
-static NSString *const kSFSyncUpTargetCreateFieldlist = @"createFieldlist";
-static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
 
 @implementation SFRecordModDate
 - (instancetype)initWithTimestamp:(NSString*)timestamp isDeleted:(BOOL)isDeleted {
@@ -52,8 +50,6 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
 typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 
 @interface  SFSyncUpTarget ()
-@property (nonatomic, strong) NSArray*  createFieldlist;
-@property (nonatomic, strong) NSArray*  updateFieldlist;
 @property (nonatomic, strong) NSString* lastError;
 @end
 
