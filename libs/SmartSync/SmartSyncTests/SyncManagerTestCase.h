@@ -11,7 +11,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+                
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -24,8 +24,8 @@
 
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SmartStore/SFSmartStore.h>
-#import "SFSmartSyncSyncManager.h"
+#import <SmartStore/SmartStore.h>
+#import <SmartSync/SmartSync.h>
 
 #define ACCOUNTS_SOUP       @"accounts"
 #define ACCOUNT_TYPE        @"Account"
@@ -66,6 +66,8 @@
 - (void)dropAccountsSoup;
 - (void)createContactsSoup;
 - (void)dropContactsSoup;
+
+- (void)deleteSyncs;
 
 - (NSArray *) buildFieldsMapForRecords:(NSUInteger)count objectType:(NSString*)objectType additionalFields:(NSDictionary*)additionalFields;
 - (NSDictionary *)createAccountsOnServer:(NSUInteger)count;
@@ -118,5 +120,9 @@
 - (void)checkServerDeleted:(NSArray *)ids objectType:(NSString *)objectType;
 
 - (void)checkDbRelationshipsWithChildrenIds:(NSArray *)childrenIds expectedParentId:(NSString *)expectedParentId soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName parentIdFieldName:(NSString *)parentIdFieldName;
+
+-(void) deleteAccountsLocally:(NSArray*)ids;
+-(void) updateAccountsOnServer:(NSDictionary*)idToFieldsUpdated;
+-(void) deleteAccountsOnServer:(NSArray *)ids;
 
 @end
