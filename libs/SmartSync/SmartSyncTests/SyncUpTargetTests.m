@@ -22,12 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SyncManagerTestCase.h"
+#import "SyncUpTargetTests.h"
 #import "SFSyncUpdateCallbackQueue.h"
 
 #define COUNT_TEST_ACCOUNTS 10
 
-@interface SyncUpTargetTests : SyncManagerTestCase
+@interface SyncUpTargetTests ()
 {
     NSMutableDictionary* idToFields; // id -> {Name: xxx, Description: yyy}
 }

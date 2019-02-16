@@ -23,12 +23,10 @@
  */
 
 #import "SyncManagerTestCase.h"
-#import "SFBatchingSyncUpTarget.h"
-#import "SFSmartSyncObjectUtils.h"
 #import "SFSyncUpdateCallbackQueue.h"
-#import "SFSmartSyncConstants.h"
+#import "SyncUpTargetTests.h"
 
-@interface BatchingSyncUpTests : SyncManagerTestCase {
+@interface BatchingSyncUpTests : SyncUpTargetTests {
 }
 
 @end
@@ -110,6 +108,13 @@
     XCTAssertEqualObjects(actualTargetDict[@"updateFieldlist"][1], @"Description", @"Wrong updateFieldlist");
     XCTAssertEqualObjects(actualTargetDict[@"maxBatchSize"], @12, @"Wrong max batch size");
 
+}
+
+
+#pragma mark - THE methods responsible for building sync up targets used in all the tests
+
+- (SFSyncUpTarget*) buildSyncUpTargetWithCreateFieldlist:(nullable NSArray*)createFieldlist updateFieldlist:(nullable NSArray*)updateFieldlist {
+    return [[SFBatchingSyncUpTarget alloc] initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist];
 }
 
 @end

@@ -444,6 +444,7 @@
 		4FDCBD501E8DDC5C008F8FCE /* SFMruSyncDownTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFMruSyncDownTarget.m; path = Target/SFMruSyncDownTarget.m; sourceTree = "<group>"; };
 		4FDCBD511E8DDC5C008F8FCE /* SFMruSyncDownTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMruSyncDownTarget.h; path = Target/SFMruSyncDownTarget.h; sourceTree = "<group>"; };
 		4FF1357B221782D600D9D25A /* SyncUpTargetTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SyncUpTargetTests.m; sourceTree = "<group>"; };
+		4FF1358B2217A51200D9D25A /* SyncUpTargetTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyncUpTargetTests.h; sourceTree = "<group>"; };
 		4FF933022216440C0058807A /* SFBatchingSyncUpTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBatchingSyncUpTarget.h; sourceTree = "<group>"; };
 		4FF93313221644640058807A /* SFBatchingSyncUpTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFBatchingSyncUpTarget.m; sourceTree = "<group>"; };
 		4FF9331622165CD30058807A /* BatchingSyncUpTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BatchingSyncUpTests.m; sourceTree = "<group>"; };
@@ -797,6 +798,7 @@
 				4FCA4AE71FBE7D4E00F081B3 /* SFSDKSyncsConfigTests.h */,
 				4FCA4AE81FBE7D6200F081B3 /* SFSDKSyncsConfigTests.m */,
 				4FF1357B221782D600D9D25A /* SyncUpTargetTests.m */,
+				4FF1358B2217A51200D9D25A /* SyncUpTargetTests.h */,
 				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
 			);
 			path = SmartSyncTests;
