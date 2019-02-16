@@ -413,7 +413,7 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Create and run a sync up
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState *sync = [self createSyncUp:[[SFSyncUpTarget alloc] init] options:options soupName:soupName syncName:nil];
+    SFSyncState *sync = [self createSyncUp:[SFSyncUpTarget newFromDict:nil] options:options soupName:soupName syncName:nil];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }

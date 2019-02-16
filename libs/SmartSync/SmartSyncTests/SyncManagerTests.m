@@ -322,39 +322,6 @@
 }
 
 /**
- * Test serialization and deserialization of SFSyncUpTargets to and from NSDictionary objects.
- */
-- (void)testSyncUpTargetSerialization {
-    
-    // Default sync up target should be the base class.
-    SFSyncUpTarget *defaulttarget = [[SFSyncUpTarget alloc] init];
-    XCTAssertEqual([defaulttarget class], [SFSyncUpTarget class], @"Default class should be SFSyncUpTarget");
-    XCTAssertEqual(defaulttarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
-    
-    // Explicit rest sync up target type creates base class.
-    NSDictionary *restDict = @{ kSFSyncTargetTypeKey: @"rest" };
-    SFSyncUpTarget *resttarget = [SFSyncUpTarget newFromDict:restDict];
-    XCTAssertEqual([resttarget class], [SFSyncUpTarget class], @"Rest class should be SFSyncUpTarget");
-    XCTAssertEqual(resttarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
-    
-    // Custom sync up target
-    TestSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] init];
-    NSDictionary *customDict = [customTarget asDict];
-    XCTAssertEqualObjects(customDict[kSFSyncTargetiOSImplKey], NSStringFromClass([TestSyncUpTarget class]), @"Custom class is incorrect.");
-    SFSyncUpTarget *customTargetFromDict = [SFSyncUpTarget newFromDict:customDict];
-    XCTAssertEqual([customTargetFromDict class], [TestSyncUpTarget class], @"Custom class is incorrect.");
-}
-
-/**
- Test that sync up uses SFSyncUpTarget by default
- */
-- (void)testDefaultSyncUpTarget {
-    SFSyncOptions *options = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] mergeMode:SFSyncStateMergeModeOverwrite];
-    SFSyncState *syncUpState = [SFSyncState newSyncUpWithOptions:options soupName:ACCOUNTS_SOUP store:self.store];
-    XCTAssertEqual([syncUpState.target class], [SFSyncUpTarget class], @"Default sync up target should be SFSyncUpTarget");
-}
-
-/**
  * getSyncStatus should return null for invalid sync id
  */
 - (void)testGetSyncStatusForInvalidSyncId
