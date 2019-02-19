@@ -149,7 +149,7 @@
 #pragma mark - THE methods responsible for building sync up targets used in all the tests
 
 - (SFSyncUpTarget*) buildSyncUpTargetWithCreateFieldlist:(nullable NSArray*)createFieldlist updateFieldlist:(nullable NSArray*)updateFieldlist {
-    return [[SFBatchingSyncUpTarget alloc] initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist];
+    return [SFBatchingSyncUpTarget newSyncTargetWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist maxBatchSize:@2];
 }
 
 @end
