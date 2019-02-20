@@ -25,6 +25,9 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncTarget.h"
 
+extern NSString * const kSFSyncUpTargetCreateFieldlist;
+extern NSString * const kSFSyncUpTargetUpdateFieldlist;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFSmartSyncSyncManager;
@@ -122,7 +125,7 @@ NS_SWIFT_NAME(SyncUpTarget)
  Creates a new instance of a server target from a serialized dictionary.
  @param dict The dictionary with the serialized server target.
  */
-+ (nullable instancetype)newFromDict:(NSDictionary *)dict NS_SWIFT_NAME(build(dict:));
++ (nullable instancetype)newFromDict:(nullable NSDictionary *)dict NS_SWIFT_NAME(build(dict:));
 
 /**
  Converts a string representation of a target type into its target type.

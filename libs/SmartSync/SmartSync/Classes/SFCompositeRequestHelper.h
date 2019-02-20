@@ -1,9 +1,4 @@
 /*
- SmartSync.h
- SmartSync
-
- Created by Wolfgang Mathurin on Thu Feb 14 18:39:42 PST 2019.
-
  Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,34 +22,33 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SFObject.h>
-#import <SmartSync/SFParentChildrenSyncDownTarget.h>
-#import <SmartSync/SFRefreshSyncDownTarget.h>
-#import <SmartSync/SFMetadataSyncDownTarget.h>
-#import <SmartSync/SFLayout.h>
-#import <SmartSync/SFMetadata.h>
-#import <SmartSync/SFMetadataSyncManager.h>
-#import <SmartSync/SFSmartSyncConstants.h>
-#import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSoslSyncDownTarget.h>
-#import <SmartSync/SFChildrenInfo.h>
-#import <SmartSync/SFSyncTarget.h>
-#import <SmartSync/SFLayoutSyncManager.h>
-#import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFParentChildrenSyncHelper.h>
-#import <SmartSync/SFSmartSyncObjectUtils.h>
-#import <SmartSync/SFSyncUpTarget.h>
-#import <SmartSync/SFBatchingSyncUpTarget.h>
-#import <SmartSync/SmartSyncSDKManager.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFMruSyncDownTarget.h>
-#import <SmartSync/SFLayoutSyncDownTarget.h>
-#import <SmartSync/SFAdvancedSyncUpTarget.h>
-#import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSDKSmartSyncLogger.h>
-#import <SmartSync/SFParentChildrenSyncUpTarget.h>
-#import <SmartSync/SFParentInfo.h>
-#import <SmartSync/SFSyncState.h>
-#import <SmartSync/SFSoqlSyncDownTarget.h>
-#import <SmartSync/SFSyncOptions.h>
-#import <SmartSync/SFSDKSyncsConfig.h>
+#import "SFSyncUpTarget.h"
+
+@class SFSmartSyncSyncManager;
+@class SFRestRequest;
+
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToResponses);
+
+NS_SWIFT_NAME(CompositeRequestHelper)
+
+@interface SFCompositeRequestHelper : NSObject
+
++ (void)sendCompositeRequest:(SFSmartSyncSyncManager *)syncManager
+                   allOrNone:(BOOL)allOrNone
+                      refIds:(NSArray<NSString *> *)refIds
+                    requests:(NSArray<SFRestRequest *> *)requests
+             completionBlock:(SFSendCompositeRequestCompleteBlock)completionBlock
+                   failBlock:(SFSyncUpTargetErrorBlock)failBlock;
+
++ (NSDictionary *)parseIdsFromResponse:(NSDictionary *)refIdToResponses;
+
++ (void)updateReferences:(NSMutableDictionary *)record
+          fieldWithRefId:(NSString *)fieldWithRefId
+         refIdToServerId:(NSDictionary *)refIdToServerId;
+
+@end
+
+NS_ASSUME_NONNULL_END

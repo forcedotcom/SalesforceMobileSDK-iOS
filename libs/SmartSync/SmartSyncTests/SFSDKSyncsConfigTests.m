@@ -82,7 +82,7 @@
          expectedType:SFSyncStateSyncTypeUp
            expectedId:actualSync2.syncId
          expectedName:@"globalSync2"
-       expectedTarget:[[SFSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
+       expectedTarget:[[SFBatchingSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[@"Id", @"Name", @"LastModifiedDate"] mergeMode:SFSyncStateMergeModeLeaveIfChanged]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
@@ -121,7 +121,7 @@
          expectedType:SFSyncStateSyncTypeUp
            expectedId:actualSync2.syncId
          expectedName:@"userSync2"
-       expectedTarget:[[SFSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
+       expectedTarget:[[SFBatchingSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[@"Id", @"Name", @"LastModifiedDate"] mergeMode:SFSyncStateMergeModeLeaveIfChanged]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0

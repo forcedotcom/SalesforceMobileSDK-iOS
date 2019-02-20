@@ -132,7 +132,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 }
 
 + (SFSyncState*)newSyncUpWithOptions:(SFSyncOptions *)options soupName:(NSString *)soupName store:(SFSmartStore *)store {
-    SFSyncUpTarget *target = [[SFSyncUpTarget alloc] init];
+    SFSyncUpTarget *target = [SFSyncUpTarget newFromDict:nil];
     return [self newSyncUpWithOptions:options target:target soupName:soupName name:nil store:store];
 }
 

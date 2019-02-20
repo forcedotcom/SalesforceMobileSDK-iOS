@@ -1,9 +1,4 @@
 /*
- SmartSync.h
- SmartSync
-
- Created by Wolfgang Mathurin on Thu Feb 14 18:39:42 PST 2019.
-
  Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,34 +22,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SFObject.h>
-#import <SmartSync/SFParentChildrenSyncDownTarget.h>
-#import <SmartSync/SFRefreshSyncDownTarget.h>
-#import <SmartSync/SFMetadataSyncDownTarget.h>
-#import <SmartSync/SFLayout.h>
-#import <SmartSync/SFMetadata.h>
-#import <SmartSync/SFMetadataSyncManager.h>
-#import <SmartSync/SFSmartSyncConstants.h>
-#import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSoslSyncDownTarget.h>
-#import <SmartSync/SFChildrenInfo.h>
-#import <SmartSync/SFSyncTarget.h>
-#import <SmartSync/SFLayoutSyncManager.h>
-#import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFParentChildrenSyncHelper.h>
-#import <SmartSync/SFSmartSyncObjectUtils.h>
-#import <SmartSync/SFSyncUpTarget.h>
-#import <SmartSync/SFBatchingSyncUpTarget.h>
-#import <SmartSync/SmartSyncSDKManager.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFMruSyncDownTarget.h>
-#import <SmartSync/SFLayoutSyncDownTarget.h>
-#import <SmartSync/SFAdvancedSyncUpTarget.h>
-#import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSDKSmartSyncLogger.h>
-#import <SmartSync/SFParentChildrenSyncUpTarget.h>
-#import <SmartSync/SFParentInfo.h>
-#import <SmartSync/SFSyncState.h>
-#import <SmartSync/SFSoqlSyncDownTarget.h>
-#import <SmartSync/SFSyncOptions.h>
-#import <SmartSync/SFSDKSyncsConfig.h>
+#import "SFSyncUpTarget.h"
+#import "SFAdvancedSyncUpTarget.h"
+
+extern NSString * const kSFSyncUpTargetMaxBatchSize;
+
+NS_ASSUME_NONNULL_BEGIN
+NS_SWIFT_NAME(BatchingSyncUpTarget)
+/**
+ * Subclass of SFSyncUpTarget that batches create/update/delete operations by using composite api
+ */
+@interface SFBatchingSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
+
+/** Factory methods
+ */
+
++ (instancetype)newSyncTargetWithCreateFieldlist:(nullable NSArray *)createFieldlist
+                                 updateFieldlist:(nullable NSArray *)updateFieldList
+                                    maxBatchSize:(nullable NSNumber*)maxBatchSize;
+
++ (instancetype)newFromDict:(NSDictionary *)dict;
+
+@end
+
+NS_ASSUME_NONNULL_END

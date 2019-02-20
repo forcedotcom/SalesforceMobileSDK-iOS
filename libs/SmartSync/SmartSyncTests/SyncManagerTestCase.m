@@ -694,4 +694,16 @@ static NSException *authException = nil;
     }
 }
 
+-(void) deleteAccountsLocally:(NSArray*)ids {
+    [self deleteRecordsLocally:ids soupName:ACCOUNTS_SOUP];
+}
+
+-(void)updateAccountsOnServer:(NSDictionary*)idToFieldsUpdated {
+    [self updateRecordsOnServer:idToFieldsUpdated objectType:ACCOUNT_TYPE];
+}
+
+- (void)deleteAccountsOnServer:(NSArray *)ids {
+    [self deleteRecordsOnServer:ids objectType:ACCOUNT_TYPE];
+}
+
 @end
