@@ -358,8 +358,6 @@
 		4F1DA6CC1C84FF3D0014FAD3 /* TestCaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCaseManager.swift; sourceTree = "<group>"; };
 		4F1DA6D91C8799810014FAD3 /* SearchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchScreen.swift; sourceTree = "<group>"; };
 		4F1DA6DB1C879D800014FAD3 /* DetailScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScreen.swift; sourceTree = "<group>"; };
-		4F60B2271B9A2C2900923174 /* WYPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WYPopoverController.h; path = ../../../../../external/wypopovercontroller/WYPopoverController/WYPopoverController.h; sourceTree = "<group>"; };
-		4F60B2281B9A2C2900923174 /* WYPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WYPopoverController.m; path = ../../../../../external/wypopovercontroller/WYPopoverController/WYPopoverController.m; sourceTree = "<group>"; };
 		4F941E941F8C43370035EB03 /* userstore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userstore.json; sourceTree = "<group>"; };
 		4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ImagesSmartSyncExplorer.xcassets; sourceTree = "<group>"; };
 		4FCA4A9C1FBE61C300F081B3 /* usersyncs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = usersyncs.json; sourceTree = "<group>"; };
@@ -553,15 +551,6 @@
 			path = ../../../../shared/test/test;
 			sourceTree = "<group>";
 		};
-		4F60B2261B9A2A2900923174 /* WYPopoverController */ = {
-			isa = PBXGroup;
-			children = (
-				4F60B2271B9A2C2900923174 /* WYPopoverController.h */,
-				4F60B2281B9A2C2900923174 /* WYPopoverController.m */,
-			);
-			name = WYPopoverController;
-			sourceTree = "<group>";
-		};
 		820C8B0B19E6054E00E9BE5C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -570,7 +559,6 @@
 				B7BAD72F1FBB7DC30046629F /* IDPLoginViewController.h */,
 				B7BAD7311FBB7DC30046629F /* IDPLoginViewController.m */,
 				B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */,
-				4F60B2261B9A2A2900923174 /* WYPopoverController */,
 				4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */,
 				4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */,
 				820C8B0C19E6054E00E9BE5C /* AppDelegate.h */,
