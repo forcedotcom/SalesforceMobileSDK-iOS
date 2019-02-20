@@ -101,6 +101,21 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
     [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
+- (void)testGetLoginPageUrl {
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kSFTestId clientId:kSFTestClientId encrypted:YES];
+    [credentials setDomain:kSFAlternateMyDomainEndpoint];
+    XCTestExpectation *expect = [self expectationWithDescription:@"testGetLoginPageUrl"];
+    [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
+        XCTAssertNil(error, @"Error should be nil");
+        XCTAssertNotNil(authConfig, @"Auth config should not be nil");
+        XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
+        XCTAssertNotNil(authConfig.loginPageUrl, @"Login page URL should not be nil");
+        XCTAssertTrue([authConfig.loginPageUrl containsString:kSFAlternateMyDomainEndpoint], @"Login page URL should contain correct URL");
+        [expect fulfill];
+    } oauthCredentials:credentials];
+    [self waitForExpectationsWithTimeout:20 handler:nil];
+}
+
 - (void)testGetNoAuthConfig {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kSFTestId clientId:kSFTestClientId encrypted:YES];
     [credentials setDomain:kSFSandboxEndpoint];
