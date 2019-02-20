@@ -42,7 +42,7 @@ NS_SWIFT_NAME(ParentChildrenSyncUpTarget)
                     childrenUpdateFieldlist:(NSArray<NSString *> *)childrenUpdateFieldlist
                            relationshipType:(SFParentChildrenRelationshipType)relationshipType;
 
-+ (instancetype)newFromDict:(NSDictionary *)dict;
++ (instancetype)newFromDict:(nullable NSDictionary *)dict;
 
 @end
 

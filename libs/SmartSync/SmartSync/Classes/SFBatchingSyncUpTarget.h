@@ -41,7 +41,7 @@ NS_SWIFT_NAME(BatchingSyncUpTarget)
                                  updateFieldlist:(nullable NSArray *)updateFieldList
                                     maxBatchSize:(nullable NSNumber*)maxBatchSize;
 
-+ (instancetype)newFromDict:(NSDictionary *)dict;
++ (instancetype)newFromDict:(nullable NSDictionary *)dict;
 
 @end
 

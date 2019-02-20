@@ -35,8 +35,6 @@
  */
 @property (nonatomic) BOOL ignoreEvents;
 
-- (void)keyPressed:(NSNotification *)notification;
-
 @end
 
 @implementation SFApplication
