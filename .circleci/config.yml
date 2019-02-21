@@ -32,7 +32,7 @@ aliases:
     name: Danger Lib
     command:  |
       chruby ${CHRUBY_VER}
-      DANGER_GITHUB_API_TOKEN="b676bc92bde5202b94d0""ec8dfecb2716044bf523" danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
+      danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
     background: true
     when: always
 
