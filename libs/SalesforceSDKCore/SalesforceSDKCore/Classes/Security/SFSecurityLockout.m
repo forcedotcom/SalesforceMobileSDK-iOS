@@ -215,11 +215,11 @@ static BOOL _showPasscode = YES;
     }
 }
 
-+ (BOOL)doesNotNeedPasscodeFlow:(NSUInteger)newLockoutTime {
-    return (newLockoutTime == 0)  && ![self usersHavePasscodePolicy];
++ (BOOL)needsPasscodeFlow:(NSUInteger)newLockoutTime {
+    return newLockoutTime !=0 || [self usersHavePasscodePolicy];
 }
 
-+ (BOOL)hasNewPasscodePolicy:(NSUInteger)newLockoutTime passcodeLength:(NSUInteger)newPasscodeLength {
++ (BOOL)needsPasscodePolicyChange:(NSUInteger)newLockoutTime passcodeLength:(NSUInteger)newPasscodeLength {
     BOOL result = NO;
     if (securityLockoutTime == 0 && newLockoutTime > 0) {
         result = YES;
@@ -249,7 +249,7 @@ static BOOL _showPasscode = YES;
 {
     SFAppLockControllerMode mode = SFAppLockControllerModeCreatePasscode;
     
-    if ([self doesNotNeedPasscodeFlow:newLockoutTime]) {
+    if (![self needsPasscodeFlow:newLockoutTime]) {
         // No Passcode Requirements for this new user or any other logged in users
         [SFSecurityLockout clearAllPasscodeState];
         [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];
@@ -257,7 +257,7 @@ static BOOL _showPasscode = YES;
     }
     
     [self setBiometricPolicy:newBiometricAllowed];
-    if ([self hasNewPasscodePolicy:newLockoutTime passcodeLength:newPasscodeLength]) {
+    if ([self needsPasscodePolicyChange:newLockoutTime passcodeLength:newPasscodeLength]) {
         SFSDKAppLockViewConfig *config = [self passcodeViewConfig];
         if (newLockoutTime != securityLockoutTime) {
             //if we are here it means that the newLockoutTime is lesser that securityLockoutTime
