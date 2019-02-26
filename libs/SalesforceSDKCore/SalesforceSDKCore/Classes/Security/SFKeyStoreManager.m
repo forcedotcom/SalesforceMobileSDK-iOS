@@ -107,10 +107,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 
 - (SFEncryptionKey *)keyWithRandomValue
 {
-    NSData *keyData = [SFSDKCryptoUtils randomByteDataWithLength:kCCKeySizeAES256];
-    NSData *iv = [SFSDKCryptoUtils randomByteDataWithLength:kCCBlockSizeAES128];
-    SFEncryptionKey *key = [[SFEncryptionKey alloc] initWithData:keyData initializationVector:iv];
-    return key;
+    return [SFEncryptionKey generateKey];
 }
 
 #pragma mark - Private methods

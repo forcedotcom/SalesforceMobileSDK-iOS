@@ -33,10 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Designated initializer.
- @param keyData The key component, represented as NSData.
- @param iv The initialization vector, represented as NSData.
+ Generate an encryption key
  */
-- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv;
++ (SFEncryptionKey*) generateKey;
 
 /**
  Encrypt given data

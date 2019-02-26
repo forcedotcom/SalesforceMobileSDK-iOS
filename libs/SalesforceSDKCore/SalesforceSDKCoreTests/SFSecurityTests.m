@@ -29,6 +29,12 @@
 
 static NSUInteger const kNumThreadsInSafetyTest = 100;
 
+@interface SFEncryptionKey ()
+
+- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv;
+
+@end;
+
 @interface SFKeyStoreManager ()
 
 - (void)renameKeysWithKeyTypePasscode:(SFGeneratedKeyStore*)generatedKeyStore;

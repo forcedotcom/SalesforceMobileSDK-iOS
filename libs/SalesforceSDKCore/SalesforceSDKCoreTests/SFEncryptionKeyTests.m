@@ -25,6 +25,11 @@
 #import <XCTest/XCTest.h>
 #import "SFEncryptionKey.h"
 
+@interface SFEncryptionKey ()
+
+- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv;
+
+@end;
 
 @interface SFEncryptionKeyTests : XCTestCase
 

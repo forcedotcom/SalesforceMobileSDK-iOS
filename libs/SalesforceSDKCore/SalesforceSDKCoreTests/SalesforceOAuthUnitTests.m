@@ -36,6 +36,12 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
 static NSString * const kTestAccessToken = @"AccessGranted!";
 static NSString * const kTestRefreshToken = @"HowRefreshing";
 
+@interface SFEncryptionKey ()
+
+- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv;
+
+@end;
+
 @interface SalesforceOAuthUnitTests ()
 
 - (void)verifySuccessfulTokenUpdate:(NSString *)accessToken refreshToken:(NSString *)refreshToken;

@@ -37,6 +37,12 @@ NSString * const kSSAlphabets = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRST
 
 static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
 
+@interface SFEncryptionKey ()
+
+- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv;
+
+@end;
+
 @interface SFSmartStoreWithExternalStorageTests : SFSmartStoreTests
 
 @end
