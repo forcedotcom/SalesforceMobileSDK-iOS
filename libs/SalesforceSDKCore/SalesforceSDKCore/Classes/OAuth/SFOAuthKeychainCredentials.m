@@ -115,9 +115,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [SFSDKCryptoUtils aes256DecryptData:accessTokenData
-                                                            withKey:encryptionKey.key
-                                                                 iv:encryptionKey.initializationVector];
+        NSData *decryptedData = [encryptionKey decryptData:accessTokenData];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
         return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
@@ -181,9 +179,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [SFSDKCryptoUtils aes256DecryptData:refreshTokenData
-                                                            withKey:encryptionKey.key
-                                                                 iv:encryptionKey.initializationVector];
+        NSData *decryptedData = [encryptionKey decryptData:refreshTokenData];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
         return [[NSString alloc] initWithData:refreshTokenData encoding:NSUTF8StringEncoding];
