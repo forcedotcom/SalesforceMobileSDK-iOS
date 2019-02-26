@@ -23,6 +23,7 @@
  */
 
 #import "SFEncryptionKey.h"
+#import "SFSDKCryptoUtils.h"
 
 // NSCoding constants
 static NSString * const kEncryptionKeyCodingValue = @"com.salesforce.encryption.key.data";
@@ -95,5 +96,20 @@ static NSString * const kInitializationVectorCodingValue = @"com.salesforce.encr
     result = 43 * result + [_initializationVector hash];
     return result;
 }
+
+- (NSData*)encryptData:(NSData *)dataToEncrypt
+{
+    return [SFSDKCryptoUtils aes256EncryptData:dataToEncrypt
+                                       withKey:self.key
+                                            iv:self.initializationVector];
+}
+
+- (NSData*)decryptData:(NSData *)dataToDecrypt
+{
+    return [SFSDKCryptoUtils aes256DecryptData:dataToDecrypt
+                                       withKey:self.key
+                                            iv:self.initializationVector];
+}
+
 
 @end

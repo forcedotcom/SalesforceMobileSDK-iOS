@@ -88,9 +88,7 @@
     
     NSData *encryptedData = dictionaryData;
     if (theEncryptionKey != nil) {
-        encryptedData = [SFSDKCryptoUtils aes256EncryptData:dictionaryData
-                                                    withKey:theEncryptionKey.key
-                                                         iv:theEncryptionKey.initializationVector];
+        encryptedData = [theEncryptionKey encryptData:dictionaryData];
     }
     
     return encryptedData;
@@ -101,9 +99,7 @@
     
     NSData *decryptedDictionaryData = dictionaryData;
     if (decryptKey != nil) {
-        decryptedDictionaryData = [SFSDKCryptoUtils aes256DecryptData:dictionaryData
-                                                              withKey:decryptKey.key
-                                                                   iv:decryptKey.initializationVector];
+        decryptedDictionaryData = [decryptKey decryptData:dictionaryData];
     }
     if (decryptedDictionaryData == nil)
         return nil;

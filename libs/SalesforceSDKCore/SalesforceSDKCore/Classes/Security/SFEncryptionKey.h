@@ -39,6 +39,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv;
 
 /**
+ Encrypt given data
+ @param dataToEncrypt The data to encrypt
+ */
+- (NSData*)encryptData:(NSData *)dataToEncrypt;
+
+/**
+ Decrypt given data
+ @param dataToDecrypt The data to decrypt
+ */
+- (NSData*)decryptData:(NSData *)dataToDecrypt;
+
+/**
  The key component of the object.
  */
 @property (nonatomic, copy, nullable) NSData *key;

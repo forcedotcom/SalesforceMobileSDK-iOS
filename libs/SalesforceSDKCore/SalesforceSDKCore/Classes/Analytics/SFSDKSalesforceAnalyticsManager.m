@@ -130,10 +130,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
         
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel autoCreate:YES];
         DataEncryptorBlock dataEncryptorBlock = ^NSData*(NSData *data) {
-            return [SFSDKCryptoUtils aes256EncryptData:data withKey:encKey.key iv:encKey.initializationVector];
+            return [encKey encryptData:data];
         };
         DataDecryptorBlock dataDecryptorBlock = ^NSData*(NSData *data) {
-            return [SFSDKCryptoUtils aes256DecryptData:data withKey:encKey.key iv:encKey.initializationVector];
+            return [encKey decryptData:data];
         };
         _analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
         _eventStoreManager = self.analyticsManager.storeManager;
