@@ -47,7 +47,7 @@
 #pragma mark - Tests
 
 - (void) testMaxBatchSizeExceeding25 {
-    SFBatchingSyncUpTarget* target = [SFBatchingSyncUpTarget newSyncTargetWithCreateFieldlist:nil updateFieldlist:nil maxBatchSize:@26];
+    SFBatchingSyncUpTarget* target = [[SFBatchingSyncUpTarget alloc] initWithCreateFieldlist:nil updateFieldlist:nil maxBatchSize:@26];
     XCTAssertEqual(target.maxBatchSize, 25, @"Max batch size should be 25");
 }
 
@@ -58,7 +58,7 @@
 }
 
 - (void) testFactoryMethod {
-    SFBatchingSyncUpTarget* target = [SFBatchingSyncUpTarget newSyncTargetWithCreateFieldlist:@[@"Name"] updateFieldlist:@[@"Name", @"Description"] maxBatchSize:@12];
+    SFBatchingSyncUpTarget* target = [[SFBatchingSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:@[@"Name", @"Description"] maxBatchSize:@12];
 
     XCTAssertEqual(target.createFieldlist.count, 1, @"Wrong createFieldlist");
     XCTAssertEqualObjects(target.createFieldlist[0], @"Name", @"Wrong createFieldlist");
@@ -95,7 +95,7 @@
 
 
 - (void) testAsDict {
-    SFBatchingSyncUpTarget* target = [SFBatchingSyncUpTarget newSyncTargetWithCreateFieldlist:@[@"Name"] updateFieldlist:@[@"Name", @"Description"] maxBatchSize:@12];
+    SFBatchingSyncUpTarget* target = [[SFBatchingSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:@[@"Name", @"Description"] maxBatchSize:@12];
     NSDictionary* actualTargetDict = [target asDict];
 
 
@@ -149,7 +149,7 @@
 #pragma mark - THE methods responsible for building sync up targets used in all the tests
 
 - (SFSyncUpTarget*) buildSyncUpTargetWithCreateFieldlist:(nullable NSArray*)createFieldlist updateFieldlist:(nullable NSArray*)updateFieldlist {
-    return [SFBatchingSyncUpTarget newSyncTargetWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist maxBatchSize:@2];
+    return [[SFBatchingSyncUpTarget alloc] initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist maxBatchSize:@2];
 }
 
 @end
