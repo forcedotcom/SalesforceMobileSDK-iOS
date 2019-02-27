@@ -80,21 +80,14 @@ NSString * const kPasscodeKeyLabelSuffix = @"Passcode";
         if (_keyStoreKey != nil)
             return _keyStoreKey;
         
-        NSString *keychainId = self.encryptionKeyKeychainIdentifier;
-        SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
-        NSData *keyStoreKeyData = [keychainItem valueData];
-        if (keyStoreKeyData == nil) {
-            return nil;
-        } else {
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:keyStoreKeyData];
-            _keyStoreKey = [unarchiver decodeObjectForKey:self.encryptionKeyDataArchiveKey];
-            [unarchiver finishDecoding];
-            
+        _keyStoreKey = [SFKeyStoreKey fromKeyChain:self.encryptionKeyKeychainIdentifier archiverKey:self.encryptionKeyDataArchiveKey];
+
+        if (_keyStoreKey) {
             NSString *passcodeEncryptionKey = [SFPasscodeManager sharedManager].encryptionKey;
             _keyStoreKey.encryptionKey.key = [SFKeyStoreManager keyStringToData:passcodeEncryptionKey];
-            
-            return _keyStoreKey;
         }
+
+        return _keyStoreKey;
     }
 }
 
@@ -114,9 +107,10 @@ NSString * const kPasscodeKeyLabelSuffix = @"Passcode";
         }
         
         // Store the key store key in the keychain.
-        NSString *keychainId = self.encryptionKeyKeychainIdentifier;
-        SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
+        
+        // Store the key store key in the keychain.
         if (keyStoreKey == nil) {
+            SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:self.encryptionKeyKeychainIdentifier account:nil];
             BOOL resetItemResult = [keychainItem resetKeychainItem];
             if (!resetItemResult) {
                 [SFSDKCoreLogger e:[self class] format:@"Error removing key store key from the keychain."];
@@ -124,18 +118,12 @@ NSString * const kPasscodeKeyLabelSuffix = @"Passcode";
         } else {
             NSData *encryptionKeyData = keyStoreKey.encryptionKey.key;
             keyStoreKey.encryptionKey.key = nil;
-            NSMutableData *keyStoreKeyData = [NSMutableData data];
-            NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:keyStoreKeyData];
-            [archiver encodeObject:keyStoreKey forKey:self.encryptionKeyDataArchiveKey];
-            [archiver finishEncoding];
-            
-            OSStatus saveKeyResult = [keychainItem setValueData:keyStoreKeyData];
+            OSStatus saveKeyResult = [keyStoreKey toKeyChain:self.encryptionKeyKeychainIdentifier archiverKey:self.encryptionKeyDataArchiveKey];
             if (saveKeyResult != noErr) {
                 [SFSDKCoreLogger e:[self class] format:@"Error saving key store key to the keychain."];
             }
             keyStoreKey.encryptionKey.key = encryptionKeyData;
         }
-        
         _keyStoreKey = [keyStoreKey copy];
     }
 }

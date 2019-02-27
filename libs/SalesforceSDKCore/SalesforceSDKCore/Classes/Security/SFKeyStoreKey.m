@@ -23,6 +23,7 @@
  */
 
 #import "SFKeyStoreKey.h"
+#import "SFKeychainItemWrapper.h"
 
 // NSCoding constants
 static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.keyStoreKeyDataArchive";
@@ -59,6 +60,32 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
     SFKeyStoreKey *keyCopy = [[[self class] allocWithZone:zone] init];
     keyCopy.encryptionKey = [self.encryptionKey copy];
     return keyCopy;
+}
+
++ (nullable id)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
+{
+    SFKeyStoreKey* keyStoreKey;
+    SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
+    NSData *keyStoreKeyData = [keychainItem valueData];
+    if (keyStoreKeyData == nil) {
+        return nil;
+    } else {
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:keyStoreKeyData];
+        keyStoreKey = [unarchiver decodeObjectForKey:archiverKey];
+        [unarchiver finishDecoding];
+        
+        return keyStoreKey;
+    }
+}
+
+- (OSStatus) toKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
+{
+    SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
+    NSMutableData *keyStoreKeyData = [NSMutableData data];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:keyStoreKeyData];
+    [archiver encodeObject:self forKey:archiverKey];
+    [archiver finishEncoding];
+    return [keychainItem setValueData:keyStoreKeyData];
 }
 
 @end

@@ -39,6 +39,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithKey:(SFEncryptionKey *)key;
 
 /**
+ Read from key chain
+ @param keychainId Identifier in the key chain
+ @param archiverKey Key used in archiver
+ */
++ (nullable id)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey;
+
+/**
+ Save to key chain
+ @param keychainId Identifier in the key chain
+ @param archiverKey Key to use in archiver
+ */
+- (OSStatus) toKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey;
+
+/**
  The encryption key for the key store.
  */
 @property (nonatomic, strong) SFEncryptionKey *encryptionKey;
