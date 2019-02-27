@@ -30,8 +30,6 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
 
 @implementation SFKeyStoreKey
 
-@synthesize encryptionKey = _encryptionKey;
-
 - (id)initWithKey:(SFEncryptionKey *)key
 {
     self = [super init];
@@ -86,6 +84,16 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
     [archiver encodeObject:self forKey:archiverKey];
     [archiver finishEncoding];
     return [keychainItem setValueData:keyStoreKeyData];
+}
+
+- (NSData*)encryptData:(NSData *)dataToEncrypt
+{
+    return [self.encryptionKey encryptData:dataToEncrypt];
+}
+
+- (NSData*)decryptData:(NSData *)dataToDecrypt
+{
+    return [self.encryptionKey decryptData:dataToDecrypt];
 }
 
 @end

@@ -53,6 +53,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (OSStatus) toKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey;
 
 /**
+ Encrypt given data
+ @param dataToEncrypt The data to encrypt
+ */
+- (NSData*)encryptData:(NSData *)dataToEncrypt;
+
+/**
+ Decrypt given data
+ @param dataToDecrypt The data to decrypt
+ */
+- (NSData*)decryptData:(NSData *)dataToDecrypt;
+
+/**
  The encryption key for the key store.
  */
 @property (nonatomic, strong) SFEncryptionKey *encryptionKey;
