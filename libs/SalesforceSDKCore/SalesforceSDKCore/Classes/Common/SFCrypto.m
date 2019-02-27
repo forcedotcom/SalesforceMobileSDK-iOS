@@ -122,7 +122,7 @@ static NSString * const kKeychainIdentifierSimulatorBaseAppId = @"com.salesforce
 
 + (NSData *)secretWithKey:(NSString *)key {
     SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
-    NSString *passcode = [passcodeWrapper passcode];
+    NSString *passcode = [passcodeWrapper valueString];
     
     NSString *baseAppId = [self baseAppIdentifier];
     NSString *strSecret = [baseAppId stringByAppendingString:key];
