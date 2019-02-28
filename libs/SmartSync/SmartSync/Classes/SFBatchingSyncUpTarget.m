@@ -54,8 +54,13 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
     return [self initWithCreateFieldlist:nil updateFieldlist:nil maxBatchSize:nil];
 }
 
-- (instancetype)initWithCreateFieldlist:(NSArray *)createFieldlist
-                        updateFieldlist:(NSArray *)updateFieldlist
+- (instancetype)initWithCreateFieldlist:(nullable NSArray<NSString*> *)createFieldlist
+                        updateFieldlist:(nullable NSArray<NSString*> *)updateFieldlist {
+    return [self initWithCreateFieldlist:nil updateFieldlist:nil maxBatchSize:nil];
+}
+
+- (instancetype)initWithCreateFieldlist:(NSArray<NSString*> *)createFieldlist
+                        updateFieldlist:(NSArray<NSString*> *)updateFieldlist
                            maxBatchSize:(NSNumber*)maxBatchSize;
 {
     self = [super initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist];
@@ -67,14 +72,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
     return self;
 }
 
-#pragma mark - Factory methods
-                             
-+ (instancetype)newSyncTargetWithCreateFieldlist:(NSArray *)createFieldlist
-                                 updateFieldlist:(NSArray *)updateFieldList
-                                    maxBatchSize:(NSNumber*)maxBatchSize {
-
-    return [[SFBatchingSyncUpTarget alloc] initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldList maxBatchSize:maxBatchSize];
-}
+#pragma mark - Factory method
 
 + (instancetype)newFromDict:(NSDictionary *)dict {
     return [[SFBatchingSyncUpTarget alloc] initWithDict:dict];

@@ -34,12 +34,15 @@ NS_SWIFT_NAME(BatchingSyncUpTarget)
  */
 @interface SFBatchingSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
 
-/** Factory methods
+/** Constructor
  */
+- (instancetype)initWithCreateFieldlist:(nullable NSArray<NSString*> *)createFieldlist
+                        updateFieldlist:(nullable NSArray<NSString*> *)updateFieldlist
+                           maxBatchSize:(nullable NSNumber *)maxBatchSize;
+ 
 
-+ (instancetype)newSyncTargetWithCreateFieldlist:(nullable NSArray *)createFieldlist
-                                 updateFieldlist:(nullable NSArray *)updateFieldList
-                                    maxBatchSize:(nullable NSNumber*)maxBatchSize;
+/** Factory method
+ */
 
 + (instancetype)newFromDict:(nullable NSDictionary *)dict;
 
