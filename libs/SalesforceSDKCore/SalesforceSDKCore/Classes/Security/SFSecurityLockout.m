@@ -245,22 +245,6 @@ static BOOL _showPasscode = YES;
     }
 }
 
-+ (void)updateInactivityConfigurationIfRequired:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)newBiometricAllowed {
-    if ([self needsPasscodePolicyChange:newLockoutTime passcodeLength:newPasscodeLength]) {
-        SFSDKAppLockViewConfig *config = [self passcodeViewConfig];
-        if (newLockoutTime != securityLockoutTime) {
-            //if we are here it means that the newLockoutTime is lesser that securityLockoutTime
-            [SFSecurityLockout setSecurityLockoutTime:newLockoutTime];
-        }
-        if (newPasscodeLength != [self passcodeLength]) {
-            //if we are here it means that the newPasscodeLength is greater current passcodeLength
-            config.passcodeLength = newPasscodeLength;
-            [SFSecurityLockout setPasscodeLength:newPasscodeLength];
-        }
-        [self setPasscodeViewConfig:config];
-    }
-}
-
 + (void)setInactivityConfiguration:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)newBiometricAllowed
 {
     SFAppLockControllerMode mode = SFAppLockControllerModeCreatePasscode;

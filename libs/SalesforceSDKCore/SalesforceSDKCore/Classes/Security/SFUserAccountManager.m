@@ -1351,9 +1351,6 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                           lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
                                      biometricAllowed:biometricUnlockAvailable];
     } else {
-        [SFSecurityLockout  updateInactivityConfigurationIfRequired:client.idData.mobileAppPinLength
-                                         lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
-                                    biometricAllowed:biometricUnlockAvailable];
         [self finalizeAuthCompletion:client];
     }
 }
