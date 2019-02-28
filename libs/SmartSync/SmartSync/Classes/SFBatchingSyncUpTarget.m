@@ -54,13 +54,13 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
     return [self initWithCreateFieldlist:nil updateFieldlist:nil maxBatchSize:nil];
 }
 
-- (instancetype)initWithCreateFieldlist:(nullable NSArray *)createFieldlist
-                        updateFieldlist:(nullable NSArray *)updateFieldlist {
+- (instancetype)initWithCreateFieldlist:(nullable NSArray<NSString*> *)createFieldlist
+                        updateFieldlist:(nullable NSArray<NSString*> *)updateFieldlist {
     return [self initWithCreateFieldlist:nil updateFieldlist:nil maxBatchSize:nil];
 }
 
-- (instancetype)initWithCreateFieldlist:(NSArray *)createFieldlist
-                        updateFieldlist:(NSArray *)updateFieldlist
+- (instancetype)initWithCreateFieldlist:(NSArray<NSString*> *)createFieldlist
+                        updateFieldlist:(NSArray<NSString*> *)updateFieldlist
                            maxBatchSize:(NSNumber*)maxBatchSize;
 {
     self = [super initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist];

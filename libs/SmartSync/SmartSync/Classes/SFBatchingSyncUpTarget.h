@@ -36,8 +36,8 @@ NS_SWIFT_NAME(BatchingSyncUpTarget)
 
 /** Constructor
  */
-- (instancetype)initWithCreateFieldlist:(nullable NSArray *)createFieldlist
-                        updateFieldlist:(nullable NSArray *)updateFieldlist
+- (instancetype)initWithCreateFieldlist:(nullable NSArray<NSString*> *)createFieldlist
+                        updateFieldlist:(nullable NSArray<NSString*> *)updateFieldlist
                            maxBatchSize:(nullable NSNumber *)maxBatchSize;
  
 
