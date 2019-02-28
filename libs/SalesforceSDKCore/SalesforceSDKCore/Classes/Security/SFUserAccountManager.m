@@ -1338,17 +1338,24 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     __weak typeof(self) weakSelf = self;
     [client dismissAuthViewControllerIfPresent];
     
-    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-        [weakSelf finalizeAuthCompletion:client];
-    }];
-    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [weakSelf handleFailure:client.context.authError client:client notifyDelegates:YES];
-    }];
-    // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
-    // identity service.
-    [SFSecurityLockout setInactivityConfiguration:client.idData.mobileAppPinLength
-                                      lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
-                                 biometricAllowed:biometricUnlockAvailable];
+    if (client.context.authInfo.authType != SFOAuthTypeRefresh) {
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+            [weakSelf finalizeAuthCompletion:client];
+        }];
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            [weakSelf handleFailure:client.context.authError client:client notifyDelegates:YES];
+        }];
+        // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
+        // identity service.
+        [SFSecurityLockout setInactivityConfiguration:client.idData.mobileAppPinLength
+                                          lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
+                                     biometricAllowed:biometricUnlockAvailable];
+    } else {
+        [SFSecurityLockout  updateInactivityConfigurationIfRequired:client.idData.mobileAppPinLength
+                                         lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
+                                    biometricAllowed:biometricUnlockAvailable];
+        [self finalizeAuthCompletion:client];
+    }
 }
 
 

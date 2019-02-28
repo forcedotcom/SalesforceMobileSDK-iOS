@@ -208,6 +208,16 @@ typedef void (^SFPasscodeViewControllerDismissBlock)(UIViewController*,void(^_Nu
 + (void)setInactivityConfiguration:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)newBiometricAllowed;
 
 /**
+ Update the passcode length, lockout time and if biometric is enabled.
+ @param newPasscodeLength The new passcode length to configure.  This can only be greater than or equal
+ to the currently configured length, to support the most restrictive passcode policy across users.
+ @param newLockoutTime The new lockout time to configure.  This can only be less than the currently
+ configured time, to support the most restrictive passcode policy across users.
+ @param newBiometricAllowed Wether biometric unlock is enabled in the org.
+ */
++ (void)updateInactivityConfigurationIfRequired:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)newBiometricAllowed;
+
+/**
  Resets the passcode state of the app, *if* there aren't other users with an overriding passcode
  policy.  I.e. passcode state can only be cleared if the current user is the only user who would
  be subject to that policy.
