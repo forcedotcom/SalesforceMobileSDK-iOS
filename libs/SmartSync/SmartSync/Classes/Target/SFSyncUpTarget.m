@@ -70,8 +70,8 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
     return [self initWithCreateFieldlist:nil updateFieldlist:nil];
 }
 
-- (instancetype)initWithCreateFieldlist:(NSArray *)createFieldlist
-                        updateFieldlist:(NSArray *)updateFieldlist {
+- (instancetype)initWithCreateFieldlist:(NSArray<NSString*> *)createFieldlist
+                        updateFieldlist:(NSArray<NSString*> *)updateFieldlist {
     self = [super init];
     if (self) {
         self.targetType = SFSyncUpTargetTypeRestStandard;
