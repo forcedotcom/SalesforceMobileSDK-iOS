@@ -30,7 +30,14 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
 
 @implementation SFKeyStoreKey
 
-- (id)initWithKey:(SFEncryptionKey *)key
++ (instancetype) createKey
+{
+    SFEncryptionKey *encKey = [SFEncryptionKey createKey];
+    SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encKey];
+    return keyStoreKey;
+}
+
+- (instancetype)initWithKey:(SFEncryptionKey *)key
 {
     self = [super init];
     if (self) {
@@ -39,7 +46,7 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
     if (self) {
@@ -53,14 +60,14 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
     [aCoder encodeObject:self.encryptionKey forKey:kKeyStoreKeyDataArchiveKey];
 }
 
-- (id)copyWithZone:(NSZone *)zone
+- (instancetype)copyWithZone:(NSZone *)zone
 {
     SFKeyStoreKey *keyCopy = [[[self class] allocWithZone:zone] init];
     keyCopy.encryptionKey = [self.encryptionKey copy];
     return keyCopy;
 }
 
-+ (nullable id)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
++ (nullable instancetype)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
 {
     SFKeyStoreKey* keyStoreKey;
     SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];

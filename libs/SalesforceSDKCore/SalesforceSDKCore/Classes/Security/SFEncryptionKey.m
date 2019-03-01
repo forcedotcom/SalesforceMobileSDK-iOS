@@ -35,7 +35,7 @@ static NSString * const kInitializationVectorCodingValue = @"com.salesforce.encr
 @synthesize key = _key;
 @synthesize initializationVector = _initializationVector;
 
-+ (SFEncryptionKey*) generateKey
++ (SFEncryptionKey*) createKey
 {
     NSData *keyData = [SFSDKCryptoUtils randomByteDataWithLength:kCCKeySizeAES256];
     NSData *iv = [SFSDKCryptoUtils randomByteDataWithLength:kCCBlockSizeAES128];

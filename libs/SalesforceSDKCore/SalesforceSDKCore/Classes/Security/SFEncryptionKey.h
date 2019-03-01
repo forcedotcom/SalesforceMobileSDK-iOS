@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  Designated initializer.
  Generate an encryption key
  */
-+ (SFEncryptionKey*) generateKey;
++ (SFEncryptionKey*) createKey;
 
 /**
  Encrypt given data

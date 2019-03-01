@@ -79,7 +79,7 @@
     }
 }
 
-- (NSData *)encryptDictionary:(NSDictionary *)dictionary withKey:(SFEncryptionKey *)storeKey
+- (NSData *)encryptDictionary:(NSDictionary *)dictionary withKey:(SFKeyStoreKey *)storeKey
 {
     NSMutableData *dictionaryData = [NSMutableData data];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:dictionaryData];
@@ -94,12 +94,12 @@
     return encryptedData;
 }
 
-- (NSDictionary *)decryptDictionaryData:(NSData *)dictionaryData withKey:(SFEncryptionKey *)decryptKey
+- (NSDictionary *)decryptDictionaryData:(NSData *)dictionaryData withKey:(SFKeyStoreKey *)storeKey
 {
     
     NSData *decryptedDictionaryData = dictionaryData;
-    if (decryptKey != nil) {
-        decryptedDictionaryData = [decryptKey decryptData:dictionaryData];
+    if (storeKey != nil) {
+        decryptedDictionaryData = [storeKey decryptData:dictionaryData];
     }
     if (decryptedDictionaryData == nil)
         return nil;

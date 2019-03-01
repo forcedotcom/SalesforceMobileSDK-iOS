@@ -68,8 +68,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         key = (self.generatedKeyStore.keyStoreDictionary)[typedKeyLabel];
 
         if (!key && create) {
-            SFEncryptionKey *newKey = [self keyWithRandomValue];
-            key = [[SFKeyStoreKey alloc] initWithKey:newKey];
+            key = [SFKeyStoreKey createKey];
             [self storeKeyStoreKey:key withLabel:keyLabel];
         }
         
@@ -103,11 +102,6 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         SFEncryptionKey *key = [self retrieveKeyWithLabel:keyLabel autoCreate:NO];
         return (key != nil);
     }
-}
-
-- (SFEncryptionKey *)keyWithRandomValue
-{
-    return [SFEncryptionKey generateKey];
 }
 
 #pragma mark - Private methods
@@ -182,9 +176,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 
 - (SFKeyStoreKey *)createDefaultKey
 {
-    SFEncryptionKey *encKey = [self keyWithRandomValue];
-    SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encKey];
-    return keyStoreKey;
+    return [SFKeyStoreKey createKey];
 }
 
 + (NSData *)keyStringToData:(NSString *)keyString
