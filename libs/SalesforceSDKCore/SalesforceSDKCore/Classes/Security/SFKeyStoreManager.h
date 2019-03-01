@@ -66,6 +66,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)keyWithLabelExists:(NSString *)keyLabel;
 
+/**
+ Returns a key with a random value for the key and initialization vector.  The key size
+ will be the size for the AES-256 algorithm (kCCKeySizeAES256), and the initialization
+ vector will be the block size associated with AES encryption (kCCBlockSizeAES128).
+ @return An instance of SFEncryptionKey with the described values.
+ */
+- (SFEncryptionKey *)keyWithRandomValue SFSDK_DEPRECATED(7.1, 8.0, "Use SFEncryptionKey:createKey instead");
+
 @end
 
 NS_ASSUME_NONNULL_END

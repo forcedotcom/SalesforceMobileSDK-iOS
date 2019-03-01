@@ -33,6 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Designated initializer.
+ @param keyData The key component, represented as NSData.
+ @param iv The initialization vector, represented as NSData.
+ */
+- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv SFSDK_DEPRECATED(7.1, 8.0, "Use SFEncryptionKey:createKey instead");
+
+/**
  Generate an encryption key
  */
 + (SFEncryptionKey*) createKey;

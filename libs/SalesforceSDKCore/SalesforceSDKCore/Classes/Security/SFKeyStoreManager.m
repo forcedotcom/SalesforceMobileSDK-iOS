@@ -104,6 +104,11 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
     }
 }
 
+- (SFEncryptionKey *)keyWithRandomValue
+{
+    return [SFEncryptionKey createKey];
+}
+
 #pragma mark - Private methods
 
 - (void)initializeKeyStores
