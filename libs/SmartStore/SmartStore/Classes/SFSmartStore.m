@@ -777,7 +777,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     if (keyBlock) {
         SFEncryptStream *encryptStream = [[SFEncryptStream alloc] initToFileAtPath:filePath append:NO];
         SFEncryptionKey *encKey = keyBlock();
-        [encryptStream setupWithKey:encKey.key andInitializationVector:encKey.initializationVector];
+        [encryptStream setupWithEncryptionKey:encKey];
         outputStream = encryptStream;
     } else {
         outputStream = [[NSOutputStream alloc] initToFileAtPath:filePath append:NO];
@@ -874,8 +874,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
     NSInputStream *inputStream = nil;
     if (encKey) {
         SFDecryptStream *decryptStream = [[SFDecryptStream alloc] initWithFileAtPath:filePath];
-        [decryptStream setupWithKey:encKey.key
-            andInitializationVector:(useNilIV ? nil : encKey.initializationVector)];
+        if (useNilIV) {
+            encKey = [[SFEncryptionKey alloc] initWithData:encKey.key initializationVector:nil];
+        }
+        [decryptStream setupWithDecryptionKey:encKey];
         inputStream = decryptStream;
     } else {
         inputStream = [[NSInputStream alloc] initWithFileAtPath:filePath];
@@ -901,7 +903,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     NSOutputStream *outputStream = nil;
     if (encKey) {
         SFEncryptStream *encryptStream = [[SFEncryptStream alloc] initToFileAtPath:filePath append:NO];
-        [encryptStream setupWithKey:encKey.key andInitializationVector:encKey.initializationVector];
+        [encryptStream setupWithEncryptionKey:encKey];
         outputStream = encryptStream;
     } else {
         outputStream = [[NSOutputStream alloc] initToFileAtPath:filePath append:NO];

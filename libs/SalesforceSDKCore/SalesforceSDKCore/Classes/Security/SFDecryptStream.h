@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFEncryptionKey.h"
 #import "SFCryptChunks.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,6 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
  * SFCryptChunks is used to perform the decryption.
  */
 @interface SFDecryptStream : NSInputStream <SFCryptChunksDelegate>
+
+/**
+ *  Setup for decryption. You must call this method before using the stream.
+ *  @param decKey the decryption key
+ */
+- (void)setupWithDecryptionKey:(SFEncryptionKey* )decKey;
 
 /**
  *  Setup for decryption. You must call this method before using the stream.
