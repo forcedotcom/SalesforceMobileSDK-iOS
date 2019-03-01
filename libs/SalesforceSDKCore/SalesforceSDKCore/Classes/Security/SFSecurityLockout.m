@@ -219,16 +219,6 @@ static BOOL _showPasscode = YES;
     return newLockoutTime !=0 || [self usersHavePasscodePolicy];
 }
 
-+ (BOOL)needsPasscodePolicyChange:(NSUInteger)newLockoutTime passcodeLength:(NSUInteger)newPasscodeLength {
-    BOOL result = NO;
-    if (securityLockoutTime == 0 && newLockoutTime > 0) {
-        result = YES;
-    }else if (newLockoutTime !=0 && newLockoutTime < securityLockoutTime){
-         result = YES;
-    }
-    return result || (newPasscodeLength > [self passcodeLength]);
-}
-
 + (void)setBiometricPolicy:(BOOL)newBiometricAllowed {
     if (newBiometricAllowed != [self biometricUnlockAllowed] && [self biometricState] != SFBiometricUnlockDeclined) {
         // Biometric off -> on.
@@ -247,8 +237,6 @@ static BOOL _showPasscode = YES;
 
 + (void)setInactivityConfiguration:(NSUInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime biometricAllowed:(BOOL)newBiometricAllowed
 {
-    SFAppLockControllerMode mode = SFAppLockControllerModeCreatePasscode;
-    
     if (![self needsPasscodeFlow:newLockoutTime]) {
         // No Passcode Requirements for this new user or any other logged in users
         [SFSecurityLockout clearAllPasscodeState];
@@ -257,24 +245,37 @@ static BOOL _showPasscode = YES;
     }
     
     [self setBiometricPolicy:newBiometricAllowed];
-    if ([self needsPasscodePolicyChange:newLockoutTime passcodeLength:newPasscodeLength]) {
+    NSUInteger currentPasscodeLength = [self passcodeLength];
+    SFAppLockControllerMode mode = SFAppLockControllerModeNoAction;
+    if (currentPasscodeLength == 0) {
+        // Add the passcode length to the view config, it should only be permanently stored
+        // after auth/passcode flow is complete.
+        mode = SFAppLockControllerModeCreatePasscode;
         SFSDKAppLockViewConfig *config = [self passcodeViewConfig];
-        if (newLockoutTime != securityLockoutTime) {
-            //if we are here it means that the newLockoutTime is lesser that securityLockoutTime
-            [SFSecurityLockout setSecurityLockoutTime:newLockoutTime];
-            [SFInactivityTimerCenter removeTimer:kTimerSecurity];
-        }
-        if (newPasscodeLength != [self passcodeLength]) {
-            //if we are here it means that the newPasscodeLength is greater current passcodeLength
-            config.passcodeLength = newPasscodeLength;
-            mode = SFAppLockControllerModeChangePasscode;
-            [SFSecurityLockout setPasscodeLength:newPasscodeLength];
-        }
+        config.passcodeLength = newPasscodeLength;
         [self setPasscodeViewConfig:config];
-    } else {
-        mode = SFAppLockControllerModeVerifyPasscode;
+    } else if (newPasscodeLength > currentPasscodeLength) {
+        // Change passcode if security has increased.
+        mode = SFAppLockControllerModeChangePasscode;
+        [SFSecurityLockout setPasscodeLength:newPasscodeLength];
     }
-    [SFSecurityLockout presentPasscodeController:mode];
+    
+    // Passcode off -> on.
+    if (securityLockoutTime == 0) {
+        [SFSecurityLockout setSecurityLockoutTime:newLockoutTime];
+        mode = SFAppLockControllerModeCreatePasscode;
+    } else if (newLockoutTime != 0 && newLockoutTime < securityLockoutTime) {
+        // Change lockout time if security has increased.
+        [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"Setting lockout time to %lu seconds.", (unsigned long) newLockoutTime];
+        [SFSecurityLockout setSecurityLockoutTime:newLockoutTime];
+        [SFInactivityTimerCenter removeTimer:kTimerSecurity];
+    }
+    
+    if (mode == SFAppLockControllerModeNoAction) {
+        [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];
+    } else {
+        [SFSecurityLockout presentPasscodeController:mode];
+    }
 }
 
 + (void)setSecurityLockoutTime:(NSUInteger)newSecurityLockoutTime

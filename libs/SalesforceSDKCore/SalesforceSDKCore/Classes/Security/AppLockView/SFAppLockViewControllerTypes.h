@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  Mode constants indicating whether to create/verify an passcode or use biometric.
  */
 typedef NS_ENUM(NSUInteger, SFAppLockControllerMode) {
+    SFAppLockControllerModeNoAction,
     SFAppLockControllerModeCreatePasscode,
     SFAppLockControllerModeVerifyPasscode,
     SFAppLockControllerModeChangePasscode,
