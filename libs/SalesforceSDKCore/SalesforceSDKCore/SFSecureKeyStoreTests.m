@@ -60,4 +60,9 @@
     XCTAssertTrue([data isEqualToDictionary:retrievedData], @"Dictionaries should be equal");
 }
 
+// ensures we can read / write key to key chain
+-(void)testReadAndWriteToKeychain {
+    // TODO implement test
+}
+
 @end

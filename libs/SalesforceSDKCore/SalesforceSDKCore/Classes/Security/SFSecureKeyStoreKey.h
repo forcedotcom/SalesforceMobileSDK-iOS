@@ -33,6 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSecureKeyStoreKey : SFKeyStoreKey
 
 /**
+ @return YES if secure enclave is available
+ */
++ (BOOL) isSecureEnclaveAvailable;
+
+/**
  Create a new SFSecureKeyStoreKey
  */
 + (instancetype) createKey;

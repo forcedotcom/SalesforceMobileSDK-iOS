@@ -60,6 +60,8 @@
 		4F06AF921C49A18E00F70798 /* SFPreferencesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF6D1C49A16A00F70798 /* SFPreferencesTests.m */; };
 		4F06AF931C49A18E00F70798 /* SFSecurityLockoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF6F1C49A16A00F70798 /* SFSecurityLockoutTests.m */; };
 		4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF711C49A16A00F70798 /* SFTestSDKManagerFlow.m */; };
+		4F16F4C1222A1C53008529FB /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B716A398218F5E37009D407F /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F16F4C2222A1C5A008529FB /* SalesforceSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B716A38A218F5E2D009D407F /* SalesforceSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F230BC21BFEABA00030EEFA /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE4A001BFE522F00F15E01 /* libz.tbd */; };
 		4F755F5820D48F8600CE4E0E /* NSString+SFAdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F755F4120D48D6700CE4E0E /* NSString+SFAdditionsTests.m */; };
 		4F7EB40D1BFFC88200768720 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EC1716E15FFC00768DE8 /* MessageUI.framework */; };
@@ -823,6 +825,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4F16F4C2222A1C5A008529FB /* SalesforceSDKCommon.framework in Embed Frameworks */,
+				4F16F4C1222A1C53008529FB /* SalesforceAnalytics.framework in Embed Frameworks */,
 				CE4CE2731C0E449C009F6029 /* SalesforceSDKCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";

@@ -23,32 +23,132 @@
  */
 
 #import "SFSecureKeyStoreKey.h"
+#import "SFSDKCryptoUtils.h"
+#import "NSData+SFAdditions.h"
+#include "TargetConditionals.h"
+#import <LocalAuthentication/LocalAuthentication.h>
+
+// NSCoding constants
+static NSString * const kSecureKeyStoreKeyLabel = @"com.salesforce.keystore.secureKeyStoreKeyLabel";
+
+@interface SFSecureKeyStoreKey () {
+    SecKeyRef publicKeyRef;
+    SecKeyRef privateKeyRef;
+}
+
+@property (nonatomic, strong, readwrite) NSString *label;
+
+@end
 
 @implementation SFSecureKeyStoreKey
 
++ (BOOL) isSecureEnclaveAvailable
+{
+#if TARGET_OS_SIMULATOR
+    return NO;
+#else
+    LAContext *context = [[LAContext alloc] init];
+    return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
+#endif
+}
+
 + (instancetype) createKey
 {
-    return nil;
+    NSString* randomLabel = [[SFSDKCryptoUtils randomByteDataWithLength:32] base64Encode];
+    return [[SFSecureKeyStoreKey alloc] initWithLabel:randomLabel];
+}
+
+- (instancetype) initWithKey:(SFEncryptionKey *)key
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"%@ not supported on SFSecureKeyStoreKey.", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+    
+}
+
+- (instancetype) initWithLabel:(NSString*)label
+{
+    self = [super init];
+    if (self) {
+        self.label = label;
+
+        CFErrorRef error = NULL;
+        SecAccessControlRef privateAccess = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
+                                                                            kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+                                                                            kSecAccessControlPrivateKeyUsage,
+                                                                            &error);
+        // TODO deal with error
+        //        if (error != errSecSuccess) {
+        //            NSError *err = CFBridgingRelease(error);  // ARC takes ownership
+        //            [SFSDKCoreLogger e:[self class] format:@"Failed to generate key: %@", err];
+        //            self = nil;
+        //        }
+
+
+        NSDictionary* attributes = @{ (id)kSecAttrKeyType:             (id)kSecAttrKeyTypeECSECPrimeRandom,
+                                      (id)kSecAttrKeySizeInBits:       @256,
+                                      (id)kSecAttrTokenID:             (id)kSecAttrTokenIDSecureEnclave,
+                                      (id)kSecPrivateKeyAttrs:
+                                          @{ (id)kSecAttrIsPermanent:    @YES,
+                                             (id)kSecAttrApplicationTag: label,
+                                             (id)kSecAttrAccessControl:  (__bridge id)privateAccess,
+                                             },
+                                      };
+    
+        OSStatus status = SecKeyGeneratePair((__bridge CFDictionaryRef)attributes, &publicKeyRef, &privateKeyRef);
+            
+        if (status != errSecSuccess) {
+            [SFSDKCoreLogger e:[self class] format:@"Failed to generate key pair: %d", status];
+            self = nil;
+        }
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.label forKey:kSecureKeyStoreKeyLabel];
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone
+{
+    SFSecureKeyStoreKey *keyCopy = [[[self class] allocWithZone:zone] init];
+    keyCopy.label = [self.label copy];
+    return keyCopy;
 }
 
 + (nullable instancetype)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
 {
+    // TODO implement method
     return nil;
 }
 
 - (OSStatus) toKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
 {
+    // TODO implement method
     return noErr;
 }
 
 - (NSData*)encryptData:(NSData *)dataToEncrypt
 {
-    return dataToEncrypt;
+    CFErrorRef error = NULL;
+    CFDataRef encryptedData = SecKeyCreateEncryptedData(publicKeyRef,
+                                                        kSecKeyAlgorithmECIESEncryptionStandardX963SHA256AESGCM,
+                                                        (CFDataRef)dataToEncrypt,
+                                                        &error);
+    // TODO deal with error
+    return (__bridge_transfer NSData*) encryptedData;
 }
 
 - (NSData*)decryptData:(NSData *)dataToDecrypt
 {
-    return dataToDecrypt;
+    CFErrorRef error = NULL;
+    CFDataRef decryptedData = SecKeyCreateDecryptedData(privateKeyRef,
+                                                        kSecKeyAlgorithmECIESEncryptionStandardX963SHA256AESGCM,
+                                                        (CFDataRef)dataToDecrypt,
+                                                        &error);
+    // TODO deal with error
+    return (__bridge_transfer NSData*) decryptedData;
 }
 
 @end
