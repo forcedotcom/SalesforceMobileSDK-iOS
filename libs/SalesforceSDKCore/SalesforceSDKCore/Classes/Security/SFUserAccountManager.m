@@ -1417,7 +1417,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         if (client.config.isIDPInitiatedFlow) {
             NSNotification *loggedInNotification = [NSNotification notificationWithName:kSFNotificationUserIDPInitDidLogIn object:self  userInfo:userInfo];
             [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
-        } else {
+        } else if (client.context.authInfo.authType != SFOAuthTypeRefresh) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
                                                                 object:self
                                                               userInfo:userInfo];

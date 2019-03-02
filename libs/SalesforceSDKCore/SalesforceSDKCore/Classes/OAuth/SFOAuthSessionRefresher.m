@@ -24,6 +24,7 @@
 
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFUserAccountManager.h"
+#import "SFOAuthInfo.h"
 
 @implementation SFOAuthSessionRefresher
 
@@ -106,12 +107,13 @@
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
     [self completeWithSuccess:coordinator.credentials];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-       [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
-                                                            object:nil
-                                                          userInfo:nil];
-   });
+    if (info.authType != SFOAuthTypeRefresh) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
+                                                                object:nil
+                                                              userInfo:nil];
+        });
+    }
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {
