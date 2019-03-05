@@ -161,8 +161,17 @@ static dispatch_once_t pred;
         if (!user) {
             return;
         }
-        NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
-        [sfRestApiList removeObject:key];
+        
+        NSString *userKey = SFKeyForUserAndScope(user, SFUserAccountScopeUser);
+        // Remove all sub-instances (community users) for this user as well
+        NSArray *keys = sfRestApiList.allKeys;
+        if(userKey) {
+            for( NSString *key in keys) {
+                if([key hasPrefix:userKey]) {
+                    [sfRestApiList removeObject:key];
+                }
+            }
+        }
     }
 }
 
