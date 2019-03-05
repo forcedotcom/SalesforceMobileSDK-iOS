@@ -87,7 +87,6 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
                                       (id)kSecAttrKeySizeInBits:       @256,
                                       (id)kSecAttrTokenID:             token,
                                       (id)kSecPrivateKeyAttrs:         [self privateKeyParams],
-                                      (id)kSecPublicKeyAttrs:          [self publicKeyParams],
                                       };
     
         OSStatus status = SecKeyGeneratePair((__bridge CFDictionaryRef)attributes, &publicKeyRef, &privateKeyRef);
@@ -141,23 +140,23 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
 
 - (NSData*)encryptData:(NSData *)dataToEncrypt
 {
-    CFErrorRef error = NULL;
+    CFErrorRef errorRef = NULL;
     CFDataRef encryptedData = SecKeyCreateEncryptedData(publicKeyRef,
                                                         kSecKeyAlgorithmECIESEncryptionStandardX963SHA256AESGCM,
                                                         (CFDataRef)dataToEncrypt,
-                                                        &error);
-    // TODO deal with error
+                                                        &errorRef);
+    [self logErrorIfAny:@"Failed to encrypt data" errorRef:errorRef];
     return (__bridge_transfer NSData*) encryptedData;
 }
 
 - (NSData*)decryptData:(NSData *)dataToDecrypt
 {
-    CFErrorRef error = NULL;
+    CFErrorRef errorRef = NULL;
     CFDataRef decryptedData = SecKeyCreateDecryptedData(privateKeyRef,
                                                         kSecKeyAlgorithmECIESEncryptionStandardX963SHA256AESGCM,
                                                         (CFDataRef)dataToDecrypt,
-                                                        &error);
-    // TODO deal with error
+                                                        &errorRef);
+    [self logErrorIfAny:@"Failed to decrypt data" errorRef:errorRef];
     return (__bridge_transfer NSData*) decryptedData;
 }
 
@@ -237,12 +236,6 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
     }
 }
 
-- (NSDictionary*) publicKeyParams {
-    return @{
-             (id)kSecAttrLabel: self.publicLabel
-             };
-}
-
 - (NSDictionary*) privateKeyParams {
 
     NSMutableDictionary* privateKeyParams =  [NSMutableDictionary new];
@@ -255,11 +248,8 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
                                                                             kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
                                                                             kSecAccessControlPrivateKeyUsage,
                                                                             &errorRef);
-        
-        privateKeyParams[(id)kSecAttrAccessControl] = (__bridge id)privateAccess;
-        
-        if ([self logErrorIfAny:@"Failed to create key access control" errorRef:errorRef]) {
-            // TODO should throw exception
+        if (![self logErrorIfAny:@"Failed to create key access control" errorRef:errorRef]) {
+            privateKeyParams[(id)kSecAttrAccessControl] = (__bridge id)privateAccess;
         }
     }
 

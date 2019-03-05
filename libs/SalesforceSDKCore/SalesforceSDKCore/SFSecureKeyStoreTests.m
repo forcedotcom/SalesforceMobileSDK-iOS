@@ -74,9 +74,9 @@
     XCTAssertNotNil(key2, @"Key should have been created");
     XCTAssertTrue([self checkKeyWorks:key2], @"Newly created key should have worked");
 
-//    // Try to retrieve key even though it was never saved
-//    SFSecureKeyStoreKey *key3 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:NO];
-//    XCTAssertNil(key3, @"Key should not have been found");
+    // Try to retrieve key even though it was never saved
+    SFSecureKeyStoreKey *key3 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:NO];
+    XCTAssertNil(key3, @"Key should not have been found");
     
     // save key
     [key2 toKeyChain:@"blah" archiverKey:@"blah"];
