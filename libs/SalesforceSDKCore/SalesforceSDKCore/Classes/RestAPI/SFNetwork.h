@@ -78,6 +78,6 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  *
  * @param manager object implementing the SFNetworkSessionManaging protocol.
  */
-+ (void)setSessionManager:(id<SFNetworkSessionManaging>)manager;
++ (void)setSessionManager:(nonnull id<SFNetworkSessionManaging>)manager;
 
 @end
