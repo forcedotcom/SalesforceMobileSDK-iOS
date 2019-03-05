@@ -39,6 +39,7 @@
 @implementation SFNetwork
 
 static NSURLSessionConfiguration *kSFSessionConfig;
+__weak static id<SFNetworkSessionManaging> kSFNetworkManager;
 
 - (instancetype)initWithEphemeralSession {
     self = [super init];
@@ -47,7 +48,11 @@ static NSURLSessionConfiguration *kSFSessionConfig;
         if (kSFSessionConfig) {
             ephemeralSessionConfig = kSFSessionConfig;
         }
-        self.activeSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
+        if (kSFNetworkManager) {
+            self.activeSession = [kSFNetworkManager ephemeralSession:ephemeralSessionConfig];
+        } else {
+            self.activeSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
+        }
     }
     return self;
 }
@@ -60,7 +65,11 @@ static NSURLSessionConfiguration *kSFSessionConfig;
         if (kSFSessionConfig) {
             backgroundSessionConfig = kSFSessionConfig;
         }
-        self.activeSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
+        if (kSFNetworkManager) {
+            self.activeSession = [kSFNetworkManager backgroundSession:backgroundSessionConfig];
+        } else {
+            self.activeSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
+        }
     }
     return self;
 }
@@ -82,6 +91,10 @@ static NSURLSessionConfiguration *kSFSessionConfig;
 
 + (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig {
     kSFSessionConfig = sessionConfig;
+}
+
++ (void)setSessionManager:(id<SFNetworkSessionManaging>)manager {
+    kSFNetworkManager = manager;
 }
 
 @end
