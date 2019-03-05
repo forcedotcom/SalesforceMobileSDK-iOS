@@ -60,9 +60,60 @@
     XCTAssertTrue([data isEqualToDictionary:retrievedData], @"Dictionaries should be equal");
 }
 
-// ensures we can read / write key to key chain
--(void)testReadAndWriteToKeychain {
-    // TODO implement test
+// ensures we can read / write / delete key to key chain
+-(void)testReadWriteDeleteFromKeyChain
+{
+    NSString* keyLabel = @"testKey";
+    
+    // Make sure key doesn't exist initially
+    SFSecureKeyStoreKey *key1 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:NO];
+    XCTAssertNil(key1, @"Key should not exist");
+    
+    // Create key
+    SFSecureKeyStoreKey *key2 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:YES];
+    XCTAssertNotNil(key2, @"Key should have been created");
+    XCTAssertTrue([self checkKeyWorks:key2], @"Newly created key should have worked");
+
+//    // Try to retrieve key even though it was never saved
+//    SFSecureKeyStoreKey *key3 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:NO];
+//    XCTAssertNil(key3, @"Key should not have been found");
+    
+    // save key
+    [key2 toKeyChain:@"blah" archiverKey:@"blah"];
+    SFSecureKeyStoreKey *key4 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:NO];
+    XCTAssertNotNil(key4, @"Key should have been found");
+    XCTAssertTrue([self checkKeyWorks:key4], @"Retrieved key should have worked");
+
+    // Delete key
+    [key4 deleteKey];
+    SFSecureKeyStoreKey *key5 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:NO];
+    XCTAssertNil(key5, @"Key should no longer exist");
+}
+
+- (BOOL) checkKeyWorks:(SFSecureKeyStoreKey*)key
+{
+    NSString* archiveKey = @"archiveKey";
+    NSDictionary *dictionary = @{@"one":@"", @"two":@""};
+
+    // Serialize dictionary into data
+    NSMutableData *dictionaryData = [NSMutableData data];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:dictionaryData];
+    [archiver encodeObject:dictionary forKey:archiveKey];
+    [archiver finishEncoding];
+    
+    // Encrypt data
+    NSData* encryptedData = [key encryptData:dictionaryData];
+    
+    // Decrypt back data
+    NSData* decryptedData = [key decryptData:encryptedData];
+    
+    // Deserialize decrypted data
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:decryptedData];
+    NSDictionary* decryptedDictionary = [unarchiver decodeObjectForKey:archiveKey];
+    [unarchiver finishDecoding];
+    
+    // Compare against original dictionary
+    return [decryptedDictionary isEqualToDictionary:dictionary];
 }
 
 @end

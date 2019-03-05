@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,8 +28,9 @@
 #include "TargetConditionals.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 
-// NSCoding constants
-static NSString * const kSecureKeyStoreKeyLabel = @"com.salesforce.keystore.secureKeyStoreKeyLabel";
+// Other constants
+static NSString * const kSecureKeyStorePrivateLabelSuffix = @"private";
+static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
 
 @interface SFSecureKeyStoreKey () {
     SecKeyRef publicKeyRef;
@@ -37,10 +38,14 @@ static NSString * const kSecureKeyStoreKeyLabel = @"com.salesforce.keystore.secu
 }
 
 @property (nonatomic, strong, readwrite) NSString *label;
+@property (nonatomic, strong, readonly) NSString *privateLabel;
+@property (nonatomic, strong, readonly) NSString *publicLabel;
 
 @end
 
 @implementation SFSecureKeyStoreKey
+
+#pragma mark - Utility method
 
 + (BOOL) isSecureEnclaveAvailable
 {
@@ -52,82 +57,87 @@ static NSString * const kSecureKeyStoreKeyLabel = @"com.salesforce.keystore.secu
 #endif
 }
 
+#pragma mark - Factory method and constructor
+
 + (instancetype) createKey
 {
     NSString* randomLabel = [[SFSDKCryptoUtils randomByteDataWithLength:32] base64Encode];
-    return [[SFSecureKeyStoreKey alloc] initWithLabel:randomLabel];
+    return [[SFSecureKeyStoreKey alloc] initWithLabel:randomLabel autoCreate:YES];
 }
 
-- (instancetype) initWithKey:(SFEncryptionKey *)key
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"%@ not supported on SFSecureKeyStoreKey.", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-    
-}
-
-- (instancetype) initWithLabel:(NSString*)label
+- (instancetype) initWithLabel:(NSString*)label autoCreate:(BOOL)autoCreate
 {
     self = [super init];
     if (self) {
         self.label = label;
+        
+        // Use existing key pair if available
+        if ([self readPublicKey] == errSecSuccess && [self readPrivateKey] == errSecSuccess) {
+            return self;
+        }
+        
+        // Does not exist and should not be auto created
+        if (!autoCreate) {
+            return nil;
+        }
 
-        CFErrorRef error = NULL;
-        SecAccessControlRef privateAccess = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
-                                                                            kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-                                                                            kSecAccessControlPrivateKeyUsage,
-                                                                            &error);
-        // TODO deal with error
-        //        if (error != errSecSuccess) {
-        //            NSError *err = CFBridgingRelease(error);  // ARC takes ownership
-        //            [SFSDKCoreLogger e:[self class] format:@"Failed to generate key: %@", err];
-        //            self = nil;
-        //        }
-
-
+        // Does not exist and should be auto created
+        NSString* token = (id) ([SFSecureKeyStoreKey isSecureEnclaveAvailable] ? kSecAttrTokenIDSecureEnclave : kSecAttrTokenID);
         NSDictionary* attributes = @{ (id)kSecAttrKeyType:             (id)kSecAttrKeyTypeECSECPrimeRandom,
                                       (id)kSecAttrKeySizeInBits:       @256,
-                                      (id)kSecAttrTokenID:             (id)kSecAttrTokenIDSecureEnclave,
-                                      (id)kSecPrivateKeyAttrs:
-                                          @{ (id)kSecAttrIsPermanent:    @YES,
-                                             (id)kSecAttrApplicationTag: label,
-                                             (id)kSecAttrAccessControl:  (__bridge id)privateAccess,
-                                             },
+                                      (id)kSecAttrTokenID:             token,
+                                      (id)kSecPrivateKeyAttrs:         [self privateKeyParams],
+                                      (id)kSecPublicKeyAttrs:          [self publicKeyParams],
                                       };
     
         OSStatus status = SecKeyGeneratePair((__bridge CFDictionaryRef)attributes, &publicKeyRef, &privateKeyRef);
-            
-        if (status != errSecSuccess) {
-            [SFSDKCoreLogger e:[self class] format:@"Failed to generate key pair: %d", status];
-            self = nil;
+        if ([self logErrorIfAny:@"Failed to generate key pair" status:status]) {
+            return nil;
         }
     }
     return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeObject:self.label forKey:kSecureKeyStoreKeyLabel];
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone
 {
     SFSecureKeyStoreKey *keyCopy = [[[self class] allocWithZone:zone] init];
     keyCopy.label = [self.label copy];
+    [keyCopy readPublicKey];
+    [keyCopy readPrivateKey];
     return keyCopy;
 }
 
+#pragma mark - Methods to read / write from / to key chain
+
 + (nullable instancetype)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
 {
-    // TODO implement method
-    return nil;
+    return [[SFSecureKeyStoreKey alloc] initWithLabel:archiverKey autoCreate:NO];
 }
-
+    
 - (OSStatus) toKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
 {
-    // TODO implement method
-    return noErr;
+    NSDictionary* savePublicKeyDict = @{ (id)kSecClass:              (id)kSecClassKey,
+                                         (id)kSecAttrKeyClass:       (id)kSecAttrKeyClassPublic,
+                                         (id)kSecAttrKeyType:        (id)kSecAttrKeyTypeECSECPrimeRandom,
+                                         (id)kSecAttrLabel:          self.publicLabel,
+                                         (id)kSecValueRef:           (__bridge id)publicKeyRef,
+                                         (id)kSecReturnData:         @YES };
+    
+    CFTypeRef keyBits;
+    OSStatus err =  SecItemAdd((__bridge CFDictionaryRef)savePublicKeyDict, &keyBits);
+    while (err == errSecDuplicateItem)
+    {
+        err = SecItemDelete((__bridge CFDictionaryRef)savePublicKeyDict);
+    }
+    return SecItemAdd((__bridge CFDictionaryRef)savePublicKeyDict, &keyBits);
 }
+
+- (void) deleteKey {
+    [self deletePublicKey];
+    [self deletePrivateKey];
+}
+
+#pragma mark - Methods to encrypt / decrypt data
 
 - (NSData*)encryptData:(NSData *)dataToEncrypt
 {
@@ -150,5 +160,140 @@ static NSString * const kSecureKeyStoreKeyLabel = @"com.salesforce.keystore.secu
     // TODO deal with error
     return (__bridge_transfer NSData*) decryptedData;
 }
+
+#pragma mark - SFKeyStoreKey methods not supported by SFSecureKeyStoreKey
+
+- (instancetype) initWithKey:(SFEncryptionKey *)key
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"%@ not supported on SFSecureKeyStoreKey.", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+    
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"%@ not supported on SFSecureKeyStoreKey.", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
+}
+
+
+#pragma mark - Misc private methods
+
+- (NSString*)privateLabel
+{
+    return [NSString stringWithFormat:@"%@_%@", self.label, kSecureKeyStorePrivateLabelSuffix];
+}
+
+- (NSString*)publicLabel
+{
+    return [NSString stringWithFormat:@"%@_%@", self.label, kSecureKeyStorePublicLabelSuffix];
+}
+
+- (OSStatus) readPrivateKey
+{
+    NSDictionary* query = @{ (id)kSecClass:        (id)kSecClassKey,
+                             (id)kSecAttrKeyClass: (id)kSecAttrKeyClassPrivate,
+                             (id)kSecAttrLabel:    self.privateLabel,
+                             (id)kSecReturnRef:    @YES };
+    
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&privateKeyRef);
+    return status;
+}
+
+- (OSStatus) readPublicKey
+{
+    NSDictionary* query = @{ (id)kSecClass:        (id)kSecClassKey,
+                             (id)kSecAttrKeyClass: (id)kSecAttrKeyClassPublic,
+                             (id)kSecAttrLabel:    self.publicLabel,
+                             (id)kSecReturnRef:    @YES };
+    
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&publicKeyRef);
+    return status;
+}
+
+- (void) deletePublicKey {
+    NSDictionary* query = @{ (id)kSecClass:        (id)kSecClassKey,
+                             (id)kSecAttrKeyClass: (id)kSecAttrKeyClassPublic,
+                             (id)kSecAttrLabel:    self.publicLabel };
+    
+    OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
+    while (status == errSecDuplicateItem)
+    {
+        status = SecItemDelete((__bridge CFDictionaryRef)query);
+    }
+}
+
+- (void) deletePrivateKey {
+    NSDictionary* query = @{ (id)kSecClass:        (id)kSecClassKey,
+                             (id)kSecAttrKeyClass: (id)kSecAttrKeyClassPrivate,
+                             (id)kSecAttrLabel:    self.privateLabel };
+    
+    OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
+    while (status == errSecDuplicateItem)
+    {
+        status = SecItemDelete((__bridge CFDictionaryRef)query);
+    }
+}
+
+- (NSDictionary*) publicKeyParams {
+    return @{
+             (id)kSecAttrLabel: self.publicLabel
+             };
+}
+
+- (NSDictionary*) privateKeyParams {
+
+    NSMutableDictionary* privateKeyParams =  [NSMutableDictionary new];
+    privateKeyParams[(id)kSecAttrIsPermanent] = @YES;
+    privateKeyParams[(id)kSecAttrLabel] = self.privateLabel;
+    
+    if ([SFSecureKeyStoreKey isSecureEnclaveAvailable]) {
+        CFErrorRef errorRef = NULL;
+        SecAccessControlRef privateAccess = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
+                                                                            kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+                                                                            kSecAccessControlPrivateKeyUsage,
+                                                                            &errorRef);
+        
+        privateKeyParams[(id)kSecAttrAccessControl] = (__bridge id)privateAccess;
+        
+        if ([self logErrorIfAny:@"Failed to create key access control" errorRef:errorRef]) {
+            // TODO should throw exception
+        }
+    }
+
+    return privateKeyParams;
+}
+
+/**
+ Log error if any
+ @param errorRef a CFErrorRef
+ @return YES if there was an error
+ */
+- (BOOL) logErrorIfAny:(NSString*)message errorRef:(CFErrorRef)errorRef
+{
+    if (errorRef != errSecSuccess) {
+        NSError *error = CFBridgingRelease(errorRef);  // ARC takes ownership
+        [SFSDKCoreLogger e:[self class] format:[NSString stringWithFormat:@"%@ error=%@", message, error]];
+        return YES;
+    }
+    return NO;
+}
+
+/**
+ Log error if any
+ @param status a OSStatus
+ @return YES if there was an error
+ */
+- (BOOL) logErrorIfAny:(NSString*)message status:(OSStatus)status
+{
+    if (status != errSecSuccess) {
+        [SFSDKCoreLogger e:[self class] format:[NSString stringWithFormat:@"%@ error=%d", message, status]];
+        return YES;
+    }
+    return NO;
+}
+
 
 @end

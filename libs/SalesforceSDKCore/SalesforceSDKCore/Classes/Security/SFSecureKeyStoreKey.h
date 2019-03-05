@@ -42,6 +42,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype) createKey;
 
+/**
+ Constructor
+ @param label a label for the key
+ @param autoCreate if YES, create key if not foun
+ */
+- (instancetype) initWithLabel:(NSString*)label autoCreate:(BOOL)autoCreate;
+
+/**
+ Delete
+ @param label a label for the key
+ */
+- (void) deleteKey;
+
 @end
 
 NS_ASSUME_NONNULL_END
