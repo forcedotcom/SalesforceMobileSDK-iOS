@@ -75,8 +75,6 @@ static NSString * const SFSDKNewLoginHostCellIdentifier = @"SFSDKNewLoginHostCel
  * Invoked when the user taps on the done button to add the login host to the list of hosts.
  */
 - (void)addNewServer:(id)sender {
-    
-    
     NSString *hostName = [self.name.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *host = [self.server.text stringByTrimmingCharactersInSet:
                           [NSCharacterSet whitespaceCharacterSet]];
@@ -125,7 +123,7 @@ static NSString * const SFSDKNewLoginHostCellIdentifier = @"SFSDKNewLoginHostCel
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 
     // Enable the Done button only if there is something in the URL field
-        if (textField == self.server) {
+    if (textField == self.server) {
         NSString *resultingString = [textField.text stringByReplacingCharactersInRange:range withString:string];
         self.navigationItem.rightBarButtonItem.enabled = [resultingString length] > 0;
     }
