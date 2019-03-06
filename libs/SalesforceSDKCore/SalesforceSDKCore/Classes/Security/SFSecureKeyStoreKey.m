@@ -37,7 +37,6 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
     SecKeyRef privateKeyRef;
 }
 
-@property (nonatomic, strong) NSData *appTag;
 @property (nonatomic, strong) NSString *label;
 @property (nonatomic, strong, readonly) NSString *privateLabel;
 @property (nonatomic, strong, readonly) NSString *publicLabel;
@@ -60,20 +59,20 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
 
 #pragma mark - Factory methods and constructor
 
-+ (instancetype) createKey:(NSString*)appTag label:(NSString*)label
++ (instancetype) createKey:(NSString*)label
 {
-    [SFSecureKeyStoreKey deleteKey:appTag label:label];     // Delete existing key if any
-    return [[SFSecureKeyStoreKey alloc] initWithAppTag:appTag label:label autoCreate:YES];
+    [SFSecureKeyStoreKey deleteKey:label];     // Delete existing key if any
+    return [[SFSecureKeyStoreKey alloc] initWithLabel:label autoCreate:YES];
 }
 
-+ (instancetype) retrieveKey:(NSString*)appTag label:(NSString*)label
++ (instancetype) retrieveKey:(NSString*)label
 {
-    return [[SFSecureKeyStoreKey alloc] initWithAppTag:appTag label:label autoCreate:NO];
+    return [[SFSecureKeyStoreKey alloc] initWithLabel:label autoCreate:NO];
 }
 
-+ (void) deleteKey:(NSString*)appTag label:(NSString*)label
++ (void) deleteKey:(NSString*)label
 {
-    SFSecureKeyStoreKey* key = [SFSecureKeyStoreKey retrieveKey:appTag label:label];
+    SFSecureKeyStoreKey* key = [SFSecureKeyStoreKey retrieveKey:label];
     if (key) {
         [key deletePublicKey];
         [key deletePrivateKey];
@@ -81,11 +80,10 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
     }
 }
 
-- (instancetype) initWithAppTag:(NSString*)appTag label:(NSString*)label autoCreate:(BOOL)autoCreate
+- (instancetype) initWithLabel:(NSString*)label autoCreate:(BOOL)autoCreate
 {
     self = [super init];
     if (self) {
-        self.appTag = [appTag dataUsingEncoding:NSUTF8StringEncoding];
         self.label = label;
         
         // Use existing key pair if available
@@ -131,7 +129,7 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
 
 + (nullable instancetype)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
 {
-    return [[SFSecureKeyStoreKey alloc] initWithAppTag:keychainId label:archiverKey autoCreate:NO];
+    return [[SFSecureKeyStoreKey alloc] initWithLabel:keychainId autoCreate:NO];
 }
     
 - (OSStatus) toKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey {
@@ -144,7 +142,6 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
                                          (id)kSecAttrKeyClass:       (id)kSecAttrKeyClassPublic,
                                          (id)kSecAttrKeyType:        (id)kSecAttrKeyTypeECSECPrimeRandom,
                                          (id)kSecAttrLabel:          self.publicLabel,
-                                         (id)kSecAttrApplicationTag: self.appTag,
                                          (id)kSecValueRef:           (__bridge id)publicKeyRef,
                                          (id)kSecReturnData:         @YES };
     
@@ -213,7 +210,6 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
     NSDictionary* query = @{ (id)kSecClass:              (id)kSecClassKey,
                              (id)kSecAttrKeyClass:       (id)kSecAttrKeyClassPrivate,
                              (id)kSecAttrLabel:          self.privateLabel,
-//                             (id)kSecAttrApplicationTag: self.appTag,
                              (id)kSecReturnRef:          @YES };
     
     OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&privateKeyRef);
@@ -226,8 +222,8 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
     NSDictionary* query = @{ (id)kSecClass:              (id)kSecClassKey,
                              (id)kSecAttrKeyClass:       (id)kSecAttrKeyClassPublic,
                              (id)kSecAttrLabel:          self.publicLabel,
-                             (id)kSecAttrApplicationTag: self.appTag,
-                             (id)kSecReturnRef:          @YES };
+                             (id)kSecReturnRef:          @YES,
+                             };
     
     OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&publicKeyRef);
     [self log:@"Read public key" status:status];
@@ -238,7 +234,6 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
     NSDictionary* query = @{ (id)kSecClass:              (id)kSecClassKey,
                              (id)kSecAttrKeyClass:       (id)kSecAttrKeyClassPublic,
                              (id)kSecAttrLabel:          self.publicLabel,
-                             (id)kSecAttrApplicationTag: self.appTag,
                              };
     
     OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
@@ -254,7 +249,6 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
     NSDictionary* query = @{ (id)kSecClass:              (id)kSecClassKey,
                              (id)kSecAttrKeyClass:       (id)kSecAttrKeyClassPrivate,
                              (id)kSecAttrLabel:          self.privateLabel,
-//                             (id)kSecAttrApplicationTag: self.appTag,
                              };
     
     OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
@@ -284,7 +278,6 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
     NSMutableDictionary* privateKeyParams =  [NSMutableDictionary new];
     privateKeyParams[(id)kSecAttrIsPermanent] = @YES;
     privateKeyParams[(id)kSecAttrLabel] = self.privateLabel;
-//    privateKeyParams[(id)kSecAttrApplicationTag] = self.appTag;
     
     if ([SFSecureKeyStoreKey isSecureEnclaveAvailable]) {
         CFErrorRef errorRef = NULL;
