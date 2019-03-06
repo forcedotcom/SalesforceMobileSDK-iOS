@@ -38,30 +38,27 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL) isSecureEnclaveAvailable;
 
 /**
- Create a new SFSecureKeyStoreKey
+ Create a new SFSecureKeyStoreKey with given app tag and label
  NB: it is not saved to the key chain until [key saveKey] is called
- */
-+ (instancetype) createKey;
-
-/**
- Create a new SFSecureKeyStoreKey with given label
- NB: it is not saved to the key chain until [key saveKey] is called
+ @param appTag the key app tag
  @param label the key label
  */
-+ (instancetype) createKey:(NSString*)label;
++ (instancetype) createKey:(NSString*)appTag label:(NSString*)label;
 
 /**
- Retrieve key with given label from keychain
+ Retrieve key with given app tag and label from keychain
+ @param appTag the key app tag
  @param label the key label
  @return nil if not found
  */
-+ (nullable instancetype) retrieveKey:(NSString*)label;
++ (nullable instancetype) retrieveKey:(NSString*)appTag label:(NSString*)label;
 
 /**
  Delete key with given label from keychain
+ @param appTag the key app tag
  @param label the key label
  */
-+ (void) deleteKey:(NSString*)label;
++ (void) deleteKey:(NSString*)appTag label:(NSString*)label;
 
 /**
  Save to keychain

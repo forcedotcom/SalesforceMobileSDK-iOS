@@ -25,6 +25,8 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFKeyStore+Internal.h"
 
+static NSString * const kAppTag = @"com.sfdc.tests";
+
 @interface SFSecureKeyStoreTests : XCTestCase
 @end
 
@@ -48,30 +50,26 @@
     NSString* keyLabel = @"testExistsCreateDelete";
     
     // Make sure key doesn't exist initially
-    SFSecureKeyStoreKey *key1 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNil(key1, @"Key should not have been found");
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel], @"Key should not have been found");
 
     // Create key
-    SFSecureKeyStoreKey *key2 = [SFSecureKeyStoreKey createKey:keyLabel];
-    XCTAssertNotNil(key2, @"Key should have been created");
+    SFSecureKeyStoreKey *key = [SFSecureKeyStoreKey createKey:kAppTag label:keyLabel];
+    XCTAssertNotNil(key, @"Key should have been created");
     
     // Looking for key even though it was never saved
-    SFSecureKeyStoreKey *key3 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNil(key3, @"Key should not have been found");
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel], @"Key should not have been found");
 
     // Save key
-    XCTAssertEqual([key2 saveKey], errSecSuccess, @"Key should have saved successfully");
+    XCTAssertEqual([key saveKey], errSecSuccess, @"Key should have saved successfully");
     
     // Looking for key
-    SFSecureKeyStoreKey *key4 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNotNil(key4, @"Key should have been found");
+    XCTAssertNotNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel], @"Key should have been found");
 
     // Delete key
-    [SFSecureKeyStoreKey deleteKey:keyLabel];
+    [SFSecureKeyStoreKey deleteKey:kAppTag label:keyLabel];
     
     // Looking for key even though it has been deleted
-    SFSecureKeyStoreKey *key5 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNil(key5, @"Key should no longer exists");
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel], @"Key should no longer exists");
 }
 
 // ensure newly created key works
@@ -80,19 +78,17 @@
     NSString* keyLabel = @"testNewlyCreatedKeyWorks";
     
     // Make sure key doesn't exist initially
-    SFSecureKeyStoreKey *key1 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNil(key1, @"Key should not have been found");
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel], @"Key should not have been found");
 
     // Create key
-    SFSecureKeyStoreKey *key2 = [SFSecureKeyStoreKey createKey:keyLabel];
-    XCTAssertNotNil(key2, @"Key should have been created");
+    SFSecureKeyStoreKey *key = [SFSecureKeyStoreKey createKey:kAppTag label:keyLabel];
+    XCTAssertNotNil(key, @"Key should have been created");
     
     // Check that key works
-    XCTAssertTrue([self checkKeyWorks:key2], @"Key should have worked");
+    XCTAssertTrue([self checkKeyWorks:key], @"Key should have worked");
     
     // Check that key doesn't exist in keychain
-    SFSecureKeyStoreKey *key3 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNil(key3, @"Key should not have been found");
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel], @"Key should not have been found");
 }
 
 // ensure retrieved key works
@@ -101,62 +97,120 @@
     NSString* keyLabel = @"testRetrievedKeyWorks";
     
     // Make sure key doesn't exist initially
-    SFSecureKeyStoreKey *key1 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNil(key1, @"Key should not have been found");
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel], @"Key should not have been found");
 
     // Create key
-    SFSecureKeyStoreKey *key2 = [SFSecureKeyStoreKey createKey:keyLabel];
-    XCTAssertNotNil(key2, @"Key should have been created");
+    SFSecureKeyStoreKey *key = [SFSecureKeyStoreKey createKey:kAppTag label:keyLabel];
+    XCTAssertNotNil(key, @"Key should have been created");
 
     // Save key
-    XCTAssertEqual([key2 saveKey], errSecSuccess, @"Key should have saved successfully");
+    XCTAssertEqual([key saveKey], errSecSuccess, @"Key should have saved successfully");
     
     // Retrieve key
-    SFSecureKeyStoreKey *key3 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNotNil(key3, @"Key should have been found");
+    key = [SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel];
+    XCTAssertNotNil(key, @"Key should have been found");
 
     // Check that key works
-    XCTAssertTrue([self checkKeyWorks:key3], @"Key should have worked");
+    XCTAssertTrue([self checkKeyWorks:key], @"Key should have worked");
     
     // Delete key
-    [SFSecureKeyStoreKey deleteKey:keyLabel];
+    [SFSecureKeyStoreKey deleteKey:kAppTag label:keyLabel];
     
     // Looking for key even though it has been deleted
-    SFSecureKeyStoreKey *key4 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNil(key4, @"Key should no longer exists");}
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel], @"Key should no longer exists");
+}
 
+// ensure we can create multiple keys
+- (void) testMultipleKeys
+{
+    NSString* keyLabel1 = @"testMultipleKeys1";
+    NSString* keyLabel2 = @"testMultipleKeys2";
+    
+    // Make sure keys don't exist initially
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel1], @"Key1 should not have been found");
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel2], @"Key2 should not have been found");
+    
+    // Create and save key1
+    SFSecureKeyStoreKey *key1 = [SFSecureKeyStoreKey createKey:kAppTag label:keyLabel1];
+    XCTAssertNotNil(key1, @"Key1 should have been created");
+    XCTAssertEqual([key1 saveKey], errSecSuccess, @"Key1 should have saved successfully");
+
+    // Check only key1 exists
+    XCTAssertNotNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel1], @"Key1 should have been found");
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel2], @"Key2 should not have been found");
+    
+    // Retrieve key1 back and make sure it works
+    key1 = [SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel1];
+    XCTAssertTrue([self checkKeyWorks:key1], @"Key1 should have worked");
+
+    // Create and save key2
+    SFSecureKeyStoreKey *key2 = [SFSecureKeyStoreKey createKey:kAppTag label:keyLabel2];
+    XCTAssertNotNil(key2, @"Key2 should have been created");
+    XCTAssertEqual([key2 saveKey], errSecSuccess, @"Key2 should have saved successfully");
+    
+    // Check keys exists
+    XCTAssertNotNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel1], @"Key1 should have been found");
+    XCTAssertNotNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel2], @"Key2 should have been found");
+    
+    // Retrieve key1 and key2 back and make sure they work
+    key1 = [SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel1];
+    key2 = [SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel2];
+    XCTAssertTrue([self checkKeyWorks:key1], @"Key1 should have worked");
+    XCTAssertTrue([self checkKeyWorks:key2], @"Key2 should have worked");
+    
+    // Delete key1
+    [SFSecureKeyStoreKey deleteKey:kAppTag label:keyLabel1];
+
+    // Check only key2 exists
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel1], @"Key1 should not have been found");
+    XCTAssertNotNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel2], @"Key2 should have been found");
+
+    // Retrieve key2 back and make sure it works
+    key2 = [SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel2];
+    XCTAssertTrue([self checkKeyWorks:key2], @"Key2 should have worked");
+
+    // Delete key2
+    [SFSecureKeyStoreKey deleteKey:kAppTag label:keyLabel2];
+    
+    // Make sure keys no longer exist
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel1], @"Key1 should no longer exist");
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel2], @"Key2 should no longer exist");
+}
 
 // ensures we can set and get the dictionary
 -(void)testSetAndGetDictionary {
     NSString* keyLabel = @"testSetAndGetDictionary";
     
     // Make sure key doesn't exist initially
-    SFSecureKeyStoreKey *key1 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNil(key1, @"Key should not have been found");
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel], @"Key should not have been found");
 
-    // Create key
-    SFSecureKeyStoreKey *key2 = [SFSecureKeyStoreKey createKey:keyLabel];
-    XCTAssertNotNil(key2, @"Key should have been created");
+    // Create and save key
+    SFSecureKeyStoreKey *key = [SFSecureKeyStoreKey createKey:kAppTag label:keyLabel];
+    XCTAssertNotNil(key, @"Key should have been created");
+    XCTAssertEqual([key saveKey], errSecSuccess, @"Key should have saved successfully");
     
+    // Retrieve key back
+
     // Use key on key store
     SFKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
     
     NSDictionary *data = @{@"one":@"", @"two":@""};
     
     // set
-    [keyStore setKeyStoreDictionary:data withKey:key2];
+    [keyStore setKeyStoreDictionary:data withKey:key];
     
     // get
-    NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:key2];
+    NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:key];
     
     XCTAssertTrue([data isEqualToDictionary:retrievedData], @"Dictionaries should be equal");
 
     // Delete key
-    [SFSecureKeyStoreKey deleteKey:keyLabel];
+    [SFSecureKeyStoreKey deleteKey:kAppTag label:keyLabel];
     
     // Looking for key even though it has been deleted
-    SFSecureKeyStoreKey *key3 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
-    XCTAssertNil(key3, @"Key should no longer exists");}
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:kAppTag label:keyLabel], @"Key should no longer exists");
+    
+}
 
 - (BOOL) checkKeyWorks:(SFSecureKeyStoreKey*)key
 {
