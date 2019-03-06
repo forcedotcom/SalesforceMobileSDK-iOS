@@ -84,9 +84,7 @@ static NSString * const SFSDKNewLoginHostCellIdentifier = @"SFSDKNewLoginHostCel
     if (host && httpsRange.length > 0) {
         host = [host substringFromIndex:httpsRange.location + httpsRange.length];
     }
-    if (host) {
-        [self.loginHostListViewController addLoginHost:[SFSDKLoginHost hostWithName:hostName host:host  deletable:YES]];
-    }
+    [self.loginHostListViewController addLoginHost:[SFSDKLoginHost hostWithName:hostName host:host  deletable:YES]];
 }
 
 #pragma mark - Table view data source
