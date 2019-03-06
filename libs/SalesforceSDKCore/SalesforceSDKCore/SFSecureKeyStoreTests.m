@@ -42,53 +42,121 @@
     [super tearDown];
 }
 
+// ensures create / retrieve / save / delete work
+-(void)testExistsCreateDelete
+{
+    NSString* keyLabel = @"testExistsCreateDelete";
+    
+    // Make sure key doesn't exist initially
+    SFSecureKeyStoreKey *key1 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNil(key1, @"Key should not have been found");
+
+    // Create key
+    SFSecureKeyStoreKey *key2 = [SFSecureKeyStoreKey createKey:keyLabel];
+    XCTAssertNotNil(key2, @"Key should have been created");
+    
+    // Looking for key even though it was never saved
+    SFSecureKeyStoreKey *key3 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNil(key3, @"Key should not have been found");
+
+    // Save key
+    XCTAssertEqual([key2 saveKey], errSecSuccess, @"Key should have saved successfully");
+    
+    // Looking for key
+    SFSecureKeyStoreKey *key4 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNotNil(key4, @"Key should have been found");
+
+    // Delete key
+    [SFSecureKeyStoreKey deleteKey:keyLabel];
+    
+    // Looking for key even though it has been deleted
+    SFSecureKeyStoreKey *key5 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNil(key5, @"Key should no longer exists");
+}
+
+// ensure newly created key works
+- (void)testNewlyCreatedKeyWorks
+{
+    NSString* keyLabel = @"testNewlyCreatedKeyWorks";
+    
+    // Make sure key doesn't exist initially
+    SFSecureKeyStoreKey *key1 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNil(key1, @"Key should not have been found");
+
+    // Create key
+    SFSecureKeyStoreKey *key2 = [SFSecureKeyStoreKey createKey:keyLabel];
+    XCTAssertNotNil(key2, @"Key should have been created");
+    
+    // Check that key works
+    XCTAssertTrue([self checkKeyWorks:key2], @"Key should have worked");
+    
+    // Check that key doesn't exist in keychain
+    SFSecureKeyStoreKey *key3 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNil(key3, @"Key should not have been found");
+}
+
+// ensure retrieved key works
+- (void)testRetrievedKeyWorks
+{
+    NSString* keyLabel = @"testRetrievedKeyWorks";
+    
+    // Make sure key doesn't exist initially
+    SFSecureKeyStoreKey *key1 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNil(key1, @"Key should not have been found");
+
+    // Create key
+    SFSecureKeyStoreKey *key2 = [SFSecureKeyStoreKey createKey:keyLabel];
+    XCTAssertNotNil(key2, @"Key should have been created");
+
+    // Save key
+    XCTAssertEqual([key2 saveKey], errSecSuccess, @"Key should have saved successfully");
+    
+    // Retrieve key
+    SFSecureKeyStoreKey *key3 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNotNil(key3, @"Key should have been found");
+
+    // Check that key works
+    XCTAssertTrue([self checkKeyWorks:key3], @"Key should have worked");
+    
+    // Delete key
+    [SFSecureKeyStoreKey deleteKey:keyLabel];
+    
+    // Looking for key even though it has been deleted
+    SFSecureKeyStoreKey *key4 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNil(key4, @"Key should no longer exists");}
+
+
 // ensures we can set and get the dictionary
 -(void)testSetAndGetDictionary {
-    SFSecureKeyStoreKey *key = [SFSecureKeyStoreKey createKey];
+    NSString* keyLabel = @"testSetAndGetDictionary";
     
+    // Make sure key doesn't exist initially
+    SFSecureKeyStoreKey *key1 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNil(key1, @"Key should not have been found");
+
+    // Create key
+    SFSecureKeyStoreKey *key2 = [SFSecureKeyStoreKey createKey:keyLabel];
+    XCTAssertNotNil(key2, @"Key should have been created");
+    
+    // Use key on key store
     SFKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
-    keyStore.keyStoreKey = key;
     
     NSDictionary *data = @{@"one":@"", @"two":@""};
     
     // set
-    [keyStore setKeyStoreDictionary:data withKey:key];
+    [keyStore setKeyStoreDictionary:data withKey:key2];
     
     // get
-    NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:key];
+    NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:key2];
     
     XCTAssertTrue([data isEqualToDictionary:retrievedData], @"Dictionaries should be equal");
-}
-
-// ensures we can read / write / delete key to key chain
--(void)testReadWriteDeleteFromKeyChain
-{
-    NSString* keyLabel = @"testKey";
-    
-    // Make sure key doesn't exist initially
-    SFSecureKeyStoreKey *key1 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:NO];
-    XCTAssertNil(key1, @"Key should not exist");
-    
-    // Create key
-    SFSecureKeyStoreKey *key2 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:YES];
-    XCTAssertNotNil(key2, @"Key should have been created");
-    XCTAssertTrue([self checkKeyWorks:key2], @"Newly created key should have worked");
-
-    // Try to retrieve key even though it was never saved
-    SFSecureKeyStoreKey *key3 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:NO];
-    XCTAssertNil(key3, @"Key should not have been found");
-    
-    // save key
-    [key2 toKeyChain:@"blah" archiverKey:@"blah"];
-    SFSecureKeyStoreKey *key4 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:NO];
-    XCTAssertNotNil(key4, @"Key should have been found");
-    XCTAssertTrue([self checkKeyWorks:key4], @"Retrieved key should have worked");
 
     // Delete key
-    [key4 deleteKey];
-    SFSecureKeyStoreKey *key5 = [[SFSecureKeyStoreKey alloc] initWithLabel:keyLabel autoCreate:NO];
-    XCTAssertNil(key5, @"Key should no longer exist");
-}
+    [SFSecureKeyStoreKey deleteKey:keyLabel];
+    
+    // Looking for key even though it has been deleted
+    SFSecureKeyStoreKey *key3 = [SFSecureKeyStoreKey retrieveKey:keyLabel];
+    XCTAssertNil(key3, @"Key should no longer exists");}
 
 - (BOOL) checkKeyWorks:(SFSecureKeyStoreKey*)key
 {

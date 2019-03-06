@@ -39,21 +39,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Create a new SFSecureKeyStoreKey
+ NB: it is not saved to the key chain until [key saveKey] is called
  */
 + (instancetype) createKey;
 
 /**
- Constructor
- @param label a label for the key
- @param autoCreate if YES, create key if not foun
+ Create a new SFSecureKeyStoreKey with given label
+ NB: it is not saved to the key chain until [key saveKey] is called
+ @param label the key label
  */
-- (instancetype) initWithLabel:(NSString*)label autoCreate:(BOOL)autoCreate;
++ (instancetype) createKey:(NSString*)label;
 
 /**
- Delete
- @param label a label for the key
+ Retrieve key with given label from keychain
+ @param label the key label
+ @return nil if not found
  */
-- (void) deleteKey;
++ (nullable instancetype) retrieveKey:(NSString*)label;
+
+/**
+ Delete key with given label from keychain
+ @param label the key label
+ */
++ (void) deleteKey:(NSString*)label;
+
+/**
+ Save to keychain
+ */
+- (OSStatus) saveKey;
 
 @end
 
