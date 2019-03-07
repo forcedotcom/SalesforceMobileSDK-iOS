@@ -97,7 +97,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     
     // Manually inserting key with key type passcode in generated store
     SFPasscodeKeyStore *passcodeKeyStore = [[SFPasscodeKeyStore alloc] init]; // only used to create the right label for the key
-    SFEncryptionKey *encryptionKey = [mgr keyWithRandomValue];
+    SFEncryptionKey *encryptionKey = [SFEncryptionKey createKey];
     SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encryptionKey];
     NSString *originalKeyLabel = [passcodeKeyStore keyLabelForString:keyLabel];
     XCTAssertEqualObjects(@"keyLabel__Passcode", originalKeyLabel);
@@ -154,7 +154,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     passcodeKeyStore.keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encKey];
 
     // Insert key to passcode key store
-    SFEncryptionKey *encryptionKey = [mgr keyWithRandomValue];
+    SFEncryptionKey *encryptionKey = [SFEncryptionKey createKey];
     SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encryptionKey];
     NSString *originalKeyLabel = [passcodeKeyStore keyLabelForString:keyLabel];
     XCTAssertEqualObjects(@"keyLabel__Passcode", originalKeyLabel);
@@ -203,7 +203,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     
     // generate a new key
     NSString *keyName = [NSString stringWithFormat:@"%@%ld", @"threadSafeKeyName", (unsigned long)keyId++];
-    SFEncryptionKey *origKey = [mgr keyWithRandomValue];
+    SFEncryptionKey *origKey = [SFEncryptionKey createKey];
     
     // store it
     [mgr storeKey:origKey withLabel:keyName];

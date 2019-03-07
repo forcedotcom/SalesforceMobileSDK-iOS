@@ -36,7 +36,24 @@ NS_ASSUME_NONNULL_BEGIN
  @param keyData The key component, represented as NSData.
  @param iv The initialization vector, represented as NSData.
  */
-- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv;
+- (id)initWithData:(NSData *)keyData initializationVector:(nullable NSData *)iv;
+
+/**
+ Generate an encryption key
+ */
++ (SFEncryptionKey*) createKey;
+
+/**
+ Encrypt given data
+ @param dataToEncrypt The data to encrypt
+ */
+- (NSData*)encryptData:(NSData *)dataToEncrypt;
+
+/**
+ Decrypt given data
+ @param dataToDecrypt The data to decrypt
+ */
+- (NSData*)decryptData:(NSData *)dataToDecrypt;
 
 /**
  The key component of the object.

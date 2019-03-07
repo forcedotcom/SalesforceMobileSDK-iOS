@@ -777,7 +777,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     if (keyBlock) {
         SFEncryptStream *encryptStream = [[SFEncryptStream alloc] initToFileAtPath:filePath append:NO];
         SFEncryptionKey *encKey = keyBlock();
-        [encryptStream setupWithKey:encKey.key andInitializationVector:encKey.initializationVector];
+        [encryptStream setupWithEncryptionKey:encKey];
         outputStream = encryptStream;
     } else {
         outputStream = [[NSOutputStream alloc] initToFileAtPath:filePath append:NO];
@@ -815,15 +815,13 @@ NSString *const EXPLAIN_ROWS = @"rows";
                                              soupTableName:soupTableName];
     
     SFSmartStoreEncryptionKeyBlock keyBlock = [SFSmartStore encryptionKeyBlock];
-    NSData* key;
-    NSData* initializationVector;
+    SFEncryptionKey* encKey;
     if (keyBlock) {
-        SFEncryptionKey *encKey = keyBlock();
-        key = encKey.key;
-        initializationVector = encKey.initializationVector;
+        encKey = keyBlock();
     }
     
-    NSString* entryAsString = [self readFromEncryptedFile:filePath key:key iv:initializationVector];
+    NSString* entryAsString = [self readFromEncryptedFile:filePath
+                                                   encKey:encKey];
     
     // Before 6.2, we were using nill IV when encrypting.
     // Starting in 6.2, we are using a non-nil IV when encrypting.
@@ -833,17 +831,19 @@ NSString *const EXPLAIN_ROWS = @"rows";
         NSDictionary* entry = [SFJsonUtils objectFromJSONString:entryAsString];
         
         if(!entry) {
-            if (initializationVector) {
-                entryAsString = [self readFromEncryptedFile:filePath key:key iv:nil];
+            if (encKey.initializationVector) {
+                entryAsString = [self readFromEncryptedFile:filePath encKey:encKey useNilIV:YES];
                 if ([entryAsString length] > 0) {
-                    [self writeToEncryptedFile:filePath content:entryAsString key:key iv:initializationVector];
+                    [self writeToEncryptedFile:filePath
+                                       content:entryAsString
+                                        encKey:encKey];
                 } else {
                     [SFSDKSmartStoreLogger e:[self class] format:@"Attempt to migrate an encrypted externally saved soup '%@' with a null IV  failed.", soupTableName];
                 }
             } else {
                 NSError* error = [SFJsonUtils lastError];
                 NSString *errorMessage = [NSString stringWithFormat:@"Loading external soup from file failed! encrypted: %@, soupEntryId: %@, soupTableName: %@, filePath: '%@', error: %@.",
-                                          key ? @"YES" : @"NO",
+                                          encKey ? @"YES" : @"NO",
                                           soupEntryId,
                                           soupTableName,
                                           filePath,
@@ -861,14 +861,23 @@ NSString *const EXPLAIN_ROWS = @"rows";
 }
 
 - (NSString*) readFromEncryptedFile:(NSString*)filePath
-                                key:(NSData*)key
-                                 iv:(NSData*)iv
+                             encKey:(SFEncryptionKey*)encKey
+{
+    return [self readFromEncryptedFile:filePath encKey:encKey useNilIV:NO];
+}
+
+- (NSString*) readFromEncryptedFile:(NSString*)filePath
+                             encKey:(SFEncryptionKey*)encKey
+                           useNilIV:(BOOL)useNilIV
 {
     NSMutableString* content = [NSMutableString new];
     NSInputStream *inputStream = nil;
-    if (key) {
+    if (encKey) {
         SFDecryptStream *decryptStream = [[SFDecryptStream alloc] initWithFileAtPath:filePath];
-        [decryptStream setupWithKey:key andInitializationVector:iv];
+        if (useNilIV) {
+            encKey = [[SFEncryptionKey alloc] initWithData:encKey.key initializationVector:nil];
+        }
+        [decryptStream setupWithDecryptionKey:encKey];
         inputStream = decryptStream;
     } else {
         inputStream = [[NSInputStream alloc] initWithFileAtPath:filePath];
@@ -889,13 +898,12 @@ NSString *const EXPLAIN_ROWS = @"rows";
 
 - (void) writeToEncryptedFile:(NSString*)filePath
                        content:(NSString *)content
-                          key:(NSData*)key
-                           iv:(NSData*)iv
+                       encKey:(SFEncryptionKey*)encKey
 {
     NSOutputStream *outputStream = nil;
-    if (key) {
+    if (encKey) {
         SFEncryptStream *encryptStream = [[SFEncryptStream alloc] initToFileAtPath:filePath append:NO];
-        [encryptStream setupWithKey:key andInitializationVector:iv];
+        [encryptStream setupWithEncryptionKey:encKey];
         outputStream = encryptStream;
     } else {
         outputStream = [[NSOutputStream alloc] initToFileAtPath:filePath append:NO];

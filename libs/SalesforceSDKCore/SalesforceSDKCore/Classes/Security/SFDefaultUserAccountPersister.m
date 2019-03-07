@@ -213,7 +213,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
 
     // Encrypt it.
     SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel autoCreate:YES];
-    NSData *encryptedArchiveData = [SFSDKCryptoUtils aes256EncryptData:archiveData withKey:encKey.key iv:encKey.initializationVector];
+    NSData *encryptedArchiveData = [encKey encryptData:archiveData];
     if (!encryptedArchiveData) {
         NSString *reason = [NSString stringWithFormat:@"User account data could not be encrypted.  %@",filePath];
         [SFSDKCoreLogger w:[self class] format:reason];
@@ -260,7 +260,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             return NO;
         }
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel autoCreate:YES];
-        NSData *decryptedArchiveData = [SFSDKCryptoUtils aes256DecryptData:encryptedUserAccountData withKey:encKey.key iv:encKey.initializationVector];
+        NSData *decryptedArchiveData = [encKey decryptData:encryptedUserAccountData];
         if (!decryptedArchiveData) {
             if (error) {
                 *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
