@@ -32,14 +32,14 @@ NSString * const kSFSyncUpTargetMaxBatchSize = @"maxBatchSize";
 
 static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 
-@interface SFBatchingSyncUpTarget ()
+@interface SFBatchSyncUpTarget ()
 
 @property(nonatomic, readwrite) NSUInteger maxBatchSize;
 
 @end
 
 
-@implementation SFBatchingSyncUpTarget
+@implementation SFBatchSyncUpTarget
 
 #pragma mark - Initialization methods
 
@@ -56,7 +56,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 
 - (instancetype)initWithCreateFieldlist:(nullable NSArray<NSString*> *)createFieldlist
                         updateFieldlist:(nullable NSArray<NSString*> *)updateFieldlist {
-    return [self initWithCreateFieldlist:nil updateFieldlist:nil maxBatchSize:nil];
+    return [self initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist maxBatchSize:nil];
 }
 
 - (instancetype)initWithCreateFieldlist:(NSArray<NSString*> *)createFieldlist
@@ -75,7 +75,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 #pragma mark - Factory method
 
 + (instancetype)newFromDict:(NSDictionary *)dict {
-    return [[SFBatchingSyncUpTarget alloc] initWithDict:dict];
+    return [[SFBatchSyncUpTarget alloc] initWithDict:dict];
 }
 
 #pragma mark - To dictionary

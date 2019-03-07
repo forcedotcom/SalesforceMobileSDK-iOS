@@ -102,8 +102,17 @@ static NSMutableDictionary *analyticsManagerList = nil;
         if (!userAccount) {
             return;
         }
-        NSString *key = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
-        [analyticsManagerList removeObjectForKey:key];
+        
+        NSString *userKey = SFKeyForUserAndScope(userAccount, SFUserAccountScopeUser);
+        // Remove all sub-instances (community users) for this user as well
+        NSArray *keys = analyticsManagerList.allKeys;
+        if(userKey) {
+            for( NSString *key in keys) {
+                if([key hasPrefix:userKey]) {
+                    [analyticsManagerList removeObjectForKey:key];
+                }
+            }
+        }
     }
 }
 

@@ -1338,17 +1338,21 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     __weak typeof(self) weakSelf = self;
     [client dismissAuthViewControllerIfPresent];
     
-    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-        [weakSelf finalizeAuthCompletion:client];
-    }];
-    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [weakSelf handleFailure:client.context.authError client:client notifyDelegates:YES];
-    }];
-    // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
-    // identity service.
-    [SFSecurityLockout setInactivityConfiguration:client.idData.mobileAppPinLength
-                                      lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
-                                 biometricAllowed:biometricUnlockAvailable];
+    if (client.context.authInfo.authType != SFOAuthTypeRefresh) {
+        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
+            [weakSelf finalizeAuthCompletion:client];
+        }];
+        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+            [weakSelf handleFailure:client.context.authError client:client notifyDelegates:YES];
+        }];
+        // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
+        // identity service.
+        [SFSecurityLockout setInactivityConfiguration:client.idData.mobileAppPinLength
+                                          lockoutTime:(client.idData.mobileAppScreenLockTimeout * 60)
+                                     biometricAllowed:biometricUnlockAvailable];
+    } else {
+        [self finalizeAuthCompletion:client];
+    }
 }
 
 
@@ -1413,7 +1417,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         if (client.config.isIDPInitiatedFlow) {
             NSNotification *loggedInNotification = [NSNotification notificationWithName:kSFNotificationUserIDPInitDidLogIn object:self  userInfo:userInfo];
             [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
-        } else {
+        } else if (client.context.authInfo.authType != SFOAuthTypeRefresh) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
                                                                 object:self
                                                               userInfo:userInfo];

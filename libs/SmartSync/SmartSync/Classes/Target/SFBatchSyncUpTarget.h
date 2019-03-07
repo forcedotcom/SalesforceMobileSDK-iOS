@@ -25,14 +25,15 @@
 #import "SFSyncUpTarget.h"
 #import "SFAdvancedSyncUpTarget.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const kSFSyncUpTargetMaxBatchSize;
 
-NS_ASSUME_NONNULL_BEGIN
-NS_SWIFT_NAME(BatchingSyncUpTarget)
+NS_SWIFT_NAME(BatchSyncUpTarget)
 /**
  * Subclass of SFSyncUpTarget that batches create/update/delete operations by using composite api
  */
-@interface SFBatchingSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
+@interface SFBatchSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
 
 /** Constructor
  */
