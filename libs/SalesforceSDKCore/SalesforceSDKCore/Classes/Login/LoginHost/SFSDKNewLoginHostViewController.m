@@ -75,9 +75,14 @@ static NSString * const SFSDKNewLoginHostCellIdentifier = @"SFSDKNewLoginHostCel
  * Invoked when the user taps on the done button to add the login host to the list of hosts.
  */
 - (void)addNewServer:(id)sender {
-    [self.loginHostListViewController addLoginHost:[SFSDKLoginHost hostWithName:[self.name.text stringByTrimmingCharactersInSet:
-                                                                                 [NSCharacterSet whitespaceCharacterSet]] host:[self.server.text stringByTrimmingCharactersInSet:
-                                                                                                     [NSCharacterSet whitespaceCharacterSet]] deletable:YES]];
+    NSString *hostName = [self.name.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *host = [self.server.text stringByTrimmingCharactersInSet:
+                          [NSCharacterSet whitespaceCharacterSet]];
+    NSRange httpsRange = [host rangeOfString:@"://"];
+    if (host && httpsRange.length > 0) {
+        host = [host substringFromIndex:httpsRange.location + httpsRange.length];
+    }
+    [self.loginHostListViewController addLoginHost:[SFSDKLoginHost hostWithName:hostName host:host  deletable:YES]];
 }
 
 #pragma mark - Table view data source
