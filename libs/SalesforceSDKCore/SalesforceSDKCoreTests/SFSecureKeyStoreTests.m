@@ -43,7 +43,7 @@
 }
 
 // ensures create / retrieve / delete work
--(void)testExistsCreateDelete
+-(void)testCreateRetrieveDelete
 {
     NSString* keyLabel = @"testExistsCreateDelete";
     

@@ -1009,7 +1009,7 @@
 		4FEE438A1BFD488900F09C43 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4FF26E842229F2A10000D806 /* SFSecureKeyStoreKey.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSecureKeyStoreKey.m; sourceTree = "<group>"; };
 		4FF26E8D2229F2BB0000D806 /* SFSecureKeyStoreKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSecureKeyStoreKey.h; sourceTree = "<group>"; };
-		4FF26E902229F6560000D806 /* SFSecureKeyStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSecureKeyStoreTests.m; sourceTree = "<group>"; };
+		4FF26E902229F6560000D806 /* SFSecureKeyStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSecureKeyStoreTests.m; path = ../SalesforceSDKCoreTests/SFSecureKeyStoreTests.m; sourceTree = "<group>"; };
 		4FF945BB1BFFF47D005368C5 /* NSArray+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+SFAdditions.h"; sourceTree = "<group>"; };
 		4FF945BC1BFFF47D005368C5 /* NSArray+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+SFAdditions.m"; sourceTree = "<group>"; };
 		4FF945BD1BFFF47D005368C5 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
