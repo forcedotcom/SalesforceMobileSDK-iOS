@@ -25,6 +25,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFKeyStore+Internal.h"
 #import "SFKeyStoreManager+Internal.h"
+#import "SFEncryptionKey.h"
 
 @interface SFKeyStoreTests : XCTestCase
 {
@@ -77,6 +78,29 @@
     NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:key];
     
     XCTAssertTrue([data isEqualToDictionary:retrievedData], @"Dictionaries should be equal");
+}
+
+// ensures we can set and get the dictionary when using a SFSecureEncryptionKey
+-(void)testSetAndGetDictionaryWithSecureEncryptionKey {
+    NSDictionary *data = @{@"one":@"", @"two":@""};
+    
+    // set up the keystore with secure encryption key
+    SFSecureEncryptionKey *encKey = [SFSecureEncryptionKey createKey:@"test"];
+    SFKeyStoreKey *key = [[SFKeyStoreKey alloc] initWithKey:encKey];
+
+    SFKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
+    keyStore.keyStoreKey = key;
+    
+    // set
+    [keyStore setKeyStoreDictionary:data withKey:key];
+    
+    // get
+    NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:key];
+    
+    XCTAssertTrue([data isEqualToDictionary:retrievedData], @"Dictionaries should be equal");
+    
+    // Delete encryption key
+    [SFSecureEncryptionKey deleteKey:@"test"];
 }
 
 // try to decrypt with bad key

@@ -22,16 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSecureKeyStoreKey.h"
+#import "SFSecureEncryptionKey.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSData+SFAdditions.h"
-#include "TargetConditionals.h"
 
-// Other constants
-static NSString * const kSecureKeyStorePrivateLabelSuffix = @"private";
-static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
+// NSCoding constants
+static NSString * const kSecureEncryptionKeyCodingValue = @"com.salesforce.encryption.securekey.label";
 
-@interface SFSecureKeyStoreKey () {
+@interface SFSecureEncryptionKey () {
     SecKeyRef publicKeyRef;
     SecKeyRef privateKeyRef;
 }
@@ -40,19 +38,19 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
 
 @end
 
-@implementation SFSecureKeyStoreKey
+@implementation SFSecureEncryptionKey
 
 #pragma mark - Factory methods and constructor
 
 + (instancetype) createKey:(NSString*)label
 {
     [SFSDKCryptoUtils deleteECKeyPairWithName:label]; // Delete existing key if any
-    return [[SFSecureKeyStoreKey alloc] initWithLabel:label autoCreate:YES];
+    return [[SFSecureEncryptionKey alloc] initWithLabel:label autoCreate:YES];
 }
 
 + (instancetype) retrieveKey:(NSString*)label
 {
-    return [[SFSecureKeyStoreKey alloc] initWithLabel:label autoCreate:NO];
+    return [[SFSecureEncryptionKey alloc] initWithLabel:label autoCreate:NO];
 }
 
 + (void) deleteKey:(NSString*)label
@@ -75,12 +73,12 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
         if (!autoCreate) {
             return nil;
         }
-
+        
         // Does not exist and should be auto created
         [SFSDKCryptoUtils createECKeyPairWithName:label
                               accessibleAttribute:kSecAttrAccessibleAlways
                                  useSecureEnclave:[SFSDKCryptoUtils isSecureEnclaveAvailable]];
-
+        
         // Creation successful
         if ([self getKeyRefs]) {
             return self;
@@ -98,26 +96,41 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
     if (publicKeyRef) CFRelease(publicKeyRef);
 }
 
+#pragma mark - Methods for NSCopying
+
 - (instancetype)copyWithZone:(NSZone *)zone
 {
-    SFSecureKeyStoreKey *keyCopy = [[[self class] allocWithZone:zone] init];
+    SFSecureEncryptionKey *keyCopy = [[[self class] allocWithZone:zone] init];
     keyCopy.label = [self.label copy];
-    [keyCopy getKeyRefs];
-    return keyCopy;
+    if ([keyCopy getKeyRefs]) {
+        return keyCopy;
+    } else {
+        return nil;
+    }
 }
 
-#pragma mark - Methods to read / write from / to key chain
+#pragma mark - Methods for NSCoding
 
-+ (nullable instancetype)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    return [[SFSecureKeyStoreKey alloc] initWithLabel:keychainId autoCreate:NO];
-}
-    
-- (OSStatus) toKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey {
-    // key is created in the keychain - nothing to do here
-    return errSecSuccess;
+    self = [super init];
+    if (self) {
+        self.label = [aDecoder decodeObjectForKey:kSecureEncryptionKeyCodingValue];
+        
+        if ([self getKeyRefs]) {
+            return self;
+        }
+        else {
+            return nil;
+        }
+    }
+    return self;
 }
 
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.label forKey:kSecureEncryptionKeyCodingValue];
+}
 
 #pragma mark - Methods to encrypt / decrypt data
 
@@ -131,21 +144,31 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
     return [SFSDKCryptoUtils decryptUsingECforData:dataToDecrypt withKeyRef:privateKeyRef];
 }
 
-#pragma mark - SFKeyStoreKey methods not supported by SFSecureKeyStoreKey
+#pragma mark - SFEncryptionKey methods not supported by SFSecureKeyStoreKey
 
-- (instancetype) initWithKey:(SFEncryptionKey *)key
+- (id)initWithData:(NSData *)keyData initializationVector:(nullable NSData *)iv;
 {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"%@ not supported on SFSecureKeyStoreKey.", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-    
+    @throw [self notSupportedExceptionFor:NSStringFromSelector(_cmd)];
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (NSData*) key
 {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"%@ not supported on SFSecureKeyStoreKey.", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
+    @throw [self notSupportedExceptionFor:NSStringFromSelector(_cmd)];
+}
+
+- (NSData*) initializationVector
+{
+    @throw [self notSupportedExceptionFor:NSStringFromSelector(_cmd)];
+}
+
+- (NSString*) keyAsString
+{
+    @throw [self notSupportedExceptionFor:NSStringFromSelector(_cmd)];
+}
+
+- (NSString*) initializationVectorAsString
+{
+    @throw [self notSupportedExceptionFor:NSStringFromSelector(_cmd)];
 }
 
 #pragma mark - Misc private methods
@@ -154,7 +177,15 @@ static NSString * const kSecureKeyStorePublicLabelSuffix = @"public";
 {
     publicKeyRef = [SFSDKCryptoUtils getECPublicKeyRefWithName:self.label];
     privateKeyRef = [SFSDKCryptoUtils getECPrivateKeyRefWithName:self.label];
-
+    
     return (privateKeyRef && publicKeyRef);
+}
+
+- (NSException*) notSupportedExceptionFor:(NSString*)methodName
+{
+    return [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"%@ not supported on SFSecureEncryptionKey.", methodName]
+                                 userInfo:nil];
+    
 }
 @end

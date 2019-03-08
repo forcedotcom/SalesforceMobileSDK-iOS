@@ -23,24 +23,26 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFKeyStoreKey.h"
+#import "SFEncryptionKey.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Object to encrypt/decrypt key store using secure enclave
+ A secure encryption key.
+ The key bits are not exposed.
+ The key lives in the key chain / Secure Enclave (if available).
+ NB: Might not be appropriate for encrypting/decrypting large amounts of data.
  */
-@interface SFSecureKeyStoreKey : SFKeyStoreKey
+@interface SFSecureEncryptionKey : SFEncryptionKey
 
 /**
- Create a new SFSecureKeyStoreKey with given app tag and label
- NB: it is not saved to the key chain until [key saveKey] is called
+ Create a new SFSecureEncryptionKey with given label
  @param label the key label
  */
 + (instancetype) createKey:(NSString*)label;
 
 /**
- Retrieve key with given app tag and label from keychain
+ Retrieve key with given label from keychain
  @param label the key label
  @return nil if not found
  */
