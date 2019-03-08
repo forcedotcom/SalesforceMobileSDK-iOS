@@ -513,8 +513,9 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
 - (BOOL)authClientDidCancelBrowserFlow:(SFSDKOAuthClient *)client {
     BOOL result = NO;
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: client.credentials,
-                                kSFNotificationUserInfoAuthTypeKey: client.context.authInfo };
+                                kSFNotificationUserInfoAuthTypeKey: authInfo };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCancelledAuth
                                                         object:self userInfo:userInfo];
     if (self.authCancelledByUserHandlerBlock) {
@@ -1200,10 +1201,13 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         [strongSelf showErrorAlertWithMessage:alertMessage buttonTitle:okButton andCompletion:^() {
             [client cancelAuthentication:YES];
             [strongSelf disposeOAuthClient:client];
-            [weakSelf notifyUserCancelledOrDismissedAuth:client.credentials andAuthInfo:client.context.authInfo];
+            [strongSelf notifyUserCancelledOrDismissedAuth:client.credentials andAuthInfo:client.context.authInfo];
             SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:0];
             strongSelf.loginHost = host.host;
-            [strongSelf switchToNewUser];
+            SFOAuthCredentials *credentials = [strongSelf newClientCredentials];
+            [strongSelf dismissAuthViewControllerIfPresent];
+            SFSDKOAuthClient *newClient = [strongSelf fetchOAuthClient:credentials  completion:client.config.successCallbackBlock failure:client.config.failureCallbackBlock];
+            [newClient refreshCredentials];
         }];
     };
     
