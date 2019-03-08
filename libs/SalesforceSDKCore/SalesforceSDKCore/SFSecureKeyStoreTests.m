@@ -42,7 +42,7 @@
     [super tearDown];
 }
 
-// ensures create / retrieve / save / delete work
+// ensures create / retrieve / delete work
 -(void)testExistsCreateDelete
 {
     NSString* keyLabel = @"testExistsCreateDelete";
@@ -53,12 +53,6 @@
     // Create key
     SFSecureKeyStoreKey *key = [SFSecureKeyStoreKey createKey:keyLabel];
     XCTAssertNotNil(key, @"Key should have been created");
-    
-    // Looking for key even though it was never saved
-    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:keyLabel], @"Key should not have been found");
-
-    // Save key
-    XCTAssertEqual([key saveKey], errSecSuccess, @"Key should have saved successfully");
     
     // Looking for key
     XCTAssertNotNil([SFSecureKeyStoreKey retrieveKey:keyLabel], @"Key should have been found");
@@ -85,8 +79,11 @@
     // Check that key works
     XCTAssertTrue([self checkKeyWorks:key], @"Key should have worked");
     
-    // Check that key doesn't exist in keychain
-    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:keyLabel], @"Key should not have been found");
+    // Delete key
+    [SFSecureKeyStoreKey deleteKey:keyLabel];
+    
+    // Looking for key even though it has been deleted
+    XCTAssertNil([SFSecureKeyStoreKey retrieveKey:keyLabel], @"Key should no longer exists");    
 }
 
 // ensure retrieved key works
@@ -101,9 +98,6 @@
     SFSecureKeyStoreKey *key = [SFSecureKeyStoreKey createKey:keyLabel];
     XCTAssertNotNil(key, @"Key should have been created");
 
-    // Save key
-    XCTAssertEqual([key saveKey], errSecSuccess, @"Key should have saved successfully");
-    
     // Retrieve key
     key = [SFSecureKeyStoreKey retrieveKey:keyLabel];
     XCTAssertNotNil(key, @"Key should have been found");
@@ -128,10 +122,9 @@
     XCTAssertNil([SFSecureKeyStoreKey retrieveKey:keyLabel1], @"Key1 should not have been found");
     XCTAssertNil([SFSecureKeyStoreKey retrieveKey:keyLabel2], @"Key2 should not have been found");
     
-    // Create and save key1
+    // Create key1
     SFSecureKeyStoreKey *key1 = [SFSecureKeyStoreKey createKey:keyLabel1];
     XCTAssertNotNil(key1, @"Key1 should have been created");
-    XCTAssertEqual([key1 saveKey], errSecSuccess, @"Key1 should have saved successfully");
 
     // Check only key1 exists
     XCTAssertNotNil([SFSecureKeyStoreKey retrieveKey:keyLabel1], @"Key1 should have been found");
@@ -141,10 +134,9 @@
     key1 = [SFSecureKeyStoreKey retrieveKey:keyLabel1];
     XCTAssertTrue([self checkKeyWorks:key1], @"Key1 should have worked");
 
-    // Create and save key2
+    // Create key2
     SFSecureKeyStoreKey *key2 = [SFSecureKeyStoreKey createKey:keyLabel2];
     XCTAssertNotNil(key2, @"Key2 should have been created");
-    XCTAssertEqual([key2 saveKey], errSecSuccess, @"Key2 should have saved successfully");
     
     // Check keys exists
     XCTAssertNotNil([SFSecureKeyStoreKey retrieveKey:keyLabel1], @"Key1 should have been found");
@@ -182,10 +174,9 @@
     // Make sure key doesn't exist initially
     XCTAssertNil([SFSecureKeyStoreKey retrieveKey:keyLabel], @"Key should not have been found");
 
-    // Create and save key
+    // Create key
     SFSecureKeyStoreKey *key = [SFSecureKeyStoreKey createKey:keyLabel];
     XCTAssertNotNil(key, @"Key should have been created");
-    XCTAssertEqual([key saveKey], errSecSuccess, @"Key should have saved successfully");
     
     // Retrieve key back
 

@@ -33,11 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSecureKeyStoreKey : SFKeyStoreKey
 
 /**
- @return YES if secure enclave is available
- */
-+ (BOOL) isSecureEnclaveAvailable;
-
-/**
  Create a new SFSecureKeyStoreKey with given app tag and label
  NB: it is not saved to the key chain until [key saveKey] is called
  @param label the key label
@@ -56,11 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param label the key label
  */
 + (void) deleteKey:(NSString*)label;
-
-/**
- Save to keychain
- */
-- (OSStatus) saveKey;
 
 @end
 
