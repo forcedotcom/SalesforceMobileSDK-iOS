@@ -179,14 +179,16 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
 /**
  * Create asymmetric keys (public/private key pairs) using EC algorithm with given keyName
  * @param keyName The name string used to generate the key.
+ * @return YES if successful
  */
-+ (void)createECKeyPairWithName:(NSString *)keyName accessibleAttribute:(CFTypeRef)accessibleAttribute useSecureEnclave:(BOOL)useSecureEnclave;
++ (BOOL)createECKeyPairWithName:(NSString *)keyName accessibleAttribute:(CFTypeRef)accessibleAttribute useSecureEnclave:(BOOL)useSecureEnclave;
 
 /**
  * Delete EC key pair created with createECKeyPairWithName
  * @param keyName The name string of the key.
+ * @return YES if successful
  */
-+ (void)deleteECKeyPairWithName:(NSString *)keyName;
++ (BOOL)deleteECKeyPairWithName:(NSString *)keyName;
 
 /**
  * Get EC public SecKeyRef with given keyName

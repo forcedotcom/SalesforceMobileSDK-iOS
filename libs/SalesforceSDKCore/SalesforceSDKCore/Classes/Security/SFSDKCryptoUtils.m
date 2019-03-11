@@ -246,7 +246,7 @@ static NSString * const kSFECPrivateKeyTagPrefix = @"com.salesforce.eckey.privat
 #endif
 }
 
-+ (void)createECKeyPairWithName:(NSString *)keyName accessibleAttribute:(CFTypeRef)accessibleAttribute useSecureEnclave:(BOOL)useSecureEnclave
++ (BOOL)createECKeyPairWithName:(NSString *)keyName accessibleAttribute:(CFTypeRef)accessibleAttribute useSecureEnclave:(BOOL)useSecureEnclave
 {
     NSString *privateTagString = [NSString stringWithFormat:@"%@.%@", kSFECPrivateKeyTagPrefix, keyName];
     NSData *privateTag = [privateTagString dataUsingEncoding:NSUTF8StringEncoding];
@@ -295,13 +295,14 @@ static NSString * const kSFECPrivateKeyTagPrefix = @"com.salesforce.eckey.privat
         NSError *err = CFBridgingRelease(error);
         // Handle the error. . .
         [SFSDKCoreLogger e:[self class] format:@"Error creating EC private Key with name %@.  Error code: %@", keyName, err.localizedDescription];
-        return;
+        return NO;
     }
     
     SecKeyRef publicKey = SecKeyCopyPublicKey(privateKey);
     
     if (publicKey == nil) {
         [SFSDKCoreLogger e:[self class] format:@"Error creating EC public key with name %@.", keyName];
+        return NO;
     }
     
     if (publicKey != nil)  {
@@ -310,12 +311,15 @@ static NSString * const kSFECPrivateKeyTagPrefix = @"com.salesforce.eckey.privat
     if (privateKey != nil) {
         CFRelease(privateKey);
     }
+    
+    return YES;
 }
 
-+ (void)deleteECKeyPairWithName:(NSString *)keyName
++ (BOOL)deleteECKeyPairWithName:(NSString *)keyName
 {
-    [SFSDKCryptoUtils deleteKeyByTag:[NSString stringWithFormat:@"%@.%@", kSFECPublicKeyTagPrefix, keyName]];
-    [SFSDKCryptoUtils deleteKeyByTag:[NSString stringWithFormat:@"%@.%@", kSFECPrivateKeyTagPrefix, keyName]];
+    BOOL deletedPublicKey = [SFSDKCryptoUtils deleteKeyByTag:[NSString stringWithFormat:@"%@.%@", kSFECPublicKeyTagPrefix, keyName]];
+    BOOL deletedPrivateKey = [SFSDKCryptoUtils deleteKeyByTag:[NSString stringWithFormat:@"%@.%@", kSFECPrivateKeyTagPrefix, keyName]];
+    return deletedPublicKey && deletedPrivateKey;
 }
 
 + (nullable SecKeyRef)getECPublicKeyRefWithName:(NSString *)keyName
@@ -649,7 +653,7 @@ static NSString * const kSFECPrivateKeyTagPrefix = @"com.salesforce.eckey.privat
     return keyRef;
 }
 
-+ (void)deleteKeyByTag:(NSString*)keyTagString {
++ (BOOL)deleteKeyByTag:(NSString*)keyTagString {
     
     NSData *keyTag = [keyTagString dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -666,7 +670,10 @@ static NSString * const kSFECPrivateKeyTagPrefix = @"com.salesforce.eckey.privat
         // Handle the error. . .
         NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
         [SFSDKCoreLogger e:[self class] format:@"Error deleting EC key with tag %@. Error code: %@", keyTagString, error.localizedDescription];
+        return NO;
     }
+    
+    return YES;
 }
 
 @end
