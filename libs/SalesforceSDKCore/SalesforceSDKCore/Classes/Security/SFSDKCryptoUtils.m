@@ -27,7 +27,7 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import "NSData+SFAdditions.h"
 #import <Security/Security.h>
-#include "TargetConditionals.h"
+#import "TargetConditionals.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 
 // Public constants
