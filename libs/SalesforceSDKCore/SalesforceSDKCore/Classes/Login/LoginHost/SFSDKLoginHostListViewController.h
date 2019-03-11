@@ -46,6 +46,12 @@ NS_SWIFT_NAME(LoginHostListViewController)
 @property (nonatomic, weak) id<SFSDKLoginHostDelegate> delegate;
 
 /**
+ * If you have used a navigation controller to present this view controller,
+ * a cancel button is automatically added to the left bar button item.
+ */
+@property (nonatomic,assign) BOOL hidesCancelButton;
+
+/**
  * Adds a new login host.
  * This method updates the underlying storage and refreshes the list of login hosts.
  * @param host The login host to be added.
@@ -55,10 +61,13 @@ NS_SWIFT_NAME(LoginHostListViewController)
 
 /**
  * Use this method to display a view for adding a new login host.
- * If you have used a navigation controller to present this view controller, an add button is automatically added to the right bar button item.
+ * If you have used a navigation controller to present this view controller,
+ * an add button is automatically added to the right bar button item.
  * @see addLoginHost: for adding a login host programmatically without showing the UI.
  */
 - (void)showAddLoginHost;
+
+
 
 @end
 
