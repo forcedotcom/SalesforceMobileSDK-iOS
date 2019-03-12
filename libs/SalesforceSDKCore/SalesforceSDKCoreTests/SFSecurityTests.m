@@ -26,12 +26,15 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFKeyStoreManager+Internal.h"
+#import "SFKeyStore+Internal.h"
 
 static NSUInteger const kNumThreadsInSafetyTest = 100;
 
 @interface SFKeyStoreManager ()
 
 - (void)renameKeysWithKeyTypePasscode:(SFGeneratedKeyStore*)generatedKeyStore;
+
+- (void)switchToSecureKeyIfNeeded:(SFGeneratedKeyStore*)generatedKeyStore;
 
 @end;
 
@@ -194,6 +197,33 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     
     // Cleanup
     [mgr removeKeyWithLabel:keyLabel];
+}
+
+- (void)testUpgradeTo71
+{
+    // Pre SDK 7.1, key store were encrypted using SFEncryptionKey
+    // Starting in SDK 7.1, key store are encrypted using SFSecureEncryptionKey
+    
+    SFGeneratedKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
+    keyStore.keyStoreKey = [SFKeyStoreKey createKey];
+    NSDictionary *data = @{@"one":@"", @"two":@""};
+
+    // Check encryptiong key type before upgrade
+    XCTAssertFalse([keyStore.keyStoreKey.encryptionKey isKindOfClass:[SFSecureEncryptionKey class]]);
+
+    // set
+    [keyStore setKeyStoreDictionary:data];
+    
+    // Now upgrade store to use secure encryption key
+    [mgr switchToSecureKeyIfNeeded:keyStore];
+    
+    // Check encryptiong key type after upgrade
+    XCTAssertTrue([keyStore.keyStoreKey.encryptionKey isKindOfClass:[SFSecureEncryptionKey class]]);
+
+    // get
+    NSDictionary *retrievedData = [keyStore keyStoreDictionary];
+    
+    XCTAssertTrue([data isEqualToDictionary:retrievedData], @"Dictionaries should be equal");
 }
 
 #pragma mark - Private methods

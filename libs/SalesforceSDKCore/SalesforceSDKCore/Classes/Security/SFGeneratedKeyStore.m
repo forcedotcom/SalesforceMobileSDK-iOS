@@ -92,12 +92,14 @@ NSString * const kGeneratedKeyLabelSuffix = @"Generated";
         // Update the key store dictionary as part of the key update process.
         NSDictionary *origKeyStoreDict = [self keyStoreDictionaryWithKey:_keyStoreKey];  // Old key.
         if (origKeyStoreDict == nil) {
-            [SFSDKCoreLogger e:[self class] format:kKeyStoreDecryptionFailedMessage];
+            if (_keyStoreKey != nil) {
+                [SFSDKCoreLogger e:[self class] format:kKeyStoreDecryptionFailedMessage];
+            }
             [self setKeyStoreDictionary:nil withKey:keyStoreKey];
         } else {
             [self setKeyStoreDictionary:origKeyStoreDict withKey:keyStoreKey];
         }
-        
+    
         // Store the key store key in the keychain.
         if (keyStoreKey == nil) {
             SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:self.encryptionKeyKeychainIdentifier account:nil];
