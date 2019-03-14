@@ -1,7 +1,7 @@
 $git_pr_api = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
 $schemes = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'SmartSync']
 ENV['DEVICE'] = 'iPhone XR' unless ENV.has_key?('DEVICE')
-ENV['IOS_VERSION'] = '12.0' unless ENV.has_key?('IOS_VERSION')
+ENV['IOS_VERSION'] = '12.1' unless ENV.has_key?('IOS_VERSION')
 
 lane :PR do |options|
   lib_to_test = options[:lib]
