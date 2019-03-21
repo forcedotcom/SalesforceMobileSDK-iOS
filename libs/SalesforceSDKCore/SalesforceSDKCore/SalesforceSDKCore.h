@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Wolfgang Mathurin on Thu Mar  7 21:29:13 PST 2019.
+ Created by Raj Rao on Tue Mar 19 10:54:04 PDT 2019.
 
  Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
@@ -45,6 +45,7 @@
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFSDKDevInfoViewController.h>
 #import <SalesforceSDKCore/SFSDKUserSelectionNavViewController.h>
+#import <SalesforceSDKCore/SFSDKInstrumentationHelper.h>
 #import <SalesforceSDKCore/SFSDKAsyncProcessListener.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SalesforceSDKCore/UIColor+SFColors.h>

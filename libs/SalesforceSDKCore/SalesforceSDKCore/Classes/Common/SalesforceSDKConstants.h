@@ -77,4 +77,64 @@ _Pragma("clang diagnostic ignored \"-Wdeprecated-declarations\"")
 #define SFSDK_USE_DEPRECATED_END \
 _Pragma("clang diagnostic pop")
 
+
+/*!
+ * @function sf_os_signpost_interval_begin
+ *
+ * @abstract
+ * Begins a signposted interval.
+ *
+ * @param log
+ * Log handle previously created with os_log_create.
+ *
+ * @param interval_id
+ * An ID for the event, see Signpost IDs above.
+ *
+ * @param name
+ * The name of this event. This must be a string literal.
+ *
+ * @param ... (format + arguments)
+ * Additional information to include with this signpost.  This format string
+ * must be a string literal, as with the os_log family of functions.
+ */
+#define sf_os_signpost_interval_begin(log, interval_id, name, ...) \
+if (@available(iOS 12.0, *)) { \
+    os_signpost_emit_with_type(log, OS_SIGNPOST_INTERVAL_BEGIN, interval_id, name, ##__VA_ARGS__); \
+}
+
+
+/*!
+ * @function sf_os_signpost_interval_end
+ *
+ * @abstract
+ * Ends a signposted interval.
+ *
+ * @param log
+ * The log handle which was provided to os_signpost_interval_begin,
+ *
+ * @param interval_id
+ * The ID for the event which was provided to os_signpost_interval_begin.  See
+ * Signpost IDs above.
+ *
+ * @param name
+ * The name of the event provided to os_signost_interval_begin. This must be a
+ * string literal.
+ *
+ * @param ... (format + arguments)
+ * Additional information to include with this signpost.  This format string
+ * must be a string literal, as with the os_log family of functions.
+ */
+#define sf_os_signpost_interval_end(log, interval_id, name, ...) \
+if (@available(iOS 12.0, *)) { \
+    os_signpost_emit_with_type(log, OS_SIGNPOST_INTERVAL_END, interval_id, name, ##__VA_ARGS__); \
+}
+
+#define sf_os_signpost_id_generate(log) \
+({ os_signpost_id_t sid = OS_SIGNPOST_ID_INVALID; \
+    if (@available(iOS 12.0, *)) { \
+        sid = os_signpost_id_generate(log); \
+    }\
+    sid; \
+})
+
 #endif // SalesforceSDKConstants_h
