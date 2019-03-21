@@ -34,7 +34,7 @@
 #import <os/signpost.h>
 #import "SFSDKCoreLogger.h"
 
-@interface SFRestDelegateWrapperWithIntrumentation<SFRestDelegate>: NSObject
+@interface SFRestDelegateWrapperWithInstrumentation<SFRestDelegate>: NSObject
 - (instancetype)initWithDelegate:(id<SFRestDelegate>) delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t) logger;
 @property (weak,nonatomic,readonly) id<SFRestDelegate> delegate;
 @property (nonatomic,readonly) os_signpost_id_t signpostId;
@@ -43,7 +43,7 @@
 +(id<SFRestDelegate>)wrapperWith:delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t) logger;
 @end
 
-@implementation SFRestDelegateWrapperWithIntrumentation
+@implementation SFRestDelegateWrapperWithInstrumentation
 
 - (instancetype)initWithDelegate:(id<SFRestDelegate>)delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t)logger {
     if (self = [super init]) {
@@ -56,7 +56,6 @@
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
     sf_os_signpost_interval_end(self.logger, self.signpostId, "Salesforce RestAPI", "Ended - didLoadResponse:rawResponse %ld %{public}@", (long)request.method, request.path);
-    [SFSDKCoreLogger d:[self class] format:@"Swizzled :: request:didLoadResponse"];
     if ([self.delegate respondsToSelector:@selector(request:didLoadResponse:rawResponse:)]) {
         [self.delegate request:request didLoadResponse:dataResponse rawResponse:rawResponse];
     }
@@ -64,7 +63,6 @@
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
     sf_os_signpost_interval_end(self.logger, self.signpostId, "Salesforce RestAPI", "didLoadResponse:didLoadResponse %ld %{public}@", (long)request.method, request.path);
-    [SFSDKCoreLogger d:[self class] format:@"Swizzled :: request:didLoadResponse"];
     if ([self.delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
          [self.delegate request:request didLoadResponse:dataResponse];
     }
@@ -102,7 +100,7 @@
 }
 
 +(id<SFRestDelegate>)wrapperWith:delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t) logger {
-    return (id<SFRestDelegate>) [[SFRestDelegateWrapperWithIntrumentation alloc] initWithDelegate:delegate  signpost:signpostId logger:logger];
+    return (id<SFRestDelegate>) [[SFRestDelegateWrapperWithInstrumentation alloc] initWithDelegate:delegate  signpost:signpostId logger:logger];
 }
 @end
 
@@ -146,7 +144,7 @@
     sf_os_signpost_interval_begin(logger, sid, "Salesforce RestAPI", "Send Method:%ld path:%{public}@", (long)request.method, request.path);
     
     [SFSDKCoreLogger i:[self class] message:@"instr_send message ......"];
-    id<SFRestDelegate> delegateWrapper = [SFRestDelegateWrapperWithIntrumentation wrapperWith:delegate signpost:sid logger:logger];
+    id<SFRestDelegate> delegateWrapper = [SFRestDelegateWrapperWithInstrumentation wrapperWith:delegate signpost:sid logger:logger];
     return [self instr_send:request delegate:delegateWrapper];
  
 }
