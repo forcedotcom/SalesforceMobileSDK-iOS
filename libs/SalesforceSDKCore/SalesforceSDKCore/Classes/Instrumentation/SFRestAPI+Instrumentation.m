@@ -55,14 +55,14 @@
 }
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
-    sf_os_signpost_interval_end(self.logger, self.signpostId, "Salesforce RestAPI", "Ended - didLoadResponse:rawResponse %ld %{public}@", (long)request.method, request.path);
+    sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "Ended - didLoadResponse:rawResponse %ld %{public}@", (long)request.method, request.path);
     if ([self.delegate respondsToSelector:@selector(request:didLoadResponse:rawResponse:)]) {
         [self.delegate request:request didLoadResponse:dataResponse rawResponse:rawResponse];
     }
 }
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
-    sf_os_signpost_interval_end(self.logger, self.signpostId, "Salesforce RestAPI", "didLoadResponse:didLoadResponse %ld %{public}@", (long)request.method, request.path);
+    sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "didLoadResponse:didLoadResponse %ld %{public}@", (long)request.method, request.path);
     if ([self.delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
          [self.delegate request:request didLoadResponse:dataResponse];
     }
@@ -70,7 +70,7 @@
 
 
 - (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse {
-    sf_os_signpost_interval_end(self.logger, self.signpostId, "Salesforce RestAPI", "didFailLoadWithError:rawResponse %ld %{public}@", (long)request.method, request.path);
+    sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "didFailLoadWithError:rawResponse %ld %{public}@", (long)request.method, request.path);
     if ([self.delegate respondsToSelector:@selector(request:didFailLoadWithError:rawResponse:)]) {
         [self.delegate request:request didFailLoadWithError:error rawResponse:rawResponse];
     }
@@ -78,7 +78,7 @@
 
 
 - (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error {
-    sf_os_signpost_interval_end(self.logger, self.signpostId, "Salesforce RestAPI", "didFailLoadWithError %ld %{public}@", (long)request.method, request.path);
+    sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "didFailLoadWithError %ld %{public}@", (long)request.method, request.path);
     if ([self.delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
          [self.delegate request:request didFailLoadWithError:error];
     }
@@ -86,14 +86,14 @@
 
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
-    sf_os_signpost_interval_end(self.logger, self.signpostId, "Salesforce RestAPI", "requestDidCancelLoad %ld %{public}@", (long)request.method, request.path);
+    sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "requestDidCancelLoad %ld %{public}@", (long)request.method, request.path);
     if ([self.delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
         [self.delegate requestDidCancelLoad:request];
     }
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request {
-    sf_os_signpost_interval_end(self.logger, self.signpostId, "Salesforce RestAPI", "requestDidTimeout %ld %{public}@", (long)request.method, request.path);
+    sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "requestDidTimeout %ld %{public}@", (long)request.method, request.path);
     if ([self.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
         [self.delegate requestDidTimeout:request];
     }
@@ -139,7 +139,7 @@
     // Begin an os_signpost_interval.
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
-    sf_os_signpost_interval_begin(logger, sid, "Salesforce RestAPI", "Send Method:%ld path:%{public}@", (long)request.method, request.path);
+    sf_os_signpost_interval_begin(logger, sid, "Send", "Method:%ld path:%{public}@", (long)request.method, request.path);
     id<SFRestDelegate> delegateWrapper = [SFRestDelegateWrapperWithInstrumentation wrapperWith:delegate signpost:sid logger:logger];
     return [self instr_send:request delegate:delegateWrapper];
  
