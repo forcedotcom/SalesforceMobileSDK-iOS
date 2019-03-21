@@ -127,9 +127,7 @@
     if (@available(iOS 12.0, *)) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            [SFSDKCoreLogger d:[self class] format:@"Swizzled :: RestAPI"];
             Class class = [self class];
-            
             SEL originalSelector = @selector(send:delegate:);
             SEL swizzledSelector = @selector(instr_send:delegate:);
             [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
@@ -142,8 +140,6 @@
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "Salesforce RestAPI", "Send Method:%ld path:%{public}@", (long)request.method, request.path);
-    
-    [SFSDKCoreLogger i:[self class] message:@"instr_send message ......"];
     id<SFRestDelegate> delegateWrapper = [SFRestDelegateWrapperWithInstrumentation wrapperWith:delegate signpost:sid logger:logger];
     return [self instr_send:request delegate:delegateWrapper];
  
