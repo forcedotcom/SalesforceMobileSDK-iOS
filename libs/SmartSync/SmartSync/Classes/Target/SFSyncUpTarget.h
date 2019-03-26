@@ -25,8 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncTarget.h"
 
-extern NSString * const kSFSyncUpTargetCreateFieldlist;
-extern NSString * const kSFSyncUpTargetUpdateFieldlist;
+extern NSString * _Nonnull const kSFSyncUpTargetCreateFieldlist;
+extern NSString * _Nonnull const kSFSyncUpTargetUpdateFieldlist;
 
 NS_ASSUME_NONNULL_BEGIN
 
