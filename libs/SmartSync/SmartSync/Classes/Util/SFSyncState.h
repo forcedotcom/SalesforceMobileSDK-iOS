@@ -63,12 +63,14 @@ extern NSString * const kSFSyncStateTypeUp;
 // Possible value for sync status
 typedef NS_ENUM(NSInteger, SFSyncStateStatus) {
     SFSyncStateStatusNew,
+    SFSyncStateStatusStopped,
     SFSyncStateStatusRunning,
     SFSyncStateStatusDone,
     SFSyncStateStatusFailed
 } NS_SWIFT_NAME(SyncStatus);
 
 extern NSString * const kSFSyncStateStatusNew;
+extern NSString * const kSFSyncStateStatusStopped;
 extern NSString * const kSFSyncStateStatusRunning;
 extern NSString * const kSFSyncStateStatusDone;
 extern NSString * const kSFSyncStateStatusFailed;
@@ -108,6 +110,13 @@ NS_SWIFT_NAME(SyncState)
 /** Setup soup that keeps track of sync operations
  */
 + (void) setupSyncsSoupIfNeeded:(SFSmartStore*)store;
+
+/**
+ * Cleanup syncs soup if needed
+ * At startup, no sync could be running already
+ * If a sync is in the running state, we change it to stopped
+ */
++ (void) cleanupSyncsSoupIfNeeded:(SFSmartStore*)store;
 
 /** Factory methods
  */

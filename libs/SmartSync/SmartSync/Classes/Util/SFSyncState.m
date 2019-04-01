@@ -28,6 +28,7 @@
 #import "SFSyncUpTarget.h"
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 
 // soups and soup fields
@@ -56,6 +57,7 @@ NSString * const kSFSyncStateTypeUp = @"syncUp";
 
 // Possible value for sync status
 NSString * const kSFSyncStateStatusNew = @"NEW";
+NSString * const kSFSyncStateStatusStopped = @"STOPPED";
 NSString * const kSFSyncStateStatusRunning = @"RUNNING";
 NSString * const kSFSyncStateStatusDone = @"DONE";
 NSString * const kSFSyncStateStatusFailed = @"FAILED";
@@ -86,23 +88,44 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 
 + (void) setupSyncsSoupIfNeeded:(SFSmartStore*)store {
 
-    if ([store soupExists:kSFSyncStateSyncsSoupName] && [store indicesForSoup:kSFSyncStateSyncsSoupName].count == 2) {
+    if ([store soupExists:kSFSyncStateSyncsSoupName] && [store indicesForSoup:kSFSyncStateSyncsSoupName].count == 3) {
         return;
     }
     NSArray* indexSpecs = @[
-            [[SFSoupIndex alloc] initWithPath:kSFSyncStateSyncsSoupSyncType indexType:kSoupIndexTypeString columnName:nil],
-            [[SFSoupIndex alloc] initWithPath:kSFSyncStateSyncsSoupSyncName indexType:kSoupIndexTypeString columnName:nil]
+            [[SFSoupIndex alloc] initWithPath:kSFSyncStateSyncsSoupSyncType indexType:kSoupIndexTypeJSON1 columnName:nil],
+            [[SFSoupIndex alloc] initWithPath:kSFSyncStateSyncsSoupSyncName indexType:kSoupIndexTypeJSON1 columnName:nil],
+            [[SFSoupIndex alloc] initWithPath:kSFSyncStateStatus indexType:kSoupIndexTypeJSON1 columnName:nil]
     ];
 
     // Syncs soup exists but doesn't have all the required indexes
     if ([store soupExists:kSFSyncStateSyncsSoupName]) {
-        [store alterSoup:kSFSyncStateSyncsSoupName withIndexSpecs:indexSpecs reIndexData:NO];
+        [store alterSoup:kSFSyncStateSyncsSoupName withIndexSpecs:indexSpecs reIndexData:YES /* reindexing to json1 is quick*/];
     }
     // Syncs soup does not exist
     else {
         [store registerSoup:kSFSyncStateSyncsSoupName withIndexSpecs:indexSpecs error:nil];
     }
 }
+
++ (void) cleanupSyncsSoupIfNeeded:(SFSmartStore*)store {
+    NSArray<SFSyncState*>* syncs = [self getsyncsWithStatus:store status:SFSyncStateStatusRunning];
+    for (SFSyncState* sync in syncs) {
+        sync.status = SFSyncStateStatusStopped;
+        [sync save:store];
+    }
+}
+
++ (NSArray<SFSyncState*>*)getsyncsWithStatus:(SFSmartStore*)store status:(SFSyncStateStatus)status {
+    NSMutableArray<SFSyncState*>* syncs = [NSMutableArray new];
+    NSString* smartSql = [NSString stringWithFormat:@"select {%1$@:%2$@} from {%1$@} where {%1$@:%3$@} = '%4$@'", kSFSyncStateSyncsSoupName, @"_soup", kSFSyncStateStatus, [SFSyncState syncStatusToString:status]];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:INT_MAX];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    for (NSArray* row in rows) {
+        [syncs addObject:[SFSyncState newFromDict:row[0]]];
+    }
+    return syncs;
+}
+
 
 #pragma mark - Factory methods
 
@@ -296,6 +319,9 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     if ([syncStatus isEqualToString:kSFSyncStateStatusNew]) {
         return SFSyncStateStatusNew;
     }
+    if ([syncStatus isEqualToString:kSFSyncStateStatusStopped]) {
+        return SFSyncStateStatusStopped;
+    }
     if ([syncStatus isEqualToString:kSFSyncStateStatusRunning]) {
         return SFSyncStateStatusRunning;
     }
@@ -308,6 +334,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 + (NSString*) syncStatusToString:(SFSyncStateStatus)syncStatus {
     switch (syncStatus) {
         case SFSyncStateStatusNew: return kSFSyncStateStatusNew;
+        case SFSyncStateStatusStopped: return kSFSyncStateStatusStopped;
         case SFSyncStateStatusRunning: return kSFSyncStateStatusRunning;
         case SFSyncStateStatusDone: return kSFSyncStateStatusDone;
         case SFSyncStateStatusFailed: return kSFSyncStateStatusFailed;
