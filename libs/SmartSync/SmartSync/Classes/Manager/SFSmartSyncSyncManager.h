@@ -36,6 +36,18 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync) NS_SWIFT_NAME(SyncUpdateBlock);
 typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncStatus, NSUInteger numRecords) NS_SWIFT_NAME(SyncCompletionBlock);
 
+// Possible value for sync manager state
+typedef NS_ENUM(NSInteger, SFSyncManagerState) {
+    SFSyncManagerStateAcceptingSyncs,
+    SFSyncManagerStateStopRequested,
+    SFSyncManagerStateStopped
+} NS_SWIFT_NAME(SyncManagerState);
+
+extern NSString * const kSFSyncManagerStateAcceptingSyncs;
+extern NSString * const kSFSyncManagerStateStopRequested;
+extern NSString * const kSFSyncManagerStateStopped;
+
+
 /**
  * This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
@@ -108,6 +120,31 @@ NS_SWIFT_NAME(SyncManager)
  * Removes all shared instances
  */
 + (void)removeSharedInstances;
+
+/**
+ * Stop the sync manager
+ * It might take a while for active syncs to actually get stopped
+ * Call isStopped() to see if syncManager is fully paused
+ */
+- (void) stop;
+
+/**
+ * @return YES if stop was requested but there are still active syncs
+ */
+- (BOOL) isStopping;
+
+/**
+ * @return YES if stop was requested and there no syncs are active anymore
+ */
+- (BOOL) isStopped;
+
+/**
+ * Resume this sync manager
+ *
+ * @param restartStoppedSyncs Pass YES to restart all stopped sync.
+ * @param updateBlock The block to be called with updates.
+ */
+- (void) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /**
  * Returns details about a sync.

@@ -44,11 +44,17 @@ char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.Q
 typedef void (^SyncUpdateBlock) (NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp);
 typedef void (^SyncFailBlock) (NSString* message, NSError* error);
 
+// Possible value for state
+NSString * const kSFSyncManagerStateAcceptingSyncs = @"accepting_syncs";
+NSString * const kSFSyncManagerStateStopRequested = @"stop_requested";
+NSString * const kSFSyncManagerStateStopped = @"stopped";
+
 @interface SFSmartSyncSyncManager ()
 
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) NSMutableSet *runningSyncIds;
+@property (nonatomic) SFSyncManagerState state;
 
 @end
 
@@ -167,6 +173,59 @@ static NSMutableDictionary *syncMgrList = nil;
     return self;
 }
 
+#pragma mark - stop / resume methods
+
+- (void) stop {
+    @synchronized(self) {
+        if (self.runningSyncIds.count == 0) {
+            self.state = SFSyncManagerStateStopped;
+        } else {
+            self.state = SFSyncManagerStateStopRequested;
+        }
+    }
+}
+
+- (BOOL) isStopping {
+    return self.state == SFSyncManagerStateStopRequested;
+}
+
+- (BOOL) isStopped {
+    return self.state == SFSyncManagerStateStopped;
+}
+
+- (void) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    @synchronized (self) {
+        if ([self isStopped]) {
+            self.state = SFSyncManagerStateAcceptingSyncs;
+            if (restartStoppedSyncs) {
+                NSArray* stoppedSyncs = [SFSyncState getSyncsWithStatus:self.store status:SFSyncStateStatusStopped];
+                for (SFSyncState* sync in stoppedSyncs) {
+                    [SFSDKSmartSyncLogger d:[self class] format:@"resuming %@", sync.syncId];
+                    [self reSync:[NSNumber numberWithInteger:sync.syncId] updateBlock:updateBlock];
+                }
+            }
+        } else {
+            [SFSDKSmartSyncLogger d:[self class] format:@"resume() called on a sync manager that has state: %@", [SFSmartSyncSyncManager stateToString:self.state]];
+        }
+    }
+}
+
+- (void) addToActiveSyncs:(NSNumber*)syncId {
+    @synchronized(self) {
+        [self.runningSyncIds addObject:syncId];
+    }
+}
+
+- (void) removeFromActiveSyncs:(NSNumber*)syncId {
+    @synchronized(self) {
+        [self.runningSyncIds removeObject:syncId];
+        if (self.state == SFSyncManagerStateStopRequested && self.runningSyncIds.count == 0) {
+            self.state = SFSyncStateStatusStopped;
+        }
+    }
+}
+
+
 #pragma mark - has / get sync methods
 
 - (SFSyncState*)getSyncStatus:(NSNumber*)syncId {
@@ -235,12 +294,13 @@ static NSMutableDictionary *syncMgrList = nil;
             case SFSyncStateStatusNew:
                 break; // should not happen
             case SFSyncStateStatusRunning:
-                [strongSelf.runningSyncIds addObject:[NSNumber numberWithInteger:sync.syncId]];
+                [strongSelf addToActiveSyncs:[NSNumber numberWithInteger:sync.syncId]];
                 break;
+            case SFSyncStateStatusStopped:
             case SFSyncStateStatusDone:
             case SFSyncStateStatusFailed:
                 [SFSDKEventBuilderHelper createAndStoreEvent:eventName userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
-                [strongSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
+                [strongSelf removeFromActiveSyncs:[NSNumber numberWithInteger:sync.syncId]];
                 break;
         }
         if (updateBlock) {
@@ -801,6 +861,25 @@ static NSMutableDictionary *syncMgrList = nil;
 - (void)handleUserWillLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
      [[self class] removeSharedInstance:user];
+}
+
+#pragma mark - string to/from enum for state
+
++ (SFSyncManagerState) stateFromString:(NSString*)state {
+    if ([state isEqualToString:kSFSyncManagerStateAcceptingSyncs]) {
+        return SFSyncManagerStateAcceptingSyncs;
+    } else if ([state isEqualToString:kSFSyncManagerStateStopRequested]) {
+        return SFSyncManagerStateStopRequested;
+    }
+    return SFSyncManagerStateStopped;
+}
+
++ (NSString*) stateToString:(SFSyncManagerState)state {
+    switch (state) {
+        case SFSyncManagerStateAcceptingSyncs: return kSFSyncManagerStateAcceptingSyncs;
+        case SFSyncManagerStateStopRequested: return kSFSyncManagerStateStopRequested;
+        case SFSyncManagerStateStopped: return kSFSyncManagerStateStopped;
+    }
 }
 
 @end
