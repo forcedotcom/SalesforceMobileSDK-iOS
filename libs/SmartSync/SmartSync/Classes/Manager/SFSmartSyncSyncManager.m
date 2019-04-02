@@ -162,6 +162,7 @@ static NSMutableDictionary *syncMgrList = nil;
         self.queue = dispatch_queue_create(kSyncManagerQueue,  DISPATCH_QUEUE_SERIAL);
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
+        [SFSyncState cleanupSyncsSoupIfNeeded:self.store];
     }
     return self;
 }
