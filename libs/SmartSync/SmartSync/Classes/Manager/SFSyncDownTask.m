@@ -30,13 +30,13 @@
     return [super init:syncManager sync:sync updateBlock:updateBlock];
 }
 
-- (void) runSync {
+- (void) runSync:(SFSyncState*)sync {
     __weak typeof (self) weakSelf = self;
-    NSString* soupName = self.sync.soupName;
-    SFSyncStateMergeMode mergeMode = self.sync.mergeMode;
-    SFSyncDownTarget* target = (SFSyncDownTarget*) self.sync.target;
-    long long maxTimeStamp = self.sync.maxTimeStamp;
-    NSNumber* syncId = [NSNumber numberWithInteger:self.sync.syncId];
+    NSString* soupName = sync.soupName;
+    SFSyncStateMergeMode mergeMode = sync.mergeMode;
+    SFSyncDownTarget* target = (SFSyncDownTarget*) sync.target;
+    long long maxTimeStamp = sync.maxTimeStamp;
+    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
     
     __block NSUInteger countFetched = 0;
     __block NSUInteger totalSize = 0;
@@ -73,7 +73,7 @@
             NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [strongSelf  removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
             
             // Save to smartstore.
-            [target cleanAndSaveRecordsToLocalStore:strongSelf.syncManager soupName:soupName records:recordsToSave syncId:syncId];
+            [target cleanAndSaveRecordsToLocalStore:self.syncManager soupName:soupName records:recordsToSave syncId:syncId];
             countFetched += [records count];
             progress = 100*countFetched / totalSize;
             
@@ -83,7 +83,7 @@
             [strongSelf updateSync:SFSyncStateStatusRunning progress:progress totalSize:totalSize maxTimeStamp:maxTimeStampForFetched];
             
             // Fetch next records, if any.
-            [target continueFetch:strongSelf.syncManager errorBlock:failBlock completeBlock:continueFetchBlockRecurse];
+            [target continueFetch:self.syncManager errorBlock:failBlock completeBlock:continueFetchBlockRecurse];
         }
         else {
             // In some cases (e.g. resync for refresh sync down), the totalSize is just an (over)estimation

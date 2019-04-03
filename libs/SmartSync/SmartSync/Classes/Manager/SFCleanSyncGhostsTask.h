@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFCleanSyncGhostsTask : SFSyncTask
 
--(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+-(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock;
 
 @end
 

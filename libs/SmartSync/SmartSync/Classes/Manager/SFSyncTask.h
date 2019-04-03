@@ -36,9 +36,8 @@ extern NSInteger const kSyncManagerUnchanged;
 @interface SFSyncTask : NSObject
 
 @property (nonatomic, strong, readonly) SFSmartSyncSyncManager* syncManager;
-@property (nonatomic, strong, readonly) SFSyncState* sync;
 
--(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+-(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock;
 
 -(void) run;
 

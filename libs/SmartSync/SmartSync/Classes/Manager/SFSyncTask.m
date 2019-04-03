@@ -65,10 +65,10 @@ NSInteger const kSyncManagerUnchanged = -1;
 
 - (void)run {
     [self checkIfStopRequested];
-    [self runSync];    
+    [self runSync:self.sync];
 }
 
-- (void) runSync ABSTRACT_METHOD
+- (void) runSync:(SFSyncState*)sync ABSTRACT_METHOD
 
 -(void) failSync:(NSString*) failureMessage error:(NSError*) error {
     //Set error message to sync state

@@ -23,11 +23,57 @@
  */
 
 #import "SFCleanSyncGhostsTask.h"
+#import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
+
+@interface SFCleanSyncGhostsTask ()
+
+@property (nonatomic, copy) SFSyncSyncManagerCompletionStatusBlock completionStatusBlock;
+
+@end
 
 @implementation SFCleanSyncGhostsTask
 
-- (void) runSync {
-    
+-(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
+    self = [super init:syncManager sync:sync updateBlock:nil];
+    if (self) {
+        self.completionStatusBlock = completionStatusBlock;
+    }
+    return self;
+}
+
+- (void) updateSync:(SFSyncStateStatus)status progress:(NSInteger)progress totalSize:(NSInteger)totalSize maxTimeStamp:(long long) maxTimeStamp {
+    // Not a true sync
+    // Leaving sync state alone
+}
+
+- (void) runSync:(SFSyncState*)sync {
+    __weak typeof (self) weakSelf = self;
+    SFSyncDownTarget* target = (SFSyncDownTarget*) sync.target;
+    NSString* soupName = sync.soupName;
+    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    [target cleanGhosts:self.syncManager
+               soupName:soupName
+                 syncId:syncId
+             errorBlock:^(NSError *e) {
+                 __strong typeof (weakSelf) strongSelf = weakSelf;
+                 [SFSDKSmartSyncLogger e:[strongSelf class] format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+                 [strongSelf createAndStoreEvent:sync numRecords:-1];
+                 strongSelf.completionStatusBlock(SFSyncStateStatusFailed, 0);
+             }
+          completeBlock:^(NSArray *localIds) {
+              __strong typeof (weakSelf) strongSelf = weakSelf;
+              [self createAndStoreEvent:sync numRecords:localIds.count];
+              strongSelf.completionStatusBlock(SFSyncStateStatusDone, localIds.count);
+          }];
+}
+
+- (void)createAndStoreEvent:(SFSyncState*)sync numRecords:(NSInteger)numRecords {
+    NSMutableDictionary *eventAttrs = [[NSMutableDictionary alloc] init];
+    eventAttrs[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+    eventAttrs[@"syncTarget"] = NSStringFromClass([sync.target class]);
+    if (numRecords >= 0) eventAttrs[@"numRecords"] = [NSNumber numberWithInteger:numRecords];
+
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:eventAttrs];
 }
 
 @end
