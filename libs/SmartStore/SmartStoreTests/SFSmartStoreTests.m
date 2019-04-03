@@ -982,7 +982,7 @@
         // Encrypt the DB, verify access.
         NSString *encKey = @"BigSecret";
         NSError *encryptError = nil;
-        FMDatabase *encryptedDb = [dbMgr encryptDb:unencryptedDb name:storeName key:encKey error:&encryptError];
+        FMDatabase *encryptedDb = [dbMgr encryptDb:unencryptedDb name:storeName key:encKey salt:nil error:&encryptError];
         XCTAssertNotNil(encryptedDb, @"Encrypted DB should be a valid object.");
         XCTAssertNil(encryptError, @"Error encrypting the DB: %@", [encryptError localizedDescription]);
         isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDb];
@@ -1035,6 +1035,7 @@
         FMDatabase *unencryptedDb2 = [dbMgr unencryptDb:encryptedDb2
                                                    name:storeName
                                                  oldKey:encKey
+                                                   salt:nil
                                                   error:&unencryptError];
         XCTAssertNil(unencryptError, @"Error unencrypting the database: %@", [unencryptError localizedDescription]);
         isTableNameInMaster = [self tableNameInMaster:tableName db:unencryptedDb2];
@@ -1225,7 +1226,7 @@
     // Unencrypted store
     FMDatabase *storeDb = [self openDatabase:unencryptedStoreName withManager:[SFSmartStoreDatabaseManager sharedManager] key:encKey openShouldFail:NO];
     NSError *unencryptStoreError = nil;
-    storeDb = [[SFSmartStoreDatabaseManager sharedManager] unencryptDb:storeDb name:unencryptedStoreName oldKey:encKey error:&unencryptStoreError];
+    storeDb = [[SFSmartStoreDatabaseManager sharedManager] unencryptDb:storeDb name:unencryptedStoreName oldKey:encKey salt:nil error:&unencryptStoreError];
     XCTAssertNotNil(storeDb, @"Failed to unencrypt '%@': %@", unencryptedStoreName, [unencryptStoreError localizedDescription]);
     [storeDb close];
     [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:unencryptedStoreName];
@@ -1336,7 +1337,7 @@
 - (FMDatabase *)openDatabase:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr key:(NSString *)key openShouldFail:(BOOL)openShouldFail
 {
     NSError *openDbError = nil;
-    FMDatabase *db = [dbMgr openStoreDatabaseWithName:dbName key:key error:&openDbError];
+    FMDatabase *db = [dbMgr openStoreDatabaseWithName:dbName key:key salt:nil error:&openDbError];
     if (openShouldFail) {
         XCTAssertNil(db, @"Opening database should have failed.");
     } else {
