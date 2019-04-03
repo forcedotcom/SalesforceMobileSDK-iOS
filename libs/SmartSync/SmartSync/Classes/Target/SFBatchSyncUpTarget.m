@@ -100,12 +100,12 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 
     // Preparing requests
     for (NSMutableDictionary* record in records) {
-        NSString *recordId = record[self.idFieldName];
+        NSString *refId = record[self.idFieldName] == nil ? record[SOUP_ENTRY_ID] : record[self.idFieldName];
         
         SFRestRequest *request = [self buildRequestForRecord:record fieldlist:fieldlist];
         
         if (request) {
-            [refIds addObject:recordId];
+            [refIds addObject:refId];
             [requests addObject:request];
         }
     }
