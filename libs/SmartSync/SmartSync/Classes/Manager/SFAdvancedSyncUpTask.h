@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFAdvancedSyncUpTask : SFSyncUpTask
 
+-(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 @end
 

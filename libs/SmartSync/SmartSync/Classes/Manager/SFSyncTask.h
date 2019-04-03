@@ -26,14 +26,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// Unchanged
+extern NSInteger const kSyncManagerUnchanged;
+
 /**
  * Abstract super class of task classes responsible for running syncs
  */
 
 @interface SFSyncTask : NSObject
 
+@property (nonatomic, strong, readonly) SFSmartSyncSyncManager* syncManager;
+@property (nonatomic, strong, readonly) SFSyncState* sync;
+
 -(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
--(void) runSync;
+
+-(void) run;
+
+-(void) failSync:(NSString*) failureMessage error:(NSError*) error;
+-(void) updateSync:(SFSyncStateStatus)status progress:(NSInteger)progress totalSize:(NSInteger)totalSize maxTimeStamp:(long long) maxTimeStamp;
 
 @end
 

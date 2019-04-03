@@ -23,6 +23,9 @@
  */
 
 #import "SFSyncTask.h"
+#import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
+
+NSInteger const kSyncManagerUnchanged = -1;
 
 @interface SFSmartSyncSyncManager (SFSyncTask)
 
@@ -37,7 +40,6 @@
 @property (nonatomic, strong) SFSyncState* sync;
 @property (nonatomic, copy) SFSyncSyncManagerUpdateBlock updateBlock;
 
-
 @end
 
 @implementation SFSyncTask
@@ -50,7 +52,7 @@
         self.updateBlock = updateBlock;
         
         [self.syncManager addToActiveSyncs:[NSNumber numberWithInteger:sync.syncId]];
-        [self updateSync:SFSyncStateStatusRunning progress:0 totalSize:-1 maxTimeStamp:-1L];
+        [self updateSync:SFSyncStateStatusRunning progress:0 totalSize:kSyncManagerUnchanged maxTimeStamp:kSyncManagerUnchanged];
         // XXX not actually running on worker thread until run() gets invoked
         //     may be we should introduce another state?
     }
@@ -63,12 +65,17 @@
 
 - (void)run {
     [self checkIfStopRequested];
-    [self runSync];
-    [self updateSync:SFSyncStateStatusDone progress:100 totalSize:-1 maxTimeStamp:-1];
-    
+    [self runSync];    
 }
 
 - (void) runSync ABSTRACT_METHOD
+
+-(void) failSync:(NSString*) failureMessage error:(NSError*) error {
+    //Set error message to sync state
+    [self.sync setError: [error.userInfo description]];
+    [SFSDKSmartSyncLogger e:[self class] format:@"runSync failed:%@ cause:%@ error%@", sync, failureMessage, error];
+    [self updateSync:SFSyncStateStatusFailed progress:kSyncManagerUnchanged totalSize:kSyncManagerUnchanged maxTimeStamp:kSyncManagerUnchanged];
+}
 
 - (void) updateSync:(SFSyncStateStatus)status progress:(NSInteger)progress totalSize:(NSInteger)totalSize maxTimeStamp:(long long) maxTimeStamp {
     //if (status == nil) status = (progress == 100 ? SFSyncStateStatusDone : SFSyncStateStatusRunning);
@@ -110,9 +117,9 @@
     attributes[@"numRecords"] = [NSNumber numberWithInteger:sync.totalSize];
     attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
     attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
-//    attributes[kSFSDKEventBuilderHelperStartTime] = [NSNumber numberWithInteger:sync.startTime];
-//    attributes[kSFSDKEventBuilderHelperEndTime] = [NSNumber numberWithInteger:sync.endTime];
-//    [SFSDKEventBuilderHelper createAndStoreEvent:eventName userAccount:nil className:NSStringFromClass([self.syncManager class]) attributes:attributes];
+    attributes[kSFSDKEventBuilderHelperStartTime] = [NSNumber numberWithInteger:sync.startTime];
+    attributes[kSFSDKEventBuilderHelperEndTime] = [NSNumber numberWithInteger:sync.endTime];
+    [SFSDKEventBuilderHelper createAndStoreEvent:eventName userAccount:nil className:NSStringFromClass([self.syncManager class]) attributes:attributes];
 }
 
 

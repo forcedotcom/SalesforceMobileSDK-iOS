@@ -30,9 +30,10 @@
 #import "SFAdvancedSyncUpTarget.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSyncUpTarget+Internal.h"
+#import "SFSyncUpTask.h"
+#import "SFSyncDownTask.h"
+#import "SFAdvancedSyncUpTask.h"
 
-// Unchanged
-NSInteger const kSyncManagerUnchanged = -1;
 
 static NSString * const kSFAppFeatureSmartSync   = @"SY";
 
@@ -265,69 +266,22 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Run a previously created sync
  */
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    __weak typeof(self) weakSelf = self;
-    SyncUpdateBlock updateSync = ^(NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (status == nil) status = (progress == 100 ? kSFSyncStateStatusDone : kSFSyncStateStatusRunning);
-        sync.status = [SFSyncState syncStatusFromString:status];
-        if (progress>=0)  sync.progress = progress;
-        if (totalSize>=0) sync.totalSize = totalSize;
-        if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
-        [sync save:strongSelf.store];
-        [SFSDKSmartSyncLogger d:[strongSelf class] format:@"Sync update:%@", sync];
-        NSString *eventName = nil;
-        switch (sync.type) {
-            case SFSyncStateSyncTypeDown:
-                eventName = @"syncDown";
-                break;
-            case SFSyncStateSyncTypeUp:
-                eventName = @"syncUp";
-                break;
-        }
-        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-        attributes[@"numRecords"] = [NSNumber numberWithInteger:sync.totalSize];
-        attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
-        attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
-        attributes[kSFSDKEventBuilderHelperStartTime] = [NSNumber numberWithInteger:sync.startTime];
-        attributes[kSFSDKEventBuilderHelperEndTime] = [NSNumber numberWithInteger:sync.endTime];
-        switch (sync.status) {
-            case SFSyncStateStatusNew:
-                break; // should not happen
-            case SFSyncStateStatusRunning:
-                [strongSelf addToActiveSyncs:[NSNumber numberWithInteger:sync.syncId]];
-                break;
-            case SFSyncStateStatusStopped:
-            case SFSyncStateStatusDone:
-            case SFSyncStateStatusFailed:
-                [SFSDKEventBuilderHelper createAndStoreEvent:eventName userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
-                [strongSelf removeFromActiveSyncs:[NSNumber numberWithInteger:sync.syncId]];
-                break;
-        }
-        if (updateBlock) {
-            updateBlock(sync);
-        }
-    };
-
-    SyncFailBlock failSync = ^(NSString* failureMessage, NSError* error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        //Set error message to sync state
-        [sync setError: [error.userInfo description]];
-        [SFSDKSmartSyncLogger e:[strongSelf class] format:@"runSync failed:%@ cause:%@ error%@", sync, failureMessage, error];
-        updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
-    };
-
+    SFSyncTask* task;
+    switch (sync.type) {
+        case SFSyncStateSyncTypeDown:
+            task = [[SFSyncDownTask alloc] init:self sync:sync updateBlock:updateBlock];
+            break;
+        case SFSyncStateSyncTypeUp:
+            if ([sync.target conformsToProtocol:@protocol(SFAdvancedSyncUpTarget)]) {
+                task = [[SFAdvancedSyncUpTask alloc] init:self sync:sync updateBlock:updateBlock];
+            } else {
+                task = [[SFSyncUpTask alloc] init:self sync:sync updateBlock:updateBlock];
+            }
+    }
+    
     // Run on background thread
-    updateSync(kSFSyncStateStatusRunning, 0, kSyncManagerUnchanged, kSyncManagerUnchanged);
     dispatch_async(self.queue, ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        switch (sync.type) {
-            case SFSyncStateSyncTypeDown:
-                [strongSelf syncDown:sync updateSync:updateSync failSync:failSync];
-                break;
-            case SFSyncStateSyncTypeUp:
-                [strongSelf syncUp:sync updateSync:updateSync failSync:failSync];
-                break;
-        }
+        [task run];
     });
 }
 
@@ -384,77 +338,6 @@ static NSMutableDictionary *syncMgrList = nil;
     else {
         return [self reSync:[NSNumber numberWithInteger:sync.syncId] updateBlock:updateBlock];
     }
-}
-
-
-/** Run a sync down
- */
-- (void) syncDown:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
-    NSString* soupName = sync.soupName;
-    SFSyncStateMergeMode mergeMode = sync.mergeMode;
-    SFSyncDownTarget* target = (SFSyncDownTarget*) sync.target;
-    long long maxTimeStamp = sync.maxTimeStamp;
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
-
-    __block NSUInteger countFetched = 0;
-    __block NSUInteger totalSize = 0;
-    __block NSUInteger progress = 0;
-    __block SFSyncDownTargetFetchCompleteBlock continueFetchBlockRecurse = ^(NSArray *records) {};
-
-    __block NSOrderedSet* idsToSkip = nil;
-    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
-        idsToSkip = [target getIdsToSkip:self soupName:soupName];
-    }
-   
-    SFSyncDownTargetFetchErrorBlock failBlock = ^(NSError *error) {
-        failSync(@"Server call for sync down failed", error);
-        continueFetchBlockRecurse = nil;
-    };
-    
-    SFSyncDownTargetFetchCompleteBlock startFetchBlock = ^(NSArray* records) {
-        totalSize = target.totalSize;
-        updateSync(nil, totalSize == 0 ? 100 : 0, target.totalSize, kSyncManagerUnchanged);
-        if (totalSize != 0)
-            continueFetchBlockRecurse(records);
-        else
-            continueFetchBlockRecurse = nil;
-    };
-    
-    __weak typeof (self) weakSelf = self;
-    SFSyncDownTargetFetchCompleteBlock continueFetchBlock = ^(NSArray* records) {
-        __strong typeof (weakSelf) strongSelf = weakSelf;
-        if (records != nil) {
-            // Figure out records to save
-            NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [strongSelf  removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
-
-            // Save to smartstore.
-            [target cleanAndSaveRecordsToLocalStore:strongSelf soupName:soupName records:recordsToSave syncId:syncId];
-            countFetched += [records count];
-            progress = 100*countFetched / totalSize;
-
-            long long maxTimeStampForFetched = [target getLatestModificationTimeStamp:records];
-
-            // Update sync status.
-            updateSync(nil, progress, totalSize, maxTimeStampForFetched);
-
-            // Fetch next records, if any.
-            [target continueFetch:self errorBlock:failBlock completeBlock:continueFetchBlockRecurse];
-        }
-        else {
-            // In some cases (e.g. resync for refresh sync down), the totalSize is just an (over)estimation
-            // As a result progress might not get to 100 and therefore a DONE would never be sent
-            if (progress < 100) {
-                updateSync(nil, 100, -1 /*unchanged*/, -1 /*unchanged*/);
-            }
-            continueFetchBlockRecurse = nil;
-        }
-    };
-    
-    // initialize the alias
-    continueFetchBlockRecurse = continueFetchBlock;
-    
-    // Start fetch
-    [target startFetch:self maxTimeStamp:maxTimeStamp errorBlock:failBlock completeBlock:startFetchBlock];
 }
 
 - (NSArray*) removeWithIds:(NSArray*)records idsToSkip:(NSOrderedSet*)idsToSkip idField:(NSString*)idField {
