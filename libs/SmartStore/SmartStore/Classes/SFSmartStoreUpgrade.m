@@ -161,7 +161,8 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     
     // New key will be the keystore-managed key.
     NSString *newKey = [SFSmartStore encKey];
-    BOOL encryptionUpgradeSucceeded = [SFSmartStoreUpgrade changeEncryptionForStore:storeName user:user oldKey:origKey newKey:newKey];
+    NSString *salt = [SFSmartStore salt];
+    BOOL encryptionUpgradeSucceeded = [SFSmartStoreUpgrade changeEncryptionForStore:storeName user:user oldKey:origKey newKey:newKey salt:salt];
     if (encryptionUpgradeSucceeded) {
         [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Encryption update succeeded for store '%@'.", storeName];
     } else {
@@ -172,7 +173,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     return encryptionUpgradeSucceeded;
 }
 
-+ (BOOL)changeEncryptionForStore:(NSString *)storeName user:(SFUserAccount *)user oldKey:(NSString *)oldKey newKey:(NSString *)newKey
++ (BOOL)changeEncryptionForStore:(NSString *)storeName user:(SFUserAccount *)user oldKey:(NSString *)oldKey newKey:(NSString *)newKey salt:(NSString *)salt
 {
     NSString * const kEncryptionChangeErrorMessage = @"Error changing the encryption key for store '%@': %@";
     NSString * const kNewEncryptionErrorMessage = @"Error encrypting the unencrypted store '%@': %@";
@@ -184,6 +185,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     
     FMDatabase *db = [dbMgr openStoreDatabaseWithName:storeName
                                                   key:oldKey
+                                                 salt:nil
                                                 error:&openDbError];
     if (db == nil || openDbError != nil) {
         [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Error opening store '%@' to update encryption: %@", storeName, [openDbError localizedDescription]];
@@ -197,7 +199,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     if ([oldKey length] == 0) {
         // Going from unencrypted to encrypted.
         NSError *encryptDbError = nil;
-        db = [dbMgr encryptDb:db name:storeName key:newKey error:&encryptDbError];
+        db = [dbMgr encryptDb:db name:storeName key:newKey salt:salt error:&encryptDbError];
         [db close];
         if (encryptDbError != nil) {
             [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:kNewEncryptionErrorMessage, storeName, [encryptDbError localizedDescription]];
@@ -208,7 +210,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     } else if ([newKey length] == 0) {
         // Going from encrypted to unencrypted (unlikely, but okay).
         NSError *decryptDbError = nil;
-        db = [dbMgr unencryptDb:db name:storeName oldKey:oldKey error:&decryptDbError];
+        db = [dbMgr unencryptDb:db name:storeName oldKey:oldKey salt:salt error:&decryptDbError];
         [db close];
         if (decryptDbError != nil) {
             [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:kDecryptionErrorMessage, storeName, [decryptDbError localizedDescription]];

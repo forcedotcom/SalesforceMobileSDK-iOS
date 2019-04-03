@@ -50,10 +50,21 @@ extern NSString * const kSFSmartStoreErrorLoadExternalSoup NS_SWIFT_NAME(SmartSt
  */
 extern NSString * const kSFSmartStoreEncryptionKeyLabel NS_SWIFT_NAME(SmartStore.encryptionKeyLabel);
 
+
+/**
+ The label used to interact with the encryption key.
+ */
+extern NSString * const kSFSmartStoreEncryptionSaltLabel NS_SWIFT_NAME(SmartStore.encryptionSaltLabel);
+
 /**
  Block typedef for generating an encryption key.
  */
 typedef SFEncryptionKey*  _Nullable (^SFSmartStoreEncryptionKeyBlock)(void) NS_SWIFT_NAME(EncryptionKeyBlock);
+
+/**
+ Block typedef for generating a md5 hash for sharing data betwween multiple apps.
+ */
+typedef NSString* _Nullable (^SFSmartStoreEncryptionSaltBlock)(void) NS_SWIFT_NAME(EncryptionSaltBlock);
 
 /**
  The columns of a soup table
@@ -173,6 +184,11 @@ NS_SWIFT_NAME(SmartStore)
  Sticking with the default encryption key derivation is recommended.
  */
 @property (nonatomic, class, readonly)  SFSmartStoreEncryptionKeyBlock encryptionKeyBlock;
+
+/**
+ Block used to generate the salt. The salt is maintained in the keychain. Used only when database needs to be shared between apps.
+ */
+@property (nonatomic, class, readonly)  SFSmartStoreEncryptionSaltBlock encryptionSaltBlock;
 
 /**
  Use this method to obtain a shared store instance with a particular name for the current user.

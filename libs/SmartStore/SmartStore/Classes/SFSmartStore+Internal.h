@@ -211,6 +211,11 @@ typedef NS_ENUM(NSUInteger, SFSmartStoreFtsExtension) {
 + (NSString *)encKey;
 
 /**
+ @return The key used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.
+ */
++ (NSString *)salt;
+
+/**
  FOR UNIT TESTING.  Removes all of the shared smart store objects from memory (persisted stores remain).
  */
 + (void)clearSharedStoreMemoryState;
