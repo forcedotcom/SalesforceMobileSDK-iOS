@@ -84,7 +84,7 @@ NSInteger const kSyncManagerUnchanged = -1;
     if (totalSize>=0) self.sync.totalSize = totalSize;
     if (maxTimeStamp>=0) self.sync.maxTimeStamp = (self.sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : self.sync.maxTimeStamp);
     [self.sync save:self.syncManager.store];
-    [SFSDKSmartSyncLogger d:[self class] format:@"Sync update:%@", sync];
+    [SFSDKSmartSyncLogger d:[self class] format:@"Sync update:%@", self.sync];
     
     switch (self.sync.status) {
         case SFSyncStateStatusNew:

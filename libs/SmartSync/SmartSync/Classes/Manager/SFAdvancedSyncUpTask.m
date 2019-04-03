@@ -31,15 +31,14 @@
     return [super init:syncManager sync:sync updateBlock:updateBlock];
 }
 
-- (void)runSync:(SFSyncState*)sync recordIds:(NSArray*)recordIds failBlock:(SFSyncUpTargetErrorBlock)failBlock {
-    [self syncUpMultipleEntries:sync recordIds:recordIds index:0 batch:[NSMutableArray new] failBlock:failBlock];
+- (void)runSync:(SFSyncState*)sync recordIds:(NSArray*)recordIds {
+    [self syncUpMultipleEntries:sync recordIds:recordIds index:0 batch:[NSMutableArray new]];
 }
 
 - (void)syncUpMultipleEntries:(SFSyncState*)sync
                     recordIds:(NSArray*)recordIds
                         index:(NSUInteger)i
-                        batch:(NSMutableArray*)batch
-                    failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+                        batch:(NSMutableArray*)batch {
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
@@ -62,16 +61,16 @@
         [target isNewerThanServer:self.syncManager record:record resultBlock:^(BOOL isNewerThanServer) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (isNewerThanServer) {
-                [strongSelf addToSyncUpBatchAndProcessIfNeeded:sync recordIds:recordIds index:i record:record batch:batch failBlock:failBlock];
+                [strongSelf addToSyncUpBatchAndProcessIfNeeded:sync recordIds:recordIds index:i record:record batch:batch];
             }
             else {
                 // Server date is newer than the local date.  Skip this update.
                 [SFSDKSmartSyncLogger d:[strongSelf class] format:@"syncUpMultipleEntries: Record not synced since client does not have the latest from server:%@", record];
-                [strongSelf syncUpMultipleEntries:sync recordIds:recordIds index:i+1 batch:batch failBlock:failBlock];
+                [strongSelf syncUpMultipleEntries:sync recordIds:recordIds index:i+1 batch:batch];
             }
         }];
     } else {
-        [self addToSyncUpBatchAndProcessIfNeeded:sync recordIds:recordIds index:i record:record batch:batch failBlock:failBlock];
+        [self addToSyncUpBatchAndProcessIfNeeded:sync recordIds:recordIds index:i record:record batch:batch];
     }
 }
 
@@ -79,8 +78,7 @@
                                  recordIds:(NSArray*)recordIds
                                      index:(NSUInteger)i
                                     record:(NSDictionary*)record
-                                     batch:(NSMutableArray*)batch
-                                 failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+                                     batch:(NSMutableArray*)batch {
     
     SFSyncUpTarget<SFAdvancedSyncUpTarget>* advancedTarget = (SFSyncUpTarget<SFAdvancedSyncUpTarget>*) sync.target;
     NSUInteger maxBatchSize = advancedTarget.maxBatchSize;
@@ -90,25 +88,29 @@
     
     // Process batch if max batch size reached or at the end of recordIds
     if (batch.count == maxBatchSize || i == recordIds.count - 1) {
-        [self processSyncUpBatch:sync recordIds:recordIds index:i batch:batch failBlock:failBlock];
+        [self processSyncUpBatch:sync recordIds:recordIds index:i batch:batch];
     } else {
-        [self syncUpMultipleEntries:sync recordIds:recordIds index:i+1 batch:batch failBlock:failBlock];
+        [self syncUpMultipleEntries:sync recordIds:recordIds index:i+1 batch:batch];
     }
 }
 
 - (void)processSyncUpBatch:(SFSyncState*)sync
                  recordIds:(NSArray*)recordIds
                      index:(NSUInteger)i
-                     batch:(NSMutableArray*)batch
-                 failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+                     batch:(NSMutableArray*)batch {
     
     SFSyncUpTarget<SFAdvancedSyncUpTarget>* advancedTarget = (SFSyncUpTarget<SFAdvancedSyncUpTarget>*) sync.target;
+    
     
     // Next
     __weak typeof(self) weakSelf = self;
     void (^nextBlock)(NSDictionary *)=^(NSDictionary *syncUpResult) {
         [batch removeAllObjects];
-        [weakSelf syncUpMultipleEntries:sync recordIds:recordIds index:i+1 batch:batch failBlock:failBlock];
+        [weakSelf syncUpMultipleEntries:sync recordIds:recordIds index:i+1 batch:batch];
+    };
+    
+    SFSyncUpTargetErrorBlock failBlock = ^(NSError * err) {
+        [weakSelf failSync:@"syncUpRecords failed" error:err];
     };
     
     [advancedTarget syncUpRecords:self.syncManager
@@ -117,8 +119,7 @@
                         mergeMode:sync.options.mergeMode
                      syncSoupName:sync.soupName
                   completionBlock:nextBlock
-                        failBlock:failBlock
-     ];
+                        failBlock:failBlock];
 }
 
 @end

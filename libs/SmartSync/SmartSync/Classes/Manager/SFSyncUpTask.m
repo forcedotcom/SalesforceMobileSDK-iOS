@@ -43,23 +43,17 @@
         return;
     }
     
-    // Fail block for rest call
-    SFSyncUpTargetErrorBlock failBlock = ^(NSError *error) {
-        [self failSync:@"Server call for sync up failed" error:error];
-    };
-    
     // Otherwise, there's work to do.
-    [self runSync:sync recordIds:dirtyRecordIds failBlock:failBlock];
+    [self runSync:sync recordIds:dirtyRecordIds];
 }
 
-- (void)runSync:(SFSyncState*)sync recordIds:(NSArray*)recordIds failBlock:(SFSyncUpTargetErrorBlock)failBlock {
-    [self syncUpOneEntry:sync recordIds:recordIds index:0 failBlock:failBlock];
+- (void)runSync:(SFSyncState*)sync recordIds:(NSArray*)recordIds {
+    [self syncUpOneEntry:sync recordIds:recordIds index:0];
 }
 
 - (void)syncUpOneEntry:(SFSyncState*)sync
              recordIds:(NSArray*)recordIds
-                 index:(NSUInteger)i
-             failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+                 index:(NSUInteger)i {
     
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
@@ -105,21 +99,19 @@
                                        recordIds:recordIds
                                            index:i
                                           record:record
-                                          action:action
-                                       failBlock:failBlock];
+                                          action:action];
             }
             else {
                 // Server date is newer than the local date.  Skip this update.
                 [SFSDKSmartSyncLogger d:[strongSelf class] format:@"syncUpOneRecord: Record not synced since client does not have the latest from server:%@", record];
                 [strongSelf syncUpOneEntry:sync
                                  recordIds:recordIds
-                                     index:i+1
-                                 failBlock:failBlock];
+                                     index:i+1];
             }
         }];
     } else {
         // State is such that we can simply update the record directly.
-        [self resumeSyncUpOneEntry:sync recordIds:recordIds index:i record:record action:action failBlock:failBlock];
+        [self resumeSyncUpOneEntry:sync recordIds:recordIds index:i record:record action:action];
     }
 }
 
@@ -127,8 +119,7 @@
                    recordIds:(NSArray*)recordIds
                        index:(NSUInteger)i
                       record:(NSMutableDictionary*)record
-                      action:(SFSyncUpTargetAction)action
-                   failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+                      action:(SFSyncUpTargetAction)action {
     
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
@@ -136,7 +127,7 @@
     __weak typeof(self) weakSelf = self;
     // Next
     void (^nextBlock)(void)=^() {
-        [weakSelf syncUpOneEntry:sync recordIds:recordIds index:i+1 failBlock:failBlock];
+        [weakSelf syncUpOneEntry:sync recordIds:recordIds index:i+1];
     };
     
     // If it is not a advanced sync up target and there is no changes on the record, go to next
@@ -171,9 +162,10 @@
     };
     
     // Create failure handler
-    SFSyncUpTargetErrorBlock failBlockCreate = ^ (NSError* err){        
+    SFSyncUpTargetErrorBlock failBlockCreate = ^ (NSError* err){
+        __strong typeof (weakSelf) strongSelf = weakSelf;
         if ([SFRestRequest isNetworkError:err]) {
-            failBlock(err);
+            [strongSelf failSync:@"Create server call failed" error:err];
         }
         else {
             [target saveRecordToLocalStoreWithLastError:weakSelf.syncManager soupName:soupName record:record];
@@ -197,7 +189,7 @@
             }
         }
         else if ([SFRestRequest isNetworkError:err]) {
-            failBlock(err);
+            [strongSelf failSync:@"Update server call failed" error:err];
         }
         else {
             [target saveRecordToLocalStoreWithLastError:strongSelf.syncManager soupName:soupName record:record];
@@ -215,7 +207,7 @@
             completeBlockDelete(nil);
         }
         else if ([SFRestRequest isNetworkError:err]) {
-            failBlock(err);
+            [strongSelf failSync:@"Delete server call failed" error:err];
         }
         else {
             [target saveRecordToLocalStoreWithLastError:strongSelf.syncManager soupName:soupName record:record];
