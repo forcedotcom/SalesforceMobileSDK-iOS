@@ -49,10 +49,15 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
+#import <SalesforceSDKCore/NSData+SFAdditions.h>
+#import <SalesforceSDKCore/SFSDKCryptoUtils.h>
+#import <SalesforceSDKCore/SFKeychainItemWrapper.h>
+#import <SalesforceSDKCommon/SFSDKDataSharingHelper.h>
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
 static SFSmartStoreEncryptionKeyBlock _encryptionKeyBlock = NULL;
+static SFSmartStoreEncryptionSaltBlock _encryptionSaltBlock = NULL;
 static BOOL _storeUpgradeHasRun = NO;
 
 // The name of the store name used by the SFSmartStorePlugin for hybrid apps
@@ -78,6 +83,9 @@ NSString *const kSFSmartStoreErrorLoadExternalSoup =  @"com.salesforce.smartstor
 
 // Encryption constants
 NSString * const kSFSmartStoreEncryptionKeyLabel = @"com.salesforce.smartstore.encryption.keyLabel";
+
+// Encryption constants
+NSString * const kSFSmartStoreEncryptionSaltLabel = @"com.salesforce.smartstore.encryption.saltLabel";
 
 // Table to keep track of soup attributes
 NSString *const SOUP_ATTRS_TABLE = @"soup_attrs";
@@ -126,6 +134,22 @@ NSString *const EXPLAIN_ROWS = @"rows";
         _encryptionKeyBlock = ^SFEncryptionKey *{
             SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel autoCreate:YES];
             return key;
+        };
+    }
+    
+    if (!_encryptionSaltBlock) {
+        _encryptionSaltBlock = ^ {
+            NSString *salt = nil;
+            if ([[SFSDKDatasharingHelper sharedInstance] appGroupEnabled]) {
+                SFKeychainItemWrapper *saltItem = [SFKeychainItemWrapper itemWithIdentifier:kSFSmartStoreEncryptionSaltLabel account:nil];
+                salt = [saltItem valueString];
+                if (!salt){
+                    // First Create a Salt 32 byte long
+                    salt = [[SFSDKCryptoUtils randomByteDataWithLength:32] md5];
+                    [saltItem setValueString:salt];
+                }
+            }
+            return salt;
         };
     }
 }
@@ -280,8 +304,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
 }
 
 - (BOOL) openStoreDatabase {
-   NSError *openDbError = nil;
-    self.storeQueue = [self.dbMgr openStoreQueueWithName:self.storeName key:[[self class] encKey] error:&openDbError];
+    NSError *openDbError = nil;
+    NSString *salt =  [[self class] encryptionSaltBlock]();
+    self.storeQueue = [self.dbMgr openStoreQueueWithName:self.storeName key:[[self class] encKey] salt:salt error:&openDbError];
     if (self.storeQueue == nil) {
         [SFSDKSmartStoreLogger e:[self class] format:@"Error opening store '%@': %@", self.storeName, [openDbError localizedDescription]];
     }
@@ -708,6 +733,24 @@ NSString *const EXPLAIN_ROWS = @"rows";
         return key.keyAsString;
     }
     return nil;
+}
+
++ (NSString *)salt
+{
+    if (_encryptionSaltBlock) {
+        return  _encryptionSaltBlock();
+    }
+    return nil;
+}
+
++ (SFSmartStoreEncryptionSaltBlock)encryptionSaltBlock {
+    return _encryptionSaltBlock;
+}
+
++ (void)setEncryptionSaltBlock:(SFSmartStoreEncryptionSaltBlock)newEncryptionSaltBlock {
+    if (newEncryptionSaltBlock != _encryptionSaltBlock) {
+        _encryptionSaltBlock = newEncryptionSaltBlock;
+    }
 }
 
 + (SFSmartStoreEncryptionKeyBlock)encryptionKeyBlock {
