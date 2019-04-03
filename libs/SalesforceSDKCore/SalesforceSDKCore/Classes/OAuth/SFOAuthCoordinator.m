@@ -247,7 +247,7 @@ static NSString * const kSFECParameter = @"ec";
                         [strongSelf.oauthCoordinatorFlow beginUserAgentFlow];
                     }
                 });
-            } oauthCredentials:self.credentials];
+            } loginDomain:self.credentials.domain];
         }
     }
 }

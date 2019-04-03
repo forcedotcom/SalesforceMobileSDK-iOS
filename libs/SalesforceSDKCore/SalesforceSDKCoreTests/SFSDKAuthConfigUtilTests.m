@@ -54,7 +54,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
         XCTAssertNotNil(authConfig, @"Auth config should not be nil");
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
         [expect fulfill];
-    } oauthCredentials:credentials];
+    } loginDomain:credentials.domain];
     [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
@@ -68,7 +68,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
         XCTAssertTrue(authConfig.useNativeBrowserForAuth, @"Browser based login should be enabled");
         [expect fulfill];
-    } oauthCredentials:credentials];
+    } loginDomain:credentials.domain];
     [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
@@ -83,7 +83,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
         XCTAssertNotNil(authConfig.ssoUrls, @"SSO URLs should not be nil");
         XCTAssertTrue(authConfig.ssoUrls.count >= 1, @"SSO URLs should have at least 1 valid entry");
         [expect fulfill];
-    } oauthCredentials:credentials];
+    } loginDomain:credentials.domain];
     [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
@@ -97,7 +97,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
         XCTAssertTrue(authConfig.ssoUrls.count == 0, @"SSO URLs should be empty");
         [expect fulfill];
-    } oauthCredentials:credentials];
+    } loginDomain:credentials.domain];
     [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
@@ -112,7 +112,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
         XCTAssertNotNil(authConfig.loginPageUrl, @"Login page URL should not be nil");
         XCTAssertTrue([authConfig.loginPageUrl containsString:kSFAlternateMyDomainEndpoint], @"Login page URL should contain correct URL");
         [expect fulfill];
-    } oauthCredentials:credentials];
+    } loginDomain:credentials.domain];
     [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
@@ -123,7 +123,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
     [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
         XCTAssertNil(authConfig, @"Auth config should be nil");
         [expect fulfill];
-    } oauthCredentials:credentials];
+    } loginDomain:credentials.domain];
     [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
