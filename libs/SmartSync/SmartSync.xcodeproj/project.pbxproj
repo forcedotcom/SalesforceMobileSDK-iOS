@@ -78,6 +78,15 @@
 		4FAA9B732255CA2F0006810D /* SFSDKSoqlMutator.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAA9B712255CA2F0006810D /* SFSDKSoqlMutator.h */; };
 		4FAA9B752255CA730006810D /* SFSDKSoqlMutator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA9B742255CA730006810D /* SFSDKSoqlMutator.m */; };
 		4FAA9B772255D49D0006810D /* SFSDKSoqlMutatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA9B762255D49D0006810D /* SFSDKSoqlMutatorTests.m */; };
+		4FAA9B7922567C9D0006810D /* SFSyncTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAA9B4E22545AEF0006810D /* SFSyncTask.h */; };
+		4FAA9B7A22567CA90006810D /* SFSyncDownTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAA9B6122545FE00006810D /* SFSyncDownTask.h */; };
+		4FAA9B7B22567CAC0006810D /* SFSyncUpTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAA9B63225460180006810D /* SFSyncUpTask.h */; };
+		4FAA9B7C22567CB00006810D /* SFAdvancedSyncUpTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAA9B65225460340006810D /* SFAdvancedSyncUpTask.h */; };
+		4FAA9B7D22567CB30006810D /* SFCleanSyncGhostsTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAA9B672254609B0006810D /* SFCleanSyncGhostsTask.h */; };
+		4FAA9B7E22567CBD0006810D /* SFSyncDownTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA9B69225461910006810D /* SFSyncDownTask.m */; };
+		4FAA9B7F22567CC20006810D /* SFSyncUpTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA9B6B225461910006810D /* SFSyncUpTask.m */; };
+		4FAA9B8022567CC70006810D /* SFAdvancedSyncUpTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA9B6C225461910006810D /* SFAdvancedSyncUpTask.m */; };
+		4FAA9B8122567CCB0006810D /* SFCleanSyncGhostsTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA9B6A225461910006810D /* SFCleanSyncGhostsTask.m */; };
 		4FAF87DA1EBBE7BF007A46F8 /* SFParentChildrenSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAF87D91EBBE7BF007A46F8 /* SFParentChildrenSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FAF87DB1EBBE7BF007A46F8 /* SFParentChildrenSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAF87D91EBBE7BF007A46F8 /* SFParentChildrenSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FCA4A981FBE4E0A00F081B3 /* SFSDKSyncsConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FCA4A961FBE4E0900F081B3 /* SFSDKSyncsConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1004,6 +1013,7 @@
 				CEA884181C1916FA008D871B /* SFObject.h in Headers */,
 				CE1BD1CB20AF801400409FE1 /* SFLayoutSyncManager.h in Headers */,
 				CEA884171C1916FA008D871B /* SFObject+Internal.h in Headers */,
+				4FAA9B7922567C9D0006810D /* SFSyncTask.h in Headers */,
 				CE01BB1620B75A07008E91B6 /* SFMetadataSyncManager.h in Headers */,
 				4FDCBD691E8DDC82008F8FCE /* SFSyncTarget.h in Headers */,
 				CEA884391C191719008D871B /* SFSyncState.h in Headers */,
@@ -1017,7 +1027,9 @@
 				4F307E2E1EBA92550040CFC4 /* SFParentInfo.h in Headers */,
 				4F3DF86F1ECCF46A00D1D9AF /* SFSoqlSyncDownTarget+Internal.h in Headers */,
 				CE682C7C1F01A8D2003C43C0 /* SFSDKSmartSyncLogger.h in Headers */,
+				4FAA9B7C22567CB00006810D /* SFAdvancedSyncUpTask.h in Headers */,
 				4FF9331A22167E420058807A /* SFCompositeRequestHelper.h in Headers */,
+				4FAA9B7D22567CB30006810D /* SFCleanSyncGhostsTask.h in Headers */,
 				4FDCBD681E8DDC82008F8FCE /* SFSyncUpTarget.h in Headers */,
 				CE2BCCF6224A86C900C98308 /* SFSmartSyncSyncManager+Instrumentation.h in Headers */,
 				4FDCBD6C1E8DDC82008F8FCE /* SFSoqlSyncDownTarget.h in Headers */,
@@ -1034,7 +1046,9 @@
 				4F3DF8871ECFB2A000D1D9AF /* SFAdvancedSyncUpTarget.h in Headers */,
 				4F3DF8841ECFA8C800D1D9AF /* SFParentChildrenSyncUpTarget.h in Headers */,
 				CEA884211C1916FA008D871B /* SFSmartSyncPersistableObject.h in Headers */,
+				4FAA9B7B22567CAC0006810D /* SFSyncUpTask.h in Headers */,
 				CEA884351C191719008D871B /* SFSyncOptions.h in Headers */,
+				4FAA9B7A22567CA90006810D /* SFSyncDownTask.h in Headers */,
 				4F3DF8701ECCF47400D1D9AF /* SFSyncDownTarget+Internal.h in Headers */,
 				4FDCBD6B1E8DDC82008F8FCE /* SFSoslSyncDownTarget.h in Headers */,
 				4FAF87DB1EBBE7BF007A46F8 /* SFParentChildrenSyncDownTarget.h in Headers */,
@@ -1437,9 +1451,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F307E3A1EBD4A010040CFC4 /* SFParentChildrenSyncHelper.m in Sources */,
+				4FAA9B8122567CCB0006810D /* SFCleanSyncGhostsTask.m in Sources */,
 				CEA884261C191719008D871B /* SFSmartSyncConstants.m in Sources */,
 				CE1BD1CD20AF801400409FE1 /* SFLayoutSyncManager.m in Sources */,
 				CE01BB1320B759EA008E91B6 /* SFMetadataSyncManager.m in Sources */,
+				4FAA9B7E22567CBD0006810D /* SFSyncDownTask.m in Sources */,
 				CE98A683209F698400507927 /* SFLayoutSyncDownTarget.m in Sources */,
 				4FDCBD661E8DDC70008F8FCE /* SFRefreshSyncDownTarget.m in Sources */,
 				CEA884361C191719008D871B /* SFSyncOptions.m in Sources */,
@@ -1454,7 +1470,9 @@
 				4FDCBD641E8DDC6B008F8FCE /* SFSoslSyncDownTarget.m in Sources */,
 				CEA8842A1C191719008D871B /* SFSmartSyncObjectUtils.m in Sources */,
 				4FDCBD651E8DDC6E008F8FCE /* SFSoqlSyncDownTarget.m in Sources */,
+				4FAA9B7F22567CC20006810D /* SFSyncUpTask.m in Sources */,
 				CE5AB5EB1ECF61B30069AFE6 /* SFParentChildrenSyncDownTarget.m in Sources */,
+				4FAA9B8022567CC70006810D /* SFAdvancedSyncUpTask.m in Sources */,
 				CE682C7D1F01A8DA003C43C0 /* SFSDKSmartSyncLogger.m in Sources */,
 				4F307E301EBA926D0040CFC4 /* SFChildrenInfo.m in Sources */,
 				4FDCBD671E8DDC73008F8FCE /* SFMruSyncDownTarget.m in Sources */,
