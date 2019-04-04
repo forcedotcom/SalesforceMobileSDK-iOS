@@ -27,6 +27,7 @@
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSmartSyncNetworkUtils.h"
+#import "SFSDKSoqlMutator.h"
 
 static NSString * const kSFSoqlSyncTargetQuery = @"query";
 
@@ -43,7 +44,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeSoql;
         self.query = dict[kSFSoqlSyncTargetQuery];
-        [self addSpecialFieldsIfRequired];
+        [self modifyQueryIfNeeded];
     }
     return self;
 }
@@ -52,21 +53,30 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     self = [super init];
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeSoql;
-        [self addSpecialFieldsIfRequired];
+        [self modifyQueryIfNeeded];
     }
     return self;
 }
 
-- (void) addSpecialFieldsIfRequired {
+- (void) modifyQueryIfNeeded {
+    if (self.query) {
+        SFSDKSoqlMutator* mutator = [SFSDKSoqlMutator withSoql:self.query];
+        // Inserts the mandatory 'LastModifiedDate' field if it doesn't exist.
+        if (![mutator isSelectingField:self.modificationDateFieldName]) {
+            [mutator addSelectFields:self.modificationDateFieldName];
+        }
+        
+        // Inserts the mandatory 'Id' field if it doesn't exist.
+        if (![mutator isSelectingField:self.idFieldName]) {
+            [mutator addSelectFields:self.idFieldName];
+        }
+        
+        // Order by 'LastModifiedDate' field if no order by specified
+        if (![mutator isOrderingBy:self.modificationDateFieldName]) {
+            [mutator replaceOrderBy:self.modificationDateFieldName];
+        }
 
-    // Inserts the mandatory 'LastModifiedDate' field if it doesn't exist.
-    if ([self.query rangeOfString:self.modificationDateFieldName].location == NSNotFound) {
-        self.query = [SFSoqlSyncDownTarget appendToFirstOccurence:self.query pattern:@"select " stringToAppend:[@[self.modificationDateFieldName, @", "] componentsJoinedByString:@""]];
-    }
-
-    // Inserts the mandatory 'Id' field if it doesn't exist.
-    if ([self.query rangeOfString:self.idFieldName].location == NSNotFound) {
-        self.query = [SFSoqlSyncDownTarget appendToFirstOccurence:self.query pattern:@"select " stringToAppend:[@[self.idFieldName, @", "] componentsJoinedByString:@""]];
+        self.query = [[mutator asBuilder] build];
     }
 }
 
@@ -76,7 +86,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     SFSoqlSyncDownTarget* syncTarget = [[SFSoqlSyncDownTarget alloc] init];
     syncTarget.queryType = SFSyncDownTargetQueryTypeSoql;
     syncTarget.query = query;
-    [syncTarget addSpecialFieldsIfRequired];
+    [syncTarget modifyQueryIfNeeded];
     return syncTarget;
 }
 
@@ -175,6 +185,10 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     [self startFetch:syncManager queryToRun:soql errorBlock:errorBlock completeBlock:fetchBlock];
 }
 
+-(BOOL) isSyncDownSortedByLatestModification {
+    return [[SFSDKSoqlMutator withSoql:self.query] isOrderingBy:self.modificationDateFieldName];
+}
+
 #pragma mark - Utility methods
 
 - (NSSet<NSString*>*) parseIdsFromResponse:(NSArray*)records {
@@ -186,13 +200,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
 }
 
 - (NSString *)getSoqlForRemoteIds {
-    NSMutableString* soql = [[NSMutableString alloc] initWithString:@"SELECT "];
-    [soql appendString:self.idFieldName];
-    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:@" from " options:NSRegularExpressionCaseInsensitive error:nil];
-    NSRange rangeFirst = [regexp rangeOfFirstMatchInString:self.query options:0 range:NSMakeRange(0, self.query.length)];
-    NSString* fromClause = [self.query substringFromIndex:rangeFirst.location];
-    [soql appendString:fromClause];
-    return soql;
+    return [[[[[SFSDKSoqlMutator withSoql:self.query] replaceSelectFields:self.idFieldName] replaceOrderBy:@""] asBuilder] build];
 }
 
 - (NSString*) getQueryToRun {
@@ -212,11 +220,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     if (maxTimeStamp > 0) {
         NSString* maxTimeStampStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
         NSString* extraPredicate =  [@[modDateFieldName, @">", maxTimeStampStr] componentsJoinedByString:@" "];
-        if ([[query lowercaseString] rangeOfString:@" where "].location != NSNotFound) {
-            queryToRun = [SFSoqlSyncDownTarget appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
-        } else {
-            queryToRun = [SFSoqlSyncDownTarget appendToFirstOccurence:query pattern:@" from[ ]+[^ ]*" stringToAppend:[@[@" where ", extraPredicate] componentsJoinedByString:@""]];
-        }
+        queryToRun = [[[[SFSDKSoqlMutator withSoql:query] addWherePredicates:extraPredicate] asBuilder] build];
     }
     return queryToRun;
 }

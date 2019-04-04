@@ -110,6 +110,10 @@
 
 #pragma mark - Other public methods
 
+-(BOOL) isSyncDownSortedByLatestModification {
+    return YES;
+}
+
 - (NSString*) getQueryToRun:(long long)maxTimeStamp {
     NSMutableString * childrenWhere = [NSMutableString new];
     NSMutableString * parentWhere = [NSMutableString new];
@@ -152,7 +156,10 @@
     if (![fields containsObject:self.idFieldName]) [fields addObject:self.idFieldName];
     if (![fields containsObject:self.modificationDateFieldName]) [fields addObject:self.modificationDateFieldName];
     [fields addObject:[@[@"(", [builderNested build], @")"] componentsJoinedByString:@""]];
-    SFSDKSoqlBuilder * builder = [[[SFSDKSoqlBuilder withFieldsArray:fields] from:self.parentInfo.sobjectType] whereClause:parentWhere];
+    SFSDKSoqlBuilder * builder = [[[[SFSDKSoqlBuilder withFieldsArray:fields]
+                                    from:self.parentInfo.sobjectType]
+                                   whereClause:parentWhere]
+                                  orderBy:self.parentInfo.modificationDateFieldName];
 
     return [builder build];
 }
