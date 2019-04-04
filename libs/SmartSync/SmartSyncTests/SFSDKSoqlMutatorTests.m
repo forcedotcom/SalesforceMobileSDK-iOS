@@ -128,6 +128,11 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] hasOrderBy]);
 }
 
+- (void) testHasOrderByWhenPresentInValue {
+    NSString* soql = @"SELECT Description FROM Account WHERE Name = ' order by \' order by \''";
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] hasOrderBy]);
+}
+
 - (void) testHasOrderByWhenAbsent {
     NSString* soql = @"SELECT Description FROM Account LIMIT 1000";
     XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] hasOrderBy]);
