@@ -118,4 +118,20 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     XCTAssertEqualObjects(@"select Description from Account limit 1000", [[[[SFSDKSoqlMutator withSoql:soql] replaceOrderBy:@""] asBuilder] build]);
 }
 
+- (void) testHasOrderByWhenPresent {
+    NSString* soql = @"SELECT Description FROM Account ORDER BY FirstName LIMIT 1000";
+    XCTAssertTrue([[SFSDKSoqlMutator withSoql:soql] hasOrderBy]);
+}
+
+- (void) testHasOrderByWhenPresentInSubquery {
+    NSString* soql = @"SELECT Description FROM Account WHERE Id IN (SELECT Id FROM Account ORDER BY FirstName) LIMIT 1000";
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] hasOrderBy]);
+}
+
+- (void) testHasOrderByWhenAbsent {
+    NSString* soql = @"SELECT Description FROM Account LIMIT 1000";
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] hasOrderBy]);
+}
+
+
 @end

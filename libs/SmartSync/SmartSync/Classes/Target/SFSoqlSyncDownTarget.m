@@ -72,7 +72,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
         }
         
         // Order by 'LastModifiedDate' field if no order by specified
-        if (![mutator isOrderingBy:self.modificationDateFieldName]) {
+        if (![mutator hasOrderBy]) {
             [mutator replaceOrderBy:self.modificationDateFieldName];
         }
 

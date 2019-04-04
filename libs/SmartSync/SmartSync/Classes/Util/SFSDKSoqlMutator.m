@@ -151,6 +151,10 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
     return self.clauses[kSFSDKSoqlMutatorOrderBy] && [self equalsIgnoringWhiteSpaces:self.clauses[kSFSDKSoqlMutatorOrderBy] s2:commaSeparatedFields];
 }
 
+- (BOOL) hasOrderBy {
+    return self.clauses[kSFSDKSoqlMutatorOrderBy] != nil;
+}
+
 - (BOOL) isSelectingField:(NSString*) field {
     NSArray* selectedFields = [[self removeWhiteSpaces:self.clausesWithoutSubqueries[kSFSDKSoqlMutatorSelect]] componentsSeparatedByString:@","];
     return [selectedFields containsObject:field];

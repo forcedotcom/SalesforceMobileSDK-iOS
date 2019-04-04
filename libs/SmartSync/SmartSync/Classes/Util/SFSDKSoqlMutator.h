@@ -75,6 +75,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) isSelectingField:(NSString*) field;
 
 /**
+ * Check if query has order by clause
+ * @return YES if it is the case.
+ */
+- (BOOL) hasOrderBy;
+
+/**
  * @return a SOQL builder with mutations applied
  */
 - (SFSDKSoqlBuilder*) asBuilder;
