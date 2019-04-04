@@ -175,6 +175,12 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
             return;
         }
         
+        NSError* error = nil;
+        if (![syncManager checkAcceptingSyncs:&error]) {
+            errorBlock(error);
+            return;
+        }
+        
         for (NSDictionary * record in records) {
             [remoteIds addObject:record[idFieldName]];
         }

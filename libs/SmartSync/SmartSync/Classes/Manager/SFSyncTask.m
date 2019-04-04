@@ -63,7 +63,7 @@ NSInteger const kSyncManagerUnchanged = -1;
 }
 
 - (BOOL) shouldStop {
-    return [self.syncManager isStopped] || [self.syncManager isStopping];
+    return ![self.syncManager checkAcceptingSyncs:nil];
 }
 
 - (void) run {

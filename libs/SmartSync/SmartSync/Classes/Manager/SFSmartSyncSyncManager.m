@@ -37,6 +37,7 @@
 
 
 static NSString * const kSFAppFeatureSmartSync   = @"SY";
+static NSString * const kSFSmartSyncErrorDomain  = @"com.salesforce.SmartSync.ErrorDomain";
 
 
 // dispatch queue
@@ -237,9 +238,17 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 }
 
-- (BOOL) checkAcceptingSyncs {
+- (BOOL) checkAcceptingSyncs:(NSError**)error {
     if (self.state != SFSyncManagerStateAcceptingSyncs) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run - sync manager has state %@", [SFSmartSyncSyncManager stateToString:self.state]];
+        NSString* message = [NSString stringWithFormat:@"Cannot run - sync manager has state %@", [SFSmartSyncSyncManager stateToString:self.state]];
+        [SFSDKSmartSyncLogger e:[self class] message:message];
+        if (error) {
+            *error = [NSError errorWithDomain:kSFSmartSyncErrorDomain
+                                                 code:999
+                                             userInfo:@{@"error": @"SyncManagerStopped",
+                                                        @"description": message,
+                                                        NSLocalizedDescriptionKey: message}];
+        }
         return NO;
     } else {
         return YES;
@@ -295,7 +304,7 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Run a previously created sync
  */
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    if (![self checkAcceptingSyncs]) {
+    if (![self checkAcceptingSyncs:nil]) {
         return;
     }
     
@@ -424,7 +433,7 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
-    if (![self checkAcceptingSyncs]) {
+    if (![self checkAcceptingSyncs:nil]) {
         return;
     }
     

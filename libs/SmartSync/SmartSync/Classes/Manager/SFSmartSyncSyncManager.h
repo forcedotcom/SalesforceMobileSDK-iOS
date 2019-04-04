@@ -147,6 +147,14 @@ NS_SWIFT_NAME(SyncManager)
 - (void) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /**
+ * Check if sync manager is running
+ *
+ * @param error To get an error back (optional).
+ * @return YES if running and NO if stopping or stopped
+ */
+- (BOOL) checkAcceptingSyncs:(NSError**)error;
+
+/**
  * Returns details about a sync.
  *
  * @param syncId Sync ID.

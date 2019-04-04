@@ -151,6 +151,12 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
     };
     
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
+        NSError* error = nil;
+        if (![syncManager checkAcceptingSyncs:&error]) {
+            errorBlock(error);
+            return;
+        }
+
         // NB with the recursive block, using weakSelf doesn't work (it goes to nil)
         //    are we leaking memory?
 
