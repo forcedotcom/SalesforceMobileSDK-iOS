@@ -35,18 +35,57 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 - (void) testMutatorNoChange {
     NSString* originalSoql = @"select Id, Name from Account where Id in (select Id from Account) and Name like 'Mad Max' limit 1000";
-    NSString* mutatedSoql = [[[[SFSDKSoqlMutator alloc] init:originalSoql] asBuilder] build];
+    NSString* mutatedSoql = [[[SFSDKSoqlMutator withSoql:originalSoql] asBuilder] build];
     NSString* expectedSoql = originalSoql;
     XCTAssertEqualObjects(expectedSoql, mutatedSoql);
 }
 
-- (void) testReplaceSelectFiel {
+- (void) testSelectFieldPresenceWhenPresent {
+    NSString* soql = @"SELECT Id, Name FROM Account";
+    XCTAssertTrue([[SFSDKSoqlMutator withSoql:soql] isSelectingField:@"Id"]);
+    XCTAssertTrue([[SFSDKSoqlMutator withSoql:soql] isSelectingField:@"Name"]);
+}
+
+- (void) testSelectFieldPresenceWhenAbsent {
+    NSString* soql = @"SELECT Id, Name FROM Account";
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] isSelectingField:@"Description"]);
+}
+
+- (void) testSelectFieldPresenceWhenPresentInWhereClause {
+    NSString* soql = @"SELECT Id FROM Account WHERE Name like 'James%'";
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] isSelectingField:@"Name"]);
+}
+
+- (void) testSelectFieldPresenceWhenPresentInSubquery {
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:@"SELECT Name, (SELECT LastName FROM Contacts) FROM Account"] isSelectingField:@"LastName"]);
+}
+                    
+- (void) testSelectFieldPresenceWhenPresentAsSubstring {
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:@"SELECT LastName FROM Account"] isSelectingField:@"Name"]);
+}
+
+- (void) testOrderByPresenceWhenPresent {
+    XCTAssertTrue([[SFSDKSoqlMutator withSoql:@"SELECT LastName FROM Account ORDER BY LastModifiedDate"] isOrderingBy:@"LastModifiedDate"]);
+}
+
+- (void) testOrderByPresenceWhenPresentInSubquery {
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:@"SELECT LastName FROM Account WHERE Id IN (SELECT Id FROM Account ORDER BY LastModifiedDate)"] isOrderingBy:@"LastModifiedDate"]);
+}
+
+- (void) testOrderByPresenceWhenAbsent {
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:@"SELECT LastName FROM Account"] isOrderingBy:@"LastModifiedDate"]);
+}
+
+- (void) testOrderByPresenceWhenOrderingBySomethingElse {
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:@"SELECT LastName FROM Account ORDER BY FirstName"] isOrderingBy:@"LastModifiedDate"]);
+}
+
+- (void) testReplaceSelectField {
     NSString* originalSoql = @"SELECT Description FROM Account";
-    NSString* mutatedSoql = [[[[[SFSDKSoqlMutator alloc] init:originalSoql] replaceSelectFields:@"Id"] asBuilder] build];
+    NSString* mutatedSoql = [[[[SFSDKSoqlMutator withSoql:originalSoql] replaceSelectFields:@"Id"] asBuilder] build];
     NSString* expectedSoql = @"select Id from Account";
     XCTAssertEqualObjects(expectedSoql, mutatedSoql);
 }
-
 
 
 @end

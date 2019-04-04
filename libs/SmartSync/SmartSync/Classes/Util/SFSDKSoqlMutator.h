@@ -30,8 +30,36 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSDKSoqlMutator : NSObject
 
-- (instancetype) init:(NSString*)soql;
+/**
+ * Initialize this SOQLMutator with the soql query to manipulate
+ * @param soql Original soql query.
+ */
++ (SFSDKSoqlMutator *) withSoql:(NSString *) soql;
+
+/**
+ * Replace order by clause (or add one if none)
+ * @param commaSeparatedFields Comma separated fields to use in top level query's order by.
+ */
 - (SFSDKSoqlMutator*) replaceSelectFields:(NSString*) commaSeparatedFields;
+
+
+/**
+ * Check if query is ordering by given fields
+ * @param commaSeparatedFields Comma separeted fields to look for.
+ * @return YES if it is the case.
+ */
+- (BOOL) isOrderingBy:(NSString*) commaSeparatedFields;
+
+/**
+ * Check if query is selecting by given field
+ * @param field Field to look for.
+ * @return YES if it is the case.
+ */
+- (BOOL) isSelectingField:(NSString*) field;
+
+/**
+ * @return a SOQL builder with mutations applied
+ */
 - (SFSDKSoqlBuilder*) asBuilder;
 
 @end

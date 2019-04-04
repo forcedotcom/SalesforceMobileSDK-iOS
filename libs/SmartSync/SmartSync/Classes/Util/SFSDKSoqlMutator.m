@@ -44,6 +44,10 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
 
 @implementation SFSDKSoqlMutator
 
++ (SFSDKSoqlMutator *) withSoql:(NSString *) soql {
+    return [[SFSDKSoqlMutator alloc] init:soql];
+}
+
 - (instancetype) init:(NSString*)soql {
     self = [super init];
     
@@ -61,8 +65,8 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
     NSString* preparedQuery = self.originalSoql;
     NSRegularExpression *regexOrderBy = [NSRegularExpression regularExpressionWithPattern:@"[ ]+order[ ]+by[ ]+" options:NSRegularExpressionCaseInsensitive error:nil];
     NSRegularExpression *regexGroupBy = [NSRegularExpression regularExpressionWithPattern:@"[ ]+group[ ]+by[ ]+" options:NSRegularExpressionCaseInsensitive error:nil];
-    preparedQuery = [regexOrderBy stringByReplacingMatchesInString:preparedQuery options:0 range:NSMakeRange(0, [preparedQuery length]) withTemplate:@"order_by"];
-    preparedQuery = [regexGroupBy stringByReplacingMatchesInString:preparedQuery options:0 range:NSMakeRange(0, [preparedQuery length]) withTemplate:@"group_by"];
+    preparedQuery = [regexOrderBy stringByReplacingMatchesInString:preparedQuery options:0 range:NSMakeRange(0, [preparedQuery length]) withTemplate:@" order_by "];
+    preparedQuery = [regexGroupBy stringByReplacingMatchesInString:preparedQuery options:0 range:NSMakeRange(0, [preparedQuery length]) withTemplate:@" group_by "];
     
     
     NSArray* clauseTypeKeywords = @[kSFSDKSoqlMutatorSelect, kSFSDKSoqlMutatorFrom,
@@ -124,6 +128,15 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
     return self;
 }
 
+- (BOOL) isOrderingBy:(NSString*) commaSeparatedFields {
+    return self.clauses[kSFSDKSoqlMutatorOrderBy] && [self equalsIgnoringWhiteSpaces:self.clauses[kSFSDKSoqlMutatorOrderBy] s2:commaSeparatedFields];
+}
+
+- (BOOL) isSelectingField:(NSString*) field {
+    NSArray* selectedFields = [[self removeWhiteSpaces:self.clausesWithoutSubqueries[kSFSDKSoqlMutatorSelect]] componentsSeparatedByString:@","];
+    return [selectedFields containsObject:field];
+}
+
 - (SFSDKSoqlBuilder*) asBuilder {
     SFSDKSoqlBuilder* builder = [[[[[[SFSDKSoqlBuilder withFields:[self trimmedClause:kSFSDKSoqlMutatorSelect]]
                                      from:[self trimmedClause:kSFSDKSoqlMutatorFrom]]
@@ -143,6 +156,8 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
     return builder;
 }
 
+# pragma mark - Helper methods
+
 - (NSNumber*) clauseAsInteger:(NSString*)clauseType {
     return [NSNumber numberWithInt:[[self trimmedClause:clauseType] intValue]];
 }
@@ -151,6 +166,14 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
     return self.clauses[clauseType]
         ? [self.clauses[clauseType] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
         : @"";
+}
+
+- (BOOL) equalsIgnoringWhiteSpaces:(NSString*)s1 s2:(NSString*)s2 {
+    return [[self removeWhiteSpaces:s1] isEqualToString:[self removeWhiteSpaces:s2]];
+}
+
+- (NSString*) removeWhiteSpaces:(NSString*) s {
+    return [s stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 
 @end
