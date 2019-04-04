@@ -22,8 +22,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <XCTest/XCTest.h>
+#import <Foundation/Foundation.h>
 
-@interface SyncStateTests : XCTestCase
+#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SFSDKSoqlMutator : NSObject
+
+- (instancetype) init:(NSString*)soql;
+- (SFSDKSoqlMutator*) replaceSelectFields:(NSString*) commaSeparatedFields;
+- (SFSDKSoqlBuilder*) asBuilder;
 
 @end
+
+NS_ASSUME_NONNULL_END

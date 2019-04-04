@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SyncStateTests.h"
+#import <XCTest/XCTest.h>
 #import <SmartStore/SmartStore.h>
 #import "SFSoqlSyncDownTarget.h"
 #import "SFSmartSyncSyncManager.h"
@@ -30,6 +30,10 @@
 
 
 #define DB_NAME @"testDb"
+
+@interface SyncStateTests : XCTestCase
+
+@end
 
 @interface SyncStateTests ()
 
