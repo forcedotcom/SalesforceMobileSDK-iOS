@@ -37,11 +37,28 @@ NS_ASSUME_NONNULL_BEGIN
 + (SFSDKSoqlMutator *) withSoql:(NSString *) soql;
 
 /**
- * Replace order by clause (or add one if none)
- * @param commaSeparatedFields Comma separated fields to use in top level query's order by.
+ * Replace selecg fields
+ * @param commaSeparatedFields Comma separated fields to use in top level query's select.
  */
 - (SFSDKSoqlMutator*) replaceSelectFields:(NSString*) commaSeparatedFields;
 
+/**
+ * Add fields to select
+ * @param commaSeparatedFields Comma separated fields to add to top level query's select.
+ */
+-(SFSDKSoqlMutator*) addSelectFields:(NSString*) commaSeparatedFields;
+
+/**
+ * Add predicates to where clause
+ * @param commaSeparatedPredicates Comma separated predicates to add to top level query's where.
+ */
+-(SFSDKSoqlMutator*) addWherePredicates:(NSString*) commaSeparatedPredicates;
+
+/**
+ * Replace order by clause (or add one if none)
+ * @param commaSeparatedFields Comma separated fields to add to top level query's select.
+ */
+-(SFSDKSoqlMutator*) replaceOrderBy:(NSString*) commaSeparatedFields;
 
 /**
  * Check if query is ordering by given fields

@@ -128,6 +128,25 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
     return self;
 }
 
+- (SFSDKSoqlMutator*) addSelectFields:(NSString*) commaSeparatedFields {
+    self.clauses[kSFSDKSoqlMutatorSelect] = [NSString stringWithFormat:@"%@,%@", commaSeparatedFields, [self trimmedClause:kSFSDKSoqlMutatorSelect]];
+    return self;
+}
+
+- (SFSDKSoqlMutator*) addWherePredicates:(NSString*) commaSeparatedPredicates {
+    if (self.clauses[kSFSDKSoqlMutatorWhere]) {
+        self.clauses[kSFSDKSoqlMutatorWhere] = [NSString stringWithFormat:@"%@ and %@", commaSeparatedPredicates, [self trimmedClause:kSFSDKSoqlMutatorWhere]];
+    } else {
+        self.clauses[kSFSDKSoqlMutatorWhere] = commaSeparatedPredicates;
+    }
+    return self;
+}
+
+- (SFSDKSoqlMutator*) replaceOrderBy:(NSString*) commaSeparatedFields {
+    self.clauses[kSFSDKSoqlMutatorOrderBy] = commaSeparatedFields;
+    return self;
+}
+
 - (BOOL) isOrderingBy:(NSString*) commaSeparatedFields {
     return self.clauses[kSFSDKSoqlMutatorOrderBy] && [self equalsIgnoringWhiteSpaces:self.clauses[kSFSDKSoqlMutatorOrderBy] s2:commaSeparatedFields];
 }

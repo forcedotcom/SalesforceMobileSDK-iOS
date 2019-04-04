@@ -34,10 +34,8 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 @implementation SFSDKSoqlMutatorTests
 
 - (void) testMutatorNoChange {
-    NSString* originalSoql = @"select Id, Name from Account where Id in (select Id from Account) and Name like 'Mad Max' limit 1000";
-    NSString* mutatedSoql = [[[SFSDKSoqlMutator withSoql:originalSoql] asBuilder] build];
-    NSString* expectedSoql = originalSoql;
-    XCTAssertEqualObjects(expectedSoql, mutatedSoql);
+    NSString* soql = @"select Id, Name from Account where Id in (select Id from Account) and Name like 'Mad Max' limit 1000";
+    XCTAssertEqualObjects(soql, [[[SFSDKSoqlMutator withSoql:soql] asBuilder] build]);
 }
 
 - (void) testSelectFieldPresenceWhenPresent {
@@ -80,12 +78,44 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     XCTAssertFalse([[SFSDKSoqlMutator withSoql:@"SELECT LastName FROM Account ORDER BY FirstName"] isOrderingBy:@"LastModifiedDate"]);
 }
 
-- (void) testReplaceSelectField {
-    NSString* originalSoql = @"SELECT Description FROM Account";
-    NSString* mutatedSoql = [[[[SFSDKSoqlMutator withSoql:originalSoql] replaceSelectFields:@"Id"] asBuilder] build];
-    NSString* expectedSoql = @"select Id from Account";
-    XCTAssertEqualObjects(expectedSoql, mutatedSoql);
+- (void) testAddSelectField {
+    NSString* soql = @"SELECT Description FROM Account";
+    XCTAssertEqualObjects(@"select Id,Name,Description from Account", [[[[[SFSDKSoqlMutator withSoql:soql] addSelectFields:@"Name"] addSelectFields:@"Id"] asBuilder] build]);
 }
 
+- (void) testReplaceSelectField {
+    NSString* soql = @"SELECT Description FROM Account";
+    XCTAssertEqualObjects(@"select Id from Account", [[[[SFSDKSoqlMutator withSoql:soql] replaceSelectFields:@"Id"] asBuilder] build]);
+}
+
+- (void) testAddWherePredicateWhenWhereClausePresent {
+    NSString* soql = @"SELECT Description FROM Account WHERE FirstName = 'James'";
+    XCTAssertEqualObjects(@"select Description from Account where LastModifiedDate > 123 and FirstName = 'James'", [[[[SFSDKSoqlMutator withSoql:soql] addWherePredicates:@"LastModifiedDate > 123"] asBuilder] build]);
+}
+
+- (void) testAddWherePredicateWhenWhereClauseAbsent {
+    NSString* soql = @"SELECT Description FROM Account";
+    XCTAssertEqualObjects(@"select Description from Account where LastModifiedDate > 123", [[[[SFSDKSoqlMutator withSoql:soql] addWherePredicates:@"LastModifiedDate > 123"] asBuilder] build]);
+}
+
+- (void) testReplaceOrderBy {
+    NSString* soql = @"SELECT Description FROM Account";
+    XCTAssertEqualObjects(@"select Description from Account order by LastModifiedDate", [[[[SFSDKSoqlMutator withSoql:soql] replaceOrderBy:@"LastModifiedDate"] asBuilder] build]);
+}
+
+- (void) testReplaceOrderByWhenLimit {
+    NSString* soql = @"SELECT Description FROM Account LIMIT 1000";
+    XCTAssertEqualObjects(@"select Description from Account order by LastModifiedDate limit 1000", [[[[SFSDKSoqlMutator withSoql:soql] replaceOrderBy:@"LastModifiedDate"] asBuilder] build]);
+}
+
+- (void) testDropOrderBy {
+    NSString* soql = @"SELECT Description FROM Account ORDER BY FirstName";
+    XCTAssertEqualObjects(@"select Description from Account", [[[[SFSDKSoqlMutator withSoql:soql] replaceOrderBy:@""] asBuilder] build]);
+}
+
+- (void) testDropOrderByWhenLimit {
+    NSString* soql = @"SELECT Description FROM Account ORDER BY FirstName LIMIT 1000";
+    XCTAssertEqualObjects(@"select Description from Account limit 1000", [[[[SFSDKSoqlMutator withSoql:soql] replaceOrderBy:@""] asBuilder] build]);
+}
 
 @end
