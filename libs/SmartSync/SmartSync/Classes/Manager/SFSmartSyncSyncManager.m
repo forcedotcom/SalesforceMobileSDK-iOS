@@ -168,6 +168,7 @@ static NSMutableDictionary *syncMgrList = nil;
         self.activeSyncs = [NSMutableDictionary new];
         self.store = store;
         self.queue = dispatch_queue_create(kSyncManagerQueue,  DISPATCH_QUEUE_SERIAL);
+        self.state = SFSyncManagerStateAcceptingSyncs;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
         [SFSyncState cleanupSyncsSoupIfNeeded:self.store];
@@ -176,6 +177,15 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 #pragma mark - stop / resume methods
+
+- (void) setState:(SFSyncManagerState)state {
+    if (_state != state) {
+        [SFSDKSmartSyncLogger d:[self class] format:@"state changing from %@ to %@",
+         [SFSmartSyncSyncManager stateToString:_state],
+         [SFSmartSyncSyncManager stateToString:state]];
+        _state = state;
+    }
+}
 
 - (void) stop {
     @synchronized(self) {
