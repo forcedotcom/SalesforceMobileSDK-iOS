@@ -62,10 +62,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Check if query is ordering by given fields
- * @param commaSeparatedFields Comma separeted fields to look for.
+ * @param commaSeparatedFields Comma separated fields to look for.
  * @return YES if it is the case.
  */
 - (BOOL) isOrderingBy:(NSString*) commaSeparatedFields;
+
+/**
+ * Check if query has order by clause
+ * @return YES if it is the case.
+ */
+- (BOOL) hasOrderBy;
 
 /**
  * Check if query is selecting by given field
@@ -73,12 +79,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @return YES if it is the case.
  */
 - (BOOL) isSelectingField:(NSString*) field;
-
-/**
- * Check if query has order by clause
- * @return YES if it is the case.
- */
-- (BOOL) hasOrderBy;
 
 /**
  * @return a SOQL builder with mutations applied
