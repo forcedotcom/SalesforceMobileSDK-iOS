@@ -227,6 +227,24 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 }
 
+- (BOOL) checkAcceptingSyncs {
+    if (self.state != SFSyncManagerStateAcceptingSyncs) {
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run - sync manager has state %@", [SFSmartSyncSyncManager stateToString:self.state]];
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (BOOL) checkNotRunning:(NSNumber*)syncId operation:(NSString*)operation{
+    if (self.activeSyncs[syncId]) {
+        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run %@ %@ - sync is still running", operation, syncId];
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 
 #pragma mark - has / get sync methods
 
@@ -267,6 +285,10 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Run a previously created sync
  */
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    if (![self checkAcceptingSyncs]) {
+        return;
+    }
+    
     SFSyncTask* task;
     switch (sync.type) {
         case SFSyncStateSyncTypeDown:
@@ -314,8 +336,7 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Resync
  */
 - (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    if (self.activeSyncs[syncId]) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:still running", syncId];
+    if (![self checkNotRunning:syncId operation:@"reSync"]) {
         return nil;
     }
     SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
@@ -393,10 +414,14 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
-    if (self.activeSyncs[syncId]) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run cleanResyncGhosts:%@:still running", syncId];
+    if (![self checkAcceptingSyncs]) {
         return;
     }
+    
+    if (![self checkNotRunning:syncId operation:@"cleanResyncGhosts"]) {
+        return;
+    }
+    
     SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
     if (sync == nil) {
         [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run cleanResyncGhosts:%@:no sync found", syncId];
@@ -420,6 +445,7 @@ static NSMutableDictionary *syncMgrList = nil;
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
      [[self class] removeSharedInstance:user];
 }
+
 
 #pragma mark - string to/from enum for state
 
