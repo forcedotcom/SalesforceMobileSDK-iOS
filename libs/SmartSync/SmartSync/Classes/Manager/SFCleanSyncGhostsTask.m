@@ -41,7 +41,8 @@
     return self;
 }
 
-- (void) updateSync:(SFSyncStateStatus)status progress:(NSInteger)progress totalSize:(NSInteger)totalSize maxTimeStamp:(long long) maxTimeStamp {
+
+- (void) updateSync:(SFSyncState*)sync countSynched:(NSUInteger)countSynched {
     // Not a true sync
     // Leaving sync state alone
 }

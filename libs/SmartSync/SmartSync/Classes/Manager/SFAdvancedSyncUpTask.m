@@ -39,19 +39,17 @@
                     recordIds:(NSArray*)recordIds
                         index:(NSUInteger)i
                         batch:(NSMutableArray*)batch {
+
+    SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
-    SFSyncStateMergeMode mergeMode = sync.mergeMode;
-    NSUInteger totalSize = recordIds.count;
-    NSUInteger progress = i*100 / totalSize;
+    sync.totalSize = recordIds.count;
+    [self updateSync:sync countSynched:i];
     
-    [self updateSync:SFSyncStateStatusRunning progress:progress totalSize:totalSize maxTimeStamp:kSyncManagerUnchanged];
-    
-    if (progress == 100) {
-        // Done
+    if (![sync isRunning]) {
         return;
     }
-    
+
     NSMutableDictionary* record = [[target getFromLocalStore:self.syncManager soupName:soupName storeId:recordIds[i]] mutableCopy];
     [SFSDKSmartSyncLogger d:[self class] format:@"syncUpMultipleEntries:%@", record];
     
@@ -110,7 +108,7 @@
     };
     
     SFSyncUpTargetErrorBlock failBlock = ^(NSError * err) {
-        [weakSelf failSync:@"syncUpRecords failed" error:err];
+        [weakSelf failSync:sync failureMessage:@"syncUpRecords failed" error:err];
     };
     
     [advancedTarget syncUpRecords:self.syncManager

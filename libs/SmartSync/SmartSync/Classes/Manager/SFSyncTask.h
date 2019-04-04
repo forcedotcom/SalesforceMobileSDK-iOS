@@ -36,13 +36,13 @@ extern NSInteger const kSyncManagerUnchanged;
 @interface SFSyncTask : NSObject
 
 @property (nonatomic, strong, readonly) SFSmartSyncSyncManager* syncManager;
+@property (nonatomic, strong, readonly) NSNumber* syncId;
+
 
 -(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock;
-
 -(void) run;
-
--(void) failSync:(NSString*) failureMessage error:(NSError*) error;
--(void) updateSync:(SFSyncStateStatus)status progress:(NSInteger)progress totalSize:(NSInteger)totalSize maxTimeStamp:(long long) maxTimeStamp;
+-(void) updateSync:(SFSyncState*)sync countSynched:(NSUInteger)countSynched;
+-(void) failSync:(SFSyncState*)sync failureMessage:(NSString*)failureMessage error:(NSError*) error;
 
 @end
 

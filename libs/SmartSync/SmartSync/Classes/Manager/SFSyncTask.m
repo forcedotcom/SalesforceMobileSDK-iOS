@@ -29,8 +29,8 @@ NSInteger const kSyncManagerUnchanged = -1;
 
 @interface SFSmartSyncSyncManager (SFSyncTask)
 
-- (void) addToActiveSyncs:(NSNumber*)syncId;
-- (void) removeFromActiveSyncs:(NSNumber*)syncId;
+- (void) addToActiveSyncs:(SFSyncTask*)syncTask;
+- (void) removeFromActiveSyncs:(SFSyncTask*)syncTask;
 
 @end
 
@@ -38,7 +38,8 @@ NSInteger const kSyncManagerUnchanged = -1;
 
 @property (nonatomic, strong) SFSmartSyncSyncManager* syncManager;
 @property (nonatomic, strong) SFSyncState* sync;
-@property (nonatomic, copy) SFSyncSyncManagerUpdateBlock updateBlock;
+@property (nonatomic, strong) NSNumber* syncId;
+@property (nonatomic, strong) SFSyncSyncManagerUpdateBlock updateBlock;
 
 @end
 
@@ -49,77 +50,92 @@ NSInteger const kSyncManagerUnchanged = -1;
     if (self) {
         self.syncManager = syncManager;
         self.sync = sync;
+        self.syncId = [NSNumber numberWithInteger:sync.syncId];
         self.updateBlock = updateBlock;
         
-        [self.syncManager addToActiveSyncs:[NSNumber numberWithInteger:sync.syncId]];
-        [self updateSync:SFSyncStateStatusRunning progress:0 totalSize:kSyncManagerUnchanged maxTimeStamp:kSyncManagerUnchanged];
+        [self.syncManager addToActiveSyncs:self];
+        [self updateSync:sync countSynched:0];
         // XXX not actually running on worker thread until run() gets invoked
         //     may be we should introduce another state?
     }
     return self;
 }
 
--(void) checkIfStopRequested {
+- (BOOL) shouldStop {
+    return [self.syncManager isStopped] || [self.syncManager isStopping];
+}
+
+- (void) run {
+    if (![self shouldStop]) {
+        [self runSync:self.sync];
+    }
+}
     
-}
+- (void) runSync:(SFSyncState*)sync    ABSTRACT_METHOD
 
-- (void)run {
-    [self checkIfStopRequested];
-    [self runSync:self.sync];
-}
-
-- (void) runSync:(SFSyncState*)sync ABSTRACT_METHOD
-
--(void) failSync:(NSString*) failureMessage error:(NSError*) error {
-    //Set error message to sync state
-    [self.sync setError: [error.userInfo description]];
+-(void) failSync:(SFSyncState*)sync failureMessage:(NSString*)failureMessage error:(NSError*) error {
     [SFSDKSmartSyncLogger e:[self class] format:@"runSync failed:%@ cause:%@ error%@", sync, failureMessage, error];
-    [self updateSync:SFSyncStateStatusFailed progress:kSyncManagerUnchanged totalSize:kSyncManagerUnchanged maxTimeStamp:kSyncManagerUnchanged];
+    sync.error = [error.userInfo description];
+    sync.status = SFSyncStateStatusFailed;
+    [self updateSync:sync countSynched:kSyncManagerUnchanged];
 }
 
-- (void) updateSync:(SFSyncStateStatus)status progress:(NSInteger)progress totalSize:(NSInteger)totalSize maxTimeStamp:(long long) maxTimeStamp {
-    //if (status == nil) status = (progress == 100 ? SFSyncStateStatusDone : SFSyncStateStatusRunning);
-    self.sync.status = status;
-    if (progress>=0)  self.sync.progress = progress;
-    if (totalSize>=0) self.sync.totalSize = totalSize;
-    if (maxTimeStamp>=0) self.sync.maxTimeStamp = (self.sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : self.sync.maxTimeStamp);
-    [self.sync save:self.syncManager.store];
-    [SFSDKSmartSyncLogger d:[self class] format:@"Sync update:%@", self.sync];
+- (void) updateSync:(SFSyncState*)sync countSynched:(NSUInteger)countSynched {
     
+    // Update progress
+    if (countSynched != kSyncManagerUnchanged) {
+        if (sync.totalSize > 0) {
+            sync.progress = countSynched*100/sync.totalSize;
+        } else if (sync.totalSize == 0) {
+            sync.progress = 100;
+        }
+    }
+    
+    // Update status
+    if (sync.status == SFSyncStateStatusRunning) {
+        if (sync.progress == 100) {
+            sync.status = SFSyncStateStatusDone;
+        } else if ([self shouldStop]) {
+            sync.status = SFSyncStateStatusStopped;
+        }
+    }
+
+    // Save sync state
+    [sync save:self.syncManager.store];
+    [SFSDKSmartSyncLogger d:[self class] format:@"updateSync: syncId:%ld status:%@ progress:%ld totalSize:%ld", (long)sync.syncId, [SFSyncState syncStatusToString:sync.status], (long)sync.progress, (long)sync.totalSize];
+    
+    // Create event and remove from active sync list if stopped/done/failed
     switch (self.sync.status) {
         case SFSyncStateStatusNew:
-            break; // should not happen
         case SFSyncStateStatusRunning:
             break;
         case SFSyncStateStatusStopped:
         case SFSyncStateStatusDone:
         case SFSyncStateStatusFailed:
-            [self createAmdStoreEvent:self.sync];
-            [self.syncManager removeFromActiveSyncs:[NSNumber numberWithInteger:self.sync.syncId]];
+            [self createAndStoreEvent:sync];
+            [self.syncManager removeFromActiveSyncs:self];
             break;
     }
+    
+    // Call updateBlock if any
     if (self.updateBlock) {
-        self.updateBlock(self.sync);
+        self.updateBlock(sync);
     }
 }
 
-- (void)createAmdStoreEvent:(SFSyncState*)sync {
-    NSString *eventName = nil;
-    switch (sync.type) {
-        case SFSyncStateSyncTypeDown:
-            eventName = @"syncDown";
-            break;
-        case SFSyncStateSyncTypeUp:
-            eventName = @"syncUp";
-            break;
+- (void)createAndStoreEvent:(SFSyncState*)sync {
+    NSMutableDictionary *attributes = [NSMutableDictionary new];
+    if (sync.totalSize > 0) {
+        attributes[@"numRecords"] = [NSNumber numberWithInteger:sync.totalSize];
     }
-    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-    attributes[@"numRecords"] = [NSNumber numberWithInteger:sync.totalSize];
     attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
     attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
     attributes[kSFSDKEventBuilderHelperStartTime] = [NSNumber numberWithInteger:sync.startTime];
     attributes[kSFSDKEventBuilderHelperEndTime] = [NSNumber numberWithInteger:sync.endTime];
-    [SFSDKEventBuilderHelper createAndStoreEvent:eventName userAccount:nil className:NSStringFromClass([self.syncManager class]) attributes:attributes];
+    [SFSDKEventBuilderHelper createAndStoreEvent:[SFSyncState syncTypeToString:sync.type]
+                                     userAccount:nil
+                                       className:NSStringFromClass([self.syncManager class])
+                                      attributes:attributes];
 }
 
 

@@ -32,22 +32,12 @@
 }
 
 - (void) runSync:(SFSyncState*)sync {
-    NSString* soupName = sync.soupName;
     SFSyncUpTarget* target = (SFSyncUpTarget*) sync.target;
-    
-    // Call smartstore
-    NSArray* dirtyRecordIds = [target getIdsOfRecordsToSyncUp:self.syncManager soupName:soupName];
-    NSUInteger totalSize = dirtyRecordIds.count;
-    if (totalSize == 0) {
-        [self updateSync:SFSyncStateStatusDone progress:100 totalSize:0 maxTimeStamp:kSyncManagerUnchanged];
-        return;
-    }
-    
-    // Otherwise, there's work to do.
-    [self runSync:sync recordIds:dirtyRecordIds];
+    NSArray* dirtyRecordIds = [target getIdsOfRecordsToSyncUp:self.syncManager soupName:sync.soupName];
+    [self syncUp:sync recordIds:dirtyRecordIds];
 }
 
-- (void)runSync:(SFSyncState*)sync recordIds:(NSArray*)recordIds {
+- (void)syncUp:(SFSyncState*)sync recordIds:(NSArray*)recordIds {
     [self syncUpOneEntry:sync recordIds:recordIds index:0];
 }
 
@@ -58,15 +48,13 @@
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
-    NSUInteger totalSize = recordIds.count;
-    NSUInteger progress = i*100 / totalSize;
-    [self updateSync:SFSyncStateStatusRunning progress:progress totalSize:totalSize maxTimeStamp:kSyncManagerUnchanged];
+    sync.totalSize = recordIds.count;
+    [self updateSync:sync countSynched:i];
     
-    if (progress == 100) {
-        // Done
+    if (![sync isRunning]) {
         return;
     }
-    
+
     NSMutableDictionary* record = [[target getFromLocalStore:self.syncManager soupName:soupName storeId:recordIds[i]] mutableCopy];
     [SFSDKSmartSyncLogger d:[self class] format:@"syncUpOneRecord:%@", record];
     
@@ -165,7 +153,7 @@
     SFSyncUpTargetErrorBlock failBlockCreate = ^ (NSError* err){
         __strong typeof (weakSelf) strongSelf = weakSelf;
         if ([SFRestRequest isNetworkError:err]) {
-            [strongSelf failSync:@"Create server call failed" error:err];
+            [strongSelf failSync:sync failureMessage:@"Create server call failed" error:err];
         }
         else {
             [target saveRecordToLocalStoreWithLastError:weakSelf.syncManager soupName:soupName record:record];
@@ -189,7 +177,7 @@
             }
         }
         else if ([SFRestRequest isNetworkError:err]) {
-            [strongSelf failSync:@"Update server call failed" error:err];
+            [strongSelf failSync:sync failureMessage:@"Update server call failed" error:err];
         }
         else {
             [target saveRecordToLocalStoreWithLastError:strongSelf.syncManager soupName:soupName record:record];
@@ -207,7 +195,7 @@
             completeBlockDelete(nil);
         }
         else if ([SFRestRequest isNetworkError:err]) {
-            [strongSelf failSync:@"Delete server call failed" error:err];
+            [strongSelf failSync:sync failureMessage:@"Delete server call failed" error:err];
         }
         else {
             [target saveRecordToLocalStoreWithLastError:strongSelf.syncManager soupName:soupName record:record];

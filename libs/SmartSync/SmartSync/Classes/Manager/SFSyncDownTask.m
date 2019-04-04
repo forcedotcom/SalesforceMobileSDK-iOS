@@ -35,62 +35,67 @@
     NSString* soupName = sync.soupName;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncDownTarget* target = (SFSyncDownTarget*) sync.target;
-    long long maxTimeStamp = sync.maxTimeStamp;
     NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
     
     __block NSUInteger countFetched = 0;
-    __block NSUInteger totalSize = 0;
-    __block NSUInteger progress = 0;
+    __block long long newMaxTimeStamp = sync.maxTimeStamp;
+    __block NSOrderedSet* idsToSkip = nil;
     __block SFSyncDownTargetFetchCompleteBlock continueFetchBlockRecurse = ^(NSArray *records) {};
     
-    __block NSOrderedSet* idsToSkip = nil;
     if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
         idsToSkip = [target getIdsToSkip:self.syncManager soupName:soupName];
     }
     
     SFSyncDownTargetFetchErrorBlock failBlock = ^(NSError *error) {
-        [self failSync:@"Server call for sync down failed" error:error];
+        [weakSelf failSync:sync failureMessage:@"Server call for sync down failed" error:error];
         continueFetchBlockRecurse = nil;
     };
     
     SFSyncDownTargetFetchCompleteBlock startFetchBlock = ^(NSArray* records) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
-        totalSize = target.totalSize;
-        if (totalSize != 0) {
-            [strongSelf updateSync:SFSyncStateStatusRunning progress:0 totalSize:totalSize maxTimeStamp:kSyncManagerUnchanged];
+        sync.totalSize = target.totalSize;
+        [strongSelf updateSync:sync countSynched:0];
+        if ([sync isRunning]) {
             continueFetchBlockRecurse(records);
-        }
-        else {
-            [strongSelf updateSync:SFSyncStateStatusDone progress:100 totalSize:0 maxTimeStamp:kSyncManagerUnchanged];
+        } else {
             continueFetchBlockRecurse = nil;
         }
     };
     
     SFSyncDownTargetFetchCompleteBlock continueFetchBlock = ^(NSArray* records) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
+        
         if (records != nil) {
             // Figure out records to save
             NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [strongSelf  removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
             
             // Save to smartstore.
             [target cleanAndSaveRecordsToLocalStore:self.syncManager soupName:soupName records:recordsToSave syncId:syncId];
-            countFetched += [records count];
-            progress = 100*countFetched / totalSize;
+            long long maxTimeStampRecords = [target getLatestModificationTimeStamp:records];
+            newMaxTimeStamp = maxTimeStampRecords > newMaxTimeStamp ? maxTimeStampRecords : newMaxTimeStamp;
             
-            long long maxTimeStampForFetched = [target getLatestModificationTimeStamp:records];
+            // Updating maxTimeStamp as we go if records are ordered by latest modification
+            if ([target isSyncDownSortedByLatestModification]) {
+                sync.maxTimeStamp = newMaxTimeStamp;
+            }
             
             // Update sync status.
-            [strongSelf updateSync:SFSyncStateStatusRunning progress:progress totalSize:totalSize maxTimeStamp:maxTimeStampForFetched];
+            countFetched += records.count;
+            [strongSelf updateSync:sync countSynched:countFetched];
             
-            // Fetch next records, if any.
-            [target continueFetch:self.syncManager errorBlock:failBlock completeBlock:continueFetchBlockRecurse];
+            if ([sync isRunning]) {
+                [target continueFetch:self.syncManager errorBlock:failBlock completeBlock:continueFetchBlockRecurse];
+            } else {
+                continueFetchBlockRecurse = nil;
+            }
         }
         else {
-            // In some cases (e.g. resync for refresh sync down), the totalSize is just an (over)estimation
-            // As a result progress might not get to 100 and therefore a DONE would never be sent
-            if (progress < 100) {
-                [strongSelf updateSync:SFSyncStateStatusDone progress:100 totalSize:kSyncManagerUnchanged maxTimeStamp:kSyncManagerUnchanged];
+            // Updating maxTimeStamp once at the end if records are NOT ordered by latest modification
+            if (![target isSyncDownSortedByLatestModification]) {
+                sync.maxTimeStamp = newMaxTimeStamp;
             }
+            
+            [strongSelf updateSync:sync countSynched:sync.totalSize];
             continueFetchBlockRecurse = nil;
         }
     };
@@ -99,7 +104,7 @@
     continueFetchBlockRecurse = continueFetchBlock;
     
     // Start fetch
-    [target startFetch:self.syncManager maxTimeStamp:maxTimeStamp errorBlock:failBlock completeBlock:startFetchBlock];
+    [target startFetch:self.syncManager maxTimeStamp:sync.maxTimeStamp errorBlock:failBlock completeBlock:startFetchBlock];
 }
 
 - (NSArray*) removeWithIds:(NSArray*)records idsToSkip:(NSOrderedSet*)idsToSkip idField:(NSString*)idField {

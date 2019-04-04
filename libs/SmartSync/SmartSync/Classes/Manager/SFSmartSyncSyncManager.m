@@ -55,7 +55,7 @@ NSString * const kSFSyncManagerStateStopped = @"stopped";
 
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
-@property (nonatomic, strong) NSMutableSet *runningSyncIds;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, SFSyncTask*>*activeSyncs;
 @property (nonatomic) SFSyncManagerState state;
 
 @end
@@ -165,7 +165,7 @@ static NSMutableDictionary *syncMgrList = nil;
 - (instancetype)initWithStore:(SFSmartStore *)store {
     self = [super init];
     if (self) {
-        self.runningSyncIds = [NSMutableSet new];
+        self.activeSyncs = [NSMutableDictionary new];
         self.store = store;
         self.queue = dispatch_queue_create(kSyncManagerQueue,  DISPATCH_QUEUE_SERIAL);
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
@@ -179,7 +179,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
 - (void) stop {
     @synchronized(self) {
-        if (self.runningSyncIds.count == 0) {
+        if (self.activeSyncs.count == 0) {
             self.state = SFSyncManagerStateStopped;
         } else {
             self.state = SFSyncManagerStateStopRequested;
@@ -212,16 +212,16 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 }
 
-- (void) addToActiveSyncs:(NSNumber*)syncId {
+- (void) addToActiveSyncs:(SFSyncTask*)syncTask {
     @synchronized(self) {
-        [self.runningSyncIds addObject:syncId];
+        self.activeSyncs[syncTask.syncId] = syncTask;
     }
 }
 
-- (void) removeFromActiveSyncs:(NSNumber*)syncId {
+- (void) removeFromActiveSyncs:(SFSyncTask*)syncTask {
     @synchronized(self) {
-        [self.runningSyncIds removeObject:syncId];
-        if (self.state == SFSyncManagerStateStopRequested && self.runningSyncIds.count == 0) {
+        [self.activeSyncs removeObjectForKey:syncTask.syncId];
+        if (self.state == SFSyncManagerStateStopRequested && self.activeSyncs.count == 0) {
             self.state = SFSyncStateStatusStopped;
         }
     }
@@ -314,7 +314,7 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Resync
  */
 - (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    if ([self.runningSyncIds containsObject:syncId]) {
+    if (self.activeSyncs[syncId]) {
         [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run reSync:%@:still running", syncId];
         return nil;
     }
@@ -387,7 +387,7 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
-    if ([self.runningSyncIds containsObject:syncId]) {
+    if (self.activeSyncs[syncId]) {
         [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run cleanResyncGhosts:%@:still running", syncId];
         return;
     }
