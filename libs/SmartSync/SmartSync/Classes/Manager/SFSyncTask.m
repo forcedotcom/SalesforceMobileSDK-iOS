@@ -54,6 +54,7 @@ NSInteger const kSyncManagerUnchanged = -1;
         self.updateBlock = updateBlock;
         
         [self.syncManager addToActiveSyncs:self];
+        sync.status = SFSyncStateStatusRunning;
         [self updateSync:sync countSynched:0];
         // XXX not actually running on worker thread until run() gets invoked
         //     may be we should introduce another state?
@@ -84,11 +85,7 @@ NSInteger const kSyncManagerUnchanged = -1;
     
     // Update progress
     if (countSynched != kSyncManagerUnchanged) {
-        if (sync.totalSize > 0) {
-            sync.progress = countSynched*100/sync.totalSize;
-        } else if (sync.totalSize == 0) {
-            sync.progress = 100;
-        }
+        sync.progress = sync.totalSize == 0 ? 100 : countSynched*100/sync.totalSize;
     }
     
     // Update status

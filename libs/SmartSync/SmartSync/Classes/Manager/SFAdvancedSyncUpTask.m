@@ -31,7 +31,7 @@
     return [super init:syncManager sync:sync updateBlock:updateBlock];
 }
 
-- (void)runSync:(SFSyncState*)sync recordIds:(NSArray*)recordIds {
+- (void)syncUp:(SFSyncState*)sync recordIds:(NSArray*)recordIds {
     [self syncUpMultipleEntries:sync recordIds:recordIds index:0 batch:[NSMutableArray new]];
 }
 

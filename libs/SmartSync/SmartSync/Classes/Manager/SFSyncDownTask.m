@@ -72,15 +72,15 @@
             // Save to smartstore.
             [target cleanAndSaveRecordsToLocalStore:self.syncManager soupName:soupName records:recordsToSave syncId:syncId];
             long long maxTimeStampRecords = [target getLatestModificationTimeStamp:records];
-            newMaxTimeStamp = maxTimeStampRecords > newMaxTimeStamp ? maxTimeStampRecords : newMaxTimeStamp;
+            if (maxTimeStampRecords >= 0) newMaxTimeStamp = maxTimeStampRecords > newMaxTimeStamp ? maxTimeStampRecords : newMaxTimeStamp;
+            countFetched += records.count;
             
-            // Updating maxTimeStamp as we go if records are ordered by latest modification
-            if ([target isSyncDownSortedByLatestModification]) {
+            // Updating maxTimeStamp if records are ordered by latest modification or if we have seen them all
+            if ([target isSyncDownSortedByLatestModification] || countFetched == sync.totalSize) {
                 sync.maxTimeStamp = newMaxTimeStamp;
             }
             
-            // Update sync status.
-            countFetched += records.count;
+            // Update sync status
             [strongSelf updateSync:sync countSynched:countFetched];
             
             if ([sync isRunning]) {
@@ -90,11 +90,9 @@
             }
         }
         else {
-            // Updating maxTimeStamp once at the end if records are NOT ordered by latest modification
-            if (![target isSyncDownSortedByLatestModification]) {
-                sync.maxTimeStamp = newMaxTimeStamp;
-            }
-            
+            // In some cases (e.g. resync for refresh sync down), the totalSize is just an (over)estimation
+            // As a result countFetched might never match totalSize
+            sync.maxTimeStamp = newMaxTimeStamp;
             [strongSelf updateSync:sync countSynched:sync.totalSize];
             continueFetchBlockRecurse = nil;
         }

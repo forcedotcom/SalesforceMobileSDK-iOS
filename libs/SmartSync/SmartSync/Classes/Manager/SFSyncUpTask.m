@@ -28,7 +28,8 @@
 @implementation SFSyncUpTask
 
 -(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    return [super init:syncManager sync:sync updateBlock:updateBlock];
+    self = [super init:syncManager sync:sync updateBlock:updateBlock];
+    return self;
 }
 
 - (void) runSync:(SFSyncState*)sync {
