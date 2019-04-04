@@ -324,6 +324,12 @@ static NSMutableDictionary *syncMgrList = nil;
          return nil;
     }
     sync.totalSize = -1;
+    
+    if ([sync isStopped]) {
+        // Sync was interrupted, refetch records including those with maxTimeStamp
+        sync.maxTimeStamp = sync.maxTimeStamp == -1 ? -1 : sync.maxTimeStamp - 1;
+    }
+    
     [sync save:self.store];
     [SFSDKSmartSyncLogger d:[self class] format:@"reSync:%@", sync];
     [self runSync:sync updateBlock:updateBlock];
