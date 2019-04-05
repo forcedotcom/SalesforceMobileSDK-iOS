@@ -77,7 +77,7 @@ static NSString * const kSecureEncryptionKeyCodingValue = @"com.salesforce.encry
         // Does not exist and should be auto created
         BOOL useEnclave = [SFSDKCryptoUtils isSecureEnclaveAvailable];
         [SFSDKCryptoUtils createECKeyPairWithName:label
-                              accessibleAttribute:kSecAttrAccessibleAlways
+                              accessibleAttribute:kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
                                  useSecureEnclave:useEnclave];
         
         // Creation successful
