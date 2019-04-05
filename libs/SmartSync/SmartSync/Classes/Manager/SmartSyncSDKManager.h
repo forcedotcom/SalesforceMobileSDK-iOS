@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  @return The singleton instance of the SDK Manager.
  */
-@property(class,nonatomic)SmartSyncSDKManager *sharedManager NS_SWIFT_NAME(shared);
+@property(class,nonatomic,retain)SmartSyncSDKManager *sharedManager NS_SWIFT_NAME(shared);
 
 @end
 

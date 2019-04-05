@@ -128,7 +128,7 @@ NS_SWIFT_NAME(SalesforceManager)
  *
  * @return App name.
  */
-@property (class,nonatomic)NSString *ailtnAppName NS_SWIFT_NAME(analyticsAppName);
+@property (class,nonatomic,retain)NSString *ailtnAppName NS_SWIFT_NAME(analyticsAppName);
 
 
 /**
