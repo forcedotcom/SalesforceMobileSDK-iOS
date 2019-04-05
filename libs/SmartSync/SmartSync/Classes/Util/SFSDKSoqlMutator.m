@@ -96,11 +96,11 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
             depth--;
         }
         
-        if ([token hasPrefix:@"'"]) {
-            inQuotes = YES;
-        } else if ([token hasSuffix:@"'"] && ![token hasSuffix:@"\'"]) {
-            inQuotes = NO;
-        }
+//        if ([token hasPrefix:@"'"]) {
+//            inQuotes = YES;
+//        } else if ([token hasSuffix:@"'"] && ![token hasSuffix:@"\'"]) {
+//            inQuotes = NO;
+//        }
         
         // Only looking to parse top level query
         else if (depth == 0 && !inQuotes) {
