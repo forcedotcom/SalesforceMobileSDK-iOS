@@ -913,7 +913,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
                              encKey:(SFEncryptionKey*)encKey
                            useNilIV:(BOOL)useNilIV
 {
-    NSMutableString* content = [NSMutableString new];
+    NSMutableData* content = [NSMutableData new];
     NSInputStream *inputStream = nil;
     if (encKey) {
         SFDecryptStream *decryptStream = [[SFDecryptStream alloc] initWithFileAtPath:filePath];
@@ -926,17 +926,20 @@ NSString *const EXPLAIN_ROWS = @"rows";
         inputStream = [[NSInputStream alloc] initWithFileAtPath:filePath];
     }
     
+    
+    //
+    // We get all the bytes and then convert them to a string
+    // If you convert each buffer's worth of bytes to a string
+    // you might end up corrupting the string (because a multi bytes character could have been split at the buffer boundary)
+    //
     uint8_t buffer[4096];
     NSInteger len;
     [inputStream open];
     while ((len = [inputStream read:buffer maxLength:sizeof(buffer)]) > 0) {
-        NSString* bufferAsString = [[NSString alloc] initWithBytes:buffer length:len encoding:NSUTF8StringEncoding];
-        if (bufferAsString) {
-            [content appendString:bufferAsString];
-        }
+        [content appendBytes:buffer length:len];
     }
     [inputStream close];
-    return content;
+    return [[NSString alloc] initWithData:content encoding:NSUTF8StringEncoding];
 }
 
 - (void) writeToEncryptedFile:(NSString*)filePath
