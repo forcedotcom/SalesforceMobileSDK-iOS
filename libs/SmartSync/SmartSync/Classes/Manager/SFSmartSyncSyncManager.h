@@ -144,7 +144,7 @@ NS_SWIFT_NAME(SyncManager)
  * @param restartStoppedSyncs Pass YES to restart all stopped sync.
  * @param updateBlock The block to be called with updates.
  */
-- (void) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (void) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(resume(restartStoppedSyncs:onUpdate:));;
 
 /**
  * Check if sync manager is running
