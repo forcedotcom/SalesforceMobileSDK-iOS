@@ -151,7 +151,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
                 [cleanResyncGhosts fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
@@ -198,7 +198,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [firstCleanExpectation fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[2], accountIds[3], accountIds[4], accountIds[5]] idField:@"Id"];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
@@ -209,7 +209,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [secondCleanExpectation fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[3], accountIds[4]] idField:@"Id"];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0], accountIds[2], accountIds[5]] idField:@"Id"];
@@ -245,7 +245,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [cleanResyncGhosts fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
@@ -289,7 +289,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [cleanResyncGhosts fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
@@ -572,7 +572,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [cleanResyncGhosts fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
 
     
@@ -813,7 +813,7 @@
     SlowSoqlSyncDownTarget* target = [SlowSoqlSyncDownTarget newSyncTarget:soql];
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP name:nil store:self.store];
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
 
     // Run sync -- will freeze during fetch
     SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
@@ -823,7 +823,7 @@
     [queue getNextSyncUpdate];
 
     // Calling reSync -- expect nil
-    XCTAssertNil([self.syncManager reSync:syncId updateBlock:nil]);
+    XCTAssertNil([self.syncManager reSync:syncId updateBlock:nil error:nil]);
     
     // Wait for sync to complete successfully
     while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
@@ -841,7 +841,7 @@
 -(void) testCreateGetDeleteSyncDownById {
     // Create
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSoqlSyncDownTarget newSyncTarget:@"SELECT Id, Name from Account"] soupName:ACCOUNTS_SOUP name:nil store:self.store];
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
     // Get by id
     SFSyncState* fetchedSync = [SFSyncState byId:syncId store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:nil expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
@@ -857,7 +857,7 @@
     NSString* syncName = @"MyNamedSyncDown";
     // Create
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSoqlSyncDownTarget newSyncTarget:@"SELECT Id, Name from Account"] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
     // Get by name
     SFSyncState* fetchedSync = [SFSyncState byName:syncName store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:syncName expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
@@ -873,7 +873,7 @@
 -(void) testCreateGetDeleteSyncUpById {
     // Create
     SFSyncState* sync = [SFSyncState newSyncUpWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSyncUpTarget new] soupName:ACCOUNTS_SOUP name:nil store:self.store];
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
     // Get by id
     SFSyncState* fetchedSync = [SFSyncState byId:syncId store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:nil expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
@@ -889,7 +889,7 @@
     NSString* syncName = @"MyNamedSyncUp";
     // Create
     SFSyncState* sync = [SFSyncState newSyncUpWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSyncUpTarget new] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
     // Get by name
     SFSyncState* fetchedSync = [SFSyncState byName:syncName store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:syncName expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];

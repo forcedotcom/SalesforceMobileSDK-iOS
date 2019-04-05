@@ -639,7 +639,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [cleanResyncGhosts fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
 
     // Accounts and contacts expected to still be in db
@@ -703,7 +703,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [firstCleanExpectation fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[2], accountIds[3], accountIds[4], accountIds[5]] idField:@"Id"];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
@@ -721,7 +721,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [secondCleanExpectation fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[3], accountIds[4]] idField:@"Id"];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0], accountIds[2], accountIds[5]] idField:@"Id"];

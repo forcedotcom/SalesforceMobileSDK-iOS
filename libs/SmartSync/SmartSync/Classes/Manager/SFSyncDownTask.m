@@ -35,7 +35,7 @@
     NSString* soupName = sync.soupName;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncDownTarget* target = (SFSyncDownTarget*) sync.target;
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
     
     __block NSUInteger countFetched = 0;
     __block long long newMaxTimeStamp = sync.maxTimeStamp;

@@ -50,7 +50,7 @@ NSInteger const kSyncManagerUnchanged = -1;
     if (self) {
         self.syncManager = syncManager;
         self.sync = sync;
-        self.syncId = [NSNumber numberWithInteger:sync.syncId];
+        self.syncId = @(sync.syncId);
         self.updateBlock = updateBlock;
         
         [self.syncManager addToActiveSyncs:self];
@@ -125,7 +125,7 @@ NSInteger const kSyncManagerUnchanged = -1;
     if (sync.totalSize > 0) {
         attributes[@"numRecords"] = [NSNumber numberWithInteger:sync.totalSize];
     }
-    attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+    attributes[@"syncId"] = @(sync.syncId);
     attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
     attributes[kSFSDKEventBuilderHelperStartTime] = [NSNumber numberWithInteger:sync.startTime];
     attributes[kSFSDKEventBuilderHelperEndTime] = [NSNumber numberWithInteger:sync.endTime];

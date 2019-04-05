@@ -47,6 +47,15 @@ extern NSString * const kSFSyncManagerStateAcceptingSyncs;
 extern NSString * const kSFSyncManagerStateStopRequested;
 extern NSString * const kSFSyncManagerStateStopped;
 
+// Errors
+extern NSString* const kSFSmartSyncErrorDomain;
+extern NSString* const kSFSyncManagerStoppedError;
+extern NSString* const kSFSyncAlreadyRunningError;
+extern NSString* const kSFSyncNotExistError;
+
+extern NSInteger const kSFSyncManagerStoppedErrorCode;
+extern NSInteger const kSFSyncAlreadyRunningErrorCode;
+extern NSInteger const kSFSyncNotExistErrorCode;
 
 /**
  * This class provides methods for doing synching records to/from the server from/to the smartstore.
@@ -233,14 +242,31 @@ NS_SWIFT_NAME(SyncManager)
  * @param syncId Sync ID.
  * @param updateBlock The block to be called with updates.
  */
-- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(reSync(id:onUpdate:));
+- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use reSync:updateBlock:error instead");
+
+/**
+ * Performs a resync.
+ * @param syncId Sync ID.
+ * @param updateBlock The block to be called with updates.
+ * @param error Sets error if sync could not be started.
+ */
+- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**) error NS_SWIFT_NAME(reSync(id:onUpdate:));
 
 /**
  * Performs a resync by name.
  * @param syncName Sync name.
  * @param updateBlock The block to be called with updates.
  */
-- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(reSync(named:onUpdate:));
+- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use reSyncByName:updateBlock:error instead");
+
+/**
+ * Performs a resync by name.
+ * @param syncName Sync name.
+ * @param updateBlock The block to be called with updates.
+ * @param error Sets error if sync could not be started.
+ */
+- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error NS_SWIFT_NAME(reSync(named:onUpdate:));
+
 
 /**
  * Create a sync up without running it.
@@ -299,7 +325,19 @@ NS_SWIFT_NAME(SyncManager)
  * @param syncId Sync ID.
  * @param completionStatusBlock Completion status block.
  */
-- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock NS_SWIFT_NAME(cleanResyncGhosts(forId:onComplete:));
+- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock
+    SFSDK_DEPRECATED(7.1, 8.0, "Use cleanResyncGhosts:completionStatusBlock:error instead");;
+
+/**
+ * Removes local copies of records that have been deleted on the server
+ * or do not match the query results on the server anymore.
+ *
+ * @param syncId Sync ID.
+ * @param completionStatusBlock Completion status block.
+ * @param error Sets error if clean operation could not be started.
+ */
+- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock error:(NSError**)error NS_SWIFT_NAME(cleanResyncGhosts(forId:onComplete:));
+
 
 @end
 

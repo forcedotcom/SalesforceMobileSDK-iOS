@@ -51,7 +51,7 @@
     __weak typeof (self) weakSelf = self;
     SFSyncDownTarget* target = (SFSyncDownTarget*) sync.target;
     NSString* soupName = sync.soupName;
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
     [target cleanGhosts:self.syncManager
                soupName:soupName
                  syncId:syncId
@@ -70,7 +70,7 @@
 
 - (void)createAndStoreEvent:(SFSyncState*)sync numRecords:(NSInteger)numRecords {
     NSMutableDictionary *eventAttrs = [[NSMutableDictionary alloc] init];
-    eventAttrs[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+    eventAttrs[@"syncId"] = @(sync.syncId);
     eventAttrs[@"syncTarget"] = NSStringFromClass([sync.target class]);
     if (numRecords >= 0) eventAttrs[@"numRecords"] = [NSNumber numberWithInteger:numRecords];
 
