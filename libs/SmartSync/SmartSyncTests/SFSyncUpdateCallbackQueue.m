@@ -72,6 +72,15 @@
     } error:error];
 }
 
+- (SFSyncState*)runReSyncByName:(NSString*)syncName syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error
+{
+    return [syncManager reSyncByName:syncName updateBlock:^(SFSyncState *sync) {
+        @synchronized(self.queue) {
+            [self.queue addObject:[sync copy]];
+        }
+    } error:error];
+}
+
 - (BOOL) resume:(SFSmartSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error {
     return [syncManager resume:restartStoppedSyncs updateBlock:^(SFSyncState *sync) {
         @synchronized(self.queue) {

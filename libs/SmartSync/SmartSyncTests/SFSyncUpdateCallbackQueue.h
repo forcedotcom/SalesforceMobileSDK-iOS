@@ -38,6 +38,7 @@
  */
 - (SFSyncState*)runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager;
 - (SFSyncState*)runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error;
+- (SFSyncState*)runReSyncByName:(NSString*)syncName syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error;
 
 /**
  Resume sync manager

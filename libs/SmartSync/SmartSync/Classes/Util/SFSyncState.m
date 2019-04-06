@@ -135,10 +135,11 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
             kSFSyncStateSoupName: soupName,
             kSFSyncStateOptions: [options asDict],
             kSFSyncStateStatus: kSFSyncStateStatusNew,
-            kSFSyncStateProgress: [NSNumber numberWithInteger:0],
-            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
-            kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
-            kSFSyncStateEndTime: [NSNumber numberWithInteger:0],
+            kSFSyncStateMaxTimeStamp: @(-1),
+            kSFSyncStateProgress: @(0),
+            kSFSyncStateTotalSize: @(-1),
+            kSFSyncStateStartTime: @(0),
+            kSFSyncStateEndTime: @(0),
             kSFSyncStateError: @""
     }];
     if (name) dict[kSFSyncStateName] = name;
@@ -165,10 +166,10 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
             kSFSyncStateSoupName: soupName,
             kSFSyncStateOptions: [options asDict],
             kSFSyncStateStatus: kSFSyncStateStatusNew,
-            kSFSyncStateProgress: [NSNumber numberWithInteger:0],
-            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
-            kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
-            kSFSyncStateEndTime: [NSNumber numberWithInteger:0],
+            kSFSyncStateProgress: @(0),
+            kSFSyncStateTotalSize: @(-1),
+            kSFSyncStateStartTime: @(0),
+            kSFSyncStateEndTime: @(0),
             kSFSyncStateError: @""
     }];
     if (name) dict[kSFSyncStateName] = name;

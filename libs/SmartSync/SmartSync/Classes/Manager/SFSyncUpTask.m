@@ -53,7 +53,7 @@
     [self updateSync:sync countSynched:i];
     
     
-    if ([self shouldStop]) {
+    if ([sync isDone] || [self shouldStop]) {
         return;
     }
 
