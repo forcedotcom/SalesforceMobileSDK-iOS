@@ -15,7 +15,7 @@ aliases:
     command:  |
       npm install shelljs@0.7.0
       ./install.sh
-      ./build/pre-build
+      echo $TEST_CREDENTIALS > shared/test/test_credentials.json
       chruby ${CHRUBY_VER}
       cd .circleci
       bundle check || sudo bundle install
