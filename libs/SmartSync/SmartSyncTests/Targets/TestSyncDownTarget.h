@@ -31,7 +31,7 @@
 - (instancetype) initWithPrefix:(NSString*)prefix
                 numberOfRecords:(NSUInteger)numberOfRecords
          numberOfRecordsPerPage:(NSUInteger)numberOfRecordsPerPage
-                  sleepPerFetch:(NSUInteger)sleepPerFetch;
+                  sleepPerFetch:(NSTimeInterval)sleepPerFetch;
 
 - (NSString*) idForPosition:(NSUInteger)i;
 - (long long) dateForPositionAsMillis:(NSUInteger)i;

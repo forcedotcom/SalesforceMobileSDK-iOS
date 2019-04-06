@@ -41,6 +41,7 @@ extern NSInteger const kSyncManagerUnchanged;
 
 -(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock;
 -(void) run;
+-(BOOL) shouldStop;
 -(void) updateSync:(SFSyncState*)sync countSynched:(NSUInteger)countSynched;
 -(void) failSync:(SFSyncState*)sync failureMessage:(NSString*)failureMessage error:(NSError*) error;
 

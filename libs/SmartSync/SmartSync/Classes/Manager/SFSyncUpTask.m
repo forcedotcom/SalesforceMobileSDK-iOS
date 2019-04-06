@@ -52,7 +52,8 @@
     sync.totalSize = recordIds.count;
     [self updateSync:sync countSynched:i];
     
-    if (![sync isRunning]) {
+    
+    if ([self shouldStop]) {
         return;
     }
 

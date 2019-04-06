@@ -66,6 +66,11 @@
         __strong typeof (weakSelf) strongSelf = weakSelf;
         
         if (records != nil) {
+            if ([self shouldStop]) {
+                continueFetchBlockRecurse = nil;
+                return;
+            }
+            
             // Figure out records to save
             NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [strongSelf  removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
             

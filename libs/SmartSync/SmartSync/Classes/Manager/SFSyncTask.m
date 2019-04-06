@@ -63,7 +63,13 @@ NSInteger const kSyncManagerUnchanged = -1;
 }
 
 - (BOOL) shouldStop {
-    return ![self.syncManager checkAcceptingSyncs:nil];
+    if (![self.syncManager checkAcceptingSyncs:nil]) {
+        self.sync.status = SFSyncStateStatusStopped;
+        [self updateSync:self.sync countSynched:kSyncManagerUnchanged];
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (void) run {
@@ -89,17 +95,13 @@ NSInteger const kSyncManagerUnchanged = -1;
     }
     
     // Update status
-    if (sync.status == SFSyncStateStatusRunning) {
-        if (sync.progress == 100) {
-            sync.status = SFSyncStateStatusDone;
-        } else if ([self shouldStop]) {
-            sync.status = SFSyncStateStatusStopped;
-        }
+    if (sync.status == SFSyncStateStatusRunning && sync.progress == 100) {
+        sync.status = SFSyncStateStatusDone;
     }
 
     // Save sync state
     [sync save:self.syncManager.store];
-    [SFSDKSmartSyncLogger d:[self class] format:@"updateSync: syncId:%ld status:%@ progress:%ld totalSize:%ld", (long)sync.syncId, [SFSyncState syncStatusToString:sync.status], (long)sync.progress, (long)sync.totalSize];
+    [SFSDKSmartSyncLogger d:[self class] format:@"updateSync: syncId:%@ status:%@ progress:%ld totalSize:%ld", @(sync.syncId), [SFSyncState syncStatusToString:sync.status], (long)sync.progress, (long)sync.totalSize];
     
     // Create event and remove from active sync list if stopped/done/failed
     switch (self.sync.status) {

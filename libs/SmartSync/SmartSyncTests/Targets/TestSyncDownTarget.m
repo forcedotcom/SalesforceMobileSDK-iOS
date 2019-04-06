@@ -34,7 +34,7 @@ static NSString * const kTestSyncDownTargetSleepPerFetch = @"sleepPerFetch";
 @property (nonatomic, strong) NSString* prefix;
 @property (nonatomic) NSUInteger numberOfRecords;
 @property (nonatomic) NSUInteger numberOfRecordsPerPage;
-@property (nonatomic) NSUInteger sleepPerFetch;
+@property (nonatomic) NSTimeInterval sleepPerFetch;
 @property (nonatomic, strong) NSArray* records;
 @property (nonatomic) NSUInteger position;
 
@@ -46,13 +46,13 @@ static NSString * const kTestSyncDownTargetSleepPerFetch = @"sleepPerFetch";
     return [self initWithPrefix:dict[kTestSyncDownTargetPrefix]
              numberOfRecords:[((NSNumber*) dict[kTestSyncDownTargetNumberOfRecords]) intValue]
       numberOfRecordsPerPage:[((NSNumber*) dict[kTestSyncDownTargetNumberOfRecordsPerPage]) intValue]
-               sleepPerFetch:[((NSNumber*) dict[kTestSyncDownTargetSleepPerFetch]) intValue]];
+               sleepPerFetch:[((NSNumber*) dict[kTestSyncDownTargetSleepPerFetch]) doubleValue]];
 }
 
 - (instancetype) initWithPrefix:(NSString*)prefix
          numberOfRecords:(NSUInteger)numberOfRecords
   numberOfRecordsPerPage:(NSUInteger)numberOfRecordsPerPage
-           sleepPerFetch:(NSUInteger)sleepPerFetch
+           sleepPerFetch:(NSTimeInterval)sleepPerFetch
 {
     self = [super init];
     if (self) {
@@ -122,7 +122,7 @@ static NSString * const kTestSyncDownTargetSleepPerFetch = @"sleepPerFetch";
 
 - (void) sleepIfNeeded {
     if (self.sleepPerFetch > 0) {
-        [NSThread sleepForTimeInterval:((double) self.sleepPerFetch)/1000.0];
+        [NSThread sleepForTimeInterval:self.sleepPerFetch];
     }
 }
 

@@ -223,7 +223,7 @@ static NSMutableDictionary *syncMgrList = nil;
             if (restartStoppedSyncs) {
                 NSArray* stoppedSyncs = [SFSyncState getSyncsWithStatus:self.store status:SFSyncStateStatusStopped];
                 for (SFSyncState* sync in stoppedSyncs) {
-                    [SFSDKSmartSyncLogger d:[self class] format:@"resuming %@", sync.syncId];
+                    [SFSDKSmartSyncLogger d:[self class] format:@"resuming %@", @(sync.syncId)];
                     [self reSync:@(sync.syncId) updateBlock:updateBlock error:nil];
                 }
             }
@@ -248,7 +248,7 @@ static NSMutableDictionary *syncMgrList = nil;
     @synchronized(self) {
         [self.activeSyncs removeObjectForKey:syncTask.syncId];
         if (self.state == SFSyncManagerStateStopRequested && self.activeSyncs.count == 0) {
-            self.state = SFSyncStateStatusStopped;
+            self.state = SFSyncManagerStateStopped;
         }
     }
 }
@@ -439,8 +439,6 @@ static NSMutableDictionary *syncMgrList = nil;
         sync.maxTimeStamp = sync.maxTimeStamp == -1 ? -1 : sync.maxTimeStamp - 1;
     }
 
-    // Save sync and go
-    [sync save:self.store];
     [SFSDKSmartSyncLogger d:[self class] format:@"reSync:%@", sync];
     [self runSync:sync updateBlock:updateBlock error:error];
     return [sync copy];
