@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo ${TEST_CREDENTIALS} > ./shared/test/test_credentials.json
+echo ${LOGINUSERS} > ./shared/test/ui_test_credentials.json
+
+
