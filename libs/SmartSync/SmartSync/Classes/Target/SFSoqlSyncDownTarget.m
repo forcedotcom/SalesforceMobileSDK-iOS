@@ -53,7 +53,6 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     self = [super init];
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeSoql;
-        [self modifyQueryIfNeeded];
     }
     return self;
 }

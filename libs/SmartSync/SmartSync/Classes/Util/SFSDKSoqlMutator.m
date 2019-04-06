@@ -88,7 +88,6 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
     NSUInteger depth = 0;
     NSString* matchingClauseType;
     NSString* currentClauseType;    // one of the clause types of interest
-    BOOL inQuotes = NO;
     for(NSString* token in tokens) {
         if ([token hasPrefix:@"("]) {
             depth++;
@@ -96,14 +95,9 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
             depth--;
         }
         
-//        if ([token hasPrefix:@"'"]) {
-//            inQuotes = YES;
-//        } else if ([token hasSuffix:@"'"] && ![token hasSuffix:@"\'"]) {
-//            inQuotes = NO;
-//        }
         
         // Only looking to parse top level query
-        else if (depth == 0 && !inQuotes) {
+        else if (depth == 0) {
             for (NSString* clauseType in clauseTypeKeywords) {
                 if ([token caseInsensitiveCompare:clauseType] == NSOrderedSame) {
                     matchingClauseType = clauseType;

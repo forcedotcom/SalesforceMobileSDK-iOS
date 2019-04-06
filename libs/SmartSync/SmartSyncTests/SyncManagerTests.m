@@ -25,6 +25,7 @@
 #import "SyncManagerTestCase.h"
 #import "SFSyncUpdateCallbackQueue.h"
 #import "TestSyncUpTarget.h"
+#import "TestSyncDownTarget.h"
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
 
@@ -931,9 +932,38 @@
     XCTAssertNil([SFSyncState byName:syncName store:self.store], "Sync should be gone");
 }
 
+/**
+ * Run sync down using TestSyncDownTarget
+ */
+- (void) testCustomSyncDownTarget {
+    [self createAccountsSoup];
+    NSUInteger numberOfRecords = 30;
+    TestSyncDownTarget* target = [[TestSyncDownTarget alloc] initWithPrefix:@"test" numberOfRecords:numberOfRecords numberOfRecordsPerPage:10 sleepPerFetch:0];
+    NSInteger syncId = [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:target soupName:ACCOUNTS_SOUP totalSize:numberOfRecords numberFetches:3];
+    
+    // Check sync time stamp
+    SFSyncState* sync = [self.syncManager getSyncStatus:@(syncId)];
+    XCTAssertEqual([target dateForPositionAsMillis:numberOfRecords-1], sync.maxTimeStamp, @"Wrong timestamp");
+    
+    // Check db
+    [self checkDbForAfterTestSyncDown:target soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecords];
+}
+
+
 #pragma clang diagnostic pop
 
 #pragma mark - helper methods
+     
+- (void) checkDbForAfterTestSyncDown:(TestSyncDownTarget*)target soupName:(NSString*)soupName expectedNumberOfRecords:(NSUInteger)expectedNumberOfRecords {
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%1$@:%2$@} from {%1$@} where {%1$@:%2$@} like '%3$@%%' order by {%1$@:%2$@}", soupName, kId, target.prefix];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:1000];
+
+    NSArray* result = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(expectedNumberOfRecords, result.count, @"Wrong number of records");
+    for (NSUInteger i=0; i<expectedNumberOfRecords; i++) {
+        XCTAssertEqualObjects([target idForPosition:i], ((NSArray*)result [i])[0], @"Wrong id");
+    }
+}
 
 - (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode {
 
