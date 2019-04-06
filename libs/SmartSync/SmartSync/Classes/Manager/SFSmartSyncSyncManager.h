@@ -50,10 +50,12 @@ extern NSString * const kSFSyncManagerStateStopped;
 // Errors
 extern NSString* const kSFSmartSyncErrorDomain;
 extern NSString* const kSFSyncManagerStoppedError;
+extern NSString* const kSFSyncManagerCannotResumeError;
 extern NSString* const kSFSyncAlreadyRunningError;
 extern NSString* const kSFSyncNotExistError;
 
 extern NSInteger const kSFSyncManagerStoppedErrorCode;
+extern NSInteger const kSFSyncManagerCannotResumeErrorCode;
 extern NSInteger const kSFSyncAlreadyRunningErrorCode;
 extern NSInteger const kSFSyncNotExistErrorCode;
 
@@ -152,8 +154,10 @@ NS_SWIFT_NAME(SyncManager)
  *
  * @param restartStoppedSyncs Pass YES to restart all stopped sync.
  * @param updateBlock The block to be called with updates.
+ * @param error To get an error back (optional).
+ * @return YES if resume started successfully.
  */
-- (void) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(resume(restartStoppedSyncs:onUpdate:));;
+- (BOOL) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error NS_SWIFT_NAME(resume(restartStoppedSyncs:onUpdate:));
 
 /**
  * Check if sync manager is running
@@ -324,8 +328,9 @@ NS_SWIFT_NAME(SyncManager)
  *
  * @param syncId Sync ID.
  * @param completionStatusBlock Completion status block.
+ * @return YES if cleanResyncGhosts started successfully.
  */
-- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock
+- (BOOL) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock
     SFSDK_DEPRECATED(7.1, 8.0, "Use cleanResyncGhosts:completionStatusBlock:error instead");;
 
 /**
@@ -335,9 +340,20 @@ NS_SWIFT_NAME(SyncManager)
  * @param syncId Sync ID.
  * @param completionStatusBlock Completion status block.
  * @param error Sets error if clean operation could not be started.
+ * @return YES if cleanResyncGhosts started successfully.
  */
-- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock error:(NSError**)error NS_SWIFT_NAME(cleanResyncGhosts(forId:onComplete:));
+- (BOOL) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock error:(NSError**)error NS_SWIFT_NAME(cleanResyncGhosts(forId:onComplete:));
 
+/**
+ * Removes local copies of records that have been deleted on the server
+ * or do not match the query results on the server anymore.
+ *
+ * @param syncName Sync Name.
+ * @param completionStatusBlock Completion status block.
+ * @param error Sets error if clean operation could not be started.
+ * @return YES if cleanResyncGhosts started successfully.
+ */
+- (BOOL) cleanResyncGhostsByName:(NSString*)syncName completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock error:(NSError**)error NS_SWIFT_NAME(cleanResyncGhosts(forName:onComplete:));
 
 @end
 
