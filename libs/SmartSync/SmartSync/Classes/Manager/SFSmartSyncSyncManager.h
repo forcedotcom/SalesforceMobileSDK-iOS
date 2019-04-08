@@ -36,6 +36,29 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync) NS_SWIFT_NAME(SyncUpdateBlock);
 typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncStatus, NSUInteger numRecords) NS_SWIFT_NAME(SyncCompletionBlock);
 
+// Possible value for sync manager state
+typedef NS_ENUM(NSInteger, SFSyncManagerState) {
+    SFSyncManagerStateAcceptingSyncs,
+    SFSyncManagerStateStopRequested,
+    SFSyncManagerStateStopped
+} NS_SWIFT_NAME(SyncManagerState);
+
+extern NSString * const kSFSyncManagerStateAcceptingSyncs;
+extern NSString * const kSFSyncManagerStateStopRequested;
+extern NSString * const kSFSyncManagerStateStopped;
+
+// Errors
+extern NSString* const kSFSmartSyncErrorDomain;
+extern NSString* const kSFSyncManagerStoppedError;
+extern NSString* const kSFSyncManagerCannotResumeError;
+extern NSString* const kSFSyncAlreadyRunningError;
+extern NSString* const kSFSyncNotExistError;
+
+extern NSInteger const kSFSyncManagerStoppedErrorCode;
+extern NSInteger const kSFSyncManagerCannotResumeErrorCode;
+extern NSInteger const kSFSyncAlreadyRunningErrorCode;
+extern NSInteger const kSFSyncNotExistErrorCode;
+
 /**
  * This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
@@ -108,6 +131,41 @@ NS_SWIFT_NAME(SyncManager)
  * Removes all shared instances
  */
 + (void)removeSharedInstances;
+
+/**
+ * Stop the sync manager
+ * It might take a while for active syncs to actually get stopped
+ * Call isStopped() to see if syncManager is fully paused
+ */
+- (void) stop;
+
+/**
+ * @return YES if stop was requested but there are still active syncs
+ */
+- (BOOL) isStopping;
+
+/**
+ * @return YES if stop was requested and there no syncs are active anymore
+ */
+- (BOOL) isStopped;
+
+/**
+ * Resume this sync manager
+ *
+ * @param restartStoppedSyncs Pass YES to restart all stopped sync.
+ * @param updateBlock The block to be called with updates.
+ * @param error To get an error back (optional).
+ * @return YES if resume started successfully.
+ */
+- (BOOL) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error NS_SWIFT_NAME(resume(restartStoppedSyncs:onUpdate:));
+
+/**
+ * Check if sync manager is running
+ *
+ * @param error To get an error back (optional).
+ * @return YES if running and NO if stopping or stopped
+ */
+- (BOOL) checkAcceptingSyncs:(NSError**)error;
 
 /**
  * Returns details about a sync.
@@ -188,14 +246,31 @@ NS_SWIFT_NAME(SyncManager)
  * @param syncId Sync ID.
  * @param updateBlock The block to be called with updates.
  */
-- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(reSync(id:onUpdate:));
+- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use reSync:updateBlock:error instead");
+
+/**
+ * Performs a resync.
+ * @param syncId Sync ID.
+ * @param updateBlock The block to be called with updates.
+ * @param error Sets error if sync could not be started.
+ */
+- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**) error NS_SWIFT_NAME(reSync(id:onUpdate:));
 
 /**
  * Performs a resync by name.
  * @param syncName Sync name.
  * @param updateBlock The block to be called with updates.
  */
-- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(reSync(named:onUpdate:));
+- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use reSyncByName:updateBlock:error instead");
+
+/**
+ * Performs a resync by name.
+ * @param syncName Sync name.
+ * @param updateBlock The block to be called with updates.
+ * @param error Sets error if sync could not be started.
+ */
+- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error NS_SWIFT_NAME(reSync(named:onUpdate:));
+
 
 /**
  * Create a sync up without running it.
@@ -253,8 +328,32 @@ NS_SWIFT_NAME(SyncManager)
  *
  * @param syncId Sync ID.
  * @param completionStatusBlock Completion status block.
+ * @return YES if cleanResyncGhosts started successfully.
  */
-- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock NS_SWIFT_NAME(cleanResyncGhosts(forId:onComplete:));
+- (BOOL) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock
+    SFSDK_DEPRECATED(7.1, 8.0, "Use cleanResyncGhosts:completionStatusBlock:error instead");;
+
+/**
+ * Removes local copies of records that have been deleted on the server
+ * or do not match the query results on the server anymore.
+ *
+ * @param syncId Sync ID.
+ * @param completionStatusBlock Completion status block.
+ * @param error Sets error if clean operation could not be started.
+ * @return YES if cleanResyncGhosts started successfully.
+ */
+- (BOOL) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock error:(NSError**)error NS_SWIFT_NAME(cleanResyncGhosts(forId:onComplete:));
+
+/**
+ * Removes local copies of records that have been deleted on the server
+ * or do not match the query results on the server anymore.
+ *
+ * @param syncName Sync Name.
+ * @param completionStatusBlock Completion status block.
+ * @param error Sets error if clean operation could not be started.
+ * @return YES if cleanResyncGhosts started successfully.
+ */
+- (BOOL) cleanResyncGhostsByName:(NSString*)syncName completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock error:(NSError**)error NS_SWIFT_NAME(cleanResyncGhosts(forName:onComplete:));
 
 @end
 

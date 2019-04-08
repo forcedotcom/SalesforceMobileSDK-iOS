@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,8 +22,29 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SyncManagerTestCase.h"
+#import "SFSmartSyncSyncManager.h"
 
-@interface SFSDKSyncsConfigTests : SyncManagerTestCase
+NS_ASSUME_NONNULL_BEGIN
+
+// Unchanged
+extern NSInteger const kSyncManagerUnchanged;
+
+/**
+ * Abstract super class of task classes responsible for running syncs
+ */
+
+@interface SFSyncTask : NSObject
+
+@property (nonatomic, strong, readonly) SFSmartSyncSyncManager* syncManager;
+@property (nonatomic, strong, readonly) NSNumber* syncId;
+
+
+-(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock;
+-(void) run;
+-(BOOL) shouldStop;
+-(void) updateSync:(SFSyncState*)sync countSynched:(NSUInteger)countSynched;
+-(void) failSync:(SFSyncState*)sync failureMessage:(NSString*)failureMessage error:(NSError*) error;
 
 @end
+
+NS_ASSUME_NONNULL_END

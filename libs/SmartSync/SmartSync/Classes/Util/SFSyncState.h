@@ -105,7 +105,7 @@ NS_SWIFT_NAME(SyncState)
 @property (nonatomic, readonly) NSInteger endTime;
 
 // Error JSON string
-@property (nonatomic, readonly) NSString* error;
+@property (nonatomic) NSString* error;
 
 /** Setup soup that keeps track of sync operations
  */
@@ -131,6 +131,7 @@ NS_SWIFT_NAME(SyncState)
 - (void) save:(SFSmartStore*)store;
 + (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store NS_SWIFT_NAME(delete(syncId:store:));
 + (void) deleteByName:(NSString*)name store:(SFSmartStore*)store NS_SWIFT_NAME(delete(syncName:store:));
++ (NSArray<SFSyncState*>*)getSyncsWithStatus:(SFSmartStore*)store status:(SFSyncStateStatus)status;
 
 /** Methods to translate to/from dictionary
  */
@@ -142,6 +143,7 @@ NS_SWIFT_NAME(SyncState)
 - (BOOL) isDone;
 - (BOOL) hasFailed;
 - (BOOL) isRunning;
+- (BOOL) isStopped;
 
 /** Enum to/from string helper methods
  */
@@ -151,10 +153,6 @@ NS_SWIFT_NAME(SyncState)
 + (NSString*) syncStatusToString:(SFSyncStateStatus)syncStatus;
 + (SFSyncStateMergeMode) mergeModeFromString:(NSString*)mergeMode;
 + (NSString*) mergeModeToString:(SFSyncStateMergeMode)mergeMode;
-
-/** Setter for errorJSON
- */
-- (void) setError:(NSString * _Nonnull)error;
 
 @end
 

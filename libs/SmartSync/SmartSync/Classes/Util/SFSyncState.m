@@ -76,7 +76,6 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 @property (nonatomic, strong, readwrite) SFSyncOptions* options;
 @property (nonatomic, readwrite) NSInteger startTime;
 @property (nonatomic, readwrite) NSInteger endTime;
-@property (nonatomic, readwrite) NSString* error;
 
 @end
 
@@ -108,14 +107,14 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 }
 
 + (void) cleanupSyncsSoupIfNeeded:(SFSmartStore*)store {
-    NSArray<SFSyncState*>* syncs = [self getsyncsWithStatus:store status:SFSyncStateStatusRunning];
+    NSArray<SFSyncState*>* syncs = [self getSyncsWithStatus:store status:SFSyncStateStatusRunning];
     for (SFSyncState* sync in syncs) {
         sync.status = SFSyncStateStatusStopped;
         [sync save:store];
     }
 }
 
-+ (NSArray<SFSyncState*>*)getsyncsWithStatus:(SFSmartStore*)store status:(SFSyncStateStatus)status {
++ (NSArray<SFSyncState*>*)getSyncsWithStatus:(SFSmartStore*)store status:(SFSyncStateStatus)status {
     NSMutableArray<SFSyncState*>* syncs = [NSMutableArray new];
     NSString* smartSql = [NSString stringWithFormat:@"select {%1$@:%2$@} from {%1$@} where {%1$@:%3$@} = '%4$@'", kSFSyncStateSyncsSoupName, @"_soup", kSFSyncStateStatus, [SFSyncState syncStatusToString:status]];
     SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:INT_MAX];
@@ -136,10 +135,11 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
             kSFSyncStateSoupName: soupName,
             kSFSyncStateOptions: [options asDict],
             kSFSyncStateStatus: kSFSyncStateStatusNew,
-            kSFSyncStateProgress: [NSNumber numberWithInteger:0],
-            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
-            kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
-            kSFSyncStateEndTime: [NSNumber numberWithInteger:0],
+            kSFSyncStateMaxTimeStamp: @(-1),
+            kSFSyncStateProgress: @(0),
+            kSFSyncStateTotalSize: @(-1),
+            kSFSyncStateStartTime: @(0),
+            kSFSyncStateEndTime: @(0),
             kSFSyncStateError: @""
     }];
     if (name) dict[kSFSyncStateName] = name;
@@ -166,10 +166,10 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
             kSFSyncStateSoupName: soupName,
             kSFSyncStateOptions: [options asDict],
             kSFSyncStateStatus: kSFSyncStateStatusNew,
-            kSFSyncStateProgress: [NSNumber numberWithInteger:0],
-            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1],
-            kSFSyncStateStartTime: [NSNumber numberWithInteger:0],
-            kSFSyncStateEndTime: [NSNumber numberWithInteger:0],
+            kSFSyncStateProgress: @(0),
+            kSFSyncStateTotalSize: @(-1),
+            kSFSyncStateStartTime: @(0),
+            kSFSyncStateEndTime: @(0),
             kSFSyncStateError: @""
     }];
     if (name) dict[kSFSyncStateName] = name;
@@ -275,6 +275,10 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 
 - (BOOL) isRunning {
     return self.status == SFSyncStateStatusRunning;
+}
+
+- (BOOL) isStopped {
+    return self.status == SFSyncStateStatusStopped;
 }
 
 #pragma mark - Setter for status

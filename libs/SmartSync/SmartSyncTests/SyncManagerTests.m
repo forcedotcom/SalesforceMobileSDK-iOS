@@ -25,6 +25,7 @@
 #import "SyncManagerTestCase.h"
 #import "SFSyncUpdateCallbackQueue.h"
 #import "TestSyncUpTarget.h"
+#import "TestSyncDownTarget.h"
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
 
@@ -121,11 +122,11 @@
  */
 - (void)testAddMissingFieldstoSOQLTarget
 {
-    NSString *soqlQueryWithSpecialFields = [[[[SFSDKSoqlBuilder withFields:@"Id, LastModifiedDate, FirstName, LastName"] from:@"Contact"] limit:10] build];
-    NSString *soqlQueryWithoutSpecialFields = [[[[SFSDKSoqlBuilder withFields:@"FirstName, LastName"] from:@"Contact"] limit:10] build];
+    NSString *soqlQueryWithSpecialFields = @"select Id,LastModifiedDate,FirstName, LastName from Contact order by LastModifiedDate limit 100";
+    NSString *soqlQueryWithoutSpecialFields = @"select FirstName, LastName from Contact limit 100";
     SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soqlQueryWithoutSpecialFields];
     NSString *targetSoqlQuery = [target query];
-    XCTAssertTrue([soqlQueryWithSpecialFields isEqualToString:targetSoqlQuery], @"SOQL query should contain Id and LastModifiedDate fields.");
+    XCTAssertEqualObjects(soqlQueryWithSpecialFields, targetSoqlQuery, @"SOQL query should contain Id and LastModifiedDate fields.");
 }
 
 /**
@@ -151,7 +152,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
                 [cleanResyncGhosts fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
@@ -198,7 +199,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [firstCleanExpectation fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[2], accountIds[3], accountIds[4], accountIds[5]] idField:@"Id"];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
@@ -209,7 +210,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [secondCleanExpectation fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[3], accountIds[4]] idField:@"Id"];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0], accountIds[2], accountIds[5]] idField:@"Id"];
@@ -245,7 +246,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [cleanResyncGhosts fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
@@ -289,7 +290,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [cleanResyncGhosts fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
 
@@ -572,7 +573,7 @@
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [cleanResyncGhosts fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
 
     
@@ -776,10 +777,10 @@
         NSString* limitQuery = [NSString stringWithFormat:@"select Id from Account where %@ > %@ limit 100", modDateFieldName, dateStr];
         NSString* nameQuery = [NSString stringWithFormat:@"select Id from Account where %@ > %@ and Name = 'John'", modDateFieldName, dateStr];
         NSString* nameLimitQuery = [NSString stringWithFormat:@"select Id from Account where %@ > %@ and Name = 'John' limit 100", modDateFieldName, dateStr];
-        NSString* basicQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account where %@ > %@", modDateFieldName, dateStr];
-        NSString* limitQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account where %@ > %@ LIMIT 100", modDateFieldName, dateStr];
-        NSString* nameQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account WHERE %@ > %@ and Name = 'John'", modDateFieldName, dateStr];
-        NSString* nameLimitQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account WHERE %@ > %@ and Name = 'John' LIMIT 100", modDateFieldName, dateStr];
+        NSString* basicQueryUpper = [NSString stringWithFormat:@"select Id from Account where %@ > %@", modDateFieldName, dateStr];
+        NSString* limitQueryUpper = [NSString stringWithFormat:@"select Id from Account where %@ > %@ limit 100", modDateFieldName, dateStr];
+        NSString* nameQueryUpper = [NSString stringWithFormat:@"select Id from Account where %@ > %@ and Name = 'John'", modDateFieldName, dateStr];
+        NSString* nameLimitQueryUpper = [NSString stringWithFormat:@"select Id from Account where %@ > %@ and Name = 'John' limit 100", modDateFieldName, dateStr];
         
         // Tests
         XCTAssertEqualObjects(basicQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalBasicQuery modDateFieldName:modDateFieldName maxTimeStamp:dateLong]);
@@ -813,7 +814,7 @@
     SlowSoqlSyncDownTarget* target = [SlowSoqlSyncDownTarget newSyncTarget:soql];
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP name:nil store:self.store];
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
 
     // Run sync -- will freeze during fetch
     SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
@@ -823,7 +824,7 @@
     [queue getNextSyncUpdate];
 
     // Calling reSync -- expect nil
-    XCTAssertNil([self.syncManager reSync:syncId updateBlock:nil]);
+    XCTAssertNil([self.syncManager reSync:syncId updateBlock:nil error:nil]);
     
     // Wait for sync to complete successfully
     while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
@@ -841,7 +842,7 @@
 -(void) testCreateGetDeleteSyncDownById {
     // Create
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSoqlSyncDownTarget newSyncTarget:@"SELECT Id, Name from Account"] soupName:ACCOUNTS_SOUP name:nil store:self.store];
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
     // Get by id
     SFSyncState* fetchedSync = [SFSyncState byId:syncId store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:nil expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
@@ -857,7 +858,7 @@
     NSString* syncName = @"MyNamedSyncDown";
     // Create
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSoqlSyncDownTarget newSyncTarget:@"SELECT Id, Name from Account"] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
     // Get by name
     SFSyncState* fetchedSync = [SFSyncState byName:syncName store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:syncName expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
@@ -873,7 +874,7 @@
 -(void) testCreateGetDeleteSyncUpById {
     // Create
     SFSyncState* sync = [SFSyncState newSyncUpWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSyncUpTarget new] soupName:ACCOUNTS_SOUP name:nil store:self.store];
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
     // Get by id
     SFSyncState* fetchedSync = [SFSyncState byId:syncId store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:nil expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
@@ -889,7 +890,7 @@
     NSString* syncName = @"MyNamedSyncUp";
     // Create
     SFSyncState* sync = [SFSyncState newSyncUpWithOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged] target:[SFSyncUpTarget new] soupName:ACCOUNTS_SOUP name:syncName store:self.store];
-    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+    NSNumber* syncId = @(sync.syncId);
     // Get by name
     SFSyncState* fetchedSync = [SFSyncState byName:syncName store:self.store];
     [self checkStatus:fetchedSync expectedType:sync.type expectedId:sync.syncId expectedName:syncName expectedTarget:sync.target expectedOptions:sync.options expectedStatus:sync.status expectedProgress:sync.progress expectedTotalSize:sync.totalSize];
@@ -931,9 +932,239 @@
     XCTAssertNil([SFSyncState byName:syncName store:self.store], "Sync should be gone");
 }
 
+/**
+ * Run sync down using TestSyncDownTarget
+ */
+- (void) testCustomSyncDownTarget {
+    [self createAccountsSoup];
+    NSUInteger numberOfRecords = 30;
+    TestSyncDownTarget* target = [[TestSyncDownTarget alloc] initWithPrefix:@"test" numberOfRecords:numberOfRecords numberOfRecordsPerPage:10 sleepPerFetch:0];
+    NSInteger syncId = [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:target soupName:ACCOUNTS_SOUP totalSize:numberOfRecords numberFetches:3];
+    
+    // Check sync time stamp
+    SFSyncState* sync = [self.syncManager getSyncStatus:@(syncId)];
+    XCTAssertEqual([target dateForPositionAsMillis:numberOfRecords-1], sync.maxTimeStamp, @"Wrong timestamp");
+    
+    // Check db
+    [self checkDbForAfterTestSyncDown:target soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecords];
+}
+
+
+/**
+ * Test running and stopping a single sync down (using TestSyncDownTarget)
+ */
+- (void) testStopResumeSingleSyncDown {
+    [self createAccountsSoup];
+    NSString* syncName = @"testStopResumeSingleSyncDown";
+    NSUInteger numberOfRecords = 10;
+    TestSyncDownTarget* target = [[TestSyncDownTarget alloc] initWithPrefix:@"test" numberOfRecords:numberOfRecords numberOfRecordsPerPage:1 sleepPerFetch:0.1];
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP name:syncName store:self.store];
+    NSInteger syncId = sync.syncId;
+
+    // Run sync
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runSync:sync syncManager:self.syncManager];
+    
+    // Checks status updates.
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberOfRecords];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:10 expectedTotalSize:numberOfRecords];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:20 expectedTotalSize:numberOfRecords];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:30 expectedTotalSize:numberOfRecords];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:40 expectedTotalSize:numberOfRecords];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:50 expectedTotalSize:numberOfRecords];
+
+    // Stop sync manager
+    [self stopSyncManager:0.2];
+
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusStopped expectedProgress:50 expectedTotalSize:numberOfRecords];
+    NSUInteger numberOfRecordsFetched = (NSUInteger) (numberOfRecords * 0.5);
+    NSUInteger numberOfRecordsLeft = numberOfRecords-numberOfRecordsFetched + 1 /* we refetch records at maxTimeStamp when a sync was stopped */;
+
+    // Check db
+    [self checkDbForAfterTestSyncDown:target soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecordsFetched];
+
+    // Check sync time stamp and status
+    [self checkSyncState:@(syncId) expectedTimeStamp:[target dateForPositionAsMillis:numberOfRecordsFetched-1] expectedStatus:SFSyncStateStatusStopped];
+    
+    // Try to restart sync while sync manager is paused
+    NSError* error = nil;
+    [queue runReSync:@(syncId) syncManager:self.syncManager error:&error];
+    XCTAssertNotNil(error);
+    XCTAssertEqualObjects(kSFSmartSyncErrorDomain, error.domain, @"Wrong error domain");
+    XCTAssertEqual(kSFSyncManagerStoppedErrorCode, error.code, @"Wrong error code");
+    XCTAssertEqualObjects(kSFSyncManagerStoppedError, error.userInfo[@"error"], @"Wrong error type");
+    
+    // Resuming sync manager without restarting syncs
+    error = nil;
+    BOOL resultOfResume = [queue resume:self.syncManager restartStoppedSyncs:NO restartSterror:&error];
+    XCTAssertTrue(resultOfResume);
+    XCTAssertNil(error);
+    XCTAssertFalse([self.syncManager isStopped], @"Stopped should be false");
+    
+    // Check sync time stamp and status
+    [self checkSyncState:@(syncId) expectedTimeStamp:[target dateForPositionAsMillis:numberOfRecordsFetched-1] expectedStatus:SFSyncStateStatusStopped];
+
+    // Stop sync manager
+    [self stopSyncManager:0];
+
+    // Resuming sync manager restarting syncs
+    error = nil;
+    resultOfResume = [queue resume:self.syncManager restartStoppedSyncs:YES restartSterror:&error];
+    XCTAssertTrue(resultOfResume);
+    XCTAssertNil(error);
+    XCTAssertFalse([self.syncManager isStopped], @"Stopped should be false");
+
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberOfRecordsLeft];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:16 expectedTotalSize:numberOfRecordsLeft];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:33 expectedTotalSize:numberOfRecordsLeft];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:50 expectedTotalSize:numberOfRecordsLeft];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:66 expectedTotalSize:numberOfRecordsLeft];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:83 expectedTotalSize:numberOfRecordsLeft];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:numberOfRecordsLeft];
+
+    // Check db
+    [self checkDbForAfterTestSyncDown:target soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecords];
+}
+
+/**
+ * Test running and stopping multiple (using TestSyncDownTarget)
+ */
+- (void) testStopResumeMultipleSyncDowns {
+    [self createAccountsSoup];
+    NSString* syncName1 = @"testStopResumeMultipleSyncDowns1";
+    NSString* syncName2 = @"testStopResumeMultipleSyncDowns2";
+    NSUInteger numberOfRecords1 = 5;
+    NSUInteger numberOfRecords2 = 4;
+    
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    TestSyncDownTarget* target1 = [[TestSyncDownTarget alloc] initWithPrefix:@"test1" numberOfRecords:numberOfRecords1 numberOfRecordsPerPage:1 sleepPerFetch:0.1];
+    TestSyncDownTarget* target2 = [[TestSyncDownTarget alloc] initWithPrefix:@"test2" numberOfRecords:numberOfRecords2 numberOfRecordsPerPage:1 sleepPerFetch:0.1];
+    NSInteger syncId1 = [SFSyncState newSyncDownWithOptions:options target:target1 soupName:ACCOUNTS_SOUP name:syncName1 store:self.store].syncId;
+    NSInteger syncId2 = [SFSyncState newSyncDownWithOptions:options target:target2 soupName:ACCOUNTS_SOUP name:syncName2 store:self.store].syncId;
+
+    // Run sync
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    NSError* error = nil;
+    XCTAssertNotNil([queue runReSyncByName:syncName1 syncManager:self.syncManager error:&error]);
+    XCTAssertNil(error);
+    // Sleeping a bit - to make sure it goes first
+    [NSThread sleepForTimeInterval:0.05];
+    XCTAssertNotNil([queue runReSyncByName:syncName2 syncManager:self.syncManager error:&error]);
+    XCTAssertNil(error);
+
+    // Checks status updates.
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberOfRecords1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:20 expectedTotalSize:numberOfRecords1];
+
+    // Stop sync manager
+    [self stopSyncManager:0.3];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusStopped expectedProgress:20 expectedTotalSize:numberOfRecords1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusStopped expectedProgress:0 expectedTotalSize:-1];
+    NSUInteger numberOfRecordsFetched1 = (NSUInteger) (numberOfRecords1 * 0.2);
+    NSUInteger numberOfRecordsLeft1 = numberOfRecords1-numberOfRecordsFetched1 + 1 /* we refetch records at maxTimeStamp when a sync was stopped */;
+
+    // Check db
+    [self checkDbForAfterTestSyncDown:target1 soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecordsFetched1];
+    [self checkDbForAfterTestSyncDown:target2 soupName:ACCOUNTS_SOUP expectedNumberOfRecords:0];
+
+    // Check sync time stamp and status
+    [self checkSyncState:@(syncId1) expectedTimeStamp:[target1 dateForPositionAsMillis:numberOfRecordsFetched1-1] expectedStatus:SFSyncStateStatusStopped];
+    [self checkSyncState:@(syncId2) expectedTimeStamp:-1 expectedStatus:SFSyncStateStatusStopped];
+
+    // Resuming sync manager without restarting syncs
+    XCTAssertTrue([queue resume:self.syncManager restartStoppedSyncs:NO restartSterror:&error]);
+    XCTAssertNil(error);
+    XCTAssertFalse([self.syncManager isStopped], @"Stopped should be false");
+    
+    // Manually restart second sync
+    XCTAssertNotNil([queue runReSyncByName:syncName2 syncManager:self.syncManager error:&error]);
+    XCTAssertNil(error);
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberOfRecords2];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:25 expectedTotalSize:numberOfRecords2];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:50 expectedTotalSize:numberOfRecords2];
+
+    // Stop sync manager
+    [self stopSyncManager:0.2];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusStopped expectedProgress:50 expectedTotalSize:numberOfRecords2];
+    NSUInteger numberOfRecordsFetched2 = (NSUInteger) (numberOfRecords2 * 0.5);
+    NSUInteger numberOfRecordsLeft2 = numberOfRecords2-numberOfRecordsFetched2 + 1 /* we refetch records at maxTimeStamp when a sync was stopped */;
+
+    // Check sync time stamp and status
+    // Check sync time stamp and status
+    [self checkSyncState:@(syncId1) expectedTimeStamp:[target1 dateForPositionAsMillis:numberOfRecordsFetched1-1] expectedStatus:SFSyncStateStatusStopped];
+    [self checkSyncState:@(syncId2) expectedTimeStamp:[target1 dateForPositionAsMillis:numberOfRecordsFetched2-1] expectedStatus:SFSyncStateStatusStopped];
+
+    // Check db
+    [self checkDbForAfterTestSyncDown:target1 soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecordsFetched1];
+    [self checkDbForAfterTestSyncDown:target2 soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecordsFetched2];
+
+    // Resuming sync manager restarting syncs
+    XCTAssertTrue([queue resume:self.syncManager restartStoppedSyncs:YES restartSterror:&error]);
+    XCTAssertNil(error);
+    XCTAssertFalse([self.syncManager isStopped], @"Stopped should be false");
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberOfRecordsLeft1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:20 expectedTotalSize:numberOfRecordsLeft1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:40 expectedTotalSize:numberOfRecordsLeft1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:60 expectedTotalSize:numberOfRecordsLeft1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:80 expectedTotalSize:numberOfRecordsLeft1];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:numberOfRecordsLeft1];
+
+    // sync1 is done, sync2 should run next
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberOfRecordsLeft2];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:33 expectedTotalSize:numberOfRecordsLeft2];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:66 expectedTotalSize:numberOfRecordsLeft2];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId2 expectedTarget:target2 expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:numberOfRecordsLeft2];
+
+    // Check db
+    [self checkDbForAfterTestSyncDown:target1 soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecords1];
+    [self checkDbForAfterTestSyncDown:target2 soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecords2];
+}
+
+
 #pragma clang diagnostic pop
 
 #pragma mark - helper methods
+
+- (void) checkSyncState:(NSNumber*) syncId expectedTimeStamp:(long long)expectedTimeStamp expectedStatus:(SFSyncStateStatus)expectedStatus {
+    SFSyncState* sync = [self.syncManager getSyncStatus:syncId];
+    XCTAssertEqual(expectedTimeStamp, sync.maxTimeStamp, @"Wrong time stamp");
+    XCTAssertEqual(expectedStatus, sync.status, @"Wrong status");
+}
+   
+- (void) stopSyncManager:(NSTimeInterval)sleepDuration {
+    XCTAssertFalse([self.syncManager isStopped]);
+    XCTAssertFalse([self.syncManager isStopping]);
+    [self.syncManager stop];
+    
+    if (sleepDuration > 0) {
+        // We expect stopping to take a while
+        XCTAssertTrue([self.syncManager isStopping]);
+        [NSThread sleepForTimeInterval:sleepDuration];
+    }
+
+    XCTAssertFalse([self.syncManager isStopping]);
+    XCTAssertTrue([self.syncManager isStopped]);
+}
+
+   
+- (void) checkDbForAfterTestSyncDown:(TestSyncDownTarget*)target soupName:(NSString*)soupName expectedNumberOfRecords:(NSUInteger)expectedNumberOfRecords {
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {%1$@:%2$@} from {%1$@} where {%1$@:%2$@} like '%3$@%%' order by {%1$@:%2$@}", soupName, kId, target.prefix];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:1000];
+
+    NSArray* result = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(expectedNumberOfRecords, result.count, @"Wrong number of records");
+    for (NSUInteger i=0; i<expectedNumberOfRecords; i++) {
+        XCTAssertEqualObjects([target idForPosition:i], ((NSArray*)result [i])[0], @"Wrong id");
+    }
+}
 
 - (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode {
 

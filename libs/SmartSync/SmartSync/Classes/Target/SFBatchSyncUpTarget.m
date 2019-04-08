@@ -100,12 +100,18 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 
     // Preparing requests
     for (NSMutableDictionary* record in records) {
-        NSString *recordId = record[self.idFieldName];
+        NSString *refId;
+        if ([record[self.idFieldName] isEqual:[NSNull null]]) {
+            // create local id - needed for refId
+            refId = record[self.idFieldName] = [NSString stringWithFormat:@"local_%@", record[SOUP_ENTRY_ID]];
+        } else {
+            refId = record[self.idFieldName];
+        }
         
         SFRestRequest *request = [self buildRequestForRecord:record fieldlist:fieldlist];
         
         if (request) {
-            [refIds addObject:recordId];
+            [refIds addObject:refId];
             [requests addObject:request];
         }
     }

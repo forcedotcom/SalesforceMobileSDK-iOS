@@ -22,10 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKSyncsConfigTests.h"
+#import <XCTest/XCTest.h>
+#import "SyncManagerTestCase.h"
 #import "SmartSyncSDKManager.h"
 #import "SFSoqlSyncDownTarget.h"
-#import <XCTest/XCTest.h>
+
+@interface SFSDKSyncsConfigTests : SyncManagerTestCase
+
+@end
 
 @interface SFSDKSyncsConfigTests ()
 

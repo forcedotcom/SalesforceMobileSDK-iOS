@@ -305,7 +305,7 @@ static NSString * const  kOAuthScopesKey = @"oauth_scopes";
     NSAssert(type, @"error type can't be nil");
     int code = 999;
     NSDictionary *dict = @{@"error": type,
-                           @"descpription": description,
+                           @"description": description,
                            NSLocalizedDescriptionKey: description};
     NSError *error = [NSError errorWithDomain:kSFIdentityErrorDomain code:code userInfo:dict];
     return error;

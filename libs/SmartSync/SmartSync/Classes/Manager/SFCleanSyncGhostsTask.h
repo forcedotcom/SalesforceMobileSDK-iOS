@@ -22,8 +22,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <XCTest/XCTest.h>
+#import "SFSyncTask.h"
 
-@interface SyncStateTests : XCTestCase
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ * Task class responsible for running clean resync ghosts
+ */
+
+@interface SFCleanSyncGhostsTask : SFSyncTask
+
+-(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

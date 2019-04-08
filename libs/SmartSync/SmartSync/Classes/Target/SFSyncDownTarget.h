@@ -81,6 +81,13 @@ NS_SWIFT_NAME(SyncDownTarget)
  */
 - (long long) getLatestModificationTimeStamp:(NSArray*)records;
 
+/**
+ * When sync down fetches records from older to newer, the maxTimeStamp for the sync
+ * can be updated throughout the sync, and as a result running a paused (or killed) sync
+ * does not refetch all records.
+ * @return YES if sync down is sorted by latest modification time stamp
+ */
+-(BOOL) isSyncDownSortedByLatestModification;
 
 /**
  * Delete from local store records that a full sync down would no longer download

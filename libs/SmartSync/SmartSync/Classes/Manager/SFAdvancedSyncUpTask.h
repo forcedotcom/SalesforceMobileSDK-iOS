@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,33 +22,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "SFSyncState.h"
-#import "SFSmartSyncSyncManager.h"
+#import "SFSyncUpTask.h"
 
-@interface SFSyncUpdateCallbackQueue : NSObject
-
-/** 
- Run sync
- */
-- (void)runSync:(SFSyncState*)sync syncManager:(SFSmartSyncSyncManager*)syncManager;
+NS_ASSUME_NONNULL_BEGIN
 
 /**
- Run re-sync
+ * Task class responsible for running advanced sync up
  */
-- (SFSyncState*)runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager;
-- (SFSyncState*)runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error;
-- (SFSyncState*)runReSyncByName:(NSString*)syncName syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error;
 
-/**
- Resume sync manager
- */
-- (BOOL)resume:(SFSmartSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error;
+@interface SFAdvancedSyncUpTask : SFSyncUpTask
 
-/**
- Get next sync update
- */
-- (SFSyncState*)getNextSyncUpdate;
-- (SFSyncState*)getNextSyncUpdate:(NSTimeInterval) maxWaitTime;
+-(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END
+
