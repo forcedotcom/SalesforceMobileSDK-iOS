@@ -53,12 +53,12 @@ NSString * const kSFSyncManagerStateStopped = @"stopped";
 // Errors
 NSString* const kSFSmartSyncErrorDomain = @"com.salesforce.SmartSync.ErrorDomain";
 NSString* const kSFSyncManagerStoppedError = @"SyncManagerStoppedError";
-NSString* const kSFSyncManagerCannotResumeError = @"SyncManagerCannotError";
+NSString* const kSFSyncManagerCannotRestartError = @"SyncManagerCannotRestartError";
 NSString* const kSFSyncAlreadyRunningError = @"SyncAlreadyRunningError";
 NSString* const kSFSyncNotExistError = @"SyncNotExistError";
 
 NSInteger const kSFSyncManagerStoppedErrorCode = 900;
-NSInteger const kSFSyncManagerCannotResumeErrorCode = 901;
+NSInteger const kSFSyncManagerCannotRestartErrorCode = 901;
 NSInteger const kSFSyncAlreadyRunningErrorCode = 902;
 NSInteger const kSFSyncNotExistErrorCode = 903;
 
@@ -187,7 +187,7 @@ static NSMutableDictionary *syncMgrList = nil;
     return self;
 }
 
-#pragma mark - stop / resume methods
+#pragma mark - stop / restart methods
 
 - (void) setState:(SFSyncManagerState)state {
     if (_state != state) {
@@ -216,22 +216,22 @@ static NSMutableDictionary *syncMgrList = nil;
     return self.state == SFSyncManagerStateStopped;
 }
 
-- (BOOL) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
+- (BOOL) restart:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
     @synchronized (self) {
         if ([self isStopped]) {
             self.state = SFSyncManagerStateAcceptingSyncs;
             if (restartStoppedSyncs) {
                 NSArray* stoppedSyncs = [SFSyncState getSyncsWithStatus:self.store status:SFSyncStateStatusStopped];
                 for (SFSyncState* sync in stoppedSyncs) {
-                    [SFSDKSmartSyncLogger d:[self class] format:@"resuming %@", @(sync.syncId)];
+                    [SFSDKSmartSyncLogger d:[self class] format:@"restarting %@", @(sync.syncId)];
                     [self reSync:@(sync.syncId) updateBlock:updateBlock error:nil];
                 }
             }
             return YES;
         } else {
             if (error) {
-                NSString* description = [NSString stringWithFormat:@"resume() called on a sync manager that has state: %@", [SFSmartSyncSyncManager stateToString:self.state]];
-                *error = [self errorWithType:kSFSyncManagerCannotResumeError code:kSFSyncManagerCannotResumeErrorCode description:description];
+                NSString* description = [NSString stringWithFormat:@"restart() called on a sync manager that has state: %@", [SFSmartSyncSyncManager stateToString:self.state]];
+                *error = [self errorWithType:kSFSyncManagerCannotRestartError code:kSFSyncManagerCannotRestartErrorCode description:description];
             }
             return NO;
         }
@@ -348,10 +348,6 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Run a previously created sync
  */
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
-    if (![self checkAcceptingSyncs:error]) {
-        return;
-    }
-    
     SFSyncTask* task;
     switch (sync.type) {
         case SFSyncStateSyncTypeDown:
@@ -381,10 +377,18 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-   return [self syncDownWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock];
+    return [self syncDownWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock error:nil];
 }
 
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    return [self syncDownWithTarget:target options:options soupName:soupName syncName:syncName updateBlock:updateBlock error:nil];
+}
+
+- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
+    if (![self checkAcceptingSyncs:error]) {
+        return nil;
+    }
+
     SFSyncState *sync = [self createSyncDown:target options:options soupName:soupName syncName:syncName];
     [self runSync:sync updateBlock:updateBlock error:nil];
     return [sync copy];
@@ -427,7 +431,7 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (SFSyncState*) reSyncWithSync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
-    if (![self checkNotRunning:@(sync.syncId) error:error]) {
+    if (![self checkAcceptingSyncs:error] || ![self checkNotRunning:@(sync.syncId) error:error]) {
         return nil;
     }
     
@@ -457,14 +461,27 @@ static NSMutableDictionary *syncMgrList = nil;
                          options:(SFSyncOptions *)options
                         soupName:(NSString *)soupName
                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    return [self syncUpWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock];
+    return [self syncUpWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock error:nil];
+}
+
+- (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
+                          options:(SFSyncOptions *)options
+                         soupName:(NSString *)soupName
+                         syncName:(NSString*)syncName
+                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    return [self syncUpWithTarget:target options:options soupName:soupName syncName:syncName updateBlock:updateBlock error:nil];
 }
 
 - (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
                          options:(SFSyncOptions *)options
                         soupName:(NSString *)soupName
                         syncName:(NSString*)syncName
-                     updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+                     updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock
+                            error:(NSError**)error {
+    if (![self checkAcceptingSyncs:error]) {
+        return nil;
+    }
+
     SFSyncState *sync = [self createSyncUp:target options:options soupName:soupName syncName:syncName];
     [self runSync:sync updateBlock:updateBlock error:nil];
     return [sync copy];

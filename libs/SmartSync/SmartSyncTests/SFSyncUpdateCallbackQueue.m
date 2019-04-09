@@ -81,8 +81,8 @@
     } error:error];
 }
 
-- (BOOL) resume:(SFSmartSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error {
-    return [syncManager resume:restartStoppedSyncs updateBlock:^(SFSyncState *sync) {
+- (BOOL) restart:(SFSmartSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error {
+    return [syncManager restart:restartStoppedSyncs updateBlock:^(SFSyncState *sync) {
         @synchronized(self.queue) {
             [self.queue addObject:[sync copy]];
         }

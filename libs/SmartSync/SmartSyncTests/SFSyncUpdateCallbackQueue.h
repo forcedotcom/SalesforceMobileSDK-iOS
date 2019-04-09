@@ -41,9 +41,9 @@
 - (SFSyncState*)runReSyncByName:(NSString*)syncName syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error;
 
 /**
- Resume sync manager
+ Restart sync manager
  */
-- (BOOL)resume:(SFSmartSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error;
+- (BOOL)restart:(SFSmartSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error;
 
 /**
  Get next sync update
