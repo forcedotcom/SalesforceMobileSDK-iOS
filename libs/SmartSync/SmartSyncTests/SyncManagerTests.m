@@ -953,9 +953,9 @@
 /**
  * Test running and stopping a single sync down (using TestSyncDownTarget)
  */
-- (void) testStopResumeSingleSyncDown {
+- (void) testStopRestartSingleSyncDown {
     [self createAccountsSoup];
-    NSString* syncName = @"testStopResumeSingleSyncDown";
+    NSString* syncName = @"testStopRestartSingleSyncDown";
     NSUInteger numberOfRecords = 10;
     TestSyncDownTarget* target = [[TestSyncDownTarget alloc] initWithPrefix:@"test" numberOfRecords:numberOfRecords numberOfRecordsPerPage:1 sleepPerFetch:0.1];
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
@@ -998,8 +998,8 @@
     
     // Resuming sync manager without restarting syncs
     error = nil;
-    BOOL resultOfResume = [queue resume:self.syncManager restartStoppedSyncs:NO restartSterror:&error];
-    XCTAssertTrue(resultOfResume);
+    BOOL resultOfRestart = [queue restart:self.syncManager restartStoppedSyncs:NO restartSterror:&error];
+    XCTAssertTrue(resultOfRestart);
     XCTAssertNil(error);
     XCTAssertFalse([self.syncManager isStopped], @"Stopped should be false");
     
@@ -1011,8 +1011,8 @@
 
     // Resuming sync manager restarting syncs
     error = nil;
-    resultOfResume = [queue resume:self.syncManager restartStoppedSyncs:YES restartSterror:&error];
-    XCTAssertTrue(resultOfResume);
+    resultOfRestart = [queue restart:self.syncManager restartStoppedSyncs:YES restartSterror:&error];
+    XCTAssertTrue(resultOfRestart);
     XCTAssertNil(error);
     XCTAssertFalse([self.syncManager isStopped], @"Stopped should be false");
 
@@ -1032,10 +1032,10 @@
 /**
  * Test running and stopping multiple (using TestSyncDownTarget)
  */
-- (void) testStopResumeMultipleSyncDowns {
+- (void) testStopRestartMultipleSyncDowns {
     [self createAccountsSoup];
-    NSString* syncName1 = @"testStopResumeMultipleSyncDowns1";
-    NSString* syncName2 = @"testStopResumeMultipleSyncDowns2";
+    NSString* syncName1 = @"testStopRestartMultipleSyncDowns1";
+    NSString* syncName2 = @"testStopRestartMultipleSyncDowns2";
     NSUInteger numberOfRecords1 = 5;
     NSUInteger numberOfRecords2 = 4;
     
@@ -1077,7 +1077,7 @@
     [self checkSyncState:@(syncId2) expectedTimeStamp:-1 expectedStatus:SFSyncStateStatusStopped];
 
     // Resuming sync manager without restarting syncs
-    XCTAssertTrue([queue resume:self.syncManager restartStoppedSyncs:NO restartSterror:&error]);
+    XCTAssertTrue([queue restart:self.syncManager restartStoppedSyncs:NO restartSterror:&error]);
     XCTAssertNil(error);
     XCTAssertFalse([self.syncManager isStopped], @"Stopped should be false");
     
@@ -1105,7 +1105,7 @@
     [self checkDbForAfterTestSyncDown:target2 soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecordsFetched2];
 
     // Resuming sync manager restarting syncs
-    XCTAssertTrue([queue resume:self.syncManager restartStoppedSyncs:YES restartSterror:&error]);
+    XCTAssertTrue([queue restart:self.syncManager restartStoppedSyncs:YES restartSterror:&error]);
     XCTAssertNil(error);
     XCTAssertFalse([self.syncManager isStopped], @"Stopped should be false");
     [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId1 expectedTarget:target1 expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];

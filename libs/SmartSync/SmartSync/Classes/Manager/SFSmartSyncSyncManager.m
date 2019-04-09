@@ -53,12 +53,12 @@ NSString * const kSFSyncManagerStateStopped = @"stopped";
 // Errors
 NSString* const kSFSmartSyncErrorDomain = @"com.salesforce.SmartSync.ErrorDomain";
 NSString* const kSFSyncManagerStoppedError = @"SyncManagerStoppedError";
-NSString* const kSFSyncManagerCannotResumeError = @"SyncManagerCannotError";
+NSString* const kSFSyncManagerCannotRestartError = @"SyncManagerCannotRestartError";
 NSString* const kSFSyncAlreadyRunningError = @"SyncAlreadyRunningError";
 NSString* const kSFSyncNotExistError = @"SyncNotExistError";
 
 NSInteger const kSFSyncManagerStoppedErrorCode = 900;
-NSInteger const kSFSyncManagerCannotResumeErrorCode = 901;
+NSInteger const kSFSyncManagerCannotRestartErrorCode = 901;
 NSInteger const kSFSyncAlreadyRunningErrorCode = 902;
 NSInteger const kSFSyncNotExistErrorCode = 903;
 
@@ -187,7 +187,7 @@ static NSMutableDictionary *syncMgrList = nil;
     return self;
 }
 
-#pragma mark - stop / resume methods
+#pragma mark - stop / restart methods
 
 - (void) setState:(SFSyncManagerState)state {
     if (_state != state) {
@@ -216,7 +216,7 @@ static NSMutableDictionary *syncMgrList = nil;
     return self.state == SFSyncManagerStateStopped;
 }
 
-- (BOOL) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
+- (BOOL) restart:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
     @synchronized (self) {
         if ([self isStopped]) {
             self.state = SFSyncManagerStateAcceptingSyncs;
@@ -230,8 +230,8 @@ static NSMutableDictionary *syncMgrList = nil;
             return YES;
         } else {
             if (error) {
-                NSString* description = [NSString stringWithFormat:@"resume() called on a sync manager that has state: %@", [SFSmartSyncSyncManager stateToString:self.state]];
-                *error = [self errorWithType:kSFSyncManagerCannotResumeError code:kSFSyncManagerCannotResumeErrorCode description:description];
+                NSString* description = [NSString stringWithFormat:@"restart() called on a sync manager that has state: %@", [SFSmartSyncSyncManager stateToString:self.state]];
+                *error = [self errorWithType:kSFSyncManagerCannotRestartError code:kSFSyncManagerCannotRestartErrorCode description:description];
             }
             return NO;
         }

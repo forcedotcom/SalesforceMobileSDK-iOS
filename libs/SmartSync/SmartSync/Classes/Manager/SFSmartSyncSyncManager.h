@@ -50,12 +50,12 @@ extern NSString * const kSFSyncManagerStateStopped;
 // Errors
 extern NSString* const kSFSmartSyncErrorDomain;
 extern NSString* const kSFSyncManagerStoppedError;
-extern NSString* const kSFSyncManagerCannotResumeError;
+extern NSString* const kSFSyncManagerCannotRestartError;
 extern NSString* const kSFSyncAlreadyRunningError;
 extern NSString* const kSFSyncNotExistError;
 
 extern NSInteger const kSFSyncManagerStoppedErrorCode;
-extern NSInteger const kSFSyncManagerCannotResumeErrorCode;
+extern NSInteger const kSFSyncManagerCannotRestartErrorCode;
 extern NSInteger const kSFSyncAlreadyRunningErrorCode;
 extern NSInteger const kSFSyncNotExistErrorCode;
 
@@ -150,14 +150,14 @@ NS_SWIFT_NAME(SyncManager)
 - (BOOL) isStopped;
 
 /**
- * Resume this sync manager
+ * Restart this sync manager
  *
  * @param restartStoppedSyncs Pass YES to restart all stopped sync.
  * @param updateBlock The block to be called with updates.
  * @param error To get an error back (optional).
- * @return YES if resume started successfully.
+ * @return YES if restarted successfully.
  */
-- (BOOL) resume:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error NS_SWIFT_NAME(resume(restartStoppedSyncs:onUpdate:));
+- (BOOL) restart:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error NS_SWIFT_NAME(restart(restartStoppedSyncs:onUpdate:));
 
 /**
  * Check if sync manager is running
