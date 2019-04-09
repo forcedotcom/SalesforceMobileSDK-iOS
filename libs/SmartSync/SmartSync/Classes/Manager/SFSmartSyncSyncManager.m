@@ -347,7 +347,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
 /** Run a previously created sync
  */
-- (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
+- (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncTask* task;
     switch (sync.type) {
         case SFSyncStateSyncTypeDown:
@@ -390,7 +390,7 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 
     SFSyncState *sync = [self createSyncDown:target options:options soupName:soupName syncName:syncName];
-    [self runSync:sync updateBlock:updateBlock error:nil];
+    [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
 
@@ -444,7 +444,7 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 
     [SFSDKSmartSyncLogger d:[self class] format:@"reSync:%@", sync];
-    [self runSync:sync updateBlock:updateBlock error:error];
+    [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
 
@@ -483,7 +483,7 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 
     SFSyncState *sync = [self createSyncUp:target options:options soupName:soupName syncName:syncName];
-    [self runSync:sync updateBlock:updateBlock error:nil];
+    [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
 

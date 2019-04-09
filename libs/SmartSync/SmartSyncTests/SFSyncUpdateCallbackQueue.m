@@ -27,7 +27,7 @@
 #define MAX_WAIT_TIME 5.0
 
 @interface SFSmartSyncSyncManager()
-- (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error;
+- (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 @end
 
 
@@ -55,7 +55,7 @@
         @synchronized(self.queue) {
             [self.queue addObject:[sync copy]];
         }
-    } error:nil];
+    }];
 }
 
 - (SFSyncState*) runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager {
