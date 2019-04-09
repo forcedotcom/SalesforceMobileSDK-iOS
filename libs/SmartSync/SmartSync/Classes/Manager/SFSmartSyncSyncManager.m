@@ -348,10 +348,6 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Run a previously created sync
  */
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
-    if (![self checkAcceptingSyncs:error]) {
-        return;
-    }
-    
     SFSyncTask* task;
     switch (sync.type) {
         case SFSyncStateSyncTypeDown:
@@ -381,10 +377,18 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-   return [self syncDownWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock];
+    return [self syncDownWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock error:nil];
 }
 
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    return [self syncDownWithTarget:target options:options soupName:soupName syncName:syncName updateBlock:updateBlock error:nil];
+}
+
+- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
+    if (![self checkAcceptingSyncs:error]) {
+        return nil;
+    }
+
     SFSyncState *sync = [self createSyncDown:target options:options soupName:soupName syncName:syncName];
     [self runSync:sync updateBlock:updateBlock error:nil];
     return [sync copy];
@@ -427,7 +431,7 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (SFSyncState*) reSyncWithSync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
-    if (![self checkNotRunning:@(sync.syncId) error:error]) {
+    if (![self checkAcceptingSyncs:error] || ![self checkNotRunning:@(sync.syncId) error:error]) {
         return nil;
     }
     
@@ -457,14 +461,27 @@ static NSMutableDictionary *syncMgrList = nil;
                          options:(SFSyncOptions *)options
                         soupName:(NSString *)soupName
                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    return [self syncUpWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock];
+    return [self syncUpWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock error:nil];
+}
+
+- (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
+                          options:(SFSyncOptions *)options
+                         soupName:(NSString *)soupName
+                         syncName:(NSString*)syncName
+                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    return [self syncUpWithTarget:target options:options soupName:soupName syncName:syncName updateBlock:updateBlock error:nil];
 }
 
 - (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
                          options:(SFSyncOptions *)options
                         soupName:(NSString *)soupName
                         syncName:(NSString*)syncName
-                     updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+                     updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock
+                            error:(NSError**)error {
+    if (![self checkAcceptingSyncs:error]) {
+        return nil;
+    }
+
     SFSyncState *sync = [self createSyncUp:target options:options soupName:soupName syncName:syncName];
     [self runSync:sync updateBlock:updateBlock error:nil];
     return [sync copy];
