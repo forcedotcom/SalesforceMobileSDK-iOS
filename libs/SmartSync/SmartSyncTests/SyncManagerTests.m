@@ -996,7 +996,7 @@
     XCTAssertEqual(kSFSyncManagerStoppedErrorCode, error.code, @"Wrong error code");
     XCTAssertEqualObjects(kSFSyncManagerStoppedError, error.userInfo[@"error"], @"Wrong error type");
     
-    // Resuming sync manager without restarting syncs
+    // Restarting sync manager without restarting syncs
     error = nil;
     BOOL resultOfRestart = [queue restart:self.syncManager restartStoppedSyncs:NO restartSterror:&error];
     XCTAssertTrue(resultOfRestart);
@@ -1009,7 +1009,7 @@
     // Stop sync manager
     [self stopSyncManager:0];
 
-    // Resuming sync manager restarting syncs
+    // Restarting sync manager restarting syncs
     error = nil;
     resultOfRestart = [queue restart:self.syncManager restartStoppedSyncs:YES restartSterror:&error];
     XCTAssertTrue(resultOfRestart);
@@ -1076,7 +1076,7 @@
     [self checkSyncState:@(syncId1) expectedTimeStamp:[target1 dateForPositionAsMillis:numberOfRecordsFetched1-1] expectedStatus:SFSyncStateStatusStopped];
     [self checkSyncState:@(syncId2) expectedTimeStamp:-1 expectedStatus:SFSyncStateStatusStopped];
 
-    // Resuming sync manager without restarting syncs
+    // Restarting sync manager without restarting syncs
     XCTAssertTrue([queue restart:self.syncManager restartStoppedSyncs:NO restartSterror:&error]);
     XCTAssertNil(error);
     XCTAssertFalse([self.syncManager isStopped], @"Stopped should be false");
@@ -1104,7 +1104,7 @@
     [self checkDbForAfterTestSyncDown:target1 soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecordsFetched1];
     [self checkDbForAfterTestSyncDown:target2 soupName:ACCOUNTS_SOUP expectedNumberOfRecords:numberOfRecordsFetched2];
 
-    // Resuming sync manager restarting syncs
+    // Restarting sync manager restarting syncs
     XCTAssertTrue([queue restart:self.syncManager restartStoppedSyncs:YES restartSterror:&error]);
     XCTAssertNil(error);
     XCTAssertFalse([self.syncManager isStopped], @"Stopped should be false");

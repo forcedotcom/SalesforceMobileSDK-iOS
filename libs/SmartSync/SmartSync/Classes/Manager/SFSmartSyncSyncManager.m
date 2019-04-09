@@ -223,7 +223,7 @@ static NSMutableDictionary *syncMgrList = nil;
             if (restartStoppedSyncs) {
                 NSArray* stoppedSyncs = [SFSyncState getSyncsWithStatus:self.store status:SFSyncStateStatusStopped];
                 for (SFSyncState* sync in stoppedSyncs) {
-                    [SFSDKSmartSyncLogger d:[self class] format:@"resuming %@", @(sync.syncId)];
+                    [SFSDKSmartSyncLogger d:[self class] format:@"restarting %@", @(sync.syncId)];
                     [self reSync:@(sync.syncId) updateBlock:updateBlock error:nil];
                 }
             }
