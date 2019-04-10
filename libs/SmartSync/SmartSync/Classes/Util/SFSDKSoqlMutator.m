@@ -91,7 +91,9 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
     for(NSString* token in tokens) {
         if ([token hasPrefix:@"("]) {
             depth++;
-        } else if ([token hasSuffix:@")"]) {
+        }
+        // NB: same token could end with ")" .e.g "('abc','def')"
+        if ([token hasSuffix:@")"]) {
             depth--;
         }
         

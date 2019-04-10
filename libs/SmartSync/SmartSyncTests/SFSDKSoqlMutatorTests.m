@@ -98,8 +98,13 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     XCTAssertEqualObjects(@"select Description from Account where LastModifiedDate > 123", [[[[SFSDKSoqlMutator withSoql:soql] addWherePredicates:@"LastModifiedDate > 123"] asBuilder] build]);
 }
 
-- (void) testReplaceOrderBy {
+- (void) testReplaceOrderByWhenAbsent {
     NSString* soql = @"SELECT Description FROM Account";
+    XCTAssertEqualObjects(@"select Description from Account order by LastModifiedDate", [[[[SFSDKSoqlMutator withSoql:soql] replaceOrderBy:@"LastModifiedDate"] asBuilder] build]);
+}
+
+- (void) testReplaceOrderByWhenPresent {
+    NSString* soql = @"SELECT Description FROM Account ORDER BY Name";
     XCTAssertEqualObjects(@"select Description from Account order by LastModifiedDate", [[[[SFSDKSoqlMutator withSoql:soql] replaceOrderBy:@"LastModifiedDate"] asBuilder] build]);
 }
 
@@ -140,5 +145,10 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] hasOrderBy]);
 }
 
+- (void) testModifyQueryWithInClause {
+    NSString* soql = @"select Name from Account where Id IN ('001P000001NQPjJIAX','001P000001NQPkdIAH') order by Name";
+    NSString* expectedSoql = @"select Id,LastModifiedDate,Name from Account where Id IN ('001P000001NQPjJIAX','001P000001NQPkdIAH') order by LastModifiedDate";
+    XCTAssertEqualObjects(expectedSoql, [[[[[[SFSDKSoqlMutator withSoql:soql] addSelectFields:@"LastModifiedDate"] addSelectFields:@"Id"] replaceOrderBy:@"LastModifiedDate"] asBuilder] build]);
+}
 
 @end

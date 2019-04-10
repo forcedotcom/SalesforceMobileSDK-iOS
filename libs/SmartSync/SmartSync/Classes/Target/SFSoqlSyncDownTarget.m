@@ -59,23 +59,29 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 - (void) modifyQueryIfNeeded {
     if (self.query) {
+        BOOL mutated = NO;
         SFSDKSoqlMutator* mutator = [SFSDKSoqlMutator withSoql:self.query];
         // Inserts the mandatory 'LastModifiedDate' field if it doesn't exist.
         if (![mutator isSelectingField:self.modificationDateFieldName]) {
+            mutated = YES;
             [mutator addSelectFields:self.modificationDateFieldName];
         }
         
         // Inserts the mandatory 'Id' field if it doesn't exist.
         if (![mutator isSelectingField:self.idFieldName]) {
+            mutated = YES;
             [mutator addSelectFields:self.idFieldName];
         }
         
         // Order by 'LastModifiedDate' field if no order by specified
         if (![mutator hasOrderBy]) {
+            mutated = YES;
             [mutator replaceOrderBy:self.modificationDateFieldName];
         }
 
-        self.query = [[mutator asBuilder] build];
+        if (mutated) {
+            self.query = [[mutator asBuilder] build];
+        }
     }
 }
 
