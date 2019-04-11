@@ -139,15 +139,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
     
     if (!_encryptionSaltBlock) {
         _encryptionSaltBlock = ^ {
-            NSString *salt = nil;
-            if ([[SFSDKDatasharingHelper sharedInstance] appGroupEnabled]) {
-                SFKeychainItemWrapper *saltItem = [SFKeychainItemWrapper itemWithIdentifier:kSFSmartStoreEncryptionSaltLabel account:nil];
-                salt = [saltItem valueString];
-                if (!salt){
-                    // First Create a Salt 32 byte long
-                    salt = [[SFSDKCryptoUtils randomByteDataWithLength:32] md5];
-                    [saltItem setValueString:salt];
-                }
+            NSString* salt = nil;
+            if ([[SFKeyStoreManager sharedInstance] keyWithLabelExists:kSFSmartStoreEncryptionSaltLabel] || [[SFSDKDatasharingHelper sharedInstance] appGroupEnabled]) {
+                SFEncryptionKey *saltKey = [[SFKeyStoreManager sharedInstance]   retrieveKeyWithLabel:kSFSmartStoreEncryptionSaltLabel autoCreate:YES];
+                salt = [[saltKey key] md5];
             }
             return salt;
         };
