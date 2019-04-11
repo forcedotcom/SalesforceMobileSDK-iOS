@@ -297,9 +297,10 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     NSString *newline = @"\r\n";
     NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\";", key];
     if (fileName) {
-        bodyContentDisposition = [bodyContentDisposition stringByAppendingFormat:@" filename=\"%@\"%@", fileName, newline];
+        bodyContentDisposition = [bodyContentDisposition stringByAppendingFormat:@" filename=\"%@\"", fileName];
     }
     [body appendData:[bodyContentDisposition dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"Content-Type: %@; charset=UTF-8%@",mimeType, newline] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:fileData];

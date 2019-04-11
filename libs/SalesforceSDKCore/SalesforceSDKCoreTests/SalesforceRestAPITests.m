@@ -1298,6 +1298,7 @@ static NSException *authException = nil;
     // check response
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     XCTAssertEqualObjects(listener.dataResponse[@"title"], fileTitle, @"wrong title");
+    XCTAssertEqualObjects(listener.dataResponse[@"description"], fileDescription, @"wrong description");
     XCTAssertEqual([listener.dataResponse[@"contentSize"] intValue], [fileSize intValue], @"wrong content size");
     XCTAssertEqualObjects(listener.dataResponse[@"mimeType"], fileMimeType, @"wrong mime type");
     
