@@ -206,15 +206,17 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         // => should open 2.x databases without any migration
         [[db executeQuery:@"PRAGMA cipher_default_kdf_iter = 4000"] close];
         
-        if(key) {
+        if (key && [key length] > 0 ) {
+           
             [db setKey:key];
-        }
         
-        if (salt){
-            [[db executeQuery:@"PRAGMA cipher_plaintext_header_size = 32"] close];
-            NSString *pragma = [NSString stringWithFormat:@"PRAGMA cipher_salt = \"x'%@'\"",salt];
-            [[db executeQuery:pragma] close];
-            sqlite3_exec(db.sqliteHandle, "PRAGMA journal_mode = WAL;",0,0,0);
+            if (salt) {
+                [[db executeQuery:@"PRAGMA cipher_plaintext_header_size = 32"] close];
+                NSString *pragma = [NSString stringWithFormat:@"PRAGMA cipher_salt = \"x'%@'\"",salt];
+                [[db executeQuery:pragma] close];
+                sqlite3_exec(db.sqliteHandle, "PRAGMA journal_mode = WAL;",0,0,0);
+            }
+        
         }
         
     }
