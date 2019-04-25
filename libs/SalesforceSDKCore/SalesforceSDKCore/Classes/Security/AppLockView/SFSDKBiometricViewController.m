@@ -197,6 +197,9 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
          [self showBiometric];
     } else {
         [self showBiometricSetup];
+        if (UIAccessibilityIsVoiceOverRunning()) {
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.biometricSetupTitle);
+        }
     }
 }
 
