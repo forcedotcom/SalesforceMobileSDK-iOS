@@ -122,7 +122,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     self.passcodeTextView.secureTextEntry = YES;
     self.passcodeTextView.isAccessibilityElement = YES;
     if (self.passcodeLengthKnown) {
-        self.passcodeTextView.accessibilityHint = [[NSString alloc] initWithFormat:[SFSDKResourceUtils localizedString:@"accessibilityPasscodeLengthHint"], self.viewConfig.passcodeLength];
+        self.passcodeTextView.accessibilityHint = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"accessibilityPasscodeLengthHint"], self.viewConfig.passcodeLength];
     }
     [self.passcodeTextView clearPasscode];
     [self.view addSubview:self.passcodeTextView];
@@ -180,7 +180,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     [super viewWillAppear:animated];
     [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"verifyPasscodeNavTitle"]];
     [self.passcodeInstructionsLabel setFont:self.viewConfig.instructionFont];
-    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.passcodeInstructionsLabel);
+    [self accessibilityAnnounce:self.passcodeInstructionsLabel];
     [self layoutSubviews];
     [self.passcodeTextView refreshView];
 }
@@ -309,7 +309,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
             
             NSString *passcodeFailedString = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"passcodeInvalidError"], self.remainingAttempts];
             [self.passcodeInstructionsLabel setText:passcodeFailedString];
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, passcodeFailedString);
+            [self accessibilityAnnounce:passcodeFailedString];
             [self layoutSubviews];
             
             if (![self.navigationItem.leftBarButtonItem isEnabled]) {
@@ -335,14 +335,20 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 {
     [self resetReaminingAttemps];
     [self.verifyDelegate passcodeVerified];
-    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, [SFSDKResourceUtils localizedString:@"accessibilityUnlockAnnouncement"]);
+    [self accessibilityAnnounce:[SFSDKResourceUtils localizedString:@"accessibilityUnlockAnnouncement"]] ;
 }
 
 - (void)validatePasscodeFailed
 {
     [self resetReaminingAttemps];
     [self.verifyDelegate passcodeFailed];
-    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, [SFSDKResourceUtils localizedString:@"accessibilityLoggedOutAnnouncement"]);
+    [self accessibilityAnnounce:[SFSDKResourceUtils localizedString:@"accessibilityLoggedOutAnnouncement"]] ;
 }
 
+- (void)accessibilityAnnounce:(NSString *)text
+{
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, text);
+    }
+}
 @end

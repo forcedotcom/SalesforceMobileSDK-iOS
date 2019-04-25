@@ -142,7 +142,9 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     self.passcodeInstructionsLabel.text = [SFSDKResourceUtils localizedString:instructions];
     [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"createPasscodeNavTitle"]];
     [self.passcodeInstructionsLabel setFont:self.viewConfig.instructionFont];
-    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.passcodeInstructionsLabel);
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.passcodeInstructionsLabel);
+    }
     [self.passcodeTextView refreshView];
 }
 
@@ -216,7 +218,9 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
                 [self.passcodeTextView clearPasscode];
                 [self.passcodeTextView refreshView];
                 [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodesDoNotMatchError"]];
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.passcodeInstructionsLabel.text);
+                if (UIAccessibilityIsVoiceOverRunning()) {
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.passcodeInstructionsLabel.text);
+                }
                 self.firstPasscodeValidated = NO;
                 return NO; // return no for accessibility keyboard noise
             }
@@ -229,7 +233,9 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
             //Change labels for confirm passcode
             [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"verifyPasscodeNavTitle"]];
             [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeConfirmInstructions"]];
-            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.passcodeInstructionsLabel.text);
+            if (UIAccessibilityIsVoiceOverRunning()) {
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.passcodeInstructionsLabel.text);
+            }
             [self.passcodeInstructionsLabel setFont:self.viewConfig.instructionFont];
             [self layoutSubviews];
         }
