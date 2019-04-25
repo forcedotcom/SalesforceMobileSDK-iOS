@@ -48,7 +48,7 @@
 "biometricFallbackActionLabel" = "Use Passcode";
 "biometricReason" = "Please authenticate to proceed.";
 "logoutButtonTitle" = "Log out";
-"accesibilityPasscodeFieldLabel" = "Passcode field";
+"accessibilityPasscodeFieldLabel" = "Passcode field";
 "accessibilityPasscodeLengthHint" = "Passcode is %d numbers long.";
 "accessibilityUnlockAnnouncement" = "Passcode confirmed.";
 "accessibilityLoggedOutAnnouncement" = "You are logged out.";
