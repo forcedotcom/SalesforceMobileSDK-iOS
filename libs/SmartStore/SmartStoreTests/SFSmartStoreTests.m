@@ -1307,6 +1307,27 @@
     }
 }
 
+- (void)testReadMultiByteCharacterAroundBufferBoundary {
+    // This test ensures that a string containing a multi-byte character is properly read back
+    // when that character is located at the buffer boundary.
+    NSMutableString *text = [NSMutableString string];
+    // Fill the string up to one byte before the buffer ends
+    for (NSUInteger index = 0; index < kBufferSize - 1; index++) {
+        [text appendString:@"A"];
+    }
+    // Let's use the character 𝄞 which uses 4 bytes (internally stored as UTF-16 surrogate pair)
+    // and will span the buffer boundary
+    [text appendString:@"𝄞"];
+    // Add a few more character after the buffer boundary
+    for (NSUInteger index = 0; index < 125; index++) {
+        [text appendString:@"B"];
+    }
+    NSInputStream *is = [NSInputStream inputStreamWithData:[text dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSString *outputText = [SFSmartStore stringFromInputStream:is];
+    XCTAssertEqualObjects(text, outputText);
+}
+
 #pragma mark - helper methods
 
 - (SFSmartStore *)smartStoreForManager:(SFSmartStoreDatabaseManager *)dbMgr withName:(NSString *)storeName

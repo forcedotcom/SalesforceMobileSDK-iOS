@@ -34,6 +34,8 @@ typedef NS_ENUM(NSUInteger, SFSmartStoreFtsExtension) {
     SFSmartStoreFTS5 = 5
 };
 
+// Buffer size when reading/writing bytes in memory
+static NSUInteger kBufferSize = 4096;
 
 @interface SFSmartStore ()
 
@@ -214,6 +216,12 @@ typedef NS_ENUM(NSUInteger, SFSmartStoreFtsExtension) {
  FOR UNIT TESTING.  Removes all of the shared smart store objects from memory (persisted stores remain).
  */
 + (void)clearSharedStoreMemoryState;
+
+/**
+ FOR UNIT TESTING.
+ @return string decoded from the specified input stream
+ */
++ (NSString*) stringFromInputStream:(NSInputStream*)inputStream;
 
 /**
  Convert smart sql to sql.

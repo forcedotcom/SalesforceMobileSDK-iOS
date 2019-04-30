@@ -864,7 +864,6 @@ NSString *const EXPLAIN_ROWS = @"rows";
                                 key:(NSData*)key
                                  iv:(NSData*)iv
 {
-    NSMutableData* content = [NSMutableData new];
     NSInputStream *inputStream = nil;
     if (key) {
         SFDecryptStream *decryptStream = [[SFDecryptStream alloc] initWithFileAtPath:filePath];
@@ -874,14 +873,18 @@ NSString *const EXPLAIN_ROWS = @"rows";
         inputStream = [[NSInputStream alloc] initWithFileAtPath:filePath];
     }
     
-    
+    return [SFSmartStore stringFromInputStream:inputStream];
+}
+
++ (NSString*) stringFromInputStream:(NSInputStream*)inputStream {
     //
     // We get all the bytes and then convert them to a string
     // If you convert each buffer's worth of bytes to a string
     // you might end up corrupting the string (because a multi bytes character could have been split at the buffer boundary)
     //
-    uint8_t buffer[4096];
+    uint8_t buffer[kBufferSize];
     NSInteger len;
+    NSMutableData* content = [NSMutableData new];
     [inputStream open];
     while ((len = [inputStream read:buffer maxLength:sizeof(buffer)]) > 0) {
         [content appendBytes:buffer length:len];
