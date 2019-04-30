@@ -169,6 +169,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
                 _storeUpgradeHasRun = YES;
                 [SFSmartStoreUpgrade updateStoreLocations];
                 [SFSmartStoreUpgrade updateEncryption];
+                [SFSmartStoreUpgrade updateEncryptionSalt];
             }
         }
         _storeName = name;
