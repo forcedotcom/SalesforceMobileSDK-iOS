@@ -141,9 +141,13 @@ NSString * const kOAuthAppName = @"oauth_app_name";
 
 - (NSString *)oauthCompletionUrl
 {
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    NSString *redirectUri = [defs objectForKey:kOAuthRedirectUriKey];
-    return redirectUri;
+    if ([SFManagedPreferences sharedPreferences].connectedAppCallbackUri.length > 0 ) {
+        return [SFManagedPreferences sharedPreferences].connectedAppCallbackUri;
+    } else {
+        NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+        NSString *redirectUri = [defs objectForKey:kOAuthRedirectUriKey];
+        return redirectUri;
+    }
 }
 
 - (void)setOauthCompletionUrl:(NSString *)newRedirectUri
@@ -155,9 +159,13 @@ NSString * const kOAuthAppName = @"oauth_app_name";
 
 - (NSString *)oauthClientId
 {
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    NSString *clientId = [defs objectForKey:kOAuthClientIdKey];
-    return clientId;
+    if ([SFManagedPreferences sharedPreferences].connectedAppId.length > 0) {
+        return [SFManagedPreferences sharedPreferences].connectedAppId;
+    } else {
+        NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+        NSString *clientId = [defs objectForKey:kOAuthClientIdKey];
+        return clientId;
+    }
 }
 
 - (void)setOauthClientId:(NSString *)newClientId
@@ -169,8 +177,12 @@ NSString * const kOAuthAppName = @"oauth_app_name";
 
 - (NSString *)idpAppURIScheme
 {
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    return [defs stringForKey:kSFIDPKey];
+    if ( [SFManagedPreferences sharedPreferences].idpAppURLScheme.length > 0) {
+        return [SFManagedPreferences sharedPreferences].idpAppURLScheme;
+    } else {
+        NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+        return [defs stringForKey:kSFIDPKey];
+    }
 }
 
 - (void)setIdpAppURIScheme:(NSString *)appIdentifier
@@ -178,6 +190,10 @@ NSString * const kOAuthAppName = @"oauth_app_name";
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:appIdentifier forKey:kSFIDPKey];
     [defs synchronize];
+}
+
+- (BOOL)requireBrowserAuthentication {
+    return [SFManagedPreferences sharedPreferences].requireCertificateAuthentication ||  _requireBrowserAuthentication;
 }
 
 - (BOOL)idpEnabled
