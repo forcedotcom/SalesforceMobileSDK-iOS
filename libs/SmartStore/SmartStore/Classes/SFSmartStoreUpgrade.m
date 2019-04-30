@@ -170,7 +170,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
         NSError *backupError = nil;
         
         // backup and attempt to copy the reencryopted db with the new key + salt
-        NSFileManager *fileManager = [[NSFileManager alloc] init];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL *origDatabaseURL = [NSURL fileURLWithPath:origDatabasePath isDirectory:NO];
         NSURL *backupDatabaseURL = [NSURL fileURLWithPath:backupStorePath isDirectory:NO];
         
@@ -192,14 +192,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
         if (decryptDbError || ![SFSmartStoreDatabaseManager verifyDatabaseAccess:decryptedDB error:&decryptDbError] ) {
             NSString *errorDesc = [NSString stringWithFormat:@"Migrating db, Failed to decrypt  DB %@:", [decryptedDB lastErrorMessage]];
             [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db '%@', %@", storePath, errorDesc];
-            NSError *restoreBackupError = nil;
-            [fileManager removeItemAtPath:decryptedDB.databasePath error:nil];
-            [fileManager copyItemAtURL:backupDatabaseURL toURL:origDatabaseURL error:&restoreBackupError];
-            if (restoreBackupError) {
-                [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', Could not restore  from backup.", storePath];
-            } else {
-                [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', Recovered from backup.", storePath];
-            }
+            [self restoreBackupTo:origDatabaseURL from:backupDatabaseURL];
             return NO;
         }
         
@@ -210,15 +203,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
             NSString *errorDesc = [NSString stringWithFormat:@"Migrating db, Failed to reencrypt DB %@:", [reEncryptedDB lastErrorMessage]];
             [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db '%@', %@", storePath, errorDesc];
             [fileManager removeItemAtPath:decryptedDB.databasePath error:nil];
-            
-            NSError *restoreBackupError = nil;
-            [fileManager removeItemAtPath:decryptedDB.databasePath error:nil];
-            [fileManager copyItemAtURL:backupDatabaseURL toURL:origDatabaseURL error:&restoreBackupError];
-            if (restoreBackupError) {
-                [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', Could not restore  from backup.", storePath];
-            } else {
-                [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', Recovered from backup.", storePath];
-            }
+            [self restoreBackupTo:origDatabaseURL from:backupDatabaseURL];
             return NO;
         }
         
@@ -226,14 +211,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
             NSString *errorDesc = [NSString stringWithFormat:@"Failed to verify reencrypted  DB %@:", [decryptedDB lastErrorMessage]];
             [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', %@", storePath,errorDesc];
             [fileManager removeItemAtPath:reEncryptedDB.databasePath error:nil];
-            NSError *restoreBackupError = nil;
-            [fileManager removeItemAtPath:decryptedDB.databasePath error:nil];
-            [fileManager copyItemAtURL:backupDatabaseURL toURL:origDatabaseURL error:&restoreBackupError];
-            if (restoreBackupError) {
-                [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', Could not restore from backup.", storePath];
-            } else {
-                [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@',  Recovered from backup.", storePath];
-            }
+            [self restoreBackupTo:origDatabaseURL from:backupDatabaseURL];
             return NO;
         }
         [reEncryptedDB close];
@@ -244,6 +222,21 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
         return YES;
     }
     return NO;
+}
+
++ (BOOL)restoreBackupTo:(NSURL *)origDatabaseURL from:(NSURL *)backupDatabaseURL {
+    BOOL success = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *restoreBackupError = nil;
+    [fileManager removeItemAtPath:origDatabaseURL.path error:nil];
+    [fileManager copyItemAtURL:backupDatabaseURL toURL:origDatabaseURL error:&restoreBackupError];
+    if (restoreBackupError) {
+        [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', Could not restore  from backup.", origDatabaseURL];
+    } else {
+        success = YES;
+        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', Recovered from backup.", origDatabaseURL];
+    }
+    return success;
 }
 
 + (BOOL)updateEncryptionForStore:(NSString *)storeName user:(SFUserAccount *)user
