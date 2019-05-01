@@ -97,10 +97,10 @@
     
     return [self instr_loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *account) {
         sf_os_signpost_interval_end(logger, sid, "Salesforce Login", "End - Success");
-        completionBlock(authInfo,account);
+        if (completionBlock) completionBlock(authInfo,account);
     } failure:^(SFOAuthInfo * authInfo, NSError * error) {
         sf_os_signpost_interval_end(logger, sid, "Salesforce Login", "End - Failure");
-        failureBlock(authInfo,error);
+        if (failureBlock) failureBlock(authInfo,error);
     }];
    
 }
@@ -116,10 +116,10 @@
     
     return [self instr_refreshCredentials:credentials completion:^(SFOAuthInfo *authInfo, SFUserAccount *account) {
         sf_os_signpost_interval_end(logger, sid, "Salesforce Refresh", "End - Success");
-        completionBlock(authInfo,account);
+        if (completionBlock) completionBlock(authInfo,account);
     } failure:^(SFOAuthInfo * authInfo, NSError * error) {
         sf_os_signpost_interval_end(logger, sid, "Salesforce Refresh", "End - Failure");
-        failureBlock(authInfo,error);
+        if (failureBlock) failureBlock(authInfo,error);
     }];
 }
 
@@ -133,10 +133,10 @@
     
     return [self instr_loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *account) {
         sf_os_signpost_interval_end(logger, sid, "Salesforce Login JWT", "Did Login user %{public}@",account.idData.username);
-        completionBlock(authInfo,account);
+        if (completionBlock) completionBlock(authInfo,account);
     } failure:^(SFOAuthInfo * authInfo, NSError * error) {
         sf_os_signpost_interval_end(logger, sid, "Salesforce Login JWT", "Login - Failure");
-        failureBlock(authInfo,error);
+        if (failureBlock) failureBlock(authInfo,error);
     }];
 }
 
