@@ -70,6 +70,7 @@
 		B716A3D7218F6AD6009D407F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A3B2218F6AAC009D407F /* SalesforceAnalytics.framework */; };
 		B716A3D8218F6AD6009D407F /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A3C0218F6AB3009D407F /* SalesforceSDKCommon.framework */; };
 		B716A3D9218F6AD6009D407F /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A3CE218F6ABA009D407F /* SalesforceSDKCore.framework */; };
+		B7352CAD2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7352CAC2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m */; };
 		B78928412243DE5700BEDED4 /* SFSmartStore+Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = B789283F2243DE5700BEDED4 /* SFSmartStore+Instrumentation.h */; };
 		B78928422243DE5700BEDED4 /* SFSmartStore+Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = B789283F2243DE5700BEDED4 /* SFSmartStore+Instrumentation.h */; };
 		B78928432243DE5700BEDED4 /* SFSmartStore+Instrumentation.m in Sources */ = {isa = PBXBuildFile; fileRef = B78928402243DE5700BEDED4 /* SFSmartStore+Instrumentation.m */; };
@@ -384,6 +385,7 @@
 		B716A3B9218F6AB3009D407F /* SalesforceSDKCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCommon.xcodeproj; path = ../SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj; sourceTree = "<group>"; };
 		B716A3C5218F6ABA009D407F /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		B7282F441D8C713C00475F79 /* SmartStoreTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartStoreTestApp.entitlements; sourceTree = "<group>"; };
+		B7352CAC2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreSharingUpgradeTests.m; sourceTree = "<group>"; };
 		B789283F2243DE5700BEDED4 /* SFSmartStore+Instrumentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSmartStore+Instrumentation.h"; sourceTree = "<group>"; };
 		B78928402243DE5700BEDED4 /* SFSmartStore+Instrumentation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SFSmartStore+Instrumentation.m"; sourceTree = "<group>"; };
 		B7DD6CE41DC178D0004C04F4 /* SFMultipleSmartStoresTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMultipleSmartStoresTest.h; sourceTree = "<group>"; };
@@ -669,6 +671,7 @@
 				4F96015D1BFD33B30022F021 /* SFSmartStoreTests.h */,
 				4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */,
 				C03DE7DA1D1B44D000BFA6BD /* SFSmartStoreWithExternalStorageTests.m */,
+				B7352CAC2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m */,
 				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
 			);
 			path = SmartStoreTests;
@@ -1158,6 +1161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7352CAD2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m in Sources */,
 				4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */,
 				4FAB7D811F8D8C3C00226249 /* SFSDKStoreConfigTests.m in Sources */,
 				4FEE44851BFD5CCC00F09C43 /* SFSmartSqlWithExternalStorageTests.m in Sources */,

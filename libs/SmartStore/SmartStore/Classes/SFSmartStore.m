@@ -169,6 +169,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
                 _storeUpgradeHasRun = YES;
                 [SFSmartStoreUpgrade updateStoreLocations];
                 [SFSmartStoreUpgrade updateEncryption];
+                [SFSmartStoreUpgrade updateEncryptionSalt];
             }
         }
         _storeName = name;
@@ -300,7 +301,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
 
 - (BOOL) openStoreDatabase {
     NSError *openDbError = nil;
-    NSString *salt =  [[self class] encryptionSaltBlock]();
+    NSString *salt =  [[self class]encryptionSaltBlock] ? [[self class] encryptionSaltBlock]() :nil;
     self.storeQueue = [self.dbMgr openStoreQueueWithName:self.storeName key:[[self class] encKey] salt:salt error:&openDbError];
     if (self.storeQueue == nil) {
         [SFSDKSmartStoreLogger e:[self class] format:@"Error opening store '%@': %@", self.storeName, [openDbError localizedDescription]];

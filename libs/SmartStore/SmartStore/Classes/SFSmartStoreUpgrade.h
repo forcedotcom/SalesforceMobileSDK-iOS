@@ -42,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)updateEncryption;
 
++ (void)updateEncryptionSalt;
+
 /**
  Whether or not a given store for the given user is encrypted based on the key store key.
  @param user The user associated with the store.

@@ -205,19 +205,17 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         // Using sqlcipher 2.x kdf iter because 3.x default (64000) and 4.x default (256000) are too slow
         // => should open 2.x databases without any migration
         [[db executeQuery:@"PRAGMA cipher_default_kdf_iter = 4000"] close];
+       
+        if (key)
+           [db setKey:key];
         
-        if (key && [key length] > 0 ) {
-           
-            [db setKey:key];
-        
-            if (salt) {
-                [[db executeQuery:@"PRAGMA cipher_plaintext_header_size = 32"] close];
-                NSString *pragma = [NSString stringWithFormat:@"PRAGMA cipher_salt = \"x'%@'\"",salt];
-                [[db executeQuery:pragma] close];
-                sqlite3_exec(db.sqliteHandle, "PRAGMA journal_mode = WAL;",0,0,0);
-            }
-        
+        if (salt  && [key length] > 0 ){
+            [[db executeQuery:@"PRAGMA cipher_plaintext_header_size = 32"] close];
+            NSString *pragma = [NSString stringWithFormat:@"PRAGMA cipher_salt = \"x'%@'\"",salt];
+            [[db executeQuery:pragma] close];
+            sqlite3_exec(db.sqliteHandle, "PRAGMA journal_mode = WAL;",0,0,0);
         }
+            
         
     }
     BOOL accessible = [self verifyDatabaseAccess:db error:nil];
@@ -344,6 +342,14 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         [manager removeItemAtPath:encDbPath error:nil];
         return db;
     }
+    
+    // Use sqlcipher_export() to move the data from the input DB over to the new one.
+    if (salt) {
+        [[db executeQuery:@"PRAGMA encrypted.cipher_plaintext_header_size = 32"] close];
+        NSString *pragma = [NSString stringWithFormat:@"PRAGMA encrypted.cipher_salt = \"x'%@'\"",salt];
+        [[db executeQuery:pragma] close];
+    }
+    
     FMResultSet *rs = [db executeQuery:@"SELECT sqlcipher_export('encrypted')"];
     if (rs == nil || ![rs next]) {
         [rs close];
