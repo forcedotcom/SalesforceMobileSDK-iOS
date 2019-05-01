@@ -146,7 +146,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
     
     //get Key and new Salt
     NSString *key = [SFSmartStore encKey];
-    NSString *newSalt = [SFSmartStore encryptionSaltBlock]();
+    NSString *newSalt = [SFSmartStore salt];
     
     FMDatabase *originalEncyptedDB = [databaseManager openStoreDatabaseWithName:storeName
                                                                             key:key

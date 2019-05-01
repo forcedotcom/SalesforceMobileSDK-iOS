@@ -206,7 +206,8 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         // => should open 2.x databases without any migration
         [[db executeQuery:@"PRAGMA cipher_default_kdf_iter = 4000"] close];
        
-        [db setKey:key];
+        if (key)
+           [db setKey:key];
         
         if (salt  && [key length] > 0 ){
             [[db executeQuery:@"PRAGMA cipher_plaintext_header_size = 32"] close];
