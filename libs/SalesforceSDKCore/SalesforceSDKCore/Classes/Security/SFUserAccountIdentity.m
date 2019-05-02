@@ -48,7 +48,7 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
 {
     self = [super init];
     if (self) {
-        _userId = userId;
+        self.userId = userId;
         _orgId = orgId;
     }
     return self;
