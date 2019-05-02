@@ -432,29 +432,14 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertNotNil(user);
 }
 
-- (void)testLoginNotificationPosted
-{
-    SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
-    
-    [self expectationForNotification:kSFNotificationUserDidLogIn object:[SFUserAccountManager sharedInstance] handler:^BOOL(NSNotification * notification) {
-        return notification.userInfo[kSFNotificationUserInfoAccountKey]!=nil;
-    }];
-    
-    SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
-    __block SFUserAccount *user = nil;
-    
-    [[SFUserAccountManager sharedInstance]
-     refreshCredentials:credentials
-     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-         authListener.returnStatus = kTestRequestStatusDidLoad;
-         user = userAccount;
-     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-         authListener.lastError = error;
-         authListener.returnStatus = kTestRequestStatusDidFail;
-     }];
-    [authListener waitForCompletion];
-    [self waitForExpectationsWithTimeout:10.0 handler:nil];
-    XCTAssertNotNil(user);
+- (void)testEntityId15 {
+    NSString *userId = @"ABCDE12345ABCDE".entityId18;
+    SFUserAccountIdentity *identity = [[SFUserAccountIdentity alloc] initWithUserId:userId  orgId:@"ABCDE12345ABCDE"];
+    XCTAssertNotNil(identity);
+    XCTAssertTrue(userId.length == 18,@"EntityId18 should not be nil");
+    XCTAssertNotNil(identity.userId,@"userId should not be nil");
+    XCTAssertNotNil(identity.orgId,@"orgId should not be nil");
+    XCTAssertTrue(identity.userId.length == 15 ,@"userId should be set to EntityId 15 format");
 }
 
 - (void)testAuthHandler {
