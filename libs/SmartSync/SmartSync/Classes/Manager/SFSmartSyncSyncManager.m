@@ -218,7 +218,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
 - (BOOL) restart:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
     @synchronized (self) {
-        if ([self isStopped]) {
+        if ([self isStopped] || [self isStopping]) {
             self.state = SFSyncManagerStateAcceptingSyncs;
             if (restartStoppedSyncs) {
                 NSArray* stoppedSyncs = [SFSyncState getSyncsWithStatus:self.store status:SFSyncStateStatusStopped];
