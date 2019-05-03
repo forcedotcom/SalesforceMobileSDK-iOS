@@ -102,7 +102,7 @@ uint32_t const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
     while (inBufferWindow.location < len) {
         const uint8_t *inBuffer = &(buffer[inBufferWindow.location]);
         size_t cryptedCount = 0;
-        CCStatus result = CCCryptorUpdate(self.cryptor,
+        __unused CCStatus result = CCCryptorUpdate(self.cryptor,
                                           inBuffer,
                                           inBufferWindow.length,
                                           outBuffer,
@@ -123,7 +123,7 @@ uint32_t const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
         self.cryptFinalized = YES;
         uint8_t outBuffer[SFCryptChunksCipherBlockSize]; // the max output size of CCCryptorFinal is 1 cipher block size.
         size_t cryptedCount = 0;
-        CCStatus result = CCCryptorFinal(self.cryptor,
+        __unused CCStatus result = CCCryptorFinal(self.cryptor,
                                          outBuffer,
                                          SFCryptChunksCipherBlockSize,
                                          &cryptedCount);
