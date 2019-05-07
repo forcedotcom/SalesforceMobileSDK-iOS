@@ -70,7 +70,7 @@ static NSString * const kAuthConfigLoginPageUrlKey     = @"LoginPageUrl";
 - (NSString *)loginPageUrl {
     NSString *loginPageUrl = nil;
     NSDictionary *loginPage = self.authConfigDict[kAuthConfigLoginPageKey];
-    if (loginPage) {
+    if (![loginPage isKindOfClass:[NSNull class]] && [loginPage count] > 0) {
         loginPageUrl = loginPage[kAuthConfigLoginPageUrlKey];
     }
     return loginPageUrl;
