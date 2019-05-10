@@ -59,6 +59,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath;
 
+
+/**
+ * Read config and parse its content (which is expected to be json)
+ * @param configFilePath Path of resource file.
+ * @param error Sets/returns any error that took place when trying to read file.
+ * @return NSDictionary built from content of tile.
+ */
++ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath error:(NSError**)error;
+
 @end
 
 NS_ASSUME_NONNULL_END

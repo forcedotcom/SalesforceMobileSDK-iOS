@@ -44,7 +44,7 @@ static NSString *const kStoreConfigIndexes = @"indexes";
 - (nullable id)initWithResourceAtPath:(NSString *)path {
     self = [super init];
     if (self) {
-        NSDictionary *config = [SFSDKResourceUtils loadConfigFromFile:path];
+        NSDictionary *config = [SFSDKResourceUtils loadConfigFromFile:path error:nil];
         self.soupsConfig = config == nil ? nil : config[kStoreConfigSoups];
     }
     return self;

@@ -46,7 +46,7 @@ static NSString *const kSyncsConfigTarget = @"target";
 - (nullable id)initWithResourceAtPath:(NSString *)path {
     self = [super init];
     if (self) {
-        NSDictionary *config = [SFSDKResourceUtils loadConfigFromFile:path];
+        NSDictionary *config = [SFSDKResourceUtils loadConfigFromFile:path error:nil];
         self.syncConfigs = config == nil ? nil : config[kSyncsConfigSyncs];
     }
     return self;
