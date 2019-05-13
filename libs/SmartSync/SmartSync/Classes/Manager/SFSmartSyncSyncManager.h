@@ -241,7 +241,7 @@ NS_SWIFT_NAME(SyncManager)
  * @param updateBlock The block to be called with updates.
  * @return The sync state associated with this sync or nil if it could not be created.
  */
-- (nullable SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(nullable NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use syncDownWithTarget:options:soupName:syncName:updateBlock:error instead");;
+- (nullable SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(nullable NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use syncDownWithTarget:options:soupName:syncName:updateBlock:error instead");
 
 /**
  * Creates and runs a named sync down.

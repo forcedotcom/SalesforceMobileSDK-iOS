@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param configFilePath Path of resource file.
  * @return NSDictionary built from content of tile.
  */
-+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath;
++ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath SFSDK_DEPRECATED(7.1, 8.0, "Use loadConfigFromFile:configFilePath:error instead");;;
 
 
 /**
