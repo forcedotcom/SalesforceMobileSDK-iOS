@@ -2379,7 +2379,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
         if (!typeFilter(idx))
             continue;
         
-        id indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];;
+        id indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];
         // values for non-leaf nodes are json-ized
         if ([indexColVal isKindOfClass:[NSDictionary class]] || [indexColVal isKindOfClass:[NSArray class]]) {
             indexColVal = [SFJsonUtils JSONRepresentation:indexColVal options:0];

@@ -363,28 +363,28 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertTrue([[SFUserAccountManager sharedInstance].additionalTokenRefreshParams count] == [addlRefreshParams count],"SFUserAccountManager additionalOAuthParameterKeys should not be nil");
     [SFUserAccountManager sharedInstance].additionalTokenRefreshParams = oldAdditionalTokenRefreshParams;
     
-    NSString *oldLoginHost = [SFUserAccountManager sharedInstance].loginHost;;
+    NSString *oldLoginHost = [SFUserAccountManager sharedInstance].loginHost;
     NSString *newLoginHost = @"https://sample.test";
     [SFUserAccountManager sharedInstance].loginHost = newLoginHost;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].loginHost, newLoginHost, @"SFUserAccountManager loginHost should be set correctly");
     [SFUserAccountManager sharedInstance].loginHost = oldLoginHost;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].loginHost, oldLoginHost, @"SFUserAccountManager loginHost should be set back correctly");
     
-    NSString *oldOauthCompletionUrl = [SFUserAccountManager sharedInstance].oauthCompletionUrl;;
+    NSString *oldOauthCompletionUrl = [SFUserAccountManager sharedInstance].oauthCompletionUrl;
     NSString *newOauthCompletionUrl = @"new://new.url";
     [SFUserAccountManager sharedInstance].oauthCompletionUrl = newOauthCompletionUrl;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].oauthCompletionUrl, newOauthCompletionUrl, @"SFUserAccountManager oauthCompletionUrl should be set correctly");
     [SFUserAccountManager sharedInstance].oauthCompletionUrl = oldOauthCompletionUrl;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].oauthCompletionUrl, oldOauthCompletionUrl, @"SFUserAccountManager oauthCompletionUrl should be set back correctly");
     
-    NSString *oldOauthClientId = [SFUserAccountManager sharedInstance].oauthClientId;;
+    NSString *oldOauthClientId = [SFUserAccountManager sharedInstance].oauthClientId;
     NSString *newOauthClientId = @"NEW_OAUTH_CLIENT_ID";
     [SFUserAccountManager sharedInstance].oauthClientId = newOauthClientId;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].oauthClientId, newOauthClientId, @"SFUserAccountManager oAuthClientId should be set correctly");
     [SFUserAccountManager sharedInstance].oauthClientId = oldOauthClientId;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].oauthClientId, oldOauthClientId, @"SFUserAccountManager oAuthClientId should be set back correctly");
     
-    NSString *oldBrandLoginPath = [SFUserAccountManager sharedInstance].brandLoginPath;;
+    NSString *oldBrandLoginPath = [SFUserAccountManager sharedInstance].brandLoginPath;
     NSString *newBrandLoginPath = @"NEW_BRAND";
     [SFUserAccountManager sharedInstance].brandLoginPath = newBrandLoginPath;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].brandLoginPath, newBrandLoginPath, @"SFUserAccountManager brandLoginPath should be set correctly");

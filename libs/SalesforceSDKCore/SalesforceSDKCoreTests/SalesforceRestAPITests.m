@@ -1074,7 +1074,7 @@ static NSException *authException = nil;
     NSDictionary *fileAttrs = [self uploadFile];
     SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
     XCTAssertNotNil(restAPI,@"RestApi instance for this user must exist");
-    SFRestRequest *request =  [restAPI requestForFileDetails:fileAttrs[LID] forVersion:nil];;
+    SFRestRequest *request =  [restAPI requestForFileDetails:fileAttrs[LID] forVersion:nil];
     XCTAssertNotNil(request,@"Request should have been created");
     NSURLRequest *urlRequest = [request prepareRequestForSend:account];
     NSRange range = [[[urlRequest URL] absoluteString] rangeOfString:@"connect/communities/COMMUNITYID/"];
