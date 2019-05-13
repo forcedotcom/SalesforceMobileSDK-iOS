@@ -367,7 +367,7 @@ NS_SWIFT_NAME(SyncManager)
  * @return YES if cleanResyncGhosts started successfully.
  */
 - (BOOL) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock
-    SFSDK_DEPRECATED(7.1, 8.0, "Use cleanResyncGhosts:completionStatusBlock:error instead");;
+    SFSDK_DEPRECATED(7.1, 8.0, "Use cleanResyncGhosts:completionStatusBlock:error instead");
 
 /**
  * Removes local copies of records that have been deleted on the server

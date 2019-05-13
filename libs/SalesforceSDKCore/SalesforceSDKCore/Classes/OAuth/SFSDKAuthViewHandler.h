@@ -40,7 +40,7 @@ typedef void (^SFSDKAuthViewDisplayBlock)(SFSDKAuthViewHolder *) NS_SWIFT_NAME(A
 /**
  Block definition for dismissing the auth view.
  */
-typedef void (^SFSDKAuthViewDismissBlock)(void) NS_SWIFT_NAME(AuthViewDismissBlock);;
+typedef void (^SFSDKAuthViewDismissBlock)(void) NS_SWIFT_NAME(AuthViewDismissBlock);
 
 NS_SWIFT_NAME(AuthViewHolder)
 @interface SFSDKAuthViewHolder : NSObject
