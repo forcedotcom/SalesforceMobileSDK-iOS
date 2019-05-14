@@ -4,4 +4,4 @@
 
 See the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for more information.
 
-If you have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on our [Google+ Community](https://plus.google.com/communities/114225252149514546445).
+If you have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on [Salesforce StackExchange](https://salesforce.stackexchange.com/questions/tagged/mobilesdk).
