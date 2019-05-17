@@ -46,7 +46,7 @@
 
 
 + (void)load{
-    if ([SFSDKInstrumentationHelper isEnabled]) {
+    if ([SFSDKInstrumentationHelper isEnabled]  && (self == SFSmartSyncSyncManager.self)) {
         [self enableInstrumentation];
     }
 }

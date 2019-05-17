@@ -38,6 +38,8 @@
  */
 @property (nonatomic, readonly, strong) SFSDKSafeMutableSet *activeRequests;
 
+@property (nonatomic, assign) BOOL requiresAuthentication;
+
 - (void)removeActiveRequestObject:(SFRestRequest *)request;
 
 /**
@@ -47,6 +49,9 @@
  @return YES if we were able to find and timeout the request, NO if the request could not be found
  */
 - (BOOL)forceTimeoutRequest:(SFRestRequest*)req;
+
+
+- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry;
 
 @end
 

@@ -23,7 +23,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
+#import "SFRestAPI+Internal.h"
 #import "SFRestAPI+Blocks.h"
 #import "SFRestAPI+Files.h"
 #import <objc/runtime.h>
@@ -32,6 +32,7 @@
 // whose address will be used by the objc_setAssociatedObject (no need to have a value).
 static char FailBlockKey;
 static char CompleteBlockKey;
+
 
 @implementation SFRestAPI (Blocks)
 
@@ -58,7 +59,7 @@ static char CompleteBlockKey;
     // Copy blocks into the request instance
     objc_setAssociatedObject(request, &FailBlockKey, failBlock, OBJC_ASSOCIATION_COPY);
     objc_setAssociatedObject(request, &CompleteBlockKey, completeBlock, OBJC_ASSOCIATION_COPY);
-    [self send:request delegate:self];
+    [self send:request delegate:self shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
 }
 
 #pragma mark - various request types

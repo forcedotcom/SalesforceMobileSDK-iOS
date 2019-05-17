@@ -118,7 +118,7 @@
 
 
 + (void)load{
-    if ([SFSDKInstrumentationHelper isEnabled]) {
+    if ([SFSDKInstrumentationHelper isEnabled] && (self == SFRestAPI.self)) {
         [self enableInstrumentation];
     }
 }
