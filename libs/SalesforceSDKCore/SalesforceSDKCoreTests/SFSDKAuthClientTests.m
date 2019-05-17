@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import <XCTest/XCTest.h>
+#import "SFSDKLogoutBlocker.h"
 #import "SalesforceSDKCoreDefines.h"
 #import "SalesforceSDKManager.h"
 #import "SFOAuthCoordinator.h"
@@ -143,6 +144,13 @@
 
 
 @implementation SFSDKAuthClientTests
+
++ (void)setUp
+{
+    
+    [SFSDKLogoutBlocker sharedInstance];
+    [super setUp];
+}
 
 - (void)setUp {
     [super setUp];

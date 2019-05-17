@@ -21,7 +21,7 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#import "SFSDKLogoutBlocker.h"
 #import "SalesforceRestAPITests.h"
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFRestAPI+Internal.h"
@@ -103,6 +103,7 @@ static NSException *authException = nil;
 + (void)setUp
 {
     @try {
+        [SFSDKLogoutBlocker sharedInstance];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
     }

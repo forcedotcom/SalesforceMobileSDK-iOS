@@ -25,6 +25,7 @@
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "SFSDKLogoutBlocker.h"
 #import "SFSDKAuthViewHandler.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFDefaultUserAccountPersister.h"
@@ -97,6 +98,12 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @end
 
 @implementation SFUserAccountManagerTests
+
++ (void)setUp
+{
+    [SFSDKLogoutBlocker sharedInstance];
+    [super setUp];
+}
 
 - (void)setUp {
     [super setUp];
