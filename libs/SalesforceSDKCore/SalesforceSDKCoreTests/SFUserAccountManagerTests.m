@@ -101,7 +101,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 + (void)setUp
 {
-    [SFSDKLogoutBlocker sharedInstance];
+    [SFSDKLogoutBlocker block];
     [super setUp];
 }
 

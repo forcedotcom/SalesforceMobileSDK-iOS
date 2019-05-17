@@ -103,7 +103,7 @@ static NSException *authException = nil;
 + (void)setUp
 {
     @try {
-        [SFSDKLogoutBlocker sharedInstance];
+        [SFSDKLogoutBlocker block];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
     }

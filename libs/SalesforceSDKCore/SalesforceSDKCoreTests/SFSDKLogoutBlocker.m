@@ -40,7 +40,7 @@
 @implementation SFSDKLogoutBlocker
 
 
-+ (instancetype)sharedInstance {
++ (instancetype)block {
     static dispatch_once_t pred;
     static SFSDKLogoutBlocker *swizzled = nil;
     dispatch_once(&pred, ^{

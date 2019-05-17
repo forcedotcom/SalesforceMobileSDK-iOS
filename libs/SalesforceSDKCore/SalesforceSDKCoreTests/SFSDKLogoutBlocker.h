@@ -23,5 +23,5 @@
  */
 
 @interface SFSDKLogoutBlocker : NSObject
-+(instancetype)sharedInstance;
++(instancetype)block;
 @end

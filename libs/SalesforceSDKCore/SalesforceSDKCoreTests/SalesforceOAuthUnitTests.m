@@ -48,7 +48,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 + (void)setUp
 {
     
-    [SFSDKLogoutBlocker sharedInstance];
+    [SFSDKLogoutBlocker block];
     [super setUp];
 }
 - (void)setUp {

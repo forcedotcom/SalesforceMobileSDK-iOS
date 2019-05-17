@@ -148,7 +148,7 @@
 + (void)setUp
 {
     
-    [SFSDKLogoutBlocker sharedInstance];
+    [SFSDKLogoutBlocker block];
     [super setUp];
 }
 
