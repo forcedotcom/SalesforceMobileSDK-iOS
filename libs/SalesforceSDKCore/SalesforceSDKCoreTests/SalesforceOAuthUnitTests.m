@@ -21,7 +21,7 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#import "SFSDKLogoutBlocker.h"
 #import "SFOAuthCoordinator.h"
 #import "SFOAuthCredentials.h"
 #import "SFOAuthKeychainCredentials.h"
@@ -45,6 +45,12 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 
 @implementation SalesforceOAuthUnitTests
 
++ (void)setUp
+{
+    
+    [SFSDKLogoutBlocker block];
+    [super setUp];
+}
 - (void)setUp {
     [super setUp];
     // Set-up code here.

@@ -48,7 +48,7 @@
 
 + (void)load{
     
-    if ([SFSDKInstrumentationHelper isEnabled]) {
+    if ([SFSDKInstrumentationHelper isEnabled] && (self == SFUserAccountManager.self)) {
        [self enableInstrumentation];
     }
 }

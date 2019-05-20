@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,38 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFRestAPI.h"
-#import "SFUserAccountManager.h"
-#import <SalesforceSDKCommon/SFSDKSafeMutableSet.h>
-/**
- We declare here a set of interfaces that are meant to be used by code running internally
- to SFRestAPI or close "friend" classes such as unit test helpers. You SHOULD NOT access these interfaces
- from application code.  If you find yourself accessing properties or calling methods
- declared in this file from app code, you're probably doing something wrong.
- */
-@interface SFRestAPI ()
-
-/**
- * Active requests property.
- */
-@property (nonatomic, readonly, strong) SFSDKSafeMutableSet *activeRequests;
-
-@property (nonatomic, assign) BOOL requiresAuthentication;
-
-- (void)removeActiveRequestObject:(SFRestRequest *)request;
-
-/**
- Force a request to timeout: for testing only!
- 
- @param req The request to force a timeout on, or nil to grab any active request and force it to timeout
- @return YES if we were able to find and timeout the request, NO if the request could not be found
- */
-- (BOOL)forceTimeoutRequest:(SFRestRequest*)req;
-
-
-- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry;
-
-+ (void)removeSharedInstanceWithUser:(SFUserAccount *)user;
-
+@interface SFSDKLogoutBlocker : NSObject
++(instancetype)block;
 @end
-

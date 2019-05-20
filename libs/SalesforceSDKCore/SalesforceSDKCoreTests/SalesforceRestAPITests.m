@@ -21,7 +21,7 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#import "SFSDKLogoutBlocker.h"
 #import "SalesforceRestAPITests.h"
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFRestAPI+Internal.h"
@@ -29,6 +29,7 @@
 #import "SFNativeRestRequestListener.h"
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
+#import "SFUserAccountManager+Internal.h"
  // Constants only used in the tests below
 #define ENTITY_PREFIX_NAME @"RestClientTestsiOS"
 #define ACCOUNT @"Account"
@@ -56,6 +57,7 @@
     SFUserAccount *_currentUser;
 }
 @property (nonatomic, strong) XCTestExpectation *currentExpectation;
+@property (assign) BOOL dataCleanupRequired;
 
 @end
 
@@ -103,6 +105,7 @@ static NSException *authException = nil;
 + (void)setUp
 {
     @try {
+        [SFSDKLogoutBlocker block];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
     }
@@ -117,7 +120,7 @@ static NSException *authException = nil;
     if (authException) {
         XCTFail(@"Setting up authentication failed: %@", authException);
     }
-    
+    _dataCleanupRequired = YES;
     // Set-up code here.
     _currentUser = [SFUserAccountManager sharedInstance].currentUser;
     [super setUp];
@@ -126,7 +129,9 @@ static NSException *authException = nil;
 - (void)tearDown
 {
     // Tear-down code here.
-    [self cleanup];
+    if (self.dataCleanupRequired) {
+        [self cleanup];
+    }
     [[SFRestAPI sharedGlobalInstance] cleanup];
     [[SFRestAPI sharedInstance] cleanup];
     [NSThread sleepForTimeInterval:0.1];  // Some test runs were failing, saying the run didn't complete.  This seems to fix that.
@@ -187,6 +192,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // Using an unauthenticated client to make authenicated requests should result in an assertin failure.
@@ -209,6 +215,7 @@ static NSException *authException = nil;
     [self waitForExpectations:@[assertExpectation] timeout:30];
     [[[NSThread currentThread] threadDictionary] setValue:nil
                                                    forKey:NSAssertionHandlerKey];
+    self.dataCleanupRequired = NO;
    
 }
 
@@ -220,6 +227,7 @@ static NSException *authException = nil;
     [[SFRestAPI sharedInstance] send:request delegate:listener];
     [listener waitForCompletion];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: make sure fully-defined paths in the request are honored too.
@@ -229,6 +237,7 @@ static NSException *authException = nil;
     [SFLogger log:[self class] level:SFLogLevelDebug format:@"request.path: %@", request.path];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: make sure that user-defined endpoints are respected
@@ -237,6 +246,7 @@ static NSException *authException = nil;
     [request setEndpoint:@"/my/custom/endpoint"];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForUserInfo
@@ -244,6 +254,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUserInfo];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForResources
@@ -251,6 +262,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForDescribeGlobal
@@ -258,6 +270,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForDescribeGlobal, force a cancel & timeout
@@ -268,6 +281,7 @@ static NSException *authException = nil;
     [[SFRestAPI sharedInstance] cancelAllRequests];
     [listener waitForCompletion];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidCancel, @"request should have been cancelled");
+    self.dataCleanupRequired = NO;
 
 }
 
@@ -282,6 +296,7 @@ static NSException *authException = nil;
     
     [listener waitForCompletion];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidTimeout, @"request should have timed out");
+    self.dataCleanupRequired = NO;
  }
 
 // simple: just invoke requestForMetadataWithObjectType:@"Contact"
@@ -289,6 +304,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:CONTACT];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForDescribeWithObjectType:@"Contact"
@@ -296,6 +312,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:CONTACT];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForLayoutWithObjectType:@"Contact" without layoutType.
@@ -303,6 +320,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForLayoutWithObjectType:@"Contact" with layoutType:@"Compact".
@@ -317,6 +335,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchScopeAndOrder];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForSearchResultLayout:@"Account"
@@ -324,6 +343,7 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // attempt to create a Contact with none of the required fields (should fail)
@@ -653,6 +673,7 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail , @"request was supposed to fail");
     XCTAssertEqual(listener.lastError.code, 400, @"invalid code");
+    self.dataCleanupRequired = NO;
 }
 
 // issue invalid retrieve and test for errors
@@ -665,6 +686,7 @@ static NSException *authException = nil;
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
     XCTAssertEqual(listener.lastError.code, 404, @"invalid code");
+    self.dataCleanupRequired = NO;
 }
 
  // Test for batch request
@@ -867,6 +889,7 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:_currentUser.credentials.userId page:0];
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 - (void)testOwnedFilesListWithCommunity {
@@ -885,6 +908,7 @@ static NSException *authException = nil;
     NSURLRequest *urlRequest = [request prepareRequestForSend:account];
     NSRange range = [[[urlRequest URL] absoluteString] rangeOfString:@"connect/communities/COMMUNITYID/"];
     XCTAssertTrue(range.location!= NSNotFound && range.length > 0 , "The URL must have communities path");
+    self.dataCleanupRequired = NO;
 }
 
 - (void)testOwnedFilesListWithCommunityWithHeaders {
@@ -921,6 +945,7 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:_currentUser.credentials.userId page:0];
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // test url for  testFilesInUsersGroupsWithCommunity
@@ -940,6 +965,7 @@ static NSException *authException = nil;
     NSURLRequest *urlRequest = [request prepareRequestForSend:account];
     NSRange range = [[[urlRequest URL] absoluteString] rangeOfString:@"connect/communities/COMMUNITYID/"];
     XCTAssertTrue(range.location!= NSNotFound && range.length > 0 , "The URL must have communities path");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForFilesSharedWithUser
@@ -953,6 +979,7 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:_currentUser.credentials.userId page:0];
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 
@@ -1367,6 +1394,7 @@ static NSException *authException = nil;
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
+    self.dataCleanupRequired = NO;
 }
 
 - (void)testInvalidAccessTokenWithValidPostRequest {
@@ -1391,6 +1419,7 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:CONTACT objectId:contactId];
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // - sets an invalid accessToken
@@ -1412,6 +1441,7 @@ static NSException *authException = nil;
     
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
+    self.dataCleanupRequired = NO;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
@@ -1435,6 +1465,7 @@ static NSException *authException = nil;
     XCTAssertFalse(completionTimedOut);
     XCTAssertEqual(0, [SFRestAPI sharedInstance].activeRequests.count, @"Active requests queue should be empty.");
     _currentUser.credentials.instanceUrl = origInstanceUrl;
+    self.dataCleanupRequired = NO;
 }
 
 // - sets an invalid accessToken
@@ -1442,35 +1473,30 @@ static NSException *authException = nil;
 // - issue a valid REST request
 // - ensure all requests are failed with the proper error
 - (void)testInvalidAccessAndRefreshToken {
-
-    // save valid tokens and current user
-    NSString *origAccessToken = _currentUser.credentials.accessToken;
-    NSString *origRefreshToken = _currentUser.credentials.refreshToken;
-    SFOAuthCredentials *origCreds = [_currentUser.credentials copy];
     
-    // set invalid tokens
-    NSString *invalidAccessToken = @"xyz";
-    NSString *invalidRefreshToken = @"xyz";
-    [self changeOauthTokens:invalidAccessToken refreshToken:invalidRefreshToken];
+    SFUserAccount *fakeUser = [self createNewUser];
+    XCTAssertNotNil(fakeUser,"User should have been created");
+    fakeUser.credentials.accessToken = @"xyz";
+    fakeUser.credentials.refreshToken = @"xyz";
+    
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:fakeUser];
+    XCTAssertNotNil(restAPI,"SFRestAPI instance for fake user should have been created");
+    
     @try {
-
         // request (valid)
-        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
-        SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+        SFRestRequest* request = [restAPI requestForResources];
+        SFNativeRestRequestListener *listener = [self sendSyncRequest:request usingInstance:restAPI];
         XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
         XCTAssertEqualObjects(listener.lastError.domain, kSFOAuthErrorDomain, @"invalid domain");
         XCTAssertEqual(listener.lastError.code, kSFOAuthErrorInvalidGrant, @"invalid code");
         XCTAssertNotNil(listener.lastError.userInfo);
     }
     @finally {
-        origCreds.accessToken = origAccessToken;
-        origCreds.refreshToken = origRefreshToken;
-        _currentUser.credentials = origCreds;
-        [_currentUser transitionToLoginState:SFUserAccountLoginStateLoggedIn];
-        [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
-        [SFUserAccountManager sharedInstance].currentUser = _currentUser;
+        self.dataCleanupRequired = NO;
+        XCTAssertTrue([self deleteUser:fakeUser],"Should have successfully deleted fake user");
     }
 }
+
 
 // - set an invalid access token (simulate expired)
 // - make multiple simultaneous requests
@@ -1479,45 +1505,59 @@ static NSException *authException = nil;
 // - ensure that all requests eventually succeed
 //
 -(void)testInvalidAccessToken_MultipleRequests {
-
+    
     // save invalid token
     NSString *invalidAccessToken = @"xyz";
     [self changeOauthTokens:invalidAccessToken refreshToken:nil];
     
     // request (valid)
     SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-    SFNativeRestRequestListener *listener0 = [[SFNativeRestRequestListener alloc] initWithRequest:request0];
     SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-    SFNativeRestRequestListener *listener1 = [[SFNativeRestRequestListener alloc] initWithRequest:request1];
     SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-    SFNativeRestRequestListener *listener2 = [[SFNativeRestRequestListener alloc] initWithRequest:request2];
     SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-    SFNativeRestRequestListener *listener3 = [[SFNativeRestRequestListener alloc] initWithRequest:request3];
     SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-    SFNativeRestRequestListener *listener4 = [[SFNativeRestRequestListener alloc] initWithRequest:request4];
+    XCTestExpectation *expectation0 = [self expectationWithDescription:@"request1"];
+    XCTestExpectation *expectation1 = [self expectationWithDescription:@"request1"];
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"request2"];
+    XCTestExpectation *expectation3 = [self expectationWithDescription:@"request3"];
+    XCTestExpectation *expectation4 = [self expectationWithDescription:@"request4"];
+    __block BOOL error = NO;
     
-    //send multiple requests, all of which should fail with "unauthorized" initially,
-    //but then be replayed after an access token refresh
-    [[SFRestAPI sharedInstance] send:request0 delegate:listener0];
-    [[SFRestAPI sharedInstance] send:request1 delegate:listener1];
-    [[SFRestAPI sharedInstance] send:request2 delegate:listener2];
-    [[SFRestAPI sharedInstance] send:request3 delegate:listener3];
-    [[SFRestAPI sharedInstance] send:request4 delegate:listener4];
+    [[SFRestAPI sharedInstance] sendRESTRequest:request0 failBlock:^(NSError *  e, NSURLResponse * _Nullable rawResponse) {
+        error = YES;
+    } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+        [expectation0 fulfill];
+    }];
     
-    //wait for requests to complete in some arbitrary order
-    [listener4 waitForCompletion];
-    [listener1 waitForCompletion];
-    [listener3 waitForCompletion];
-    [listener2 waitForCompletion];
-    [listener0 waitForCompletion];
-    XCTAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidLoad, @"request0 failed");
-    XCTAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidLoad, @"request1 failed");
-    XCTAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidLoad, @"request2 failed");
-    XCTAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidLoad, @"request3 failed");
-    XCTAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
+    [[SFRestAPI sharedInstance] sendRESTRequest:request1 failBlock:^(NSError *  e, NSURLResponse * _Nullable rawResponse) {
+        error = YES;
+    } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+        [expectation1 fulfill];
+    }];
     
+    [[SFRestAPI sharedInstance] sendRESTRequest:request2 failBlock:^(NSError *  e, NSURLResponse *  rawResponse) {
+        error = YES;
+    } completeBlock:^(id response, NSURLResponse * rawResponse) {
+        [expectation2 fulfill];
+    }];
+    
+    [[SFRestAPI sharedInstance] sendRESTRequest:request3 failBlock:^(NSError *  e, NSURLResponse * _Nullable rawResponse) {
+       error = YES;
+    } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+         [expectation3 fulfill];
+    }];
+    
+    [[SFRestAPI sharedInstance] sendRESTRequest:request4 failBlock:^(NSError *  e, NSURLResponse * _Nullable rawResponse) {
+        error = YES;
+    } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+        [expectation4 fulfill];
+    }];
+    
+    [self waitForExpectations:@[expectation0, expectation1,expectation2,expectation3,expectation4] timeout:10.0];
+    XCTAssertFalse(error,@"All pending Requests should not have had errors");
     // let's make sure we have a new access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
+    self.dataCleanupRequired = NO;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
@@ -1527,71 +1567,68 @@ static NSException *authException = nil;
 // - make sure the token exchange failed
 // - ensure all requests are failed with the proper error code
 - (void)testInvalidAccessAndRefreshToken_MultipleRequests {
-
-    // save valid tokens and current user
-    NSString *origAccessToken = _currentUser.credentials.accessToken;
-    NSString *origRefreshToken = _currentUser.credentials.refreshToken;
-    SFOAuthCredentials *origCreds = [_currentUser.credentials copy];
     
-    // set invalid tokens
-    NSString *invalidAccessToken = @"xyz";
-    NSString *invalidRefreshToken = @"xyz";
-    [self changeOauthTokens:invalidAccessToken refreshToken:invalidRefreshToken];
+    SFUserAccount *fakeUser = [self createNewUser];
+    XCTAssertNotNil(fakeUser,@"User should not be nil ");
+    fakeUser.credentials.accessToken = @"xyz";
+    fakeUser.credentials.refreshToken = @"xyz";
     @try {
-
         // request (valid)
-        SFRestRequest* request0 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener0 = [[SFNativeRestRequestListener alloc] initWithRequest:request0];
-        SFRestRequest* request1 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener1 = [[SFNativeRestRequestListener alloc] initWithRequest:request1];
-        SFRestRequest* request2 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener2 = [[SFNativeRestRequestListener alloc] initWithRequest:request2];
-        SFRestRequest* request3 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener3 = [[SFNativeRestRequestListener alloc] initWithRequest:request3];
-        SFRestRequest* request4 = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
-        SFNativeRestRequestListener *listener4 = [[SFNativeRestRequestListener alloc] initWithRequest:request4];
+        SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:fakeUser];
+        XCTAssertNotNil(restAPI,@"SFRestAPI instance should not be nil");
+        SFRestRequest* request0 = [restAPI requestForDescribeGlobal];
+        XCTestExpectation *expectation0 = [self expectationWithDescription:@"request1"];
+        XCTestExpectation *expectation1 = [self expectationWithDescription:@"request2"];
+        XCTestExpectation *expectation2 = [self expectationWithDescription:@"request3"];
+        XCTestExpectation *expectation3 = [self expectationWithDescription:@"request4"];
+        XCTestExpectation *expectation4 = [self expectationWithDescription:@"request5"];
         
-        //send multiple requests, all of which should fail with "unauthorized"
-        [[SFRestAPI sharedInstance] send:request0 delegate:listener0];
-        [[SFRestAPI sharedInstance] send:request1 delegate:listener1];
-        [[SFRestAPI sharedInstance] send:request2 delegate:listener2];
-        [[SFRestAPI sharedInstance] send:request3 delegate:listener3];
-        [[SFRestAPI sharedInstance] send:request4 delegate:listener4];
+        SFRestRequest* request1 = [restAPI requestForDescribeGlobal];
+        SFRestRequest* request2 = [restAPI requestForDescribeGlobal];
+        SFRestRequest* request3 = [restAPI requestForDescribeGlobal];
+        SFRestRequest* request4 = [restAPI requestForDescribeGlobal];
         
-        //wait for requests to complete in some arbitrary order
-        [listener4 waitForCompletion];
-        [listener1 waitForCompletion];
-        [listener3 waitForCompletion];
-        [listener2 waitForCompletion];
-        [listener0 waitForCompletion];
-        XCTAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidFail, @"request0 should have failed");
-        XCTAssertEqualObjects(listener0.lastError.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        XCTAssertEqual(listener0.lastError.code, kSFOAuthErrorInvalidGrant, @"invalid error code");
-        XCTAssertNotNil(listener0.lastError.userInfo,@"userInfo should not be nil");
-        XCTAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidFail, @"request1 should have failed");
-        XCTAssertEqualObjects(listener1.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        XCTAssertEqual(listener1.lastError.code, kSFOAuthErrorInvalidGrant, @"invalid error code");
-        XCTAssertNotNil(listener1.lastError.userInfo,@"userInfo should not be nil");
-        XCTAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidFail, @"request2 should have failed");
-        XCTAssertEqualObjects(listener2.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        XCTAssertEqual(listener2.lastError.code, kSFOAuthErrorInvalidGrant, @"invalid error code");
-        XCTAssertNotNil(listener2.lastError.userInfo,@"userInfo should not be nil");
-        XCTAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidFail, @"request3 should have failed");
-        XCTAssertEqualObjects(listener3.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        XCTAssertEqual(listener3.lastError.code, kSFOAuthErrorInvalidGrant, @"invalid error code");
-        XCTAssertNotNil(listener3.lastError.userInfo,@"userInfo should not be nil");
-        XCTAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidFail, @"request4 should have failed");
-        XCTAssertEqualObjects(listener4.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        XCTAssertEqual(listener4.lastError.code, kSFOAuthErrorInvalidGrant, @"invalid error code");
-        XCTAssertNotNil(listener4.lastError.userInfo,@"userInfo should not be nil");
+        [restAPI sendRESTRequest:request0 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+            [expectation0 fulfill];
+            XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
+        } completeBlock:^(id  response, NSURLResponse * rawResponse) {
+            
+        }];
+        
+        [restAPI sendRESTRequest:request1 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+            [expectation1 fulfill];
+            XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
+        } completeBlock:^(id response, NSURLResponse * rawResponse) {
+            
+        }];
+        
+        [restAPI sendRESTRequest:request2 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+            [expectation2 fulfill];
+            XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
+        } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+            
+        }];
+        
+        [restAPI sendRESTRequest:request3 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+            [expectation3 fulfill];
+            XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
+        } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+            
+        }];
+        
+        [restAPI sendRESTRequest:request4 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+            [expectation4 fulfill];
+            XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
+        } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+            
+        }];
+        [self waitForExpectations:@[expectation0,expectation1,expectation2,expectation3,expectation4] timeout:10.0];
+        
     }
     @finally {
-        origCreds.accessToken = origAccessToken;
-        origCreds.refreshToken = origRefreshToken;
-        _currentUser.credentials = origCreds;
-        [_currentUser transitionToLoginState:SFUserAccountLoginStateLoggedIn];
-        [[SFUserAccountManager sharedInstance] saveAccountForUser:_currentUser error:nil];
-        [SFUserAccountManager sharedInstance].currentUser = _currentUser;
+        [self deleteUser:fakeUser];
+        // no need for cleanup routine here since we dont create any records, adds unneccesary latency to the tests.
+        self.dataCleanupRequired = NO;
     }
 }
 
@@ -2119,5 +2156,42 @@ static NSException *authException = nil;
     creds.instanceUrl = instanceUrl;
     return creds;
 }
+
+- (SFUserAccount *)createNewUser {
+    SFOAuthCredentials *credentials = [[SFUserAccountManager sharedInstance] newClientCredentials];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:credentials];
+    [account transitionToLoginState:SFUserAccountLoginStateLoggedIn];
+    NSString *userId = [self generateRandomId:15];
+    NSString *orgId = [self generateRandomId:18];
+    account.credentials.userId = userId;
+    account.credentials.organizationId = orgId;
+    
+    credentials.instanceUrl = [SFUserAccountManager sharedInstance].currentUser.credentials.instanceUrl;
+    NSError *error = nil;
+    BOOL result = [[SFUserAccountManager sharedInstance] saveAccountForUser:account error:&error];
+    return result?account:nil;
+}
+
+- (BOOL)deleteUser:(SFUserAccount *)user {
+    NSError *error = nil;
+    [SFRestAPI removeSharedInstanceWithUser:user];
+    BOOL result = [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:&error];
+    return result;
+}
+
+- (NSString *) generateRandomId:(NSInteger)len {
+    
+    NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
+    NSMutableString *s = [NSMutableString stringWithCapacity:20];
+    for (NSUInteger i = 0U; i < len; i++) {
+        u_int32_t r = arc4random() % [alphabet length];
+        unichar c = [alphabet characterAtIndex:r];
+        [s appendFormat:@"%C", c];
+    }
+    
+    return s;
+}
+
+
 
 @end

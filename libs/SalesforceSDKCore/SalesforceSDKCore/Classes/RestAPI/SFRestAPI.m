@@ -48,7 +48,7 @@ static SFSDKSafeMutableDictionary *sfRestApiList = nil;
 @property (readwrite, assign) BOOL pendingRequestsBeingProcessed;
 @property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
 @property (nonatomic, strong, readwrite) SFUserAccount *user;
-@property (nonatomic, assign) BOOL requiresAuthentication;
+
 @end
 
 @implementation SFRestAPI
