@@ -53,5 +53,7 @@
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry;
 
++ (void)removeSharedInstanceWithUser:(SFUserAccount *)user;
+
 @end
 
