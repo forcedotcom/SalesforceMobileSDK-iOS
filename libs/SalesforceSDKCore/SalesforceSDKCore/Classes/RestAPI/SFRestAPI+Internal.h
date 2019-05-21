@@ -40,6 +40,8 @@
 
 @property (nonatomic, assign) BOOL requiresAuthentication;
 
+@property (nullable, nonatomic, strong) id<SFRestDelegate>instrDelegateInternal;
+
 - (void)removeActiveRequestObject:(SFRestRequest *)request;
 
 /**

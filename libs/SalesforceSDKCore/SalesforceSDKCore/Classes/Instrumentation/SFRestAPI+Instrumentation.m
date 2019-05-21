@@ -27,6 +27,7 @@
  */
 
 #import "SFRestAPI+Instrumentation.h"
+#import "SFRestRequest+Internal.h"
 #import "SalesforceSDKConstants.h"
 #import "SFSDKInstrumentationHelper.h"
 #import <objc/runtime.h>
@@ -59,13 +60,15 @@
     if ([self.delegate respondsToSelector:@selector(request:didLoadResponse:rawResponse:)]) {
         [self.delegate request:request didLoadResponse:dataResponse rawResponse:rawResponse];
     }
+    request.instrDelegateInternal = nil;
 }
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
     sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "didLoadResponse:didLoadResponse %ld %{public}@", (long)request.method, request.path);
     if ([self.delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
-         [self.delegate request:request didLoadResponse:dataResponse];
+        [self.delegate request:request didLoadResponse:dataResponse];
     }
+    request.instrDelegateInternal = nil;
 }
 
 
@@ -74,14 +77,16 @@
     if ([self.delegate respondsToSelector:@selector(request:didFailLoadWithError:rawResponse:)]) {
         [self.delegate request:request didFailLoadWithError:error rawResponse:rawResponse];
     }
+    request.instrDelegateInternal = nil;
 }
 
 
 - (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error {
     sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "didFailLoadWithError %ld %{public}@", (long)request.method, request.path);
     if ([self.delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
-         [self.delegate request:request didFailLoadWithError:error];
+        [self.delegate request:request didFailLoadWithError:error];
     }
+    request.instrDelegateInternal = nil;
 }
 
 
@@ -90,6 +95,7 @@
     if ([self.delegate respondsToSelector:@selector(requestDidCancelLoad:)]) {
         [self.delegate requestDidCancelLoad:request];
     }
+    request.instrDelegateInternal = nil;
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request {
@@ -97,6 +103,7 @@
     if ([self.delegate respondsToSelector:@selector(requestDidTimeout:)]) {
         [self.delegate requestDidTimeout:request];
     }
+    request.instrDelegateInternal = nil;
 }
 
 +(id<SFRestDelegate>)wrapperWith:delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t) logger {
@@ -141,6 +148,7 @@
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "Send", "Method:%ld path:%{public}@", (long)request.method, request.path);
     id<SFRestDelegate> delegateWrapper = [SFRestDelegateWrapperWithInstrumentation wrapperWith:delegate signpost:sid logger:logger];
+    request.instrDelegateInternal = delegateWrapper;
     return [self instr_send:request delegate:delegateWrapper];
  
 }

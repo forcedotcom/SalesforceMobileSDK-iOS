@@ -59,7 +59,7 @@ static char CompleteBlockKey;
     // Copy blocks into the request instance
     objc_setAssociatedObject(request, &FailBlockKey, failBlock, OBJC_ASSOCIATION_COPY);
     objc_setAssociatedObject(request, &CompleteBlockKey, completeBlock, OBJC_ASSOCIATION_COPY);
-    [self send:request delegate:self shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
+    [self send:request delegate:self];
 }
 
 #pragma mark - various request types
