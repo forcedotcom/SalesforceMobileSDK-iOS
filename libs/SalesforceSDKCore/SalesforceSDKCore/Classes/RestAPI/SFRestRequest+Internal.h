@@ -30,6 +30,7 @@
 @property (nullable, nonatomic, copy) NSInputStream * _Nullable (^requestBodyStreamBlock)(void);
 @property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary;
 @property (nullable, nonatomic, copy) NSString *requestContentType;
+@property (nullable, nonatomic, strong) id<SFRestDelegate>instrDelegateInternal;
 
 + (nonnull NSString *)restUrlForBaseUrl:(nullable NSString *)baseUrl serviceHostType:(SFSDKRestServiceHostType)hostType credentials:(nonnull SFOAuthCredentials *)credentials;
 
