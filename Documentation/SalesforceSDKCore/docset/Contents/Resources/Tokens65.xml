@@ -13,6 +13,18 @@
 		
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthConfigUtil/getMyDomainAuthConfig:loginDomain:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthConfigUtil.h</DeclaredIn>
+			
+			<Declaration>+ (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock loginDomain:(nonnull NSString *)loginDomain</Declaration>
+			
+			
+			<Anchor>//api/name/getMyDomainAuthConfig:loginDomain:</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthConfigUtil/getMyDomainAuthConfig:oauthCredentials:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKAuthConfigUtil.h</DeclaredIn>

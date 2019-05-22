@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRecordModDate.html">
+	<File path="Classes/SFParentChildrenSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRecordModDate</TokenIdentifier>
-			<Abstract type="html">Helper class for isNewerThanServer</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncDownTarget</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="17"/>
@@ -13,86 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setTimestamp:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncDownTarget/newSyncTargetWithParentInfo:parentFieldlist:parentSoqlFilter:childrenInfo:childrenFieldlist:relationshipType:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
+			<Declaration>+ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo parentFieldlist:(NSArray&lt;NSString*&gt; *)parentFieldlist parentSoqlFilter:(NSString *)parentSoqlFilter childrenInfo:(SFChildrenInfo *)childrenInfo childrenFieldlist:(NSArray&lt;NSString*&gt; *)childrenFieldlist relationshipType:(SFParentChildrenRelationshipType)relationshipType</Declaration>
 			
 			
-			<Anchor>//api/name/timestamp</Anchor>
+			<Anchor>//api/name/newSyncTargetWithParentInfo:parentFieldlist:parentSoqlFilter:childrenInfo:childrenFieldlist:relationshipType:</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/timestamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncDownTarget/newFromDict:</TokenIdentifier>
+			<Abstract type="html">Methods to translate to/from dictionary</Abstract>
+			<DeclaredIn>SFParentChildrenSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
-			
-			
-			<Anchor>//api/name/timestamp</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/timestamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDate *timestamp</Declaration>
+			<Declaration>+ (instancetype)newFromDict:(NSDictionary *)dict</Declaration>
 			
 			
-			<Anchor>//api/name/timestamp</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/setIsDeleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/isDeleted</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/isDeleted</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/isDeleted</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRecordModDate/isDeleted</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/isDeleted</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRecordModDate/initWithTimestamp:isDeleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithTimestamp:(nullable NSString *)timestamp isDeleted:(BOOL)isDeleted</Declaration>
-			
-			
-			<Anchor>//api/name/initWithTimestamp:isDeleted:</Anchor>
+			<Anchor>//api/name/newFromDict:</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		

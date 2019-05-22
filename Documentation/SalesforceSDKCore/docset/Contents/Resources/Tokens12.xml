@@ -14,6 +14,23 @@ SFCryptChunks is used to perform the decryption.</Abstract>
 		
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDecryptStream/setupWithDecryptionKey:</TokenIdentifier>
+			<Abstract type="html">Setup for decryption. You must call this method before using the stream.</Abstract>
+			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
+			
+			<Declaration>- (void)setupWithDecryptionKey:(SFEncryptionKey *)decKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>decKey</Name>
+					<Abstract type="html">the decryption key</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setupWithDecryptionKey:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFDecryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
 			<Abstract type="html">Setup for decryption. You must call this method before using the stream.</Abstract>
 			<DeclaredIn>SFDecryptStream.h</DeclaredIn>

@@ -37,6 +37,18 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/updateEncryptionSalt</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
+			
+			<Declaration>+ (void)updateEncryptionSalt</Declaration>
+			
+			
+			<Anchor>//api/name/updateEncryptionSalt</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/usesKeyStoreEncryptionForUser:store:</TokenIdentifier>
 			<Abstract type="html">Whether or not a given store for the given user is encrypted based on the key store key.</Abstract>
 			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>

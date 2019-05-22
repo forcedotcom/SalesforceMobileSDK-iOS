@@ -17,7 +17,7 @@
 			<Abstract type="html">Designated initializer.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv</Declaration>
+			<Declaration>- (id)initWithData:(NSData *)keyData initializationVector:(nullable NSData *)iv</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>keyData</Name>
@@ -29,6 +29,52 @@
 			</Parameters>
 			
 			<Anchor>//api/name/initWithData:initializationVector:</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFEncryptionKey/createKey</TokenIdentifier>
+			<Abstract type="html">Generate an encryption key</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>+ (SFEncryptionKey *)createKey</Declaration>
+			
+			
+			<Anchor>//api/name/createKey</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/encryptData:</TokenIdentifier>
+			<Abstract type="html">Encrypt given data</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)encryptData:(NSData *)dataToEncrypt</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dataToEncrypt</Name>
+					<Abstract type="html">The data to encrypt</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/encryptData:</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/decryptData:</TokenIdentifier>
+			<Abstract type="html">Decrypt given data</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)decryptData:(NSData *)dataToDecrypt</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dataToDecrypt</Name>
+					<Abstract type="html">The data to decrypt</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/decryptData:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		

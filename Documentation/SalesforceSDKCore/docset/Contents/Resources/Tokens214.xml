@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKWindowType.html">
+	<File path="Constants/SFOAuthType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthType</TokenIdentifier>
+			<Abstract type="html">The type of authentication being attempted, in a given OAuth coordinator cycle.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="214"/>
@@ -14,51 +14,61 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeMain</Declaration>
+            <Declaration>SFOAuthTypeUnknown</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="214"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUserAgent</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeAuth</Declaration>
+            <Declaration>SFOAuthTypeUserAgent</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="214"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypePasscode</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeRefresh</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypePasscode</Declaration>
+            <Declaration>SFOAuthTypeRefresh</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="214"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeAdvancedBrowser</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
+            <Declaration>SFOAuthTypeAdvancedBrowser</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="214"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeJwtTokenExchange</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeOther</Declaration>
+            <Declaration>SFOAuthTypeJwtTokenExchange</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
+            <NodeRef refid="214"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeIDP</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeIDP</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
             <NodeRef refid="214"/>
         </Token>

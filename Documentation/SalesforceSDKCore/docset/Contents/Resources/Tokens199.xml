@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFCryptoOperation.html">
+	<File path="Constants/SFAccountManagerServiceType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAccountManagerServiceType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="199"/>
@@ -14,21 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationEncrypt</Declaration>
+            <Declaration>SFAccountManagerServiceTypeNone</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeOAuth</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationDecrypt</Declaration>
+            <Declaration>SFAccountManagerServiceTypeOAuth</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            
+            <NodeRef refid="199"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeIdentity</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAccountManagerServiceTypeIdentity</Declaration>
+            
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>

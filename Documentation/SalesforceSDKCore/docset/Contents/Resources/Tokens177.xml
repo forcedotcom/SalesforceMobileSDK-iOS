@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthClientProvider.html">
+	<File path="Protocols/SFSDKLoginFlowSelectionView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthClientProvider</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionView</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="177"/>
@@ -13,38 +13,74 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/idpAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/setSelectionFlowDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
-			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for idp Authentication</Abstract></ReturnValue>
-			<Anchor>//api/name/idpAuthInstance:</Anchor>
+			
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
             <NodeRef refid="177"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/nativeBrowserAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/selectionFlowDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
-			<ReturnValue><Abstract type="html">Provide an instance of SFSDKOAuthClient for native browser Authentication</Abstract></ReturnValue>
-			<Anchor>//api/name/nativeBrowserAuthInstance:</Anchor>
+			
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
             <NodeRef refid="177"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthClientProvider/webviewAuthInstance:</TokenIdentifier>
-			<Abstract type="html">Provide a newInstance</Abstract>
-			<DeclaredIn>SFSDKOAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKLoginFlowSelectionView/selectionFlowDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *_Nullable)config</Declaration>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
-			<ReturnValue><Abstract type="html">Provide a newInstance</Abstract></ReturnValue>
-			<Anchor>//api/name/webviewAuthInstance:</Anchor>
+			
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
+            <NodeRef refid="177"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/setAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			
+			
+			<Anchor>//api/name/appOptions</Anchor>
+            <NodeRef refid="177"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/appOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			
+			
+			<Anchor>//api/name/appOptions</Anchor>
+            <NodeRef refid="177"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKLoginFlowSelectionView/appOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			
+			
+			<Anchor>//api/name/appOptions</Anchor>
             <NodeRef refid="177"/>
 		</Token>
 		

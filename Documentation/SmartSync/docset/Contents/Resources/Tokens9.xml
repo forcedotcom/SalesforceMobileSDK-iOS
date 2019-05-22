@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFMetadataSyncDownTarget.html">
+	<File path="Classes/SFLayoutSection.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFMetadataSyncDownTarget</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLayoutSection</TokenIdentifier>
+			<Abstract type="html">Represents a record layout section.</Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
             
 			
 			<NodeRef refid="9"/>
@@ -13,50 +13,271 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncDownTarget/setObjectType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/setCollapsible:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL collapsible</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/collapsible</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/collapsible</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL collapsible</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/collapsible</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMetadataSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSection/collapsible</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonatomic, readonly, assign) BOOL collapsible</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/collapsible</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncDownTarget/newSyncTarget:</TokenIdentifier>
-			<Abstract type="html">Factory method.</Abstract>
-			<DeclaredIn>SFMetadataSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/setColumns:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>+ (SFMetadataSyncDownTarget *)newSyncTarget:(NSString *)objectType</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSNumber *columns</Declaration>
 			
 			
-			<Anchor>//api/name/newSyncTarget:</Anchor>
+			<Anchor>//api/name/columns</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/columns</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSNumber *columns</Declaration>
+			
+			
+			<Anchor>//api/name/columns</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSection/columns</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSNumber *columns</Declaration>
+			
+			
+			<Anchor>//api/name/columns</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/setHeading:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *heading</Declaration>
+			
+			
+			<Anchor>//api/name/heading</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/heading</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *heading</Declaration>
+			
+			
+			<Anchor>//api/name/heading</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSection/heading</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *heading</Declaration>
+			
+			
+			<Anchor>//api/name/heading</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/setId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *id</Declaration>
+			
+			
+			<Anchor>//api/name/id</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/id</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *id</Declaration>
+			
+			
+			<Anchor>//api/name/id</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSection/id</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *id</Declaration>
+			
+			
+			<Anchor>//api/name/id</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/setLayoutRows:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFRow*&gt; *layoutRows</Declaration>
+			
+			
+			<Anchor>//api/name/layoutRows</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/layoutRows</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFRow*&gt; *layoutRows</Declaration>
+			
+			
+			<Anchor>//api/name/layoutRows</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSection/layoutRows</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFRow*&gt; *layoutRows</Declaration>
+			
+			
+			<Anchor>//api/name/layoutRows</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/setRows:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSNumber *rows</Declaration>
+			
+			
+			<Anchor>//api/name/rows</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/rows</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSNumber *rows</Declaration>
+			
+			
+			<Anchor>//api/name/rows</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSection/rows</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSNumber *rows</Declaration>
+			
+			
+			<Anchor>//api/name/rows</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/setUserHeading:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL userHeading</Declaration>
+			
+			
+			<Anchor>//api/name/userHeading</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSection/userHeading</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL userHeading</Declaration>
+			
+			
+			<Anchor>//api/name/userHeading</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSection/userHeading</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL userHeading</Declaration>
+			
+			
+			<Anchor>//api/name/userHeading</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSection/fromJSON:</TokenIdentifier>
+			<Abstract type="html">Creates an instance of this class from its JSON representation.</Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">JSON data.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/fromJSON:</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		

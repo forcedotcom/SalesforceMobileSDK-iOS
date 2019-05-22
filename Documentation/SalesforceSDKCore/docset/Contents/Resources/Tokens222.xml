@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/UIDeviceFamily.html">
+	<File path="Constants/SFUserAccountAccessRestriction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/UIDeviceFamily</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountAccessRestriction</TokenIdentifier>
+			<Abstract type="html">User account restrictions</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="222"/>
@@ -14,51 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPhone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPhone</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionNone</Declaration>
             
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="222"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPod</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionChatter</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPod</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionChatter</Declaration>
             
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="222"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPad</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionREST</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPad</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionREST</Declaration>
             
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="222"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyAppleTV</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionOther</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyAppleTV</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionOther</Declaration>
             
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-            
-            <NodeRef refid="222"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyUnknown</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyUnknown</Declaration>
-            
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="222"/>
         </Token>

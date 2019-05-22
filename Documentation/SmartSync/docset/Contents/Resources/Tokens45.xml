@@ -1,37 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncStateSyncType.html">
+	<File path="Classes/TestSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateSyncType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/TestSyncDownTarget</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncState.h</DeclaredIn>
+			<DeclaredIn>TestSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="45"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeDown</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateSyncTypeDown</Declaration>
-            
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestSyncDownTarget/setPrefix:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *prefix</Declaration>
+			
+			
+			<Anchor>//api/name/prefix</Anchor>
             <NodeRef refid="45"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateSyncTypeUp</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncStateSyncTypeUp</Declaration>
-            
-            <DeclaredIn>SFSyncState.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestSyncDownTarget/prefix</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *prefix</Declaration>
+			
+			
+			<Anchor>//api/name/prefix</Anchor>
             <NodeRef refid="45"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/TestSyncDownTarget/prefix</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *prefix</Declaration>
+			
+			
+			<Anchor>//api/name/prefix</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestSyncDownTarget/initWithPrefix:numberOfRecords:numberOfRecordsPerPage:sleepPerFetch:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithPrefix:(NSString *)prefix numberOfRecords:(NSUInteger)numberOfRecords numberOfRecordsPerPage:(NSUInteger)numberOfRecordsPerPage sleepPerFetch:(NSTimeInterval)sleepPerFetch</Declaration>
+			
+			
+			<Anchor>//api/name/initWithPrefix:numberOfRecords:numberOfRecordsPerPage:sleepPerFetch:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestSyncDownTarget/idForPosition:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)idForPosition:(NSUInteger)i</Declaration>
+			
+			
+			<Anchor>//api/name/idForPosition:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestSyncDownTarget/dateForPositionAsMillis:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>- (long long)dateForPositionAsMillis:(NSUInteger)i</Declaration>
+			
+			
+			<Anchor>//api/name/dateForPositionAsMillis:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
         
         
 	</File>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRow.html">
+	<File path="Classes/SFParentChildrenSyncUpTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRow</TokenIdentifier>
-			<Abstract type="html">Represents a record layout row.</Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFParentChildrenSyncUpTarget</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentChildrenSyncUpTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="19"/>
@@ -13,55 +13,31 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRow/setLayoutItems:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncUpTarget/newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFParentChildrenSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
+			<Declaration>+ (instancetype)newSyncTargetWithParentInfo:(SFParentInfo *)parentInfo parentCreateFieldlist:(NSArray&lt;NSString*&gt; *)parentCreateFieldlist parentUpdateFieldlist:(NSArray&lt;NSString*&gt; *)parentUpdateFieldlist childrenInfo:(SFChildrenInfo *)childrenInfo childrenCreateFieldlist:(NSArray&lt;NSString*&gt; *)childrenCreateFieldlist childrenUpdateFieldlist:(NSArray&lt;NSString*&gt; *)childrenUpdateFieldlist relationshipType:(SFParentChildrenRelationshipType)relationshipType</Declaration>
 			
 			
-			<Anchor>//api/name/layoutItems</Anchor>
+			<Anchor>//api/name/newSyncTargetWithParentInfo:parentCreateFieldlist:parentUpdateFieldlist:childrenInfo:childrenCreateFieldlist:childrenUpdateFieldlist:relationshipType:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRow/layoutItems</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentChildrenSyncUpTarget/newFromDict:</TokenIdentifier>
+			<Abstract type="html">Creates a new instance of a server target from a serialized dictionary.</Abstract>
+			<DeclaredIn>SFParentChildrenSyncUpTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
-			
-			
-			<Anchor>//api/name/layoutItems</Anchor>
-            <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRow/layoutItems</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
-			
-			
-			<Anchor>//api/name/layoutItems</Anchor>
-            <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRow/fromJSON:</TokenIdentifier>
-			<Abstract type="html">Creates an instance of this class from its JSON representation.</Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data</Declaration>
+			<Declaration>+ (instancetype)newFromDict:(nullable NSDictionary *)dict</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">JSON data.</Abstract>
+					<Name>dict</Name>
+					<Abstract type="html">The dictionary with the serialized server target.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/fromJSON:</Anchor>
+			
+			<Anchor>//api/name/newFromDict:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		

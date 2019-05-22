@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKAppDelegate.html">
+	<File path="Protocols/SFOAuthCoordinatorFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAppDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol defining an SDK-based app delegate.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="169"/>
@@ -13,63 +13,62 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/setUserAgentString:</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginUserAgentFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			<Declaration>- (void)beginUserAgentFlow</Declaration>
 			
 			
-			<Anchor>//api/name/userAgentString</Anchor>
+			<Anchor>//api/name/beginUserAgentFlow</Anchor>
             <NodeRef refid="169"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/userAgentString</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginTokenEndpointFlow:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			<Declaration>- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType</Declaration>
 			
 			
-			<Anchor>//api/name/userAgentString</Anchor>
+			<Anchor>//api/name/beginTokenEndpointFlow:</Anchor>
             <NodeRef refid="169"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKAppDelegate/userAgentString</TokenIdentifier>
-			<Abstract type="html">The User-Agent string presented by this application</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginJwtTokenExchangeFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			<Declaration>- (void)beginJwtTokenExchangeFlow</Declaration>
 			
 			
-			<Anchor>//api/name/userAgentString</Anchor>
+			<Anchor>//api/name/beginJwtTokenExchangeFlow</Anchor>
             <NodeRef refid="169"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/logout</TokenIdentifier>
-			<Abstract type="html">Forces a logout from the current account.
-This throws out the OAuth refresh token.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/handleTokenEndpointResponse:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)logout</Declaration>
+			<Declaration>- (void)handleTokenEndpointResponse:(NSMutableData *)data</Declaration>
 			
 			
-			<Anchor>//api/name/logout</Anchor>
+			<Anchor>//api/name/handleTokenEndpointResponse:</Anchor>
             <NodeRef refid="169"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/createSnapshotView</TokenIdentifier>
-			<Abstract type="html">Creates a snapshot view.</Abstract>
-			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginNativeBrowserFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>- (UIView *)createSnapshotView</Declaration>
+			<Declaration>- (void)beginNativeBrowserFlow</Declaration>
 			
 			
-			<Anchor>//api/name/createSnapshotView</Anchor>
+			<Anchor>//api/name/beginNativeBrowserFlow</Anchor>
             <NodeRef refid="169"/>
 		</Token>
 		

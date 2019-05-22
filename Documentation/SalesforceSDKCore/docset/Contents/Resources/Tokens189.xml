@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSecurityLockoutDelegate.html">
+	<File path="Protocols/SFSDKUserSelectionTableViewControllerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSecurityLockoutDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate protocol for SFSecurityLockout events and callbacks.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionTableViewControllerDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="189"/>
@@ -13,37 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSecurityLockoutDelegate/passcodeFlowWillBegin:</TokenIdentifier>
-			<Abstract type="html">Called just before the passcode flow begins and the view is displayed.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/createNewuser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeFlowWillBegin:(SFAppLockControllerMode)mode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>mode</Name>
-					<Abstract type="html">The mode of the passcode or biometric flow, i.e. passcode/biometric creation or verification.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)createNewuser:(NSDictionary *)options</Declaration>
 			
-			<Anchor>//api/name/passcodeFlowWillBegin:</Anchor>
+			
+			<Anchor>//api/name/createNewuser:</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSecurityLockoutDelegate/passcodeFlowDidComplete:</TokenIdentifier>
-			<Abstract type="html">Called after the passcode flow has completed.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/selectedUser:options:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeFlowDidComplete:(BOOL)success</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>success</Name>
-					<Abstract type="html">Whether or not the passcode or biometric flow was successful, i.e. the passcode/biometric
-was successfully created or verified.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)selectedUser:(SFUserAccount *)user options:(NSDictionary *)options</Declaration>
 			
-			<Anchor>//api/name/passcodeFlowDidComplete:</Anchor>
+			
+			<Anchor>//api/name/selectedUser:options:</Anchor>
+            <NodeRef refid="189"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/cancel:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)cancel:(NSDictionary *)options</Declaration>
+			
+			
+			<Anchor>//api/name/cancel:</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		

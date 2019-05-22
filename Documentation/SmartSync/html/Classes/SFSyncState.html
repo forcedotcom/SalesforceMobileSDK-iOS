@@ -92,9 +92,13 @@
 		
 		<option value="//api/name/byName:store:">+ byName:store:</option>
 		
+		<option value="//api/name/cleanupSyncsSoupIfNeeded:">+ cleanupSyncsSoupIfNeeded:</option>
+		
 		<option value="//api/name/deleteById:store:">+ deleteById:store:</option>
 		
 		<option value="//api/name/deleteByName:store:">+ deleteByName:store:</option>
+		
+		<option value="//api/name/getSyncsWithStatus:status:">+ getSyncsWithStatus:status:</option>
 		
 		<option value="//api/name/mergeModeFromString:">+ mergeModeFromString:</option>
 		
@@ -132,9 +136,9 @@
 		
 		<option value="//api/name/isRunning">- isRunning</option>
 		
-		<option value="//api/name/save:">- save:</option>
+		<option value="//api/name/isStopped">- isStopped</option>
 		
-		<option value="//api/name/setError:">- setError:</option>
+		<option value="//api/name/save:">- save:</option>
 		
 	</optgroup>
 	
@@ -399,7 +403,7 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *error</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic) NSString *error</code></div>
 
 		    
 		</div>
@@ -422,6 +426,49 @@
 		    
 
 			<div class="method-subsection method-declaration"><code>+ (void)setupSyncsSoupIfNeeded:(SFSmartStore *)<em>store</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncState.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/cleanupSyncsSoupIfNeeded:" title="cleanupSyncsSoupIfNeeded:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cleanupSyncsSoupIfNeeded:">+&nbsp;cleanupSyncsSoupIfNeeded:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Cleanup syncs soup if needed
+At startup, no sync could be running already
+If a sync is in the running state, we change it to stopped</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)cleanupSyncsSoupIfNeeded:(SFSmartStore *)<em>store</em></code></div>
 
 		    
 			
@@ -624,6 +671,22 @@
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/getSyncsWithStatus:status:" title="getSyncsWithStatus:status:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getSyncsWithStatus:status:">+&nbsp;getSyncsWithStatus:status:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (NSArray&lt;SFSyncState*&gt; *)getSyncsWithStatus:(SFSmartStore *)<em>store</em> status:(SFSyncStateStatus)<em>status</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/newFromDict:" title="newFromDict:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/newFromDict:">+&nbsp;newFromDict:</a></code>
 </h3>
@@ -754,6 +817,22 @@
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/isStopped" title="isStopped"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isStopped">&ndash;&nbsp;isStopped</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isStopped</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/syncTypeFromString:" title="syncTypeFromString:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/syncTypeFromString:">+&nbsp;syncTypeFromString:</a></code>
 </h3>
@@ -874,47 +953,6 @@
 		    
 		</div>
 	</div>
-</div><div class="section-method">
-	<a name="//api/name/setError:" title="setError:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setError:">&ndash;&nbsp;setError:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Setter for errorJSON</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)setError:(NSString *_Nonnull)<em>error</em></code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSyncState.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
 </div>
 						</div>
 						
@@ -930,7 +968,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-05-22</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

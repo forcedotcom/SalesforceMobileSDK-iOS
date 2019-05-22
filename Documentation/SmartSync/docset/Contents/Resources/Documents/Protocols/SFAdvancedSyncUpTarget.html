@@ -54,13 +54,19 @@
 
 	
 	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/maxBatchSize">maxBatchSize</option>
+		
+	</optgroup>
+	
 
 	
 
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/syncUpRecord:record:fieldlist:mergeMode:completionBlock:failBlock:">- syncUpRecord:record:fieldlist:mergeMode:completionBlock:failBlock:</option>
+		<option value="//api/name/syncUpRecords:records:fieldlist:mergeMode:syncSoupName:completionBlock:failBlock:">- syncUpRecords:records:fieldlist:mergeMode:syncSoupName:completionBlock:failBlock:</option>
 		
 	</optgroup>
 	
@@ -110,8 +116,8 @@ With advanced sync up target, sync manager simply calls the method: syncUpRecord
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/syncUpRecord:record:fieldlist:mergeMode:completionBlock:failBlock:" title="syncUpRecord:record:fieldlist:mergeMode:completionBlock:failBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/syncUpRecord:record:fieldlist:mergeMode:completionBlock:failBlock:">&ndash;&nbsp;syncUpRecord:record:fieldlist:mergeMode:completionBlock:failBlock:</a></code>
+	<a name="//api/name/maxBatchSize" title="maxBatchSize"></a>
+	<h3 class="method-title"><code><a href="#//api/name/maxBatchSize">&nbsp;&nbsp;maxBatchSize</a></code>
 <span class="task-item-suffix">required method</span></h3>
 
 	<div class="method-info">
@@ -121,12 +127,53 @@ With advanced sync up target, sync manager simply calls the method: syncUpRecord
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Sync up locally created/updated or deleted record back to server</p>
+				<p>max number of records that can be passed to syncUpRecord at once</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)syncUpRecord:(SFSmartSyncSyncManager *)<em>syncManager</em> record:(NSMutableDictionary *)<em>record</em> fieldlist:(NSArray *)<em>fieldlist</em> mergeMode:(SFSyncStateMergeMode)<em>mergeMode</em> completionBlock:(SFSyncUpTargetCompleteBlock)<em>completionBlock</em> failBlock:(SFSyncUpTargetErrorBlock)<em>failBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSUInteger maxBatchSize</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAdvancedSyncUpTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/syncUpRecords:records:fieldlist:mergeMode:syncSoupName:completionBlock:failBlock:" title="syncUpRecords:records:fieldlist:mergeMode:syncSoupName:completionBlock:failBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/syncUpRecords:records:fieldlist:mergeMode:syncSoupName:completionBlock:failBlock:">&ndash;&nbsp;syncUpRecords:records:fieldlist:mergeMode:syncSoupName:completionBlock:failBlock:</a></code>
+<span class="task-item-suffix">required method</span></h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sync up locally created/updated or deleted records back to server</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)syncUpRecords:(SFSmartSyncSyncManager *)<em>syncManager</em> records:(NSArray&lt;NSMutableDictionary*&gt; *)<em>records</em> fieldlist:(NSArray *)<em>fieldlist</em> mergeMode:(SFSyncStateMergeMode)<em>mergeMode</em> syncSoupName:(NSString *)<em>syncSoupName</em> completionBlock:(SFSyncUpTargetCompleteBlock)<em>completionBlock</em> failBlock:(SFSyncUpTargetErrorBlock)<em>failBlock</em></code></div>
 
 		    
 			
@@ -140,8 +187,8 @@ With advanced sync up target, sync manager simply calls the method: syncUpRecord
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>record</code></th>
-						<td><p>The record being synced</p></td>
+						<th scope="row" class="argument-name"><code>records</code></th>
+						<td><p>The records being synced</p></td>
 					</tr>
 				
 					<tr>
@@ -152,6 +199,11 @@ With advanced sync up target, sync manager simply calls the method: syncUpRecord
 					<tr>
 						<th scope="row" class="argument-name"><code>mergeMode</code></th>
 						<td><p>Merge mode (overwrite or leave if changed)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncSoupName</code></th>
+						<td><p>The soup being synched</p></td>
 					</tr>
 				
 					<tr>
@@ -202,7 +254,7 @@ With advanced sync up target, sync manager simply calls the method: syncUpRecord
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-05-22</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

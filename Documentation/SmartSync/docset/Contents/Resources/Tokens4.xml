@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFLayout.html">
+	<File path="Classes/SFChildrenInfo.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFLayout</TokenIdentifier>
-			<Abstract type="html">Represents the layout of a Salesforce object.</Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFChildrenInfo</TokenIdentifier>
+			<Abstract type="html">Simple object to capture details of children in parent-child relationship</Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="4"/>
@@ -13,199 +13,122 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/setId:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFChildrenInfo/setSobjectTypePlural:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *id</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *sobjectTypePlural</Declaration>
 			
 			
-			<Anchor>//api/name/id</Anchor>
+			<Anchor>//api/name/sobjectTypePlural</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/id</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFChildrenInfo/sobjectTypePlural</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *id</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *sobjectTypePlural</Declaration>
 			
 			
-			<Anchor>//api/name/id</Anchor>
+			<Anchor>//api/name/sobjectTypePlural</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLayout/id</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFChildrenInfo/sobjectTypePlural</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *id</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *sobjectTypePlural</Declaration>
 			
 			
-			<Anchor>//api/name/id</Anchor>
+			<Anchor>//api/name/sobjectTypePlural</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/setLayoutType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFChildrenInfo/setParentIdFieldName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *layoutType</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *parentIdFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/layoutType</Anchor>
+			<Anchor>//api/name/parentIdFieldName</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/layoutType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFChildrenInfo/parentIdFieldName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *layoutType</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *parentIdFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/layoutType</Anchor>
+			<Anchor>//api/name/parentIdFieldName</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLayout/layoutType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFChildrenInfo/parentIdFieldName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *layoutType</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *parentIdFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/layoutType</Anchor>
+			<Anchor>//api/name/parentIdFieldName</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/setMode:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFChildrenInfo/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *mode</Declaration>
+			<Declaration>+ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/mode</Anchor>
+			<Anchor>//api/name/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/mode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFChildrenInfo/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:idFieldName:modificationDateFieldName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *mode</Declaration>
+			<Declaration>+ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/mode</Anchor>
+			<Anchor>//api/name/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:idFieldName:modificationDateFieldName:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLayout/mode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFChildrenInfo/newFromDict:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *mode</Declaration>
+			<Declaration>+ (SFChildrenInfo *)newFromDict:(NSDictionary *)dict</Declaration>
 			
 			
-			<Anchor>//api/name/mode</Anchor>
+			<Anchor>//api/name/newFromDict:</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/setSections:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFChildrenInfo/asDict</TokenIdentifier>
+			<Abstract type="html">Method to translate to dictionary</Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFLayoutSection*&gt; *sections</Declaration>
-			
-			
-			<Anchor>//api/name/sections</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/sections</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFLayoutSection*&gt; *sections</Declaration>
+			<Declaration>- (NSDictionary *)asDict</Declaration>
 			
 			
-			<Anchor>//api/name/sections</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLayout/sections</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFLayoutSection*&gt; *sections</Declaration>
-			
-			
-			<Anchor>//api/name/sections</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/setRawData:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *rawData</Declaration>
-			
-			
-			<Anchor>//api/name/rawData</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayout/rawData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *rawData</Declaration>
-			
-			
-			<Anchor>//api/name/rawData</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLayout/rawData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *rawData</Declaration>
-			
-			
-			<Anchor>//api/name/rawData</Anchor>
-            <NodeRef refid="4"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLayout/fromJSON:</TokenIdentifier>
-			<Abstract type="html">Creates an instance of this class from its JSON representation.</Abstract>
-			<DeclaredIn>SFLayout.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">JSON data.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/fromJSON:</Anchor>
+			<Anchor>//api/name/asDict</Anchor>
             <NodeRef refid="4"/>
 		</Token>
 		

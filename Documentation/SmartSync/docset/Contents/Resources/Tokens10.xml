@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFMetadataSyncManager.html">
+	<File path="Classes/SFLayoutSyncDownTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFMetadataSyncManager</TokenIdentifier>
-			<Abstract type="html">Provides an easy way to fetch metadata using SFMetadataSyncDownTarget.
-This class handles creating a soup, storing synched data and reading it into
-a meaningful data structure, i.e. SFMetadata.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLayoutSyncDownTarget</TokenIdentifier>
+			<Abstract type="html">Sync down target for object layouts. This uses the &apos;/ui-api/layout&apos; API to fetch object layouts.
+The easiest way to use this sync target is through SFLayoutSyncManager.</Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="10"/>
@@ -15,176 +14,86 @@ a meaningful data structure, i.e. SFMetadata.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncManager/setSmartStore:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setObjectType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/smartStore</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncManager/smartStore</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/smartStore</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMetadataSyncManager/smartStore</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/objectType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
 			
 			
-			<Anchor>//api/name/smartStore</Anchor>
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncManager/setSyncManager:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setLayoutType:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
 			
 			
-			<Anchor>//api/name/syncManager</Anchor>
+			<Anchor>//api/name/layoutType</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncManager/syncManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/layoutType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
 			
 			
-			<Anchor>//api/name/syncManager</Anchor>
+			<Anchor>//api/name/layoutType</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMetadataSyncManager/syncManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/layoutType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
 			
 			
-			<Anchor>//api/name/syncManager</Anchor>
+			<Anchor>//api/name/layoutType</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the instance of this class associated with current user.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncDownTarget/newSyncTarget:layoutType:</TokenIdentifier>
+			<Abstract type="html">Factory method.</Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (nonnull instancetype)sharedInstance</Declaration>
-			
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncManager/sharedInstance:</TokenIdentifier>
-			<Abstract type="html">Returns the instance of this class associated with this user account.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull instancetype)sharedInstance:(nullable SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">User account.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstance:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncManager/sharedInstance:smartStore:</TokenIdentifier>
-			<Abstract type="html">Returns the instance of this class associated with this user and SmartStore.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull instancetype)sharedInstance:(nullable SFUserAccount *)user smartStore:(nullable NSString *)smartStore</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">User account. Pass null to use current user.</Abstract>
-				</Parameter><Parameter>
-					<Name>smartStore</Name>
-					<Abstract type="html">SmartStore name. Pass nil to use current user default SmartStore.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstance:smartStore:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncManager/reset</TokenIdentifier>
-			<Abstract type="html">Resets all the metadata sync managers.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)reset</Declaration>
+			<Declaration>+ (SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType</Declaration>
 			
 			
-			<Anchor>//api/name/reset</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMetadataSyncManager/reset:</TokenIdentifier>
-			<Abstract type="html">Resets the metadata sync manager for this user account.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)reset:(nullable SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">User account.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/reset:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMetadataSyncManager/fetchMetadataForObject:mode:completionBlock:</TokenIdentifier>
-			<Abstract type="html">Fetches metadata for the specified object type using the specified
-mode and triggers the supplied completion block once complete.</Abstract>
-			<DeclaredIn>SFMetadataSyncManager.h</DeclaredIn>
-			
-			<Declaration>- (void)fetchMetadataForObject:(nonnull NSString *)objectType mode:(SFSDKFetchMode)mode completionBlock:(nonnull SFMetadataSyncCompletionBlock)completionBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>objectType</Name>
-					<Abstract type="html">Object type.</Abstract>
-				</Parameter><Parameter>
-					<Name>mode</Name>
-					<Abstract type="html">Fetch mode. See SFSDKFetchMode for available modes.</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Metadata sync completion block.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/fetchMetadataForObject:mode:completionBlock:</Anchor>
+			<Anchor>//api/name/newSyncTarget:layoutType:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKMutableOAuthClientContext.html">
+	<File path="Classes/SFSDKLoginViewControllerConfig.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKMutableOAuthClientContext</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginViewControllerConfig</TokenIdentifier>
+			<Abstract type="html">Block typedef for setting up a custom SFLoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="93"/>
@@ -13,182 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setCredentials:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/set:</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
 			
 			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/credentials</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/)</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
 			
 			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/credentials</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/)</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readwrite, nullable) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
 			
 			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setAuthInfo:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setDelegate:</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/authInfo</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/authInfo</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/authInfo</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setAuthError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setLoginViewControllerCreationBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authError</Anchor>
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/authError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
 			
 			
-			<Anchor>//api/name/authError</Anchor>
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/authError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readwrite, nullable) NSError *authError</Declaration>
-			
-			
-			<Anchor>//api/name/authError</Anchor>
-            <NodeRef refid="93"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setUserHint:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
 			
 			
-			<Anchor>//api/name/userHint</Anchor>
-            <NodeRef refid="93"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/userHint</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
-			
-			
-			<Anchor>//api/name/userHint</Anchor>
-            <NodeRef refid="93"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/userHint</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, readwrite) NSString *userHint</Declaration>
-			
-			
-			<Anchor>//api/name/userHint</Anchor>
-            <NodeRef refid="93"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/setCallingAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/callingAppOptions</Anchor>
-            <NodeRef refid="93"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKMutableOAuthClientContext/callingAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/callingAppOptions</Anchor>
-            <NodeRef refid="93"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKMutableOAuthClientContext/callingAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientContext.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readwrite, nonnull) NSDictionary *callingAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/callingAppOptions</Anchor>
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
             <NodeRef refid="93"/>
 		</Token>
 		

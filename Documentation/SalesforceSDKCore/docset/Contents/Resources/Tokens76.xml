@@ -283,7 +283,7 @@ rounds, and desired derived key length.</Abstract>
 					<Abstract type="html">The keyref used in encryption</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The encrypted Dataa, or nil if encryption failed</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">The encrypted Data, or nil if encryption failed</Abstract></ReturnValue>
 			<Anchor>//api/name/encryptUsingRSAforData:withKeyRef:</Anchor>
             <NodeRef refid="76"/>
 		</Token>
@@ -305,6 +305,126 @@ rounds, and desired derived key length.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The decypted Data, or nil if decryption failed</Abstract></ReturnValue>
 			<Anchor>//api/name/decryptUsingRSAforData:withKeyRef:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/isSecureEnclaveAvailable</TokenIdentifier>
+			<Abstract type="html">Check for availability of secure enclave</Abstract>
+			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isSecureEnclaveAvailable</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if secure enclave is available</Abstract></ReturnValue>
+			<Anchor>//api/name/isSecureEnclaveAvailable</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/createECKeyPairWithName:accessibleAttribute:useSecureEnclave:</TokenIdentifier>
+			<Abstract type="html">Create asymmetric keys (public/private key pairs) using EC algorithm with given keyName</Abstract>
+			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)createECKeyPairWithName:(NSString *)keyName accessibleAttribute:(CFTypeRef)accessibleAttribute useSecureEnclave:(BOOL)useSecureEnclave</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>keyName</Name>
+					<Abstract type="html">The name string used to generate the key.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if successful</Abstract></ReturnValue>
+			<Anchor>//api/name/createECKeyPairWithName:accessibleAttribute:useSecureEnclave:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/deleteECKeyPairWithName:</TokenIdentifier>
+			<Abstract type="html">Delete EC key pair created with createECKeyPairWithName</Abstract>
+			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)deleteECKeyPairWithName:(NSString *)keyName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>keyName</Name>
+					<Abstract type="html">The name string of the key.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if successful</Abstract></ReturnValue>
+			<Anchor>//api/name/deleteECKeyPairWithName:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/getECPublicKeyRefWithName:</TokenIdentifier>
+			<Abstract type="html">Get EC public SecKeyRef with given keyName</Abstract>
+			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable SecKeyRef)getECPublicKeyRefWithName:(NSString *)keyName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>keyName</Name>
+					<Abstract type="html">The name string used to generate the key.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The SecKeyRef, or nil if no matching key is found</Abstract></ReturnValue>
+			<Anchor>//api/name/getECPublicKeyRefWithName:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/getECPrivateKeyRefWithName:</TokenIdentifier>
+			<Abstract type="html">Get EC private SecKeyRef with given keyName and length</Abstract>
+			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable SecKeyRef)getECPrivateKeyRefWithName:(NSString *)keyName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>keyName</Name>
+					<Abstract type="html">The name string used to generate the key.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The SecKeyRef, or nil if no matching key is found</Abstract></ReturnValue>
+			<Anchor>//api/name/getECPrivateKeyRefWithName:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/encryptUsingECforData:withKeyRef:</TokenIdentifier>
+			<Abstract type="html">Encrypt data with givien SecKeyRef using EC algorithm</Abstract>
+			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSData *)encryptUsingECforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">The data to encrypt</Abstract>
+				</Parameter><Parameter>
+					<Name>keyRef</Name>
+					<Abstract type="html">The keyref used in encryption</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The encrypted Data, or nil if encryption failed</Abstract></ReturnValue>
+			<Anchor>//api/name/encryptUsingECforData:withKeyRef:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/decryptUsingECforData:withKeyRef:</TokenIdentifier>
+			<Abstract type="html">Decrypt data with givien SecKeyRef using EC algorithm</Abstract>
+			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSData *)decryptUsingECforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">The data to decypt</Abstract>
+				</Parameter><Parameter>
+					<Name>keyRef</Name>
+					<Abstract type="html">The keyref used in decryption</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The decypted Data, or nil if decryption failed</Abstract></ReturnValue>
+			<Anchor>//api/name/decryptUsingECforData:withKeyRef:</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		

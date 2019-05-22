@@ -66,6 +66,8 @@
 		
 		<option value="//api/name/encryptionKeyBlock">encryptionKeyBlock</option>
 		
+		<option value="//api/name/encryptionSaltBlock">encryptionSaltBlock</option>
+		
 		<option value="//api/name/ftsExtension">ftsExtension</option>
 		
 		<option value="//api/name/isGlobal">isGlobal</option>
@@ -98,6 +100,8 @@
 		
 		<option value="//api/name/removeSharedStoreWithName:forUser:">+ removeSharedStoreWithName:forUser:</option>
 		
+		<option value="//api/name/salt">+ salt</option>
+		
 		<option value="//api/name/setEncryptionKeyBlock:">+ setEncryptionKeyBlock:</option>
 		
 		<option value="//api/name/sharedGlobalStoreWithName:">+ sharedGlobalStoreWithName:</option>
@@ -105,6 +109,8 @@
 		<option value="//api/name/sharedStoreWithName:">+ sharedStoreWithName:</option>
 		
 		<option value="//api/name/sharedStoreWithName:user:">+ sharedStoreWithName:user:</option>
+		
+		<option value="//api/name/stringFromInputStream:">+ stringFromInputStream:</option>
 		
 	</optgroup>
 	
@@ -460,6 +466,47 @@ Sticking with the default encryption key derivation is recommended.</p>
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/encryptionSaltBlock" title="encryptionSaltBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/encryptionSaltBlock">&nbsp;&nbsp;encryptionSaltBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Block used to generate the <a href="#//api/name/salt">salt</a>. The <a href="#//api/name/salt">salt</a> is maintained in the keychain. Used only when database needs to be shared between apps.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, class, readonly) SFSmartStoreEncryptionSaltBlock encryptionSaltBlock</code></div>
 
 		    
 			
@@ -4252,6 +4299,52 @@ Used for timestamping created and modified times.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/salt" title="salt"></a>
+	<h3 class="method-title"><code><a href="#//api/name/salt">+&nbsp;salt</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The key used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)salt</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The key used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/clearSharedStoreMemoryState" title="clearSharedStoreMemoryState"></a>
 	<h3 class="method-title"><code><a href="#//api/name/clearSharedStoreMemoryState">+&nbsp;clearSharedStoreMemoryState</a></code>
 </h3>
@@ -4273,6 +4366,52 @@ Used for timestamping created and modified times.</p>
 		    
 			
 
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/stringFromInputStream:" title="stringFromInputStream:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/stringFromInputStream:">+&nbsp;stringFromInputStream:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>FOR UNIT TESTING.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)stringFromInputStream:(NSInputStream *)<em>inputStream</em></code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>string decoded from the specified input stream</p>
+			</div>
 			
 
 			
@@ -4632,7 +4771,7 @@ Log errors and throw exception in case of error</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-05-22</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

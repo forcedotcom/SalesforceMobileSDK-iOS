@@ -88,11 +88,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/openStoreDatabaseWithName:key:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/openStoreDatabaseWithName:key:salt:error:</TokenIdentifier>
 			<Abstract type="html">Creates or opens an existing store DB.</Abstract>
 			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
 			
-			<Declaration>- (nullable FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
+			<Declaration>- (nullable FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key salt:(nullable NSString *)salt error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
@@ -100,22 +100,25 @@
 				</Parameter><Parameter>
 					<Name>key</Name>
 					<Abstract type="html">The encryption key associated with the store.</Abstract>
+				</Parameter><Parameter>
+					<Name>salt</Name>
+					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error with the process.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The FMDatabase instance representing the DB, or nil if the create/open failed.</Abstract></ReturnValue>
-			<Anchor>//api/name/openStoreDatabaseWithName:key:error:</Anchor>
+			<Anchor>//api/name/openStoreDatabaseWithName:key:salt:error:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/openStoreQueueWithName:key:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/openStoreQueueWithName:key:salt:error:</TokenIdentifier>
 			<Abstract type="html">Creates or opens an existing store DB.</Abstract>
 			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
 			
-			<Declaration>- (nullable FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
+			<Declaration>- (nullable FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key salt:(nullable NSString *)salt error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
@@ -124,21 +127,24 @@
 					<Name>key</Name>
 					<Abstract type="html">The encryption key associated with the store.</Abstract>
 				</Parameter><Parameter>
+					<Name>salt</Name>
+					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error with the process.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The FMDatabaseQueue instance to access the DB, or nil if the create/open failed.</Abstract></ReturnValue>
-			<Anchor>//api/name/openStoreQueueWithName:key:error:</Anchor>
+			<Anchor>//api/name/openStoreQueueWithName:key:salt:error:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/encryptDb:name:key:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/encryptDb:name:key:salt:error:</TokenIdentifier>
 			<Abstract type="html">Encrypts an existing unencrypted database.</Abstract>
 			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
 			
-			<Declaration>- (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error</Declaration>
+			<Declaration>- (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key salt:(nullable NSString *)salt error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>db</Name>
@@ -150,21 +156,24 @@
 					<Name>key</Name>
 					<Abstract type="html">The encryption key to be used for encrypting the database.</Abstract>
 				</Parameter><Parameter>
+					<Name>salt</Name>
+					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error with encrypting the data.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The newly-encrypted DB, or the original DB if the encryption fails at any point in the process.</Abstract></ReturnValue>
-			<Anchor>//api/name/encryptDb:name:key:error:</Anchor>
+			<Anchor>//api/name/encryptDb:name:key:salt:error:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/encryptDbWithStoreName:storePath:key:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/encryptDbWithStoreName:storePath:key:salt:error:</TokenIdentifier>
 			<Abstract type="html">Encrypts an existing store</Abstract>
 			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)encryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error</Declaration>
+			<Declaration>+ (BOOL)encryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key salt:(nullable NSString *)salt error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
@@ -176,21 +185,24 @@
 					<Name>key</Name>
 					<Abstract type="html">The encryption key to be used for encrypting the database.</Abstract>
 				</Parameter><Parameter>
+					<Name>salt</Name>
+					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error with encrypting the data.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the encryption was successful, or NO if the encryption fails at any point in the process.</Abstract></ReturnValue>
-			<Anchor>//api/name/encryptDbWithStoreName:storePath:key:error:</Anchor>
+			<Anchor>//api/name/encryptDbWithStoreName:storePath:key:salt:error:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/unencryptDb:name:oldKey:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/unencryptDb:name:oldKey:salt:error:</TokenIdentifier>
 			<Abstract type="html">Unencrypts an encrypted database, back to plaintext.</Abstract>
 			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
 			
-			<Declaration>- (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey error:(NSError **)error</Declaration>
+			<Declaration>- (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey salt:(nullable NSString *)salt error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>db</Name>
@@ -202,21 +214,24 @@
 					<Name>oldKey</Name>
 					<Abstract type="html">The original encryption key of the database.</Abstract>
 				</Parameter><Parameter>
+					<Name>salt</Name>
+					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error during the process.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The unencrypted database, or the original encrypted database if the process fails at any point.</Abstract></ReturnValue>
-			<Anchor>//api/name/unencryptDb:name:oldKey:error:</Anchor>
+			<Anchor>//api/name/unencryptDb:name:oldKey:salt:error:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/unencryptDbWithStoreName:storePath:key:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/unencryptDbWithStoreName:storePath:key:salt:error:</TokenIdentifier>
 			<Abstract type="html">Unencrypts an encrypted store, back to plaintext.</Abstract>
 			<DeclaredIn>SFSmartStoreDatabaseManager.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)unencryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error</Declaration>
+			<Declaration>+ (BOOL)unencryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key salt:(nullable NSString *)salt error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
@@ -228,12 +243,15 @@
 					<Name>key</Name>
 					<Abstract type="html">The original encryption key of the database.</Abstract>
 				</Parameter><Parameter>
+					<Name>salt</Name>
+					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error during the process.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the existing store was successfully unencrypted, or NO if the process fails at any point.</Abstract></ReturnValue>
-			<Anchor>//api/name/unencryptDbWithStoreName:storePath:key:error:</Anchor>
+			<Anchor>//api/name/unencryptDbWithStoreName:storePath:key:salt:error:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
@@ -442,38 +460,38 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/encryptOrUnencryptDb:name:oldKey:newKey:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreDatabaseManager/encryptOrUnencryptDb:name:oldKey:newKey:salt:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey error:(NSError **)error</Declaration>
+			<Declaration>- (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey newKey:(NSString *)newKey salt:(NSString *)salt error:(NSError **)error</Declaration>
 			
 			
-			<Anchor>//api/name/encryptOrUnencryptDb:name:oldKey:newKey:error:</Anchor>
+			<Anchor>//api/name/encryptOrUnencryptDb:name:oldKey:newKey:salt:error:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/openDatabaseWithPath:key:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/openDatabaseWithPath:key:salt:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error</Declaration>
+			<Declaration>+ (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key salt:(NSString *)salt error:(NSError **)error</Declaration>
 			
 			
-			<Anchor>//api/name/openDatabaseWithPath:key:error:</Anchor>
+			<Anchor>//api/name/openDatabaseWithPath:key:salt:error:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/encryptOrUnencryptDb:name:path:oldKey:newKey:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreDatabaseManager/encryptOrUnencryptDb:name:path:oldKey:newKey:salt:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSmartStoreDatabaseManager+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db name:(NSString *)storeName path:(NSString *)storePath oldKey:(NSString *)oldKey newKey:(NSString *)newKey error:(NSError **)error</Declaration>
+			<Declaration>+ (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db name:(NSString *)storeName path:(NSString *)storePath oldKey:(NSString *)oldKey newKey:(NSString *)newKey salt:(NSString *)salt error:(NSError **)error</Declaration>
 			
 			
-			<Anchor>//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:error:</Anchor>
+			<Anchor>//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:salt:error:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		

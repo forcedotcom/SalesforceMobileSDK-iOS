@@ -58,11 +58,7 @@
 		
 		<option value="//api/name/accessibleAttribute">accessibleAttribute</option>
 		
-		<option value="//api/name/encrypted">encrypted</option>
-		
 		<option value="//api/name/keychainData">keychainData</option>
-		
-		<option value="//api/name/passcodeLength">passcodeLength</option>
 		
 	</optgroup>
 	
@@ -88,17 +84,15 @@
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/passcode">- passcode</option>
-		
 		<option value="//api/name/resetKeychainItem">- resetKeychainItem</option>
-		
-		<option value="//api/name/setPasscode:">- setPasscode:</option>
 		
 		<option value="//api/name/setValueData:">- setValueData:</option>
 		
+		<option value="//api/name/setValueString:">- setValueString:</option>
+		
 		<option value="//api/name/valueData">- valueData</option>
 		
-		<option value="//api/name/verifyPasscode:">- verifyPasscode:</option>
+		<option value="//api/name/valueString">- valueString</option>
 		
 	</optgroup>
 	
@@ -150,47 +144,6 @@
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/encrypted" title="encrypted"></a>
-	<h3 class="method-title"><code><a href="#//api/name/encrypted">&nbsp;&nbsp;encrypted</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic) BOOL encrypted</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFKeychainItemWrapper.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/accessibleAttribute" title="accessibleAttribute"></a>
 	<h3 class="method-title"><code><a href="#//api/name/accessibleAttribute">&nbsp;&nbsp;accessibleAttribute</a></code>
 </h3>
@@ -208,47 +161,6 @@
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFKeychainItemWrapper.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/passcodeLength" title="passcodeLength"></a>
-	<h3 class="method-title"><code><a href="#//api/name/passcodeLength">&nbsp;&nbsp;passcodeLength</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The <a href="#//api/name/passcode">passcode</a> length.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic) NSUInteger passcodeLength</code></div>
 
 		    
 			
@@ -528,153 +440,6 @@ at runtime.  Subsequent requests will return the same object.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/setPasscode:" title="setPasscode:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setPasscode:">&ndash;&nbsp;setPasscode:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Sets the <a href="#//api/name/passcode">passcode</a> in the keychain.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)setPasscode:(nullable NSString *)<em>passcode</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>passcode</code></th>
-						<td><p>Plain text <a href="#//api/name/passcode">passcode</a></p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFKeychainItemWrapper.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/passcode" title="passcode"></a>
-	<h3 class="method-title"><code><a href="#//api/name/passcode">&ndash;&nbsp;passcode</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The passcode.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (nullable NSString *)passcode</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFKeychainItemWrapper.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/verifyPasscode:" title="verifyPasscode:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/verifyPasscode:">&ndash;&nbsp;verifyPasscode:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Performs <a href="#//api/name/passcode">passcode</a> verification.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)verifyPasscode:(nullable NSString *)<em>passcode</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>passcode</code></th>
-						<td><p>The <a href="#//api/name/passcode">passcode</a> to verify.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFKeychainItemWrapper.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/setValueData:" title="setValueData:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/setValueData:">&ndash;&nbsp;setValueData:</a></code>
 </h3>
@@ -702,6 +467,110 @@ at runtime.  Subsequent requests will return the same object.</p>
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
 						<td><p>Arbitrary data to store to in the keychain. May be <code>nil</code>.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The status of the keychain update request.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFKeychainItemWrapper.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/valueString" title="valueString"></a>
+	<h3 class="method-title"><code><a href="#//api/name/valueString">&ndash;&nbsp;valueString</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Read arbitrary string from the keychain for the service (identifier) and account specified in the initializer.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (nullable NSString *)valueString</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Arbitrary string read from the keychain. May be <code>nil</code>.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFKeychainItemWrapper.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setValueString:" title="setValueString:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setValueString:">&ndash;&nbsp;setValueString:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Store arbitrary string to the keychain for the service (identifier) and account specified in the initializer.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (OSStatus)setValueString:(nullable NSString *)<em>string</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>string</code></th>
+						<td><p>Arbitrary string to store to in the keychain. May be <code>nil</code>.</p></td>
 					</tr>
 				
 				</table>
@@ -941,7 +810,7 @@ at runtime.  Subsequent requests will return the same object.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-05-22</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

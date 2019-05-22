@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSNotificationCenter+SFAdditions.html">
+	<File path="Categories/NSData+SFSDKUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSNotificationCenter(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Posts notifications either once with a run loop, or on the main thread.</Abstract>
-			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtils)</TokenIdentifier>
+			<Abstract type="html">Mobile SDK utility additions to NSData.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="149"/>
@@ -13,48 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSNotificationCenter/postNotificationOnceWithName:object:userInfo:</TokenIdentifier>
-			<Abstract type="html">Posts a notification once within a runloop - coalescing on the name.</Abstract>
-			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkBase64UrlString</TokenIdentifier>
+			<Abstract type="html">Creates a base64url string based on the data.  See RFC 4648.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
-			<Declaration>+ (void)postNotificationOnceWithName:(NSString *)notificationName object:(id)object userInfo:(nullable NSDictionary *)userInfo</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>notificationName</Name>
-					<Abstract type="html">The name of the notification.</Abstract>
-				</Parameter><Parameter>
-					<Name>object</Name>
-					<Abstract type="html">The object for the new notification.</Abstract>
-				</Parameter><Parameter>
-					<Name>userInfo</Name>
-					<Abstract type="html">The user information dictionary for the new notification. May be nil.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSString *)msdkBase64UrlString</Declaration>
 			
-			<Anchor>//api/name/postNotificationOnceWithName:object:userInfo:</Anchor>
+			<ReturnValue><Abstract type="html">The base64url string based on the data.</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkBase64UrlString</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSNotificationCenter/postNotificationOnMainThreadWithName:object:userInfo:</TokenIdentifier>
-			<Abstract type="html">Posts a notification on the main thread.</Abstract>
-			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkSha256Data</TokenIdentifier>
+			<Abstract type="html">Creates an SHA256 hash of the given data.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
-			<Declaration>- (void)postNotificationOnMainThreadWithName:(NSString *)notificationName object:(id)object userInfo:(nullable NSDictionary *)userInfo</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>notificationName</Name>
-					<Abstract type="html">The name of the notification.</Abstract>
-				</Parameter><Parameter>
-					<Name>object</Name>
-					<Abstract type="html">The object for the new notificaiton.</Abstract>
-				</Parameter><Parameter>
-					<Name>userInfo</Name>
-					<Abstract type="html">The user information dictionary for the new notification. May be nil.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (nullable NSData *)msdkSha256Data</Declaration>
 			
-			<Anchor>//api/name/postNotificationOnMainThreadWithName:object:userInfo:</Anchor>
+			<ReturnValue><Abstract type="html">The SHA256 hash of the given data.</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkSha256Data</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		
