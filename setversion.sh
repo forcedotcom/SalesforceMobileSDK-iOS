@@ -39,21 +39,21 @@ update_version_xcconfig ()
 {
     local file=$1
     local version=$2
-    sed -i "s/CURRENT_PROJECT_VERSION.*=.*$/CURRENT_PROJECT_VERSION = ${version}/g" ${file}
+    gsed -i "s/CURRENT_PROJECT_VERSION.*=.*$/CURRENT_PROJECT_VERSION = ${version}/g" ${file}
 }
 
 update_package_json ()
 {
     local file=$1
     local version=$2
-    sed -i "s/\"version\":.*\"[^\"]*\"/\"version\": \"${version}\"/g" ${file}
+    gsed -i "s/\"version\":.*\"[^\"]*\"/\"version\": \"${version}\"/g" ${file}
 }
 
 update_podspec ()
 {
     local file=$1
     local version=$2
-    sed -i "s/s\.version.*=.*$/s.version      = \"${version}\"/g" ${file}
+    gsed -i "s/s\.version.*=.*$/s.version      = \"${version}\"/g" ${file}
 }
 
 update_salesforce_sdk_constants ()
@@ -67,7 +67,7 @@ update_salesforce_sdk_constants ()
         isProdBool="NO"
     fi
 
-    sed -i "s/\#define\ SALESFORCE_SDK_IS_PRODUCTION_VERSION\ .*/#define SALESFORCE_SDK_IS_PRODUCTION_VERSION ${isProdBool}/g" ${file}
+    gsed -i "s/\#define\ SALESFORCE_SDK_IS_PRODUCTION_VERSION\ .*/#define SALESFORCE_SDK_IS_PRODUCTION_VERSION ${isProdBool}/g" ${file}
 
 }
 
