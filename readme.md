@@ -50,7 +50,7 @@ Introduction
 
 **Tool and Version Updates**
 - We’ve updated our Swift template app to Swift version 5.0 and Xcode version 10.2.
-- SQLCipher: 4.0.1
+- We've updated SQLCipher to version 4.0.1
 
 **Deprecation**
 - For a list of deprecated methods, see “About Sync Task Errors” in the [*Mobile SDK Development Guide*](https://developer.salesforce.com/docs/atlas.en-us.mobile_sdk.meta/mobile_sdk/)
