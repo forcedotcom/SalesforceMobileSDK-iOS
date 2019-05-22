@@ -22,7 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncUpTarget.h"
+#import "SFSyncUpTarget+Internal.h"
+#import "SFBatchSyncUpTarget.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncNetworkUtils.h"
 #import "SFSmartSyncSyncManager.h"
@@ -31,11 +32,13 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SmartStore/SFSmartStore.h>
 
+//
+NSString * const kSFSyncUpTargetCreateFieldlist = @"createFieldlist";
+NSString * const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
+
 // target types
 static NSString *const kSFSyncUpTargetTypeRestStandard = @"rest";
 static NSString *const kSFSyncUpTargetTypeCustom = @"custom";
-static NSString *const kSFSyncUpTargetCreateFieldlist = @"createFieldlist";
-static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
 
 @implementation SFRecordModDate
 - (instancetype)initWithTimestamp:(NSString*)timestamp isDeleted:(BOOL)isDeleted {
@@ -52,8 +55,6 @@ static NSString *const kSFSyncUpTargetUpdateFieldlist = @"updateFieldlist";
 typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 
 @interface  SFSyncUpTarget ()
-@property (nonatomic, strong) NSArray*  createFieldlist;
-@property (nonatomic, strong) NSArray*  updateFieldlist;
 @property (nonatomic, strong) NSString* lastError;
 @end
 
@@ -69,8 +70,8 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
     return [self initWithCreateFieldlist:nil updateFieldlist:nil];
 }
 
-- (instancetype)initWithCreateFieldlist:(NSArray *)createFieldlist
-                        updateFieldlist:(NSArray *)updateFieldlist {
+- (instancetype)initWithCreateFieldlist:(NSArray<NSString*> *)createFieldlist
+                        updateFieldlist:(NSArray<NSString*> *)updateFieldlist {
     self = [super init];
     if (self) {
         self.targetType = SFSyncUpTargetTypeRestStandard;
@@ -83,8 +84,8 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 
 + (instancetype)newFromDict:(NSDictionary*)dict {
     // We should have an implementation class or a target type
-    NSString* implClassName = dict[kSFSyncTargetiOSImplKey];
-    if (implClassName.length > 0) {
+    if (dict != nil && [dict[kSFSyncTargetiOSImplKey] length] > 0) {
+        NSString* implClassName = dict[kSFSyncTargetiOSImplKey];
         Class customSyncUpClass = NSClassFromString(implClassName);
         if (![customSyncUpClass isSubclassOfClass:[SFSyncUpTarget class]]) {
             [SFSDKSmartSyncLogger e:[self class] format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncUpTarget class])];
@@ -96,10 +97,11 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
     // No implementation class - using target type
     else {
         // No target type - assume kSFSyncUpTargetTypeRestStandard (hybrid apps don't specify it a sync up target type by default)
-        NSString *targetTypeString = (dict[kSFSyncTargetTypeKey] == nil ? kSFSyncUpTargetTypeRestStandard : dict[kSFSyncTargetTypeKey]);
+        NSString *targetTypeString = (dict == nil || dict[kSFSyncTargetTypeKey] == nil ? kSFSyncUpTargetTypeRestStandard : dict[kSFSyncTargetTypeKey]);
         switch ([self targetTypeFromString:targetTypeString]) {
             case SFSyncUpTargetTypeRestStandard:
-                return [[SFSyncUpTarget alloc] initWithDict:dict];
+                // Default sync up target (it's SFBatchSyncUpTarget starting in Mobile SDK 7.1)
+                return [[SFBatchSyncUpTarget alloc] initWithDict:dict];
             case SFSyncUpTargetTypeCustom:
                 [SFSDKSmartSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;

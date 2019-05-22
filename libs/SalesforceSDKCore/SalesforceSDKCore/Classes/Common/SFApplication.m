@@ -35,8 +35,6 @@
  */
 @property (nonatomic) BOOL ignoreEvents;
 
-- (void)keyPressed:(NSNotification *)notification;
-
 @end
 
 @implementation SFApplication
@@ -51,8 +49,9 @@
     if (self) {
         self.lastEventDate = [NSDate date];
         NSNotificationCenter *ctr = [NSNotificationCenter defaultCenter];
-        [ctr addObserver:self selector:@selector(keyPressed:) name:UITextFieldTextDidChangeNotification object:nil];
-        [ctr addObserver:self selector:@selector(keyPressed:) name:UITextViewTextDidChangeNotification object:nil];
+        [ctr addObserver:self selector:@selector(handleEventFromNotification:) name:UITextFieldTextDidChangeNotification object:nil];
+        [ctr addObserver:self selector:@selector(handleEventFromNotification:) name:UITextViewTextDidChangeNotification object:nil];
+        [ctr addObserver:self selector:@selector(handleEventFromNotification:) name:UIAccessibilityElementFocusedNotification object:nil];
     }
     return self;
 }
@@ -62,6 +61,7 @@
     NSNotificationCenter *ctr = [NSNotificationCenter defaultCenter];
     [ctr removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
     [ctr removeObserver:self name:UITextViewTextDidChangeNotification object:nil];
+    [ctr removeObserver:self name:UIAccessibilityElementFocusedNotification object:nil];
 }
 
 #pragma mark - Event handling
@@ -81,7 +81,7 @@
     [super sendEvent:event];
 }
 
-- (void)keyPressed:(NSNotification *)notification
+- (void)handleEventFromNotification:(NSNotification *)notification
 {
     if (!self.ignoreEvents) {
         self.lastEventDate = [NSDate date];

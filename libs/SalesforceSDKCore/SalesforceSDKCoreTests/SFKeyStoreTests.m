@@ -25,6 +25,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFKeyStore+Internal.h"
 #import "SFKeyStoreManager+Internal.h"
+#import "SFEncryptionKey.h"
 
 @interface SFKeyStoreTests : XCTestCase
 {
@@ -50,7 +51,7 @@
 // ensure we get an empty/initialized dictionary
 -(void)testGetKeyStoreDictionaryDefaultsToEmpty {
     // set up the keystore
-    SFEncryptionKey *encKey = [mgr keyWithRandomValue];
+    SFEncryptionKey *encKey = [SFEncryptionKey createKey];
     SFKeyStoreKey *key = [[SFKeyStoreKey alloc] initWithKey:encKey];
 
     SFKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
@@ -63,8 +64,7 @@
 
 // ensures we can set and get the dictionary
 -(void)testSetAndGetDictionary {
-    SFEncryptionKey *encKey = [mgr keyWithRandomValue];
-    SFKeyStoreKey *key = [[SFKeyStoreKey alloc] initWithKey:encKey];
+    SFKeyStoreKey *key = [SFKeyStoreKey createKey];
     
     SFKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
     keyStore.keyStoreKey = key;
@@ -72,18 +72,40 @@
     NSDictionary *data = @{@"one":@"", @"two":@""};
     
     // set
-    [keyStore setKeyStoreDictionary:data withKey:encKey];
+    [keyStore setKeyStoreDictionary:data withKey:key];
     
     // get
-    NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:encKey];
+    NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:key];
     
     XCTAssertTrue([data isEqualToDictionary:retrievedData], @"Dictionaries should be equal");
 }
 
-// try to decrpt with bad enc key
--(void)testAttemptToDecryptWithBadEncKey {
-    SFEncryptionKey *encKey = [mgr keyWithRandomValue];
+// ensures we can set and get the dictionary when using a SFSecureEncryptionKey
+-(void)testSetAndGetDictionaryWithSecureEncryptionKey {
+    NSDictionary *data = @{@"one":@"", @"two":@""};
+    
+    // set up the keystore with secure encryption key
+    SFSecureEncryptionKey *encKey = [SFSecureEncryptionKey createKey:@"test"];
     SFKeyStoreKey *key = [[SFKeyStoreKey alloc] initWithKey:encKey];
+
+    SFKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
+    keyStore.keyStoreKey = key;
+    
+    // set
+    [keyStore setKeyStoreDictionary:data withKey:key];
+    
+    // get
+    NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:key];
+    
+    XCTAssertTrue([data isEqualToDictionary:retrievedData], @"Dictionaries should be equal");
+    
+    // Delete encryption key
+    [SFSecureEncryptionKey deleteKey:@"test"];
+}
+
+// try to decrypt with bad key
+-(void)testAttemptToDecryptWithBadEncKey {
+    SFKeyStoreKey *key = [SFKeyStoreKey createKey];
     
     SFKeyStore *keyStore = [[SFGeneratedKeyStore alloc] init];
     keyStore.keyStoreKey = key;
@@ -91,11 +113,11 @@
     NSDictionary *data = @{@"one":@"", @"two":@""};
     
     // set
-    [keyStore setKeyStoreDictionary:data withKey:encKey];
+    [keyStore setKeyStoreDictionary:data withKey:key];
     
     // get
-    SFEncryptionKey *badEncKey = [mgr keyWithRandomValue];
-    NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:badEncKey];
+    SFKeyStoreKey *badKey = [SFKeyStoreKey createKey];
+    NSDictionary *retrievedData = [keyStore keyStoreDictionaryWithKey:badKey];
     
     XCTAssertNil(retrievedData, @"Data retrieved with wrong enc key should be nil");
 }

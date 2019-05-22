@@ -115,9 +115,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [SFSDKCryptoUtils aes256DecryptData:accessTokenData
-                                                            withKey:encryptionKey.key
-                                                                 iv:encryptionKey.initializationVector];
+        NSData *decryptedData = [encryptionKey decryptData:accessTokenData];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
         return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
@@ -128,9 +126,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
     if (tokenData != nil) {
         if (self.isEncrypted) {
-            tokenData = [SFSDKCryptoUtils aes256EncryptData:tokenData
-                                                    withKey:encryptionKey.key
-                                                         iv:encryptionKey.initializationVector];
+            tokenData = [encryptionKey encryptData:tokenData];
         }
     }
     
@@ -183,9 +179,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [SFSDKCryptoUtils aes256DecryptData:refreshTokenData
-                                                            withKey:encryptionKey.key
-                                                                 iv:encryptionKey.initializationVector];
+        NSData *decryptedData = [encryptionKey decryptData:refreshTokenData];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
         return [[NSString alloc] initWithData:refreshTokenData encoding:NSUTF8StringEncoding];
@@ -196,9 +190,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
     if (tokenData != nil) {
         if (self.isEncrypted) {
-            tokenData = [SFSDKCryptoUtils aes256EncryptData:tokenData
-                                                    withKey:encryptionKey.key
-                                                         iv:encryptionKey.initializationVector];
+            tokenData = [encryptionKey encryptData:tokenData];
         }
     } else {
         self.instanceUrl = nil;

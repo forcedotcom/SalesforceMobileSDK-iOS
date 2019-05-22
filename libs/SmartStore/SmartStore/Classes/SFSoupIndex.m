@@ -34,8 +34,8 @@ NSString * const kSoupIndexType         = @"type";
 NSString * const kSoupIndexColumnName   = @"columnName";
 
 SFIndexSpecTypeFilterBlock const kValueExtractedToColumn = ^BOOL (SFSoupIndex* idx) { return ![idx.indexType isEqualToString:kSoupIndexTypeJSON1]; };
-SFIndexSpecTypeFilterBlock const kValueExtractedToFtsColumn = ^BOOL (SFSoupIndex* idx) { return [idx.indexType isEqualToString:kSoupIndexTypeFullText]; };;
-SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract = ^BOOL (SFSoupIndex* idx) { return [idx.indexType isEqualToString:kSoupIndexTypeJSON1]; };;
+SFIndexSpecTypeFilterBlock const kValueExtractedToFtsColumn = ^BOOL (SFSoupIndex* idx) { return [idx.indexType isEqualToString:kSoupIndexTypeFullText]; };
+SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract = ^BOOL (SFSoupIndex* idx) { return [idx.indexType isEqualToString:kSoupIndexTypeJSON1]; };
 
 
 @implementation SFSoupIndex

@@ -25,7 +25,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+#import "SalesforceSDKConstants.h"
 NS_ASSUME_NONNULL_BEGIN
 
 /** 
@@ -57,7 +57,16 @@ NS_ASSUME_NONNULL_BEGIN
  * @param configFilePath Path of resource file.
  * @return NSDictionary built from content of tile.
  */
-+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath;
++ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath SFSDK_DEPRECATED(7.1, 8.0, "Use loadConfigFromFile:configFilePath:error instead");
+
+
+/**
+ * Read config and parse its content (which is expected to be json)
+ * @param configFilePath Path of resource file.
+ * @param error Sets/returns any error that took place when trying to read file.
+ * @return NSDictionary built from content of tile.
+ */
++ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath error:(NSError**)error;
 
 @end
 

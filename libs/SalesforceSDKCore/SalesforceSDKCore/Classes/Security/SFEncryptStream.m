@@ -77,12 +77,17 @@
 
 #pragma mark - Public Methods
 
-- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv {
+- (void)setupWithEncryptionKey:(SFEncryptionKey* )encKey {
     NSAssert(!_cryptChunks, @"SFEncryptStream - setup is only allowed once.");
     if (!_cryptChunks) {
-        _cryptChunks = [[SFCryptChunks alloc] initForEncryptionWithKey:key initializationVector:iv];
+        _cryptChunks = [[SFCryptChunks alloc] initForEncryptionWithKey:encKey.key initializationVector:encKey.initializationVector];
         _cryptChunks.delegate = self;
     }
+}
+
+- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv {
+    SFEncryptionKey* encryptionKey = [[SFEncryptionKey alloc] initWithData:key initializationVector:iv];
+    [self setupWithEncryptionKey:encryptionKey];
 }
 
 

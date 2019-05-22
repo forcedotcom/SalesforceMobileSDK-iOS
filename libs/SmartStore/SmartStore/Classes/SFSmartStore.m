@@ -49,10 +49,15 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
+#import <SalesforceSDKCore/NSData+SFAdditions.h>
+#import <SalesforceSDKCore/SFSDKCryptoUtils.h>
+#import <SalesforceSDKCore/SFKeychainItemWrapper.h>
+#import <SalesforceSDKCommon/SFSDKDataSharingHelper.h>
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
 static SFSmartStoreEncryptionKeyBlock _encryptionKeyBlock = NULL;
+static SFSmartStoreEncryptionSaltBlock _encryptionSaltBlock = NULL;
 static BOOL _storeUpgradeHasRun = NO;
 
 // The name of the store name used by the SFSmartStorePlugin for hybrid apps
@@ -78,6 +83,9 @@ NSString *const kSFSmartStoreErrorLoadExternalSoup =  @"com.salesforce.smartstor
 
 // Encryption constants
 NSString * const kSFSmartStoreEncryptionKeyLabel = @"com.salesforce.smartstore.encryption.keyLabel";
+
+// Encryption constants
+NSString * const kSFSmartStoreEncryptionSaltLabel = @"com.salesforce.smartstore.encryption.saltLabel";
 
 // Table to keep track of soup attributes
 NSString *const SOUP_ATTRS_TABLE = @"soup_attrs";
@@ -128,6 +136,17 @@ NSString *const EXPLAIN_ROWS = @"rows";
             return key;
         };
     }
+    
+    if (!_encryptionSaltBlock) {
+        _encryptionSaltBlock = ^ {
+            NSString* salt = nil;
+            if ([[SFKeyStoreManager sharedInstance] keyWithLabelExists:kSFSmartStoreEncryptionSaltLabel] || [[SFSDKDatasharingHelper sharedInstance] appGroupEnabled]) {
+                SFEncryptionKey *saltKey = [[SFKeyStoreManager sharedInstance]   retrieveKeyWithLabel:kSFSmartStoreEncryptionSaltLabel autoCreate:YES];
+                salt = [[saltKey key] md5];
+            }
+            return salt;
+        };
+    }
 }
 
 - (id)initWithName:(NSString *)name user:(SFUserAccount *)user {
@@ -150,6 +169,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
                 _storeUpgradeHasRun = YES;
                 [SFSmartStoreUpgrade updateStoreLocations];
                 [SFSmartStoreUpgrade updateEncryption];
+                [SFSmartStoreUpgrade updateEncryptionSalt];
             }
         }
         _storeName = name;
@@ -280,8 +300,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
 }
 
 - (BOOL) openStoreDatabase {
-   NSError *openDbError = nil;
-    self.storeQueue = [self.dbMgr openStoreQueueWithName:self.storeName key:[[self class] encKey] error:&openDbError];
+    NSError *openDbError = nil;
+    NSString *salt =  [[self class]encryptionSaltBlock] ? [[self class] encryptionSaltBlock]() :nil;
+    self.storeQueue = [self.dbMgr openStoreQueueWithName:self.storeName key:[[self class] encKey] salt:salt error:&openDbError];
     if (self.storeQueue == nil) {
         [SFSDKSmartStoreLogger e:[self class] format:@"Error opening store '%@': %@", self.storeName, [openDbError localizedDescription]];
     }
@@ -710,6 +731,24 @@ NSString *const EXPLAIN_ROWS = @"rows";
     return nil;
 }
 
++ (NSString *)salt
+{
+    if (_encryptionSaltBlock) {
+        return  _encryptionSaltBlock();
+    }
+    return nil;
+}
+
++ (SFSmartStoreEncryptionSaltBlock)encryptionSaltBlock {
+    return _encryptionSaltBlock;
+}
+
++ (void)setEncryptionSaltBlock:(SFSmartStoreEncryptionSaltBlock)newEncryptionSaltBlock {
+    if (newEncryptionSaltBlock != _encryptionSaltBlock) {
+        _encryptionSaltBlock = newEncryptionSaltBlock;
+    }
+}
+
 + (SFSmartStoreEncryptionKeyBlock)encryptionKeyBlock {
     return _encryptionKeyBlock;
 }
@@ -777,7 +816,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     if (keyBlock) {
         SFEncryptStream *encryptStream = [[SFEncryptStream alloc] initToFileAtPath:filePath append:NO];
         SFEncryptionKey *encKey = keyBlock();
-        [encryptStream setupWithKey:encKey.key andInitializationVector:encKey.initializationVector];
+        [encryptStream setupWithEncryptionKey:encKey];
         outputStream = encryptStream;
     } else {
         outputStream = [[NSOutputStream alloc] initToFileAtPath:filePath append:NO];
@@ -815,15 +854,13 @@ NSString *const EXPLAIN_ROWS = @"rows";
                                              soupTableName:soupTableName];
     
     SFSmartStoreEncryptionKeyBlock keyBlock = [SFSmartStore encryptionKeyBlock];
-    NSData* key;
-    NSData* initializationVector;
+    SFEncryptionKey* encKey;
     if (keyBlock) {
-        SFEncryptionKey *encKey = keyBlock();
-        key = encKey.key;
-        initializationVector = encKey.initializationVector;
+        encKey = keyBlock();
     }
     
-    NSString* entryAsString = [self readFromEncryptedFile:filePath key:key iv:initializationVector];
+    NSString* entryAsString = [self readFromEncryptedFile:filePath
+                                                   encKey:encKey];
     
     // Before 6.2, we were using nill IV when encrypting.
     // Starting in 6.2, we are using a non-nil IV when encrypting.
@@ -833,17 +870,19 @@ NSString *const EXPLAIN_ROWS = @"rows";
         NSDictionary* entry = [SFJsonUtils objectFromJSONString:entryAsString];
         
         if(!entry) {
-            if (initializationVector) {
-                entryAsString = [self readFromEncryptedFile:filePath key:key iv:nil];
+            if (encKey.initializationVector) {
+                entryAsString = [self readFromEncryptedFile:filePath encKey:encKey useNilIV:YES];
                 if ([entryAsString length] > 0) {
-                    [self writeToEncryptedFile:filePath content:entryAsString key:key iv:initializationVector];
+                    [self writeToEncryptedFile:filePath
+                                       content:entryAsString
+                                        encKey:encKey];
                 } else {
                     [SFSDKSmartStoreLogger e:[self class] format:@"Attempt to migrate an encrypted externally saved soup '%@' with a null IV  failed.", soupTableName];
                 }
             } else {
                 NSError* error = [SFJsonUtils lastError];
                 NSString *errorMessage = [NSString stringWithFormat:@"Loading external soup from file failed! encrypted: %@, soupEntryId: %@, soupTableName: %@, filePath: '%@', error: %@.",
-                                          key ? @"YES" : @"NO",
+                                          encKey ? @"YES" : @"NO",
                                           soupEntryId,
                                           soupTableName,
                                           filePath,
@@ -861,27 +900,39 @@ NSString *const EXPLAIN_ROWS = @"rows";
 }
 
 - (NSString*) readFromEncryptedFile:(NSString*)filePath
-                                key:(NSData*)key
-                                 iv:(NSData*)iv
+                             encKey:(SFEncryptionKey*)encKey
 {
-    NSMutableData* content = [NSMutableData new];
+    return [self readFromEncryptedFile:filePath encKey:encKey useNilIV:NO];
+}
+
+- (NSString*) readFromEncryptedFile:(NSString*)filePath
+                             encKey:(SFEncryptionKey*)encKey
+                           useNilIV:(BOOL)useNilIV
+{
     NSInputStream *inputStream = nil;
-    if (key) {
+    if (encKey) {
         SFDecryptStream *decryptStream = [[SFDecryptStream alloc] initWithFileAtPath:filePath];
-        [decryptStream setupWithKey:key andInitializationVector:iv];
+        if (useNilIV) {
+            encKey = [[SFEncryptionKey alloc] initWithData:encKey.key initializationVector:nil];
+        }
+        [decryptStream setupWithDecryptionKey:encKey];
         inputStream = decryptStream;
     } else {
         inputStream = [[NSInputStream alloc] initWithFileAtPath:filePath];
     }
     
-    
+    return [SFSmartStore stringFromInputStream:inputStream];
+}
+
++ (NSString*) stringFromInputStream:(NSInputStream*)inputStream {
     //
     // We get all the bytes and then convert them to a string
     // If you convert each buffer's worth of bytes to a string
     // you might end up corrupting the string (because a multi bytes character could have been split at the buffer boundary)
     //
-    uint8_t buffer[4096];
+    uint8_t buffer[kBufferSize];
     NSInteger len;
+    NSMutableData* content = [NSMutableData new];
     [inputStream open];
     while ((len = [inputStream read:buffer maxLength:sizeof(buffer)]) > 0) {
         [content appendBytes:buffer length:len];
@@ -892,13 +943,12 @@ NSString *const EXPLAIN_ROWS = @"rows";
 
 - (void) writeToEncryptedFile:(NSString*)filePath
                        content:(NSString *)content
-                          key:(NSData*)key
-                           iv:(NSData*)iv
+                       encKey:(SFEncryptionKey*)encKey
 {
     NSOutputStream *outputStream = nil;
-    if (key) {
+    if (encKey) {
         SFEncryptStream *encryptStream = [[SFEncryptStream alloc] initToFileAtPath:filePath append:NO];
-        [encryptStream setupWithKey:key andInitializationVector:iv];
+        [encryptStream setupWithEncryptionKey:encKey];
         outputStream = encryptStream;
     } else {
         outputStream = [[NSOutputStream alloc] initToFileAtPath:filePath append:NO];
@@ -1684,7 +1734,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
         }
         NSString* columnName = [frs columnNameForIndex:i];
         id value = valuesMap[columnName];
-        if ([value isKindOfClass:[NSString class]] &&
+        if ([value isKindOfClass:[NSNull class]]) {
+            [resultString appendString:@"null"];
+        }
+        else if ([value isKindOfClass:[NSString class]] &&
             ([columnName isEqualToString:SOUP_COL] || [columnName hasPrefix:[NSString stringWithFormat:@"%@:", SOUP_COL]])) {
             [resultString appendString:value];
         }
@@ -2326,7 +2379,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
         if (!typeFilter(idx))
             continue;
         
-        id indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];;
+        id indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];
         // values for non-leaf nodes are json-ized
         if ([indexColVal isKindOfClass:[NSDictionary class]] || [indexColVal isKindOfClass:[NSArray class]]) {
             indexColVal = [SFJsonUtils JSONRepresentation:indexColVal options:0];

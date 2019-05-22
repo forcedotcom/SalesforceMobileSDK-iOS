@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFCryptChunks.h"
+#import "SFEncryptionKey.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,6 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  SFCryptChunks is used to perform the encryption.
  */
 @interface SFEncryptStream : NSOutputStream <SFCryptChunksDelegate>
+
+/**
+ *  Setup for encryption. You must call this method before using the stream.
+ *  @param encKey the encryption key
+ */
+- (void)setupWithEncryptionKey:(SFEncryptionKey* )encKey;
 
 /**
  *  Setup for encryption. You must call this method before using the stream.

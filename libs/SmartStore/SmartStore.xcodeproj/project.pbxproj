@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -70,6 +70,11 @@
 		B716A3D7218F6AD6009D407F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A3B2218F6AAC009D407F /* SalesforceAnalytics.framework */; };
 		B716A3D8218F6AD6009D407F /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A3C0218F6AB3009D407F /* SalesforceSDKCommon.framework */; };
 		B716A3D9218F6AD6009D407F /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A3CE218F6ABA009D407F /* SalesforceSDKCore.framework */; };
+		B7352CAD2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7352CAC2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m */; };
+		B78928412243DE5700BEDED4 /* SFSmartStore+Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = B789283F2243DE5700BEDED4 /* SFSmartStore+Instrumentation.h */; };
+		B78928422243DE5700BEDED4 /* SFSmartStore+Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = B789283F2243DE5700BEDED4 /* SFSmartStore+Instrumentation.h */; };
+		B78928432243DE5700BEDED4 /* SFSmartStore+Instrumentation.m in Sources */ = {isa = PBXBuildFile; fileRef = B78928402243DE5700BEDED4 /* SFSmartStore+Instrumentation.m */; };
+		B78928442243DE5700BEDED4 /* SFSmartStore+Instrumentation.m in Sources */ = {isa = PBXBuildFile; fileRef = B78928402243DE5700BEDED4 /* SFSmartStore+Instrumentation.m */; };
 		B7DD6CE61DC178D0004C04F4 /* SFMultipleSmartStoresTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DD6CE51DC178D0004C04F4 /* SFMultipleSmartStoresTests.m */; };
 		C03DE7D01D1B296400BFA6BD /* SFSoupSpec.h in Headers */ = {isa = PBXBuildFile; fileRef = C03DE7CD1D1B296400BFA6BD /* SFSoupSpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C03DE7D11D1B296400BFA6BD /* SFSoupSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C03DE7CE1D1B296400BFA6BD /* SFSoupSpec.m */; };
@@ -380,6 +385,9 @@
 		B716A3B9218F6AB3009D407F /* SalesforceSDKCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCommon.xcodeproj; path = ../SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj; sourceTree = "<group>"; };
 		B716A3C5218F6ABA009D407F /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		B7282F441D8C713C00475F79 /* SmartStoreTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartStoreTestApp.entitlements; sourceTree = "<group>"; };
+		B7352CAC2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreSharingUpgradeTests.m; sourceTree = "<group>"; };
+		B789283F2243DE5700BEDED4 /* SFSmartStore+Instrumentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSmartStore+Instrumentation.h"; sourceTree = "<group>"; };
+		B78928402243DE5700BEDED4 /* SFSmartStore+Instrumentation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SFSmartStore+Instrumentation.m"; sourceTree = "<group>"; };
 		B7DD6CE41DC178D0004C04F4 /* SFMultipleSmartStoresTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMultipleSmartStoresTest.h; sourceTree = "<group>"; };
 		B7DD6CE51DC178D0004C04F4 /* SFMultipleSmartStoresTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMultipleSmartStoresTests.m; sourceTree = "<group>"; };
 		C03DE7CD1D1B296400BFA6BD /* SFSoupSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupSpec.h; sourceTree = "<group>"; };
@@ -546,6 +554,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B789278D2242B2AD00BEDED4 /* Instrumentation */ = {
+			isa = PBXGroup;
+			children = (
+				B789283F2243DE5700BEDED4 /* SFSmartStore+Instrumentation.h */,
+				B78928402243DE5700BEDED4 /* SFSmartStore+Instrumentation.m */,
+			);
+			path = Instrumentation;
+			sourceTree = "<group>";
+		};
 		CE3FE5811AD488F800E65B49 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -654,6 +671,7 @@
 				4F96015D1BFD33B30022F021 /* SFSmartStoreTests.h */,
 				4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */,
 				C03DE7DA1D1B44D000BFA6BD /* SFSmartStoreWithExternalStorageTests.m */,
+				B7352CAC2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m */,
 				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
 			);
 			path = SmartStoreTests;
@@ -671,6 +689,7 @@
 		CEF50A79196B3EB60076264C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B789278D2242B2AD00BEDED4 /* Instrumentation */,
 				828917791C52B6E2002F9981 /* fmdb */,
 				CE682C7E1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.h */,
 				CE682C7F1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.m */,
@@ -721,6 +740,7 @@
 				C03DE7D01D1B296400BFA6BD /* SFSoupSpec.h in Headers */,
 				CE4CE41E1C0E59DA009F6029 /* SFSoupIndex.h in Headers */,
 				CE4CE4161C0E59DA009F6029 /* SFSmartStoreDatabaseManager+Internal.h in Headers */,
+				B78928412243DE5700BEDED4 /* SFSmartStore+Instrumentation.h in Headers */,
 				828917841C52B705002F9981 /* FMDatabase.h in Headers */,
 				CE4CE41B1C0E59DA009F6029 /* SFSmartStoreUpgrade+Internal.h in Headers */,
 				CE4CE40F1C0E59DA009F6029 /* SFSmartSqlHelper.h in Headers */,
@@ -762,6 +782,7 @@
 				CEA883CE1C191595008D871B /* SmartStore.h in Headers */,
 				828917901C52B715002F9981 /* FMDatabaseAdditions.h in Headers */,
 				828917941C52B715002F9981 /* FMDatabaseQueue.h in Headers */,
+				B78928422243DE5700BEDED4 /* SFSmartStore+Instrumentation.h in Headers */,
 				CEA883D71C1915A8008D871B /* SFSmartStore.h in Headers */,
 				8289178E1C52B715002F9981 /* FMDatabase.h in Headers */,
 				CEA883D91C1915A8008D871B /* SFSmartStore+Internal.h in Headers */,
@@ -860,7 +881,7 @@
 		CEAAAE3D195911E600CBBFE9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Salesforce Inc.";
 				TargetAttributes = {
 					4F06AF081C499EB600F70798 = {
@@ -884,8 +905,8 @@
 				};
 			};
 			buildConfigurationList = CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartStore" */;
-			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			compatibilityVersion = "Xcode 10.0";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -1091,6 +1112,7 @@
 				CE4CE4181C0E59DA009F6029 /* SFSmartStoreInspectorViewController.m in Sources */,
 				CE682C811F01B5E3003C43C0 /* SFSDKSmartStoreLogger.m in Sources */,
 				828917851C52B705002F9981 /* FMDatabase.m in Sources */,
+				B78928432243DE5700BEDED4 /* SFSmartStore+Instrumentation.m in Sources */,
 				CE4CE4121C0E59DA009F6029 /* SFSmartStore.m in Sources */,
 				8289178B1C52B705002F9981 /* FMDatabaseQueue.m in Sources */,
 				8289178D1C52B705002F9981 /* FMResultSet.m in Sources */,
@@ -1117,6 +1139,7 @@
 				CEA883DE1C1915A8008D871B /* SFSmartStoreInspectorViewController.m in Sources */,
 				CE682C861F01B658003C43C0 /* SFSDKSmartStoreLogger.m in Sources */,
 				8289178F1C52B715002F9981 /* FMDatabase.m in Sources */,
+				B78928442243DE5700BEDED4 /* SFSmartStore+Instrumentation.m in Sources */,
 				CEA883D81C1915A8008D871B /* SFSmartStore.m in Sources */,
 				828917951C52B715002F9981 /* FMDatabaseQueue.m in Sources */,
 				828917971C52B715002F9981 /* FMResultSet.m in Sources */,
@@ -1138,6 +1161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7352CAD2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m in Sources */,
 				4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */,
 				4FAB7D811F8D8C3C00226249 /* SFSDKStoreConfigTests.m in Sources */,
 				4FEE44851BFD5CCC00F09C43 /* SFSmartSqlWithExternalStorageTests.m in Sources */,
@@ -1231,7 +1255,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = SmartStoreTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartStoreTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1255,7 +1282,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = SmartStoreTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartStoreTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1281,7 +1311,11 @@
 				INFOPLIST_FILE = SmartStore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1310,7 +1344,11 @@
 				INFOPLIST_FILE = SmartStore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1369,6 +1407,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1421,6 +1460,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1473,7 +1513,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "SmartStoreTests/SmartStoreTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1495,7 +1539,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				INFOPLIST_FILE = "SmartStoreTests/SmartStoreTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

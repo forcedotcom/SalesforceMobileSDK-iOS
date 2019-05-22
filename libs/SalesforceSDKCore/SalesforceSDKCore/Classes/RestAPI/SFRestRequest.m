@@ -38,9 +38,9 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.serviceHostType = hostType;
         self.baseURL = baseURL;
         self.path = path;
-        self.queryParams = [queryParams mutableCopy];
-        self.endpoint = kSFDefaultRestEndpoint;
         self.requiresAuthentication = YES;
+        self.queryParams = [queryParams mutableCopy];
+        self.endpoint = (hostType == SFSDKRestServiceHostTypeCustom)?@"":kSFDefaultRestEndpoint;
         self.parseResponse = YES;
         self.shouldRefreshOn403 = YES;
         self.request = [[NSMutableURLRequest alloc] init];
@@ -54,6 +54,18 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 + (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
     return [[self alloc] initWithMethod:method serviceHostType:SFSDKRestServiceHostTypeInstance baseURL:baseURL path:path queryParams:queryParams];
+}
+
++ (instancetype)customUrlRequestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
+    SFRestRequest *request = [[self alloc] initWithMethod:method  serviceHostType:SFSDKRestServiceHostTypeCustom baseURL:baseURL path:path queryParams:queryParams];
+    request.requiresAuthentication = NO;
+    return request;
+}
+
++ (instancetype)customEndPointRequestWithMethod:(SFRestMethod)method endPoint:(NSString *)endPoint path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
+    SFRestRequest *request = [[self alloc] initWithMethod:method serviceHostType:SFSDKRestServiceHostTypeInstance baseURL:nil path:path queryParams:queryParams];
+    request.endpoint = endPoint;
+    return request;
 }
 
 + (instancetype)requestWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams {
@@ -122,46 +134,51 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 # pragma mark - send and cancel
 
 - (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user {
-    if (user) {
-
-        /*
-         * If an absolute URL is passed in, use it as-is. If a relative URL is passed in,
-         * parse it and put the pieces together to construct the full URL.
-         */
-        NSMutableString *fullUrl = nil;
-        if ([[self.path lowercaseString] hasPrefix:@"https://"]) {
-            fullUrl = [[NSMutableString alloc] initWithString:self.path];
-        } else {
-            NSString *baseUrl = [[self class] restUrlForBaseUrl:self.baseURL serviceHostType:self.serviceHostType credentials:user.credentials];
-            
-            // Performs sanity checks on the path against the endpoint value.
+    /*
+     * If an absolute URL is passed in, use it as-is. If a relative URL is passed in,
+     * parse it and put the pieces together to construct the full URL.
+     */
+    NSMutableString *fullUrl = nil;
+    
+    /* FIXME: Remove handling of full url in the path component for the next major release.
+     * Leaving this code in place for backward compatibility for sdk versions 7.0 and prior.
+     */
+    if ([[self.path lowercaseString] hasPrefix:@"https://"]) {
+        fullUrl = [[NSMutableString alloc] initWithString:self.path];
+        self.request = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:fullUrl]];
+    } else {
+        NSString *baseUrl = [[self class] restUrlForBaseUrl:self.baseURL serviceHostType:self.serviceHostType credentials:user.credentials];
+        
+        // Performs sanity checks on the path against the endpoint value.
+        if (self.serviceHostType != SFSDKRestServiceHostTypeCustom) {
             if (self.endpoint.length > 0 && [self.path hasPrefix:self.endpoint]) {
                 self.path = [self.path substringFromIndex:self.endpoint.length];
             }
-            
-            // Puts the pieces together and constructs a full URL.
-            fullUrl = [[NSMutableString alloc] initWithString:baseUrl];
-            if (![fullUrl hasSuffix:@"/"]) {
-                [fullUrl appendString:@"/"];
-            }
-            
-            // 'endpoint' could be empty for a custom endpoint like 'apexrest'.
-            NSMutableString *endpoint = [[NSMutableString alloc] initWithString:self.endpoint];
-            if (endpoint.length > 0) {
-                if ([endpoint hasPrefix:@"/"]) {
-                    [endpoint deleteCharactersInRange:NSMakeRange(0, 1)];
-                }
-                if (![endpoint hasSuffix:@"/"]) {
-                    [endpoint appendString:@"/"];
-                }
-                [fullUrl appendString:endpoint];
-            }
-            NSMutableString *path = [[NSMutableString alloc] initWithString:self.path];
-            if ([path hasPrefix:@"/"]) {
-                [path deleteCharactersInRange:NSMakeRange(0, 1)];
-            }
-            [fullUrl appendString:path];
         }
+        
+        // Puts the pieces together and constructs a full URL.
+        fullUrl = [[NSMutableString alloc] initWithString:baseUrl];
+        if (![fullUrl hasSuffix:@"/"]) {
+            [fullUrl appendString:@"/"];
+        }
+        
+        // 'endpoint' could be empty for a custom endpoint like 'apexrest'.
+        NSMutableString *endpoint = [[NSMutableString alloc] initWithString:self.endpoint];
+        if (endpoint.length > 0) {
+            if ([endpoint hasPrefix:@"/"]) {
+                [endpoint deleteCharactersInRange:NSMakeRange(0, 1)];
+            }
+            if (![endpoint hasSuffix:@"/"]) {
+                [endpoint appendString:@"/"];
+            }
+            [fullUrl appendString:endpoint];
+        }
+        
+        NSMutableString *path = [[NSMutableString alloc] initWithString:self.path];
+        if ([path hasPrefix:@"/"]) {
+            [path deleteCharactersInRange:NSMakeRange(0, 1)];
+        }
+        [fullUrl appendString:path];
 
         // Adds query parameters to the request if any are set.
         if (self.queryParams) {
@@ -171,11 +188,16 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         }
         self.request = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:fullUrl]];
 
+        //Set the service host type
+        NSURLRequestNetworkServiceType serviceType = [self urlRequestServiceType:self.networkServiceType];
+        [self.request setNetworkServiceType:serviceType];
+        
         // Sets HTTP method on the request.
         [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
 
         // Sets OAuth Bearer token header on the request (if not already present).
-        if (self.requiresAuthentication && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
+        // Allows Authenticated clients to make api calls that dont require access token.
+        if (self.requiresAuthentication && user && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
             NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
             [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
         }
@@ -197,9 +219,8 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
                 self.request.HTTPBodyStream = self.requestBodyStreamBlock();
             }
         }
-        return self.request;
-    }
-    return nil;
+   }
+   return self.request;
 }
 
 - (void)cancel {
@@ -276,9 +297,10 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     NSString *newline = @"\r\n";
     NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\";", key];
     if (fileName) {
-        bodyContentDisposition = [bodyContentDisposition stringByAppendingFormat:@" filename=\"%@\"%@", fileName, newline];
+        bodyContentDisposition = [bodyContentDisposition stringByAppendingFormat:@" filename=\"%@\"", fileName];
     }
     [body appendData:[bodyContentDisposition dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"Content-Type: %@; charset=UTF-8%@",mimeType, newline] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:fileData];
@@ -341,6 +363,17 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         [queryString appendString:[parts componentsJoinedByString:@"&"]];
     }
     return queryString;
+}
+
+- (NSURLRequestNetworkServiceType)urlRequestServiceType:(SFSDKNetworkServiceType) sfNetworkServiceType {
+    switch (sfNetworkServiceType) {
+        case SFNetworkServiceTypeBackground:
+            return NSURLNetworkServiceTypeBackground;
+        case SFNetworkServiceTypeResponsiveData:
+            return NSURLNetworkServiceTypeResponsiveData;
+         default:
+            return NSURLNetworkServiceTypeDefault;
+    }
 }
 
 @end

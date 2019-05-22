@@ -28,7 +28,10 @@
 #import "SFSmartStore+Internal.h"
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
+@interface SFOAuthCredentials ()
+@property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 
+@end
 @implementation SFSmartStoreTestCase
 
 #pragma mark - helper methods for comparing json

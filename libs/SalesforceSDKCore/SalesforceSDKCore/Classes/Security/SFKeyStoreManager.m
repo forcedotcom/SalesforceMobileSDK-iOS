@@ -26,6 +26,7 @@
 
 #import "SFKeyStoreManager+Internal.h"
 #import "SFSDKCryptoUtils.h"
+#import "SFSecureEncryptionKey.h"
 
 // Keychain and NSCoding constants
 static NSString * const kKeyStoreKeychainIdentifier = @"com.salesforce.keystore.keystoreKeychainId";
@@ -68,8 +69,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         key = (self.generatedKeyStore.keyStoreDictionary)[typedKeyLabel];
 
         if (!key && create) {
-            SFEncryptionKey *newKey = [self keyWithRandomValue];
-            key = [[SFKeyStoreKey alloc] initWithKey:newKey];
+            key = [SFKeyStoreKey createKey];
             [self storeKeyStoreKey:key withLabel:keyLabel];
         }
         
@@ -107,10 +107,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 
 - (SFEncryptionKey *)keyWithRandomValue
 {
-    NSData *keyData = [SFSDKCryptoUtils randomByteDataWithLength:kCCKeySizeAES256];
-    NSData *iv = [SFSDKCryptoUtils randomByteDataWithLength:kCCBlockSizeAES128];
-    SFEncryptionKey *key = [[SFEncryptionKey alloc] initWithData:keyData initializationVector:iv];
-    return key;
+    return [SFEncryptionKey createKey];
 }
 
 #pragma mark - Private methods
@@ -122,10 +119,25 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         self.generatedKeyStore.keyStoreKey = [self createDefaultKey];
     }
     else {
+        // Pre SDK 7.1 SFGeneratedKeyStore were encrypted with SFEncryptionKey
+        // Starting in SDK 7.1, we use SFSecureEncryptionKey instead
+        // Switch to SFSecureEncryptionKey if needed
+        [self switchToSecureKeyIfNeeded:self.generatedKeyStore];
+        
         // Pre SDK 6.0 code would store keys with keytype passcode in generated store if there was no passcode enabled
         // Starting with SDK 6.0, we don't pass the keytype anymore (it's always generated)
         // For things to work, we need to rename keys named xxx__Passcode to xxx__Generated
         [self renameKeysWithKeyTypePasscode:self.generatedKeyStore];
+    }
+}
+
+- (void)switchToSecureKeyIfNeeded:(SFGeneratedKeyStore*)generatedKeyStore
+{
+    SFKeyStoreKey* currentKey = generatedKeyStore.keyStoreKey;
+    if (![currentKey.encryptionKey isKindOfClass:[SFSecureEncryptionKey class]]) {
+        SFKeyStoreKey* newKey = [self createDefaultKey];
+        generatedKeyStore.keyStoreKey = newKey;
+        [SFSDKCoreLogger i:[self class] format:@"Switching to secure key"];
     }
 }
 
@@ -185,9 +197,9 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 
 - (SFKeyStoreKey *)createDefaultKey
 {
-    SFEncryptionKey *encKey = [self keyWithRandomValue];
-    SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encKey];
-    return keyStoreKey;
+    // Starting in SDK 7.1, we use SFSecureEncryptionKey to encrypt the key store
+    SFSecureEncryptionKey* encKey = [SFSecureEncryptionKey createKey:@"default"];
+    return [[SFKeyStoreKey alloc] initWithKey:encKey];
 }
 
 + (NSData *)keyStringToData:(NSString *)keyString

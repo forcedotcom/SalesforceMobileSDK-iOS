@@ -29,8 +29,8 @@
 #import "SFUserAccount.h"
 #import "SFSDKTestRequestListener.h"
 #import "SFSDKTestCredentialsData.h"
-
-
+#import "SFOAuthCredentials+Internal.h"
+#import "SFSDKAppConfig.h"
 static SFOAuthCredentials *credentials = nil;
 
 @implementation TestSetupUtils
@@ -67,20 +67,33 @@ static SFOAuthCredentials *credentials = nil;
     //check whether the test config file has never been edited
     NSAssert(![credsData.refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
              @"You need to obtain credentials for your test org and replace test_credentials.json");
-    [SFUserAccountManager sharedInstance].currentUser = nil;
+    [SalesforceSDKManager initializeSDK];
+   [SFUserAccountManager sharedInstance].currentUser = nil;
+    
+    // Note: We need to fix this inconsistency for tests in the long run.There should be a clean way to refresh appConfigs for tests. The configs should apply across all components that need the  config.
+    SFSDKAppConfig *appconfig  = [[SFSDKAppConfig alloc] init];
+    appconfig.oauthRedirectURI = credsData.redirectUri;
+    appconfig.remoteAccessConsumerKey = credsData.clientId;
+    appconfig.oauthScopes = [NSSet setWithObjects:@"web", @"api", nil];
+    [SalesforceSDKManager sharedManager].appConfig = appconfig;
+   
     [SFUserAccountManager sharedInstance].oauthClientId = credsData.clientId;
     [SFUserAccountManager sharedInstance].oauthCompletionUrl = credsData.redirectUri;
     [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
+
     [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
     credentials = [[SFUserAccountManager sharedInstance] newClientCredentials];
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
     credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
+
     NSString *communityUrlString = credsData.communityUrl;
     if (communityUrlString.length > 0) {
         credentials.communityUrl = [NSURL URLWithString:communityUrlString];
     }
     credentials.accessToken = credsData.accessToken;
     credentials.refreshToken = credsData.refreshToken;
+   
+    
     return credsData;
 }
 

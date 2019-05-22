@@ -62,20 +62,9 @@ extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
 @interface SFKeychainItemWrapper : NSObject
 
 /**
- Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken
- */
-@property (nonatomic) BOOL encrypted;
-
-/**
  Returns the accessible attribute used to store this keychain item
  */
 @property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute;
-
-/**
- The passcode length.
- */
-@property (nonatomic) NSUInteger passcodeLength;
- 
 
 /**
  @return Whether or not keychain access errors cause a fatal exception.  Default is YES.
@@ -110,29 +99,25 @@ extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
  */
 - (BOOL)resetKeychainItem;
 
-/* Passcode related methods */
-
-/**
- Sets the passcode in the keychain.
- @param passcode Plain text passcode
- */
-- (void)setPasscode:(nullable NSString *)passcode;
-
-/** The passcode.
- */
-- (nullable NSString *)passcode;
-
-/** Performs passcode verification.
- @param passcode The passcode to verify.
- */
-- (BOOL)verifyPasscode:(nullable NSString *)passcode;
-
 /**
  Store arbitrary data to the keychain for the service (identifier) and account specified in the initializer.
  @param data Arbitrary data to store to in the keychain. May be `nil`.
  @return The status of the keychain update request.
  */
 - (OSStatus)setValueData:(nullable NSData *)data;
+
+/**
+ Read arbitrary string from the keychain for the service (identifier) and account specified in the initializer.
+ @return Arbitrary string read from the keychain. May be `nil`.
+ */
+- (nullable NSString *)valueString;
+
+/**
+ Store arbitrary string to the keychain for the service (identifier) and account specified in the initializer.
+ @param string Arbitrary string to store to in the keychain. May be `nil`.
+ @return The status of the keychain update request.
+ */
+- (OSStatus)setValueString:(nullable NSString *)string;
 
 /**
  Read arbitrary data from the keychain for the service (identifier) and account specified in the initializer.

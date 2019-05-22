@@ -50,12 +50,12 @@ aliases:
 defaults: &defaults
   working_directory: ~/SalesforceMobileSDK-iOS
   macos:
-    xcode: "10.0.0"
+    xcode: "10.1.0"
   shell: /bin/bash --login -eo pipefail
   environment:
     BASH_ENV: ~/.bashrc
     FASTLANE_SKIP_UPDATE_CHECK: true
-    CHRUBY_VER: 2.5.1
+    CHRUBY_VER: 2.5.3
 
 version: 2
 jobs:
@@ -195,7 +195,7 @@ workflows:
               only:
                 - dev
     jobs:
-      - test-SaleforceSDKCommon:
+      - test-SalesforceSDKCommon:
             context: nightly-test
       - test-SalesforceAnalytics:
             context: nightly-test

@@ -128,7 +128,7 @@ NS_SWIFT_NAME(SalesforceManager)
  *
  * @return App name.
  */
-@property (class,nonatomic)NSString *ailtnAppName NS_SWIFT_NAME(analyticsAppName);
+@property (class,nonatomic,strong)NSString *ailtnAppName NS_SWIFT_NAME(analyticsAppName);
 
 
 /**
@@ -216,7 +216,7 @@ NS_SWIFT_NAME(SalesforceManager)
  @discussion
  This block is only invoked if the dismissal action is also set.
  */
-@property (nonatomic, copy, nullable) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction NS_SWIFT_NAME(snapshotViewCreationHandler);
+@property (nonatomic, copy, nullable) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction NS_SWIFT_NAME(snapshotViewPresentationHandler);
 
 /**
  The block to execute to dismiss the snapshot viewcontroller.

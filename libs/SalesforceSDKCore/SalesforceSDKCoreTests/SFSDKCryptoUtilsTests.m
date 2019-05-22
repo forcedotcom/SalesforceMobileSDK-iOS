@@ -288,4 +288,49 @@
     NSString *result = [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     XCTAssertFalse([testString isEqualToString:result]);
 }
+
+- (void)testECKeyGenerationDeletion
+{
+    // Keys should not exist already
+    SecKeyRef privateKeyRef = [SFSDKCryptoUtils getECPrivateKeyRefWithName:@"test"];
+    SecKeyRef publicKeyRef = [SFSDKCryptoUtils getECPublicKeyRefWithName:@"test"];
+    XCTAssertFalse(privateKeyRef != NULL, @"Private key should not have been found");
+    XCTAssertFalse(publicKeyRef != NULL, @"Private key should not have been found");
+
+    // Create keys
+    [SFSDKCryptoUtils createECKeyPairWithName:@"test" accessibleAttribute:kSecAttrAccessibleAlways useSecureEnclave:[SFSDKCryptoUtils isSecureEnclaveAvailable]];
+    
+    // Keys should exist
+    privateKeyRef = [SFSDKCryptoUtils getECPrivateKeyRefWithName:@"test"];
+    publicKeyRef = [SFSDKCryptoUtils getECPublicKeyRefWithName:@"test"];
+    XCTAssertTrue(privateKeyRef != NULL, @"Public key should have been found");
+    XCTAssertTrue(publicKeyRef != NULL, @"Public key should have been found");
+    if (privateKeyRef) CFRelease(privateKeyRef);
+    if (publicKeyRef) CFRelease(publicKeyRef);
+
+    // Delete keys
+    [SFSDKCryptoUtils deleteECKeyPairWithName:@"test"];
+    privateKeyRef = [SFSDKCryptoUtils getECPrivateKeyRefWithName:@"test"];
+    publicKeyRef = [SFSDKCryptoUtils getECPublicKeyRefWithName:@"test"];
+    XCTAssertFalse(privateKeyRef != NULL, @"Private key should no longer exist");
+    XCTAssertFalse(publicKeyRef != NULL, @"Private key should no longer exist");
+}
+
+- (void)testECEncryptionAndDecryptionForData
+{
+    // Create keys
+    [SFSDKCryptoUtils createECKeyPairWithName:@"test" accessibleAttribute:kSecAttrAccessibleAlways useSecureEnclave:[SFSDKCryptoUtils isSecureEnclaveAvailable]];
+    SecKeyRef privateKeyRef = [SFSDKCryptoUtils getECPrivateKeyRefWithName:@"test"];
+    SecKeyRef publicKeyRef = [SFSDKCryptoUtils getECPublicKeyRefWithName:@"test"];
+
+    NSData *testData = [@"test data" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *encryptedData = [SFSDKCryptoUtils encryptUsingECforData:testData withKeyRef:publicKeyRef];
+    NSData *decryptedData = [SFSDKCryptoUtils decryptUsingECforData:encryptedData withKeyRef:privateKeyRef];
+    XCTAssertNotEqualObjects(testData, encryptedData, @"Encrypted data should be different from data");
+    XCTAssertEqualObjects(testData, decryptedData, @"Decrypted data should be identical to data");
+    
+    // Delete keys
+    [SFSDKCryptoUtils deleteECKeyPairWithName:@"test"];
+}
+
 @end

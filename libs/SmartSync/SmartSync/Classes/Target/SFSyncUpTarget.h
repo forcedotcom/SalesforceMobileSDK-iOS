@@ -25,6 +25,9 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncTarget.h"
 
+extern NSString * _Nonnull const kSFSyncUpTargetCreateFieldlist;
+extern NSString * _Nonnull const kSFSyncUpTargetUpdateFieldlist;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFSmartSyncSyncManager;
@@ -111,18 +114,18 @@ NS_SWIFT_NAME(SyncUpTarget)
 /**
  Create field list (optional)
  */
-@property (nonatomic, strong, readonly) NSArray*  createFieldlist;
+@property (nonatomic, strong, readonly) NSArray<NSString*>*  createFieldlist;
 
 /**
  Update field list (optional)
  */
-@property (nonatomic, strong, readonly) NSArray*  updateFieldlist;
+@property (nonatomic, strong, readonly) NSArray<NSString*>*  updateFieldlist;
 
 /**
  Creates a new instance of a server target from a serialized dictionary.
  @param dict The dictionary with the serialized server target.
  */
-+ (nullable instancetype)newFromDict:(NSDictionary *)dict NS_SWIFT_NAME(build(dict:));
++ (nullable instancetype)newFromDict:(nullable NSDictionary *)dict NS_SWIFT_NAME(build(dict:));
 
 /**
  Converts a string representation of a target type into its target type.
@@ -141,8 +144,8 @@ NS_SWIFT_NAME(SyncUpTarget)
 /**
  * Constructor
  */
-- (instancetype)initWithCreateFieldlist:(nullable NSArray *)createFieldlist
-                        updateFieldlist:(nullable NSArray *)updateFieldlist;
+- (instancetype)initWithCreateFieldlist:(nullable NSArray<NSString*> *)createFieldlist
+                        updateFieldlist:(nullable NSArray<NSString*> *)updateFieldlist;
 
 /**
  Call resultBlock with YES if record is more recent than corresponding record on server

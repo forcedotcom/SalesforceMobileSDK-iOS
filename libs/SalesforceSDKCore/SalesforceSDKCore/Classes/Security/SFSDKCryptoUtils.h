@@ -158,7 +158,7 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  * Encrypt data with givien SecKeyRef using RSA pkcs1 algorithm
  * @param data The data to encrypt
  * @param keyRef The keyref used in encryption
- * @return The encrypted Dataa, or `nil` if encryption failed
+ * @return The encrypted Data, or `nil` if encryption failed
  */
 + (nullable NSData*)encryptUsingRSAforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef;
 
@@ -169,6 +169,56 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  * @return The decypted Data, or `nil` if decryption failed
  */
 + (nullable NSData*)decryptUsingRSAforData:(NSData * )data withKeyRef:(SecKeyRef)keyRef;
+
+/**
+ * Check for availability of secure enclave
+ * @return YES if secure enclave is available
+ */
++ (BOOL) isSecureEnclaveAvailable;
+
+/**
+ * Create asymmetric keys (public/private key pairs) using EC algorithm with given keyName
+ * @param keyName The name string used to generate the key.
+ * @return YES if successful
+ */
++ (BOOL)createECKeyPairWithName:(NSString *)keyName accessibleAttribute:(CFTypeRef)accessibleAttribute useSecureEnclave:(BOOL)useSecureEnclave;
+
+/**
+ * Delete EC key pair created with createECKeyPairWithName
+ * @param keyName The name string of the key.
+ * @return YES if successful
+ */
++ (BOOL)deleteECKeyPairWithName:(NSString *)keyName;
+
+/**
+ * Get EC public SecKeyRef with given keyName
+ * @param keyName The name string used to generate the key.
+ * @return The SecKeyRef, or `nil` if no matching key is found
+ */
++ (nullable SecKeyRef)getECPublicKeyRefWithName:(NSString *)keyName;
+
+/**
+ * Get EC private SecKeyRef with given keyName and length
+ * @param keyName The name string used to generate the key.
+ * @return The SecKeyRef, or `nil` if no matching key is found
+ */
++ (nullable SecKeyRef)getECPrivateKeyRefWithName:(NSString *)keyName;
+
+/**
+ * Encrypt data with givien SecKeyRef using EC algorithm
+ * @param data The data to encrypt
+ * @param keyRef The keyref used in encryption
+ * @return The encrypted Data, or `nil` if encryption failed
+ */
++ (nullable NSData*)encryptUsingECforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef;
+
+/**
+ * Decrypt data with givien SecKeyRef using EC algorithm
+ * @param data The data to decypt
+ * @param keyRef The keyref used in decryption
+ * @return The decypted Data, or `nil` if decryption failed
+ */
++ (nullable NSData*)decryptUsingECforData:(NSData * )data withKeyRef:(SecKeyRef)keyRef;
 
 @end
 

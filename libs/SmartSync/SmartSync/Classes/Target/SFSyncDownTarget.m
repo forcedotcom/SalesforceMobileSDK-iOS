@@ -114,6 +114,11 @@ ABSTRACT_METHOD
     return [self getLatestModificationTimeStamp:records modificationDateFieldName:self.modificationDateFieldName];
 }
 
+-(BOOL) isSyncDownSortedByLatestModification {
+    return NO;
+}
+
+
 - (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
     // Fetches list of IDs present in local soup that have not been modified locally.

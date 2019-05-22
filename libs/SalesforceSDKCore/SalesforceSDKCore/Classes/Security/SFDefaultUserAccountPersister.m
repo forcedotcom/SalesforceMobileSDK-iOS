@@ -23,6 +23,7 @@
  */
 
 #import "SFUserAccountManager.h"
+#import "SFIdentityData.h"
 #import "SFDefaultUserAccountPersister.h"
 #import "SFDirectoryManager.h"
 #import "SFKeyStoreManager.h"
@@ -143,17 +144,17 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             success= [manager removeItemAtPath:userDirectory error:&folderRemovalError];
             if (!success) {
                 [SFSDKCoreLogger d:[self class]
-                   format:@"Error removing the user folder for '%@': %@", user.userName, [folderRemovalError localizedDescription]];
+                   format:@"Error removing the user folder for '%@': %@", user.idData.username, [folderRemovalError localizedDescription]];
                 if (folderRemovalError && error) {
                     *error = folderRemovalError;
                 }
             }
         } else {
-            NSString *reason = [NSString stringWithFormat:@"User folder for user '%@' does not exist on the filesystem", user.userName];
+            NSString *reason = [NSString stringWithFormat:@"User folder for user '%@' does not exist on the filesystem", user.idData.username];
             NSError *ferror = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                                   code:SFUserAccountManagerCannotReadDecryptedArchive
                                               userInfo:@{NSLocalizedDescriptionKey: reason}];
-            [SFSDKCoreLogger d:[self class] format:@"User folder for user '%@' does not exist on the filesystem.", user.userName];
+            [SFSDKCoreLogger d:[self class] format:@"User folder for user '%@' does not exist on the filesystem.", user.idData.username];
             if(error)
                 *error = ferror;
         }
@@ -212,7 +213,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
 
     // Encrypt it.
     SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel autoCreate:YES];
-    NSData *encryptedArchiveData = [SFSDKCryptoUtils aes256EncryptData:archiveData withKey:encKey.key iv:encKey.initializationVector];
+    NSData *encryptedArchiveData = [encKey encryptData:archiveData];
     if (!encryptedArchiveData) {
         NSString *reason = [NSString stringWithFormat:@"User account data could not be encrypted.  %@",filePath];
         [SFSDKCoreLogger w:[self class] format:reason];
@@ -259,7 +260,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             return NO;
         }
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel autoCreate:YES];
-        NSData *decryptedArchiveData = [SFSDKCryptoUtils aes256DecryptData:encryptedUserAccountData withKey:encKey.key iv:encKey.initializationVector];
+        NSData *decryptedArchiveData = [encKey decryptData:encryptedUserAccountData];
         if (!decryptedArchiveData) {
             if (error) {
                 *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain

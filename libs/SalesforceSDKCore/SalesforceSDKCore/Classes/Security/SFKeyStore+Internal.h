@@ -58,16 +58,16 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 
 /**
  Retrieves the key store dictionary, decrypting it with the specified key.
- @param decryptKey The key used to decrypt the dictionary.
+ @param storeKey The key used to decrypt the dictionary.
  @return The decrypted dictionary, or `nil` if the dictionary could not be decrypted.
  */
-- (NSDictionary *)keyStoreDictionaryWithKey:(SFEncryptionKey *)decryptKey;
+- (NSDictionary *)keyStoreDictionaryWithKey:(SFKeyStoreKey *)storeKey;
 
 /**
  Sets the key store dictionary, encrypting it with the specified key.
  @param keyStoreDictionary The new/updated dictionary to set.
- @param theEncryptionKey The key used to encrypt the database.
+ @param storeKey The key used to encrypt the dictionary.
  */
-- (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary withKey:(SFEncryptionKey *)theEncryptionKey;
+- (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary withKey:(SFKeyStoreKey *)storeKey;
 
 @end

@@ -25,11 +25,13 @@
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "SFSDKLogoutBlocker.h"
 #import "SFSDKAuthViewHandler.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFDefaultUserAccountPersister.h"
 #import "SFSDKOAuthClient.h"
 #import "SFSDKOAuthClientConfig.h"
+#import "SFOAuthCredentials+Internal.h"
 
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
@@ -96,6 +98,12 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @end
 
 @implementation SFUserAccountManagerTests
+
++ (void)setUp
+{
+    [SFSDKLogoutBlocker block];
+    [super setUp];
+}
 
 - (void)setUp {
     [super setUp];
@@ -362,28 +370,28 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertTrue([[SFUserAccountManager sharedInstance].additionalTokenRefreshParams count] == [addlRefreshParams count],"SFUserAccountManager additionalOAuthParameterKeys should not be nil");
     [SFUserAccountManager sharedInstance].additionalTokenRefreshParams = oldAdditionalTokenRefreshParams;
     
-    NSString *oldLoginHost = [SFUserAccountManager sharedInstance].loginHost;;
+    NSString *oldLoginHost = [SFUserAccountManager sharedInstance].loginHost;
     NSString *newLoginHost = @"https://sample.test";
     [SFUserAccountManager sharedInstance].loginHost = newLoginHost;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].loginHost, newLoginHost, @"SFUserAccountManager loginHost should be set correctly");
     [SFUserAccountManager sharedInstance].loginHost = oldLoginHost;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].loginHost, oldLoginHost, @"SFUserAccountManager loginHost should be set back correctly");
     
-    NSString *oldOauthCompletionUrl = [SFUserAccountManager sharedInstance].oauthCompletionUrl;;
+    NSString *oldOauthCompletionUrl = [SFUserAccountManager sharedInstance].oauthCompletionUrl;
     NSString *newOauthCompletionUrl = @"new://new.url";
     [SFUserAccountManager sharedInstance].oauthCompletionUrl = newOauthCompletionUrl;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].oauthCompletionUrl, newOauthCompletionUrl, @"SFUserAccountManager oauthCompletionUrl should be set correctly");
     [SFUserAccountManager sharedInstance].oauthCompletionUrl = oldOauthCompletionUrl;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].oauthCompletionUrl, oldOauthCompletionUrl, @"SFUserAccountManager oauthCompletionUrl should be set back correctly");
     
-    NSString *oldOauthClientId = [SFUserAccountManager sharedInstance].oauthClientId;;
+    NSString *oldOauthClientId = [SFUserAccountManager sharedInstance].oauthClientId;
     NSString *newOauthClientId = @"NEW_OAUTH_CLIENT_ID";
     [SFUserAccountManager sharedInstance].oauthClientId = newOauthClientId;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].oauthClientId, newOauthClientId, @"SFUserAccountManager oAuthClientId should be set correctly");
     [SFUserAccountManager sharedInstance].oauthClientId = oldOauthClientId;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].oauthClientId, oldOauthClientId, @"SFUserAccountManager oAuthClientId should be set back correctly");
     
-    NSString *oldBrandLoginPath = [SFUserAccountManager sharedInstance].brandLoginPath;;
+    NSString *oldBrandLoginPath = [SFUserAccountManager sharedInstance].brandLoginPath;
     NSString *newBrandLoginPath = @"NEW_BRAND";
     [SFUserAccountManager sharedInstance].brandLoginPath = newBrandLoginPath;
     XCTAssertEqualObjects([SFUserAccountManager sharedInstance].brandLoginPath, newBrandLoginPath, @"SFUserAccountManager brandLoginPath should be set correctly");
@@ -431,29 +439,14 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertNotNil(user);
 }
 
-- (void)testLoginNotificationPosted
-{
-    SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
-    
-    [self expectationForNotification:kSFNotificationUserDidLogIn object:[SFUserAccountManager sharedInstance] handler:^BOOL(NSNotification * notification) {
-        return notification.userInfo[kSFNotificationUserInfoAccountKey]!=nil;
-    }];
-    
-    SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
-    __block SFUserAccount *user = nil;
-    
-    [[SFUserAccountManager sharedInstance]
-     refreshCredentials:credentials
-     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-         authListener.returnStatus = kTestRequestStatusDidLoad;
-         user = userAccount;
-     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-         authListener.lastError = error;
-         authListener.returnStatus = kTestRequestStatusDidFail;
-     }];
-    [authListener waitForCompletion];
-    [self waitForExpectationsWithTimeout:10.0 handler:nil];
-    XCTAssertNotNil(user);
+- (void)testEntityId15 {
+    NSString *userId = @"ABCDE12345ABCDE".entityId18;
+    SFUserAccountIdentity *identity = [[SFUserAccountIdentity alloc] initWithUserId:userId  orgId:@"ABCDE12345ABCDE"];
+    XCTAssertNotNil(identity);
+    XCTAssertTrue(userId.length == 18,@"EntityId18 should not be nil");
+    XCTAssertNotNil(identity.userId,@"userId should not be nil");
+    XCTAssertNotNil(identity.orgId,@"orgId should not be nil");
+    XCTAssertTrue(identity.userId.length == 15 ,@"userId should be set to EntityId 15 format");
 }
 
 - (void)testAuthHandler {

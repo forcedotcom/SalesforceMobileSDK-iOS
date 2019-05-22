@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
                       childrenFieldlist:@[@"ChildName", @"School"]
                        relationshipType:SFParentChildrenRelationpshipLookup];
 
-    NSString *expectedQuery = @"select ParentName, Title, ParentId, ParentModifiedDate, (select ChildName, School, ChildId, ChildLastModifiedDate from Children) from Parent where School = 'MIT'";
+    NSString *expectedQuery = @"select ParentName, Title, ParentId, ParentModifiedDate, (select ChildName, School, ChildId, ChildLastModifiedDate from Children) from Parent where School = 'MIT' order by ParentModifiedDate";
     XCTAssertEqualObjects([target getQueryToRun], expectedQuery);
 
     // With default id and modification date fields
@@ -97,7 +97,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
                       childrenFieldlist:@[@"ChildName", @"School"]
                        relationshipType:SFParentChildrenRelationpshipLookup];
 
-    expectedQuery = @"select ParentName, Title, Id, LastModifiedDate, (select ChildName, School, Id, LastModifiedDate from Children) from Parent where School = 'MIT'";
+    expectedQuery = @"select ParentName, Title, Id, LastModifiedDate, (select ChildName, School, Id, LastModifiedDate from Children) from Parent where School = 'MIT' order by LastModifiedDate";
     XCTAssertEqualObjects([target getQueryToRun], expectedQuery);
 }
 
@@ -117,7 +117,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
                       childrenFieldlist:@[@"ChildName", @"School"]
                        relationshipType:SFParentChildrenRelationpshipLookup];
 
-    NSString* expectedQuery = [NSString stringWithFormat:@"select ParentName, Title, ParentId, ParentModifiedDate, (select ChildName, School, ChildId, ChildLastModifiedDate from Children where ChildLastModifiedDate > %@) from Parent where ParentModifiedDate > %@ and School = 'MIT'", dateStr, dateStr];
+    NSString* expectedQuery = [NSString stringWithFormat:@"select ParentName, Title, ParentId, ParentModifiedDate, (select ChildName, School, ChildId, ChildLastModifiedDate from Children where ChildLastModifiedDate > %@) from Parent where ParentModifiedDate > %@ and School = 'MIT' order by ParentModifiedDate", dateStr, dateStr];
     XCTAssertEqualObjects([target getQueryToRun:maxTimeStamp], expectedQuery);
 
     // With default id and modification date fields
@@ -129,7 +129,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
                       childrenFieldlist:@[@"ChildName", @"School"]
                        relationshipType:SFParentChildrenRelationpshipLookup];
 
-    expectedQuery = [NSString stringWithFormat:@"select ParentName, Title, Id, LastModifiedDate, (select ChildName, School, Id, LastModifiedDate from Children where LastModifiedDate > %@) from Parent where LastModifiedDate > %@ and School = 'MIT'", dateStr, dateStr];
+    expectedQuery = [NSString stringWithFormat:@"select ParentName, Title, Id, LastModifiedDate, (select ChildName, School, Id, LastModifiedDate from Children where LastModifiedDate > %@) from Parent where LastModifiedDate > %@ and School = 'MIT' order by LastModifiedDate", dateStr, dateStr];
     XCTAssertEqualObjects([target getQueryToRun:maxTimeStamp], expectedQuery);
 }
 
@@ -639,7 +639,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [cleanResyncGhosts fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
 
     // Accounts and contacts expected to still be in db
@@ -703,7 +703,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [firstCleanExpectation fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[2], accountIds[3], accountIds[4], accountIds[5]] idField:@"Id"];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
@@ -721,7 +721,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
             [secondCleanExpectation fulfill];
         }
-    }];
+    } error:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbExists:ACCOUNTS_SOUP ids:@[accountIds[1], accountIds[3], accountIds[4]] idField:@"Id"];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0], accountIds[2], accountIds[5]] idField:@"Id"];

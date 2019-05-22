@@ -40,6 +40,11 @@
 @property (nonatomic, strong, readonly, nullable) NSArray<NSString *> *ssoUrls;
 
 /**
+ Configured login page URL.
+ */
+@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl;
+
+/**
  The raw dictionary data representing the org auth configuration.
  */
 @property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict;

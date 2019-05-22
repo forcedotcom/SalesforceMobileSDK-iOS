@@ -33,7 +33,7 @@
 #import "SFOAuthSessionRefresher.h"
 #import "NSString+SFAdditions.h"
 
-NSString* const kSFRestDefaultAPIVersion = @"v42.0";
+NSString* const kSFRestDefaultAPIVersion = @"v44.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
@@ -75,6 +75,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         self.apiVersion = kSFRestDefaultAPIVersion;
         self.sessionRefreshInProgress = NO;
         self.pendingRequestsBeingProcessed = NO;
+        self.requiresAuthentication = ( user!=nil && user.credentials.accessToken!=nil );
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
     return self;
@@ -101,13 +102,30 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 }
 
 #pragma mark - singleton
+static dispatch_once_t pred;
+
++ (SFRestAPI *)sharedGlobalInstance {
+    dispatch_once(&pred, ^{
+        sfRestApiList = [[SFSDKSafeMutableDictionary alloc] init];
+    });
+    
+    @synchronized ([SFRestAPI class]) {
+        NSString *key = SFKeyForGlobalScope();
+        id sfRestApi = [sfRestApiList objectForKey:key];
+        if (!sfRestApi) {
+            sfRestApi = [[SFRestAPI alloc] initWithUser:nil];
+            [sfRestApiList setObject:sfRestApi forKey:key];
+        }
+        return sfRestApi;
+   }
+}
 
 + (SFRestAPI *)sharedInstance {
     return [SFRestAPI sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
 }
 
 + (SFRestAPI *)sharedInstanceWithUser:(SFUserAccount *)user {
-    static dispatch_once_t pred;
+    
     dispatch_once(&pred, ^{
         sfRestApiList = [[SFSDKSafeMutableDictionary alloc] init];
     });
@@ -143,8 +161,17 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         if (!user) {
             return;
         }
-        NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
-        [sfRestApiList removeObject:key];
+        
+        NSString *userKey = SFKeyForUserAndScope(user, SFUserAccountScopeUser);
+        // Remove all sub-instances (community users) for this user as well
+        NSArray *keys = sfRestApiList.allKeys;
+        if(userKey) {
+            for( NSString *key in keys) {
+                if([key hasPrefix:userKey]) {
+                    [sfRestApiList removeObject:key];
+                }
+            }
+        }
     }
 }
 
@@ -192,18 +219,21 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 #pragma mark - send method
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-    [self send:request delegate:delegate shouldRetry:YES];
+    [self send:request delegate:delegate shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
 }
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
     if (nil != delegate) {
         request.delegate = delegate;
     }
-
+    
+    if (!self.requiresAuthentication) {
+         NSAssert(!request.requiresAuthentication , @"Use SFRestAPI sharedInstance for authenticated requests");
+    }
     // Adds this request to the list of active requests if it's not already on the list.
     [self.activeRequests addObject:request];
     __weak __typeof(self) weakSelf = self;
-    if (self.user.credentials.accessToken == nil && self.user.credentials.refreshToken == nil && request.requiresAuthentication) {
+    if (self.user.credentials.accessToken == nil && self.user.credentials.refreshToken == nil && self.requiresAuthentication) {
         [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request: %@", request.description];
         [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -393,9 +423,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
-            if (request.requiresAuthentication) {
-                [self send:request delegate:request.delegate shouldRetry:NO];
-            }
+           [self send:request delegate:request.delegate shouldRetry:NO];
         }
         self.pendingRequestsBeingProcessed = NO;
     }

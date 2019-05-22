@@ -63,12 +63,14 @@ extern NSString * const kSFSyncStateTypeUp;
 // Possible value for sync status
 typedef NS_ENUM(NSInteger, SFSyncStateStatus) {
     SFSyncStateStatusNew,
+    SFSyncStateStatusStopped,
     SFSyncStateStatusRunning,
     SFSyncStateStatusDone,
     SFSyncStateStatusFailed
 } NS_SWIFT_NAME(SyncStatus);
 
 extern NSString * const kSFSyncStateStatusNew;
+extern NSString * const kSFSyncStateStatusStopped;
 extern NSString * const kSFSyncStateStatusRunning;
 extern NSString * const kSFSyncStateStatusDone;
 extern NSString * const kSFSyncStateStatusFailed;
@@ -103,17 +105,24 @@ NS_SWIFT_NAME(SyncState)
 @property (nonatomic, readonly) NSInteger endTime;
 
 // Error JSON string
-@property (nonatomic, readonly) NSString* error;
+@property (nonatomic) NSString* error;
 
 /** Setup soup that keeps track of sync operations
  */
 + (void) setupSyncsSoupIfNeeded:(SFSmartStore*)store;
 
+/**
+ * Cleanup syncs soup if needed
+ * At startup, no sync could be running already
+ * If a sync is in the running state, we change it to stopped
+ */
++ (void) cleanupSyncsSoupIfNeeded:(SFSmartStore*)store;
+
 /** Factory methods
  */
 + (nullable SFSyncState *)newSyncDownWithOptions:(SFSyncOptions *)options target:(SFSyncDownTarget *)target soupName:(NSString *)soupName name:(nullable NSString *) name store:(SFSmartStore*)store NS_SWIFT_NAME(buildSyncDown(options:target:soupName:name:store:));
 + (nullable SFSyncState *)newSyncUpWithOptions:(SFSyncOptions *)options target:(SFSyncUpTarget *)target soupName:(NSString *)soupName name:(nullable NSString *)name store:(SFSmartStore *)store NS_SWIFT_NAME(buildSyncUp(options:target:soupName:name:store:));
-+ (nullable SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store NS_SWIFT_NAME(buildSyncUp(options:soupName:store:));;
++ (nullable SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store NS_SWIFT_NAME(buildSyncUp(options:soupName:store:));
 
 /** Methods to save/retrieve/delete from smartstore
  */
@@ -122,6 +131,7 @@ NS_SWIFT_NAME(SyncState)
 - (void) save:(SFSmartStore*)store;
 + (void) deleteById:(NSNumber*)syncId store:(SFSmartStore*)store NS_SWIFT_NAME(delete(syncId:store:));
 + (void) deleteByName:(NSString*)name store:(SFSmartStore*)store NS_SWIFT_NAME(delete(syncName:store:));
++ (NSArray<SFSyncState*>*)getSyncsWithStatus:(SFSmartStore*)store status:(SFSyncStateStatus)status;
 
 /** Methods to translate to/from dictionary
  */
@@ -133,6 +143,7 @@ NS_SWIFT_NAME(SyncState)
 - (BOOL) isDone;
 - (BOOL) hasFailed;
 - (BOOL) isRunning;
+- (BOOL) isStopped;
 
 /** Enum to/from string helper methods
  */
@@ -142,10 +153,6 @@ NS_SWIFT_NAME(SyncState)
 + (NSString*) syncStatusToString:(SFSyncStateStatus)syncStatus;
 + (SFSyncStateMergeMode) mergeModeFromString:(NSString*)mergeMode;
 + (NSString*) mergeModeToString:(SFSyncStateMergeMode)mergeMode;
-
-/** Setter for errorJSON
- */
-- (void) setError:(NSString * _Nonnull)error;
 
 @end
 

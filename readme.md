@@ -31,42 +31,30 @@ The Salesforce Mobile SDK for iOS requires iOS 11.0 or greater.  The install.sh 
 Introduction
 ==
 
-### What's New in 7.0
+### What's New in 7.1
 
-For iOS, Mobile SDK 7.0 marks the beginning of an ongoing collaboration with Apple Inc., to enhance the usability and standardization
-of our Swift APIs. As a result of this partnership, our Swift offerings have undergone extensive changes. The revised APIs are “Swiftified”
-aliases for the Mobile SDK Objective-C APIs.
+**SmartSync Data Framework Updates**
+- SmartSync Data Framework now supports a batch sync up target that uses the Salesforce Composite API for uploading groups of up to 25 records per call.
+- New methods allow native apps to stop and restart in-flight sync operations. To reflect the new sync state, we’ve added a stopped sync status.
+- Swift `syncUp` and `syncDown` methods that take a sync name, both `reSync` methods, and the legacy `cleanResyncGhosts` method now can throw exceptions.
+- We’ve updated iOS methods to make error handling more consistent between platforms.
+- You can now call `cleanResyncGhosts` with a sync name.
 
-**Swift API Updates**
-- For improved readability, we’ve applied “Swifty” restyling to many class names, method names, and parameter names. The Xcode
-editor provides excellent support for these API names, so it’s easy to find what you want. If you don’t see what you’re looking for,
-you can search the Objective-C header files as follows:
-  - Look for customized Swift names in `NS_SWIFT_NAME()` macros next to their Objective-C counterparts.
-  - A few Objective-C APIs aren’t available in Swift. These APIs are marked with the `NS_SWIFT_UNAVAILABLE("")` macro.
-  - If an Objective-C API isn’t marked with either the `NS_SWIFT_NAME()` or `NS_SWIFT_UNAVAILABLE("")` macro, you
-call it in Swift using its Objective-C naming.
-- We've redesigned our Swift APIs to use closures and/or delegates for asynchronous calls.
-- Mobile SDK no longer requires the `Cocoa Lumberjack` logging framework. For compiler-level logging, use the `os_log()` function
-from Apple’s unified logging system. See [iOS Compiler-Level Logging](https://developer.salesforce.com/docs/atlas.en-us.noversion.mobile_sdk.meta/mobile_sdk/analytics_logging_ios.htm).
+**Security Updates**
+- Mobile SDK for iOS raises its master key security to use Secure Enclave on devices that support it. We’ve also strengthened our master key encryption to use a 256-bit elliptic curve cryptography (ECC) private key.
 
 **Miscellaneous Changes**
-- We’ve simplified `AppDelegate` initialization logic by decoupling login from SDK initialization. You’re no longer required to listen to
-and handle Mobile SDK launch events.
-- Advanced authentication is now allowed by default. The type of authentication used by a Mobile SDK app can be configured only
-through My Domain settings.
-- As recommended by Apple, we’ve updated iOS advanced authentication to use `SFAuthenticationSession` instead of
-`SFSafariViewController`. This notice is informational only and does not require any action on your part.
-- Mobile SDK apps now support both Face ID and Touch ID.
-- We’ve updated and improved the app passcode dialog box.
-  
-**iOS Version Updates**
-- iOS minimum version (deployment target): iOS 11
-- iOS base SDK version: iOS 12
-- Xcode minimum version: 10
-  
+- We’ve improved support for using biometric input to supply application passcodes.
+- We’ve improved support for sending unauthenticated REST requests to external endpoints. Mobile SDK now provides a shared global instance of its REST client. This REST client doesn’t require OAuth authentication and is unaware of the concept of user. Native apps can use it to send custom unauthenticated requests to non-Salesforce endpoints before or after the user logs in to Salesforce.
+- For profiling how Mobile SDK operations affect an app’s runtime performance, we’ve added signposts to Mobile SDK libraries.
+
+**Tool and Version Updates**
+- We’ve updated our Swift template app to Swift version 5.0 and Xcode version 10.2.
+- We've updated SQLCipher to version 4.0.1
+
 **Deprecation**
-- `PromiseKit` is no longer a dependency of Mobile SDK. Instead, you can use standard delegates or blocks to handle asynchronous calls.
-- `SFSDKLogger` is now deprecated in Mobile SDK apps. Use `os_log()` instead.
+- For a list of deprecated methods, see “About Sync Task Errors” in the [*Mobile SDK Development Guide*](https://developer.salesforce.com/docs/atlas.en-us.mobile_sdk.meta/mobile_sdk/)
+
 Check http://developer.force.com/mobilesdk for additional articles and tutorials.
 
 ### Native Applications
@@ -86,4 +74,4 @@ Documentation
 Discussion
 ==
 
-If you would like to make suggestions, have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on our [Google+ community](https://plus.google.com/communities/114225252149514546445).
+If you would like to make suggestions, have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on [Salesforce StackExchange](https://salesforce.stackexchange.com/questions/tagged/mobilesdk).

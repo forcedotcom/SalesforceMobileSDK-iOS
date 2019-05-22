@@ -22,10 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFUserAccountIdentity.h"
+#import "SFUserAccountIdentity+Internal.h"
 #import "SFUserAccount.h"
 #import "NSString+SFAdditions.h"
-#import "SFOAuthCredentials.h"
 
 static NSString * const kUserAccountIdentityUserIdKey = @"userIdKey";
 static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
@@ -76,8 +75,8 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
 {
     self = [super init];
     if (self) {
-        self.userId = [aDecoder decodeObjectOfClass:[NSString class] forKey:kUserAccountIdentityUserIdKey];
-        self.orgId = [aDecoder decodeObjectOfClass:[NSString class] forKey:kUserAccountIdentityOrgIdKey];
+        _userId = [aDecoder decodeObjectOfClass:[NSString class] forKey:kUserAccountIdentityUserIdKey];
+        _orgId = [aDecoder decodeObjectOfClass:[NSString class] forKey:kUserAccountIdentityOrgIdKey];
     }
     
     return self;

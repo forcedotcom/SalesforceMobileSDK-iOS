@@ -97,13 +97,13 @@
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.20.1");
+    XCTAssertEqualObjects(version, @"3.26.0");
 }
 
 - (void) testSqlCipherVersion
 {
     NSString* version = [self.store getSQLCipherVersion];
-    XCTAssertEqualObjects(version, @"3.4.2");
+    XCTAssertEqualObjects(version, @"4.0.1 community");
 }
 
 /**
@@ -982,7 +982,7 @@
         // Encrypt the DB, verify access.
         NSString *encKey = @"BigSecret";
         NSError *encryptError = nil;
-        FMDatabase *encryptedDb = [dbMgr encryptDb:unencryptedDb name:storeName key:encKey error:&encryptError];
+        FMDatabase *encryptedDb = [dbMgr encryptDb:unencryptedDb name:storeName key:encKey salt:nil error:&encryptError];
         XCTAssertNotNil(encryptedDb, @"Encrypted DB should be a valid object.");
         XCTAssertNil(encryptError, @"Error encrypting the DB: %@", [encryptError localizedDescription]);
         isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDb];
@@ -1035,6 +1035,7 @@
         FMDatabase *unencryptedDb2 = [dbMgr unencryptDb:encryptedDb2
                                                    name:storeName
                                                  oldKey:encKey
+                                                   salt:nil
                                                   error:&unencryptError];
         XCTAssertNil(unencryptError, @"Error unencrypting the database: %@", [unencryptError localizedDescription]);
         isTableNameInMaster = [self tableNameInMaster:tableName db:unencryptedDb2];
@@ -1225,7 +1226,7 @@
     // Unencrypted store
     FMDatabase *storeDb = [self openDatabase:unencryptedStoreName withManager:[SFSmartStoreDatabaseManager sharedManager] key:encKey openShouldFail:NO];
     NSError *unencryptStoreError = nil;
-    storeDb = [[SFSmartStoreDatabaseManager sharedManager] unencryptDb:storeDb name:unencryptedStoreName oldKey:encKey error:&unencryptStoreError];
+    storeDb = [[SFSmartStoreDatabaseManager sharedManager] unencryptDb:storeDb name:unencryptedStoreName oldKey:encKey salt:nil error:&unencryptStoreError];
     XCTAssertNotNil(storeDb, @"Failed to unencrypt '%@': %@", unencryptedStoreName, [unencryptStoreError localizedDescription]);
     [storeDb close];
     [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:unencryptedStoreName];
@@ -1307,6 +1308,27 @@
     }
 }
 
+- (void)testReadMultiByteCharacterAroundBufferBoundary {
+    // This test ensures that a string containing a multi-byte character is properly read back
+    // when that character is located at the buffer boundary.
+    NSMutableString *text = [NSMutableString string];
+    // Fill the string up to one byte before the buffer ends
+    for (NSUInteger index = 0; index < kBufferSize - 1; index++) {
+        [text appendString:@"A"];
+    }
+    // Let's use the character 𝄞 which uses 4 bytes (internally stored as UTF-16 surrogate pair)
+    // and will span the buffer boundary
+    [text appendString:@"𝄞"];
+    // Add a few more character after the buffer boundary
+    for (NSUInteger index = 0; index < 125; index++) {
+        [text appendString:@"B"];
+    }
+    NSInputStream *is = [NSInputStream inputStreamWithData:[text dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSString *outputText = [SFSmartStore stringFromInputStream:is];
+    XCTAssertEqualObjects(text, outputText);
+}
+
 #pragma mark - helper methods
 
 - (SFSmartStore *)smartStoreForManager:(SFSmartStoreDatabaseManager *)dbMgr withName:(NSString *)storeName
@@ -1336,7 +1358,7 @@
 - (FMDatabase *)openDatabase:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr key:(NSString *)key openShouldFail:(BOOL)openShouldFail
 {
     NSError *openDbError = nil;
-    FMDatabase *db = [dbMgr openStoreDatabaseWithName:dbName key:key error:&openDbError];
+    FMDatabase *db = [dbMgr openStoreDatabaseWithName:dbName key:key salt:nil error:&openDbError];
     if (openShouldFail) {
         XCTAssertNil(db, @"Opening database should have failed.");
     } else {

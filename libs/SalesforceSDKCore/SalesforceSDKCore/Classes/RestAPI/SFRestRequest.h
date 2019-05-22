@@ -39,6 +39,17 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
 } NS_SWIFT_NAME(RestRequest.Method);
 
 /**
+ * HTTP methods for requests.
+ */
+typedef NS_ENUM(NSInteger, SFSDKNetworkServiceType) {
+    SFNetworkServiceTypeDefault,
+    SFNetworkServiceTypeResponsiveData,
+    SFNetworkServiceTypeBackground,
+   
+} NS_SWIFT_NAME(RestRequest.NetWorkServiceType);
+
+
+/**
  * The type of service host to use for Rest requests.
  */
 typedef NS_ENUM(NSUInteger, SFSDKRestServiceHostType) {
@@ -51,7 +62,12 @@ typedef NS_ENUM(NSUInteger, SFSDKRestServiceHostType) {
     /**
      *  Request uses the instance endpoint.
      */
-    SFSDKRestServiceHostTypeInstance
+    SFSDKRestServiceHostTypeInstance,
+    
+    /**
+     *  Request uses a custom endpoint.
+     */
+    SFSDKRestServiceHostTypeCustom
 } NS_SWIFT_NAME(RestRequest.ServiceHostType);
 
 NS_ASSUME_NONNULL_BEGIN
@@ -143,6 +159,11 @@ NS_SWIFT_NAME(RestRequest)
 @property (nonatomic, assign, readwrite) SFRestMethod method;
 
 /**
+ * The HTTP method of the request. See SFRestMethod.
+ */
+@property (nonatomic, assign, readwrite) SFSDKNetworkServiceType networkServiceType;
+
+/**
  * The type of service host for the request (e.g. login or instance).
  */
 @property (nonatomic, assign, readwrite) SFSDKRestServiceHostType serviceHostType;
@@ -200,6 +221,7 @@ NS_SWIFT_NAME(RestRequest)
  * the request headers before sending the request.  If NO, they will not.
  */
 @property (nonatomic, assign) BOOL requiresAuthentication;
+;
 
 /**
  * Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
@@ -311,6 +333,24 @@ NS_SWIFT_NAME(RestRequest)
  * @param queryParams the parameters of the request (could be nil)
  */
 + (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
+
+/**
+ * Creates an `SFRestRequest` object to be used with non-Salesforce endpoints. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
+ * @param method the HTTP method
+ * @param baseURL the request URL
+ * @param path the request path
+ * @param queryParams the parameters of the request (could be nil)
+ */
++ (instancetype)customUrlRequestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
+
+/**
+ * Creates an `SFRestRequest` object to be used with custom Salesforce endpoints. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
+ * @param method the HTTP method
+ * @param path the request path
+ * @param queryParams the parameters of the request (could be nil)
+ */
+
++ (instancetype)customEndPointRequestWithMethod:(SFRestMethod)method endPoint:(NSString *)endPoint path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 @end
 

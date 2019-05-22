@@ -27,6 +27,8 @@
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthTestFlow.h"
+#import "SFUserAccount+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 
 @interface SFOAuthSessionRefresherTests : XCTestCase
 
@@ -62,7 +64,7 @@
     }];
     
     [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
-        XCTAssertNil(error, @"Error waiting for completion: %@", error);;
+        XCTAssertNil(error, @"Error waiting for completion: %@", error);
         XCTAssertNil(unexpectedRefreshError, @"Should not have received an error refreshing the access token.");
         XCTAssertNotNil(newCreds.accessToken, @"Should have received a refreshed access token.");
         self.oauthSessionRefresher.coordinator.credentials.accessToken = origAccessToken;
@@ -84,7 +86,7 @@
     }];
     
     [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
-        XCTAssertNil(error, @"Error waiting for completion: %@", error);;
+        XCTAssertNil(error, @"Error waiting for completion: %@", error);
         XCTAssertNotNil(inputError, @"Should have received an input error for bad Instance URL.");
         XCTAssertTrue(inputError.code == SFOAuthSessionRefreshErrorCodeInvalidCredentials, @"Wrong error code for input error");
         self.oauthSessionRefresher.coordinator.credentials.instanceUrl = origUrl;
@@ -103,7 +105,7 @@
     }];
     
     [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
-        XCTAssertNil(error, @"Error waiting for completion: %@", error);;
+        XCTAssertNil(error, @"Error waiting for completion: %@", error);
         XCTAssertNotNil(inputError, @"Should have received an input error for bad Client ID.");
         XCTAssertTrue(inputError.code == SFOAuthSessionRefreshErrorCodeInvalidCredentials, @"Wrong error code for input error");
         self.oauthSessionRefresher.coordinator.credentials.clientId = origClientId;
@@ -123,7 +125,7 @@
     }];
     
     [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
-        XCTAssertNil(error, @"Error waiting for completion: %@", error);;
+        XCTAssertNil(error, @"Error waiting for completion: %@", error);
         XCTAssertNotNil(inputError, @"Should have received an input error for bad Refresh Token.");
         XCTAssertTrue(inputError.code == SFOAuthSessionRefreshErrorCodeInvalidCredentials, @"Wrong error code for input error");
         self.oauthSessionRefresher.coordinator.credentials.refreshToken = origRefreshToken;
@@ -142,7 +144,7 @@
     }];
     
     [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
-        XCTAssertNil(error, @"Error waiting for completion: %@", error);;
+        XCTAssertNil(error, @"Error waiting for completion: %@", error);
         XCTAssertNotNil(refreshFailsError, @"Should have received an error refreshing the access token.");
     }];
 }

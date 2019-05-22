@@ -36,8 +36,6 @@
 
 @implementation SFKeychainItemWrapper
 
-@synthesize passcodeLength = _passcodeLength;
-
 // NSException constants
 NSString * const kSFKeychainItemExceptionType         = @"com.salesforce.security.keychainException";
 NSString * const kSFKeychainItemExceptionErrorCodeKey = @"com.salesforce.security.keychainException.errorCode";
@@ -427,50 +425,15 @@ static CFTypeRef sKeychainAccessibleAttribute;
     }
 }
 
-#pragma mark passcode methods
-
-- (void)setPasscode:(NSString *)passcode {
+- (OSStatus)setValueString:(NSString *)string {
     @synchronized (self) {
-        NSData *hashedData = [passcode sha256];
-        NSString *strBaseEncode = [hashedData base64Encode];
-        [self setObject:strBaseEncode forKey:(id)kSecValueData];
+        return [self setObject:string forKey:(id)kSecValueData];
     }
 }
 
-- (NSString *)passcode {
+- (NSString *)valueString {
     @synchronized (self) {
         return [self stringForKey:(id)kSecValueData];
-    }
-}
-
-- (BOOL)verifyPasscode:(NSString *)passcode {
-    NSString *strBaseEncode = [[passcode sha256] base64Encode];    
-    NSString *passcodeString = [self passcode];
-    
-    if (!passcodeString) {
-		[SFSDKCoreLogger e:[self class] format:@"cannot verify password: passcode from keychain is nil"];
-	}
-    
-    BOOL matches = [passcodeString isEqualToString:strBaseEncode];
-	if (!matches) {
-		[SFSDKCoreLogger d:[self class] format:@"Passcode does not match!"];
-	}       
-    return matches;
-}
-
-- (void)setPasscodeLength:(NSUInteger)length
-{
-    @synchronized (self) {
-        [self setObject:[NSString stringWithFormat:@"%lu",(unsigned long)length] forKey:(id)kSecValueData];
-        [self.keychainData setObject:[NSString stringWithFormat:@"%lu",(unsigned long)length] forKey:(id)kSecValueData];
-        SecItemAdd((CFDictionaryRef)[self dictionaryToSecItemFormat:self.keychainData], NULL);
-    }
-}
-
-- (NSUInteger)passcodeLength
-{
-    @synchronized (self) {
-        return [[self stringForKey:(id)kSecValueData] intValue];
     }
 }
 

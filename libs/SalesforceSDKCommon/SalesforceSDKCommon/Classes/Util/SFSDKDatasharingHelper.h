@@ -53,6 +53,6 @@ NS_SWIFT_NAME(DataSharingHelper)
 
 /** Shared singleton
  */
-@property (class,nonatomic,readonly) SFSDKDatasharingHelper *sharedInstance NS_SWIFT_NAME(shared);
+@property (class, nonatomic, readonly, nonnull) SFSDKDatasharingHelper *sharedInstance NS_SWIFT_NAME(shared);
 
 @end

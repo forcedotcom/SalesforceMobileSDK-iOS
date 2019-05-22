@@ -27,6 +27,9 @@
 #import "SFDefaultUserAccountPersister.h"
 #import "SFUserAccountPersisterEphemeral.h"
 #import "SFUserAccountManager+Internal.h"
+#import "SFUserAccountIdentity+Internal.h"
+#import "SFUserAccount+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";

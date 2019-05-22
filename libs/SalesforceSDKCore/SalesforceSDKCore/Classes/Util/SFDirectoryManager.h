@@ -40,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
                 <internal> : internal community or base org
                 [<communityId>]* : zero or more community specific folder
  */
+
+FOUNDATION_EXTERN NSString * const kDefaultCommunityName NS_SWIFT_NAME(SFDirectoryManager.defaultCommunityName);
+
 @interface SFDirectoryManager : NSObject
 
 /** Returns the singleton of this manager

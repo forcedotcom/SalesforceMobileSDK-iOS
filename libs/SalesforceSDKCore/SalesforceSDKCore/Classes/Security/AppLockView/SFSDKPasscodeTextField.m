@@ -65,6 +65,7 @@ static CGFloat      const kPasscodeCircleDiameter            = 22.f;
         self.borderStyle = UITextBorderStyleNone;
         self.layer.borderColor = config.borderColor.CGColor;
         self.fillColor = config.primaryColor;
+        self.textColor = config.secondaryColor;
     }
     return self;
 }
@@ -161,6 +162,10 @@ static CGFloat      const kPasscodeCircleDiameter            = 22.f;
         _subLayerRefs = [[NSMutableArray alloc] init];
     }
     return _subLayerRefs;
+}
+
+- (void)accessibilityElementDidBecomeFocused {
+    [self setText:self.passcodeInput];
 }
 
 @end

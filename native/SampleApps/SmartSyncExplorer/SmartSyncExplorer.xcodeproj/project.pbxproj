@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,7 +19,6 @@
 		4F1DA6D61C84FF3D0014FAD3 /* TestCaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6CC1C84FF3D0014FAD3 /* TestCaseManager.swift */; };
 		4F1DA6DA1C8799810014FAD3 /* SearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6D91C8799810014FAD3 /* SearchScreen.swift */; };
 		4F1DA6DC1C879D800014FAD3 /* DetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6DB1C879D800014FAD3 /* DetailScreen.swift */; };
-		4F60B2291B9A2C2900923174 /* WYPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F60B2281B9A2C2900923174 /* WYPopoverController.m */; };
 		4F941E951F8C43370035EB03 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F941E941F8C43370035EB03 /* userstore.json */; };
 		4F941E961F8C43370035EB03 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F941E941F8C43370035EB03 /* userstore.json */; };
 		4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */; };
@@ -359,8 +358,6 @@
 		4F1DA6CC1C84FF3D0014FAD3 /* TestCaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCaseManager.swift; sourceTree = "<group>"; };
 		4F1DA6D91C8799810014FAD3 /* SearchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchScreen.swift; sourceTree = "<group>"; };
 		4F1DA6DB1C879D800014FAD3 /* DetailScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScreen.swift; sourceTree = "<group>"; };
-		4F60B2271B9A2C2900923174 /* WYPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WYPopoverController.h; path = ../../../../../external/wypopovercontroller/WYPopoverController/WYPopoverController.h; sourceTree = "<group>"; };
-		4F60B2281B9A2C2900923174 /* WYPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WYPopoverController.m; path = ../../../../../external/wypopovercontroller/WYPopoverController/WYPopoverController.m; sourceTree = "<group>"; };
 		4F941E941F8C43370035EB03 /* userstore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userstore.json; sourceTree = "<group>"; };
 		4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ImagesSmartSyncExplorer.xcassets; sourceTree = "<group>"; };
 		4FCA4A9C1FBE61C300F081B3 /* usersyncs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = usersyncs.json; sourceTree = "<group>"; };
@@ -554,15 +551,6 @@
 			path = ../../../../shared/test/test;
 			sourceTree = "<group>";
 		};
-		4F60B2261B9A2A2900923174 /* WYPopoverController */ = {
-			isa = PBXGroup;
-			children = (
-				4F60B2271B9A2C2900923174 /* WYPopoverController.h */,
-				4F60B2281B9A2C2900923174 /* WYPopoverController.m */,
-			);
-			name = WYPopoverController;
-			sourceTree = "<group>";
-		};
 		820C8B0B19E6054E00E9BE5C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -571,7 +559,6 @@
 				B7BAD72F1FBB7DC30046629F /* IDPLoginViewController.h */,
 				B7BAD7311FBB7DC30046629F /* IDPLoginViewController.m */,
 				B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */,
-				4F60B2261B9A2A2900923174 /* WYPopoverController */,
 				4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */,
 				4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */,
 				820C8B0C19E6054E00E9BE5C /* AppDelegate.h */,
@@ -883,7 +870,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = salesforce.com;
 				TargetAttributes = {
 					4F1DA68A1C84FD7E0014FAD3 = {
@@ -922,8 +909,8 @@
 				};
 			};
 			buildConfigurationList = 827C630C19E6018C00027484 /* Build configuration list for PBXProject "SmartSyncExplorer" */;
-			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			compatibilityVersion = "Xcode 10.0";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -1180,7 +1167,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7BAD7341FBB7DC30046629F /* IDPLoginViewController.m in Sources */,
-				4F60B2291B9A2C2900923174 /* WYPopoverController.m in Sources */,
 				B7BAD7361FBB7DC30046629F /* IDPLoginNavViewController.m in Sources */,
 				820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */,
 				820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */,
@@ -1308,7 +1294,11 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = SmartSyncExplorerUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartSyncExplorerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1330,7 +1320,11 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = SmartSyncExplorerUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartSyncExplorerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1346,6 +1340,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_NOTICES = NO;
 				ASSETCATALOG_WARNINGS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1408,6 +1403,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_NOTICES = NO;
 				ASSETCATALOG_WARNINGS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1451,8 +1447,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher";
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "../../../shared/test/XCUITest-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1469,7 +1466,10 @@
 				GCC_PREFIX_HEADER = "SmartSyncExplorer/SmartSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncExplorer/SmartSyncExplorer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1489,7 +1489,10 @@
 				GCC_PREFIX_HEADER = "SmartSyncExplorer/SmartSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncExplorer/SmartSyncExplorer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1514,7 +1517,11 @@
 				INFOPLIST_FILE = SmartSyncExplorerCommon/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorerCommon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1541,7 +1548,11 @@
 				INFOPLIST_FILE = SmartSyncExplorerCommon/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorerCommon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1561,7 +1572,11 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				INFOPLIST_FILE = RecentContactsTodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorer.RecentContactsTodayExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1580,7 +1595,11 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = RecentContactsTodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSyncExplorer.RecentContactsTodayExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";

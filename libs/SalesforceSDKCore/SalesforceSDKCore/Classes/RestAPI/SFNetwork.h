@@ -29,6 +29,13 @@
 
 #import <Foundation/Foundation.h>
 #import "SalesforceSDKConstants.h"
+
+NS_SWIFT_NAME(NetworkManaging)
+@protocol SFNetworkSessionManaging
+- (nonnull NSURLSession *)ephemeralSession:(nonnull NSURLSessionConfiguration *)sessionConfig;
+- (nonnull NSURLSession *)backgroundSession:(nonnull NSURLSessionConfiguration *)sessionConfig;
+@end
+
 NS_SWIFT_NAME(Network)
 @interface SFNetwork : NSObject
 
@@ -65,5 +72,12 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  * @param sessionConfig Session configuration to be used.
  */
 + (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig;
+
+/**
+ * Delegates the creation of NSURLSession to an external object.
+ *
+ * @param manager object implementing the SFNetworkSessionManaging protocol.
+ */
++ (void)setSessionManager:(nonnull id<SFNetworkSessionManaging>)manager;
 
 @end

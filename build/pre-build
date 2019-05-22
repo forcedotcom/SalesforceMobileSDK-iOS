@@ -1,15 +1,6 @@
 #!/bin/bash
 
-echo "{
-	\"instance_url\" : \"${INSTANCE_URL}\",
-  	\"test_client_id\" : \"${TEST_CLIENT_ID}\",
-  	\"test_redirect_uri\" : \"${TEST_REDIRECT_URI}\",
-  	\"refresh_token\" : \"${REFRESH_TOKEN}\",
-  	\"identity_url\" : \"${IDENTITY_URL}\",
-  	\"test_login_domain\" : \"${TEST_LOGIN_DOMAIN}\",
-  	\"access_token\" : \"${ACCESS_TOKEN}\"
-}" > ./shared/test/test_credentials.json
-cat ./shared/test/test_credentials.json
+echo ${TEST_CREDENTIALS} > ./shared/test/test_credentials.json
 echo ${LOGINUSERS} > ./shared/test/ui_test_credentials.json
-cat ./shared/test/ui_test_credentials.json
+
 

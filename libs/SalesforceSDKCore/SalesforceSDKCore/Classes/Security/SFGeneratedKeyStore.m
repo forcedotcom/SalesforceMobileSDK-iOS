@@ -78,18 +78,8 @@ NSString * const kGeneratedKeyLabelSuffix = @"Generated";
         if (_keyStoreKey != nil)
             return _keyStoreKey;
         
-        NSString *keychainId = self.encryptionKeyKeychainIdentifier;
-        SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
-        NSData *keyStoreKeyData = [keychainItem valueData];
-        if (keyStoreKeyData == nil) {
-            return nil;
-        } else {
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:keyStoreKeyData];
-            _keyStoreKey = [unarchiver decodeObjectForKey:self.encryptionKeyDataArchiveKey];
-            [unarchiver finishDecoding];
-            
-            return _keyStoreKey;
-        }
+        _keyStoreKey = [SFKeyStoreKey fromKeyChain:self.encryptionKeyKeychainIdentifier archiverKey:self.encryptionKeyDataArchiveKey];
+        return _keyStoreKey;
     }
 }
 
@@ -100,29 +90,25 @@ NSString * const kGeneratedKeyLabelSuffix = @"Generated";
             return;
         
         // Update the key store dictionary as part of the key update process.
-        NSDictionary *origKeyStoreDict = [self keyStoreDictionaryWithKey:_keyStoreKey.encryptionKey];  // Old key.
+        NSDictionary *origKeyStoreDict = [self keyStoreDictionaryWithKey:_keyStoreKey];  // Old key.
         if (origKeyStoreDict == nil) {
-            [SFSDKCoreLogger e:[self class] format:kKeyStoreDecryptionFailedMessage];
-            [self setKeyStoreDictionary:nil withKey:keyStoreKey.encryptionKey];
+            if (_keyStoreKey != nil) {
+                [SFSDKCoreLogger e:[self class] format:kKeyStoreDecryptionFailedMessage];
+            }
+            [self setKeyStoreDictionary:nil withKey:keyStoreKey];
         } else {
-            [self setKeyStoreDictionary:origKeyStoreDict withKey:keyStoreKey.encryptionKey];
+            [self setKeyStoreDictionary:origKeyStoreDict withKey:keyStoreKey];
         }
-        
+    
         // Store the key store key in the keychain.
-        NSString *keychainId = self.encryptionKeyKeychainIdentifier;
-        SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
         if (keyStoreKey == nil) {
+            SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:self.encryptionKeyKeychainIdentifier account:nil];
             BOOL resetItemResult = [keychainItem resetKeychainItem];
             if (!resetItemResult) {
                 [SFSDKCoreLogger e:[self class] format:@"Error removing key store key from the keychain."];
             }
         } else {
-            NSMutableData *keyStoreKeyData = [NSMutableData data];
-            NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:keyStoreKeyData];
-            [archiver encodeObject:keyStoreKey forKey:self.encryptionKeyDataArchiveKey];
-            [archiver finishEncoding];
-            
-            OSStatus saveKeyResult = [keychainItem setValueData:keyStoreKeyData];
+            OSStatus saveKeyResult = [keyStoreKey toKeyChain:self.encryptionKeyKeychainIdentifier archiverKey:self.encryptionKeyDataArchiveKey];
             if (saveKeyResult != noErr) {
                 [SFSDKCoreLogger e:[self class] format:@"Error saving key store key to the keychain."];
             }

@@ -33,27 +33,38 @@ typedef NS_ENUM(NSUInteger, SFOAuthCredsEncryptionType) {
     kSFOAuthCredsEncryptionTypeKeyStore
 };
 
-extern NSString * const kSFOAuthEncryptionTypeKey;
-extern NSString * const kSFOAuthServiceAccess;
-extern NSString * const kSFOAuthServiceRefresh;
-extern NSString * const kSFOAuthServiceActivation;
+extern NSString * _Nonnull const kSFOAuthEncryptionTypeKey;
+extern NSString * _Nonnull const kSFOAuthServiceAccess;
+extern NSString * _Nonnull const kSFOAuthServiceRefresh;
+extern NSString * _Nonnull const kSFOAuthServiceActivation;
 
-extern NSException * SFOAuthInvalidIdentifierException(void);
+extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 
 @interface SFOAuthCredentials ()
+@property (nonatomic, readwrite, nullable) NSString *protocol;
+@property (nonatomic, readwrite, nullable) NSString *domain;
+@property (nonatomic,readwrite, nonnull) NSString *identifier;
+@property (nonatomic, readwrite, nullable) NSString *clientId;
+@property (nonatomic, readwrite, nullable) NSString *redirectUri;
+@property (nonatomic, readwrite, nullable) NSString *jwt;
+@property (nonatomic, readwrite, nullable) NSString *refreshToken;
+@property (nonatomic, readwrite, nullable) NSString *accessToken;
+@property (nonatomic, readwrite, nullable) NSString *organizationId;
+@property (nonatomic, readwrite, nullable) NSURL *instanceUrl;
+@property (nonatomic, readwrite, nullable) NSString *communityId;
+@property (nonatomic, readwrite, nullable) NSURL *communityUrl;
+@property (nonatomic, readwrite, nullable) NSDate *issuedAt;
+@property (nonatomic, readwrite, nullable) NSURL *identityUrl;
+@property (nonatomic, readwrite, nullable) NSURL *apiUrl;
+@property (nonatomic, readwrite, nullable) NSString *userId;
+@property (nonatomic, readwrite, strong, nullable) NSDictionary * additionalOAuthFields;
+@property (nonatomic, readwrite, nullable) NSString *challengeString;
+@property (nonatomic, readwrite, nullable) NSString *authCode;
+@property (nonatomic, readwrite, nullable) NSMutableDictionary * credentialsChangeSet;
 
-@property (nonatomic, strong) NSDictionary * additionalOAuthFields;
+- (void)setPropertyForKey:(NSString *_Nonnull) key withValue:(id _Nullable ) newValue;
 
-// Facilitates NSCopying implementation.
-@property (nonatomic, readwrite) NSDictionary *legacyIdentityInformation;
-
-/** Holds the attributes that have changed during auth flow.
- */
-@property (nonatomic) NSMutableDictionary * credentialsChangeSet;
-
-- (void)setPropertyForKey:(NSString *) key withValue:(id) newValue;
-
-- (BOOL)hasPropertyValueChangedForKey:(NSString *) key;
+- (BOOL)hasPropertyValueChangedForKey:(NSString *_Nullable) key;
 
 /** Reset changes to credentials, called at the end of auth flow.
  */

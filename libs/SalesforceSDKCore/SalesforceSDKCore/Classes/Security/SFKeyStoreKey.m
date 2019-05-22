@@ -23,15 +23,21 @@
  */
 
 #import "SFKeyStoreKey.h"
+#import "SFKeychainItemWrapper.h"
 
 // NSCoding constants
 static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.keyStoreKeyDataArchive";
 
 @implementation SFKeyStoreKey
 
-@synthesize encryptionKey = _encryptionKey;
++ (instancetype) createKey
+{
+    SFEncryptionKey *encKey = [SFEncryptionKey createKey];
+    SFKeyStoreKey *keyStoreKey = [[SFKeyStoreKey alloc] initWithKey:encKey];
+    return keyStoreKey;
+}
 
-- (id)initWithKey:(SFEncryptionKey *)key
+- (instancetype)initWithKey:(SFEncryptionKey *)key
 {
     self = [super init];
     if (self) {
@@ -40,7 +46,7 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
     if (self) {
@@ -54,11 +60,47 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
     [aCoder encodeObject:self.encryptionKey forKey:kKeyStoreKeyDataArchiveKey];
 }
 
-- (id)copyWithZone:(NSZone *)zone
+- (instancetype)copyWithZone:(NSZone *)zone
 {
     SFKeyStoreKey *keyCopy = [[[self class] allocWithZone:zone] init];
     keyCopy.encryptionKey = [self.encryptionKey copy];
     return keyCopy;
+}
+
++ (nullable instancetype)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
+{
+    SFKeyStoreKey* keyStoreKey;
+    SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
+    NSData *keyStoreKeyData = [keychainItem valueData];
+    if (keyStoreKeyData == nil) {
+        return nil;
+    } else {
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:keyStoreKeyData];
+        keyStoreKey = [unarchiver decodeObjectForKey:archiverKey];
+        [unarchiver finishDecoding];
+        
+        return keyStoreKey;
+    }
+}
+
+- (OSStatus) toKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
+{
+    SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
+    NSMutableData *keyStoreKeyData = [NSMutableData data];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:keyStoreKeyData];
+    [archiver encodeObject:self forKey:archiverKey];
+    [archiver finishEncoding];
+    return [keychainItem setValueData:keyStoreKeyData];
+}
+
+- (NSData*)encryptData:(NSData *)dataToEncrypt
+{
+    return [self.encryptionKey encryptData:dataToEncrypt];
+}
+
+- (NSData*)decryptData:(NSData *)dataToDecrypt
+{
+    return [self.encryptionKey decryptData:dataToDecrypt];
 }
 
 @end

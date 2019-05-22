@@ -32,8 +32,7 @@
 @property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore;
 
 /**
- Creates a default key store key from random generated key and IV values.  Used when a passcode
- is not present.
+ Creates a default key store key.
  @return The generated key used to encrypt/decrypt the key store.
  */
 - (SFKeyStoreKey *)createDefaultKey;

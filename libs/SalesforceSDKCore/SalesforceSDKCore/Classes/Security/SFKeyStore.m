@@ -32,11 +32,11 @@
 - (NSDictionary *)keyStoreDictionary
 {
     @synchronized (self) {
-        return [self keyStoreDictionaryWithKey:self.keyStoreKey.encryptionKey];
+        return [self keyStoreDictionaryWithKey:self.keyStoreKey];
     }
 }
 
-- (NSDictionary *)keyStoreDictionaryWithKey:(SFEncryptionKey *)decryptKey
+- (NSDictionary *)keyStoreDictionaryWithKey:(SFKeyStoreKey *)storeKey
 {
     @synchronized (self) {
         NSString *keychainId = self.storeKeychainIdentifier;
@@ -48,7 +48,7 @@
         if (keyStoreData == nil) {
             return @{};
         } else {
-            NSDictionary *keyStoreDict = [self decryptDictionaryData:keyStoreData withKey:decryptKey];
+            NSDictionary *keyStoreDict = [self decryptDictionaryData:keyStoreData withKey:storeKey];
             return keyStoreDict;
         }
     }
@@ -56,10 +56,10 @@
 
 - (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary
 {
-    [self setKeyStoreDictionary:keyStoreDictionary withKey:self.keyStoreKey.encryptionKey];
+    [self setKeyStoreDictionary:keyStoreDictionary withKey:self.keyStoreKey];
 }
 
-- (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary withKey:(SFEncryptionKey *)theEncryptionKey
+- (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary withKey:(SFKeyStoreKey *)storeKey
 {
     @synchronized (self) {
         NSString *keychainId = self.storeKeychainIdentifier;
@@ -70,7 +70,7 @@
                 [SFSDKCoreLogger e:[self class] format:@"Error removing key store from the keychain."];
             }
         } else {
-            NSData *keyStoreData = [self encryptDictionary:keyStoreDictionary withKey:theEncryptionKey];
+            NSData *keyStoreData = [self encryptDictionary:keyStoreDictionary withKey:storeKey];
             OSStatus saveKeyResult = [keychainItem setValueData:keyStoreData];
             if (saveKeyResult != noErr) {
                 [SFSDKCoreLogger e:[self class] format:@"Error saving key store to the keychain."];
@@ -79,7 +79,7 @@
     }
 }
 
-- (NSData *)encryptDictionary:(NSDictionary *)dictionary withKey:(SFEncryptionKey *)theEncryptionKey
+- (NSData *)encryptDictionary:(NSDictionary *)dictionary withKey:(SFKeyStoreKey *)storeKey
 {
     NSMutableData *dictionaryData = [NSMutableData data];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:dictionaryData];
@@ -87,23 +87,19 @@
     [archiver finishEncoding];
     
     NSData *encryptedData = dictionaryData;
-    if (theEncryptionKey != nil) {
-        encryptedData = [SFSDKCryptoUtils aes256EncryptData:dictionaryData
-                                                    withKey:theEncryptionKey.key
-                                                         iv:theEncryptionKey.initializationVector];
+    if (storeKey != nil) {
+        encryptedData = [storeKey encryptData:dictionaryData];
     }
     
     return encryptedData;
 }
 
-- (NSDictionary *)decryptDictionaryData:(NSData *)dictionaryData withKey:(SFEncryptionKey *)decryptKey
+- (NSDictionary *)decryptDictionaryData:(NSData *)dictionaryData withKey:(SFKeyStoreKey *)storeKey
 {
     
     NSData *decryptedDictionaryData = dictionaryData;
-    if (decryptKey != nil) {
-        decryptedDictionaryData = [SFSDKCryptoUtils aes256DecryptData:dictionaryData
-                                                              withKey:decryptKey.key
-                                                                   iv:decryptKey.initializationVector];
+    if (storeKey != nil) {
+        decryptedDictionaryData = [storeKey decryptData:dictionaryData];
     }
     if (decryptedDictionaryData == nil)
         return nil;

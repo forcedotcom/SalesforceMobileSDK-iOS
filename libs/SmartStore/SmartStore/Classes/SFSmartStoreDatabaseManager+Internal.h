@@ -47,14 +47,16 @@ static NSString * const kStoresDirectory          = @"stores";
                                 name:(NSString *)storeName
                               oldKey:(NSString *)oldKey
                               newKey:(NSString *)newKey
+                                salt:(NSString *)salt
                                error:(NSError **)error;
 
-+ (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
++ (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key salt:(NSString *)salt error:(NSError **)error;
 + (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db
                                 name:(NSString *)storeName
                                 path:(NSString *)storePath
                               oldKey:(NSString *)oldKey
                               newKey:(NSString *)newKey
+                                salt:(NSString *)salt
                                error:(NSError **)error;
 
 @end

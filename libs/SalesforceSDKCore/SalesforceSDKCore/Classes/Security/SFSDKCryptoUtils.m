@@ -27,6 +27,8 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import "NSData+SFAdditions.h"
 #import <Security/Security.h>
+#import "TargetConditionals.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
 // Public constants
 NSUInteger const kSFPBKDFDefaultNumberOfDerivationRounds = 4000;
@@ -36,6 +38,10 @@ NSUInteger const kSFPBKDFDefaultSaltByteLength = 32;
 // RSA key constants
 static NSString * const kSFRSAPublicKeyTagPrefix = @"com.salesforce.rsakey.public";
 static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.private";
+
+// EC key constants
+static NSString * const kSFECPublicKeyTagPrefix = @"com.salesforce.eckey.public";
+static NSString * const kSFECPrivateKeyTagPrefix = @"com.salesforce.eckey.private";
 
 @interface SFSDKCryptoUtils ()
 
@@ -228,6 +234,134 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
     
     NSData *decryptedData = [NSData dataWithBytes:plainText length:plainLength];
     return decryptedData;
+}
+
++ (BOOL) isSecureEnclaveAvailable
+{
+#if TARGET_OS_SIMULATOR
+    return NO;
+#else
+    LAContext *context = [[LAContext alloc] init];
+    return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
+#endif
+}
+
++ (BOOL)createECKeyPairWithName:(NSString *)keyName accessibleAttribute:(CFTypeRef)accessibleAttribute useSecureEnclave:(BOOL)useSecureEnclave
+{
+    NSString *privateTagString = [NSString stringWithFormat:@"%@.%@", kSFECPrivateKeyTagPrefix, keyName];
+    NSData *privateTag = [privateTagString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSString *publicTagString = [NSString stringWithFormat:@"%@.%@", kSFECPublicKeyTagPrefix, keyName];
+    NSData *publicTag = [publicTagString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    // Private key attributes
+    NSMutableDictionary* privateKeyAttributes =  [NSMutableDictionary new];
+    privateKeyAttributes[(id)kSecAttrIsPermanent] = @YES;
+    privateKeyAttributes[(id)kSecAttrApplicationTag] = privateTag;
+    
+    if (useSecureEnclave) {
+        CFErrorRef errorRef = NULL;
+        SecAccessControlRef privateAccess = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
+                                                                            accessibleAttribute,
+                                                                            kSecAccessControlPrivateKeyUsage,
+                                                                            &errorRef);
+        if (errorRef == errSecSuccess) {
+            privateKeyAttributes[(id)kSecAttrAccessControl] = (__bridge id)privateAccess;
+        }
+    } else {
+        privateKeyAttributes[(id)kSecAttrAccessible] = (__bridge id)accessibleAttribute;
+    }
+
+    // Public key attributes
+    NSDictionary* publicKeyAttributes = @{ (id)kSecAttrIsPermanent:    @YES,
+                                           (id)kSecAttrApplicationTag: publicTag,
+                                           (id)kSecAttrAccessible: (__bridge id)accessibleAttribute,
+                                        };
+
+    // Key pair attributes
+    NSMutableDictionary* keyPairAttributes =  [NSMutableDictionary new];
+    keyPairAttributes[(id)kSecAttrKeyType] = (id)kSecAttrKeyTypeECSECPrimeRandom;
+    keyPairAttributes[(id)kSecAttrKeySizeInBits] = @256;
+    if (useSecureEnclave) {
+        keyPairAttributes[(id)kSecAttrTokenID] = (id)kSecAttrTokenIDSecureEnclave;
+    }
+    keyPairAttributes[(id)kSecPrivateKeyAttrs] = privateKeyAttributes;
+    keyPairAttributes[(id)kSecPublicKeyAttrs] = publicKeyAttributes;
+    
+    // Generation
+    CFErrorRef error = NULL;
+    SecKeyRef privateKey = SecKeyCreateRandomKey((__bridge CFDictionaryRef)keyPairAttributes, &error);
+    if (privateKey == nil) {
+        NSError *err = CFBridgingRelease(error);
+        // Handle the error. . .
+        [SFSDKCoreLogger e:[self class] format:@"Error creating EC private Key with name %@.  Error code: %@", keyName, err.localizedDescription];
+        return NO;
+    }
+    
+    SecKeyRef publicKey = SecKeyCopyPublicKey(privateKey);
+    
+    if (publicKey == nil) {
+        [SFSDKCoreLogger e:[self class] format:@"Error creating EC public key with name %@.", keyName];
+        return NO;
+    }
+    
+    if (publicKey != nil)  {
+        CFRelease(publicKey);
+    }
+    if (privateKey != nil) {
+        CFRelease(privateKey);
+    }
+    
+    return YES;
+}
+
++ (BOOL)deleteECKeyPairWithName:(NSString *)keyName
+{
+    BOOL deletedPublicKey = [SFSDKCryptoUtils deleteKeyByTag:[NSString stringWithFormat:@"%@.%@", kSFECPublicKeyTagPrefix, keyName]];
+    BOOL deletedPrivateKey = [SFSDKCryptoUtils deleteKeyByTag:[NSString stringWithFormat:@"%@.%@", kSFECPrivateKeyTagPrefix, keyName]];
+    return deletedPublicKey && deletedPrivateKey;
+}
+
++ (nullable SecKeyRef)getECPublicKeyRefWithName:(NSString *)keyName
+{
+    return [SFSDKCryptoUtils getECKeyRefWithTag:[NSString stringWithFormat:@"%@.%@", kSFECPublicKeyTagPrefix, keyName]];
+}
+
++ (nullable SecKeyRef)getECPrivateKeyRefWithName:(NSString *)keyName
+{
+    return [SFSDKCryptoUtils getECKeyRefWithTag:[NSString stringWithFormat:@"%@.%@", kSFECPrivateKeyTagPrefix, keyName]];
+}
+
++ (nullable NSData*)encryptUsingECforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef
+{
+    CFErrorRef error = NULL;
+    CFDataRef encryptedData = SecKeyCreateEncryptedData(keyRef,
+                                                        kSecKeyAlgorithmECIESEncryptionStandardX963SHA256AESGCM,
+                                                        (CFDataRef)data,
+                                                        &error);
+    if (error != errSecSuccess) {
+        NSError *err = CFBridgingRelease(error);
+        // Handle the error. . .
+        [SFSDKCoreLogger e:[self class] format:@"Error encrypting data with EC key. Error code: %@", err.localizedDescription];
+    }
+    
+    return (__bridge_transfer NSData*) encryptedData;
+}
+
++ (nullable NSData*)decryptUsingECforData:(NSData * )data withKeyRef:(SecKeyRef)keyRef
+{
+    CFErrorRef error = NULL;
+    CFDataRef decryptedData = SecKeyCreateDecryptedData(keyRef,
+                                                        kSecKeyAlgorithmECIESEncryptionStandardX963SHA256AESGCM,
+                                                        (CFDataRef)data,
+                                                        &error);
+    if (error != errSecSuccess) {
+        NSError *err = CFBridgingRelease(error);
+        // Handle the error. . .
+        [SFSDKCoreLogger e:[self class] format:@"Error decrypting data with EC key. Error code: %@", err.localizedDescription];
+    }
+    
+    return (__bridge_transfer NSData*) decryptedData;
 }
 
 #pragma mark - Private methods
@@ -497,6 +631,49 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
     }
     
     return i + 1;
+}
+
++ (nullable SecKeyRef)getECKeyRefWithTag:(NSString*)keyTagString {
+    NSData *keyTag = [keyTagString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSDictionary* getquery = @{ (id)kSecClass:              (id)kSecClassKey,
+                                (id)kSecAttrApplicationTag: keyTag,
+                                (id)kSecReturnRef:          @YES };
+    
+    SecKeyRef keyRef = NULL;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)getquery, (CFTypeRef *)&keyRef);
+    
+    if (status != errSecSuccess && status != errSecItemNotFound) {
+        // Handle the error. . .
+        NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+        [SFSDKCoreLogger e:[self class] format:@"Error getting EC SecKeyRef with tag %@. Error code: %@", keyTagString, error.localizedDescription];
+        return nil;
+    }
+    
+    return keyRef;
+}
+
++ (BOOL)deleteKeyByTag:(NSString*)keyTagString {
+    
+    NSData *keyTag = [keyTagString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSDictionary* delquery = @{ (id)kSecClass:              (id)kSecClassKey,
+                                (id)kSecAttrApplicationTag: keyTag };
+    
+    OSStatus status = SecItemDelete((__bridge CFDictionaryRef)delquery);
+    while (status == errSecDuplicateItem)
+    {
+        status = SecItemDelete((__bridge CFDictionaryRef)delquery);
+    }
+
+    if (status != errSecSuccess && status != errSecItemNotFound) {
+        // Handle the error. . .
+        NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+        [SFSDKCoreLogger e:[self class] format:@"Error deleting EC key with tag %@. Error code: %@", keyTagString, error.localizedDescription];
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

@@ -28,7 +28,10 @@
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
+@interface SFOAuthCredentials ()
+@property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 
+@end
 @interface SFSmartSqlTests ()
 
 @property (nonatomic, strong) SFSmartStore *store;
@@ -283,7 +286,7 @@
     XCTAssertEqualObjects(christineJson[@"_soupLastModifiedDate"], result[0][2], @"Wrong soupLastModifiedDate");
 }
 
-- (void) testSmartQueryMatchingNullField
+- (void) testSmartQueryWithNullField
 {
     NSDictionary* createdEmployee;
     
@@ -317,6 +320,11 @@
     querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:deptCode} = \"\" order by {employees:employeeId}" withPageSize:4];
     result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"003\"]]"] actual:result message:@"Wrong result"];
+    
+    // Smart sql returning null values
+    querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId},{employees:deptCode},{employees:deptCode} from {employees} order by {employees:employeeId}" withPageSize:4];
+    result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"001\",\"xyz\",\"xyz\"],[\"002\",null,null],[\"003\",\"\",\"\"],[\"004\",null,null]]"] actual:result message:@"Wrong result"];
 }
 
 - (void) testSmartQueryMachingBooleanInJSON1Field

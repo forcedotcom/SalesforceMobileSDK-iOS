@@ -26,6 +26,7 @@
 #import "SFOAuthInfo.h"
 #import "SFOAuthCoordinator.h"
 #import "SFUserAccountManager+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 @interface SFSDKErrorManagerTests : XCTestCase {
     SFUserAccount *_origCurrentUser;
 }

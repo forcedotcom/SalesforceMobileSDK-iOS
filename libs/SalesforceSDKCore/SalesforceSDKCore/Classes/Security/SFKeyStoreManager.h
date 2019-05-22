@@ -40,8 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Retrieves a key with the given label from the key store, or `nil` depending on the autoCreate value.
- Key will be stored with the default encryption type of 'passcode', and will fall back to a 'generated'
- store encryption if a passcode is not configured.
  @param keyLabel The label associated with the stored key.
  @param create Indicates whether a new key should be created if one does not exist.
  @return The encryption key, or `nil` depending on the autoCreate value.
@@ -49,21 +47,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create;
 
 /**
- Stores a key with the given label in the key store, with a default encryption type of 'passcode'.  If
- a passcode is not configured, the key will be encrypted with a generated key.
+ Stores a key with the given label in the key store encrypted by the store's key.
  @param key The encryption key to store.
  @param keyLabel The label associated with the key.
  */
 - (void)storeKey:(SFEncryptionKey *)key withLabel:(NSString *)keyLabel;
 
 /**
- Removes the key with the given label from the key store holding passcode-based encrypted keys.
+ Removes the key with the given label from the key store.
  @param keyLabel The label associated with the key to remove.
  */
 - (void)removeKeyWithLabel:(NSString *)keyLabel;
 
 /**
- Determines whether a key with the given label, and encrypted with passcode-based encryption, exists.
+ Determines whether a key with the given label exists.
  @param keyLabel The label associated with the key to query.
  @return YES if the key exists in the key store, NO otherwise.
  */
@@ -75,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  vector will be the block size associated with AES encryption (kCCBlockSizeAES128).
  @return An instance of SFEncryptionKey with the described values.
  */
-- (SFEncryptionKey *)keyWithRandomValue;
+- (SFEncryptionKey *)keyWithRandomValue SFSDK_DEPRECATED(7.1, 8.0, "Use SFEncryptionKey:createKey instead");
 
 @end
 

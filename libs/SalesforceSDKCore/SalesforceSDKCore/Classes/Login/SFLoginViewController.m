@@ -38,7 +38,7 @@
 #import "SFOAuthInfo.h"
 #import "SFSDKWindowManager.h"
 #import "SFSDKNavigationController.h"
-
+#import "SFSDKViewUtils.h"
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) UINavigationBar *navBar;
@@ -48,8 +48,6 @@
 
 // Reference to previous user account
 @property (nonatomic, strong) SFUserAccount *previousUserAccount;
-
-
 @end
 
 @implementation SFLoginViewController
@@ -109,12 +107,20 @@
     self.config.navBarFont = navBarFont;
 }
 
-- (UIColor *)navBarTextColor {
-    return self.config.navBarTextColor;
+- (UIColor *)navBarTintColor {
+    return self.config.navBarTintColor;
 }
 
-- (void)setNavBarTextColor:(UIColor *)color {
-    self.config.navBarTextColor = color;
+- (void)setNavBarTintColor:(UIColor *)color {
+    self.config.navBarTintColor = color;
+}
+
+- (UIColor *)navBarTitleColor {
+    return self.config.navBarTitleColor;
+}
+
+- (void)setNavBarTitleColor:(UIColor *)color {
+    self.config.navBarTitleColor = color;
 }
 
 - (UIColor *)navBarColor {
@@ -222,7 +228,7 @@
     // Setup top item.
     UILabel *item = [[UILabel alloc] initWithFrame:CGRectZero];
     if (self.config.navBarTitleColor) {
-        item.textColor = self.config.navBarTextColor;
+        item.textColor = self.config.navBarTitleColor;
     }
     if (self.config.navBarFont) {
         item.font = self.config.navBarFont;
@@ -292,26 +298,11 @@
 
 #pragma mark - Styling Methods for Nav bar
 
-- (void) styleNavigationBar:(UINavigationBar *)navigationBar {
+- (void)styleNavigationBar:(UINavigationBar *)navigationBar {
     if (!navigationBar) {
         return;
     }
-    if (self.navBarColor) {
-        UIImage *backgroundImage = [self headerBackgroundImage];
-        [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
-    }
-    if (self.navBarTextColor) {
-        navigationBar.tintColor = self.navBarTextColor;
-        [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: self.navBarTextColor}];
-        
-    } else {
-        // default color
-        navigationBar.tintColor = [UIColor whiteColor];
-    }
-    if (self.navBarFont && self.navBarTextColor) {
-        [navigationBar setTitleTextAttributes:@{ NSForegroundColorAttributeName: self.navBarTextColor,
-                                                 NSFontAttributeName: self.navBarFont}];
-    }
+    [SFSDKViewUtils styleNavigationBar:navigationBar config:self.config];
 }
 
 #pragma mark - SFSDKLoginHostDelegate Methods
@@ -359,21 +350,8 @@
         self.previousUserAccount = fromUser;
 }
 
-- ( UIImage * _Nonnull )headerBackgroundImage {
-    UIImage *backgroundImage = [[self class] imageFromColor:self.navBarColor];
-    return backgroundImage;
-}
 
-+ (UIImage *)imageFromColor:(UIColor *)color {
-    CGRect rect = CGRectMake(0, 0, 1, 1);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
+
 
 @end
 

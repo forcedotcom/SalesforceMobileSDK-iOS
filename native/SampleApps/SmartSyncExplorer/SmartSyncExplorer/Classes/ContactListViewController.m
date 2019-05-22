@@ -25,7 +25,6 @@
 #import "ContactListViewController.h"
 #import "ActionsPopupController.h"
 #import "ContactDetailViewController.h"
-#import "WYPopoverController.h"
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
@@ -51,7 +50,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 @interface ContactListViewController () <UISearchBarDelegate>
 
-@property (nonatomic, strong) WYPopoverController *popOverController;
+@property (nonatomic, strong) UIViewController *actionsPopupPresentingController;
 @property (nonatomic, strong) UIAlertController *logoutActionSheet;
 
 
@@ -414,23 +413,23 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (void)showOtherActions {
-    if([self.popOverController isPopoverVisible]){
-        [self.popOverController dismissPopoverAnimated:YES];
+    if (self.actionsPopupPresentingController.presentedViewController) {
+        [self.actionsPopupPresentingController dismissViewControllerAnimated:NO completion:nil];
         return;
     }
 
-    ActionsPopupController *popoverContent = [[ActionsPopupController alloc] initWithAppViewController:self];
-    popoverContent.preferredContentSize = CGSizeMake(260,180);
-    self.popOverController = [[WYPopoverController alloc] initWithContentViewController:popoverContent];
-
-
-    [self.popOverController presentPopoverFromBarButtonItem:self.moreButton
-                                   permittedArrowDirections:WYPopoverArrowDirectionAny
-                                                   animated:YES];
+    ActionsPopupController *popupContent = [[ActionsPopupController alloc] initWithAppViewController:self];
+    popupContent.preferredContentSize = CGSizeMake(260,180);
+    popupContent.modalPresentationStyle = UIModalPresentationPopover;
+    popupContent.popoverPresentationController.barButtonItem = self.moreButton;
+    [self presentViewController:popupContent animated:YES completion:nil];
+    self.actionsPopupPresentingController = popupContent.presentingViewController;
 }
 
 - (void)popoverOptionSelected:(NSString *)text {
-    [self.popOverController dismissPopoverAnimated:YES];
+    if (self.actionsPopupPresentingController.presentedViewController) {
+        [self.actionsPopupPresentingController dismissViewControllerAnimated:YES completion:nil];
+    }
 
     if ([text isEqualToString:kActionLogout]) {
         [self showLogoutActionSheet];
@@ -630,8 +629,8 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (void)clearPopovers:(NSNotification *)note
 {
     [SFSDKSmartSyncLogger log:[self class] level:SFLogLevelDebug format:@"Passcode screen loading. Clearing popovers."];
-    if (self.popOverController) {
-        [self.popOverController dismissPopoverAnimated:NO];
+    if (self.actionsPopupPresentingController.presentedViewController) {
+        [self.actionsPopupPresentingController dismissViewControllerAnimated:NO completion:nil];
     }
     if (self.logoutActionSheet) {
         [self.logoutActionSheet dismissViewControllerAnimated:YES completion:nil];

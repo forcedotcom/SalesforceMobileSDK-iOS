@@ -56,7 +56,7 @@
 
 // ensure storing a key, we can check to see if the key exists
 - (void)testStoreKeyGetsBackOriginal {
-    SFEncryptionKey *key =  [mgr keyWithRandomValue];
+    SFEncryptionKey *key =  [SFEncryptionKey createKey];
     [mgr storeKey:key withLabel:@"key"];
     
     XCTAssertTrue([mgr keyWithLabelExists:@"key"], @"Key type should exist.");
@@ -64,7 +64,7 @@
 
 // ensure removing a key works
 - (void)testRemoveKey {
-    SFEncryptionKey *key =  [mgr keyWithRandomValue];
+    SFEncryptionKey *key =  [SFEncryptionKey createKey];
     [mgr storeKey:key withLabel:@"key"];
     [mgr removeKeyWithLabel:@"key"];
     

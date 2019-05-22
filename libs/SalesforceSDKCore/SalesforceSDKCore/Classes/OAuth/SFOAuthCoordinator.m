@@ -234,10 +234,8 @@ static NSString * const kSFECParameter = @"ec";
             [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if (error) {
-                       [strongSelf notifyDelegateOfFailure:error authInfo:strongSelf.authInfo];
-                        return;
-                    }
+                    // Ignore any errors why retrieving authconfig. Default to WKWebView
+                    // Errors should have already been logged.
                     if (authConfig.useNativeBrowserForAuth) {
                          [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
@@ -249,7 +247,7 @@ static NSString * const kSFECParameter = @"ec";
                         [strongSelf.oauthCoordinatorFlow beginUserAgentFlow];
                     }
                 });
-            } oauthCredentials:self.credentials];
+            } loginDomain:self.credentials.domain];
         }
     }
 }

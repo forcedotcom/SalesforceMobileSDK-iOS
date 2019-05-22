@@ -78,7 +78,7 @@ static NSString* const kSyncUpName = @"syncUpContacts";
         if ([sync isDone] || [sync hasFailed]) {
             [strongSelf refreshLocalData:completionBlock];
         }
-    }];
+    } error:nil];
 }
 
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
@@ -87,7 +87,7 @@ static NSString* const kSyncUpName = @"syncUpContacts";
         if ([sync isDone] || [sync hasFailed]) {
             completionBlock(sync);
         }
-    }];
+    } error:nil];
 }
 
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock {

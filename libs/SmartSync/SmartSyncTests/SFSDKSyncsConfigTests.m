@@ -22,10 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKSyncsConfigTests.h"
+#import <XCTest/XCTest.h>
+#import "SyncManagerTestCase.h"
 #import "SmartSyncSDKManager.h"
 #import "SFSoqlSyncDownTarget.h"
-#import <XCTest/XCTest.h>
+
+@interface SFSDKSyncsConfigTests : SyncManagerTestCase
+
+@end
 
 @interface SFSDKSyncsConfigTests ()
 
@@ -82,7 +86,7 @@
          expectedType:SFSyncStateSyncTypeUp
            expectedId:actualSync2.syncId
          expectedName:@"globalSync2"
-       expectedTarget:[[SFSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
+       expectedTarget:[[SFBatchSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[@"Id", @"Name", @"LastModifiedDate"] mergeMode:SFSyncStateMergeModeLeaveIfChanged]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
@@ -121,7 +125,7 @@
          expectedType:SFSyncStateSyncTypeUp
            expectedId:actualSync2.syncId
          expectedName:@"userSync2"
-       expectedTarget:[[SFSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
+       expectedTarget:[[SFBatchSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[@"Id", @"Name", @"LastModifiedDate"] mergeMode:SFSyncStateMergeModeLeaveIfChanged]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0

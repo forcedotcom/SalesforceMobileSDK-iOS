@@ -40,6 +40,7 @@
 #import "SFSDKWebViewStateManager.h"
 #import "SFSecurityLockout.h"
 #import "SFSDKIDPAuthClient.h"
+#import "SFOAuthCredentials+Internal.h"
 
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
@@ -414,12 +415,16 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     }
     // If no delegates implement authManagerDidCancelBrowserFlow, display Login Host List
     if (!handledByDelegate) {
+        
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
+        SFSDKNavigationController *controller = [[SFSDKNavigationController alloc] initWithRootViewController:hostListViewController];
+        hostListViewController.hidesCancelButton = YES;
+    
         __weak typeof (self) weakSelf = self;
         [self.authWindow presentWindowAnimated:NO withCompletion:^{
             __strong typeof (weakSelf) strongSelf = weakSelf;
-            [strongSelf.authWindow.viewController presentViewController:hostListViewController animated:NO completion:nil];
+            [strongSelf.authWindow.viewController presentViewController:controller animated:NO completion:nil];
         }];
         
     }

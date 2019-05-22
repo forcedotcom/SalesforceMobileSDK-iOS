@@ -24,6 +24,9 @@
 
 #import "SFSHA256PasscodeProvider.h"
 #import "SFKeychainItemWrapper.h"
+#import "NSString+SFAdditions.h"
+#import "NSData+SFAdditions.h"
+
 
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
 static NSString * const kKeychainIdentifierPasscodeLength = @"com.salesforce.security.passcodeLength";
@@ -45,40 +48,54 @@ static NSString * const kKeychainIdentifierPasscodeLength = @"com.salesforce.sec
     return self;
 }
 
+- (SFKeychainItemWrapper*) passcodeWrapper {
+    return [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
+}
+
+- (SFKeychainItemWrapper*) passcodeLengthWrapper {
+    return [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscodeLength account:nil];
+}
+
 - (void)resetPasscodeData
 {
-    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
-    [passcodeWrapper resetKeychainItem];
+    [[self passcodeWrapper] resetKeychainItem];
 }
 
 - (BOOL)verifyPasscode:(NSString *)passcode
 {
-    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
-    return [passcodeWrapper verifyPasscode:passcode];
+    NSString *strBaseEncode = [[passcode sha256] base64Encode];
+    NSString *passcodeString = [self hashedVerificationPasscode];
+    
+    if (!passcodeString) {
+        [SFSDKCoreLogger e:[self class] format:@"cannot verify password: passcode from keychain is nil"];
+    }
+    
+    BOOL matches = [passcodeString isEqualToString:strBaseEncode];
+    if (!matches) {
+        [SFSDKCoreLogger d:[self class] format:@"Passcode does not match!"];
+    }
+    return matches;
 }
 
 - (NSString *)hashedVerificationPasscode
 {
-    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
-    return [passcodeWrapper passcode];
+    return [[self passcodeWrapper] valueString];
 }
 
 - (void)setVerificationPasscode:(NSString *)newPasscode
 {
-    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
-    [passcodeWrapper setPasscode:newPasscode];
+    NSString *strBaseEncode = [[newPasscode sha256] base64Encode];
+    [[self passcodeWrapper] setValueString:strBaseEncode];
 }
 
 - (NSUInteger)passcodeLength
 {
-    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscodeLength account:nil];
-    return passcodeWrapper.passcodeLength;
+    return  [[[self passcodeLengthWrapper] valueString] intValue];
 }
 
 - (void)setPascodeLength:(int)length
 {
-    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscodeLength account:nil];
-    [passcodeWrapper setPasscodeLength:length];
+    [[self passcodeLengthWrapper] setValueString:[NSString stringWithFormat:@"%lu",(unsigned long)length]];
 }
 
 - (NSString *)generateEncryptionKey:(NSString *)passcode

@@ -27,15 +27,12 @@
 #import "SFDirectoryManager.h"
 #import "SFOAuthCredentials.h"
 #import "SFCommunityData.h"
-#import "SFIdentityData.h"
 #import "SFSDKAppFeatureMarkers.h"
+#import "SFOAuthCredentials+Internal.h"
+#import "SFUserAccountIdentity+Internal.h"
 
 static NSString * const kUser_ACCESS_SCOPES       = @"accessScopes";
 static NSString * const kUser_CREDENTIALS         = @"credentials";
-static NSString * const kUser_EMAIL               = @"email";
-static NSString * const kUser_FULL_NAME           = @"fullName";
-static NSString * const kUser_ORGANIZATION_NAME   = @"organizationName";
-static NSString * const kUser_USER_NAME           = @"userName";
 static NSString * const kUser_COMMUNITY_ID        = @"communityId";
 static NSString * const kUser_COMMUNITIES         = @"communities";
 static NSString * const kUser_ID_DATA             = @"idData";
@@ -54,9 +51,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
 {
     BOOL _observingCredentials;
     dispatch_queue_t _syncQueue;
-
 }
-
 @property (nonatomic, strong) NSMutableDictionary *customData;
 
 - (id)initWithCoder:(NSCoder*)decoder NS_DESIGNATED_INITIALIZER;
@@ -68,6 +63,9 @@ static NSString * const kGlobalScopingKey = @"-global-";
 @synthesize photo = _photo;
 @synthesize accountIdentity = _accountIdentity;
 @synthesize credentials = _credentials;
+@synthesize communities = _communities;
+@synthesize accessScopes = _accessScopes;
+@synthesize idData = _idData;
 
 + (NSSet*)keyPathsForValuesAffectingApiUrl {
     return [NSSet setWithObjects:@"communityId", @"credentials", nil];
@@ -81,13 +79,14 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return [self initWithCredentials:[SFOAuthCredentials new]];
 }
 
-- (instancetype)initWithCredentials:(SFOAuthCredentials*) credentials {
+- (instancetype)initWithCredentials:(SFOAuthCredentials*)credentials {
     self = [super init];
     if (self) {
+        _syncQueue = dispatch_queue_create(kSyncQueue, DISPATCH_QUEUE_CONCURRENT);
         _observingCredentials = NO;
-        self.credentials = credentials;
+        [self setCredentialsInternal:credentials];
         _loginState = (credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
-        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
+        _accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:_credentials.userId orgId:_credentials.organizationId];
         if (_loginState == SFUserAccountLoginStateLoggedIn) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureOAuth];
         }
@@ -97,146 +96,233 @@ static NSString * const kGlobalScopingKey = @"-global-";
 
 - (void)dealloc {
     if (_observingCredentials) {
-        [self.credentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
-        [self.credentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
+        [_credentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
+        [_credentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
     }
 }
 
 - (void)encodeWithCoder:(NSCoder*)encoder {
     [encoder encodeObject:_accessScopes forKey:kUser_ACCESS_SCOPES];
-    [encoder encodeObject:_email forKey:kUser_EMAIL];
-    [encoder encodeObject:_fullName forKey:kUser_FULL_NAME];
-    [encoder encodeObject:_organizationName forKey:kUser_ORGANIZATION_NAME];
-    [encoder encodeObject:_userName forKey:kUser_USER_NAME];
     [encoder encodeObject:_credentials forKey:kUser_CREDENTIALS];
     [encoder encodeObject:_idData forKey:kUser_ID_DATA];
     [encoder encodeObject:_communityId forKey:kUser_COMMUNITY_ID];
     [encoder encodeObject:_communities forKey:kUser_COMMUNITIES];
-    __weak __typeof(self) weakSelf = self;
-    dispatch_sync(_syncQueue, ^{
-        [encoder encodeObject:weakSelf.customData forKey:kUser_CUSTOM_DATA];
-    });
-    
+    [encoder encodeObject:_customData forKey:kUser_CUSTOM_DATA];
     [encoder encodeInteger:_accessRestrictions forKey:kUser_ACCESS_RESTRICTIONS];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
-	self = [super init];
-	if (self) {
+    self = [super init];
+    if (self) {
+        _syncQueue = dispatch_queue_create(kSyncQueue, DISPATCH_QUEUE_CONCURRENT);
         _accessScopes     = [decoder decodeObjectOfClass:[NSSet class] forKey:kUser_ACCESS_SCOPES];
-        _email            = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_EMAIL];
-        _fullName         = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_FULL_NAME];
-        _credentials      = [decoder decodeObjectOfClass:[SFOAuthCredentials class] forKey:kUser_CREDENTIALS];
+         _accountIdentity = [[SFUserAccountIdentity alloc] init];
+        SFOAuthCredentials *creds = [decoder decodeObjectOfClass:[SFOAuthCredentials class] forKey:kUser_CREDENTIALS];
+        [self setCredentialsInternal:creds];
         _idData           = [decoder decodeObjectOfClass:[SFIdentityData class] forKey:kUser_ID_DATA];
-        _organizationName = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_ORGANIZATION_NAME];
-        _userName         = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_USER_NAME];
         _communityId      = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_COMMUNITY_ID];
         _communities      = [decoder decodeObjectOfClass:[NSArray class] forKey:kUser_COMMUNITIES];
         _customData       = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kUser_CUSTOM_DATA] mutableCopy];
         _accessRestrictions = [decoder decodeIntegerForKey:kUser_ACCESS_RESTRICTIONS];
         _loginState = (_credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
-        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
         if (_loginState == SFUserAccountLoginStateLoggedIn) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureOAuth];
         }
-	}
-	return self;
+    }
+    return self;
 }
 
 - (SFUserAccountIdentity *)accountIdentity
 {
-    if (_accountIdentity == nil) {
-        _accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:self.credentials.userId orgId:self.credentials.organizationId];
-    }
-    
-    return _accountIdentity;
+    __block SFUserAccountIdentity *identity = nil;
+    dispatch_sync(_syncQueue, ^{
+        identity = self->_accountIdentity;
+    });
+    return identity;
 }
 
 - (NSURL*)apiUrl {
-    if (self.communityId) {
-        NSURL *communityUrl = [self communityUrlWithId:self.communityId];
-        if (communityUrl) {
-            return communityUrl;
-        }
+    NSString *communityId = _communityId;
+    __block NSURL *url = _credentials.apiUrl;
+    if (communityId) {
+        dispatch_sync(_syncQueue, ^{
+            NSURL *communityUrl = [self communityUrlWithId:communityId];
+            if (communityUrl) {
+                url =  communityUrl;
+            }
+        });
     }
-    return self.credentials.apiUrl;
+    return url;
+}
+
+- (NSString *)email {
+    __block NSString *email = nil;
+    SFIdentityData *data = _idData;
+    dispatch_sync(_syncQueue, ^{
+        email = data.email;
+    });
+    return email;
+}
+
+- (NSString *)fullName {
+    __block NSString *fullName = nil;
+    SFIdentityData *data = _idData;
+    dispatch_sync(_syncQueue, ^{
+        fullName = [NSString stringWithFormat:@"%@ %@",data.firstName,data.lastName];
+    });
+    return fullName;
+}
+
+- (NSString *)userName {
+    __block NSString *userName = nil;
+    SFIdentityData *data = _idData;
+    dispatch_sync(_syncQueue, ^{
+        userName = [NSString stringWithFormat:@"%@",data.username];
+    });
+    return userName;
 }
 
 - (NSURL*)communityUrlWithId:(NSString *)communityId {
     if (!communityId) {
         return nil;
     }
-    
-    SFCommunityData *info = [self communityWithId:communityId];
-    return info.siteUrl;
+    __block NSURL *siteUrl = nil;
+    SFSDK_USE_DEPRECATED_BEGIN
+    dispatch_sync(_syncQueue, ^{
+        SFCommunityData *info = [self communityWithId:communityId];
+        siteUrl = info.siteUrl;
+    });
+    SFSDK_USE_DEPRECATED_END
+    return siteUrl;
 }
 
 - (SFCommunityData*)communityWithId:(NSString*)communityId {
-    for (SFCommunityData *info in self.communities) {
-        if ([info.entityId isEqualToString:communityId]) {
-            return info;
+    if (!communityId || !_communities) return nil;
+    
+    __block SFCommunityData *communityData = nil;
+    __block  NSArray<SFCommunityData *> *communitiesCopy = [_communities copy];
+    dispatch_sync(_syncQueue, ^{
+        for (SFCommunityData *info in communitiesCopy) {
+            if ([info.entityId isEqualToString:communityId]) {
+                communityData = info;
+                break;
+            }
         }
-    }
-    return nil;
+    });
+    return communityData;
+}
+
+- (NSArray<SFCommunityData *> *)communities {
+    __block NSArray<SFCommunityData *> *communitiesLocal = nil;
+    dispatch_sync(_syncQueue, ^{
+        communitiesLocal = self->_communities;
+    });
+    return communitiesLocal;
+}
+
+- (void)setCommunities:(NSArray<SFCommunityData *> *)communities {
+    dispatch_barrier_async(_syncQueue, ^{
+        self->_communities = communities;
+    });
+}
+
+- (void)setAccessScopes:(NSSet<NSString *> *)accessScopes {
+    dispatch_barrier_async(_syncQueue, ^{
+        self->_accessScopes = accessScopes;
+    });
 }
 
 /** Returns the path to the user's photo.
  */
 - (NSString*)photoPath {
-    NSString *userPhotoPath = [[SFDirectoryManager sharedManager] directoryForUser:self type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
+    __block NSString *userPhotoPath = nil;
+    dispatch_sync(_syncQueue, ^{
+        userPhotoPath = [self photoPathInternal];
+    });
+    return userPhotoPath;
+}
+
+- (NSString *)photoPathInternal {
+    NSString *userPhotoPath =  [[SFDirectoryManager sharedManager] directoryForOrg:_credentials.organizationId user:_credentials.userId  community:_communityId?:kDefaultCommunityName type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
     [SFDirectoryManager ensureDirectoryExists:userPhotoPath error:nil];
-    return [userPhotoPath stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:self.credentials.userId]];
+    return [userPhotoPath stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:_credentials.userId]];
 }
 
 - (UIImage*)photo {
     if (nil == _photo) {
-        NSString *photoPath = [self photoPath];
-        NSFileManager *manager = [[NSFileManager alloc] init];
-        if ([manager fileExistsAtPath:photoPath]) {
-            _photo = [[UIImage alloc] initWithContentsOfFile:photoPath];
-        }
+        __weak __typeof(self) weakSelf = self;
+        dispatch_sync(_syncQueue, ^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            NSString *photoPath = [strongSelf photoPathInternal];
+            NSFileManager *manager = [[NSFileManager alloc] init];
+            if ([manager fileExistsAtPath:photoPath]) {
+                strongSelf->_photo = [[UIImage alloc] initWithContentsOfFile:photoPath];
+            }
+        });
     }
     return _photo;
 }
 
 - (void)setPhoto:(UIImage *)photo {
-    NSError *error = nil;
-    NSString *photoPath = [self photoPath];
-    if (photoPath) {
-        NSFileManager *fm = [NSFileManager defaultManager];
-        if ([fm fileExistsAtPath:photoPath]) {
-            if (![fm removeItemAtPath:photoPath error:&error]) {
-                [SFSDKCoreLogger e:[self class] format:@"Unable to remove previous photo from disk: %@", error];
+    dispatch_barrier_async(_syncQueue, ^{
+        NSError *error = nil;
+        NSString *photoPath = [self photoPathInternal];
+        if (photoPath) {
+            NSFileManager *fm = [NSFileManager defaultManager];
+            if ([fm fileExistsAtPath:photoPath]) {
+                if (![fm removeItemAtPath:photoPath error:&error]) {
+                    [SFSDKCoreLogger e:[self class] format:@"Unable to remove previous photo from disk: %@", error];
+                }
             }
+            NSData *data = UIImagePNGRepresentation(photo);
+            if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
+                [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", error];
+            }
+            [self willChangeValueForKey:@"photo"];
+            self->_photo = photo;
+            [self didChangeValueForKey:@"photo"];
         }
-        NSData *data = UIImagePNGRepresentation(photo);
-        if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
-            [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", error];
-        }
-        
-        [self willChangeValueForKey:@"photo"];
-        _photo = photo;
-        [self didChangeValueForKey:@"photo"];
-    }
+    });
+}
+
+- (SFIdentityData *) idData{
+    __block SFIdentityData *idData = nil;
+    dispatch_sync(_syncQueue, ^{
+        idData = self->_idData;
+    });
+    return idData;
 }
 
 - (void)setIdData:(SFIdentityData *)idData {
-    if (idData != _idData) {
-        _idData = idData;
-    }
-    
-    // Set other account properties from latest identity data.
-    self.fullName = idData.displayName;
-    self.email = idData.email;
-    self.userName = idData.username;
+    dispatch_barrier_async(_syncQueue, ^{
+        if (idData != self->_idData) {
+            self->_idData = idData;
+        }
+    });
+}
+
+- (SFOAuthCredentials *)credentials {
+    __block SFOAuthCredentials *creds = nil;
+    dispatch_sync(_syncQueue, ^{
+        creds = self->_credentials;
+    });
+    return creds;
 }
 
 - (void)setCredentials:(SFOAuthCredentials *)credentials
 {
-    if (credentials != _credentials) {
+    dispatch_barrier_async(_syncQueue, ^{
+        [self setCredentialsInternal:credentials];
+    });
+}
+    
+- (void)setCredentialsInternal:(SFOAuthCredentials *)credentials {
+    SFOAuthCredentials *currentCredentials = _credentials;
+    SFUserAccountIdentity *accIdentity =  _accountIdentity;
+    if (credentials != currentCredentials) {
         if (_observingCredentials) {
-            [_credentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
-            [_credentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
+            [currentCredentials removeObserver:self  forKeyPath:kCredentialsUserIdPropName];
+            [currentCredentials removeObserver:self  forKeyPath:kCredentialsOrgIdPropName];
             _observingCredentials = NO;
         }
         if (credentials != nil) {
@@ -244,51 +330,46 @@ static NSString * const kGlobalScopingKey = @"-global-";
             [credentials addObserver:self forKeyPath:kCredentialsOrgIdPropName options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
             _observingCredentials = YES;
         }
-        
         _credentials = credentials;
-        self.accountIdentity.userId = _credentials.userId;
-        self.accountIdentity.orgId = _credentials.organizationId;
+        if (accIdentity) {
+            accIdentity.userId = credentials.userId;
+            accIdentity.orgId =  credentials.organizationId;
+        }
     }
 }
 
 - (void)setCustomDataObject:(id<NSCoding>)object forKey:(id<NSCopying>)key {
-    __weak __typeof(self) weakSelf = self;
-    dispatch_sync(_syncQueue, ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if(!strongSelf.customData) {
-            strongSelf.customData = [NSMutableDictionary dictionary];
+    dispatch_barrier_async(_syncQueue, ^{
+        if(!self->_customData) {
+            self->_customData = [NSMutableDictionary dictionary];
         }
-        [strongSelf.customData setObject:object forKey:key];
+        [self->_customData setObject:object forKey:key];
     });
 }
 
 - (void)removeCustomDataObjectForKey:(id)key {
-    __weak __typeof(self) weakSelf = self;
-    dispatch_sync(_syncQueue, ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if(!strongSelf.customData) {
-            strongSelf.customData = [NSMutableDictionary dictionary];
+    dispatch_barrier_async(_syncQueue, ^{
+        if(!self->_customData) {
+            self->_customData = [NSMutableDictionary dictionary];
         }
-        [strongSelf.customData removeObjectForKey:key];
+        [self->_customData removeObjectForKey:key];
     });
 }
 
 - (id)customDataObjectForKey:(id)key {
-    __weak __typeof(self) weakSelf = self;
     __block id object;
-    dispatch_sync(_syncQueue, ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if(!strongSelf.customData) {
-            strongSelf.customData = [NSMutableDictionary dictionary];
+    dispatch_barrier_sync(_syncQueue, ^{
+        if(!self->_customData) {
+            self->_customData = [NSMutableDictionary dictionary];
         }
-        object = [strongSelf.customData objectForKey:key];
+        object = [self->_customData objectForKey:key];
     });
     return object;
 }
 
 - (BOOL)transitionToLoginState:(SFUserAccountLoginState)newLoginState {
     __block BOOL transitionSucceeded;
-    dispatch_sync(_syncQueue, ^{
+    dispatch_barrier_sync(_syncQueue, ^{
         switch (newLoginState) {
             case SFUserAccountLoginStateLoggedIn:
                 transitionSucceeded = (self.loginState == SFUserAccountLoginStateNotLoggedIn || self.loginState == SFUserAccountLoginStateLoggedIn);
@@ -312,10 +393,9 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (BOOL)isSessionValid {
-
     // A session is considered "valid" when the user
     // has an access token as well as the identity data
-    return self.credentials.accessToken != nil && self.idData != nil;
+    return _credentials.accessToken != nil && _idData != nil;
 }
 
 
@@ -325,12 +405,12 @@ static NSString * const kGlobalScopingKey = @"-global-";
     NSString *theFullName = @"*****";
     
 #ifdef DEBUG
-    theUserName = self.userName;
-    theFullName = self.fullName;
+    theUserName = _idData.username;
+    theFullName = [NSString stringWithFormat:@"%@ %@",_idData.firstName,_idData.lastName];
 #endif
     
     NSString * s = [NSString stringWithFormat:@"<SFUserAccount username=%@ fullName=%@ accessScopes=%@ credentials=%@, community=%@>",
-                    theUserName, theFullName, self.accessScopes, self.credentials, self.communityId];
+                    theUserName, theFullName, _accessScopes, _credentials, _communityId];
     return s;
 }
 
@@ -347,12 +427,16 @@ static NSString * const kGlobalScopingKey = @"-global-";
     }
 }
 
+NSString *SFKeyForGlobalScope() {
+    return  SFKeyForUserIdAndScope(nil,nil,nil,SFUserAccountScopeGlobal);
+}
+
 NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope) {
     return  SFKeyForUserIdAndScope(user.credentials.userId,user.credentials.organizationId,user.credentials.communityId,scope);
 }
 
-NSString *SFKeyForUserIdAndScope(NSString *userId,NSString *orgId, NSString *communityId, SFUserAccountScope scope) {
-    NSString *key = nil;
+NSString *SFKeyForUserIdAndScope(NSString *userId,NSString *orgId,NSString *communityId, SFUserAccountScope scope) {
+    NSString *key = @"";
     switch (scope) {
         case SFUserAccountScopeGlobal:
             key = kGlobalScopingKey;
@@ -380,18 +464,11 @@ NSString *SFKeyForUserIdAndScope(NSString *userId,NSString *orgId, NSString *com
     return key;
 }
 
-#pragma mark - Credentials property changes
-// Disable automatic KVO notificaiton for the photo property, as we implement manual KVO in setPhoto
-+ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
-    if ([key isEqualToString:@"photo"]) {
-        return NO;
-    }
-    return YES;
-}
+//#pragma mark - Credentials property changes
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (!(object == self.credentials && ([keyPath isEqualToString:kCredentialsUserIdPropName] || [keyPath isEqualToString:kCredentialsOrgIdPropName]))) {
+    if (!(object == _credentials && ([keyPath isEqualToString:kCredentialsUserIdPropName] || [keyPath isEqualToString:kCredentialsOrgIdPropName]))) {
         return;
     }
     
@@ -399,11 +476,11 @@ NSString *SFKeyForUserIdAndScope(NSString *userId,NSString *orgId, NSString *com
     NSString *newKey = change[NSKeyValueChangeNewKey];
     if ([oldKey isEqual:[NSNull null]]) oldKey = nil;
     if ([newKey isEqual:[NSNull null]]) newKey = nil;
-    
+    SFUserAccountIdentity *identity = _accountIdentity;
     if ([keyPath isEqualToString:kCredentialsUserIdPropName]) {
-        self.accountIdentity.userId = newKey;
+        identity.userId = newKey;
     } else if ([keyPath isEqualToString:kCredentialsOrgIdPropName]) {
-        self.accountIdentity.orgId = newKey;
+        identity.orgId = newKey;
     }
 }
 

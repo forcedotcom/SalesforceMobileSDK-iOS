@@ -30,7 +30,8 @@
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
 #import "SFPreferences.h"
-
+#import "SFUserAccount+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 // needs to match what is defined in SFPushNotificationManager
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
 

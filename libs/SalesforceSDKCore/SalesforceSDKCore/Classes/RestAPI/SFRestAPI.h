@@ -41,7 +41,7 @@ extern NSString* const kSFRestErrorDomain NS_SWIFT_NAME(SFRestErrorDomain);
 extern NSInteger const kSFRestErrorCode NS_SWIFT_NAME(SFRestErrorCode);
 
 /*
- * Default API version (currently "v42.0")
+ * Default API version (currently "v44.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion NS_SWIFT_NAME(SFRestDefaultAPIVersion);
@@ -138,7 +138,7 @@ NS_SWIFT_NAME(RestClient)
 
 /**
  * The REST API version used for all the calls.
- * The default value is `kSFRestDefaultAPIVersion` (currently "v42.0")
+ * The default value is `kSFRestDefaultAPIVersion` (currently "v44.0")
  */
 @property (nonatomic, strong) NSString *apiVersion;
 
@@ -151,6 +151,11 @@ NS_SWIFT_NAME(RestClient)
  * Returns the singleton instance of `SFRestAPI` associated with the current user.
  */
 @property (class, nonatomic, readonly) SFRestAPI *sharedInstance NS_SWIFT_NAME(shared);
+
+/**
+ * Returns the singleton instance of `SFRestAPI` for unauthenticated calls.
+ */
+@property (class, nonatomic, readonly) SFRestAPI *sharedGlobalInstance NS_SWIFT_NAME(sharedGlobal);
 
 /**
  * Returns the singleton instance of `SFRestAPI` associated with the specified user.

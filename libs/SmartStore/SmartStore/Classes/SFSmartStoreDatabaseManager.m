@@ -27,9 +27,12 @@
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCommon/SFFileProtectionHelper.h>
+#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
+#import <SalesforceSDKCore/SFKeychainItemWrapper.h>
+#import <sqlite3.h>
 #import "SFSmartStoreUtils.h"
 #import "FMDatabase.h"
 #import "FMDatabaseQueue.h"
@@ -137,15 +140,15 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return [manager fileExistsAtPath:fullDbFilePath];
 }
 
-- (FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error {
+- (FMDatabase *)openStoreDatabaseWithName:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt error:(NSError **)error {
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
-    return [[self class] openDatabaseWithPath:fullDbFilePath key:key error:error];
+    return [[self class] openDatabaseWithPath:fullDbFilePath key:key salt:salt error:error];
 }
 
 // If you created your database with an app based on Mobile SDK 5.3.0 using cocoapod
 // Then the key was never applied, and the database can be read directly
 // This method checks for that situation and encrypt the database if needed
-- (void)fixFor530Bug:(NSString *)storeName key:(NSString *)key {
+- (void)fixFor530Bug:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt {
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
     
     __block BOOL needEncrypting = NO;
@@ -158,37 +161,33 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }];
     
     if (needEncrypting) {
-        [[self class] encryptDbWithStoreName:storeName storePath:fullDbFilePath key:key error:nil];
+        [[self class] encryptDbWithStoreName:storeName storePath:fullDbFilePath key:key salt:salt error:nil];
     }
 }
 
-- (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError * __autoreleasing *)error {
-    [self fixFor530Bug:storeName key:key];
+- (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt error:(NSError * __autoreleasing *)error {
+    [self fixFor530Bug:storeName key:key salt:salt];
     
     __block BOOL result = YES;
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath];
     [queue inDatabase:^(FMDatabase* db) {
-        result = ([[self class] setKeyForDb:db key:key error:error] != nil);
+        result = ([[self class] setKeyForDb:db key:key salt:salt error:error] != nil);
     }];
     return (result ? queue : nil);
 }
 
-+ (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error {
++ (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key salt:(NSString *)salt error:(NSError **)error {
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
-    return [self setKeyForDb:db key:key error:error];
+    return [self setKeyForDb:db key:key salt:salt error:error];
 }
 
-+ (FMDatabase*) setKeyForDb:(FMDatabase*) db key:(NSString *)key error:(NSError **)error {
++ (FMDatabase*) setKeyForDb:(FMDatabase*) db key:(NSString *)key salt:(NSString *)salt error:(NSError **)error {
     [db setLogsErrors:YES];
     [db setCrashOnErrors:NO];
-    FMDatabase* unlockedDb = [self unlockDatabase:db key:key kdfIter:4000];
     
-    if (!unlockedDb) {
-        // You must be have created your database with SDK 3.2 or 3.1 and cocoapods
-        // And therefore you are using sqlcipher 3.1 with 64000 iterations
-        unlockedDb = [self unlockDatabase:db key:key kdfIter:64000];
-    }
+    FMDatabase* unlockedDb = [self unlockDatabase:db key:key salt:salt];
+    
     if (!unlockedDb) {
         [SFSDKSmartStoreLogger d:[self class] format:@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]];
         if (error != nil)
@@ -198,13 +197,26 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return unlockedDb;
 }
 
-+ (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key kdfIter:(int)kdfIter {
++ (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key salt:(NSString *)salt {
     if ([db open]) {
-        NSString* pragmaQuery = [NSString stringWithFormat:@"PRAGMA cipher_default_kdf_iter = '%d'", kdfIter];
-        [[db executeQuery:pragmaQuery] close];
-        if(key) {
-            [db setKey:key];
+        // Using sqlcipher 3.x default settings
+        // => should open 3.x databases without any migration
+        [[db executeQuery:@"PRAGMA cipher_default_compatibility = 3"] close];
+        // Using sqlcipher 2.x kdf iter because 3.x default (64000) and 4.x default (256000) are too slow
+        // => should open 2.x databases without any migration
+        [[db executeQuery:@"PRAGMA cipher_default_kdf_iter = 4000"] close];
+       
+        if (key)
+           [db setKey:key];
+        
+        if (salt  && [key length] > 0 ){
+            [[db executeQuery:@"PRAGMA cipher_plaintext_header_size = 32"] close];
+            NSString *pragma = [NSString stringWithFormat:@"PRAGMA cipher_salt = \"x'%@'\"",salt];
+            [[db executeQuery:pragma] close];
+            sqlite3_exec(db.sqliteHandle, "PRAGMA journal_mode = WAL;",0,0,0);
         }
+            
+        
     }
     BOOL accessible = [self verifyDatabaseAccess:db error:nil];
     if (accessible) {
@@ -216,15 +228,15 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
 }
 
-- (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error
+- (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt error:(NSError **)error
 {
-    return [self encryptOrUnencryptDb:db name:storeName oldKey:@"" newKey:key error:error];
+    return [self encryptOrUnencryptDb:db name:storeName oldKey:@"" newKey:key salt:salt error:error];
 }
 
-+ (BOOL)encryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error
++ (BOOL)encryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key salt:(NSString *)salt  error:(NSError **)error
 {
     NSError *openDbError = nil;
-    FMDatabase *db = [self openDatabaseWithPath:storePath key:@"" error:&openDbError];
+    FMDatabase *db = [self openDatabaseWithPath:storePath key:@"" salt:salt error:&openDbError];
     if (openDbError != nil) {
         if (db) {
             [db close];
@@ -236,7 +248,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
     
     NSError *encryptDbError = nil;
-    db = [self encryptOrUnencryptDb:db name:storeName path:storePath oldKey:@"" newKey:key error:&encryptDbError];
+    db = [self encryptOrUnencryptDb:db name:storeName path:storePath oldKey:@"" newKey:key salt:salt error:&encryptDbError];
     if (encryptDbError != nil) {
         if (db) {
             [db close];
@@ -251,15 +263,15 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return YES;
 }
 
-- (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey error:(NSError **)error
+- (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey salt:(NSString *)salt  error:(NSError **)error
 {
-    return [self encryptOrUnencryptDb:db name:storeName oldKey:oldKey newKey:@"" error:error];
+    return [self encryptOrUnencryptDb:db name:storeName oldKey:oldKey newKey:@"" salt:salt error:error];
 }
 
-+ (BOOL)unencryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error
++ (BOOL)unencryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key salt:(NSString *)salt error:(NSError **)error
 {
     NSError *openDbError = nil;
-    FMDatabase *db = [self openDatabaseWithPath:storePath key:key error:&openDbError];
+    FMDatabase *db = [self openDatabaseWithPath:storePath key:key salt:salt error:&openDbError];
     if (openDbError != nil) {
         if (db) {
             [db close];
@@ -271,7 +283,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
     
     NSError *encryptDbError = nil;
-    db = [self encryptOrUnencryptDb:db name:storeName path:storePath oldKey:key newKey:@"" error:&encryptDbError];
+    db = [self encryptOrUnencryptDb:db name:storeName path:storePath oldKey:key newKey:@"" salt:salt error:&encryptDbError];
     if (encryptDbError != nil) {
         if (db) {
             [db close];
@@ -290,10 +302,11 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
                                 name:(NSString *)storeName
                               oldKey:(NSString *)oldKey
                               newKey:(NSString *)newKey
+                                salt:(NSString *)salt
                                error:(NSError **)error
 {
     NSString *storePath = [self fullDbFilePathForStoreName:storeName];
-    return [[self class] encryptOrUnencryptDb:db name:storeName path:storePath oldKey:oldKey newKey:newKey error:error];
+    return [[self class] encryptOrUnencryptDb:db name:storeName path:storePath oldKey:oldKey newKey:newKey salt:salt error:error];
 }
 
 + (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db
@@ -301,6 +314,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
                                 path:(NSString *)storePath
                               oldKey:(NSString *)oldKey
                               newKey:(NSString *)newKey
+                                salt:(NSString *)salt
                                error:(NSError **)error
 {
     if (newKey == nil) newKey = @"";
@@ -328,6 +342,14 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         [manager removeItemAtPath:encDbPath error:nil];
         return db;
     }
+    
+    // Use sqlcipher_export() to move the data from the input DB over to the new one.
+    if (salt) {
+        [[db executeQuery:@"PRAGMA encrypted.cipher_plaintext_header_size = 32"] close];
+        NSString *pragma = [NSString stringWithFormat:@"PRAGMA encrypted.cipher_salt = \"x'%@'\"",salt];
+        [[db executeQuery:pragma] close];
+    }
+    
     FMResultSet *rs = [db executeQuery:@"SELECT sqlcipher_export('encrypted')"];
     if (rs == nil || ![rs next]) {
         [rs close];
@@ -355,7 +377,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     
     // As a sanity check, verify that the new encrypted DB can be opened and read.
     NSError *openNewlyEncryptedDbError = nil;
-    FMDatabase *newlyEncryptedDb = [self openDatabaseWithPath:encDbPath key:newKey error:&openNewlyEncryptedDbError];
+    FMDatabase *newlyEncryptedDb = [self openDatabaseWithPath:encDbPath key:newKey salt:salt error:&openNewlyEncryptedDbError];
     if (!newlyEncryptedDb) {
         if (error != nil) {
             NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyDbErrorDesc, encDbPath, [openNewlyEncryptedDbError localizedDescription]];
@@ -384,7 +406,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
                                      userInfo:@{NSLocalizedDescriptionKey: errorDesc}];
         }
         [manager removeItemAtPath:encDbPath error:nil];
-        return [self setKeyForDb:db key:oldKey error:nil];
+        return [self setKeyForDb:db key:oldKey salt:salt error:nil];
     }
     fileOpSuccess = [manager moveItemAtPath:encDbPath toPath:storePath error:error];
     if (!fileOpSuccess) {
@@ -396,17 +418,17 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         }
         [manager removeItemAtPath:encDbPath error:nil];
         [manager moveItemAtPath:backupPath toPath:storePath error:nil];
-        return [self setKeyForDb:db key:oldKey error:nil];
+        return [self setKeyForDb:db key:oldKey salt:salt error:nil];
     }
     
-    FMDatabase *encDb = [self openDatabaseWithPath:storePath key:newKey error:nil];
+    FMDatabase *encDb = [self openDatabaseWithPath:storePath key:newKey salt:salt error:nil];
     if (encDb) {
         [manager removeItemAtPath:backupPath error:nil];
         return encDb;
     } else {
         [manager removeItemAtPath:storePath error:nil];
         [manager moveItemAtPath:backupPath toPath:storePath error:nil];
-        return [self setKeyForDb:db key:oldKey error:nil];
+        return [self setKeyForDb:db key:oldKey salt:salt error:nil];
     }
 }
 

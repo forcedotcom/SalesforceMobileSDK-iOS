@@ -58,13 +58,35 @@
     }];
 }
 
-- (SFSyncState*) runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager
+- (SFSyncState*) runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager {
+    return [self runReSync:syncId syncManager:syncManager error:nil];
+}
+
+
+- (SFSyncState*) runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error
 {
     return [syncManager reSync:syncId updateBlock:^(SFSyncState *sync) {
         @synchronized(self.queue) {
             [self.queue addObject:[sync copy]];
         }
-    }];
+    } error:error];
+}
+
+- (SFSyncState*)runReSyncByName:(NSString*)syncName syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error
+{
+    return [syncManager reSyncByName:syncName updateBlock:^(SFSyncState *sync) {
+        @synchronized(self.queue) {
+            [self.queue addObject:[sync copy]];
+        }
+    } error:error];
+}
+
+- (BOOL) restart:(SFSmartSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error {
+    return [syncManager restart:restartStoppedSyncs updateBlock:^(SFSyncState *sync) {
+        @synchronized(self.queue) {
+            [self.queue addObject:[sync copy]];
+        }
+    } error:error];
 }
 
 - (SFSyncState*)getNextSyncUpdate
@@ -91,6 +113,7 @@
         [SFSDKSmartSyncLogger d:[self class] format:@"## sleeping..."];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     };
+    [SFSDKSmartSyncLogger d:[self class] format:@"getNextSyncUpdate: syncId:%@ status:%@ progress:%ld totalSize:%ld", @(sync.syncId), [SFSyncState syncStatusToString:sync.status], sync.progress, sync.totalSize];
     return sync;
 }
 
