@@ -39,12 +39,28 @@ Introduction
 - Mobile SDK for iOS raises its master key security to use Secure Enclave on devices that support it. We’ve also strengthened our master key encryption to use a 256-bit elliptic curve cryptography (ECC) private key.
 - For profiling how Mobile SDK operations affect an app’s runtime performance, we’ve added signposts to Mobile SDK libraries.
 
-**What’s New in SmartSync Data Framework for Mobile SDK 7.1**
+**SmartSync Data Framework Updates**
 - SmartSync Data Framework now supports a batch sync up target that uses the Salesforce Composite API for uploading groups of up to 25 records per call.
 - New methods allow native apps to stop and restart in-flight sync operations. To reflect the new sync state, we’ve added a stopped sync status.
 - Swift `syncUp` and `syncDown` methods that take a sync name, both `reSync` methods, and the legacy `cleanResyncGhosts` method now can throw exceptions.
 - We’ve updated iOS methods to make error handling more consistent between platforms.
 - You can now call `cleanResyncGhosts` with a sync name.
+
+**Security Updates**
+- Mobile SDK for iOS raises its master key security to use Secure Enclave on devices that support it. We’ve also strengthened our master key encryption to use a 256-bit elliptic curve cryptography (ECC) private key.
+
+**Miscellaneous Changes**
+- We’ve improved support for using biometric input to supply application passcodes.
+- We’ve improved support for sending unauthenticated REST requests to external endpoints. Mobile SDK now provides a shared global instance of its REST client. This REST client doesn’t require OAuth authentication and is unaware of the concept of user. Native apps can use it to send custom unauthenticated requests to non-Salesforce endpoints before or after the user logs in to Salesforce.
+- For profiling how Mobile SDK operations affect an app’s runtime performance, we’ve added signposts to Mobile SDK libraries.
+
+**Tool and Version Updates**
+- We’ve updated our Swift template app to Swift version 5.0 and Xcode version 10.2.
+
+**Deprecation**
+For a list of deprecated methods, see “About Sync Task Errors” in the [*Mobile SDK Development Guide*](https://developer.salesforce.com/docs/atlas.en-us.mobile_sdk.meta/mobile_sdk/)
+
+Check http://developer.force.com/mobilesdk for additional articles and tutorials.
 
 ### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides wrappers for the Salesforce REST API that you can use from both Swift and Objective-C.
