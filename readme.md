@@ -33,12 +33,6 @@ Introduction
 
 ### What's New in 7.1
 
-- We’ve improved support for sending unauthenticated REST requests to external endpoints. Mobile SDK now provides a shared global instance of its REST client. This REST client doesn’t require OAuth authentication and is unaware of the concept of user. Native apps can use it to send custom unauthenticated requests to non-Salesforce endpoints before or after the user logs in to Salesforce.
-- We’ve added support for using biometric input to supply application passcodes.
-- We’ve updated our Swift template app to Swift version 5.0 and Xcode version 10.2.
-- Mobile SDK for iOS raises its master key security to use Secure Enclave on devices that support it. We’ve also strengthened our master key encryption to use a 256-bit elliptic curve cryptography (ECC) private key.
-- For profiling how Mobile SDK operations affect an app’s runtime performance, we’ve added signposts to Mobile SDK libraries.
-
 **SmartSync Data Framework Updates**
 - SmartSync Data Framework now supports a batch sync up target that uses the Salesforce Composite API for uploading groups of up to 25 records per call.
 - New methods allow native apps to stop and restart in-flight sync operations. To reflect the new sync state, we’ve added a stopped sync status.
