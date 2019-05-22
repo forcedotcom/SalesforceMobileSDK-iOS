@@ -14,11 +14,17 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthHelper/loginIfRequired:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Do a login flow if user is not already logged in and app config&apos;s shouldAuthenticate is false</Abstract>
 			<DeclaredIn>SFSDKAuthHelper.h</DeclaredIn>
 			
 			<Declaration>+ (void)loginIfRequired:(void ( ^ ) ( void ))completionBlock</Declaration>
-			
+			<Parameters>
+				<Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block is executed right away if user was already logged in (or app config&apos;s shouldAuthenticate is false)
+                        Block is executed following successfull login if a login was required</Abstract>
+				</Parameter>
+			</Parameters>
 			
 			<Anchor>//api/name/loginIfRequired:</Anchor>
             <NodeRef refid="68"/>

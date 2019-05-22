@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNavigationController.html">
+	<File path="Classes/SFSDKLogoutBlocker.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNavigationController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLogoutBlocker</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKNavigationController.h</DeclaredIn>
+			<DeclaredIn>SFSDKLogoutBlocker.h</DeclaredIn>
             
 			
 			<NodeRef refid="94"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLogoutBlocker/block</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLogoutBlocker.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)block</Declaration>
+			
+			
+			<Anchor>//api/name/block</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
 		
         
         

@@ -253,14 +253,14 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryMatchingNullField</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryWithNullField</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
 			
-			<Declaration>- (void)testSmartQueryMatchingNullField</Declaration>
+			<Declaration>- (void)testSmartQueryWithNullField</Declaration>
 			
 			
-			<Anchor>//api/name/testSmartQueryMatchingNullField</Anchor>
+			<Anchor>//api/name/testSmartQueryWithNullField</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

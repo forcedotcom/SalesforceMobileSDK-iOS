@@ -66,11 +66,11 @@
 	
 	<optgroup label="Class Methods">
 		
-		<option value="//api/name/encryptDbWithStoreName:storePath:key:error:">+ encryptDbWithStoreName:storePath:key:error:</option>
+		<option value="//api/name/encryptDbWithStoreName:storePath:key:salt:error:">+ encryptDbWithStoreName:storePath:key:salt:error:</option>
 		
-		<option value="//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:error:">+ encryptOrUnencryptDb:name:path:oldKey:newKey:error:</option>
+		<option value="//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:salt:error:">+ encryptOrUnencryptDb:name:path:oldKey:newKey:salt:error:</option>
 		
-		<option value="//api/name/openDatabaseWithPath:key:error:">+ openDatabaseWithPath:key:error:</option>
+		<option value="//api/name/openDatabaseWithPath:key:salt:error:">+ openDatabaseWithPath:key:salt:error:</option>
 		
 		<option value="//api/name/removeSharedManagerForUser:">+ removeSharedManagerForUser:</option>
 		
@@ -80,7 +80,7 @@
 		
 		<option value="//api/name/sharedManagerForUser:">+ sharedManagerForUser:</option>
 		
-		<option value="//api/name/unencryptDbWithStoreName:storePath:key:error:">+ unencryptDbWithStoreName:storePath:key:error:</option>
+		<option value="//api/name/unencryptDbWithStoreName:storePath:key:salt:error:">+ unencryptDbWithStoreName:storePath:key:salt:error:</option>
 		
 		<option value="//api/name/verifyDatabaseAccess:error:">+ verifyDatabaseAccess:error:</option>
 		
@@ -94,15 +94,15 @@
 		
 		<option value="//api/name/createStoreDir:">- createStoreDir:</option>
 		
-		<option value="//api/name/encryptDb:name:key:error:">- encryptDb:name:key:error:</option>
+		<option value="//api/name/encryptDb:name:key:salt:error:">- encryptDb:name:key:salt:error:</option>
 		
-		<option value="//api/name/encryptOrUnencryptDb:name:oldKey:newKey:error:">- encryptOrUnencryptDb:name:oldKey:newKey:error:</option>
+		<option value="//api/name/encryptOrUnencryptDb:name:oldKey:newKey:salt:error:">- encryptOrUnencryptDb:name:oldKey:newKey:salt:error:</option>
 		
 		<option value="//api/name/fullDbFilePathForStoreName:">- fullDbFilePathForStoreName:</option>
 		
-		<option value="//api/name/openStoreDatabaseWithName:key:error:">- openStoreDatabaseWithName:key:error:</option>
+		<option value="//api/name/openStoreDatabaseWithName:key:salt:error:">- openStoreDatabaseWithName:key:salt:error:</option>
 		
-		<option value="//api/name/openStoreQueueWithName:key:error:">- openStoreQueueWithName:key:error:</option>
+		<option value="//api/name/openStoreQueueWithName:key:salt:error:">- openStoreQueueWithName:key:salt:error:</option>
 		
 		<option value="//api/name/persistentStoreExists:">- persistentStoreExists:</option>
 		
@@ -114,7 +114,7 @@
 		
 		<option value="//api/name/storeDirectoryForStoreName:">- storeDirectoryForStoreName:</option>
 		
-		<option value="//api/name/unencryptDb:name:oldKey:error:">- unencryptDb:name:oldKey:error:</option>
+		<option value="//api/name/unencryptDb:name:oldKey:salt:error:">- unencryptDb:name:oldKey:salt:error:</option>
 		
 	</optgroup>
 	
@@ -412,8 +412,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/openStoreDatabaseWithName:key:error:" title="openStoreDatabaseWithName:key:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/openStoreDatabaseWithName:key:error:">&ndash;&nbsp;openStoreDatabaseWithName:key:error:</a></code>
+	<a name="//api/name/openStoreDatabaseWithName:key:salt:error:" title="openStoreDatabaseWithName:key:salt:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/openStoreDatabaseWithName:key:salt:error:">&ndash;&nbsp;openStoreDatabaseWithName:key:salt:error:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -428,7 +428,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (nullable FMDatabase *)openStoreDatabaseWithName:(NSString *)<em>storeName</em> key:(NSString *)<em>key</em> error:(NSError **)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable FMDatabase *)openStoreDatabaseWithName:(NSString *)<em>storeName</em> key:(NSString *)<em>key</em> salt:(nullable NSString *)<em>salt</em> error:(NSError **)<em>error</em></code></div>
 
 		    
 			
@@ -444,6 +444,11 @@
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
 						<td><p>The encryption key associated with the store.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>salt</code></th>
+						<td><p>Specified when database header should be stored in plain text (Shared mode).</p></td>
 					</tr>
 				
 					<tr>
@@ -480,8 +485,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/openStoreQueueWithName:key:error:" title="openStoreQueueWithName:key:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/openStoreQueueWithName:key:error:">&ndash;&nbsp;openStoreQueueWithName:key:error:</a></code>
+	<a name="//api/name/openStoreQueueWithName:key:salt:error:" title="openStoreQueueWithName:key:salt:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/openStoreQueueWithName:key:salt:error:">&ndash;&nbsp;openStoreQueueWithName:key:salt:error:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -496,7 +501,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (nullable FMDatabaseQueue *)openStoreQueueWithName:(NSString *)<em>storeName</em> key:(NSString *)<em>key</em> error:(NSError **)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable FMDatabaseQueue *)openStoreQueueWithName:(NSString *)<em>storeName</em> key:(NSString *)<em>key</em> salt:(nullable NSString *)<em>salt</em> error:(NSError **)<em>error</em></code></div>
 
 		    
 			
@@ -512,6 +517,11 @@
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
 						<td><p>The encryption key associated with the store.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>salt</code></th>
+						<td><p>Specified when database header should be stored in plain text (Shared mode).</p></td>
 					</tr>
 				
 					<tr>
@@ -548,8 +558,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/encryptDb:name:key:error:" title="encryptDb:name:key:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/encryptDb:name:key:error:">&ndash;&nbsp;encryptDb:name:key:error:</a></code>
+	<a name="//api/name/encryptDb:name:key:salt:error:" title="encryptDb:name:key:salt:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/encryptDb:name:key:salt:error:">&ndash;&nbsp;encryptDb:name:key:salt:error:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -564,7 +574,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (FMDatabase *)encryptDb:(FMDatabase *)<em>db</em> name:(NSString *)<em>storeName</em> key:(NSString *)<em>key</em> error:(NSError **)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (FMDatabase *)encryptDb:(FMDatabase *)<em>db</em> name:(NSString *)<em>storeName</em> key:(NSString *)<em>key</em> salt:(nullable NSString *)<em>salt</em> error:(NSError **)<em>error</em></code></div>
 
 		    
 			
@@ -585,6 +595,11 @@
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
 						<td><p>The encryption key to be used for encrypting the database.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>salt</code></th>
+						<td><p>Specified when database header should be stored in plain text (Shared mode).</p></td>
 					</tr>
 				
 					<tr>
@@ -621,8 +636,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/encryptDbWithStoreName:storePath:key:error:" title="encryptDbWithStoreName:storePath:key:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/encryptDbWithStoreName:storePath:key:error:">+&nbsp;encryptDbWithStoreName:storePath:key:error:</a></code>
+	<a name="//api/name/encryptDbWithStoreName:storePath:key:salt:error:" title="encryptDbWithStoreName:storePath:key:salt:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/encryptDbWithStoreName:storePath:key:salt:error:">+&nbsp;encryptDbWithStoreName:storePath:key:salt:error:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -637,7 +652,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (BOOL)encryptDbWithStoreName:(NSString *)<em>storeName</em> storePath:(NSString *)<em>storePath</em> key:(NSString *)<em>key</em> error:(NSError **)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (BOOL)encryptDbWithStoreName:(NSString *)<em>storeName</em> storePath:(NSString *)<em>storePath</em> key:(NSString *)<em>key</em> salt:(nullable NSString *)<em>salt</em> error:(NSError **)<em>error</em></code></div>
 
 		    
 			
@@ -658,6 +673,11 @@
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
 						<td><p>The encryption key to be used for encrypting the database.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>salt</code></th>
+						<td><p>Specified when database header should be stored in plain text (Shared mode).</p></td>
 					</tr>
 				
 					<tr>
@@ -694,8 +714,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/unencryptDb:name:oldKey:error:" title="unencryptDb:name:oldKey:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/unencryptDb:name:oldKey:error:">&ndash;&nbsp;unencryptDb:name:oldKey:error:</a></code>
+	<a name="//api/name/unencryptDb:name:oldKey:salt:error:" title="unencryptDb:name:oldKey:salt:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unencryptDb:name:oldKey:salt:error:">&ndash;&nbsp;unencryptDb:name:oldKey:salt:error:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -710,7 +730,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (FMDatabase *)unencryptDb:(FMDatabase *)<em>db</em> name:(NSString *)<em>storeName</em> oldKey:(NSString *)<em>oldKey</em> error:(NSError **)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (FMDatabase *)unencryptDb:(FMDatabase *)<em>db</em> name:(NSString *)<em>storeName</em> oldKey:(NSString *)<em>oldKey</em> salt:(nullable NSString *)<em>salt</em> error:(NSError **)<em>error</em></code></div>
 
 		    
 			
@@ -731,6 +751,11 @@
 					<tr>
 						<th scope="row" class="argument-name"><code>oldKey</code></th>
 						<td><p>The original encryption key of the database.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>salt</code></th>
+						<td><p>Specified when database header should be stored in plain text (Shared mode).</p></td>
 					</tr>
 				
 					<tr>
@@ -767,8 +792,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/unencryptDbWithStoreName:storePath:key:error:" title="unencryptDbWithStoreName:storePath:key:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/unencryptDbWithStoreName:storePath:key:error:">+&nbsp;unencryptDbWithStoreName:storePath:key:error:</a></code>
+	<a name="//api/name/unencryptDbWithStoreName:storePath:key:salt:error:" title="unencryptDbWithStoreName:storePath:key:salt:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unencryptDbWithStoreName:storePath:key:salt:error:">+&nbsp;unencryptDbWithStoreName:storePath:key:salt:error:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -783,7 +808,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (BOOL)unencryptDbWithStoreName:(NSString *)<em>storeName</em> storePath:(NSString *)<em>storePath</em> key:(NSString *)<em>key</em> error:(NSError **)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (BOOL)unencryptDbWithStoreName:(NSString *)<em>storeName</em> storePath:(NSString *)<em>storePath</em> key:(NSString *)<em>key</em> salt:(nullable NSString *)<em>salt</em> error:(NSError **)<em>error</em></code></div>
 
 		    
 			
@@ -804,6 +829,11 @@
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
 						<td><p>The original encryption key of the database.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>salt</code></th>
+						<td><p>Specified when database header should be stored in plain text (Shared mode).</p></td>
 					</tr>
 				
 					<tr>
@@ -1325,8 +1355,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/encryptOrUnencryptDb:name:oldKey:newKey:error:" title="encryptOrUnencryptDb:name:oldKey:newKey:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/encryptOrUnencryptDb:name:oldKey:newKey:error:">&ndash;&nbsp;encryptOrUnencryptDb:name:oldKey:newKey:error:</a></code>
+	<a name="//api/name/encryptOrUnencryptDb:name:oldKey:newKey:salt:error:" title="encryptOrUnencryptDb:name:oldKey:newKey:salt:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/encryptOrUnencryptDb:name:oldKey:newKey:salt:error:">&ndash;&nbsp;encryptOrUnencryptDb:name:oldKey:newKey:salt:error:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1335,14 +1365,14 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)<em>db</em> name:(NSString *)<em>storeName</em> oldKey:(NSString *)<em>oldKey</em> newKey:(NSString *)<em>newKey</em> error:(NSError **)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)<em>db</em> name:(NSString *)<em>storeName</em> oldKey:(NSString *)<em>oldKey</em> newKey:(NSString *)<em>newKey</em> salt:(NSString *)<em>salt</em> error:(NSError **)<em>error</em></code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/openDatabaseWithPath:key:error:" title="openDatabaseWithPath:key:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/openDatabaseWithPath:key:error:">+&nbsp;openDatabaseWithPath:key:error:</a></code>
+	<a name="//api/name/openDatabaseWithPath:key:salt:error:" title="openDatabaseWithPath:key:salt:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/openDatabaseWithPath:key:salt:error:">+&nbsp;openDatabaseWithPath:key:salt:error:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1351,14 +1381,14 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>+ (FMDatabase *)openDatabaseWithPath:(NSString *)<em>dbPath</em> key:(NSString *)<em>key</em> error:(NSError **)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (FMDatabase *)openDatabaseWithPath:(NSString *)<em>dbPath</em> key:(NSString *)<em>key</em> salt:(NSString *)<em>salt</em> error:(NSError **)<em>error</em></code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:error:" title="encryptOrUnencryptDb:name:path:oldKey:newKey:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:error:">+&nbsp;encryptOrUnencryptDb:name:path:oldKey:newKey:error:</a></code>
+	<a name="//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:salt:error:" title="encryptOrUnencryptDb:name:path:oldKey:newKey:salt:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:salt:error:">+&nbsp;encryptOrUnencryptDb:name:path:oldKey:newKey:salt:error:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1367,7 +1397,7 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>+ (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)<em>db</em> name:(NSString *)<em>storeName</em> path:(NSString *)<em>storePath</em> oldKey:(NSString *)<em>oldKey</em> newKey:(NSString *)<em>newKey</em> error:(NSError **)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)<em>db</em> name:(NSString *)<em>storeName</em> path:(NSString *)<em>storePath</em> oldKey:(NSString *)<em>oldKey</em> newKey:(NSString *)<em>newKey</em> salt:(NSString *)<em>salt</em> error:(NSError **)<em>error</em></code></div>
 
 		    
 		</div>
@@ -1387,7 +1417,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-05-22</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

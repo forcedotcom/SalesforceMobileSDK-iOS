@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountScope.html">
+	<File path="Constants/SFSDKWindowType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
-			<Abstract type="html">The various scopes related to a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="220"/>
@@ -14,45 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
-            <Abstract type="html">Global scope (one per application)
-     </Abstract>
-            <Declaration>SFUserAccountScopeGlobal</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeMain</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="220"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
-            <Abstract type="html">Scope by organization
-     </Abstract>
-            <Declaration>SFUserAccountScopeOrg</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="220"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
-            <Abstract type="html">Scope by user
-     </Abstract>
-            <Declaration>SFUserAccountScopeUser</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeAuth</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="220"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
-            <Abstract type="html">Scope by community
-     </Abstract>
-            <Declaration>SFUserAccountScopeCommunity</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypePasscode</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypePasscode</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="220"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="220"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeOther</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="220"/>
         </Token>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFParentInfo.html">
+	<File path="Classes/SFObject.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFParentInfo</TokenIdentifier>
-			<Abstract type="html">Simple object to capture details of parent in parent-child relationship</Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFObject</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObject.h</DeclaredIn>
             
 			
 			<NodeRef refid="16"/>
@@ -13,194 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/setSobjectType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/setObjectId:</TokenIdentifier>
+			<Abstract type="html">Object Id</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
+			
+			
+			<Anchor>//api/name/objectId</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/objectId</TokenIdentifier>
+			<Abstract type="html">Object Id</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
+			
+			
+			<Anchor>//api/name/objectId</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFObject/objectId</TokenIdentifier>
+			<Abstract type="html">Object Id</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectId</Declaration>
+			
+			
+			<Anchor>//api/name/objectId</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/setName:</TokenIdentifier>
+			<Abstract type="html">Object name</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/name</TokenIdentifier>
+			<Abstract type="html">Object name</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFObject/name</TokenIdentifier>
+			<Abstract type="html">Object name</Abstract>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/encodeObject:forKey:encoder:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *sobjectType</Declaration>
+			<Declaration>- (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder</Declaration>
 			
 			
-			<Anchor>//api/name/sobjectType</Anchor>
+			<Anchor>//api/name/encodeObject:forKey:encoder:</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/sobjectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObject/configureDataWithDictionary:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
+			<DeclaredIn>SFObject+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *sobjectType</Declaration>
-			
-			
-			<Anchor>//api/name/sobjectType</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFParentInfo/sobjectType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *sobjectType</Declaration>
+			<Declaration>- (void)configureDataWithDictionary:(NSDictionary *)dataDiction</Declaration>
 			
 			
-			<Anchor>//api/name/sobjectType</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/setIdFieldName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *idFieldName</Declaration>
-			
-			
-			<Anchor>//api/name/idFieldName</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/idFieldName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *idFieldName</Declaration>
-			
-			
-			<Anchor>//api/name/idFieldName</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFParentInfo/idFieldName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *idFieldName</Declaration>
-			
-			
-			<Anchor>//api/name/idFieldName</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/setModificationDateFieldName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *modificationDateFieldName</Declaration>
-			
-			
-			<Anchor>//api/name/modificationDateFieldName</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/modificationDateFieldName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *modificationDateFieldName</Declaration>
-			
-			
-			<Anchor>//api/name/modificationDateFieldName</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFParentInfo/modificationDateFieldName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *modificationDateFieldName</Declaration>
-			
-			
-			<Anchor>//api/name/modificationDateFieldName</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/setSoupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/soupName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFParentInfo/soupName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *soupName</Declaration>
-			
-			
-			<Anchor>//api/name/soupName</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentInfo/newWithSObjectType:soupName:</TokenIdentifier>
-			<Abstract type="html">Factory methods</Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>+ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName</Declaration>
-			
-			
-			<Anchor>//api/name/newWithSObjectType:soupName:</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentInfo/newWithSObjectType:soupName:idFieldName:modificationDateFieldName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>+ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName</Declaration>
-			
-			
-			<Anchor>//api/name/newWithSObjectType:soupName:idFieldName:modificationDateFieldName:</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFParentInfo/newFromDict:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>+ (SFParentInfo *)newFromDict:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/newFromDict:</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/asDict</TokenIdentifier>
-			<Abstract type="html">Method to translate to dictionary</Abstract>
-			<DeclaredIn>SFParentInfo.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)asDict</Declaration>
-			
-			
-			<Anchor>//api/name/asDict</Anchor>
+			<Anchor>//api/name/configureDataWithDictionary:</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		

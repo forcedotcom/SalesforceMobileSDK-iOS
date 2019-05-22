@@ -1,97 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncDownTargetQueryType.html">
+	<File path="Classes/SmartSyncSDKManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncDownTargetQueryType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SmartSyncSDKManager</TokenIdentifier>
+			<Abstract type="html">Version of SalesforceSDKManager to be used with all SmartSync-enabled apps.</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="42"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeMru</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeMru</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/setupGlobalSyncsFromDefaultConfig</TokenIdentifier>
+			<Abstract type="html">Setup global syncs using config found globalsyncs.json</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setupGlobalSyncsFromDefaultConfig</Declaration>
+			
+			
+			<Anchor>//api/name/setupGlobalSyncsFromDefaultConfig</Anchor>
             <NodeRef refid="42"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeSosl</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeSosl</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/setupUserSyncsFromDefaultConfig</TokenIdentifier>
+			<Abstract type="html">Setup user syncs using config found in usersyncs.json</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setupUserSyncsFromDefaultConfig</Declaration>
+			
+			
+			<Anchor>//api/name/setupUserSyncsFromDefaultConfig</Anchor>
             <NodeRef refid="42"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeSoql</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeSoql</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/set:</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) SmartSyncSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="42"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeRefresh</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeRefresh</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SmartSyncSDKManager/)</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) SmartSyncSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="42"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeParentChildren</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeParentChildren</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SmartSyncSDKManager/)</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>SmartSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) SmartSyncSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="42"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeCustom</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeCustom</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="42"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeMetadata</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeMetadata</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="42"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeLayout</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeLayout</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="42"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

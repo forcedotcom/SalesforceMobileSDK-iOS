@@ -1,16 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/ViewController.html">
+	<File path="Classes/SFSyncTask.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncTask</TokenIdentifier>
+			<Abstract type="html">Abstract super class of task classes responsible for running syncs</Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
             
 			
 			<NodeRef refid="38"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTask/setSyncManager:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) SFSmartSyncSyncManager *syncManager</Declaration>
+			
+			
+			<Anchor>//api/name/syncManager</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTask/syncManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) SFSmartSyncSyncManager *syncManager</Declaration>
+			
+			
+			<Anchor>//api/name/syncManager</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncTask/syncManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) SFSmartSyncSyncManager *syncManager</Declaration>
+			
+			
+			<Anchor>//api/name/syncManager</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTask/setSyncId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSNumber *syncId</Declaration>
+			
+			
+			<Anchor>//api/name/syncId</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTask/syncId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSNumber *syncId</Declaration>
+			
+			
+			<Anchor>//api/name/syncId</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncTask/syncId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSNumber *syncId</Declaration>
+			
+			
+			<Anchor>//api/name/syncId</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTask/init:sync:updateBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)init:(SFSmartSyncSyncManager *)syncManager sync:(SFSyncState *)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
+			
+			
+			<Anchor>//api/name/init:sync:updateBlock:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTask/run</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>- (void)run</Declaration>
+			
+			
+			<Anchor>//api/name/run</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTask/shouldStop</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)shouldStop</Declaration>
+			
+			
+			<Anchor>//api/name/shouldStop</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTask/updateSync:countSynched:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>- (void)updateSync:(SFSyncState *)sync countSynched:(NSUInteger)countSynched</Declaration>
+			
+			
+			<Anchor>//api/name/updateSync:countSynched:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTask/failSync:failureMessage:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTask.h</DeclaredIn>
+			
+			<Declaration>- (void)failSync:(SFSyncState *)sync failureMessage:(NSString *)failureMessage error:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/failSync:failureMessage:error:</Anchor>
+            <NodeRef refid="38"/>
+		</Token>
 		
         
         

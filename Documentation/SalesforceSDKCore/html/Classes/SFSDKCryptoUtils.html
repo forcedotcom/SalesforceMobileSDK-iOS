@@ -66,15 +66,27 @@
 		
 		<option value="//api/name/aes256EncryptData:withKey:iv:">+ aes256EncryptData:withKey:iv:</option>
 		
+		<option value="//api/name/createECKeyPairWithName:accessibleAttribute:useSecureEnclave:">+ createECKeyPairWithName:accessibleAttribute:useSecureEnclave:</option>
+		
 		<option value="//api/name/createPBKDF2DerivedKey:">+ createPBKDF2DerivedKey:</option>
 		
 		<option value="//api/name/createPBKDF2DerivedKey:salt:derivationRounds:keyLength:">+ createPBKDF2DerivedKey:salt:derivationRounds:keyLength:</option>
 		
 		<option value="//api/name/createRSAKeyPairWithName:keyLength:accessibleAttribute:">+ createRSAKeyPairWithName:keyLength:accessibleAttribute:</option>
 		
+		<option value="//api/name/decryptUsingECforData:withKeyRef:">+ decryptUsingECforData:withKeyRef:</option>
+		
 		<option value="//api/name/decryptUsingRSAforData:withKeyRef:">+ decryptUsingRSAforData:withKeyRef:</option>
 		
+		<option value="//api/name/deleteECKeyPairWithName:">+ deleteECKeyPairWithName:</option>
+		
+		<option value="//api/name/encryptUsingECforData:withKeyRef:">+ encryptUsingECforData:withKeyRef:</option>
+		
 		<option value="//api/name/encryptUsingRSAforData:withKeyRef:">+ encryptUsingRSAforData:withKeyRef:</option>
+		
+		<option value="//api/name/getECPrivateKeyRefWithName:">+ getECPrivateKeyRefWithName:</option>
+		
+		<option value="//api/name/getECPublicKeyRefWithName:">+ getECPublicKeyRefWithName:</option>
 		
 		<option value="//api/name/getRSAPrivateKeyDataWithName:keyLength:">+ getRSAPrivateKeyDataWithName:keyLength:</option>
 		
@@ -83,6 +95,8 @@
 		<option value="//api/name/getRSAPublicKeyRefWithName:keyLength:">+ getRSAPublicKeyRefWithName:keyLength:</option>
 		
 		<option value="//api/name/getRSAPublicKeyStringWithName:keyLength:">+ getRSAPublicKeyStringWithName:keyLength:</option>
+		
+		<option value="//api/name/isSecureEnclaveAvailable">+ isSecureEnclaveAvailable</option>
 		
 		<option value="//api/name/randomByteDataWithLength:">+ randomByteDataWithLength:</option>
 		
@@ -954,7 +968,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The encrypted Dataa, or <code>nil</code> if encryption failed</p>
+				<p>The encrypted Data, or <code>nil</code> if encryption failed</p>
 			</div>
 			
 
@@ -1038,6 +1052,410 @@ rounds, and desired derived key length.</p>
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/isSecureEnclaveAvailable" title="isSecureEnclaveAvailable"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isSecureEnclaveAvailable">+&nbsp;isSecureEnclaveAvailable</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Check for availability of secure enclave</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)isSecureEnclaveAvailable</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if secure enclave is available</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKCryptoUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/createECKeyPairWithName:accessibleAttribute:useSecureEnclave:" title="createECKeyPairWithName:accessibleAttribute:useSecureEnclave:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/createECKeyPairWithName:accessibleAttribute:useSecureEnclave:">+&nbsp;createECKeyPairWithName:accessibleAttribute:useSecureEnclave:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Create asymmetric keys (public/private key pairs) using EC algorithm with given keyName</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)createECKeyPairWithName:(NSString *)<em>keyName</em> accessibleAttribute:(CFTypeRef)<em>accessibleAttribute</em> useSecureEnclave:(BOOL)<em>useSecureEnclave</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>keyName</code></th>
+						<td><p>The name string used to generate the key.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if successful</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKCryptoUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/deleteECKeyPairWithName:" title="deleteECKeyPairWithName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deleteECKeyPairWithName:">+&nbsp;deleteECKeyPairWithName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Delete EC key pair created with createECKeyPairWithName</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)deleteECKeyPairWithName:(NSString *)<em>keyName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>keyName</code></th>
+						<td><p>The name string of the key.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if successful</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKCryptoUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getECPublicKeyRefWithName:" title="getECPublicKeyRefWithName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getECPublicKeyRefWithName:">+&nbsp;getECPublicKeyRefWithName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Get EC public SecKeyRef with given keyName</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable SecKeyRef)getECPublicKeyRefWithName:(NSString *)<em>keyName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>keyName</code></th>
+						<td><p>The name string used to generate the key.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The SecKeyRef, or <code>nil</code> if no matching key is found</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKCryptoUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getECPrivateKeyRefWithName:" title="getECPrivateKeyRefWithName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getECPrivateKeyRefWithName:">+&nbsp;getECPrivateKeyRefWithName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Get EC private SecKeyRef with given keyName and length</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable SecKeyRef)getECPrivateKeyRefWithName:(NSString *)<em>keyName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>keyName</code></th>
+						<td><p>The name string used to generate the key.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The SecKeyRef, or <code>nil</code> if no matching key is found</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKCryptoUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/encryptUsingECforData:withKeyRef:" title="encryptUsingECforData:withKeyRef:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/encryptUsingECforData:withKeyRef:">+&nbsp;encryptUsingECforData:withKeyRef:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Encrypt data with givien SecKeyRef using EC algorithm</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSData *)encryptUsingECforData:(NSData *)<em>data</em> withKeyRef:(SecKeyRef)<em>keyRef</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>data</code></th>
+						<td><p>The data to encrypt</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>keyRef</code></th>
+						<td><p>The keyref used in encryption</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The encrypted Data, or <code>nil</code> if encryption failed</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKCryptoUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/decryptUsingECforData:withKeyRef:" title="decryptUsingECforData:withKeyRef:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/decryptUsingECforData:withKeyRef:">+&nbsp;decryptUsingECforData:withKeyRef:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Decrypt data with givien SecKeyRef using EC algorithm</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSData *)decryptUsingECforData:(NSData *)<em>data</em> withKeyRef:(SecKeyRef)<em>keyRef</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>data</code></th>
+						<td><p>The data to decypt</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>keyRef</code></th>
+						<td><p>The keyref used in decryption</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The decypted Data, or <code>nil</code> if decryption failed</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKCryptoUtils.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1053,7 +1471,7 @@ rounds, and desired derived key length.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2018 Salesforce.com. All rights reserved. Updated: 2018-12-18</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-05-22</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,8 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Constants/SFSyncManagerState.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncManagerState</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="52"/>
+		</Token>
 		
 		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncManagerStateAcceptingSyncs</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncManagerStateAcceptingSyncs</Declaration>
+            
+            <DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+            
+            <NodeRef refid="52"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncManagerStateStopRequested</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncManagerStateStopRequested</Declaration>
+            
+            <DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+            
+            <NodeRef refid="52"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncManagerStateStopped</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncManagerStateStopped</Declaration>
+            
+            <DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+            
+            <NodeRef refid="52"/>
+        </Token>
         
         
 	</File>

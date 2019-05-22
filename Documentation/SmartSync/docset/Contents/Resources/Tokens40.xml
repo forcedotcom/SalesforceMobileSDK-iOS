@@ -1,37 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFParentChildrenRelationshipType.html">
+	<File path="Classes/SFSyncUpTask.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFParentChildrenRelationshipType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncUpTask</TokenIdentifier>
+			<Abstract type="html">Task class responsible for running sync up</Abstract>
+			<DeclaredIn>SFSyncUpTask.h</DeclaredIn>
             
 			
 			<NodeRef refid="40"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFParentChildrenRelationpshipMasterDetail</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFParentChildrenRelationpshipMasterDetail</Declaration>
-            
-            <DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTask/init:sync:updateBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpTask.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)init:(SFSmartSyncSyncManager *)syncManager sync:(SFSyncState *)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
+			
+			
+			<Anchor>//api/name/init:sync:updateBlock:</Anchor>
             <NodeRef refid="40"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFParentChildrenRelationpshipLookup</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFParentChildrenRelationpshipLookup</Declaration>
-            
-            <DeclaredIn>SFParentChildrenSyncHelper.h</DeclaredIn>
-            
-            <NodeRef refid="40"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

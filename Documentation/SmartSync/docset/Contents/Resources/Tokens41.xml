@@ -1,47 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKFetchMode.html">
+	<File path="Classes/SFSyncUpdateCallbackQueue.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKFetchMode</TokenIdentifier>
-			<Abstract type="html">Enum for available SmartSync data fetch modes.</Abstract>
-			<DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncUpdateCallbackQueue</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
             
 			
 			<NodeRef refid="41"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKFetchModeCacheOnly</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKFetchModeCacheOnly</Declaration>
-            
-            <DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runSync:syncManager:</TokenIdentifier>
+			<Abstract type="html">Run sync</Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			
+			<Declaration>- (void)runSync:(SFSyncState *)sync syncManager:(SFSmartSyncSyncManager *)syncManager</Declaration>
+			
+			
+			<Anchor>//api/name/runSync:syncManager:</Anchor>
             <NodeRef refid="41"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKFetchModeCacheFirst</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKFetchModeCacheFirst</Declaration>
-            
-            <DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runReSync:syncManager:</TokenIdentifier>
+			<Abstract type="html">Run re-sync</Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			
+			<Declaration>- (SFSyncState *)runReSync:(NSNumber *)syncId syncManager:(SFSmartSyncSyncManager *)syncManager</Declaration>
+			
+			
+			<Anchor>//api/name/runReSync:syncManager:</Anchor>
             <NodeRef refid="41"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKFetchModeServerFirst</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKFetchModeServerFirst</Declaration>
-            
-            <DeclaredIn>SFSmartSyncConstants.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runReSync:syncManager:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			
+			<Declaration>- (SFSyncState *)runReSync:(NSNumber *)syncId syncManager:(SFSmartSyncSyncManager *)syncManager error:(NSError **)error</Declaration>
+			
+			
+			<Anchor>//api/name/runReSync:syncManager:error:</Anchor>
             <NodeRef refid="41"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runReSyncByName:syncManager:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			
+			<Declaration>- (SFSyncState *)runReSyncByName:(NSString *)syncName syncManager:(SFSmartSyncSyncManager *)syncManager error:(NSError **)error</Declaration>
+			
+			
+			<Anchor>//api/name/runReSyncByName:syncManager:error:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/restart:restartStoppedSyncs:restartSterror:</TokenIdentifier>
+			<Abstract type="html">Restart sync manager</Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)restart:(SFSmartSyncSyncManager *)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError **)error</Declaration>
+			
+			
+			<Anchor>//api/name/restart:restartStoppedSyncs:restartSterror:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/getNextSyncUpdate</TokenIdentifier>
+			<Abstract type="html">Get next sync update</Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			
+			<Declaration>- (SFSyncState *)getNextSyncUpdate</Declaration>
+			
+			
+			<Anchor>//api/name/getNextSyncUpdate</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/getNextSyncUpdate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			
+			<Declaration>- (SFSyncState *)getNextSyncUpdate:(NSTimeInterval)maxWaitTime</Declaration>
+			
+			
+			<Anchor>//api/name/getNextSyncUpdate:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
         
         
 	</File>

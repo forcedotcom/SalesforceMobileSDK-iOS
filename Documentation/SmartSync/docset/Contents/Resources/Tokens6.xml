@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFLayoutSyncDownTarget.html">
+	<File path="Classes/SFCompositeRequestHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFLayoutSyncDownTarget</TokenIdentifier>
-			<Abstract type="html">Sync down target for object layouts. This uses the &apos;/ui-api/layout&apos; API to fetch object layouts.
-The easiest way to use this sync target is through SFLayoutSyncManager.</Abstract>
-			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCompositeRequestHelper</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCompositeRequestHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="6"/>
@@ -14,86 +13,38 @@ The easiest way to use this sync target is through SFLayoutSyncManager.</Abstrac
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setObjectType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCompositeRequestHelper/sendCompositeRequest:allOrNone:refIds:requests:completionBlock:failBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFCompositeRequestHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>+ (void)sendCompositeRequest:(SFSmartSyncSyncManager *)syncManager allOrNone:(BOOL)allOrNone refIds:(NSArray&lt;NSString*&gt; *)refIds requests:(NSArray&lt;SFRestRequest*&gt; *)requests completionBlock:(SFSendCompositeRequestCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/sendCompositeRequest:allOrNone:refIds:requests:completionBlock:failBlock:</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCompositeRequestHelper/parseIdsFromResponse:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFCompositeRequestHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>+ (NSDictionary *)parseIdsFromResponse:(NSDictionary *)refIdToResponses</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/parseIdsFromResponse:</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCompositeRequestHelper/updateReferences:fieldWithRefId:refIdToServerId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>SFCompositeRequestHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
-			
-			
-			<Anchor>//api/name/objectType</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setLayoutType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
+			<Declaration>+ (void)updateReferences:(NSMutableDictionary *)record fieldWithRefId:(NSString *)fieldWithRefId refIdToServerId:(NSDictionary *)refIdToServerId</Declaration>
 			
 			
-			<Anchor>//api/name/layoutType</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/layoutType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
-			
-			
-			<Anchor>//api/name/layoutType</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/layoutType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
-			
-			
-			<Anchor>//api/name/layoutType</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncDownTarget/newSyncTarget:layoutType:</TokenIdentifier>
-			<Abstract type="html">Factory method.</Abstract>
-			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>+ (SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncTarget:layoutType:</Anchor>
+			<Anchor>//api/name/updateReferences:fieldWithRefId:refIdToServerId:</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		

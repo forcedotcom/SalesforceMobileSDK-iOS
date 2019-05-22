@@ -109,6 +109,23 @@
             <NodeRef refid="33"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/setSessionManager:</TokenIdentifier>
+			<Abstract type="html">Delegates the creation of NSURLSession to an external object.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (void)setSessionManager:(nonnull id&lt;SFNetworkSessionManaging&gt;)manager</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>manager</Name>
+					<Abstract type="html">object implementing the SFNetworkSessionManaging protocol.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setSessionManager:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
         
         
 	</File>

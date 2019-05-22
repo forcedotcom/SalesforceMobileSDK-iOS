@@ -14,6 +14,23 @@ SFCryptChunks is used to perform the encryption.</Abstract>
 		
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptStream/setupWithEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">Setup for encryption. You must call this method before using the stream.</Abstract>
+			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
+			
+			<Declaration>- (void)setupWithEncryptionKey:(SFEncryptionKey *)encKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>encKey</Name>
+					<Abstract type="html">the encryption key</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setupWithEncryptionKey:</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
 			<Abstract type="html">Setup for encryption. You must call this method before using the stream.</Abstract>
 			<DeclaredIn>SFEncryptStream.h</DeclaredIn>

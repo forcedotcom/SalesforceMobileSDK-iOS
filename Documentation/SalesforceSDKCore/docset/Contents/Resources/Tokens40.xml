@@ -85,6 +85,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setLoginPageUrl:</TokenIdentifier>
+			<Abstract type="html">Configured login page URL.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			
+			
+			<Anchor>//api/name/loginPageUrl</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/loginPageUrl</TokenIdentifier>
+			<Abstract type="html">Configured login page URL.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			
+			
+			<Anchor>//api/name/loginPageUrl</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/loginPageUrl</TokenIdentifier>
+			<Abstract type="html">Configured login page URL.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			
+			
+			<Anchor>//api/name/loginPageUrl</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setAuthConfigDict:</TokenIdentifier>
 			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
 			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>

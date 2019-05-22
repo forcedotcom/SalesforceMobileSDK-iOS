@@ -343,10 +343,10 @@ that erroneous keychain data is not present if the app is re-installed.</Abstrac
 			<Abstract type="html">Retrieves the key store dictionary, decrypting it with the specified key.</Abstract>
 			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)keyStoreDictionaryWithKey:(SFEncryptionKey *)decryptKey</Declaration>
+			<Declaration>- (NSDictionary *)keyStoreDictionaryWithKey:(SFKeyStoreKey *)storeKey</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>decryptKey</Name>
+					<Name>storeKey</Name>
 					<Abstract type="html">The key used to decrypt the dictionary.</Abstract>
 				</Parameter>
 			</Parameters>
@@ -360,14 +360,14 @@ that erroneous keychain data is not present if the app is re-installed.</Abstrac
 			<Abstract type="html">Sets the key store dictionary, encrypting it with the specified key.</Abstract>
 			<DeclaredIn>SFKeyStore+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary withKey:(SFEncryptionKey *)theEncryptionKey</Declaration>
+			<Declaration>- (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary withKey:(SFKeyStoreKey *)storeKey</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>keyStoreDictionary</Name>
 					<Abstract type="html">The new/updated dictionary to set.</Abstract>
 				</Parameter><Parameter>
-					<Name>theEncryptionKey</Name>
-					<Abstract type="html">The key used to encrypt the database.</Abstract>
+					<Name>storeKey</Name>
+					<Abstract type="html">The key used to encrypt the dictionary.</Abstract>
 				</Parameter>
 			</Parameters>
 			

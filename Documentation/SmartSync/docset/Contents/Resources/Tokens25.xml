@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncPersistableObject.html">
+	<File path="Classes/SFSDKSoqlMutator.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncPersistableObject</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoqlMutator</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<DeclaredIn>SFSDKSoqlMutator.h</DeclaredIn>
             
 			
 			<NodeRef refid="25"/>
@@ -13,98 +13,145 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setRawData:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlMutator/withSoql:</TokenIdentifier>
+			<Abstract type="html">Initialize this SOQLMutator with the soql query to manipulate</Abstract>
+			<DeclaredIn>SFSDKSoqlMutator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			<Declaration>+ (SFSDKSoqlMutator *)withSoql:(NSString *)soql</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soql</Name>
+					<Abstract type="html">Original soql query.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/rawData</Anchor>
+			<Anchor>//api/name/withSoql:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlMutator/replaceSelectFields:</TokenIdentifier>
+			<Abstract type="html">Replace selecg fields</Abstract>
+			<DeclaredIn>SFSDKSoqlMutator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			<Declaration>- (SFSDKSoqlMutator *)replaceSelectFields:(NSString *)commaSeparatedFields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>commaSeparatedFields</Name>
+					<Abstract type="html">Comma separated fields to use in top level query&apos;s select.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/rawData</Anchor>
+			<Anchor>//api/name/replaceSelectFields:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlMutator/addSelectFields:</TokenIdentifier>
+			<Abstract type="html">Add fields to select</Abstract>
+			<DeclaredIn>SFSDKSoqlMutator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			<Declaration>- (SFSDKSoqlMutator *)addSelectFields:(NSString *)commaSeparatedFields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>commaSeparatedFields</Name>
+					<Abstract type="html">Comma separated fields to add to top level query&apos;s select.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/rawData</Anchor>
+			<Anchor>//api/name/addSelectFields:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setObjectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlMutator/addWherePredicates:</TokenIdentifier>
+			<Abstract type="html">Add predicates to where clause</Abstract>
+			<DeclaredIn>SFSDKSoqlMutator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			<Declaration>- (SFSDKSoqlMutator *)addWherePredicates:(NSString *)commaSeparatedPredicates</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>commaSeparatedPredicates</Name>
+					<Abstract type="html">Comma separated predicates to add to top level query&apos;s where.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/addWherePredicates:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlMutator/replaceOrderBy:</TokenIdentifier>
+			<Abstract type="html">Replace order by clause (or add one if none)</Abstract>
+			<DeclaredIn>SFSDKSoqlMutator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			<Declaration>- (SFSDKSoqlMutator *)replaceOrderBy:(NSString *)commaSeparatedFields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>commaSeparatedFields</Name>
+					<Abstract type="html">Comma separated fields to add to top level query&apos;s select.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/replaceOrderBy:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlMutator/isOrderingBy:</TokenIdentifier>
+			<Abstract type="html">Check if query is ordering by given fields</Abstract>
+			<DeclaredIn>SFSDKSoqlMutator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
-			
-			
-			<Anchor>//api/name/objectType</Anchor>
+			<Declaration>- (BOOL)isOrderingBy:(NSString *)commaSeparatedFields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>commaSeparatedFields</Name>
+					<Abstract type="html">Comma separated fields to look for.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if it is the case.</Abstract></ReturnValue>
+			<Anchor>//api/name/isOrderingBy:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlMutator/hasOrderBy</TokenIdentifier>
+			<Abstract type="html">Check if query has order by clause</Abstract>
+			<DeclaredIn>SFSDKSoqlMutator.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDictionary:(NSDictionary *)data</Declaration>
+			<Declaration>- (BOOL)hasOrderBy</Declaration>
 			
-			
-			<Anchor>//api/name/initWithDictionary:</Anchor>
+			<ReturnValue><Abstract type="html">YES if it is the case.</Abstract></ReturnValue>
+			<Anchor>//api/name/hasOrderBy</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:forObjectType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlMutator/isSelectingField:</TokenIdentifier>
+			<Abstract type="html">Check if query is selecting by given field</Abstract>
+			<DeclaredIn>SFSDKSoqlMutator.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDictionary:(NSDictionary *)data forObjectType:(nullable NSString *)objectType</Declaration>
+			<Declaration>- (BOOL)isSelectingField:(NSString *)field</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>field</Name>
+					<Abstract type="html">Field to look for.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if it is the case.</Abstract></ReturnValue>
+			<Anchor>//api/name/isSelectingField:</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlMutator/asBuilder</TokenIdentifier>
+			<Abstract type="html">a SOQL builder with mutations applied</Abstract>
+			<DeclaredIn>SFSDKSoqlMutator.h</DeclaredIn>
 			
+			<Declaration>- (SFSDKSoqlBuilder *)asBuilder</Declaration>
 			
-			<Anchor>//api/name/initWithDictionary:forObjectType:</Anchor>
+			<ReturnValue><Abstract type="html">a SOQL builder with mutations applied</Abstract></ReturnValue>
+			<Anchor>//api/name/asBuilder</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		

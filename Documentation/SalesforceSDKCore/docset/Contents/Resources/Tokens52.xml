@@ -54,6 +54,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setNetworkServiceType:</TokenIdentifier>
+			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) SFSDKNetworkServiceType networkServiceType</Declaration>
+			
+			
+			<Anchor>//api/name/networkServiceType</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/networkServiceType</TokenIdentifier>
+			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) SFSDKNetworkServiceType networkServiceType</Declaration>
+			
+			
+			<Anchor>//api/name/networkServiceType</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/networkServiceType</TokenIdentifier>
+			<Abstract type="html">The HTTP method of the request. See SFRestMethod.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) SFSDKNetworkServiceType networkServiceType</Declaration>
+			
+			
+			<Anchor>//api/name/networkServiceType</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setServiceHostType:</TokenIdentifier>
 			<Abstract type="html">The type of service host for the request (e.g. login or instance).</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
@@ -762,6 +798,55 @@ from the collection of headers.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/customUrlRequestWithMethod:baseURL:path:queryParams:</TokenIdentifier>
+			<Abstract type="html">Creates an SFRestRequest object to be used with non-Salesforce endpoints. See SFRestMethod. If you need to set body on the request, use one of the &apos;setCustomRequestBody...&apos; methods to do so with the instance returned by this method.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)customUrlRequestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)queryParams</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>method</Name>
+					<Abstract type="html">the HTTP method</Abstract>
+				</Parameter><Parameter>
+					<Name>baseURL</Name>
+					<Abstract type="html">the request URL</Abstract>
+				</Parameter><Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the request path</Abstract>
+				</Parameter><Parameter>
+					<Name>queryParams</Name>
+					<Abstract type="html">the parameters of the request (could be nil)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/customUrlRequestWithMethod:baseURL:path:queryParams:</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/customEndPointRequestWithMethod:endPoint:path:queryParams:</TokenIdentifier>
+			<Abstract type="html">Creates an SFRestRequest object to be used with custom Salesforce endpoints. See SFRestMethod. If you need to set body on the request, use one of the &apos;setCustomRequestBody...&apos; methods to do so with the instance returned by this method.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)customEndPointRequestWithMethod:(SFRestMethod)method endPoint:(NSString *)endPoint path:(NSString *)path queryParams:(nullable NSDictionary&lt;NSString*,id&gt; *)queryParams</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>method</Name>
+					<Abstract type="html">the HTTP method</Abstract>
+				</Parameter><Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the request path</Abstract>
+				</Parameter><Parameter>
+					<Name>queryParams</Name>
+					<Abstract type="html">the parameters of the request (could be nil)</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/customEndPointRequestWithMethod:endPoint:path:queryParams:</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
@@ -902,6 +987,42 @@ from the collection of headers.</Abstract>
 			
 			
 			<Anchor>//api/name/requestContentType</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setInstrDelegateInternal:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrDelegateInternal</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/instrDelegateInternal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrDelegateInternal</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/instrDelegateInternal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrDelegateInternal</Anchor>
             <NodeRef refid="52"/>
 		</Token>
 		

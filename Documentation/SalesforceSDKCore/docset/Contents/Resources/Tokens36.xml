@@ -20,7 +20,7 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setProtocol:</TokenIdentifier>
 			<Abstract type="html">Protocol scheme for authenticating this account.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong, nullable) NSString *protocol</Declaration>
 			
@@ -32,7 +32,7 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/protocol</TokenIdentifier>
 			<Abstract type="html">Protocol scheme for authenticating this account.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong, nullable) NSString *protocol</Declaration>
 			
@@ -44,7 +44,7 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/protocol</TokenIdentifier>
 			<Abstract type="html">Protocol scheme for authenticating this account.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong, nullable) NSString *protocol</Declaration>
 			
@@ -56,9 +56,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setDomain:</TokenIdentifier>
 			<Abstract type="html">Logon host domain name.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *domain</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *domain</Declaration>
 			
 			
 			<Anchor>//api/name/domain</Anchor>
@@ -68,9 +68,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/domain</TokenIdentifier>
 			<Abstract type="html">Logon host domain name.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *domain</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *domain</Declaration>
 			
 			
 			<Anchor>//api/name/domain</Anchor>
@@ -80,9 +80,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/domain</TokenIdentifier>
 			<Abstract type="html">Logon host domain name.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *domain</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *domain</Declaration>
 			
 			
 			<Anchor>//api/name/domain</Anchor>
@@ -92,9 +92,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setIdentifier:</TokenIdentifier>
 			<Abstract type="html">Credential identifier used to uniquely identify this credential in the keychain.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (copy, nonnull) NSString *identifier</Declaration>
+			<Declaration>@property (nonatomic, readonly, nonnull) NSString *identifier</Declaration>
 			
 			
 			<Anchor>//api/name/identifier</Anchor>
@@ -104,9 +104,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/identifier</TokenIdentifier>
 			<Abstract type="html">Credential identifier used to uniquely identify this credential in the keychain.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (copy, nonnull) NSString *identifier</Declaration>
+			<Declaration>@property (nonatomic, readonly, nonnull) NSString *identifier</Declaration>
 			
 			
 			<Anchor>//api/name/identifier</Anchor>
@@ -116,9 +116,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/identifier</TokenIdentifier>
 			<Abstract type="html">Credential identifier used to uniquely identify this credential in the keychain.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (copy, nonnull) NSString *identifier</Declaration>
+			<Declaration>@property (nonatomic, readonly, nonnull) NSString *identifier</Declaration>
 			
 			
 			<Anchor>//api/name/identifier</Anchor>
@@ -128,9 +128,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setClientId:</TokenIdentifier>
 			<Abstract type="html">Client consumer key.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (copy, nullable) NSString *clientId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *clientId</Declaration>
 			
 			
 			<Anchor>//api/name/clientId</Anchor>
@@ -140,9 +140,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/clientId</TokenIdentifier>
 			<Abstract type="html">Client consumer key.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (copy, nullable) NSString *clientId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *clientId</Declaration>
 			
 			
 			<Anchor>//api/name/clientId</Anchor>
@@ -152,9 +152,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/clientId</TokenIdentifier>
 			<Abstract type="html">Client consumer key.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (copy, nullable) NSString *clientId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *clientId</Declaration>
 			
 			
 			<Anchor>//api/name/clientId</Anchor>
@@ -164,9 +164,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setRedirectUri:</TokenIdentifier>
 			<Abstract type="html">Callback URL to load at the end of the authentication process.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *redirectUri</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *redirectUri</Declaration>
 			
 			
 			<Anchor>//api/name/redirectUri</Anchor>
@@ -176,9 +176,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/redirectUri</TokenIdentifier>
 			<Abstract type="html">Callback URL to load at the end of the authentication process.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *redirectUri</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *redirectUri</Declaration>
 			
 			
 			<Anchor>//api/name/redirectUri</Anchor>
@@ -188,9 +188,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/redirectUri</TokenIdentifier>
 			<Abstract type="html">Callback URL to load at the end of the authentication process.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *redirectUri</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *redirectUri</Declaration>
 			
 			
 			<Anchor>//api/name/redirectUri</Anchor>
@@ -200,9 +200,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setJwt:</TokenIdentifier>
 			<Abstract type="html">JWT.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *jwt</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *jwt</Declaration>
 			
 			
 			<Anchor>//api/name/jwt</Anchor>
@@ -212,9 +212,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/jwt</TokenIdentifier>
 			<Abstract type="html">JWT.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *jwt</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *jwt</Declaration>
 			
 			
 			<Anchor>//api/name/jwt</Anchor>
@@ -224,9 +224,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/jwt</TokenIdentifier>
 			<Abstract type="html">JWT.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *jwt</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *jwt</Declaration>
 			
 			
 			<Anchor>//api/name/jwt</Anchor>
@@ -236,9 +236,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setRefreshToken:</TokenIdentifier>
 			<Abstract type="html">Token used to refresh the user&apos;s session.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *refreshToken</Declaration>
 			
 			
 			<Anchor>//api/name/refreshToken</Anchor>
@@ -248,9 +248,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/refreshToken</TokenIdentifier>
 			<Abstract type="html">Token used to refresh the user&apos;s session.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *refreshToken</Declaration>
 			
 			
 			<Anchor>//api/name/refreshToken</Anchor>
@@ -260,9 +260,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/refreshToken</TokenIdentifier>
 			<Abstract type="html">Token used to refresh the user&apos;s session.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *refreshToken</Declaration>
 			
 			
 			<Anchor>//api/name/refreshToken</Anchor>
@@ -272,9 +272,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setAccessToken:</TokenIdentifier>
 			<Abstract type="html">The access token for the user&apos;s session.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *accessToken</Declaration>
 			
 			
 			<Anchor>//api/name/accessToken</Anchor>
@@ -284,9 +284,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/accessToken</TokenIdentifier>
 			<Abstract type="html">The access token for the user&apos;s session.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *accessToken</Declaration>
 			
 			
 			<Anchor>//api/name/accessToken</Anchor>
@@ -296,9 +296,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/accessToken</TokenIdentifier>
 			<Abstract type="html">The access token for the user&apos;s session.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *accessToken</Declaration>
 			
 			
 			<Anchor>//api/name/accessToken</Anchor>
@@ -308,9 +308,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setOrganizationId:</TokenIdentifier>
 			<Abstract type="html">A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *organizationId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *organizationId</Declaration>
 			
 			
 			<Anchor>//api/name/organizationId</Anchor>
@@ -320,9 +320,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/organizationId</TokenIdentifier>
 			<Abstract type="html">A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *organizationId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *organizationId</Declaration>
 			
 			
 			<Anchor>//api/name/organizationId</Anchor>
@@ -332,9 +332,9 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/organizationId</TokenIdentifier>
 			<Abstract type="html">A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *organizationId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *organizationId</Declaration>
 			
 			
 			<Anchor>//api/name/organizationId</Anchor>
@@ -346,9 +346,9 @@
 			<Abstract type="html">The URL of the server instance for this session. This URL always refers to the base organization
 instance, even if the user has logged through a community-based login flow.
 See communityid and communityurl.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSURL *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *instanceUrl</Declaration>
 			
 			
 			<Anchor>//api/name/instanceUrl</Anchor>
@@ -360,9 +360,9 @@ See communityid and communityurl.</Abstract>
 			<Abstract type="html">The URL of the server instance for this session. This URL always refers to the base organization
 instance, even if the user has logged through a community-based login flow.
 See communityid and communityurl.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSURL *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *instanceUrl</Declaration>
 			
 			
 			<Anchor>//api/name/instanceUrl</Anchor>
@@ -374,9 +374,9 @@ See communityid and communityurl.</Abstract>
 			<Abstract type="html">The URL of the server instance for this session. This URL always refers to the base organization
 instance, even if the user has logged through a community-based login flow.
 See communityid and communityurl.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSURL *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *instanceUrl</Declaration>
 			
 			
 			<Anchor>//api/name/instanceUrl</Anchor>
@@ -387,9 +387,9 @@ See communityid and communityurl.</Abstract>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setCommunityId:</TokenIdentifier>
 			<Abstract type="html">The community ID the user choose to log into. This usually happens when the user
 logs into the app using a community-based login page</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *communityId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *communityId</Declaration>
 			
 			
 			<Anchor>//api/name/communityId</Anchor>
@@ -400,9 +400,9 @@ logs into the app using a community-based login page</Abstract>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/communityId</TokenIdentifier>
 			<Abstract type="html">The community ID the user choose to log into. This usually happens when the user
 logs into the app using a community-based login page</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *communityId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *communityId</Declaration>
 			
 			
 			<Anchor>//api/name/communityId</Anchor>
@@ -413,9 +413,9 @@ logs into the app using a community-based login page</Abstract>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/communityId</TokenIdentifier>
 			<Abstract type="html">The community ID the user choose to log into. This usually happens when the user
 logs into the app using a community-based login page</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *communityId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *communityId</Declaration>
 			
 			
 			<Anchor>//api/name/communityId</Anchor>
@@ -426,9 +426,9 @@ logs into the app using a community-based login page</Abstract>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setCommunityUrl:</TokenIdentifier>
 			<Abstract type="html">The community-base URL the user choose to log into. This usually happens when the user
 logs into the app using a community-based login page</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSURL *communityUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *communityUrl</Declaration>
 			
 			
 			<Anchor>//api/name/communityUrl</Anchor>
@@ -439,9 +439,9 @@ logs into the app using a community-based login page</Abstract>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/communityUrl</TokenIdentifier>
 			<Abstract type="html">The community-base URL the user choose to log into. This usually happens when the user
 logs into the app using a community-based login page</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSURL *communityUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *communityUrl</Declaration>
 			
 			
 			<Anchor>//api/name/communityUrl</Anchor>
@@ -452,9 +452,9 @@ logs into the app using a community-based login page</Abstract>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/communityUrl</TokenIdentifier>
 			<Abstract type="html">The community-base URL the user choose to log into. This usually happens when the user
 logs into the app using a community-based login page</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSURL *communityUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *communityUrl</Declaration>
 			
 			
 			<Anchor>//api/name/communityUrl</Anchor>
@@ -464,9 +464,9 @@ logs into the app using a community-based login page</Abstract>
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setIssuedAt:</TokenIdentifier>
 			<Abstract type="html">The timestamp when the session access token was issued.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSDate *issuedAt</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSDate *issuedAt</Declaration>
 			
 			
 			<Anchor>//api/name/issuedAt</Anchor>
@@ -476,9 +476,9 @@ logs into the app using a community-based login page</Abstract>
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/issuedAt</TokenIdentifier>
 			<Abstract type="html">The timestamp when the session access token was issued.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSDate *issuedAt</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSDate *issuedAt</Declaration>
 			
 			
 			<Anchor>//api/name/issuedAt</Anchor>
@@ -488,9 +488,9 @@ logs into the app using a community-based login page</Abstract>
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/issuedAt</TokenIdentifier>
 			<Abstract type="html">The timestamp when the session access token was issued.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSDate *issuedAt</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSDate *issuedAt</Declaration>
 			
 			
 			<Anchor>//api/name/issuedAt</Anchor>
@@ -502,9 +502,9 @@ logs into the app using a community-based login page</Abstract>
 			<Abstract type="html">The identity URL for the user returned as part of a successful authentication response.
 The format of the URL is: https://login.salesforce.com/ID/orgID/userID where orgId is the ID of the Salesforce organization
 that the user belongs to, and userID is the Salesforce user ID.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSURL *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *identityUrl</Declaration>
 			
 			
 			<Anchor>//api/name/identityUrl</Anchor>
@@ -516,9 +516,9 @@ that the user belongs to, and userID is the Salesforce user ID.</Abstract>
 			<Abstract type="html">The identity URL for the user returned as part of a successful authentication response.
 The format of the URL is: https://login.salesforce.com/ID/orgID/userID where orgId is the ID of the Salesforce organization
 that the user belongs to, and userID is the Salesforce user ID.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSURL *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *identityUrl</Declaration>
 			
 			
 			<Anchor>//api/name/identityUrl</Anchor>
@@ -530,9 +530,9 @@ that the user belongs to, and userID is the Salesforce user ID.</Abstract>
 			<Abstract type="html">The identity URL for the user returned as part of a successful authentication response.
 The format of the URL is: https://login.salesforce.com/ID/orgID/userID where orgId is the ID of the Salesforce organization
 that the user belongs to, and userID is the Salesforce user ID.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSURL *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *identityUrl</Declaration>
 			
 			
 			<Anchor>//api/name/identityUrl</Anchor>
@@ -542,9 +542,9 @@ that the user belongs to, and userID is the Salesforce user ID.</Abstract>
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setApiUrl:</TokenIdentifier>
 			<Abstract type="html">The community URL, if present. The instance URL, otherwise.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (readonly, nullable) NSURL *apiUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *apiUrl</Declaration>
 			
 			
 			<Anchor>//api/name/apiUrl</Anchor>
@@ -554,9 +554,9 @@ that the user belongs to, and userID is the Salesforce user ID.</Abstract>
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/apiUrl</TokenIdentifier>
 			<Abstract type="html">The community URL, if present. The instance URL, otherwise.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (readonly, nullable) NSURL *apiUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *apiUrl</Declaration>
 			
 			
 			<Anchor>//api/name/apiUrl</Anchor>
@@ -566,9 +566,9 @@ that the user belongs to, and userID is the Salesforce user ID.</Abstract>
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/apiUrl</TokenIdentifier>
 			<Abstract type="html">The community URL, if present. The instance URL, otherwise.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (readonly, nullable) NSURL *apiUrl</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *apiUrl</Declaration>
 			
 			
 			<Anchor>//api/name/apiUrl</Anchor>
@@ -579,9 +579,9 @@ that the user belongs to, and userID is the Salesforce user ID.</Abstract>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setUserId:</TokenIdentifier>
 			<Abstract type="html">A readonly convenience property returning the first 15 characters of the Salesforce User ID provided in the final path
 component of the identityUrl.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *userId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *userId</Declaration>
 			
 			
 			<Anchor>//api/name/userId</Anchor>
@@ -592,9 +592,9 @@ component of the identityUrl.</Abstract>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/userId</TokenIdentifier>
 			<Abstract type="html">A readonly convenience property returning the first 15 characters of the Salesforce User ID provided in the final path
 component of the identityUrl.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *userId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *userId</Declaration>
 			
 			
 			<Anchor>//api/name/userId</Anchor>
@@ -605,9 +605,9 @@ component of the identityUrl.</Abstract>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/userId</TokenIdentifier>
 			<Abstract type="html">A readonly convenience property returning the first 15 characters of the Salesforce User ID provided in the final path
 component of the identityUrl.</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *userId</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *userId</Declaration>
 			
 			
 			<Anchor>//api/name/userId</Anchor>
@@ -692,9 +692,9 @@ If a key does not match a value in the parsed response, then it will not exist i
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setChallengeString:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *challengeString</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *challengeString</Declaration>
 			
 			
 			<Anchor>//api/name/challengeString</Anchor>
@@ -704,9 +704,9 @@ If a key does not match a value in the parsed response, then it will not exist i
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/challengeString</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *challengeString</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *challengeString</Declaration>
 			
 			
 			<Anchor>//api/name/challengeString</Anchor>
@@ -716,9 +716,9 @@ If a key does not match a value in the parsed response, then it will not exist i
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/challengeString</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *challengeString</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *challengeString</Declaration>
 			
 			
 			<Anchor>//api/name/challengeString</Anchor>
@@ -728,9 +728,9 @@ If a key does not match a value in the parsed response, then it will not exist i
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setAuthCode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *authCode</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *authCode</Declaration>
 			
 			
 			<Anchor>//api/name/authCode</Anchor>
@@ -740,9 +740,9 @@ If a key does not match a value in the parsed response, then it will not exist i
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/authCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *authCode</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *authCode</Declaration>
 			
 			
 			<Anchor>//api/name/authCode</Anchor>
@@ -752,9 +752,9 @@ If a key does not match a value in the parsed response, then it will not exist i
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/authCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *authCode</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *authCode</Declaration>
 			
 			
 			<Anchor>//api/name/authCode</Anchor>
@@ -859,47 +859,11 @@ If a key does not match a value in the parsed response, then it will not exist i
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setLegacyIdentityInformation:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite) NSDictionary *legacyIdentityInformation</Declaration>
-			
-			
-			<Anchor>//api/name/legacyIdentityInformation</Anchor>
-            <NodeRef refid="36"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/legacyIdentityInformation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite) NSDictionary *legacyIdentityInformation</Declaration>
-			
-			
-			<Anchor>//api/name/legacyIdentityInformation</Anchor>
-            <NodeRef refid="36"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/legacyIdentityInformation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readwrite) NSDictionary *legacyIdentityInformation</Declaration>
-			
-			
-			<Anchor>//api/name/legacyIdentityInformation</Anchor>
-            <NodeRef refid="36"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setCredentialsChangeSet:</TokenIdentifier>
-			<Abstract type="html">Holds the attributes that have changed during auth flow.</Abstract>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) NSMutableDictionary *credentialsChangeSet</Declaration>
+			<Declaration>@property (nonatomic, readwrite, nullable) NSMutableDictionary *credentialsChangeSet</Declaration>
 			
 			
 			<Anchor>//api/name/credentialsChangeSet</Anchor>
@@ -908,10 +872,10 @@ If a key does not match a value in the parsed response, then it will not exist i
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/credentialsChangeSet</TokenIdentifier>
-			<Abstract type="html">Holds the attributes that have changed during auth flow.</Abstract>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) NSMutableDictionary *credentialsChangeSet</Declaration>
+			<Declaration>@property (nonatomic, readwrite, nullable) NSMutableDictionary *credentialsChangeSet</Declaration>
 			
 			
 			<Anchor>//api/name/credentialsChangeSet</Anchor>
@@ -920,10 +884,10 @@ If a key does not match a value in the parsed response, then it will not exist i
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/credentialsChangeSet</TokenIdentifier>
-			<Abstract type="html">Holds the attributes that have changed during auth flow.</Abstract>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) NSMutableDictionary *credentialsChangeSet</Declaration>
+			<Declaration>@property (nonatomic, readwrite, nullable) NSMutableDictionary *credentialsChangeSet</Declaration>
 			
 			
 			<Anchor>//api/name/credentialsChangeSet</Anchor>
@@ -935,7 +899,7 @@ If a key does not match a value in the parsed response, then it will not exist i
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)setPropertyForKey:(NSString *)key withValue:(id)newValue</Declaration>
+			<Declaration>- (void)setPropertyForKey:(NSString *_Nonnull)key withValue:(id _Nullable)newValue</Declaration>
 			
 			
 			<Anchor>//api/name/setPropertyForKey:withValue:</Anchor>
@@ -947,7 +911,7 @@ If a key does not match a value in the parsed response, then it will not exist i
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasPropertyValueChangedForKey:(NSString *)key</Declaration>
+			<Declaration>- (BOOL)hasPropertyValueChangedForKey:(NSString *_Nullable)key</Declaration>
 			
 			
 			<Anchor>//api/name/hasPropertyValueChangedForKey:</Anchor>

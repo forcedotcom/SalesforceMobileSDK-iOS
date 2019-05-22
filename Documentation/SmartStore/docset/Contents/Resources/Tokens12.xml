@@ -196,6 +196,42 @@ Sticking with the default encryption key derivation is recommended.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setEncryptionSaltBlock:</TokenIdentifier>
+			<Abstract type="html">Block used to generate the salt. The salt is maintained in the keychain. Used only when database needs to be shared between apps.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionSaltBlock encryptionSaltBlock</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionSaltBlock</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/encryptionSaltBlock</TokenIdentifier>
+			<Abstract type="html">Block used to generate the salt. The salt is maintained in the keychain. Used only when database needs to be shared between apps.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionSaltBlock encryptionSaltBlock</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionSaltBlock</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/encryptionSaltBlock</TokenIdentifier>
+			<Abstract type="html">Block used to generate the salt. The salt is maintained in the keychain. Used only when database needs to be shared between apps.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionSaltBlock encryptionSaltBlock</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionSaltBlock</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/sharedStoreWithName:</TokenIdentifier>
 			<Abstract type="html">Use this method to obtain a shared store instance with a particular name for the current user.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
@@ -1525,6 +1561,18 @@ Used for timestamping created and modified times.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/salt</TokenIdentifier>
+			<Abstract type="html">The key used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)salt</Declaration>
+			
+			<ReturnValue><Abstract type="html">The key used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.</Abstract></ReturnValue>
+			<Anchor>//api/name/salt</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/clearSharedStoreMemoryState</TokenIdentifier>
 			<Abstract type="html">FOR UNIT TESTING.  Removes all of the shared smart store objects from memory (persisted stores remain).</Abstract>
 			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
@@ -1533,6 +1581,18 @@ Used for timestamping created and modified times.</Abstract>
 			
 			
 			<Anchor>//api/name/clearSharedStoreMemoryState</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/stringFromInputStream:</TokenIdentifier>
+			<Abstract type="html">FOR UNIT TESTING.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)stringFromInputStream:(NSInputStream *)inputStream</Declaration>
+			
+			<ReturnValue><Abstract type="html">string decoded from the specified input stream</Abstract></ReturnValue>
+			<Anchor>//api/name/stringFromInputStream:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		

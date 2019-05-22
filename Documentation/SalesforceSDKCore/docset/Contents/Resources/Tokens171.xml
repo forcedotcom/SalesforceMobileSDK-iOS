@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKIDPAuthClientDelegate.html">
+	<File path="Protocols/SFPasscodeProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKIDPAuthClientDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">Protocol that a passcode provider class must implement.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="171"/>
@@ -13,138 +13,168 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClientDisplayIDPLoginFlowSelection:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client requires Delegate to choose the login flow.</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setProviderName:</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDisplayIDPLoginFlowSelection:(SFSDKIDPAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
 			
-			<Anchor>//api/name/authClientDisplayIDPLoginFlowSelection:</Anchor>
+			
+			<Anchor>//api/name/providerName</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:willSendRequestForIDPAuth:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/providerName</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client willSendRequestForIDPAuth:(NSDictionary *)options</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
 			
-			<Anchor>//api/name/authClient:willSendRequestForIDPAuth:</Anchor>
+			
+			<Anchor>//api/name/providerName</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:didSendRequestForIDPAuth:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFPasscodeProvider/providerName</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didSendRequestForIDPAuth:(NSDictionary *)options</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) SFPasscodeProviderId providerName</Declaration>
 			
-			<Anchor>//api/name/authClient:didSendRequestForIDPAuth:</Anchor>
+			
+			<Anchor>//api/name/providerName</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:didReceiveRequestForIDPAuth:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setPasscodeLength:</TokenIdentifier>
+			<Abstract type="html">The length of the user&apos;s passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didReceiveRequestForIDPAuth:(NSURL *)request</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
 			
-			<Anchor>//api/name/authClient:didReceiveRequestForIDPAuth:</Anchor>
+			
+			<Anchor>//api/name/passcodeLength</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:error:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/passcodeLength</TokenIdentifier>
+			<Abstract type="html">The length of the user&apos;s passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client error:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
 			
-			<Anchor>//api/name/authClient:error:</Anchor>
+			
+			<Anchor>//api/name/passcodeLength</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClientDidFetchAuthCode:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process using IDP APP</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFPasscodeProvider/passcodeLength</TokenIdentifier>
+			<Abstract type="html">The length of the user&apos;s passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClientDidFetchAuthCode:(SFSDKIDPAuthClient *_Nonnull)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
 			
-			<Anchor>//api/name/authClientDidFetchAuthCode:</Anchor>
+			
+			<Anchor>//api/name/passcodeLength</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:didReceiveResponseForIDPAuth:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process with an auth view.</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/initWithProviderName:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for an SFPasscodeProvider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client didReceiveResponseForIDPAuth:(NSDictionary *)options</Declaration>
+			<Declaration>- (instancetype)initWithProviderName:(SFPasscodeProviderId)providerName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+					<Name>providerName</Name>
+					<Abstract type="html">The canonical name of the provider.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/authClient:didReceiveResponseForIDPAuth:</Anchor>
+			<Anchor>//api/name/initWithProviderName:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKIDPAuthClientDelegate/authClient:willSendResponseForIDPAuth:</TokenIdentifier>
-			<Abstract type="html">Called when the Oauth Client is starting the auth process with an auth view.</Abstract>
-			<DeclaredIn>SFSDKIDPAuthClient.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/resetPasscodeData</TokenIdentifier>
+			<Abstract type="html">Reset (unset) the passcode and any persisted data associated with it.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authClient:(SFSDKIDPAuthClient *_Nonnull)client willSendResponseForIDPAuth:(NSDictionary *)options</Declaration>
+			<Declaration>- (void)resetPasscodeData</Declaration>
+			
+			
+			<Anchor>//api/name/resetPasscodeData</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/verifyPasscode:</TokenIdentifier>
+			<Abstract type="html">Verify that the input passcode is the correct passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">The instance of SFSDKOAuthClient making the call.</Abstract>
+					<Name>passcode</Name>
+					<Abstract type="html">The passcode to verify.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the passcode is verified, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/verifyPasscode:</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/hashedVerificationPasscode</TokenIdentifier>
+			<Abstract type="html">The hashed verification passcode, or nil if not configured.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)hashedVerificationPasscode</Declaration>
+			
+			<ReturnValue><Abstract type="html">The hashed verification passcode, or nil if not configured.</Abstract></ReturnValue>
+			<Anchor>//api/name/hashedVerificationPasscode</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setVerificationPasscode:</TokenIdentifier>
+			<Abstract type="html">Set/persist the verification passcode, based on the input passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setVerificationPasscode:(NSString *)newPasscode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newPasscode</Name>
+					<Abstract type="html">The new (plaintext) passcode to set.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/authClient:willSendResponseForIDPAuth:</Anchor>
+			<Anchor>//api/name/setVerificationPasscode:</Anchor>
+            <NodeRef refid="171"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/generateEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">Generates an encryption key, based on the input passcode.
+NOTE: This method must generate the same encryption key for the given
+input passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)generateEncryptionKey:(NSString *)passcode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>passcode</Name>
+					<Abstract type="html">The (plaintext) passcode used to generate the encryption key.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The encryption key generated from the passcode.</Abstract></ReturnValue>
+			<Anchor>//api/name/generateEncryptionKey:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
