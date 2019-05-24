@@ -1438,7 +1438,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
         [network sendRequest:request  dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error){
             if (error) {
-                [SFSDKCoreLogger w:[self class] format:@"Error while trying to retrieve user photo: %@ %@", (long) error.code, error.localizedDescription];
+                [SFSDKCoreLogger w:[self class] format:@"Error while trying to retrieve user photo: %ld %@", (long) error.code, error.localizedDescription];
                 return;
             } else {
                 account.photo = [UIImage imageWithData:data];
