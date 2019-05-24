@@ -251,28 +251,24 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 #pragma mark - Upload
+- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType params:(nullable NSDictionary *)params {
 
-- (void)addPostFileData:(NSData *)fileData paramName:(NSString*)paramName description:(NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
     NSString *mpeBoundary = [[NSUUID UUID] UUIDString];
     NSString *mpeSeparator = @"--";
     NSString *newline = @"\r\n";
     NSMutableData *body = [NSMutableData data];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (fileName) {
-        params[@"title"] = fileName;
-    }
-    if (description) {
-        params[@"desc"] = description;
-    }
-    NSError *parsingError;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:&parsingError];
 
     // PART 1
-    if (jsonData) {
-        [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[self multiPartRequestBodyForkey:@"json" mimeType:@"application/json" fileName:nil file:jsonData]];
+    if (params) {
+        NSError *parsingError;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params
+                                                           options:NSJSONWritingPrettyPrinted
+                                                             error:&parsingError];
+
+        if (jsonData) {
+            [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[self multiPartRequestBodyForKey:@"json" mimeType:@"application/json" fileName:nil file:jsonData]];
+        }
     }
 
     [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -282,7 +278,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         if (!mimeType) {
             mimeType = @"application/octet-stream";
         }
-        [body appendData:[self multiPartRequestBodyForkey:paramName mimeType:mimeType fileName:fileName file:fileData]];
+        [body appendData:[self multiPartRequestBodyForKey:paramName mimeType:mimeType fileName:fileName file:fileData]];
         [body appendData:[[NSString stringWithFormat:@"%@%@%@%@", mpeSeparator, mpeBoundary, mpeSeparator, newline] dataUsingEncoding:NSUTF8StringEncoding]];
     }
     [self setCustomRequestBodyData:body contentType:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary]];
@@ -292,7 +288,20 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     [self setHeaderValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary] forHeaderName:@"Content-Type"];
 }
 
-- (NSData *)multiPartRequestBodyForkey:(NSString *)key mimeType:(NSString*)mimeType fileName:(NSString*)fileName file:(NSData *)fileData {
+- (void)addPostFileData:(NSData *)fileData paramName:(NSString*)paramName description:(NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
+
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (fileName) {
+        params[@"title"] = fileName;
+    }
+    if (description) {
+        params[@"desc"] = description;
+    }
+
+    [self addPostFileData:fileData paramName:paramName fileName:fileName mimeType:mimeType params:params];
+}
+
+- (NSData *)multiPartRequestBodyForKey:(NSString *)key mimeType:(NSString*)mimeType fileName:(NSString*)fileName file:(NSData *)fileData {
     NSMutableData *body = [NSMutableData data];
     NSString *newline = @"\r\n";
     NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\";", key];
