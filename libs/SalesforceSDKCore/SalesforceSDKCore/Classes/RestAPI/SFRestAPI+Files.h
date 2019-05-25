@@ -143,6 +143,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (SFRestRequest *) requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType;
 
+/**
+ * Build a request that can upload a new profile photo to the server
+ *
+ * @param data Data to upload to the server.
+ * @param fileName The name of this file
+ * @param mimeType The mime-type of the file, if known.
+ * @param userId The id of the user to update
+ * @return A SFRestRequest that can perform this upload.
+ */
+- (SFRestRequest *)requestForProfilePhotoUpload:(NSData *)data fileName:(NSString *)fileName mimeType:(NSString *)mimeType userId:(NSString *)userId;
+
 @end
 
 NS_ASSUME_NONNULL_END
