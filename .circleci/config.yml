@@ -197,15 +197,15 @@ workflows:
                 - dev
     jobs:
       - SalesforceSDKCommon:
-            context: nightly-test11
+            context: nightly-test-ios11
       - SalesforceAnalytics:
-            context: nightly-test11
+            context: nightly-test-ios11
       - SalesforceSDKCore:
-            context: nightly-test11
+            context: nightly-test-ios11
       - SmartStore:
-            context: nightly-test11
+            context: nightly-test-ios11
       - SmartSync:
-            context: nightly-test11
+            context: nightly-test-ios11
 
   # Cron are on a timezone 8 hours ahead of PST
   # Build everything at ~11:30pm Tuesday/Thursday Nights
