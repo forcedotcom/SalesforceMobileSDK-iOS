@@ -62,6 +62,10 @@ NSInteger const kSyncManagerUnchanged = -1;
     return self;
 }
 
+- (void)dealloc {
+    [self.syncManager removeFromActiveSyncs: self];
+}
+
 - (BOOL) shouldStop {
     if (![self.syncManager checkAcceptingSyncs:nil]) {
         self.sync.status = SFSyncStateStatusStopped;
