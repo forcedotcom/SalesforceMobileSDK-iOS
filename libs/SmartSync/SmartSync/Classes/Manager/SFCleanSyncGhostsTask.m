@@ -23,6 +23,7 @@
  */
 
 #import "SFCleanSyncGhostsTask.h"
+#import "SFSmartSyncSyncManager+SFSyncTask.h"
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
 @interface SFCleanSyncGhostsTask ()
@@ -59,11 +60,13 @@
                  __strong typeof (weakSelf) strongSelf = weakSelf;
                  [SFSDKSmartSyncLogger e:[strongSelf class] format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
                  [strongSelf createAndStoreEvent:sync numRecords:-1];
+                 [self.syncManager removeFromActiveSyncs:strongSelf];
                  strongSelf.completionStatusBlock(SFSyncStateStatusFailed, 0);
              }
           completeBlock:^(NSArray *localIds) {
               __strong typeof (weakSelf) strongSelf = weakSelf;
               [self createAndStoreEvent:sync numRecords:localIds.count];
+              [self.syncManager removeFromActiveSyncs:strongSelf];
               strongSelf.completionStatusBlock(SFSyncStateStatusDone, localIds.count);
           }];
 }
