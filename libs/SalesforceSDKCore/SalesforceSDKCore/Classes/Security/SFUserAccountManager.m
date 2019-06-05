@@ -1505,8 +1505,6 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
             }
         }];
     }
-    
-    
 }
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {

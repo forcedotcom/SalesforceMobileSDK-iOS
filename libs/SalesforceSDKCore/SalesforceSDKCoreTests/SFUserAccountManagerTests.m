@@ -302,6 +302,21 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqual(self.uam.currentUser, newUser, @"The current user should be set to newUser.");
 }
 
+
+- (void)testSwitchToNewUserNoCurrentUser {
+    NSArray *accounts = [self createAndVerifyUserAccounts:1];
+    SFUserAccount *origUser = accounts[0];
+    self.uam.currentUser = nil;
+    XCTestExpectation *switchExpectation = [self expectationWithDescription:@"testSwitchToNewUserWithCompletionErrorCase"];
+    __block NSError *error = nil;
+    [self.uam switchToNewUserWithCompletion:^(NSError * err, SFUserAccount * account) {
+         error = err;
+        [switchExpectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+    XCTAssertNotNil(error, @"switchToNewUserWithCompletion should not be called without a current user");
+}
+
 - (void)testLoginHostForSwitchToUser {
     NSArray *accounts = [self createAndVerifyUserAccounts:2];
     SFUserAccount *origUser = accounts[0];
