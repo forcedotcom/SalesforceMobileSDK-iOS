@@ -23,16 +23,10 @@
  */
 
 #import "SFSyncTask.h"
+#import "SFSmartSyncSyncManager+SFSyncTask.h"
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
 NSInteger const kSyncManagerUnchanged = -1;
-
-@interface SFSmartSyncSyncManager (SFSyncTask)
-
-- (void) addToActiveSyncs:(SFSyncTask*)syncTask;
-- (void) removeFromActiveSyncs:(SFSyncTask*)syncTask;
-
-@end
 
 @interface SFSyncTask ()
 
