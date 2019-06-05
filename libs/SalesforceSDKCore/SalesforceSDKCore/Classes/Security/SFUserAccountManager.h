@@ -492,7 +492,7 @@ NS_SWIFT_NAME(UserAccountManager)
 /**
  Switches away from the current user, to a new user context.
  */
-- (void)switchToNewUser NS_SWIFT_NAME(switchToNewUserAccount());
+- (void)switchToNewUser NS_SWIFT_NAME(switchToNewUserAccount()) SFSDK_DEPRECATED(7.2, 8.0, "Use switchToNewUserWithCompletion instead.");
 
 /**
  Switches to a new user. Sets the current user only if the login succeeds. Completion block is
