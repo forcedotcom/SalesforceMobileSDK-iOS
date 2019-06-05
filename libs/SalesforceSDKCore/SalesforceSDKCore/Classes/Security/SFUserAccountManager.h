@@ -495,6 +495,12 @@ NS_SWIFT_NAME(UserAccountManager)
 - (void)switchToNewUser NS_SWIFT_NAME(switchToNewUserAccount());
 
 /**
+ Switches to a new user. Sets the current user only if the login succeeds. Completion block is
+ invoked if the login flow completes, or if any errors are encountered during the flow.
+ */
+- (void)switchToNewUserWithCompletion:(void (^)(NSError *, SFUserAccount *))completion NS_SWIFT_NAME(switchToNewUserAccount(_:));
+
+/**
  Switches away from the current user, to the given user account.
  @param userAccount The user to switch to.
  */
