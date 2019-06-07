@@ -74,7 +74,7 @@ update_salesforce_sdk_constants ()
     gsed -i "s/\#define\ SALESFORCE_SDK_IS_PRODUCTION_VERSION\ .*/#define SALESFORCE_SDK_IS_PRODUCTION_VERSION ${isProdBool}/g" ${file}
     gsed -i "s/\#define\ SALESFORCE_SDK_VERSION_MIN_REQUIRED\ .*/#define SALESFORCE_SDK_VERSION_MIN_REQUIRED ${defineNameForVersion}/g" ${file}
 
-    if ! grep "#define ${defineNameForVersion}" ${file};
+    if ! grep "#define ${defineNameForVersion}" ${file} 1>/dev/null;
     then
         gsed -i "s/\(\#define\ SALESFORCE_SDK_VERSION_MIN_REQUIRED\)/#define ${defineNameForVersion} ${defineValueForVersion}\n\n\1/g" ${file}
     fi
