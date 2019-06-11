@@ -76,6 +76,8 @@ FOUNDATION_EXTERN NSNotificationName kSFNotificationUserDidSwitch NS_SWIFT_NAME(
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationOrgDidLogout NS_SWIFT_NAME(UserAccountManager.didLogoutOrg);
 
+FOUNDATION_EXTERN NSNotificationName kSFNotificationRefreshFlowCompleted  NS_SWIFT_NAME(UserAccountManager.refreshFlowCompleted);
+
 /** Notification sent prior to display of Auth View. In swift access this constant using Notification.Name.SFUserAccountManagerWillShowAuthenticationView
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserWillShowAuthView NS_SWIFT_NAME(UserAccountManager.willShowAuthenticationView);
