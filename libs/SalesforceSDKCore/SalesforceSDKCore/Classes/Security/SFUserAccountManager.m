@@ -46,6 +46,7 @@ NSNotificationName kSFNotificationUserDidLogIn   = @"SFNotificationUserDidLogIn"
 NSNotificationName kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout";
 NSNotificationName kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
 NSNotificationName kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
+NSNotificationName kSFNotificationUserDidRefreshToken   = @"SFNotificationOAuthUserDidRefreshToken";
 
 NSNotificationName kSFNotificationUserWillSwitch  = @"SFNotificationUserWillSwitch";
 NSNotificationName kSFNotificationUserDidSwitch   = @"SFNotificationUserDidSwitch";
@@ -1425,6 +1426,10 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
                                                                 object:self
                                                               userInfo:userInfo];
+        }  else if (client.context.authInfo.authType == SFOAuthTypeRefresh) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
+                                                                object:self
+                                                              userInfo:userInfo];
         }
         [self disposeOAuthClient:client];
     }
@@ -1438,7 +1443,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
         SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
         [network sendRequest:request  dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error){
             if (error) {
-                [SFSDKCoreLogger w:[self class] format:@"Error while trying to retrieve user photo: %@ %@", (long) error.code, error.localizedDescription];
+                [SFSDKCoreLogger w:[self class] format:@"Error while trying to retrieve user photo: %ld %@", (long) error.code, error.localizedDescription];
                 return;
             } else {
                 account.photo = [UIImage imageWithData:data];
