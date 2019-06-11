@@ -46,6 +46,7 @@ NSNotificationName kSFNotificationUserDidLogIn   = @"SFNotificationUserDidLogIn"
 NSNotificationName kSFNotificationUserWillLogout = @"SFNotificationUserWillLogout";
 NSNotificationName kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
 NSNotificationName kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
+NSNotificationName kSFNotificationUserDidRefreshToken   = @"SFNotificationOAuthUserDidRefreshToken";
 
 NSNotificationName kSFNotificationUserWillSwitch  = @"SFNotificationUserWillSwitch";
 NSNotificationName kSFNotificationUserDidSwitch   = @"SFNotificationUserDidSwitch";
@@ -1423,6 +1424,10 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
             [[NSNotificationCenter defaultCenter] postNotification:loggedInNotification];
         } else if (client.context.authInfo.authType != SFOAuthTypeRefresh) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
+                                                                object:self
+                                                              userInfo:userInfo];
+        }  else if (client.context.authInfo.authType == SFOAuthTypeRefresh) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
                                                                 object:self
                                                               userInfo:userInfo];
         }
