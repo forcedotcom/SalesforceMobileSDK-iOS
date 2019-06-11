@@ -88,12 +88,12 @@
     [SFSDKCoreLogger i:[self class] format:@"%@ Session was successfully refreshed.", NSStringFromSelector(_cmd)];
     if (self.completionBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.completionBlock(credentials);
             SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:credentials];
             NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : account };
             [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
                                                                 object:self
                                                               userInfo:userInfo];
+            self.completionBlock(credentials);
         });
     }
 }
