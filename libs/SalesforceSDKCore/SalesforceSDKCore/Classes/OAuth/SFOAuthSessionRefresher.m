@@ -91,7 +91,7 @@
             self.completionBlock(credentials);
             SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:credentials];
             NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : account };
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationRefreshFlowCompleted
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
                                                                 object:self
                                                               userInfo:userInfo];
         });
