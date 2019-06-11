@@ -1427,7 +1427,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                                                 object:self
                                                               userInfo:userInfo];
         }  else if (client.context.authInfo.authType == SFOAuthTypeRefresh) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationRefreshFlowCompleted 
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationRefreshFlowCompleted
                                                                 object:self
                                                               userInfo:userInfo];
         }
