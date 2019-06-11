@@ -1397,6 +1397,36 @@ static NSException *authException = nil;
     self.dataCleanupRequired = NO;
 }
 
+// - sets an invalid accessToken
+// - issue a valid REST request
+// - make sure the SDK will:
+//   - do a oauth token exchange to get a new valid accessToken
+//   - fire a notification
+// - make sure the query gets replayed properly (and succeed)
+- (void)testRefreshNotificationWithValidGetRequest {
+    
+    // save invalid token
+    NSString *invalidAccessToken = @"xyz";
+    [self changeOauthTokens:invalidAccessToken refreshToken:nil];
+    
+    [self expectationForNotification:kSFNotificationUserDidRefreshToken object:nil  handler:^BOOL(NSNotification * notification) {
+        return notification.userInfo[kSFNotificationUserInfoAccountKey]!=nil;
+    }];
+    
+    // request (valid)
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
+    
+    // let's make sure we have another access token
+    NSString *newAccessToken = _currentUser.credentials.accessToken;
+    XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
+    self.dataCleanupRequired = NO;
+    
+}
+
 - (void)testInvalidAccessTokenWithValidPostRequest {
 
     // save invalid token
