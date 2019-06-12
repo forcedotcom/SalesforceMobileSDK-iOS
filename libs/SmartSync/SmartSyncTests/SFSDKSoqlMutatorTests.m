@@ -24,7 +24,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 #import <XCTest/XCTest.h>
 #import "SFSDKSoqlMutator.h"
-
+#import "SFSDKSoqlTokenizer.h"
 
 @interface SFSDKSoqlMutatorTests : XCTestCase
 
@@ -133,12 +133,10 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] hasOrderBy]);
 }
 
-// XXX we need to use a real parser to handle cases like that
-//
-//- (void) testHasOrderByWhenPresentInValue {
-//    NSString* soql = @"SELECT Description FROM Account WHERE Name = ' order by \' order by \''";
-//    XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] hasOrderBy]);
-//}
+- (void) testHasOrderByWhenPresentInValue {
+    NSString* soql = @"SELECT Description FROM Account WHERE Name = ' order by \\\' order by \\\''";
+    XCTAssertFalse([[SFSDKSoqlMutator withSoql:soql] hasOrderBy]);
+}
 
 - (void) testHasOrderByWhenAbsent {
     NSString* soql = @"SELECT Description FROM Account LIMIT 1000";
@@ -150,5 +148,57 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     NSString* expectedSoql = @"select Id,LastModifiedDate,Name from Account where Id IN ('001P000001NQPjJIAX','001P000001NQPkdIAH') order by LastModifiedDate";
     XCTAssertEqualObjects(expectedSoql, [[[[[[SFSDKSoqlMutator withSoql:soql] addSelectFields:@"LastModifiedDate"] addSelectFields:@"Id"] replaceOrderBy:@"LastModifiedDate"] asBuilder] build]);
 }
+
+- (void) testModifyQueryWithComplexExpressions {
+    NSString* soql = @"select Name from Account where ((Name = 'James Bond') or (Name = 'Batman')) and (Description like '%savior%') order by Name";
+    NSString* expectedSoql = @"select Id,LastModifiedDate,Name from Account where ((Name = 'James Bond') or (Name = 'Batman')) and (Description like '%savior%') order by LastModifiedDate";
+    XCTAssertEqualObjects(expectedSoql, [[[[[[SFSDKSoqlMutator withSoql:soql] addSelectFields:@"LastModifiedDate"] addSelectFields:@"Id"] replaceOrderBy:@"LastModifiedDate"] asBuilder] build]);
+}
+
+- (void) testModifyOrderByTwiceInComplexQuery {
+    NSString* soql = @"select LastModifiedDate,Id, OwnerId, WhatId, Status, Subject, Priority, Description, ActivityDate, WhoId from Task where (OwnerId = '<<<UserIDHERE>>>' OR (What.Type = 'Account' AND (Account.OwnerId = '<<<UserIDHERE>>>' OR Account.Owner.ManagerId = '<<<UserIDHERE>>>'))) AND (LastModifiedDate > 2019-05-15T07:52:27.000Z ) order by Description";
+    NSString* expectedSoql = @"select LastModifiedDate,Id, OwnerId, WhatId, Status, Subject, Priority, Description, ActivityDate, WhoId from Task where (OwnerId = '<<<UserIDHERE>>>' OR (What.Type = 'Account' AND (Account.OwnerId = '<<<UserIDHERE>>>' OR Account.Owner.ManagerId = '<<<UserIDHERE>>>'))) AND (LastModifiedDate > 2019-05-15T07:52:27.000Z ) order by LastModifiedDate";
+    XCTAssertEqualObjects(expectedSoql, [[[[[SFSDKSoqlMutator withSoql:soql] replaceOrderBy:@"LastModifiedDate"] replaceOrderBy:@"LastModifiedDate"] asBuilder] build]);
+}
+
+- (void) testTokenizeBasic {
+    [self tryTokenize:@"hello world" expectedTokensJoined:@"hello# #world"];
+    [self tryTokenize:@"hello world: my name is   James    Bond" expectedTokensJoined:@"hello# #world:# #my# #name# #is#   #James#    #Bond"];
+}
+
+- (void) testTokenizeWithOrderGroupBy {
+    [self tryTokenize:@"hello order by world" expectedTokensJoined:@"hello# #order by# #world"];
+    [self tryTokenize:@"hello group by world" expectedTokensJoined:@"hello# #group by# #world"];
+    [self tryTokenize:@"hello something by world" expectedTokensJoined:@"hello# #something# #by# #world"];
+    [self tryTokenize:@"hello something  by world order  by abc group    by def order" expectedTokensJoined:@"hello# #something#  #by# #world# #order by# #abc# #group by# #def# #order"];
+}
+
+- (void) testTokenizeWithQuotes {
+    [self tryTokenize:@"hello 'my world'" expectedTokensJoined:@"hello# #'my world'"];
+    [self tryTokenize:@"hello 'my world\\''" expectedTokensJoined:@"hello# #'my world\\''"];
+}
+
+- (void) testTokenizeWithParentheses {
+    [self tryTokenize:@"hello (this is a group)" expectedTokensJoined:@"hello# #(this is a group)"];
+    [self tryTokenize:@"hello (a or (b and c) or d),(e or f)" expectedTokensJoined:@"hello# #(a or (b and c) or d)#,#(e or f)"];
+}
+
+- (void) testTokenizeWithQuotesInParentheses {
+    [self tryTokenize:@"hello (this is a 'group')" expectedTokensJoined:@"hello# #(this is a 'group')"];
+    [self tryTokenize:@"hello (a or (b and 'the name of c') or d)" expectedTokensJoined:@"hello# #(a or (b and 'the name of c') or d)"];
+}
+
+- (void) testTokenizeWithParenthesesInQuotes {
+    [self tryTokenize:@"hello 'oh oh ( ) ( )))'" expectedTokensJoined:@"hello# #'oh oh ( ) ( )))'"];
+}
+
+
+- (void) tryTokenize:(NSString*) soql expectedTokensJoined:(NSString*)expectedTokensJoined {
+    SFSDKSoqlTokenizer* tokenizer = [[SFSDKSoqlTokenizer alloc] init:soql];
+    NSArray* tokens = [tokenizer tokenize];
+    NSString* actualTokensJoined = [tokens componentsJoinedByString:@"#"];
+    XCTAssertEqualObjects(expectedTokensJoined, actualTokensJoined);
+}
+
 
 @end
