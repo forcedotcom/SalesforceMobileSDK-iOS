@@ -23,13 +23,14 @@
  */
 
 #import "SFSDKSoqlMutator.h"
+#import "SFSDKSoqlTokenizer.h"
 
 static NSString * const kSFSDKSoqlMutatorSelect = @"select";
 static NSString * const kSFSDKSoqlMutatorFrom = @"from";
 static NSString * const kSFSDKSoqlMutatorWhere = @"where";
 static NSString * const kSFSDKSoqlMutatorHaving = @"having";
-static NSString * const kSFSDKSoqlMutatorOrderBy = @"order_by";
-static NSString * const kSFSDKSoqlMutatorGroupBy = @"group_by";
+static NSString * const kSFSDKSoqlMutatorOrderBy = @"order by";
+static NSString * const kSFSDKSoqlMutatorGroupBy = @"group by";
 static NSString * const kSFSDKSoqlMutatorLimit = @"limit";
 static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
 
@@ -61,50 +62,20 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
 }
 
 - (void) parseQuery {
-    // Dealing with two words keywords
-    NSString* preparedQuery = self.originalSoql;
-    NSRegularExpression *regexOrderBy = [NSRegularExpression regularExpressionWithPattern:@"[ ]+order[ ]+by[ ]+" options:NSRegularExpressionCaseInsensitive error:nil];
-    NSRegularExpression *regexGroupBy = [NSRegularExpression regularExpressionWithPattern:@"[ ]+group[ ]+by[ ]+" options:NSRegularExpressionCaseInsensitive error:nil];
-    preparedQuery = [regexOrderBy stringByReplacingMatchesInString:preparedQuery options:0 range:NSMakeRange(0, [preparedQuery length]) withTemplate:@" order_by "];
-    preparedQuery = [regexGroupBy stringByReplacingMatchesInString:preparedQuery options:0 range:NSMakeRange(0, [preparedQuery length]) withTemplate:@" group_by "];
-    
-    
     NSArray* clauseTypeKeywords = @[kSFSDKSoqlMutatorSelect, kSFSDKSoqlMutatorFrom,
                                     kSFSDKSoqlMutatorWhere, kSFSDKSoqlMutatorHaving,
                                     kSFSDKSoqlMutatorOrderBy, kSFSDKSoqlMutatorGroupBy,
                                     kSFSDKSoqlMutatorLimit, kSFSDKSoqlMutatorOffset];
     
-    // Getting tokens with delimiters
-    // Emulating Java's: new StringTokenizer(preparedQuery, " ", true);
-    NSMutableArray* tokens = [NSMutableArray new];
-    NSArray* tokensNoDelims = [preparedQuery componentsSeparatedByString:@" "];
-    for (NSUInteger i = 0; i < tokensNoDelims.count; i++) {
-        [tokens addObject:tokensNoDelims[i]];
-        if (i < tokensNoDelims.count) {
-            [tokens addObject:@" "];
-        }
-    }
-    
-    NSUInteger depth = 0;
     NSString* matchingClauseType;
     NSString* currentClauseType;    // one of the clause types of interest
-    for(NSString* token in tokens) {
-        if ([token hasPrefix:@"("]) {
-            depth++;
-        }
-        // NB: same token could end with ")" .e.g "('abc','def')"
-        if ([token hasSuffix:@")"]) {
-            depth--;
-        }
-        
-        
-        // Only looking to parse top level query
-        else if (depth == 0) {
-            for (NSString* clauseType in clauseTypeKeywords) {
-                if ([token caseInsensitiveCompare:clauseType] == NSOrderedSame) {
-                    matchingClauseType = clauseType;
-                    break;
-                }
+    SFSDKSoqlTokenizer* tokenizer = [[SFSDKSoqlTokenizer alloc] init:self.originalSoql];
+    
+    for(NSString* token in [tokenizer tokenize]) {
+        for (NSString* clauseType in clauseTypeKeywords) {
+            if ([token caseInsensitiveCompare:clauseType] == NSOrderedSame) {
+                matchingClauseType = clauseType;
+                break;
             }
         }
         
@@ -119,7 +90,7 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
             if (currentClauseType) {
                 self.clauses[currentClauseType] = [self.clauses[currentClauseType] stringByAppendingString:token];
                 // We are inside a clause and not in a subquery
-                if (depth == 0) {
+                if (![token hasPrefix:@"("]) {
                     self.clausesWithoutSubqueries[currentClauseType] = [self.clausesWithoutSubqueries[currentClauseType] stringByAppendingString:token];
                 }
             }
