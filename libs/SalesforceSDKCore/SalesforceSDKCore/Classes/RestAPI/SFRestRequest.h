@@ -251,6 +251,16 @@ NS_SWIFT_NAME(RestRequest)
 - (void)cancel;
 
 /**
+ * Add file to upload
+ * @param fileData Value of this POST parameter
+ * @param paramName Name of the POST parameter
+ * @param fileName Name of the file
+ * @param mimeType MIME type of the file
+ * @param params File properties (e.g. title, desc, contentSize)
+ */
+- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType params:(nullable NSDictionary *)params;
+
+/**
  * Add file to upload.
  * @param fileData Value of this POST parameter
  * @param paramName Name of the POST parameter

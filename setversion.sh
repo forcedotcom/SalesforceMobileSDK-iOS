@@ -1,4 +1,4 @@
-!#!/bin/bash
+#!/bin/bash
 
 #set -x
 
@@ -39,27 +39,31 @@ update_version_xcconfig ()
 {
     local file=$1
     local version=$2
-    sed -i "s/CURRENT_PROJECT_VERSION.*=.*$/CURRENT_PROJECT_VERSION = ${version}/g" ${file}
+    gsed -i "s/CURRENT_PROJECT_VERSION.*=.*$/CURRENT_PROJECT_VERSION = ${version}/g" ${file}
 }
 
 update_package_json ()
 {
     local file=$1
     local version=$2
-    sed -i "s/\"version\":.*\"[^\"]*\"/\"version\": \"${version}\"/g" ${file}
+    gsed -i "s/\"version\":.*\"[^\"]*\"/\"version\": \"${version}\"/g" ${file}
 }
 
 update_podspec ()
 {
     local file=$1
     local version=$2
-    sed -i "s/s\.version.*=.*$/s.version      = \"${version}\"/g" ${file}
+    gsed -i "s/s\.version.*=.*$/s.version      = \"${version}\"/g" ${file}
 }
 
 update_salesforce_sdk_constants ()
 {
     local file=$1
-    local isDev=$2
+    local version=$2
+    local isDev=$3
+    local defineNameForVersion="__SALESFORCE_SDK_${version//./_}"
+    local defineValueForVersion="${version//./0}" # XXX works y and z are < 10 in version x.y.z
+
     local isProdBool="YES"
 
     if [ $isDev == "yes" ]
@@ -67,8 +71,13 @@ update_salesforce_sdk_constants ()
         isProdBool="NO"
     fi
 
-    sed -i "s/\#define\ SALESFORCE_SDK_IS_PRODUCTION_VERSION\ .*/#define SALESFORCE_SDK_IS_PRODUCTION_VERSION ${isProdBool}/g" ${file}
+    gsed -i "s/\#define\ SALESFORCE_SDK_IS_PRODUCTION_VERSION\ .*/#define SALESFORCE_SDK_IS_PRODUCTION_VERSION ${isProdBool}/g" ${file}
+    gsed -i "s/\#define\ SALESFORCE_SDK_VERSION_MIN_REQUIRED\ .*/#define SALESFORCE_SDK_VERSION_MIN_REQUIRED ${defineNameForVersion}/g" ${file}
 
+    if ! grep "#define ${defineNameForVersion}" ${file} 1>/dev/null;
+    then
+        gsed -i "s/\(\#define\ SALESFORCE_SDK_VERSION_MIN_REQUIRED\)/#define ${defineNameForVersion} ${defineValueForVersion}\n\n\1/g" ${file}
+    fi
 }
 
 parse_opts "$@"
@@ -89,6 +98,4 @@ update_podspec "./SmartStore.podspec" "${OPT_VERSION}"
 update_podspec "./SmartSync.podspec" "${OPT_VERSION}"
 
 echo "*** Updating SalesforceSDKConstants.h ***"
-update_salesforce_sdk_constants "./libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h" "${OPT_IS_DEV}"
-
-echo -e "${RED}!!! You still need to update SALESFORCE_SDK_VERSION_MIN_REQUIRED in ./libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h !!!${NC}"
+update_salesforce_sdk_constants "./libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h" "${OPT_VERSION}" "${OPT_IS_DEV}"

@@ -32,6 +32,15 @@
 #define COUNT_TEST_ACCOUNTS 10
 
 /**
+ Exposing checkNotRunning to tests
+ */
+@interface SFSmartSyncSyncManager ()
+
+- (BOOL) checkNotRunning:(NSNumber*)syncId error:(NSError**)error;
+
+@end
+
+/**
  To test multiple round trip during refresh-sync-down, we need access to countIdsPerSoql
  */
 @interface SFRefreshSyncDownTarget ()
@@ -153,8 +162,10 @@
                 [cleanResyncGhosts fulfill];
         }
     } error:nil];
+    XCTAssertFalse([self.syncManager checkNotRunning:syncId error:nil], "Sync should be in active syncs list");
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
     [self checkDbDeleted:ACCOUNTS_SOUP ids:@[accountIds[0]] idField:@"Id"];
+    XCTAssertTrue([self.syncManager checkNotRunning:syncId error:nil], "Sync should not be in active syncs list anymore");
 
     // Deletes the remaining accounts on the server.
     [self deleteAccountsOnServer:accountIds];

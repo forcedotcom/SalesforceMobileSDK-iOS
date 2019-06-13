@@ -50,7 +50,7 @@ aliases:
 defaults: &defaults
   working_directory: ~/SalesforceMobileSDK-iOS
   macos:
-    xcode: "10.1.0"
+    xcode: "10.2.1"
   shell: /bin/bash --login -eo pipefail
   environment:
     BASH_ENV: ~/.bashrc
@@ -59,7 +59,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  test-SalesforceSDKCommon:
+  SalesforceSDKCommon:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SalesforceSDKCommon"
@@ -81,7 +81,7 @@ jobs:
           destination: Static-Analysis
       - run: *codecov
 
-  test-SalesforceAnalytics:
+  SalesforceAnalytics:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SalesforceAnalytics"
@@ -103,7 +103,7 @@ jobs:
           destination: Static-Analysis
       - run: *codecov
 
-  test-SalesforceSDKCore:
+  SalesforceSDKCore:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SalesforceSDKCore"
@@ -125,7 +125,7 @@ jobs:
           destination: Static-Analysis
       - run: *codecov
 
-  test-SmartStore:
+  SmartStore:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SmartStore"
@@ -147,7 +147,7 @@ jobs:
           destination: Static-Analysis
       - run: *codecov
 
-  test-SmartSync:
+  SmartSync:
     <<: *defaults
     environment:
       - FASTLANE_LANE: "PR lib:SmartSync"
@@ -174,34 +174,57 @@ workflows:
 
   build-test-pr:
     jobs:
-      - test-SalesforceSDKCommon:
+      - SalesforceSDKCommon:
           *pr-filter
-      - test-SalesforceAnalytics:
+      - SalesforceAnalytics:
           *pr-filter
-      - test-SalesforceSDKCore:
+      - SalesforceSDKCore:
           *pr-filter
-      - test-SmartStore:
+      - SmartStore:
           *pr-filter
-      - test-SmartSync:
+      - SmartSync:
           *pr-filter
+
   # Cron are on a timezone 8 hours ahead of PST
-  # Build everything at ~9:30pm Sunday/Wednesday Nights
+  # Build everything at ~9:30pm Tuesday/Thursday Nights
   nightly-test-ios11:
     triggers:
       - schedule:
-          cron: "30 5 * * 1,4"
+          cron: "30 5 * * 3,5"
           filters:
             branches:
               only:
                 - dev
     jobs:
-      - test-SalesforceSDKCommon:
+      - SalesforceSDKCommon:
+            context: nightly-test-ios11
+      - SalesforceAnalytics:
+            context: nightly-test-ios11
+      - SalesforceSDKCore:
+            context: nightly-test-ios11
+      - SmartStore:
+            context: nightly-test-ios11
+      - SmartSync:
+            context: nightly-test-ios11
+
+  # Cron are on a timezone 8 hours ahead of PST
+  # Build everything at ~11:30pm Tuesday/Thursday Nights
+  nightly-test-ios12:
+    triggers:
+      - schedule:
+          cron: "30 7 * * 3,5"
+          filters:
+            branches:
+              only:
+                - dev
+    jobs:
+      - SalesforceSDKCommon:
             context: nightly-test
-      - test-SalesforceAnalytics:
+      - SalesforceAnalytics:
             context: nightly-test
-      - test-SalesforceSDKCore:
+      - SalesforceSDKCore:
             context: nightly-test
-      - test-SmartStore:
+      - SmartStore:
             context: nightly-test
-      - test-SmartSync:
+      - SmartSync:
             context: nightly-test

@@ -36,6 +36,7 @@
 #define SHARE_TYPE @"ShareType"
 #define RENDITION_TYPE @"type"
 #define FILE_DATA @"fileData"
+#define FILE_UPLOAD @"fileUpload"
 
 @implementation SFRestAPI (Files)
 
@@ -120,7 +121,17 @@
 - (SFRestRequest *) requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType {
     NSString *path = [NSString stringWithFormat:@"/%@/connect%@/files/users/me", self.apiVersion,[self communitiesUrlPathIfRequired]];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    [request addPostFileData:data paramName:FILE_DATA description:description fileName:name mimeType:mimeType];
+
+    NSDictionary *params = @{@"title" : name, @"desc" : description};
+    [request addPostFileData:data paramName:FILE_DATA fileName:name mimeType:mimeType params:params];
+    return request;
+}
+
+- (SFRestRequest *)requestForProfilePhotoUpload:(NSData *)data fileName:(NSString *)fileName mimeType:(NSString *)mimeType userId:(NSString *)userId {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect%@/user-profiles/%@/photo", self.apiVersion, [self communitiesUrlPathIfRequired], userId];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+
+    [request addPostFileData:data paramName:FILE_UPLOAD fileName:fileName mimeType:mimeType params:nil];
     return request;
 }
 

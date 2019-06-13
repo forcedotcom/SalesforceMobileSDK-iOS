@@ -1293,6 +1293,44 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+- (void)testUploadProfilePhoto {
+    // create file data
+    NSTimeInterval timecode = [NSDate timeIntervalSinceReferenceDate];
+    NSString *fileTitle = [NSString stringWithFormat:@"FileName%f.png", timecode];
+    NSData *fileData = UIImagePNGRepresentation([SFSDKResourceUtils imageNamed:@"salesforce-logo"]);
+    NSString *fileMimeType = @"application/octet-stream";
+
+    // upload
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForProfilePhotoUpload:fileData fileName:fileTitle mimeType:fileMimeType userId:_currentUser.credentials.userId];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+
+    // check response
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+- (void)testUploadProfilePhotoCommunity {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
+    creds.userId = @"USERID";
+    creds.organizationId = @"ORGID";
+    creds.instanceUrl = [NSURL URLWithString:@"https://sample.domain"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    account.communityId = @"COMMUNITYID";
+    [account setLoginState:SFUserAccountLoginStateLoggedIn];
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:account];
+    XCTAssertNotNil(restAPI, @"RestApi instance for this user must exist");
+
+    NSTimeInterval timecode = [NSDate timeIntervalSinceReferenceDate];
+    NSString *fileTitle = [NSString stringWithFormat:@"FileName%f.png", timecode];
+    NSData *fileData = UIImagePNGRepresentation([SFSDKResourceUtils imageNamed:@"salesforce-logo"]);
+    NSString *fileMimeType = @"application/octet-stream";
+    SFRestRequest* request = [restAPI requestForProfilePhotoUpload:fileData fileName:fileTitle mimeType:fileMimeType userId:creds.userId];
+
+    XCTAssertNotNil(request, @"Request should have been created");
+    NSURLRequest *urlRequest = [request prepareRequestForSend:account];
+    NSRange range = [[[urlRequest URL] absoluteString] rangeOfString:@"connect/communities/COMMUNITYID/user-profiles/"];
+    XCTAssertTrue(range.location != NSNotFound && range.length > 0, "The URL must have communities path");
+}
+
 #pragma mark - files tests helpers
 
 // Return id of another user in org
