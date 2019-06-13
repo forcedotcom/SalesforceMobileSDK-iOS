@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSyncUpdateCallbackQueue.html">
+	<File path="Classes/SFSyncUpTask.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSyncUpdateCallbackQueue</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncUpTask</TokenIdentifier>
+			<Abstract type="html">Task class responsible for running sync up</Abstract>
+			<DeclaredIn>SFSyncUpTask.h</DeclaredIn>
             
 			
 			<NodeRef refid="41"/>
@@ -13,86 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runSync:syncManager:</TokenIdentifier>
-			<Abstract type="html">Run sync</Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
-			
-			<Declaration>- (void)runSync:(SFSyncState *)sync syncManager:(SFSmartSyncSyncManager *)syncManager</Declaration>
-			
-			
-			<Anchor>//api/name/runSync:syncManager:</Anchor>
-            <NodeRef refid="41"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runReSync:syncManager:</TokenIdentifier>
-			<Abstract type="html">Run re-sync</Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)runReSync:(NSNumber *)syncId syncManager:(SFSmartSyncSyncManager *)syncManager</Declaration>
-			
-			
-			<Anchor>//api/name/runReSync:syncManager:</Anchor>
-            <NodeRef refid="41"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runReSync:syncManager:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTask/init:sync:updateBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
+			<DeclaredIn>SFSyncUpTask.h</DeclaredIn>
 			
-			<Declaration>- (SFSyncState *)runReSync:(NSNumber *)syncId syncManager:(SFSmartSyncSyncManager *)syncManager error:(NSError **)error</Declaration>
-			
-			
-			<Anchor>//api/name/runReSync:syncManager:error:</Anchor>
-            <NodeRef refid="41"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/runReSyncByName:syncManager:error:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)runReSyncByName:(NSString *)syncName syncManager:(SFSmartSyncSyncManager *)syncManager error:(NSError **)error</Declaration>
+			<Declaration>- (instancetype)init:(SFSmartSyncSyncManager *)syncManager sync:(SFSyncState *)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
 			
 			
-			<Anchor>//api/name/runReSyncByName:syncManager:error:</Anchor>
-            <NodeRef refid="41"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/restart:restartStoppedSyncs:restartSterror:</TokenIdentifier>
-			<Abstract type="html">Restart sync manager</Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)restart:(SFSmartSyncSyncManager *)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError **)error</Declaration>
-			
-			
-			<Anchor>//api/name/restart:restartStoppedSyncs:restartSterror:</Anchor>
-            <NodeRef refid="41"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/getNextSyncUpdate</TokenIdentifier>
-			<Abstract type="html">Get next sync update</Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)getNextSyncUpdate</Declaration>
-			
-			
-			<Anchor>//api/name/getNextSyncUpdate</Anchor>
-            <NodeRef refid="41"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpdateCallbackQueue/getNextSyncUpdate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpdateCallbackQueue.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)getNextSyncUpdate:(NSTimeInterval)maxWaitTime</Declaration>
-			
-			
-			<Anchor>//api/name/getNextSyncUpdate:</Anchor>
+			<Anchor>//api/name/init:sync:updateBlock:</Anchor>
             <NodeRef refid="41"/>
 		</Token>
 		

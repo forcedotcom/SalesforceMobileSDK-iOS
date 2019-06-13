@@ -58,6 +58,7 @@
 						<NodeRef refid="45"/>
 						<NodeRef refid="46"/>
 						<NodeRef refid="47"/>
+						<NodeRef refid="48"/>
 						
 					</Subnodes>
 				</Node>
@@ -68,7 +69,7 @@
 					<Name>Protocols</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="48"/>
+						<NodeRef refid="49"/>
 						
 					</Subnodes>
 				</Node>
@@ -78,7 +79,6 @@
 					<Name>Constants</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="49"/>
 						<NodeRef refid="50"/>
 						<NodeRef refid="51"/>
 						<NodeRef refid="52"/>
@@ -88,6 +88,7 @@
 						<NodeRef refid="56"/>
 						<NodeRef refid="57"/>
 						<NodeRef refid="58"/>
+						<NodeRef refid="59"/>
 						
 					</Subnodes>
 				</Node>
@@ -97,7 +98,6 @@
                     <Name>Blocks</Name>
                     <Path>index.html</Path>
                     <Subnodes>
-                        <NodeRef refid="59"/>
                         <NodeRef refid="60"/>
                         <NodeRef refid="61"/>
                         <NodeRef refid="62"/>
@@ -107,6 +107,7 @@
                         <NodeRef refid="66"/>
                         <NodeRef refid="67"/>
                         <NodeRef refid="68"/>
+                        <NodeRef refid="69"/>
                         
                     </Subnodes>
                 </Node>
@@ -896,6 +897,33 @@
             
         </Node>
 		<Node id="26" type="file" documentType="reference">
+            <Name>SFSDKSoqlTokenizer</Name>
+            <Path>Classes/SFSDKSoqlTokenizer.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKSoqlTokenizer.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKSoqlTokenizer.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKSoqlTokenizer.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="27" type="file" documentType="reference">
             <Name>SFSDKSyncsConfig</Name>
             <Path>Classes/SFSDKSyncsConfig.html</Path>
             
@@ -922,7 +950,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="27" type="file" documentType="reference">
+		<Node id="28" type="file" documentType="reference">
             <Name>SFSmartSyncNetworkUtils</Name>
             <Path>Classes/SFSmartSyncNetworkUtils.html</Path>
             
@@ -949,7 +977,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="28" type="file" documentType="reference">
+		<Node id="29" type="file" documentType="reference">
             <Name>SFSmartSyncObjectUtils</Name>
             <Path>Classes/SFSmartSyncObjectUtils.html</Path>
             
@@ -976,7 +1004,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="29" type="file" documentType="reference">
+		<Node id="30" type="file" documentType="reference">
             <Name>SFSmartSyncPersistableObject</Name>
             <Path>Classes/SFSmartSyncPersistableObject.html</Path>
             
@@ -1009,7 +1037,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="30" type="file" documentType="reference">
+		<Node id="31" type="file" documentType="reference">
             <Name>SFSmartSyncSyncManager</Name>
             <Path>Classes/SFSmartSyncSyncManager.html</Path>
             
@@ -1048,7 +1076,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="31" type="file" documentType="reference">
+		<Node id="32" type="file" documentType="reference">
             <Name>SFSoqlSyncDownTarget</Name>
             <Path>Classes/SFSoqlSyncDownTarget.html</Path>
             
@@ -1087,7 +1115,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="32" type="file" documentType="reference">
+		<Node id="33" type="file" documentType="reference">
             <Name>SFSoslSyncDownTarget</Name>
             <Path>Classes/SFSoslSyncDownTarget.html</Path>
             
@@ -1120,7 +1148,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="33" type="file" documentType="reference">
+		<Node id="34" type="file" documentType="reference">
             <Name>SFSyncDownTarget</Name>
             <Path>Classes/SFSyncDownTarget.html</Path>
             
@@ -1159,7 +1187,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="34" type="file" documentType="reference">
+		<Node id="35" type="file" documentType="reference">
             <Name>SFSyncDownTask</Name>
             <Path>Classes/SFSyncDownTask.html</Path>
             
@@ -1186,7 +1214,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="35" type="file" documentType="reference">
+		<Node id="36" type="file" documentType="reference">
             <Name>SFSyncOptions</Name>
             <Path>Classes/SFSyncOptions.html</Path>
             
@@ -1225,7 +1253,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="36" type="file" documentType="reference">
+		<Node id="37" type="file" documentType="reference">
             <Name>SFSyncState</Name>
             <Path>Classes/SFSyncState.html</Path>
             
@@ -1264,7 +1292,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="37" type="file" documentType="reference">
+		<Node id="38" type="file" documentType="reference">
             <Name>SFSyncTarget</Name>
             <Path>Classes/SFSyncTarget.html</Path>
             
@@ -1297,7 +1325,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="38" type="file" documentType="reference">
+		<Node id="39" type="file" documentType="reference">
             <Name>SFSyncTask</Name>
             <Path>Classes/SFSyncTask.html</Path>
             
@@ -1330,7 +1358,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="39" type="file" documentType="reference">
+		<Node id="40" type="file" documentType="reference">
             <Name>SFSyncUpTarget</Name>
             <Path>Classes/SFSyncUpTarget.html</Path>
             
@@ -1369,7 +1397,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="40" type="file" documentType="reference">
+		<Node id="41" type="file" documentType="reference">
             <Name>SFSyncUpTask</Name>
             <Path>Classes/SFSyncUpTask.html</Path>
             
@@ -1396,7 +1424,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="41" type="file" documentType="reference">
+		<Node id="42" type="file" documentType="reference">
             <Name>SFSyncUpdateCallbackQueue</Name>
             <Path>Classes/SFSyncUpdateCallbackQueue.html</Path>
             
@@ -1423,7 +1451,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="42" type="file" documentType="reference">
+		<Node id="43" type="file" documentType="reference">
             <Name>SmartSyncSDKManager</Name>
             <Path>Classes/SmartSyncSDKManager.html</Path>
             
@@ -1456,7 +1484,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="43" type="file" documentType="reference">
+		<Node id="44" type="file" documentType="reference">
             <Name>SyncManagerTestCase</Name>
             <Path>Classes/SyncManagerTestCase.html</Path>
             
@@ -1489,12 +1517,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="44" type="file" documentType="reference">
+		<Node id="45" type="file" documentType="reference">
             <Name>SyncUpTargetTests</Name>
             <Path>Classes/SyncUpTargetTests.html</Path>
             
         </Node>
-		<Node id="45" type="file" documentType="reference">
+		<Node id="46" type="file" documentType="reference">
             <Name>TestSyncDownTarget</Name>
             <Path>Classes/TestSyncDownTarget.html</Path>
             
@@ -1527,7 +1555,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="46" type="file" documentType="reference">
+		<Node id="47" type="file" documentType="reference">
             <Name>TestSyncUpTarget</Name>
             <Path>Classes/TestSyncUpTarget.html</Path>
             
@@ -1554,14 +1582,14 @@
             </Subnodes>
             
         </Node>
-		<Node id="47" type="file" documentType="reference">
+		<Node id="48" type="file" documentType="reference">
             <Name>ViewController</Name>
             <Path>Classes/ViewController.html</Path>
             
         </Node>
 		
 		
-        <Node id="48" type="file" documentType="reference">
+        <Node id="49" type="file" documentType="reference">
             <Name>SFAdvancedSyncUpTarget</Name>
             <Path>Protocols/SFAdvancedSyncUpTarget.html</Path>
             
@@ -1595,103 +1623,103 @@
             
         </Node>
 		
-        <Node id="49" type="file" documentType="reference">
+        <Node id="50" type="file" documentType="reference">
             <Name>SFParentChildrenRelationshipType</Name>
             <Path>Constants/SFParentChildrenRelationshipType.html</Path>
             
         </Node>
-		<Node id="50" type="file" documentType="reference">
+		<Node id="51" type="file" documentType="reference">
             <Name>SFSDKFetchMode</Name>
             <Path>Constants/SFSDKFetchMode.html</Path>
             
         </Node>
-		<Node id="51" type="file" documentType="reference">
+		<Node id="52" type="file" documentType="reference">
             <Name>SFSyncDownTargetQueryType</Name>
             <Path>Constants/SFSyncDownTargetQueryType.html</Path>
             
         </Node>
-		<Node id="52" type="file" documentType="reference">
+		<Node id="53" type="file" documentType="reference">
             <Name>SFSyncManagerState</Name>
             <Path>Constants/SFSyncManagerState.html</Path>
             
         </Node>
-		<Node id="53" type="file" documentType="reference">
+		<Node id="54" type="file" documentType="reference">
             <Name>SFSyncStateMergeMode</Name>
             <Path>Constants/SFSyncStateMergeMode.html</Path>
             
         </Node>
-		<Node id="54" type="file" documentType="reference">
+		<Node id="55" type="file" documentType="reference">
             <Name>SFSyncStateStatus</Name>
             <Path>Constants/SFSyncStateStatus.html</Path>
             
         </Node>
-		<Node id="55" type="file" documentType="reference">
+		<Node id="56" type="file" documentType="reference">
             <Name>SFSyncStateSyncType</Name>
             <Path>Constants/SFSyncStateSyncType.html</Path>
             
         </Node>
-		<Node id="56" type="file" documentType="reference">
+		<Node id="57" type="file" documentType="reference">
             <Name>SFSyncUpTargetAction</Name>
             <Path>Constants/SFSyncUpTargetAction.html</Path>
             
         </Node>
-		<Node id="57" type="file" documentType="reference">
+		<Node id="58" type="file" documentType="reference">
             <Name>SFSyncUpTargetType</Name>
             <Path>Constants/SFSyncUpTargetType.html</Path>
             
         </Node>
-		<Node id="58" type="file" documentType="reference">
+		<Node id="59" type="file" documentType="reference">
             <Name>TestSyncUpTargetModDateCompare</Name>
             <Path>Constants/TestSyncUpTargetModDateCompare.html</Path>
             
         </Node>
 		
-        <Node id="59" type="file" documentType="reference">
+        <Node id="60" type="file" documentType="reference">
             <Name>SFLayoutSyncCompletionBlock</Name>
             <Path>Blocks/SFLayoutSyncCompletionBlock.html</Path>
             
         </Node>
-        <Node id="60" type="file" documentType="reference">
+        <Node id="61" type="file" documentType="reference">
             <Name>SFMetadataSyncCompletionBlock</Name>
             <Path>Blocks/SFMetadataSyncCompletionBlock.html</Path>
             
         </Node>
-        <Node id="61" type="file" documentType="reference">
+        <Node id="62" type="file" documentType="reference">
             <Name>SFSendCompositeRequestCompleteBlock</Name>
             <Path>Blocks/SFSendCompositeRequestCompleteBlock.html</Path>
             
         </Node>
-        <Node id="62" type="file" documentType="reference">
+        <Node id="63" type="file" documentType="reference">
             <Name>SFSyncDownTargetFetchCompleteBlock</Name>
             <Path>Blocks/SFSyncDownTargetFetchCompleteBlock.html</Path>
             
         </Node>
-        <Node id="63" type="file" documentType="reference">
+        <Node id="64" type="file" documentType="reference">
             <Name>SFSyncDownTargetFetchErrorBlock</Name>
             <Path>Blocks/SFSyncDownTargetFetchErrorBlock.html</Path>
             
         </Node>
-        <Node id="64" type="file" documentType="reference">
+        <Node id="65" type="file" documentType="reference">
             <Name>SFSyncSyncManagerCompletionStatusBlock</Name>
             <Path>Blocks/SFSyncSyncManagerCompletionStatusBlock.html</Path>
             
         </Node>
-        <Node id="65" type="file" documentType="reference">
+        <Node id="66" type="file" documentType="reference">
             <Name>SFSyncSyncManagerUpdateBlock</Name>
             <Path>Blocks/SFSyncSyncManagerUpdateBlock.html</Path>
             
         </Node>
-        <Node id="66" type="file" documentType="reference">
+        <Node id="67" type="file" documentType="reference">
             <Name>SFSyncUpRecordNewerThanServerBlock</Name>
             <Path>Blocks/SFSyncUpRecordNewerThanServerBlock.html</Path>
             
         </Node>
-        <Node id="67" type="file" documentType="reference">
+        <Node id="68" type="file" documentType="reference">
             <Name>SFSyncUpTargetCompleteBlock</Name>
             <Path>Blocks/SFSyncUpTargetCompleteBlock.html</Path>
             
         </Node>
-        <Node id="68" type="file" documentType="reference">
+        <Node id="69" type="file" documentType="reference">
             <Name>SFSyncUpTargetErrorBlock</Name>
             <Path>Blocks/SFSyncUpTargetErrorBlock.html</Path>
             
