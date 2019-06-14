@@ -28,7 +28,7 @@
  */
 
 #import "SFDefaultLogger.h"
-#import <OS/log.h>
+#import <os/log.h>
 
 static NSString * const kLogLevelKey = @"log_level";
 static NSString * const kLogIdentifierFormat = @"CLASS: %@";
