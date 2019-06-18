@@ -220,7 +220,11 @@ NSString *const EXPLAIN_ROWS = @"rows";
             }
         } else {
             if (![self subsequentTimesStoreDatabaseSetup]) {
-                self = nil;
+                // If it couldn't be opened, it gets deleted
+                // So we should try to set a new one up
+                if (![self firstTimeStoreDatabaseSetup]) {
+                    self = nil;
+                }
             }
         }
         
@@ -285,7 +289,13 @@ NSString *const EXPLAIN_ROWS = @"rows";
     
     // Open db file
     result = result && [self openStoreDatabase];
-
+    
+    // Delete db file if it can no longer be opened
+    if (!result) {
+        [SFSDKSmartStoreLogger e:[self class] format:@"Deleting store dir since we can't open it anymore: %@", self.storeName];
+        [self.dbMgr removeStoreDir:self.storeName];
+    }
+    
     // Do any upgrade needed
     if (result) {
         // like the onUpgrade for android - create long operations table if needed (if db was created with sdk 2.2 or before)

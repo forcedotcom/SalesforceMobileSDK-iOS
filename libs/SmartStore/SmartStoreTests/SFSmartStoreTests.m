@@ -939,6 +939,52 @@
     }
 }
 
+- (void)testSmartStoreIsRecreatedWhenKeyIsLost {
+    NSString* storeName = @"testSmartStoreIsRecreatedWhenKeyIsLost";
+    SFEncryptionKey *originalKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel autoCreate:YES];
+
+    @try {
+        // Create store
+        SFSmartStore* store = [SFSmartStore sharedStoreWithName:storeName];
+        XCTAssertNotNil(store, @"New store should have been created");
+        
+        // Create soup in store
+        [self registerTestSoup:store indexType:kSoupIndexTypeString];
+        
+        // Close store
+        [store.storeQueue close];
+        
+        // Clear store map
+        [SFSmartStore clearSharedStoreMemoryState];
+        
+        // Re-open store
+        store = [SFSmartStore sharedStoreWithName:storeName];
+        XCTAssertNotNil(store, @"Existing store should have been found");
+        XCTAssertTrue([store soupExists:kTestSoupName], @"Soup should still exist");
+        
+        // Close store
+        [store.storeQueue close];
+        
+        // Clear store map
+        [SFSmartStore clearSharedStoreMemoryState];
+        
+        // Drop key
+        [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:kSFSmartStoreEncryptionKeyLabel];
+        
+        // Re-open store -- but expect new empty store since key has changed
+        store = [SFSmartStore sharedStoreWithName:storeName];
+        XCTAssertNotNil(store, @"A store should have been returned");
+        XCTAssertFalse([store soupExists:kTestSoupName], @"Soup should no longer exist");
+
+    }
+    @finally {
+        // Drop store
+        [SFSmartStore removeSharedStoreWithName:storeName];
+        // Restore key
+        [[SFKeyStoreManager sharedInstance] storeKey:originalKey withLabel:kSFSmartStoreEncryptionKeyLabel];
+    }
+}
+
 - (void)testOpenDatabase
 {
     for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
@@ -1429,6 +1475,17 @@
     XCTAssertEqual(allStoreCount, (NSUInteger)0, @"Should not be any stores after removing them all.");
 }
 
+- (void) registerTestSoup:(SFSmartStore*)store indexType:(NSString*)indexType {
+    SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kTestSoupName withFeatures:nil];
+    [self registerTestSoup:store indexType:indexType soupSpec:soupSpec];
+}
+
+- (void) registerTestSoup:(SFSmartStore*)store indexType:(NSString*)indexType soupSpec:(SFSoupSpec*)soupSpec {
+    NSError* error = nil;
+    [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type":indexType}, @{@"path": @"value",@"type":kSoupIndexTypeString}]] error:&error];
+    XCTAssertNil(error, @"Soup should have registered without error");
+    XCTAssertTrue([store soupExists:kTestSoupName], @"Soup should exist after registration");
+}
 
 
 @end
