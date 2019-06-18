@@ -705,7 +705,7 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
     // If we make the snapshot window the active window now, that's where the SFAuthenticationSession's view controller will end up
     // Then when the application is foregrounded and the snapshot window is dismissed, we will lose the SFAuthenticationSession
     SFSDKWindowContainer* activeWindow = [SFSDKWindowManager sharedManager].activeWindow;
-    if (([activeWindow isAuthWindow]  && ![activeWindow.topViewController isKindOfClass:[SFLoginViewController class]]) ||  [activeWindow isPasscodeWindow]) {
+    if ([activeWindow isAuthWindow] || [activeWindow isPasscodeWindow]) {
         return;
     }
   
