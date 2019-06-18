@@ -804,7 +804,7 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
     else {
         _snapshotViewController =  [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
     }
-    
+    _snapshotViewController.modalPresentationStyle = UIModalPresentationFullScreen;
     // Presentation
     __weak typeof (self) weakSelf = self;
     [[SFSDKWindowManager sharedManager].snapshotWindow  presentWindowAnimated:NO withCompletion:^{
