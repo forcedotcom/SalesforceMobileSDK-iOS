@@ -215,15 +215,16 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
             [[db executeQuery:pragma] close];
             sqlite3_exec(db.sqliteHandle, "PRAGMA journal_mode = WAL;",0,0,0);
         }
-            
-        
     }
-    BOOL accessible = [self verifyDatabaseAccess:db error:nil];
+
+    NSError* verifyError = nil;
+    BOOL accessible = [self verifyDatabaseAccess:db error:&verifyError];
     if (accessible) {
         return db;
     }
     else {
         [db close];
+        [SFSDKSmartStoreLogger e:[self class] format:@"Error reading the content of store '%@'", [db databasePath], [verifyError  localizedDescription]];
         return nil;
     }
 }
