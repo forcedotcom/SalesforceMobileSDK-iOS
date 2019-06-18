@@ -86,6 +86,8 @@ static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
 static NSString * const kSFSPAppFeatureIDPLogin   = @"SP";
 static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
 static NSString *const  kOptionsClientKey          = @"clientIdentifier";
+static NSString * const kSFSDKUserAccountManagerErrorDomain = @"com.salesforce.mobilesdk.SFUserAccountManager";
+static int const kSFSDKUserAccountManagerErrorCode = 100;
 
 @interface SFNotificationUserInfo()
 - (instancetype) initWithUser:(SFUserAccount *)user;
@@ -1486,6 +1488,28 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 - (void)switchToNewUser {
     [SFSDKWebViewStateManager removeSession];
     [self switchToUser:nil];
+}
+
+- (void)switchToNewUserWithCompletion:(void (^)(NSError *error, SFUserAccount * currentAccount))completion {
+    if (!self.currentUser) {
+        NSError *error = [[NSError alloc] initWithDomain:kSFSDKUserAccountManagerErrorDomain
+                                                    code:kSFSDKUserAccountManagerErrorCode
+                                                userInfo:@{
+                                                           NSLocalizedDescriptionKey : @"Cannot switch to new user. No currentUser has been set."
+                                                           }];
+        completion(error,nil);
+    } else {
+        [self loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+            [self switchToUser:userAccount];
+            if (completion) {
+                completion(nil, userAccount);
+            }
+        } failure:^(SFOAuthInfo * authInfo, NSError * error) {
+            if (completion) {
+                completion(error,nil);
+            }
+        }];
+    }
 }
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {

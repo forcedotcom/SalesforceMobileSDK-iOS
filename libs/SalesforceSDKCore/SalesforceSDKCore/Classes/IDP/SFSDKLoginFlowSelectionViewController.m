@@ -288,7 +288,7 @@ static CGFloat kSpace = 20.0;
 
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
     [SFUserAccountManager sharedInstance].loginHost = newLoginHost.host;
-    [[SFUserAccountManager sharedInstance] switchToNewUser];
+    [[SFUserAccountManager sharedInstance] switchToUser:nil];
 }
 
 + (UIImage *)imageFromColor:(UIColor *)color {
