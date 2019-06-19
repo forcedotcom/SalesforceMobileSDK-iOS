@@ -140,6 +140,7 @@
         UIViewController<SFSDKUserSelectionView> *controller  = authClient.idpUserSelectionBlock();
         controller.spAppOptions = request.allParams;
         controller.userSelectionDelegate = self;
+        controller.modalPresentationStyle = UIModalPresentationFullScreen;
         [authClient.authWindow presentWindowAnimated:NO withCompletion:^{
             [authClient.authWindow.viewController presentViewController:controller animated:NO  completion:nil];
         }];
