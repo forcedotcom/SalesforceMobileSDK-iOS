@@ -125,6 +125,8 @@
 
 - (void) run
 {
+    // Since the soup will be altered, we should get rid of cached statements etc
+    [self.store removeFromCache:self.soupName];
     [self runToStep:kLastStep];
 }
 
