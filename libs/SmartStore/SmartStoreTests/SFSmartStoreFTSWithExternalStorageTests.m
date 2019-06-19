@@ -22,15 +22,15 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartStoreFTSWithExternalStorageTests.h"
 #import "SFSmartSqlHelper.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSoupSpec.h"
+#import "SFSmartStoreFullTextSearchTests.h"
 
-@interface SFSmartStoreFTSWithExternalStorageTests ()
+@interface SFSmartStoreFTSWithExternalStorageTests : SFSmartStoreFullTextSearchTests
 
 @property (nonatomic, strong) SFSmartStore *store;
 

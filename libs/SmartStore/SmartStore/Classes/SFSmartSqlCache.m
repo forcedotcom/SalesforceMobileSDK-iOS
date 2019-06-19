@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,10 +22,57 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//  Logic unit tests contain unit test code that is designed to be linked into an independent test executable.
-//  See Also: http://developer.apple.com/iphone/library/documentation/Xcode/Conceptual/iphone_development/135-Unit_Testing_Applications/unit_testing_applications.html
 
-#import "SFSmartStoreTestCase.h"
+#import <Foundation/Foundation.h>
 
-@interface SFQuerySpecTests : SFSmartStoreTestCase
+#import "SFSmartSqlCache.h"
+
+@interface SFSmartSqlCache ()
+
+@property (nonatomic, strong) NSCache* cache;
+@property (nonatomic, strong) NSMutableSet* keys;
+
+@end
+
+@implementation SFSmartSqlCache
+
+- (id)initWithCountLimit:(NSUInteger)countLimit {
+    self = [super init];
+    if (self) {
+        _cache = [[NSCache alloc] init];
+        _cache.countLimit = countLimit;
+        _cache.delegate = self;
+        _keys = [NSMutableSet new];
+    }
+    return self;
+}
+
+- (void) setSql:(NSString*)sql forSmartSql:(NSString*)smartSql {
+    [self.cache setObject:sql forKey:smartSql];
+    [self.keys addObject:smartSql];
+}
+
+- (NSString*) sqlForSmartSql:(NSString*)smartSql {
+    return [self.cache objectForKey:smartSql];
+}
+
+- (void) removeEntriesForSoup:(NSString*)soupName {
+    NSString* soupRef = [@[@"{", soupName, @"}"] componentsJoinedByString:@""];
+    NSMutableArray* keysToRemove = [NSMutableArray array];
+    for (NSString* smartSql in [self.keys allObjects]) {
+        if ([smartSql rangeOfString:soupRef].location != NSNotFound) {
+            [keysToRemove addObject:smartSql];
+        }
+    }
+    for (NSString* keyToRemove in keysToRemove) {
+        [self.cache removeObjectForKey:keyToRemove];
+        [self.keys removeObject:keyToRemove];
+    }
+}
+
+# pragma Mark - NSCacheDelegate methods
+- (void)cache:(NSCache *)cache willEvictObject:(id)obj {
+    [self.keys removeObject:obj];
+}
+
 @end

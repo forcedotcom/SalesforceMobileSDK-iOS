@@ -22,9 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFQuerySpecTests.h"
 #import "SFQuerySpec.h"
+#import "SFSmartStoreTestCase.h"
 
+@interface SFQuerySpecTests : SFSmartStoreTestCase
+@end
 
 @interface SFQuerySpec ()
 + (NSString*) qualifyMatchKey:(NSString*)matchKey field:(NSString*)field;

@@ -22,24 +22,25 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartStoreFullTextSearchSpeedTests.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
+#import "SFSmartStoreTestCase.h"
 
 @interface SFSmartStore ()
 - (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error withDb:(FMDatabase*)db;
 @end
 
-@interface SFSmartStoreFullTextSearchSpeedTests ()
+@interface SFSmartStoreFullTextSearchSpeedTests : SFSmartStoreTestCase
 
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) NSArray* animals;
 
 @end
+
 
 @implementation SFSmartStoreFullTextSearchSpeedTests
 

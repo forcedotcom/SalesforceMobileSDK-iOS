@@ -26,14 +26,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFMultipleSmartStoresTest.h"
-@interface SFOAuthCredentials ()
-@property (nonatomic, readwrite, nullable) NSURL *identityUrl;
+#import "SFSmartStoreTestCase.h"
 
-@end
-@interface SFMultipleSmartStoresTests()
+@interface SFMultipleSmartStoresTests : SFSmartStoreTestCase
 
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;
+
+@end
+
+@interface SFOAuthCredentials ()
+
+@property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 
 @end
 
