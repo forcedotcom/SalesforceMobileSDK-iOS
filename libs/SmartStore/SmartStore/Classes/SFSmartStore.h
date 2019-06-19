@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class SFEncryptionKey;
 @class SFSoupIndex;
+@class SFSmartSqlCache;
 
 /**
  The default store name used by the SFSmartStorePlugin: native code may choose
@@ -138,10 +139,10 @@ NS_SWIFT_NAME(SmartStore)
     FMDatabaseQueue *_storeQueue;
     NSString *_storeName;
 
-    NSMutableDictionary *_soupNameToTableName;
-    NSMutableDictionary *_attrSpecBySoup;
-    NSMutableDictionary *_indexSpecsBySoup;
-    NSMutableDictionary *_smartSqlToSql;
+    NSCache *_soupNameToTableName;
+    NSCache *_attrSpecBySoup;
+    NSCache *_indexSpecsBySoup;
+    SFSmartSqlCache *_smartSqlToSql;
 }
 
 /**
