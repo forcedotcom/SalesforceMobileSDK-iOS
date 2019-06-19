@@ -24,10 +24,12 @@
 
 #import "SFSmartSqlTests.h"
 #import "SFSmartSqlHelper.h"
+#import "SFSmartSqlCache.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
+
 @interface SFOAuthCredentials ()
 @property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 

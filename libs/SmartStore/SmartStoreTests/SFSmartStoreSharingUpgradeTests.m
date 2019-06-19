@@ -42,7 +42,6 @@
 @interface SFSmartStore (Private)
 @property (nonatomic, class,readwrite) SFSmartStoreEncryptionSaltBlock encryptionSaltBlock;
 + (BOOL)hasPlainTextHeader:(NSString *)storeName user:(SFUserAccount *) user;
-+ (void)clearSharedStoreMemoryState;
 @end
 
 @interface SFSmartStoreUpgrade (Private)
@@ -124,7 +123,6 @@
     store = [SFSmartStore sharedStoreWithName:kTestUpgradeSmartStoreName];
     XCTAssertNotNil(store,@"Store should not be nil after upgrade");
     [self clearSaltBlock];
-    //[SFSmartStore clearSharedStoreMemoryState];
 }
 
 - (void)setupSaltBlock {
