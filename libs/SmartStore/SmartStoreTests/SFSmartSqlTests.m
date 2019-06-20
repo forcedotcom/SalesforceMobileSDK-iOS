@@ -40,6 +40,10 @@
 
 @end
 
+@interface SFUserAccountManager()
+- (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
+@end
+
 @implementation SFSmartSqlTests
 
 #pragma mark - setup and teardown
@@ -47,7 +51,7 @@
 - (void) setUp
 {
     [super setUp];
-    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal: [self createUserAccount]];
     self.store = [SFSmartStore sharedStoreWithName:kTestStore user:[SFUserAccountManager sharedInstance].currentUser];
     
     // Employees soup

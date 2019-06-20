@@ -63,7 +63,7 @@ static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
 {
     [self deleteUserAndVerify:_user];
     self.uam.accountPersister = _origAccountPersister;
-    self.uam.currentUser = _origCurrentUser;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:_origCurrentUser];
     [super tearDown];
 }
 

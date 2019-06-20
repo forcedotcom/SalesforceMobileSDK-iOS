@@ -29,6 +29,9 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSoupSpec.h"
 #import "SFSmartSqlTests.h"
+@interface SFUserAccountManager()
+- (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
+@end
 
 @interface SFSmartSqlWithExternalStorageTests : SFSmartSqlTests
 
@@ -40,7 +43,7 @@
 
 - (void)setUp {
     NSArray *features = @[kSoupFeatureExternalStorage];
-    [SFUserAccountManager sharedInstance].currentUser = [super createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:[super createUserAccount]];
     self.store = [SFSmartStore sharedStoreWithName:kTestStore user:[SFUserAccountManager sharedInstance].currentUser];
     
     // Employees soup
