@@ -316,8 +316,9 @@ UIBackgroundTaskIdentifier task;
         return;
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        __block typeof(self) weakSelf = self;
         task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithName:NSStringFromClass([self class]) expirationHandler:^{
-            [self cleanupBackgroundTask];
+            [weakSelf cleanupBackgroundTask];
         }];
         [self publishAllEvents];
     });
