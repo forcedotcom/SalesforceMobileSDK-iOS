@@ -893,7 +893,6 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
     
     SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
         [SFSDKCoreLogger i:[self class] format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
-        [SFUserAccountManager sharedInstance].currentUser = userAccount;
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
         [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];

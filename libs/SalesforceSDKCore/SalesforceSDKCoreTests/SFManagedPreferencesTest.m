@@ -28,7 +28,7 @@
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
-
+#import "SFUserAccountManager+Internal.h"
 @interface SFManagedPreferencesTest : XCTestCase
 @property (nonatomic,strong) NSDictionary *managedProps;
 @property (nonatomic,strong) SFUserAccount *prevCurrentUser;
@@ -40,7 +40,7 @@ static NSException *authException = nil;
 - (void)setUp {
     //add  Managed Properties
     self.prevCurrentUser = [SFUserAccountManager sharedInstance].currentUser;
-    [SFUserAccountManager sharedInstance].currentUser = [[SFUserAccount alloc] init];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:[[SFUserAccount alloc] init]];
     self.managedProps = @{@"RequireCertAuth":@YES,@"OnlyShowAuthorizedHosts":@YES,
                           @"ClearClipboardOnBackground":@YES,
                           @"ManagedAppCallbackURL": @"managed:url",
@@ -52,7 +52,7 @@ static NSException *authException = nil;
 - (void)tearDown {
     //Remove the Managed Properties
     self.managedProps = nil;
-    [SFUserAccountManager sharedInstance].currentUser = self.prevCurrentUser;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:self.prevCurrentUser];
     [[NSUserDefaults msdkUserDefaults] removeObjectForKey:@"com.apple.configuration.managed"];
 }
 

@@ -40,7 +40,7 @@
 
 - (void)tearDown {
     [super tearDown];
-    [SFUserAccountManager sharedInstance].currentUser = _origCurrentUser;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:_origCurrentUser];
 }
 
 - (void)testNetworkError {
@@ -53,8 +53,7 @@
     credentials.organizationId = @"ORG123";
     SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:credentials];
     [[SFUserAccountManager sharedInstance] saveAccountForUser:account error:nil];
-    
-    [SFUserAccountManager sharedInstance].currentUser = account;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:account];
     XCTAssertNotNil(errorManager);
     XCTestExpectation *networkErrorExpectation =  [self expectationWithDescription:@"networkErrorExpectation"];
     NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
