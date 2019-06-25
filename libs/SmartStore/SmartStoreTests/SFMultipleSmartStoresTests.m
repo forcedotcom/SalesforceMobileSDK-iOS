@@ -44,6 +44,10 @@
 - (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
 @end
 
+@interface SFUserAccountManager()
+- (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
+@end
+
 @implementation SFMultipleSmartStoresTests
 
 #pragma mark - setup and teardown

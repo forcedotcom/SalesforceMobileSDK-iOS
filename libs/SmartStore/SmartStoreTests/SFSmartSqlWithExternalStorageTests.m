@@ -32,6 +32,9 @@
 @interface SFUserAccountManager()
 - (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
 @end
+@interface SFUserAccountManager()
+- (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
+@end
 
 @interface SFSmartSqlWithExternalStorageTests : SFSmartSqlTests
 
