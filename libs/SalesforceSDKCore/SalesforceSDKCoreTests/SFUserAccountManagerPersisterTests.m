@@ -175,7 +175,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSArray *accounts = [self createAndVerifyUserAccounts:2];
     SFUserAccount *origUser = accounts[0];
     SFUserAccount *newUser = accounts[1];
-    self.uam.currentUser = origUser;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:origUser];
     TestUserAccountManagerPersisterDelegate *acctDelegate = [[TestUserAccountManagerPersisterDelegate alloc] init];
     [self.uam switchToUser:newUser];
     XCTAssertEqual(acctDelegate.willSwitchOrigUserAccount, origUser, @"origUser is not equal.");
@@ -189,7 +189,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 }
 
 - (void)testSwitchToSameUser {
-    SFUserAccount *newUser = self.uam.currentUser = [self createAndVerifyUserAccounts:1][0];
+    SFUserAccount *newUser = [self createAndVerifyUserAccounts:1][0];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:newUser];
     TestUserAccountManagerPersisterDelegate *acctDelegate = [[TestUserAccountManagerPersisterDelegate alloc] init];
     [self.uam switchToUser:newUser];
     XCTAssertNil(acctDelegate.willSwitchOrigUserAccount, @"No switchToUser action should be taken for same accounts.");

@@ -626,6 +626,8 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (SFBiometricUnlockState)biometricUnlockState;
 
+- (void)setCurrentUser:(SFUserAccount * _Nullable)currentUser SFSDK_DEPRECATED(7.2, 8.0, "Use switchToUser or  switchToNewUserWithCompletion instead.");
+
 @end
 
 NS_ASSUME_NONNULL_END

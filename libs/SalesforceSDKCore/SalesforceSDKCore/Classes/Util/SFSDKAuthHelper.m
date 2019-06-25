@@ -38,7 +38,6 @@
 + (void)loginIfRequired:(void (^)(void))completionBlock {
     if (![SFUserAccountManager sharedInstance].currentUser && [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate) {
         SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
-           [SFUserAccountManager sharedInstance].currentUser = userAccount;
            completionBlock();
         };
         

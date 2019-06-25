@@ -70,6 +70,8 @@
  */
 @property (nonatomic, assign) BOOL useBrowserAuth;
 
+- (void)setCurrentUserInternal:(SFUserAccount* _Nullable)user;
+
 /**
  Executes the given block for each configured delegate.
  @param block The block to execute for each delegate.

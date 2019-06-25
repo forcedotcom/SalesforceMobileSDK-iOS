@@ -49,28 +49,6 @@
     [super tearDown];
 }
 
-- (void)testSuccessfulRefresh {
-    __block NSError *unexpectedRefreshError = nil;
-    __block SFOAuthCredentials *newCreds = nil;
-    XCTestExpectation *refreshAccessTokenExpectation = [self expectationWithDescription:@"Refresh Access Token"];
-    NSString *origAccessToken = self.oauthSessionRefresher.coordinator.credentials.accessToken;
-    self.oauthSessionRefresher.coordinator.credentials.accessToken = nil;
-    [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
-        newCreds = updatedCredentials;
-        [refreshAccessTokenExpectation fulfill];
-    } error:^(NSError *refreshError) {
-        unexpectedRefreshError = refreshError;
-        [refreshAccessTokenExpectation fulfill];
-    }];
-    
-    [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
-        XCTAssertNil(error, @"Error waiting for completion: %@", error);
-        XCTAssertNil(unexpectedRefreshError, @"Should not have received an error refreshing the access token.");
-        XCTAssertNotNil(newCreds.accessToken, @"Should have received a refreshed access token.");
-        self.oauthSessionRefresher.coordinator.credentials.accessToken = origAccessToken;
-    }];
-}
-
 - (void)testBadInputData {
     __block NSError *inputError = nil;
     
