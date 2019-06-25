@@ -193,6 +193,8 @@ extension IDPLoginViewController: LoginHostDelegate {
     
     func hostListViewController(_ hostListViewController: LoginHostListViewController, didChange newLoginHost: SalesforceLoginHost) {
         UserAccountManager.shared.loginHost = newLoginHost.host
-        UserAccountManager.shared.switchToNewUser(completion: nil)
+        UserAccountManager.shared.switchToNewUserAccount { (error, userAccount) in
+            
+        }
     }
 }
