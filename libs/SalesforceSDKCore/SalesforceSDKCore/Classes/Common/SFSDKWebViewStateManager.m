@@ -32,6 +32,7 @@ static NSString *const ERR_NO_COOKIE_NAMES = @"No cookie names given to delete."
 @implementation SFSDKWebViewStateManager
 
 static WKProcessPool *_processPool = nil;
+static BOOL _disableSessionCookieRemoval = NO;
 
 + (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure {
      //reset UIWebView related state if any
@@ -43,9 +44,18 @@ static WKProcessPool *_processPool = nil;
 }
 
 + (void)removeSession {
+    if (_disableSessionCookieRemoval) {
+        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie removal disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
+        return;
+    }
+    [self forceRemoveSession];
+}
+
++ (void)forceRemoveSession {
+    
     if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [SFSDKWebViewStateManager removeSession];
+            [SFSDKWebViewStateManager forceRemoveSession];
         });
         return;
     }
@@ -70,6 +80,15 @@ static WKProcessPool *_processPool = nil;
         _processPool = sharedProcessPool;
     }
 }
+
++ (void)setDisableSessionCookieRemoval:(BOOL)disableSessionCookieRemoval {
+    _disableSessionCookieRemoval = disableSessionCookieRemoval;
+}
+
++(BOOL) isSessionCookieRemovalDisabled {
+    return _disableSessionCookieRemoval;
+}
+
 
 #pragma mark Private helper methods
 + (void)removeUIWebViewCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames {
