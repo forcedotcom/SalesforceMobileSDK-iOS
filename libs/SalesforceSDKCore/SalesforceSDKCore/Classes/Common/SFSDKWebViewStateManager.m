@@ -66,9 +66,8 @@ static BOOL _sessionCookieManagementDisabled = NO;
     //reset UIWebView related state if any
     [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
     [self removeWKWebViewCookies:self.domains withCompletion:NULL];
-    self.sharedProcessPool = nil;
+  
 }
-
 
 + (WKProcessPool *)sharedProcessPool {
     if (!_processPool) {
