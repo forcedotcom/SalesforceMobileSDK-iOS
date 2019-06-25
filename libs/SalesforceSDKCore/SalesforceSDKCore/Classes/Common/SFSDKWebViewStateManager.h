@@ -40,14 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)removeSession;
 
 /**
- Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool
+ Disables the crreation/removal of session Cookies. The application can call the respective methods
  */
-+ (void)forceRemoveSession;
-
-/**
- Disables the removal of session Cookies. The application can call the respective methods
- */
-@property (class, nonatomic,assign,getter=isSessionCookieRemovalDisabled) BOOL disableSessionCookieRemoval;
+@property (class, nonatomic,assign,getter=isSessionCookieManagementDisabled) BOOL sessionCookieManagementDisabled;
 
 /**
  Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion

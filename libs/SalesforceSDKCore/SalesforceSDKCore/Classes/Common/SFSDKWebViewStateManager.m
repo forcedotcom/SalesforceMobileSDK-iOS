@@ -32,9 +32,13 @@ static NSString *const ERR_NO_COOKIE_NAMES = @"No cookie names given to delete."
 @implementation SFSDKWebViewStateManager
 
 static WKProcessPool *_processPool = nil;
-static BOOL _disableSessionCookieRemoval = NO;
+static BOOL _sessionCookieManagementDisabled = NO;
 
 + (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure {
+    if (_sessionCookieManagementDisabled) {
+        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
+        return;
+    }
      //reset UIWebView related state if any
     [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
     for (NSString *domain in self.domains) {
@@ -44,18 +48,15 @@ static BOOL _disableSessionCookieRemoval = NO;
 }
 
 + (void)removeSession {
-    if (_disableSessionCookieRemoval) {
-        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie removal disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
+    
+    if (_sessionCookieManagementDisabled) {
+        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
         return;
     }
-    [self forceRemoveSession];
-}
-
-+ (void)forceRemoveSession {
     
     if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [SFSDKWebViewStateManager forceRemoveSession];
+            [SFSDKWebViewStateManager removeSession];
         });
         return;
     }
@@ -65,6 +66,7 @@ static BOOL _disableSessionCookieRemoval = NO;
     [self removeWKWebViewCookies:self.domains withCompletion:NULL];
     self.sharedProcessPool = nil;
 }
+
 
 + (WKProcessPool *)sharedProcessPool {
     if (!_processPool) {
@@ -81,12 +83,13 @@ static BOOL _disableSessionCookieRemoval = NO;
     }
 }
 
-+ (void)setDisableSessionCookieRemoval:(BOOL)disableSessionCookieRemoval {
-    _disableSessionCookieRemoval = disableSessionCookieRemoval;
++ (void)setSessionCookieManagementDisabled:(BOOL)sessionCookieManagementDisabled {
+    _sessionCookieManagementDisabled = sessionCookieManagementDisabled;
 }
 
-+(BOOL) isSessionCookieRemovalDisabled {
-    return _disableSessionCookieRemoval;
+
++(BOOL) isSessionCookieManagementDisabled {
+    return _sessionCookieManagementDisabled;
 }
 
 
@@ -170,6 +173,10 @@ static BOOL _disableSessionCookieRemoval = NO;
 
 + (void)resetSessionCookie
 {
+    if (_sessionCookieManagementDisabled) {
+        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
+        return;
+    }
     BOOL isSecure = [[SFUserAccountManager   sharedInstance].currentUser.credentials.protocol isEqualToString:@"https"];
     [SFSDKWebViewStateManager resetSessionWithNewAccessToken:[SFUserAccountManager   sharedInstance].currentUser.credentials.accessToken
                                             isSecureProtocol:isSecure];
