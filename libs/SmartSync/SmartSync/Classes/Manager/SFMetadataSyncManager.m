@@ -134,6 +134,8 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
         __strong typeof (weakSelf) strongSelf = weakSelf;
         if (sync.status == SFSyncStateStatusDone) {
             [strongSelf fetchFromCache:objectType completionBlock:completionBlock fallbackOnServer:NO];
+        } else if (sync.status == SFSyncStateStatusFailed) {
+            completionBlock(nil);
         }
     }];
 }
