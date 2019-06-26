@@ -49,17 +49,17 @@ static BOOL _sessionCookieManagementDisabled = NO;
 
 + (void)removeSession {
     
-    self.sharedProcessPool = nil;
-    
-    if (_sessionCookieManagementDisabled) {
-        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
-        return;
-    }
-    
     if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
             [SFSDKWebViewStateManager removeSession];
         });
+        return;
+    }
+    
+    self.sharedProcessPool = nil;
+    
+    if (_sessionCookieManagementDisabled) {
+        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
         return;
     }
     
