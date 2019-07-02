@@ -94,6 +94,22 @@
     XCTAssertTrue([options containsObject:@"ENABLE_JSON1"]);
 }
 
+/**
+ * Test to check runtime settings
+ */
+- (void) testRuntimeSettings
+{
+    NSArray* settings = [self.store getRuntimeSettings];
+    
+    // Make sure run time settings are 4.x settings except for kdf_iter
+    XCTAssertTrue([settings containsObject:@"PRAGMA kdf_iter = 4000;"]);
+    XCTAssertTrue([settings containsObject:@"PRAGMA cipher_page_size = 4096;"]);
+    XCTAssertTrue([settings containsObject:@"PRAGMA cipher_use_hmac = 1;"]);
+    XCTAssertTrue([settings containsObject:@"PRAGMA cipher_plaintext_header_size = 0;"]);
+    XCTAssertTrue([settings containsObject:@"PRAGMA cipher_hmac_algorithm = HMAC_SHA512;"]);
+    XCTAssertTrue([settings containsObject:@"PRAGMA cipher_kdf_algorithm = PBKDF2_HMAC_SHA512;"]);
+}
+
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];

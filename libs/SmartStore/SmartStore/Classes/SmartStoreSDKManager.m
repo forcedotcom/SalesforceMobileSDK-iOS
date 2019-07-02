@@ -98,6 +98,7 @@
     [devInfos addObjectsFromArray:@[
             @"SQLCipher version", [store getSQLCipherVersion],
             @"SQLCipher Compile Options", [[store getCompileOptions] componentsJoinedByString:@", "],
+            @"SQLCipher Runtime Settings", [[store getRuntimeSettings] componentsJoinedByString:@", "],
             @"User Stores", [self safeJoin:[SFSmartStore allStoreNames] separator:@", "],
             @"Global Stores", [self safeJoin:[SFSmartStore allGlobalStoreNames] separator:@", "]
     ]];
