@@ -2407,6 +2407,11 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 }
 
 #pragma mark - Misc info methods
+- (NSArray*) getRuntimeSettings
+{
+    return [self queryPragma:@"cipher_settings"];
+}
+
 - (NSArray*) getCompileOptions
 {
     return [self queryPragma:@"compile_options"];
