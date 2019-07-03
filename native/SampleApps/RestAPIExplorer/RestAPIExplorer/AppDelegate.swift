@@ -43,9 +43,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         super.init()
       
         SalesforceManager.initializeSDK()
+        SalesforceManager.shared.appDisplayName = "Rest API Explorer"
         
         //Uncomment following block to enable IDP Login flow.
-        // SalesforceSDK.shared().idpAppURIScheme = "sampleidpapp"
+        //SalesforceManager.shared.identityProviderURLScheme = "sampleidpapp"
         AuthHelper.registerBlock(forCurrentUserChangeNotifications: {
             self.resetViewState {
                 self.initializeAppViewState()
