@@ -217,7 +217,18 @@ NSString * const kOAuthAppName = @"oauth_app_name";
 - (NSString *)appDisplayName
 {
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    return [defs stringForKey:kOAuthAppName];
+    NSString *appName = [defs stringForKey:kOAuthAppName];
+    
+    if (appName) {
+        return appName;
+    } else {
+        NSString *bundleDispalyName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+        if(bundleDispalyName) {
+            return bundleDispalyName;
+        } else {
+            return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+        }
+    }
 }
 
 - (void)setAppDisplayName:(NSString *)appDisplayName

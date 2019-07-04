@@ -29,6 +29,7 @@
 #import "SFSDKAppLockViewConfig.h"
 #import "SFSDKResourceUtils.h"
 #import "SFSDKWindowManager.h"
+#import "SalesforceSDKManager.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 
 static CGFloat      const kSFFaceIdIconWidth                   = 36.0f;
@@ -237,7 +238,7 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
     LAContext *context = [[LAContext alloc] init];
     // Need to evaluate context to for biometricType to be populated
     [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+    NSString *appName = [[SalesforceSDKManager sharedManager] appDisplayName];
     NSString *bioInstructions = nil;
     
     switch ([context biometryType]) {

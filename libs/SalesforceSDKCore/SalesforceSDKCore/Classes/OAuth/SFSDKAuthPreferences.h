@@ -89,9 +89,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy,nullable) NSString *idpAppURIScheme;
 
-/** Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
- *  in the user selection view of the identity provider app.
- *
+/**
+ A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens
+ such as biometric enrollment or IDP login. If left unset, this property will fallback to CFBundleDisplayName or CFBundleName depending on what is available.
+ 
+ This name will be displayed in the user selection view of the identity provider app.
  */
 @property (nonatomic,copy) NSString *appDisplayName;
 

@@ -453,6 +453,23 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertTrue([brandedURL containsString:[brandPath substringToIndex:brandPath.length-1]]);
 }
 
+#pragma mark - Dispaly Name Tests
+
+- (void)testDefaultDisplayName {
+    NSString *nilString = nil; //avoids warning from passing nil
+    NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+    NSString *bundleDisplayName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    NSString *matchName = (bundleDisplayName) ? bundleDisplayName : bundleName;
+    [[SalesforceSDKManager sharedManager] setAppDisplayName:nilString];
+    XCTAssertTrue([matchName isEqualToString:[[SalesforceSDKManager sharedManager] appDisplayName]], @"App names should match");
+}
+
+- (void)testSetDisplayName {
+    NSString *appDispalyName = @"unique sdk name";
+    [[SalesforceSDKManager sharedManager] setAppDisplayName:appDispalyName];
+    XCTAssertTrue([appDispalyName isEqualToString:[[SalesforceSDKManager sharedManager] appDisplayName]], @"App names should match");
+}
+
 #pragma mark - Private helpers
 
 - (void)createStandardPostLaunchBlock
