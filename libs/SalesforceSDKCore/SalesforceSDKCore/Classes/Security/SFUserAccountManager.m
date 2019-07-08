@@ -1589,11 +1589,16 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
 
 - (void)notifyUserCancelledOrDismissedAuth:(SFOAuthCredentials *)credentials andAuthInfo:(SFOAuthInfo *)info
  {
-    NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey:credentials,
-                                kSFNotificationUserInfoAuthTypeKey: info };
+    NSMutableDictionary *userInfo = [NSMutableDictionary new];
+    userInfo[kSFNotificationUserInfoCredentialsKey] = credentials;
+    if (info) {
+        userInfo[kSFNotificationUserInfoAuthTypeKey] = info;
+    }
+
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCancelledAuth
-                                                        object:self userInfo:userInfo];
-}
+                                                        object:self
+                                                      userInfo:[userInfo copy]];
+ }
 - (void)reload {
     [_accountsLock lock];
 
