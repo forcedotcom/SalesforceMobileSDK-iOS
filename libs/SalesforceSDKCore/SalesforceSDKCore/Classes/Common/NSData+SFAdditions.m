@@ -115,6 +115,7 @@ static const BYTE g_byteMap64[] = {
     50, // y
     51, // z
 };
+NSUInteger const DIGEST_LENGTH = 16;
 
 static const int g_byteMapSize = sizeof(g_byteMap64)/sizeof(*g_byteMap64) ;
 
@@ -372,6 +373,50 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
     return [ms copy];
 }
 
+-(NSString *)digest {
+    unsigned char digest[DIGEST_LENGTH];
+    digest[0] = 0;
+    CC_SHA1([self bytes], (CC_LONG)[self length], digest);
+    NSMutableString *ms = [NSMutableString string];
+    for(int i = 0; i < 16; i++) {
+        [ms appendFormat:@"%02x", digest[i]];
+    }
+    return [ms copy];
+}
+
+-(NSString *)sha1 {
+    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
+    digest[0] = 0;
+    CC_SHA1([self bytes], (CC_LONG)[self length], digest);
+    NSMutableString *ms = [NSMutableString string];
+    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
+        [ms appendFormat:@"%02x", digest[i]];
+    }
+    return [ms copy];
+}
+
+-(NSString *)sha224 {
+    unsigned char digest[CC_SHA224_DIGEST_LENGTH];
+    digest[0] = 0;
+    CC_SHA224([self bytes], (CC_LONG)[self length], digest);
+    NSMutableString *ms = [NSMutableString string];
+    for(int i = 0; i < CC_SHA224_DIGEST_LENGTH; i++) {
+        [ms appendFormat:@"%02x", digest[i]];
+    }
+    return [ms copy];
+}
+
+
+-(NSString *)sha256 {
+    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
+    digest[0] = 0;
+    CC_SHA256([self bytes], (CC_LONG)[self length], digest);
+    NSMutableString *ms = [NSMutableString string];
+    for(int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+        [ms appendFormat:@"%02x", digest[i]];
+    }
+    return [ms copy];
+}
 @end
 
 @implementation NSData (SFzlib)

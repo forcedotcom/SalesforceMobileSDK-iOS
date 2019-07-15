@@ -63,7 +63,7 @@ extern NSString * const kSFSmartStoreEncryptionSaltLabel NS_SWIFT_NAME(SmartStor
 typedef SFEncryptionKey*  _Nullable (^SFSmartStoreEncryptionKeyBlock)(void) NS_SWIFT_NAME(EncryptionKeyBlock);
 
 /**
- Block typedef for generating a md5 hash for sharing data betwween multiple apps.
+ Block typedef for generating a 16 byte hash for sharing data betwween multiple apps.
  */
 typedef NSString* _Nullable (^SFSmartStoreEncryptionSaltBlock)(void) NS_SWIFT_NAME(EncryptionSaltBlock);
 
