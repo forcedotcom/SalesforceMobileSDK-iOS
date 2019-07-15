@@ -29,7 +29,7 @@
 
 #import "SFSDKUserSelectionTableViewController.h"
 #import "SFSDKIDPConstants.h"
-#import "UIColor+SFSDKIDP.m"
+#import "UIColor+SFSDKIDP.h"
 #import "UIFont+SFSDKIDP.h"
 #import "SFSDKUITableViewCell.h"
 #import "SFUserAccountManager.h"
