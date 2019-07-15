@@ -722,7 +722,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 {
     [SFSDKCoreLogger d:[self class] format:@"Sending passcode flow will begin notification with mode %lu", (unsigned long)mode];
     NSNotification *n = [NSNotification notificationWithName:kSFPasscodeFlowWillBegin
-                                                      object:[NSNumber numberWithInt:mode]
+                                                      object:[NSNumber numberWithUnsignedInteger:mode]
                                                     userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:n];
 }

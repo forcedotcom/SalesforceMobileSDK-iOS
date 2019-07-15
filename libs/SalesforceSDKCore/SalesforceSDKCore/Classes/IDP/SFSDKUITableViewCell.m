@@ -28,7 +28,7 @@
  */
 #import "SFSDKUITableViewCell.h"
 #import "SFSDKUserSelectionTableViewController.h"
-#import "UIColor+SFSDKIDP.m"
+#import "UIColor+SFSDKIDP.h"
 #import "UIFont+SFSDKIDP.h"
 #import "SFSDKResourceUtils.h"
 static CGFloat kHorizontalSpace = 12;
