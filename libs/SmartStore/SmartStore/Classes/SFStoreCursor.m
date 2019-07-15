@@ -26,6 +26,8 @@
 
 #import "SFSmartStore.h"
 #import "SFQuerySpec.h"
+#import <SalesforceSDKCommon/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
 @interface SFStoreCursor ()
 
@@ -34,6 +36,7 @@
 @property (nonatomic, readwrite, strong) NSNumber *pageSize;
 @property (nonatomic, readwrite, strong) NSNumber *totalPages;
 @property (nonatomic, readwrite, strong) NSNumber *totalEntries;
+@property (nonatomic, readwrite, weak) SFUserAccount *user;
 
 @end
 
@@ -57,6 +60,7 @@
         self.totalPages = @(totalPages);
         self.totalEntries = @(totalEntries);
         self.currentPageIndex = @0;
+        self.user = store.user;
     }
     return self;
 }
@@ -88,6 +92,22 @@
     [resultBuilder appendFormat:@"\"%@\":", @"currentPageOrderedEntries"];
     [store queryAsString:resultBuilder querySpec:self.querySpec pageIndex:[self.currentPageIndex integerValue] error:error];
     [resultBuilder appendString:@"}"];
+    //Verify the entire string for JSON format
+    if (SFSmartStore.jsonSerializationCheckEnabled) {
+        NSDate *start = [NSDate date];
+        if ([SFJsonUtils objectFromJSONString:resultBuilder] == nil) {
+            [SFSDKSmartStoreLogger e:[self class] format:@"%@ Error parsing JSON in SmartStore for getDataSerialized!", NSStringFromSelector(_cmd)];
+            NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+            attributes[@"errorCode"] = [NSNumber numberWithInteger:SFJsonUtils.lastError.code];
+            attributes[@"errorMessage"] = SFJsonUtils.lastError.localizedDescription;
+            attributes[@"soupName"] = _querySpec.soupName;
+            attributes[@"smartSql"] = _querySpec.smartSql;
+            [SFSDKEventBuilderHelper createAndStoreEvent:@"SmartStoreJSONParseError" userAccount:self.user className:NSStringFromClass([self class]) attributes:attributes];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFSmartStoreJSONParseErrorNotification object:self];
+            return nil;
+        }
+        [SFSDKSmartStoreLogger i:[self class] format:@"Finished objectFromJSONString, it took: %0.3f", [start timeIntervalSinceNow]];
+    }
     return resultBuilder;
 }
 
