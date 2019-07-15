@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#import "SalesforceSDKConstants.h"
 NS_ASSUME_NONNULL_BEGIN
 
 /** Extension to NSData class to provide common functions. Added functionality includes:
@@ -71,7 +71,29 @@ NS_ASSUME_NONNULL_BEGIN
 /**Converts this NSData to md5 format.
  @return md5 version of data.
  */
-- (NSString *)md5;
+- (NSString *)md5 SFSDK_DEPRECATED(7.2, 8.0, "Use digest,sha1,sha224 or sha256 instead");
+
+/**Derives  a 16-byte  hex encoded string .
+ @return 16-byte  hex encoded string.
+ */
+-(NSString *)digest;
+
+/** Derives  a  sha1  hex encoded string.
+ @return md5 version of data.
+ */
+-(NSString *)sha1;
+
+/**Derives  a  sha224  hex encoded string.
+ @return md5 version of data.
+ */
+-(NSString *)sha224;
+
+/**Derives  a  sha256  hex encoded string.
+ @return md5 version of data.
+ */
+-(NSString *)sha256;
+
+
 @end
 
 /** Provides gzip uncompressed conversion support.
