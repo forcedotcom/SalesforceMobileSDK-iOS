@@ -827,21 +827,42 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 - (BOOL)saveSoupEntryExternally:(NSDictionary *)soupEntry
                     soupEntryId:(NSNumber *)soupEntryId
                   soupTableName:(NSString *)soupTableName {
+    
+    // Helper to log debug messages
+    void (^logDebug)(NSString* step) = ^(NSString* step) {
+        NSString *debugMessage = [NSString stringWithFormat:@"%@ (%@): soupEntryId: %@, soupTableName: %@",
+                                  NSStringFromSelector(_cmd),
+                                  step,
+                                  soupEntryId,
+                                  soupTableName];
+        [SFSDKSmartStoreLogger d:[self class] format:debugMessage];
+    };
+    
+    // Computing file path for soup entry
     NSString *filePath = [self externalStorageSoupFilePath:soupEntryId
                                              soupTableName:soupTableName];
     if (filePath == nil) {
         return NO;
     }
+
+    // Computing tmp file path
+    // Entry is written to tmp file first, then tmp file is renamed to make write closer to an atomic operation
+    NSString *tmpFilePath = [NSString stringWithFormat:@"%@_tmp", filePath];
+    
+    // Setting up output stream
     NSOutputStream *outputStream = nil;
     SFSmartStoreEncryptionKeyBlock keyBlock = [SFSmartStore encryptionKeyBlock];
     if (keyBlock) {
-        SFEncryptStream *encryptStream = [[SFEncryptStream alloc] initToFileAtPath:filePath append:NO];
+        SFEncryptStream *encryptStream = [[SFEncryptStream alloc] initToFileAtPath:tmpFilePath append:NO];
         SFEncryptionKey *encKey = keyBlock();
         [encryptStream setupWithEncryptionKey:encKey];
         outputStream = encryptStream;
     } else {
-        outputStream = [[NSOutputStream alloc] initToFileAtPath:filePath append:NO];
+        outputStream = [[NSOutputStream alloc] initToFileAtPath:tmpFilePath append:NO];
     }
+    
+    // Writing to tmp file
+    logDebug(@"1/4 Starting to write to tmp file");
     [outputStream open];
     NSError *error = nil;
     BOOL success = [NSJSONSerialization writeJSONObject:soupEntry
@@ -849,18 +870,38 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                                                 options:0
                                                   error:&error];
     [outputStream close];
-    if (!success) {
-        NSString *errorMessage = [NSString stringWithFormat:@"Saving external soup to file failed! encrypted: %@, soupEntryId: %@, soupTableName: %@, filePath: '%@', error: %@.",
+    logDebug(@"2/4 Done writing to tmp file");
+
+    // Renaming tmp file by using moveItemAtPath (but first check if destination exists and deletes it if it does)
+    logDebug(@"3/4 Renaming tmp file");
+    if (success) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            success = [[NSFileManager defaultManager] removeItemAtPath:filePath
+                                                                 error:&error];
+        }
+
+        if (success) {
+            success = [[NSFileManager defaultManager] moveItemAtPath:tmpFilePath toPath:filePath error:&error];
+        }
+    }
+    logDebug(@"4/4 Done renaming tmp file");
+    
+    if (success) {
+        return YES;
+    } else {
+        NSString *errorMessage = [NSString stringWithFormat:@"Saving external soup to file failed! encrypted: %@, soupEntryId: %@, soupTableName: %@, tmpFilePath: '%@', filePath: '%@', error: %@.",
                                   keyBlock ? @"YES" : @"NO",
                                   soupEntryId,
                                   soupTableName,
+                                  tmpFilePath,
                                   filePath,
                                   error];
         NSAssert(NO, errorMessage);
         [SFSDKSmartStoreLogger e:[self class] format:errorMessage];
+        return NO;
     }
-    return success;
 }
+
 
 - (id)loadExternalSoupEntry:(NSNumber *)soupEntryId
               soupTableName:(NSString *)soupTableName
