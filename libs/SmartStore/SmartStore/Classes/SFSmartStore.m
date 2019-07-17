@@ -828,14 +828,14 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                     soupEntryId:(NSNumber *)soupEntryId
                   soupTableName:(NSString *)soupTableName {
     
-    // Helper to log debug messages
-    void (^logDebug)(NSString* step) = ^(NSString* step) {
-        NSString *debugMessage = [NSString stringWithFormat:@"%@ (%@): soupEntryId: %@, soupTableName: %@",
-                                  NSStringFromSelector(_cmd),
-                                  step,
-                                  soupEntryId,
-                                  soupTableName];
-        [SFSDKSmartStoreLogger d:[self class] format:debugMessage];
+    // Helper to log messages
+    void (^log)(NSString* step) = ^(NSString* step) {
+        NSString *message = [NSString stringWithFormat:@"%@ (%@): soupEntryId: %@, soupTableName: %@",
+                             NSStringFromSelector(_cmd),
+                             step,
+                             soupEntryId,
+                             soupTableName];
+        [SFSDKSmartStoreLogger i:[self class] format:message];
     };
     
     // Computing file path for soup entry
@@ -862,7 +862,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     }
     
     // Writing to tmp file
-    logDebug(@"1/4 Starting to write to tmp file");
+    log(@"1/4 Starting to write to tmp file");
     [outputStream open];
     NSError *error = nil;
     BOOL success = [NSJSONSerialization writeJSONObject:soupEntry
@@ -870,10 +870,10 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                                                 options:0
                                                   error:&error];
     [outputStream close];
-    logDebug(@"2/4 Done writing to tmp file");
+    log(@"2/4 Done writing to tmp file");
 
     // Renaming tmp file by using moveItemAtPath (but first check if destination exists and deletes it if it does)
-    logDebug(@"3/4 Renaming tmp file");
+    log(@"3/4 Renaming tmp file");
     if (success) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
             success = [[NSFileManager defaultManager] removeItemAtPath:filePath
@@ -884,11 +884,9 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             success = [[NSFileManager defaultManager] moveItemAtPath:tmpFilePath toPath:filePath error:&error];
         }
     }
-    logDebug(@"4/4 Done renaming tmp file");
+    log(@"4/4 Done renaming tmp file");
     
-    if (success) {
-        return YES;
-    } else {
+    if (!success) {
         NSString *errorMessage = [NSString stringWithFormat:@"Saving external soup to file failed! encrypted: %@, soupEntryId: %@, soupTableName: %@, tmpFilePath: '%@', filePath: '%@', error: %@.",
                                   keyBlock ? @"YES" : @"NO",
                                   soupEntryId,
@@ -898,8 +896,9 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                                   error];
         NSAssert(NO, errorMessage);
         [SFSDKSmartStoreLogger e:[self class] format:errorMessage];
-        return NO;
     }
+    
+    return success;
 }
 
 
