@@ -45,9 +45,11 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
 
 - (void)setUp {
     [super setUp];
+    SFSmartStore.jsonSerializationCheckEnabled = YES;
 }
 
 - (void)tearDown {
+    SFSmartStore.jsonSerializationCheckEnabled = NO;
     [super tearDown];
 }
 
