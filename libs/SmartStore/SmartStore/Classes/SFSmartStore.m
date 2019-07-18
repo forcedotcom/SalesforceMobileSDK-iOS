@@ -1777,9 +1777,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                     NSString *columnName = [frs columnNameForIndex:i];
                     if ([columnName isEqualToString:SOUP_COL]) {
                         NSString *rawJson = [frs stringForColumnIndex:i];
-                        if ([self checkRawJson:rawJson fromMethod:NSStringFromSelector(_cmd)]) {
-                            [resultStrings addObject:rawJson];
-                        }
+                        [resultStrings addObject:rawJson];
                     }
                     else if ([columnName isEqualToString:kSoupFeatureExternalStorage]) {
                         NSString *tableName = [frs stringForColumnIndex:i];
@@ -1812,9 +1810,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             }
             else if ([value isKindOfClass:[NSString class]] &&
                      ([columnName isEqualToString:SOUP_COL] || [columnName hasPrefix:[NSString stringWithFormat:@"%@:", SOUP_COL]])) {
-                if ([self checkRawJson:value fromMethod:NSStringFromSelector(_cmd)]) {
-                    [resultStrings addObject:value];
-                }
+                [resultStrings addObject:value];
             }
             else if ([columnName isEqualToString:kSoupFeatureExternalStorage]) {
                 NSNumber *soupEntryId = @([frs longForColumnIndex:++i]);

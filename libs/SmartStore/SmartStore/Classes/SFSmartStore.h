@@ -351,7 +351,10 @@ NS_SWIFT_NAME(SmartStore)
  @return YES if successful
  */
 - (BOOL) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_UNAVAILABLE("Use query(querySpec:pageIndex:) in native applications");
-
+/**
+  Experimental flag to do additional checks when reading back soup entries that use external storage
+  It could be dropped in a future release. Use only if you know what you are doing.
+  */
 @property (class, nonatomic,assign,getter=isJsonSerializationCheckEnabled) BOOL jsonSerializationCheckEnabled;
 
 /**
