@@ -111,9 +111,12 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //
         //
         // SFPushNotificationManager.sharedInstance().didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
-        // if (SFUserAccountManager.shared.currentUserAccount.credentials.accessToken != nil)
-        // {
-        //     SFPushNotificationManager.sharedInstance().registerSalesforceNotifications(completionBlock: nil, fail: nil)
+        // if let _ = UserAccountManager.shared.currentUserAccount?.credentials.accessToken {
+        //     SFPushNotificationManager.sharedInstance().registerSalesforceNotifications(completionBlock: {
+        //         SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications succeeded")
+        //     }, fail: {
+        //         SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications failed")
+        //     })
         // }
     }
     
