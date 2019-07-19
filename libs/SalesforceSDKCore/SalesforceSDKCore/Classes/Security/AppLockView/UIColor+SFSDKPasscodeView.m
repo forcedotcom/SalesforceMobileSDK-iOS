@@ -37,7 +37,7 @@
     return [UIColor colorWithRed:22.0f/255.0f green:50.0f/255.0f blue:92.0f/255.0f alpha:1.0f];
 }
 
-+ (UIColor *)passcoceViewBorderColor {
++ (UIColor *)passcodeViewBorderColor {
     return [UIColor colorWithRed:217.0f/255.0f green:221.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
 }
 @end

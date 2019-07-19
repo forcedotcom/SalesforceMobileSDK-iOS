@@ -40,7 +40,7 @@
         _primaryColor = [UIColor salesforceBlueColor];
         _secondaryColor = [UIColor whiteColor];
         _backgroundColor = [UIColor passcodeViewBackgroundColor];
-        _borderColor = [UIColor passcoceViewBorderColor];
+        _borderColor = [UIColor passcodeViewBorderColor];
         _instructionTextColor = [UIColor passcodeViewTextColor];
         _titleTextColor = [UIColor passcodeViewTextColor];
         _navBarColor = [UIColor whiteColor];
