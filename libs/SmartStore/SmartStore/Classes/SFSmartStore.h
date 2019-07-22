@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class SFEncryptionKey;
 @class SFSoupIndex;
+@class SFSmartSqlCache;
 
 /**
  The default store name used by the SFSmartStorePlugin: native code may choose
@@ -39,6 +40,11 @@ extern NSString *const kDefaultSmartStoreName NS_SWIFT_NAME(SmartStore.defaultSt
  The NSError domain for SmartStore errors.
  */
 extern NSString * const kSFSmartStoreErrorDomain NS_SWIFT_NAME(SmartStore.errorDomain);
+
+/**
+ Notification for SmartStore JSON parsing errors.
+ */
+extern NSString * const kSFSmartStoreJSONParseErrorNotification NS_SWIFT_NAME(SmartStore.JSONParseErrorNotification);
 
 /**
  The NSError exceptionName for errors loading external Soups.
@@ -62,7 +68,7 @@ extern NSString * const kSFSmartStoreEncryptionSaltLabel NS_SWIFT_NAME(SmartStor
 typedef SFEncryptionKey*  _Nullable (^SFSmartStoreEncryptionKeyBlock)(void) NS_SWIFT_NAME(EncryptionKeyBlock);
 
 /**
- Block typedef for generating a md5 hash for sharing data betwween multiple apps.
+ Block typedef for generating a 16 byte hash for sharing data betwween multiple apps.
  */
 typedef NSString* _Nullable (^SFSmartStoreEncryptionSaltBlock)(void) NS_SWIFT_NAME(EncryptionSaltBlock);
 
@@ -138,10 +144,10 @@ NS_SWIFT_NAME(SmartStore)
     FMDatabaseQueue *_storeQueue;
     NSString *_storeName;
 
-    NSMutableDictionary *_soupNameToTableName;
-    NSMutableDictionary *_attrSpecBySoup;
-    NSMutableDictionary *_indexSpecsBySoup;
-    NSMutableDictionary *_smartSqlToSql;
+    NSCache *_soupNameToTableName;
+    NSCache *_attrSpecBySoup;
+    NSCache *_indexSpecsBySoup;
+    SFSmartSqlCache *_smartSqlToSql;
 }
 
 /**
@@ -345,6 +351,11 @@ NS_SWIFT_NAME(SmartStore)
  @return YES if successful
  */
 - (BOOL) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_UNAVAILABLE("Use query(querySpec:pageIndex:) in native applications");
+/**
+  Experimental flag to do additional checks when reading back soup entries that use external storage
+  It could be dropped in a future release. Use only if you know what you are doing.
+  */
+@property (class, nonatomic,assign,getter=isJsonSerializationCheckEnabled) BOOL jsonSerializationCheckEnabled;
 
 /**
  * Run a query given by its query Spec, only returned results from selected page
@@ -515,13 +526,19 @@ NS_SWIFT_NAME(SmartStore)
 - (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray<NSString*>*)indexPaths NS_SWIFT_NAME(reIndexSoup(named:indexPaths:));
 
 /**
- * Return compile options
+ * Return SQLCipher runtime settings
+ * @return An array with all the compile options used to build SQL Cipher.
+ */
+- (NSArray*) getRuntimeSettings NS_SWIFT_NAME(runtimeSettings());
+
+/**
+ * Return SQLCipher compile options
  * @return An array with all the compile options used to build SQL Cipher.
  */
 - (NSArray *)getCompileOptions NS_SWIFT_NAME(compileOptions());
 
 /**
- * Return sqlcipher version
+ * Return SQLCipher version
  * @return The version of SQL Cipher in use.
  */
 - (NSString *)getSQLCipherVersion NS_SWIFT_NAME(versionOfSQLCipher());

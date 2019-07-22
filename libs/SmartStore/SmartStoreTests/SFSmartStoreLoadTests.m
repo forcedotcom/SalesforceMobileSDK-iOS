@@ -22,15 +22,15 @@
   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "SFSmartStoreLoadTests.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
+#import "SFSmartStoreTestCase.h"
 
-@interface SFSmartStoreLoadTests ()
+@interface SFSmartStoreLoadTests : SFSmartStoreTestCase
 
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;
 @property (nonatomic, strong) SFSmartStore *store;

@@ -26,7 +26,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <OS/log.h>
+#import <os/log.h>
 
 typedef NS_ENUM(NSUInteger, SFLogLevel){
     SFLogLevelDefault =  OS_LOG_TYPE_DEFAULT,

@@ -3,4 +3,4 @@ Binary in this folder was compiled with FTS support:
 - git checkout sdk
 - ./build_for_sdk.sh
 - copy generated libsqlcipher.a here
-
+- copy sqlite3.h here

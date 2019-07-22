@@ -86,6 +86,8 @@ static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
 static NSString * const kSFSPAppFeatureIDPLogin   = @"SP";
 static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
 static NSString *const  kOptionsClientKey          = @"clientIdentifier";
+static NSString * const kSFSDKUserAccountManagerErrorDomain = @"com.salesforce.mobilesdk.SFUserAccountManager";
+static int const kSFSDKUserAccountManagerErrorCode = 100;
 
 @interface SFNotificationUserInfo()
 - (instancetype) initWithUser:(SFUserAccount *)user;
@@ -352,7 +354,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [SFSecurityLockout clearPasscodeState:user];
     BOOL isCurrentUser = [user isEqual:self.currentUser];
     if (isCurrentUser) {
-        self.currentUser = nil;
+        [self setCurrentUserInternal:nil];
     }
 
     [SFSDKWebViewStateManager removeSession];
@@ -560,6 +562,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [options setObject:key forKey:kOptionsClientKey];
     controller.appOptions = options;
     [client.authWindow presentWindowAnimated:NO withCompletion:^{
+        client.authWindow.viewController.modalPresentationStyle = UIModalPresentationFullScreen;
         [client.authWindow.viewController presentViewController:controller animated:YES completion:^{
             [[SFSDKOAuthClientCache sharedInstance] addClient:client];
         }];
@@ -1058,7 +1061,10 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 }
 
 - (void)setCurrentUser:(SFUserAccount*)user {
+    [self setCurrentUserInternal:user];
+}
 
+- (void)setCurrentUserInternal:(SFUserAccount*)user {
     BOOL userChanged = NO;
     if (user != _currentUser) {
         [_accountsLock lock];
@@ -1396,27 +1402,29 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                              code:1005
                                          userInfo:@{ NSLocalizedDescriptionKey : reason } ];
         [self handleFailure:error client:client notifyDelegates:YES];
-    } else {
-
-        // Notify the session is ready.
-        [self initAnalyticsManager];
-        if (client.config.successCallbackBlock) {
-            client.config.successCallbackBlock(client.context.authInfo,userAccount);
-        }
-        [self handleAnalyticsAddUserEvent:client account:userAccount];
+        return;
     }
 
+    // Notify the session is ready.
+    [self initAnalyticsManager];
+    [self handleAnalyticsAddUserEvent:client account:userAccount];
+    
     // Async call, ignore if theres a failure. If success save the user photo locally.
     [self retrieveUserPhotoIfNeeded:userAccount];
-    if (self.authPreferences.isIdentityProvider && ([client.context.callingAppOptions count] >0)) {
+    
+    if ([self isAnIDPAppAndSPInitiatedFlow:client]) {
         SFSDKIDPAuthClient *idpClient = (SFSDKIDPAuthClient *)client;
 
-        // If not current user has been set in the app yet then set this user as current.
+        // If no current user has been set in the idp app yet then set this user as current.
         if (self.currentUser == nil) {
-            self.currentUser = userAccount;
+            [self setCurrentUserInternal:userAccount];
         }
         [idpClient continueIDPFlow:userAccount.credentials];
     } else {
+        [self setCurrentUserInternal:userAccount];
+        if (client.config.successCallbackBlock) {
+            client.config.successCallbackBlock(client.context.authInfo,userAccount);
+        }
         NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
                                    kSFNotificationUserInfoAuthTypeKey: client.context.authInfo};
         if (client.config.isIDPInitiatedFlow) {
@@ -1435,9 +1443,13 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     }
 }
 
+- (BOOL)isAnIDPAppAndSPInitiatedFlow:(SFSDKOAuthClient *)client {
+    return self.authPreferences.isIdentityProvider && ([client.context.callingAppOptions count] >0);
+}
+
 - (void)retrieveUserPhotoIfNeeded:(SFUserAccount *)account {
-    if (account.idData.pictureUrl) {
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:account.idData.pictureUrl];
+    if (account.idData.thumbnailUrl) {
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:account.idData.thumbnailUrl];
         [request setHTTPMethod:@"GET"];
         [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, account.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
         SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
@@ -1488,6 +1500,28 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
     [self switchToUser:nil];
 }
 
+- (void)switchToNewUserWithCompletion:(void (^)(NSError *error, SFUserAccount * currentAccount))completion {
+    if (!self.currentUser) {
+        NSError *error = [[NSError alloc] initWithDomain:kSFSDKUserAccountManagerErrorDomain
+                                                    code:kSFSDKUserAccountManagerErrorCode
+                                                userInfo:@{
+                                                           NSLocalizedDescriptionKey : @"Cannot switch to new user. No currentUser has been set."
+                                                           }];
+        completion(error,nil);
+    } else {
+        [self loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+            [self switchToUser:userAccount];
+            if (completion) {
+                completion(nil, userAccount);
+            }
+        } failure:^(SFOAuthInfo * authInfo, NSError * error) {
+            if (completion) {
+                completion(error,nil);
+            }
+        }];
+    }
+}
+
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {
     if ([self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity]) {
         [SFSDKCoreLogger w:[self class] format:@"%@ new user identity is the same as the current user.  No action taken.", NSStringFromSelector(_cmd)];
@@ -1505,7 +1539,7 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
                                                                      }];
         
         SFUserAccount *prevUser = self.currentUser;
-        [self setCurrentUser:newCurrentUser];
+        [self setCurrentUserInternal:newCurrentUser];
         [self enumerateDelegates:^(id<SFUserAccountManagerDelegate> delegate) {
             if ([delegate respondsToSelector:@selector(userAccountManager:didSwitchFromUser:toUser:)]) {
                 [delegate userAccountManager:self didSwitchFromUser:prevUser toUser:newCurrentUser];
@@ -1555,11 +1589,16 @@ static NSString *const  kOptionsClientKey          = @"clientIdentifier";
 
 - (void)notifyUserCancelledOrDismissedAuth:(SFOAuthCredentials *)credentials andAuthInfo:(SFOAuthInfo *)info
  {
-    NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey:credentials,
-                                kSFNotificationUserInfoAuthTypeKey: info };
+    NSMutableDictionary *userInfo = [NSMutableDictionary new];
+    userInfo[kSFNotificationUserInfoCredentialsKey] = credentials;
+    if (info) {
+        userInfo[kSFNotificationUserInfoAuthTypeKey] = info;
+    }
+
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCancelledAuth
-                                                        object:self userInfo:userInfo];
-}
+                                                        object:self
+                                                      userInfo:[userInfo copy]];
+ }
 - (void)reload {
     [_accountsLock lock];
 

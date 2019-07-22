@@ -32,8 +32,13 @@ static NSString *const ERR_NO_COOKIE_NAMES = @"No cookie names given to delete."
 @implementation SFSDKWebViewStateManager
 
 static WKProcessPool *_processPool = nil;
+static BOOL _sessionCookieManagementDisabled = NO;
 
 + (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure {
+    if (_sessionCookieManagementDisabled) {
+        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
+        return;
+    }
      //reset UIWebView related state if any
     [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
     for (NSString *domain in self.domains) {
@@ -43,6 +48,7 @@ static WKProcessPool *_processPool = nil;
 }
 
 + (void)removeSession {
+    
     if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
             [SFSDKWebViewStateManager removeSession];
@@ -50,10 +56,17 @@ static WKProcessPool *_processPool = nil;
         return;
     }
     
+    self.sharedProcessPool = nil;
+    
+    if (_sessionCookieManagementDisabled) {
+        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
+        return;
+    }
+    
     //reset UIWebView related state if any
     [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
     [self removeWKWebViewCookies:self.domains withCompletion:NULL];
-    self.sharedProcessPool = nil;
+  
 }
 
 + (WKProcessPool *)sharedProcessPool {
@@ -70,6 +83,16 @@ static WKProcessPool *_processPool = nil;
         _processPool = sharedProcessPool;
     }
 }
+
++ (void)setSessionCookieManagementDisabled:(BOOL)sessionCookieManagementDisabled {
+    _sessionCookieManagementDisabled = sessionCookieManagementDisabled;
+}
+
+
++(BOOL) isSessionCookieManagementDisabled {
+    return _sessionCookieManagementDisabled;
+}
+
 
 #pragma mark Private helper methods
 + (void)removeUIWebViewCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames {
@@ -151,6 +174,10 @@ static WKProcessPool *_processPool = nil;
 
 + (void)resetSessionCookie
 {
+    if (_sessionCookieManagementDisabled) {
+        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
+        return;
+    }
     BOOL isSecure = [[SFUserAccountManager   sharedInstance].currentUser.credentials.protocol isEqualToString:@"https"];
     [SFSDKWebViewStateManager resetSessionWithNewAccessToken:[SFUserAccountManager   sharedInstance].currentUser.credentials.accessToken
                                             isSecureProtocol:isSecure];

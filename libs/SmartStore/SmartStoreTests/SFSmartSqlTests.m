@@ -24,10 +24,12 @@
 
 #import "SFSmartSqlTests.h"
 #import "SFSmartSqlHelper.h"
+#import "SFSmartSqlCache.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
+
 @interface SFOAuthCredentials ()
 @property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 
@@ -38,6 +40,10 @@
 
 @end
 
+@interface SFUserAccountManager()
+- (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
+@end
+
 @implementation SFSmartSqlTests
 
 #pragma mark - setup and teardown
@@ -45,7 +51,7 @@
 - (void) setUp
 {
     [super setUp];
-    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal: [self createUserAccount]];
     self.store = [SFSmartStore sharedStoreWithName:kTestStore user:[SFUserAccountManager sharedInstance].currentUser];
     
     // Employees soup

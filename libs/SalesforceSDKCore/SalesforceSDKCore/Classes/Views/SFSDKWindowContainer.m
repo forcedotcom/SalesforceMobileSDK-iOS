@@ -49,7 +49,6 @@
     if (self) {
         _window = window;
         _windowName = windowName;
-        _viewController = window.rootViewController;
     }
     return self;
 }
@@ -58,22 +57,25 @@
     if (_window == nil) {
         _window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds  andName:_windowName];
         _window.windowLevel = self.windowLevel;
-        UIViewController *controller = _viewController;
-        if (!controller) {
-            controller = [[SFSDKRootController alloc] init];
+        if (!self.viewController ) {
+            self.viewController = [[SFSDKRootController alloc] init];
         }
-        self.viewController = controller;
     }
     return _window;
 }
 
 - (void)setViewController:(UIViewController *) viewController {
-    if (_viewController != viewController) {
-        _viewController = viewController;
-        if (_window) {
-            _window.rootViewController = viewController;
-        }
+    if (_window) {
+        _window.rootViewController = viewController;
     }
+}
+
+-(UIViewController *)viewController {
+     if (_window) {
+        return _window.rootViewController;
+    }
+    return nil;
+    
 }
 
 - (void)presentWindow {

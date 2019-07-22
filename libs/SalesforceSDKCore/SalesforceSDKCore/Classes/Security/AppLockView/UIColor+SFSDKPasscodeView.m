@@ -29,15 +29,15 @@
 
 @implementation UIColor (SFSDKPasscodeView)
 
-+ (UIColor *)backgroundColor {
++ (UIColor *)passcodeViewBackgroundColor {
     return [UIColor colorWithRed:245.0f/255.0f green:246.0f/255.0f blue:250.0f/255.0f alpha:1.0f];
 }
 
-+ (UIColor *)textColor {
++ (UIColor *)passcodeViewTextColor {
     return [UIColor colorWithRed:22.0f/255.0f green:50.0f/255.0f blue:92.0f/255.0f alpha:1.0f];
 }
 
-+ (UIColor *)borderColor {
++ (UIColor *)passcodeViewBorderColor {
     return [UIColor colorWithRed:217.0f/255.0f green:221.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
 }
 @end

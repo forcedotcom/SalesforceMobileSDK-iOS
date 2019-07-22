@@ -114,6 +114,7 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
         }];
         
         [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
+            pvc.modalPresentationStyle = UIModalPresentationFullScreen;
             [[SFSDKWindowManager sharedManager].passcodeWindow presentWindowAnimated:NO withCompletion:^{
                 [[SFSDKWindowManager sharedManager].passcodeWindow.viewController  presentViewController:pvc animated:NO completion:nil];
             }];
@@ -711,6 +712,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         SFSDKAppLockViewConfig *displayConfig = (viewConfig) ? viewConfig : self.passcodeViewConfig;
         [[SFSDKWindowManager sharedManager].passcodeWindow presentWindowAnimated:NO withCompletion:^{
             SFSDKAppLockViewController *navController = [[SFSDKAppLockViewController alloc] initWithMode:SFAppLockControllerModeEnableBiometric andViewConfig:displayConfig];
+            navController.modalPresentationStyle = UIModalPresentationFullScreen;
             [[SFSDKWindowManager sharedManager].passcodeWindow.viewController presentViewController:navController animated:NO completion:^{}];
         }];
     }
@@ -720,7 +722,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 {
     [SFSDKCoreLogger d:[self class] format:@"Sending passcode flow will begin notification with mode %lu", (unsigned long)mode];
     NSNotification *n = [NSNotification notificationWithName:kSFPasscodeFlowWillBegin
-                                                      object:[NSNumber numberWithInt:mode]
+                                                      object:[NSNumber numberWithUnsignedInteger:mode]
                                                     userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:n];
 }

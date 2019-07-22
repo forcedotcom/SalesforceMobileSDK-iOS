@@ -22,10 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKStoreConfigTests.h"
 #import <XCTest/XCTest.h>
+#import "SFSmartStoreTestCase.h"
 
-@interface SFSDKStoreConfigTests ()
+@interface SFSDKStoreConfigTests : SFSmartStoreTestCase
 
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;
 @property (nonatomic, strong) SFSmartStore *store;

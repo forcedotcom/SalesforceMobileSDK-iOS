@@ -39,12 +39,12 @@
         _maxNumberOfAttempts = (NSUInteger)10;
         _primaryColor = [UIColor salesforceBlueColor];
         _secondaryColor = [UIColor whiteColor];
-        _backgroundColor = [UIColor backgroundColor];
-        _borderColor = [UIColor borderColor];
-        _instructionTextColor = [UIColor textColor];
-        _titleTextColor = [UIColor textColor];
+        _backgroundColor = [UIColor passcodeViewBackgroundColor];
+        _borderColor = [UIColor passcodeViewBorderColor];
+        _instructionTextColor = [UIColor passcodeViewTextColor];
+        _titleTextColor = [UIColor passcodeViewTextColor];
         _navBarColor = [UIColor whiteColor];
-        _navBarTextColor = [UIColor textColor];
+        _navBarTextColor = [UIColor passcodeViewTextColor];
         _instructionFont = [UIFont systemFontOfSize:14];
         _titleFont = [UIFont systemFontOfSize:18 weight:UIFontWeightBold];
         _navBarFont = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];

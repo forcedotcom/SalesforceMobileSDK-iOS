@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartStoreAlterTests.h"
 #import "SFAlterSoupLongOperation.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
@@ -31,8 +30,9 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
+#import "SFSmartStoreTestCase.h"
 
-@interface SFSmartStoreAlterTests ()
+@interface SFSmartStoreAlterTests : SFSmartStoreTestCase
 
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;
 @property (nonatomic, strong) SFSmartStore *store;

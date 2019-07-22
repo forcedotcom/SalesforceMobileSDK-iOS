@@ -522,7 +522,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
     else
         newDict = [NSMutableDictionary dictionaryWithDictionary:defaultEncTypeDict];
     
-    NSNumber *encTypeNum = [NSNumber numberWithInt:encType];
+    NSNumber *encTypeNum = [NSNumber numberWithUnsignedInteger:encType];
     newDict[storeName] = encTypeNum;
     [userDefaults setObject:newDict forKey:kLegacyDefaultEncryptionTypeKey];
     [userDefaults synchronize];

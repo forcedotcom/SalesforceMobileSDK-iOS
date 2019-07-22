@@ -237,7 +237,6 @@ static dispatch_once_t pred;
         [SFSDKCoreLogger i:[self class] format:@"No auth credentials found. Authenticating before sending request: %@", request.description];
         [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [SFUserAccountManager sharedInstance].currentUser = userAccount;
             strongSelf.user = userAccount;
             [strongSelf enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {

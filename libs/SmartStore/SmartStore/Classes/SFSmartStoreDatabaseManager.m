@@ -199,15 +199,14 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 + (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key salt:(NSString *)salt {
     if ([db open]) {
-        // Using sqlcipher 3.x default settings
-        // => should open 3.x databases without any migration
-        [[db executeQuery:@"PRAGMA cipher_default_compatibility = 3"] close];
         // Using sqlcipher 2.x kdf iter because 3.x default (64000) and 4.x default (256000) are too slow
-        // => should open 2.x databases without any migration
         [[db executeQuery:@"PRAGMA cipher_default_kdf_iter = 4000"] close];
        
         if (key)
            [db setKey:key];
+
+        // Migrating and upgrading an existing database in place (preserving data and schema) if necessary
+        [[db executeQuery:@"PRAGMA cipher_migrate"] close];
         
         if (salt  && [key length] > 0 ){
             [[db executeQuery:@"PRAGMA cipher_plaintext_header_size = 32"] close];
@@ -215,15 +214,16 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
             [[db executeQuery:pragma] close];
             sqlite3_exec(db.sqliteHandle, "PRAGMA journal_mode = WAL;",0,0,0);
         }
-            
-        
     }
-    BOOL accessible = [self verifyDatabaseAccess:db error:nil];
+
+    NSError* verifyError = nil;
+    BOOL accessible = [self verifyDatabaseAccess:db error:&verifyError];
     if (accessible) {
         return db;
     }
     else {
         [db close];
+        [SFSDKSmartStoreLogger e:[self class] format:@"Error reading the content of store '%@'", [db databasePath], [verifyError  localizedDescription]];
         return nil;
     }
 }

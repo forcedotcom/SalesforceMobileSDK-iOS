@@ -32,11 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIColor (SFSDKPasscodeView)
 
-+ (UIColor *)backgroundColor;
++ (UIColor *)passcodeViewBackgroundColor;
 
-+ (UIColor *)textColor;
++ (UIColor *)passcodeViewTextColor;
 
-+ (UIColor *)borderColor;
++ (UIColor *)passcodeViewBorderColor;
 
 @end
 

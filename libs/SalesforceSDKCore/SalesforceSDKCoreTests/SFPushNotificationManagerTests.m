@@ -32,6 +32,7 @@
 #import "SFPreferences.h"
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
+#import "SFUserAccountManager+Internal.h"
 // needs to match what is defined in SFPushNotificationManager
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
 
@@ -42,6 +43,7 @@ static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
 @interface SFPushNotificationManagerTests : XCTestCase
 @property (nonatomic, strong) SFPushNotificationManager *manager;
 @property (nonatomic, strong) SFUserAccount *user;
+@property (nonatomic, strong) SFUserAccount *origCurrentUser;
 @end
 
 @implementation SFPushNotificationManagerTests
@@ -54,11 +56,13 @@ static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"happy-user" clientId:[SFUserAccountManager sharedInstance].oauthClientId encrypted:YES];
     SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
     user.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
-    [SFUserAccountManager sharedInstance].currentUser = user;
+    self.origCurrentUser = [SFUserAccountManager sharedInstance].currentUser;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
     self.user = user;
 }
 
 - (void)tearDown {
+     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:self.origCurrentUser];
     [super tearDown];
 }
 

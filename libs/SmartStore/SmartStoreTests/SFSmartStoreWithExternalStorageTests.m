@@ -45,9 +45,11 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
 
 - (void)setUp {
     [super setUp];
+    SFSmartStore.jsonSerializationCheckEnabled = YES;
 }
 
 - (void)tearDown {
+    SFSmartStore.jsonSerializationCheckEnabled = NO;
     [super tearDown];
 }
 
@@ -131,7 +133,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         
         // Check if entries are in DB
         SFQuerySpec *query = [SFQuerySpec newAllQuerySpec:kSSExternalStorage_TestSoupName
-                                                 withOrderPath:nil
+                                            withOrderPath:nil
                                                 withOrder:kSFSoupQuerySortOrderAscending
                                              withPageSize:iterations];
         NSArray *entriesInserted = [store queryWithQuerySpec:query
@@ -151,78 +153,89 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
 
 - (void)testMigrateNullIVtoIVWithExternalStorage {
     
-    NSUInteger const iterations = 10;
-    SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
-    NSDictionary* soupIndex = @{@"path": @"name", @"type": @"string"};
+    SFSmartStoreEncryptionKeyBlock originalEncryptionBlock = [SFSmartStore encryptionKeyBlock];
     
-    SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel autoCreate:YES];
-    
-    // create a nill IV based store
-    __block NSData *origIV = key.initializationVector;
-     origIV = key.initializationVector;
- 
-    
-     NSMutableArray *entries = [[NSMutableArray alloc] initWithCapacity:iterations];
-    
-    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
-       
-        SFSmartStore.encryptionKeyBlock = ^SFEncryptionKey *{
-            key.initializationVector= nil;
-            return key;
-        };
+    @try {
         
-        [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:nil];
-        __block NSString *soupTableName;
-        [store.storeQueue inDatabase:^(FMDatabase *db) {
-            soupTableName = [store tableNameForSoup:kSSExternalStorage_TestSoupName withDb:db];
-        }];
+        NSUInteger const iterations = 10;
+        SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
+        NSDictionary* soupIndex = @{@"path": @"name", @"type": @"string"};
         
-        // Insert entries
-        for (NSUInteger i = 0; i < iterations; i++) {
-            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i]};
-            [store upsertEntries:@[entry] toSoup:kSSExternalStorage_TestSoupName];
-            [entries addObject:entry];
+        SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel autoCreate:YES];
+        
+        // create a nill IV based store
+        __block NSData *origIV = key.initializationVector;
+        origIV = key.initializationVector;
+        
+        
+        NSMutableArray *entries = [[NSMutableArray alloc] initWithCapacity:iterations];
+        
+        for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+            
+            SFSmartStore.encryptionKeyBlock = ^SFEncryptionKey *{
+                key.initializationVector= nil;
+                return key;
+            };
+            
+            [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:nil];
+            __block NSString *soupTableName;
+            [store.storeQueue inDatabase:^(FMDatabase *db) {
+                soupTableName = [store tableNameForSoup:kSSExternalStorage_TestSoupName withDb:db];
+            }];
+            
+            // Insert entries
+            for (NSUInteger i = 0; i < iterations; i++) {
+                NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i]};
+                [store upsertEntries:@[entry] toSoup:kSSExternalStorage_TestSoupName];
+                [entries addObject:entry];
+            }
+            
+            // Check if entries are in DB
+            SFQuerySpec *query = [SFQuerySpec newAllQuerySpec:kSSExternalStorage_TestSoupName
+                                                withOrderPath:nil
+                                                    withOrder:kSFSoupQuerySortOrderAscending
+                                                 withPageSize:iterations];
+            NSArray *entriesInserted = [store queryWithQuerySpec:query
+                                                       pageIndex:0
+                                                           error:nil];
+            XCTAssertEqual(entriesInserted.count, iterations, @"Did not insert all entries.");
+            // Check if external files exist
+            for (NSDictionary *savedEntry in entriesInserted) {
+                NSString *externalEntryFilePath = [store externalStorageSoupFilePath:savedEntry[SOUP_ENTRY_ID]
+                                                                       soupTableName:soupTableName];
+                BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:externalEntryFilePath];
+                
+                XCTAssertTrue(fileExists, @"External file of a saved entry does not exists.");
+            }
+            // now lets change to IV and read files
+            SFSmartStore.encryptionKeyBlock = ^SFEncryptionKey *{
+                key.initializationVector= origIV;
+                return key;
+            };
+            
+            // Check if external files exist
+            NSArray *retrievedEntries = [store retrieveEntries:[self entriesIdFromEntries:entriesInserted]
+                                                      fromSoup:kSSExternalStorage_TestSoupName];
+            XCTAssertEqualObjects(retrievedEntries, entriesInserted, @"Retrieve entries failed.");
+            
+            // now lets change back to nil IV and try to read files
+            SFSmartStore.encryptionKeyBlock = ^SFEncryptionKey *{
+                key.initializationVector= nil;
+                return key;
+            };
+            
+            // The retrievedEntries now must be nill.
+            retrievedEntries = [store retrieveEntries:[self entriesIdFromEntries:entriesInserted]
+                                             fromSoup:kSSExternalStorage_TestSoupName];
+            XCTAssertNil(retrievedEntries,@"Migration of External soup storage failed.");
+            
         }
         
-        // Check if entries are in DB
-        SFQuerySpec *query = [SFQuerySpec newAllQuerySpec:kSSExternalStorage_TestSoupName
-                                            withOrderPath:nil
-                                                withOrder:kSFSoupQuerySortOrderAscending
-                                             withPageSize:iterations];
-        NSArray *entriesInserted = [store queryWithQuerySpec:query
-                                                   pageIndex:0
-                                                       error:nil];
-        XCTAssertEqual(entriesInserted.count, iterations, @"Did not insert all entries.");
-        // Check if external files exist
-        for (NSDictionary *savedEntry in entriesInserted) {
-            NSString *externalEntryFilePath = [store externalStorageSoupFilePath:savedEntry[SOUP_ENTRY_ID]
-                                                                   soupTableName:soupTableName];
-            BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:externalEntryFilePath];
-           
-            XCTAssertTrue(fileExists, @"External file of a saved entry does not exists.");
-        }
-        // now lets change to IV and read files
-        SFSmartStore.encryptionKeyBlock = ^SFEncryptionKey *{
-            key.initializationVector= origIV;
-            return key;
-        };
-        
-        // Check if external files exist
-        NSArray *retrievedEntries = [store retrieveEntries:[self entriesIdFromEntries:entriesInserted]
-                                                  fromSoup:kSSExternalStorage_TestSoupName];
-        XCTAssertEqualObjects(retrievedEntries, entriesInserted, @"Retrieve entries failed.");
-        
-        // now lets change back to nil IV and try to read files
-        SFSmartStore.encryptionKeyBlock = ^SFEncryptionKey *{
-            key.initializationVector= nil;
-            return key;
-        };
-        
-        // The retrievedEntries now must be nill.
-        retrievedEntries = [store retrieveEntries:[self entriesIdFromEntries:entriesInserted]
-                                                  fromSoup:kSSExternalStorage_TestSoupName];
-        XCTAssertNil(retrievedEntries,@"Migration of External soup storage failed.");
-        
+    }
+    
+    @finally {
+        // Restore encryption block
+        [SFSmartStore setEncryptionKeyBlock:originalEncryptionBlock];
     }
 }
 
@@ -431,75 +444,94 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
 }
 
 - (void)testExternalStorageIsEncryptedWhenDbIsEncrypted {
-    // Define a key
-    NSString *secretKey = @"secretKey";
-    SFEncryptionKey *key = [[SFEncryptionKey alloc] initWithData:[secretKey dataUsingEncoding:NSUTF8StringEncoding]
-                                            initializationVector:nil];
-    [SFSmartStore setEncryptionKeyBlock:^SFEncryptionKey *{
-        return key;
-    }];
-    NSString * const superSecret = @"super secret";
-    NSData * const superSecretAsData = [superSecret dataUsingEncoding:NSUTF8StringEncoding];
+    SFSmartStoreEncryptionKeyBlock originalEncryptionBlock = [SFSmartStore encryptionKeyBlock];
     
-    SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
-    NSDictionary* nameIndex = @{@"path": @"name", @"type": @"string"};
-    
-    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
-        [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[nameIndex]] error:nil];
-        __block NSString *soupTableName;
-        [store.storeQueue inDatabase:^(FMDatabase *db) {
-            soupTableName = [store tableNameForSoup:kSSExternalStorage_TestSoupName withDb:db];
+    @try {
+        // Define a key
+        NSString *secretKey = @"secretKey";
+        SFEncryptionKey *key = [[SFEncryptionKey alloc] initWithData:[secretKey dataUsingEncoding:NSUTF8StringEncoding]
+                                                initializationVector:nil];
+        [SFSmartStore setEncryptionKeyBlock:^SFEncryptionKey *{
+            return key;
         }];
+        NSString * const superSecret = @"super secret";
+        NSData * const superSecretAsData = [superSecret dataUsingEncoding:NSUTF8StringEncoding];
         
-        // Insert
-        NSDictionary *entry = @{@"name": superSecret};
-        NSArray *insertedEntries = [store upsertEntries:@[entry] toSoup:kSSExternalStorage_TestSoupName];
-        NSDictionary *savedEntry = insertedEntries[0];
+        SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
+        NSDictionary* nameIndex = @{@"path": @"name", @"type": @"string"};
         
-        // Load external file as string
-        NSString *filePath = [store externalStorageSoupFilePath:savedEntry[SOUP_ENTRY_ID] soupTableName:soupTableName];
-        NSData *fileData = [NSData dataWithContentsOfFile:filePath];
-        XCTAssertGreaterThan(fileData.length, 0, @"Contents of file may not have loaded correctly.");
-        
-        // Assert
-        NSRange foundRange = [fileData rangeOfData:superSecretAsData
-                                           options:0
-                                             range:NSMakeRange(0, fileData.length)];
-        XCTAssertEqual(foundRange.location, NSNotFound, @"File contains plain text? Enryption failed?");
+        for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+            [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[nameIndex]] error:nil];
+            __block NSString *soupTableName;
+            [store.storeQueue inDatabase:^(FMDatabase *db) {
+                soupTableName = [store tableNameForSoup:kSSExternalStorage_TestSoupName withDb:db];
+            }];
+            
+            // Insert
+            NSDictionary *entry = @{@"name": superSecret};
+            NSArray *insertedEntries = [store upsertEntries:@[entry] toSoup:kSSExternalStorage_TestSoupName];
+            NSDictionary *savedEntry = insertedEntries[0];
+            
+            // Load external file as string
+            NSString *filePath = [store externalStorageSoupFilePath:savedEntry[SOUP_ENTRY_ID] soupTableName:soupTableName];
+            NSData *fileData = [NSData dataWithContentsOfFile:filePath];
+            XCTAssertGreaterThan(fileData.length, 0, @"Contents of file may not have loaded correctly.");
+            
+            // Assert
+            NSRange foundRange = [fileData rangeOfData:superSecretAsData
+                                               options:0
+                                                 range:NSMakeRange(0, fileData.length)];
+            XCTAssertEqual(foundRange.location, NSNotFound, @"File contains plain text? Enryption failed?");
+        }
+    }
+    
+    @finally {
+        // Restore encryption block
+        [SFSmartStore setEncryptionKeyBlock:originalEncryptionBlock];
     }
 }
 
 - (void)testExternalStorageIsNotEncryptedWhenDbIsNotEncrypted {
-    // Unset encrytpion
-    [SFSmartStore setEncryptionKeyBlock:nil];
-    NSString * const notReallyASecret = @"there are no secrets";
-    NSData * const notReallyASecretAsData = [notReallyASecret dataUsingEncoding:NSUTF8StringEncoding];
+    SFSmartStoreEncryptionKeyBlock originalEncryptionBlock = [SFSmartStore encryptionKeyBlock];
     
-    SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
-    NSDictionary* nameIndex = @{@"path": @"name", @"type": @"string"};
+    @try {
+        // Unset encrytpion
+        [SFSmartStore setEncryptionKeyBlock:nil];
+        NSString * const notReallyASecret = @"there are no secrets";
+        NSData * const notReallyASecretAsData = [notReallyASecret dataUsingEncoding:NSUTF8StringEncoding];
+        
+        SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
+        NSDictionary* nameIndex = @{@"path": @"name", @"type": @"string"};
+        
+        for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+            [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[nameIndex]] error:nil];
+            __block NSString *soupTableName;
+            [store.storeQueue inDatabase:^(FMDatabase *db) {
+                soupTableName = [store tableNameForSoup:kSSExternalStorage_TestSoupName withDb:db];
+            }];
+            
+            // Insert
+            NSDictionary *entry = @{@"name": notReallyASecret};
+            NSArray *insertedEntries = [store upsertEntries:@[entry] toSoup:kSSExternalStorage_TestSoupName];
+            NSDictionary *savedEntry = insertedEntries[0];
+            
+            // Load external file as string
+            NSString *filePath = [store externalStorageSoupFilePath:savedEntry[SOUP_ENTRY_ID] soupTableName:soupTableName];
+            NSData *fileData = [NSData dataWithContentsOfFile:filePath];
+            XCTAssertGreaterThan(fileData.length, 0, @"Contents of file may not have loaded correctly.");
+            
+            // Assert
+            NSRange foundRange = [fileData rangeOfData:notReallyASecretAsData
+                                               options:0
+                                                 range:NSMakeRange(0, fileData.length)];
+            XCTAssertNotEqual(foundRange.location, NSNotFound, @"External file should contain plain text, store is not encrypted, neither should be external files.");
+        }
+        
+    }
     
-    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
-        [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[nameIndex]] error:nil];
-        __block NSString *soupTableName;
-        [store.storeQueue inDatabase:^(FMDatabase *db) {
-            soupTableName = [store tableNameForSoup:kSSExternalStorage_TestSoupName withDb:db];
-        }];
-        
-        // Insert
-        NSDictionary *entry = @{@"name": notReallyASecret};
-        NSArray *insertedEntries = [store upsertEntries:@[entry] toSoup:kSSExternalStorage_TestSoupName];
-        NSDictionary *savedEntry = insertedEntries[0];
-        
-        // Load external file as string
-        NSString *filePath = [store externalStorageSoupFilePath:savedEntry[SOUP_ENTRY_ID] soupTableName:soupTableName];
-        NSData *fileData = [NSData dataWithContentsOfFile:filePath];
-        XCTAssertGreaterThan(fileData.length, 0, @"Contents of file may not have loaded correctly.");
-        
-        // Assert
-        NSRange foundRange = [fileData rangeOfData:notReallyASecretAsData
-                                           options:0
-                                             range:NSMakeRange(0, fileData.length)];
-        XCTAssertNotEqual(foundRange.location, NSNotFound, @"External file should contain plain text, store is not encrypted, neither should be external files.");
+    @finally {
+        // Restore encryption block
+        [SFSmartStore setEncryptionKeyBlock:originalEncryptionBlock];
     }
 }
 

@@ -100,9 +100,6 @@ NS_SWIFT_NAME(UserAccount)
 @property (nonatomic, copy) NSString *userName SFSDK_DEPRECATED(7.1, 8.0, "Use SFUserAccount.idData properties instead");
 
 /** The user's photo. Usually store a thumbnail of the user.
- Note: the consumer of this class must set the photo at least once,
- because this class doesn't fetch it from the server but
- only stores it locally on the disk.
  */
 @property (nonatomic, strong, nullable) UIImage *photo;
 

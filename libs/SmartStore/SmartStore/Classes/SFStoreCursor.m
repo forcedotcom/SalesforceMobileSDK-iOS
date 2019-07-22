@@ -26,6 +26,8 @@
 
 #import "SFSmartStore.h"
 #import "SFQuerySpec.h"
+#import <SalesforceSDKCommon/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
 @interface SFStoreCursor ()
 

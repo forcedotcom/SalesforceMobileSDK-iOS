@@ -89,7 +89,7 @@ NS_SWIFT_NAME(SyncState)
 @interface SFSyncState : NSObject <NSCopying>
 
 @property (nonatomic, readonly) NSInteger syncId;
-@property (nonatomic, strong, readonly) NSString* syncName;
+@property (nonatomic, strong, readonly) NSString* name;
 @property (nonatomic, readonly) SFSyncStateSyncType type;
 @property (nonatomic, strong, readonly) NSString* soupName;
 @property (nonatomic, strong, readonly) SFSyncTarget* target;

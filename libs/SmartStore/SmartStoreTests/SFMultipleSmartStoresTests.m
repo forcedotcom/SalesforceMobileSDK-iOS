@@ -26,15 +26,26 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFMultipleSmartStoresTest.h"
-@interface SFOAuthCredentials ()
-@property (nonatomic, readwrite, nullable) NSURL *identityUrl;
+#import "SFSmartStoreTestCase.h"
 
-@end
-@interface SFMultipleSmartStoresTests()
+@interface SFMultipleSmartStoresTests : SFSmartStoreTestCase
 
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;
 
+@end
+
+@interface SFOAuthCredentials ()
+
+@property (nonatomic, readwrite, nullable) NSURL *identityUrl;
+
+@end
+
+@interface SFUserAccountManager()
+- (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
+@end
+
+@interface SFUserAccountManager()
+- (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
 @end
 
 @implementation SFMultipleSmartStoresTests
@@ -108,7 +119,7 @@
     [user transitionToLoginState:SFUserAccountLoginStateLoggedIn];
     [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
      XCTAssertNil(error);
-    [SFUserAccountManager sharedInstance].currentUser = user;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal: user];
     return user;
 }
 
@@ -117,7 +128,7 @@
     [SFSmartStore removeAllGlobalStores];
     [SFSmartStore removeAllStores];
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
-    [SFUserAccountManager sharedInstance].currentUser = nil;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal: nil];
 }
 
 @end

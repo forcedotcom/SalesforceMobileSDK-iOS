@@ -155,7 +155,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 - (void)testOverrideInvalidAiltnAppName
 {
-    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:[self createUserAccount]];
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
@@ -187,7 +187,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertNil([SFUserAccountManager sharedInstance].currentUser, @"Current user should be nil.");
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
-    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:[self createUserAccount]];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
     BOOL userAuthenticatedAtLaunch = ((_postLaunchActions & SFSDKLaunchActionAuthenticated) == SFSDKLaunchActionAuthenticated);
@@ -216,7 +216,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate = NO;
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
-    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:[self createUserAccount]];
     [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
     [self verifyPostLaunchState];
     BOOL userAuthenticatedAtLaunch = ((_postLaunchActions & SFSDKLaunchActionAuthenticated) == SFSDKLaunchActionAuthenticated);
@@ -240,7 +240,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [self createStandardPostLaunchBlock];
     [self createTestAppIdentity];
     XCTAssertNil([SFUserAccountManager sharedInstance].currentUser, @"Current user should be nil.");
-    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:[self createUserAccount]];
     XCTAssertNotNil([SFUserAccountManager sharedInstance].currentUser, @"Current user should not be nil.");
     SFUserAccount *userTo = [self createUserAccount];
     SFUserAccount *userFrom = [SFUserAccountManager sharedInstance].currentUser;
@@ -453,6 +453,23 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertTrue([brandedURL containsString:[brandPath substringToIndex:brandPath.length-1]]);
 }
 
+#pragma mark - Dispaly Name Tests
+
+- (void)testDefaultDisplayName {
+    NSString *nilString = nil; //avoids warning from passing nil
+    NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+    NSString *bundleDisplayName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    NSString *matchName = (bundleDisplayName) ? bundleDisplayName : bundleName;
+    [[SalesforceSDKManager sharedManager] setAppDisplayName:nilString];
+    XCTAssertTrue([matchName isEqualToString:[[SalesforceSDKManager sharedManager] appDisplayName]], @"App names should match");
+}
+
+- (void)testSetDisplayName {
+    NSString *appDispalyName = @"unique sdk name";
+    [[SalesforceSDKManager sharedManager] setAppDisplayName:appDispalyName];
+    XCTAssertTrue([appDispalyName isEqualToString:[[SalesforceSDKManager sharedManager] appDisplayName]], @"App names should match");
+}
+
 #pragma mark - Private helpers
 
 - (void)createStandardPostLaunchBlock
@@ -533,7 +550,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     _origSwitchUserAction = [SalesforceSDKManager sharedManager].switchUserAction; [SalesforceSDKManager sharedManager].switchUserAction = NULL;
     _origPostAppForegroundAction = [SalesforceSDKManager sharedManager].postAppForegroundAction; [SalesforceSDKManager sharedManager].postAppForegroundAction = NULL;
     _origCurrentUser = [SFUserAccountManager sharedInstance].currentUser;
-    [SFUserAccountManager sharedInstance].currentUser = nil;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
     _postLaunchBlockCalled = NO;
     _postLaunchActions = SFSDKLaunchActionNone;
     _launchErrorBlockCalled = NO;
@@ -556,7 +573,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].postLogoutAction = _origPostLogoutAction;
     [SalesforceSDKManager sharedManager].switchUserAction = _origSwitchUserAction;
     [SalesforceSDKManager sharedManager].postAppForegroundAction = _origPostAppForegroundAction;
-    [SFUserAccountManager sharedInstance].currentUser = _origCurrentUser;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:_origCurrentUser];
     SalesforceSDKManager.ailtnAppName = _origAppName;
     SFSDKWebViewStateManager.sharedProcessPool = _origProcessPool;
     [SalesforceSDKManager sharedManager].brandLoginPath = _origBrandLoginPath;
@@ -565,7 +582,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
 - (void)compareAiltnAppNames:(NSString *)expectedAppName
 {
     SFUserAccount *prevCurrentUser = [SFUserAccountManager sharedInstance].currentUser;
-    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:[self createUserAccount]];
     SFSDKSalesforceAnalyticsManager *analyticsManager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
     XCTAssertNotNil(analyticsManager, @"SFSDKSalesforceAnalyticsManager instance should not be nil");
     SFSDKDeviceAppAttributes *deviceAttributes = analyticsManager.analyticsManager.deviceAttributes;
@@ -575,7 +592,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
      NSError *error = nil;
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:[SFUserAccountManager sharedInstance].currentUser error:&error];
     XCTAssertNil(error, @"SalesforceSDKManagerTests for ailtn could not delete created user");
-    [SFUserAccountManager sharedInstance].currentUser = prevCurrentUser;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:prevCurrentUser];
 }
 
 @end

@@ -22,15 +22,21 @@
   WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "SFSmartSqlWithExternalStorageTests.h"
 #import "SFSmartSqlHelper.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSoupSpec.h"
+#import "SFSmartSqlTests.h"
+@interface SFUserAccountManager()
+- (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
+@end
+@interface SFUserAccountManager()
+- (void)setCurrentUserInternal:(SFUserAccount *)userAccount;
+@end
 
-@interface SFSmartSqlWithExternalStorageTests ()
+@interface SFSmartSqlWithExternalStorageTests : SFSmartSqlTests
 
 @property (nonatomic, strong) SFSmartStore *store;
 
@@ -40,7 +46,7 @@
 
 - (void)setUp {
     NSArray *features = @[kSoupFeatureExternalStorage];
-    [SFUserAccountManager sharedInstance].currentUser = [super createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:[super createUserAccount]];
     self.store = [SFSmartStore sharedStoreWithName:kTestStore user:[SFUserAccountManager sharedInstance].currentUser];
     
     // Employees soup

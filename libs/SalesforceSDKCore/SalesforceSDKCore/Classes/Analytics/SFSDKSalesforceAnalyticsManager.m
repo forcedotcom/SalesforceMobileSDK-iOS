@@ -51,6 +51,8 @@ static NSString * const kSFAppFeatureAiltnEnabled = @"AI";
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
+UIBackgroundTaskIdentifier task;
+
 @implementation SFSDKSalesforceAnalyticsManager
 
 + (void)initialize {
@@ -243,6 +245,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
                 }
                 publishCompleteBlock = nil;
             }
+            [self cleanupBackgroundTask];
         };
         [self applyTransformAndPublish:currentTpp events:events publishCompleteBlock:publishCompleteBlock];
     }
@@ -313,14 +316,11 @@ static NSMutableDictionary *analyticsManagerList = nil;
         return;
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        __block UIBackgroundTaskIdentifier task;
+        __block typeof(self) weakSelf = self;
         task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithName:NSStringFromClass([self class]) expirationHandler:^{
-            [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
-            task = UIBackgroundTaskInvalid;
+            [weakSelf cleanupBackgroundTask];
         }];
         [self publishAllEvents];
-        [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
-        task = UIBackgroundTaskInvalid;
     });
 }
 
@@ -351,6 +351,11 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs removeObjectForKey:kAnalyticsOnOffKey];
     [[self class] removeSharedInstanceWithUser:user];
+}
+
+- (void) cleanupBackgroundTask {
+    [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
+    task = UIBackgroundTaskInvalid;
 }
 @end
 

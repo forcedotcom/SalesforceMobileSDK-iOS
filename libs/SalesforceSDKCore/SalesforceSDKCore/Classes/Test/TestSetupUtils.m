@@ -68,7 +68,6 @@ static SFOAuthCredentials *credentials = nil;
     NSAssert(![credsData.refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
              @"You need to obtain credentials for your test org and replace test_credentials.json");
     [SalesforceSDKManager initializeSDK];
-   [SFUserAccountManager sharedInstance].currentUser = nil;
     
     // Note: We need to fix this inconsistency for tests in the long run.There should be a clean way to refresh appConfigs for tests. The configs should apply across all components that need the  config.
     SFSDKAppConfig *appconfig  = [[SFSDKAppConfig alloc] init];
@@ -114,8 +113,6 @@ static SFOAuthCredentials *credentials = nil;
          authListener.returnStatus = kTestRequestStatusDidFail;
      }];
     [authListener waitForCompletion];
-    [[SFUserAccountManager sharedInstance] setCurrentUser:user];
-    
     NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
              kTestRequestStatusDidLoad,
              authListener.returnStatus);

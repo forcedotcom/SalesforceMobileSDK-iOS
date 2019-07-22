@@ -496,7 +496,13 @@ NS_SWIFT_NAME(UserAccountManager)
 /**
  Switches away from the current user, to a new user context.
  */
-- (void)switchToNewUser NS_SWIFT_NAME(switchToNewUserAccount());
+- (void)switchToNewUser NS_SWIFT_NAME(switchToNewUserAccount()) SFSDK_DEPRECATED(7.2, 8.0, "Use switchToNewUserWithCompletion instead.");
+
+/**
+ Switches to a new user. Sets the current user only if the login succeeds. Completion block is
+ invoked if the login flow completes, or if any errors are encountered during the flow.
+ */
+- (void)switchToNewUserWithCompletion:(void (^)(NSError *, SFUserAccount *))completion NS_SWIFT_NAME(switchToNewUserAccount(_:));
 
 /**
  Switches away from the current user, to the given user account.
@@ -619,6 +625,8 @@ NS_SWIFT_NAME(UserAccountManager)
  @return SFBiometricUnlockState UserAllowed, UserDeclined, PromptUser or Unavalible.  
  */
 - (SFBiometricUnlockState)biometricUnlockState;
+
+- (void)setCurrentUser:(SFUserAccount * _Nullable)currentUser SFSDK_DEPRECATED(7.2, 8.0, "Use switchToUser or  switchToNewUserWithCompletion instead.");
 
 @end
 

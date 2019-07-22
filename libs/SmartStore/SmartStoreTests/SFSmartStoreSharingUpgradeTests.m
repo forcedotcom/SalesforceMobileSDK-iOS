@@ -42,7 +42,6 @@
 @interface SFSmartStore (Private)
 @property (nonatomic, class,readwrite) SFSmartStoreEncryptionSaltBlock encryptionSaltBlock;
 + (BOOL)hasPlainTextHeader:(NSString *)storeName user:(SFUserAccount *) user;
-+ (void)clearSharedStoreMemoryState;
 @end
 
 @interface SFSmartStoreUpgrade (Private)
@@ -124,13 +123,12 @@
     store = [SFSmartStore sharedStoreWithName:kTestUpgradeSmartStoreName];
     XCTAssertNotNil(store,@"Store should not be nil after upgrade");
     [self clearSaltBlock];
-    //[SFSmartStore clearSharedStoreMemoryState];
 }
 
 - (void)setupSaltBlock {
     [SFSmartStore setEncryptionSaltBlock:^NSString * _Nullable{
             SFEncryptionKey *saltKey = [[SFKeyStoreManager sharedInstance]   retrieveKeyWithLabel:kSFSmartStoreEncryptionSaltLabel autoCreate:YES];
-            NSString *salt = [[saltKey key] md5];
+            NSString *salt = [[saltKey key] digest];
             return salt;
     }];
 }

@@ -47,6 +47,7 @@ static NSError *sLastError = nil;
         if (nil != err) {
             [SFLogger log:[self class] level:SFLogLevelDebug format:@"WARNING error parsing json: %@", err];
             sLastError = err;
+            return nil;
         }
     }
     return result;
