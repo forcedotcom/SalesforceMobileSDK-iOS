@@ -26,13 +26,49 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/removeSession</TokenIdentifier>
-			<Abstract type="html">  Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool</Abstract>
+			<Abstract type="html">  Remove all associated state with WKWebView and UIWebView e.g. Remove Cookies, reset WKProcessPool unless session cookie removal  has been disabled.</Abstract>
 			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
 			
 			<Declaration>+ (void)removeSession</Declaration>
 			
 			
 			<Anchor>//api/name/removeSession</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/setSessionCookieManagementDisabled:</TokenIdentifier>
+			<Abstract type="html">Disables the crreation/removal of session Cookies. The application can call the respective methods</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, assign, getter=isSessionCookieManagementDisabled) BOOL sessionCookieManagementDisabled</Declaration>
+			
+			
+			<Anchor>//api/name/sessionCookieManagementDisabled</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/isSessionCookieManagementDisabled</TokenIdentifier>
+			<Abstract type="html">Disables the crreation/removal of session Cookies. The application can call the respective methods</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, assign, getter=isSessionCookieManagementDisabled) BOOL sessionCookieManagementDisabled</Declaration>
+			
+			
+			<Anchor>//api/name/sessionCookieManagementDisabled</Anchor>
+            <NodeRef refid="123"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWebViewStateManager/sessionCookieManagementDisabled</TokenIdentifier>
+			<Abstract type="html">Disables the crreation/removal of session Cookies. The application can call the respective methods</Abstract>
+			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, assign, getter=isSessionCookieManagementDisabled) BOOL sessionCookieManagementDisabled</Declaration>
+			
+			
+			<Anchor>//api/name/sessionCookieManagementDisabled</Anchor>
             <NodeRef refid="123"/>
 		</Token>
 		

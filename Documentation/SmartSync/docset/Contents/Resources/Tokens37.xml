@@ -49,38 +49,38 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setSyncName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/setName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncState.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *syncName</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/syncName</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/syncName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncState/name</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncState.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *syncName</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/syncName</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/syncName</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncState/name</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncState.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *syncName</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/syncName</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		

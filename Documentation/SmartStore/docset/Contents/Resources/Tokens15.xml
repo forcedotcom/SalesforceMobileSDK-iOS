@@ -1,16 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreFTSWithExternalStorageTests.html">
+	<File path="Classes/SFSmartStoreTests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreFTSWithExternalStorageTests</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreTests</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreFTSWithExternalStorageTests.h</DeclaredIn>
+			<DeclaredIn>SFSmartStoreTests.h</DeclaredIn>
             
 			
 			<NodeRef refid="15"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTests/setSmartStoreUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTests.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFUserAccount *smartStoreUser</Declaration>
+			
+			
+			<Anchor>//api/name/smartStoreUser</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTests/smartStoreUser</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTests.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFUserAccount *smartStoreUser</Declaration>
+			
+			
+			<Anchor>//api/name/smartStoreUser</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStoreTests/smartStoreUser</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTests.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFUserAccount *smartStoreUser</Declaration>
+			
+			
+			<Anchor>//api/name/smartStoreUser</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTests/setStore:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTests.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSmartStore *store</Declaration>
+			
+			
+			<Anchor>//api/name/store</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTests/store</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTests.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSmartStore *store</Declaration>
+			
+			
+			<Anchor>//api/name/store</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStoreTests/store</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTests.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSmartStore *store</Declaration>
+			
+			
+			<Anchor>//api/name/store</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTests/setGlobalStore:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTests.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSmartStore *globalStore</Declaration>
+			
+			
+			<Anchor>//api/name/globalStore</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTests/globalStore</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTests.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSmartStore *globalStore</Declaration>
+			
+			
+			<Anchor>//api/name/globalStore</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStoreTests/globalStore</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTests.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSmartStore *globalStore</Declaration>
+			
+			
+			<Anchor>//api/name/globalStore</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
 		
         
         

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreUtils.html">
+	<File path="Categories/SFUserAccount+SmartStoreTest.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreUtils</TokenIdentifier>
-			<Abstract type="html">Utility methods used by SmartStore.</Abstract>
-			<DeclaredIn>SFSmartStoreUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/SFUserAccount(SmartStoreTest)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
             
 			
 			<NodeRef refid="23"/>
@@ -13,15 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUtils/userKeyForUser:</TokenIdentifier>
-			<Abstract type="html">Returns a unique key for the given user, or a &quot;global&quot; key if no proper
-user is configured.</Abstract>
-			<DeclaredIn>SFSmartStoreUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/transitionToLoginState:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)userKeyForUser:(nullable SFUserAccount *)user</Declaration>
+			<Declaration>- (BOOL)transitionToLoginState:(SFUserAccountLoginState)newLoginState</Declaration>
 			
-			<ReturnValue><Abstract type="html">Unique key for the given user</Abstract></ReturnValue>
-			<Anchor>//api/name/userKeyForUser:</Anchor>
+			
+			<Anchor>//api/name/transitionToLoginState:</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		

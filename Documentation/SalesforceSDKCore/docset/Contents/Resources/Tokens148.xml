@@ -24,6 +24,54 @@
             <NodeRef refid="148"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/digest</TokenIdentifier>
+			<Abstract type="html">Derives  a 16-byte  hex encoded string .</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)digest</Declaration>
+			
+			<ReturnValue><Abstract type="html">16-byte  hex encoded string.</Abstract></ReturnValue>
+			<Anchor>//api/name/digest</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha1</TokenIdentifier>
+			<Abstract type="html">Derives  a  sha1  hex encoded string.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sha1</Declaration>
+			
+			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sha1</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha224</TokenIdentifier>
+			<Abstract type="html">Derives  a  sha224  hex encoded string.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sha224</Declaration>
+			
+			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sha224</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha256</TokenIdentifier>
+			<Abstract type="html">Derives  a  sha256  hex encoded string.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sha256</Declaration>
+			
+			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sha256</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
         
         
 	</File>

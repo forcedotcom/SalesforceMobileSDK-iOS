@@ -13,38 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/backgroundColor</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewBackgroundColor</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
 			
-			<Declaration>+ (UIColor *)backgroundColor</Declaration>
+			<Declaration>+ (UIColor *)passcodeViewBackgroundColor</Declaration>
 			
 			
-			<Anchor>//api/name/backgroundColor</Anchor>
+			<Anchor>//api/name/passcodeViewBackgroundColor</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/textColor</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewTextColor</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
 			
-			<Declaration>+ (UIColor *)textColor</Declaration>
+			<Declaration>+ (UIColor *)passcodeViewTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/textColor</Anchor>
+			<Anchor>//api/name/passcodeViewTextColor</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/borderColor</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewBorderColor</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
 			
-			<Declaration>+ (UIColor *)borderColor</Declaration>
+			<Declaration>+ (UIColor *)passcodeViewBorderColor</Declaration>
 			
 			
-			<Anchor>//api/name/borderColor</Anchor>
+			<Anchor>//api/name/passcodeViewBorderColor</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSmartStoreLogger.html">
+	<File path="Classes/SFSDKStoreConfigTests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSmartStoreLogger</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKStoreConfigTests</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSmartStoreLogger.h</DeclaredIn>
+			<DeclaredIn>SFSDKStoreConfigTests.h</DeclaredIn>
             
 			
 			<NodeRef refid="6"/>

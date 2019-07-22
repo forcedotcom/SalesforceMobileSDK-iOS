@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreTestCase.html">
+	<File path="Classes/SFStoreCursor.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreTestCase</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFStoreCursor</TokenIdentifier>
+			<Abstract type="html">Defines a cursor into data stored in a soup.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
             
 			
 			<NodeRef refid="20"/>
@@ -13,266 +13,301 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/assertSameJSONWithExpected:actual:message:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCursorId:</TokenIdentifier>
+			<Abstract type="html">A unique ID for this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)assertSameJSONWithExpected:(id)expected actual:(id)actual message:(NSString *)message</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
 			
 			
-			<Anchor>//api/name/assertSameJSONWithExpected:actual:message:</Anchor>
+			<Anchor>//api/name/cursorId</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/assertSameJSONArrayWithExpected:actual:message:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/cursorId</TokenIdentifier>
+			<Abstract type="html">A unique ID for this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)assertSameJSONArrayWithExpected:(NSArray *)expected actual:(NSArray *)actual message:(NSString *)message</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
 			
 			
-			<Anchor>//api/name/assertSameJSONArrayWithExpected:actual:message:</Anchor>
+			<Anchor>//api/name/cursorId</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/assertSameJSONMapWithExpected:actual:message:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/cursorId</TokenIdentifier>
+			<Abstract type="html">A unique ID for this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)assertSameJSONMapWithExpected:(NSDictionary *)expected actual:(NSDictionary *)actual message:(NSString *)message</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
 			
 			
-			<Anchor>//api/name/assertSameJSONMapWithExpected:actual:message:</Anchor>
+			<Anchor>//api/name/cursorId</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createStringIndexSpec:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setQuerySpec:</TokenIdentifier>
+			<Abstract type="html">The query spec that generated this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)createStringIndexSpec:(NSString *)path</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
 			
 			
-			<Anchor>//api/name/createStringIndexSpec:</Anchor>
+			<Anchor>//api/name/querySpec</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createIntegerIndexSpec:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/querySpec</TokenIdentifier>
+			<Abstract type="html">The query spec that generated this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)createIntegerIndexSpec:(NSString *)path</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
 			
 			
-			<Anchor>//api/name/createIntegerIndexSpec:</Anchor>
+			<Anchor>//api/name/querySpec</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createFloatingIndexSpec:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/querySpec</TokenIdentifier>
+			<Abstract type="html">The query spec that generated this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)createFloatingIndexSpec:(NSString *)path</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
 			
 			
-			<Anchor>//api/name/createFloatingIndexSpec:</Anchor>
+			<Anchor>//api/name/querySpec</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createFullTextIndexSpec:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCurrentPageOrderedEntries:</TokenIdentifier>
+			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)createFullTextIndexSpec:(NSString *)path</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
 			
 			
-			<Anchor>//api/name/createFullTextIndexSpec:</Anchor>
+			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createJSON1IndexSpec:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/currentPageOrderedEntries</TokenIdentifier>
+			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)createJSON1IndexSpec:(NSString *)path</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
 			
 			
-			<Anchor>//api/name/createJSON1IndexSpec:</Anchor>
+			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createSimpleIndexSpec:withType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/currentPageOrderedEntries</TokenIdentifier>
+			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)createSimpleIndexSpec:(NSString *)path withType:(NSString *)pathType</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
 			
 			
-			<Anchor>//api/name/createSimpleIndexSpec:withType:</Anchor>
+			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/hasTable:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setPageSize:</TokenIdentifier>
+			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasTable:(NSString *)tableName store:(SFSmartStore *)store</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
 			
 			
-			<Anchor>//api/name/hasTable:store:</Anchor>
+			<Anchor>//api/name/pageSize</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/getSoupTableName:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/pageSize</TokenIdentifier>
+			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)getSoupTableName:(NSString *)soupName store:(SFSmartStore *)store</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
 			
 			
-			<Anchor>//api/name/getSoupTableName:store:</Anchor>
+			<Anchor>//api/name/pageSize</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkExplainQueryPlan:index:covering:dbOperation:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/pageSize</TokenIdentifier>
+			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)checkExplainQueryPlan:(NSString *)soupName index:(NSUInteger)index covering:(BOOL)covering dbOperation:(NSString *)dbOperation store:(SFSmartStore *)store</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
 			
 			
-			<Anchor>//api/name/checkExplainQueryPlan:index:covering:dbOperation:store:</Anchor>
+			<Anchor>//api/name/pageSize</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkColumns:expectedColumns:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setTotalPages:</TokenIdentifier>
+			<Abstract type="html">The total number of pages of results available.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)checkColumns:(NSString *)tableName expectedColumns:(NSArray *)expectedColumns store:(SFSmartStore *)store</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
 			
 			
-			<Anchor>//api/name/checkColumns:expectedColumns:store:</Anchor>
+			<Anchor>//api/name/totalPages</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkDatabaseIndexes:expectedSqlStatements:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/totalPages</TokenIdentifier>
+			<Abstract type="html">The total number of pages of results available.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)checkDatabaseIndexes:(NSString *)tableName expectedSqlStatements:(NSArray *)expectedSqlStatements store:(SFSmartStore *)store</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
 			
 			
-			<Anchor>//api/name/checkDatabaseIndexes:expectedSqlStatements:store:</Anchor>
+			<Anchor>//api/name/totalPages</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkCreateTableStatment:expectedSqlStatementPrefix:store:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/totalPages</TokenIdentifier>
+			<Abstract type="html">The total number of pages of results available.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)checkCreateTableStatment:(NSString *)tableName expectedSqlStatementPrefix:(NSString *)expectedSqlStatementPrefix store:(SFSmartStore *)store</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
 			
 			
-			<Anchor>//api/name/checkCreateTableStatment:expectedSqlStatementPrefix:store:</Anchor>
+			<Anchor>//api/name/totalPages</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkSoupIndex:expectedPath:expectedType:expectedColumnName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setTotalEntries:</TokenIdentifier>
+			<Abstract type="html">The total number of entries.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)checkSoupIndex:(SFSoupIndex *)indexSpec expectedPath:(NSString *)expectedPath expectedType:(NSString *)expectedType expectedColumnName:(NSString *)expectedColumnName</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalEntries</Declaration>
 			
 			
-			<Anchor>//api/name/checkSoupIndex:expectedPath:expectedType:expectedColumnName:</Anchor>
+			<Anchor>//api/name/totalEntries</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkSoupRow:withExpectedEntry:withSoupIndexes:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/totalEntries</TokenIdentifier>
+			<Abstract type="html">The total number of entries.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)checkSoupRow:(FMResultSet *)frs withExpectedEntry:(NSDictionary *)expectedEntry withSoupIndexes:(NSArray *)arraySoupIndexes</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalEntries</Declaration>
 			
 			
-			<Anchor>//api/name/checkSoupRow:withExpectedEntry:withSoupIndexes:</Anchor>
+			<Anchor>//api/name/totalEntries</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkFtsRow:withExpectedEntry:withSoupIndexes:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/totalEntries</TokenIdentifier>
+			<Abstract type="html">The total number of entries.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)checkFtsRow:(FMResultSet *)frs withExpectedEntry:(NSDictionary *)expectedEntry withSoupIndexes:(NSArray *)arraySoupIndexes</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalEntries</Declaration>
 			
 			
-			<Anchor>//api/name/checkFtsRow:withExpectedEntry:withSoupIndexes:</Anchor>
+			<Anchor>//api/name/totalEntries</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkSoupTable:shouldExist:store:soupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCurrentPageIndex:</TokenIdentifier>
+			<Abstract type="html">The current page index among totalPages available: writing this value
+causes currentPageOrderedEntries to be refetched.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)checkSoupTable:(NSArray *)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore *)store soupName:(NSString *)soupName</Declaration>
+			<Declaration>@property (nonatomic, readwrite, strong, nullable) NSNumber *currentPageIndex</Declaration>
 			
 			
-			<Anchor>//api/name/checkSoupTable:shouldExist:store:soupName:</Anchor>
+			<Anchor>//api/name/currentPageIndex</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkFileSystem:shouldExist:store:soupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/currentPageIndex</TokenIdentifier>
+			<Abstract type="html">The current page index among totalPages available: writing this value
+causes currentPageOrderedEntries to be refetched.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)checkFileSystem:(NSArray *)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore *)store soupName:(NSString *)soupName</Declaration>
+			<Declaration>@property (nonatomic, readwrite, strong, nullable) NSNumber *currentPageIndex</Declaration>
 			
 			
-			<Anchor>//api/name/checkFileSystem:shouldExist:store:soupName:</Anchor>
+			<Anchor>//api/name/currentPageIndex</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/setUpSmartStoreUser</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/currentPageIndex</TokenIdentifier>
+			<Abstract type="html">The current page index among totalPages available: writing this value
+causes currentPageOrderedEntries to be refetched.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (SFUserAccount *)setUpSmartStoreUser</Declaration>
+			<Declaration>@property (nonatomic, readwrite, strong, nullable) NSNumber *currentPageIndex</Declaration>
 			
 			
-			<Anchor>//api/name/setUpSmartStoreUser</Anchor>
+			<Anchor>//api/name/currentPageIndex</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/tearDownSmartStoreUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/initWithStore:querySpec:</TokenIdentifier>
+			<Abstract type="html">Initializes a new instance of a soup cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (void)tearDownSmartStoreUser:(SFUserAccount *)user</Declaration>
+			<Declaration>- (id)initWithStore:(SFSmartStore *)store querySpec:(SFQuerySpec *)querySpec</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>store</Name>
+					<Abstract type="html">The store where the soup is contained.</Abstract>
+				</Parameter><Parameter>
+					<Name>querySpec</Name>
+					<Abstract type="html">The query used to retrieve the data.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithStore:querySpec:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/getDataSerialized:error:</TokenIdentifier>
+			<Abstract type="html">Run query and resturn JSON serialized representation of the cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)getDataSerialized:(SFSmartStore *)store error:(NSError **)error</Declaration>
+			
+			<ReturnValue><Abstract type="html">JSON serialized representation of this object.</Abstract></ReturnValue>
+			<Anchor>//api/name/getDataSerialized:error:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/close</TokenIdentifier>
+			<Abstract type="html">Close this cursor when finished operating on it.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>- (void)close</Declaration>
 			
 			
-			<Anchor>//api/name/tearDownSmartStoreUser:</Anchor>
+			<Anchor>//api/name/close</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		

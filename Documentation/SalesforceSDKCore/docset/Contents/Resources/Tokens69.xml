@@ -428,8 +428,8 @@ bundle property SFDCOAuthRedirectUri</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setAppDisplayName:</TokenIdentifier>
-			<Abstract type="html">Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
-in the user selection view of the identity provider app.</Abstract>
+			<Abstract type="html">A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens
+such as biometric enrollment or IDP login. If left unset, this property will fallback to CFBundleDisplayName or CFBundleName depending on what is available.</Abstract>
 			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
@@ -441,8 +441,8 @@ in the user selection view of the identity provider app.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/appDisplayName</TokenIdentifier>
-			<Abstract type="html">Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
-in the user selection view of the identity provider app.</Abstract>
+			<Abstract type="html">A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens
+such as biometric enrollment or IDP login. If left unset, this property will fallback to CFBundleDisplayName or CFBundleName depending on what is available.</Abstract>
 			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
@@ -454,8 +454,8 @@ in the user selection view of the identity provider app.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/appDisplayName</TokenIdentifier>
-			<Abstract type="html">Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
-in the user selection view of the identity provider app.</Abstract>
+			<Abstract type="html">A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens
+such as biometric enrollment or IDP login. If left unset, this property will fallback to CFBundleDisplayName or CFBundleName depending on what is available.</Abstract>
 			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>

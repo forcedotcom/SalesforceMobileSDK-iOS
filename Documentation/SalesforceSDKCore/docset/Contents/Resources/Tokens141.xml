@@ -116,45 +116,6 @@ backgrounding and foregrounding state.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setAppDisplayName:</TokenIdentifier>
-			<Abstract type="html">Use this flag to setup a user friendly display name  for your current app. This value will be used by the identity
-provider app on the user selection view.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
-			
-			
-			<Anchor>//api/name/appDisplayName</Anchor>
-            <NodeRef refid="141"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/appDisplayName</TokenIdentifier>
-			<Abstract type="html">Use this flag to setup a user friendly display name  for your current app. This value will be used by the identity
-provider app on the user selection view.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
-			
-			
-			<Anchor>//api/name/appDisplayName</Anchor>
-            <NodeRef refid="141"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/appDisplayName</TokenIdentifier>
-			<Abstract type="html">Use this flag to setup a user friendly display name  for your current app. This value will be used by the identity
-provider app on the user selection view.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
-			
-			
-			<Anchor>//api/name/appDisplayName</Anchor>
-            <NodeRef refid="141"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setIsDevSupportEnabled:</TokenIdentifier>
 			<Abstract type="html">Use this flag to indicate if the dev support dialog should be enabled in the APP</Abstract>
 			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>

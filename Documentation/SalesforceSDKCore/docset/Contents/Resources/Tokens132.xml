@@ -237,10 +237,7 @@ current community if available (see communityId.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setPhoto:</TokenIdentifier>
-			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
-Note: the consumer of this class must set the photo at least once,
-because this class doesn&apos;t fetch it from the server but
-only stores it locally on the disk.</Abstract>
+			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.</Abstract>
 			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong, nullable) UIImage *photo</Declaration>
@@ -252,10 +249,7 @@ only stores it locally on the disk.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/photo</TokenIdentifier>
-			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
-Note: the consumer of this class must set the photo at least once,
-because this class doesn&apos;t fetch it from the server but
-only stores it locally on the disk.</Abstract>
+			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.</Abstract>
 			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong, nullable) UIImage *photo</Declaration>
@@ -267,10 +261,7 @@ only stores it locally on the disk.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/photo</TokenIdentifier>
-			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
-Note: the consumer of this class must set the photo at least once,
-because this class doesn&apos;t fetch it from the server but
-only stores it locally on the disk.</Abstract>
+			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.</Abstract>
 			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong, nullable) UIImage *photo</Declaration>
