@@ -675,12 +675,14 @@ static dispatch_once_t pred;
 - (NSString *)toQueryString:(NSDictionary *)components {
     NSMutableString *params = [NSMutableString new];
     if (components) {
+        NSMutableArray *parts = [NSMutableArray array];
         [params appendString:@"?"];
         for (NSString *paramName in [components allKeys]) {
-            [params appendString:paramName];
-            [params appendString:@"="];
-            [params appendString:[components[paramName] stringByURLEncoding]];
+          NSString* paramValue = components[paramName];
+          NSString *part = [NSString stringWithFormat:@"%@=%@", [paramName stringByURLEncoding], [paramValue stringByURLEncoding]];
+          [parts addObject:part];
         }
+        [params appendString:[parts componentsJoinedByString:@"&"]];
     }
     return params;
 }
