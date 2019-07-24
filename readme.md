@@ -31,42 +31,18 @@ The Salesforce Mobile SDK for iOS requires iOS 11.0 or greater.  The install.sh 
 Introduction
 ==
 
-### What's New in 7.0
+### What's New in 7.2
+- If you set the `appDisplayName` property of `SalesforceSDKManager`, Mobile SDK now uses its value in public-facing screens that reference the app by name.
 
-For iOS, Mobile SDK 7.0 marks the beginning of an ongoing collaboration with Apple Inc., to enhance the usability and standardization
-of our Swift APIs. As a result of this partnership, our Swift offerings have undergone extensive changes. The revised APIs are “Swiftified”
-aliases for the Mobile SDK Objective-C APIs.
+**SmartStore Updates**
+- SmartStore now uses NSCache for statement caches.
 
-**Swift API Updates**
-- For improved readability, we’ve applied “Swifty” restyling to many class names, method names, and parameter names. The Xcode
-editor provides excellent support for these API names, so it’s easy to find what you want. If you don’t see what you’re looking for,
-you can search the Objective-C header files as follows:
-  - Look for customized Swift names in `NS_SWIFT_NAME()` macros next to their Objective-C counterparts.
-  - A few Objective-C APIs aren’t available in Swift. These APIs are marked with the `NS_SWIFT_UNAVAILABLE("")` macro.
-  - If an Objective-C API isn’t marked with either the `NS_SWIFT_NAME()` or `NS_SWIFT_UNAVAILABLE("")` macro, you
-call it in Swift using its Objective-C naming.
-- We've redesigned our Swift APIs to use closures and/or delegates for asynchronous calls.
-- Mobile SDK no longer requires the `Cocoa Lumberjack` logging framework. For compiler-level logging, use the `os_log()` function
-from Apple’s unified logging system. See [iOS Compiler-Level Logging](https://developer.salesforce.com/docs/atlas.en-us.noversion.mobile_sdk.meta/mobile_sdk/analytics_logging_ios.htm).
+**Version Updates**
+- SQLCipher: 4.2
+- SQLite: 3.28.0
 
-**Miscellaneous Changes**
-- We’ve simplified `AppDelegate` initialization logic by decoupling login from SDK initialization. You’re no longer required to listen to
-and handle Mobile SDK launch events.
-- Advanced authentication is now allowed by default. The type of authentication used by a Mobile SDK app can be configured only
-through My Domain settings.
-- As recommended by Apple, we’ve updated iOS advanced authentication to use `SFAuthenticationSession` instead of
-`SFSafariViewController`. This notice is informational only and does not require any action on your part.
-- Mobile SDK apps now support both Face ID and Touch ID.
-- We’ve updated and improved the app passcode dialog box.
-  
-**iOS Version Updates**
-- iOS minimum version (deployment target): iOS 11
-- iOS base SDK version: iOS 12
-- Xcode minimum version: 10
-  
 **Deprecation**
-- `PromiseKit` is no longer a dependency of Mobile SDK. Instead, you can use standard delegates or blocks to handle asynchronous calls.
-- `SFSDKLogger` is now deprecated in Mobile SDK apps. Use `os_log()` instead.
+- See [iOS Current Deprecations](https://developer.salesforce.com/docs/atlas.en-us.mobile_sdk.meta/mobile_sdk/reference_current_deprecations_ios.htm).
 Check http://developer.force.com/mobilesdk for additional articles and tutorials.
 
 ### Native Applications
@@ -86,4 +62,4 @@ Documentation
 Discussion
 ==
 
-If you would like to make suggestions, have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on our [Google+ community](https://plus.google.com/communities/114225252149514546445).
+If you would like to make suggestions, have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on [Salesforce StackExchange](https://salesforce.stackexchange.com/questions/tagged/mobilesdk).
