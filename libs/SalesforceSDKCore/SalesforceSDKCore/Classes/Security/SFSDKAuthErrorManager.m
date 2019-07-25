@@ -34,6 +34,7 @@
 #include "SFOAuthInfo.h"
 #include "SFSDKResourceUtils.h"
 #include "SFUserAccountManager.h"
+#include "SFSDKOAuth2.h"
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
