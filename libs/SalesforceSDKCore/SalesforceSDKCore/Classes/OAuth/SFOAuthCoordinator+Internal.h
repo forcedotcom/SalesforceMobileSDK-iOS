@@ -79,11 +79,6 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
  */
 - (NSString *)generateApprovalUrlString;
 
-+ (NSDictionary *)parseQueryString:(NSString *)query;
-+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
-+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *)underlyingError;
-+ (NSDate *)timestampStringToDate:(NSString *)timestamp;
-
 @end
 
 
