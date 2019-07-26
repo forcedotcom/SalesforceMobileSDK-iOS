@@ -73,12 +73,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKOAuthTokenEndpointRequest : NSObject
 @property (nonatomic, copy, nullable) NSString *refreshToken;
 @property (nonatomic, copy, nullable) NSString *userAgentForAuth;
-@property (nonatomic, copy, nullable) NSString *redirectURI;
-@property (nonatomic, copy, nullable) NSString *clientID;
+@property (nonatomic, copy) NSString *redirectURI;
+@property (nonatomic, copy) NSString *clientID;
 @property (nonatomic, copy, nullable) NSString *approvalCode;
 @property (nonatomic, copy, nullable) NSString *codeVerifier;
 @property (nonatomic, assign) NSTimeInterval timeout;
-@property (nonatomic, strong, nullable) NSURL *serverURL;
+@property (nonatomic, strong) NSURL *serverURL;
 @property (nonatomic, strong, nullable) NSDictionary * additionalTokenRefreshParams;
 @property (nonatomic, strong, nullable) NSArray<NSString *> *additionalOAuthParameterKeys;
 @end
@@ -86,11 +86,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKOAuthTokenEndpointResponse : NSObject
 @property (nonatomic, readonly) BOOL hasError;
 @property (nonatomic, readonly, nullable) SFSDKOAuthTokenEndpointErrorResponse *error;
-@property (nonatomic, readonly, nullable) NSString *accessToken;
-@property (nonatomic, readonly, nullable) NSString *refreshToken;
-@property (nonatomic, readonly, nullable) NSDate *issuedAt;
-@property (nonatomic, readonly, nullable) NSURL *instanceUrl;
-@property (nonatomic, readonly, nullable) NSURL *identityUrl;
+@property (nonatomic, readonly) NSString *accessToken;
+@property (nonatomic, readonly) NSString *refreshToken;
+@property (nonatomic, readonly) NSDate *issuedAt;
+@property (nonatomic, readonly) NSURL *instanceUrl;
+@property (nonatomic, readonly) NSURL *identityUrl;
 @property (nonatomic, readonly, nullable) NSString *communityId;
 @property (nonatomic, readonly, nullable) NSURL *communityUrl;
 @property (nonatomic, readonly, nullable) NSURL *apiUrl;
