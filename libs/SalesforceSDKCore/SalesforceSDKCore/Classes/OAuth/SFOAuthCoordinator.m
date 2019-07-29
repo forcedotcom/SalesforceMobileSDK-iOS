@@ -58,7 +58,7 @@ static NSString * const kSFOAuthEndPointAuthorize               = @"/services/oa
 static NSString * const kSFOAuthEndPointToken                   = @"/services/oauth2/token";        // token refresh flow
 
 // Custom constants
-static NSString * const kSFAppStoreLink   = @"itunes.apple.com"
+static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
 
 // Advanced auth constants
 static NSUInteger const kSFOAuthCodeVerifierByteLength          = 128;
