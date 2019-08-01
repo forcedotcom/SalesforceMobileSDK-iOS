@@ -25,6 +25,7 @@
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFOAuthInfo.h"
+#import "SFSDKOAuth2.h"
 
 @implementation SFOAuthSessionRefresher
 
