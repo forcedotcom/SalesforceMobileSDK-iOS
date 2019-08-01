@@ -67,7 +67,7 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
 - (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
 
 /**
- * Sets a session configuration to be used for network requests in the Mobile SDK.
+ * Sets a session configuration to be used for network requests in Mobile SDK.
  *
  * @param sessionConfig Session configuration to be used.
  */
@@ -76,7 +76,7 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
 /**
  * Delegates the creation of NSURLSession to an external object.
  *
- * @param manager object implementing the SFNetworkSessionManaging protocol.
+ * @param manager Object that implements the SFNetworkSessionManaging protocol.
  */
 + (void)setSessionManager:(nonnull id<SFNetworkSessionManaging>)manager;
 

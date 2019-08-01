@@ -29,21 +29,24 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * SFDecryptStream is an input stream that decrypts data right after it is read.
- * SFCryptChunks is used to perform the decryption.
+ * `SFDecryptStream` implements an input stream that decrypts data immediately after it's read.
+ * It uses `SFCryptChunks` to perform the decryption.
  */
 @interface SFDecryptStream : NSInputStream <SFCryptChunksDelegate>
 
 /**
- *  Setup for decryption. You must call this method before using the stream.
- *  @param decKey the decryption key
+ *  Setup for decryption. Always call either this method or `setupWithKey:andInitializationVector:` 
+ *  before using this stream. 
+ *  @param decKey Decryption key.
  */
 - (void)setupWithDecryptionKey:(SFEncryptionKey* )decKey;
 
 /**
- *  Setup for decryption. You must call this method before using the stream.
- *  @param key the cipher key.
- *  @param iv  the initialization vector, must be size of `SFCryptChunksCipherBlockSize`.
+ *  Setup for decryption. Always call either this method or `setupWithDecryptionKey:` 
+ *  before using this stream. Internally, this method initializes the decryption key using `key` and `iv` and then calls 
+ *  `setupWithDecryptionKey:`. 
+ *  @param key Cipher key.
+ *  @param iv  Initialization vector. Its size must match `SFCryptChunksCipherBlockSize`.
  */
 - (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv;
 

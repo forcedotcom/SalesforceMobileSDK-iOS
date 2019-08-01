@@ -29,48 +29,48 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Singleton class to manage operations on the key store.
+ Singleton class to manage operations on the keystore.
  */
 @interface SFKeyStoreManager : NSObject
 
 /**
- @return The singleton instance of the key store manager.
+ @return Shared instance of the keystore manager.
  */
 + (instancetype)sharedInstance;
 
 /**
- Retrieves a key with the given label from the key store, or `nil` depending on the autoCreate value.
- @param keyLabel The label associated with the stored key.
+ Retrieves a key with the given label from the keystore or `nil`, depending on the `autoCreate` value.
+ @param keyLabel Label associated with the stored key.
  @param create Indicates whether a new key should be created if one does not exist.
- @return The encryption key, or `nil` depending on the autoCreate value.
+ @returns Encryption key or `nil`, depending on the `autoCreate` value.
  */
 - (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create;
 
 /**
- Stores a key with the given label in the key store encrypted by the store's key.
- @param key The encryption key to store.
- @param keyLabel The label associated with the key.
+ Stores a key with the given label in the keystore encrypted by the store's key.
+ @param key Encryption key to be stored.
+ @param keyLabel Label associated with the key.
  */
 - (void)storeKey:(SFEncryptionKey *)key withLabel:(NSString *)keyLabel;
 
 /**
- Removes the key with the given label from the key store.
- @param keyLabel The label associated with the key to remove.
+ Removes the key with the given label from the keystore.
+ @param keyLabel Label associated with the key to remove.
  */
 - (void)removeKeyWithLabel:(NSString *)keyLabel;
 
 /**
  Determines whether a key with the given label exists.
- @param keyLabel The label associated with the key to query.
- @return YES if the key exists in the key store, NO otherwise.
+ @param keyLabel Label associated with the key to query.
+ @returns YES if the key exists in the keystore; NO otherwise.
  */
 - (BOOL)keyWithLabelExists:(NSString *)keyLabel;
 
 /**
- Returns a key with a random value for the key and initialization vector.  The key size
- will be the size for the AES-256 algorithm (kCCKeySizeAES256), and the initialization
- vector will be the block size associated with AES encryption (kCCBlockSizeAES128).
- @return An instance of SFEncryptionKey with the described values.
+ Returns a key with a random value for the key and initialization vector.  The key's size
+ matches the size for the AES-256 algorithm (`kCCKeySizeAES256`). The initialization
+ vector's matches the block size associated with AES encryption (`kCCBlockSizeAES128`).
+ @returns Instance of `SFEncryptionKey` with the described values.
  */
 - (SFEncryptionKey *)keyWithRandomValue SFSDK_DEPRECATED(7.1, 8.0, "Use SFEncryptionKey:createKey instead");
 
