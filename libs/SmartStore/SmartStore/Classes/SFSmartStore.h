@@ -187,7 +187,7 @@ NS_SWIFT_NAME(SmartStore)
 
 /**
  Block used to generate the encryption key.
- Sticking with the default encryption key derivation is recommended.
+ Salesforce recommends using the default encryption key derivation.
  */
 @property (nonatomic, class, readonly)  SFSmartStoreEncryptionKeyBlock encryptionKeyBlock;
 

@@ -33,44 +33,47 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFKeyStoreKey : NSObject <NSCoding, NSCopying>
 
 /**
- Create a new SFKeyStoreKey
+ Create a new `SFKeyStoreKey`.
  */
 + (instancetype) createKey;
 
 /**
  Designated initializer.
- @param key The encryption key for the key store.
+ @param key Encryption key for the key store.
  */
 - (instancetype)initWithKey:(SFEncryptionKey *)key;
 
 /**
- Read from key chain
- @param keychainId Identifier in the key chain
+ Read a value from the keychain.
+ @param keychainId Identifier in the keychain
  @param archiverKey Key used in archiver
  */
 + (nullable instancetype)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey;
 
 /**
- Save to key chain
- @param keychainId Identifier in the key chain
- @param archiverKey Key to use in archiver
+ Save a value to the keychain.
+ @param keychainId Identifier in the keychain.
+ @param archiverKey Key to use in the archiver.
+ @returns 32-bit result error code.
  */
 - (OSStatus) toKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey;
 
 /**
- Encrypt given data
- @param dataToEncrypt The data to encrypt
+ Encrypt the given data.
+ @param dataToEncrypt Data to encrypt.
+ @returns 'NSData' object that contains the encrypted data.
  */
 - (NSData*)encryptData:(NSData *)dataToEncrypt;
 
 /**
- Decrypt given data
+ Decrypt the given data.
  @param dataToDecrypt The data to decrypt
+ @returns 'NSData' object that contains the decrypted data.
  */
 - (NSData*)decryptData:(NSData *)dataToDecrypt;
 
 /**
- The encryption key for the key store.
+ Encryption key for the key store.
  */
 @property (nonatomic, strong) SFEncryptionKey *encryptionKey;
 

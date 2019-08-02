@@ -34,37 +34,37 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKResourceUtils : NSObject
 
 /**
- * @return The main bundle associated with the SDK.
+ * @return Mobile SDK's main bundle.
  */
 + (NSBundle *)mainSdkBundle;
 
 /**
- * Gets a localized string from the main bundle of the SDK.
- * @param localizationKey The localization key used to look up the localized string.
- * @return The localized string associated with the key.
+ * Gets a localized string from the main Mobile SDK bundle.
+ * @param localizationKey Localization key used to look up the localized string.
+ * @return Localized string associated with the key.
  */
 + (NSString *)localizedString:(NSString *)localizationKey;
 
 /**
- * Gets an image from the Images asset catalog from the framework bundle of the SDK
- * @param name The name of the image in the asset catalog.
- * @return The image from the asset catalog with the provided name.
+ * Retrieves an image from the "Images" asset catalog of the Mobile SDK framework bundle.
+ * @param name Name of the image in the asset catalog.
+ * @return `UIImage` object containing the named image from the asset catalog.
 */
 + (UIImage *)imageNamed:(NSString*)name;
 
 /**
- * Read config and parse its content (which is expected to be json)
- * @param configFilePath Path of resource file.
- * @return NSDictionary built from content of tile.
+ * Read a configuration resource file and parse its contents. The file must be in JSON format.
+ * @param configFilePath Path to the configuration resource file.
+ * @return `NSDictionary` object built from the file's contents.
  */
 + (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath SFSDK_DEPRECATED(7.1, 8.0, "Use loadConfigFromFile:configFilePath:error instead");
 
 
 /**
- * Read config and parse its content (which is expected to be json)
- * @param configFilePath Path of resource file.
- * @param error Sets/returns any error that took place when trying to read file.
- * @return NSDictionary built from content of tile.
+ * Read a configuration resource file and parse its contents. The file must be in JSON format.
+ * @param configFilePath Path to the configuration resource file.
+ * @param error Input-output parameter that sets or returns any error that occurs during file reading.
+ * @return `NSDictionary` object built from the file's contents.
  */
 + (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath error:(NSError**)error;
 
