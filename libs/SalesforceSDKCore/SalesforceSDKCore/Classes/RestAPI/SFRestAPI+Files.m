@@ -142,4 +142,5 @@
     return [NSString stringWithFormat:@"/communities/%@", self.user.communityId];
     
 }
+
 @end
