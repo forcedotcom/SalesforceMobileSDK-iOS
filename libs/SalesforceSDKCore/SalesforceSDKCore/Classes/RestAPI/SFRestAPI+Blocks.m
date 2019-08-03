@@ -187,8 +187,7 @@ static char CompleteBlockKey;
                                               page:(NSUInteger)page
                                          failBlock:(SFRestFailBlock)failBlock
                                      completeBlock:(SFRestDataResponseBlock)completeBlock {
-    
-    SFRestRequest *request = [self requestForFileRendition:sfdcId version:version renditionType:renditionType page:page];
+    SFRestRequest *request = [self requestForFileRendition:sfdcId version:version renditionType:renditionType page:page apiVersion:self.apiVersion];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -205,7 +204,6 @@ static char CompleteBlockKey;
 - (SFRestRequest *) performRequestForSearchResultLayout:(NSString *)objectList
                                               failBlock:(SFRestFailBlock)failBlock
                                           completeBlock:(SFRestArrayResponseBlock)completeBlock {
-    
     SFRestRequest *request = [self requestForSearchResultLayout:objectList apiVersion:self.apiVersion];
     [self sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
     return request;
