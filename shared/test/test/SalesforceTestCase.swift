@@ -55,7 +55,6 @@ class SalesforceTestCase: XCTestCase {
                 swiftDict[stringKey] = String(describing: keyValue)
             }
         }
-        loginDelegate.loginToSalesforce(swiftDict["username"]! as! String, password:swiftDict["password"]! as! String, url:swiftDict["host"]! as! String)
+        loginDelegate.loginToSalesforce(swiftDict["username"]! as! String, password:swiftDict["password"]! as! String, url:swiftDict["host"]! as? String)
     }
-
 }
