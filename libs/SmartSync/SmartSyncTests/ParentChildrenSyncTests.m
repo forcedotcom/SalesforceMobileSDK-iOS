@@ -1467,7 +1467,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         [accountTrees addObject:[[SFSObjectTree alloc] initWithObjectType:ACCOUNT_TYPE objectTypePlural:nil referenceId:refIdAccount fields:accountFields childrenTrees:contactTrees]];
     }
 
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSObjectTree:ACCOUNT_TYPE objectTrees:accountTrees];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSObjectTree:ACCOUNT_TYPE objectTrees:accountTrees apiVersion:kSFRestDefaultAPIVersion];
 
     // Send request
     NSDictionary *response = [self sendSyncRequest:request];
