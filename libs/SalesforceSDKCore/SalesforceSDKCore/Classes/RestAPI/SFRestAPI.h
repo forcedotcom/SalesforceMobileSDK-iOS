@@ -26,6 +26,7 @@
 #import "SFRestRequest.h"
 #import "SFSObjectTree.h"
 #import "SFUserAccount.h"
+#import "SalesforceSDKConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -215,14 +216,30 @@ NS_SWIFT_NAME(RestClient)
  * client's API version, including resource name and URI.
  * @see Rest API link: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_discoveryresource.htm
  */
-- (SFRestRequest *)requestForResources;
+- (SFRestRequest *)requestForResources SFSDK_DEPRECATED(7.3, 8.0, "Use requestForResources:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that lists available resources for the
+ * client's API version, including resource name and URI.
+ * @param apiVersion API version.
+ * @see Rest API link: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_discoveryresource.htm
+ */
+- (SFRestRequest *)requestForResources:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that lists available objects in your org and their
  * metadata.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_describeGlobal.htm
  */
-- (SFRestRequest *)requestForDescribeGlobal;
+- (SFRestRequest *)requestForDescribeGlobal SFSDK_DEPRECATED(7.3, 8.0, "Use requestForDescribeGlobal:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that lists available objects in your org and their
+ * metadata.
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_describeGlobal.htm
+ */
+- (SFRestRequest *)requestForDescribeGlobal:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that describes the individual metadata for the
@@ -230,7 +247,16 @@ NS_SWIFT_NAME(RestClient)
  * @param objectType Type of a Salesforce object. Example: "Account".
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_basic_info.htm
  */
-- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType;
+- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType SFSDK_DEPRECATED(7.3, 8.0, "Use requestForMetadataWithObjectType:objectType:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that describes the individual metadata for the
+ * specified object.
+ * @param objectType Type of a Salesforce object. Example: "Account".
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_basic_info.htm
+ */
+- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that completely describes the metadata
@@ -238,7 +264,16 @@ NS_SWIFT_NAME(RestClient)
  * @param objectType Type of a Salesforce object. Example: "Account".
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_describe.htm
  */
-- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType;
+- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType SFSDK_DEPRECATED(7.3, 8.0, "Use requestForDescribeWithObjectType:objectType:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that completely describes the metadata
+ * at all levels for the specified object.
+ * @param objectType Type of a Salesforce object. Example: "Account".
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_describe.htm
+ */
+- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that provides layout data for the specified object and layout type.
@@ -247,7 +282,17 @@ NS_SWIFT_NAME(RestClient)
  * @param layoutType Layout type. Supported types are "Full" and "Compact". Default is "Full".
  * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
  */
-- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType;
+- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType SFSDK_DEPRECATED(7.3, 8.0, "Use requestForLayoutWithObjectType:objectType:layoutType:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that provides layout data for the specified object and layout type.
+ *
+ * @param objectType Type of a Salesforce object. Example: "Account".
+ * @param layoutType Layout type. Supported types are "Full" and "Compact". Default is "Full".
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
+ */
+- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that retrieves field values for the specified record of the given type.
@@ -260,7 +305,22 @@ NS_SWIFT_NAME(RestClient)
  */
 - (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
                                            objectId:(NSString *)objectId 
-                                          fieldList:(nullable NSString *)fieldList;
+                                          fieldList:(nullable NSString *)fieldList SFSDK_DEPRECATED(7.3, 8.0, "Use requestForRetrieveWithObjectType:objectType:objectId:fieldList:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that retrieves field values for the specified record of the given type.
+ * @param objectType Type of a Salesforce object. Example: "Account".
+ * @param objectId Requested record's object ID.
+ * @param fieldList Comma-separated list of fields for which
+ *               to return values. Example: "Name,Industry,TickerSymbol".
+ *               Pass nil to retrieve all the fields.
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve.htm
+ */
+- (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
+                                           objectId:(NSString *)objectId
+                                          fieldList:(nullable NSString *)fieldList
+                                         apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that creates a new record of the given type.
@@ -271,7 +331,20 @@ NS_SWIFT_NAME(RestClient)
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve.htm
  */
 - (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType 
-                                           fields:(nullable NSDictionary<NSString*, id> *)fields;
+                                           fields:(nullable NSDictionary<NSString *, id> *)fields SFSDK_DEPRECATED(7.3, 8.0, "Use requestForCreateWithObjectType:objectType:fields:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that creates a new record of the given type.
+ * @param objectType Type of a Salesforce object. Example: "Account".
+ * @param fields `NSDictionary` object containing initial field names and values for
+ *               the record. Example: {Name: "salesforce.com", TickerSymbol:
+ *               "CRM"}
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve.htm
+ */
+- (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType
+                                           fields:(nullable NSDictionary<NSString *, id> *)fields
+                                       apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that creates or updates record of the given type, based on the 
@@ -287,7 +360,25 @@ NS_SWIFT_NAME(RestClient)
 - (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
                                   externalIdField:(NSString *)externalIdField
                                        externalId:(nullable NSString *)externalId
-                                           fields:(NSDictionary<NSString*, id> *)fields;
+                                           fields:(NSDictionary<NSString *, id> *)fields SFSDK_DEPRECATED(7.3, 8.0, "Use requestForUpsertWithObjectType:objectType:externalIdField:externalId:fields:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that creates or updates record of the given type, based on the
+ * given external ID.
+ * @param objectType Type of a Salesforce object. Example: "Account".
+ * @param externalIdField External ID field name. Example: "accountMaster__c".
+ * @param externalId Requested record's external ID value.
+ * @param fields `NSDictionary` object containing field names and values for
+ *               the record. Example: {Name: "salesforce.com", TickerSymbol
+ *               "CRM"}
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_upsert.htm
+ */
+- (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
+                                  externalIdField:(NSString *)externalIdField
+                                       externalId:(nullable NSString *)externalId
+                                           fields:(NSDictionary<NSString *, id> *)fields
+                                       apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that updates field values on a record of the given type.
@@ -300,7 +391,22 @@ NS_SWIFT_NAME(RestClient)
  */
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType 
                                          objectId:(NSString *)objectId
-                                           fields:(nullable NSDictionary<NSString*, id> *)fields;
+                                           fields:(nullable NSDictionary<NSString *, id> *)fields SFSDK_DEPRECATED(7.3, 8.0, "Use requestForUpdateWithObjectType:objectType:objectId:fields:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that updates field values on a record of the given type.
+ * @param objectType Type of a Salesforce object. Example: "Account".
+ * @param objectId Requested record's object ID.
+ * @param fields `NSDictionary` object containing initial field names and values for
+ *               the record. Example: {Name: "salesforce.com", TickerSymbol
+ *               "CRM"}.
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve.htm
+ */
+- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
+                                         objectId:(NSString *)objectId
+                                           fields:(nullable NSDictionary<NSString *, id> *)fields
+                                       apiVersion:(NSString *)apiVersion;
 
 /**
  * Same as requestForUpdateWithObjectType:objectId:fields but only executing update
@@ -317,8 +423,26 @@ NS_SWIFT_NAME(RestClient)
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
                                          objectId:(NSString *)objectId
                                             fields:(nullable NSDictionary<NSString*, id> *)fields
-                            ifUnmodifiedSinceDate:(nullable NSDate *) ifUnmodifiedSinceDate;
+                            ifUnmodifiedSinceDate:(nullable NSDate *)ifUnmodifiedSinceDate SFSDK_DEPRECATED(7.3, 8.0, "Use requestForUpdateWithObjectType:objectType:objectId:fields:ifUnmodifiedSinceDate:apiVersion instead");
 
+/**
+ * Same as requestForUpdateWithObjectType:objectId:fields but only executing update
+ * if the server record was not modified since `ifModifiedSinceDate`.
+ *
+ * @param objectType Type of a Salesforce object. Example: "Account".
+ * @param objectId Requested record's object ID.
+ * @param fields `NSDictionary` object containing initial field names and values for the specified record.
+ * @param ifUnmodifiedSinceDate Update occurs only if the current last modified date of the specified record is
+ *                              older than `ifUnmodifiedSinceDate`.
+ *                              Otherwise, this method returns a 412 (precondition failed) error.
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve.htm
+ */
+- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
+                                         objectId:(NSString *)objectId
+                                           fields:(nullable NSDictionary<NSString*, id> *)fields
+                            ifUnmodifiedSinceDate:(nullable NSDate *) ifUnmodifiedSinceDate
+                                       apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that deletes a record of the given type.
@@ -327,7 +451,18 @@ NS_SWIFT_NAME(RestClient)
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve.htm
  */
 - (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType 
-                                         objectId:(NSString *)objectId;
+                                         objectId:(NSString *)objectId SFSDK_DEPRECATED(7.3, 8.0, "Use requestForDeleteWithObjectType:objectType:objectId:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that deletes a record of the given type.
+ * @param objectType Type of a Salesforce object. Example: "Account".
+ * @param objectId Requested record's object ID.
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve.htm
+ */
+- (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType
+                                         objectId:(NSString *)objectId
+                                       apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes the specified SOQL query.
@@ -335,7 +470,16 @@ NS_SWIFT_NAME(RestClient)
  *             Name from Account ORDER BY Name LIMIT 20".
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_query.htm
  */
-- (SFRestRequest *)requestForQuery:(NSString *)soql;
+- (SFRestRequest *)requestForQuery:(NSString *)soql SFSDK_DEPRECATED(7.3, 8.0, "Use requestForQuery:soql:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that executes the specified SOQL query.
+ * @param soql String containing the query to execute. Example: "SELECT Id,
+ *             Name from Account ORDER BY Name LIMIT 20".
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_query.htm
+ */
+- (SFRestRequest *)requestForQuery:(NSString *)soql apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes the specified SOQL query.
@@ -344,21 +488,45 @@ NS_SWIFT_NAME(RestClient)
  *             Name from Account ORDER BY Name LIMIT 20".
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_queryall.htm
  */
-- (SFRestRequest *)requestForQueryAll:(NSString *)soql;
+- (SFRestRequest *)requestForQueryAll:(NSString *)soql SFSDK_DEPRECATED(7.3, 8.0, "Use requestForQueryAll:soql:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that executes the specified SOQL query.
+ * The result includes deleted objects.
+ * @param soql String containing the query to execute. Example: "SELECT Id,
+ *             Name from Account ORDER BY Name LIMIT 20".
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_queryall.htm
+ */
+- (SFRestRequest *)requestForQueryAll:(NSString *)soql apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes the specified SOSL search.
  * @param sosl String containing the search to execute. Example: "FIND {needle}".
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search.htm
  */
-- (SFRestRequest *)requestForSearch:(NSString *)sosl;
+- (SFRestRequest *)requestForSearch:(NSString *)sosl SFSDK_DEPRECATED(7.3, 8.0, "Use requestForSearch:sosl:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that executes the specified SOSL search.
+ * @param sosl String containing the search to execute. Example: "FIND {needle}".
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search.htm
+ */
+- (SFRestRequest *)requestForSearch:(NSString *)sosl apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that returns an ordered list of objects in the default global search scope of a logged-in user.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_scope_order.htm
  */
-- (SFRestRequest *)requestForSearchScopeAndOrder;
+- (SFRestRequest *)requestForSearchScopeAndOrder SFSDK_DEPRECATED(7.3, 8.0, "Use requestForSearchScopeAndOrder:apiVersion instead");
 
+/**
+ * Returns an `SFRestRequest` object that returns an ordered list of objects in the default global search scope of a logged-in user.
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_scope_order.htm
+ */
+- (SFRestRequest *)requestForSearchScopeAndOrder:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that contains search result layout information for the objects in the query string.
@@ -366,7 +534,16 @@ NS_SWIFT_NAME(RestClient)
  *               to return values. Example: "Account,Contact".
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_layouts.htm
  */
-  - (SFRestRequest *)requestForSearchResultLayout:(NSString*)objectList;
+- (SFRestRequest *)requestForSearchResultLayout:(NSString *)objectList SFSDK_DEPRECATED(7.3, 8.0, "Use requestForSearchResultLayout:objectList:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that contains search result layout information for the objects in the query string.
+ * @param objectList Comma-separated list of objects for which
+ *               to return values. Example: "Account,Contact".
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_layouts.htm
+ */
+- (SFRestRequest *)requestForSearchResultLayout:(NSString *)objectList apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes a batch of requests.
@@ -374,7 +551,16 @@ NS_SWIFT_NAME(RestClient)
  * @param haltOnError Controls whether Salesforce stops processing subrequests if a subrequest fails.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm
  */
-- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest*>*) requests haltOnError:(BOOL) haltOnError;
+- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest *> *)requests haltOnError:(BOOL)haltOnError SFSDK_DEPRECATED(7.3, 8.0, "Use batchRequest:requests:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that executes a batch of requests.
+ * @param requests Array of subrequests to execute.
+ * @param haltOnError Controls whether Salesforce stops processing subrequests if a subrequest fails.
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm
+ */
+- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest *> *)requests haltOnError:(BOOL)haltOnError apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes a composite request.
@@ -383,7 +569,17 @@ NS_SWIFT_NAME(RestClient)
  * @param allOrNone Specifies whether to return partial results when an error occurs while processing a subrequest.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm
  */
-- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest*>*) requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL) allOrNone;
+- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest *> *)requests refIds:(NSArray<NSString *> *)refIds allOrNone:(BOOL)allOrNone SFSDK_DEPRECATED(7.3, 8.0, "Use compositeRequest:requests:refIds:allOrNone:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that executes a composite request.
+ * @param requests Array of subrequests to execute.
+ * @param refIds Array of reference IDs for the requests. The number of elements should match the number of requests.
+ * @param allOrNone Specifies whether to return partial results when an error occurs while processing a subrequest.
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm
+ */
+- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest *> *) requests refIds:(NSArray<NSString *> *)refIds allOrNone:(BOOL)allOrNone apiVersion:(NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes an sObject tree request.
@@ -391,7 +587,16 @@ NS_SWIFT_NAME(RestClient)
  * @param objectTrees Array of sobject trees.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobject_tree.htm
  */
-- (SFRestRequest*) requestForSObjectTree:(NSString*)objectType objectTrees:(NSArray<SFSObjectTree*>*)objectTrees;
+- (SFRestRequest*) requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree *> *)objectTrees SFSDK_DEPRECATED(7.3, 8.0, "Use requestForSObjectTree:objectType:objectTrees:apiVersion instead");
+
+/**
+ * Returns an `SFRestRequest` object that executes an sObject tree request.
+ * @param objectType Type of a Salesforce object. Example: "Account".
+ * @param objectTrees Array of sobject trees.
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobject_tree.htm
+ */
+- (SFRestRequest*) requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree *> *)objectTrees apiVersion:(NSString *)apiVersion;
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods
@@ -411,8 +616,6 @@ NS_SWIFT_NAME(RestClient)
  @param qualifier Optional subtype of native or hybrid Mobile SDK app.
  */
 + (NSString *)userAgentString:(NSString*)qualifier;
-
-
 
 @end
 
