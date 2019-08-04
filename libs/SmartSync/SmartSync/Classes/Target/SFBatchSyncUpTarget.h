@@ -36,8 +36,8 @@ NS_SWIFT_NAME(BatchSyncUpTarget)
 @interface SFBatchSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
 
 /** Constructor.
- * @param initWithCreateFieldlist List of fields that can be created on the server.
- * @param initWithCreateFieldlist List of fields that can be updated on the server.
+ * @param createFieldlist List of fields that can be created on the server.
+ * @param updateFieldlist List of fields that can be updated on the server.
  * @param maxBatchSize Maximum size of a batch.
  */
 - (instancetype)initWithCreateFieldlist:(nullable NSArray<NSString*> *)createFieldlist

@@ -85,7 +85,7 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType apiVersion:kSFRestDefaultAPIVersion];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
@@ -107,7 +107,7 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
-    SFRestRequest * soqlRequest = [[SFRestAPI sharedInstance] requestForQuery:queryRun];
+    SFRestRequest * soqlRequest = [[SFRestAPI sharedInstance] requestForQuery:queryRun apiVersion:kSFRestDefaultAPIVersion];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:soqlRequest failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary * d, NSURLResponse *rawResponse) {
