@@ -35,7 +35,7 @@
              completionBlock:(SFSendCompositeRequestCompleteBlock)completionBlock
                    failBlock:(SFSyncUpTargetErrorBlock)failBlock {
     
-    SFRestRequest *compositeRequest = [[SFRestAPI sharedInstance] compositeRequest:requests refIds:refIds allOrNone:allOrNone];
+    SFRestRequest *compositeRequest = [[SFRestAPI sharedInstance] compositeRequest:requests refIds:refIds allOrNone:allOrNone apiVersion:kSFRestDefaultAPIVersion];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:compositeRequest
                                                      failBlock:^(NSError *e, NSURLResponse *rawResponse) {
                                                          failBlock(e);

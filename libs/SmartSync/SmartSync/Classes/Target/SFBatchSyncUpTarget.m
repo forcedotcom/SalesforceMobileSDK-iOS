@@ -180,7 +180,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         if (isCreate) {
             return nil; // no need to go to server
         } else {
-            return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
+            return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId apiVersion:kSFRestDefaultAPIVersion];
         }
     }
     // Create/update cases
@@ -190,13 +190,13 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         if (isCreate) {
             fieldlist = self.createFieldlist ? self.createFieldlist : fieldlist;
             fields = [self buildFieldsMap:record fieldlist:fieldlist idFieldName:self.idFieldName modificationDateFieldName:self.modificationDateFieldName];
-            return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
+            return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields apiVersion:kSFRestDefaultAPIVersion];
 
         }
         else {
             fieldlist = self.updateFieldlist ? self.updateFieldlist : fieldlist;
             fields = [self buildFieldsMap:record fieldlist:fieldlist idFieldName:self.idFieldName modificationDateFieldName:self.modificationDateFieldName];
-            return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
+            return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields apiVersion:kSFRestDefaultAPIVersion];
         }
     }
 }

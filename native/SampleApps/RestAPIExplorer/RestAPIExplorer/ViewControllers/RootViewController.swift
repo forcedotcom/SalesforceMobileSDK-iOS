@@ -702,120 +702,120 @@ extension RootViewController: ActionTableViewDelegate {
                     case .versions:
                         request = restApi.requestForVersions()
                     case .resources:
-                        request =  restApi.requestForResources()
+                        request =  restApi.request(forResources: SFRestDefaultAPIVersion)
                     case .describeGlobal:
-                        request = restApi.requestForDescribeGlobal()
+                        request = restApi.request(forDescribeGlobal: SFRestDefaultAPIVersion)
                     case .metadataWithObjectType:
                         guard let objType = objectType else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.requestForMetadata(withObjectType: objType)
+                        request = restApi.requestForMetadata(withObjectType: objType, apiVersion: SFRestDefaultAPIVersion)
                     case .describeWithObjectType:
                         guard let objType = objectType else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.requestForDescribe(withObjectType: objType)
+                        request = restApi.requestForDescribe(withObjectType: objType, apiVersion: SFRestDefaultAPIVersion)
                      case .retrieveWithObjectType:
                         guard let objType = objectType , let objId = objectId, let fList = fieldList else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.requestForRetrieve(withObjectType: objType, objectId: objId, fieldList: fList)
+                        request = restApi.requestForRetrieve(withObjectType: objType, objectId: objId, fieldList: fList, apiVersion: SFRestDefaultAPIVersion)
                     case .createWithObjectType:
                         guard let objType = objectType, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.requestForCreate(withObjectType: objType, fields: f)
+                        request = restApi.requestForCreate(withObjectType: objType, fields: f, apiVersion: SFRestDefaultAPIVersion)
                     case .upsertWithObjectType:
                         guard let objType = objectType, let extFId = externalFieldId, let extId = externalId, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request =  restApi.requestForUpsert(withObjectType: objType, externalIdField: extFId, externalId: extId, fields: f)
+                        request =  restApi.requestForUpsert(withObjectType: objType, externalIdField: extFId, externalId: extId, fields: f, apiVersion: SFRestDefaultAPIVersion)
                    case .updateWithObjectType:
                         guard let objType = objectType, let objId = objectId, let f = fields else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.requestForUpdate(withObjectType: objType, objectId: objId, fields: f)
+                        request = restApi.requestForUpdate(withObjectType: objType, objectId: objId, fields: f, apiVersion: SFRestDefaultAPIVersion)
                    case .deleteWithObjectType:
                         guard let objType = objectType, let objId = objectId else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.requestForDelete(withObjectType: objType, objectId: objId)
+                        request = restApi.requestForDelete(withObjectType: objType, objectId: objId, apiVersion: SFRestDefaultAPIVersion)
                    case .query:
                         guard let q = query else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.request(forQuery: q)
+                        request = restApi.request(forQuery: q, apiVersion: SFRestDefaultAPIVersion)
                     case .search:
                         guard let s = search else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.request(forSearch: s)
+                        request = restApi.request(forSearch: s, apiVersion: SFRestDefaultAPIVersion)
                     case .searchScopeAndOrder:
-                        request = restApi.requestForSearchScopeAndOrder()
+                        request = restApi.request(forSearchScopeAndOrder: SFRestDefaultAPIVersion)
                     case .searchResultLayout:
                         guard let objList = objectList else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.request(forSearchResultLayout: objList)
+                        request = restApi.request(forSearchResultLayout: objList, apiVersion: SFRestDefaultAPIVersion)
                     case .ownedFilesList:
                         guard let uId = userId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.request(forOwnedFilesList: uId, page: p)
+                        request = restApi.request(forOwnedFilesList: uId, page: p, apiVersion: SFRestDefaultAPIVersion)
                     case .filesInUserGroups:
                         guard let uId = userId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.requestForFiles(inUsersGroups: uId, page: p)
+                        request = restApi.requestForFiles(inUsersGroups: uId, page: p, apiVersion: SFRestDefaultAPIVersion)
                     case .filesSharedWithUser:
                         guard let uId = userId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.requestForFilesShared(withUser: uId, page: p)
+                        request = restApi.requestForFilesShared(withUser: uId, page: p, apiVersion: SFRestDefaultAPIVersion)
                     case .fileDetails:
                         guard let objId = objectId, let _ = version else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.request(forFileDetails: objId, forVersion: objId)
+                        request = restApi.request(forFileDetails: objId, forVersion: objId, apiVersion: SFRestDefaultAPIVersion)
                     case .batchFileDetails:
                         guard let objIdList = objectIdList else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.request(forBatchFileDetails: objIdList)
+                        request = restApi.request(forBatchFileDetails: objIdList, apiVersion: SFRestDefaultAPIVersion)
                     case .fileShares:
                         guard let objId = objectId, let p = page else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.request(forFileShares: objId, page: p)
+                        request = restApi.request(forFileShares: objId, page: p, apiVersion: SFRestDefaultAPIVersion)
            
                     case .addFileShare:
                         guard let objId = objectId, let eId = entityId, let sType = shareType else {
                             self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.request(forAddFileShare: objId, entityId: eId, shareType: sType)
+                        request = restApi.request(forAddFileShare: objId, entityId: eId, shareType: sType, apiVersion: SFRestDefaultAPIVersion)
                     case .deleteFileShare:
                         guard let objId = objectId else {
                         self.showMissingFieldError(objectTypes)
                             return
                         }
-                        request = restApi.request(forDeleteFileShare: objId)
+                        request = restApi.request(forDeleteFileShare: objId, apiVersion: SFRestDefaultAPIVersion)
                     case .currentUserInfo:
                         guard let currentAccount = UserAccountManager.shared.currentUserAccount else {return}
                         guard let idData = currentAccount.idData else {return}
@@ -855,7 +855,5 @@ extension RootViewController: ActionTableViewDelegate {
                 self?.updateUI(request!, response: reponse, error: nil)
             }
         })
-        
-
     }
 }

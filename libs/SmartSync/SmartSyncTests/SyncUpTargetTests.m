@@ -375,7 +375,7 @@
     
     // Check server
     NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name FROM Account WHERE Id IN %@", idsClause];
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql apiVersion:kSFRestDefaultAPIVersion];
     NSArray* records = [self sendSyncRequest:request][RECORDS];
     XCTAssertEqual(0, records.count);
 }
@@ -485,7 +485,7 @@
     
     // Check server
     NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name, Description FROM Account WHERE Id IN %@", idsClause];
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql apiVersion:kSFRestDefaultAPIVersion];
     NSArray* records = [self sendSyncRequest:request][RECORDS];
     NSMutableArray* idsOnServer = [NSMutableArray new];
     for (NSDictionary* record in records) {
@@ -530,7 +530,7 @@
     
     // Check server
     NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name FROM Account WHERE Id IN %@", idsClause];
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql apiVersion:kSFRestDefaultAPIVersion];
     NSArray* records = [self sendSyncRequest:request][RECORDS];
     XCTAssertEqual(0, records.count);
 }
@@ -622,7 +622,7 @@
     
     // Query
     NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name, Description FROM Account WHERE Name IN %@", namesClause];
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql apiVersion:kSFRestDefaultAPIVersion];
     NSArray* records = [self sendSyncRequest:request][RECORDS];
     XCTAssertEqual(names.count, records.count);
     for (NSDictionary* record in records) {

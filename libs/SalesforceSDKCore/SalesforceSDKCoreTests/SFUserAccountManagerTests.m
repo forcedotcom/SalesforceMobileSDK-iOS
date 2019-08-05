@@ -304,7 +304,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 
 - (void)testSwitchToNewUserNoCurrentUser {
-    NSArray *accounts = [self createAndVerifyUserAccounts:1];
+    [self createAndVerifyUserAccounts:1];
     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
     XCTestExpectation *switchExpectation = [self expectationWithDescription:@"testSwitchToNewUserWithCompletionErrorCase"];
     __block NSError *error = nil;
