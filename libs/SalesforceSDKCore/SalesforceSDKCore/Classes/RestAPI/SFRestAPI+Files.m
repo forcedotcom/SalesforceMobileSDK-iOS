@@ -28,6 +28,8 @@
 #import "SFRestAPI+Files.h"
 #import "SFRestRequest+Internal.h"
 #import "SFOAuthCredentials.h"
+#import "SFRestAPI+Internal.h"
+
 #define ME @"me"
 #define PAGE @"page"
 #define VERSION @"versionNumber"
@@ -186,10 +188,6 @@
         return @"";
     }
     return [NSString stringWithFormat:@"/communities/%@", self.user.communityId];
-}
-
-- (NSString *)computeAPIVersion:(NSString *)apiVersion {
-    return (apiVersion != nil ? apiVersion : self.apiVersion);
 }
 
 @end
