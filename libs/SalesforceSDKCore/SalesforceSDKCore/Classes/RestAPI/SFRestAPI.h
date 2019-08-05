@@ -224,7 +224,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see Rest API link: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_discoveryresource.htm
  */
-- (SFRestRequest *)requestForResources:(NSString *)apiVersion;
+- (SFRestRequest *)requestForResources:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that lists available objects in your org and their
@@ -239,7 +239,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_describeGlobal.htm
  */
-- (SFRestRequest *)requestForDescribeGlobal:(NSString *)apiVersion;
+- (SFRestRequest *)requestForDescribeGlobal:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that describes the individual metadata for the
@@ -256,7 +256,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_basic_info.htm
  */
-- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that completely describes the metadata
@@ -273,7 +273,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_describe.htm
  */
-- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that provides layout data for the specified object and layout type.
@@ -292,7 +292,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
  */
-- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that retrieves field values for the specified record of the given type.
@@ -320,7 +320,7 @@ NS_SWIFT_NAME(RestClient)
 - (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
                                            objectId:(NSString *)objectId
                                           fieldList:(nullable NSString *)fieldList
-                                         apiVersion:(NSString *)apiVersion;
+                                         apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that creates a new record of the given type.
@@ -344,7 +344,7 @@ NS_SWIFT_NAME(RestClient)
  */
 - (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType
                                            fields:(nullable NSDictionary<NSString *, id> *)fields
-                                       apiVersion:(NSString *)apiVersion;
+                                       apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that creates or updates record of the given type, based on the 
@@ -378,7 +378,7 @@ NS_SWIFT_NAME(RestClient)
                                   externalIdField:(NSString *)externalIdField
                                        externalId:(nullable NSString *)externalId
                                            fields:(NSDictionary<NSString *, id> *)fields
-                                       apiVersion:(NSString *)apiVersion;
+                                       apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that updates field values on a record of the given type.
@@ -406,7 +406,7 @@ NS_SWIFT_NAME(RestClient)
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
                                          objectId:(NSString *)objectId
                                            fields:(nullable NSDictionary<NSString *, id> *)fields
-                                       apiVersion:(NSString *)apiVersion;
+                                       apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Same as requestForUpdateWithObjectType:objectId:fields but only executing update
@@ -442,7 +442,7 @@ NS_SWIFT_NAME(RestClient)
                                          objectId:(NSString *)objectId
                                            fields:(nullable NSDictionary<NSString*, id> *)fields
                             ifUnmodifiedSinceDate:(nullable NSDate *) ifUnmodifiedSinceDate
-                                       apiVersion:(NSString *)apiVersion;
+                                       apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that deletes a record of the given type.
@@ -462,7 +462,7 @@ NS_SWIFT_NAME(RestClient)
  */
 - (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType
                                          objectId:(NSString *)objectId
-                                       apiVersion:(NSString *)apiVersion;
+                                       apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes the specified SOQL query.
@@ -479,7 +479,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_query.htm
  */
-- (SFRestRequest *)requestForQuery:(NSString *)soql apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForQuery:(NSString *)soql apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes the specified SOQL query.
@@ -498,7 +498,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_queryall.htm
  */
-- (SFRestRequest *)requestForQueryAll:(NSString *)soql apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForQueryAll:(NSString *)soql apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes the specified SOSL search.
@@ -513,7 +513,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search.htm
  */
-- (SFRestRequest *)requestForSearch:(NSString *)sosl apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForSearch:(NSString *)sosl apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that returns an ordered list of objects in the default global search scope of a logged-in user.
@@ -526,7 +526,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_scope_order.htm
  */
-- (SFRestRequest *)requestForSearchScopeAndOrder:(NSString *)apiVersion;
+- (SFRestRequest *)requestForSearchScopeAndOrder:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that contains search result layout information for the objects in the query string.
@@ -543,7 +543,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_layouts.htm
  */
-- (SFRestRequest *)requestForSearchResultLayout:(NSString *)objectList apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForSearchResultLayout:(NSString *)objectList apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes a batch of requests.
@@ -560,7 +560,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm
  */
-- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest *> *)requests haltOnError:(BOOL)haltOnError apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *) batchRequest:(NSArray<SFRestRequest *> *)requests haltOnError:(BOOL)haltOnError apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes a composite request.
@@ -579,7 +579,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm
  */
-- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest *> *) requests refIds:(NSArray<NSString *> *)refIds allOrNone:(BOOL)allOrNone apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest *> *) requests refIds:(NSArray<NSString *> *)refIds allOrNone:(BOOL)allOrNone apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes an sObject tree request.
@@ -596,7 +596,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobject_tree.htm
  */
-- (SFRestRequest*) requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree *> *)objectTrees apiVersion:(NSString *)apiVersion;
+- (SFRestRequest*) requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree *> *)objectTrees apiVersion:(nullable NSString *)apiVersion;
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods
@@ -615,7 +615,7 @@ NS_SWIFT_NAME(RestClient)
  * Returns the User-Agent string used by Mobile SDK, adding the qualifier after the app type.
  @param qualifier Optional subtype of native or hybrid Mobile SDK app.
  */
-+ (NSString *)userAgentString:(NSString*)qualifier;
++ (NSString *)userAgentString:(NSString *)qualifier;
 
 @end
 
