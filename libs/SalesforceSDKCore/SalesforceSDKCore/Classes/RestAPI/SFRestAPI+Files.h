@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A new SFRestRequest that can be used to fetch this data.
  */
-- (SFRestRequest *)requestForOwnedFilesList:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForOwnedFilesList:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Build a Request that can fetch a page from the list of files from groups
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A new SFRestRequest that can be used to fetch this data.
  */
-- (SFRestRequest *)requestForFilesInUsersGroups:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForFilesInUsersGroups:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Build a Request that can fetch a page from the list of files that have
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A new SFRestRequest that can be used to fetch this data.
  */
-- (SFRestRequest *)requestForFilesSharedWithUser:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForFilesSharedWithUser:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Build a Request that can fetch the file details of a particular version
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A new SFRestRequest that can be used to fetch this data.
  */
-- (SFRestRequest *)requestForFileDetails:(NSString *)sfdcId forVersion:(nullable NSString *)version apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForFileDetails:(NSString *)sfdcId forVersion:(nullable NSString *)version apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Build a request that can fetch the latest file details of one or more
@@ -132,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *)requestForBatchFileDetails:(NSArray<NSString *> *)sfdcIds apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForBatchFileDetails:(NSArray<NSString *> *)sfdcIds apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Build a Request that can fetch the a preview/rendition of a particular
@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A new SFRestRequest that can be used to fetch this data.
  */
-- (SFRestRequest *)requestForFileRendition:(NSString *)sfdcId version:(nullable NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForFileRendition:(NSString *)sfdcId version:(nullable NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Builds a request that can fetch the actual binary file contents of this
@@ -178,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A new SFRestRequest that can be used to fetch this data.
  */
-- (SFRestRequest *)requestForFileContents:(NSString *)sfdcId version:(nullable NSString *)version apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForFileContents:(NSString *)sfdcId version:(nullable NSString *)version apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Build a request that can fetch a page from the list of entities that this
@@ -199,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A new SFRestRequest that can be used to fetch this data.
  */
-- (SFRestRequest *)requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Build a request that will add a file share for the specified fileId to
@@ -222,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A new SFRestRequest that be can used to create this share.
  */
-- (SFRestRequest *)requestForAddFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString *)shareType apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForAddFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString *)shareType apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Build a request that will delete the specified file share.
@@ -239,7 +239,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A new SFRestRequest that can be used to delete this share.
  */
-- (SFRestRequest *)requestForDeleteFileShare:(NSString *)shareId apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForDeleteFileShare:(NSString *)shareId apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Build a request that can upload a new file to the server, this will
@@ -264,7 +264,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A SFRestRequest that can perform this upload.
  */
-- (SFRestRequest *)requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Build a request that can upload a new profile photo to the server
@@ -287,7 +287,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param apiVersion API version.
  * @return A SFRestRequest that can perform this upload.
  */
-- (SFRestRequest *)requestForProfilePhotoUpload:(NSData *)data fileName:(NSString *)fileName mimeType:(NSString *)mimeType userId:(NSString *)userId apiVersion:(NSString *)apiVersion;
+- (SFRestRequest *)requestForProfilePhotoUpload:(NSData *)data fileName:(NSString *)fileName mimeType:(NSString *)mimeType userId:(NSString *)userId apiVersion:(nullable NSString *)apiVersion;
 
 @end
 

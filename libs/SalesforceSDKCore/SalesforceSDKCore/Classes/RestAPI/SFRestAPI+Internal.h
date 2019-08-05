@@ -54,6 +54,8 @@
 
 - (void)send:(nonnull SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry;
 
+- (nonnull NSString *)computeAPIVersion:(nullable NSString *)apiVersion;
+
 + (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)user;
 
 @end
