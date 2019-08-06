@@ -168,7 +168,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *)) completionBlock {
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:endpointReq.serverURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:endpointReq.timeout];
+    NSString *protocolHost = endpointReq.serverURL.absoluteString;
+    NSString *url = [[NSString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
+                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                            timeoutInterval:endpointReq.timeout];
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
     
@@ -183,8 +187,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     [params appendFormat:@"&%@=%@", kSFOAuthCodeVerifierParamName, endpointReq.codeVerifier];
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeAuthorizationCode, kSFOAuthApprovalCode, endpointReq.approvalCode];
-    
-    
     
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
@@ -208,9 +210,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             
             [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
             
-            if (completionBlock) {
-                completionBlock(endpointResponse);
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completionBlock) {
+                    completionBlock(endpointResponse);
+                }
+            });
             return;
         }
         [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
@@ -233,8 +237,8 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *)) completionBlock {
     
-    NSString *refreshDomain = endpointReq.serverURL.absoluteString;
-    NSString *protocolHost = [NSString stringWithFormat:@"https://%@", refreshDomain];
+    //NSString *refreshDomain = endpointReq.serverURL.absoluteString;
+    NSString *protocolHost = endpointReq.serverURL.absoluteString; //[NSString stringWithFormat:@"https://%@", refreshDomain];
     NSString *url = [[NSString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
                                                                 cachePolicy:NSURLRequestReloadIgnoringCacheData
@@ -277,9 +281,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             }
             [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
             
-            if (completionBlock) {
-                completionBlock(endpointResponse);
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completionBlock) {
+                    completionBlock(endpointResponse);
+                }
+            });
             return;
         }
         [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];

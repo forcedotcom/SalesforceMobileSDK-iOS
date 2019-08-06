@@ -130,7 +130,7 @@
 @end
 
 
-@interface SFSDKAuthClientTests()<SFSDKOAuthClientDelegate,SFSDKOAuthClientSafariViewDelegate,SFOAuthCoordinatorFlow>{
+@interface SFSDKAuthClientTests()<SFSDKOAuthClientDelegate,SFSDKOAuthClientSafariViewDelegate>{
     Class<SFSDKOAuthClientProvider> _originalProvider;
     SFSDKTestOAuthClient *_currentClient;
     XCTestExpectation *_willBeginExpectation;
@@ -366,7 +366,6 @@
     
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
    
-    [testClient.coordinator setOauthCoordinatorFlow:self];
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     [testClient refreshCredentials];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
@@ -387,7 +386,6 @@
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _didFinishExpectation = [self expectationWithDescription:@"willFinish"];
 
@@ -409,8 +407,7 @@
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
     _currentClient.isTestingForErrorCallback = YES;
-    [client.coordinator setOauthCoordinatorFlow:self];
-    _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
+   _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _errorExpectation = [self expectationWithDescription:@"error"];
 
     [client refreshCredentials];
@@ -431,7 +428,6 @@
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _refreshFlowExpectation = [self expectationWithDescription:@"willTrigerRefreshFlow"];
     
@@ -452,7 +448,6 @@
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     _willRevokeExpectation = [self expectationWithDescription:@"willTrigerRevokeFlow"];
     _didRevokeExpectation = [self expectationWithDescription:@"willTrigerRevokeFlow"];
     [client revokeCredentials];
@@ -475,7 +470,6 @@
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _didFinishExpectation = [self expectationWithDescription:@"finishedAuth"];
@@ -537,9 +531,9 @@
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (!self->_currentClient.isTestingForErrorCallback) {
-                [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
+//                [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
             }else {
-                [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenErrorData]];
+//                [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenErrorData]];
             }
     });
 }
@@ -552,9 +546,9 @@
     [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (!self->_currentClient.isTestingForErrorCallback) {
-            [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
+//            [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
         }else {
-            [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenErrorData]];
+//            [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenErrorData]];
         }
     });
 }
