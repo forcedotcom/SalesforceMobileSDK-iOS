@@ -168,18 +168,8 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *)) completionBlock {
     
-    NSString *protocolHost = endpointReq.serverURL.absoluteString;
-    NSString *url = [[NSString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
-                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                            timeoutInterval:endpointReq.timeout];
-    [request setHTTPMethod:kHttpMethodPost];
-    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
+    NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq];
     
-    if (endpointReq.userAgentForAuth != nil) {
-        [request setValue:endpointReq.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
-    }
-    [request setHTTPShouldHandleCookies:NO];
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, @"json",
                                kSFOAuthRedirectUri, endpointReq.redirectURI,
@@ -237,20 +227,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *)) completionBlock {
     
-    //NSString *refreshDomain = endpointReq.serverURL.absoluteString;
-    NSString *protocolHost = endpointReq.serverURL.absoluteString; //[NSString stringWithFormat:@"https://%@", refreshDomain];
-    NSString *url = [[NSString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
-                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                            timeoutInterval:endpointReq.timeout];
-    [request setHTTPMethod:kHttpMethodPost];
-    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-    
-    if (endpointReq.userAgentForAuth != nil) {
-        [request setValue:endpointReq.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
-    }
-    [request setHTTPShouldHandleCookies:NO];
-    
+    NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq];
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, @"json",
                                kSFOAuthRedirectUri, endpointReq.redirectURI,
@@ -300,6 +277,25 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 }
 
 #pragma mark - private
+- (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq {
+    NSString *protocolHost = endpointReq.serverURL.absoluteString;
+    NSMutableString *url = [[NSMutableString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
+    if (![url hasPrefix:@"http"]) {
+        [url insertString:@"https://" atIndex:0];
+    }
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
+                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                            timeoutInterval:endpointReq.timeout];
+    [request setHTTPMethod:kHttpMethodPost];
+    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
+    
+    if (endpointReq.userAgentForAuth != nil) {
+        [request setValue:endpointReq.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
+    }
+    [request setHTTPShouldHandleCookies:NO];
+    return request;
+}
+
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response {
     SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
     

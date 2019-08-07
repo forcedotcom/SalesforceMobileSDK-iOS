@@ -482,29 +482,12 @@
         [self.view loadRequest:request];
     });
 }
+- (void)updateCredentials:(NSDictionary *) params {
+    [self.credentials updateCredentials:params];
+}
 
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
     self.responseData = [NSMutableData dataWithLength:512];
-//    NSString *refreshDomain = self.credentials.communityId ? self.credentials.communityUrl.absoluteString : self.credentials.domain;
-//    NSString *protocolHost = self.credentials.communityId ? refreshDomain : [NSString stringWithFormat:@"%@://%@", self.credentials.protocol, refreshDomain];
-//    NSString *url = [[NSString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
-//                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
-//                                                            timeoutInterval:self.timeout];
-//    [request setHTTPMethod:kHttpMethodPost];
-//    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-//    if (self.userAgentForAuth != nil) {
-//        [request setValue:self.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
-//    }
-//    [request setHTTPShouldHandleCookies:NO];
-//    NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
-//                               kSFOAuthFormat, kSFOAuthFormatJson,
-//                               kSFOAuthRedirectUri, self.credentials.redirectUri,
-//                               kSFOAuthClientId, self.credentials.clientId,
-//                               kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
-//    NSMutableString *logString = [NSMutableString stringWithString:params];
-
-    // If there is an approval code (Advanced Auth flow), use it once to get the tokens.
     SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
     request.additionalTokenRefreshParams = self.additionalTokenRefreshParams;

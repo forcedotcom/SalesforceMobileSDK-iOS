@@ -73,13 +73,14 @@ class SFSDKAuthUtilTests: XCTestCase {
         
         self.wait(for: [expectation], timeout: 30)
         XCTAssertNotNil(endpointResponse)
-        XCTAssertFalse(endpointResponse!.hasError)
-        XCTAssertNotNil(endpointResponse!.accessToken)
-        XCTAssertNil(endpointResponse!.refreshToken)
-        XCTAssertNotNil(endpointResponse!.scopes)
-        XCTAssertNotNil(endpointResponse!.instanceUrl)
-        XCTAssertNotNil(endpointResponse!.signature)
-        XCTAssertNotNil(endpointResponse!.issuedAt)
+        let response = try! require(endpointResponse)
+        XCTAssertFalse(response.hasError)
+        XCTAssertNotNil(response.accessToken)
+        XCTAssertTrue(response.refreshToken==nil || response.refreshToken!.count < 1)
+        XCTAssertNotNil(response.scopes)
+        XCTAssertNotNil(response.instanceUrl)
+        XCTAssertNotNil(response.signature)
+        XCTAssertNotNil(response.issuedAt)
     }
     
     func testAccessTokenInvalidClientIdError() {

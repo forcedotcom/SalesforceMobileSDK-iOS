@@ -315,8 +315,9 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
                 credentials.additionalOAuthFields = response.additionalOAuthFields;
             SFUserAccount *userAccount = [strongSelf accountForCredentials:credentials];
             if (!userAccount) {
-                userAccount = [self applyCredentials:credentials];
+                 userAccount = [self applyCredentials:credentials];
             }
+            [self retrieveUserPhotoIfNeeded:userAccount];
             NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
                                        kSFNotificationUserInfoAuthTypeKey: authInfo};
             [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
