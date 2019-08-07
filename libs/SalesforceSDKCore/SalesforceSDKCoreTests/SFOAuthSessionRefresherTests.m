@@ -32,8 +32,6 @@
 @interface SFOAuthSessionRefresherTests : XCTestCase
 
 @property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
-//@property (nonatomic, strong) SFOAuthTestFlow *oauthTestFlow;
-
 @end
 
 @implementation SFOAuthSessionRefresherTests
