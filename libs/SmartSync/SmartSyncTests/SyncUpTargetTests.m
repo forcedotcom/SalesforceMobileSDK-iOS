@@ -285,9 +285,11 @@
         idToFieldsRemotelyUpdated[accountId] = @{NAME:updatedName, DESCRIPTION:updatedDescription};
     }
     [self updateAccountsOnServer:idToFieldsRemotelyUpdated];
+    [NSThread sleepForTimeInterval:500];
     
     // Sync up
     [self trySyncUp:idToFieldsLocallyUpdated.count mergeMode:SFSyncStateMergeModeLeaveIfChanged];
+    [NSThread sleepForTimeInterval:500];
     
     // Check that db does still shows entries as locally modified
     [self checkDbStateFlags:ids soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:YES expectedLocallyDeleted:NO];
