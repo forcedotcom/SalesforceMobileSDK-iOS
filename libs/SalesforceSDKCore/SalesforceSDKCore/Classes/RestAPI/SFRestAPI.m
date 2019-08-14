@@ -34,7 +34,7 @@
 #import "SFOAuthSessionRefresher.h"
 #import "NSString+SFAdditions.h"
 
-NSString* const kSFRestDefaultAPIVersion = @"v44.0";
+NSString* const kSFRestDefaultAPIVersion = @"v46.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
