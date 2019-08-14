@@ -8,7 +8,7 @@ lane :PR do |options|
   Dir.chdir('../')
   schemes = Set.new
 
-  if ENV.has_key?('NIGHTLY_TEST' and ENV['NIGHTLY_TEST'] == 'true')
+  if (ENV.has_key?('NIGHTLY_TEST') and ENV['NIGHTLY_TEST'] == 'true')
     UI.important "Nightly, skipping modified check."
     test_scheme(lib_to_test)
   else

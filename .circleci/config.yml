@@ -29,7 +29,7 @@ jobs:
     environment:
       LIB: << parameters.lib >> 
       DEVICE: << parameters.device >>
-      IOS: << parameters.ios >>
+      IOS_VERSION: << parameters.ios >>
       NIGHTLY_TEST: << parameters.nightly-test >>
     steps:
       - checkout
