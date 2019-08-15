@@ -1911,7 +1911,7 @@ static NSException *authException = nil;
     [api performRequestForResourcesWithFailBlock:failWithExpectedFail
                                    completeBlock:successWithUnexpectedSuccessBlock];
 
-    // Ignore null passed wanring beceause it necessary for successWithUnexpectedSuccessBlock above
+    // Ignore null passed warning beceause it necessary for successWithUnexpectedSuccessBlock above
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wnonnull"
     BOOL found = [api forceTimeoutRequest:nil];
