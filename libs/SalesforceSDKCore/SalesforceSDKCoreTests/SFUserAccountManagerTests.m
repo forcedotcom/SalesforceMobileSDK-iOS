@@ -124,7 +124,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     }
     [self.uam clearAllAccountState];
     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
-    self.uam.loginHost = nil;
     self.uam.useBrowserAuth = NO;
     self.authViewHandler = [SFUserAccountManager sharedInstance].authViewHandler;
     self.config = self.uam.loginViewControllerConfig;
@@ -273,19 +272,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         [self deleteUserAndVerify:userAccount userDir:location];
     }
      XCTAssertEqual([self.uam allUserAccounts].count, (NSUInteger)0, @"There should be 0 accounts after delete");
-}
-
-- (void)testSwitchToNewUser {
-    NSArray *accounts = [self createAndVerifyUserAccounts:1];
-    SFUserAccount *origUser = accounts[0];
-    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:origUser];
-    TestUserAccountManagerDelegate *acctDelegate = [[TestUserAccountManagerDelegate alloc] init];
-    [self.uam switchToNewUser];
-    XCTAssertEqual(acctDelegate.willSwitchOrigUserAccount, origUser, @"origUser is not equal.");
-    XCTAssertNil(acctDelegate.willSwitchNewUserAccount, @"New user should be nil.");
-    XCTAssertEqual(acctDelegate.didSwitchOrigUserAccount, origUser, @"origUser is not equal.");
-    XCTAssertNil(acctDelegate.didSwitchNewUserAccount, @"New user should be nil.");
-    XCTAssertNotEqual(self.uam.currentUser, origUser, @"The current user should not be the original user.");
 }
 
 - (void)testSwitchToUser {

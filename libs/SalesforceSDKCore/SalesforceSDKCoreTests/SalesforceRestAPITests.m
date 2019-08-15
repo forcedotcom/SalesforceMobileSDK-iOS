@@ -1907,12 +1907,16 @@ static NSException *authException = nil;
         XCTFail("Unexpected success %@", d);
         [self.currentExpectation fulfill];
     };
-    
+
     [api performRequestForResourcesWithFailBlock:failWithExpectedFail
                                    completeBlock:successWithUnexpectedSuccessBlock];
-    
+
+    // Ignore null passed warning beceause it necessary for successWithUnexpectedSuccessBlock above
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wnonnull"
     BOOL found = [api forceTimeoutRequest:nil];
-    XCTAssertTrue(found , @"Could not find request to force a timeout");
+    #pragma clang diagnostic pop
+    XCTAssertTrue(found , @"Request was not sent and should not be found.");
 
     BOOL completionTimedOut = [self waitForExpectation];
     XCTAssertTrue(!completionTimedOut); // when we force timeout the request, its error handler gets invoked right away, so the semaphore-wait should not time out
