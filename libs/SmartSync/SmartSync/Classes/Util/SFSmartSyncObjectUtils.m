@@ -32,6 +32,8 @@ __strong static NSDateFormatter *isoDateFormatter;
 + (void) initialize {
     utcDateFormatter = [NSDateFormatter new];
     isoDateFormatter = [NSDateFormatter new];
+    NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [isoDateFormatter setLocale:enUSPOSIXLocale];
     isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 }
 
