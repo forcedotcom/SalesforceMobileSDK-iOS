@@ -144,31 +144,31 @@ workflows:
                 - dev
     jobs:
       - run-tests:
-          name: "SalesforceSDKCommon iOS 11 Nighlty"
+          name: "SalesforceSDKCommon iOS 11 Nightly"
           lib: "SalesforceSDKCommon"
           device: "iPhone X"
           ios: "11.4"
           nightly-test: true
       - run-tests:
-          name: "SalesforceAnalytics iOS 11 Nighlty"
+          name: "SalesforceAnalytics iOS 11 Nightly"
           lib: "SalesforceAnalytics"
           device: "iPhone X"
           ios: "11.4"
           nightly-test: true 
       - run-tests:
-          name: "SalesforceSDKCore iOS 11 Nighlty"
+          name: "SalesforceSDKCore iOS 11 Nightly"
           lib: "SalesforceSDKCore"
           device: "iPhone X"
           ios: "11.4"
           nightly-test: true 
       - run-tests:
-          name: "SmartStore iOS 11 Nighlty"
+          name: "SmartStore iOS 11 Nightly"
           lib: "SmartStore"
           device: "iPhone X"
           ios: "11.4"
           nightly-test: true
       - run-tests:
-          name: "SmartSync iOS 11 Nighlty"
+          name: "SmartSync iOS 11 Nightly"
           lib: "SmartSync"
           device: "iPhone X"
           ios: "11.4"
@@ -186,23 +186,23 @@ workflows:
                 - dev
     jobs:
       - run-tests:
-          name: "SalesforceSDKCommon iOS 12 Nighlty"
+          name: "SalesforceSDKCommon iOS 12 Nightly"
           lib: "SalesforceSDKCommon"
           nightly-test: true
       - run-tests:
-          name: "SalesforceAnalytics iOS 12 Nighlty"
+          name: "SalesforceAnalytics iOS 12 Nightly"
           lib: "SalesforceAnalytics"
           nightly-test: true 
       - run-tests:
-          name: "SalesforceSDKCore iOS 12 Nighlty"
+          name: "SalesforceSDKCore iOS 12 Nightly"
           lib: "SalesforceSDKCore"
           nightly-test: true 
       - run-tests:
-          name: "SmartStore iOS 12 Nighlty"
+          name: "SmartStore iOS 12 Nightly"
           lib: "SmartStore"
           nightly-test: true
       - run-tests:
-          name: "SmartSync iOS 12 Nighlty"
+          name: "SmartSync iOS 12 Nightly"
           lib: "SmartSync"
           nightly-test: true
 
@@ -218,31 +218,31 @@ workflows:
                 - dev
     jobs:
       - run-tests:
-          name: "SalesforceSDKCommon iOS 13 Nighlty"
+          name: "SalesforceSDKCommon iOS 13 Nightly"
           lib: "SalesforceSDKCommon"
           nightly-test: true
           env: "mac-beta"
           ios: "13.0"
       - run-tests:
-          name: "SalesforceAnalytics iOS 13 Nighlty"
+          name: "SalesforceAnalytics iOS 13 Nightly"
           lib: "SalesforceAnalytics"
           nightly-test: true 
           env: "mac-beta"
           ios: "13.0"
       - run-tests:
-          name: "SalesforceSDKCore iOS 13 Nighlty"
+          name: "SalesforceSDKCore iOS 13 Nightly"
           lib: "SalesforceSDKCore"
           nightly-test: true 
           env: "mac-beta"
           ios: "13.0"
       - run-tests:
-          name: "SmartStore iOS 13 Nighlty"
+          name: "SmartStore iOS 13 Nightly"
           lib: "SmartStore"
           nightly-test: true
           env: "mac-beta"
           ios: "13.0"
       - run-tests:
-          name: "SmartSync iOS 13 Nighlty"
+          name: "SmartSync iOS 13 Nightly"
           lib: "SmartSync"
           nightly-test: true
           env: "mac-beta"
