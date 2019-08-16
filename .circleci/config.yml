@@ -2,17 +2,26 @@ executors:
   mac:
     working_directory: ~/SalesforceMobileSDK-iOS
     macos:
-      xcode: "10.3.0"
+      xcode: 10.3.0
     shell: /bin/bash --login -eo pipefail
     environment:
       BASH_ENV: ~/.bashrc
-      FASTLANE_SKIP_UPDATE_CHECK: true
+      FASTLANE_SKIP_UPDATE_CHECK: "true"
       CHRUBY_VER: 2.6.3
+  mac-beta:
+    working_directory: ~/SalesforceMobileSDK-iOS
+    macos:
+      xcode: 11.0.0
+    shell: /bin/bash --login -eo pipefail
+    environment:
+      BASH_ENV: ~/.bashrc
+      FASTLANE_SKIP_UPDATE_CHECK: "true"
+      CHRUBY_VER: 2.6.3
+
 
 version: 2.1
 jobs:
   run-tests:
-    executor: mac
     parameters:
       lib:
         type: string
@@ -26,6 +35,10 @@ jobs:
       nightly-test:
         type: boolean
         default: false
+      env: 
+        type: executor
+        default: "mac"
+    executor: << parameters.env >> 
     environment:
       LIB: << parameters.lib >> 
       DEVICE: << parameters.device >>
@@ -56,7 +69,7 @@ jobs:
           command:  |
             chruby ${CHRUBY_VER}
             cd .circleci
-            fastlane PR lib:<< parameters.lib >> 
+            bundle exec fastlane PR lib:<< parameters.lib >> 
       - run: 
           name: Danger Lib
           command:  |
@@ -131,42 +144,42 @@ workflows:
                 - dev
     jobs:
       - run-tests:
-          name: "SalesforceSDKCommon iOS 12 Nighlty"
+          name: "SalesforceSDKCommon iOS 11 Nighlty"
           lib: "SalesforceSDKCommon"
           device: "iPhone X"
           ios: "11.4"
           nightly-test: true
       - run-tests:
-          name: "SalesforceAnalytics iOS 12 Nighlty"
+          name: "SalesforceAnalytics iOS 11 Nighlty"
           lib: "SalesforceAnalytics"
           device: "iPhone X"
           ios: "11.4"
           nightly-test: true 
       - run-tests:
-          name: "SalesforceSDKCore iOS 12 Nighlty"
+          name: "SalesforceSDKCore iOS 11 Nighlty"
           lib: "SalesforceSDKCore"
           device: "iPhone X"
           ios: "11.4"
           nightly-test: true 
       - run-tests:
-          name: "SmartStore iOS 12 Nighlty"
+          name: "SmartStore iOS 11 Nighlty"
           lib: "SmartStore"
           device: "iPhone X"
           ios: "11.4"
           nightly-test: true
       - run-tests:
-          name: "SmartSync iOS 12 Nighlty"
+          name: "SmartSync iOS 11 Nighlty"
           lib: "SmartSync"
           device: "iPhone X"
           ios: "11.4"
           nightly-test: true
 
   # Cron are on a timezone 8 hours ahead of PST
-  # Build everything at ~11:30pm Tuesday/Thursday Nights
+  # Build everything at ~10:30pm Tuesday/Thursday Nights
   nightly-test-ios12:
     triggers:
       - schedule:
-          cron: "30 7 * * 3,5"
+          cron: "30 6 * * 3,5"
           filters:
             branches:
               only:
@@ -192,3 +205,45 @@ workflows:
           name: "SmartSync iOS 12 Nighlty"
           lib: "SmartSync"
           nightly-test: true
+
+  # Cron are on a timezone 8 hours ahead of PST
+  # Build everything at ~11:30am Tuesday/Thursday Nights
+  nightly-test-ios13:
+    triggers:
+      - schedule:
+          cron: "30 7 * * 3,5"
+          filters:
+            branches:
+              only:
+                - dev
+    jobs:
+      - run-tests:
+          name: "SalesforceSDKCommon iOS 13 Nighlty"
+          lib: "SalesforceSDKCommon"
+          nightly-test: true
+          env: "mac-beta"
+          ios: "13.0"
+      - run-tests:
+          name: "SalesforceAnalytics iOS 13 Nighlty"
+          lib: "SalesforceAnalytics"
+          nightly-test: true 
+          env: "mac-beta"
+          ios: "13.0"
+      - run-tests:
+          name: "SalesforceSDKCore iOS 13 Nighlty"
+          lib: "SalesforceSDKCore"
+          nightly-test: true 
+          env: "mac-beta"
+          ios: "13.0"
+      - run-tests:
+          name: "SmartStore iOS 13 Nighlty"
+          lib: "SmartStore"
+          nightly-test: true
+          env: "mac-beta"
+          ios: "13.0"
+      - run-tests:
+          name: "SmartSync iOS 13 Nighlty"
+          lib: "SmartSync"
+          nightly-test: true
+          env: "mac-beta"
+          ios: "13.0"
