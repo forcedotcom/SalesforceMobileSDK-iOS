@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL hasError;
 @property (nonatomic, readonly, nullable) SFSDKOAuthTokenEndpointErrorResponse *error;
 @property (nonatomic, readonly) NSString *accessToken;
-@property (nonatomic, readonly, nullable) NSString *refreshToken;
+@property (nonatomic, readonly) NSString *refreshToken;
 @property (nonatomic, readonly) NSDate *issuedAt;
 @property (nonatomic, readonly) NSURL *instanceUrl;
 @property (nonatomic, readonly) NSURL *identityUrl;

@@ -45,8 +45,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 @interface SFSDKOAuthTokenEndpointResponse()
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
 - (instancetype)initWithError:(NSError *)error;
-@property (nonatomic,strong,readonly) NSDictionary *values;
+@property (nonatomic,strong,readonly) NSMutableDictionary *values;
 @property (nonatomic,strong) NSArray<NSString *> *additionalOAuthParameterKeys;
+@property (nonatomic,strong,readwrite) NSString *refreshToken;
 @end
 
 @implementation SFSDKOAuthTokenEndpointRequest
@@ -87,7 +88,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys {
     
     if (self = [super init]) {
-        _values = nvPairs;
+        _values = [NSMutableDictionary dictionaryWithDictionary:nvPairs];
         _additionalOAuthParameterKeys = additionalOAuthParameterKeys;
         
         if (additionalOAuthParameterKeys) {
@@ -124,6 +125,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (NSString *)refreshToken {
     return self.values[kSFOAuthRefreshToken];
+}
+
+- (void)setRefreshToken:(NSString *)refreshToken {
+    [self.values setObject:refreshToken forKey:kSFOAuthRefreshToken];
 }
 
 - (NSDate *)issuedAt {
@@ -304,11 +309,14 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     [responseData appendData:data];
     
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-    id json = nil;
-    json = [SFJsonUtils objectFromJSONData:responseData];
-    
+    NSDictionary *json = [SFJsonUtils objectFromJSONData:responseData];
     if (json) {
         endpointResponse  = [[SFSDKOAuthTokenEndpointResponse alloc]initWithDictionary:json  parseAdditionalFields:endpointReq.additionalOAuthParameterKeys];
+        //Adds the refresh token to the response for consistency.
+        NSString *jsonRefreshToken = [json objectForKey:kSFOAuthRefreshToken];
+        if (jsonRefreshToken == nil || jsonRefreshToken.length < 1 ){
+            [endpointResponse setRefreshToken:endpointReq.refreshToken];
+        }
     } else {
         NSError* jsonError = [SFJsonUtils lastError];
         [SFSDKCoreLogger d:[self class] format:@"%@: JSON parse error: %@", NSStringFromSelector(_cmd), jsonError];

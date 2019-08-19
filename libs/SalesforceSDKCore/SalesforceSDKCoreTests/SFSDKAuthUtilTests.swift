@@ -76,7 +76,7 @@ class SFSDKAuthUtilTests: XCTestCase {
         let response = try! require(endpointResponse)
         XCTAssertFalse(response.hasError)
         XCTAssertNotNil(response.accessToken)
-        XCTAssertTrue(response.refreshToken==nil || response.refreshToken!.count < 1)
+        XCTAssertTrue(response.refreshToken.count > 0)
         XCTAssertNotNil(response.scopes)
         XCTAssertNotNil(response.instanceUrl)
         XCTAssertNotNil(response.signature)
