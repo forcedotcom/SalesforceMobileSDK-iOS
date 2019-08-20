@@ -43,9 +43,6 @@
 
 @property (nonatomic, strong) UINavigationBar *navBar;
 
-// Reference to the login host list view controller
-@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController;
-
 // Reference to previous user account
 @property (nonatomic, strong) SFUserAccount *previousUserAccount;
 @end
@@ -238,6 +235,11 @@
     return item;
 }
 
+- (SFSDKLoginHostListViewController *)createLoginHostListViewController {
+    SFSDKLoginHostListViewController *loginHostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+    return loginHostListViewController;
+}
+
 - (BOOL)shouldAutorotate {
     return NO;
 }
@@ -281,7 +283,7 @@
 
 - (SFSDKLoginHostListViewController *)loginHostListViewController {
     if (!_loginHostListViewController) {
-        _loginHostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+        _loginHostListViewController = [self createLoginHostListViewController];
         _loginHostListViewController.delegate = self;
     }
     return _loginHostListViewController;

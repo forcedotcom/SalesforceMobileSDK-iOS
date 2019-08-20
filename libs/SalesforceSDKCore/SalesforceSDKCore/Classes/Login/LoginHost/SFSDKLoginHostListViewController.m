@@ -129,7 +129,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 
     // Displays the 'Add Server' button only if the MDM policy allows us to.
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
-    if (!(managedPreferences.hasManagedPreferences && managedPreferences.onlyShowAuthorizedHosts)) {
+    if (!(managedPreferences.hasManagedPreferences && managedPreferences.onlyShowAuthorizedHosts) && !self.hidesAddButton) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showAddLoginHost:)];
     }
     self.title = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
