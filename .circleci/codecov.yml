@@ -8,7 +8,6 @@ coverage:
 
 ignore:
   - "shared"
-  - "hybrid"
   - "native"
   - "libs/**/*Test*/*"
 
@@ -25,14 +24,14 @@ coverage:
         target: auto
         paths: "libs/SalesforceAnalytics/SalesforceAnalytics/"
         flags: SalesforceAnalytics
+      SalesforceSDKCommon:
+        target: auto
+        paths: "libs/SalesforceSDKCore/SalesforceSDKCommon/"
+        flags: SalesforceSDKCommon
       SalesforceSDKCore:
         target: auto
         paths: "libs/SalesforceSDKCore/SalesforceSDKCore/"
         flags: SalesforceSDKCore
-      SalesforceHybridSDK:
-        target: auto
-        paths: "libs/SalesforceHybridSDK/SalesforceHybridSDK/"
-        flags: SalesforceHybridSDK
       SmartStore:
         target: auto
         paths: "libs/SmartStore/SmartStore/"
