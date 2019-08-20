@@ -53,6 +53,11 @@ NS_SWIFT_NAME(LoginHostListViewController)
 @property (nonatomic,assign) BOOL hidesCancelButton;
 
 /**
+ * Hides the Add button if it exists.  Enables the adding of hosts to the host list.
+ */
+@property (nonatomic,assign) BOOL hidesAddButton;
+
+/**
  * Adds a new login host. Also updates the underlying storage and refreshes 
  * the list of login hosts.
  * @param host Login host to be added.
