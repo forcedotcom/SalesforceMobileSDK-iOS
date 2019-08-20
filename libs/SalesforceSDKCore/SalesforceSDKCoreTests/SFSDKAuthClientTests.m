@@ -47,6 +47,103 @@
 @property (nonatomic,assign) BOOL isTestingForErrorCallback;
 @end
 
+@interface SFOAuthCoordinatorTest : SFOAuthCoordinator
+@property (nonatomic,assign) BOOL isTestingForErrorCallback;
+@end
+
+
+
+@implementation SFOAuthCoordinatorTest
+
+- (void)beginUserAgentFlow {
+    
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    if (!self.isTestingForErrorCallback) {
+        [self handleUserAgentResponse:[self userAgentSuccessUrl]];
+    }else {
+        [self handleUserAgentResponse:[self userAgentErrorUrl]];
+    }
+    
+}
+
+- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (!self.isTestingForErrorCallback) {
+             [self handleTokenEndpointResponse:[self refreshTokenSuccessData]];
+        }else {
+            [self  handleTokenEndpointResponse:[self refreshTokenErrorData]];
+        }
+    });
+}
+
+- (void)beginJwtTokenExchangeFlow {
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+}
+
+- (void)beginNativeBrowserFlow {
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (!self.isTestingForErrorCallback) {
+            [self handleTokenEndpointResponse:[self refreshTokenSuccessData]];
+        }else {
+            [self handleTokenEndpointResponse:[self refreshTokenErrorData]];
+        }
+    });
+}
+
+- (void)handleTokenEndpointResponse:(NSMutableData *) data{
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    
+}
+
+- (NSMutableData *)refreshTokenSuccessData  {
+    NSString *successFormatString = @"{\"id\":\"%@\",\"issued_at\":\"%@\",\"instance_url\":\"%@\",\"access_token\":\"%@\"}";
+    NSString *successDataString = [NSString stringWithFormat:successFormatString,
+                                   self.credentials.redirectUri,
+                                   [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByURLEncoding],
+                                   @(1418945872705),
+                                   [@"https://na1.salesforce.com" stringByURLEncoding],
+                                   @"some_access_token"];
+    NSData *data = [successDataString dataUsingEncoding:NSUTF8StringEncoding];
+    return [data mutableCopy];
+}
+
+- (NSMutableData *)refreshTokenErrorData {
+    NSString *errorFormatString = @"{\"error\":\"%@\",\"error_description\":\"%@\"}";
+    NSString *errorDataString = [NSString stringWithFormat:errorFormatString,
+                                  self.credentials.redirectUri,
+                                 @"refresh_token_flow_error_from_unit_test",
+                                 [@"Refresh token flow error from unit test" stringByURLEncoding]
+                                 ];
+    NSData *data = [errorDataString dataUsingEncoding:NSUTF8StringEncoding];
+    return [data mutableCopy];
+}
+
+- (NSURL *)userAgentSuccessUrl{
+    NSString *successFormatString = @"%@#access_token=%@&issued_at=%@&instance_url=%@&id=%@";
+    NSString *successUrl = [NSString stringWithFormat:successFormatString,
+                            self.credentials.redirectUri,
+                            @"some_access_token_val",
+                            @(1418945872705),
+                            [@"https://na1.salesforce.com" stringByURLEncoding],
+                            [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByURLEncoding]
+                            ];
+    return [NSURL URLWithString:successUrl];
+}
+
+- (NSURL *)userAgentErrorUrl{
+    NSString *errorFormatString = @"%@#error=%@&error_description=%@";
+    NSString *errorUrl = [NSString stringWithFormat:errorFormatString,
+                          self.credentials.redirectUri,
+                          @"user_agent_flow_error_from_unit_test",
+                          [@"User agent flow error from unit test" stringByURLEncoding]
+                          ];
+    return [NSURL URLWithString:errorUrl];
+}
+
+@end
 
 @interface TestUserSelectionNavViewController : UINavigationController <SFSDKUserSelectionView>
 @property (nonatomic,weak) id<SFSDKUserSelectionViewDelegate> userSelectionDelegate;
@@ -97,18 +194,21 @@
 + (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *)config {
     SFSDKTestOAuthClient *client = [[SFSDKTestOAuthClient alloc] initWithConfig:config];
     client.isIDPClient = YES;
+    client.coordinator = [[SFOAuthCoordinatorTest alloc] init];
      return client;
 }
 
 + (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *)config {
     SFSDKTestOAuthClient *client = [[SFSDKTestOAuthClient alloc] initWithConfig:config];
     client.isAdvancedAuthClient = YES;
+    client.coordinator = [[SFOAuthCoordinatorTest alloc] init];
     return client;
 }
 
 + (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *)config {
     SFSDKTestOAuthClient *client = [[SFSDKTestOAuthClient alloc] initWithConfig:config];
     client.isOAuthClient = YES;
+    client.coordinator = [[SFOAuthCoordinatorTest alloc] init];
     return client;
 }
 @end
@@ -130,7 +230,7 @@
 @end
 
 
-@interface SFSDKAuthClientTests()<SFSDKOAuthClientDelegate,SFSDKOAuthClientSafariViewDelegate,SFOAuthCoordinatorFlow>{
+@interface SFSDKAuthClientTests()<SFSDKOAuthClientDelegate,SFSDKOAuthClientSafariViewDelegate>{
     Class<SFSDKOAuthClientProvider> _originalProvider;
     SFSDKTestOAuthClient *_currentClient;
     XCTestExpectation *_willBeginExpectation;
@@ -363,10 +463,12 @@
     
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
+    SFOAuthCoordinatorTest *testCoordinator = [[SFOAuthCoordinatorTest alloc] initWithCredentials:credentials];
+    client.coordinator = testCoordinator;
+    client.coordinator.delegate = (id<SFOAuthCoordinatorDelegate>)client;
     
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
    
-    [testClient.coordinator setOauthCoordinatorFlow:self];
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     [testClient refreshCredentials];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
@@ -385,9 +487,11 @@
 
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
+    SFOAuthCoordinatorTest *testCoordinator = [[SFOAuthCoordinatorTest alloc] initWithCredentials:credentials];
+    client.coordinator = testCoordinator;
+    client.coordinator.delegate = (id<SFOAuthCoordinatorDelegate>)client;
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _didFinishExpectation = [self expectationWithDescription:@"willFinish"];
 
@@ -398,21 +502,23 @@
 - (void)testOAuthClientErrorCallback {
 
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
+    credentials.redirectUri = @"sample://callback";
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.delegate = self;
     }];
-
+    SFOAuthCoordinatorTest *testCoordinator = [[SFOAuthCoordinatorTest alloc] initWithCredentials:credentials];
+    testCoordinator.isTestingForErrorCallback = YES;
+    client.coordinator = testCoordinator;
+    client.coordinator.delegate = (id<SFOAuthCoordinatorDelegate>)client;
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
     _currentClient.isTestingForErrorCallback = YES;
-    [client.coordinator setOauthCoordinatorFlow:self];
-    _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
+   _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _errorExpectation = [self expectationWithDescription:@"error"];
-
     [client refreshCredentials];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
 }
@@ -431,7 +537,6 @@
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _refreshFlowExpectation = [self expectationWithDescription:@"willTrigerRefreshFlow"];
     
@@ -452,7 +557,6 @@
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     _willRevokeExpectation = [self expectationWithDescription:@"willTrigerRevokeFlow"];
     _didRevokeExpectation = [self expectationWithDescription:@"willTrigerRevokeFlow"];
     [client revokeCredentials];
@@ -473,9 +577,11 @@
    
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
+    SFOAuthCoordinatorTest *testCoordinator = [[SFOAuthCoordinatorTest alloc] initWithCredentials:credentials];
+    client.coordinator = testCoordinator;
+    client.coordinator.delegate = (id<SFOAuthCoordinatorDelegate>)client;
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _didFinishExpectation = [self expectationWithDescription:@"finishedAuth"];
@@ -521,95 +627,11 @@
 - (void)authClient:(SFSDKOAuthClient * _Nonnull)client displayMessage:(nonnull SFSDKAlertMessage *)message {
 }
 
-#pragma mark SFOAuthCoordinatorFlow
-- (void)beginUserAgentFlow {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    if (!self->_currentClient.isTestingForErrorCallback) {
-        [_currentClient.coordinator handleUserAgentResponse:[self userAgentSuccessUrl]];
-    }else {
-         [_currentClient.coordinator handleUserAgentResponse:[self userAgentErrorUrl]];
-    }
-        
-}
 
-- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (!self->_currentClient.isTestingForErrorCallback) {
-                [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
-            }else {
-                [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenErrorData]];
-            }
-    });
-}
 
-- (void)beginJwtTokenExchangeFlow {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-}
 
-- (void)beginNativeBrowserFlow {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (!self->_currentClient.isTestingForErrorCallback) {
-            [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
-        }else {
-            [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenErrorData]];
-        }
-    });
-}
 
-- (void)handleTokenEndpointResponse:(NSMutableData *) data{
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-  
-}
-
-# pragma private methods
-
-- (NSURL *)userAgentSuccessUrl{
-    NSString *successFormatString = @"%@#access_token=%@&issued_at=%@&instance_url=%@&id=%@";
-    NSString *successUrl = [NSString stringWithFormat:successFormatString,
-                            _currentClient.coordinator.credentials.redirectUri,
-                            @"some_access_token_val",
-                            @(1418945872705),
-                            [@"https://na1.salesforce.com" stringByURLEncoding],
-                            [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByURLEncoding]
-                            ];
-    return [NSURL URLWithString:successUrl];
-}
-
-- (NSURL *)userAgentErrorUrl{
-    NSString *errorFormatString = @"%@#error=%@&error_description=%@";
-    NSString *errorUrl = [NSString stringWithFormat:errorFormatString,
-                          _currentClient.coordinator.credentials.redirectUri,
-                          @"user_agent_flow_error_from_unit_test",
-                          [@"User agent flow error from unit test" stringByURLEncoding]
-                          ];
-    return [NSURL URLWithString:errorUrl];
-}
-
-- (NSMutableData *)refreshTokenSuccessData  {
-    NSString *successFormatString = @"{\"id\":\"%@\",\"issued_at\":\"%@\",\"instance_url\":\"%@\",\"access_token\":\"%@\"}";
-    NSString *successDataString = [NSString stringWithFormat:successFormatString,
-                                   _currentClient.coordinator.credentials.redirectUri,
-                                   [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByURLEncoding],
-                                   @(1418945872705),
-                                   [@"https://na1.salesforce.com" stringByURLEncoding],
-                                   @"some_access_token"];
-    NSData *data = [successDataString dataUsingEncoding:NSUTF8StringEncoding];
-    return [data mutableCopy];
-}
-
-- (NSMutableData *)refreshTokenErrorData {
-    NSString *errorFormatString = @"{\"error\":\"%@\",\"error_description\":\"%@\"}";
-    NSString *errorDataString = [NSString stringWithFormat:errorFormatString,
-                                 _currentClient.coordinator.credentials.redirectUri,
-                                 @"refresh_token_flow_error_from_unit_test",
-                                 [@"Refresh token flow error from unit test" stringByURLEncoding]
-                                 ];
-    NSData *data = [errorDataString dataUsingEncoding:NSUTF8StringEncoding];
-    return [data mutableCopy];
-}
 
 
 @end

@@ -27,7 +27,7 @@
 
 @interface SFOAuthSessionRefresher () <SFOAuthCoordinatorDelegate>
 
-@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
+@property (nonatomic,strong) SFOAuthCredentials *credentials;
 @property (nonatomic, copy) void (^completionBlock)(SFOAuthCredentials *);
 @property (nonatomic, copy) void (^errorBlock)(NSError *);
 

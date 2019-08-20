@@ -45,8 +45,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 @interface SFSDKOAuthTokenEndpointResponse()
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
 - (instancetype)initWithError:(NSError *)error;
-@property (nonatomic,strong,readonly) NSDictionary *values;
+@property (nonatomic,strong,readonly) NSMutableDictionary *values;
 @property (nonatomic,strong) NSArray<NSString *> *additionalOAuthParameterKeys;
+@property (nonatomic,strong,readwrite) NSString *refreshToken;
 @end
 
 @implementation SFSDKOAuthTokenEndpointRequest
@@ -87,7 +88,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys {
     
     if (self = [super init]) {
-        _values = nvPairs;
+        _values = [NSMutableDictionary dictionaryWithDictionary:nvPairs];
         _additionalOAuthParameterKeys = additionalOAuthParameterKeys;
         
         if (additionalOAuthParameterKeys) {
@@ -124,6 +125,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (NSString *)refreshToken {
     return self.values[kSFOAuthRefreshToken];
+}
+
+- (void)setRefreshToken:(NSString *)refreshToken {
+    [self.values setObject:refreshToken forKey:kSFOAuthRefreshToken];
 }
 
 - (NSDate *)issuedAt {
@@ -168,14 +173,8 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *)) completionBlock {
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:endpointReq.serverURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:endpointReq.timeout];
-    [request setHTTPMethod:kHttpMethodPost];
-    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
+    NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq];
     
-    if (endpointReq.userAgentForAuth != nil) {
-        [request setValue:endpointReq.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
-    }
-    [request setHTTPShouldHandleCookies:NO];
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, @"json",
                                kSFOAuthRedirectUri, endpointReq.redirectURI,
@@ -183,8 +182,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     [params appendFormat:@"&%@=%@", kSFOAuthCodeVerifierParamName, endpointReq.codeVerifier];
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeAuthorizationCode, kSFOAuthApprovalCode, endpointReq.approvalCode];
-    
-    
     
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
@@ -208,9 +205,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             
             [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
             
-            if (completionBlock) {
-                completionBlock(endpointResponse);
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completionBlock) {
+                    completionBlock(endpointResponse);
+                }
+            });
             return;
         }
         [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
@@ -233,20 +232,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *)) completionBlock {
     
-    NSString *refreshDomain = endpointReq.serverURL.absoluteString;
-    NSString *protocolHost = [NSString stringWithFormat:@"https://%@", refreshDomain];
-    NSString *url = [[NSString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
-                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                            timeoutInterval:endpointReq.timeout];
-    [request setHTTPMethod:kHttpMethodPost];
-    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-    
-    if (endpointReq.userAgentForAuth != nil) {
-        [request setValue:endpointReq.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
-    }
-    [request setHTTPShouldHandleCookies:NO];
-    
+    NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq];
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, @"json",
                                kSFOAuthRedirectUri, endpointReq.redirectURI,
@@ -277,9 +263,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             }
             [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
             
-            if (completionBlock) {
-                completionBlock(endpointResponse);
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completionBlock) {
+                    completionBlock(endpointResponse);
+                }
+            });
             return;
         }
         [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
@@ -294,6 +282,25 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 }
 
 #pragma mark - private
+- (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq {
+    NSString *protocolHost = endpointReq.serverURL.absoluteString;
+    NSMutableString *url = [[NSMutableString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
+    if (![url hasPrefix:@"http"]) {
+        [url insertString:@"https://" atIndex:0];
+    }
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
+                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                            timeoutInterval:endpointReq.timeout];
+    [request setHTTPMethod:kHttpMethodPost];
+    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
+    
+    if (endpointReq.userAgentForAuth != nil) {
+        [request setValue:endpointReq.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
+    }
+    [request setHTTPShouldHandleCookies:NO];
+    return request;
+}
+
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response {
     SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
     
@@ -302,11 +309,14 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     [responseData appendData:data];
     
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-    id json = nil;
-    json = [SFJsonUtils objectFromJSONData:responseData];
-    
+    NSDictionary *json = [SFJsonUtils objectFromJSONData:responseData];
     if (json) {
         endpointResponse  = [[SFSDKOAuthTokenEndpointResponse alloc]initWithDictionary:json  parseAdditionalFields:endpointReq.additionalOAuthParameterKeys];
+        //Adds the refresh token to the response for consistency.
+        NSString *jsonRefreshToken = [json objectForKey:kSFOAuthRefreshToken];
+        if (jsonRefreshToken == nil || jsonRefreshToken.length < 1 ){
+            [endpointResponse setRefreshToken:endpointReq.refreshToken];
+        }
     } else {
         NSError* jsonError = [SFJsonUtils lastError];
         [SFSDKCoreLogger d:[self class] format:@"%@: JSON parse error: %@", NSStringFromSelector(_cmd), jsonError];

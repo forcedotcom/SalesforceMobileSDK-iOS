@@ -218,7 +218,6 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         return;
     }
     
-    
     NSDictionary *idJsonData = (NSDictionary *)[SFJsonUtils objectFromJSONData:data];
     if (idJsonData == nil) {
         error = [self errorWithType:kSFIdentityErrorTypeDataMalformed description:@"Unable to parse identity response data."];

@@ -24,18 +24,20 @@
 
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFUserAccountManager.h"
+#import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKOAuth2.h"
 
+@interface SFOAuthSessionRefresher()
+
+@end
+           
 @implementation SFOAuthSessionRefresher
 
 - (instancetype)initWithCredentials:(SFOAuthCredentials *)credentials {
     self = [super init];
     if (self) {
-        self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
-        self.coordinator.delegate = self;
-        self.coordinator.additionalTokenRefreshParams = [SFUserAccountManager sharedInstance].additionalTokenRefreshParams;
-        self.coordinator.additionalOAuthParameterKeys = [SFUserAccountManager sharedInstance].additionalOAuthParameterKeys;
+        self.credentials = credentials;
     }
     return self;
 }
@@ -45,16 +47,12 @@
 }
 
 - (void)dealloc {
-    if (self.coordinator.isAuthenticating) {
-        [self.coordinator stopAuthentication];
-    }
-    self.coordinator.delegate = nil;
 }
 
 - (void)refreshSessionWithCompletion:(void (^)(SFOAuthCredentials *))completionBlock error:(void (^)(NSError *))errorBlock {
     self.completionBlock = completionBlock;
     self.errorBlock = errorBlock;
-    if (self.coordinator.credentials.instanceUrl == nil) {
+    if (self.credentials.instanceUrl == nil) {
         NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
                                              code:SFOAuthSessionRefreshErrorCodeInvalidCredentials
                                          userInfo:@{ NSLocalizedDescriptionKey: @"Credentials do not contain an instanceUrl" }];
@@ -62,7 +60,7 @@
         return;
     }
     
-    if (self.coordinator.credentials.clientId.length == 0) {
+    if (self.credentials.clientId.length == 0) {
         NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
                                              code:SFOAuthSessionRefreshErrorCodeInvalidCredentials
                                          userInfo:@{ NSLocalizedDescriptionKey: @"Credentials do not have an OAuth2 client_id set" }];
@@ -70,7 +68,7 @@
         return;
     }
     
-    if (self.coordinator.credentials.refreshToken.length == 0) {
+    if (self.credentials.refreshToken.length == 0) {
         NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
                                              code:SFOAuthSessionRefreshErrorCodeInvalidCredentials
                                          userInfo:@{ NSLocalizedDescriptionKey: @"Credentials do not have an OAuth2 refresh_token set" }];
@@ -78,23 +76,39 @@
         return;
     }
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.coordinator authenticate];
-    });
+    SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    request.additionalOAuthParameterKeys = [SFUserAccountManager sharedInstance].additionalOAuthParameterKeys;
+    request.additionalTokenRefreshParams = [SFUserAccountManager sharedInstance].additionalTokenRefreshParams;
+    request.clientID = self.credentials.clientId;
+    request.refreshToken = self.credentials.refreshToken;
+    request.redirectURI = self.credentials.redirectUri;
+    request.serverURL = [self.credentials overrideDomainIfNeeded];
+    __weak typeof(self) weakSelf = self;
+    id<SFSDKOAuthProtocol> authClient = [SFUserAccountManager sharedInstance].authClient();
+    [authClient accessTokenForRefresh:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (response.hasError) {
+            [strongSelf completeWithError:response.error.error];
+        } else {
+            [strongSelf.credentials updateCredentials:[response asDictionary]];
+            if (response.additionalOAuthFields)
+                strongSelf.credentials.additionalOAuthFields = response.additionalOAuthFields;
+            [strongSelf completeWithSuccess];
+        }
+    }];
 }
 
 #pragma mark - Private methods
-
-- (void)completeWithSuccess:(SFOAuthCredentials *)credentials {
+- (void)completeWithSuccess {
     [SFSDKCoreLogger i:[self class] format:@"%@ Session was successfully refreshed.", NSStringFromSelector(_cmd)];
     if (self.completionBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:credentials];
+            SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
             NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : account };
             [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
                                                                 object:self
                                                               userInfo:userInfo];
-            self.completionBlock(credentials);
+            self.completionBlock(self.credentials);
         });
     }
 }
@@ -108,47 +122,4 @@
         });
     }
 }
-
-#pragma mark - SFOAuthCoordinatorDelegate
-
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
-    [self completeWithSuccess:coordinator.credentials];
-    if (info.authType != SFOAuthTypeRefresh) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
-                                                                object:nil
-                                                              userInfo:nil];
-        });
-    }
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {
-    [self completeWithError:error];
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
-    // Shouldn't happen (refreshSessionWithCompletion:error: is guarded by the presence of a refresh token), but....
-    [self finishForUnsupportedFlow:@"User Agent" coordinator:coordinator];
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
-    // Shouldn't happen (refreshSessionWithCompletion:error: is guarded by the presence of a refresh token), but....
-    [self finishForUnsupportedFlow:@"Web Server" coordinator:coordinator];
-}
-
-- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
-    // Shouldn't happen (refreshSessionWithCompletion:error: is guarded by the presence of a refresh token), but....
-    [self finishForUnsupportedFlow:@"Web Server" coordinator:coordinator];
-}
-
-- (void)finishForUnsupportedFlow:(NSString *)flow coordinator:(SFOAuthCoordinator *)coordinator {
-    NSString *errorString = [NSString stringWithFormat:@"%@: %@ flow not supported for token refresh.", NSStringFromClass([self class]), flow];
-    NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
-                                         code:SFOAuthSessionRefreshErrorCodeInvalidCredentials
-                                     userInfo:@{ NSLocalizedDescriptionKey: errorString }];
-    [coordinator stopAuthentication];
-    [self completeWithError:error];
-}
-
-
 @end

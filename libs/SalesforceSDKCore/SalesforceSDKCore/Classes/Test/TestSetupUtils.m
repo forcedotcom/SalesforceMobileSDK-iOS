@@ -108,11 +108,13 @@ static SFOAuthCredentials *credentials = nil;
      completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
          authListener.returnStatus = kTestRequestStatusDidLoad;
          user = userAccount;
+         
      } failure:^(SFOAuthInfo *authInfo, NSError *error) {
          authListener.lastError = error;
          authListener.returnStatus = kTestRequestStatusDidFail;
      }];
     [authListener waitForCompletion];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
     NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
              kTestRequestStatusDidLoad,
              authListener.returnStatus);

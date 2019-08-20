@@ -32,21 +32,8 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowAdvancedBrowser
 };
 
-@protocol SFOAuthCoordinatorFlow <NSObject>
+@interface SFOAuthCoordinator ()
 
-@required
-
-- (void)beginUserAgentFlow;
-- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType;
-- (void)beginJwtTokenExchangeFlow;
-- (void)handleTokenEndpointResponse:(NSMutableData *)data;
-- (void)beginNativeBrowserFlow;
-
-@end
-
-@interface SFOAuthCoordinator () <SFOAuthCoordinatorFlow>
-
-@property (nonatomic, weak) id<SFOAuthCoordinatorFlow> oauthCoordinatorFlow;
 @property (assign) BOOL authenticating;
 @property (nonatomic, strong, readonly) NSURLSession *session;
 @property (nonatomic, strong) NSMutableData *responseData;

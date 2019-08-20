@@ -415,29 +415,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [self waitForExpectations:@[refreshExpectation] timeout:20];
     
 }
-- (void)testWillLoginNotificationPosted
-{
-    SFOAuthCredentials *credentials = [self populateAuthCredentialsFromConfigFileForClass:self.class];
-    
-    __block SFUserAccount *user = nil;
-    [self expectationForNotification:kSFNotificationUserWillLogIn object:[SFUserAccountManager sharedInstance] handler:^BOOL(NSNotification * notification) {
-        return notification.userInfo[kSFNotificationUserInfoCredentialsKey]!=nil;
-    }];
-
-    SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
-    [[SFUserAccountManager sharedInstance]
-     refreshCredentials:credentials
-     completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-         authListener.returnStatus = kTestRequestStatusDidLoad;
-         user = userAccount;
-     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-         authListener.lastError = error;
-         authListener.returnStatus = kTestRequestStatusDidFail;
-     }];
-    [authListener waitForCompletion];
-    [self waitForExpectationsWithTimeout:10.0 handler:nil];
-    XCTAssertNotNil(user);
-}
 
 - (void)testEntityId15 {
     NSString *userId = @"ABCDE12345ABCDE".entityId18;
