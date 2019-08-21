@@ -478,7 +478,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setHTTPMethod:@"GET"];
         [request setHTTPShouldHandleCookies:NO];
-        SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
+        SFNetwork *network = [[SFNetwork alloc] initWithSessionConfigurationIdentifier:kSFNetworkEphemeralSessionIdentifier sessionConfiguration:nil useSharedSession:NO];
         [network sendRequest:request dataResponseBlock:nil];
     }
     [credentials revoke];

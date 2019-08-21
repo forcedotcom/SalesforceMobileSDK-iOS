@@ -44,6 +44,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.parseResponse = YES;
         self.shouldRefreshOn403 = YES;
         self.request = [[NSMutableURLRequest alloc] init];
+        self.shouldRunInBackground = NO;
     }
     return self;
 }

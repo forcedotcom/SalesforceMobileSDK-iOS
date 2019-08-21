@@ -689,7 +689,7 @@
 
 - (NSURLSession*)session {
     if (_session == nil) {
-        SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
+        SFNetwork *network = [[SFNetwork alloc] initWithSessionConfigurationIdentifier:kSFNetworkEphemeralSessionIdentifier sessionConfiguration:nil useSharedSession:NO];
         _session = network.activeSession;
     }
     return _session;

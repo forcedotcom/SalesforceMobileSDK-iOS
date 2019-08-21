@@ -32,9 +32,13 @@
 
 NS_SWIFT_NAME(NetworkManaging)
 @protocol SFNetworkSessionManaging
-- (nonnull NSURLSession *)ephemeralSession:(nonnull NSURLSessionConfiguration *)sessionConfig;
-- (nonnull NSURLSession *)backgroundSession:(nonnull NSURLSessionConfiguration *)sessionConfig;
+- (nonnull NSURLSession *)ephemeralSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sessionWithConfigurationIdentifier:sessionConfiguration instead");
+- (nonnull NSURLSession *)backgroundSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sessionWithConfigurationIdentifier:sessionConfiguration instead");
+- (nonnull NSURLSession *)sessionWithConfigurationIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nullable NSURLSessionConfiguration *)configuration useSharedSession:(BOOL)useSharedSession;
 @end
+
+extern NSString * __nonnull const kSFNetworkEphemeralSessionIdentifier NS_SWIFT_NAME(SFNetworkEphemeralSessionIdentifier);
+extern NSString * __nonnull const kSFNetworkBackgroundSessionIdentifier NS_SWIFT_NAME(SFNetworkBackgroundSessionIdentifier);
 
 NS_SWIFT_NAME(Network)
 @interface SFNetwork : NSObject
@@ -42,21 +46,32 @@ NS_SWIFT_NAME(Network)
 typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) NS_SWIFT_NAME(DataResponseBlock);
 
 @property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession;
+@property (class, readonly, nonnull) NSDictionary *sharedSessions;
 
 /**
  * Initializes this class with an ephemeral session configuration.
  *
  * @return Instance of this class.
  */
-- (nonnull instancetype)initWithEphemeralSession;
+- (nonnull instancetype)initWithEphemeralSession SFSDK_DEPRECATED(7.3, 8.0, "Use initWithSessionConfigurationIdentifier:sessionConfiguration:useSharedSession instead");
 
 /**
  * Initializes this class with a background session configuration.
  *
  * @return Instance of this class.
  */
-- (nonnull instancetype)initWithBackgroundSession;
+- (nonnull instancetype)initWithBackgroundSession SFSDK_DEPRECATED(7.3, 8.0, "Use initWithSessionConfigurationIdentifier:sessionConfiguration:useSharedSession instead");
 
+/**
+ * Initializes this class with a session configuration.
+ *
+ * @param identifier Identifier for the session configuration.
+ * @param sessionConfiguration Configuration to use for the session. If a configuration is not provided, the type of session will depend on the identifier;
+ *  `kSFNetworkBackgroundSessionIdentifier` will use a background session, `kSFNetworkEphemeralSessionIdentifier` and any custom identifier will use an ephemeral session.
+ * @param useSharedSession if a new session or a shared session should be used.
+ * @return Instance of this class.
+ */
+- (nonnull instancetype)initWithSessionConfigurationIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nullable NSURLSessionConfiguration *)sessionConfiguration useSharedSession:(BOOL)useSharedSession;
 /**
  * Sends a REST request and calls the appropriate completion block.
  *
@@ -71,7 +86,7 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  *
  * @param sessionConfig Session configuration to be used.
  */
-+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig;
++ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use initWithSessionConfigurationIdentifier:sessionConfiguration:useSharedSession instead");
 
 /**
  * Delegates the creation of NSURLSession to an external object.
@@ -79,5 +94,17 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  * @param manager Object that implements the SFNetworkSessionManaging protocol.
  */
 + (void)setSessionManager:(nonnull id<SFNetworkSessionManaging>)manager;
+
+/**
+ * Removes shared session for given identifier.
+ *
+ * @param identifier Identifier for the session configuration.
+ */
++ (void)removeSharedSessionForConfigurationIdentifier:(nonnull NSString *)identifier;
+
+/**
+ * Removes all shared sessions.
+ */
++ (void)removeAllSharedSessions;
 
 @end

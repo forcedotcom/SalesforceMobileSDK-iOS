@@ -29,8 +29,12 @@
 
 #import "SFNetwork.h"
 #import "SalesforceSDKManager.h"
+#import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 
-@interface SFNetwork()
+NSString * const kSFNetworkEphemeralSessionIdentifier = @"com.salesforce.network.ephemeralSession";
+NSString * const kSFNetworkBackgroundSessionIdentifier = @"com.salesforce.network.backgroundSession";
+
+@interface SFNetwork()<NSURLSessionDelegate>
 
 @property (nonatomic, readwrite, strong) NSURLSession *activeSession;
 
@@ -40,6 +44,42 @@
 
 static NSURLSessionConfiguration *kSFSessionConfig;
 __weak static id<SFNetworkSessionManaging> kSFNetworkManager;
+
+- (instancetype)initWithSessionConfigurationIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nullable NSURLSessionConfiguration *)sessionConfiguration useSharedSession:(BOOL)useSharedSession {
+    self = [super init];
+    if (self) {
+        if (kSFNetworkManager) {
+            self.activeSession = [kSFNetworkManager sessionWithConfigurationIdentifier:identifier sessionConfiguration:sessionConfiguration useSharedSession:useSharedSession];
+            return self;
+        }
+
+        NSURLSession *session;
+        if (useSharedSession) {
+            session = [[self class] sharedSessions][identifier];
+        }
+
+        if (!session) {
+            if (!sessionConfiguration) {
+                if ([identifier isEqualToString:kSFNetworkBackgroundSessionIdentifier]) {
+                    sessionConfiguration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
+                } else {
+                    // Case 1: Identifier is `kSFNetworkEphemeralSessionIdentifier`
+                    // Case 2: Custom identifier provided but session configuration wasn't, default to ephemeral as well
+                    sessionConfiguration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+                }
+            }
+
+            if (useSharedSession) {
+                session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
+                [[self class] mutableSharedSessions][identifier] = session;
+            } else {
+                session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+            }
+        }
+        self.activeSession = session;
+    }
+    return self;
+}
 
 - (instancetype)initWithEphemeralSession {
     self = [super init];
@@ -95,6 +135,41 @@ __weak static id<SFNetworkSessionManaging> kSFNetworkManager;
 
 + (void)setSessionManager:(id<SFNetworkSessionManaging>)manager {
     kSFNetworkManager = manager;
+}
+
++ (NSDictionary *)sharedSessions {
+    return [[self mutableSharedSessions] dictionary];
+}
+
++ (void)removeSharedSessionForConfigurationIdentifier:(nonnull NSString *)identifier {
+    [[self mutableSharedSessions] removeObject:identifier];
+}
+
++ (void)removeAllSharedSessions {
+    [[self mutableSharedSessions] removeAllObjects];
+}
+
+#pragma mark - NSURLSessionDelegate
+
+- (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(nullable NSError *)error {
+    SFSDKSafeMutableDictionary *sharedSessions = [[self class] mutableSharedSessions];
+    for (NSString *identifier in [sharedSessions allKeys]) {
+        NSURLSession *storedSession = sharedSessions[identifier];
+        if (session == storedSession){
+            [sharedSessions removeObject:identifier];
+        }
+    }
+}
+
+#pragma mark - Private
+
++ (SFSDKSafeMutableDictionary *)mutableSharedSessions {
+    static SFSDKSafeMutableDictionary *sharedSessions;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedSessions = [SFSDKSafeMutableDictionary new];
+    });
+    return sharedSessions;
 }
 
 @end

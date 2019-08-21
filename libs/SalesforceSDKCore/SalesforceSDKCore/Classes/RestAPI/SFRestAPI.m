@@ -270,7 +270,7 @@ static dispatch_once_t pred;
     __weak __typeof(self) weakSelf = self;
     NSURLRequest *finalRequest = [request prepareRequestForSend:self.user];
     if (finalRequest) {
-        SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
+        SFNetwork *network = [self networkForRequest:request];
         NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
 
@@ -317,6 +317,14 @@ static dispatch_once_t pred;
             }
         }];
         request.sessionDataTask = dataTask;
+    }
+}
+
+- (SFNetwork *)networkForRequest:(SFRestRequest *)request {
+    if (request.shouldRunInBackground) {
+        return [[SFNetwork alloc] initWithSessionConfigurationIdentifier:kSFNetworkBackgroundSessionIdentifier sessionConfiguration:nil useSharedSession:YES];
+    } else {
+        return [[SFNetwork alloc] initWithSessionConfigurationIdentifier:kSFNetworkEphemeralSessionIdentifier sessionConfiguration:nil useSharedSession:YES];
     }
 }
 

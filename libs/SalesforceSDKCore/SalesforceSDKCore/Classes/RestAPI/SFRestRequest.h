@@ -221,13 +221,17 @@ NS_SWIFT_NAME(RestRequest)
  * the request headers before sending the request.  If NO, they will not.
  */
 @property (nonatomic, assign) BOOL requiresAuthentication;
-;
 
 /**
  * Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
  * attempt to refresh on HTTP 403. If NO, refresh will not be attempted.
  */
 @property (nonatomic, assign) BOOL shouldRefreshOn403;
+
+/**
+ * Specifies if the request should run in a background URL session. NO by default.
+ */
+@property (nonatomic, assign) BOOL shouldRunInBackground;
 
 /**
  * Prepares the request before sending it out.

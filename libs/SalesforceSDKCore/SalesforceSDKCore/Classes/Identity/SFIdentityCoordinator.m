@@ -136,7 +136,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     [request setHTTPShouldHandleCookies:NO];
     [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
     __weak __typeof(self) weakSelf = self;
-    SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
+    SFNetwork *network = [[SFNetwork alloc] initWithSessionConfigurationIdentifier:kSFNetworkEphemeralSessionIdentifier sessionConfiguration:nil useSharedSession:NO];
     self.session = network.activeSession;
     [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;

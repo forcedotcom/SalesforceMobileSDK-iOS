@@ -278,7 +278,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 #pragma mark - SFSDKOAuthSessionManaging
 - (NSURLSession *)createURLSession {
-    return  [[[SFNetwork alloc] initWithEphemeralSession] activeSession];
+    return [[[SFNetwork alloc] initWithSessionConfigurationIdentifier:kSFNetworkEphemeralSessionIdentifier sessionConfiguration:nil useSharedSession:NO] activeSession];
 }
 
 #pragma mark - private
