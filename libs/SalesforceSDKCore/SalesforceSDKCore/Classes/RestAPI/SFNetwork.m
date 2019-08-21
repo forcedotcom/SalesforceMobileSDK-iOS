@@ -155,7 +155,7 @@ __weak static id<SFNetworkSessionManaging> kSFNetworkManager;
     SFSDKSafeMutableDictionary *sharedSessions = [[self class] mutableSharedSessions];
     for (NSString *identifier in [sharedSessions allKeys]) {
         NSURLSession *storedSession = sharedSessions[identifier];
-        if (session == storedSession){
+        if (session == storedSession) {
             [sharedSessions removeObject:identifier];
         }
     }

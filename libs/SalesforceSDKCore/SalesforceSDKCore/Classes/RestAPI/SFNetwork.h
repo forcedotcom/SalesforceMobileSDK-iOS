@@ -32,8 +32,8 @@
 
 NS_SWIFT_NAME(NetworkManaging)
 @protocol SFNetworkSessionManaging
-- (nonnull NSURLSession *)ephemeralSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sessionWithConfigurationIdentifier:sessionConfiguration instead");
-- (nonnull NSURLSession *)backgroundSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sessionWithConfigurationIdentifier:sessionConfiguration instead");
+- (nonnull NSURLSession *)ephemeralSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sessionWithConfigurationIdentifier:sessionConfiguration:useSharedSession instead");
+- (nonnull NSURLSession *)backgroundSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sessionWithConfigurationIdentifier:sessionConfiguration:useSharedSession instead");
 - (nonnull NSURLSession *)sessionWithConfigurationIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nullable NSURLSessionConfiguration *)configuration useSharedSession:(BOOL)useSharedSession;
 @end
 
