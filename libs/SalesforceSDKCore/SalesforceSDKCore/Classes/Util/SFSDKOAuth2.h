@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface SFSDKOAuthTokenEndpointRequest : NSObject
-@property (nonatomic, copy, nullable) NSString *refreshToken;
+@property (nonatomic, copy) NSString *refreshToken;
 @property (nonatomic, copy, nullable) NSString *userAgentForAuth;
 @property (nonatomic, copy) NSString *redirectURI;
 @property (nonatomic, copy) NSString *clientID;
@@ -91,6 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSDate *issuedAt;
 @property (nonatomic, readonly) NSURL *instanceUrl;
 @property (nonatomic, readonly) NSURL *identityUrl;
+@property (nonatomic, readonly, nullable) NSString *idToken;
 @property (nonatomic, readonly, nullable) NSString *communityId;
 @property (nonatomic, readonly, nullable) NSURL *communityUrl;
 @property (nonatomic, readonly, nullable) NSURL *apiUrl;
@@ -103,6 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SFSDKOAuthProtocol<NSObject>
 - (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock;
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock;
+- (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(NSString *))completionBlock;
 @end
 
 @protocol SFSDKOAuthSessionManaging<NSObject>

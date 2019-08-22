@@ -251,6 +251,15 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     }] resume];
 }
 
+- (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(NSString *))completionBlock {
+    [self accessTokenForRefresh:endpointReq completion:^(SFSDKOAuthTokenEndpointResponse *authTokenEndpointResponse) {
+        NSString *idToken = authTokenEndpointResponse.idToken;
+        if (completionBlock) {
+            completionBlock(idToken);
+        }
+    }];
+}
+
 #pragma mark - SFSDKOAuthSessionManaging
 - (NSURLSession *)createURLSession {
     return [[SFNetwork alloc] initWithEphemeralSession].activeSession;

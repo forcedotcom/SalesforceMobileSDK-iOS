@@ -122,4 +122,19 @@
         });
     }
 }
+- (void)oauthCoordinator:(nonnull SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(nonnull SFAuthenticationSession *)session {
+
+    // Do nothing - doesn't apply to the refresh flow.
+}
+
+- (void)oauthCoordinator:(nonnull SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(nonnull WKWebView *)view {
+
+    // Do nothing - doesn't apply to the refresh flow.
+}
+
+- (void)oauthCoordinatorDidCancelBrowserAuthentication:(nonnull SFOAuthCoordinator *)coordinator {
+
+    // Do nothing - doesn't apply to the refresh flow.
+}
+
 @end
