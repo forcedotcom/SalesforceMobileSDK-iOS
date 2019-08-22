@@ -122,17 +122,17 @@
         });
     }
 }
-- (void)oauthCoordinator:(nonnull SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(nonnull SFAuthenticationSession *)session {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
 
     // Do nothing - doesn't apply to the refresh flow.
 }
 
-- (void)oauthCoordinator:(nonnull SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(nonnull WKWebView *)view {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
 
     // Do nothing - doesn't apply to the refresh flow.
 }
 
-- (void)oauthCoordinatorDidCancelBrowserAuthentication:(nonnull SFOAuthCoordinator *)coordinator {
+- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
 
     // Do nothing - doesn't apply to the refresh flow.
 }
