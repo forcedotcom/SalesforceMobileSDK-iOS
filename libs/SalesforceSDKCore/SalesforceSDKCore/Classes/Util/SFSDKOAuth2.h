@@ -69,7 +69,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property  (nonatomic, readonly) NSError *error;
 @end
 
-
 @interface SFSDKOAuthTokenEndpointRequest : NSObject
 @property (nonatomic, copy, nullable) NSString *refreshToken;
 @property (nonatomic, copy, nullable) NSString *userAgentForAuth;
