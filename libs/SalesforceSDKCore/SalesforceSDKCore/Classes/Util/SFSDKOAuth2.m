@@ -80,7 +80,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 - (instancetype)initWithError:(NSError *)error {
     if (self = [super init]) {
         _error = [[SFSDKOAuthTokenEndpointErrorResponse alloc] initWithError:error];
-        
     }
     return self;
 }
@@ -254,7 +253,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 #pragma mark - SFSDKOAuthSessionManaging
 - (NSURLSession *)createURLSession {
-    return  [[[SFNetwork alloc] initWithEphemeralSession] activeSession];
+    return [[SFNetwork alloc] initWithEphemeralSession].activeSession;
 }
 
 #pragma mark - private
@@ -269,7 +268,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                                             timeoutInterval:endpointReq.timeout];
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-    
     if (endpointReq.userAgentForAuth != nil) {
         [request setValue:endpointReq.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
     }

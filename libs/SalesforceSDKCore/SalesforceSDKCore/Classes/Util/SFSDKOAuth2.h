@@ -27,6 +27,7 @@
  */
 
 #import <Foundation/Foundation.h>
+
 /** SFOAuth default network timeout in seconds.
  */
 extern const NSTimeInterval kSFOAuthDefaultTimeout;
@@ -108,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSURLSession *)createURLSession;
 @end
 
-@interface SFSDKOAuth2 : NSObject<SFSDKOAuthProtocol,SFSDKOAuthSessionManaging>
+@interface SFSDKOAuth2 : NSObject<SFSDKOAuthProtocol, SFSDKOAuthSessionManaging>
 
 @end
 
