@@ -38,7 +38,6 @@ static NSUInteger const kSFOAuthCodeVerifierByteLength          = 128;
 static NSString * const kSFOAuthCodeVerifierParamName           = @"code_verifier";
 static NSString * const kSFOAuthCodeChallengeParamName          = @"code_challenge";
 static NSString * const kSFOAuthResponseTypeCode                = @"code";
-
 static NSString * const kSFOAuthAccessToken                     = @"access_token";
 static NSString * const kSFOAuthClientId                        = @"client_id";
 static NSString * const kSFOAuthDeviceId                        = @"device_id";
@@ -55,6 +54,7 @@ static NSString * const kSFOAuthId                              = @"id";
 static NSString * const kSFOAuthInstanceUrl                     = @"instance_url";
 static NSString * const kSFOAuthCommunityId                     = @"sfdc_community_id";
 static NSString * const kSFOAuthCommunityUrl                    = @"sfdc_community_url";
+static NSString * const kSFOAuthIdToken                         = @"id_token";
 static NSString * const kSFOAuthIssuedAt                        = @"issued_at";
 static NSString * const kSFOAuthRedirectUri                     = @"redirect_uri";
 static NSString * const kSFOAuthRefreshToken                    = @"refresh_token";
@@ -71,7 +71,6 @@ static NSString * const kSFOAuthResponseClientSecret            = @"client_secre
 
 // OAuth Error Descriptions
 // see https://na1.salesforce.com/help/doc/en/remoteaccess_oauth_refresh_token_flow.htm
-
 static NSString * const kSFOAuthErrorTypeMalformedResponse          = @"malformed_response";
 static NSString * const kSFOAuthErrorTypeAccessDenied               = @"access_denied";
 static NSString * const KSFOAuthErrorTypeInvalidClientId            = @"invalid_client_id"; // invalid_client_id:'client identifier invalid'
@@ -92,9 +91,7 @@ static NSString * const kSFOAuthErrorTypeBrowserLaunchFailed        = @"browser_
 static NSString * const kSFOAuthErrorTypeUnknownAdvancedAuthConfig  = @"unknown_advanced_auth_config";
 static NSString * const kSFOAuthErrorTypeJWTLaunchFailed            = @"jwt_launch_failed";
 static NSString * const kSFOAuthErrorTypeAuthConfig  = @"auth_config";
-
 static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
-
 static NSString * const kHttpMethodPost                         = @"POST";
 static NSString * const kHttpHeaderContentType                  = @"Content-Type";
 static NSString * const kHttpPostContentType                    = @"application/x-www-form-urlencoded";
