@@ -64,7 +64,9 @@
             else {
                 // Server date is newer than the local date.  Skip this update.
                 [SFSDKSmartSyncLogger d:[strongSelf class] format:@"syncUpMultipleEntries: Record not synced since client does not have the latest from server:%@", record];
-                [strongSelf syncUpMultipleEntries:sync recordIds:recordIds index:i+1 batch:batch];
+                // Calling addToSyncUpBatchAndProcessIfNeeded with nil for record - we don't want to add the current record to the batch
+                // but we do want the batch to be processed if needed
+                [strongSelf addToSyncUpBatchAndProcessIfNeeded:sync recordIds:recordIds index:i record:nil batch:batch];
             }
         }];
     } else {
@@ -81,8 +83,10 @@
     SFSyncUpTarget<SFAdvancedSyncUpTarget>* advancedTarget = (SFSyncUpTarget<SFAdvancedSyncUpTarget>*) sync.target;
     NSUInteger maxBatchSize = advancedTarget.maxBatchSize;
     
-    // Add record to batch
-    [batch addObject:record];
+    // Add record to batch unless nil
+    if (record) {
+        [batch addObject:record];
+    }
     
     // Process batch if max batch size reached or at the end of recordIds
     if (batch.count == maxBatchSize || i == recordIds.count - 1) {
