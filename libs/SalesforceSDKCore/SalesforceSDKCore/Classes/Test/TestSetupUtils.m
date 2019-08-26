@@ -64,35 +64,30 @@ static SFOAuthCredentials *credentials = nil;
               nil != credsData.instanceUrl, @"config credentials are missing! %@",
               dictResponse);
 
-    //check whether the test config file has never been edited
+    // check whether the test config file has never been edited
     NSAssert(![credsData.refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
              @"You need to obtain credentials for your test org and replace test_credentials.json");
     [SalesforceSDKManager initializeSDK];
-    
+
     // Note: We need to fix this inconsistency for tests in the long run.There should be a clean way to refresh appConfigs for tests. The configs should apply across all components that need the  config.
     SFSDKAppConfig *appconfig  = [[SFSDKAppConfig alloc] init];
     appconfig.oauthRedirectURI = credsData.redirectUri;
     appconfig.remoteAccessConsumerKey = credsData.clientId;
-    appconfig.oauthScopes = [NSSet setWithObjects:@"web", @"api", nil];
+    appconfig.oauthScopes = [NSSet setWithObjects:@"web", @"api", @"openid", nil];
     [SalesforceSDKManager sharedManager].appConfig = appconfig;
-   
     [SFUserAccountManager sharedInstance].oauthClientId = credsData.clientId;
     [SFUserAccountManager sharedInstance].oauthCompletionUrl = credsData.redirectUri;
     [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
-
     [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
     credentials = [[SFUserAccountManager sharedInstance] newClientCredentials];
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
     credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
-
     NSString *communityUrlString = credsData.communityUrl;
     if (communityUrlString.length > 0) {
         credentials.communityUrl = [NSURL URLWithString:communityUrlString];
     }
     credentials.accessToken = credsData.accessToken;
     credentials.refreshToken = credsData.refreshToken;
-   
-    
     return credsData;
 }
 
@@ -108,7 +103,6 @@ static SFOAuthCredentials *credentials = nil;
      completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
          authListener.returnStatus = kTestRequestStatusDidLoad;
          user = userAccount;
-         
      } failure:^(SFOAuthInfo *authInfo, NSError *error) {
          authListener.lastError = error;
          authListener.returnStatus = kTestRequestStatusDidFail;

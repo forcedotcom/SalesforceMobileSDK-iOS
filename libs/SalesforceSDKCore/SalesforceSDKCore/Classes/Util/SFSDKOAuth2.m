@@ -80,17 +80,14 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 - (instancetype)initWithError:(NSError *)error {
     if (self = [super init]) {
         _error = [[SFSDKOAuthTokenEndpointErrorResponse alloc] initWithError:error];
-        
     }
     return self;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys {
-    
     if (self = [super init]) {
         _values = [NSMutableDictionary dictionaryWithDictionary:nvPairs];
         _additionalOAuthParameterKeys = additionalOAuthParameterKeys;
-        
         if (additionalOAuthParameterKeys) {
             NSMutableDictionary * parsedValues = [NSMutableDictionary dictionaryWithCapacity:_additionalOAuthParameterKeys.count];
             for(NSString * key in self.additionalOAuthParameterKeys) {
@@ -101,16 +98,13 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             }
             _additionalOAuthFields = parsedValues;
         }
-       
         if (nvPairs[kSFOAuthScope]) {
             NSString *rawScope = nvPairs[kSFOAuthScope];
             _scopes = [rawScope componentsSeparatedByString:@" "];
         }
-        
         if (nvPairs[kSFOAuthError]) {
             _error = [[SFSDKOAuthTokenEndpointErrorResponse alloc] initWithError:nvPairs[kSFOAuthError] description:nvPairs[kSFOAuthErrorDescription]];
         }
-        
     }
     return self;
 }
@@ -172,9 +166,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 @implementation SFSDKOAuth2
 
 - (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *)) completionBlock {
-    
     NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq];
-    
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, @"json",
                                kSFOAuthRedirectUri, endpointReq.redirectURI,
@@ -182,29 +174,23 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     [params appendFormat:@"&%@=%@", kSFOAuthCodeVerifierParamName, endpointReq.codeVerifier];
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeAuthorizationCode, kSFOAuthApprovalCode, endpointReq.approvalCode];
-    
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
-    
     NSURLSession *session = [self createURLSession];
     __weak typeof(self) weakSelf = self;
-    
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
         if (error) {
             NSURL *requestUrl = [request URL];
             NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
-            
             if (error.code == NSURLErrorTimedOut) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"Attempt to get access token for approval code timed out after %f seconds.", endpointReq.timeout];
                 endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorTimeout userInfo:nil]];
             } else {
                  endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:error];
             }
-            
             [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-            
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (completionBlock) {
                     completionBlock(endpointResponse);
@@ -214,7 +200,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         }
         [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
     }] resume];
-    
 }
 
 /* Handle a 'token' endpoint (e.g. refresh, advanced auth) response.
@@ -228,29 +213,22 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
  Example error response:
  { "error":"invalid_grant","error_description":"authentication failure - Invalid Password" }
  */
-
-
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *)) completionBlock {
-    
     NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq];
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, @"json",
                                kSFOAuthRedirectUri, endpointReq.redirectURI,
                                kSFOAuthClientId, endpointReq.clientID,
                                kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
-    
     [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken, endpointReq.refreshToken];
     for (NSString * key in endpointReq.additionalTokenRefreshParams) {
         [params appendFormat:@"&%@=%@", [key stringByURLEncoding], [endpointReq.additionalTokenRefreshParams[key] stringByURLEncoding]];
-        
     }
-    
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
     NSURLSession *session = [self createURLSession];
     __weak typeof(self) weakSelf = self;
-    
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
@@ -262,7 +240,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                 endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorTimeout userInfo:nil]];
             }
             [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-            
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (completionBlock) {
                     completionBlock(endpointResponse);
@@ -272,8 +249,15 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         }
         [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
     }] resume];
-    
-    
+}
+
+- (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(NSString *))completionBlock {
+    [self accessTokenForRefresh:endpointReq completion:^(SFSDKOAuthTokenEndpointResponse *authTokenEndpointResponse) {
+        NSString *idToken = authTokenEndpointResponse.idToken;
+        if (completionBlock) {
+            completionBlock(idToken);
+        }
+    }];
 }
 
 #pragma mark - SFSDKOAuthSessionManaging
@@ -289,11 +273,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         [url insertString:@"https://" atIndex:0];
     }
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
-                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                            cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                             timeoutInterval:endpointReq.timeout];
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-    
     if (endpointReq.userAgentForAuth != nil) {
         [request setValue:endpointReq.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
     }
@@ -303,16 +286,16 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response {
     SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
-    
+
     // Resets the response data for a new refresh response.
     NSMutableData *responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
     [responseData appendData:data];
-    
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     NSDictionary *json = [SFJsonUtils objectFromJSONData:responseData];
     if (json) {
         endpointResponse  = [[SFSDKOAuthTokenEndpointResponse alloc]initWithDictionary:json  parseAdditionalFields:endpointReq.additionalOAuthParameterKeys];
-        //Adds the refresh token to the response for consistency.
+
+        // Adds the refresh token to the response for consistency.
         NSString *jsonRefreshToken = [json objectForKey:kSFOAuthRefreshToken];
         if (jsonRefreshToken == nil || jsonRefreshToken.length < 1 ){
             [endpointResponse setRefreshToken:endpointReq.refreshToken];
@@ -335,7 +318,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         completionBlock(endpointResponse);
     }
 }
-
 
 #pragma mark - Utilities
 
@@ -368,7 +350,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *)underlyingError {
     NSAssert(type, @"error type can't be nil");
-    
     NSInteger code = kSFOAuthErrorUnknown;
     if ([type isEqualToString:kSFOAuthErrorTypeAccessDenied]) {
         code = kSFOAuthErrorAccessDenied;
@@ -403,9 +384,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     } else if ([type isEqualToString:kSFOAuthErrorTypeJWTLaunchFailed]) {
         code = kSFOAuthErrorJWTInvalidGrant;
     }
-    
-    NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:@{kSFOAuthError: type,
-                                                                                        NSLocalizedDescriptionKey: description}];
+    NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:@{kSFOAuthError: type, NSLocalizedDescriptionKey: description}];
     if (underlyingError != nil) {
         userInfoDict[NSUnderlyingErrorKey] = underlyingError;
     }
