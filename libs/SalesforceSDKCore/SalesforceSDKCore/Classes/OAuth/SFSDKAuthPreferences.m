@@ -30,6 +30,7 @@
 #import "SFSDKAuthPreferences.h"
 #import "SFManagedPreferences.h"
 #import "SFSDKLoginHostStorage.h"
+#import "SFSDKLoginHost.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 static NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
@@ -59,11 +60,17 @@ NSString * const kOAuthAppName = @"oauth_app_name";
 
 @implementation SFSDKAuthPreferences
 
-- (void)setLoginHost:(NSString*)host {
+- (void)setLoginHost:(NSString *)host {
     NSString *oldLoginHost = [self loginHost];
     if (nil == host) {
         [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kSFUserAccountOAuthLoginHost];
     } else {
+
+        // Persists the login host if it doesn't exist already.
+        if ([[SFSDKLoginHostStorage sharedInstance] loginHostForHostAddress:host] == nil) {
+            SFSDKLoginHost *loginHost = [SFSDKLoginHost hostWithName:host host:host deletable:YES];
+            [[SFSDKLoginHostStorage sharedInstance] addLoginHost:loginHost];
+        }
         [[NSUserDefaults msdkUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
     }
     [[NSUserDefaults msdkUserDefaults] synchronize];
