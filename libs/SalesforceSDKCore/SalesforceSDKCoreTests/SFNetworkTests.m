@@ -41,7 +41,6 @@
 }
 
 - (void)testSessionSharing {
-    
     // Default ephemeral session
     {
         SFNetwork *network = [SFNetwork defaultEphemeralNetwork];
@@ -93,8 +92,6 @@
         XCTAssertNotNil(sharedSession);
         XCTAssertFalse(sharedSession.configuration.allowsCellularAccess);
     }
-
-
     
     // Clear all
     {
@@ -117,7 +114,6 @@
         XCTAssertEqual(SFNetwork.sharedSessions.count, 0);
         XCTAssertNil(SFNetwork.sharedSessions[identifier]);
     }
-
 }
 
 - (void)testSessionManager {
