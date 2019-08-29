@@ -47,6 +47,13 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
+
+@interface SFOAuthCoordinator()
+
+@property (nonatomic) NSString *sessionIdentifier;
+
+@end
+
 @implementation SFOAuthCoordinator
 
 @synthesize credentials          = _credentials;
@@ -91,6 +98,8 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [SFNetwork removeSharedSessionForIdentifier:self.sessionIdentifier];
+    self.sessionIdentifier = nil;
     _approvalCode = nil;
     _session = nil;
     _credentials = nil;
@@ -185,6 +194,7 @@
     [_view stopLoading];
     [self.session invalidateAndCancel];
     _session = nil;
+    self.sessionIdentifier = nil;
     
     self.authenticating = NO;
 }
@@ -689,7 +699,8 @@
 
 - (NSURLSession*)session {
     if (_session == nil) {
-        SFNetwork *network = [[SFNetwork alloc] initWithSessionConfigurationIdentifier:kSFNetworkEphemeralSessionIdentifier sessionConfiguration:nil useSharedSession:NO];
+        self.sessionIdentifier = [SFNetwork uniqueSessionIdentifier];
+        SFNetwork *network = [SFNetwork networkWithSessionIdentifier:self.sessionIdentifier sessionConfiguration:nil];
         _session = network.activeSession;
     }
     return _session;

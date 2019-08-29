@@ -51,6 +51,12 @@ static NSString * const kSFIdentityErrorTypeAlreadyRetrieving = @"retrieval_in_p
 static NSString * const kMissingParametersFormatString        = @"The following required parameters for the identity service were missing: %@";
 static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce.keys.identity.data";
 
+@interface SFIdentityCoordinator()
+
+@property (nonatomic) NSString *sessionIdentifier;
+
+@end
+
 @implementation SFIdentityCoordinator
 
 @synthesize credentials = _credentials;
@@ -136,7 +142,8 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     [request setHTTPShouldHandleCookies:NO];
     [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
     __weak __typeof(self) weakSelf = self;
-    SFNetwork *network = [[SFNetwork alloc] initWithSessionConfigurationIdentifier:kSFNetworkEphemeralSessionIdentifier sessionConfiguration:nil useSharedSession:NO];
+    self.sessionIdentifier = [SFNetwork uniqueSessionIdentifier];
+    SFNetwork *network = [SFNetwork networkWithSessionIdentifier:self.sessionIdentifier sessionConfiguration:nil];
     self.session = network.activeSession;
     [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -196,14 +203,18 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 - (void)dealloc
 {
+    [SFNetwork removeSharedSessionForIdentifier:self.sessionIdentifier];
+    self.sessionIdentifier = nil;
+    self.session = nil;
     self.credentials = nil;
     self.idData = nil;
-    self.session = nil;
     self.oauthSessionRefresher = nil;
 }
 
 - (void)cleanupData
 {
+    [SFNetwork removeSharedSessionForIdentifier:self.sessionIdentifier];
+    self.sessionIdentifier = nil;
     self.session = nil;
     self.oauthSessionRefresher = nil;
     self.retrievingData = NO;

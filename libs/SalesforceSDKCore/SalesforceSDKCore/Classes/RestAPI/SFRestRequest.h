@@ -229,11 +229,6 @@ NS_SWIFT_NAME(RestRequest)
 @property (nonatomic, assign) BOOL shouldRefreshOn403;
 
 /**
- * Specifies if the request should run in a background URL session. NO by default.
- */
-@property (nonatomic, assign) BOOL shouldRunInBackground;
-
-/**
  * Prepares the request before sending it out.
  *
  * @param user User account.
