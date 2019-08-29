@@ -187,4 +187,3 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
 }
 
 @end
-

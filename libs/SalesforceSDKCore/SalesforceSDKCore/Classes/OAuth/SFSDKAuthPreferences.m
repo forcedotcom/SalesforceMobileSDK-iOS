@@ -40,13 +40,13 @@ static NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce
 static NSString * const kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
 
 // The key for storing the persisted OAuth scopes.
-static NSString * const  kOAuthScopesKey = @"oauth_scopes";
+static NSString * const kOAuthScopesKey = @"oauth_scopes";
 
 // The key for storing the persisted OAuth client ID.
-static NSString * const  kOAuthClientIdKey = @"oauth_client_id";
+static NSString * const kOAuthClientIdKey = @"oauth_client_id";
 
 // The key for storing the persisted OAuth redirect URI.
-static NSString * const  kOAuthRedirectUriKey = @"oauth_redirect_uri";
+static NSString * const kOAuthRedirectUriKey = @"oauth_redirect_uri";
 
 // The key for storing the persisted IDP app identifier
 NSString * const kSFIDPKey = @"SFDCIdp";
@@ -187,7 +187,7 @@ NSString * const kOAuthAppName = @"oauth_app_name";
 }
 
 - (BOOL)requireBrowserAuthentication {
-    return [SFManagedPreferences sharedPreferences].requireCertificateAuthentication ||  _requireBrowserAuthentication;
+    return [SFManagedPreferences sharedPreferences].requireCertificateAuthentication || _requireBrowserAuthentication;
 }
 
 - (BOOL)idpEnabled
@@ -215,9 +215,9 @@ NSString * const kOAuthAppName = @"oauth_app_name";
     if (appName) {
         return appName;
     } else {
-        NSString *bundleDispalyName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-        if (bundleDispalyName) {
-            return bundleDispalyName;
+        NSString *bundleDisplayName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+        if (bundleDisplayName) {
+            return bundleDisplayName;
         } else {
             return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
         }
@@ -230,4 +230,5 @@ NSString * const kOAuthAppName = @"oauth_app_name";
     [defs setObject:appDisplayName forKey:kOAuthAppName];
     [defs synchronize];
 }
+
 @end
