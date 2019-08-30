@@ -47,8 +47,7 @@ static NSURLSessionConfiguration *kSFSessionConfig;
 __weak static id<SFNetworkSessionManaging> kSFNetworkManager;
 
 + (instancetype)sharedEphemeralInstance {
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-    return [SFNetwork sharedInstanceWithIdentifier:kSFNetworkEphemeralInstanceIdentifier sessionConfiguration:sessionConfiguration];
+    return [SFNetwork sharedEphemeralInstanceWithIdentifier:kSFNetworkEphemeralInstanceIdentifier];
 }
 
 + (instancetype)sharedEphemeralInstanceWithIdentifier:(NSString *)identifier {
@@ -57,8 +56,7 @@ __weak static id<SFNetworkSessionManaging> kSFNetworkManager;
 }
 
 + (instancetype)sharedBackgroundInstance {
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:kSFNetworkBackgroundInstanceIdentifier];
-    return [SFNetwork sharedInstanceWithIdentifier:kSFNetworkBackgroundInstanceIdentifier sessionConfiguration:sessionConfiguration];
+    return [SFNetwork sharedBackgroundInstanceWithIdentifier:kSFNetworkBackgroundInstanceIdentifier];
 }
 
 + (instancetype)sharedBackgroundInstanceWithIdentifier:(NSString *)identifier {

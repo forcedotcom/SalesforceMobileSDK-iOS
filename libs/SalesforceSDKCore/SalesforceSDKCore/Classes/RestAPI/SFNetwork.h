@@ -37,8 +37,8 @@ NS_SWIFT_NAME(NetworkManaging)
 - (nonnull NSURLSession *)backgroundSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sharedInstanceWithIdentifier:sessionConfiguration instead");
 @end
 
-extern NSString * __nonnull const kSFNetworkEphemeralInstanceIdentifier NS_SWIFT_NAME(SFNetworkEphemeralInstanceIdentifier);
-extern NSString * __nonnull const kSFNetworkBackgroundInstanceIdentifier NS_SWIFT_NAME(SFNetworkBackgroundInstanceIdentifier);
+extern NSString * __nonnull const kSFNetworkEphemeralInstanceIdentifier NS_SWIFT_NAME(NetworkEphemeralInstanceIdentifier);
+extern NSString * __nonnull const kSFNetworkBackgroundInstanceIdentifier NS_SWIFT_NAME(NetworkBackgroundInstanceIdentifier);
 
 NS_SWIFT_NAME(Network)
 @interface SFNetwork : NSObject
