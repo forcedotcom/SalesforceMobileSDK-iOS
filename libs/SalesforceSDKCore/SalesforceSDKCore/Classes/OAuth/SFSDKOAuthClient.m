@@ -479,10 +479,10 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
         [request setHTTPMethod:@"GET"];
         [request setHTTPShouldHandleCookies:NO];
 
-        __block NSString *sessionIdentifier = [SFNetwork uniqueSessionIdentifier];
-        SFNetwork *network = [SFNetwork networkWithSessionIdentifier:sessionIdentifier sessionConfiguration:nil];
+        __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
+        SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
         [network sendRequest:request dataResponseBlock:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            [SFNetwork removeSharedSessionForIdentifier:sessionIdentifier];
+            [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
         }];
     }
     [credentials revoke];

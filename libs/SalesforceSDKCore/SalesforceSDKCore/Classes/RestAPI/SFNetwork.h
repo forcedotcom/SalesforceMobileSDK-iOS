@@ -30,15 +30,15 @@
 #import <Foundation/Foundation.h>
 #import "SalesforceSDKConstants.h"
 
+SFSDK_DEPRECATED(7.3, 8.0, "Will be removed")
 NS_SWIFT_NAME(NetworkManaging)
 @protocol SFNetworkSessionManaging
-- (nonnull NSURLSession *)ephemeralSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sessionWithIdentifier:sessionConfiguration instead");
-- (nonnull NSURLSession *)backgroundSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sessionWithIdentifier:sessionConfiguration instead");
-- (nonnull NSURLSession *)sessionWithIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nonnull NSURLSessionConfiguration *)configuration;
+- (nonnull NSURLSession *)ephemeralSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sharedInstanceWithIdentifier:sessionConfiguration instead");
+- (nonnull NSURLSession *)backgroundSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sharedInstanceWithIdentifier:sessionConfiguration instead");
 @end
 
-extern NSString * __nonnull const kSFNetworkEphemeralSessionIdentifier NS_SWIFT_NAME(SFNetworkEphemeralSessionIdentifier);
-extern NSString * __nonnull const kSFNetworkBackgroundSessionIdentifier NS_SWIFT_NAME(SFNetworkBackgroundSessionIdentifier);
+extern NSString * __nonnull const kSFNetworkEphemeralInstanceIdentifier NS_SWIFT_NAME(SFNetworkEphemeralInstanceIdentifier);
+extern NSString * __nonnull const kSFNetworkBackgroundInstanceIdentifier NS_SWIFT_NAME(SFNetworkBackgroundInstanceIdentifier);
 
 NS_SWIFT_NAME(Network)
 @interface SFNetwork : NSObject
@@ -46,44 +46,57 @@ NS_SWIFT_NAME(Network)
 typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) NS_SWIFT_NAME(DataResponseBlock);
 
 @property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession;
-@property (class, readonly, nonnull) NSDictionary *sharedSessions;
 
 /**
  * Returns an instance of this class with the default ephemeral session configuration.
  *
  * @return Instance of this class.
  */
-+ (nonnull instancetype)defaultEphemeralNetwork;
++ (nonnull instancetype)sharedEphemeralInstance;
 
 /**
  * Returns an instance of this class with the default background session configuration.
  *
  * @return Instance of this class.
  */
-+ (nonnull instancetype)defaultBackgroundNetwork;
++ (nonnull instancetype)sharedBackgroundInstance;
+
+/**
+ * Returns instance of this class for the given identifier with the default ephemeral session configuration.
+ *
+ * @return Instance of this class.
+ */
++ (nonnull instancetype)sharedEphemeralInstanceWithIdentifier:(nonnull NSString *)identifier;
+
+/**
+ * Returns instance of this class for the given identifier with the default background session configuration.
+ *
+ * @return Instance of this class.
+ */
++ (nonnull instancetype)sharedBackgroundInstanceWithIdentifier:(nonnull NSString *)identifier;
 
 /**
  * Returns an instance of this class with the given session configuration.
  *
- * @param identifier Identifier for the session.
- * @param sessionConfiguration  Configuration to use for the session. Defaults to the ephemeral configuration.
+ * @param identifier Identifier for the instance
+ * @param sessionConfiguration Configuration to use for the session.
  * @return Instance of this class.
  */
-+ (nonnull instancetype)networkWithSessionIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nullable NSURLSessionConfiguration *)sessionConfiguration;
++ (nonnull instancetype)sharedInstanceWithIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfiguration;
 
 /**
  * Initializes this class with an ephemeral session configuration.
  *
  * @return Instance of this class.
  */
-- (nonnull instancetype)initWithEphemeralSession SFSDK_DEPRECATED(7.3, 8.0, "Use defaultEphemeralNetwork instead");
+- (nonnull instancetype)initWithEphemeralSession SFSDK_DEPRECATED(7.3, 8.0, "Use sharedEphemeralInstance instead");
 
 /**
  * Initializes this class with a background session configuration.
  *
  * @return Instance of this class.
  */
-- (nonnull instancetype)initWithBackgroundSession SFSDK_DEPRECATED(7.3, 8.0, "Use defaultBackgroundNetwork instead");
+- (nonnull instancetype)initWithBackgroundSession SFSDK_DEPRECATED(7.3, 8.0, "Use sharedBackgroundInstance instead");
 
 /**
  * Sends a REST request and calls the appropriate completion block.
@@ -105,7 +118,7 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  * Sets a session configuration to be used for network requests in Mobile SDK.
  *
  * @param sessionConfig Session configuration to be used.
- * @param identifier Identifier for the session to use this config.
+ * @param identifier Identifier for the instance to use this config.
  */
 + (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig identifier:(nonnull NSString *)identifier;
 
@@ -114,34 +127,40 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  *
  * @param manager Object that implements the SFNetworkSessionManaging protocol.
  */
-+ (void)setSessionManager:(nonnull id<SFNetworkSessionManaging>)manager;
++ (void)setSessionManager:(nonnull id<SFNetworkSessionManaging>)manager SFSDK_DEPRECATED(7.3, 8.0, "Will be removed");
 
 /**
- * Removes the default ephemeral session from `sharedSessions`.
+ * Removes shared instance for the default ephemeral identifier.
  */
-+ (void)removeSharedEphemeralSession;
++ (void)removeSharedEphemeralInstance;
 
 /**
- * Removes the default background session from `sharedSessions`.
+ * Removes shared instance for the default background identifier.
  */
-+ (void)removeSharedBackgroundSession;
++ (void)removeSharedBackgroundInstance;
 
 /**
- * Removes shared session for given identifier.
+ * Removes shared instance for given identifier.
  *
  * @param identifier Identifier for the session.
  */
-+ (void)removeSharedSessionForIdentifier:(nullable NSString *)identifier;
++ (void)removeSharedInstanceForIdentifier:(nullable NSString *)identifier;
 
 /**
- * Removes all shared sessions.
+ * Removes all shared instances.
  */
-+ (void)removeAllSharedSessions;
++ (void)removeAllSharedInstances;
 
 /**
- * Generates a unique session identifier
+ * Returns list of identifiers for all shared instances.
+ * @return Array of identifiers.
  */
-+ (nonnull NSString *)uniqueSessionIdentifier;
++ (nullable NSArray *)sharedInstanceIdentifiers;
+
+/**
+ * Generates a unique instance identifier.
+ */
++ (nonnull NSString *)uniqueInstanceIdentifier;
 
 
 @end

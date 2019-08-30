@@ -177,11 +177,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
 
-    __block NSString *sessionIdentifier = [SFNetwork uniqueSessionIdentifier];
-    NSURLSession *session = [self createURLSessionWithIdentifier:sessionIdentifier];
+    __block NSString *instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
+    NSURLSession *session = [self createURLSessionWithIdentifier:instanceIdentifier];
     __weak typeof(self) weakSelf = self;
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
-        [SFNetwork removeSharedSessionForIdentifier:sessionIdentifier];
+        [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
         if (error) {
@@ -230,14 +230,14 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     }
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
-    __block NSString *sessionIdentifier = [SFNetwork uniqueSessionIdentifier];
-    NSURLSession *session = [self createURLSessionWithIdentifier:sessionIdentifier];
+    __block NSString *instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
+    NSURLSession *session = [self createURLSessionWithIdentifier:instanceIdentifier];
 
     __weak typeof(self) weakSelf = self;
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
-        [SFNetwork removeSharedSessionForIdentifier:sessionIdentifier];
+        [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
         if (error) {
             NSURL *requestUrl = [request URL];
             NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
@@ -268,7 +268,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 #pragma mark - SFSDKOAuthSessionManaging
 - (NSURLSession *)createURLSessionWithIdentifier:(NSString *)identifier {
-    SFNetwork *network = [SFNetwork networkWithSessionIdentifier:identifier sessionConfiguration:nil];
+    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:identifier];
     return network.activeSession;
 }
 

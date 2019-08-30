@@ -26,110 +26,91 @@
 #import <XCTest/XCTest.h>
 #import "SalesforceSDKCore/SFNetwork.h"
 
-@interface SFNetworkTests : XCTestCase <SFNetworkSessionManaging>
+@interface SFNetwork (Testing)
+
++ (NSDictionary *)sharedInstances;
 
 @end
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wprotocol"
+@interface SFNetworkTests : XCTestCase
+@end
 
 @implementation SFNetworkTests
 
-#pragma clang diagnostic pop
-- (void)tearDown {
-    [SFNetwork setSessionManager:(id<SFNetworkSessionManaging> _Nonnull)nil];
-}
-
 - (void)testSessionSharing {
-    // Default ephemeral session
+    // Default ephemeral instance
     {
-        SFNetwork *network = [SFNetwork defaultEphemeralNetwork];
+        SFNetwork *network = [SFNetwork sharedEphemeralInstance];
         XCTAssertNotNil(network.activeSession);
-        NSDictionary *sessions = SFNetwork.sharedSessions;
-        XCTAssertEqual(sessions.count, 1);
-        XCTAssertNotNil(sessions[kSFNetworkEphemeralSessionIdentifier]);
+        NSArray *identifiers = [SFNetwork sharedInstanceIdentifiers];
+        XCTAssertEqual(identifiers.count, 1);
+        XCTAssertTrue([identifiers containsObject:kSFNetworkEphemeralInstanceIdentifier]);
     }
     
-    // Add default background session
+    // Add default background instance
     {
-        SFNetwork *network = [SFNetwork defaultBackgroundNetwork];
+        SFNetwork *network = [SFNetwork sharedBackgroundInstance];
         XCTAssertNotNil(network.activeSession);
-        XCTAssertTrue([network.activeSession.configuration.identifier isEqualToString:kSFNetworkBackgroundSessionIdentifier]);
-        NSDictionary *sessions = SFNetwork.sharedSessions;
-        XCTAssertEqual(sessions.count, 2);
-        XCTAssertNotNil(sessions[kSFNetworkEphemeralSessionIdentifier]);
-        XCTAssertNotNil(sessions[kSFNetworkBackgroundSessionIdentifier]);
-        
+        XCTAssertTrue([network.activeSession.configuration.identifier isEqualToString:kSFNetworkBackgroundInstanceIdentifier]);
+        NSArray *identifiers = [SFNetwork sharedInstanceIdentifiers];
+        XCTAssertEqual(identifiers.count, 2);
+        XCTAssertTrue([identifiers containsObject:kSFNetworkEphemeralInstanceIdentifier]);
+        XCTAssertTrue([identifiers containsObject:kSFNetworkBackgroundInstanceIdentifier]);
     }
-    
-    // Another ephemeral session, should be reused from the first one
+
+    // Another ephemeral instance, should be reused from the first one
     {
-        SFNetwork *network = [SFNetwork defaultEphemeralNetwork];
+        SFNetwork *network = [SFNetwork sharedEphemeralInstance];
         XCTAssertNotNil(network.activeSession);
-        NSDictionary *sessions = SFNetwork.sharedSessions;
-        XCTAssertEqual(sessions.count, 2);
-        XCTAssertNotNil(sessions[kSFNetworkEphemeralSessionIdentifier]);
+        NSArray *identifiers = [SFNetwork sharedInstanceIdentifiers];
+        XCTAssertEqual(identifiers.count, 2);
+        XCTAssertTrue([identifiers containsObject:kSFNetworkEphemeralInstanceIdentifier]);
     }
-    
-    // Remove ephemeral session with convenience wrapper
+
+    // Remove ephemeral instance with convenience wrapper
     {
-        [SFNetwork removeSharedEphemeralSession];
-        NSDictionary *sessions = SFNetwork.sharedSessions;
-        XCTAssertEqual(sessions.count, 1);
-        XCTAssertNil(sessions[kSFNetworkEphemeralSessionIdentifier]);
+        [SFNetwork removeSharedEphemeralInstance];
+        NSArray *identifiers = [SFNetwork sharedInstanceIdentifiers];
+        XCTAssertEqual(identifiers.count, 1);
+        XCTAssertFalse([identifiers containsObject:kSFNetworkEphemeralInstanceIdentifier]);
     }
-    
-    // New custom session
+
+    // New custom instance
     {
         NSURLSessionConfiguration *customConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
         customConfig.allowsCellularAccess = NO;
-        SFNetwork *network = [SFNetwork networkWithSessionIdentifier:@"sessionWithCustomConfig" sessionConfiguration:customConfig];
+        SFNetwork *network = [SFNetwork sharedInstanceWithIdentifier:@"sessionWithCustomConfig" sessionConfiguration:customConfig];
         XCTAssertNotNil(network.activeSession);
-        NSDictionary *sessions = SFNetwork.sharedSessions;
-        XCTAssertEqual(sessions.count, 2);
-        
-        NSURLSession *sharedSession = sessions[@"sessionWithCustomConfig"];
-        XCTAssertNotNil(sharedSession);
-        XCTAssertFalse(sharedSession.configuration.allowsCellularAccess);
+        NSDictionary *instances = [SFNetwork sharedInstances];
+        XCTAssertEqual(instances.count, 2);
+
+        SFNetwork *sharedInstance = instances[@"sessionWithCustomConfig"];
+        XCTAssertNotNil(sharedInstance);
+        XCTAssertFalse(sharedInstance.activeSession.configuration.allowsCellularAccess);
     }
-    
+
     // Clear all
     {
-        [SFNetwork removeAllSharedSessions];
-        NSDictionary *sessions = SFNetwork.sharedSessions;
-        XCTAssertEqual(sessions.count, 0);
+        [SFNetwork removeAllSharedInstances];
+        NSArray *identifiers = [SFNetwork sharedInstanceIdentifiers];
+        XCTAssertEqual(identifiers.count, 0);
     }
-    
-    // New custom session wth no config, then remove it
+
+    // New custom session wth default config, then remove it
     {
-        NSString *identifier = @"sessionWithNoConfig";
-        SFNetwork *network = [SFNetwork networkWithSessionIdentifier:identifier sessionConfiguration:nil];
+        NSString *identifier = @"sessionWithDefaultConfig";
+
+        SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:identifier];
         XCTAssertNotNil(network.activeSession);
-        NSDictionary *sessions = SFNetwork.sharedSessions;
-        XCTAssertEqual(sessions.count, 1);
-        NSURLSession *sharedSession = sessions[identifier];
-        XCTAssertNotNil(sharedSession);
-
-        [SFNetwork removeSharedSessionForIdentifier:identifier];
-        XCTAssertEqual(SFNetwork.sharedSessions.count, 0);
-        XCTAssertNil(SFNetwork.sharedSessions[identifier]);
+        NSArray *identifiers = [SFNetwork sharedInstanceIdentifiers];
+        XCTAssertEqual(identifiers.count, 1);
+        XCTAssertTrue([identifiers containsObject:identifier]);
+ 
+        [SFNetwork removeSharedInstanceForIdentifier:identifier];
+        identifiers = [SFNetwork sharedInstanceIdentifiers];
+        XCTAssertEqual(identifiers.count, 0);
+        XCTAssertFalse([identifiers containsObject:identifier]);
     }
-}
-
-- (void)testSessionManager {
-    [SFNetwork setSessionManager:self];
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"SessionFromManager"];
-    SFNetwork *network = [SFNetwork networkWithSessionIdentifier:@"sessionWithManager" sessionConfiguration:configuration];
-
-    NSURLSession *session = network.activeSession;
-    XCTAssertNotNil(session);
-    XCTAssertEqual(network.activeSession.configuration.identifier, @"SessionFromManager");
-}
-
-# pragma mark - SFNetworkSessionManaging
-
-- (nonnull NSURLSession *)sessionWithIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nonnull NSURLSessionConfiguration *)configuration {
-    return [NSURLSession sessionWithConfiguration:configuration];
 }
 
 @end

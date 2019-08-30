@@ -271,17 +271,17 @@ static dispatch_once_t pred;
     NSURLRequest *finalRequest = [request prepareRequestForSend:self.user];
     if (finalRequest) {
         SFNetwork *network;
-        __block NSString *sessionIdentifier;
+        __block NSString *instanceIdentifier;
         if (request.serviceHostType == SFSDKRestServiceHostTypeCustom) {
-            sessionIdentifier = [SFNetwork uniqueSessionIdentifier];
-            network = [self networkForRequest:request identifier:sessionIdentifier];
+            instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
+            network = [self networkForRequest:request identifier:instanceIdentifier];
         } else {
-            network = [self defaultNetworkForRequest:request];
+            network = [self networkForRequest:request];
         }
 
         NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [SFNetwork removeSharedSessionForIdentifier:sessionIdentifier];
+            [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
 
             // Network error.
             if (error) {
@@ -329,26 +329,20 @@ static dispatch_once_t pred;
     }
 }
 
-- (SFNetwork *)defaultNetworkForRequest:(SFRestRequest *)request {
-    SFNetwork *network;
+- (SFNetwork *)networkForRequest:(SFRestRequest *)request {
     if (request.networkServiceType == SFNetworkServiceTypeBackground) {
-        return [SFNetwork defaultBackgroundNetwork];
+        return [SFNetwork sharedBackgroundInstance];
     } else {
-        return [SFNetwork defaultEphemeralNetwork];
+        return [SFNetwork sharedEphemeralInstance];
     }
-
-    return network;
 }
 
 - (SFNetwork *)networkForRequest:(SFRestRequest *)request identifier:(NSString *)identifier {
-    NSURLSessionConfiguration *configuration;
     if (request.networkServiceType == SFNetworkServiceTypeBackground) {
-        configuration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
+        return [SFNetwork sharedBackgroundInstanceWithIdentifier:identifier];
     } else {
-        configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        return [SFNetwork sharedEphemeralInstanceWithIdentifier:identifier];
     }
-
-    return [SFNetwork networkWithSessionIdentifier:identifier sessionConfiguration:configuration];
 }
 
 - (id) prepareDataForDelegate:(NSData *)data request:(SFRestRequest *)request response:(NSURLResponse *)response {

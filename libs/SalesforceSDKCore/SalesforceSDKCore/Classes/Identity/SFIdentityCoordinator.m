@@ -53,7 +53,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 @interface SFIdentityCoordinator()
 
-@property (nonatomic) NSString *sessionIdentifier;
+@property (nonatomic) NSString *networkIdentifier;
 
 @end
 
@@ -142,8 +142,8 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     [request setHTTPShouldHandleCookies:NO];
     [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
     __weak __typeof(self) weakSelf = self;
-    self.sessionIdentifier = [SFNetwork uniqueSessionIdentifier];
-    SFNetwork *network = [SFNetwork networkWithSessionIdentifier:self.sessionIdentifier sessionConfiguration:nil];
+    self.networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
+    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:self.networkIdentifier];
     self.session = network.activeSession;
     [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -203,8 +203,8 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 - (void)dealloc
 {
-    [SFNetwork removeSharedSessionForIdentifier:self.sessionIdentifier];
-    self.sessionIdentifier = nil;
+    [SFNetwork removeSharedInstanceForIdentifier:self.networkIdentifier];
+    self.networkIdentifier = nil;
     self.session = nil;
     self.credentials = nil;
     self.idData = nil;
@@ -213,8 +213,8 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 - (void)cleanupData
 {
-    [SFNetwork removeSharedSessionForIdentifier:self.sessionIdentifier];
-    self.sessionIdentifier = nil;
+    [SFNetwork removeSharedInstanceForIdentifier:self.networkIdentifier];
+    self.networkIdentifier = nil;
     self.session = nil;
     self.oauthSessionRefresher = nil;
     self.retrievingData = NO;

@@ -50,7 +50,7 @@
 
 @interface SFOAuthCoordinator()
 
-@property (nonatomic) NSString *sessionIdentifier;
+@property (nonatomic) NSString *networkIdentifier;
 
 @end
 
@@ -98,8 +98,8 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [SFNetwork removeSharedSessionForIdentifier:self.sessionIdentifier];
-    self.sessionIdentifier = nil;
+    [SFNetwork removeSharedInstanceForIdentifier:self.networkIdentifier];
+    self.networkIdentifier = nil;
     _approvalCode = nil;
     _session = nil;
     _credentials = nil;
@@ -194,7 +194,7 @@
     [_view stopLoading];
     [self.session invalidateAndCancel];
     _session = nil;
-    self.sessionIdentifier = nil;
+    self.networkIdentifier = nil;
     
     self.authenticating = NO;
 }
@@ -699,8 +699,8 @@
 
 - (NSURLSession*)session {
     if (_session == nil) {
-        self.sessionIdentifier = [SFNetwork uniqueSessionIdentifier];
-        SFNetwork *network = [SFNetwork networkWithSessionIdentifier:self.sessionIdentifier sessionConfiguration:nil];
+        self.networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
+        SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:self.networkIdentifier];
         _session = network.activeSession;
     }
     return _session;
