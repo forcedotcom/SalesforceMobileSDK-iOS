@@ -865,10 +865,15 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     log(@"1/4 Starting to write to tmp file");
     [outputStream open];
     NSError *error = nil;
-    BOOL success = [NSJSONSerialization writeJSONObject:soupEntry
-                                               toStream:outputStream
-                                                options:0
-                                                  error:&error];
+    
+    // NSJSONSerialization:writeJSONObject returns the number of bytes written
+    // So NSJSONSerialization:writeJSONObject can return a value > 0 while there is an error
+    [NSJSONSerialization writeJSONObject:soupEntry
+                                toStream:outputStream
+                                 options:0
+                                   error:&error];
+    BOOL success = !error;
+
     [outputStream close];
     log(@"2/4 Done writing to tmp file");
 
