@@ -66,7 +66,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 - (void)setPhoto:(SFUserAccount*)user photo:(UIImage*)photo {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Photo set"];
-    [user setPhoto:photo completion:^{
+    [user setPhoto:photo completion:^(NSError *error) {
         [expectation fulfill];
     }];
     [self waitForExpectations:@[expectation] timeout:2.0];

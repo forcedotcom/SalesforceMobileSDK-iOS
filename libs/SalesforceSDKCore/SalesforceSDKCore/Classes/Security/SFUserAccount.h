@@ -172,9 +172,9 @@ NS_SWIFT_NAME(UserAccount)
 
 /** Sets the user's photo.
  @param photo The user photo, usually the thumbnail of the user.
- @param completion Optional callback block invoked when the photo has been set
+ @param completion Optional callback block invoked when the photo has been set. If not set, an error is returned.
  */
-- (void)setPhoto:(UIImage*_Nullable)photo completion:(void (^ __nullable)(void))completion;
+- (void)setPhoto:(UIImage*_Nullable)photo completion:(void (^ __nullable)(NSError* _Nullable))completion;
 
 /** Function that returns a key that uniquely identifies this user account for the
  given scope. Note that if you use SFUserAccountScopeGlobal,
