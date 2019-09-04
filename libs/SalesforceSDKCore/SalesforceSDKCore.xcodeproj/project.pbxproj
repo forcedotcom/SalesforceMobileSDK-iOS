@@ -740,6 +740,7 @@
 		FDCECBC89437CBD2378AC8CC /* SFSObjectTree.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCECBE6688B51C1B9BDC524 /* SFSObjectTree.m */; };
 		FDCECC6D14B002687225A4E6 /* SFSDKDevInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC75DBDF00FBA8810BA72 /* SFSDKDevInfoViewController.m */; };
 		FDCECE47E9586450F036FD3B /* SFSDKDevInfoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC2F8558C9BA9D9684E4A /* SFSDKDevInfoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDD7D7A1232039D000F5FB2D /* SFUserAccountPhotoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7D7A0232039D000F5FB2D /* SFUserAccountPhotoTests.m */; };
 		FDED97271CAA16EB009D80F2 /* SFApplicationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = FDED971D1CAA16EB009D80F2 /* SFApplicationHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDED97281CAA16EB009D80F2 /* SFApplicationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = FDED971D1CAA16EB009D80F2 /* SFApplicationHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDED97291CAA16EB009D80F2 /* SFApplicationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FDED971E1CAA16EB009D80F2 /* SFApplicationHelper.m */; };
@@ -1283,6 +1284,7 @@
 		FDCEC40C4B860474C90D02AF /* SFSObjectTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSObjectTree.h; sourceTree = "<group>"; };
 		FDCEC75DBDF00FBA8810BA72 /* SFSDKDevInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKDevInfoViewController.m; sourceTree = "<group>"; };
 		FDCECBE6688B51C1B9BDC524 /* SFSObjectTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSObjectTree.m; sourceTree = "<group>"; };
+		FDD7D7A0232039D000F5FB2D /* SFUserAccountPhotoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFUserAccountPhotoTests.m; path = SalesforceSDKCoreTests/SFUserAccountPhotoTests.m; sourceTree = SOURCE_ROOT; };
 		FDED971D1CAA16EB009D80F2 /* SFApplicationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFApplicationHelper.h; sourceTree = "<group>"; };
 		FDED971E1CAA16EB009D80F2 /* SFApplicationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFApplicationHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1399,6 +1401,7 @@
 				B7156B8722DE3603003AB69D /* SalesforceSDKCoreTests-Bridging-Header.h */,
 				B71D71E022EA0294003076BB /* SalesforceTestExtenions.swift */,
 				69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */,
+				FDD7D7A0232039D000F5FB2D /* SFUserAccountPhotoTests.m */,
 			);
 			name = SalesforceSDKCoreTests;
 			path = SalesforceSDKCore;
@@ -2685,6 +2688,7 @@
 				4F06AF931C49A18E00F70798 /* SFSecurityLockoutTests.m in Sources */,
 				CE81A9C81E9C26F900F3D0AD /* SFUserAccountManagerNotificationsTests.m in Sources */,
 				4F7EB4171BFFC8D700768720 /* SFEncryptionKeyTests.m in Sources */,
+				FDD7D7A1232039D000F5FB2D /* SFUserAccountPhotoTests.m in Sources */,
 				444B95D01E83251900908C61 /* UIColor+SFColorsTests.m in Sources */,
 				009D77521CA4A92200D5183A /* SFPushNotificationManagerTests.m in Sources */,
 				B7E8A2AF1E77062E007C0D92 /* SFUserAccountManagerPersisterTests.m in Sources */,

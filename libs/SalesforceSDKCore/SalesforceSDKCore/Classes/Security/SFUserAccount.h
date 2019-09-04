@@ -100,6 +100,8 @@ NS_SWIFT_NAME(UserAccount)
 @property (nonatomic, copy) NSString *userName SFSDK_DEPRECATED(7.1, 8.0, "Use SFUserAccount.idData properties instead");
 
 /** The user's photo. Usually store a thumbnail of the user.
+ Note: setting the photo is asynchronous. Use the method
+ below to get a callback when the photo is set.
  */
 @property (nonatomic, strong, nullable) UIImage *photo;
 
@@ -167,6 +169,12 @@ NS_SWIFT_NAME(UserAccount)
  @return The object for a particular key
  */
 - (nullable id)customDataObjectForKey:(id)key;
+
+/** Sets the user's photo.
+ @param photo The user photo, usually the thumbnail of the user.
+ @param completion Optional callback block invoked when the photo has been set
+ */
+- (void)setPhoto:(UIImage*_Nullable)photo completion:(void (^ __nullable)(void))completion;
 
 /** Function that returns a key that uniquely identifies this user account for the
  given scope. Note that if you use SFUserAccountScopeGlobal,
