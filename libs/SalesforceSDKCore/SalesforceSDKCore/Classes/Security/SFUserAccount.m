@@ -264,6 +264,10 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (void)setPhoto:(UIImage *)photo {
+    [self setPhoto:photo completion:nil];
+}
+
+- (void)setPhoto:(UIImage*)photo completion:(void (^ __nullable)(void))completion {
     dispatch_barrier_async(_syncQueue, ^{
         NSError *error = nil;
         NSString *photoPath = [self photoPathInternal];
@@ -274,13 +278,18 @@ static NSString * const kGlobalScopingKey = @"-global-";
                     [SFSDKCoreLogger e:[self class] format:@"Unable to remove previous photo from disk: %@", error];
                 }
             }
-            NSData *data = UIImagePNGRepresentation(photo);
-            if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
-                [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", error];
+            if (photo) {
+                NSData *data = UIImagePNGRepresentation(photo);
+                if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
+                    [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", error];
+                }
             }
             [self willChangeValueForKey:@"photo"];
             self->_photo = photo;
             [self didChangeValueForKey:@"photo"];
+            if (completion) {
+                completion();
+            }
         }
     });
 }
