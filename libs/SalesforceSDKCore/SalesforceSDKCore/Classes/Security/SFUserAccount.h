@@ -109,7 +109,7 @@ NS_SWIFT_NAME(UserAccount)
 
 /** The current community id the user is logged in
  */
-@property (nonatomic, copy, nullable) NSString *communityId;
+@property (nonatomic, copy, nullable) NSString *communityId SFSDK_DEPRECATED(7.3, 8.0, "Use communityId on SFOAuthCredentials instead.");
 
 /** The list of communities (as SFCommunityData item)
  */
