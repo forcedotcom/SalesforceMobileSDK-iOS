@@ -95,7 +95,7 @@ static NSException *authException = nil;
 }
 
 - (NSString*)createRecordName:(NSString*)objectType {
-    return [NSString stringWithFormat:@"SyncManagerTestCase_%@_%08d", objectType, arc4random_uniform(100000000)];
+    return [NSString stringWithFormat:@"SyncTest_%@_%lu%03d", objectType, (NSUInteger)([[NSDate date] timeIntervalSince1970]*1000), arc4random_uniform(1000)];
 }
 
 - (NSString*) createAccountName {

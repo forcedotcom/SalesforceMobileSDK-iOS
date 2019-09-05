@@ -270,9 +270,18 @@ static dispatch_once_t pred;
     __weak __typeof(self) weakSelf = self;
     NSURLRequest *finalRequest = [request prepareRequestForSend:self.user];
     if (finalRequest) {
-        SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
+        SFNetwork *network;
+        __block NSString *instanceIdentifier;
+        if (request.serviceHostType == SFSDKRestServiceHostTypeCustom) {
+            instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
+            network = [self networkForRequest:request identifier:instanceIdentifier];
+        } else {
+            network = [self networkForRequest:request];
+        }
+
         NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
+            [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
 
             // Network error.
             if (error) {
@@ -317,6 +326,22 @@ static dispatch_once_t pred;
             }
         }];
         request.sessionDataTask = dataTask;
+    }
+}
+
+- (SFNetwork *)networkForRequest:(SFRestRequest *)request {
+    if (request.networkServiceType == SFNetworkServiceTypeBackground) {
+        return [SFNetwork sharedBackgroundInstance];
+    } else {
+        return [SFNetwork sharedEphemeralInstance];
+    }
+}
+
+- (SFNetwork *)networkForRequest:(SFRestRequest *)request identifier:(NSString *)identifier {
+    if (request.networkServiceType == SFNetworkServiceTypeBackground) {
+        return [SFNetwork sharedBackgroundInstanceWithIdentifier:identifier];
+    } else {
+        return [SFNetwork sharedEphemeralInstanceWithIdentifier:identifier];
     }
 }
 

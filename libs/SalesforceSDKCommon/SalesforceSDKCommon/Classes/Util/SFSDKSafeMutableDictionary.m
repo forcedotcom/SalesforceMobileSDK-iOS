@@ -66,6 +66,10 @@
     return value;
 }
 
+- (id)objectForKeyedSubscript:(id<NSCopying>)key {
+    return [self objectForKey:key];
+}
+
 - (NSArray *)allKeysForObject:(id)anObject {
     __block NSArray *keys;
     dispatch_sync(self.queue, ^{
@@ -88,6 +92,10 @@
     dispatch_barrier_async(self.queue, ^{
         self.backingDictionary[aKey] = object;
     });
+}
+
+- (void)setObject:(id)object forKeyedSubscript:(id<NSCopying>)aKey {
+    [self setObject:object forKey:aKey];
 }
 
 - (void)removeObject:(id<NSCopying>)aKey {
