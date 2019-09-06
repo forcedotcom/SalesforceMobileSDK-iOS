@@ -68,6 +68,7 @@ NSString * const kDefaultSmartStoreName   = @"defaultStore";
 NSString * const kSFAppFeatureSmartStoreUser   = @"US";
 NSString * const kSFAppFeatureSmartStoreGlobal   = @"GS";
 NSString * const kSFSmartStoreJSONParseErrorNotification = @"SFSmartStoreJSONParseErrorNotification";
+NSString * const kSFSmartStoreJSONSerializationErrorNotification = @"SFSmartStoreJSONSerializationErrorNotification";
 
 // NSError constants  (TODO: We should move this stuff into a framework where errors can be configurable
 // in a plist, once we start delivering a bundle.
@@ -865,15 +866,24 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     log(@"1/4 Starting to write to tmp file");
     [outputStream open];
     NSError *error = nil;
-    BOOL success = [NSJSONSerialization writeJSONObject:soupEntry
-                                               toStream:outputStream
-                                                options:0
-                                                  error:&error];
+    
+    // NSJSONSerialization:writeJSONObject returns the number of bytes written
+    // So NSJSONSerialization:writeJSONObject can return a value > 0 while there is an error
+    [NSJSONSerialization writeJSONObject:soupEntry
+                                toStream:outputStream
+                                 options:0
+                                   error:&error];
     [outputStream close];
-    log(@"2/4 Done writing to tmp file");
+    
+    if (error) {
+        [SFSmartStore buildEventOnJsonSerializationErrorForUser:self.user fromMethod:NSStringFromSelector(_cmd) error:error];
+    }
 
+    BOOL success = !error;
+    
     // Renaming tmp file by using moveItemAtPath (but first check if destination exists and deletes it if it does)
     if (success) {
+        log(@"2/4 Done writing to tmp file");
         log(@"3/4 Renaming tmp file");
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
@@ -898,7 +908,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                                   tmpFilePath,
                                   filePath,
                                   error];
-        NSAssert(NO, errorMessage);
         [SFSDKSmartStoreLogger e:[self class] format:errorMessage];
     }
     
@@ -912,18 +921,28 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     return [SFJsonUtils objectFromJSONString:[self loadExternalSoupEntryAsString:soupEntryId soupTableName:soupTableName]];
 }
 
-+ (void)buildEventOnJsonErrorForUser:(SFUserAccount *)user {
++ (void)buildEventOnJsonParseErrorForUser:(SFUserAccount *)user fromMethod:(NSString*)fromMethod {
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     attributes[@"errorCode"] = [NSNumber numberWithInteger:SFJsonUtils.lastError.code];
     attributes[@"errorMessage"] = SFJsonUtils.lastError.localizedDescription;
+    attributes[@"fromMethod"] = fromMethod;
     [SFSDKEventBuilderHelper createAndStoreEvent:@"SmartStoreJSONParseError" userAccount:user className:NSStringFromClass([self class]) attributes:attributes];
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFSmartStoreJSONParseErrorNotification object:self];
+}
+
++ (void)buildEventOnJsonSerializationErrorForUser:(SFUserAccount *)user fromMethod:(NSString*)fromMethod error:(NSError*)error {
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
+    attributes[@"errorMessage"] = error.localizedDescription;
+    attributes[@"fromMethod"] = fromMethod;
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"SmartStoreJSONSerializationError" userAccount:user className:NSStringFromClass([self class]) attributes:attributes];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFSmartStoreJSONSerializationErrorNotification object:self];
 }
 
 - (BOOL)checkRawJson:(NSString*)rawJson fromMethod:(NSString*)fromMethod {
     if (_jsonSerializationCheckEnabled && [SFJsonUtils objectFromJSONString:rawJson] == nil) {
         [SFSDKSmartStoreLogger e:[self class] format:@"Error parsing JSON in SmartStore in %@", fromMethod];
-        [SFSmartStore buildEventOnJsonErrorForUser:self.user];
+        [SFSmartStore buildEventOnJsonParseErrorForUser:self.user fromMethod:fromMethod];
         return NO;
     } else {
         return YES;
