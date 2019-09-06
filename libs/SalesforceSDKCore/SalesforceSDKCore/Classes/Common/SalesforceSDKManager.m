@@ -52,6 +52,10 @@ static Class InstanceClass = nil;
 // AILTN app name
 static NSString* ailtnAppName = nil;
 
+// User agent support
+static WKWebView* webView = nil;
+static NSString* webViewUserAgent = nil;
+
 // Dev support
 static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNotification";
 
@@ -103,6 +107,8 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
 @interface SalesforceSDKManager ()
 
 @property(nonatomic, strong) UIAlertController *actionSheet;
+@property(nonatomic, strong) WKWebView *webView; // for calculating user agent
+@property(nonatomic, strong) NSString *webViewUserAgent; // for calculating user agent
 
 @end
 
@@ -205,6 +211,7 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
         
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         self.useSnapshotView = YES;
+        [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         [self setupServiceConfiguration];
     }
@@ -946,7 +953,6 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
         NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
         NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
-        NSString *webViewUserAgent = [self getUIWebViewUserAgent];
 
         // App type.
         NSString *appTypeStr = [self getAppTypeAsString];
@@ -962,23 +968,21 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
                                  (qualifier != nil ? qualifier : @""),
                                  uid,
                                  [[[SFSDKAppFeatureMarkers appFeatures].allObjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."],
-                                 webViewUserAgent
+                                 self.webViewUserAgent == nil ? @"" : self.webViewUserAgent
                                  ];
         return myUserAgent;
     };
 }
 
-- (NSString *)getUIWebViewUserAgent {
-    static NSString *webViewUserAgent = nil;
+- (void)computeWebViewUserAgent {
     static dispatch_once_t onceToken;
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
     dispatch_once_on_main_thread(&onceToken, ^{
-        // Grabs the current user agent. This is very hackish but WKWebView, which we
-        // want to transition too currently evaluates Javscript asynchronously (11/2/17)
-        UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-        webViewUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+        [self.webView loadHTMLString:@"<html></html>" baseURL:nil];
+        [self.webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id __nullable userAgent, NSError * __nullable error) {
+            self.webViewUserAgent = userAgent;
+        }];
     });
-    
-    return webViewUserAgent;
 }
 
 void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t block) {
