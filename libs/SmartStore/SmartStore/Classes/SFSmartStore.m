@@ -873,18 +873,17 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                                 toStream:outputStream
                                  options:0
                                    error:&error];
+    [outputStream close];
+    
     if (error) {
-        [SFSDKSmartStoreLogger e:[self class] format:@"Error serializing JSON in SmartStore in %@", NSStringFromSelector(_cmd)];
         [SFSmartStore buildEventOnJsonSerializationErrorForUser:self.user fromMethod:NSStringFromSelector(_cmd) error:error];
     }
-    
+
     BOOL success = !error;
-
-    [outputStream close];
-    log(@"2/4 Done writing to tmp file");
-
+    
     // Renaming tmp file by using moveItemAtPath (but first check if destination exists and deletes it if it does)
     if (success) {
+        log(@"2/4 Done writing to tmp file");
         log(@"3/4 Renaming tmp file");
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
@@ -909,7 +908,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                                   tmpFilePath,
                                   filePath,
                                   error];
-        NSAssert(NO, errorMessage);
         [SFSDKSmartStoreLogger e:[self class] format:errorMessage];
     }
     
