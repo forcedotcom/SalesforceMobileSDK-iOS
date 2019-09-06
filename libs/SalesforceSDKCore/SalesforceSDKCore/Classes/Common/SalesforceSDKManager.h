@@ -319,6 +319,16 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 - (NSArray<NSString *>*)getDevSupportInfos NS_SWIFT_NAME(devSupportInfoList());
 
+/**
+ *  Enables encryption on the shared URL cache. This is enabled by default.
+ */
+- (void)enableEncryptedURLCache;
+
+/**
+ *  Resets the shared URL cache to a NSURLCache that's not encrypted.
+ */
+- (void)disableEncryptedURLCache;
+
 @end
 
 NS_ASSUME_NONNULL_END

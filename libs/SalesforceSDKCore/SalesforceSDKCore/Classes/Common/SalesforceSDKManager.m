@@ -35,6 +35,7 @@
 #import "SFSDKDevInfoViewController.h"
 #import "SFDefaultUserManagementViewController.h"
 #import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
+#import "SFSDKEncryptedURLCache.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -60,6 +61,11 @@ static NSString * const kSFMobileSDKNativeDesignator = @"Native";
 static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
 static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
+
+// URL cache
+static NSString * const kDefaultCachePath = @"salesforce.mobilesdk.URLCache";
+static NSInteger const kDefaultCacheMemoryCapacity = 1024 * 1024 * 4; // 4MB
+static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 @implementation UIWindow (SalesforceSDKManager)
 
@@ -207,8 +213,25 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
         self.useSnapshotView = YES;
         self.userAgentString = [self defaultUserAgentString];
         [self setupServiceConfiguration];
+        [self enableEncryptedURLCache];
     }
     return self;
+}
+
+- (void)enableEncryptedURLCache {
+    if (![NSURLCache.sharedURLCache isKindOfClass:[SFSDKEncryptedURLCache class]]) {
+        [NSURLCache.sharedURLCache removeAllCachedResponses];
+        SFSDKEncryptedURLCache *encryptedCache = [[SFSDKEncryptedURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+        [NSURLCache setSharedURLCache:encryptedCache];
+    }
+}
+
+- (void)disableEncryptedURLCache {
+    if ([NSURLCache.sharedURLCache isKindOfClass:[SFSDKEncryptedURLCache class]]) {
+        [NSURLCache.sharedURLCache removeAllCachedResponses];
+        NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+        [NSURLCache setSharedURLCache:cache];
+    }
 }
 
 - (NSString *) deviceId {
