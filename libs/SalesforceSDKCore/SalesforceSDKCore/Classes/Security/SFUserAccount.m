@@ -232,19 +232,9 @@ static NSString * const kGlobalScopingKey = @"-global-";
     });
 }
 
-/** Returns the path to the user's photo.
- */
-- (NSString*)photoPath {
-    __block NSString *userPhotoPath = nil;
-    dispatch_sync(_syncQueue, ^{
-        userPhotoPath = [self photoPathInternal];
-    });
-    return userPhotoPath;
-}
-
-- (NSString *)photoPathInternal {
+- (NSString *)photoPathInternal:(NSError**)error {
     NSString *userPhotoPath =  [[SFDirectoryManager sharedManager] directoryForOrg:_credentials.organizationId user:_credentials.userId  community:_communityId?:kDefaultCommunityName type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
-    [SFDirectoryManager ensureDirectoryExists:userPhotoPath error:nil];
+    [SFDirectoryManager ensureDirectoryExists:userPhotoPath error:error];
     return [userPhotoPath stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:_credentials.userId]];
 }
 
@@ -253,7 +243,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         __weak __typeof(self) weakSelf = self;
         dispatch_sync(_syncQueue, ^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            NSString *photoPath = [strongSelf photoPathInternal];
+            NSString *photoPath = [strongSelf photoPathInternal:nil];
             NSFileManager *manager = [[NSFileManager alloc] init];
             if ([manager fileExistsAtPath:photoPath]) {
                 strongSelf->_photo = [[UIImage alloc] initWithContentsOfFile:photoPath];
@@ -264,23 +254,45 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (void)setPhoto:(UIImage *)photo {
+    [self setPhoto:photo completion:nil];
+}
+
+- (void)setPhoto:(UIImage*)photo completion:(void (^ __nullable)(NSError* _Nullable))completion {
     dispatch_barrier_async(_syncQueue, ^{
         NSError *error = nil;
-        NSString *photoPath = [self photoPathInternal];
-        if (photoPath) {
-            NSFileManager *fm = [NSFileManager defaultManager];
-            if ([fm fileExistsAtPath:photoPath]) {
-                if (![fm removeItemAtPath:photoPath error:&error]) {
-                    [SFSDKCoreLogger e:[self class] format:@"Unable to remove previous photo from disk: %@", error];
-                }
+        NSString *photoPath = [self photoPathInternal:&error];
+        if (photoPath == nil) {
+            [SFSDKCoreLogger e:[self class] format:@"Unable to retrieve the photo path: %@", error];
+            if (completion) {
+                completion(error);
             }
+            return;
+        }
+
+        NSFileManager *fm = [NSFileManager defaultManager];
+        if ([fm fileExistsAtPath:photoPath]) {
+            if (![fm removeItemAtPath:photoPath error:&error]) {
+                [SFSDKCoreLogger e:[self class] format:@"Unable to remove previous photo from disk: %@", error];
+            }
+        }
+        
+        if (photo) {
             NSData *data = UIImagePNGRepresentation(photo);
             if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
                 [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", error];
+                if (completion) {
+                    completion(error);
+                }
+                return;
             }
-            [self willChangeValueForKey:@"photo"];
-            self->_photo = photo;
-            [self didChangeValueForKey:@"photo"];
+        }
+        
+        [self willChangeValueForKey:@"photo"];
+        self->_photo = photo;
+        [self didChangeValueForKey:@"photo"];
+        
+        if (completion) {
+            completion(nil);
         }
     });
 }

@@ -184,10 +184,10 @@
 }
 
 - (NSString *)communitiesUrlPathIfRequired {
-    if (!self.user.communityId) {
+    if (!self.user.credentials.communityId) {
         return @"";
     }
-    return [NSString stringWithFormat:@"/communities/%@", self.user.communityId];
+    return [NSString stringWithFormat:@"/communities/%@", self.user.credentials.communityId];
 }
 
 @end
