@@ -59,7 +59,7 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
     // For request.URL
     NSURLRequest *requestWithSecureURL = [self requestWithSecureURLForRequest:request];
     if (!requestWithSecureURL) {
-        [SFSDKCoreLogger d:[self class] format:@"RequestWithSecureURL is nil, unable to check cache for request"];
+        [SFSDKCoreLogger e:[self class] format:@"RequestWithSecureURL is nil, unable to fetch cached response"];
         return nil;
     }
 
@@ -71,7 +71,7 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
             NSCachedURLResponse *decryptedURLResponse = [[NSCachedURLResponse alloc] initWithResponse:cachedResponse.response data:decryptedResponseData userInfo:cachedResponse.userInfo storagePolicy:cachedResponse.storagePolicy];
             return decryptedURLResponse;
         } else {
-             [SFSDKCoreLogger d:[self class] format:@"Unable to decrypt response"];
+             [SFSDKCoreLogger e:[self class] format:@"Unable to decrypt cached response"];
         }
     }
     return nil;
@@ -82,14 +82,14 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
     // For request.URL
     NSURLRequest *requestWithSecureURL = [self requestWithSecureURLForRequest:request];
     if (!requestWithSecureURL) {
-        [SFSDKCoreLogger d:[self class] format:@"RequestWithSecureURL is nil"];
+        [SFSDKCoreLogger e:[self class] format:@"RequestWithSecureURL is nil, unable to store response"];
         return;
     }
     
     // For cachedResponse.data
     NSData *encryptedResponseData = [self.encryptionKey encryptData:cachedResponse.data];
     if (!encryptedResponseData) {
-        [SFSDKCoreLogger d:[self class] format:@"Unable to encrypt response"];
+        [SFSDKCoreLogger e:[self class] format:@"Unable to encrypt response to store"];
         return;
     }
     NSCachedURLResponse *encryptedURLResponse = [[NSCachedURLResponse alloc] initWithResponse:cachedResponse.response data:encryptedResponseData userInfo:cachedResponse.userInfo storagePolicy:cachedResponse.storagePolicy];
@@ -100,7 +100,7 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
 - (void)removeCachedResponseForRequest:(NSURLRequest *)request {
     NSURLRequest *requestWithSecureURL = [self requestWithSecureURLForRequest:request];
     if (!requestWithSecureURL) {
-        [SFSDKCoreLogger d:[self class] format:@"RequestWithSecureURL is nil"];
+        [SFSDKCoreLogger e:[self class] format:@"RequestWithSecureURL is nil, unable to remove cached response"];
         return;
     }
     [super removeCachedResponseForRequest:requestWithSecureURL];
@@ -108,7 +108,7 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
 
 - (nullable NSURLRequest *)requestWithSecureURLForRequest:(nonnull NSURLRequest *)request {
     if (!request.URL) {
-        [SFLogger log:[self class] level:SFLogLevelDebug format:@"Request URL is nil"];
+        [SFSDKCoreLogger e:[self class] format:@"Request URL is nil"];
         return nil;
     }
     

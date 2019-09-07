@@ -52,11 +52,11 @@
     XCTAssertNotNil(cachePath);
     
     // Disable
-    [[SalesforceSDKManager sharedManager] disableEncryptedURLCache];
+    [SalesforceSDKManager sharedManager].encryptURLCache = NO;
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[NSURLCache class]]);
     
     // Enable again
-    [[SalesforceSDKManager sharedManager] enableEncryptedURLCache];
+    [SalesforceSDKManager sharedManager].encryptURLCache = YES;
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
 }
 
@@ -96,16 +96,21 @@
     [NSURLCache.sharedURLCache removeAllCachedResponses];
     
     Method networkForRequest = class_getInstanceMethod([SFRestAPI class], @selector(networkForRequest:));
+    IMP networkForRequestImplementation = method_getImplementation(networkForRequest);
     Method ignoreCache_networkForRequest = class_getInstanceMethod([self class], @selector(ignoreCache_networkForRequest:));
     Method useCache_networkForRequest = class_getInstanceMethod([self class], @selector(useCache_networkForRequest:));
     
-    // Calls that will hit network and should store into cache for next call to use
-    method_exchangeImplementations(networkForRequest, ignoreCache_networkForRequest);
-    [self makeRequests];
-    
-    // Calls that will only load from cache
-    method_exchangeImplementations(networkForRequest, useCache_networkForRequest);
-    [self makeRequests];
+    @try {
+        // Calls that will hit network and should store into cache for next call to use
+        method_exchangeImplementations(networkForRequest, ignoreCache_networkForRequest);
+        [self makeRequests];
+
+        // Calls that will only load from cache
+        method_exchangeImplementations(networkForRequest, useCache_networkForRequest);
+        [self makeRequests];
+    } @finally {
+        method_setImplementation(networkForRequest, networkForRequestImplementation);
+    }
 }
 
 - (SFNetwork *)useCache_networkForRequest:(SFRestRequest *)request {

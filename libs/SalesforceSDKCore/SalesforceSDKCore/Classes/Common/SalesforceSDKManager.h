@@ -260,6 +260,10 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, assign) BOOL isDevSupportEnabled;
 
+/** Use this flag to indicate if the URL cache should be encrypted. YES by default.
+ */
+@property (nonatomic, assign) BOOL encryptURLCache;
+
 /**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to
  authenticate if the current user is not already authenticated.  @see postLaunchAction, launchErrorAction,
@@ -318,16 +322,6 @@ NS_SWIFT_NAME(SalesforceManager)
  * @return Dev info (list of name1, value1, name2, value2 etc) to show in SFSDKDevInfoController
  */
 - (NSArray<NSString *>*)getDevSupportInfos NS_SWIFT_NAME(devSupportInfoList());
-
-/**
- *  Enables encryption on the shared URL cache. This is enabled by default.
- */
-- (void)enableEncryptedURLCache;
-
-/**
- *  Resets the shared URL cache to a NSURLCache that's not encrypted.
- */
-- (void)disableEncryptedURLCache;
 
 @end
 
