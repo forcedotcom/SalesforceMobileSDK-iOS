@@ -213,6 +213,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         self.useSnapshotView = YES;
         self.userAgentString = [self defaultUserAgentString];
         self.encryptURLCache = YES;
+        [self setupServiceConfiguration];
     }
     return self;
 }
