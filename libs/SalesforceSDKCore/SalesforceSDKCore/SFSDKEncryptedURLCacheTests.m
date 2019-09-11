@@ -31,6 +31,8 @@
 #import "SalesforceSDKManager.h"
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
+#import "SFSDKTestCredentialsData.h"
+#import "SFRestAPI+Blocks.h"
 
 @interface SFRestAPI (Testing)
 
@@ -50,11 +52,11 @@
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
     NSString *cachePath = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSCachesDirectory components:@[@"salesforce.mobilesdk.URLCache"]];
     XCTAssertNotNil(cachePath);
-    
+
     // Disable
     [SalesforceSDKManager sharedManager].encryptURLCache = NO;
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[NSURLCache class]]);
-    
+
     // Enable again
     [SalesforceSDKManager sharedManager].encryptURLCache = YES;
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
@@ -94,20 +96,25 @@
 
 - (void)testRestCalls {
     [NSURLCache.sharedURLCache removeAllCachedResponses];
-    
+
     Method networkForRequest = class_getInstanceMethod([SFRestAPI class], @selector(networkForRequest:));
     IMP networkForRequestImplementation = method_getImplementation(networkForRequest);
     Method ignoreCache_networkForRequest = class_getInstanceMethod([self class], @selector(ignoreCache_networkForRequest:));
     Method useCache_networkForRequest = class_getInstanceMethod([self class], @selector(useCache_networkForRequest:));
-    
+    IMP ignoreCache_networkForRequestImplementation = method_getImplementation(ignoreCache_networkForRequest);
+    IMP useCache_networkForRequestImplementation = method_getImplementation(useCache_networkForRequest);
+
     @try {
+        // Don't need to login but want the instance URL from the config
+        SFSDKTestCredentialsData *credsData = [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
+
         // Calls that will hit network and should store into cache for next call to use
-        method_exchangeImplementations(networkForRequest, ignoreCache_networkForRequest);
-        [self makeRequests];
+        method_setImplementation(networkForRequest, ignoreCache_networkForRequestImplementation);
+        [self makeRequestsWithBaseURL:credsData.instanceUrl];
 
         // Calls that will only load from cache
-        method_exchangeImplementations(networkForRequest, useCache_networkForRequest);
-        [self makeRequests];
+        method_setImplementation(networkForRequest, useCache_networkForRequestImplementation);
+        [self makeRequestsWithBaseURL:credsData.instanceUrl];
     } @finally {
         method_setImplementation(networkForRequest, networkForRequestImplementation);
     }
@@ -127,11 +134,12 @@
     return network;
 }
 
-- (void)makeRequests {
+- (void)makeRequestsWithBaseURL:(NSString *)baseURL {
     NSArray<NSString *> *standardPngs = @[@"today", @"task", @"report", @"note", @"groups", @"feed", @"dashboard", @"approval"];
     for (NSString *standardPng in standardPngs) {
         NSString *path = [NSString stringWithFormat:@"/img/icon/t4v35/standard/%@_60.png", standardPng];
-        SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+        SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET baseURL:baseURL path:path queryParams:nil];
+        request.requiresAuthentication = NO;
         request.endpoint = @"";
         [self sendRequest:request];
     }
@@ -139,7 +147,8 @@
     NSArray<NSString *> *customPngs = @[@"custom62", @"custom28"];
     for (NSString *customPng in customPngs) {
         NSString *path = [NSString stringWithFormat:@"/img/icon/t4v35/custom/%@_60.png", customPng];
-        SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+        SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET baseURL:baseURL path:path queryParams:nil];
+        request.requiresAuthentication = NO;
         request.endpoint = @"";
         [self sendRequest:request];
     }
@@ -147,15 +156,26 @@
     NSArray<NSString *> *actionPngs = @[@"share_thanks", @"share_poll", @"share_post", @"share_link", @"share_file", @"question_post_action", @"new_note"];
     for (NSString *actionPng in actionPngs) {
         NSString *path = [NSString stringWithFormat:@"/img/icon/t4v35/action/%@_120.png", actionPng];
-        SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+        SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET baseURL:baseURL path:path queryParams:nil];
+        request.requiresAuthentication = NO;
         request.endpoint = @"";
         [self sendRequest:request];
     }
 }
 
 - (void)sendRequest:(SFRestRequest *)request {
-    SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [[SFRestAPI sharedInstance] send:request delegate:listener];
+    SFSDKTestRequestListener *listener = [[SFSDKTestRequestListener alloc] init];
+    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
+        listener.lastError = error;
+        listener.returnStatus = kTestRequestStatusDidFail;
+    };
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary *data, NSURLResponse *rawResponse) {
+        listener.dataResponse = data;
+        listener.returnStatus = kTestRequestStatusDidLoad;
+    };
+    [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request
+                                            failBlock:failBlock
+                                        completeBlock:completeBlock];
     [listener waitForCompletion];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
