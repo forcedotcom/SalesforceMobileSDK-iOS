@@ -260,6 +260,10 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, assign) BOOL isDevSupportEnabled;
 
+/** Use this flag to indicate if the URL cache should be encrypted. YES by default.
+ */
+@property (nonatomic, assign) BOOL encryptURLCache;
+
 /**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to
  authenticate if the current user is not already authenticated.  @see postLaunchAction, launchErrorAction,
