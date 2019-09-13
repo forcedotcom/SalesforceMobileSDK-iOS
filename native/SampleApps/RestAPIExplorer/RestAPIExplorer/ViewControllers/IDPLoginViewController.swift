@@ -40,24 +40,20 @@ import SalesforceSDKCore.SFSDKLoginHost
 
 class IDPLoginViewController: UIViewController {
 
-    weak var loginSelectionDelegate:IDPLoginViewControllerDelegate?
-    fileprivate var loginHostViewController:LoginHostListViewController?
-    fileprivate lazy var loginHostListViewController:LoginHostListViewController = {
-        let l = LoginHostListViewController(style: .plain)
-        l.delegate = self
-        return l
+    weak var loginSelectionDelegate: IDPLoginViewControllerDelegate?
+    fileprivate var loginHostViewController: LoginHostListViewController?
+    fileprivate lazy var loginHostListViewController: LoginHostListViewController = {
+        let loginHostCtrl = LoginHostListViewController(style: .plain)
+        loginHostCtrl.delegate = self
+        return loginHostCtrl
     }()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        get {
-            return .lightContent
-        }
+        return .lightContent
     }
     
     override var prefersStatusBarHidden: Bool {
-        get {
-            return false
-        }
+        return false
     }
     
     override func viewDidLoad() {
@@ -120,20 +116,20 @@ class IDPLoginViewController: UIViewController {
         selectLabel.topAnchor.constraint(equalTo: container.topAnchor).isActive = true
         selectLabel.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
         
-        idpLabel.topAnchor.constraint(equalTo: selectLabel.bottomAnchor, constant:60).isActive = true
+        idpLabel.topAnchor.constraint(equalTo: selectLabel.bottomAnchor, constant: 60).isActive = true
         idpLabel.leftAnchor.constraint(equalTo: container.leftAnchor).isActive = true
         idpLabel.rightAnchor.constraint(equalTo: container.rightAnchor).isActive = true
         
-        idpButton.topAnchor.constraint(equalTo: idpLabel.bottomAnchor, constant:14).isActive = true
+        idpButton.topAnchor.constraint(equalTo: idpLabel.bottomAnchor, constant: 14).isActive = true
         idpButton.leftAnchor.constraint(equalTo: container.leftAnchor).isActive = true
         idpButton.rightAnchor.constraint(equalTo: container.rightAnchor).isActive = true
         idpButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         
-        appLabel.topAnchor.constraint(equalTo: idpButton.bottomAnchor, constant:60).isActive = true
+        appLabel.topAnchor.constraint(equalTo: idpButton.bottomAnchor, constant: 60).isActive = true
         appLabel.leftAnchor.constraint(equalTo: container.leftAnchor).isActive = true
         appLabel.rightAnchor.constraint(equalTo: container.rightAnchor).isActive = true
         
-        appButton.topAnchor.constraint(equalTo: appLabel.bottomAnchor, constant:14).isActive = true
+        appButton.topAnchor.constraint(equalTo: appLabel.bottomAnchor, constant: 14).isActive = true
         appButton.leftAnchor.constraint(equalTo: container.leftAnchor).isActive = true
         appButton.rightAnchor.constraint(equalTo: container.rightAnchor).isActive = true
         appButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
@@ -153,13 +149,13 @@ class IDPLoginViewController: UIViewController {
     }
     
     @objc func loginIDPAction() {
-        guard let d = self.loginSelectionDelegate else {return}
-        d.loginUsingIDP?()
+        guard let delegate = self.loginSelectionDelegate else {return}
+        delegate.loginUsingIDP?()
     }
     
     @objc func loginLocalAction() {
-        guard let d = self.loginSelectionDelegate else {return}
-        d.loginUsingApp?()
+        guard let delegate = self.loginSelectionDelegate else {return}
+        delegate.loginUsingApp?()
     }
     
     func showHostListView() {
@@ -168,7 +164,7 @@ class IDPLoginViewController: UIViewController {
         self.present(navController, animated: true, completion: nil)
     }
     
-    func hideHostListView(_ animated:Bool) {
+    func hideHostListView(_ animated: Bool) {
         self.dismiss(animated: animated, completion: nil)
     }
     
@@ -193,7 +189,7 @@ extension IDPLoginViewController: LoginHostDelegate {
     
     func hostListViewController(_ hostListViewController: LoginHostListViewController, didChange newLoginHost: SalesforceLoginHost) {
         UserAccountManager.shared.loginHost = newLoginHost.host
-        UserAccountManager.shared.switchToNewUserAccount { (error, userAccount) in
+        UserAccountManager.shared.switchToNewUserAccount { _, _ in
             
         }
     }
