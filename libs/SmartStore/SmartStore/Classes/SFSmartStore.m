@@ -1841,6 +1841,10 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                 NSString *loadResult = [self loadExternalSoupEntryAsString:soupEntryId soupTableName:value];
                 if (loadResult) {
                     [resultStrings addObject:loadResult];
+                } else {
+                    // This is a smart query, we can't skip
+                    // If you do select x,y,z, then you expect 3 values per row in the result set
+                    [resultStrings addObject:@"null"];
                 }
             }
             else if ([value isKindOfClass:[NSNumber class]]) {
