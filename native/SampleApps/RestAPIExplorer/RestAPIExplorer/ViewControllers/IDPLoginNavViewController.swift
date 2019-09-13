@@ -31,9 +31,9 @@ import UIKit
 import SalesforceSDKCore.SFSDKLoginFlowSelectionView
 
 class IDPLoginNavViewController: UINavigationController, SFSDKLoginFlowSelectionView {
-    weak var selectionFlowDelegate:SFSDKLoginFlowSelectionViewDelegate?
-    var appOptions:[AnyHashable: Any]!
-    
+    weak var selectionFlowDelegate: SFSDKLoginFlowSelectionViewDelegate?
+    var appOptions: [AnyHashable: Any]!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let controller = IDPLoginViewController(nibName: nil, bundle: nil)
@@ -44,14 +44,14 @@ class IDPLoginNavViewController: UINavigationController, SFSDKLoginFlowSelection
 
 extension IDPLoginNavViewController: IDPLoginViewControllerDelegate {
     func loginUsingIDP() {
-        if let d = self.selectionFlowDelegate {
-            d.loginFlowSelectionIDPSelected(self, options: self.appOptions)
+        if let delegate = self.selectionFlowDelegate {
+            delegate.loginFlowSelectionIDPSelected(self, options: self.appOptions)
         }
     }
-    
+
     func loginUsingApp() {
-        if let d = self.selectionFlowDelegate {
-            d.loginFlowSelectionLocalLoginSelected(self, options: self.appOptions)
+        if let delegate = self.selectionFlowDelegate {
+            delegate.loginFlowSelectionLocalLoginSelected(self, options: self.appOptions)
         }
     }
 }
