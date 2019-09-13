@@ -1851,11 +1851,14 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                 [resultStrings addObject:[((NSNumber*)value) stringValue]];
             }
             else if ([value isKindOfClass:[NSString class]]) {
-                NSMutableString *tmpString = [[NSMutableString alloc] init];
-                [tmpString appendString:@"\""];
-                [tmpString appendString:[self escapeStringValue:((NSString*) value)]];
-                [tmpString appendString:@"\""];
-                [resultStrings addObject:tmpString];
+                NSString *escapedAndQuotedValue = [self escapeStringValueAndQuote:(NSString*) value];
+                if (escapedAndQuotedValue) {
+                    [resultStrings addObject:escapedAndQuotedValue];
+                } else {
+                    // This is a smart query, we can't skip
+                    // If you do select x,y,z, then you expect 3 values per row in the result set
+                    [resultStrings addObject:@"null"];
+                }
             }
         }
     }
@@ -1864,9 +1867,9 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     [resultString appendString:@"]"];
 }
 
--(NSString*) escapeStringValue:(NSString*) raw {
+-(NSString*) escapeStringValueAndQuote:(NSString*) raw {
     NSMutableString* escaped = [NSMutableString new];
-    
+    [escaped appendString:@"\""];
     for (NSUInteger i = 0; i < raw.length; i += 1) {
         unichar c = [raw characterAtIndex:i];
         switch (c) {
@@ -1898,7 +1901,13 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                 }
         }
     }
-    return [NSString stringWithString:escaped];
+    [escaped appendString:@"\""];
+    
+    if (![self checkRawJson:[NSString stringWithFormat:@"[%@]", escaped] fromMethod:NSStringFromSelector(_cmd)]) {
+        return nil;
+    } else {
+        return [NSString stringWithString:escaped];
+    }
 }
 
 - (NSString *)idsInPredicate:(NSArray *)ids idCol:(NSString*)idCol
