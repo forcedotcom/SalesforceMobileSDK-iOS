@@ -71,7 +71,7 @@ NS_SWIFT_NAME(DatabaseManager)
  Creates or opens an existing store DB.
  @param storeName The name of the store to create or open.
  @param key The encryption key associated with the store.
-@param salt Specified when database header should be stored in plain text (Shared mode).
+ @param salt String used when the database header is stored in plain text for Shared mode.
  @param error Returned if there's an error with the process.
  @return The FMDatabase instance representing the DB, or nil if the create/open failed.
  */
@@ -81,7 +81,7 @@ NS_SWIFT_NAME(DatabaseManager)
  Creates or opens an existing store DB.
  @param storeName The name of the store to create or open.
  @param key The encryption key associated with the store.
- @param salt Specified when database header should be stored in plain text (Shared mode).
+ @param salt String used when the database header is stored in plain text for Shared mode.
  @param error Returned if there's an error with the process.
  @return The FMDatabaseQueue instance to access the DB, or nil if the create/open failed.
  */
@@ -92,7 +92,7 @@ NS_SWIFT_NAME(DatabaseManager)
  @param db The DB to encrypt.
  @param storeName The name of the store representing the DB.
  @param key The encryption key to be used for encrypting the database.
- @param salt Specified when database header should be stored in plain text (Shared mode).
+ @param salt String used when the database header is stored in plain text for Shared mode.
  @param error Returned if there's an error with encrypting the data.
  @return The newly-encrypted DB, or the original DB if the encryption fails at any point in the process.
  */
@@ -103,7 +103,7 @@ NS_SWIFT_NAME(DatabaseManager)
  @param storeName The name of the store representing the DB.
  @param storePath The path specifying the store location.
  @param key The encryption key to be used for encrypting the database.
-@param salt Specified when database header should be stored in plain text (Shared mode).
+ @param salt String used when the database header is stored in plain text for Shared mode.
  @param error Returned if there's an error with encrypting the data.
  @return YES if the encryption was successful, or NO if the encryption fails at any point in the process.
  */
@@ -114,7 +114,7 @@ NS_SWIFT_NAME(DatabaseManager)
  @param db The database to unencrypt.
  @param storeName The name of the store associated with the DB.
  @param oldKey The original encryption key of the database.
- @param salt Specified when database header should be stored in plain text (Shared mode).
+ @param salt String used when the database header is stored in plain text for Shared mode.
  @param error Returned if there's an error during the process.
  @return The unencrypted database, or the original encrypted database if the process fails at any point.
  */
@@ -125,7 +125,7 @@ NS_SWIFT_NAME(DatabaseManager)
  @param storeName The name of the store associated with the DB.
  @param storePath The path specifying the store location.
  @param key The original encryption key of the database.
- @param salt Specified when database header should be stored in plain text (Shared mode).
+ @param salt String used when the database header is stored in plain text for Shared mode.
  @param error Returned if there's an error during the process.
  @return YES if the existing store was successfully unencrypted, or NO if the process fails at any point.
  */

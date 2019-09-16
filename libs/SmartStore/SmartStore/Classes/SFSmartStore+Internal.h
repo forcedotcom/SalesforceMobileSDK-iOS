@@ -272,5 +272,16 @@ static NSUInteger kBufferSize = 4096;
  */
 - (void) executeUpdateThrows:(NSString*)sql withArgumentsInArray:(NSArray*)arguments withDb:(FMDatabase*)db;
 
+/**
+ Check that the given raw JSON string represents valid JSON.
+ Note: If the jsonSerializationCheckEnabled property is set to NO, this method will
+ always return YES (i.e. that the result is valid).
+ 
+ @param rawJson The raw JSON string to validate.
+ @param fromMethod The method making the call (for logging purposes on failure).
+ 
+ @return YES if the JSON string is valid JSON, NO otherwise.
+ */
+- (BOOL)checkRawJson:(NSString*)rawJson fromMethod:(NSString*)fromMethod;
 
 @end

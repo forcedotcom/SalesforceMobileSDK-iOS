@@ -30,7 +30,7 @@
 @interface SFOAuthOrgAuthConfiguration : NSObject
 
 /**
- Whether to use the native browser for authentication.
+ Tells Mobile SDK whether to use the native browser for authentication.
  */
 @property (nonatomic, readonly) BOOL useNativeBrowserForAuth;
 
@@ -45,13 +45,13 @@
 @property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl;
 
 /**
- The raw dictionary data representing the org auth configuration.
+ Raw dictionary data representing the org auth configuration.
  */
 @property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict;
 
 /**
  Designated initializer.
- @param authConfigDict The NSDictionary containing the org auth configuration.
+ @param authConfigDict NSDictionary containing the org auth configuration.
  */
 - (nonnull id)initWithConfigDict:(nullable NSDictionary *)authConfigDict;
 

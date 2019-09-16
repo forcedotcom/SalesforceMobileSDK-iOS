@@ -25,7 +25,6 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 import XCTest
 
 class HostURLTest: SalesforceNoSessionTestCase {
@@ -63,7 +62,7 @@ class HostURLTest: SalesforceNoSessionTestCase {
         loginPage.chooseConnection()
         hostPage.chooseConnection("testSwitchURL")
         //background
-        XCUIDevice().press(XCUIDevice.Button.home)
+        XCUIDevice.shared.press(XCUIDevice.Button.home)
         app.launch() //FIXME: seems this will actually terminate and relaunch the app, cannot find a better way to foreground the app yet than import some private headers
         loginPage.waitForPageLoaded()
         loginPage.chooseConnection()
@@ -73,6 +72,4 @@ class HostURLTest: SalesforceNoSessionTestCase {
     func testCancelAddURL() {
         hostPage.addAndCancel(true)
     }
-    
-    
 }

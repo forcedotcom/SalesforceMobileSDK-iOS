@@ -23,7 +23,8 @@
  */
 
 #import "SFOAuthCredentials+Internal.h"
-
+#import "SFSDKOAuth2+Internal.h"
+#import "SFSDKOAuthConstants.h"
 static NSString * const kSFOAuthArchiveVersion         = @"1.0.3"; // internal version included when archiving via encodeWithCoder
 
 static NSString * const kSFOAuthAccessGroup            = @"com.salesforce.oauth";
@@ -310,6 +311,54 @@ NSException * SFOAuthInvalidIdentifierException() {
 
 - (BOOL)hasPropertyValueChangedForKey:(NSString *) key {
     return [_credentialsChangeSet objectForKey:key]!=nil;
+}
+
+- (NSURL *)overrideDomainIfNeeded{
+    
+    NSString *refreshDomain = self.communityId ? self.communityUrl.absoluteString : self.domain;
+    NSString *protocolHost = self.communityId? refreshDomain : [NSString stringWithFormat:@"%@://%@", self.protocol, refreshDomain];
+    return [NSURL URLWithString:protocolHost];
+}
+
+/** Update the credentials using the provided oauth parameters.
+ This method only update the following parameters:
+ - identityUrl
+ - accessToken
+ - instanceUrl
+ - issuedAt
+ - communityId
+ - communityUrl
+ */
+- (void)updateCredentials:(NSDictionary *) params {
+    
+    if (params[kSFOAuthAccessToken]) {
+        [self setPropertyForKey:@"accessToken" withValue:params[kSFOAuthAccessToken]];
+    }
+    
+    if (params[kSFOAuthIssuedAt]) {
+        self.issuedAt = [SFSDKOAuth2 timestampStringToDate:params[kSFOAuthIssuedAt]];
+    }
+    
+    if (params[kSFOAuthInstanceUrl]) {
+        [self setPropertyForKey:@"instanceUrl" withValue:[NSURL URLWithString:params[kSFOAuthInstanceUrl]]];
+    }
+    
+    if (params[kSFOAuthId]) {
+        [self setPropertyForKey:@"identityUrl" withValue:[NSURL URLWithString:params[kSFOAuthId]]];
+    }
+    
+    if (params[kSFOAuthCommunityId]) {
+        [self setPropertyForKey:@"communityId" withValue:params[kSFOAuthCommunityId]];
+    }
+    
+    if (params[kSFOAuthCommunityUrl]) {
+        [self setPropertyForKey:@"communityUrl" withValue:[NSURL URLWithString:params[kSFOAuthCommunityUrl]]];
+    }
+    
+    if (params[kSFOAuthRefreshToken]) {
+        [self setPropertyForKey:@"refreshToken" withValue:params[kSFOAuthRefreshToken]];
+    }
+    
 }
 
 

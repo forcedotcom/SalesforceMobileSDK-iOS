@@ -32,6 +32,10 @@ __strong static NSDateFormatter *isoDateFormatter;
 + (void) initialize {
     utcDateFormatter = [NSDateFormatter new];
     isoDateFormatter = [NSDateFormatter new];
+    // See https://developer.apple.com/documentation/foundation/nsdateformatter and https://developer.apple.com/library/archive/qa/qa1480/_index.html
+    NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [isoDateFormatter setLocale:enUSPOSIXLocale];
+    [isoDateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 }
 

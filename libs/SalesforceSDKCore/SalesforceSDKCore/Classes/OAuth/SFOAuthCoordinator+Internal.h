@@ -32,21 +32,8 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowAdvancedBrowser
 };
 
-@protocol SFOAuthCoordinatorFlow <NSObject>
+@interface SFOAuthCoordinator ()
 
-@required
-
-- (void)beginUserAgentFlow;
-- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType;
-- (void)beginJwtTokenExchangeFlow;
-- (void)handleTokenEndpointResponse:(NSMutableData *)data;
-- (void)beginNativeBrowserFlow;
-
-@end
-
-@interface SFOAuthCoordinator () <SFOAuthCoordinatorFlow>
-
-@property (nonatomic, weak) id<SFOAuthCoordinatorFlow> oauthCoordinatorFlow;
 @property (assign) BOOL authenticating;
 @property (nonatomic, strong, readonly) NSURLSession *session;
 @property (nonatomic, strong) NSMutableData *responseData;
@@ -78,11 +65,6 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
  * @return A String representing the prepared authorize url
  */
 - (NSString *)generateApprovalUrlString;
-
-+ (NSDictionary *)parseQueryString:(NSString *)query;
-+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
-+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *)underlyingError;
-+ (NSDate *)timestampStringToDate:(NSString *)timestamp;
 
 @end
 

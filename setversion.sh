@@ -80,6 +80,15 @@ update_salesforce_sdk_constants ()
     fi
 }
 
+update_readme ()
+{
+    local file=$1
+    local version=$2
+    gsed -i "s/\#\#\# What's New.*/### What's New in ${version}/g" ${file}
+    gsed -i "s/releases\/tag\/.*[)]/releases\/tag\/v${version}\)/g" ${file}
+}
+
+
 parse_opts "$@"
 
 echo -e "${YELLOW}*** SETTING VERSION TO ${OPT_VERSION}, IS DEV = ${OPT_IS_DEV} ***${NC}"
@@ -99,3 +108,6 @@ update_podspec "./SmartSync.podspec" "${OPT_VERSION}"
 
 echo "*** Updating SalesforceSDKConstants.h ***"
 update_salesforce_sdk_constants "./libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h" "${OPT_VERSION}" "${OPT_IS_DEV}"
+
+echo "*** Updating readme.md ***"
+update_readme "./readme.md" "${OPT_VERSION}"

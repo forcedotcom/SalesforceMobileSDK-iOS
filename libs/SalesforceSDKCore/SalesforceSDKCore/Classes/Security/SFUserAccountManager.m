@@ -142,6 +142,15 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
             strongSelf.alertView = [[SFSDKAlertView alloc] initWithMessage:message window:window];
             [strongSelf.alertView presentViewController:NO completion:nil];
         };
+        _authClient = ^(void){
+            static  id<SFSDKOAuthProtocol> authClient = nil;
+            static dispatch_once_t authClientPred;
+            
+            dispatch_once(&authClientPred, ^{
+                authClient = [[SFSDKOAuth2 alloc] init];
+            });
+            return authClient;
+        };
         [self populateErrorHandlers];
      }
 	return self;
@@ -282,8 +291,44 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-     NSAssert(credentials.refreshToken.length > 0, @"Refresh token required to refresh credentials.");
-    return [self authenticateWithCompletion:completionBlock failure:failureBlock credentials:credentials];
+    NSAssert(credentials.refreshToken.length > 0, @"Refresh token required to refresh credentials.");
+    
+    SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+    request.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
+    request.clientID = credentials.clientId;
+    request.refreshToken = credentials.refreshToken;
+    request.redirectURI = credentials.redirectUri;
+    request.serverURL = [credentials overrideDomainIfNeeded];
+    __weak typeof(self) weakSelf = self;
+    id<SFSDKOAuthProtocol> authClient = self.authClient();
+    [authClient accessTokenForRefresh:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+        if (response.hasError) {
+            if (failureBlock) {
+                failureBlock(authInfo,response.error.error);
+            }
+        } else {
+            [credentials updateCredentials:[response asDictionary]];
+            if (response.additionalOAuthFields)
+                credentials.additionalOAuthFields = response.additionalOAuthFields;
+            SFUserAccount *userAccount = [strongSelf accountForCredentials:credentials];
+            if (!userAccount) {
+                 userAccount = [self applyCredentials:credentials];
+            }
+            [self retrieveUserPhotoIfNeeded:userAccount];
+            NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
+                                       kSFNotificationUserInfoAuthTypeKey: authInfo};
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
+                                                                object:strongSelf
+                                                              userInfo:userInfo];
+            if (completionBlock) {
+                completionBlock(authInfo,userAccount);
+            }
+        }
+    }];
+    return YES;
 }
 
 - (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock credentials:(SFOAuthCredentials *)credentials{
@@ -1006,12 +1051,12 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
     currentAccount.idData = identityData;
     // If the user has logged using a community-base URL, then let's create the community data
     // related to this community using the information we have from oauth.
+    SFSDK_USE_DEPRECATED_BEGIN
     currentAccount.communityId = credentials.communityId;
     if (currentAccount.communityId) {
         SFCommunityData *communityData = [[SFCommunityData alloc] init];
         communityData.entityId = credentials.communityId;
         communityData.siteUrl = credentials.communityUrl;
-        SFSDK_USE_DEPRECATED_BEGIN
         if (![currentAccount communityWithId:credentials.communityId]) {
             if (currentAccount.communities) {
                 currentAccount.communities = [currentAccount.communities arrayByAddingObject:communityData];
@@ -1452,7 +1497,7 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:account.idData.thumbnailUrl];
         [request setHTTPMethod:@"GET"];
         [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, account.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
-        SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
+        SFNetwork *network = [SFNetwork sharedEphemeralInstance];
         [network sendRequest:request  dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error){
             if (error) {
                 [SFSDKCoreLogger w:[self class] format:@"Error while trying to retrieve user photo: %ld %@", (long) error.code, error.localizedDescription];

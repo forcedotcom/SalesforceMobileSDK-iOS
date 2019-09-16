@@ -91,6 +91,9 @@ NS_SWIFT_NAME(SalesforceLoginViewController)
 /** Get the instance of nav bar. Use this property to get the instance of navBar*/
 @property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar;
 
+/** Get the refrence  to the SFSDKLoginHostListViewController */
+@property (nonatomic, strong) SFSDKLoginHostListViewController * _Nonnull loginHostListViewController;
+
 /** Applies the view's style attributes to the given navigation bar.
  @param navigationBar The navigation bar that the style is applied to.
  */
@@ -116,6 +119,10 @@ NS_SWIFT_NAME(SalesforceLoginViewController)
 /** Factory Method to create the navigation title.
  */
 - (nonnull UIView *)createTitleItem;
+
+/** Factory Method to create the hostListView Controller.
+ */
+- (nonnull SFSDKLoginHostListViewController *)createLoginHostListViewController;
 
 /** Logic to show back button.
  */

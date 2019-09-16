@@ -29,21 +29,24 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  SFEncryptStream is an output stream that encrypts data before it is written out.
- *  SFCryptChunks is used to perform the encryption.
+ *  `SFEncryptStream` is an output stream that encrypts data before it's written out.
+ *  This class uses `SFCryptChunks` to perform the encryption.
  */
 @interface SFEncryptStream : NSOutputStream <SFCryptChunksDelegate>
 
 /**
- *  Setup for encryption. You must call this method before using the stream.
- *  @param encKey the encryption key
+ *  Setup for encryption. Always call either this method or `setupWithKey:andInitializationVector:` 
+ *  before using this stream.
+ *  @param encKey Encryption key
  */
 - (void)setupWithEncryptionKey:(SFEncryptionKey* )encKey;
 
 /**
- *  Setup for encryption. You must call this method before using the stream.
- *  @param key the cipher key.
- *  @param iv  the initialization vector, must be size of `SFCryptChunksCipherBlockSize`.
+ *  Setup for encryption. Always call either this method or `setupWithEncryptionKey:` 
+ *  before using this stream. Internally, this method initializes the encryption key using `key` and `iv` and then calls 
+ *  `setupWithEncryptionKey:`.
+ *  @param key Cipher key.
+ *  @param iv  Initialization vector. Its size must match `SFCryptChunksCipherBlockSize`.
  */
 - (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv;
 

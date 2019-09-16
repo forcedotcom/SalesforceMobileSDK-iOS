@@ -26,15 +26,12 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
-#import "SFOAuthTestFlow.h"
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
 
 @interface SFOAuthSessionRefresherTests : XCTestCase
 
 @property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
-@property (nonatomic, strong) SFOAuthTestFlow *oauthTestFlow;
-
 @end
 
 @implementation SFOAuthSessionRefresherTests
@@ -54,8 +51,8 @@
     
     // Invalid Instance URL
     XCTestExpectation *invalidInputExpectation = [self expectationWithDescription:@"Refresh with invalid Instance URL"];
-    NSURL *origUrl = self.oauthSessionRefresher.coordinator.credentials.instanceUrl;
-    self.oauthSessionRefresher.coordinator.credentials.instanceUrl = nil;
+    NSURL *origUrl = self.oauthSessionRefresher.credentials.instanceUrl;
+    self.oauthSessionRefresher.credentials.instanceUrl = nil;
     [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
         [invalidInputExpectation fulfill];
     } error:^(NSError *refreshError) {
@@ -67,14 +64,14 @@
         XCTAssertNil(error, @"Error waiting for completion: %@", error);
         XCTAssertNotNil(inputError, @"Should have received an input error for bad Instance URL.");
         XCTAssertTrue(inputError.code == SFOAuthSessionRefreshErrorCodeInvalidCredentials, @"Wrong error code for input error");
-        self.oauthSessionRefresher.coordinator.credentials.instanceUrl = origUrl;
+        self.oauthSessionRefresher.credentials.instanceUrl = origUrl;
     }];
     
     // Invalid Client ID
     inputError = nil;
     invalidInputExpectation = [self expectationWithDescription:@"Refresh with invalid Client ID"];
-    NSString *origClientId = self.oauthSessionRefresher.coordinator.credentials.clientId;
-    self.oauthSessionRefresher.coordinator.credentials.clientId = nil;
+    NSString *origClientId = self.oauthSessionRefresher.credentials.clientId;
+    self.oauthSessionRefresher.credentials.clientId = nil;
     [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
         [invalidInputExpectation fulfill];
     } error:^(NSError *refreshError) {
@@ -86,15 +83,15 @@
         XCTAssertNil(error, @"Error waiting for completion: %@", error);
         XCTAssertNotNil(inputError, @"Should have received an input error for bad Client ID.");
         XCTAssertTrue(inputError.code == SFOAuthSessionRefreshErrorCodeInvalidCredentials, @"Wrong error code for input error");
-        self.oauthSessionRefresher.coordinator.credentials.clientId = origClientId;
+        self.oauthSessionRefresher.credentials.clientId = origClientId;
     }];
     
     // Invalid Refresh Token
     inputError = nil;
     invalidInputExpectation = [self expectationWithDescription:@"Refresh with invalid Refresh Token"];
-    NSString *origRefreshToken = self.oauthSessionRefresher.coordinator.credentials.refreshToken;
-    self.oauthSessionRefresher.coordinator.credentials.refreshToken = nil;
-    self.oauthSessionRefresher.coordinator.credentials.instanceUrl = origUrl;  // Nil'ed out as side effect of nil refresh token in SFOAuthCredentials.
+    NSString *origRefreshToken = self.oauthSessionRefresher.credentials.refreshToken;
+    self.oauthSessionRefresher.credentials.refreshToken = nil;
+    self.oauthSessionRefresher.credentials.instanceUrl = origUrl;  // Nil'ed out as side effect of nil refresh token in SFOAuthCredentials.
     [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
         [invalidInputExpectation fulfill];
     } error:^(NSError *refreshError) {
@@ -106,13 +103,12 @@
         XCTAssertNil(error, @"Error waiting for completion: %@", error);
         XCTAssertNotNil(inputError, @"Should have received an input error for bad Refresh Token.");
         XCTAssertTrue(inputError.code == SFOAuthSessionRefreshErrorCodeInvalidCredentials, @"Wrong error code for input error");
-        self.oauthSessionRefresher.coordinator.credentials.refreshToken = origRefreshToken;
+        self.oauthSessionRefresher.credentials.refreshToken = origRefreshToken;
     }];
 }
 
 - (void)testFailedRefresh {
     __block NSError *refreshFailsError = nil;
-    self.oauthTestFlow.refreshTokenFlowIsSuccessful = NO;
     XCTestExpectation *refreshAccessTokenExpectation = [self expectationWithDescription:@"Refresh Access Token fails"];
     [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
         [refreshAccessTokenExpectation fulfill];
@@ -140,15 +136,11 @@
     creds.accessToken = credsAccessToken;
     creds.refreshToken = credsRefreshToken;
     self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:creds];
-    self.oauthTestFlow = [[SFOAuthTestFlow alloc] initWithCoordinator:self.oauthSessionRefresher.coordinator];
-    self.oauthSessionRefresher.coordinator.oauthCoordinatorFlow = self.oauthTestFlow;
 }
 
 - (void)tearDownCoordinatorFlow {
-    [self.oauthSessionRefresher.coordinator.credentials revoke];
-    self.oauthSessionRefresher.coordinator.oauthCoordinatorFlow = nil;
+    [self.oauthSessionRefresher.credentials revoke];
     self.oauthSessionRefresher = nil;
-    self.oauthTestFlow = nil;
 }
 
 @end

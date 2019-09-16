@@ -28,29 +28,28 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- A secure encryption key.
- The key bits are not exposed.
- The key lives in the key chain / Secure Enclave (if available).
- NB: Might not be appropriate for encrypting/decrypting large amounts of data.
+ A secure encryption key. Key bits are not exposed.
+ The key lives in the keychain or, if available, the Secure Enclave.
+ This key might not be appropriate for encrypting and decrypting large amounts of data.
  */
 @interface SFSecureEncryptionKey : SFEncryptionKey
 
 /**
- Create a new SFSecureEncryptionKey with given label
- @param label the key label
+ Create a new `SFSecureEncryptionKey` with the given label.
+ @param label Key label.
  */
 + (instancetype) createKey:(NSString*)label;
 
 /**
- Retrieve key with given label from keychain
- @param label the key label
- @return nil if not found
+ Retrieve the key with the given label from the keychain.
+ @param label Key label.
+ @return `nil` if the key isn't found.
  */
 + (nullable instancetype) retrieveKey:(NSString*)label;
 
 /**
- Delete key with given label from keychain
- @param label the key label
+ Delete the key with the given label from the keychain.
+ @param label Key label.
  */
 + (void) deleteKey:(NSString*)label;
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,25 +23,11 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
-#import "SFOAuthCoordinator+Internal.h"
 
-@class SFOAuthInfo;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SFOAuthTestFlow : NSObject <SFOAuthCoordinatorFlow>
-
-@property (nonatomic, assign) BOOL beginUserAgentFlowCalled;
-@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled;
-@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled;
-@property (nonatomic, assign) BOOL beginJwtTokenExchangeFlowCalled;
-@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType;
-@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled;
-
-@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion;
-@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion;
-@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful;
-@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful;
-
-- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
+@interface SFSDKEncryptedURLCache : NSURLCache
 
 @end
+
+NS_ASSUME_NONNULL_END

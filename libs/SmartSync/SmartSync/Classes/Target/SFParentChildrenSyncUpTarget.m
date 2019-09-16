@@ -400,7 +400,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         if (isCreate) {
             return nil; // no need to go to server
         } else {
-            return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:info.sobjectType objectId:id];
+            return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:info.sobjectType objectId:id apiVersion:kSFRestDefaultAPIVersion];
         }
     }
         // Create/update cases
@@ -419,9 +419,9 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
 
         if (isCreate) {
-            return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:info.sobjectType fields:fields];
+            return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:info.sobjectType fields:fields apiVersion:kSFRestDefaultAPIVersion];
         } else {
-            return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:info.sobjectType objectId:id fields:fields];
+            return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:info.sobjectType objectId:id fields:fields apiVersion:kSFRestDefaultAPIVersion];
         }
     }
 }
@@ -587,7 +587,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     [builder from:self.parentInfo.sobjectType];
     [builder whereClause:[NSString stringWithFormat:@"%@ = '%@'", self.idFieldName, parentId]];
 
-    SFRestRequest * request = [[SFRestAPI sharedInstance] requestForQuery:[builder build]];
+    SFRestRequest * request = [[SFRestAPI sharedInstance] requestForQuery:[builder build] apiVersion:kSFRestDefaultAPIVersion];
     return request;
 }
 

@@ -27,7 +27,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Task class responsible for running advanced sync up
+ * This task class is responsible for running advanced sync up tasks.
  */
 
 @interface SFAdvancedSyncUpTask : SFSyncUpTask

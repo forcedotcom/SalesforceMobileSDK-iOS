@@ -31,18 +31,21 @@ extern NSString * const kSFSyncUpTargetMaxBatchSize;
 
 NS_SWIFT_NAME(BatchSyncUpTarget)
 /**
- * Subclass of SFSyncUpTarget that batches create/update/delete operations by using composite api
+ * Subclass of `SFSyncUpTarget` that batches create, update, and delete operations by using the Salesforce composite API.
  */
 @interface SFBatchSyncUpTarget : SFSyncUpTarget <SFAdvancedSyncUpTarget>
 
-/** Constructor
+/** Constructor.
+ * @param createFieldlist List of fields that can be created on the server.
+ * @param updateFieldlist List of fields that can be updated on the server.
+ * @param maxBatchSize Maximum size of a batch.
  */
 - (instancetype)initWithCreateFieldlist:(nullable NSArray<NSString*> *)createFieldlist
                         updateFieldlist:(nullable NSArray<NSString*> *)updateFieldlist
                            maxBatchSize:(nullable NSNumber *)maxBatchSize;
  
 
-/** Factory method
+/** Factory method.
  */
 
 + (instancetype)newFromDict:(nullable NSDictionary *)dict;

@@ -46,7 +46,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 {
     self = [super init];
     if (nil != self) {
-        self.maxWaitTime = 30.0;
+        self.maxWaitTime = 300.0;
         self.returnStatus = kTestRequestStatusWaiting;
     }
     

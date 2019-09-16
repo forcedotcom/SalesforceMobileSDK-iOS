@@ -33,7 +33,7 @@
 /**
  * Private interface for this tests module.
  */
-@interface SalesforceSDKIdentityTests ()
+@interface SalesforceSDKIdentityTests()
 /**
  * Synchronous wrapper around the asynchronous request to the identity service.
  */
@@ -43,6 +43,15 @@
  * Does a cursory pass on the identity data, to sanity check values.
  */
 - (void)validateIdentityData;
+
+
+@property (nonatomic,strong) SFUserAccount *account;
+
+@property (nonatomic,strong) XCTestExpectation *expectation;
+
+@property (nonatomic,assign) BOOL requestHasFailed;
+
+
 @end
 
 static NSException *authException = nil;
@@ -56,6 +65,7 @@ static NSException *authException = nil;
     @try {
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
+        
     }
     @catch (NSException *exception) {
         authException = exception;
@@ -71,7 +81,8 @@ static NSException *authException = nil;
     
     // Set-up code here.
     _requestListener = nil;
-    
+    self.expectation = nil;
+    self.account = nil;
     [super setUp];
 }
 
@@ -79,13 +90,15 @@ static NSException *authException = nil;
 
 - (void)sendSyncIdentityRequest
 {
-    
-    SFIdentityCoordinator *idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials];
-    _requestListener = nil;
-    _requestListener = [[SFSDKTestRequestListener alloc] init];
-    idCoordinator.delegate = _requestListener;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"retrieveIdentityData"];
+    self.expectation = expectation;
+    self.account = [SFUserAccountManager sharedInstance].currentUser;
+    SFIdentityCoordinator *idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:self.account.credentials];
+    idCoordinator.delegate = self;
     [idCoordinator initiateIdentityDataRetrieval];
-    [_requestListener waitForCompletion];
+    [self waitForExpectations:@[expectation] timeout:10];
+    XCTAssertFalse(self.requestHasFailed);
+   
 }
 
 #pragma mark - Tests
@@ -96,8 +109,18 @@ static NSException *authException = nil;
 - (void)testRetrieveIdentitySuccess
 {
     [self sendSyncIdentityRequest];
-    XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
     [self validateIdentityData];
+}
+
+
+- (void)identityCoordinator:(nonnull SFIdentityCoordinator *)coordinator didFailWithError:(nonnull NSError *)error {
+    self.requestHasFailed = true;
+    [self.expectation fulfill];
+}
+
+- (void)identityCoordinatorRetrievedData:(nonnull SFIdentityCoordinator *)coordinator {
+    self.account.idData = coordinator.idData;
+    [self.expectation fulfill];
 }
 
 #pragma mark - Private helper methods

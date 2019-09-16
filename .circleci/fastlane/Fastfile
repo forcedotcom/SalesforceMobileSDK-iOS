@@ -1,14 +1,14 @@
 $git_pr_api = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
 $schemes = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'SmartSync']
 ENV['DEVICE'] = 'iPhone Xʀ' unless ENV.has_key?('DEVICE')
-ENV['IOS_VERSION'] = '12.2' unless ENV.has_key?('IOS_VERSION')
+ENV['IOS_VERSION'] = '12.4' unless ENV.has_key?('IOS_VERSION')
 
 lane :PR do |options|
   lib_to_test = options[:lib]
   Dir.chdir('../')
   schemes = Set.new
 
-  if ENV.has_key?('NIGHTLY_TEST')
+  if (ENV.has_key?('NIGHTLY_TEST') and ENV['NIGHTLY_TEST'] == 'true')
     UI.important "Nightly, skipping modified check."
     test_scheme(lib_to_test)
   else

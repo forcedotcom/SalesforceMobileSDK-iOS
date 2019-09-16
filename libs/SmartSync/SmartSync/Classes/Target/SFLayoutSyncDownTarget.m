@@ -92,7 +92,7 @@ static NSString * const kIDFieldValue = @"%@-%@";
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:objectType layoutType:layoutType];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:objectType layoutType:layoutType apiVersion:kSFRestDefaultAPIVersion];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {

@@ -27,45 +27,13 @@
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 #import "SFOAuthCredentials.h"
-
+#import "SFSDKOAuth2.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFOAuthCoordinator;
 @class SFOAuthInfo;
 
-/** SFOAuth default network timeout in seconds.
- */
-extern const NSTimeInterval kSFOAuthDefaultTimeout;
 
-/** This constant defines the SFOAuth framework error domain.
- 
- Domain indicating an error occurred during OAuth authentication.
- */
-extern NSString * const kSFOAuthErrorDomain;
-
-/** 
- @enum SFOAuthErrorDomain related error codes
- Constants used by SFOAuthCoordinator to indicate errors in the SFOAuth domain
- */
-enum {
-    kSFOAuthErrorUnknown = 666,
-    kSFOAuthErrorTimeout,
-    kSFOAuthErrorMalformed,
-    kSFOAuthErrorAccessDenied,              // end user denied authorization
-    kSFOAuthErrorInvalidClientId,
-    kSFOAuthErrorInvalidClientCredentials,  // client secret invalid
-    kSFOAuthErrorInvalidGrant,              // expired access/refresh token, or IP restricted, or invalid login hours
-    kSFOAuthErrorInvalidRequest,
-    kSFOAuthErrorInactiveUser,
-    kSFOAuthErrorInactiveOrg,
-    kSFOAuthErrorRateLimitExceeded,
-    kSFOAuthErrorUnsupportedResponseType,
-    kSFOAuthErrorWrongVersion,              // credentials do not match current Connected App version in the org
-    kSFOAuthErrorBrowserLaunchFailed,
-    kSFOAuthErrorUnknownAdvancedAuthConfig,
-    kSFOAuthErrorInvalidMDMConfiguration,
-    kSFOAuthErrorJWTInvalidGrant
-};
 
 /**
  Enumeration of different advanced authentication stages.
@@ -357,6 +325,10 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 /** Setup the coordinator to use SafariViewController for authentication.
  */
 @property (nonatomic, assign) BOOL useBrowserAuth;
+    
+/** Setup the coordinator to use SafariViewController for authentication.
+   */
+@property (nonatomic, strong) id<SFSDKOAuthProtocol>authClient;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization

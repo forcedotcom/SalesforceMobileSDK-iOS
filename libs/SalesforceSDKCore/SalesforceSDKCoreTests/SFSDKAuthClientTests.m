@@ -41,27 +41,121 @@
 @class SFSDKTestOAuthClient;
 
 @interface SFSDKTestOAuthClient : SFSDKOAuthClient
+
 @property (nonatomic,assign) BOOL isIDPClient;
 @property (nonatomic,assign) BOOL isAdvancedAuthClient;
 @property (nonatomic,assign) BOOL isOAuthClient;
 @property (nonatomic,assign) BOOL isTestingForErrorCallback;
 @end
 
+@interface SFOAuthCoordinatorTest : SFOAuthCoordinator
+
+@property (nonatomic,assign) BOOL isTestingForErrorCallback;
+@end
+
+@implementation SFOAuthCoordinatorTest
+
+- (void)beginUserAgentFlow {
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    if (!self.isTestingForErrorCallback) {
+        [self handleUserAgentResponse:[self userAgentSuccessUrl]];
+    } else {
+        [self handleUserAgentResponse:[self userAgentErrorUrl]];
+    }
+}
+
+- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (!self.isTestingForErrorCallback) {
+             [self handleTokenEndpointResponse:[self refreshTokenSuccessData]];
+        }else {
+            [self  handleTokenEndpointResponse:[self refreshTokenErrorData]];
+        }
+    });
+}
+
+- (void)beginJwtTokenExchangeFlow {
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+}
+
+- (void)beginNativeBrowserFlow {
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (!self.isTestingForErrorCallback) {
+            [self handleTokenEndpointResponse:[self refreshTokenSuccessData]];
+        }else {
+            [self handleTokenEndpointResponse:[self refreshTokenErrorData]];
+        }
+    });
+}
+
+- (void)handleTokenEndpointResponse:(NSMutableData *) data {
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+}
+
+- (NSMutableData *)refreshTokenSuccessData {
+    NSString *successFormatString = @"{\"id\":\"%@\",\"issued_at\":\"%@\",\"instance_url\":\"%@\",\"access_token\":\"%@\"}";
+    NSString *successDataString = [NSString stringWithFormat:successFormatString,
+                                   self.credentials.redirectUri,
+                                   [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByURLEncoding],
+                                   @(1418945872705),
+                                   [@"https://na1.salesforce.com" stringByURLEncoding],
+                                   @"some_access_token"];
+    NSData *data = [successDataString dataUsingEncoding:NSUTF8StringEncoding];
+    return [data mutableCopy];
+}
+
+- (NSMutableData *)refreshTokenErrorData {
+    NSString *errorFormatString = @"{\"error\":\"%@\",\"error_description\":\"%@\"}";
+    NSString *errorDataString = [NSString stringWithFormat:errorFormatString,
+                                  self.credentials.redirectUri,
+                                 @"refresh_token_flow_error_from_unit_test",
+                                 [@"Refresh token flow error from unit test" stringByURLEncoding]
+                                 ];
+    NSData *data = [errorDataString dataUsingEncoding:NSUTF8StringEncoding];
+    return [data mutableCopy];
+}
+
+- (NSURL *)userAgentSuccessUrl {
+    NSString *successFormatString = @"%@#access_token=%@&issued_at=%@&instance_url=%@&id=%@";
+    NSString *successUrl = [NSString stringWithFormat:successFormatString,
+                            self.credentials.redirectUri,
+                            @"some_access_token_val",
+                            @(1418945872705),
+                            [@"https://na1.salesforce.com" stringByURLEncoding],
+                            [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByURLEncoding]
+                            ];
+    return [NSURL URLWithString:successUrl];
+}
+
+- (NSURL *)userAgentErrorUrl {
+    NSString *errorFormatString = @"%@#error=%@&error_description=%@";
+    NSString *errorUrl = [NSString stringWithFormat:errorFormatString,
+                          self.credentials.redirectUri,
+                          @"user_agent_flow_error_from_unit_test",
+                          [@"User agent flow error from unit test" stringByURLEncoding]
+                          ];
+    return [NSURL URLWithString:errorUrl];
+}
+@end
 
 @interface TestUserSelectionNavViewController : UINavigationController <SFSDKUserSelectionView>
+
 @property (nonatomic,weak) id<SFSDKUserSelectionViewDelegate> userSelectionDelegate;
 @property (nonatomic,strong) NSDictionary *spAppOptions;
 @end
 
 @implementation TestUserSelectionNavViewController
+
 @dynamic userSelectionDelegate;
 @dynamic spAppOptions;
+
 - (id <SFSDKUserSelectionViewDelegate>)userSelectionDelegate {
     return nil;
 }
 
 - (void)setUserSelectionDelegate:(id <SFSDKUserSelectionViewDelegate>)userSelectionDelegate {
-
 }
 
 - (NSDictionary *)spAppOptions {
@@ -69,24 +163,21 @@
 }
 
 - (void)setSpAppOptions:(NSDictionary *)spAppOptions {
-
 }
 @end
 
-
 @interface TestIDPLoginNavViewController : UINavigationController <SFSDKLoginFlowSelectionView>
+
 @property (weak,nonatomic) id <SFSDKLoginFlowSelectionViewDelegate> selectionFlowDelegate;
 @end
 
 @implementation TestIDPLoginNavViewController
+
 @dynamic selectionFlowDelegate;
 @synthesize appOptions;
-
 @end
 
-
 @interface SFSDKAuthClientTests : XCTestCase
-
 @end
 
 @interface SFSDKTestOAuthClientProvider : NSObject<SFSDKOAuthClientProvider>
@@ -97,26 +188,30 @@
 + (SFSDKOAuthClient *)idpAuthInstance:(SFSDKOAuthClientConfig *)config {
     SFSDKTestOAuthClient *client = [[SFSDKTestOAuthClient alloc] initWithConfig:config];
     client.isIDPClient = YES;
+    client.coordinator = [[SFOAuthCoordinatorTest alloc] init];
      return client;
 }
 
 + (SFSDKOAuthClient *)nativeBrowserAuthInstance:(SFSDKOAuthClientConfig *)config {
     SFSDKTestOAuthClient *client = [[SFSDKTestOAuthClient alloc] initWithConfig:config];
     client.isAdvancedAuthClient = YES;
+    client.coordinator = [[SFOAuthCoordinatorTest alloc] init];
     return client;
 }
 
 + (SFSDKOAuthClient *)webviewAuthInstance:(SFSDKOAuthClientConfig *)config {
     SFSDKTestOAuthClient *client = [[SFSDKTestOAuthClient alloc] initWithConfig:config];
     client.isOAuthClient = YES;
+    client.coordinator = [[SFOAuthCoordinatorTest alloc] init];
     return client;
 }
 @end
 
-
 @implementation SFSDKTestOAuthClient
+
 @dynamic coordinator;
 @dynamic idCoordinator;
+
 - (instancetype)initWithConfig:(SFSDKOAuthClientConfig *)config {
     self = [super initWithConfig:config];
     return self;
@@ -126,11 +221,9 @@
 {
     [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
 }
-
 @end
 
-
-@interface SFSDKAuthClientTests()<SFSDKOAuthClientDelegate,SFSDKOAuthClientSafariViewDelegate,SFOAuthCoordinatorFlow>{
+@interface SFSDKAuthClientTests()<SFSDKOAuthClientDelegate,SFSDKOAuthClientSafariViewDelegate>{
     Class<SFSDKOAuthClientProvider> _originalProvider;
     SFSDKTestOAuthClient *_currentClient;
     XCTestExpectation *_willBeginExpectation;
@@ -142,12 +235,10 @@
 }
 @end
 
-
 @implementation SFSDKAuthClientTests
 
 + (void)setUp
 {
-    
     [SFSDKLogoutBlocker block];
     [super setUp];
 }
@@ -156,11 +247,9 @@
     [super setUp];
     _originalProvider = SFSDKOAuthClient.clientProvider;
     [SFSDKOAuthClient setClientProvider:SFSDKTestOAuthClientProvider.class];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
     [SFSDKOAuthClient setClientProvider:_originalProvider];
     [SFUserAccountManager sharedInstance].idpAppURIScheme = nil;
     [SFUserAccountManager sharedInstance].isIdentityProvider = NO;
@@ -168,72 +257,52 @@
 }
 
 - (void)testFactoryMethodIDP {
-    
    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-
-    
-   SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
-       config.idpAppURIScheme = @"idpApp";
-   }];
-    
-   XCTAssertNotNil(client);
-   XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
-   XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
-   
-   SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
-   XCTAssertTrue(testClient.isIDPClient,@"Client should be an instance of idp auth");
-    
-}
-
-- (void)testFactoryMethodAdv {
-    
-    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
-    credentials.accessToken = nil;
-    credentials.refreshToken = nil;
-
-    
-    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
-        config.useBrowserAuth = YES;
+    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
+        config.idpAppURIScheme = @"idpApp";
     }];
-    
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
-    
+    SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
+    XCTAssertTrue(testClient.isIDPClient,@"Client should be an instance of idp auth");
+}
+
+- (void)testFactoryMethodAdv {
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
+    credentials.accessToken = nil;
+    credentials.refreshToken = nil;
+    SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig *config) {
+        config.useBrowserAuth = YES;
+    }];
+    XCTAssertNotNil(client);
+    XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
+    XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     XCTAssertTrue(testClient.isAdvancedAuthClient,@"Client should be an instance of idp auth");
-    
 }
 
 - (void)testFactoryMethod {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-
-    
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
     }];
-    
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
-    
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     XCTAssertTrue(testClient.isOAuthClient,@"Client should be a regular auth client");
-    
 }
 
 - (void)testOAuthCordinatorCreated {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-
-    
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
     }];
-    
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
@@ -241,7 +310,6 @@
     XCTAssertNotNil(testClient.coordinator,@"coordinator should not be null");
     XCTAssertNotNil(testClient.idCoordinator,@"idCoordinator should not be null");
     XCTAssertNotNil(testClient.config,@"Config should not be null");
-
     XCTAssertNotNil(testClient.context,@"Context should not be null");
     XCTAssertNotNil(testClient.context.credentials,@"Credentials should not be null");
 }
@@ -251,7 +319,6 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-
     SFSDKAuthPreferences *prefs = [[SFSDKAuthPreferences alloc] init];
     [SalesforceSDKManager sharedManager].idpAppURIScheme = @"idpApp";
     [SalesforceSDKManager sharedManager].isIdentityProvider = NO;
@@ -270,13 +337,11 @@
     SFSDKAuthPreferences *prefs = [[SFSDKAuthPreferences alloc] init];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-
     [SalesforceSDKManager sharedManager].isIdentityProvider = YES;
     [SalesforceSDKManager sharedManager].idpAppURIScheme = @"idpApp";
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.isIdentityProvider = prefs.isIdentityProvider;
     }];
-
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
@@ -287,61 +352,47 @@
 }
 
 - (void)testSettingOfUserSelectionBlock {
-    
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     SFSDKAuthPreferences *prefs = [[SFSDKAuthPreferences alloc] init];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-
     [SalesforceSDKManager sharedManager].isIdentityProvider = YES;
     [SalesforceSDKManager sharedManager].idpAppURIScheme = @"idpApp";
-    
     [SalesforceSDKManager sharedManager].idpUserSelectionBlock = ^UIViewController<SFSDKUserSelectionView> * {
          TestUserSelectionNavViewController *userSelectionNavViewController = [[TestUserSelectionNavViewController alloc] init];
          return userSelectionNavViewController;
     };
-    
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.isIdentityProvider = prefs.isIdentityProvider;
         config.idpUserSelectionBlock = [SFUserAccountManager sharedInstance].idpUserSelectionAction;
     }];
-    
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     XCTAssertTrue(testClient.isIDPClient,@"Client should be a an IDP client when enabled through SDKManager");
-
     XCTAssertNotNil(testClient.config.idpUserSelectionBlock,@"User Selectio nblock should not be nil");
-    
     UIViewController *ctrl = testClient.config.idpUserSelectionBlock();
-    
     XCTAssertTrue([ctrl isKindOfClass:[TestUserSelectionNavViewController class]],@"User Selection block shouldhave been customized");
-
     prefs.isIdentityProvider = NO;
     XCTAssertFalse(prefs.isIdentityProvider,@"Preferences for isIdentityProvider should be set to false");
 }
 
 - (void)testSettingOfLoginFlowSelectionBlock {
-    
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     SFSDKAuthPreferences *prefs = [[SFSDKAuthPreferences alloc] init];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-
     [SalesforceSDKManager sharedManager].isIdentityProvider = YES;
     [SalesforceSDKManager sharedManager].idpAppURIScheme = @"idpApp";
-
     [SalesforceSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * {
         TestIDPLoginNavViewController *idpLoginViewController = [[TestIDPLoginNavViewController alloc] init];
         return idpLoginViewController;
     };
-
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.isIdentityProvider = prefs.isIdentityProvider;
         config.idpLoginFlowSelectionBlock = [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction;
     }];
-    
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
@@ -352,89 +403,79 @@
 }
 
 - (void)testOAuthClientDidBeginCallback {
-    
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.delegate = self;
     }];
-    
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
-    
+    SFOAuthCoordinatorTest *testCoordinator = [[SFOAuthCoordinatorTest alloc] initWithCredentials:credentials];
+    client.coordinator = testCoordinator;
+    client.coordinator.delegate = (id<SFOAuthCoordinatorDelegate>)client;
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
-   
-    [testClient.coordinator setOauthCoordinatorFlow:self];
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     [testClient refreshCredentials];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
-
 }
 
 - (void)testOAuthClientDidFinishCallback {
-
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
-
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.delegate = self;
     }];
-
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
+    SFOAuthCoordinatorTest *testCoordinator = [[SFOAuthCoordinatorTest alloc] initWithCredentials:credentials];
+    client.coordinator = testCoordinator;
+    client.coordinator.delegate = (id<SFOAuthCoordinatorDelegate>)client;
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _didFinishExpectation = [self expectationWithDescription:@"willFinish"];
-
     [client refreshCredentials];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
 }
 
 - (void)testOAuthClientErrorCallback {
-
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
+    credentials.redirectUri = @"sample://callback";
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.delegate = self;
     }];
-
+    SFOAuthCoordinatorTest *testCoordinator = [[SFOAuthCoordinatorTest alloc] initWithCredentials:credentials];
+    testCoordinator.isTestingForErrorCallback = YES;
+    client.coordinator = testCoordinator;
+    client.coordinator.delegate = (id<SFOAuthCoordinatorDelegate>)client;
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
     _currentClient.isTestingForErrorCallback = YES;
-    [client.coordinator setOauthCoordinatorFlow:self];
-    _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
+   _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _errorExpectation = [self expectationWithDescription:@"error"];
-
     [client refreshCredentials];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
 }
 
 - (void)testOAuthClientRefreshFlowCallback {
-    
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = @"MY_ACCESS_TOKEN";
     credentials.refreshToken = @"MY_REFRESH_TOKEN";
-    
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.delegate = self;
     }];
-    
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _refreshFlowExpectation = [self expectationWithDescription:@"willTrigerRefreshFlow"];
-    
     [client refreshCredentials];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
 }
@@ -443,16 +484,13 @@
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = @"MY_ACCESS_TOKEN";
     credentials.refreshToken = @"MY_REFRESH_TOKEN";
-   
     SFSDKOAuthClient *client = [SFSDKOAuthClient clientWithCredentials:credentials  configBlock:^(SFSDKOAuthClientConfig * config) {
         config.delegate = self;
     }];
-    
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
     _willRevokeExpectation = [self expectationWithDescription:@"willTrigerRevokeFlow"];
     _didRevokeExpectation = [self expectationWithDescription:@"willTrigerRevokeFlow"];
     [client revokeCredentials];
@@ -460,7 +498,6 @@
 }
 
 - (void)testOAuthClientNativeBrowserCallback {
-   
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testId" clientId:@"testId" encrypted:NO];
     credentials.accessToken = nil;
     credentials.refreshToken = nil;
@@ -470,16 +507,15 @@
         config.safariViewDelegate = self;
         config.useBrowserAuth = [SFUserAccountManager sharedInstance].useBrowserAuth;
     }];
-   
     XCTAssertNotNil(client);
     XCTAssertTrue([client isKindOfClass:[SFSDKTestOAuthClient class]]);
+    SFOAuthCoordinatorTest *testCoordinator = [[SFOAuthCoordinatorTest alloc] initWithCredentials:credentials];
+    client.coordinator = testCoordinator;
+    client.coordinator.delegate = (id<SFOAuthCoordinatorDelegate>)client;
     SFSDKTestOAuthClient *testClient = (SFSDKTestOAuthClient *)client;
     _currentClient = testClient;
-    [client.coordinator setOauthCoordinatorFlow:self];
-    
     _willBeginExpectation = [self expectationWithDescription:@"willStartAuth"];
     _didFinishExpectation = [self expectationWithDescription:@"finishedAuth"];
-    
     [client refreshCredentials];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
 }
@@ -507,109 +543,15 @@
    [_refreshFlowExpectation fulfill];
 }
 
-
 - (void)authClientWillRevokeCredentials:(SFSDKOAuthClient *)client {
     [_willRevokeExpectation fulfill];
-
 }
 
 - (void)authClientDidRevokeCredentials:(SFSDKOAuthClient *)client {
     [_didRevokeExpectation fulfill];
-
 }
 
 - (void)authClient:(SFSDKOAuthClient * _Nonnull)client displayMessage:(nonnull SFSDKAlertMessage *)message {
 }
-
-#pragma mark SFOAuthCoordinatorFlow
-- (void)beginUserAgentFlow {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    if (!self->_currentClient.isTestingForErrorCallback) {
-        [_currentClient.coordinator handleUserAgentResponse:[self userAgentSuccessUrl]];
-    }else {
-         [_currentClient.coordinator handleUserAgentResponse:[self userAgentErrorUrl]];
-    }
-        
-}
-
-- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (!self->_currentClient.isTestingForErrorCallback) {
-                [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
-            }else {
-                [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenErrorData]];
-            }
-    });
-}
-
-- (void)beginJwtTokenExchangeFlow {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-}
-
-- (void)beginNativeBrowserFlow {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (!self->_currentClient.isTestingForErrorCallback) {
-            [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
-        }else {
-            [self->_currentClient.coordinator handleTokenEndpointResponse:[self refreshTokenErrorData]];
-        }
-    });
-}
-
-- (void)handleTokenEndpointResponse:(NSMutableData *) data{
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-  
-}
-
-# pragma private methods
-
-- (NSURL *)userAgentSuccessUrl{
-    NSString *successFormatString = @"%@#access_token=%@&issued_at=%@&instance_url=%@&id=%@";
-    NSString *successUrl = [NSString stringWithFormat:successFormatString,
-                            _currentClient.coordinator.credentials.redirectUri,
-                            @"some_access_token_val",
-                            @(1418945872705),
-                            [@"https://na1.salesforce.com" stringByURLEncoding],
-                            [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByURLEncoding]
-                            ];
-    return [NSURL URLWithString:successUrl];
-}
-
-- (NSURL *)userAgentErrorUrl{
-    NSString *errorFormatString = @"%@#error=%@&error_description=%@";
-    NSString *errorUrl = [NSString stringWithFormat:errorFormatString,
-                          _currentClient.coordinator.credentials.redirectUri,
-                          @"user_agent_flow_error_from_unit_test",
-                          [@"User agent flow error from unit test" stringByURLEncoding]
-                          ];
-    return [NSURL URLWithString:errorUrl];
-}
-
-- (NSMutableData *)refreshTokenSuccessData  {
-    NSString *successFormatString = @"{\"id\":\"%@\",\"issued_at\":\"%@\",\"instance_url\":\"%@\",\"access_token\":\"%@\"}";
-    NSString *successDataString = [NSString stringWithFormat:successFormatString,
-                                   _currentClient.coordinator.credentials.redirectUri,
-                                   [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByURLEncoding],
-                                   @(1418945872705),
-                                   [@"https://na1.salesforce.com" stringByURLEncoding],
-                                   @"some_access_token"];
-    NSData *data = [successDataString dataUsingEncoding:NSUTF8StringEncoding];
-    return [data mutableCopy];
-}
-
-- (NSMutableData *)refreshTokenErrorData {
-    NSString *errorFormatString = @"{\"error\":\"%@\",\"error_description\":\"%@\"}";
-    NSString *errorDataString = [NSString stringWithFormat:errorFormatString,
-                                 _currentClient.coordinator.credentials.redirectUri,
-                                 @"refresh_token_flow_error_from_unit_test",
-                                 [@"Refresh token flow error from unit test" stringByURLEncoding]
-                                 ];
-    NSData *data = [errorDataString dataUsingEncoding:NSUTF8StringEncoding];
-    return [data mutableCopy];
-}
-
 
 @end

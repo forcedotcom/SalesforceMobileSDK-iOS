@@ -194,32 +194,33 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         
         // Sets HTTP method on the request.
         [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
+    }
 
-        // Sets OAuth Bearer token header on the request (if not already present).
-        // Allows Authenticated clients to make api calls that dont require access token.
-        if (self.requiresAuthentication && user && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
-            NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
-            [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
-        }
+    // Sets OAuth Bearer token header on the request (if not already present).
+    // Allows Authenticated clients to make api calls that dont require access token.
+    if (self.requiresAuthentication && user && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
+        NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
+        [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
+    }
 
-        // Adds custom headers to the request if any are set.
-        if (self.customHeaders) {
-            for (NSString *key in self.customHeaders.allKeys) {
-                if (key != nil) {
-                    NSString *value = self.customHeaders[key];
-                    [self.request setValue:value forHTTPHeaderField:key];
-                }
+    // Adds custom headers to the request if any are set.
+    if (self.customHeaders) {
+        for (NSString *key in self.customHeaders.allKeys) {
+            if (key != nil) {
+                NSString *value = self.customHeaders[key];
+                [self.request setValue:value forHTTPHeaderField:key];
             }
         }
+    }
 
-        // Sets HTTP body if body exists.
-        if (self.requestBodyStreamBlock != nil) {
-            if (self.requestContentType != nil) {
-                [self.request setValue:self.requestContentType forHTTPHeaderField:@"Content-Type"];
-                self.request.HTTPBodyStream = self.requestBodyStreamBlock();
-            }
+    // Sets HTTP body if body exists.
+    if (self.requestBodyStreamBlock != nil) {
+        if (self.requestContentType != nil) {
+            [self.request setValue:self.requestContentType forHTTPHeaderField:@"Content-Type"];
+            self.request.HTTPBodyStream = self.requestBodyStreamBlock();
         }
-   }
+    }
+   
    return self.request;
 }
 
