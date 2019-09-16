@@ -34,6 +34,9 @@ Introduction
 ### What's New in 7.3
 See [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/releases/tag/v7.3.0).
 
+### Native Applications
+The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides wrappers for the Salesforce REST API that you can use from both Swift and Objective-C.
+
 Documentation
 ==
 
