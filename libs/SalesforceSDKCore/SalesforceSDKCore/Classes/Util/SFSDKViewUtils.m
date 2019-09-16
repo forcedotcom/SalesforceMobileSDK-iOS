@@ -37,7 +37,9 @@
     }
     
     if (config.navBarColor) {
-        navigationBar.backgroundColor = config.navBarColor;
+        UIImage *backgroundImage = [self headerBackgroundImage:config.navBarColor];
+        [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+//        navigationBar.backgroundColor = config.navBarColor;
     }
     
     if (config.navBarTintColor) {
@@ -61,6 +63,11 @@
     if ([textAttributes count] > 0) {
         [navigationBar setTitleTextAttributes:textAttributes];
     }
+}
+
++ ( UIImage * _Nonnull )headerBackgroundImage:(UIColor *)color {
+    UIImage *backgroundImage = [self  imageFromColor:color];
+    return backgroundImage;
 }
 
 + (UIImage *)imageFromColor:(UIColor *)color {
