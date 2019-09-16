@@ -62,9 +62,33 @@
 	
 	<optgroup label="Class Methods">
 		
+		<option value="//api/name/removeAllSharedInstances">+ removeAllSharedInstances</option>
+		
+		<option value="//api/name/removeSharedBackgroundInstance">+ removeSharedBackgroundInstance</option>
+		
+		<option value="//api/name/removeSharedEphemeralInstance">+ removeSharedEphemeralInstance</option>
+		
+		<option value="//api/name/removeSharedInstanceForIdentifier:">+ removeSharedInstanceForIdentifier:</option>
+		
 		<option value="//api/name/setSessionConfiguration:">+ setSessionConfiguration:</option>
 		
+		<option value="//api/name/setSessionConfiguration:identifier:">+ setSessionConfiguration:identifier:</option>
+		
 		<option value="//api/name/setSessionManager:">+ setSessionManager:</option>
+		
+		<option value="//api/name/sharedBackgroundInstance">+ sharedBackgroundInstance</option>
+		
+		<option value="//api/name/sharedBackgroundInstanceWithIdentifier:">+ sharedBackgroundInstanceWithIdentifier:</option>
+		
+		<option value="//api/name/sharedEphemeralInstance">+ sharedEphemeralInstance</option>
+		
+		<option value="//api/name/sharedEphemeralInstanceWithIdentifier:">+ sharedEphemeralInstanceWithIdentifier:</option>
+		
+		<option value="//api/name/sharedInstanceIdentifiers">+ sharedInstanceIdentifiers</option>
+		
+		<option value="//api/name/sharedInstanceWithIdentifier:sessionConfiguration:">+ sharedInstanceWithIdentifier:sessionConfiguration:</option>
+		
+		<option value="//api/name/uniqueInstanceIdentifier">+ uniqueInstanceIdentifier</option>
 		
 	</optgroup>
 	
@@ -133,6 +157,253 @@
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</code></div>
 
 		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sharedEphemeralInstance" title="sharedEphemeralInstance"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedEphemeralInstance">+&nbsp;sharedEphemeralInstance</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an instance of this class with the default ephemeral session configuration.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull instancetype)sharedEphemeralInstance</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Instance of this class.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sharedBackgroundInstance" title="sharedBackgroundInstance"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedBackgroundInstance">+&nbsp;sharedBackgroundInstance</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an instance of this class with the default background session configuration.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull instancetype)sharedBackgroundInstance</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Instance of this class.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sharedEphemeralInstanceWithIdentifier:" title="sharedEphemeralInstanceWithIdentifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedEphemeralInstanceWithIdentifier:">+&nbsp;sharedEphemeralInstanceWithIdentifier:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns instance of this class for the given identifier with the default ephemeral session configuration.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull instancetype)sharedEphemeralInstanceWithIdentifier:(nonnull NSString *)<em>identifier</em></code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Instance of this class.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sharedBackgroundInstanceWithIdentifier:" title="sharedBackgroundInstanceWithIdentifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedBackgroundInstanceWithIdentifier:">+&nbsp;sharedBackgroundInstanceWithIdentifier:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns instance of this class for the given identifier with the default background session configuration.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull instancetype)sharedBackgroundInstanceWithIdentifier:(nonnull NSString *)<em>identifier</em></code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Instance of this class.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sharedInstanceWithIdentifier:sessionConfiguration:" title="sharedInstanceWithIdentifier:sessionConfiguration:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedInstanceWithIdentifier:sessionConfiguration:">+&nbsp;sharedInstanceWithIdentifier:sessionConfiguration:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an instance of this class with the given session configuration.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull instancetype)sharedInstanceWithIdentifier:(nonnull NSString *)<em>identifier</em> sessionConfiguration:(nonnull NSURLSessionConfiguration *)<em>sessionConfiguration</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>identifier</code></th>
+						<td><p>Identifier for the instance</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sessionConfiguration</code></th>
+						<td><p>Configuration to use for the session.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Instance of this class.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -302,7 +573,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Sets a session configuration to be used for network requests in the Mobile SDK.</p>
+				<p>Sets a session configuration to be used for network requests in Mobile SDK.</p>
 			</div>
 			
 		    
@@ -318,6 +589,64 @@
 					<tr>
 						<th scope="row" class="argument-name"><code>sessionConfig</code></th>
 						<td><p>Session configuration to be used.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setSessionConfiguration:identifier:" title="setSessionConfiguration:identifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setSessionConfiguration:identifier:">+&nbsp;setSessionConfiguration:identifier:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets a session configuration to be used for network requests in Mobile SDK.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)<em>sessionConfig</em> identifier:(nonnull NSString *)<em>identifier</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sessionConfig</code></th>
+						<td><p>Session configuration to be used.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>identifier</code></th>
+						<td><p>Identifier for the instance to use this config.</p></td>
 					</tr>
 				
 				</table>
@@ -370,11 +699,274 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>manager</code></th>
-						<td><p>object implementing the <a href="../Protocols/SFNetworkSessionManaging.html">SFNetworkSessionManaging</a> protocol.</p></td>
+						<td><p>Object that implements the <a href="../Protocols/SFNetworkSessionManaging.html">SFNetworkSessionManaging</a> protocol.</p></td>
 					</tr>
 				
 				</table>
 			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeSharedEphemeralInstance" title="removeSharedEphemeralInstance"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeSharedEphemeralInstance">+&nbsp;removeSharedEphemeralInstance</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Removes shared instance for the default ephemeral identifier.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeSharedEphemeralInstance</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeSharedBackgroundInstance" title="removeSharedBackgroundInstance"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeSharedBackgroundInstance">+&nbsp;removeSharedBackgroundInstance</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Removes shared instance for the default background identifier.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeSharedBackgroundInstance</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeSharedInstanceForIdentifier:" title="removeSharedInstanceForIdentifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceForIdentifier:">+&nbsp;removeSharedInstanceForIdentifier:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Removes shared instance for given identifier.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceForIdentifier:(nullable NSString *)<em>identifier</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>identifier</code></th>
+						<td><p>Identifier for the session.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeAllSharedInstances" title="removeAllSharedInstances"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeAllSharedInstances">+&nbsp;removeAllSharedInstances</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Removes all shared instances.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeAllSharedInstances</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sharedInstanceIdentifiers" title="sharedInstanceIdentifiers"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedInstanceIdentifiers">+&nbsp;sharedInstanceIdentifiers</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns list of identifiers for all shared instances.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSArray *)sharedInstanceIdentifiers</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Array of identifiers.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/uniqueInstanceIdentifier" title="uniqueInstanceIdentifier"></a>
+	<h3 class="method-title"><code><a href="#//api/name/uniqueInstanceIdentifier">+&nbsp;uniqueInstanceIdentifier</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Generates a unique instance identifier.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull NSString *)uniqueInstanceIdentifier</code></div>
+
+		    
 			
 
 			
@@ -411,7 +1003,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-07-22</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-09-16</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

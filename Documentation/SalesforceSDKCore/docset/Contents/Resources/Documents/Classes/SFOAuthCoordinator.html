@@ -64,6 +64,8 @@
 		
 		<option value="//api/name/approvalCode">approvalCode</option>
 		
+		<option value="//api/name/authClient">authClient</option>
+		
 		<option value="//api/name/authInfo">authInfo</option>
 		
 		<option value="//api/name/authSession">authSession</option>
@@ -79,8 +81,6 @@
 		<option value="//api/name/delegate">delegate</option>
 		
 		<option value="//api/name/initialRequestLoaded">initialRequestLoaded</option>
-		
-		<option value="//api/name/oauthCoordinatorFlow">oauthCoordinatorFlow</option>
 		
 		<option value="//api/name/origWebUserAgent">origWebUserAgent</option>
 		
@@ -103,18 +103,6 @@
 	</optgroup>
 	
 
-	
-	<optgroup label="Class Methods">
-		
-		<option value="//api/name/errorWithType:description:">+ errorWithType:description:</option>
-		
-		<option value="//api/name/errorWithType:description:underlyingError:">+ errorWithType:description:underlyingError:</option>
-		
-		<option value="//api/name/parseQueryString:">+ parseQueryString:</option>
-		
-		<option value="//api/name/timestampStringToDate:">+ timestampStringToDate:</option>
-		
-	</optgroup>
 	
 
 	
@@ -765,6 +753,47 @@ The brand login path used for the authorize endpoint e.g. /brand in
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/authClient" title="authClient"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authClient">&nbsp;&nbsp;authClient</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Setup the coordinator to use Safari<a href="../Classes/ViewController.html">ViewController</a> for authentication.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) id&lt;SFSDKOAuthProtocol&gt; authClient</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1198,22 +1227,6 @@ should handle, NO otherwise.</p>
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/oauthCoordinatorFlow" title="oauthCoordinatorFlow"></a>
-	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinatorFlow">&nbsp;&nbsp;oauthCoordinatorFlow</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/authenticating" title="authenticating"></a>
 	<h3 class="method-title"><code><a href="#//api/name/authenticating">&nbsp;&nbsp;authenticating</a></code>
 </h3>
@@ -1554,70 +1567,6 @@ should handle, NO otherwise.</p>
 			
 		</div>
 	</div>
-</div><div class="section-method">
-	<a name="//api/name/parseQueryString:" title="parseQueryString:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/parseQueryString:">+&nbsp;parseQueryString:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (NSDictionary *)parseQueryString:(NSString *)<em>query</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/errorWithType:description:" title="errorWithType:description:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/errorWithType:description:">+&nbsp;errorWithType:description:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (NSError *)errorWithType:(NSString *)<em>type</em> description:(NSString *)<em>description</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/errorWithType:description:underlyingError:" title="errorWithType:description:underlyingError:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/errorWithType:description:underlyingError:">+&nbsp;errorWithType:description:underlyingError:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (NSError *)errorWithType:(NSString *)<em>type</em> description:(NSString *)<em>description</em> underlyingError:(NSError *)<em>underlyingError</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/timestampStringToDate:" title="timestampStringToDate:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/timestampStringToDate:">+&nbsp;timestampStringToDate:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (NSDate *)timestampStringToDate:(NSString *)<em>timestamp</em></code></div>
-
-		    
-		</div>
-	</div>
 </div>
 						</div>
 						
@@ -1633,7 +1582,7 @@ should handle, NO otherwise.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-07-22</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-09-16</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

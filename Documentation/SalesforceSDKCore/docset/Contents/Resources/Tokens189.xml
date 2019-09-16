@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionTableViewControllerDelegate.html">
+	<File path="Protocols/SFSDKOAuthSessionManaging.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionTableViewControllerDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthSessionManaging</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
             
 			
 			<NodeRef refid="189"/>
@@ -13,38 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/createNewuser:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthSessionManaging/createURLSessionWithIdentifier:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
 			
-			<Declaration>- (void)createNewuser:(NSDictionary *)options</Declaration>
-			
-			
-			<Anchor>//api/name/createNewuser:</Anchor>
-            <NodeRef refid="189"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/selectedUser:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)selectedUser:(SFUserAccount *)user options:(NSDictionary *)options</Declaration>
+			<Declaration>- (NSURLSession *)createURLSessionWithIdentifier:(nonnull NSString *)identifier</Declaration>
 			
 			
-			<Anchor>//api/name/selectedUser:options:</Anchor>
-            <NodeRef refid="189"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/cancel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)cancel:(NSDictionary *)options</Declaration>
-			
-			
-			<Anchor>//api/name/cancel:</Anchor>
+			<Anchor>//api/name/createURLSessionWithIdentifier:</Anchor>
             <NodeRef refid="189"/>
 		</Token>
 		

@@ -4,8 +4,8 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFEncryptStream</TokenIdentifier>
-			<Abstract type="html">SFEncryptStream is an output stream that encrypts data before it is written out.
-SFCryptChunks is used to perform the encryption.</Abstract>
+			<Abstract type="html">SFEncryptStream is an output stream that encrypts data before it&apos;s written out.
+This class uses SFCryptChunks to perform the encryption.</Abstract>
 			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
             
 			
@@ -15,14 +15,15 @@ SFCryptChunks is used to perform the encryption.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptStream/setupWithEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">Setup for encryption. You must call this method before using the stream.</Abstract>
+			<Abstract type="html">Setup for encryption. Always call either this method or setupWithKey:andInitializationVector:
+before using this stream.</Abstract>
 			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
 			
 			<Declaration>- (void)setupWithEncryptionKey:(SFEncryptionKey *)encKey</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>encKey</Name>
-					<Abstract type="html">the encryption key</Abstract>
+					<Abstract type="html">Encryption key</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -32,17 +33,19 @@ SFCryptChunks is used to perform the encryption.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
-			<Abstract type="html">Setup for encryption. You must call this method before using the stream.</Abstract>
+			<Abstract type="html">Setup for encryption. Always call either this method or setupWithEncryptionKey:
+before using this stream. Internally, this method initializes the encryption key using key and iv and then calls
+setupWithEncryptionKey:.</Abstract>
 			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
 			
 			<Declaration>- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>key</Name>
-					<Abstract type="html">the cipher key.</Abstract>
+					<Abstract type="html">Cipher key.</Abstract>
 				</Parameter><Parameter>
 					<Name>iv</Name>
-					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
+					<Abstract type="html">Initialization vector. Its size must match SFCryptChunksCipherBlockSize.</Abstract>
 				</Parameter>
 			</Parameters>
 			

@@ -1,4 +1,4 @@
 Documentation set was installed to Xcode!
 
 Path: /Users/wmathurin/Library/Developer/Shared/Documentation/DocSets/com.salesforce.SmartStore.docset
-Time: 2019-07-22 21:39:13 +0000
+Time: 2019-09-16 22:57:01 +0000

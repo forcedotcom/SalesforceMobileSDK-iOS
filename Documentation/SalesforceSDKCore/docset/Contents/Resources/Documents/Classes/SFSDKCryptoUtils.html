@@ -136,7 +136,7 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Various utility methods in support of cryptographic operations.</p>
+						<p>Various utility methods that support cryptographic operations.</p>
 					</div>
 					
 					
@@ -163,8 +163,8 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates a random string of bytes (based on arc4random() generation) and returns
-them as an NSData object.</p>
+				<p>Creates a random string of bytes (based on <code>arc4random()</code> generation) and returns
+them as an <code>NSData</code> object.</p>
 			</div>
 			
 		    
@@ -179,7 +179,7 @@ them as an NSData object.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>lengthInBytes</code></th>
-						<td><p>The number of bytes to generate.</p></td>
+						<td><p>Number of bytes to generate.</p></td>
 					</tr>
 				
 				</table>
@@ -189,7 +189,7 @@ them as an NSData object.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The string of random bytes, as an NSData object.</p>
+				<p><code>NSData</code> object containing a string of random bytes.</p>
 			</div>
 			
 
@@ -222,7 +222,7 @@ them as an NSData object.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates a PBKDF2 derived key from an input key (string), using default values for the
+				<p>Creates a PBKDF2 derived key from an input key string. Uses default values for the
 random-generated salt data and its length, the number of derivation rounds, and the
 derived key length.</p>
 			</div>
@@ -239,7 +239,7 @@ derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>stringToHash</code></th>
-						<td><p>The plaintext string used to generate the key.</p></td>
+						<td><p>Plain-text string used to generate the key.</p></td>
 					</tr>
 				
 				</table>
@@ -249,7 +249,7 @@ derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>An <a href="../Classes/SFPBKDFData.html">SFPBKDFData</a> object representing the derived key.</p>
+				<p><a href="../Classes/SFPBKDFData.html"><code>SFPBKDFData</code></a> object representing the derived key.</p>
 			</div>
 			
 
@@ -282,8 +282,8 @@ derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates a PBKDF2 derived key from an input key (string), a salt, number of derivation
-rounds, and desired derived key length.</p>
+				<p>Creates a PBKDF2-derived key from an input key string, a salt, number of derivation
+rounds, and the given derived key length.</p>
 			</div>
 			
 		    
@@ -298,22 +298,22 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>stringToHash</code></th>
-						<td><p>The base string to use for the derived key.</p></td>
+						<td><p>Base string to use for the derived key.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>salt</code></th>
-						<td><p>The salt to append to the string.</p></td>
+						<td><p>Salt to append to the string.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>numDerivationRounds</code></th>
-						<td><p>The number of derivation rounds used to generate the key.</p></td>
+						<td><p>Number of derivation rounds used to generate the key.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>derivedKeyLength</code></th>
-						<td><p>The desired derived key length.</p></td>
+						<td><p>Requested derived key length.</p></td>
 					</tr>
 				
 				</table>
@@ -323,7 +323,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>An <a href="../Classes/SFPBKDFData.html">SFPBKDFData</a> object representing the derived key.</p>
+				<p><a href="../Classes/SFPBKDFData.html"><code>SFPBKDFData</code></a> object representing the derived key.</p>
 			</div>
 			
 
@@ -371,17 +371,17 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>The data to encrypt.</p></td>
+						<td><p>Data to encrypt.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
-						<td><p>The encryption key used to encrypt the data.</p></td>
+						<td><p>Key used to encrypt the data.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>iv</code></th>
-						<td><p>The initialization vector data used for the encryption.</p></td>
+						<td><p>Initialization vector data used for the encryption.</p></td>
 					</tr>
 				
 				</table>
@@ -391,7 +391,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The encrypted data, or <code>nil</code> if encryption was not successful.</p>
+				<p><code>NSData</code> object containing the encrypted data, or <code>nil</code> if encryption failed.</p>
 			</div>
 			
 
@@ -439,17 +439,17 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>The data to decrypt.</p></td>
+						<td><p>Data to decrypt.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
-						<td><p>The decryption key used to decrypt the data.</p></td>
+						<td><p>Key used to decrypt the data.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>iv</code></th>
-						<td><p>The initialization vector data used for the decryption.</p></td>
+						<td><p>Initialization vector data used for the decryption.</p></td>
 					</tr>
 				
 				</table>
@@ -459,7 +459,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The decrypted data, or <code>nil</code> if decryption was not successful.</p>
+				<p><code>NSData</code> object containing the decrypted data, or <code>nil</code> if decryption failed.</p>
 			</div>
 			
 
@@ -507,17 +507,17 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>The data to encrypt.</p></td>
+						<td><p>Data to encrypt.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
-						<td><p>The encryption key used to encrypt the data.</p></td>
+						<td><p>Key used to encrypt the data.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>iv</code></th>
-						<td><p>The initialization vector data used for the encryption.</p></td>
+						<td><p>Initialization vector data used for the encryption.</p></td>
 					</tr>
 				
 				</table>
@@ -527,7 +527,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The encrypted data, or <code>nil</code> if encryption was not successful.</p>
+				<p><code>NSData</code> object containing the encrypted data, or <code>nil</code> if encryption failed.</p>
 			</div>
 			
 
@@ -575,17 +575,17 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>The data to decrypt.</p></td>
+						<td><p>Data to decrypt.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
-						<td><p>The decryption key used to decrypt the data.</p></td>
+						<td><p>Key used to decrypt the data.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>iv</code></th>
-						<td><p>The initialization vector data used for the decryption.</p></td>
+						<td><p>Initialization vector data used for the decryption.</p></td>
 					</tr>
 				
 				</table>
@@ -595,7 +595,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The decrypted data, or <code>nil</code> if decryption was not successful.</p>
+				<p><code>NSData</code> object containing the decrypted data, or <code>nil</code> if decryption failed.</p>
 			</div>
 			
 
@@ -628,7 +628,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Create asymmetric keys (public/private key pairs) using RSA algorithm with given keyName and length</p>
+				<p>Create asymmetric keys (public/private key pairs) using RSA algorithm with given key name and length.</p>
 			</div>
 			
 		    
@@ -643,12 +643,12 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyName</code></th>
-						<td><p>The name string used to generate the key.</p></td>
+						<td><p>Name of key.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>length</code></th>
-						<td><p>The key length used for key</p></td>
+						<td><p>Length of key.</p></td>
 					</tr>
 				
 				</table>
@@ -686,7 +686,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Get RSA public key as NSString with given keyName and length</p>
+				<p>Retrieve an RSA public key as <code>NSString</code> with given key name and length.</p>
 			</div>
 			
 		    
@@ -701,12 +701,12 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyName</code></th>
-						<td><p>The name string used to generate the key.</p></td>
+						<td><p>Name of key.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>length</code></th>
-						<td><p>The key length used for key</p></td>
+						<td><p>Length of key.</p></td>
 					</tr>
 				
 				</table>
@@ -716,7 +716,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The key string, or <code>nil</code> if no matching key is found</p>
+				<p>Key string, or <code>nil</code> if no matching key is found.</p>
 			</div>
 			
 
@@ -749,7 +749,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Get RSA private key as NSData with given keyName and length</p>
+				<p>Retrieve an RSA private key as <code>NSData</code> with given key name and length.</p>
 			</div>
 			
 		    
@@ -764,12 +764,12 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyName</code></th>
-						<td><p>The name string used to generate the key.</p></td>
+						<td><p>Name of key.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>length</code></th>
-						<td><p>The key length used for key</p></td>
+						<td><p>Length of key.</p></td>
 					</tr>
 				
 				</table>
@@ -779,7 +779,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The key data, or <code>nil</code> if no matching key is found</p>
+				<p><code>NSData</code> object containing the key data, or <code>nil</code> if no matching key is found.</p>
 			</div>
 			
 
@@ -812,7 +812,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Get RSA public SecKeyRef with given keyName and length</p>
+				<p>Get RSA public <code>SecKeyRef</code> with given key name and length.</p>
 			</div>
 			
 		    
@@ -827,12 +827,12 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyName</code></th>
-						<td><p>The name string used to generate the key.</p></td>
+						<td><p>Name of key.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>length</code></th>
-						<td><p>The key length used for key</p></td>
+						<td><p>Length of key.</p></td>
 					</tr>
 				
 				</table>
@@ -842,7 +842,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The SecKeyRef, or <code>nil</code> if no matching key is found</p>
+				<p><code>SecKeyRef</code> object, or <code>nil</code> if no matching key is found.</p>
 			</div>
 			
 
@@ -875,7 +875,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Get RSA private SecKeyRef with given keyName and length</p>
+				<p>Get RSA private <code>SecKeyRef</code> with given key name and length.</p>
 			</div>
 			
 		    
@@ -890,12 +890,12 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyName</code></th>
-						<td><p>The name string used to generate the key.</p></td>
+						<td><p>Name of key.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>length</code></th>
-						<td><p>The key length used for key</p></td>
+						<td><p>Length of key.</p></td>
 					</tr>
 				
 				</table>
@@ -905,7 +905,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The SecKeyRef, or <code>nil</code> if no matching key is found</p>
+				<p><code>SecKeyRef</code> object, or <code>nil</code> if no matching key is found.</p>
 			</div>
 			
 
@@ -938,7 +938,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Encrypt data with givien SecKeyRef using RSA pkcs1 algorithm</p>
+				<p>Encrypt data with given <code>SecKeyRef</code> using the RSA <code>pkcs1</code> algorithm.</p>
 			</div>
 			
 		    
@@ -953,12 +953,12 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>The data to encrypt</p></td>
+						<td><p>Data to encrypt</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyRef</code></th>
-						<td><p>The keyref used in encryption</p></td>
+						<td><p>Keyref used in encryption</p></td>
 					</tr>
 				
 				</table>
@@ -968,7 +968,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The encrypted Data, or <code>nil</code> if encryption failed</p>
+				<p><code>NSData</code> object containing the encrypted Data, or <code>nil</code> if encryption failed.</p>
 			</div>
 			
 
@@ -1001,7 +1001,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Decrypt data with givien SecKeyRef using RSA pkcs1 algorithm</p>
+				<p>Decrypt data with given <code>SecKeyRef</code> using the RSA <code>pkcs1</code> algorithm.</p>
 			</div>
 			
 		    
@@ -1016,12 +1016,12 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>The data to decypt</p></td>
+						<td><p>Data to decrypt</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyRef</code></th>
-						<td><p>The keyref used in decryption</p></td>
+						<td><p>Keyref used in decryption</p></td>
 					</tr>
 				
 				</table>
@@ -1031,7 +1031,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The decypted Data, or <code>nil</code> if decryption failed</p>
+				<p><code>NSData</code> object containing the decrypted Data, or <code>nil</code> if decryption failed.</p>
 			</div>
 			
 
@@ -1064,7 +1064,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Check for availability of secure enclave</p>
+				<p>Check for availability of the secure enclave.</p>
 			</div>
 			
 		    
@@ -1077,7 +1077,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if secure enclave is available</p>
+				<p>YES if secure enclave is available.</p>
 			</div>
 			
 
@@ -1110,7 +1110,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Create asymmetric keys (public/private key pairs) using EC algorithm with given keyName</p>
+				<p>Create asymmetric keys (public/private key pairs) using the EC algorithm with given key name.</p>
 			</div>
 			
 		    
@@ -1125,7 +1125,7 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyName</code></th>
-						<td><p>The name string used to generate the key.</p></td>
+						<td><p>Name of key.</p></td>
 					</tr>
 				
 				</table>
@@ -1135,7 +1135,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if successful</p>
+				<p>YES if successful.</p>
 			</div>
 			
 
@@ -1168,7 +1168,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Delete EC key pair created with createECKeyPairWithName</p>
+				<p>Delete an EC key pair created with <code>createECKeyPairWithName:accessibleAttribute:useSecureEnclase:</code>.</p>
 			</div>
 			
 		    
@@ -1183,7 +1183,7 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyName</code></th>
-						<td><p>The name string of the key.</p></td>
+						<td><p>Name of key.</p></td>
 					</tr>
 				
 				</table>
@@ -1193,7 +1193,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if successful</p>
+				<p>YES if successful.</p>
 			</div>
 			
 
@@ -1226,7 +1226,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Get EC public SecKeyRef with given keyName</p>
+				<p>Get EC public <code>SecKeyRef</code> with the given key name.</p>
 			</div>
 			
 		    
@@ -1241,7 +1241,7 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyName</code></th>
-						<td><p>The name string used to generate the key.</p></td>
+						<td><p>Name of key.</p></td>
 					</tr>
 				
 				</table>
@@ -1251,7 +1251,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The SecKeyRef, or <code>nil</code> if no matching key is found</p>
+				<p><code>SecKeyRef</code> object, or <code>nil</code> if no matching key is found.</p>
 			</div>
 			
 
@@ -1284,7 +1284,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Get EC private SecKeyRef with given keyName and length</p>
+				<p>Get EC private <code>SecKeyRef</code> with the given key name.</p>
 			</div>
 			
 		    
@@ -1299,7 +1299,7 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyName</code></th>
-						<td><p>The name string used to generate the key.</p></td>
+						<td><p>Name of key.</p></td>
 					</tr>
 				
 				</table>
@@ -1309,7 +1309,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The SecKeyRef, or <code>nil</code> if no matching key is found</p>
+				<p><code>SecKeyRef</code> object, or <code>nil</code> if no matching key is found.</p>
 			</div>
 			
 
@@ -1342,7 +1342,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Encrypt data with givien SecKeyRef using EC algorithm</p>
+				<p>Encrypt data with the given <code>SecKeyRef</code> using the EC algorithm.</p>
 			</div>
 			
 		    
@@ -1357,12 +1357,12 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>The data to encrypt</p></td>
+						<td><p>Data to encrypt.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyRef</code></th>
-						<td><p>The keyref used in encryption</p></td>
+						<td><p>Keyref used in encryption.</p></td>
 					</tr>
 				
 				</table>
@@ -1372,7 +1372,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The encrypted Data, or <code>nil</code> if encryption failed</p>
+				<p><code>NSData</code> object containing the encrypted data, or <code>nil</code> if encryption failed.</p>
 			</div>
 			
 
@@ -1405,7 +1405,7 @@ rounds, and desired derived key length.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Decrypt data with givien SecKeyRef using EC algorithm</p>
+				<p>Decrypt data with the given <code>SecKeyRef</code> using the EC algorithm.</p>
 			</div>
 			
 		    
@@ -1420,12 +1420,12 @@ rounds, and desired derived key length.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>The data to decypt</p></td>
+						<td><p>Data to decrypt.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>keyRef</code></th>
-						<td><p>The keyref used in decryption</p></td>
+						<td><p>Keyref used in decryption.</p></td>
 					</tr>
 				
 				</table>
@@ -1435,7 +1435,7 @@ rounds, and desired derived key length.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The decypted Data, or <code>nil</code> if decryption failed</p>
+				<p><code>NSData</code> object containing the decrypted data, or <code>nil</code> if decryption failed.</p>
 			</div>
 			
 
@@ -1471,7 +1471,7 @@ rounds, and desired derived key length.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-07-22</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-09-16</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

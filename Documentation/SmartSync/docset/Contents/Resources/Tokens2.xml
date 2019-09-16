@@ -4,7 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFAdvancedSyncUpTask</TokenIdentifier>
-			<Abstract type="html">Task class responsible for running advanced sync up</Abstract>
+			<Abstract type="html">This task class is responsible for running advanced sync up tasks.</Abstract>
 			<DeclaredIn>SFAdvancedSyncUpTask.h</DeclaredIn>
             
 			

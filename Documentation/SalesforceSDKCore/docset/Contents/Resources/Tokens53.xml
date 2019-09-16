@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAILTNPublisher.html">
+	<File path="Classes/SFSDKAdvancedAuthURLHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAILTNPublisher</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAdvancedAuthURLHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAILTNPublisher.h</DeclaredIn>
+			<DeclaredIn>SFSDKAdvancedAuthURLHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="53"/>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIColor+SFSDKPasscodeView.html">
+	<File path="Categories/NSURL+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFSDKPasscodeView)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Salesforce Mobile SDK additions to the NSURL class</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="160"/>
@@ -13,38 +13,31 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/valueForParameterName:</TokenIdentifier>
+			<Abstract type="html">Get value for a parameter name from the URL</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (UIColor *)passcodeViewBackgroundColor</Declaration>
+			<Declaration>- (nullable NSString *)valueForParameterName:(NSString *)name</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">Name of the parameter</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/passcodeViewBackgroundColor</Anchor>
+			<Anchor>//api/name/valueForParameterName:</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/dictionaryFromQuery</TokenIdentifier>
+			<Abstract type="html">Get all query params as dictionary</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (UIColor *)passcodeViewTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewTextColor</Anchor>
-            <NodeRef refid="160"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewBorderColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFSDKPasscodeView.h</DeclaredIn>
-			
-			<Declaration>+ (UIColor *)passcodeViewBorderColor</Declaration>
+			<Declaration>- (nullable NSDictionary *)dictionaryFromQuery</Declaration>
 			
 			
-			<Anchor>//api/name/passcodeViewBorderColor</Anchor>
+			<Anchor>//api/name/dictionaryFromQuery</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		

@@ -4,7 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFCleanSyncGhostsTask</TokenIdentifier>
-			<Abstract type="html">Task class responsible for running clean resync ghosts</Abstract>
+			<Abstract type="html">This task class is responsible for running &quot;clean resync ghosts&quot; tasks.</Abstract>
 			<DeclaredIn>SFCleanSyncGhostsTask.h</DeclaredIn>
             
 			

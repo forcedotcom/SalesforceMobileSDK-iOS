@@ -508,6 +508,45 @@ https://community.force.com/services/oauth2/authorize/&lt;brand&gt;?response_typ
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setAuthClient:</TokenIdentifier>
+			<Abstract type="html">Setup the coordinator to use SafariViewController for authentication.
+   </Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) id&lt;SFSDKOAuthProtocol&gt; authClient</Declaration>
+			
+			
+			<Anchor>//api/name/authClient</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/authClient</TokenIdentifier>
+			<Abstract type="html">Setup the coordinator to use SafariViewController for authentication.
+   </Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) id&lt;SFSDKOAuthProtocol&gt; authClient</Declaration>
+			
+			
+			<Anchor>//api/name/authClient</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/authClient</TokenIdentifier>
+			<Abstract type="html">Setup the coordinator to use SafariViewController for authentication.
+   </Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) id&lt;SFSDKOAuthProtocol&gt; authClient</Declaration>
+			
+			
+			<Anchor>//api/name/authClient</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/initWithCredentials:</TokenIdentifier>
 			<Abstract type="html">Initializes a new OAuth coordinator with the supplied credentials. This is the designated initializer.</Abstract>
 			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
@@ -636,42 +675,6 @@ should handle, NO otherwise.</Abstract></ReturnValue>
 			
 			
 			<Anchor>//api/name/beginIDPFlow:</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setOauthCoordinatorFlow:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCoordinatorFlow</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/oauthCoordinatorFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCoordinatorFlow</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/oauthCoordinatorFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCoordinatorFlow</Anchor>
             <NodeRef refid="35"/>
 		</Token>
 		
@@ -1061,54 +1064,6 @@ should handle, NO otherwise.</Abstract></ReturnValue>
 			
 			<ReturnValue><Abstract type="html">A String representing the prepared authorize url</Abstract></ReturnValue>
 			<Anchor>//api/name/generateApprovalUrlString</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFOAuthCoordinator/parseQueryString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query</Declaration>
-			
-			
-			<Anchor>//api/name/parseQueryString:</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFOAuthCoordinator/errorWithType:description:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description</Declaration>
-			
-			
-			<Anchor>//api/name/errorWithType:description:</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFOAuthCoordinator/errorWithType:description:underlyingError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *)underlyingError</Declaration>
-			
-			
-			<Anchor>//api/name/errorWithType:description:underlyingError:</Anchor>
-            <NodeRef refid="35"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFOAuthCoordinator/timestampStringToDate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (NSDate *)timestampStringToDate:(NSString *)timestamp</Declaration>
-			
-			
-			<Anchor>//api/name/timestampStringToDate:</Anchor>
             <NodeRef refid="35"/>
 		</Token>
 		

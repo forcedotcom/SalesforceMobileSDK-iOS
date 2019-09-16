@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIScreen+SFAdditions.html">
+	<File path="Categories/UIColor+SFSDKIDP.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIScreen(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Salesforce Mobile SDK additions to the UIScreen class.</Abstract>
-			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFSDKIDP)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
             
 			
 			<NodeRef refid="163"/>
@@ -13,14 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIScreen/portraitScreenBounds</TokenIdentifier>
-			<Abstract type="html">Returns the rectangle that describes the screen boundaries in portrait orientation.</Abstract>
-			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/backgroundcolor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
 			
-			<Declaration>- (CGRect)portraitScreenBounds</Declaration>
+			<Declaration>+ (UIColor *)backgroundcolor</Declaration>
 			
-			<ReturnValue><Abstract type="html">Screen boundaries in portrait orientation.</Abstract></ReturnValue>
-			<Anchor>//api/name/portraitScreenBounds</Anchor>
+			
+			<Anchor>//api/name/backgroundcolor</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/backgroundRowSelectedColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)backgroundRowSelectedColor</Declaration>
+			
+			
+			<Anchor>//api/name/backgroundRowSelectedColor</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/borderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)borderColor</Declaration>
+			
+			
+			<Anchor>//api/name/borderColor</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/weakTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)weakTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/weakTextColor</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/defaultTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)defaultTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/defaultTextColor</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/altTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)altTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/altTextColor</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/alt2BackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)alt2BackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/alt2BackgroundColor</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/altBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)altBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/altBackgroundColor</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/tableCellBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFSDKIDP.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)tableCellBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/tableCellBackgroundColor</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		

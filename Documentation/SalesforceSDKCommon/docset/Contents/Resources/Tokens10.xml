@@ -97,6 +97,18 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/objectForKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html">Retrieves object for the key specified (Thread Safe)</Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>- (id)objectForKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
+			
+			<ReturnValue><Abstract type="html">object for specified key</Abstract></ReturnValue>
+			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/allKeysForObject:</TokenIdentifier>
 			<Abstract type="html">Retreives all keys for object specified (Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
@@ -137,6 +149,26 @@
 			</Parameters>
 			
 			<Anchor>//api/name/setObject:forKey:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/setObject:forKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html">Sets object for key specified (Thread Safe)</Abstract>
+			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)object forKeyedSubscript:(id&lt;NSCopying&gt;)aKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>object</Name>
+					<Abstract type="html">to add to collection</Abstract>
+				</Parameter><Parameter>
+					<Name>aKey</Name>
+					<Abstract type="html">for to map the object to</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

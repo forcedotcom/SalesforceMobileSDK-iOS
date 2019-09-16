@@ -102,7 +102,7 @@
 					<Abstract type="html">The encryption key associated with the store.</Abstract>
 				</Parameter><Parameter>
 					<Name>salt</Name>
-					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+					<Abstract type="html">String used when the database header is stored in plain text for Shared mode.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error with the process.</Abstract>
@@ -128,7 +128,7 @@
 					<Abstract type="html">The encryption key associated with the store.</Abstract>
 				</Parameter><Parameter>
 					<Name>salt</Name>
-					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+					<Abstract type="html">String used when the database header is stored in plain text for Shared mode.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error with the process.</Abstract>
@@ -157,7 +157,7 @@
 					<Abstract type="html">The encryption key to be used for encrypting the database.</Abstract>
 				</Parameter><Parameter>
 					<Name>salt</Name>
-					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+					<Abstract type="html">String used when the database header is stored in plain text for Shared mode.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error with encrypting the data.</Abstract>
@@ -186,7 +186,7 @@
 					<Abstract type="html">The encryption key to be used for encrypting the database.</Abstract>
 				</Parameter><Parameter>
 					<Name>salt</Name>
-					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+					<Abstract type="html">String used when the database header is stored in plain text for Shared mode.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error with encrypting the data.</Abstract>
@@ -215,7 +215,7 @@
 					<Abstract type="html">The original encryption key of the database.</Abstract>
 				</Parameter><Parameter>
 					<Name>salt</Name>
-					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+					<Abstract type="html">String used when the database header is stored in plain text for Shared mode.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error during the process.</Abstract>
@@ -244,7 +244,7 @@
 					<Abstract type="html">The original encryption key of the database.</Abstract>
 				</Parameter><Parameter>
 					<Name>salt</Name>
-					<Abstract type="html">Specified when database header should be stored in plain text (Shared mode).</Abstract>
+					<Abstract type="html">String used when the database header is stored in plain text for Shared mode.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Returned if there&apos;s an error during the process.</Abstract>

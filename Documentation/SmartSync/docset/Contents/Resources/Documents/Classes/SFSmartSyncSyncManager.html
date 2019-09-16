@@ -223,8 +223,8 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Singleton method for accessing sync manager instance by user. Configured SmartStore <a href="#//api/name/store">store</a> will be
-the default <a href="#//api/name/store">store</a> for the user.</p>
+				<p>Singleton method for accessing the sync manager instance for the given user. This instance uses the
+default <a href="#//api/name/store">store</a>.</p>
 			</div>
 			
 		    
@@ -239,7 +239,7 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>A user that will scope this manager instance data.</p></td>
+						<td><p>User to which this manager instance&rsquo;s data is scoped.</p></td>
 					</tr>
 				
 				</table>
@@ -277,8 +277,8 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Singleton method for accessing a sync manager based on user and <a href="#//api/name/store">store</a> name. Configured SmartStore
-<a href="#//api/name/store">store</a> will be the <a href="#//api/name/store">store</a> with the given name for the given user.</p>
+				<p>Singleton method for accessing a sync manager based on a user and <a href="#//api/name/store">store</a> name. This instance uses the
+<a href="#//api/name/store">store</a> with the given name for the given user.</p>
 			</div>
 			
 		    
@@ -293,12 +293,12 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>The user associated with the <a href="#//api/name/store">store</a>.</p></td>
+						<td><p>User associated with the <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>storeName</code></th>
-						<td><p>The name of the SmartStore associated with the user.</p></td>
+						<td><p>Name of the requested <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 				</table>
@@ -336,8 +336,8 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Singleton method for accessing a sync manager based on user and <a href="#//api/name/store">store</a> name. Configured SmartStore
-<a href="#//api/name/store">store</a> will be the <a href="#//api/name/store">store</a> with the given name for the given user.</p>
+				<p>Singleton method for accessing a sync manager based on user and <a href="#//api/name/store">store</a> name. This instance uses the <a href="#//api/name/store">store</a>
+with the given name for the given user.</p>
 			</div>
 			
 		    
@@ -352,12 +352,12 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>storeName</code></th>
-						<td><p>The name of the SmartStore associated with the user.</p></td>
+						<td><p>Name of the requested <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>userAccount</code></th>
-						<td><p>The user associated with the <a href="#//api/name/store">store</a>.</p></td>
+						<td><p>User associated with the <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 				</table>
@@ -410,7 +410,7 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>store</code></th>
-						<td><p>The <a href="#//api/name/store">store</a> instance to configure.</p></td>
+						<td><p>SmartStore instance whose sync manager is being requested.</p></td>
 					</tr>
 				
 				</table>
@@ -448,7 +448,7 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes the shared instance associated with the specified user.</p>
+				<p>Remove the shared instance associated with the given user.</p>
 			</div>
 			
 		    
@@ -463,7 +463,7 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>The user.</p></td>
+						<td><p>User associated with the <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 				</table>
@@ -501,7 +501,7 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes the shared instance associated with the given user and <a href="#//api/name/store">store</a> name.</p>
+				<p>Remove the shared instance associated with the given user and <a href="#//api/name/store">store</a> name.</p>
 			</div>
 			
 		    
@@ -516,12 +516,12 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>The user associated with the <a href="#//api/name/store">store</a>.</p></td>
+						<td><p>User associated with the <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>storeName</code></th>
-						<td><p>The name of the <a href="#//api/name/store">store</a> associated with the given user.</p></td>
+						<td><p>Name of the requested <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 				</table>
@@ -559,7 +559,7 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes the shared instance associated with the given user and <a href="#//api/name/store">store</a> name.</p>
+				<p>Remove the shared instance associated with the given <a href="#//api/name/store">store</a> name and user.</p>
 			</div>
 			
 		    
@@ -574,12 +574,12 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>storeName</code></th>
-						<td><p>The name of the <a href="#//api/name/store">store</a> associated with the given user.</p></td>
+						<td><p>Name of the requested <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>userAccount</code></th>
-						<td><p>The user associated with the <a href="#//api/name/store">store</a>.</p></td>
+						<td><p>User associated with the <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 				</table>
@@ -617,7 +617,7 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes the shared instance associated with the specified <a href="#//api/name/store">store</a>.</p>
+				<p>Remove the shared instance associated with the specified <a href="#//api/name/store">store</a>.</p>
 			</div>
 			
 		    
@@ -632,7 +632,7 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>store</code></th>
-						<td><p>The <a href="#//api/name/store">store</a> instance.</p></td>
+						<td><p>SmartStore instance whose sync manager is to be removed.</p></td>
 					</tr>
 				
 				</table>
@@ -670,7 +670,7 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes all shared instances</p>
+				<p>Remove all shared instances.</p>
 			</div>
 			
 		    
@@ -711,9 +711,9 @@ the default <a href="#//api/name/store">store</a> for the user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Stop the sync manager
-It might take a while for active syncs to actually get stopped
-Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fully paused</p>
+				<p>Stop the sync manager.
+It can take a while for active syncs to actually stop.
+Call <a href="#//api/name/isStopped"><code>isStopped</code></a>() to see if the sync manager is fully paused.</p>
 			</div>
 			
 		    
@@ -754,7 +754,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>YES if <a href="#//api/name/stop">stop</a> was requested but there are still active syncs</p>
+				<p>YES if a <a href="#//api/name/stop">stop</a> was requested but some syncs are still active.</p>
 			</div>
 			
 		    
@@ -767,7 +767,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if <a href="#//api/name/stop">stop</a> was requested but there are still active syncs</p>
+				<p>YES if a <a href="#//api/name/stop">stop</a> was requested but some syncs are still active.</p>
 			</div>
 			
 
@@ -800,7 +800,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>YES if <a href="#//api/name/stop">stop</a> was requested and there no syncs are active anymore</p>
+				<p>YES if a <a href="#//api/name/stop">stop</a> was requested and no syncs are still active.</p>
 			</div>
 			
 		    
@@ -813,7 +813,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if <a href="#//api/name/stop">stop</a> was requested and there no syncs are active anymore</p>
+				<p>YES if a <a href="#//api/name/stop">stop</a> was requested and no syncs are still active.</p>
 			</div>
 			
 
@@ -846,7 +846,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Restart this sync manager</p>
+				<p>Restart this sync manager.</p>
 			</div>
 			
 		    
@@ -861,17 +861,17 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>restartStoppedSyncs</code></th>
-						<td><p>Pass YES to restart all stopped sync.</p></td>
+						<td><p>Pass YES to restart all stopped syncs.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>error</code></th>
-						<td><p>To get an error back (optional).</p></td>
+						<td><p>Reports any error (optional).</p></td>
 					</tr>
 				
 				</table>
@@ -914,7 +914,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Check if sync manager is running</p>
+				<p>Check whether a sync manager is running.</p>
 			</div>
 			
 		    
@@ -929,7 +929,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>error</code></th>
-						<td><p>To get an error back (optional).</p></td>
+						<td><p>Reports any error (optional).</p></td>
 					</tr>
 				
 				</table>
@@ -939,7 +939,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if running and NO if stopping or stopped</p>
+				<p>YES if the sync manager is running, or NO if it&rsquo;s stopping or stopped.</p>
 			</div>
 			
 
@@ -972,7 +972,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns details about a sync.</p>
+				<p>Return status of the sync with the given sync ID.</p>
 			</div>
 			
 		    
@@ -1025,7 +1025,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns details about a sync by name.</p>
+				<p>Return status of the sync with the given name.</p>
 			</div>
 			
 		    
@@ -1078,7 +1078,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns YES if a sync with the given name exists.</p>
+				<p>Return YES if a sync with the given name exists.</p>
 			</div>
 			
 		    
@@ -1136,7 +1136,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Delete a sync.</p>
+				<p>Delete the sync with the given ID.</p>
 			</div>
 			
 		    
@@ -1189,7 +1189,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Delete a sync by name.</p>
+				<p>Delete the sync with the given name.</p>
 			</div>
 			
 		    
@@ -1242,7 +1242,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates a sync down without running it.</p>
+				<p>Create a sync down without running it.</p>
 			</div>
 			
 		    
@@ -1257,22 +1257,22 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>target</code></th>
-						<td><p>The sync down target that will manage the sync down process.</p></td>
+						<td><p>Sync down target that will manage the sync down process.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>options</code></th>
-						<td><p>The options associated with this sync down.</p></td>
+						<td><p>Options associated with this sync down.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The soup name where the local entries are stored.</p></td>
+						<td><p>Soup name where the local entries are stored.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>syncName</code></th>
-						<td><p>The name for this sync.</p></td>
+						<td><p>Name for this sync (optional).</p></td>
 					</tr>
 				
 				</table>
@@ -1282,7 +1282,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync down.</p>
+				<p>Sync state associated with this sync down.</p>
 			</div>
 			
 
@@ -1315,7 +1315,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates and runs a sync down that will overwrite any modified records.</p>
+				<p>Create and run a sync down that overwrites modified records.</p>
 			</div>
 			
 		    
@@ -1330,17 +1330,17 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>target</code></th>
-						<td><p>The sync down target that will manage the sync down process.</p></td>
+						<td><p>Sync down target that will manage the sync down process.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The soup name where the local entries are stored.</p></td>
+						<td><p>Soup name where the local entries are stored.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 				</table>
@@ -1350,7 +1350,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be created.</p>
+				<p>Sync state associated with this sync, or nil if it could not be created.</p>
 			</div>
 			
 
@@ -1383,7 +1383,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates and runs a sync down.</p>
+				<p>Create and run a sync down.</p>
 			</div>
 			
 		    
@@ -1398,22 +1398,23 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>target</code></th>
-						<td><p>The sync down target that will manage the sync down process.</p></td>
+						<td><p>Sync down target that manages the sync down process.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>options</code></th>
-						<td><p>The options associated with this sync down.</p></td>
+						<td><p>Options associated with this sync down. Use this parameter to specify how the sync
+should handle modified records in the <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The soup name where the local entries are stored.</p></td>
+						<td><p>Soup name where the local entries are stored.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 				</table>
@@ -1423,7 +1424,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be created.</p>
+				<p>Sync state associated with this sync, or nil if it could not be created.</p>
 			</div>
 			
 
@@ -1456,7 +1457,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates and runs a named sync down.</p>
+				<p>Create and run a named sync down.</p>
 			</div>
 			
 		    
@@ -1471,27 +1472,28 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>target</code></th>
-						<td><p>The sync down target that will manage the sync down process.</p></td>
+						<td><p>Sync down target that will manage the sync down process.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>options</code></th>
-						<td><p>The options associated with this sync down.</p></td>
+						<td><p>Options associated with this sync down. Use this parameter to specify how the sync
+should handle modified records in the <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The soup name where the local entries are stored.</p></td>
+						<td><p>Soup name where the local entries are stored.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>syncName</code></th>
-						<td><p>The name for this sync.</p></td>
+						<td><p>Name for this sync.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 				</table>
@@ -1501,7 +1503,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be created.</p>
+				<p>Sync state associated with this sync, or nil if it could not be created.</p>
 			</div>
 			
 
@@ -1534,7 +1536,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates and runs a named sync down.</p>
+				<p>Create and run a named sync down.</p>
 			</div>
 			
 		    
@@ -1549,27 +1551,28 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>target</code></th>
-						<td><p>The sync down target that will manage the sync down process.</p></td>
+						<td><p>Sync down target that will manage the sync down process.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>options</code></th>
-						<td><p>The options associated with this sync down.</p></td>
+						<td><p>Options associated with this sync down. Use this parameter to specify how the sync
+should handle modified records in the <a href="#//api/name/store">store</a>.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The soup name where the local entries are stored.</p></td>
+						<td><p>Soup name where the local entries are stored.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>syncName</code></th>
-						<td><p>The name for this sync.</p></td>
+						<td><p>Name for this sync.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 					<tr>
@@ -1584,7 +1587,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be created.</p>
+				<p>Sync state associated with this sync, or nil if it could not be created.</p>
 			</div>
 			
 
@@ -1617,7 +1620,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Performs a resync.</p>
+				<p>Perform a resync.</p>
 			</div>
 			
 		    
@@ -1637,7 +1640,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 				</table>
@@ -1675,7 +1678,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Performs a resync.</p>
+				<p>Perform a resync.</p>
 			</div>
 			
 		    
@@ -1695,7 +1698,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 					<tr>
@@ -1710,7 +1713,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be started.</p>
+				<p>Sync state associated with this sync, or nil if it could not be started.</p>
 			</div>
 			
 
@@ -1743,7 +1746,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Performs a resync by name.</p>
+				<p>Perform a resync by name.</p>
 			</div>
 			
 		    
@@ -1763,7 +1766,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 				</table>
@@ -1773,7 +1776,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be started.</p>
+				<p>Sync state associated with this sync, or nil if it could not be started.</p>
 			</div>
 			
 
@@ -1806,7 +1809,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Performs a resync by name.</p>
+				<p>Perform a resync by name.</p>
 			</div>
 			
 		    
@@ -1826,7 +1829,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 					<tr>
@@ -1841,7 +1844,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be started.</p>
+				<p>Sync state associated with this sync, or nil if it could not be started.</p>
 			</div>
 			
 
@@ -1889,22 +1892,23 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>target</code></th>
-						<td><p>The sync up target that will manage the sync up process.</p></td>
+						<td><p>Sync up target that will manage the sync up process.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>options</code></th>
-						<td><p>The options associated with this sync up.</p></td>
+						<td><p>Options associated with this sync up. Use this parameter to specify how the sync
+should handle modified records on the server.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The soup name where the local entries are stored.</p></td>
+						<td><p>Soup name where the local entries are stored.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>syncName</code></th>
-						<td><p>The name for this sync.</p></td>
+						<td><p>Name for this sync.</p></td>
 					</tr>
 				
 				</table>
@@ -1914,7 +1918,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync up.</p>
+				<p>Sync state associated with this sync up.</p>
 			</div>
 			
 
@@ -1947,7 +1951,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates and runs a sync up with the default <a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a>.</p>
+				<p>Create and run a sync up with the default <a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a>.</p>
 			</div>
 			
 		    
@@ -1962,17 +1966,18 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>options</code></th>
-						<td><p>The options associated with this sync up.</p></td>
+						<td><p>Options associated with this sync up. Use this parameter to specify how the sync
+should handle modified records on the server.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The soup name where the local entries are stored.</p></td>
+						<td><p>Soup name where the local entries are stored.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 				</table>
@@ -1982,7 +1987,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be created.</p>
+				<p>Sync state associated with this sync, or nil if it could not be created.</p>
 			</div>
 			
 
@@ -2015,7 +2020,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates and runs a sync up with the configured <a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a>.</p>
+				<p>Create and run a sync up with the configured <a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a>.</p>
 			</div>
 			
 		    
@@ -2030,22 +2035,23 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>target</code></th>
-						<td><p>The sync up target that will manage the sync up process.</p></td>
+						<td><p>Sync up target that will manage the sync up process.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>options</code></th>
-						<td><p>The options associated with this sync up.</p></td>
+						<td><p>Options associated with this sync up. Use this parameter to specify how the sync
+should handle modified records on the server.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The soup name where the local entries are stored.</p></td>
+						<td><p>Soup name where the local entries are stored.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 				</table>
@@ -2055,7 +2061,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be created.</p>
+				<p>Sync state associated with this sync, or nil if it could not be created.</p>
 			</div>
 			
 
@@ -2088,7 +2094,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates and runs a named sync up.</p>
+				<p>Create and run a named sync up.</p>
 			</div>
 			
 		    
@@ -2103,27 +2109,28 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>target</code></th>
-						<td><p>The sync up target that will manage the sync up process.</p></td>
+						<td><p>Sync up target that will manage the sync up process.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>options</code></th>
-						<td><p>The options associated with this sync up.</p></td>
+						<td><p>Options associated with this sync up. Use this parameter to specify how the sync
+should handle modified records on the server.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The soup name where the local entries are stored.</p></td>
+						<td><p>Soup name where the local entries are stored.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>syncName</code></th>
-						<td><p>The name for this sync.</p></td>
+						<td><p>Name for this sync.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 				</table>
@@ -2133,7 +2140,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be created.</p>
+				<p>Sync state associated with this sync, or nil if it could not be created.</p>
 			</div>
 			
 
@@ -2166,7 +2173,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates and runs a named sync up.</p>
+				<p>Create and run a named sync up.</p>
 			</div>
 			
 		    
@@ -2181,27 +2188,28 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>target</code></th>
-						<td><p>The sync up target that will manage the sync up process.</p></td>
+						<td><p>Sync up target that will manage the sync up process.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>options</code></th>
-						<td><p>The options associated with this sync up.</p></td>
+						<td><p>Options associated with this sync up. Use this parameter to specify how the sync
+should handle modified records on the server.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>The soup name where the local entries are stored.</p></td>
+						<td><p>Soup name where the local entries are stored.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>syncName</code></th>
-						<td><p>The name for this sync.</p></td>
+						<td><p>Name for this sync.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>updateBlock</code></th>
-						<td><p>The block to be called with updates.</p></td>
+						<td><p>Block to be called with updates.</p></td>
 					</tr>
 				
 					<tr>
@@ -2216,7 +2224,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The sync state associated with this sync or nil if it could not be created.</p>
+				<p>Sync state associated with this sync, or nil if it could not be created.</p>
 			</div>
 			
 
@@ -2249,7 +2257,7 @@ Call <a href="#//api/name/isStopped">isStopped</a>() to see if syncManager is fu
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes local copies of records that have been deleted on the server
+				<p>Remove local copies of records that have been deleted on the server
 or do not match the query results on the server anymore.</p>
 			</div>
 			
@@ -2313,7 +2321,7 @@ or do not match the query results on the server anymore.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes local copies of records that have been deleted on the server
+				<p>Remove local copies of records that have been deleted on the server
 or do not match the query results on the server anymore.</p>
 			</div>
 			
@@ -2382,7 +2390,7 @@ or do not match the query results on the server anymore.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes local copies of records that have been deleted on the server
+				<p>Remove local copies of records that have been deleted on the server
 or do not match the query results on the server anymore.</p>
 			</div>
 			
@@ -2494,7 +2502,7 @@ or do not match the query results on the server anymore.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-07-22</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-09-16</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

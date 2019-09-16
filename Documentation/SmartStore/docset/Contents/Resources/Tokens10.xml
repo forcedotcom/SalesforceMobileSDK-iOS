@@ -159,7 +159,7 @@
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setEncryptionKeyBlock:</TokenIdentifier>
 			<Abstract type="html">Block used to generate the encryption key.
-Sticking with the default encryption key derivation is recommended.</Abstract>
+Salesforce recommends using the default encryption key derivation.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
@@ -172,7 +172,7 @@ Sticking with the default encryption key derivation is recommended.</Abstract>
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/encryptionKeyBlock</TokenIdentifier>
 			<Abstract type="html">Block used to generate the encryption key.
-Sticking with the default encryption key derivation is recommended.</Abstract>
+Salesforce recommends using the default encryption key derivation.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
@@ -185,7 +185,7 @@ Sticking with the default encryption key derivation is recommended.</Abstract>
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/encryptionKeyBlock</TokenIdentifier>
 			<Abstract type="html">Block used to generate the encryption key.
-Sticking with the default encryption key derivation is recommended.</Abstract>
+Salesforce recommends using the default encryption key derivation.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
@@ -1745,6 +1745,28 @@ Log errors and throw exception in case of error</Abstract>
 			
 			
 			<Anchor>//api/name/executeUpdateThrows:withArgumentsInArray:withDb:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/checkRawJson:fromMethod:</TokenIdentifier>
+			<Abstract type="html">Check that the given raw JSON string represents valid JSON.
+Note: If the jsonSerializationCheckEnabled property is set to NO, this method will
+always return YES (i.e. that the result is valid).</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)checkRawJson:(NSString *)rawJson fromMethod:(NSString *)fromMethod</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>rawJson</Name>
+					<Abstract type="html">The raw JSON string to validate.</Abstract>
+				</Parameter><Parameter>
+					<Name>fromMethod</Name>
+					<Abstract type="html">The method making the call (for logging purposes on failure).</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the JSON string is valid JSON, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/checkRawJson:fromMethod:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

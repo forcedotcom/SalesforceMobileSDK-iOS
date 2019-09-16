@@ -4,7 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFKeyStoreManager</TokenIdentifier>
-			<Abstract type="html">Singleton class to manage operations on the key store.</Abstract>
+			<Abstract type="html">Singleton class to manage operations on the keystore.</Abstract>
 			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
             
 			
@@ -14,49 +14,49 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFKeyStoreManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html">The singleton instance of the key store manager.</Abstract>
+			<Abstract type="html">Shared instance of the keystore manager.</Abstract>
 			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
 			<Declaration>+ (instancetype)sharedInstance</Declaration>
 			
-			<ReturnValue><Abstract type="html">The singleton instance of the key store manager.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Shared instance of the keystore manager.</Abstract></ReturnValue>
 			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="27"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/retrieveKeyWithLabel:autoCreate:</TokenIdentifier>
-			<Abstract type="html">Retrieves a key with the given label from the key store, or nil depending on the autoCreate value.</Abstract>
+			<Abstract type="html">Retrieves a key with the given label from the keystore or nil, depending on the autoCreate value.</Abstract>
 			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
 			<Declaration>- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>keyLabel</Name>
-					<Abstract type="html">The label associated with the stored key.</Abstract>
+					<Abstract type="html">Label associated with the stored key.</Abstract>
 				</Parameter><Parameter>
 					<Name>create</Name>
 					<Abstract type="html">Indicates whether a new key should be created if one does not exist.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The encryption key, or nil depending on the autoCreate value.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Encryption key or nil, depending on the autoCreate value.</Abstract></ReturnValue>
 			<Anchor>//api/name/retrieveKeyWithLabel:autoCreate:</Anchor>
             <NodeRef refid="27"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/storeKey:withLabel:</TokenIdentifier>
-			<Abstract type="html">Stores a key with the given label in the key store encrypted by the store&apos;s key.</Abstract>
+			<Abstract type="html">Stores a key with the given label in the keystore encrypted by the store&apos;s key.</Abstract>
 			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
 			<Declaration>- (void)storeKey:(SFEncryptionKey *)key withLabel:(NSString *)keyLabel</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>key</Name>
-					<Abstract type="html">The encryption key to store.</Abstract>
+					<Abstract type="html">Encryption key to be stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>keyLabel</Name>
-					<Abstract type="html">The label associated with the key.</Abstract>
+					<Abstract type="html">Label associated with the key.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -66,14 +66,14 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/removeKeyWithLabel:</TokenIdentifier>
-			<Abstract type="html">Removes the key with the given label from the key store.</Abstract>
+			<Abstract type="html">Removes the key with the given label from the keystore.</Abstract>
 			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
 			<Declaration>- (void)removeKeyWithLabel:(NSString *)keyLabel</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>keyLabel</Name>
-					<Abstract type="html">The label associated with the key to remove.</Abstract>
+					<Abstract type="html">Label associated with the key to remove.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -90,24 +90,24 @@
 			<Parameters>
 				<Parameter>
 					<Name>keyLabel</Name>
-					<Abstract type="html">The label associated with the key to query.</Abstract>
+					<Abstract type="html">Label associated with the key to query.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the key exists in the key store, NO otherwise.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">YES if the key exists in the keystore; NO otherwise.</Abstract></ReturnValue>
 			<Anchor>//api/name/keyWithLabelExists:</Anchor>
             <NodeRef refid="27"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/keyWithRandomValue</TokenIdentifier>
-			<Abstract type="html">Returns a key with a random value for the key and initialization vector.  The key size
-will be the size for the AES-256 algorithm (kCCKeySizeAES256), and the initialization
-vector will be the block size associated with AES encryption (kCCBlockSizeAES128).</Abstract>
+			<Abstract type="html">Returns a key with a random value for the key and initialization vector.  The key&apos;s size
+matches the size for the AES-256 algorithm (kCCKeySizeAES256). The initialization
+vector&apos;s matches the block size associated with AES encryption (kCCBlockSizeAES128).</Abstract>
 			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
 			<Declaration>- (SFEncryptionKey *)keyWithRandomValue</Declaration>
 			
-			<ReturnValue><Abstract type="html">An instance of SFEncryptionKey with the described values.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Instance of SFEncryptionKey with the described values.</Abstract></ReturnValue>
 			<Anchor>//api/name/keyWithRandomValue</Anchor>
             <NodeRef refid="27"/>
 		</Token>

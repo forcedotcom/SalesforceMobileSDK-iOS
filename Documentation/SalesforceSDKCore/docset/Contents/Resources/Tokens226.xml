@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountScope.html">
+	<File path="Constants/SFSecurityLockoutAction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
-			<Abstract type="html">The various scopes related to a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSecurityLockoutAction</TokenIdentifier>
+			<Abstract type="html">The action that was taken as the result of calling into the security lockout functionality.
+Note: This value should denote the action actually taken, as opposed to an expected action
+going in.  Callbacks will use this value to determine what action took place.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
 			
 			<NodeRef refid="226"/>
@@ -14,45 +16,78 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
-            <Abstract type="html">Global scope (one per application)
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionNone</TokenIdentifier>
+            <Abstract type="html">     No action taken
      </Abstract>
-            <Declaration>SFUserAccountScopeGlobal</Declaration>
+            <Declaration>SFSecurityLockoutActionNone</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="226"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
-            <Abstract type="html">Scope by organization
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeCreated</TokenIdentifier>
+            <Abstract type="html">     Passcode creation functionality was called.
      </Abstract>
-            <Declaration>SFUserAccountScopeOrg</Declaration>
+            <Declaration>SFSecurityLockoutActionPasscodeCreated</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="226"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
-            <Abstract type="html">Scope by user
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeChanged</TokenIdentifier>
+            <Abstract type="html">     Passcode change functionality was called.
      </Abstract>
-            <Declaration>SFUserAccountScopeUser</Declaration>
+            <Declaration>SFSecurityLockoutActionPasscodeChanged</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="226"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
-            <Abstract type="html">Scope by community
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeVerified</TokenIdentifier>
+            <Abstract type="html">     Passcode verification functionality was called.
      </Abstract>
-            <Declaration>SFUserAccountScopeCommunity</Declaration>
+            <Declaration>SFSecurityLockoutActionPasscodeVerified</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="226"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeRemoved</TokenIdentifier>
+            <Abstract type="html">     Passcode removal functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionPasscodeRemoved</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="226"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionBiometricEnabled</TokenIdentifier>
+            <Abstract type="html">     Biometric creation functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionBiometricEnabled</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="226"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionBiometricVerified</TokenIdentifier>
+            <Abstract type="html">     Biometric verification functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionBiometricVerified</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="226"/>
         </Token>

@@ -14,7 +14,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setUseNativeBrowserForAuth:</TokenIdentifier>
-			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
 			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
@@ -26,7 +26,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
-			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
 			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
@@ -38,7 +38,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
-			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
 			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
@@ -122,7 +122,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setAuthConfigDict:</TokenIdentifier>
-			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
 			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
@@ -134,7 +134,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
-			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
 			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
@@ -146,7 +146,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
-			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
 			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
@@ -165,7 +165,7 @@
 			<Parameters>
 				<Parameter>
 					<Name>authConfigDict</Name>
-					<Abstract type="html">The NSDictionary containing the org auth configuration.</Abstract>
+					<Abstract type="html">NSDictionary containing the org auth configuration.</Abstract>
 				</Parameter>
 			</Parameters>
 			

@@ -4,8 +4,8 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/intf/SFAdvancedSyncUpTarget</TokenIdentifier>
-			<Abstract type="html">Protocol for advanced sync up target where records are not simply created/updated/deleted
-With advanced sync up target, sync manager simply calls the method: syncUpRecord</Abstract>
+			<Abstract type="html">Protocol for advanced sync up target where records are not simply created, updated, or deleted.
+With advanced sync up target, sync manager simply calls the syncUpRecords method.</Abstract>
 			<DeclaredIn>SFAdvancedSyncUpTarget.h</DeclaredIn>
             
 			
@@ -15,7 +15,7 @@ With advanced sync up target, sync manager simply calls the method: syncUpRecord
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/intfm/SFAdvancedSyncUpTarget/setMaxBatchSize:</TokenIdentifier>
-			<Abstract type="html">max number of records that can be passed to syncUpRecord at once</Abstract>
+			<Abstract type="html">Maximum number of records that can be passed to syncUpRecords at once.</Abstract>
 			<DeclaredIn>SFAdvancedSyncUpTarget.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) NSUInteger maxBatchSize</Declaration>
@@ -27,7 +27,7 @@ With advanced sync up target, sync manager simply calls the method: syncUpRecord
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/intfm/SFAdvancedSyncUpTarget/maxBatchSize</TokenIdentifier>
-			<Abstract type="html">max number of records that can be passed to syncUpRecord at once</Abstract>
+			<Abstract type="html">Maximum number of records that can be passed to syncUpRecords at once.</Abstract>
 			<DeclaredIn>SFAdvancedSyncUpTarget.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) NSUInteger maxBatchSize</Declaration>
@@ -39,7 +39,7 @@ With advanced sync up target, sync manager simply calls the method: syncUpRecord
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/intfp/SFAdvancedSyncUpTarget/maxBatchSize</TokenIdentifier>
-			<Abstract type="html">max number of records that can be passed to syncUpRecord at once</Abstract>
+			<Abstract type="html">Maximum number of records that can be passed to syncUpRecords at once.</Abstract>
 			<DeclaredIn>SFAdvancedSyncUpTarget.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) NSUInteger maxBatchSize</Declaration>
@@ -51,32 +51,32 @@ With advanced sync up target, sync manager simply calls the method: syncUpRecord
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/intfm/SFAdvancedSyncUpTarget/syncUpRecords:records:fieldlist:mergeMode:syncSoupName:completionBlock:failBlock:</TokenIdentifier>
-			<Abstract type="html">Sync up locally created/updated or deleted records back to server</Abstract>
+			<Abstract type="html">Sync up locally created, updated, or deleted records to the server.</Abstract>
 			<DeclaredIn>SFAdvancedSyncUpTarget.h</DeclaredIn>
 			
 			<Declaration>- (void)syncUpRecords:(SFSmartSyncSyncManager *)syncManager records:(NSArray&lt;NSMutableDictionary*&gt; *)records fieldlist:(NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode syncSoupName:(NSString *)syncSoupName completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>syncManager</Name>
-					<Abstract type="html">The sync manager doing the sync</Abstract>
+					<Abstract type="html">Sync manager doing the sync</Abstract>
 				</Parameter><Parameter>
 					<Name>records</Name>
-					<Abstract type="html">The records being synced</Abstract>
+					<Abstract type="html">Records being synced</Abstract>
 				</Parameter><Parameter>
 					<Name>fieldlist</Name>
 					<Abstract type="html">List of fields to send to server</Abstract>
 				</Parameter><Parameter>
 					<Name>mergeMode</Name>
-					<Abstract type="html">Merge mode (overwrite or leave if changed)</Abstract>
+					<Abstract type="html">Merge mode--either &quot;OVERWRITE&quot; or &quot;LEAVEIFCHANGED&quot;.</Abstract>
 				</Parameter><Parameter>
 					<Name>syncSoupName</Name>
-					<Abstract type="html">The soup being synched</Abstract>
+					<Abstract type="html">Soup being synced.</Abstract>
 				</Parameter><Parameter>
 					<Name>completionBlock</Name>
-					<Abstract type="html">The block to execute after the server call completes.</Abstract>
+					<Abstract type="html">Block to execute after the server call completes.</Abstract>
 				</Parameter><Parameter>
 					<Name>failBlock</Name>
-					<Abstract type="html">The block to execute if the server call fails.</Abstract>
+					<Abstract type="html">Block to execute if the server call fails.</Abstract>
 				</Parameter>
 			</Parameters>
 			

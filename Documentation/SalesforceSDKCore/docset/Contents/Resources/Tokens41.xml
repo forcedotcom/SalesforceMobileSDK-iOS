@@ -50,38 +50,38 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setCoordinator:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setCredentials:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/coordinator</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="41"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/coordinator</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/credentials</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/coordinator</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="41"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/coordinator</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/credentials</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/coordinator</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="41"/>
 		</Token>
 		

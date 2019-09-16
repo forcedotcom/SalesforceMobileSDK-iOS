@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUserSelectionNavViewController.html">
+	<File path="Classes/SFSDKTextFieldTableViewCell.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUserSelectionNavViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTextFieldTableViewCell</TokenIdentifier>
+			<Abstract type="html">A custom UITableViewCell which contains a UITextField for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
             
 			
 			<NodeRef refid="118"/>
@@ -13,86 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/setUserSelectionDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/setTextField:</TokenIdentifier>
+			<Abstract type="html">Text field for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
 			
 			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/textField</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
+			<Abstract type="html">Text field for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
 			
 			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/textField</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionNavViewController/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
+			<Abstract type="html">Text field for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
-            <NodeRef refid="118"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/setSpAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
 			
 			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="118"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="118"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionNavViewController/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="118"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/createUserSelectionController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKUserSelectionTableViewController *)createUserSelectionController</Declaration>
-			
-			
-			<Anchor>//api/name/createUserSelectionController</Anchor>
+			<Anchor>//api/name/textField</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		

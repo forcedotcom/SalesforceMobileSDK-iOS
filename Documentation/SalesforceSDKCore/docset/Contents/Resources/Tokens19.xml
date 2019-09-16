@@ -4,7 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFEncryptionKey</TokenIdentifier>
-			<Abstract type="html">Data object representing an symmetric encryption key, with a key value and initialization vector.</Abstract>
+			<Abstract type="html">Data object representing a symmetric encryption key, with a key value and initialization vector.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
             
 			
@@ -34,53 +34,53 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFEncryptionKey/createKey</TokenIdentifier>
-			<Abstract type="html">Generate an encryption key</Abstract>
+			<Abstract type="html">Generate an encryption key.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
 			<Declaration>+ (SFEncryptionKey *)createKey</Declaration>
 			
-			
+			<ReturnValue><Abstract type="html">SFEncryptionKey object that contains the encryption key.</Abstract></ReturnValue>
 			<Anchor>//api/name/createKey</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/encryptData:</TokenIdentifier>
-			<Abstract type="html">Encrypt given data</Abstract>
+			<Abstract type="html">Encrypt the given data.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)encryptData:(NSData *)dataToEncrypt</Declaration>
+			<Declaration>- (nullable NSData *)encryptData:(NSData *)dataToEncrypt</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>dataToEncrypt</Name>
-					<Abstract type="html">The data to encrypt</Abstract>
+					<Abstract type="html">The data to encrypt.</Abstract>
 				</Parameter>
 			</Parameters>
-			
+			<ReturnValue><Abstract type="html">NSData object that contains the encrypted data.</Abstract></ReturnValue>
 			<Anchor>//api/name/encryptData:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/decryptData:</TokenIdentifier>
-			<Abstract type="html">Decrypt given data</Abstract>
+			<Abstract type="html">Decrypt the given data.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)decryptData:(NSData *)dataToDecrypt</Declaration>
+			<Declaration>- (nullable NSData *)decryptData:(NSData *)dataToDecrypt</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>dataToDecrypt</Name>
-					<Abstract type="html">The data to decrypt</Abstract>
+					<Abstract type="html">Data to decrypt</Abstract>
 				</Parameter>
 			</Parameters>
-			
+			<ReturnValue><Abstract type="html">NSData object that contains the decrypted data.</Abstract></ReturnValue>
 			<Anchor>//api/name/decryptData:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setKey:</TokenIdentifier>
-			<Abstract type="html">The key component of the object.</Abstract>
+			<Abstract type="html">Key component of the object.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy, nullable) NSData *key</Declaration>
@@ -92,7 +92,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/key</TokenIdentifier>
-			<Abstract type="html">The key component of the object.</Abstract>
+			<Abstract type="html">Key component of the object.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy, nullable) NSData *key</Declaration>
@@ -104,7 +104,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/key</TokenIdentifier>
-			<Abstract type="html">The key component of the object.</Abstract>
+			<Abstract type="html">Key component of the object.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy, nullable) NSData *key</Declaration>
@@ -116,7 +116,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setInitializationVector:</TokenIdentifier>
-			<Abstract type="html">The initialization vector component of the object.</Abstract>
+			<Abstract type="html">Initialization vector component of the object.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
@@ -128,7 +128,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/initializationVector</TokenIdentifier>
-			<Abstract type="html">The initialization vector component of the object.</Abstract>
+			<Abstract type="html">Initialization vector component of the object.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
@@ -140,7 +140,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/initializationVector</TokenIdentifier>
-			<Abstract type="html">The initialization vector component of the object.</Abstract>
+			<Abstract type="html">Initialization vector component of the object.</Abstract>
 			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>

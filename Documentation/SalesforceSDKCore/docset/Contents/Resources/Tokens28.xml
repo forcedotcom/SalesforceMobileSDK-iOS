@@ -4,7 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFKeychainItemWrapper</TokenIdentifier>
-			<Abstract type="html">This is a wrapper class used to interact with the keychain.</Abstract>
+			<Abstract type="html">This class is a wrapper class used to interact with the keychain.</Abstract>
 			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
             
 			
@@ -14,7 +14,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
-			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
 			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute</Declaration>
@@ -26,7 +26,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
-			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
 			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute</Declaration>
@@ -38,7 +38,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
-			<Abstract type="html">Returns the accessible attribute used to store this keychain item</Abstract>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
 			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute</Declaration>
@@ -50,12 +50,12 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainAccessErrorsAreFatal</TokenIdentifier>
-			<Abstract type="html">Whether or not keychain access errors cause a fatal exception.  Default is YES.</Abstract>
+			<Abstract type="html">Indicates whether keychain access errors cause a fatal exception.  Default is YES.</Abstract>
 			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
 			<Declaration>+ (BOOL)keychainAccessErrorsAreFatal</Declaration>
 			
-			<ReturnValue><Abstract type="html">Whether or not keychain access errors cause a fatal exception.  Default is YES.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Indicates whether keychain access errors cause a fatal exception.  Default is YES.</Abstract></ReturnValue>
 			<Anchor>//api/name/keychainAccessErrorsAreFatal</Anchor>
             <NodeRef refid="28"/>
 		</Token>
@@ -139,7 +139,7 @@ at runtime.  Subsequent requests will return the same object.</Abstract>
 			<Parameters>
 				<Parameter>
 					<Name>data</Name>
-					<Abstract type="html">Arbitrary data to store to in the keychain. May be nil.</Abstract>
+					<Abstract type="html">Arbitrary data to store in the keychain. Can be nil.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The status of the keychain update request.</Abstract></ReturnValue>
@@ -154,7 +154,7 @@ at runtime.  Subsequent requests will return the same object.</Abstract>
 			
 			<Declaration>- (nullable NSString *)valueString</Declaration>
 			
-			<ReturnValue><Abstract type="html">Arbitrary string read from the keychain. May be nil.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Arbitrary string read from the keychain. Can be nil.</Abstract></ReturnValue>
 			<Anchor>//api/name/valueString</Anchor>
             <NodeRef refid="28"/>
 		</Token>
@@ -168,7 +168,7 @@ at runtime.  Subsequent requests will return the same object.</Abstract>
 			<Parameters>
 				<Parameter>
 					<Name>string</Name>
-					<Abstract type="html">Arbitrary string to store to in the keychain. May be nil.</Abstract>
+					<Abstract type="html">Arbitrary string to store in the keychain. Can be nil.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The status of the keychain update request.</Abstract></ReturnValue>
@@ -183,7 +183,7 @@ at runtime.  Subsequent requests will return the same object.</Abstract>
 			
 			<Declaration>- (nullable NSData *)valueData</Declaration>
 			
-			<ReturnValue><Abstract type="html">Arbitrary data read from the keychain. May be nil.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Arbitrary data read from the keychain. Can be nil.</Abstract></ReturnValue>
 			<Anchor>//api/name/valueData</Anchor>
             <NodeRef refid="28"/>
 		</Token>
@@ -197,7 +197,7 @@ at runtime.  Subsequent requests will return the same object.</Abstract>
 			<Parameters>
 				<Parameter>
 					<Name>errorCode</Name>
-					<Abstract type="html">The code to stringify</Abstract>
+					<Abstract type="html">The code to stringify.</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The string version of the error code.</Abstract></ReturnValue>

@@ -196,6 +196,42 @@ a config object</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setLoginHostListViewController:</TokenIdentifier>
+			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="29"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/loginHostListViewController</TokenIdentifier>
+			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="29"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/loginHostListViewController</TokenIdentifier>
+			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="29"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/styleNavigationBar:</TokenIdentifier>
 			<Abstract type="html">Applies the view&apos;s style attributes to the given navigation bar.</Abstract>
 			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
@@ -274,6 +310,18 @@ a config object</Abstract>
 			
 			
 			<Anchor>//api/name/createTitleItem</Anchor>
+            <NodeRef refid="29"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createLoginHostListViewController</TokenIdentifier>
+			<Abstract type="html">Factory Method to create the hostListView Controller.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (nonnull SFSDKLoginHostListViewController *)createLoginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/createLoginHostListViewController</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		

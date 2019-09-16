@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthCredentialsStorageType.html">
+	<File path="Constants/SFCryptoOperation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredentialsStorageType</TokenIdentifier>
-			<Abstract type="html">@enum OAuth credential storage type</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="209"/>
@@ -14,23 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeNone</TokenIdentifier>
-            <Abstract type="html">     No storage or persistence of OAuth credentials will be attempted
-     </Abstract>
-            <Declaration>SFOAuthCredentialsStorageTypeNone</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoOperationEncrypt</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeKeychain</TokenIdentifier>
-            <Abstract type="html">     OAuth credentials will be stored securely within the keychain.
-     </Abstract>
-            <Declaration>SFOAuthCredentialsStorageTypeKeychain</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFCryptoOperationDecrypt</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            <DeclaredIn>SFCrypto.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>

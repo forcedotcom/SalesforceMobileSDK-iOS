@@ -49,6 +49,74 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedEphemeralInstance</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class with the default ephemeral session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedEphemeralInstance</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedEphemeralInstance</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedBackgroundInstance</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class with the default background session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedBackgroundInstance</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedBackgroundInstance</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedEphemeralInstanceWithIdentifier:</TokenIdentifier>
+			<Abstract type="html">Returns instance of this class for the given identifier with the default ephemeral session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedEphemeralInstanceWithIdentifier:(nonnull NSString *)identifier</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedEphemeralInstanceWithIdentifier:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedBackgroundInstanceWithIdentifier:</TokenIdentifier>
+			<Abstract type="html">Returns instance of this class for the given identifier with the default background session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedBackgroundInstanceWithIdentifier:(nonnull NSString *)identifier</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedBackgroundInstanceWithIdentifier:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedInstanceWithIdentifier:sessionConfiguration:</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class with the given session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedInstanceWithIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfiguration</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier for the instance</Abstract>
+				</Parameter><Parameter>
+					<Name>sessionConfiguration</Name>
+					<Abstract type="html">Configuration to use for the session.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstanceWithIdentifier:sessionConfiguration:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/initWithEphemeralSession</TokenIdentifier>
 			<Abstract type="html">Initializes this class with an ephemeral session configuration.</Abstract>
 			<DeclaredIn>SFNetwork.h</DeclaredIn>
@@ -94,7 +162,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/setSessionConfiguration:</TokenIdentifier>
-			<Abstract type="html">Sets a session configuration to be used for network requests in the Mobile SDK.</Abstract>
+			<Abstract type="html">Sets a session configuration to be used for network requests in Mobile SDK.</Abstract>
 			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
 			<Declaration>+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig</Declaration>
@@ -110,6 +178,26 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/setSessionConfiguration:identifier:</TokenIdentifier>
+			<Abstract type="html">Sets a session configuration to be used for network requests in Mobile SDK.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig identifier:(nonnull NSString *)identifier</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sessionConfig</Name>
+					<Abstract type="html">Session configuration to be used.</Abstract>
+				</Parameter><Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier for the instance to use this config.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setSessionConfiguration:identifier:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/setSessionManager:</TokenIdentifier>
 			<Abstract type="html">Delegates the creation of NSURLSession to an external object.</Abstract>
 			<DeclaredIn>SFNetwork.h</DeclaredIn>
@@ -118,11 +206,88 @@
 			<Parameters>
 				<Parameter>
 					<Name>manager</Name>
-					<Abstract type="html">object implementing the SFNetworkSessionManaging protocol.</Abstract>
+					<Abstract type="html">Object that implements the SFNetworkSessionManaging protocol.</Abstract>
 				</Parameter>
 			</Parameters>
 			
 			<Anchor>//api/name/setSessionManager:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedEphemeralInstance</TokenIdentifier>
+			<Abstract type="html">Removes shared instance for the default ephemeral identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedEphemeralInstance</Declaration>
+			
+			
+			<Anchor>//api/name/removeSharedEphemeralInstance</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedBackgroundInstance</TokenIdentifier>
+			<Abstract type="html">Removes shared instance for the default background identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedBackgroundInstance</Declaration>
+			
+			
+			<Anchor>//api/name/removeSharedBackgroundInstance</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedInstanceForIdentifier:</TokenIdentifier>
+			<Abstract type="html">Removes shared instance for given identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedInstanceForIdentifier:(nullable NSString *)identifier</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier for the session.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeSharedInstanceForIdentifier:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeAllSharedInstances</TokenIdentifier>
+			<Abstract type="html">Removes all shared instances.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeAllSharedInstances</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllSharedInstances</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedInstanceIdentifiers</TokenIdentifier>
+			<Abstract type="html">Returns list of identifiers for all shared instances.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSArray *)sharedInstanceIdentifiers</Declaration>
+			
+			<ReturnValue><Abstract type="html">Array of identifiers.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstanceIdentifiers</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/uniqueInstanceIdentifier</TokenIdentifier>
+			<Abstract type="html">Generates a unique instance identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull NSString *)uniqueInstanceIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/uniqueInstanceIdentifier</Anchor>
             <NodeRef refid="33"/>
 		</Token>
 		

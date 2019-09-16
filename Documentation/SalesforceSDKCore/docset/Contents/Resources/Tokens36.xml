@@ -859,6 +859,30 @@ If a key does not match a value in the parsed response, then it will not exist i
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/overrideDomainIfNeeded</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			
+			<Declaration>- (NSURL *)overrideDomainIfNeeded</Declaration>
+			
+			
+			<Anchor>//api/name/overrideDomainIfNeeded</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/updateCredentials:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			
+			<Declaration>- (void)updateCredentials:(NSDictionary *)params</Declaration>
+			
+			
+			<Anchor>//api/name/updateCredentials:</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setCredentialsChangeSet:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>

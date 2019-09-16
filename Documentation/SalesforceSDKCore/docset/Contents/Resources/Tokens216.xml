@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKAppConfigErrorCode.html">
+	<File path="Constants/SFOAuthCryptoOperation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCryptoOperation</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="216"/>
@@ -14,31 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAEncrypt</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
+            <Declaration>SFOAEncrypt</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
             
             <NodeRef refid="216"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOADecrypt</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
+            <Declaration>SFOADecrypt</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-            
-            <NodeRef refid="216"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
-            
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
             
             <NodeRef refid="216"/>
         </Token>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKDevInfoViewController.html">
+	<File path="Classes/SFSDKEncryptedURLCache.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDevInfoViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKEncryptedURLCache</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKDevInfoViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKEncryptedURLCache.h</DeclaredIn>
             
 			
 			<NodeRef refid="78"/>

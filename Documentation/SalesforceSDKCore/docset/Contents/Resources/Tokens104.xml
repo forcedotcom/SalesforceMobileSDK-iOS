@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPasscodeVerifyController.html">
+	<File path="Classes/SFSDKOAuthTokenEndpointRequest.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPasscodeVerifyController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuthTokenEndpointRequest</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
             
 			
 			<NodeRef refid="104"/>
@@ -13,122 +13,362 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setViewConfig:</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/viewConfig</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/viewConfig</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setPasscodeLengthKnown:</TokenIdentifier>
-			<Abstract type="html">Wether the passcode length is known.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLengthKnown</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/passcodeLengthKnown</TokenIdentifier>
-			<Abstract type="html">Wether the passcode length is known.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLengthKnown</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/passcodeLengthKnown</TokenIdentifier>
-			<Abstract type="html">Wether the passcode length is known.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLengthKnown</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setVerifyDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/setRefreshToken:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *refreshToken</Declaration>
 			
 			
-			<Anchor>//api/name/verifyDelegate</Anchor>
+			<Anchor>//api/name/refreshToken</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/verifyDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/refreshToken</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *refreshToken</Declaration>
 			
 			
-			<Anchor>//api/name/verifyDelegate</Anchor>
+			<Anchor>//api/name/refreshToken</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/verifyDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointRequest/refreshToken</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *refreshToken</Declaration>
 			
 			
-			<Anchor>//api/name/verifyDelegate</Anchor>
+			<Anchor>//api/name/refreshToken</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/initWithViewConfig:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/setUserAgentForAuth:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *userAgentForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/initWithViewConfig:</Anchor>
+			<Anchor>//api/name/userAgentForAuth</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/userAgentForAuth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *userAgentForAuth</Declaration>
+			
+			
+			<Anchor>//api/name/userAgentForAuth</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointRequest/userAgentForAuth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *userAgentForAuth</Declaration>
+			
+			
+			<Anchor>//api/name/userAgentForAuth</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/setRedirectURI:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *redirectURI</Declaration>
+			
+			
+			<Anchor>//api/name/redirectURI</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/redirectURI</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *redirectURI</Declaration>
+			
+			
+			<Anchor>//api/name/redirectURI</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointRequest/redirectURI</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *redirectURI</Declaration>
+			
+			
+			<Anchor>//api/name/redirectURI</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/setClientID:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *clientID</Declaration>
+			
+			
+			<Anchor>//api/name/clientID</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/clientID</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *clientID</Declaration>
+			
+			
+			<Anchor>//api/name/clientID</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointRequest/clientID</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *clientID</Declaration>
+			
+			
+			<Anchor>//api/name/clientID</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/setApprovalCode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *approvalCode</Declaration>
+			
+			
+			<Anchor>//api/name/approvalCode</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/approvalCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *approvalCode</Declaration>
+			
+			
+			<Anchor>//api/name/approvalCode</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointRequest/approvalCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *approvalCode</Declaration>
+			
+			
+			<Anchor>//api/name/approvalCode</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/setCodeVerifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *codeVerifier</Declaration>
+			
+			
+			<Anchor>//api/name/codeVerifier</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/codeVerifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *codeVerifier</Declaration>
+			
+			
+			<Anchor>//api/name/codeVerifier</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointRequest/codeVerifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *codeVerifier</Declaration>
+			
+			
+			<Anchor>//api/name/codeVerifier</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/setTimeout:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
+			
+			
+			<Anchor>//api/name/timeout</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/timeout</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
+			
+			
+			<Anchor>//api/name/timeout</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointRequest/timeout</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
+			
+			
+			<Anchor>//api/name/timeout</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/setServerURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *serverURL</Declaration>
+			
+			
+			<Anchor>//api/name/serverURL</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/serverURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *serverURL</Declaration>
+			
+			
+			<Anchor>//api/name/serverURL</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointRequest/serverURL</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURL *serverURL</Declaration>
+			
+			
+			<Anchor>//api/name/serverURL</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/setAdditionalTokenRefreshParams:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSDictionary *additionalTokenRefreshParams</Declaration>
+			
+			
+			<Anchor>//api/name/additionalTokenRefreshParams</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/additionalTokenRefreshParams</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSDictionary *additionalTokenRefreshParams</Declaration>
+			
+			
+			<Anchor>//api/name/additionalTokenRefreshParams</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointRequest/additionalTokenRefreshParams</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSDictionary *additionalTokenRefreshParams</Declaration>
+			
+			
+			<Anchor>//api/name/additionalTokenRefreshParams</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/setAdditionalOAuthParameterKeys:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSArray&lt;NSString*&gt; *additionalOAuthParameterKeys</Declaration>
+			
+			
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointRequest/additionalOAuthParameterKeys</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSArray&lt;NSString*&gt; *additionalOAuthParameterKeys</Declaration>
+			
+			
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointRequest/additionalOAuthParameterKeys</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSArray&lt;NSString*&gt; *additionalOAuthParameterKeys</Declaration>
+			
+			
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		

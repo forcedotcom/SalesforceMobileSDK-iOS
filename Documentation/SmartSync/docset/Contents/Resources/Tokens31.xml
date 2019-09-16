@@ -50,15 +50,15 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/sharedInstance:</TokenIdentifier>
-			<Abstract type="html">Singleton method for accessing sync manager instance by user. Configured SmartStore store will be
-the default store for the user.</Abstract>
+			<Abstract type="html">Singleton method for accessing the sync manager instance for the given user. This instance uses the
+default store.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>+ (instancetype)sharedInstance:(SFUserAccount *)user</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>user</Name>
-					<Abstract type="html">A user that will scope this manager instance data.</Abstract>
+					<Abstract type="html">User to which this manager instance&apos;s data is scoped.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -68,18 +68,18 @@ the default store for the user.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/sharedInstanceForUser:storeName:</TokenIdentifier>
-			<Abstract type="html">Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
-store will be the store with the given name for the given user.</Abstract>
+			<Abstract type="html">Singleton method for accessing a sync manager based on a user and store name. This instance uses the
+store with the given name for the given user.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>+ (instancetype)sharedInstanceForUser:(SFUserAccount *)user storeName:(nullable NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>user</Name>
-					<Abstract type="html">The user associated with the store.</Abstract>
+					<Abstract type="html">User associated with the store.</Abstract>
 				</Parameter><Parameter>
 					<Name>storeName</Name>
-					<Abstract type="html">The name of the SmartStore associated with the user.</Abstract>
+					<Abstract type="html">Name of the requested store.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -89,18 +89,18 @@ store will be the store with the given name for the given user.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/sharedInstanceForStore:userAccount:</TokenIdentifier>
-			<Abstract type="html">Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
-store will be the store with the given name for the given user.</Abstract>
+			<Abstract type="html">Singleton method for accessing a sync manager based on user and store name. This instance uses the store
+with the given name for the given user.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>+ (instancetype)sharedInstanceForStore:(nullable NSString *)storeName userAccount:(SFUserAccount *)userAccount</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
-					<Abstract type="html">The name of the SmartStore associated with the user.</Abstract>
+					<Abstract type="html">Name of the requested store.</Abstract>
 				</Parameter><Parameter>
 					<Name>userAccount</Name>
-					<Abstract type="html">The user associated with the store.</Abstract>
+					<Abstract type="html">User associated with the store.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -117,7 +117,7 @@ store will be the store with the given name for the given user.</Abstract>
 			<Parameters>
 				<Parameter>
 					<Name>store</Name>
-					<Abstract type="html">The store instance to configure.</Abstract>
+					<Abstract type="html">SmartStore instance whose sync manager is being requested.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -127,14 +127,14 @@ store will be the store with the given name for the given user.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/removeSharedInstance:</TokenIdentifier>
-			<Abstract type="html">Removes the shared instance associated with the specified user.</Abstract>
+			<Abstract type="html">Remove the shared instance associated with the given user.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>+ (void)removeSharedInstance:(SFUserAccount *)user</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>user</Name>
-					<Abstract type="html">The user.</Abstract>
+					<Abstract type="html">User associated with the store.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -144,17 +144,17 @@ store will be the store with the given name for the given user.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/removeSharedInstanceForUser:storeName:</TokenIdentifier>
-			<Abstract type="html">Removes the shared instance associated with the given user and store name.</Abstract>
+			<Abstract type="html">Remove the shared instance associated with the given user and store name.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>+ (void)removeSharedInstanceForUser:(SFUserAccount *)user storeName:(nullable NSString *)storeName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>user</Name>
-					<Abstract type="html">The user associated with the store.</Abstract>
+					<Abstract type="html">User associated with the store.</Abstract>
 				</Parameter><Parameter>
 					<Name>storeName</Name>
-					<Abstract type="html">The name of the store associated with the given user.</Abstract>
+					<Abstract type="html">Name of the requested store.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -164,17 +164,17 @@ store will be the store with the given name for the given user.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/removeSharedInstanceForStore:userAccount:</TokenIdentifier>
-			<Abstract type="html">Removes the shared instance associated with the given user and store name.</Abstract>
+			<Abstract type="html">Remove the shared instance associated with the given store name and user.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>+ (void)removeSharedInstanceForStore:(nullable NSString *)storeName userAccount:(SFUserAccount *)userAccount</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>storeName</Name>
-					<Abstract type="html">The name of the store associated with the given user.</Abstract>
+					<Abstract type="html">Name of the requested store.</Abstract>
 				</Parameter><Parameter>
 					<Name>userAccount</Name>
-					<Abstract type="html">The user associated with the store.</Abstract>
+					<Abstract type="html">User associated with the store.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -184,14 +184,14 @@ store will be the store with the given name for the given user.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/removeSharedInstanceForStore:</TokenIdentifier>
-			<Abstract type="html">Removes the shared instance associated with the specified store.</Abstract>
+			<Abstract type="html">Remove the shared instance associated with the specified store.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>+ (void)removeSharedInstanceForStore:(SFSmartStore *)store</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>store</Name>
-					<Abstract type="html">The store instance.</Abstract>
+					<Abstract type="html">SmartStore instance whose sync manager is to be removed.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -201,7 +201,7 @@ store will be the store with the given name for the given user.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/removeSharedInstances</TokenIdentifier>
-			<Abstract type="html">Removes all shared instances</Abstract>
+			<Abstract type="html">Remove all shared instances.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>+ (void)removeSharedInstances</Declaration>
@@ -213,9 +213,9 @@ store will be the store with the given name for the given user.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/stop</TokenIdentifier>
-			<Abstract type="html">Stop the sync manager
-It might take a while for active syncs to actually get stopped
-Call isStopped to see if syncManager is fully paused</Abstract>
+			<Abstract type="html">Stop the sync manager.
+It can take a while for active syncs to actually stop.
+Call isStopped to see if the sync manager is fully paused.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (void)stop</Declaration>
@@ -227,44 +227,44 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/isStopping</TokenIdentifier>
-			<Abstract type="html">YES if stop was requested but there are still active syncs</Abstract>
+			<Abstract type="html">YES if a stop was requested but some syncs are still active.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (BOOL)isStopping</Declaration>
 			
-			<ReturnValue><Abstract type="html">YES if stop was requested but there are still active syncs</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">YES if a stop was requested but some syncs are still active.</Abstract></ReturnValue>
 			<Anchor>//api/name/isStopping</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/isStopped</TokenIdentifier>
-			<Abstract type="html">YES if stop was requested and there no syncs are active anymore</Abstract>
+			<Abstract type="html">YES if a stop was requested and no syncs are still active.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (BOOL)isStopped</Declaration>
 			
-			<ReturnValue><Abstract type="html">YES if stop was requested and there no syncs are active anymore</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">YES if a stop was requested and no syncs are still active.</Abstract></ReturnValue>
 			<Anchor>//api/name/isStopped</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/restart:updateBlock:error:</TokenIdentifier>
-			<Abstract type="html">Restart this sync manager</Abstract>
+			<Abstract type="html">Restart this sync manager.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (BOOL)restart:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>restartStoppedSyncs</Name>
-					<Abstract type="html">Pass YES to restart all stopped sync.</Abstract>
+					<Abstract type="html">Pass YES to restart all stopped syncs.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
-					<Abstract type="html">To get an error back (optional).</Abstract>
+					<Abstract type="html">Reports any error (optional).</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if restarted successfully.</Abstract></ReturnValue>
@@ -274,24 +274,24 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/checkAcceptingSyncs:</TokenIdentifier>
-			<Abstract type="html">Check if sync manager is running</Abstract>
+			<Abstract type="html">Check whether a sync manager is running.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (BOOL)checkAcceptingSyncs:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>error</Name>
-					<Abstract type="html">To get an error back (optional).</Abstract>
+					<Abstract type="html">Reports any error (optional).</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if running and NO if stopping or stopped</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">YES if the sync manager is running, or NO if it&apos;s stopping or stopped.</Abstract></ReturnValue>
 			<Anchor>//api/name/checkAcceptingSyncs:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/getSyncStatus:</TokenIdentifier>
-			<Abstract type="html">Returns details about a sync.</Abstract>
+			<Abstract type="html">Return status of the sync with the given sync ID.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)getSyncStatus:(NSNumber *)syncId</Declaration>
@@ -308,7 +308,7 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/getSyncStatusByName:</TokenIdentifier>
-			<Abstract type="html">Returns details about a sync by name.</Abstract>
+			<Abstract type="html">Return status of the sync with the given name.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)getSyncStatusByName:(NSString *)syncName</Declaration>
@@ -325,7 +325,7 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/hasSyncWithName:</TokenIdentifier>
-			<Abstract type="html">Returns YES if a sync with the given name exists.</Abstract>
+			<Abstract type="html">Return YES if a sync with the given name exists.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (BOOL)hasSyncWithName:(NSString *)syncName</Declaration>
@@ -342,7 +342,7 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/deleteSyncById:</TokenIdentifier>
-			<Abstract type="html">Delete a sync.</Abstract>
+			<Abstract type="html">Delete the sync with the given ID.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (void)deleteSyncById:(NSNumber *)syncId</Declaration>
@@ -359,7 +359,7 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/deleteSyncByName:</TokenIdentifier>
-			<Abstract type="html">Delete a sync by name.</Abstract>
+			<Abstract type="html">Delete the sync with the given name.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (void)deleteSyncByName:(NSString *)syncName</Declaration>
@@ -376,143 +376,146 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/createSyncDown:options:soupName:syncName:</TokenIdentifier>
-			<Abstract type="html">Creates a sync down without running it.</Abstract>
+			<Abstract type="html">Create a sync down without running it.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (SFSyncState *)createSyncDown:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
-					<Abstract type="html">The sync down target that will manage the sync down process.</Abstract>
+					<Abstract type="html">Sync down target that will manage the sync down process.</Abstract>
 				</Parameter><Parameter>
 					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync down.</Abstract>
+					<Abstract type="html">Options associated with this sync down.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
+					<Abstract type="html">Soup name where the local entries are stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>syncName</Name>
-					<Abstract type="html">The name for this sync.</Abstract>
+					<Abstract type="html">Name for this sync (optional).</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync down.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync down.</Abstract></ReturnValue>
 			<Anchor>//api/name/createSyncDown:options:soupName:syncName:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncDownWithTarget:soupName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a sync down that will overwrite any modified records.</Abstract>
+			<Abstract type="html">Create and run a sync down that overwrites modified records.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)syncDownWithTarget:(SFSyncDownTarget *)target soupName:(NSString *)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
-					<Abstract type="html">The sync down target that will manage the sync down process.</Abstract>
+					<Abstract type="html">Sync down target that will manage the sync down process.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
+					<Abstract type="html">Soup name where the local entries are stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be created.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be created.</Abstract></ReturnValue>
 			<Anchor>//api/name/syncDownWithTarget:soupName:updateBlock:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncDownWithTarget:options:soupName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a sync down.</Abstract>
+			<Abstract type="html">Create and run a sync down.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)syncDownWithTarget:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
-					<Abstract type="html">The sync down target that will manage the sync down process.</Abstract>
+					<Abstract type="html">Sync down target that manages the sync down process.</Abstract>
 				</Parameter><Parameter>
 					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync down.</Abstract>
+					<Abstract type="html">Options associated with this sync down. Use this parameter to specify how the sync
+should handle modified records in the store.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
+					<Abstract type="html">Soup name where the local entries are stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be created.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be created.</Abstract></ReturnValue>
 			<Anchor>//api/name/syncDownWithTarget:options:soupName:updateBlock:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncDownWithTarget:options:soupName:syncName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a named sync down.</Abstract>
+			<Abstract type="html">Create and run a named sync down.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)syncDownWithTarget:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
-					<Abstract type="html">The sync down target that will manage the sync down process.</Abstract>
+					<Abstract type="html">Sync down target that will manage the sync down process.</Abstract>
 				</Parameter><Parameter>
 					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync down.</Abstract>
+					<Abstract type="html">Options associated with this sync down. Use this parameter to specify how the sync
+should handle modified records in the store.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
+					<Abstract type="html">Soup name where the local entries are stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>syncName</Name>
-					<Abstract type="html">The name for this sync.</Abstract>
+					<Abstract type="html">Name for this sync.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be created.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be created.</Abstract></ReturnValue>
 			<Anchor>//api/name/syncDownWithTarget:options:soupName:syncName:updateBlock:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncDownWithTarget:options:soupName:syncName:updateBlock:error:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a named sync down.</Abstract>
+			<Abstract type="html">Create and run a named sync down.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)syncDownWithTarget:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
-					<Abstract type="html">The sync down target that will manage the sync down process.</Abstract>
+					<Abstract type="html">Sync down target that will manage the sync down process.</Abstract>
 				</Parameter><Parameter>
 					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync down.</Abstract>
+					<Abstract type="html">Options associated with this sync down. Use this parameter to specify how the sync
+should handle modified records in the store.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
+					<Abstract type="html">Soup name where the local entries are stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>syncName</Name>
-					<Abstract type="html">The name for this sync.</Abstract>
+					<Abstract type="html">Name for this sync.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Sets error if sync could not be created.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be created.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be created.</Abstract></ReturnValue>
 			<Anchor>//api/name/syncDownWithTarget:options:soupName:syncName:updateBlock:error:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/reSync:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Performs a resync.</Abstract>
+			<Abstract type="html">Perform a resync.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)reSync:(NSNumber *)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
@@ -522,7 +525,7 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 					<Abstract type="html">Sync ID.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -532,7 +535,7 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/reSync:updateBlock:error:</TokenIdentifier>
-			<Abstract type="html">Performs a resync.</Abstract>
+			<Abstract type="html">Perform a resync.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)reSync:(NSNumber *)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError **)error</Declaration>
@@ -542,20 +545,20 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 					<Abstract type="html">Sync ID.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Sets error if sync could not be started.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be started.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be started.</Abstract></ReturnValue>
 			<Anchor>//api/name/reSync:updateBlock:error:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/reSyncByName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Performs a resync by name.</Abstract>
+			<Abstract type="html">Perform a resync by name.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)reSyncByName:(NSString *)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
@@ -565,17 +568,17 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 					<Abstract type="html">Sync name.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be started.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be started.</Abstract></ReturnValue>
 			<Anchor>//api/name/reSyncByName:updateBlock:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/reSyncByName:updateBlock:error:</TokenIdentifier>
-			<Abstract type="html">Performs a resync by name.</Abstract>
+			<Abstract type="html">Perform a resync by name.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)reSyncByName:(NSString *)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError **)error</Declaration>
@@ -585,13 +588,13 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 					<Abstract type="html">Sync name.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Sets error if sync could not be started.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be started.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be started.</Abstract></ReturnValue>
 			<Anchor>//api/name/reSyncByName:updateBlock:error:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
@@ -605,136 +608,141 @@ Call isStopped to see if syncManager is fully paused</Abstract>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
-					<Abstract type="html">The sync up target that will manage the sync up process.</Abstract>
+					<Abstract type="html">Sync up target that will manage the sync up process.</Abstract>
 				</Parameter><Parameter>
 					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync up.</Abstract>
+					<Abstract type="html">Options associated with this sync up. Use this parameter to specify how the sync
+should handle modified records on the server.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
+					<Abstract type="html">Soup name where the local entries are stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>syncName</Name>
-					<Abstract type="html">The name for this sync.</Abstract>
+					<Abstract type="html">Name for this sync.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync up.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync up.</Abstract></ReturnValue>
 			<Anchor>//api/name/createSyncUp:options:soupName:syncName:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncUpWithOptions:soupName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a sync up with the default SFSyncUpTarget.</Abstract>
+			<Abstract type="html">Create and run a sync up with the default SFSyncUpTarget.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)syncUpWithOptions:(SFSyncOptions *)options soupName:(NSString *)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync up.</Abstract>
+					<Abstract type="html">Options associated with this sync up. Use this parameter to specify how the sync
+should handle modified records on the server.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
+					<Abstract type="html">Soup name where the local entries are stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be created.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be created.</Abstract></ReturnValue>
 			<Anchor>//api/name/syncUpWithOptions:soupName:updateBlock:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncUpWithTarget:options:soupName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a sync up with the configured SFSyncUpTarget.</Abstract>
+			<Abstract type="html">Create and run a sync up with the configured SFSyncUpTarget.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)syncUpWithTarget:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
-					<Abstract type="html">The sync up target that will manage the sync up process.</Abstract>
+					<Abstract type="html">Sync up target that will manage the sync up process.</Abstract>
 				</Parameter><Parameter>
 					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync up.</Abstract>
+					<Abstract type="html">Options associated with this sync up. Use this parameter to specify how the sync
+should handle modified records on the server.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
+					<Abstract type="html">Soup name where the local entries are stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be created.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be created.</Abstract></ReturnValue>
 			<Anchor>//api/name/syncUpWithTarget:options:soupName:updateBlock:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncUpWithTarget:options:soupName:syncName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a named sync up.</Abstract>
+			<Abstract type="html">Create and run a named sync up.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)syncUpWithTarget:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
-					<Abstract type="html">The sync up target that will manage the sync up process.</Abstract>
+					<Abstract type="html">Sync up target that will manage the sync up process.</Abstract>
 				</Parameter><Parameter>
 					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync up.</Abstract>
+					<Abstract type="html">Options associated with this sync up. Use this parameter to specify how the sync
+should handle modified records on the server.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
+					<Abstract type="html">Soup name where the local entries are stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>syncName</Name>
-					<Abstract type="html">The name for this sync.</Abstract>
+					<Abstract type="html">Name for this sync.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be created.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be created.</Abstract></ReturnValue>
 			<Anchor>//api/name/syncUpWithTarget:options:soupName:syncName:updateBlock:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncUpWithTarget:options:soupName:syncName:updateBlock:error:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a named sync up.</Abstract>
+			<Abstract type="html">Create and run a named sync up.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
 			<Declaration>- (nullable SFSyncState *)syncUpWithTarget:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>target</Name>
-					<Abstract type="html">The sync up target that will manage the sync up process.</Abstract>
+					<Abstract type="html">Sync up target that will manage the sync up process.</Abstract>
 				</Parameter><Parameter>
 					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync up.</Abstract>
+					<Abstract type="html">Options associated with this sync up. Use this parameter to specify how the sync
+should handle modified records on the server.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
+					<Abstract type="html">Soup name where the local entries are stored.</Abstract>
 				</Parameter><Parameter>
 					<Name>syncName</Name>
-					<Abstract type="html">The name for this sync.</Abstract>
+					<Abstract type="html">Name for this sync.</Abstract>
 				</Parameter><Parameter>
 					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
+					<Abstract type="html">Block to be called with updates.</Abstract>
 				</Parameter><Parameter>
 					<Name>error</Name>
 					<Abstract type="html">Sets error if sync could not be created.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync or nil if it could not be created.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">Sync state associated with this sync, or nil if it could not be created.</Abstract></ReturnValue>
 			<Anchor>//api/name/syncUpWithTarget:options:soupName:syncName:updateBlock:error:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/cleanResyncGhosts:completionStatusBlock:</TokenIdentifier>
-			<Abstract type="html">Removes local copies of records that have been deleted on the server
+			<Abstract type="html">Remove local copies of records that have been deleted on the server
 or do not match the query results on the server anymore.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
@@ -755,7 +763,7 @@ or do not match the query results on the server anymore.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/cleanResyncGhosts:completionStatusBlock:error:</TokenIdentifier>
-			<Abstract type="html">Removes local copies of records that have been deleted on the server
+			<Abstract type="html">Remove local copies of records that have been deleted on the server
 or do not match the query results on the server anymore.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
@@ -779,7 +787,7 @@ or do not match the query results on the server anymore.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/cleanResyncGhostsByName:completionStatusBlock:error:</TokenIdentifier>
-			<Abstract type="html">Removes local copies of records that have been deleted on the server
+			<Abstract type="html">Remove local copies of records that have been deleted on the server
 or do not match the query results on the server anymore.</Abstract>
 			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
 			
