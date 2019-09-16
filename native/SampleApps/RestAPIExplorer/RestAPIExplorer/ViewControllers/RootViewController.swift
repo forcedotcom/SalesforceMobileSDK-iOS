@@ -283,6 +283,7 @@ class RootViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = UIFont.appBoldFont(14)
         field.textColor = UIColor.appTextFieldBlue
+        field.backgroundColor = UIColor.white
         field.layer.cornerRadius = 4.0
         field.layer.borderColor = UIColor.appTextFieldBorder.cgColor
         field.layer.borderWidth = 1.0
@@ -520,6 +521,7 @@ class RootViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = false
         textView.font = UIFont.appBoldFont(14)
+        textView.textColor = UIColor.black
         textView.backgroundColor = UIColor.appTextViewYellowBackground
         textView.layer.borderColor = UIColor.appTextFieldBorder.cgColor
         textView.layer.borderWidth = 1.0
