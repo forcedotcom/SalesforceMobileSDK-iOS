@@ -53,8 +53,6 @@
 
 #define __SALESFORCE_SDK_7_3_0 70300
 
-#define __SALESFORCE_SDK_7_4_0 70400
-
 #define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_7_3_0
 
 #define SALESFORCE_SDK_VERSION [NSString stringWithFormat:@"%d.%d.%d%@",              \
