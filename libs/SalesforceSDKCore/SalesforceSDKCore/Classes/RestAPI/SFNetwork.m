@@ -43,8 +43,6 @@ static SFSDKSafeMutableDictionary *sharedInstances = nil;
 
 @implementation SFNetwork
 
-static NSURLSessionConfiguration *kSFSessionConfig;
-
 + (instancetype)sharedEphemeralInstance {
     return [SFNetwork sharedEphemeralInstanceWithIdentifier:kSFNetworkEphemeralInstanceIdentifier];
 }
