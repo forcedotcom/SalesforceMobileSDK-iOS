@@ -42,19 +42,11 @@
 
 @implementation SFRestAPI (Files)
 
-- (SFRestRequest *)requestForOwnedFilesList:(NSString *)userId page:(NSUInteger)page {
-    return [self requestForOwnedFilesList:userId page:page apiVersion:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForOwnedFilesList:(NSString *)userId page:(NSUInteger)page apiVersion:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/connect%@/files/users/%@", [self computeAPIVersion:apiVersion], [self communitiesUrlPathIfRequired],  (userId == nil ? ME : userId)];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (page) params[PAGE] = @(page);
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
-}
-
-- (SFRestRequest *)requestForFilesInUsersGroups:(NSString *)userId page:(NSUInteger)page {
-    return [self requestForFilesInUsersGroups:userId page:page apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForFilesInUsersGroups:(NSString *)userId page:(NSUInteger)page apiVersion:(NSString *)apiVersion {
@@ -64,19 +56,11 @@
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 
-- (SFRestRequest *)requestForFilesSharedWithUser:(NSString *)userId page:(NSUInteger)page {
-    return [self requestForFilesSharedWithUser:userId page:page apiVersion:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForFilesSharedWithUser:(NSString *)userId page:(NSUInteger)page apiVersion:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/connect%@/files/users/%@/filter/sharedwithme", [self computeAPIVersion:apiVersion], [self communitiesUrlPathIfRequired],(userId == nil ? ME : userId)];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (page) params[PAGE] = @(page);
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
-}
-
-- (SFRestRequest *)requestForFileDetails:(NSString *)sfdcId forVersion:(NSString *)version {
-    return [self requestForFileDetails:sfdcId forVersion:version apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForFileDetails:(NSString *)sfdcId forVersion:(NSString *)version apiVersion:(NSString *)apiVersion {
@@ -86,18 +70,10 @@
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
 }
 
-- (SFRestRequest *)requestForBatchFileDetails:(NSArray *)sfdcIds {
-    return [self requestForBatchFileDetails:sfdcIds apiVersion:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForBatchFileDetails:(NSArray *)sfdcIds apiVersion:(NSString *)apiVersion {
     NSString *ids = [sfdcIds componentsJoinedByString:@","];
     NSString *path = [NSString stringWithFormat:@"/%@/connect%@/files/batch/%@", [self computeAPIVersion:apiVersion], [self communitiesUrlPathIfRequired], ids];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
-}
-
-- (SFRestRequest *)requestForFileRendition:(NSString *)sfdcId version:(NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page {
-    return [self requestForFileRendition:sfdcId version:version renditionType:renditionType page:page apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForFileRendition:(NSString *)sfdcId version:(NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page apiVersion:(NSString *)apiVersion {
@@ -110,10 +86,6 @@
     return request;
 }
 
-- (SFRestRequest *)requestForFileContents:(NSString *)sfdcId version:(NSString *)version {
-    return [self requestForFileContents:sfdcId version:version apiVersion:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForFileContents:(NSString *)sfdcId version:(NSString *)version apiVersion:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/connect%@/files/%@/content", [self computeAPIVersion:apiVersion], [self communitiesUrlPathIfRequired], sfdcId];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -122,19 +94,11 @@
     return request;
 }
 
-- (SFRestRequest *)requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page {
-    return [self requestForFileShares:sfdcId page:page apiVersion:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page apiVersion:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/connect%@/files/%@/file-shares", [self computeAPIVersion:apiVersion], [self communitiesUrlPathIfRequired], sfdcId];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (page) params[PAGE] = @(page);
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:params];
-}
-
-- (SFRestRequest *)requestForAddFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString *)shareType {
-    return [self requestForAddFileShare:fileId entityId:entityId shareType:shareType apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForAddFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString *)shareType apiVersion:(NSString *)apiVersion {
@@ -151,17 +115,9 @@
     return request;
 }
 
-- (SFRestRequest *)requestForDeleteFileShare:(NSString *)shareId {
-    return [self requestForDeleteFileShare:shareId apiVersion:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForDeleteFileShare:(NSString *)shareId apiVersion:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/ContentDocumentLink/%@", [self computeAPIVersion:apiVersion], shareId];
     return [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:nil];
-}
-
-- (SFRestRequest *)requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType {
-    return [self requestForUploadFile:data name:name description:description mimeType:mimeType apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType apiVersion:(NSString *)apiVersion {
@@ -170,10 +126,6 @@
     NSDictionary *params = @{@"title" : name, @"desc" : description};
     [request addPostFileData:data paramName:FILE_DATA fileName:name mimeType:mimeType params:params];
     return request;
-}
-
-- (SFRestRequest *)requestForProfilePhotoUpload:(NSData *)data fileName:(NSString *)fileName mimeType:(NSString *)mimeType userId:(NSString *)userId {
-    return [self requestForProfilePhotoUpload:data fileName:fileName mimeType:mimeType userId:userId apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForProfilePhotoUpload:(NSData *)data fileName:(NSString *)fileName mimeType:(NSString *)mimeType userId:(NSString *)userId apiVersion:(NSString *)apiVersion {
