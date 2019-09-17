@@ -1087,8 +1087,12 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
         resultData = [userDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
         if (resultData) {
             SFUserAccountIdentity *result = nil;
-            @try {
-                NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:resultData];
+            NSError* error = nil;
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:resultData error:&error];
+            unarchiver.requiresSecureCoding = NO;
+            if (error) {
+                [SFSDKCoreLogger e:[self class] format:@"Failed to init unarchiver for current user identity from user defaults: %@.", error];
+            } else {
                 result = [unarchiver decodeObjectForKey:kUserDefaultsLastUserIdentityKey];
                 [unarchiver finishDecoding];
                 if (result) {
@@ -1096,8 +1100,6 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
                 } else {
                     [SFSDKCoreLogger e:[self class] format:@"Located current user Identity in NSUserDefaults but was not found in list of accounts managed by SFUserAccountManager."];
                 }
-            } @catch (NSException *exception) {
-                [SFSDKCoreLogger d:[self class] format:@"Could not parse current user identity from user defaults. Setting to nil."];
             }
         }
         [_accountsLock unlock];
@@ -1158,11 +1160,10 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
     NSUserDefaults *standardDefaults = [NSUserDefaults msdkUserDefaults];
     [_accountsLock lock];
     if (userAccountIdentity) {
-        NSMutableData *auiData = [NSMutableData data];
-        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:auiData];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
         [archiver encodeObject:userAccountIdentity forKey:kUserDefaultsLastUserIdentityKey];
         [archiver finishEncoding];
-        [standardDefaults setObject:auiData forKey:kUserDefaultsLastUserIdentityKey];
+        [standardDefaults setObject:archiver.encodedData forKey:kUserDefaultsLastUserIdentityKey];
     } else {  //clear current user if userAccountIdentity is nil
         [standardDefaults removeObjectForKey:kUserDefaultsLastUserIdentityKey];
     }

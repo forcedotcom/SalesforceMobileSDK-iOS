@@ -190,7 +190,7 @@
 
 - (void)testRSAKeyGeneration
 {
-    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAfterFirstUnlock];
     NSData *privateKeyData = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test" keyLength:2048];
     XCTAssertNotNil(privateKeyData);
     NSString *publicKeyString = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:@"test" keyLength:2048];
@@ -199,8 +199,8 @@
 
 - (void)testRSAKeyGenerationDifferentKey
 {
-    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAlways];
-    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test2" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAfterFirstUnlock];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test2" keyLength:2048 accessibleAttribute:kSecAttrAccessibleAfterFirstUnlock];
 
     NSData *privateKeyData1 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test1" keyLength:2048];
     XCTAssertNotNil(privateKeyData1);
@@ -218,7 +218,7 @@
 
     XCTAssertFalse([public1KeyString isEqualToString:public2KeyString], @"should get different public key strings with different keynames");
 
-    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:1024 accessibleAttribute:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:1024 accessibleAttribute:kSecAttrAccessibleAfterFirstUnlock];
 
     NSData *privateKeyData3 = [SFSDKCryptoUtils getRSAPrivateKeyDataWithName:@"test1" keyLength:1024];
     XCTAssertNotNil(privateKeyData3);
@@ -235,7 +235,7 @@
 {
     size_t keySize = 2048;
 
-    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAfterFirstUnlock];
 
     SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test" keyLength:keySize];
     SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
@@ -255,7 +255,7 @@
 {
     size_t keySize = 2048;
     
-    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAfterFirstUnlock];
     
     SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test" keyLength:keySize];
     SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
@@ -272,8 +272,8 @@
 {
     size_t keySize = 2048;
 
-    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
-    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAlways];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test1" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAfterFirstUnlock];
+    [SFSDKCryptoUtils createRSAKeyPairWithName:@"test" keyLength:keySize accessibleAttribute:kSecAttrAccessibleAfterFirstUnlock];
 
     SecKeyRef publicKeyRef = [SFSDKCryptoUtils getRSAPublicKeyRefWithName:@"test1" keyLength:keySize];
     SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:@"test" keyLength:keySize];
@@ -298,7 +298,7 @@
     XCTAssertFalse(publicKeyRef != NULL, @"Private key should not have been found");
 
     // Create keys
-    [SFSDKCryptoUtils createECKeyPairWithName:@"test" accessibleAttribute:kSecAttrAccessibleAlways useSecureEnclave:[SFSDKCryptoUtils isSecureEnclaveAvailable]];
+    [SFSDKCryptoUtils createECKeyPairWithName:@"test" accessibleAttribute:kSecAttrAccessibleAfterFirstUnlock useSecureEnclave:[SFSDKCryptoUtils isSecureEnclaveAvailable]];
     
     // Keys should exist
     privateKeyRef = [SFSDKCryptoUtils getECPrivateKeyRefWithName:@"test"];
@@ -319,7 +319,7 @@
 - (void)testECEncryptionAndDecryptionForData
 {
     // Create keys
-    [SFSDKCryptoUtils createECKeyPairWithName:@"test" accessibleAttribute:kSecAttrAccessibleAlways useSecureEnclave:[SFSDKCryptoUtils isSecureEnclaveAvailable]];
+    [SFSDKCryptoUtils createECKeyPairWithName:@"test" accessibleAttribute:kSecAttrAccessibleAfterFirstUnlock useSecureEnclave:[SFSDKCryptoUtils isSecureEnclaveAvailable]];
     SecKeyRef privateKeyRef = [SFSDKCryptoUtils getECPrivateKeyRefWithName:@"test"];
     SecKeyRef publicKeyRef = [SFSDKCryptoUtils getECPublicKeyRefWithName:@"test"];
 
