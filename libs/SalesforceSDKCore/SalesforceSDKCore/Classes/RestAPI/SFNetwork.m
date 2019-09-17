@@ -43,11 +43,6 @@ static SFSDKSafeMutableDictionary *sharedInstances = nil;
 
 @implementation SFNetwork
 
-static NSURLSessionConfiguration *kSFSessionConfig;
-SFSDK_USE_DEPRECATED_BEGIN
-__weak static id<SFNetworkSessionManaging> kSFNetworkManager;
-SFSDK_USE_DEPRECATED_END
-
 + (instancetype)sharedEphemeralInstance {
     return [SFNetwork sharedEphemeralInstanceWithIdentifier:kSFNetworkEphemeralInstanceIdentifier];
 }
@@ -88,39 +83,6 @@ SFSDK_USE_DEPRECATED_END
     return self;
 }
 
-- (instancetype)initWithEphemeralSession {
-    self = [super init];
-    if (self) {
-        NSURLSessionConfiguration *ephemeralSessionConfig = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-        if (kSFSessionConfig) {
-            ephemeralSessionConfig = kSFSessionConfig;
-        }
-        if (kSFNetworkManager) {
-            self.activeSession = [kSFNetworkManager ephemeralSession:ephemeralSessionConfig];
-        } else {
-            self.activeSession = [NSURLSession sessionWithConfiguration:ephemeralSessionConfig];
-        }
-    }
-    return self;
-}
-
-- (instancetype)initWithBackgroundSession {
-    self = [super init];
-    if (self) {
-        NSString *identifier = [NSString stringWithFormat:@"com.salesforce.network.%lu", (unsigned long)self.hash];
-        NSURLSessionConfiguration *backgroundSessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
-        if (kSFSessionConfig) {
-            backgroundSessionConfig = kSFSessionConfig;
-        }
-        if (kSFNetworkManager) {
-            self.activeSession = [kSFNetworkManager backgroundSession:backgroundSessionConfig];
-        } else {
-            self.activeSession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig];
-        }
-    }
-    return self;
-}
-
 - (NSURLSessionDataTask *)sendRequest:(NSMutableURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
 
     // Sets Mobile SDK user agent if it hasn't been set already elsewhere.
@@ -139,14 +101,6 @@ SFSDK_USE_DEPRECATED_END
 + (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig identifier:(nonnull NSString *)identifier {
     [SFNetwork removeSharedInstanceForIdentifier:identifier];
     [SFNetwork sharedInstanceWithIdentifier:identifier sessionConfiguration:sessionConfig];
-}
-
-+ (void)setSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig {
-    kSFSessionConfig = sessionConfig;
-}
-
-+ (void)setSessionManager:(id<SFNetworkSessionManaging>)manager {
-    kSFNetworkManager = manager;
 }
 
 + (NSArray *)sharedInstanceIdentifiers {
