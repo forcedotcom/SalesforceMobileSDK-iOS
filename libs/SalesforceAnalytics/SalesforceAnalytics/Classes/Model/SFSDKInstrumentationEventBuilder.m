@@ -101,7 +101,7 @@
 - (NSString *) getMobileConnectionSubType {
     NSString *type = @"Mobile";
     CTTelephonyNetworkInfo *telephonyInfo = [[CTTelephonyNetworkInfo alloc] init];
-    NSString *subType = telephonyInfo.currentRadioAccessTechnology;
+    NSString *subType = telephonyInfo.serviceCurrentRadioAccessTechnology.allValues.firstObject;
     if (subType != nil) {
         type = [NSString stringWithFormat:@"Mobile;%@", subType];
     }

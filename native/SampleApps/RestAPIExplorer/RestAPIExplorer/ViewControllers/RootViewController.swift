@@ -171,16 +171,10 @@ class RootViewController: UIViewController {
         self.view.addSubview(querybar)
         self.view.addSubview(responseContent)
         
-        var topAnchor = self.view.topAnchor
-        var bottomAnchor = self.view.bottomAnchor
-        var rightAnchor = self.view.rightAnchor
-        var leftAnchor = self.view.leftAnchor
-        if #available(iOS 11.0, *) {
-            topAnchor = self.view.safeAreaLayoutGuide.topAnchor
-            bottomAnchor = self.view.safeAreaLayoutGuide.bottomAnchor
-            rightAnchor = self.view.safeAreaLayoutGuide.rightAnchor
-            leftAnchor = self.view.safeAreaLayoutGuide.leftAnchor
-        }
+        let topAnchor = self.view.safeAreaLayoutGuide.topAnchor
+        let bottomAnchor = self.view.safeAreaLayoutGuide.bottomAnchor
+        let rightAnchor = self.view.safeAreaLayoutGuide.rightAnchor
+        let leftAnchor = self.view.safeAreaLayoutGuide.leftAnchor
         
         // let safe = self.view.safeAreaLayoutGuide
         paramContent.topAnchor.constraint(equalTo: topAnchor).isActive = true

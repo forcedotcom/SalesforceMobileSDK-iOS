@@ -88,7 +88,7 @@ static NSString * const kMessageKey = @"message";
 }
 
 - (void)log:(nonnull Class)cls level:(SFLogLevel)level message:(nonnull NSString *)message {
-    [[NSNotificationCenter defaultCenter]postNotificationName:kLogNotification object:self  userInfo:@{kLogLevelKey: [NSNumber numberWithInt:level],kMessageKey:message,kClassKey:cls}];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kLogNotification object:self  userInfo:@{kLogLevelKey: @(level),kMessageKey:message,kClassKey:cls}];
 }
 
 - (void)log:(nonnull Class)cls level:(SFLogLevel)level format:(nonnull NSString *)format, ... {

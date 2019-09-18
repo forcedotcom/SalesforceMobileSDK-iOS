@@ -121,8 +121,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
  */
 - (void)testCredentialsCoding {
     
-    NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    NSData *data;
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
     
     SFOAuthKeychainCredentials *credsIn = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     credsIn.domain          = @"login.salesforce.com";
@@ -136,9 +136,11 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     
     [archiver encodeObject:credsIn forKey:@"creds"];
     [archiver finishEncoding];
+    data = archiver.encodedData;
     archiver = nil;
     
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
+    unarchiver.requiresSecureCoding = NO;
     SFOAuthCredentials * credsOut = [unarchiver decodeObjectForKey:@"creds"];
     unarchiver = nil;
     

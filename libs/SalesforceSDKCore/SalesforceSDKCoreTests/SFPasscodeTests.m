@@ -78,11 +78,12 @@
     NSString *codingKey = @"TestSerializedData";
     NSUInteger derivedKeyLength = 128;
     SFPBKDFData *pbkdfStartData = [[SFPBKDFData alloc] initWithKey:[keyString dataUsingEncoding:NSUTF8StringEncoding] salt:[saltString dataUsingEncoding:NSUTF8StringEncoding] derivationRounds:derivationRounds derivedKeyLength:derivedKeyLength];
-    NSMutableData *serializedData = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:serializedData];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
     [archiver encodeObject:pbkdfStartData forKey:codingKey];
     [archiver finishEncoding];
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:serializedData];
+    NSData *serializedData = archiver.encodedData;
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:serializedData error:nil];
+    unarchiver.requiresSecureCoding = NO;
     SFPBKDFData *pbkdfEndData = [unarchiver decodeObjectForKey:codingKey];
     [unarchiver finishDecoding];
     NSString *verifyKeyString = [[NSString alloc] initWithData:pbkdfEndData.derivedKey encoding:NSUTF8StringEncoding];
