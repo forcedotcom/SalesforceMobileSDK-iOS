@@ -396,7 +396,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session {
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:didBeginAuthenticationWithSession:"];
     if ([self.config.safariViewDelegate respondsToSelector:@selector(authClient:didBeginAuthenticationWithSession:)]) {
         [self.config.safariViewDelegate authClient:self didBeginAuthenticationWithSession:session];

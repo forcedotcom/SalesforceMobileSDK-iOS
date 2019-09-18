@@ -200,7 +200,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     }
 
     // Serialize the user account data.
-    NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:userAccount];
+    NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:userAccount requiringSecureCoding:NO error:nil];
     if (!archiveData) {
         NSString *reason = [NSString stringWithFormat:@"Could not archive user account data to save it.  %@",filePath];
         [SFSDKCoreLogger w:[self class] format:reason];
@@ -271,7 +271,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
             return NO;
         }
 
-        SFUserAccount *decryptedAccount = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedArchiveData];
+        SFUserAccount *decryptedAccount = [NSKeyedUnarchiver unarchivedObjectOfClass:SFUserAccount.class fromData:decryptedArchiveData error:nil];
 
             // On iOS9, it won't throw an exception, but will return nil instead.
         if (decryptedAccount) {

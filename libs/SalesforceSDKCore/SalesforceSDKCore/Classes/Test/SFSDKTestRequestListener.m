@@ -114,7 +114,7 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     NSAssert(NO, @"User Agent flow not supported in this class.");
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session {
     NSAssert(NO, @"Web Server flow not supported in this class.");
 }
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
