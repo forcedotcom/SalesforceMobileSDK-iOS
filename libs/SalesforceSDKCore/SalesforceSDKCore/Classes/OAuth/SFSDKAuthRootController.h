@@ -1,5 +1,8 @@
 /*
- Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
+ SFSDKAuthRootController.h
+ SalesforceSDKCore
+ 
+ Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,32 +25,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthCoordinator.h"
-#import "SalesforceOAuthUnitTestsCoordinatorDelegate.h"
+/**
+  Sub class of SFSDKRootViewController used in the auth window
+  Implements the ASWebAuthenticationPresentationContextProviding on iOS 13
+ */
 
-@implementation SalesforceOAuthUnitTestsCoordinatorDelegate
+#import "SFSDKRootController.h"
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view {
-    // we should never be called here as the test sets a refresh token in the credentials, 
-    // therefore we do the refresh flow instead of the user agent flow
-    XCTFail(@"user agent authentication flow should not begin");
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
-    // we should never be called here as the test sets a refresh token in the credentials, 
-    // therefore we do the refresh flow instead of the user agent flow
-    XCTFail(@"user agent authentication flow should not begin");
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session {
-
-    // ASWebAuthenticationSession auth flow is not supported in unit test framework.
-    XCTFail(@"ASWebAuthenticationSession auth flow is not supported in unit test framework");
-}
-- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
-
-    // ASWebAuthenticationSession auth flow is not supported in unit test framework.
-    XCTFail(@"ASWebAuthenticationSession auth flow is not supported in unit test framework");
-}
+@interface SFSDKAuthRootController : SFSDKRootController
 
 @end

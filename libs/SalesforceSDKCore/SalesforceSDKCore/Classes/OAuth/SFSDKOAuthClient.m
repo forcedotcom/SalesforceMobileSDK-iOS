@@ -41,6 +41,7 @@
 #import "SFSecurityLockout.h"
 #import "SFSDKIDPAuthClient.h"
 #import "SFOAuthCredentials+Internal.h"
+#import "SFSDKAuthRootController.h"
 
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
@@ -396,7 +397,7 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
 
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session {
     [SFSDKCoreLogger d:[self class] format:@"oauthCoordinator:didBeginAuthenticationWithSession:"];
     if ([self.config.safariViewDelegate respondsToSelector:@selector(authClient:didBeginAuthenticationWithSession:)]) {
         [self.config.safariViewDelegate authClient:self didBeginAuthenticationWithSession:session];
@@ -636,17 +637,22 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
     
     __weak typeof(self) weakSelf = self;
     void (^presentViewBlock)(void) = ^void() {
-
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!viewHandler.isAdvancedAuthFlow) {
             UIViewController *controllerToPresent = [[SFSDKNavigationController  alloc]  initWithRootViewController:viewHandler.loginController];
             controllerToPresent.modalPresentationStyle = UIModalPresentationFullScreen;
-            [weakSelf.authWindow.viewController presentViewController:controllerToPresent animated:NO completion:^{
+            [strongSelf.authWindow.viewController presentViewController:controllerToPresent animated:NO completion:^{
                 NSAssert((nil != [viewHandler.loginController.oauthView superview]), @"No superview for oauth web view invoke [super viewDidLayoutSubviews] in the SFLoginViewController subclass");
             }];
         }
         else {
+            if (@available(iOS 13.0, *)) {
+                SFSDKAuthRootController* authRootController = [[SFSDKAuthRootController alloc] init];
+                strongSelf.authWindow.viewController = authRootController;
+                authRootController.modalPresentationStyle = UIModalPresentationFullScreen;
+                viewHandler.session.presentationContextProvider = (id<ASWebAuthenticationPresentationContextProviding>) authRootController;
+            }
             [viewHandler.session start];
-            // FIXME what if it returns NO
         }
     };
     
