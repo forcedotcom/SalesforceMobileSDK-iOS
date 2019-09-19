@@ -49,11 +49,11 @@
     
     <target name="smartSyncDoc">
         <antcall target="clean">
-            <param name="buildConfiguration" value="SmartSync" />
+            <param name="buildConfiguration" value="MobileSync" />
         </antcall>
         <antcall target="buildDoc">
             <param name="PROJECT_DIR" value="../libs" />
-            <param name="PROJECT_NAME" value="SmartSync" />
+            <param name="PROJECT_NAME" value="MobileSync" />
         </antcall>
     </target>
 

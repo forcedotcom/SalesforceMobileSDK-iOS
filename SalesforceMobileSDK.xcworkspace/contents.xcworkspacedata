@@ -42,7 +42,7 @@
          location = "group:libs/SmartStore/SmartStore.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:libs/SmartSync/SmartSync.xcodeproj">
+         location = "group:libs/MobileSync/MobileSync.xcodeproj">
       </FileRef>
    </Group>
    <Group
@@ -52,7 +52,7 @@
          location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
+         location = "group:native/SampleApps/MobileSyncExplorer/MobileSyncExplorer.xcodeproj">
       </FileRef>
    </Group>
    <Group

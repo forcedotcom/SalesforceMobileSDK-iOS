@@ -2,7 +2,7 @@
 
 To upgrade native apps, we strongly recommend creating a new app from the app templates in [the forceios npm package](https://npmjs.org/package/forceios), then migrating the artifacts specific to your app into the new template.
 
-For Swift, SmartSync Data Framework requires a few code changes. These changes result from enhanced error handling in some Objective-C methods. Because the Swift methods derive from these new Objective-C versions, they can now throw. Add try statements around calls to these sync methods:
+For Swift, MobileSync Data Framework requires a few code changes. These changes result from enhanced error handling in some Objective-C methods. Because the Swift methods derive from these new Objective-C versions, they can now throw. Add try statements around calls to these sync methods:
 
 ```
 open func syncDown(target: SyncDownTarget, options: SyncOptions, soupName: String, syncName: String?, onUpdate updateBlock: *@escaping* SyncUpdateBlock) throws -> SyncState

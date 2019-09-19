@@ -2034,10 +2034,10 @@ static NSException *authException = nil;
 // Tests that overridden user agent is set on the request.
 - (void)testRequestUserAgentWithOverride {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT apiVersion:kSFRestDefaultAPIVersion];
-    [request setHeaderValue:[SFRestAPI userAgentString:@"SmartSync"] forHeaderName:@"User-Agent"];
+    [request setHeaderValue:[SFRestAPI userAgentString:@"MobileSync"] forHeaderName:@"User-Agent"];
     [self sendSyncRequest:request];
     NSString *userAgent = request.request.allHTTPHeaderFields[@"User-Agent"];
-    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString:@"SmartSync"], @"Incorrect user agent");
+    XCTAssertEqualObjects(userAgent, [SFRestAPI userAgentString:@"MobileSync"], @"Incorrect user agent");
 }
 
 #pragma mark - custom rest requests

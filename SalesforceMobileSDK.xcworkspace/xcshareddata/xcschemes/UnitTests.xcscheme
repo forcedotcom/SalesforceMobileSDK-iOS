@@ -57,9 +57,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE2C81C0E463C009F6029"
-               BuildableName = "SmartSync.framework"
-               BlueprintName = "SmartSync"
-               ReferencedContainer = "container:libs/SmartSync/SmartSync.xcodeproj">
+               BuildableName = "MobileSync.framework"
+               BlueprintName = "MobileSync"
+               ReferencedContainer = "container:libs/MobileSync/MobileSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -85,9 +85,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "827C631019E6018C00027484"
-               BuildableName = "SmartSyncExplorer.app"
-               BlueprintName = "SmartSyncExplorer"
-               ReferencedContainer = "container:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
+               BuildableName = "MobileSyncExplorer.app"
+               BlueprintName = "MobileSyncExplorer"
+               ReferencedContainer = "container:native/SampleApps/MobileSyncExplorer/MobileSyncExplorer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -169,9 +169,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CEAAAE54195911E600CBBFE9"
-               BuildableName = "SmartSyncTests.xctest"
-               BlueprintName = "SmartSyncTests"
-               ReferencedContainer = "container:libs/SmartSync/SmartSync.xcodeproj">
+               BuildableName = "MobileSyncTests.xctest"
+               BlueprintName = "MobileSyncTests"
+               ReferencedContainer = "container:libs/MobileSync/MobileSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -225,9 +225,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CEA883ED1C19160E008D871B"
-               BuildableName = "libSmartSync.a"
-               BlueprintName = "SmartSyncStatic"
-               ReferencedContainer = "container:libs/SmartSync/SmartSync.xcodeproj">
+               BuildableName = "libMobileSync.a"
+               BlueprintName = "MobileSyncStatic"
+               ReferencedContainer = "container:libs/MobileSync/MobileSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -253,9 +253,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4F06AF2D1C499FD100F70798"
-               BuildableName = "SmartSyncTestApp.app"
-               BlueprintName = "SmartSyncTestApp"
-               ReferencedContainer = "container:libs/SmartSync/SmartSync.xcodeproj">
+               BuildableName = "MobileSyncTestApp.app"
+               BlueprintName = "MobileSyncTestApp"
+               ReferencedContainer = "container:libs/MobileSync/MobileSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -267,9 +267,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4F1DA68A1C84FD7E0014FAD3"
-               BuildableName = "SmartSyncExplorerUITests.xctest"
-               BlueprintName = "SmartSyncExplorerUITests"
-               ReferencedContainer = "container:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
+               BuildableName = "MobileSyncExplorerUITests.xctest"
+               BlueprintName = "MobileSyncExplorerUITests"
+               ReferencedContainer = "container:native/SampleApps/MobileSyncExplorer/MobileSyncExplorer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -386,9 +386,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CEAAAE54195911E600CBBFE9"
-               BuildableName = "SmartSyncTests.xctest"
-               BlueprintName = "SmartSyncTests"
-               ReferencedContainer = "container:libs/SmartSync/SmartSync.xcodeproj">
+               BuildableName = "MobileSyncTests.xctest"
+               BlueprintName = "MobileSyncTests"
+               ReferencedContainer = "container:libs/MobileSync/MobileSync.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -396,9 +396,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4F1DA68A1C84FD7E0014FAD3"
-               BuildableName = "SmartSyncExplorerUITests.xctest"
-               BlueprintName = "SmartSyncExplorerUITests"
-               ReferencedContainer = "container:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
+               BuildableName = "MobileSyncExplorerUITests.xctest"
+               BlueprintName = "MobileSyncExplorerUITests"
+               ReferencedContainer = "container:native/SampleApps/MobileSyncExplorer/MobileSyncExplorer.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference

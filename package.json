@@ -24,7 +24,7 @@
         "SalesforceAnalytics.podspec",
 	    "SalesforceSDKCore.podspec",
 	    "SmartStore.podspec",
-        "SmartSync.podspec",
+        "MobileSync.podspec",
         "SalesforceReact.podspec",
         "libs",
         "shared/resources",
