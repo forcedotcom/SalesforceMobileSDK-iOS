@@ -1049,24 +1049,6 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
     [credentials resetCredentialsChangeSet];
 
     currentAccount.idData = identityData;
-    // If the user has logged using a community-base URL, then let's create the community data
-    // related to this community using the information we have from oauth.
-    SFSDK_USE_DEPRECATED_BEGIN
-    currentAccount.communityId = credentials.communityId;
-    if (currentAccount.communityId) {
-        SFCommunityData *communityData = [[SFCommunityData alloc] init];
-        communityData.entityId = credentials.communityId;
-        communityData.siteUrl = credentials.communityUrl;
-        if (![currentAccount communityWithId:credentials.communityId]) {
-            if (currentAccount.communities) {
-                currentAccount.communities = [currentAccount.communities arrayByAddingObject:communityData];
-            } else {
-                currentAccount.communities = @[communityData];
-            }
-        }
-        SFSDK_USE_DEPRECATED_END
-    }
-
     [self saveAccountForUser:currentAccount error:nil];
 
     if(shouldSendNotification) {
