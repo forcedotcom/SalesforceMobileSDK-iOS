@@ -122,7 +122,7 @@
         });
     }
 }
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session {
 
     // Do nothing - doesn't apply to the refresh flow.
 }
