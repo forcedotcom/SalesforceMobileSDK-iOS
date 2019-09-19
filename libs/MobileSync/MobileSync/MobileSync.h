@@ -2,7 +2,7 @@
  MobileSync.h
  MobileSync
 
- Created by Bharath Hariharan on Tue Mar 26 09:23:13 PDT 2019.
+ Created by Wolfgang Mathurin on Thu Sep 19 10:37:50 PDT 2019.
 
  Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
@@ -29,32 +29,32 @@
 
 #import <MobileSync/SFObject.h>
 #import <MobileSync/SFParentChildrenSyncDownTarget.h>
+#import <MobileSync/SFMobileSyncObjectUtils.h>
 #import <MobileSync/SFRefreshSyncDownTarget.h>
+#import <MobileSync/SFMobileSyncSyncManager.h>
+#import <MobileSync/SFMobileSyncNetworkUtils.h>
+#import <MobileSync/SFMobileSyncConstants.h>
 #import <MobileSync/SFMetadataSyncDownTarget.h>
 #import <MobileSync/SFLayout.h>
 #import <MobileSync/SFMetadata.h>
 #import <MobileSync/SFMetadataSyncManager.h>
-#import <MobileSync/SFMobileSyncConstants.h>
-#import <MobileSync/SFBatchSyncUpTarget.h>
 #import <MobileSync/SFMobileSyncPersistableObject.h>
 #import <MobileSync/SFMobileSyncSyncManager+Instrumentation.h>
+#import <MobileSync/SFBatchSyncUpTarget.h>
 #import <MobileSync/SFSoslSyncDownTarget.h>
 #import <MobileSync/SFChildrenInfo.h>
 #import <MobileSync/SFSyncTarget.h>
 #import <MobileSync/SFLayoutSyncManager.h>
-#import <MobileSync/SFMobileSyncNetworkUtils.h>
 #import <MobileSync/SFParentChildrenSyncHelper.h>
-#import <MobileSync/SFMobileSyncObjectUtils.h>
 #import <MobileSync/SFSyncUpTarget.h>
-#import <MobileSync/MobileSyncSDKManager.h>
-#import <MobileSync/SFMobileSyncSyncManager.h>
 #import <MobileSync/SFMruSyncDownTarget.h>
 #import <MobileSync/SFLayoutSyncDownTarget.h>
 #import <MobileSync/SFAdvancedSyncUpTarget.h>
 #import <MobileSync/SFSyncDownTarget.h>
-#import <MobileSync/SFSDKMobileSyncLogger.h>
+#import <MobileSync/MobileSyncSDKManager.h>
 #import <MobileSync/SFParentChildrenSyncUpTarget.h>
 #import <MobileSync/SFParentInfo.h>
+#import <MobileSync/SFSDKMobileSyncLogger.h>
 #import <MobileSync/SFSyncState.h>
 #import <MobileSync/SFSoqlSyncDownTarget.h>
 #import <MobileSync/SFSyncOptions.h>
