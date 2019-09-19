@@ -30,7 +30,7 @@ extern NSString * _Nonnull const kSFSyncUpTargetUpdateFieldlist;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SFSmartSyncSyncManager;
+@class SFMobileSyncSyncManager;
 
 /**
  Enumeration of types of server targets.
@@ -154,7 +154,7 @@ NS_SWIFT_NAME(SyncUpTarget)
  @param record The record
  @param resultBlock The block to execute
  */
-- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager
+- (void)isNewerThanServer:(SFMobileSyncSyncManager *)syncManager
                    record:(NSDictionary*)record
              resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock;
 
@@ -166,7 +166,7 @@ NS_SWIFT_NAME(SyncUpTarget)
  @param completionBlock The block to execute after the server call completes.
  @param failBlock The block to execute if the server call fails.
  */
-- (void)createOnServer:(SFSmartSyncSyncManager *)syncManager
+- (void)createOnServer:(SFMobileSyncSyncManager *)syncManager
                 record:(NSDictionary*)record
              fieldlist:(NSArray*)fieldlist
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
@@ -180,7 +180,7 @@ NS_SWIFT_NAME(SyncUpTarget)
  @param completionBlock The block to execute after the server call completes.
  @param failBlock The block to execute if the server call fails.
  */
-- (void)updateOnServer:(SFSmartSyncSyncManager *)syncManager
+- (void)updateOnServer:(SFMobileSyncSyncManager *)syncManager
                 record:(NSDictionary*)record
              fieldlist:(NSArray*)fieldlist
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
@@ -193,7 +193,7 @@ NS_SWIFT_NAME(SyncUpTarget)
  @param completionBlock The block to execute after the server call completes.
  @param failBlock The block to execute if the server call fails.
  */
-- (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager
+- (void)deleteOnServer:(SFMobileSyncSyncManager *)syncManager
                 record:(NSDictionary*)record
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
              failBlock:(SFSyncUpTargetErrorBlock)failBlock NS_SWIFT_NAME(deleteOnServer(syncManager:record:onComplete:onFail:));
@@ -204,7 +204,7 @@ NS_SWIFT_NAME(SyncUpTarget)
  @param syncManager The sync manager running the sync.
  @param soupName The soup name to look into for records.
  */
-- (NSArray *)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager *)syncManager
+- (NSArray *)getIdsOfRecordsToSyncUp:(SFMobileSyncSyncManager *)syncManager
                             soupName:(NSString *)soupName;
 /**
  Save record with last error if any
@@ -212,7 +212,7 @@ NS_SWIFT_NAME(SyncUpTarget)
  @param soupName the soup to save the record to
  @param record The record being synced
  */
-- (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
+- (void) saveRecordToLocalStoreWithLastError:(SFMobileSyncSyncManager*)syncManager
                                     soupName:(NSString*) soupName
                                       record:(NSDictionary*) record NS_SWIFT_NAME(saveRecordToLocalStoreWithLastError(syncManager:soupName:record:));
 

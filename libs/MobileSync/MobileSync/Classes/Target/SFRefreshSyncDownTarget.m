@@ -23,11 +23,11 @@
  */
 
 #import "SFRefreshSyncDownTarget.h"
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
-#import "SFSmartSyncConstants.h"
-#import "SFSmartSyncNetworkUtils.h"
-#import "SFSmartSyncObjectUtils.h"
+#import "SFMobileSyncConstants.h"
+#import "SFMobileSyncNetworkUtils.h"
+#import "SFMobileSyncObjectUtils.h"
 #import <SmartStore/SFQuerySpec.h>
 #import <SmartStore/SFSmartStore.h>
 
@@ -102,7 +102,7 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
 
 # pragma mark - Data fetching
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
@@ -116,7 +116,7 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
                                    completeBlock:completeBlock];
 }
 
-- (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) continueFetch:(SFMobileSyncSyncManager*)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
          completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (self.page > 0) {
@@ -129,7 +129,7 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
     }
 }
 
-- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+- (void) getRemoteIds:(SFMobileSyncSyncManager*)syncManager
              localIds:(NSArray*)localIds
            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
@@ -182,7 +182,7 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
     fetchBlock([NSArray new]);
 }
 
-- (void) getIdsFromSmartStoreAndFetchFromServer:(SFSmartSyncSyncManager*)syncManager
+- (void) getIdsFromSmartStoreAndFetchFromServer:(SFMobileSyncSyncManager*)syncManager
                                      errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
                                   completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
@@ -260,14 +260,14 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
               errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
            completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
-    NSString* maxTimeStampStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
+    NSString* maxTimeStampStr = [SFMobileSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
     NSString* andClause = (maxTimeStamp > 0
                            ? [NSString stringWithFormat:@" AND %@ > %@", self.modificationDateFieldName, maxTimeStampStr]
                            : @"");
     NSString* whereClause = [NSString stringWithFormat:@"%@ IN ('%@')%@", self.idFieldName, [ids componentsJoinedByString:@"','"], andClause];
     NSString* soql = [[[[SFSDKSoqlBuilder withFieldsArray:fieldlist] from:self.objectType] whereClause:whereClause] build];
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql apiVersion:kSFRestDefaultAPIVersion];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
         completeBlock(d[kResponseRecords]);

@@ -125,8 +125,8 @@ workflows:
               only:
                 - /pull.*/
       - run-tests:
-          name: "SmartSync"
-          lib: "SmartSync"
+          name: "MobileSync"
+          lib: "MobileSync"
           filters:
             branches:
               only:
@@ -168,8 +168,8 @@ workflows:
           ios: "11.4"
           nightly-test: true
       - run-tests:
-          name: "SmartSync iOS 11 Nightly"
-          lib: "SmartSync"
+          name: "MobileSync iOS 11 Nightly"
+          lib: "MobileSync"
           device: "iPhone X"
           ios: "11.4"
           nightly-test: true
@@ -202,8 +202,8 @@ workflows:
           lib: "SmartStore"
           nightly-test: true
       - run-tests:
-          name: "SmartSync iOS 12 Nightly"
-          lib: "SmartSync"
+          name: "MobileSync iOS 12 Nightly"
+          lib: "MobileSync"
           nightly-test: true
 
   # Cron are on a timezone 8 hours ahead of PST
@@ -242,8 +242,8 @@ workflows:
           env: "mac-beta"
           ios: "13.0"
       - run-tests:
-          name: "SmartSync iOS 13 Nightly"
-          lib: "SmartSync"
+          name: "MobileSync iOS 13 Nightly"
+          lib: "MobileSync"
           nightly-test: true
           env: "mac-beta"
           ios: "13.0"

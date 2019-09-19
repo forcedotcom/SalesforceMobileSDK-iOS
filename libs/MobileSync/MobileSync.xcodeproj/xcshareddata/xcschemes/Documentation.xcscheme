@@ -17,7 +17,7 @@
                BlueprintIdentifier = "CEAAAE75195A181000CBBFE9"
                BuildableName = "Documentation"
                BlueprintName = "Documentation"
-               ReferencedContainer = "container:SmartSync.xcodeproj">
+               ReferencedContainer = "container:MobileSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,7 +48,7 @@
             BlueprintIdentifier = "CEAAAE75195A181000CBBFE9"
             BuildableName = "Documentation"
             BlueprintName = "Documentation"
-            ReferencedContainer = "container:SmartSync.xcodeproj">
+            ReferencedContainer = "container:MobileSync.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>

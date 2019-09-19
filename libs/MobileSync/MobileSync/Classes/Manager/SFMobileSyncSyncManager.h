@@ -48,7 +48,7 @@ extern NSString * const kSFSyncManagerStateStopRequested;
 extern NSString * const kSFSyncManagerStateStopped;
 
 // Errors
-extern NSString* const kSFSmartSyncErrorDomain;
+extern NSString* const kSFMobileSyncErrorDomain;
 extern NSString* const kSFSyncManagerStoppedError;
 extern NSString* const kSFSyncManagerCannotRestartError;
 extern NSString* const kSFSyncAlreadyRunningError;
@@ -63,7 +63,7 @@ extern NSInteger const kSFSyncNotExistErrorCode;
  * This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
 NS_SWIFT_NAME(SyncManager)
-@interface SFSmartSyncSyncManager : NSObject
+@interface SFMobileSyncSyncManager : NSObject
 
 @property (nonatomic, strong, readonly) SFSmartStore *store;
 

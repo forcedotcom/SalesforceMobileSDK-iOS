@@ -22,13 +22,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 #import <SmartStore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import "SFAdvancedSyncUpTarget.h"
-#import "SFSmartSyncConstants.h"
+#import "SFMobileSyncConstants.h"
 #import "SFSyncUpTarget+Internal.h"
 #import "SFSyncUpTask.h"
 #import "SFSyncDownTask.h"
@@ -36,10 +36,10 @@
 #import "SFCleanSyncGhostsTask.h"
 
 
-static NSString * const kSFAppFeatureSmartSync   = @"SY";
+static NSString * const kSFAppFeatureMobileSync   = @"SY";
 
 // dispatch queue
-char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.QUEUE";
+char * const kSyncManagerQueue = "com.salesforce.mobilesync.manager.syncmanager.QUEUE";
 
 // block type
 typedef void (^SyncUpdateBlock) (NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp);
@@ -51,7 +51,7 @@ NSString * const kSFSyncManagerStateStopRequested = @"stop_requested";
 NSString * const kSFSyncManagerStateStopped = @"stopped";
 
 // Errors
-NSString* const kSFSmartSyncErrorDomain = @"com.salesforce.SmartSync.ErrorDomain";
+NSString* const kSFMobileSyncErrorDomain = @"com.salesforce.MobileSync.ErrorDomain";
 NSString* const kSFSyncManagerStoppedError = @"SyncManagerStoppedError";
 NSString* const kSFSyncManagerCannotRestartError = @"SyncManagerCannotRestartError";
 NSString* const kSFSyncAlreadyRunningError = @"SyncAlreadyRunningError";
@@ -62,7 +62,7 @@ NSInteger const kSFSyncManagerCannotRestartErrorCode = 901;
 NSInteger const kSFSyncAlreadyRunningErrorCode = 902;
 NSInteger const kSFSyncNotExistErrorCode = 903;
 
-@interface SFSmartSyncSyncManager ()
+@interface SFMobileSyncSyncManager ()
 
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
@@ -72,14 +72,14 @@ NSInteger const kSFSyncNotExistErrorCode = 903;
 @end
 
 
-@implementation SFSmartSyncSyncManager
+@implementation SFMobileSyncSyncManager
 
 static NSMutableDictionary *syncMgrList = nil;
 
 #pragma mark - instance access / cleanup
 
 + (void)initialize {
-    if (self == [SFSmartSyncSyncManager class]) {
+    if (self == [SFMobileSyncSyncManager class]) {
         syncMgrList = [NSMutableDictionary new];
     }
 }
@@ -101,20 +101,20 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 + (instancetype)sharedInstanceForStore:(SFSmartStore *)store {
-    @synchronized ([SFSmartSyncSyncManager class]) {
+    @synchronized ([SFMobileSyncSyncManager class]) {
         if (store == nil || store.storePath == nil) return nil;
         
-        NSString *key = [SFSmartSyncSyncManager keyForStore:store];
+        NSString *key = [SFMobileSyncSyncManager keyForStore:store];
         id syncMgr = [syncMgrList objectForKey:key];
         if (syncMgr == nil) {
             if (store.user && store.user.loginState != SFUserAccountLoginStateLoggedIn) {
-                [SFSDKSmartSyncLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state in order to create a sync for a user store.", NSStringFromSelector(_cmd), store.storeName, NSStringFromClass(self)];
+                [SFSDKMobileSyncLogger w:[self class] format:@"%@ A user account must be in the  SFUserAccountLoginStateLoggedIn state in order to create a sync for a user store.", NSStringFromSelector(_cmd), store.storeName, NSStringFromClass(self)];
                 return nil;
             }
             syncMgr = [[self alloc] initWithStore:store];
             syncMgrList[key] = syncMgr;
         }
-        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSmartSync];
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMobileSync];
         return syncMgr;
     }
 }
@@ -135,30 +135,30 @@ static NSMutableDictionary *syncMgrList = nil;
 + (void)removeSharedInstanceForStore:(nullable NSString*)storeName userAccount:(SFUserAccount*)userAccount {
     if (userAccount == nil) return;
     if (storeName.length == 0) storeName = kDefaultSmartStoreName;
-    NSString* key = [SFSmartSyncSyncManager keyForUser:userAccount storeName:storeName];
-    [SFSmartSyncSyncManager removeSharedInstanceForKey:key];
+    NSString* key = [SFMobileSyncSyncManager keyForUser:userAccount storeName:storeName];
+    [SFMobileSyncSyncManager removeSharedInstanceForKey:key];
 }
 
 + (void)removeSharedInstanceForStore:(SFSmartStore*) store {
-    NSString* key = [SFSmartSyncSyncManager keyForStore:store];
-    [SFSmartSyncSyncManager removeSharedInstanceForKey:key];
+    NSString* key = [SFMobileSyncSyncManager keyForStore:store];
+    [SFMobileSyncSyncManager removeSharedInstanceForKey:key];
 }
 
 + (void)removeSharedInstanceForKey:(NSString*) key {
-    @synchronized([SFSmartSyncSyncManager class]) {
+    @synchronized([SFMobileSyncSyncManager class]) {
         [syncMgrList removeObjectForKey:key];
     }
 }
 
 + (void)removeSharedInstances {
-    @synchronized (([SFSmartSyncSyncManager class])) {
+    @synchronized (([SFMobileSyncSyncManager class])) {
         [syncMgrList removeAllObjects];
     }
 }
 
 
 + (NSString*)keyForStore:(SFSmartStore*)store {
-    return [SFSmartSyncSyncManager keyForUser:store.user storeName:store.storeName];
+    return [SFMobileSyncSyncManager keyForUser:store.user storeName:store.storeName];
 }
 
 + (NSString*)keyForUser:(SFUserAccount*)user storeName:(NSString*)storeName {
@@ -191,9 +191,9 @@ static NSMutableDictionary *syncMgrList = nil;
 
 - (void) setState:(SFSyncManagerState)state {
     if (_state != state) {
-        [SFSDKSmartSyncLogger d:[self class] format:@"state changing from %@ to %@",
-         [SFSmartSyncSyncManager stateToString:_state],
-         [SFSmartSyncSyncManager stateToString:state]];
+        [SFSDKMobileSyncLogger d:[self class] format:@"state changing from %@ to %@",
+         [SFMobileSyncSyncManager stateToString:_state],
+         [SFMobileSyncSyncManager stateToString:state]];
         _state = state;
     }
 }
@@ -223,14 +223,14 @@ static NSMutableDictionary *syncMgrList = nil;
             if (restartStoppedSyncs) {
                 NSArray* stoppedSyncs = [SFSyncState getSyncsWithStatus:self.store status:SFSyncStateStatusStopped];
                 for (SFSyncState* sync in stoppedSyncs) {
-                    [SFSDKSmartSyncLogger d:[self class] format:@"restarting %@", @(sync.syncId)];
+                    [SFSDKMobileSyncLogger d:[self class] format:@"restarting %@", @(sync.syncId)];
                     [self reSync:@(sync.syncId) updateBlock:updateBlock error:nil];
                 }
             }
             return YES;
         } else {
             if (error) {
-                NSString* description = [NSString stringWithFormat:@"restart() called on a sync manager that has state: %@", [SFSmartSyncSyncManager stateToString:self.state]];
+                NSString* description = [NSString stringWithFormat:@"restart() called on a sync manager that has state: %@", [SFMobileSyncSyncManager stateToString:self.state]];
                 *error = [self errorWithType:kSFSyncManagerCannotRestartError code:kSFSyncManagerCannotRestartErrorCode description:description];
             }
             return NO;
@@ -257,7 +257,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
 - (BOOL) checkAcceptingSyncs:(NSError**)error {
     if (self.state != SFSyncManagerStateAcceptingSyncs) {
-        NSString* message = [NSString stringWithFormat:@"sync manager has state %@", [SFSmartSyncSyncManager stateToString:self.state]];
+        NSString* message = [NSString stringWithFormat:@"sync manager has state %@", [SFMobileSyncSyncManager stateToString:self.state]];
         if (error) {
             *error = [self errorWithType:kSFSyncManagerStoppedError code:kSFSyncManagerStoppedErrorCode description:message];
         }
@@ -302,8 +302,8 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (NSError*) errorWithType:(NSString*)type code:(NSInteger)code description:(NSString*)description {
-    [SFSDKSmartSyncLogger e:[self class] format:@"%@: %@", type, description];
-    return [NSError errorWithDomain:kSFSmartSyncErrorDomain
+    [SFSDKMobileSyncLogger e:[self class] format:@"%@: %@", type, description];
+    return [NSError errorWithDomain:kSFMobileSyncErrorDomain
                                code:code
                            userInfo:@{@"error": type,
                                       @"description": description}];
@@ -315,7 +315,7 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncState* sync = [SFSyncState byId:syncId store:self.store];
     
     if (sync == nil) {
-        [SFSDKSmartSyncLogger d:[self class] format:@"Sync %@ not found", syncId];
+        [SFSDKMobileSyncLogger d:[self class] format:@"Sync %@ not found", syncId];
     }
     return sync;
 }
@@ -324,7 +324,7 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncState* sync = [SFSyncState byName:syncName store:self.store];
 
     if (sync == nil) {
-        [SFSDKSmartSyncLogger d:[self class] format:@"Sync %@ not found", syncName];
+        [SFSDKMobileSyncLogger d:[self class] format:@"Sync %@ not found", syncName];
     }
     return sync;
 }
@@ -396,7 +396,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
 - (SFSyncState *)createSyncDown:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName {
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName name:syncName store:self.store];
-    [SFSDKSmartSyncLogger d:[self class] format:@"Created syncDown:%@", sync];
+    [SFSDKMobileSyncLogger d:[self class] format:@"Created syncDown:%@", sync];
     return sync;
 }
 
@@ -443,7 +443,7 @@ static NSMutableDictionary *syncMgrList = nil;
         sync.maxTimeStamp = sync.maxTimeStamp == -1 ? -1 : sync.maxTimeStamp - 1;
     }
 
-    [SFSDKSmartSyncLogger d:[self class] format:@"reSync:%@", sync];
+    [SFSDKMobileSyncLogger d:[self class] format:@"reSync:%@", sync];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -489,7 +489,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
 - (SFSyncState *)createSyncUp:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(NSString *)syncName {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName name:syncName store:self.store];
-    [SFSDKSmartSyncLogger d:[self class] format:@"Created syncUp:%@", sync];
+    [SFSDKMobileSyncLogger d:[self class] format:@"Created syncUp:%@", sync];
     return sync;
 }
 
@@ -524,10 +524,10 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     
     if (sync.type != SFSyncStateSyncTypeDown) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", @(sync.syncId), [SFSyncState syncTypeToString:sync.type]];
+        [SFSDKMobileSyncLogger e:[self class] format:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", @(sync.syncId), [SFSyncState syncTypeToString:sync.type]];
         return NO;
     }
-    [SFSDKSmartSyncLogger d:[self class] format:@"cleanResyncGhosts:%@", sync];
+    [SFSDKMobileSyncLogger d:[self class] format:@"cleanResyncGhosts:%@", sync];
     
     // Run on background thread
     SFCleanSyncGhostsTask* task = [[SFCleanSyncGhostsTask alloc] init:self sync:sync completionStatusBlock:completionStatusBlock];

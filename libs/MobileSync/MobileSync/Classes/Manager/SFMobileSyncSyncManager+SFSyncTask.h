@@ -24,7 +24,7 @@
 
 #import "SFSyncTask.h"
 
-@interface SFSmartSyncSyncManager (SFSyncTask)
+@interface SFMobileSyncSyncManager (SFSyncTask)
 
 - (void) addToActiveSyncs:(SFSyncTask*)syncTask;
 - (void) removeFromActiveSyncs:(SFSyncTask*)syncTask;

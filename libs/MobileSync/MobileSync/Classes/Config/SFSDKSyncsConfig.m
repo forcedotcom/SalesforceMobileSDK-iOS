@@ -26,7 +26,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import <SmartStore/SmartStore.h>
 #import "SFSDKSyncsConfig.h"
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 
 static NSString *const kSyncsConfigSyncs = @"syncs";
 static NSString *const kSyncsConfigSyncName = @"syncName";
@@ -54,25 +54,25 @@ static NSString *const kSyncsConfigTarget = @"target";
 
 - (void)createSyncs:(SFSmartStore *)store {
     if (self.syncConfigs == nil) {
-        [SFSDKSmartSyncLogger d:[self class] format:@"No store config available"];
+        [SFSDKMobileSyncLogger d:[self class] format:@"No store config available"];
         return;
     }
 
-    SFSmartSyncSyncManager * syncManager = [SFSmartSyncSyncManager sharedInstanceForStore:store];
+    SFMobileSyncSyncManager * syncManager = [SFMobileSyncSyncManager sharedInstanceForStore:store];
 
     for (NSDictionary * syncConfig in self.syncConfigs) {
         NSString *syncName = [syncConfig nonNullObjectForKey:kSyncsConfigSyncName];
 
         // Leaving sync alone if it already exists
         if ([syncManager hasSyncWithName:syncName]) {
-            [SFSDKSmartSyncLogger d:[self class] format:@"Sync already exists:%@ - skipping", syncName];
+            [SFSDKMobileSyncLogger d:[self class] format:@"Sync already exists:%@ - skipping", syncName];
             continue;
         }
 
         SFSyncStateSyncType syncType = [SFSyncState syncTypeFromString:syncConfig[kSyncsConfigSyncType]];
         SFSyncOptions * syncOptions = [SFSyncOptions newFromDict:syncConfig[kSyncsConfigOptions]];
         NSString* soupName = syncConfig[kSyncsConfigSoupName];
-        [SFSDKSmartSyncLogger d:[self class] format:@"Creating sync: %@", syncName];
+        [SFSDKMobileSyncLogger d:[self class] format:@"Creating sync: %@", syncName];
 
         switch (syncType) {
             case SFSyncStateSyncTypeDown:

@@ -24,26 +24,26 @@
 
 #import <Foundation/Foundation.h>
 #import "SFSyncState.h"
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 
 @interface SFSyncUpdateCallbackQueue : NSObject
 
 /** 
  Run sync
  */
-- (void)runSync:(SFSyncState*)sync syncManager:(SFSmartSyncSyncManager*)syncManager;
+- (void)runSync:(SFSyncState*)sync syncManager:(SFMobileSyncSyncManager*)syncManager;
 
 /**
  Run re-sync
  */
-- (SFSyncState*)runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager;
-- (SFSyncState*)runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error;
-- (SFSyncState*)runReSyncByName:(NSString*)syncName syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error;
+- (SFSyncState*)runReSync:(NSNumber*)syncId syncManager:(SFMobileSyncSyncManager*)syncManager;
+- (SFSyncState*)runReSync:(NSNumber*)syncId syncManager:(SFMobileSyncSyncManager*)syncManager error:(NSError**)error;
+- (SFSyncState*)runReSyncByName:(NSString*)syncName syncManager:(SFMobileSyncSyncManager*)syncManager error:(NSError**)error;
 
 /**
  Restart sync manager
  */
-- (BOOL)restart:(SFSmartSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error;
+- (BOOL)restart:(SFMobileSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error;
 
 /**
  Get next sync update

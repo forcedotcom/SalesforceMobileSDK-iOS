@@ -23,8 +23,8 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <SmartSyncExplorerCommon/ContactSObjectData.h>
-#import <SmartSyncExplorerCommon/SObjectDataManager.h>
+#import <MobileSyncExplorerCommon/ContactSObjectData.h>
+#import <MobileSyncExplorerCommon/SObjectDataManager.h>
 
 @interface ContactDetailViewController : UITableViewController <UITableViewDataSource>
 

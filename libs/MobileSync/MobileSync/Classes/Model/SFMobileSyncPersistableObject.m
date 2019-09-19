@@ -22,9 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncPersistableObject+Internal.h"
+#import "SFMobileSyncPersistableObject+Internal.h"
 
-@implementation SFSmartSyncPersistableObject
+@implementation SFMobileSyncPersistableObject
 
 @synthesize rawData;
 @synthesize objectType;

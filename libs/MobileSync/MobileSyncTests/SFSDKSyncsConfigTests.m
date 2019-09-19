@@ -24,7 +24,7 @@
 
 #import <XCTest/XCTest.h>
 #import "SyncManagerTestCase.h"
-#import "SmartSyncSDKManager.h"
+#import "MobileSyncSDKManager.h"
 #import "SFSoqlSyncDownTarget.h"
 
 @interface SFSDKSyncsConfigTests : SyncManagerTestCase
@@ -33,7 +33,7 @@
 
 @interface SFSDKSyncsConfigTests ()
 
-@property (nonatomic, strong) SmartSyncSDKManager* sdkManager;
+@property (nonatomic, strong) MobileSyncSDKManager* sdkManager;
 
 @end
 
@@ -44,8 +44,8 @@
 - (void) setUp
 {
     [super setUp];
-    [SFSDKSmartSyncLogger setLogLevel:SFLogLevelDebug];
-    self.sdkManager = [[SmartSyncSDKManager alloc] init];
+    [SFSDKMobileSyncLogger setLogLevel:SFLogLevelDebug];
+    self.sdkManager = [[MobileSyncSDKManager alloc] init];
 }
 
 - (void) tearDown

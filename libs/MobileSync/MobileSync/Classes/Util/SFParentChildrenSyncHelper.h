@@ -24,7 +24,7 @@
 
 #import "SFParentInfo.h"
 #import "SFChildrenInfo.h"
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 #import "SFSyncTarget.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -64,7 +64,7 @@ NS_SWIFT_NAME(ParentChildrenSyncHelper)
 
 + (NSString *)getNonDirtyRecordIdsSql:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentFieldToSelect:(NSString *)parentFieldToSelect additionalPredicate:(NSString *)additionalPredicate;
 
-+ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees syncId:(NSNumber *)syncId;
++ (void)saveRecordTreesToLocalStore:(SFMobileSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees syncId:(NSNumber *)syncId;
 + (NSArray<NSMutableDictionary*> *)getMutableChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parent:(NSDictionary *)parent;
 
 + (void)deleteChildrenFromLocalStore:(SFSmartStore *)store parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo parentIds:(NSArray *)parentIds;

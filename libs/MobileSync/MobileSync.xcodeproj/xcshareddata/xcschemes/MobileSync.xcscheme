@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE2C81C0E463C009F6029"
-               BuildableName = "SmartSync.framework"
-               BlueprintName = "SmartSync"
-               ReferencedContainer = "container:SmartSync.xcodeproj">
+               BuildableName = "MobileSync.framework"
+               BlueprintName = "MobileSync"
+               ReferencedContainer = "container:MobileSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CEAAAE54195911E600CBBFE9"
-               BuildableName = "SmartSyncTests.xctest"
-               BlueprintName = "SmartSyncTests"
-               ReferencedContainer = "container:SmartSync.xcodeproj">
+               BuildableName = "MobileSyncTests.xctest"
+               BlueprintName = "MobileSyncTests"
+               ReferencedContainer = "container:MobileSync.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CE4CE2C81C0E463C009F6029"
-            BuildableName = "SmartSync.framework"
-            BlueprintName = "SmartSync"
-            ReferencedContainer = "container:SmartSync.xcodeproj">
+            BuildableName = "MobileSync.framework"
+            BlueprintName = "MobileSync"
+            ReferencedContainer = "container:MobileSync.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CE4CE2C81C0E463C009F6029"
-            BuildableName = "SmartSync.framework"
-            BlueprintName = "SmartSync"
-            ReferencedContainer = "container:SmartSync.xcodeproj">
+            BuildableName = "MobileSync.framework"
+            BlueprintName = "MobileSync"
+            ReferencedContainer = "container:MobileSync.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CE4CE2C81C0E463C009F6029"
-            BuildableName = "SmartSync.framework"
-            BlueprintName = "SmartSync"
-            ReferencedContainer = "container:SmartSync.xcodeproj">
+            BuildableName = "MobileSync.framework"
+            BlueprintName = "MobileSync"
+            ReferencedContainer = "container:MobileSync.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

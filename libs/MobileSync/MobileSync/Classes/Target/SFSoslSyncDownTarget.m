@@ -23,9 +23,9 @@
  */
 
 #import "SFSoslSyncDownTarget.h"
-#import "SFSmartSyncSyncManager.h"
-#import "SFSmartSyncConstants.h"
-#import "SFSmartSyncNetworkUtils.h"
+#import "SFMobileSyncSyncManager.h"
+#import "SFMobileSyncConstants.h"
+#import "SFMobileSyncNetworkUtils.h"
 
 static NSString * const kSFSoslSyncTargetQuery = @"query";
 
@@ -74,21 +74,21 @@ static NSString * const kSFSoslSyncTargetQuery = @"query";
 
 # pragma mark - Data fetching
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     [self startFetch:syncManager maxTimeStamp:maxTimeStamp queryRun:self.query errorBlock:errorBlock completeBlock:completeBlock];
 }
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
            queryRun:(NSString*)queryRun
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:queryRun apiVersion:kSFRestDefaultAPIVersion];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = [d[kResponseSearchRecords] count];
@@ -96,7 +96,7 @@ static NSString * const kSFSoslSyncTargetQuery = @"query";
     }];
 }
 
-- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+- (void) getRemoteIds:(SFMobileSyncSyncManager*)syncManager
              localIds:(NSArray*)localIds
            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {

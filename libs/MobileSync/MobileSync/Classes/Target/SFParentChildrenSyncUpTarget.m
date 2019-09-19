@@ -23,7 +23,7 @@
  */
 
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
-#import "SmartSync.h"
+#import "MobileSync.h"
 #import "SFSyncTarget+Internal.h"
 #import "SFSyncUpTarget+Internal.h"
 #import "SFCompositeRequestHelper.h"
@@ -114,17 +114,17 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
 #pragma mark - Other public methods
 
-- (void)createOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record fieldlist:(NSArray *)fieldlist completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+- (void)createOnServer:(SFMobileSyncSyncManager *)syncManager record:(NSDictionary *)record fieldlist:(NSArray *)fieldlist completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock {
     // For advanced sync up target, call syncUpOneRecord
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)updateOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record fieldlist:(NSArray *)fieldlist completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+- (void)updateOnServer:(SFMobileSyncSyncManager *)syncManager record:(NSDictionary *)record fieldlist:(NSArray *)fieldlist completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock {
     // For advanced sync up target, call syncUpOneRecord
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+- (void)deleteOnServer:(SFMobileSyncSyncManager *)syncManager record:(NSDictionary *)record completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock {
     // For advanced sync up target, call syncUpOneRecord
     [self doesNotRecognizeSelector:_cmd];
 }
@@ -133,7 +133,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     return 1;
 }
 
-- (void)syncUpRecords:(SFSmartSyncSyncManager *)syncManager
+- (void)syncUpRecords:(SFMobileSyncSyncManager *)syncManager
               records:(NSArray<NSMutableDictionary*>*)records
             fieldlist:(NSArray*)fieldlist
             mergeMode:(SFSyncStateMergeMode)mergeMode
@@ -151,7 +151,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     }
 }
 
-- (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager
+- (void)syncUpRecord:(SFMobileSyncSyncManager *)syncManager
               record:(NSMutableDictionary *)record
            fieldlist:(NSArray *)fieldlist
            mergeMode:(SFSyncStateMergeMode)mergeMode
@@ -184,7 +184,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     return [SFParentChildrenSyncHelper getDirtyRecordIdsSql:self.parentInfo childrenInfo:self.childrenInfo parentFieldToSelect:idField];
 }
 
-- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock {
+- (void)isNewerThanServer:(SFMobileSyncSyncManager *)syncManager record:(NSDictionary *)record resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock {
     if ([self isLocallyCreated:record]) {
         resultBlock(YES);
         return;
@@ -214,7 +214,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
 #pragma mark - Helper methods
 
-- (NSDictionary<NSString *, SFRecordModDate *> *)getLocalLastModifiedDates:(SFSmartSyncSyncManager *)syncManager record:(NSDictionary *)record {
+- (NSDictionary<NSString *, SFRecordModDate *> *)getLocalLastModifiedDates:(SFMobileSyncSyncManager *)syncManager record:(NSDictionary *)record {
     NSMutableDictionary<NSString *, SFRecordModDate *> *idToLocalTimestamps = [NSMutableDictionary new];
     BOOL isParentDeleted = [self isLocallyDeleted:record];
     SFRecordModDate *parentModDate = [[SFRecordModDate alloc] initWithTimestamp:record[self.modificationDateFieldName] isDeleted:isParentDeleted];
@@ -237,7 +237,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     return idToLocalTimestamps;
 }
 
-- (void)fetchLastModifiedDates:(SFSmartSyncSyncManager *)manager
+- (void)fetchLastModifiedDates:(SFMobileSyncSyncManager *)manager
                         record:(NSDictionary *)record
         completionBlock:(SFFetchLastModifiedDatesCompleteBlock)completionBlock {
     if ([self isLocallyCreated:record]) {
@@ -247,7 +247,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
     NSString* parentId = record[self.idFieldName];
     SFRestRequest* lastModRequest = [self getRequestForTimestamps:parentId];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:lastModRequest
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:lastModRequest
                                                      failBlock:^(NSError *error, NSURLResponse *rawResponse) {
                                                          completionBlock(nil);
                                                      }
@@ -269,7 +269,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                                                  }];
 }
 
-- (void)syncUpRecord:(SFSmartSyncSyncManager *)syncManager
+- (void)syncUpRecord:(SFMobileSyncSyncManager *)syncManager
               record:(NSMutableDictionary *)record
             children:(NSArray<NSMutableDictionary *> *)children
            fieldlist:(NSArray *)fieldlist
@@ -351,7 +351,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
         // Re-run if required
         if (needReRun) {
-            [SFSDKSmartSyncLogger d:[self class] format:@"syncUpOneRecord:%@", record];
+            [SFSDKMobileSyncLogger d:[self class] format:@"syncUpOneRecord:%@", record];
             [self syncUpRecord:syncManager record:record children:children fieldlist:fieldlist mergeMode:mergeMode completionBlock:completionBlock failBlock:failBlock];
         } else {
             // Done
@@ -426,7 +426,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     }
 }
 
-- (BOOL)updateParentRecordInLocalStore:(SFSmartSyncSyncManager *)syncManager
+- (BOOL)updateParentRecordInLocalStore:(SFMobileSyncSyncManager *)syncManager
                                 record:(NSMutableDictionary *)record
                               children:(NSArray<NSMutableDictionary*> *)children
                              mergeMode:(SFSyncStateMergeMode)mergeMode
@@ -502,7 +502,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     }
 }
 
-- (BOOL)updateChildRecordInLocalStore:(SFSmartSyncSyncManager *)syncManager
+- (BOOL)updateChildRecordInLocalStore:(SFMobileSyncSyncManager *)syncManager
                                record:(NSMutableDictionary *)record
                                parent:(NSMutableDictionary *)parent
                             mergeMode:(SFSyncStateMergeMode)mergeMode

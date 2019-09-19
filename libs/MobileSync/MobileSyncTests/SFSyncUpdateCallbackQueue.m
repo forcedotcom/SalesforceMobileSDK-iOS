@@ -26,7 +26,7 @@
 
 #define MAX_WAIT_TIME 5.0
 
-@interface SFSmartSyncSyncManager()
+@interface SFMobileSyncSyncManager()
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 @end
 
@@ -49,7 +49,7 @@
 
 # pragma - public methods
 
-- (void)runSync:(SFSyncState*)sync syncManager:(SFSmartSyncSyncManager*)syncManager
+- (void)runSync:(SFSyncState*)sync syncManager:(SFMobileSyncSyncManager*)syncManager
 {
     [syncManager runSync:sync updateBlock:^(SFSyncState *sync) {
         @synchronized(self.queue) {
@@ -58,12 +58,12 @@
     }];
 }
 
-- (SFSyncState*) runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager {
+- (SFSyncState*) runReSync:(NSNumber*)syncId syncManager:(SFMobileSyncSyncManager*)syncManager {
     return [self runReSync:syncId syncManager:syncManager error:nil];
 }
 
 
-- (SFSyncState*) runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error
+- (SFSyncState*) runReSync:(NSNumber*)syncId syncManager:(SFMobileSyncSyncManager*)syncManager error:(NSError**)error
 {
     return [syncManager reSync:syncId updateBlock:^(SFSyncState *sync) {
         @synchronized(self.queue) {
@@ -72,7 +72,7 @@
     } error:error];
 }
 
-- (SFSyncState*)runReSyncByName:(NSString*)syncName syncManager:(SFSmartSyncSyncManager*)syncManager error:(NSError**)error
+- (SFSyncState*)runReSyncByName:(NSString*)syncName syncManager:(SFMobileSyncSyncManager*)syncManager error:(NSError**)error
 {
     return [syncManager reSyncByName:syncName updateBlock:^(SFSyncState *sync) {
         @synchronized(self.queue) {
@@ -81,7 +81,7 @@
     } error:error];
 }
 
-- (BOOL) restart:(SFSmartSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error {
+- (BOOL) restart:(SFMobileSyncSyncManager*)syncManager restartStoppedSyncs:(BOOL)restartStoppedSyncs restartSterror:(NSError**)error {
     return [syncManager restart:restartStoppedSyncs updateBlock:^(SFSyncState *sync) {
         @synchronized(self.queue) {
             [self.queue addObject:[sync copy]];
@@ -107,13 +107,13 @@
         }
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > maxWaitTime) {
-            [SFSDKSmartSyncLogger d:[self class] format:@"getNextSyncUpdate took too long (> %f secs) to complete.", elapsed];
+            [SFSDKMobileSyncLogger d:[self class] format:@"getNextSyncUpdate took too long (> %f secs) to complete.", elapsed];
             return nil;
         }
-        [SFSDKSmartSyncLogger d:[self class] format:@"## sleeping..."];
+        [SFSDKMobileSyncLogger d:[self class] format:@"## sleeping..."];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     };
-    [SFSDKSmartSyncLogger d:[self class] format:@"getNextSyncUpdate: syncId:%@ status:%@ progress:%ld totalSize:%ld", @(sync.syncId), [SFSyncState syncStatusToString:sync.status], sync.progress, sync.totalSize];
+    [SFSDKMobileSyncLogger d:[self class] format:@"getNextSyncUpdate: syncId:%@ status:%@ progress:%ld totalSize:%ld", @(sync.syncId), [SFSyncState syncStatusToString:sync.status], sync.progress, sync.totalSize];
     return sync;
 }
 

@@ -85,7 +85,7 @@ NSString * const kSFParentChildrenRelationshipLookup = @"LOOKUP";
     ];
 }
 
-+ (void)saveRecordTreesToLocalStore:(SFSmartSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees syncId:(NSNumber *)syncId {
++ (void)saveRecordTreesToLocalStore:(SFMobileSyncSyncManager *)syncManager target:(SFSyncTarget *)target parentInfo:(SFParentInfo *)parentInfo childrenInfo:(SFChildrenInfo *)childrenInfo recordTrees:(NSArray *)recordTrees syncId:(NSNumber *)syncId {
     NSMutableArray * parentRecords = [NSMutableArray new];
     NSMutableArray * childrenRecords = [NSMutableArray new];
     for (NSDictionary * recordTree  in recordTrees) {

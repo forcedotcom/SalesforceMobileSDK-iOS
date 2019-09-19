@@ -1,5 +1,5 @@
 /*
- SFSmartSyncSyncManager+Instrumentation.h
+ SFMobileSyncSyncManager+Instrumentation.h
  SalesforceSDKCore
  Created by Raj Rao on 3/21/19.
  
@@ -26,11 +26,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SmartSync.h>
+#import <MobileSync/MobileSync.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SFSmartSyncSyncManager (Instrumentation)
+@interface SFMobileSyncSyncManager (Instrumentation)
 
 @end
 

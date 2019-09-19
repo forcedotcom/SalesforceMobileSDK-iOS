@@ -23,7 +23,7 @@
  */
 
 #import "SFParentInfo.h"
-#import "SFSmartSyncConstants.h"
+#import "SFMobileSyncConstants.h"
 
 NSString * const kSFParentInfoSObjectType = @"sobjectType";
 NSString * const kSFParentInfoSoupName = @"soupName";

@@ -25,13 +25,13 @@
 #import "SFSyncTarget.h"
 
 @class SFSmartStore;
-@class SFSmartSyncSyncManager;
+@class SFMobileSyncSyncManager;
 
 @interface SFSyncTarget ()
 
-- (NSOrderedSet *)getIdsWithQuery:idsSql syncManager:(SFSmartSyncSyncManager *)syncManager;
+- (NSOrderedSet *)getIdsWithQuery:idsSql syncManager:(SFMobileSyncSyncManager *)syncManager;
 - (NSString*) getDirtyRecordIdsSql:(NSString*)soupName idField:(NSString*)idField;
-- (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField;
-- (void)saveInLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId lastError:(NSString *)lastError cleanFirst:(BOOL)cleanFirst;
+- (void) deleteRecordsFromLocalStore:(SFMobileSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField;
+- (void)saveInLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId lastError:(NSString *)lastError cleanFirst:(BOOL)cleanFirst;
 
 @end

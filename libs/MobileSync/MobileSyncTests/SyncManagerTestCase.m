@@ -38,12 +38,12 @@ static NSException *authException = nil;
 + (void)setUp
 {
     @try {
-        [SFSDKSmartSyncLogger setLogLevel:SFLogLevelDebug];
+        [SFSDKMobileSyncLogger setLogLevel:SFLogLevelDebug];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
         [SFSmartStore removeAllStores];
     } @catch (NSException *exception) {
-        [SFSDKSmartSyncLogger d:[self class] format:@"Populating auth from config failed: %@", exception];
+        [SFSDKMobileSyncLogger d:[self class] format:@"Populating auth from config failed: %@", exception];
         authException = exception;
     }
     [super setUp];
@@ -58,10 +58,10 @@ static NSException *authException = nil;
 
     // User and managers setup
     self.currentUser = [SFUserAccountManager sharedInstance].currentUser;
-    self.syncManager = [SFSmartSyncSyncManager sharedInstance:self.currentUser];
+    self.syncManager = [SFMobileSyncSyncManager sharedInstance:self.currentUser];
     self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:self.currentUser];
     self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
-    self.globalSyncManager = [SFSmartSyncSyncManager sharedInstanceForStore:self.globalStore];
+    self.globalSyncManager = [SFMobileSyncSyncManager sharedInstanceForStore:self.globalStore];
 
     [super setUp];
 }
@@ -71,7 +71,7 @@ static NSException *authException = nil;
     // User and managers tear down
     [self deleteSyncs];
     [self deleteGlobalSyncs];
-    [SFSmartSyncSyncManager removeSharedInstance:self.currentUser];
+    [SFMobileSyncSyncManager removeSharedInstance:self.currentUser];
     [[SFRestAPI sharedInstance] cleanup];
     [SFRestAPI setIsTestRun:NO];
 

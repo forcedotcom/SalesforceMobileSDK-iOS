@@ -23,7 +23,7 @@
  */
 
 #import "ContactDetailViewController.h"
-#import <SmartSyncExplorerCommon/ContactSObjectDataSpec.h>
+#import <MobileSyncExplorerCommon/ContactSObjectDataSpec.h>
 
 @interface ContactDetailViewController ()
 

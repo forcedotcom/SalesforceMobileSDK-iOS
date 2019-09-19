@@ -26,11 +26,11 @@
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SmartSync/SFSDKSmartSyncLogger.h>
+#import <MobileSync/SFSDKMobileSyncLogger.h>
 
 // Will go away once we are done refactoring SFSyncTarget
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <SmartSync/SmartSyncSDKManager.h>
+#import <MobileSync/MobileSyncSDKManager.h>
 
 static NSUInteger kMaxQueryPageSize = 1000;
 static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.searchFilterQueue";
@@ -42,7 +42,7 @@ static NSString* const kSyncUpName = @"syncUpContacts";
     dispatch_queue_t _searchFilterQueue;
 }
 
-@property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
+@property (nonatomic, strong) SFMobileSyncSyncManager *syncMgr;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSArray *fullDataRowList;
 
@@ -53,12 +53,12 @@ static NSString* const kSyncUpName = @"syncUpContacts";
 - (id)initWithDataSpec:(SObjectDataSpec *)dataSpec {
     self = [super init];
     if (self) {
-        self.syncMgr = [SFSmartSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
+        self.syncMgr = [SFMobileSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
         self.dataSpec = dataSpec;
         _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
         // Setup store and syncs if needed
-        [[SmartSyncSDKManager sharedManager] setupUserStoreFromDefaultConfig];
-        [[SmartSyncSDKManager sharedManager] setupUserSyncsFromDefaultConfig];
+        [[MobileSyncSDKManager sharedManager] setupUserStoreFromDefaultConfig];
+        [[MobileSyncSDKManager sharedManager] setupUserSyncsFromDefaultConfig];
     }
     return self;
 }
@@ -129,14 +129,14 @@ static NSString* const kSyncUpName = @"syncUpContacts";
     SFQuerySpec *sobjectsQuerySpec = [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withOrderPath:self.dataSpec.orderByFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:kMaxQueryPageSize];
     NSError *queryError = nil;
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];
-    [SFSDKSmartSyncLogger log:[self class] level:SFLogLevelDebug format:@"Got local query results.  Populating data rows."];
+    [SFSDKMobileSyncLogger log:[self class] level:SFLogLevelDebug format:@"Got local query results.  Populating data rows."];
     if (queryError) {
-        [SFSDKSmartSyncLogger log:[self class] level:SFLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
+        [SFSDKMobileSyncLogger log:[self class] level:SFLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
         return;
     }
     
     self.fullDataRowList = [self populateDataRows:queryResults];
-    [SFSDKSmartSyncLogger log:[self class] level:SFLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
+    [SFSDKMobileSyncLogger log:[self class] level:SFLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
     self.dataRows = [self.fullDataRowList copy];
     if (completionBlock) completionBlock();
 }
@@ -193,14 +193,14 @@ static NSString* const kSyncUpName = @"syncUpContacts";
 - (void)lastModifiedRecords:(int) limit completion:(void (^)(void))completionBlock {
     SFQuerySpec *sobjectsQuerySpec =  [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withOrderPath:@"_soupLastModifiedDate" withOrder:kSFSoupQuerySortOrderDescending withPageSize:limit];
     NSError *queryError = nil;
-    [SFSDKSmartSyncLogger log:[self class] level:SFLogLevelDebug format:@"Got local query results.  Populating data rows."];
+    [SFSDKMobileSyncLogger log:[self class] level:SFLogLevelDebug format:@"Got local query results.  Populating data rows."];
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];
     if (queryError) {
-        [SFSDKSmartSyncLogger log:[self class] level:SFLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
+        [SFSDKMobileSyncLogger log:[self class] level:SFLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
         return;
     }
     self.fullDataRowList = [self populateDataRows:queryResults];
-    [SFSDKSmartSyncLogger log:[self class] level:SFLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
+    [SFSDKMobileSyncLogger log:[self class] level:SFLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
     self.dataRows = [self.fullDataRowList copy];
     completionBlock();
 }

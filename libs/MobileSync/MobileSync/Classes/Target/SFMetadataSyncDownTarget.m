@@ -1,6 +1,6 @@
 /*
  SFMetadataSyncDownTarget.m
- SmartSync
+ MobileSync
  
  Created by Bharath Hariharan on 5/6/18.
  
@@ -28,9 +28,9 @@
  */
 
 #import "SFMetadataSyncDownTarget.h"
-#import "SFSmartSyncSyncManager.h"
-#import "SFSmartSyncConstants.h"
-#import "SFSmartSyncNetworkUtils.h"
+#import "SFMobileSyncSyncManager.h"
+#import "SFMobileSyncConstants.h"
+#import "SFMobileSyncNetworkUtils.h"
 
 static NSString * const kSFSyncTargetObjectType = @"sobjectType";
 
@@ -72,21 +72,21 @@ static NSString * const kSFSyncTargetObjectType = @"sobjectType";
     return dict;
 }
 
-- (void)startFetch:(SFSmartSyncSyncManager *)syncManager
+- (void)startFetch:(SFMobileSyncSyncManager *)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     [self startFetch:syncManager maxTimeStamp:maxTimeStamp objectType:self.objectType errorBlock:errorBlock completeBlock:completeBlock];
 }
 
-- (void)startFetch:(SFSmartSyncSyncManager *)syncManager
+- (void)startFetch:(SFMobileSyncSyncManager *)syncManager
        maxTimeStamp:(long long)maxTimeStamp
            objectType:(NSString *)objectType
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:objectType apiVersion:kSFRestDefaultAPIVersion];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = 1;
@@ -98,14 +98,14 @@ static NSString * const kSFSyncTargetObjectType = @"sobjectType";
     }];
 }
 
-- (void)getRemoteIds:(SFSmartSyncSyncManager *)syncManager
+- (void)getRemoteIds:(SFMobileSyncSyncManager *)syncManager
              localIds:(NSArray *)localIds
            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     completeBlock(nil);
 }
 
-- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+- (void)cleanGhosts:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     completeBlock(nil);
 }
 

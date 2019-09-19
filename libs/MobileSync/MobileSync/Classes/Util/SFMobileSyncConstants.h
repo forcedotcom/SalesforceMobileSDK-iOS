@@ -62,7 +62,7 @@ extern NSString * const kSFSyncTargetIdFieldNameKey;
 extern NSString * const kSFSyncTargetModificationDateFieldNameKey;
 
 /**
- * Enum for available SmartSync data fetch modes.
+ * Enum for available MobileSync data fetch modes.
  *
  * SFSDKFetchModeCacheOnly - Fetches data from the cache and returns null if no data is available.
  * SFSDKFetchModeCacheFirst - Fetches data from the cache and falls back on the server if no data is available.

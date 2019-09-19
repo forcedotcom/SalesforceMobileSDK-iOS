@@ -1,6 +1,6 @@
 /*
  SFMetadataSyncManager.h
- SmartSync
+ MobileSync
  
  Created by Bharath Hariharan on 5/24/18.
  
@@ -28,9 +28,9 @@
  */
 
 #import <SmartStore/SFSmartStore.h>
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 #import "SFMetadata.h"
-#import "SFSmartSyncConstants.h"
+#import "SFMobileSyncConstants.h"
 
 /**
  * Completion block triggered when metadata sync completes.
@@ -48,7 +48,7 @@ NS_SWIFT_NAME(MetadataSyncManager)
 @interface SFMetadataSyncManager : NSObject
 
 @property (nonatomic, strong, readonly, nonnull) SFSmartStore *smartStore;
-@property (nonatomic, strong, readonly, nonnull) SFSmartSyncSyncManager *syncManager;
+@property (nonatomic, strong, readonly, nonnull) SFMobileSyncSyncManager *syncManager;
 
 /**
  * Returns the instance of this class associated with current user.

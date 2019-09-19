@@ -30,10 +30,10 @@
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKcore/SFSDKWindowManager.h>
 #import <SalesforceSDKCore/SFSDKAuthHelper.h>
-#import <SmartSync/SmartSyncSDKManager.h>
+#import <MobileSync/MobileSyncSDKManager.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
-#import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
+#import <MobileSyncExplorerCommon/MobileSyncExplorerConfig.h>
 #import <SalesforceSDKcore/SFSDKNavigationController.h>
 #import "IDPLoginNavViewController.h"
 
@@ -61,11 +61,11 @@
 {
     self = [super init];
     if (self) {
-        SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
+        MobileSyncExplorerConfig *config = [MobileSyncExplorerConfig sharedInstance];
         [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
         [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
 
-        [SmartSyncSDKManager initializeSDK];
+        [MobileSyncSDKManager initializeSDK];
         
         //App Setup for any changes to the current authenticated user
         __weak typeof (self) weakSelf = self;
@@ -80,12 +80,12 @@
         //Uncomment following block to enable IDP Login flow.
         /*
         //scheme of idpAppp
-        [SmartSyncSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
+        [MobileSyncSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
          //user friendly display name
-        [SmartSyncSDKManager sharedManager].appDisplayName = @"SampleAppOne";
+        [MobileSyncSDKManager sharedManager].appDisplayName = @"SampleAppOne";
          
         //Use the following code block to replace the login flow selection dialog
-        [SmartSyncSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
+        [MobileSyncSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
             IDPLoginNavViewController *controller = [[IDPLoginNavViewController alloc] init];
             return controller;
         };
@@ -141,7 +141,7 @@
 - (void)setUserLoginStatus:(BOOL) loggedIn {
     [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
     [[NSUserDefaults msdkUserDefaults] synchronize];
-    [SFSDKSmartSyncLogger log:[self class] level:SFLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
+    [SFSDKMobileSyncLogger log:[self class] level:SFLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
 }
 
 - (void)initializeAppViewState
@@ -170,7 +170,7 @@
 }
 
 - (void)sdkManagerWillResignActive {
-    if ([SmartSyncSDKManager sharedManager].useSnapshotView) {
+    if ([MobileSyncSDKManager sharedManager].useSnapshotView) {
         // Remove the keyboard if it is showing..
         [[SFSDKWindowManager sharedManager].activeWindow.window endEditing:YES];
     }

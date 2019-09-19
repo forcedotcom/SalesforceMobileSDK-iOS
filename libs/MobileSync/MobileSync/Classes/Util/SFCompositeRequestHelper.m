@@ -23,12 +23,12 @@
  */
 
 #import "SFCompositeRequestHelper.h"
-#import "SFSmartSyncNetworkUtils.h"
-#import "SFSmartSyncConstants.h"
+#import "SFMobileSyncNetworkUtils.h"
+#import "SFMobileSyncConstants.h"
 
 @implementation SFCompositeRequestHelper
 
-+ (void)sendCompositeRequest:(SFSmartSyncSyncManager *)syncManager
++ (void)sendCompositeRequest:(SFMobileSyncSyncManager *)syncManager
                    allOrNone:(BOOL)allOrNone
                       refIds:(NSArray<NSString *> *)refIds
                     requests:(NSArray<SFRestRequest *> *)requests
@@ -36,7 +36,7 @@
                    failBlock:(SFSyncUpTargetErrorBlock)failBlock {
     
     SFRestRequest *compositeRequest = [[SFRestAPI sharedInstance] compositeRequest:requests refIds:refIds allOrNone:allOrNone apiVersion:kSFRestDefaultAPIVersion];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:compositeRequest
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:compositeRequest
                                                      failBlock:^(NSError *e, NSURLResponse *rawResponse) {
                                                          failBlock(e);
                                                      }

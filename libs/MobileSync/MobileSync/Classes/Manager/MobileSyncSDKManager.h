@@ -27,10 +27,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Version of SalesforceSDKManager to be used with all SmartSync-enabled apps.
+ * Version of SalesforceSDKManager to be used with all MobileSync-enabled apps.
  */
 
-@interface SmartSyncSDKManager : SmartStoreSDKManager
+@interface MobileSyncSDKManager : SmartStoreSDKManager
 
 /**
  * Setup global syncs using config found globalsyncs.json
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  @return The singleton instance of the SDK Manager.
  */
-@property(class,nonatomic)SmartSyncSDKManager *sharedManager NS_SWIFT_NAME(shared);
+@property(class,nonatomic)MobileSyncSDKManager *sharedManager NS_SWIFT_NAME(shared);
 
 @end
 

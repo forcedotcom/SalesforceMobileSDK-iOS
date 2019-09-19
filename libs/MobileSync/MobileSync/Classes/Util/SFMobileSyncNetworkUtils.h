@@ -30,18 +30,18 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFRestRequest;
 
 /**
- Class to provide network utilities related to SmartSync actions.
+ Class to provide network utilities related to MobileSync actions.
  */
 NS_SWIFT_NAME(NetworkUtils)
-@interface SFSmartSyncNetworkUtils : NSObject
+@interface SFMobileSyncNetworkUtils : NSObject
 
 /**
- Sends a REST request, applying the SmartSync user agent string.
+ Sends a REST request, applying the MobileSync user agent string.
  @param request The request to send.
  @param failBlock The block to call if the request fails.
  @param completeBlock The block to call if the request succeeds.
  */
-+ (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock;
++ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock;
 
 @end
 

@@ -49,7 +49,7 @@ NS_SWIFT_NAME(AdvancedSyncUpTarget)
  @param completionBlock Block to execute after the server call completes.
  @param failBlock Block to execute if the server call fails.
  */
-- (void)syncUpRecords:(SFSmartSyncSyncManager *)syncManager
+- (void)syncUpRecords:(SFMobileSyncSyncManager *)syncManager
               records:(NSArray<NSMutableDictionary*>*)records
             fieldlist:(NSArray*)fieldlist
             mergeMode:(SFSyncStateMergeMode)mergeMode

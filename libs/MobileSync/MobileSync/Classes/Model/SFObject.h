@@ -23,12 +23,12 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSmartSyncPersistableObject.h"
+#import "SFMobileSyncPersistableObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(SObject)
-@interface SFObject : SFSmartSyncPersistableObject <NSCoding>
+@interface SFObject : SFMobileSyncPersistableObject <NSCoding>
 
 /** Object Id */
 @property (nonatomic, strong, readonly) NSString *objectId;

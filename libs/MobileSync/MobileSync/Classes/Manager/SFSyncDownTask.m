@@ -26,7 +26,7 @@
 
 @implementation SFSyncDownTask
 
--(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+-(instancetype) init:(SFMobileSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     return [super init:syncManager sync:sync updateBlock:updateBlock];
 }
 

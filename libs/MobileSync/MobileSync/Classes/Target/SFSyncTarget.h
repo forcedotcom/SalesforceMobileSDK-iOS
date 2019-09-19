@@ -24,7 +24,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SFSmartSyncSyncManager;
+@class SFMobileSyncSyncManager;
 NS_SWIFT_NAME(SyncTarget)
 @interface SFSyncTarget : NSObject
 
@@ -65,7 +65,7 @@ extern NSString * const kSyncTargetLastError;
  * @param soupName The soup
  * @param record The record
  */
-- (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record NS_SWIFT_NAME(cleanAndSaveInLocalStore(syncManager:soupName:record:));
+- (void) cleanAndSaveInLocalStore:(SFMobileSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record NS_SWIFT_NAME(cleanAndSaveInLocalStore(syncManager:soupName:record:));
 
 /**
  * Save records in local store (marked as clean)
@@ -74,7 +74,7 @@ extern NSString * const kSyncTargetLastError;
  * @param records The records to save
  * @param syncId The sync id
  */
-- (void)cleanAndSaveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId NS_SWIFT_NAME(cleanAndSaveRecordsToLocalStore(syncManager:soupName:records:syncId:));
+- (void)cleanAndSaveRecordsToLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId NS_SWIFT_NAME(cleanAndSaveRecordsToLocalStore(syncManager:soupName:records:syncId:));
 
 /**
  * @param record The record
@@ -107,7 +107,7 @@ extern NSString * const kSyncTargetLastError;
  * @param idField The field containing the ids to return
  * @return ids of "dirty" records (records locally created/upated or deleted)
  */
-- (NSOrderedSet*) getDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField;
+- (NSOrderedSet*) getDirtyRecordIds:(SFMobileSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField;
 
 /**
  * @param syncManager The sync manager
@@ -115,7 +115,7 @@ extern NSString * const kSyncTargetLastError;
  * @param storeId The soup entry id
  * @return Record from local store by storeId
  */
-- (NSDictionary*) getFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName storeId:(NSNumber*)storeId;
+- (NSDictionary*) getFromLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString*)soupName storeId:(NSNumber*)storeId;
 
 /**
  * Delete record from local store
@@ -123,7 +123,7 @@ extern NSString * const kSyncTargetLastError;
  * @param soupName The soup
  * @param record The record to delete
  */
-- (void) deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record NS_SWIFT_NAME(deleteFromLocalStore(syncManager:soupName:record:));
+- (void) deleteFromLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record NS_SWIFT_NAME(deleteFromLocalStore(syncManager:soupName:record:));
 
 @end
 

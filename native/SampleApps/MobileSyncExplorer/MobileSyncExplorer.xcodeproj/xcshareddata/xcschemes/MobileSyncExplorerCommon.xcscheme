@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B7A1342F1D99D52600A4559C"
-               BuildableName = "SmartSyncExplorerCommon.framework"
-               BlueprintName = "SmartSyncExplorerCommon"
-               ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
+               BuildableName = "MobileSyncExplorerCommon.framework"
+               BlueprintName = "MobileSyncExplorerCommon"
+               ReferencedContainer = "container:MobileSyncExplorer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B7A1342F1D99D52600A4559C"
-            BuildableName = "SmartSyncExplorerCommon.framework"
-            BlueprintName = "SmartSyncExplorerCommon"
-            ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
+            BuildableName = "MobileSyncExplorerCommon.framework"
+            BlueprintName = "MobileSyncExplorerCommon"
+            ReferencedContainer = "container:MobileSyncExplorer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B7A1342F1D99D52600A4559C"
-            BuildableName = "SmartSyncExplorerCommon.framework"
-            BlueprintName = "SmartSyncExplorerCommon"
-            ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
+            BuildableName = "MobileSyncExplorerCommon.framework"
+            BlueprintName = "MobileSyncExplorerCommon"
+            ReferencedContainer = "container:MobileSyncExplorer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

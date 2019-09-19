@@ -25,7 +25,7 @@
 #import "ContactSObjectData.h"
 #import "ContactSObjectDataSpec.h"
 #import "SObjectData+Internal.h"
-#import <SmartSync/SFSmartSyncConstants.h>
+#import <MobileSync/SFMobileSyncConstants.h>
 
 @implementation ContactSObjectData
 

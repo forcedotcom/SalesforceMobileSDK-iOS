@@ -27,7 +27,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(ObjectUtils)
-@interface SFSmartSyncObjectUtils : NSObject
+@interface SFMobileSyncObjectUtils : NSObject
 
 + (nullable NSString *)formatValue:(nullable id)value;
 

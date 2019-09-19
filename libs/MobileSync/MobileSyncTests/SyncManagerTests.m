@@ -34,7 +34,7 @@
 /**
  Exposing checkNotRunning to tests
  */
-@interface SFSmartSyncSyncManager ()
+@interface SFMobileSyncSyncManager ()
 
 - (BOOL) checkNotRunning:(NSNumber*)syncId error:(NSError**)error;
 
@@ -54,7 +54,7 @@
  */
 @interface SFSyncDownTarget ()
 
-- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+- (void) getRemoteIds:(SFMobileSyncSyncManager*)syncManager
              localIds:(NSArray *)localIds
            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
@@ -85,7 +85,7 @@
     return syncTarget;
 }
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
@@ -314,17 +314,17 @@
  */
 - (void)testSyncManagerSharedInstanceMethods
 {
-    SFSmartSyncSyncManager *mgr1 = [SFSmartSyncSyncManager sharedInstance:self.currentUser];
+    SFMobileSyncSyncManager *mgr1 = [SFMobileSyncSyncManager sharedInstance:self.currentUser];
     SFSmartStore *store1 = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
-    SFSmartSyncSyncManager *mgr2 = [SFSmartSyncSyncManager sharedInstanceForStore:store1];
-    SFSmartSyncSyncManager *mgr3 = [SFSmartSyncSyncManager sharedInstanceForUser:self.currentUser storeName:kDefaultSmartStoreName];
+    SFMobileSyncSyncManager *mgr2 = [SFMobileSyncSyncManager sharedInstanceForStore:store1];
+    SFMobileSyncSyncManager *mgr3 = [SFMobileSyncSyncManager sharedInstanceForUser:self.currentUser storeName:kDefaultSmartStoreName];
     XCTAssertEqual(mgr1, mgr2, @"Sync managers should be the same.");
     XCTAssertEqual(mgr1, mgr3, @"Sync managers should be the same.");
     NSString *storeName2 = @"AnotherStore";
-    SFSmartSyncSyncManager *mgr4 = [SFSmartSyncSyncManager sharedInstance:self.currentUser];
+    SFMobileSyncSyncManager *mgr4 = [SFMobileSyncSyncManager sharedInstance:self.currentUser];
     SFSmartStore *store2 = [SFSmartStore sharedStoreWithName:storeName2];
-    SFSmartSyncSyncManager *mgr5 = [SFSmartSyncSyncManager sharedInstanceForStore:store2];
-    SFSmartSyncSyncManager *mgr6 = [SFSmartSyncSyncManager sharedInstanceForUser:self.currentUser storeName:storeName2];
+    SFMobileSyncSyncManager *mgr5 = [SFMobileSyncSyncManager sharedInstanceForStore:store2];
+    SFMobileSyncSyncManager *mgr6 = [SFMobileSyncSyncManager sharedInstanceForUser:self.currentUser storeName:storeName2];
     XCTAssertEqual(mgr1, mgr4, @"Sync managers should be the same.");
     XCTAssertNotEqual(mgr4, mgr5, @"Sync managers should not be the same.");
     XCTAssertNotEqual(mgr4, mgr6, @"Sync managers should not be the same.");
@@ -769,7 +769,7 @@
     NSString* baseDateStr = @"2015-02-05T13:12:03.956-0800";
     NSDate* date = [isoDateFormatter dateFromString:baseDateStr];
     long long dateLong = (long long)([date timeIntervalSince1970] * 1000.0);
-    NSString* dateStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:dateLong];
+    NSString* dateStr = [SFMobileSyncObjectUtils getIsoStringFromMillis:dateLong];
     
     // Original queries
     NSString* originalBasicQuery = @"select Id from Account";
@@ -1003,7 +1003,7 @@
     NSError* error = nil;
     [queue runReSync:@(syncId) syncManager:self.syncManager error:&error];
     XCTAssertNotNil(error);
-    XCTAssertEqualObjects(kSFSmartSyncErrorDomain, error.domain, @"Wrong error domain");
+    XCTAssertEqualObjects(kSFMobileSyncErrorDomain, error.domain, @"Wrong error domain");
     XCTAssertEqual(kSFSyncManagerStoppedErrorCode, error.code, @"Wrong error code");
     XCTAssertEqualObjects(kSFSyncManagerStoppedError, error.userInfo[@"error"], @"Wrong error type");
     

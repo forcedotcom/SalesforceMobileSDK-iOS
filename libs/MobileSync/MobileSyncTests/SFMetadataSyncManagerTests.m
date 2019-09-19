@@ -1,6 +1,6 @@
 /*
  SFMetadataSyncManagerTests.m
- SmartSync
+ MobileSync
  
  Created by Bharath Hariharan on 5/24/18.
  
@@ -29,7 +29,7 @@
 
 #import "SyncManagerTestCase.h"
 #import "SFMetadataSyncManager.h"
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 #import <SmartStore/SFQuerySpec.h>
 
 static NSString * const kAccountKeyPrefix = @"001";
@@ -50,7 +50,7 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
 }
 
 - (void)tearDown {
-    [SFSmartSyncSyncManager removeSharedInstances];
+    [SFMobileSyncSyncManager removeSharedInstances];
     [self.metadataSyncManager.smartStore removeAllSoups];
     [SFMetadataSyncManager reset];
     [super tearDown];

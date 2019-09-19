@@ -1,6 +1,6 @@
 /*
  SFLayoutSyncManager.m
- SmartSync
+ MobileSync
  
  Created by Bharath Hariharan on 5/18/18.
  
@@ -41,7 +41,7 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
 @interface SFLayoutSyncManager ()
 
 @property (nonatomic, strong, readwrite) SFSmartStore *smartStore;
-@property (nonatomic, strong, readwrite) SFSmartSyncSyncManager *syncManager;
+@property (nonatomic, strong, readwrite) SFMobileSyncSyncManager *syncManager;
 
 @end
 
@@ -62,7 +62,7 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
     if (!user) {
         user = [SFUserAccountManager sharedInstance].currentUser;
     }
-    SFSmartSyncSyncManager *syncManager = [SFSmartSyncSyncManager sharedInstanceForUser:user storeName:smartStore];
+    SFMobileSyncSyncManager *syncManager = [SFMobileSyncSyncManager sharedInstanceForUser:user storeName:smartStore];
     @synchronized ([SFLayoutSyncManager class]) {
         NSString *keyPrefix = user == nil ? SFKeyForUserAndScope(nil, SFUserAccountScopeGlobal) : SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
         NSString *key = [NSString stringWithFormat:@"%@-%@", keyPrefix, syncManager.store.storeName];
@@ -117,7 +117,7 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
     }
 }
 
-- (instancetype)init:(SFSmartSyncSyncManager *)syncManager {
+- (instancetype)init:(SFMobileSyncSyncManager *)syncManager {
     self = [super init];
     if (self) {
         self.syncManager = syncManager;

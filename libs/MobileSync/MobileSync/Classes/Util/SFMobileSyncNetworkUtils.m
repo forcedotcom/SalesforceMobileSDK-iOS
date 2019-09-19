@@ -22,23 +22,23 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncNetworkUtils.h"
+#import "SFMobileSyncNetworkUtils.h"
 #import <SalesforceSDKCore/SFRestRequest.h>
 
 // For user agent
 NSString * const kUserAgent = @"User-Agent";
-NSString * const kSmartSync = @"SmartSync";
+NSString * const kMobileSync = @"MobileSync";
 
-@implementation SFSmartSyncNetworkUtils
+@implementation SFMobileSyncNetworkUtils
 
-+ (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
-    [SFSDKSmartSyncLogger d:[self class] format:@"sendRequestWithSmartSyncUserAgent:request:%@", request];
-    [request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
++ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
+    [SFSDKMobileSyncLogger d:[self class] format:@"sendRequestWithMobileSyncUserAgent:request:%@", request];
+    [request setHeaderValue:[SFRestAPI userAgentString:kMobileSync] forHeaderName:kUserAgent];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"sendRequestWithSmartSyncUserAgent:error:%ld:%@", (long) e.code, e.domain];
+        [SFSDKMobileSyncLogger e:[self class] format:@"sendRequestWithMobileSyncUserAgent:error:%ld:%@", (long) e.code, e.domain];
         failBlock(e, rawResponse);
     } completeBlock:^(id response, NSURLResponse *rawResponse) {
-        [SFSDKSmartSyncLogger d:[self class] format:@"sendRequestWithSmartSyncUserAgent:response:%@", response];
+        [SFSDKMobileSyncLogger d:[self class] format:@"sendRequestWithMobileSyncUserAgent:response:%@", response];
         completeBlock(response, rawResponse);
     }];
 }

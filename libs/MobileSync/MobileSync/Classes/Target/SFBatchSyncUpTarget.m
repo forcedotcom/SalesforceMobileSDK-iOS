@@ -23,7 +23,7 @@
  */
 
 #import <SalesforceSDKCommon/SFJsonUtils.h>
-#import "SmartSync.h"
+#import "MobileSync.h"
 #import "SFSyncTarget+Internal.h"
 #import "SFSyncUpTarget+Internal.h"
 #import "SFCompositeRequestHelper.h"
@@ -88,7 +88,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 
 #pragma mark - SFAdvancedSyncUpTarget methods
 
-- (void)syncUpRecords:(nonnull SFSmartSyncSyncManager *)syncManager records:(nonnull NSArray<NSMutableDictionary *> *)records fieldlist:(nonnull NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode syncSoupName:(nonnull NSString *)syncSoupName completionBlock:(nonnull SFSyncUpTargetCompleteBlock)completionBlock failBlock:(nonnull SFSyncUpTargetErrorBlock)failBlock {
+- (void)syncUpRecords:(nonnull SFMobileSyncSyncManager *)syncManager records:(nonnull NSArray<NSMutableDictionary *> *)records fieldlist:(nonnull NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode syncSoupName:(nonnull NSString *)syncSoupName completionBlock:(nonnull SFSyncUpTargetCompleteBlock)completionBlock failBlock:(nonnull SFSyncUpTargetErrorBlock)failBlock {
     
     if (records.count == 0) {
         completionBlock(nil);
@@ -201,7 +201,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
     }
 }
 
-- (BOOL) updateRecordInLocalStore:(nonnull SFSmartSyncSyncManager *)syncManager soupName:(nonnull NSString *)soupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(NSDictionary*)response {
+- (BOOL) updateRecordInLocalStore:(nonnull SFMobileSyncSyncManager *)syncManager soupName:(nonnull NSString *)soupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(NSDictionary*)response {
 
     BOOL needReRun = NO;
     NSUInteger statusCode = [((NSNumber *) response[kHttpStatusCode]) unsignedIntegerValue];

@@ -1,6 +1,6 @@
 /*
- SFSDKSmartSyncLogger.h
- SmartSync
+ SFSDKMobileSyncLogger.h
+ MobileSync
  
  Created by Bharath Hariharan on 6/26/17.
  
@@ -31,10 +31,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * _Nonnull const kSFSDKSmartSyncComponentName;
+extern NSString * _Nonnull const kSFSDKMobileSyncComponentName;
 
-NS_SWIFT_NAME(SmartSyncLogger)
-@interface SFSDKSmartSyncLogger : SFLogger
+NS_SWIFT_NAME(MobileSyncLogger)
+@interface SFSDKMobileSyncLogger : SFLogger
 
 @end
 

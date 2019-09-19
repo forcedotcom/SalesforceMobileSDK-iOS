@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
 
-  s.name         = "SmartSync"
+  s.name         = "MobileSync"
   s.version      = "8.0.0"
-  s.summary      = "Salesforce Mobile SDK for iOS - SmartSync"
+  s.summary      = "Salesforce Mobile SDK for iOS - MobileSync"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
   s.license      = { :type => "Salesforce.com Mobile SDK License", :file => "LICENSE.md" }
@@ -15,16 +15,16 @@ Pod::Spec.new do |s|
                      :submodules => true }
   
   s.requires_arc = true
-  s.default_subspec  = 'SmartSync'
+  s.default_subspec  = 'MobileSync'
 
-  s.subspec 'SmartSync' do |smartsync|
+  s.subspec 'MobileSync' do |mobilesync|
 
-      smartsync.dependency 'SmartStore'
-      smartsync.dependency 'SalesforceSDKCore'
-      smartsync.source_files = 'libs/SmartSync/SmartSync/Classes/**/*.{h,m}', 'libs/SmartSync/SmartSync/SmartSync.h'
-      smartsync.public_header_files = 'libs/SmartSync/SmartSync/Classes/Target/SFAdvancedSyncUpTarget.h', 'libs/SmartSync/SmartSync/Classes/Target/SFBatchSyncUpTarget.h', 'libs/SmartSync/SmartSync/Classes/Util/SFChildrenInfo.h', 'libs/SmartSync/SmartSync/Classes/Model/SFLayout.h', 'libs/SmartSync/SmartSync/Classes/Target/SFLayoutSyncDownTarget.h', 'libs/SmartSync/SmartSync/Classes/Manager/SFLayoutSyncManager.h', 'libs/SmartSync/SmartSync/Classes/Model/SFMetadata.h', 'libs/SmartSync/SmartSync/Classes/Target/SFMetadataSyncDownTarget.h', 'libs/SmartSync/SmartSync/Classes/Manager/SFMetadataSyncManager.h', 'libs/SmartSync/SmartSync/Classes/Target/SFMruSyncDownTarget.h', 'libs/SmartSync/SmartSync/Classes/Model/SFObject.h', 'libs/SmartSync/SmartSync/Classes/Target/SFParentChildrenSyncDownTarget.h', 'libs/SmartSync/SmartSync/Classes/Util/SFParentChildrenSyncHelper.h', 'libs/SmartSync/SmartSync/Classes/Target/SFParentChildrenSyncUpTarget.h', 'libs/SmartSync/SmartSync/Classes/Util/SFParentInfo.h', 'libs/SmartSync/SmartSync/Classes/Target/SFRefreshSyncDownTarget.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSDKSmartSyncLogger.h', 'libs/SmartSync/SmartSync/Classes/Config/SFSDKSyncsConfig.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncConstants.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncNetworkUtils.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncObjectUtils.h', 'libs/SmartSync/SmartSync/Classes/Model/SFSmartSyncPersistableObject.h', 'libs/SmartSync/SmartSync/Classes/Instrumentation/SFSmartSyncSyncManager+Instrumentation.h', 'libs/SmartSync/SmartSync/Classes/Manager/SFSmartSyncSyncManager.h', 'libs/SmartSync/SmartSync/Classes/Target/SFSoqlSyncDownTarget.h', 'libs/SmartSync/SmartSync/Classes/Target/SFSoslSyncDownTarget.h', 'libs/SmartSync/SmartSync/Classes/Target/SFSyncDownTarget.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSyncOptions.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSyncState.h', 'libs/SmartSync/SmartSync/Classes/Target/SFSyncTarget.h', 'libs/SmartSync/SmartSync/Classes/Target/SFSyncUpTarget.h', 'libs/SmartSync/SmartSync/SmartSync.h', 'libs/SmartSync/SmartSync/Classes/Manager/SmartSyncSDKManager.h'
-      smartsync.prefix_header_contents = '#import "SFSDKSmartSyncLogger.h"'
-      smartsync.requires_arc = true
+      mobilesync.dependency 'SmartStore'
+      mobilesync.dependency 'SalesforceSDKCore'
+      mobilesync.source_files = 'libs/MobileSync/MobileSync/Classes/**/*.{h,m}', 'libs/MobileSync/MobileSync/MobileSync.h'
+      mobilesync.public_header_files = 'libs/MobileSync/MobileSync/Classes/Target/SFAdvancedSyncUpTarget.h', 'libs/MobileSync/MobileSync/Classes/Target/SFBatchSyncUpTarget.h', 'libs/MobileSync/MobileSync/Classes/Util/SFChildrenInfo.h', 'libs/MobileSync/MobileSync/Classes/Model/SFLayout.h', 'libs/MobileSync/MobileSync/Classes/Target/SFLayoutSyncDownTarget.h', 'libs/MobileSync/MobileSync/Classes/Manager/SFLayoutSyncManager.h', 'libs/MobileSync/MobileSync/Classes/Model/SFMetadata.h', 'libs/MobileSync/MobileSync/Classes/Target/SFMetadataSyncDownTarget.h', 'libs/MobileSync/MobileSync/Classes/Manager/SFMetadataSyncManager.h', 'libs/MobileSync/MobileSync/Classes/Target/SFMruSyncDownTarget.h', 'libs/MobileSync/MobileSync/Classes/Model/SFObject.h', 'libs/MobileSync/MobileSync/Classes/Target/SFParentChildrenSyncDownTarget.h', 'libs/MobileSync/MobileSync/Classes/Util/SFParentChildrenSyncHelper.h', 'libs/MobileSync/MobileSync/Classes/Target/SFParentChildrenSyncUpTarget.h', 'libs/MobileSync/MobileSync/Classes/Util/SFParentInfo.h', 'libs/MobileSync/MobileSync/Classes/Target/SFRefreshSyncDownTarget.h', 'libs/MobileSync/MobileSync/Classes/Util/SFSDKMobileSyncLogger.h', 'libs/MobileSync/MobileSync/Classes/Config/SFSDKSyncsConfig.h', 'libs/MobileSync/MobileSync/Classes/Util/SFMobileSyncConstants.h', 'libs/MobileSync/MobileSync/Classes/Util/SFMobileSyncNetworkUtils.h', 'libs/MobileSync/MobileSync/Classes/Util/SFMobileSyncObjectUtils.h', 'libs/MobileSync/MobileSync/Classes/Model/SFMobileSyncPersistableObject.h', 'libs/MobileSync/MobileSync/Classes/Instrumentation/SFMobileSyncSyncManager+Instrumentation.h', 'libs/MobileSync/MobileSync/Classes/Manager/SFMobileSyncSyncManager.h', 'libs/MobileSync/MobileSync/Classes/Target/SFSoqlSyncDownTarget.h', 'libs/MobileSync/MobileSync/Classes/Target/SFSoslSyncDownTarget.h', 'libs/MobileSync/MobileSync/Classes/Target/SFSyncDownTarget.h', 'libs/MobileSync/MobileSync/Classes/Util/SFSyncOptions.h', 'libs/MobileSync/MobileSync/Classes/Util/SFSyncState.h', 'libs/MobileSync/MobileSync/Classes/Target/SFSyncTarget.h', 'libs/MobileSync/MobileSync/Classes/Target/SFSyncUpTarget.h', 'libs/MobileSync/MobileSync/MobileSync.h', 'libs/MobileSync/MobileSync/Classes/Manager/MobileSyncSDKManager.h'
+      mobilesync.prefix_header_contents = '#import "SFSDKMobileSyncLogger.h"'
+      mobilesync.requires_arc = true
 
   end
 

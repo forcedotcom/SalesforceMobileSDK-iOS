@@ -22,14 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SmartSyncExplorerConfig.h"
+#import "MobileSyncExplorerConfig.h"
 
-static NSString * const kAppGroupName  = @"group.com.salesforce.mobilesdk.SmartSyncExplorer";
+static NSString * const kAppGroupName  = @"group.com.salesforce.mobilesdk.MobileSyncExplorer";
 static NSString * const kUserLoggedIn = @"userLoggedIn";
 
-static SmartSyncExplorerConfig *sharedInstance;
+static MobileSyncExplorerConfig *sharedInstance;
 
-@implementation SmartSyncExplorerConfig
+@implementation MobileSyncExplorerConfig
 
 - (instancetype)init {
     self = [super init];
@@ -44,7 +44,7 @@ static SmartSyncExplorerConfig *sharedInstance;
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance =  [SmartSyncExplorerConfig new];
+        sharedInstance =  [MobileSyncExplorerConfig new];
     });
     return sharedInstance;
 }

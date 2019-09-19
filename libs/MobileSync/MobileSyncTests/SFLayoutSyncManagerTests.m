@@ -1,6 +1,6 @@
 /*
  SFLayoutSyncManagerTests.m
- SmartSync
+ MobileSync
  
  Created by Bharath Hariharan on 5/22/18.
  
@@ -29,7 +29,7 @@
 
 #import "SyncManagerTestCase.h"
 #import "SFLayoutSyncManager.h"
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 #import <SmartStore/SFQuerySpec.h>
 
 static NSString * const kCompact = @"Compact";
@@ -50,7 +50,7 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
 }
 
 - (void)tearDown {
-    [SFSmartSyncSyncManager removeSharedInstances];
+    [SFMobileSyncSyncManager removeSharedInstances];
     [self.layoutSyncManager.smartStore removeAllSoups];
     [SFLayoutSyncManager reset];
     [super tearDown];

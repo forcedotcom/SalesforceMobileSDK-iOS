@@ -27,7 +27,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SFSmartSyncSyncManager;
+@class SFMobileSyncSyncManager;
 
 typedef void (^SFSyncDownTargetFetchCompleteBlock) (NSArray* _Nullable records) NS_SWIFT_NAME(SyncDownCompletionBlock);
 typedef void (^SFSyncDownTargetFetchErrorBlock) (NSError * _Nullable e) NS_SWIFT_NAME(SyncDownErrorBlock);
@@ -59,7 +59,7 @@ NS_SWIFT_NAME(SyncDownTarget)
 /**
  * Start fetching records conforming to target
  */
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock NS_SWIFT_NAME(startFetch(syncManager:maxTimeStamp:onFail:onComplete:));
@@ -67,7 +67,7 @@ NS_SWIFT_NAME(SyncDownTarget)
 /**
  * Continue fetching records conforming to target if any
  */
-- (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) continueFetch:(SFMobileSyncSyncManager*)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
          completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock NS_SWIFT_NAME(continueFetch(syncManager:onFail:onComplete:));
 
@@ -98,7 +98,7 @@ NS_SWIFT_NAME(SyncDownTarget)
   * @param errorBlock Block to execute in case of error
   * @param completeBlock Block to execute upon completion
   */
-- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
+- (void)cleanGhosts:(SFMobileSyncSyncManager *)syncManager
            soupName:(NSString *)soupName
              syncId:(NSNumber *)syncId
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
@@ -111,7 +111,7 @@ NS_SWIFT_NAME(SyncDownTarget)
  * @param soupName The soup
  * @return set of ids
  */
-- (NSOrderedSet *)getIdsToSkip:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName;
+- (NSOrderedSet *)getIdsToSkip:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName;
 
 /**
  * Enum to/from string helper methods

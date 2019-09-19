@@ -1,6 +1,6 @@
 /*
  SFMetadata.h
- SmartSync
+ MobileSync
  
  Created by Bharath Hariharan on 5/24/18.
  

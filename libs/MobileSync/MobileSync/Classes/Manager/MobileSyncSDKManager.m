@@ -23,10 +23,10 @@
  */
 
 #import <SmartStore/SFSmartStore.h>
-#import "SmartSyncSDKManager.h"
+#import "MobileSyncSDKManager.h"
 #import "SFSDKSyncsConfig.h"
 
-@implementation SmartSyncSDKManager
+@implementation MobileSyncSDKManager
 @dynamic sharedManager;
 
 + (void)initializeSDK {
@@ -35,7 +35,7 @@
 
 - (void) setupGlobalSyncsFromDefaultConfig {
     NSString *configPath = [self pathForGlobalSyncsConfig];
-    [SFSDKSmartSyncLogger d:[self class] format:@"Setting up global syncs using config found in %@", configPath];
+    [SFSDKMobileSyncLogger d:[self class] format:@"Setting up global syncs using config found in %@", configPath];
     SFSDKSyncsConfig* syncsConfig = [[SFSDKSyncsConfig alloc] initWithResourceAtPath:configPath];
     if ([syncsConfig hasSyncs]) {
         [syncsConfig createSyncs:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
@@ -44,7 +44,7 @@
 
 - (void) setupUserSyncsFromDefaultConfig {
     NSString *configPath = [self pathForUserSyncsConfig];
-    [SFSDKSmartSyncLogger d:[self class] format:@"Setting up user syncs using config found in %@", configPath];
+    [SFSDKMobileSyncLogger d:[self class] format:@"Setting up user syncs using config found in %@", configPath];
     SFSDKSyncsConfig* syncsConfig = [[SFSDKSyncsConfig alloc] initWithResourceAtPath:configPath];
     if ([syncsConfig hasSyncs]) {
         [syncsConfig createSyncs:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];

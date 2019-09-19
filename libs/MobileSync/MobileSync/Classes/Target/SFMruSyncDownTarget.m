@@ -23,10 +23,10 @@
  */
 
 #import "SFMruSyncDownTarget.h"
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
-#import "SFSmartSyncConstants.h"
-#import "SFSmartSyncNetworkUtils.h"
+#import "SFMobileSyncConstants.h"
+#import "SFMobileSyncNetworkUtils.h"
 
 static NSString * const kSFSyncTargetObjectType = @"sobjectType";
 static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
@@ -80,13 +80,13 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 
 # pragma mark - Data fetching
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType apiVersion:kSFRestDefaultAPIVersion];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -101,14 +101,14 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     }];
 }
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
            queryRun:(NSString*)queryRun
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     SFRestRequest * soqlRequest = [[SFRestAPI sharedInstance] requestForQuery:queryRun apiVersion:kSFRestDefaultAPIVersion];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:soqlRequest failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:soqlRequest failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary * d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
@@ -116,7 +116,7 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     }];
 }
 
-- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+- (void) getRemoteIds:(SFMobileSyncSyncManager*)syncManager
              localIds:(NSArray*)localIds
            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
         completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock {

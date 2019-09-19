@@ -22,9 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncPersistableObject.h"
+#import "SFMobileSyncPersistableObject.h"
 
-@interface SFSmartSyncPersistableObject ()
+@interface SFMobileSyncPersistableObject ()
 
 @property (nonatomic, readwrite, copy) NSString *objectType;
 

@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,11 +35,11 @@ extern NSInteger const kSyncManagerUnchanged;
 
 @interface SFSyncTask : NSObject
 
-@property (nonatomic, strong, readonly) SFSmartSyncSyncManager* syncManager;
+@property (nonatomic, strong, readonly) SFMobileSyncSyncManager* syncManager;
 @property (nonatomic, strong, readonly) NSNumber* syncId;
 
 
--(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock;
+-(instancetype) init:(SFMobileSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock;
 -(void) run;
 -(BOOL) shouldStop;
 -(void) updateSync:(SFSyncState*)sync countSynched:(NSUInteger)countSynched;

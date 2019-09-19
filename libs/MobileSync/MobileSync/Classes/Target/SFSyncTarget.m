@@ -23,8 +23,8 @@
  */
 
 #import "SFSyncTarget.h"
-#import "SFSmartSyncConstants.h"
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncConstants.h"
+#import "SFMobileSyncSyncManager.h"
 #import <SmartStore/SFQuerySpec.h>
 #import <SmartStore/SFSmartStore.h>
 
@@ -75,16 +75,16 @@ NSString * const kSyncTargetLastError = @"__last_error__";
 
 #pragma mark - Public methods
 
-- (void) cleanAndSaveInLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
-    [SFSDKSmartSyncLogger d:[self class] format:@"cleanAndSaveInLocalStore:%@", record];
+- (void) cleanAndSaveInLocalStore:(SFMobileSyncSyncManager*)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
+    [SFSDKMobileSyncLogger d:[self class] format:@"cleanAndSaveInLocalStore:%@", record];
     [self saveInSmartStore:syncManager.store soupName:soupName records:@[record] idFieldName:self.idFieldName syncId:nil lastError:nil cleanFirst:YES /* method called from sync up - not setting syncId field then */];
 }
 
-- (void)cleanAndSaveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId {
+- (void)cleanAndSaveRecordsToLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId {
     [self saveInSmartStore:syncManager.store soupName:soupName records:records idFieldName:self.idFieldName syncId:syncId lastError:nil cleanFirst:YES];
 }
 
-- (void) deleteRecordsFromLocalStore:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
+- (void) deleteRecordsFromLocalStore:(SFMobileSyncSyncManager*)syncManager soupName:(NSString*)soupName ids:(NSArray*)ids idField:(NSString*)idField {
     if (ids.count > 0) {
         NSString *smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')",
                                                         soupName, SOUP_ENTRY_ID, soupName, soupName, idField,
@@ -112,18 +112,18 @@ NSString * const kSyncTargetLastError = @"__last_error__";
     return [record[kSyncTargetLocal] boolValue];
 }
 
-- (NSOrderedSet*) getDirtyRecordIds:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField {
+- (NSOrderedSet*) getDirtyRecordIds:(SFMobileSyncSyncManager*)syncManager soupName:(NSString*)soupName idField:(NSString*)idField {
     NSString* dirtyRecordSql = [self getDirtyRecordIdsSql:soupName idField:idField];
     return [self getIdsWithQuery:dirtyRecordSql syncManager:syncManager];
 
 }
 
-- (NSDictionary*) getFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName storeId:(NSNumber*)storeId {
+- (NSDictionary*) getFromLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString*)soupName storeId:(NSNumber*)storeId {
     return [syncManager.store retrieveEntries:@[storeId] fromSoup:soupName][0];
 }
 
-- (void) deleteFromLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
-    [SFSDKSmartSyncLogger d:[self class] format:@"deleteFromLocalStore:%@", record];
+- (void) deleteFromLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
+    [SFSDKMobileSyncLogger d:[self class] format:@"deleteFromLocalStore:%@", record];
     [syncManager.store removeEntries:@[record[SOUP_ENTRY_ID]] fromSoup:soupName];
 }
 
@@ -134,7 +134,7 @@ NSString * const kSyncTargetLastError = @"__last_error__";
                                       soupName, idField, soupName, soupName, kSyncTargetLocal, soupName, idField];
 }
 
-- (NSOrderedSet *)getIdsWithQuery:idsSql syncManager:(SFSmartSyncSyncManager *)syncManager {
+- (NSOrderedSet *)getIdsWithQuery:idsSql syncManager:(SFMobileSyncSyncManager *)syncManager {
     NSMutableOrderedSet* ids = [NSMutableOrderedSet new];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:idsSql withPageSize:kSyncTargetPageSize];
 
@@ -147,7 +147,7 @@ NSString * const kSyncTargetLastError = @"__last_error__";
     return ids;
 }
 
-- (void)saveInLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId lastError:(NSString *)lastError cleanFirst:(BOOL)cleanFirst {
+- (void)saveInLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records idFieldName:(NSString *)idFieldName syncId:(NSNumber *)syncId lastError:(NSString *)lastError cleanFirst:(BOOL)cleanFirst {
     [self saveInSmartStore:syncManager.store soupName:soupName records:records idFieldName:idFieldName syncId:syncId lastError:lastError cleanFirst:cleanFirst];
 }
 

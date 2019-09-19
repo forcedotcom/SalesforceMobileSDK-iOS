@@ -25,7 +25,7 @@
 #import <SmartStore/SFQuerySpec.h>
 #import "SyncManagerTestCase.h"
 #import "SFParentChildrenSyncDownTarget.h"
-#import "SFSmartSyncObjectUtils.h"
+#import "SFMobileSyncObjectUtils.h"
 #import "SFSyncUpdateCallbackQueue.h"
 #import "SFParentChildrenSyncUpTarget.h"
 
@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
 - (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate;
 
-- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate;
+- (NSOrderedSet *)getNonDirtyRecordIds:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate;
 
 @end
 
@@ -107,7 +107,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 - (void) testGetQueryWithMaxTimeStamp {
     NSDate* date = [NSDate new];
     long long maxTimeStamp = [date timeIntervalSince1970];
-    NSString* dateStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
+    NSString* dateStr = [SFMobileSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
     
     SFParentChildrenSyncDownTarget* target = [SFParentChildrenSyncDownTarget
             newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:@"Parent" soupName:@"parentsSoup" idFieldName:@"ParentId" modificationDateFieldName:@"ParentModifiedDate"]
@@ -345,7 +345,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     for (NSUInteger i = 1; i<5; i++) {
         long long int millis = i*100000000;
         [timeStamps addObject:@(millis)];
-        [timeStampStrs addObject:[SFSmartSyncObjectUtils getIsoStringFromMillis:millis]];
+        [timeStampStrs addObject:[SFMobileSyncObjectUtils getIsoStringFromMillis:millis]];
     }
 
     NSDictionary * accountAttributes = @{TYPE: ACCOUNT_TYPE};

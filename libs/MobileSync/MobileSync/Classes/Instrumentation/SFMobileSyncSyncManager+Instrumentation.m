@@ -1,5 +1,5 @@
 /*
- SFSmartSyncSyncManager+Instrumentation.m
+ SFMobileSyncSyncManager+Instrumentation.m
  SalesforceSDKCore
  Created by Raj Rao on 3/21/19.
  
@@ -26,27 +26,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncSyncManager+Instrumentation.h"
+#import "SFMobileSyncSyncManager+Instrumentation.h"
 #import <objc/runtime.h>
 #import <os/log.h>
 #import <os/signpost.h>
 #import <SalesforceSDKCore/SFSDKInstrumentationHelper.h>
 
-@implementation SFSmartSyncSyncManager (Instrumentation)
+@implementation SFMobileSyncSyncManager (Instrumentation)
 
 + (os_log_t)oslog {
     static os_log_t _logger;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
-        _logger = os_log_create([appName  cStringUsingEncoding:NSUTF8StringEncoding], [@"SFSmartSync" cStringUsingEncoding:NSUTF8StringEncoding]);
+        _logger = os_log_create([appName  cStringUsingEncoding:NSUTF8StringEncoding], [@"SFMobileSync" cStringUsingEncoding:NSUTF8StringEncoding]);
     });
     return _logger;
 }
 
 
 + (void)load{
-    if ([SFSDKInstrumentationHelper isEnabled]  && (self == SFSmartSyncSyncManager.self)) {
+    if ([SFSDKInstrumentationHelper isEnabled]  && (self == SFMobileSyncSyncManager.self)) {
         [self enableInstrumentation];
     }
 }

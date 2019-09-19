@@ -23,16 +23,16 @@
  */
 
 #import <Foundation/Foundation.h>
-/** SmartSyncExplorerConfig holds the config for both the app and the extension.
+/** MobileSyncExplorerConfig holds the config for both the app and the extension.
  */
-@interface SmartSyncExplorerConfig : NSObject
+@interface MobileSyncExplorerConfig : NSObject
 
 /**
  * The App GroupName ("group.*") associated with the configured Connected Application.
  */
 @property (readonly,nonatomic, copy) NSString *appGroupName;
 
-/* Indicated whether appgroups are enabled for SmartSyncExplorer.
+/* Indicated whether appgroups are enabled for MobileSyncExplorer.
  */
 @property (readonly,assign) BOOL appGroupsEnabled;
 

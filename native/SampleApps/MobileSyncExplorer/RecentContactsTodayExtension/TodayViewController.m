@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "TodayViewController.h"
-#import <SmartSyncExplorerCommon/SmartSyncExplorerCommon.h>
+#import <MobileSyncExplorerCommon/MobileSyncExplorerCommon.h>
 #import <NotificationCenter/NotificationCenter.h>
 #import <SmartStore/SmartStoreSDKManager.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
@@ -33,7 +33,7 @@
 #import <SalesforceSDKCommon/SFLogger.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SmartSync/SmartSyncSDKManager.h>
+#import <MobileSync/MobileSyncSDKManager.h>
 @interface TodayViewController () <NCWidgetProviding, UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *todayTableView;
@@ -64,13 +64,13 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
-    SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
+    MobileSyncExplorerConfig *config = [MobileSyncExplorerConfig sharedInstance];
     [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
     
     if ([self userIsLoggedIn] ) {
         [SFLogger log:[self class] level:SFLogLevelError format:@"User has logged in"];
-        [SmartSyncSDKManager initializeSDK];
+        [MobileSyncSDKManager initializeSDK];
         SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
         __weak typeof(self) weakSelf = self;
         void (^completionBlock)(void) = ^{
@@ -87,7 +87,7 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 }
 
 - (BOOL)userIsLoggedIn {
-    SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
+    MobileSyncExplorerConfig *config = [MobileSyncExplorerConfig sharedInstance];
     return [[NSUserDefaults msdkUserDefaults] boolForKey:config.userLogInStatusKey];
 }
 

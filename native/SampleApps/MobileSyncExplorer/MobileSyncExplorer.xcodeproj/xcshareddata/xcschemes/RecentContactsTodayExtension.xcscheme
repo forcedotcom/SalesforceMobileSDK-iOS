@@ -18,7 +18,7 @@
                BlueprintIdentifier = "B7E0CF301D91CECE0050A1F4"
                BuildableName = "RecentContactsTodayExtension.appex"
                BlueprintName = "RecentContactsTodayExtension"
-               ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
+               ReferencedContainer = "container:MobileSyncExplorer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,9 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "827C631019E6018C00027484"
-               BuildableName = "SmartSyncExplorer.app"
-               BlueprintName = "SmartSyncExplorer"
-               ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
+               BuildableName = "MobileSyncExplorer.app"
+               BlueprintName = "MobileSyncExplorer"
+               ReferencedContainer = "container:MobileSyncExplorer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -50,7 +50,7 @@
             BlueprintIdentifier = "B7E0CF301D91CECE0050A1F4"
             BuildableName = "RecentContactsTodayExtension.appex"
             BlueprintName = "RecentContactsTodayExtension"
-            ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
+            ReferencedContainer = "container:MobileSyncExplorer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -75,7 +75,7 @@
             BlueprintIdentifier = "B7E0CF301D91CECE0050A1F4"
             BuildableName = "RecentContactsTodayExtension.appex"
             BlueprintName = "RecentContactsTodayExtension"
-            ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
+            ReferencedContainer = "container:MobileSyncExplorer.xcodeproj">
          </BuildableReference>
       </RemoteRunnable>
       <MacroExpansion>
@@ -84,7 +84,7 @@
             BlueprintIdentifier = "B7E0CF301D91CECE0050A1F4"
             BuildableName = "RecentContactsTodayExtension.appex"
             BlueprintName = "RecentContactsTodayExtension"
-            ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
+            ReferencedContainer = "container:MobileSyncExplorer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -102,9 +102,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "827C631019E6018C00027484"
-            BuildableName = "SmartSyncExplorer.app"
-            BlueprintName = "SmartSyncExplorer"
-            ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
+            BuildableName = "MobileSyncExplorer.app"
+            BlueprintName = "MobileSyncExplorer"
+            ReferencedContainer = "container:MobileSyncExplorer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

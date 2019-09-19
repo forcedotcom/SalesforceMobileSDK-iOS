@@ -25,7 +25,7 @@
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SmartStore/SmartStore.h>
-#import <SmartSync/SmartSync.h>
+#import <MobileSync/MobileSync.h>
 
 #define ACCOUNTS_SOUP       @"accounts"
 #define ACCOUNT_TYPE        @"Account"
@@ -49,9 +49,9 @@
 @interface SyncManagerTestCase : XCTestCase
 
 @property (nonatomic, strong) SFUserAccount* currentUser;
-@property (nonatomic, strong) SFSmartSyncSyncManager* syncManager;
+@property (nonatomic, strong) SFMobileSyncSyncManager* syncManager;
 @property (nonatomic, strong) SFSmartStore* store;
-@property (nonatomic, strong) SFSmartSyncSyncManager* globalSyncManager;
+@property (nonatomic, strong) SFMobileSyncSyncManager* globalSyncManager;
 @property (nonatomic, strong) SFSmartStore* globalStore;
 
 

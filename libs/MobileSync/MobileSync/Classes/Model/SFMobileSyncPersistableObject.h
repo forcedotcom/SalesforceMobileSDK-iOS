@@ -25,7 +25,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(PersistableObject)
-@interface SFSmartSyncPersistableObject : NSObject
+@interface SFMobileSyncPersistableObject : NSObject
 
 @property (nonatomic, strong) NSDictionary *rawData;
 @property (nonatomic, readonly, copy) NSString *objectType;

@@ -4,11 +4,11 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.salesforce.mobilesdk.SmartSyncExplorer</string>
+		<string>group.com.salesforce.mobilesdk.MobileSyncExplorer</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.salesforce.mobilesdk.SmartSyncExplorer</string>
+		<string>$(AppIdentifierPrefix)com.salesforce.mobilesdk.MobileSyncExplorer</string>
 	</array>
 </dict>
 </plist>

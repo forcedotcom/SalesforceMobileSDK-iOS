@@ -21,12 +21,12 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
-#import <SmartSyncExplorerCommon/ContactSObjectData.h>
-#import <SmartSyncExplorerCommon/ContactSObjectDataSpec.h>
-#import <SmartSyncExplorerCommon/SObjectData.h>
-#import <SmartSyncExplorerCommon/SObjectDataFieldSpec.h>
-#import <SmartSyncExplorerCommon/SObjectDataSpec.h>
-#import <SmartSyncExplorerCommon/SObjectDataManager.h>
+#import <MobileSyncExplorerCommon/MobileSyncExplorerConfig.h>
+#import <MobileSyncExplorerCommon/ContactSObjectData.h>
+#import <MobileSyncExplorerCommon/ContactSObjectDataSpec.h>
+#import <MobileSyncExplorerCommon/SObjectData.h>
+#import <MobileSyncExplorerCommon/SObjectDataFieldSpec.h>
+#import <MobileSyncExplorerCommon/SObjectDataSpec.h>
+#import <MobileSyncExplorerCommon/SObjectDataManager.h>
 
 

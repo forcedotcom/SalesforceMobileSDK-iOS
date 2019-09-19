@@ -26,8 +26,8 @@
 #import "SFSyncDownTarget+Internal.h"
 #import "SFSoqlSyncDownTarget+Internal.h"
 #import "SFParentChildrenSyncDownTarget.h"
-#import "SFSmartSyncObjectUtils.h"
-#import "SFSmartSyncConstants.h"
+#import "SFMobileSyncObjectUtils.h"
+#import "SFMobileSyncConstants.h"
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 
 @interface SFParentChildrenSyncDownTarget ()
@@ -164,7 +164,7 @@
     return [builder build];
 }
 
-- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager
+- (void)cleanGhosts:(SFMobileSyncSyncManager *)syncManager
            soupName:(NSString *)soupName
              syncId:(NSNumber *)syncId
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
@@ -215,7 +215,7 @@
     return maxTimeStamp;
 }
 
-- (void)cleanAndSaveRecordsToLocalStore:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId {
+- (void)cleanAndSaveRecordsToLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName records:(NSArray *)records syncId:(NSNumber *)syncId {
     // NB: method is called during sync down so for this target records contain parent and children
 
     return [SFParentChildrenSyncHelper saveRecordTreesToLocalStore:syncManager target:self parentInfo:self.parentInfo childrenInfo:self.childrenInfo recordTrees:records syncId:syncId];
@@ -225,7 +225,7 @@
 
 - (NSString*) buildModificationDateFilter:(NSString*)modificationDateFieldName maxTimeStamp:(long long)maxTimeStamp
 {
-    return [@[modificationDateFieldName, @" > ", [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp]] componentsJoinedByString:@""];
+    return [@[modificationDateFieldName, @" > ", [SFMobileSyncObjectUtils getIsoStringFromMillis:maxTimeStamp]] componentsJoinedByString:@""];
 }
 
 
@@ -260,7 +260,7 @@
     return [builder build];
 }
 
-- (void)getChildrenRemoteIdsWithSoql:(SFSmartSyncSyncManager *)syncManager
+- (void)getChildrenRemoteIdsWithSoql:(SFMobileSyncSyncManager *)syncManager
         soqlForChildrenRemoteIds:(NSString *)soqlForChildrenRemoteIds
           errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
        completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {

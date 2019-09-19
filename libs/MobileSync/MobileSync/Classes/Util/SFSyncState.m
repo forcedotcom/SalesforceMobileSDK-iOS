@@ -145,7 +145,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     if (name) dict[kSFSyncStateName] = name;
     
     if (name && [SFSyncState byName:name store:store]) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Failed to create sync down: there is already a sync with name:%@", name];
+        [SFSDKMobileSyncLogger e:[self class] format:@"Failed to create sync down: there is already a sync with name:%@", name];
         return nil;
     }
     
@@ -175,7 +175,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     if (name) dict[kSFSyncStateName] = name;
     
     if (name && [SFSyncState byName:name store:store]) {
-        [SFSDKSmartSyncLogger e:[self class] format:@"Failed to create sync up: there is already a sync with name:%@", name];
+        [SFSDKMobileSyncLogger e:[self class] format:@"Failed to create sync up: there is already a sync with name:%@", name];
         return nil;
     }
     

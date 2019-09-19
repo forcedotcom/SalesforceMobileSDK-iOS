@@ -1,6 +1,6 @@
 /*
- SmartSync.h
- SmartSync
+ MobileSync.h
+ MobileSync
 
  Created by Bharath Hariharan on Tue Mar 26 09:23:13 PDT 2019.
 
@@ -27,35 +27,35 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SFObject.h>
-#import <SmartSync/SFParentChildrenSyncDownTarget.h>
-#import <SmartSync/SFRefreshSyncDownTarget.h>
-#import <SmartSync/SFMetadataSyncDownTarget.h>
-#import <SmartSync/SFLayout.h>
-#import <SmartSync/SFMetadata.h>
-#import <SmartSync/SFMetadataSyncManager.h>
-#import <SmartSync/SFSmartSyncConstants.h>
-#import <SmartSync/SFBatchSyncUpTarget.h>
-#import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSmartSyncSyncManager+Instrumentation.h>
-#import <SmartSync/SFSoslSyncDownTarget.h>
-#import <SmartSync/SFChildrenInfo.h>
-#import <SmartSync/SFSyncTarget.h>
-#import <SmartSync/SFLayoutSyncManager.h>
-#import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFParentChildrenSyncHelper.h>
-#import <SmartSync/SFSmartSyncObjectUtils.h>
-#import <SmartSync/SFSyncUpTarget.h>
-#import <SmartSync/SmartSyncSDKManager.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFMruSyncDownTarget.h>
-#import <SmartSync/SFLayoutSyncDownTarget.h>
-#import <SmartSync/SFAdvancedSyncUpTarget.h>
-#import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSDKSmartSyncLogger.h>
-#import <SmartSync/SFParentChildrenSyncUpTarget.h>
-#import <SmartSync/SFParentInfo.h>
-#import <SmartSync/SFSyncState.h>
-#import <SmartSync/SFSoqlSyncDownTarget.h>
-#import <SmartSync/SFSyncOptions.h>
-#import <SmartSync/SFSDKSyncsConfig.h>
+#import <MobileSync/SFObject.h>
+#import <MobileSync/SFParentChildrenSyncDownTarget.h>
+#import <MobileSync/SFRefreshSyncDownTarget.h>
+#import <MobileSync/SFMetadataSyncDownTarget.h>
+#import <MobileSync/SFLayout.h>
+#import <MobileSync/SFMetadata.h>
+#import <MobileSync/SFMetadataSyncManager.h>
+#import <MobileSync/SFMobileSyncConstants.h>
+#import <MobileSync/SFBatchSyncUpTarget.h>
+#import <MobileSync/SFMobileSyncPersistableObject.h>
+#import <MobileSync/SFMobileSyncSyncManager+Instrumentation.h>
+#import <MobileSync/SFSoslSyncDownTarget.h>
+#import <MobileSync/SFChildrenInfo.h>
+#import <MobileSync/SFSyncTarget.h>
+#import <MobileSync/SFLayoutSyncManager.h>
+#import <MobileSync/SFMobileSyncNetworkUtils.h>
+#import <MobileSync/SFParentChildrenSyncHelper.h>
+#import <MobileSync/SFMobileSyncObjectUtils.h>
+#import <MobileSync/SFSyncUpTarget.h>
+#import <MobileSync/MobileSyncSDKManager.h>
+#import <MobileSync/SFMobileSyncSyncManager.h>
+#import <MobileSync/SFMruSyncDownTarget.h>
+#import <MobileSync/SFLayoutSyncDownTarget.h>
+#import <MobileSync/SFAdvancedSyncUpTarget.h>
+#import <MobileSync/SFSyncDownTarget.h>
+#import <MobileSync/SFSDKMobileSyncLogger.h>
+#import <MobileSync/SFParentChildrenSyncUpTarget.h>
+#import <MobileSync/SFParentInfo.h>
+#import <MobileSync/SFSyncState.h>
+#import <MobileSync/SFSoqlSyncDownTarget.h>
+#import <MobileSync/SFSyncOptions.h>
+#import <MobileSync/SFSDKSyncsConfig.h>

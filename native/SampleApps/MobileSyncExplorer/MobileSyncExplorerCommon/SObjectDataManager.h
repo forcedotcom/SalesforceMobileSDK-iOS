@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
+#import <MobileSync/SFMobileSyncSyncManager.h>
 #import "SObjectDataSpec.h"
 #import "SObjectData.h"
 

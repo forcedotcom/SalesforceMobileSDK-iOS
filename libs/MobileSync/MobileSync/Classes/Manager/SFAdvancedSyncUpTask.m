@@ -27,7 +27,7 @@
 
 @implementation SFAdvancedSyncUpTask
 
--(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+-(instancetype) init:(SFMobileSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     return [super init:syncManager sync:sync updateBlock:updateBlock];
 }
 
@@ -51,7 +51,7 @@
     }
 
     NSMutableDictionary* record = [[target getFromLocalStore:self.syncManager soupName:soupName storeId:recordIds[i]] mutableCopy];
-    [SFSDKSmartSyncLogger d:[self class] format:@"syncUpMultipleEntries:%@", record];
+    [SFSDKMobileSyncLogger d:[self class] format:@"syncUpMultipleEntries:%@", record];
     
     if (mergeMode == SFSyncStateMergeModeLeaveIfChanged && ![target isLocallyCreated:record]) {
         // Need to check the modification date on the server, against the local date.
@@ -63,7 +63,7 @@
             }
             else {
                 // Server date is newer than the local date.  Skip this update.
-                [SFSDKSmartSyncLogger d:[strongSelf class] format:@"syncUpMultipleEntries: Record not synced since client does not have the latest from server:%@", record];
+                [SFSDKMobileSyncLogger d:[strongSelf class] format:@"syncUpMultipleEntries: Record not synced since client does not have the latest from server:%@", record];
                 // Calling addToSyncUpBatchAndProcessIfNeeded with nil for record - we don't want to add the current record to the batch
                 // but we do want the batch to be processed if needed
                 [strongSelf addToSyncUpBatchAndProcessIfNeeded:sync recordIds:recordIds index:i record:nil batch:batch];

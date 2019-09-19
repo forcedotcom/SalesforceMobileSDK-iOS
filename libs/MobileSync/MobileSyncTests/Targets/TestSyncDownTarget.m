@@ -80,7 +80,7 @@ static NSString * const kTestSyncDownTargetSleepPerFetch = @"sleepPerFetch";
     for (int i=0; i<numberOfRecords; i++) {
         NSMutableDictionary* record = [NSMutableDictionary new];
         record[kId] = [self idForPosition:i];
-        record[kLastModifiedDate] = [SFSmartSyncObjectUtils getIsoStringFromMillis:[self dateForPositionAsMillis:i]];
+        record[kLastModifiedDate] = [SFMobileSyncObjectUtils getIsoStringFromMillis:[self dateForPositionAsMillis:i]];
         [records addObject:record];
     }
     return records;
@@ -109,7 +109,7 @@ static NSString * const kTestSyncDownTargetSleepPerFetch = @"sleepPerFetch";
     return YES;
 }
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
@@ -126,14 +126,14 @@ static NSString * const kTestSyncDownTargetSleepPerFetch = @"sleepPerFetch";
     }
 }
 
-- (void) continueFetch:(SFSmartSyncSyncManager *)syncManager
+- (void) continueFetch:(SFMobileSyncSyncManager *)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
          completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock {
     [self sleepIfNeeded];
     completeBlock([self recordsFromPosition]);
 }
 
-- (void)getRemoteIds:(SFSmartSyncSyncManager *)syncManager
+- (void)getRemoteIds:(SFMobileSyncSyncManager *)syncManager
             localIds:(NSArray *)localIds
           errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
        completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock {

@@ -26,7 +26,7 @@
 
 NSString * const kCreatedResultIdPrefix = @"testSyncUpCreatedId_";
 
-static NSString * const kTestSyncUpTargetErrorDomain = @"com.smartsync.test.TestServerTargetErrorDomain";
+static NSString * const kTestSyncUpTargetErrorDomain = @"com.mobilesync.test.TestServerTargetErrorDomain";
 
 static NSString * const kTestSyncUpDateCompareKey = @"dateCompareKey";
 static NSString * const kTestSyncUpSendRemoteModErrorKey = @"sendRemoteModErrorKey";
@@ -87,7 +87,7 @@ static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
     return dict;
 }
 
-- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager
+- (void)isNewerThanServer:(SFMobileSyncSyncManager *)syncManager
                    record:(NSDictionary*)record
               resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock
 {

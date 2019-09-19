@@ -24,10 +24,10 @@
 
 #import "SFSyncUpTarget+Internal.h"
 #import "SFBatchSyncUpTarget.h"
-#import "SFSmartSyncConstants.h"
-#import "SFSmartSyncNetworkUtils.h"
-#import "SFSmartSyncSyncManager.h"
-#import "SFSmartSyncObjectUtils.h"
+#import "SFMobileSyncConstants.h"
+#import "SFMobileSyncNetworkUtils.h"
+#import "SFMobileSyncSyncManager.h"
+#import "SFMobileSyncObjectUtils.h"
 #import "SFSyncTarget+Internal.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SmartStore/SFSmartStore.h>
@@ -44,7 +44,7 @@ static NSString *const kSFSyncUpTargetTypeCustom = @"custom";
 - (instancetype)initWithTimestamp:(NSString*)timestamp isDeleted:(BOOL)isDeleted {
     self = [super init];
     if (self) {
-        self.timestamp = [SFSmartSyncObjectUtils getDateFromIsoDateString:timestamp];
+        self.timestamp = [SFMobileSyncObjectUtils getDateFromIsoDateString:timestamp];
         self.isDeleted = isDeleted;
     }
     return self;
@@ -88,7 +88,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
         NSString* implClassName = dict[kSFSyncTargetiOSImplKey];
         Class customSyncUpClass = NSClassFromString(implClassName);
         if (![customSyncUpClass isSubclassOfClass:[SFSyncUpTarget class]]) {
-            [SFSDKSmartSyncLogger e:[self class] format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncUpTarget class])];
+            [SFSDKMobileSyncLogger e:[self class] format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncUpTarget class])];
             return nil;
         } else {
             return [[customSyncUpClass alloc] initWithDict:dict];
@@ -103,7 +103,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
                 // Default sync up target (it's SFBatchSyncUpTarget starting in Mobile SDK 7.1)
                 return [[SFBatchSyncUpTarget alloc] initWithDict:dict];
             case SFSyncUpTargetTypeCustom:
-                [SFSDKSmartSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
+                [SFSDKMobileSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
         }
     }
@@ -119,7 +119,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 
 # pragma mark - Public sync up methods
 
-- (void)isNewerThanServer:(SFSmartSyncSyncManager *)syncManager
+- (void)isNewerThanServer:(SFMobileSyncSyncManager *)syncManager
                    record:(NSDictionary*)record
               resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock
 {
@@ -138,7 +138,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 }
 
 
-- (void)createOnServer:(SFSmartSyncSyncManager *)syncManager
+- (void)createOnServer:(SFMobileSyncSyncManager *)syncManager
                 record:(NSDictionary*)record
              fieldlist:(NSArray*)fieldlist
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
@@ -150,7 +150,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
     [self createOnServer:objectType fields:fields completionBlock:completionBlock failBlock:failBlock];
 }
 
-- (void)updateOnServer:(SFSmartSyncSyncManager *)syncManager
+- (void)updateOnServer:(SFMobileSyncSyncManager *)syncManager
                 record:(NSDictionary*)record
              fieldlist:(NSArray*)fieldlist
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
@@ -164,7 +164,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 
 }
 
-- (void)deleteOnServer:(SFSmartSyncSyncManager *)syncManager
+- (void)deleteOnServer:(SFMobileSyncSyncManager *)syncManager
                 record:(NSDictionary*)record
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
              failBlock:(SFSyncUpTargetErrorBlock)failBlock
@@ -175,7 +175,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
 }
 
 
-- (NSArray*)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager*)syncManager
+- (NSArray*)getIdsOfRecordsToSyncUp:(SFMobileSyncSyncManager*)syncManager
                            soupName:(NSString*)soupName
 {
     return [[self getDirtyRecordIds:syncManager soupName:soupName idField:SOUP_ENTRY_ID] array];
@@ -227,7 +227,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
              failBlock:(SFSyncUpTargetErrorBlock)failBlock
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields apiVersion:kSFRestDefaultAPIVersion];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         self.lastError = e.description;
         failBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
@@ -242,7 +242,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
              failBlock:(SFSyncUpTargetErrorBlock)failBlock
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields apiVersion:kSFRestDefaultAPIVersion];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         self.lastError = e.description;
         failBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
@@ -256,7 +256,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
              failBlock:(SFSyncUpTargetErrorBlock)failBlock
 {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId apiVersion:kSFRestDefaultAPIVersion];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         self.lastError = e.description;
         failBlock(e);
     } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
@@ -275,8 +275,8 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
                                    fieldList:self.modificationDateFieldName
                                   apiVersion:kSFRestDefaultAPIVersion];
 
-    [SFSmartSyncNetworkUtils
-            sendRequestWithSmartSyncUserAgent:request
+    [SFMobileSyncNetworkUtils
+            sendRequestWithMobileSyncUserAgent:request
                                     failBlock:^(NSError *e, NSURLResponse *rawResponse) {
                                         completeBlock([[SFRecordModDate alloc] initWithTimestamp:nil isDeleted:e.code == 404]);
                                     }
@@ -302,7 +302,7 @@ if ((localModDate.timestamp != nil && remoteModDate.timestamp != nil
     return false;
 }
 
-- (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
+- (void) saveRecordToLocalStoreWithLastError:(SFMobileSyncSyncManager*)syncManager
                                     soupName:(NSString*) soupName
                                       record:(NSDictionary*) record {
     [self saveRecordToLocalStoreWithLastError:syncManager
@@ -312,7 +312,7 @@ if ((localModDate.timestamp != nil && remoteModDate.timestamp != nil
     self.lastError = nil;
 }
 
-- (void) saveRecordToLocalStoreWithLastError:(SFSmartSyncSyncManager*)syncManager
+- (void) saveRecordToLocalStoreWithLastError:(SFMobileSyncSyncManager*)syncManager
                                     soupName:(NSString*) soupName
                                       record:(NSDictionary*) record
                                    lastError:(NSString*) lastError {

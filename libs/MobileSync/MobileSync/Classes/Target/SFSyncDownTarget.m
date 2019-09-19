@@ -29,8 +29,8 @@
 #import "SFRefreshSyncDownTarget.h"
 #import "SFSoqlSyncDownTarget.h"
 #import "SFSoslSyncDownTarget.h"
-#import "SFSmartSyncConstants.h"
-#import "SFSmartSyncObjectUtils.h"
+#import "SFMobileSyncConstants.h"
+#import "SFMobileSyncObjectUtils.h"
 #import "SFParentChildrenSyncDownTarget.h"
 #import "SFMetadataSyncDownTarget.h"
 #import "SFLayoutSyncDownTarget.h"
@@ -55,7 +55,7 @@ NSString * const kSFSyncTargetQueryTypeLayout = @"layout";
     if (implClassName.length > 0) {
         Class customSyncDownClass = NSClassFromString(implClassName);
         if (![customSyncDownClass isSubclassOfClass:[SFSyncDownTarget class]]) {
-            [SFSDKSmartSyncLogger e:[self class] format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncDownTarget class])];
+            [SFSDKMobileSyncLogger e:[self class] format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncDownTarget class])];
             return nil;
         } else {
             return [[customSyncDownClass alloc] initWithDict:dict];
@@ -79,7 +79,7 @@ NSString * const kSFSyncTargetQueryTypeLayout = @"layout";
             case SFSyncDownTargetQueryTypeLayout:
                 return [[SFLayoutSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeCustom:
-                [SFSDKSmartSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
+                [SFSDKMobileSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
         }
     }
@@ -93,19 +93,19 @@ NSString * const kSFSyncTargetQueryTypeLayout = @"layout";
 
 # pragma mark - Public sync down methods
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 ABSTRACT_METHOD
 
-- (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) continueFetch:(SFMobileSyncSyncManager*)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
          completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock {
     completeBlock(nil);
 }
 
-- (void) getRemoteIds:(SFSmartSyncSyncManager*)syncManager
+- (void) getRemoteIds:(SFMobileSyncSyncManager*)syncManager
         localIds:(NSArray *)localIds
       errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
    completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock ABSTRACT_METHOD
@@ -119,7 +119,7 @@ ABSTRACT_METHOD
 }
 
 
-- (void)cleanGhosts:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+- (void)cleanGhosts:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
     // Fetches list of IDs present in local soup that have not been modified locally.
     NSMutableOrderedSet *localIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName additionalPredicate:[self buildSyncIdPredicateIfIndexed:syncManager soupName:soupName syncId:syncId]]];
@@ -138,7 +138,7 @@ ABSTRACT_METHOD
          }];
 }
 
-- (NSString*) buildSyncIdPredicateIfIndexed:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId {
+- (NSString*) buildSyncIdPredicateIfIndexed:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId {
     NSArray *indexSpecs = [syncManager.store indicesForSoup:soupName];
     for (SFSoupIndex* indexSpec in indexSpecs) {
         if ([indexSpec.path isEqualToString:kSyncTargetSyncId]) {
@@ -148,7 +148,7 @@ ABSTRACT_METHOD
     return @"";
 }
 
-- (NSOrderedSet*) getIdsToSkip:(SFSmartSyncSyncManager*)syncManager soupName:(NSString*)soupName {
+- (NSOrderedSet*) getIdsToSkip:(SFMobileSyncSyncManager*)syncManager soupName:(NSString*)soupName {
     return [self getDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName];
 }
 
@@ -204,14 +204,14 @@ ABSTRACT_METHOD
         if (!timeStampStr) {
             break; // LastModifiedDate field not present
         }
-        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
+        long long timeStamp = [SFMobileSyncObjectUtils getMillisFromIsoString:timeStampStr];
         maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
     }
     return maxTimeStamp;
 }
 
 
-- (NSOrderedSet *)getNonDirtyRecordIds:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate {
+- (NSOrderedSet *)getNonDirtyRecordIds:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate {
     NSString* nonDirtyRecordsSql = [self getNonDirtyRecordIdsSql:soupName idField:idField additionalPredicate:additionalPredicate];
     return [self getIdsWithQuery:nonDirtyRecordsSql syncManager:syncManager];
 }

@@ -22,12 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSmartSyncObjectUtils.h"
+#import "SFMobileSyncObjectUtils.h"
 
 __strong static NSDateFormatter *utcDateFormatter;
 __strong static NSDateFormatter *isoDateFormatter;
 
-@implementation SFSmartSyncObjectUtils
+@implementation SFMobileSyncObjectUtils
 
 + (void) initialize {
     utcDateFormatter = [NSDateFormatter new];

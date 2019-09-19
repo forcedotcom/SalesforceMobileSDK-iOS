@@ -23,7 +23,7 @@
  */
 
 #import "SFChildrenInfo.h"
-#import "SFSmartSyncConstants.h"
+#import "SFMobileSyncConstants.h"
 
 NSString * const kSFChildrenInfoSObjectTypePlural = @"sobjectTypePlural";
 NSString * const kSFChildrenInfoParentIdFieldName = @"parentIdFieldName"; // name of field on  holding parent server id

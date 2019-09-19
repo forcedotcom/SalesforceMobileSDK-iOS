@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SmartSync.h>
+#import <MobileSync/MobileSync.h>
 
 typedef NS_ENUM(NSUInteger, TestSyncUpTargetModDateCompare) {
     TestSyncUpTargetRemoteModDateSameAsLocal,

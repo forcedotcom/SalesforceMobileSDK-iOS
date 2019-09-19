@@ -23,10 +23,10 @@
  */
 
 #import "SFSoqlSyncDownTarget.h"
-#import "SFSmartSyncSyncManager.h"
-#import "SFSmartSyncConstants.h"
-#import "SFSmartSyncObjectUtils.h"
-#import "SFSmartSyncNetworkUtils.h"
+#import "SFMobileSyncSyncManager.h"
+#import "SFMobileSyncConstants.h"
+#import "SFMobileSyncObjectUtils.h"
+#import "SFMobileSyncNetworkUtils.h"
 #import "SFSDKSoqlMutator.h"
 
 static NSString * const kSFSoqlSyncTargetQuery = @"query";
@@ -105,7 +105,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 # pragma mark - Data fetching
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
         maxTimeStamp:(long long)maxTimeStamp
         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
@@ -116,14 +116,14 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
        completeBlock:completeBlock];
 }
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+- (void) startFetch:(SFMobileSyncSyncManager*)syncManager
         queryToRun:(NSString *)queryToRun
         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun apiVersion:kSFRestDefaultAPIVersion];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary *responseJson, NSURLResponse *rawResponse) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -133,13 +133,13 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     }];
 }
 
-- (void) continueFetch:(SFSmartSyncSyncManager *)syncManager
+- (void) continueFetch:(SFMobileSyncSyncManager *)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
          completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (self.nextRecordsUrl) {
         __weak typeof(self) weakSelf = self;
         SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:self.nextRecordsUrl queryParams:nil];
-        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+        [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
             errorBlock(e);
         } completeBlock:^(NSDictionary *responseJson, NSURLResponse *rawResponse) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -155,7 +155,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     return responseJson[kResponseRecords];
 }
 
-- (void)getRemoteIds:(SFSmartSyncSyncManager *)syncManager
+- (void)getRemoteIds:(SFMobileSyncSyncManager *)syncManager
             localIds:(NSArray *)localIds
           errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
        completeBlock:(nullable SFSyncDownTargetFetchCompleteBlock)completeBlock {
@@ -229,7 +229,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
 + (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp {
     NSString* queryToRun = query;
     if (maxTimeStamp > 0) {
-        NSString* maxTimeStampStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
+        NSString* maxTimeStampStr = [SFMobileSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
         NSString* extraPredicate =  [@[modDateFieldName, @">", maxTimeStampStr] componentsJoinedByString:@" "];
         queryToRun = [[[[SFSDKSoqlMutator withSoql:query] addWherePredicates:extraPredicate] asBuilder] build];
     }

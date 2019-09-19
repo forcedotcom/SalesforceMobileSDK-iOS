@@ -26,7 +26,7 @@
 
 @interface SFSoqlSyncDownTarget ()
 
-- (void)startFetch:(SFSmartSyncSyncManager *)syncManager queryToRun:(NSString *)queryToRun errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
+- (void)startFetch:(SFMobileSyncSyncManager *)syncManager queryToRun:(NSString *)queryToRun errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 - (NSSet<NSString*>*) parseIdsFromResponse:(NSArray*)records;
 - (NSArray<NSDictionary *> *)getRecordsFromResponse:(NSDictionary *)responseJson;
 - (long long)getLatestModificationTimeStamp:(NSArray*)records modificationDateFieldName:(NSString*)modificationDateFieldName;

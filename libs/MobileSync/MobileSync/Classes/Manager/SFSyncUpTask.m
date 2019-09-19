@@ -23,11 +23,11 @@
  */
 
 #import "SFSyncUpTask.h"
-#import "SFSmartSyncConstants.h"
+#import "SFMobileSyncConstants.h"
 
 @implementation SFSyncUpTask
 
--(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+-(instancetype) init:(SFMobileSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     self = [super init:syncManager sync:sync updateBlock:updateBlock];
     return self;
 }
@@ -58,7 +58,7 @@
     }
 
     NSMutableDictionary* record = [[target getFromLocalStore:self.syncManager soupName:soupName storeId:recordIds[i]] mutableCopy];
-    [SFSDKSmartSyncLogger d:[self class] format:@"syncUpOneRecord:%@", record];
+    [SFSDKMobileSyncLogger d:[self class] format:@"syncUpOneRecord:%@", record];
     
     // Do we need to do a create, update or delete
     BOOL locallyCreated = [target isLocallyCreated:record];
@@ -93,7 +93,7 @@
             }
             else {
                 // Server date is newer than the local date.  Skip this update.
-                [SFSDKSmartSyncLogger d:[strongSelf class] format:@"syncUpOneRecord: Record not synced since client does not have the latest from server:%@", record];
+                [SFSDKMobileSyncLogger d:[strongSelf class] format:@"syncUpOneRecord: Record not synced since client does not have the latest from server:%@", record];
                 [strongSelf syncUpOneEntry:sync
                                  recordIds:recordIds
                                      index:i+1];
@@ -225,7 +225,7 @@
             break;
         default:
             // Action is unsupported here.  Move on.
-            [SFSDKSmartSyncLogger i:[self class] format:@"%@ unsupported action with value %lu.  Moving to the next record.", NSStringFromSelector(_cmd), (unsigned long) action];
+            [SFSDKMobileSyncLogger i:[self class] format:@"%@ unsupported action with value %lu.  Moving to the next record.", NSStringFromSelector(_cmd), (unsigned long) action];
             nextBlock();
             return;
     }

@@ -1,6 +1,6 @@
 //
 //  main.m
-//  SmartSyncTestApp
+//  MobileSyncTestApp
 //
 //  Created by Wolfgang Mathurin on 1/15/16.
 //  Copyright © 2016 Salesforce Inc. All rights reserved.

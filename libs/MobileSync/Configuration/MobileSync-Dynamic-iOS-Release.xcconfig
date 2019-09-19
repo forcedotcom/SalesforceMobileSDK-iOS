@@ -1,6 +1,6 @@
 //
-//  SmartSync-Dynamic-iOS-Release.xcconfig
-//  SmartSync
+//  MobileSync-Dynamic-iOS-Release.xcconfig
+//  MobileSync
 //
 //  Created by Bharath Hariharan on 12/11/15.
 //  Copyright © 2015 Salesforce Inc. All rights reserved.
@@ -9,4 +9,4 @@
 #include "../../../configuration/Common-iOS.xcconfig"
 #include "../../../configuration/Packaging-Dynamic.xcconfig"
 #include "../../../configuration/Configuration-Release.xcconfig"
-#include "SmartSync-Common.xcconfig"
+#include "MobileSync-Common.xcconfig"

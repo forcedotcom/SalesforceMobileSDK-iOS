@@ -1,6 +1,6 @@
 /*
-SmartSyncExplorerUITests.swift
-SmartSyncExplorerUITests
+MobileSyncExplorerUITests.swift
+MobileSyncExplorerUITests
 
 Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
 
@@ -28,7 +28,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 import XCTest
 
-class SmartSyncExplorerTest: SalesforceTestCase {
+class MobileSyncExplorerTest: SalesforceTestCase {
 
     let searchScreen = SearchScreen()
     

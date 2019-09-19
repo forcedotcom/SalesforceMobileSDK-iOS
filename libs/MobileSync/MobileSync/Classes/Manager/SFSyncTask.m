@@ -23,14 +23,14 @@
  */
 
 #import "SFSyncTask.h"
-#import "SFSmartSyncSyncManager+SFSyncTask.h"
+#import "SFMobileSyncSyncManager+SFSyncTask.h"
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
 NSInteger const kSyncManagerUnchanged = -1;
 
 @interface SFSyncTask ()
 
-@property (nonatomic, strong) SFSmartSyncSyncManager* syncManager;
+@property (nonatomic, strong) SFMobileSyncSyncManager* syncManager;
 @property (nonatomic, strong) SFSyncState* sync;
 @property (nonatomic, strong) NSNumber* syncId;
 @property (nonatomic, strong) SFSyncSyncManagerUpdateBlock updateBlock;
@@ -39,7 +39,7 @@ NSInteger const kSyncManagerUnchanged = -1;
 
 @implementation SFSyncTask
 
--(instancetype) init:(SFSmartSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+-(instancetype) init:(SFMobileSyncSyncManager*)syncManager sync:(SFSyncState*)sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     self = [super init];
     if (self) {
         self.syncManager = syncManager;
@@ -75,7 +75,7 @@ NSInteger const kSyncManagerUnchanged = -1;
 - (void) runSync:(SFSyncState*)sync    ABSTRACT_METHOD
 
 -(void) failSync:(SFSyncState*)sync failureMessage:(NSString*)failureMessage error:(NSError*) error {
-    [SFSDKSmartSyncLogger e:[self class] format:@"runSync failed:%@ cause:%@ error%@", sync, failureMessage, error];
+    [SFSDKMobileSyncLogger e:[self class] format:@"runSync failed:%@ cause:%@ error%@", sync, failureMessage, error];
     sync.error = [error.userInfo description];
     sync.status = SFSyncStateStatusFailed;
     [self updateSync:sync countSynched:kSyncManagerUnchanged];
@@ -95,7 +95,7 @@ NSInteger const kSyncManagerUnchanged = -1;
 
     // Save sync state
     [sync save:self.syncManager.store];
-    [SFSDKSmartSyncLogger d:[self class] format:@"updateSync: syncId:%@ status:%@ progress:%ld totalSize:%ld", @(sync.syncId), [SFSyncState syncStatusToString:sync.status], (long)sync.progress, (long)sync.totalSize];
+    [SFSDKMobileSyncLogger d:[self class] format:@"updateSync: syncId:%@ status:%@ progress:%ld totalSize:%ld", @(sync.syncId), [SFSyncState syncStatusToString:sync.status], (long)sync.progress, (long)sync.totalSize];
     
     // Create event and remove from active sync list if stopped/done/failed
     switch (self.sync.status) {

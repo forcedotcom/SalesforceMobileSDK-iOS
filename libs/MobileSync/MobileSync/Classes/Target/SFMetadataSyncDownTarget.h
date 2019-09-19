@@ -1,6 +1,6 @@
 /*
  SFMetadataSyncDownTarget.h
- SmartSync
+ MobileSync
  
  Created by Bharath Hariharan on 5/6/18.
  

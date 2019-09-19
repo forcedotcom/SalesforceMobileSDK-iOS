@@ -36,7 +36,7 @@ coverage:
         target: auto
         paths: "libs/SmartStore/SmartStore/"
         flags: SmartStore
-      SmartSync:
+      MobileSync:
         target: auto
-        paths: "libs/SmartSync/SmartSync/"
-        flags: SmartSync
+        paths: "libs/MobileSync/MobileSync/"
+        flags: MobileSync

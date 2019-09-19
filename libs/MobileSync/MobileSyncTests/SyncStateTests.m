@@ -25,7 +25,7 @@
 #import <XCTest/XCTest.h>
 #import <SmartStore/SmartStore.h>
 #import "SFSoqlSyncDownTarget.h"
-#import "SFSmartSyncSyncManager.h"
+#import "SFMobileSyncSyncManager.h"
 #import "SFSyncState.h"
 
 

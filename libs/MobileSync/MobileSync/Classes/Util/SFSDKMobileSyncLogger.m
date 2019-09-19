@@ -1,6 +1,6 @@
 /*
- SFSDKSmartSyncLogger.m
- SmartSync
+ SFSDKMobileSyncLogger.m
+ MobileSync
  
  Created by Bharath Hariharan on 6/26/17.
  
@@ -27,14 +27,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKSmartSyncLogger.h"
+#import "SFSDKMobileSyncLogger.h"
 
-NSString * const kSFSDKSmartSyncComponentName = @"SmartSync";
+NSString * const kSFSDKMobileSyncComponentName = @"MobileSync";
 
-@implementation SFSDKSmartSyncLogger
+@implementation SFSDKMobileSyncLogger
 
 + (instancetype)defaultLogger {
-    return [self loggerForComponent:kSFSDKSmartSyncComponentName];
+    return [self loggerForComponent:kSFSDKMobileSyncComponentName];
 }
 
 @end

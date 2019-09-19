@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CEA883ED1C19160E008D871B"
-               BuildableName = "libSmartSync.a"
-               BlueprintName = "SmartSyncStatic"
-               ReferencedContainer = "container:SmartSync.xcodeproj">
+               BuildableName = "libMobileSync.a"
+               BlueprintName = "MobileSyncStatic"
+               ReferencedContainer = "container:MobileSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA883ED1C19160E008D871B"
-            BuildableName = "libSmartSync.a"
-            BlueprintName = "SmartSyncStatic"
-            ReferencedContainer = "container:SmartSync.xcodeproj">
+            BuildableName = "libMobileSync.a"
+            BlueprintName = "MobileSyncStatic"
+            ReferencedContainer = "container:MobileSync.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA883ED1C19160E008D871B"
-            BuildableName = "libSmartSync.a"
-            BlueprintName = "SmartSyncStatic"
-            ReferencedContainer = "container:SmartSync.xcodeproj">
+            BuildableName = "libMobileSync.a"
+            BlueprintName = "MobileSyncStatic"
+            ReferencedContainer = "container:MobileSync.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

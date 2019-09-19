@@ -24,7 +24,7 @@
 
 #import "SFSyncUpTarget.h"
 
-@class SFSmartSyncSyncManager;
+@class SFMobileSyncSyncManager;
 @class SFRestRequest;
 
 
@@ -36,7 +36,7 @@ NS_SWIFT_NAME(CompositeRequestHelper)
 
 @interface SFCompositeRequestHelper : NSObject
 
-+ (void)sendCompositeRequest:(SFSmartSyncSyncManager *)syncManager
++ (void)sendCompositeRequest:(SFMobileSyncSyncManager *)syncManager
                    allOrNone:(BOOL)allOrNone
                       refIds:(NSArray<NSString *> *)refIds
                     requests:(NSArray<SFRestRequest *> *)requests
