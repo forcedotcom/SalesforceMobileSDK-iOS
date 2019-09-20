@@ -27,7 +27,7 @@ jobs:
         default: "SalesforceSDKCommon"
       device:
         type: string
-        default: "iPhone XR"
+        default: "iPhone 11"
       ios:
         type: string
         default: "13.0"
@@ -147,30 +147,35 @@ workflows:
           lib: "SalesforceSDKCommon"
           nightly-test: true
           ios: "12.4"
+          device: "iPhone XR"
           env: "mac-xcode10"
       - run-tests:
           name: "SalesforceAnalytics iOS 12 Nightly"
           lib: "SalesforceAnalytics"
           nightly-test: true 
           ios: "12.4"
+          device: "iPhone XR"
           env: "mac-xcode10"
       - run-tests:
           name: "SalesforceSDKCore iOS 12 Nightly"
           lib: "SalesforceSDKCore"
           nightly-test: true 
           ios: "12.4"
+          device: "iPhone XR"
           env: "mac-xcode10"
       - run-tests:
           name: "SmartStore iOS 12 Nightly"
           lib: "SmartStore"
           nightly-test: true
           ios: "12.4"
+          device: "iPhone XR"
           env: "mac-xcode10"
       - run-tests:
           name: "MobileSync iOS 12 Nightly"
           lib: "MobileSync"
           nightly-test: true
           ios: "12.4"
+          device: "iPhone XR"
           env: "mac-xcode10"
 
   # Cron are on a timezone 8 hours ahead of PST
