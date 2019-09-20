@@ -57,98 +57,96 @@
 }
 
 + (void)enableInstrumentation {
-    if (@available(iOS 12.0, *)) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            Class class = [self class];
-            
-            SEL originalSelector = @selector(attributesForSoup:);
-            SEL swizzledSelector = @selector(instr_attributesForSoup:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(indicesForSoup:);
-            swizzledSelector = @selector(instr_indicesForSoup:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(soupExists:);
-            swizzledSelector = @selector(instr_soupExists:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(registerSoup:withIndexSpecs:error:);
-            swizzledSelector = @selector(instr_registerSoup:withIndexSpecs:error:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(registerSoupWithSpec:withIndexSpecs:error:);
-            swizzledSelector = @selector(instr_registerSoupWithSpec:withIndexSpecs:error:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(queryWithQuerySpec:pageIndex:error:);
-            swizzledSelector = @selector(instr_queryWithQuerySpec:pageIndex:error:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(queryAsString:querySpec:pageIndex:error:);
-            swizzledSelector = @selector(instr_queryAsString:querySpec:pageIndex:error:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(retrieveEntries:fromSoup:);
-            swizzledSelector = @selector(instr_retrieveEntries:fromSoup:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(upsertEntries:toSoup:);
-            swizzledSelector = @selector(instr_upsertEntries:toSoup:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+        
+        SEL originalSelector = @selector(attributesForSoup:);
+        SEL swizzledSelector = @selector(instr_attributesForSoup:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(indicesForSoup:);
+        swizzledSelector = @selector(instr_indicesForSoup:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(soupExists:);
+        swizzledSelector = @selector(instr_soupExists:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(registerSoup:withIndexSpecs:error:);
+        swizzledSelector = @selector(instr_registerSoup:withIndexSpecs:error:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(registerSoupWithSpec:withIndexSpecs:error:);
+        swizzledSelector = @selector(instr_registerSoupWithSpec:withIndexSpecs:error:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(queryWithQuerySpec:pageIndex:error:);
+        swizzledSelector = @selector(instr_queryWithQuerySpec:pageIndex:error:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(queryAsString:querySpec:pageIndex:error:);
+        swizzledSelector = @selector(instr_queryAsString:querySpec:pageIndex:error:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(retrieveEntries:fromSoup:);
+        swizzledSelector = @selector(instr_retrieveEntries:fromSoup:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(upsertEntries:toSoup:);
+        swizzledSelector = @selector(instr_upsertEntries:toSoup:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
 
-            originalSelector = @selector(lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:);
-            swizzledSelector = @selector(instr_lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(removeEntries:fromSoup:);
-            swizzledSelector = @selector(instr_removeEntries:fromSoup:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(removeEntriesByQuery:fromSoup:);
-            swizzledSelector = @selector(instr_removeEntriesByQuery:fromSoup:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(clearSoup:);
-            swizzledSelector = @selector(instr_clearSoup:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(removeSoup:);
-            swizzledSelector = @selector(instr_removeSoup:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(removeAllSoups);
-            swizzledSelector = @selector(instr_removeAllSoups);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(alterSoup:withIndexSpecs:reIndexData:);
-            swizzledSelector = @selector(instr_alterSoup:withIndexSpecs:reIndexData:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(alterSoup:withSoupSpec:withIndexSpecs:reIndexData:);
-            swizzledSelector = @selector(instr_alterSoup:withSoupSpec:withIndexSpecs:reIndexData:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(reIndexSoup:withIndexPaths:);
-            swizzledSelector = @selector(instr_reIndexSoup:withIndexPaths:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(reIndexSoup:withIndexPaths:);
-            swizzledSelector = @selector(instr_reIndexSoup:withIndexPaths:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(firstTimeStoreDatabaseSetup);
-            swizzledSelector = @selector(instr_firstTimeStoreDatabaseSetup);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(subsequentTimesStoreDatabaseSetup);
-            swizzledSelector = @selector(instr_subsequentTimesStoreDatabaseSetup);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            
-        });
-    }
+        originalSelector = @selector(lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:);
+        swizzledSelector = @selector(instr_lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(removeEntries:fromSoup:);
+        swizzledSelector = @selector(instr_removeEntries:fromSoup:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(removeEntriesByQuery:fromSoup:);
+        swizzledSelector = @selector(instr_removeEntriesByQuery:fromSoup:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(clearSoup:);
+        swizzledSelector = @selector(instr_clearSoup:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(removeSoup:);
+        swizzledSelector = @selector(instr_removeSoup:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(removeAllSoups);
+        swizzledSelector = @selector(instr_removeAllSoups);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(alterSoup:withIndexSpecs:reIndexData:);
+        swizzledSelector = @selector(instr_alterSoup:withIndexSpecs:reIndexData:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(alterSoup:withSoupSpec:withIndexSpecs:reIndexData:);
+        swizzledSelector = @selector(instr_alterSoup:withSoupSpec:withIndexSpecs:reIndexData:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(reIndexSoup:withIndexPaths:);
+        swizzledSelector = @selector(instr_reIndexSoup:withIndexPaths:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(reIndexSoup:withIndexPaths:);
+        swizzledSelector = @selector(instr_reIndexSoup:withIndexPaths:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(firstTimeStoreDatabaseSetup);
+        swizzledSelector = @selector(instr_firstTimeStoreDatabaseSetup);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(subsequentTimesStoreDatabaseSetup);
+        swizzledSelector = @selector(instr_subsequentTimesStoreDatabaseSetup);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        
+    });
 }
 
 - (SFSoupSpec*)instr_attributesForSoup:(NSString*)soupName {

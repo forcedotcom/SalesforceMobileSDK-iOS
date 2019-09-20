@@ -131,15 +131,13 @@
 }
 
 + (void)enableInstrumentation {
-    if (@available(iOS 12.0, *)) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            Class class = [self class];
-            SEL originalSelector = @selector(send:delegate:);
-            SEL swizzledSelector = @selector(instr_send:delegate:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-        });
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+        SEL originalSelector = @selector(send:delegate:);
+        SEL swizzledSelector = @selector(instr_send:delegate:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+    });
 }
 
 - (void)instr_send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
