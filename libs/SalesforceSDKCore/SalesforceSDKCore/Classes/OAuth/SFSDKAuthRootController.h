@@ -32,6 +32,10 @@
 
 #import "SFSDKRootController.h"
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 130000
+@interface SFSDKAuthRootController : SFSDKRootController <ASWebAuthenticationPresentationContextProviding>
+#else
 @interface SFSDKAuthRootController : SFSDKRootController
+#endif
 
 @end
