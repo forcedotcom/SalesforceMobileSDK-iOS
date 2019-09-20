@@ -921,6 +921,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 829DA2571C1260960040F5F1 /* Products */;
+					ProjectRef = 829DA2561C1260960040F5F1 /* MobileSync.xcodeproj */;
+				},
+				{
 					ProductGroup = CE2B8D351CE932BD00C6FC6A /* Products */;
 					ProjectRef = CE2B8D341CE932BD00C6FC6A /* SalesforceAnalytics.xcodeproj */;
 				},
@@ -935,10 +939,6 @@
 				{
 					ProductGroup = 82D0AB931C49A6FB0081F833 /* Products */;
 					ProjectRef = 82D0AB921C49A6FB0081F833 /* SmartStore.xcodeproj */;
-				},
-				{
-					ProductGroup = 829DA2571C1260960040F5F1 /* Products */;
-					ProjectRef = 829DA2561C1260960040F5F1 /* MobileSync.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1293,7 +1293,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = MobileSyncExplorerUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1319,7 +1319,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = MobileSyncExplorerUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
