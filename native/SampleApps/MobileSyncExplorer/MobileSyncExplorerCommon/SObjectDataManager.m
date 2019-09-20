@@ -33,7 +33,7 @@
 #import <MobileSync/MobileSyncSDKManager.h>
 
 static NSUInteger kMaxQueryPageSize = 1000;
-static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.searchFilterQueue";
+static char* const kSearchFilterQueueName = "com.salesforce.mobileSyncExplorer.searchFilterQueue";
 static NSString* const kSyncDownName = @"syncDownContacts";
 static NSString* const kSyncUpName = @"syncUpContacts";
 
