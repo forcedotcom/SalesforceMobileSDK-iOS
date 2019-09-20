@@ -52,82 +52,79 @@
 }
 
 + (void)enableInstrumentation {
-    if (@available(iOS 12.0, *)) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            Class class = [self class];
-            
-            SEL originalSelector = @selector(getSyncStatus:);
-            SEL swizzledSelector = @selector(instr_getSyncStatus:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(getSyncStatusByName:);
-            swizzledSelector = @selector(instr_getSyncStatusByName:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(hasSyncWithName:);
-            swizzledSelector = @selector(instr_hasSyncWithName:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(deleteSyncById:);
-            swizzledSelector = @selector(instr_deleteSyncById:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(deleteSyncByName:);
-            swizzledSelector = @selector(instr_deleteSyncByName:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(createSyncDown:options:soupName:syncName:);
-            swizzledSelector = @selector(instr_createSyncDown:options:soupName:syncName:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(syncDownWithTarget:soupName:updateBlock:);
-            swizzledSelector = @selector(instr_syncDownWithTarget:soupName:updateBlock:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(syncDownWithTarget:options:soupName:syncName:updateBlock:);
-            swizzledSelector = @selector(instr_syncDownWithTarget:options:soupName:syncName:updateBlock:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(syncDownWithTarget:options:soupName:syncName:updateBlock:);
-            swizzledSelector = @selector(instr_syncDownWithTarget:options:soupName:syncName:updateBlock:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(reSync:updateBlock:);
-            swizzledSelector = @selector(instr_reSync:updateBlock:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(reSyncByName:updateBlock:);
-            swizzledSelector = @selector(instr_reSyncByName:updateBlock:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(createSyncUp:options:soupName:syncName:);
-            swizzledSelector = @selector(instr_createSyncUp:options:soupName:syncName:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(createSyncDown:options:soupName:syncName:);
-            swizzledSelector = @selector(instr_createSyncDown:options:soupName:syncName:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(syncUpWithOptions:soupName:updateBlock:);
-            swizzledSelector = @selector(instr_syncUpWithOptions:soupName:updateBlock:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(syncUpWithTarget:options:soupName:updateBlock:);
-            swizzledSelector = @selector(instr_syncUpWithTarget:options:soupName:updateBlock:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(syncUpWithTarget:options:soupName:syncName:updateBlock:);
-            swizzledSelector = @selector(instr_syncUpWithTarget:options:soupName:syncName:updateBlock:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-            originalSelector = @selector(cleanResyncGhosts:completionStatusBlock:);
-            swizzledSelector = @selector(instr_cleanResyncGhosts:completionStatusBlock:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-            
-        });
-                      
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+        
+        SEL originalSelector = @selector(getSyncStatus:);
+        SEL swizzledSelector = @selector(instr_getSyncStatus:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(getSyncStatusByName:);
+        swizzledSelector = @selector(instr_getSyncStatusByName:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(hasSyncWithName:);
+        swizzledSelector = @selector(instr_hasSyncWithName:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(deleteSyncById:);
+        swizzledSelector = @selector(instr_deleteSyncById:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(deleteSyncByName:);
+        swizzledSelector = @selector(instr_deleteSyncByName:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(createSyncDown:options:soupName:syncName:);
+        swizzledSelector = @selector(instr_createSyncDown:options:soupName:syncName:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(syncDownWithTarget:soupName:updateBlock:);
+        swizzledSelector = @selector(instr_syncDownWithTarget:soupName:updateBlock:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(syncDownWithTarget:options:soupName:syncName:updateBlock:);
+        swizzledSelector = @selector(instr_syncDownWithTarget:options:soupName:syncName:updateBlock:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(syncDownWithTarget:options:soupName:syncName:updateBlock:);
+        swizzledSelector = @selector(instr_syncDownWithTarget:options:soupName:syncName:updateBlock:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(reSync:updateBlock:);
+        swizzledSelector = @selector(instr_reSync:updateBlock:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(reSyncByName:updateBlock:);
+        swizzledSelector = @selector(instr_reSyncByName:updateBlock:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(createSyncUp:options:soupName:syncName:);
+        swizzledSelector = @selector(instr_createSyncUp:options:soupName:syncName:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(createSyncDown:options:soupName:syncName:);
+        swizzledSelector = @selector(instr_createSyncDown:options:soupName:syncName:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(syncUpWithOptions:soupName:updateBlock:);
+        swizzledSelector = @selector(instr_syncUpWithOptions:soupName:updateBlock:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(syncUpWithTarget:options:soupName:updateBlock:);
+        swizzledSelector = @selector(instr_syncUpWithTarget:options:soupName:updateBlock:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(syncUpWithTarget:options:soupName:syncName:updateBlock:);
+        swizzledSelector = @selector(instr_syncUpWithTarget:options:soupName:syncName:updateBlock:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+        originalSelector = @selector(cleanResyncGhosts:completionStatusBlock:);
+        swizzledSelector = @selector(instr_cleanResyncGhosts:completionStatusBlock:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        
+    });
 }
                       
 - (SFSyncState*)instr_getSyncStatus:(NSNumber*)syncId {

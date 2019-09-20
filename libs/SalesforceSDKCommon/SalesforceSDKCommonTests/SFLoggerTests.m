@@ -129,7 +129,7 @@ static NSString * const kMessageKey = @"message";
 }
 
 - (void)tearDown {
-    [TestLogger setInstanceClass:nil];
+    [TestLogger setInstanceClass:[SFDefaultLogger class]];
     [TestLogger clearAllComponents];
 }
 

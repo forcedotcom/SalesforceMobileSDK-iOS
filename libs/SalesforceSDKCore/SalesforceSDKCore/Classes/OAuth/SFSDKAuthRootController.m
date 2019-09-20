@@ -33,8 +33,10 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 /**
   Implementating  ASWebAuthenticationPresentationContextProviding so that ASWebAuthenticationSession can be started from the window
  */
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 130000
 - (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)session API_AVAILABLE(ios(13.0)) {
     return self.view.window;
 }
+#endif
 
 @end

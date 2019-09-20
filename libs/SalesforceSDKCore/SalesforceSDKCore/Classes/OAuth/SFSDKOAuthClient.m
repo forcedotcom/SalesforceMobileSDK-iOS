@@ -646,12 +646,14 @@ static Class<SFSDKOAuthClientProvider> _clientProvider = nil;
             }];
         }
         else {
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 130000
             if (@available(iOS 13.0, *)) {
                 SFSDKAuthRootController* authRootController = [[SFSDKAuthRootController alloc] init];
                 strongSelf.authWindow.viewController = authRootController;
                 authRootController.modalPresentationStyle = UIModalPresentationFullScreen;
-                viewHandler.session.presentationContextProvider = (id<ASWebAuthenticationPresentationContextProviding>) authRootController;
+                viewHandler.session.presentationContextProvider = authRootController;
             }
+#endif
             [viewHandler.session start];
         }
     };
