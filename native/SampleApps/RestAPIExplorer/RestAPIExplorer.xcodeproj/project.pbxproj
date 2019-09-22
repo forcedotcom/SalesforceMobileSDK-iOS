@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -466,7 +466,7 @@
 				};
 			};
 			buildConfigurationList = B7CEA6EA20B7105E007D0564 /* Build configuration list for PBXProject "RestAPIExplorer" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -477,6 +477,10 @@
 			productRefGroup = B7CEA6F020B7105E007D0564 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = B79F06DD20EA931200BC7D6F /* Products */;
+					ProjectRef = B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */;
+				},
 				{
 					ProductGroup = B79F06FD20EA931F00BC7D6F /* Products */;
 					ProjectRef = B79F06FC20EA931F00BC7D6F /* SalesforceAnalytics.xcodeproj */;
@@ -492,10 +496,6 @@
 				{
 					ProductGroup = B79F070D20EA932400BC7D6F /* Products */;
 					ProjectRef = B79F070C20EA932400BC7D6F /* SmartStore.xcodeproj */;
-				},
-				{
-					ProductGroup = B79F06DD20EA931200BC7D6F /* Products */;
-					ProjectRef = B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */;
 				},
 			);
 			projectRoot = "";
