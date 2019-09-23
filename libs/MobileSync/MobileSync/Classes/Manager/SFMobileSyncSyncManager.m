@@ -380,10 +380,6 @@ static NSMutableDictionary *syncMgrList = nil;
     return [self syncDownWithTarget:target options:options soupName:soupName syncName:nil updateBlock:updateBlock error:nil];
 }
 
-- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    return [self syncDownWithTarget:target options:options soupName:soupName syncName:syncName updateBlock:updateBlock error:nil];
-}
-
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
     if (![self checkAcceptingSyncs:error]) {
         return nil;
@@ -404,10 +400,6 @@ static NSMutableDictionary *syncMgrList = nil;
 
 /** Resync
  */
-- (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    return [self reSync:syncId updateBlock:updateBlock error:nil];
-}
-
 - (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
     SFSyncState* sync = [self checkExistsById:syncId error:error];
     if (sync) {
@@ -415,10 +407,6 @@ static NSMutableDictionary *syncMgrList = nil;
     } else {
         return nil;
     }
-}
-
-- (SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    return [self reSyncByName:syncName updateBlock:updateBlock error:nil];
 }
 
 - (SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
@@ -465,14 +453,6 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
-                          options:(SFSyncOptions *)options
-                         soupName:(NSString *)soupName
-                         syncName:(NSString*)syncName
-                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    return [self syncUpWithTarget:target options:options soupName:soupName syncName:syncName updateBlock:updateBlock error:nil];
-}
-
-- (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
                          options:(SFSyncOptions *)options
                         soupName:(NSString *)soupName
                         syncName:(NSString*)syncName
@@ -494,10 +474,6 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 #pragma mark - cleanResyncGhosts methods
-
-- (BOOL) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
-    return [self cleanResyncGhosts:syncId completionStatusBlock:completionStatusBlock error:nil];
-}
 
 - (BOOL) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock error:(NSError**)error {
     SFSyncState* sync = [self checkExistsById:syncId error:error];

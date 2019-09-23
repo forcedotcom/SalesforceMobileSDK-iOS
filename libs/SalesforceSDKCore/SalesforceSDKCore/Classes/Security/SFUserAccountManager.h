@@ -500,10 +500,6 @@ NS_SWIFT_NAME(UserAccountManager)
  @param userAccount The SFUserAccount to apply this change to.
  */
 - (void)setObjectForUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key andUser:(SFUserAccount *)userAccount NS_SWIFT_NAME(setCustomData(withObject:key:userAccount:));
-/**
- Switches away from the current user, to a new user context.
- */
-- (void)switchToNewUser NS_SWIFT_NAME(switchToNewUserAccount()) SFSDK_DEPRECATED(7.2, 8.0, "Use switchToNewUserWithCompletion instead.");
 
 /**
  Switches to a new user. Sets the current user only if the login succeeds. Completion block is
@@ -632,8 +628,6 @@ NS_SWIFT_NAME(UserAccountManager)
  @return SFBiometricUnlockState UserAllowed, UserDeclined, PromptUser or Unavalible.  
  */
 - (SFBiometricUnlockState)biometricUnlockState;
-
-- (void)setCurrentUser:(SFUserAccount * _Nullable)currentUser SFSDK_DEPRECATED(7.2, 8.0, "Use switchToUser or  switchToNewUserWithCompletion instead.");
 
 @end
 

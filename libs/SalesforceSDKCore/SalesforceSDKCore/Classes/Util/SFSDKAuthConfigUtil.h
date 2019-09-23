@@ -36,6 +36,4 @@ typedef void (^ _Nonnull MyDomainAuthConfigBlock)(SFOAuthOrgAuthConfiguration * 
 
 + (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock loginDomain:(nonnull NSString *)loginDomain;
 
-+ (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock oauthCredentials:(nonnull SFOAuthCredentials *)oauthCredentials SFSDK_DEPRECATED(7.1, 8.0, "Use getMyDomainConfig:authConfigBlock loginDomain:loginDomain instead.");
-
 @end

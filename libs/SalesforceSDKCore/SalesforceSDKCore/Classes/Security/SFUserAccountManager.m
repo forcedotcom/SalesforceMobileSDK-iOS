@@ -1089,9 +1089,6 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
     return _currentUser;
 }
 
-- (void)setCurrentUser:(SFUserAccount*)user {
-    [self setCurrentUserInternal:user];
-}
 
 - (void)setCurrentUserInternal:(SFUserAccount*)user {
     BOOL userChanged = NO;
@@ -1523,11 +1520,6 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
 }
 
 #pragma mark Switching Users
-- (void)switchToNewUser {
-    [SFSDKWebViewStateManager removeSession];
-    [self switchToUser:nil];
-}
-
 - (void)switchToNewUserWithCompletion:(void (^)(NSError *error, SFUserAccount * currentAccount))completion {
     if (!self.currentUser) {
         NSError *error = [[NSError alloc] initWithDomain:kSFSDKUserAccountManagerErrorDomain
