@@ -329,13 +329,13 @@
     return  result;
 }
 
-- (void)instr_cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock
+- (BOOL)instr_cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock
                           error:(NSError**)error {
     
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "cleanResyncGhosts:completionStatusBlock", "storeName:%{public}@ syncId:%@", self.store.storeName, syncId);
-    [self instr_cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus, NSUInteger numRecords) {
+    BOOL result = [self instr_cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus, NSUInteger numRecords) {
         if (syncStatus==SFSyncStateStatusDone) {
             sf_os_signpost_interval_end(logger, sid, "cleanResyncGhosts:completionStatusBlock", "success storeName:%{public}@ syncId:%@", self.store.storeName, syncId);
         } else if (syncStatus==SFSyncStateStatusFailed) {
@@ -345,6 +345,7 @@
             completionStatusBlock(syncStatus,numRecords);
         }
     } error:error];
+    return result;
 }
 
 @end
