@@ -241,18 +241,6 @@ NS_SWIFT_NAME(SyncManager)
  * @param soupName Soup name where the local entries are stored.
  * @param syncName Name for this sync.
  * @param updateBlock Block to be called with updates.
- * @return Sync state associated with this sync, or nil if it could not be created.
- */
-- (nullable SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(nullable NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use syncDownWithTarget:options:soupName:syncName:updateBlock:error instead");
-
-/**
- * Create and run a named sync down.
- * @param target Sync down target that will manage the sync down process.
- * @param options Options associated with this sync down. Use this parameter to specify how the sync
- * should handle modified records in the store.
- * @param soupName Soup name where the local entries are stored.
- * @param syncName Name for this sync.
- * @param updateBlock Block to be called with updates.
  * @param error Sets error if sync could not be created.
  * @return Sync state associated with this sync, or nil if it could not be created.
  */
@@ -262,25 +250,10 @@ NS_SWIFT_NAME(SyncManager)
  * Perform a resync.
  * @param syncId Sync ID.
  * @param updateBlock Block to be called with updates.
- */
-- (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use reSync:updateBlock:error instead");
-
-/**
- * Perform a resync.
- * @param syncId Sync ID.
- * @param updateBlock Block to be called with updates.
  * @param error Sets error if sync could not be started.
  * @return Sync state associated with this sync, or nil if it could not be started.
  */
 - (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**) error NS_SWIFT_NAME(reSync(id:onUpdate:));
-
-/**
- * Perform a resync by name.
- * @param syncName Sync name.
- * @param updateBlock Block to be called with updates.
- * @return Sync state associated with this sync, or nil if it could not be started.
- */
-- (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use reSyncByName:updateBlock:error instead");
 
 /**
  * Perform a resync by name.
@@ -338,23 +311,6 @@ NS_SWIFT_NAME(SyncManager)
  * @param soupName Soup name where the local entries are stored.
  * @param syncName Name for this sync.
  * @param updateBlock Block to be called with updates.
- * @return Sync state associated with this sync, or nil if it could not be created.
- */
-- (nullable SFSyncState*) syncUpWithTarget:(SFSyncUpTarget*)target
-                                   options:(SFSyncOptions*)options
-                                  soupName:(NSString*)soupName
-                                  syncName:(nullable NSString*)syncName
-                               updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use syncUpWithTarget:options:soupName:syncName:updateBlock:error instead");
-
-/**
- * Create and run a named sync up.
- *
- * @param target Sync up target that will manage the sync up process.
- * @param options Options associated with this sync up. Use this parameter to specify how the sync
- * should handle modified records on the server.
- * @param soupName Soup name where the local entries are stored.
- * @param syncName Name for this sync.
- * @param updateBlock Block to be called with updates.
  * @param error Sets error if sync could not be created.
  * @return Sync state associated with this sync, or nil if it could not be created.
  */
@@ -364,18 +320,6 @@ NS_SWIFT_NAME(SyncManager)
                                   syncName:(nullable NSString*)syncName
                                updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock
                                      error:(NSError**)error NS_SWIFT_NAME(syncUp(target:options:soupName:syncName:onUpdate:));
-
-
-/**
- * Remove local copies of records that have been deleted on the server
- * or do not match the query results on the server anymore.
- *
- * @param syncId Sync ID.
- * @param completionStatusBlock Completion status block.
- * @return YES if cleanResyncGhosts started successfully.
- */
-- (BOOL) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock
-    SFSDK_DEPRECATED(7.1, 8.0, "Use cleanResyncGhosts:completionStatusBlock:error instead");
 
 /**
  * Remove local copies of records that have been deleted on the server

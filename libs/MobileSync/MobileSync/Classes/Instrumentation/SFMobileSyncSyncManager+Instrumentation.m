@@ -84,20 +84,16 @@
         swizzledSelector = @selector(instr_syncDownWithTarget:soupName:updateBlock:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
         
-        originalSelector = @selector(syncDownWithTarget:options:soupName:syncName:updateBlock:);
-        swizzledSelector = @selector(instr_syncDownWithTarget:options:soupName:syncName:updateBlock:);
+        originalSelector = @selector(syncDownWithTarget:options:soupName:syncName:updateBlock:error:);
+        swizzledSelector = @selector(instr_syncDownWithTarget:options:soupName:syncName:updateBlock:error:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
         
-        originalSelector = @selector(syncDownWithTarget:options:soupName:syncName:updateBlock:);
-        swizzledSelector = @selector(instr_syncDownWithTarget:options:soupName:syncName:updateBlock:);
+        originalSelector = @selector(reSync:updateBlock:error:);
+        swizzledSelector = @selector(instr_reSync:updateBlock:error:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
         
-        originalSelector = @selector(reSync:updateBlock:);
-        swizzledSelector = @selector(instr_reSync:updateBlock:);
-        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-        
-        originalSelector = @selector(reSyncByName:updateBlock:);
-        swizzledSelector = @selector(instr_reSyncByName:updateBlock:);
+        originalSelector = @selector(reSyncByName:updateBlock:error:);
+        swizzledSelector = @selector(instr_reSyncByName:updateBlock:error:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
         
         originalSelector = @selector(createSyncUp:options:soupName:syncName:);
@@ -116,12 +112,12 @@
         swizzledSelector = @selector(instr_syncUpWithTarget:options:soupName:updateBlock:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
         
-        originalSelector = @selector(syncUpWithTarget:options:soupName:syncName:updateBlock:);
-        swizzledSelector = @selector(instr_syncUpWithTarget:options:soupName:syncName:updateBlock:);
+        originalSelector = @selector(syncUpWithTarget:options:soupName:syncName:updateBlock:error:);
+        swizzledSelector = @selector(instr_syncUpWithTarget:options:soupName:syncName:updateBlock:error:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
         
-        originalSelector = @selector(cleanResyncGhosts:completionStatusBlock:);
-        swizzledSelector = @selector(instr_cleanResyncGhosts:completionStatusBlock:);
+        originalSelector = @selector(cleanResyncGhosts:completionStatusBlock:error:);
+        swizzledSelector = @selector(instr_cleanResyncGhosts:completionStatusBlock:error:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
         
     });
@@ -197,7 +193,7 @@
     return  result;
 }
 
-- (SFSyncState*)instr_syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+- (SFSyncState*)instr_syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "syncDownWithTarget:options:soupName:soupName:updateBlock", "storeName:%{public}@ soupName:%{public}@", self.store.storeName, soupName);
@@ -210,11 +206,11 @@
         if (updateBlock) {
           updateBlock(sync);
         }
-    }];
+    } error:error];
     return  result;
 }
 
-- (SFSyncState*)instr_syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+- (SFSyncState*)instr_syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "syncDownWithTarget:options:soupName:soupName:syncName:updateBlock", "storeName:%{public}@ soupName:%{public}@", self.store.storeName, soupName);
@@ -227,11 +223,11 @@
         if (updateBlock) {
             updateBlock(sync);
         }
-    }];
+    } error:error];
     return  result;
 }
 
-- (SFSyncState*)instr_reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+- (SFSyncState*)instr_reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError*)error {
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "reSync:updateBlock", "storeName:%{public}@ syncId:%@", self.store.storeName, syncId);
@@ -244,11 +240,11 @@
         if (updateBlock) {
             updateBlock(sync);
         }
-    }];
+    } error:error];
     return  result;
 }
 
-- (SFSyncState*)instr_reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+- (SFSyncState*)instr_reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "reSyncByName:updateBlock", "storeName:%{public}@ syncName:%{public}@", self.store.storeName, syncName);
@@ -261,7 +257,7 @@
         if (updateBlock) {
             updateBlock(sync);
         }
-    }];
+    } error:error];
     return  result;
 }
 
@@ -312,10 +308,11 @@
 }
 
 - (SFSyncState*)instr_syncUpWithTarget:(SFSyncUpTarget*)target
-                      options:(SFSyncOptions*)options
-                      soupName:(NSString*)soupName
-                      syncName:(NSString*)syncName
-                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+                               options:(SFSyncOptions*)options
+                              soupName:(NSString*)soupName
+                              syncName:(NSString*)syncName
+                           updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock
+                                 error:(NSError**)error {
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "syncUpWithTarget:options:soupName:syncName:updateBlock", "storeName:%{public}@ soupName:%{public}@ syncName:%{public}@", self.store.storeName, soupName,syncName);
@@ -328,16 +325,17 @@
         if (updateBlock) {
             updateBlock(sync);
         }
-    }];
+    } error:error];
     return  result;
 }
 
-- (void)instr_cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
+- (BOOL)instr_cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock
+                          error:(NSError**)error {
     
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "cleanResyncGhosts:completionStatusBlock", "storeName:%{public}@ syncId:%@", self.store.storeName, syncId);
-    [self instr_cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus, NSUInteger numRecords) {
+    BOOL result = [self instr_cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus, NSUInteger numRecords) {
         if (syncStatus==SFSyncStateStatusDone) {
             sf_os_signpost_interval_end(logger, sid, "cleanResyncGhosts:completionStatusBlock", "success storeName:%{public}@ syncId:%@", self.store.storeName, syncId);
         } else if (syncStatus==SFSyncStateStatusFailed) {
@@ -346,7 +344,8 @@
         if (completionStatusBlock) {
             completionStatusBlock(syncStatus,numRecords);
         }
-    }];
+    } error:error];
+    return result;
 }
 
 @end
