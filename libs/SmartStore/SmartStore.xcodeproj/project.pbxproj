@@ -283,8 +283,6 @@
 		4F96FBD71BFD30030022F021 /* SFStoreCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFStoreCursor.h; path = SmartStore/Classes/SFStoreCursor.h; sourceTree = SOURCE_ROOT; };
 		4F96FBD81BFD30030022F021 /* SFStoreCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFStoreCursor.m; path = SmartStore/Classes/SFStoreCursor.m; sourceTree = SOURCE_ROOT; };
 		4F96FC4D1BFD31EF0022F021 /* SmartStore-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Common.xcconfig"; path = "Configuration/SmartStore-Common.xcconfig"; sourceTree = "<group>"; };
-		4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Static-iOS-Debug.xcconfig"; path = "Configuration/SmartStore-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
-		4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Static-iOS-Release.xcconfig"; path = "Configuration/SmartStore-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Test.xcconfig"; path = "Configuration/SmartStore-Test.xcconfig"; sourceTree = "<group>"; };
 		4F99B53B1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreLoadTests.m; sourceTree = "<group>"; };
 		4FAB7D781F8D888400226249 /* userstore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userstore.json; sourceTree = "<group>"; };
@@ -480,8 +478,6 @@
 				CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */,
 				CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */,
 				4F96FC4D1BFD31EF0022F021 /* SmartStore-Common.xcconfig */,
-				4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */,
-				4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */,
 				4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */,
 			);
 			name = Configuration;

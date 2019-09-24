@@ -427,8 +427,6 @@
 		CE682C751F01A866003C43C0 /* SFSDKMobileSyncLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKMobileSyncLogger.h; sourceTree = "<group>"; };
 		CE682C761F01A866003C43C0 /* SFSDKMobileSyncLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKMobileSyncLogger.m; sourceTree = "<group>"; };
 		CE8F12FE1AD4A84C00233F2F /* MobileSync-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "MobileSync-Common.xcconfig"; path = "Configuration/MobileSync-Common.xcconfig"; sourceTree = "<group>"; };
-		CE8F12FF1AD4A84C00233F2F /* MobileSync-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "MobileSync-Static-iOS-Debug.xcconfig"; path = "Configuration/MobileSync-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
-		CE8F13001AD4A84C00233F2F /* MobileSync-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "MobileSync-Static-iOS-Release.xcconfig"; path = "Configuration/MobileSync-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		CE8F13011AD4A84C00233F2F /* MobileSync-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "MobileSync-Test.xcconfig"; path = "Configuration/MobileSync-Test.xcconfig"; sourceTree = "<group>"; };
 		CE98A67A209F5C5700507927 /* SFMetadataSyncDownTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMetadataSyncDownTarget.h; path = Target/SFMetadataSyncDownTarget.h; sourceTree = "<group>"; };
 		CE98A67B209F5C5700507927 /* SFMetadataSyncDownTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFMetadataSyncDownTarget.m; path = Target/SFMetadataSyncDownTarget.m; sourceTree = "<group>"; };
@@ -637,8 +635,6 @@
 				CECB662A1C1BB8A9008038AE /* MobileSync-Dynamic-iOS-Debug.xcconfig */,
 				CECB662B1C1BB8A9008038AE /* MobileSync-Dynamic-iOS-Release.xcconfig */,
 				CE8F12FE1AD4A84C00233F2F /* MobileSync-Common.xcconfig */,
-				CE8F12FF1AD4A84C00233F2F /* MobileSync-Static-iOS-Debug.xcconfig */,
-				CE8F13001AD4A84C00233F2F /* MobileSync-Static-iOS-Release.xcconfig */,
 				CE8F13011AD4A84C00233F2F /* MobileSync-Test.xcconfig */,
 			);
 			name = Configuration;

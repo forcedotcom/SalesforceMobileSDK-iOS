@@ -140,12 +140,9 @@
 		CE2B8C501CE9245B00C6FC6A /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
 		CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SalesforceAnalyticsTestApp-Info.plist"; sourceTree = "<group>"; };
 		CE2B8CA71CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Common-Dynamic.xcconfig"; path = "Configuration/SalesforceAnalytics-Common-Dynamic.xcconfig"; sourceTree = "<group>"; };
-		CE2B8CA81CE9281F00C6FC6A /* SalesforceAnalytics-Common-Static.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Common-Static.xcconfig"; path = "Configuration/SalesforceAnalytics-Common-Static.xcconfig"; sourceTree = "<group>"; };
 		CE2B8CA91CE9281F00C6FC6A /* SalesforceAnalytics-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Common.xcconfig"; path = "Configuration/SalesforceAnalytics-Common.xcconfig"; sourceTree = "<group>"; };
 		CE2B8CAA1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CE2B8CAB1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SalesforceAnalytics-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
-		CE2B8CAC1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Static-iOS-Debug.xcconfig"; path = "Configuration/SalesforceAnalytics-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
-		CE2B8CAD1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceAnalytics-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Test.xcconfig"; path = "Configuration/SalesforceAnalytics-Test.xcconfig"; sourceTree = "<group>"; };
 		CE2B8FE71CF550F900C6FC6A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		CE2B8FEA1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SalesforceAnalytics-Prefix.pch"; path = "Supporting Files/SalesforceAnalytics-Prefix.pch"; sourceTree = "<group>"; };
@@ -298,12 +295,9 @@
 			isa = PBXGroup;
 			children = (
 				CE2B8CA71CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig */,
-				CE2B8CA81CE9281F00C6FC6A /* SalesforceAnalytics-Common-Static.xcconfig */,
 				CE2B8CA91CE9281F00C6FC6A /* SalesforceAnalytics-Common.xcconfig */,
 				CE2B8CAA1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig */,
 				CE2B8CAB1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Release.xcconfig */,
-				CE2B8CAC1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Debug.xcconfig */,
-				CE2B8CAD1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Release.xcconfig */,
 				CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */,
 			);
 			name = Configuration;
