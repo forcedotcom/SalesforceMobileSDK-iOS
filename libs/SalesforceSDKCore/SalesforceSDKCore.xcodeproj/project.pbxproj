@@ -275,8 +275,6 @@
 		CE4CE3451C0E5252009F6029 /* SFOAuthCredentials+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCC81BFD32130022F021 /* SFOAuthCredentials+Internal.h */; };
 		CE4CE3461C0E5252009F6029 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCC91BFD32130022F021 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3471C0E5252009F6029 /* SFOAuthCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCCA1BFD32130022F021 /* SFOAuthCredentials.m */; };
-		CE4CE3481C0E5252009F6029 /* SFOAuthCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCCB1BFD32130022F021 /* SFOAuthCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE4CE3491C0E5252009F6029 /* SFOAuthCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCCC1BFD32130022F021 /* SFOAuthCrypto.m */; };
 		CE4CE34A1C0E5252009F6029 /* SFOAuthInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCCD1BFD32130022F021 /* SFOAuthInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE34B1C0E5252009F6029 /* SFOAuthInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCCE1BFD32130022F021 /* SFOAuthInfo.m */; };
 		CE4CE34C1C0E5252009F6029 /* SFOAuthKeychainCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCCF1BFD32130022F021 /* SFOAuthKeychainCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -603,8 +601,6 @@
 		4F96FCC81BFD32130022F021 /* SFOAuthCredentials+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFOAuthCredentials+Internal.h"; sourceTree = "<group>"; };
 		4F96FCC91BFD32130022F021 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCredentials.h; sourceTree = "<group>"; };
 		4F96FCCA1BFD32130022F021 /* SFOAuthCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthCredentials.m; sourceTree = "<group>"; };
-		4F96FCCB1BFD32130022F021 /* SFOAuthCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCrypto.h; sourceTree = "<group>"; };
-		4F96FCCC1BFD32130022F021 /* SFOAuthCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthCrypto.m; sourceTree = "<group>"; };
 		4F96FCCD1BFD32130022F021 /* SFOAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthInfo.h; sourceTree = "<group>"; };
 		4F96FCCE1BFD32130022F021 /* SFOAuthInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthInfo.m; sourceTree = "<group>"; };
 		4F96FCCF1BFD32130022F021 /* SFOAuthKeychainCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthKeychainCredentials.h; sourceTree = "<group>"; };
@@ -724,6 +720,8 @@
 		69E2FD9D22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKEncryptedURLCache.m; sourceTree = "<group>"; };
 		6F742A0A1A9EA7BA00FA31C4 /* SalesforceSDKCore-Common-Static.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common-Static.xcconfig"; sourceTree = "<group>"; };
 		6F89606F1A9E96C400A48FF1 /* SalesforceSDKCore-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common.xcconfig"; sourceTree = "<group>"; };
+		6F8960741A9E96C400A48FF1 /* SalesforceSDKCore-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		6F8960751A9E96C400A48FF1 /* SalesforceSDKCore-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		6F8960761A9E96C400A48FF1 /* SalesforceSDKCore-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Test.xcconfig"; sourceTree = "<group>"; };
 		8214D954205316BA0007349E /* SFSDKSalesforceAnalyticsManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKSalesforceAnalyticsManagerTests.m; path = SalesforceSDKCoreTests/SFSDKSalesforceAnalyticsManagerTests.m; sourceTree = SOURCE_ROOT; };
 		8214D96C205317BB0007349E /* SFSDKSalesforceAnalyticsManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSDKSalesforceAnalyticsManager+Internal.h"; path = "Analytics/SFSDKSalesforceAnalyticsManager+Internal.h"; sourceTree = "<group>"; };
@@ -1164,8 +1162,6 @@
 				4F96FCC81BFD32130022F021 /* SFOAuthCredentials+Internal.h */,
 				4F96FCC91BFD32130022F021 /* SFOAuthCredentials.h */,
 				4F96FCCA1BFD32130022F021 /* SFOAuthCredentials.m */,
-				4F96FCCB1BFD32130022F021 /* SFOAuthCrypto.h */,
-				4F96FCCC1BFD32130022F021 /* SFOAuthCrypto.m */,
 				4F96FCCD1BFD32130022F021 /* SFOAuthInfo.h */,
 				4F96FCCE1BFD32130022F021 /* SFOAuthInfo.m */,
 				4F96FCCF1BFD32130022F021 /* SFOAuthKeychainCredentials.h */,
@@ -1343,6 +1339,8 @@
 			children = (
 				6F89606F1A9E96C400A48FF1 /* SalesforceSDKCore-Common.xcconfig */,
 				6F742A0A1A9EA7BA00FA31C4 /* SalesforceSDKCore-Common-Static.xcconfig */,
+				6F8960741A9E96C400A48FF1 /* SalesforceSDKCore-Static-iOS-Debug.xcconfig */,
+				6F8960751A9E96C400A48FF1 /* SalesforceSDKCore-Static-iOS-Release.xcconfig */,
 				6F8960761A9E96C400A48FF1 /* SalesforceSDKCore-Test.xcconfig */,
 				CEBA94EF1C1B5D4C00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Debug.xcconfig */,
 				CEBA94FE1C1B990A00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Release.xcconfig */,
@@ -1674,7 +1672,6 @@
 				A3457AAD216EA91200620098 /* SFAppLockViewControllerTypes.h in Headers */,
 				B791409C1EC11ADE0051492F /* SFSDKWebViewStateManager.h in Headers */,
 				E1C80CDF1C5AEBFA001B3A21 /* SFLoginViewController.h in Headers */,
-				CE4CE3481C0E5252009F6029 /* SFOAuthCrypto.h in Headers */,
 				CE88BD541D17065C00AE3BF7 /* SFSDKAnalyticsPublisher.h in Headers */,
 				A3D0B14E217A951800DDA414 /* SFSDKAppLockViewConfig.h in Headers */,
 				CE4CE30D1C0E523B009F6029 /* NSData+SFAdditions.h in Headers */,
@@ -2238,7 +2235,6 @@
 				B79F03FD20D4684600BC7D6F /* UIFont+SFSDKIDP.m in Sources */,
 				CE4CE30E1C0E523B009F6029 /* NSData+SFAdditions.m in Sources */,
 				E1C80CF61C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.m in Sources */,
-				CE4CE3491C0E5252009F6029 /* SFOAuthCrypto.m in Sources */,
 				CE4CE3471C0E5252009F6029 /* SFOAuthCredentials.m in Sources */,
 				CE4CE3141C0E523B009F6029 /* NSString+SFAdditions.m in Sources */,
 				B75233E01F4DF0B700040B6E /* SFSDKAuthPreferences.m in Sources */,
