@@ -129,13 +129,6 @@
 			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
 			remoteInfo = MobileSync;
 		};
-		82C5E3F91C1B633F00376C00 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 829DA2561C1260960040F5F1 /* MobileSync.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEA883EE1C19160E008D871B;
-			remoteInfo = MobileSyncStatic;
-		};
 		82D0AB991C49A6FB0081F833 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82D0AB921C49A6FB0081F833 /* SmartStore.xcodeproj */;
@@ -149,13 +142,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = CEAAAE55195911E600CBBFE9;
 			remoteInfo = SmartStoreTests;
-		};
-		82D0AB9D1C49A6FB0081F833 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82D0AB921C49A6FB0081F833 /* SmartStore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEA883BA1C1914DE008D871B;
-			remoteInfo = SmartStoreStatic;
 		};
 		82D0ABC41C49A7550081F833 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -177,13 +163,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 82D4642419C7C8170006BDFE;
 			remoteInfo = SalesforceSDKCoreTestApp;
-		};
-		82D0ABCC1C49A7550081F833 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82D0ABBB1C49A7540081F833 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEA8825F1C18F722008D871B;
-			remoteInfo = SalesforceSDKCoreStatic;
 		};
 		82D0AC081C49A7BE0081F833 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -255,13 +234,6 @@
 			remoteGlobalIDString = B7136D07216684A700F6A221;
 			remoteInfo = SalesforceSDKCommonTests;
 		};
-		B7D641D7218F42B5006DF5F0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B7D641CD218F42B5006DF5F0 /* SalesforceSDKCommon.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B7136D3921668A2100F6A221;
-			remoteInfo = SalesforceSDKCommonStatic;
-		};
 		B7D641DC218F42D8006DF5F0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B7D641CD218F42B5006DF5F0 /* SalesforceSDKCommon.xcodeproj */;
@@ -289,13 +261,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = CE2B8BD91CE900F500C6FC6A;
 			remoteInfo = SalesforceAnalyticsTests;
-		};
-		CE2B8D4F1CE932BD00C6FC6A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE2B8D341CE932BD00C6FC6A /* SalesforceAnalytics.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CE2B8BFF1CE91BFA00C6FC6A;
-			remoteInfo = SalesforceAnalyticsStatic;
 		};
 		CE2B8D511CE932BD00C6FC6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;

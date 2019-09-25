@@ -6,5 +6,4 @@
 //  Copyright © 2016 salesforce.com. All rights reserved.
 //
 
-#include "../../../configuration/Common-Test.xcconfig"
 #include "SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig"
