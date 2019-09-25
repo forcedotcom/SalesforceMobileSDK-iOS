@@ -88,13 +88,15 @@
     [resultBuilder appendFormat:@"\"%@\":%@, ", @"totalPages", self.totalPages ?: @0];
     [resultBuilder appendFormat:@"\"%@\":%@, ", @"totalEntries", self.totalEntries ?: @0];
     [resultBuilder appendFormat:@"\"%@\":", @"currentPageOrderedEntries"];
-    [store queryAsString:resultBuilder querySpec:self.querySpec pageIndex:[self.currentPageIndex integerValue] error:error];
+    BOOL succ = [store queryAsString:resultBuilder querySpec:self.querySpec pageIndex:[self.currentPageIndex integerValue] error:error];
     [resultBuilder appendString:@"}"];
-    
-    // Verify the entire string for JSON format
-    BOOL validJson = [store checkRawJson:resultBuilder fromMethod:NSStringFromSelector(_cmd)];
-    
-    return (validJson ? resultBuilder : nil);
+
+    if (succ && [store checkRawJson:resultBuilder fromMethod:NSStringFromSelector(_cmd)]) {
+        // NB: checkRawJson is only called if query succeeded
+        return resultBuilder;
+    } else {
+        return nil;
+    }
 }
 
 @end
