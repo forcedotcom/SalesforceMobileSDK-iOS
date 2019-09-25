@@ -865,7 +865,5 @@ extension RootViewController: ActionTableViewDelegate {
                 }
             }
         }
-       
-        
     }
 }
