@@ -232,6 +232,7 @@
 		B7A4AE4722E8C77C0060E737 /* SFSDKOAuth2.m in Sources */ = {isa = PBXBuildFile; fileRef = B7341DD622DFE2A500B77778 /* SFSDKOAuth2.m */; };
 		B7A4AE4822E8C77F0060E737 /* SFSDKOAuth2.m in Sources */ = {isa = PBXBuildFile; fileRef = B7341DD622DFE2A500B77778 /* SFSDKOAuth2.m */; };
 		B7A4AE4922E8CA780060E737 /* SFSDKAuthUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7156B8822DE3603003AB69D /* SFSDKAuthUtilTests.swift */; };
+		B7A8D518233A867E00FCDA79 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A8D517233A867E00FCDA79 /* RestClient.swift */; };
 		B7A901BE228E4DFB0036D749 /* SFSDKLogoutBlocker.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A901BD228E4DFA0036D749 /* SFSDKLogoutBlocker.m */; };
 		B7BAD70C1FBAB8AA0046629F /* SFSDKStartURLHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7BAD70A1FBAB8AA0046629F /* SFSDKStartURLHandler.h */; };
 		B7BAD70D1FBAB8AA0046629F /* SFSDKStartURLHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7BAD70A1FBAB8AA0046629F /* SFSDKStartURLHandler.h */; };
@@ -1160,6 +1161,7 @@
 		B7A20F821F25850E00D1E4B0 /* SFSDKWindowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWindowManager.m; sourceTree = "<group>"; };
 		B7A20FAB1F26C39700D1E4B0 /* SFSDKRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKRootController.h; sourceTree = "<group>"; };
 		B7A20FAC1F26C39700D1E4B0 /* SFSDKRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKRootController.m; sourceTree = "<group>"; };
+		B7A8D517233A867E00FCDA79 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		B7A901BD228E4DFA0036D749 /* SFSDKLogoutBlocker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKLogoutBlocker.m; path = SalesforceSDKCoreTests/SFSDKLogoutBlocker.m; sourceTree = SOURCE_ROOT; };
 		B7BAD70A1FBAB8AA0046629F /* SFSDKStartURLHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKStartURLHandler.h; sourceTree = "<group>"; };
 		B7BAD70B1FBAB8AA0046629F /* SFSDKStartURLHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKStartURLHandler.m; sourceTree = "<group>"; };
@@ -1775,6 +1777,7 @@
 		82AF840C16DFD95F008912EF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B7A8D510233A865A00FCDA79 /* Extensions */,
 				B7FB26CA1F78096300FB25A2 /* URLHandlers */,
 				B7FB26B51F78094A00FB25A2 /* IDP */,
 				B7A20F7C1F25850E00D1E4B0 /* Views */,
@@ -1889,6 +1892,14 @@
 				B7C5125820C188AE00B39DAA /* SFSDKViewController.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		B7A8D510233A865A00FCDA79 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B7A8D517233A867E00FCDA79 /* RestClient.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B7FB26B51F78094A00FB25A2 /* IDP */ = {
@@ -2504,6 +2515,7 @@
 					};
 					CE4CE26A1C0E449C009F6029 = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 1100;
 					};
 					CEA8825E1C18F722008D871B = {
 						CreatedOnToolsVersion = 7.1;
@@ -2788,6 +2800,7 @@
 				CE4CE3411C0E524B009F6029 /* SFMethodInterceptor.m in Sources */,
 				E1C80CE01C5AEBFA001B3A21 /* SFLoginViewController.m in Sources */,
 				B791409D1EC11ADE0051492F /* SFSDKWebViewStateManager.m in Sources */,
+				B7A8D518233A867E00FCDA79 /* RestClient.swift in Sources */,
 				CE4CE3A21C0E5279009F6029 /* NSURL+SFStringUtils.m in Sources */,
 				B7CD6D671F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m in Sources */,
 				A32FA73A217AA61E006D7930 /* UIColor+SFSDKPasscodeView.m in Sources */,
@@ -3225,6 +3238,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 			};
 			name = Debug;
 		};
@@ -3261,6 +3275,7 @@
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 			};
 			name = Release;
 		};
@@ -3268,6 +3283,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CEBA94EF1C1B5D4C00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3315,6 +3331,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CEBA94FE1C1B990A00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3411,6 +3428,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -3467,6 +3489,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
