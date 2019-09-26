@@ -118,6 +118,7 @@
 		B716A3A3218F5E5B009D407F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A398218F5E37009D407F /* SalesforceAnalytics.framework */; };
 		B716A3A4218F5E5B009D407F /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A38A218F5E2D009D407F /* SalesforceSDKCommon.framework */; };
 		B71D71E122EA0294003076BB /* SalesforceTestExtenions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71D71E022EA0294003076BB /* SalesforceTestExtenions.swift */; };
+		B722A709233C437E0089736E /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B722A708233C437E0089736E /* RestClient.swift */; };
 		B7352CA522761D8400DA2CFF /* SFManagedPreferencesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7352CA422761D8400DA2CFF /* SFManagedPreferencesTest.m */; };
 		B75233C21F4D390B00040B6E /* SFSDKOAuthClientContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B75233C01F4D390B00040B6E /* SFSDKOAuthClientContext.h */; };
 		B75233C41F4D390B00040B6E /* SFSDKOAuthClientContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B75233C11F4D390B00040B6E /* SFSDKOAuthClientContext.m */; };
@@ -772,6 +773,7 @@
 		B716A383218F5E2D009D407F /* SalesforceSDKCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCommon.xcodeproj; path = ../SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj; sourceTree = "<group>"; };
 		B716A38F218F5E37009D407F /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		B71D71E022EA0294003076BB /* SalesforceTestExtenions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SalesforceTestExtenions.swift; path = SalesforceSDKCoreTests/SalesforceTestExtenions.swift; sourceTree = SOURCE_ROOT; };
+		B722A708233C437E0089736E /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		B7282F3F1D8C70E700475F79 /* SalesforceSDKCoreTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceSDKCoreTestApp.entitlements; sourceTree = "<group>"; };
 		B7341DD622DFE2A500B77778 /* SFSDKOAuth2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKOAuth2.m; sourceTree = "<group>"; };
 		B7341DD822E1041600B77778 /* SFSDKOAuth2+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKOAuth2+Internal.h"; sourceTree = "<group>"; };
@@ -1411,6 +1413,7 @@
 		82AF840C16DFD95F008912EF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B722A702233C432E0089736E /* Extensions */,
 				B7FB26CA1F78096300FB25A2 /* URLHandlers */,
 				B7FB26B51F78094A00FB25A2 /* IDP */,
 				B7A20F7C1F25850E00D1E4B0 /* Views */,
@@ -1498,6 +1501,14 @@
 				B716A39E218F5E37009D407F /* SalesforceAnalyticsTestApp.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B722A702233C432E0089736E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B722A708233C437E0089736E /* RestClient.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B7A20F7C1F25850E00D1E4B0 /* Views */ = {
@@ -1935,6 +1946,7 @@
 					};
 					CE4CE26A1C0E449C009F6029 = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 1100;
 					};
 				};
 			};
@@ -2198,6 +2210,7 @@
 				CE4CE37F1C0E526A009F6029 /* SFPasscodeProviderManager.m in Sources */,
 				B75233C41F4D390B00040B6E /* SFSDKOAuthClientContext.m in Sources */,
 				010A9AE51CC176DD002AF4D3 /* SFCryptChunks.m in Sources */,
+				B722A709233C437E0089736E /* RestClient.swift in Sources */,
 				CE4CE3411C0E524B009F6029 /* SFMethodInterceptor.m in Sources */,
 				E1C80CE01C5AEBFA001B3A21 /* SFLoginViewController.m in Sources */,
 				B791409D1EC11ADE0051492F /* SFSDKWebViewStateManager.m in Sources */,
@@ -2668,6 +2681,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2724,6 +2741,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";

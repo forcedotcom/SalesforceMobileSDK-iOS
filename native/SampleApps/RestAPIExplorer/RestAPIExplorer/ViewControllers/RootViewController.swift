@@ -544,15 +544,34 @@ class RootViewController: UIViewController {
         }
         
         let request = RestRequest(method: method, path: path, queryParams: queryParams)
-        RestClient.shared.send(request: request, onFailure: { (error, urlResponse) in
-            DispatchQueue.main.async { [weak self] in
-                self?.updateUI(request, response: nil, error: nil)
+        RestClient.shared.send(request: request) { result in
+            switch result {
+                case .success(let response):
+                    self.handleSuccess(request: request, response: response)
+                case .failure(let error):
+                    self.handleError(request: request, error: error)
             }
-        }, onSuccess: { [weak self] (reponse, urlResponse) in
-            DispatchQueue.main.async {
-                self?.updateUI(request, response: reponse, error: nil)
-            }
-        })
+        }
+    }
+    
+    func handleSuccess(request: RestRequest, response: RestResponse) {
+        guard let jsonResponse = try? response.asJson() else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.updateUI(request, response: jsonResponse, error: nil)
+        }
+    }
+    
+    func handleError(request: RestRequest, error: RestClientError) {
+        switch error {
+            case .ApiInvocationFailed(let underlyinError, _):
+                SalesforceLogger.e(RootViewController.self, message: "Error invoking api \(underlyinError.localizedDescription)")
+            default:
+                DispatchQueue.main.async {
+                    self.updateUI(request, response: nil, error: error)
+                }
+        }
     }
     
     @objc func userDidTapExpandButton(_ sender: UIButton) {
@@ -836,14 +855,15 @@ extension RootViewController: ActionTableViewDelegate {
             
         }
         
-        restApi.send(request: request!, onFailure: { (error, _) in
-            DispatchQueue.main.async { [weak self] in
-                self?.updateUI(request!, response: nil, error: error)
+        if let sendRequest = request {
+            RestClient.shared.send(request: sendRequest) { result in
+                switch result {
+                    case .success(let response):
+                        self.handleSuccess(request: sendRequest, response: response)
+                    case .failure(let error):
+                        self.handleError(request: sendRequest, error: error)
+                }
             }
-        }, onSuccess: { [weak self] (reponse, _) in
-            DispatchQueue.main.async {
-                self?.updateUI(request!, response: reponse, error: nil)
-            }
-        })
+        }
     }
 }
