@@ -28,7 +28,7 @@ import Foundation
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+import Combine
 /// Errors that can be thrown while using RestClient
 public enum RestClientError: Error {
     case ApiResponseIsEmpty
@@ -236,6 +236,103 @@ extension RestClient {
         return request
     }
     
+    /// Execute a searchScopeAndOrder request
+    /// - Parameter completionBlock: The completion block to invoke.
+    func searchScopeAndOrder(_ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.request(forSearchScopeAndOrder: self.apiVersion)
+        self.send(request: request, completionBlock)
+        return request
+    }
+    
+    /// Execute a searchResultLayout
+    /// - Parameter objectList: Array of objects.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func searchResultLayout(_ objectList:[String], _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.request(forSearchResultLayout: objectList.joined(separator: ","), apiVersion: self.apiVersion)
+        self.send(request: request, completionBlock)
+        return request
+    }
+     
+    /// Execute a Composite request
+    /// - Parameter requests: Array of RestRequewst
+    /// - Parameter referenceIds: String array of reference identifiers.
+    /// - Parameter allOrNone: Boolean to indicate whether to set allOrNone.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func composite(_ requests:[RestRequest], referenceIds: [String], allOrNone: Bool, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.compositeRequest(requests, refIds: referenceIds, allOrNone: allOrNone,apiVersion: self.apiVersion)
+        self.send(request: request, completionBlock)
+        return request
+    }
+    
+    /// Execute a batch request
+    /// - Parameter requests: Array of RestRequewst
+    /// - Parameter haltOnError: Boolean to indicate whether to stop or continue when error occurs in any request.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func batch(_ requests:[RestRequest], haltOnError: Bool, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.batchRequest(requests, haltOnError: haltOnError, apiVersion: self.apiVersion)
+        self.send(request: request, completionBlock)
+        return request
+    }
+    
+    /// Execute a SObjectTree request
+    /// - Parameter objectType: An object type.
+    /// - Parameter objectTrees: Array of SObjectTree
+    /// - Parameter completionBlock: The completion block to invoke.
+    func sObjectTree(_ objectType: String, objectTrees: [SObjectTree], _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.request(forSObjectTree: objectType, objectTrees: objectTrees, apiVersion: self.apiVersion)
+        self.send(request: request, completionBlock)
+        return request
+    }
+    
+    /// Owned Files request
+    /// - Parameter userId: User identifier.
+    /// - Parameter page: Page number.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func ownedFiles(_ userId: String?, page: Int, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+       let request = self.request(forOwnedFilesList: userId, page: UInt(page), apiVersion: self.apiVersion)
+       self.send(request: request, completionBlock)
+       return request
+    }
+    
+    /// Get files in users groups
+    /// - Parameter userId: User identifier.
+    /// - Parameter page: Page number.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func filesInUsersGroups(_ userId: String?, page: Int, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.requestForFiles(inUsersGroups: userId, page: UInt(page), apiVersion: self.apiVersion)
+        self.send(request: request, completionBlock)
+        return request
+    }
+    
+    /// Files shared with user.
+    /// - Parameter userId: User Identifier
+    /// - Parameter page: Page number
+    /// - Parameter completionBlock: The completion block to invoke.
+    func filesSharedWithUser(_ userId: String?, page: Int, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.requestForFilesShared(withUser: userId, page: UInt(page), apiVersion: self.apiVersion)
+        self.send(request: request, completionBlock)
+        return request
+    }
+    
+    /// File Details request
+    /// - Parameter sfdcId: identifier for file.
+    /// - Parameter version: Version of file.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func fileDetails(_ sfdcId: String, version: String?,_ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.request(forFileDetails: sfdcId, forVersion: version, apiVersion: self.apiVersion)
+        self.send(request: request, completionBlock)
+        return request
+    }
+    
+    /// Batch files details request.
+    /// - Parameter sfdcIds: Identifiers for shares.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func batchFileDetails(_ sfdcIds: [String], _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.request(forBatchFileDetails: sfdcIds, apiVersion: self.apiVersion)
+        self.send(request: request, completionBlock)
+        return request
+    }
+    
     /// Execute fileRendition request
     /// - Parameter fileId: An sfdc file identifier.
     /// - Parameter version: A file version.
@@ -248,20 +345,88 @@ extension RestClient {
         return request
     }
     
-    /// Execute a searchScopeAndOrder request
+    /// Execute fileRendition request
+    /// - Parameter fileId: An sfdc file identifier.
+    /// - Parameter version: A file version.
+    /// - Parameter type: File type.
+    /// - Parameter page: Page number.
     /// - Parameter completionBlock: The completion block to invoke.
-    func searchScopeAndOrder(_ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
-        let request = self.request(forSearchScopeAndOrder: self.apiVersion)
+    func fileContents(_ fileId: String, version: String, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.request(forFileContents: fileId, version: version, apiVersion: self.apiVersion)
         self.send(request: request, completionBlock)
         return request
     }
     
-    /// Execute a searchResultLayout
-    /// - Parameter objectList: Array of objects.
+    /// Get File Shares request
+    /// - Parameter sfdcId: Identifier for shares.
+    /// - Parameter page: Page number.
     /// - Parameter completionBlock: The completion block to invoke.
-    func searchResultLayout(_ objectList:[String],_ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
-        let request = self.request(forSearchResultLayout: objectList.joined(separator: ","), apiVersion: self.apiVersion)
-        self.send(request: request, completionBlock)
-        return request
+    func fileShares(_ sfdcId: String, page: Int, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+       let request = self.request(forFileShares: sfdcId, page: UInt(page), apiVersion: self.apiVersion)
+       self.send(request: request, completionBlock)
+       return request
+    }
+    
+    /// Add a File Share
+    /// - Parameter fileId: File identifier.
+    /// - Parameter entityId: Entity identifier
+    /// - Parameter shareType: The type of Share.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func addFileShare(_ fileId: String, entityId: String, shareType: String, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+       let request = self.request(forAddFileShare: fileId, entityId: entityId, shareType: shareType, apiVersion: self.apiVersion)
+       self.send(request: request, completionBlock)
+       return request
+    }
+    
+    /// Delete a file share.
+    /// - Parameter shareId: Share identtifier.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func deleteFileShare(_ shareId: String, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+       let request = self.request(forDeleteFileShare: shareId, apiVersion: self.apiVersion)
+       self.send(request: request, completionBlock)
+       return request
+    }
+    
+    /// Upload a File.
+    /// - Parameter data: Data contents.
+    /// - Parameter name: Name for the file
+    /// - Parameter description: Description for file.
+    /// - Parameter mimeType: The mime type.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func uploadFileShare(_ data: Data, name: String, description: String, mimeType: String, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.request(forUploadFile: data, name: name, description: description, mimeType: mimeType, apiVersion: self.apiVersion)
+       self.send(request: request, completionBlock)
+       return request
+    }
+    
+    /// Upload a photo.
+    /// - Parameter data: Data contents.
+    /// - Parameter name: Name for the file
+    /// - Parameter description: Description for file.
+    /// - Parameter mimeType: The mime type.
+    /// - Parameter userId: Identifier for user.
+    /// - Parameter completionBlock: The completion block to invoke.
+    func uploadProfilePhoto(_ data: Data, name: String, description: String, mimeType: String, userId: String, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) -> RestRequest {
+        let request = self.request(forProfilePhotoUpload: data, fileName: name, mimeType: mimeType, userId: userId, apiVersion: self.apiVersion)
+       self.send(request: request, completionBlock)
+       
+       return request
+    }
+ 
+}
+
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension RestClient {
+    public func publisher(for request: RestRequest) -> Future<RestResponse, RestClientError> {
+        return Future<RestResponse, RestClientError> { promise in
+            self.send(request: request) { (result) in
+                switch result {
+                    case .success(let response):
+                        promise(.success(response))
+                    case .failure(let error):
+                        promise(.failure(error))
+                }
+            }
+        }
     }
 }
