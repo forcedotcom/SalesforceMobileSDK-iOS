@@ -33,6 +33,7 @@
 #import "SFNetwork.h"
 #import "SFOAuthSessionRefresher.h"
 #import "NSString+SFAdditions.h"
+#import "SFSDKCompositeRequest.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v46.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
@@ -668,32 +669,12 @@ static dispatch_once_t pred;
 }
 
 - (SFRestRequest *)compositeRequest:(NSArray<SFRestRequest*>*)requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL)allOrNone apiVersion:(NSString *)apiVersion {
-    NSMutableArray *requestsArrayJson = [NSMutableArray new];
+    SFSDKCompositeRequestBuilder *builder = [[SFSDKCompositeRequestBuilder alloc] init];
     for (int i = 0; i < requests.count; i++) {
-        SFRestRequest *request = requests[i];
-        NSString *refId = refIds[i];
-        NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
-        requestJson[@"referenceId"] = refId;
-        requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
-        
-        // queryParams belong in url
-        if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
-            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@%@", request.endpoint, request.path, [self toQueryString:request.queryParams]];
-        }
-        
-        // queryParams belongs in body
-        else {
-            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@", request.endpoint, request.path];
-            requestJson[@"body"] = request.requestBodyAsDictionary;
-        }
-        [requestsArrayJson addObject:requestJson];
+        [builder addRequest:requests[i] referenceId:refIds[i]];
     }
-    NSMutableDictionary<NSString *, id> *compositeRequestJson = [NSMutableDictionary new];
-    compositeRequestJson[@"compositeRequest"] = requestsArrayJson;
-    compositeRequestJson[@"allOrNone"] = [NSNumber numberWithBool:allOrNone];
-    NSString *path = [NSString stringWithFormat:@"/%@/composite", [self computeAPIVersion:apiVersion]];
-    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    return [self addBodyForPostRequest:compositeRequestJson request:request];
+    [builder setAllOrNone:allOrNone];
+    return [builder buildCompositeRequest:[self computeAPIVersion:apiVersion]];
 }
 
 - (SFRestRequest *)requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree *> *)objectTrees apiVersion:(NSString *)apiVersion {

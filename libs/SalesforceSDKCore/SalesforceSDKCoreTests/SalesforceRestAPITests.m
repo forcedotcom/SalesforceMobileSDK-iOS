@@ -819,7 +819,137 @@ static NSException *authException = nil;
      XCTAssertEqual(1, queryRecords.count, "Wrong number of results for query request");
      XCTAssertEqualObjects(accountId, queryRecords[0][ACCOUNT_ID], "Account id not returned by query");
      XCTAssertEqualObjects(contactId, queryRecords[0][ID], "Contact id not returned by query");
+
  }
+
+
+// Test for composite request
+// Run a composite request that:
+// - creates an account,
+// - creates a contact (with newly created account as parent),
+// - run a query that should return newly created account and contact
+- (void) testRequestWithCompositeRequest {
+    NSDictionary *fields;
+    
+    SFSDKCompositeRequestBuilder *requestBuilder = [[SFSDKCompositeRequestBuilder alloc] init];
+    
+    // Create account
+    NSString *accountName = [self generateRecordName];
+    fields = @{NAME: accountName};
+    SFRestRequest *createAccountRequest = [[SFRestAPI sharedInstance]
+            requestForCreateWithObjectType:ACCOUNT
+                                    fields:fields
+                                apiVersion:kSFRestDefaultAPIVersion
+    ];
+    [requestBuilder addRequest:createAccountRequest referenceId:@"refAccount"];
+    // Create contact
+    NSString *contactName = [self generateRecordName];
+    fields = @{LAST_NAME: contactName, ACCOUNT_ID: @"@{refAccount.id}"};
+    SFRestRequest *createContactRequest = [[SFRestAPI sharedInstance]
+            requestForCreateWithObjectType:CONTACT
+                                    fields:fields
+                                apiVersion:kSFRestDefaultAPIVersion
+    ];
+    
+    [requestBuilder addRequest:createContactRequest referenceId:@"refContact"];
+    // Query for account and contact
+    SFRestRequest *queryForContact = [[SFRestAPI sharedInstance]
+            requestForQuery:[NSString stringWithFormat:@"select Id, AccountId from Contact where LastName = '%@'", contactName] apiVersion:kSFRestDefaultAPIVersion
+    ];
+    [requestBuilder addRequest:queryForContact referenceId:@"refQuery"];
+
+    // Build composite request
+    // Send request
+    SFNativeRestRequestListener *listener = [self sendSyncRequest: [requestBuilder buildCompositeRequest:[SFRestAPI sharedInstance].apiVersion]];
+
+    // Checking response
+    NSDictionary * response = listener.dataResponse;
+    NSArray<NSDictionary *>* results = response[COMPOSITE_RESPONSE];
+    XCTAssertEqual(3, results.count, "Wrong number of results");
+    XCTAssertEqual([results[0][HTTP_STATUS_CODE] intValue], 201, @"Wrong status for first request");
+    XCTAssertEqual([results[1][HTTP_STATUS_CODE] intValue], 201, @"Wrong status for second request");
+    XCTAssertEqual([results[2][HTTP_STATUS_CODE] intValue], 200, @"Wrong status for third request");
+    
+    // Query should have returned ids of newly created account and contact
+    NSString* accountId = ((NSDictionary *) results[0][BODY])[LID];
+    NSString* contactId = ((NSDictionary *) results[1][BODY])[LID];
+    NSArray<NSDictionary *>* queryRecords = results[2][BODY][RECORDS];
+    XCTAssertEqual(1, queryRecords.count, "Wrong number of results for query request");
+    XCTAssertEqualObjects(accountId, queryRecords[0][ACCOUNT_ID], "Account id not returned by query");
+    XCTAssertEqualObjects(contactId, queryRecords[0][ID], "Contact id not returned by query");
+}
+
+// Test for composite request
+// Run a composite request that:
+// - creates an account,
+// - creates a contact (with newly created account as parent),
+// - run a query that should return newly created account and contact
+- (void) testRequestWithCompositeRequestResponse {
+    NSDictionary *fields;
+    
+    SFSDKCompositeRequestBuilder *requestBuilder = [[SFSDKCompositeRequestBuilder alloc] init];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Composite Request"];
+    // Create account
+    NSString *accountName = [self generateRecordName];
+    fields = @{NAME: accountName};
+    SFRestRequest *createAccountRequest = [[SFRestAPI sharedInstance]
+            requestForCreateWithObjectType:ACCOUNT
+                                    fields:fields
+                                apiVersion:kSFRestDefaultAPIVersion
+    ];
+    [requestBuilder addRequest:createAccountRequest referenceId:@"refAccount"];
+    // Create contact
+    NSString *contactName = [self generateRecordName];
+    fields = @{LAST_NAME: contactName, ACCOUNT_ID: @"@{refAccount.id}"};
+    SFRestRequest *createContactRequest = [[SFRestAPI sharedInstance]
+            requestForCreateWithObjectType:CONTACT
+                                    fields:fields
+                                apiVersion:kSFRestDefaultAPIVersion
+    ];
+    
+    [requestBuilder addRequest:createContactRequest referenceId:@"refContact"];
+    // Query for account and contact
+    SFRestRequest *queryForContact = [[SFRestAPI sharedInstance]
+            requestForQuery:[NSString stringWithFormat:@"select Id, AccountId from Contact where LastName = '%@'", contactName] apiVersion:kSFRestDefaultAPIVersion
+    ];
+    [requestBuilder addRequest:queryForContact referenceId:@"refQuery"];
+    SFSDKCompositeRequest *compositeRequest = [requestBuilder buildCompositeRequest:[SFRestAPI sharedInstance].apiVersion];
+    __block SFSDKCompositeResponse *compositeResponse = nil;
+    __block NSError *error = nil;
+     
+    [[SFRestAPI sharedInstance] sendCompositeRESTRequest:compositeRequest failBlock:^(NSError * err, NSURLResponse * rawResponse) {
+        error = err;
+        [expectation fulfill];
+    } completeBlock:^(SFSDKCompositeResponse *response, NSURLResponse *rawResponse) {
+        compositeResponse = response;
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:30];
+    XCTAssertNil(error, @"Error invoking composite api");
+    XCTAssertNotNil(compositeResponse, @"Composite Response should not be nil");
+    XCTAssertNotNil(compositeResponse.subResponses, @"Composite Sub Responses should not be nil");
+    XCTAssertEqual(3, compositeResponse.subResponses.count, "Wrong number of results");
+    
+    // Checking response
+    NSArray<SFSDKCompositeSubResponse *>* subResponses = compositeResponse.subResponses;
+    XCTAssertEqual(subResponses[0].httpStatusCode, 201, @"Wrong status for first request");
+    XCTAssertEqual(subResponses[1].httpStatusCode, 201, @"Wrong status for second request");
+    XCTAssertEqual(subResponses[2].httpStatusCode, 200, @"Wrong status for third request");
+    
+    XCTAssertNotNil(subResponses[0].body, @"Subresponse must have a response body");
+    XCTAssertNotNil(subResponses[1].body,@"Subresponse must have a response body");
+    XCTAssertNotNil(subResponses[2].body, @"Subresponse must have a response body");
+  
+    NSString* accountId = ((NSDictionary *) subResponses[0].body)[LID];
+    NSString* contactId = ((NSDictionary *) subResponses[1].body)[LID];
+    NSArray<NSDictionary *>* queryRecords = ((NSDictionary *) subResponses[2].body)[RECORDS];
+    
+    // Query should have returned ids of newly created account and contact
+    XCTAssertEqual(1, queryRecords.count, "Wrong number of results for query request");
+    XCTAssertEqualObjects(accountId, queryRecords[0][ACCOUNT_ID], "Account id not returned by query");
+    XCTAssertEqualObjects(contactId, queryRecords[0][ID], "Contact id not returned by query");
+}
 
  // Test for sobject tree request
  // Run a sobject tree request that:
