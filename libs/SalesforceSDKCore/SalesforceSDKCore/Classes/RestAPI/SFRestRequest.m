@@ -349,7 +349,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 + (NSString *)toQueryString:(NSDictionary *)components {
     NSMutableString* queryString = [NSMutableString new];
-    if (components) {
+    if (components.count > 0) {
         NSMutableArray *parts = [NSMutableArray array];
         [queryString appendString:@"?"];
         for (NSString *paramName in [components allKeys]) {

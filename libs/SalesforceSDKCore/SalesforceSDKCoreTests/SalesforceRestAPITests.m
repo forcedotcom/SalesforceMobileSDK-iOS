@@ -2296,6 +2296,14 @@ static NSException *authException = nil;
     XCTAssertTrue(range.location == 0 && range.length > 0 , "The URL must match the setting of full URL in path");
 }
 
+- (void)testNoTrailingQuestionMarkForEmptyParams {
+    NSString *pathWithParams = @"/rest/endpoint?page=10";
+    SFRestRequest * request = [SFRestRequest requestWithMethod:SFRestMethodGET path:pathWithParams queryParams:@{}];
+    request.endpoint = @"/services/apex";
+    NSURLRequest *urlRequest = [request prepareRequestForSend:[SFUserAccountManager sharedInstance].currentUser];
+    XCTAssertTrue([urlRequest.URL.absoluteString hasSuffix:pathWithParams], @"Wrong URL");
+}
+
 - (SFOAuthCredentials *)getTestCredentialsWithDomain:(nonnull NSString *)domain
                                             instanceUrl:(nonnull NSURL *)instanceUrl
                                            communityUrl:(nullable NSURL *)communityUrl {
