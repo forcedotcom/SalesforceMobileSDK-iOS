@@ -2,7 +2,7 @@ executors:
   mac:
     working_directory: ~/SalesforceMobileSDK-iOS
     macos:
-      xcode: 11.0.0
+      xcode: 11.1.0
     shell: /bin/bash --login -eo pipefail
     environment:
       BASH_ENV: ~/.bashrc
@@ -21,7 +21,7 @@ jobs:
         default: "iPhone 11"
       ios:
         type: string
-        default: "13.0"
+        default: "13.1"
       nightly-test:
         type: boolean
         default: false
@@ -138,31 +138,31 @@ workflows:
           lib: "SalesforceSDKCommon"
           nightly-test: true
           ios: "12.2"
-          device: "iPhone XR"
+          device: "iPhone Xʀ"
       - run-tests:
           name: "SalesforceAnalytics iOS 12 Nightly"
           lib: "SalesforceAnalytics"
           nightly-test: true 
           ios: "12.2"
-          device: "iPhone XR"
+          device: "iPhone Xʀ"
       - run-tests:
           name: "SalesforceSDKCore iOS 12 Nightly"
           lib: "SalesforceSDKCore"
           nightly-test: true 
           ios: "12.2"
-          device: "iPhone XR"
+          device: "iPhone Xʀ"
       - run-tests:
           name: "SmartStore iOS 12 Nightly"
           lib: "SmartStore"
           nightly-test: true
           ios: "12.2"
-          device: "iPhone XR"
+          device: "iPhone Xʀ"
       - run-tests:
           name: "MobileSync iOS 12 Nightly"
           lib: "MobileSync"
           nightly-test: true
           ios: "12.2"
-          device: "iPhone XR"
+          device: "iPhone Xʀ"
 
   # Cron are on a timezone 8 hours ahead of PST
   # Build everything at ~11:30am Tuesday/Thursday Nights
