@@ -134,6 +134,8 @@ extern NSString* const kSFRestIfUnmodifiedSince NS_SWIFT_NAME(SFRestIfUnmodified
  The error passed will be a standard `RestKit` error with an error domain of `RKRestKitErrorDomain`. 
 
  */
+@class SFSDKCompositeRequest;
+
 NS_SWIFT_NAME(RestClient)
 @interface SFRestAPI : NSObject
 
@@ -406,7 +408,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm
  */
-- (SFRestRequest *) compositeRequest:(NSArray<SFRestRequest *> *) requests refIds:(NSArray<NSString *> *)refIds allOrNone:(BOOL)allOrNone apiVersion:(nullable NSString *)apiVersion;
+- (SFRestRequest *)compositeRequest:(NSArray<SFRestRequest *> *) requests refIds:(NSArray<NSString *> *)refIds allOrNone:(BOOL)allOrNone apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that executes an sObject tree request.

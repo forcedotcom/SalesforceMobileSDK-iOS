@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Thu Jul 25 08:08:04 PDT 2019.
+ Created by Raj Rao on Wed Oct  2 14:24:35 PDT 2019.
 
  Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
@@ -56,6 +56,7 @@
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCore/SFOAuthOrgAuthConfiguration.h>
+#import <SalesforceSDKCore/SFSDKCompositeResponse.h>
 #import <SalesforceSDKCore/SFOAuthCredentials.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
@@ -82,6 +83,7 @@
 #import <SalesforceSDKCore/SFUserActivityMonitor.h>
 #import <SalesforceSDKCore/SFSDKWindowContainer.h>
 #import <SalesforceSDKCore/SFPasscodeKeyStore.h>
+#import <SalesforceSDKCore/SFSDKCompositeRequest.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKAnalyticsPublisher.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
