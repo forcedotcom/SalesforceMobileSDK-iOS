@@ -44,5 +44,6 @@
 @property (nonnull, nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nullable, nonatomic, readwrite, strong) SFUserAccount *userAccount;
 @property (nonnull, nonatomic, readwrite, strong) NSMutableArray<SFSDKAnalyticsTransformPublisherPair *> *remotes;
+@property (atomic, readwrite) UIBackgroundTaskIdentifier task;
 
 @end
