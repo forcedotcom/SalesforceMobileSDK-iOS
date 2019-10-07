@@ -30,6 +30,7 @@
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFUserAccountManager+Internal.h"
+#import "SFSDKBatchRequest.h"
  // Constants only used in the tests below
 #define ENTITY_PREFIX_NAME @"RestClientTestsiOS"
 #define ACCOUNT @"Account"
@@ -761,6 +762,153 @@ static NSException *authException = nil;
      XCTAssertEqualObjects(accountId, idFromFirstQuery, @"Account id not returned by query");
      XCTAssertEqualObjects(contactId, idFromSecondQuery, @"Contact id not returned by query");
  }
+
+ // Test for batch request
+ //
+ // Run a batch request that:
+ // - creates an account,
+ // - creates a contact,
+ // - run a query that should return newly created account
+ // - run a query that should return newly created contact
+ -(void)testBatchWithBatchRequest {
+     NSDictionary *fields;
+     
+     SFSDKBatchRequestBuilder *batchRequestBuiler = [[SFSDKBatchRequestBuilder alloc] init];
+     // Create account
+     NSString *accountName = [self generateRecordName];
+     fields = @{NAME: accountName};
+     SFRestRequest *createAccountRequest = [[SFRestAPI sharedInstance]
+             requestForCreateWithObjectType:ACCOUNT
+                                     fields:fields
+                                 apiVersion:kSFRestDefaultAPIVersion
+     ];
+     [batchRequestBuiler addRequest:createAccountRequest];
+     // Create contact
+     NSString *contactName = [self generateRecordName];
+     fields = @{LAST_NAME: contactName};
+     SFRestRequest *createContactRequest = [[SFRestAPI sharedInstance]
+             requestForCreateWithObjectType:CONTACT
+                                     fields:fields
+                                 apiVersion:kSFRestDefaultAPIVersion
+     ];
+     [batchRequestBuiler addRequest:createContactRequest];
+
+     // Query for account
+     SFRestRequest *queryForAccount = [[SFRestAPI sharedInstance]
+             requestForQuery:[NSString stringWithFormat:@"select Id from Account where Name = '%@'", accountName] apiVersion:kSFRestDefaultAPIVersion
+     ];
+     [batchRequestBuiler addRequest:queryForAccount];
+
+     // Query for contact
+     SFRestRequest *queryForContact = [[SFRestAPI sharedInstance]
+             requestForQuery:[NSString stringWithFormat:@"select Id from Contact where Name = '%@'", contactName] apiVersion:kSFRestDefaultAPIVersion
+     ];
+     [batchRequestBuiler addRequest:queryForContact];
+
+     // Build batch request
+     SFSDKBatchRequest *batchRequest = [batchRequestBuiler buildBatchRequest:kSFRestDefaultAPIVersion];
+     
+     // Send request
+     SFNativeRestRequestListener *listener = [self sendSyncRequest:batchRequest];
+
+     // Checking response
+     NSDictionary * response = listener.dataResponse;
+     XCTAssertEqual(response[HAS_ERRORS], @NO, @"No errors expected");
+     NSArray<NSDictionary *>* results = response[RESULTS];
+     XCTAssertEqual(results.count, 4, @"Wrong number of results");
+     XCTAssertEqual([results[0][STATUS_CODE] intValue], 201, @"Wrong status for first request");
+     XCTAssertEqual([results[1][STATUS_CODE] intValue], 201, @"Wrong status for second request");
+     XCTAssertEqual([results[2][STATUS_CODE] intValue], 200, @"Wrong status for third request");
+     XCTAssertEqual([results[3][STATUS_CODE] intValue], 200, @"Wrong status for fourth request");
+
+     // Queries should have returned ids of newly created account and contact
+     NSString* accountId = ((NSDictionary *) results[0][RESULT])[LID];
+     NSString* contactId = ((NSDictionary *) results[1][RESULT])[LID];
+     NSString* idFromFirstQuery = ((NSDictionary *) results[2][RESULT])[RECORDS][0][ID];
+     NSString* idFromSecondQuery = ((NSDictionary *) results[3][RESULT])[RECORDS][0][ID];
+     XCTAssertEqualObjects(accountId, idFromFirstQuery, @"Account id not returned by query");
+     XCTAssertEqualObjects(contactId, idFromSecondQuery, @"Contact id not returned by query");
+ }
+
+// Test for batch request
+//
+// Run a batch request that:
+// - creates an account,
+// - creates a contact,
+// - run a query that should return newly created account
+// - run a query that should return newly created contact
+-(void)testBatchWithBatchRequestResponse {
+    NSDictionary *fields;
+    
+    SFSDKBatchRequestBuilder *batchRequestBuiler = [[SFSDKBatchRequestBuilder alloc] init];
+    // Create account
+    NSString *accountName = [self generateRecordName];
+    fields = @{NAME: accountName};
+    SFRestRequest *createAccountRequest = [[SFRestAPI sharedInstance]
+            requestForCreateWithObjectType:ACCOUNT
+                                    fields:fields
+                                apiVersion:kSFRestDefaultAPIVersion
+    ];
+    [batchRequestBuiler addRequest:createAccountRequest];
+    // Create contact
+    NSString *contactName = [self generateRecordName];
+    fields = @{LAST_NAME: contactName};
+    SFRestRequest *createContactRequest = [[SFRestAPI sharedInstance]
+            requestForCreateWithObjectType:CONTACT
+                                    fields:fields
+                                apiVersion:kSFRestDefaultAPIVersion
+    ];
+    [batchRequestBuiler addRequest:createContactRequest];
+
+    // Query for account
+    SFRestRequest *queryForAccount = [[SFRestAPI sharedInstance]
+            requestForQuery:[NSString stringWithFormat:@"select Id from Account where Name = '%@'", accountName] apiVersion:kSFRestDefaultAPIVersion
+    ];
+    [batchRequestBuiler addRequest:queryForAccount];
+
+    // Query for contact
+    SFRestRequest *queryForContact = [[SFRestAPI sharedInstance]
+            requestForQuery:[NSString stringWithFormat:@"select Id from Contact where Name = '%@'", contactName] apiVersion:kSFRestDefaultAPIVersion
+    ];
+    [batchRequestBuiler addRequest:queryForContact];
+
+    // Build batch request
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Batch Request"];
+    SFSDKBatchRequest *batchRequest = [batchRequestBuiler buildBatchRequest:kSFRestDefaultAPIVersion];
+    __block SFSDKBatchResponse *batchResponse = nil;
+    __block NSError *error = nil;
+     
+    [[SFRestAPI sharedInstance] sendBatchRESTRequest:batchRequest failBlock:^(NSError * err, NSURLResponse * rawResponse) {
+        error = err;
+        [expectation fulfill];
+    } completeBlock:^(SFSDKBatchResponse *response, NSURLResponse *rawResponse) {
+        batchResponse = response;
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:30];
+    XCTAssertNil(error, @"Error invoking batch api");
+    XCTAssertNotNil(batchResponse, @"Batch Response should not be nil");
+    XCTAssertFalse(batchResponse.hasErrors, @"Batch Response should not return with errors");
+    XCTAssertNotNil(batchResponse.results, @"Batch Sub Responses should not be nil");
+    XCTAssertEqual(4,batchResponse.results.count, "Wrong number of results");
+
+    // Checking response
+    NSArray<NSDictionary *>* results = batchResponse.results;
+    XCTAssertEqual(results.count, 4, @"Wrong number of results");
+    XCTAssertEqual([results[0][STATUS_CODE] intValue], 201, @"Wrong status for first request");
+    XCTAssertEqual([results[1][STATUS_CODE] intValue], 201, @"Wrong status for second request");
+    XCTAssertEqual([results[2][STATUS_CODE] intValue], 200, @"Wrong status for third request");
+    XCTAssertEqual([results[3][STATUS_CODE] intValue], 200, @"Wrong status for fourth request");
+
+    // Queries should have returned ids of newly created account and contact
+    NSString* accountId = ((NSDictionary *) results[0][RESULT])[LID];
+    NSString* contactId = ((NSDictionary *) results[1][RESULT])[LID];
+    NSString* idFromFirstQuery = ((NSDictionary *) results[2][RESULT])[RECORDS][0][ID];
+    NSString* idFromSecondQuery = ((NSDictionary *) results[3][RESULT])[RECORDS][0][ID];
+    XCTAssertEqualObjects(accountId, idFromFirstQuery, @"Account id not returned by query");
+    XCTAssertEqualObjects(contactId, idFromSecondQuery, @"Contact id not returned by query");
+}
 
  // Test for composite request
  // Run a composite request that:

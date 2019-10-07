@@ -112,9 +112,22 @@ extension RestClient {
     /// Execute a request.
     /// - Parameter request: Composite Request object
     /// - Parameter completionBlock: The completion block to invoke.
-    public func sendComposite(request: CompositeRequest, _ completionBlock: @escaping (Result<CompositeResponse,RestClientError>) -> () ) {
-        request.parseResponse = false
-        __sendCompositeRESTRequest(request, fail: { (error, urlResponse) in
+    public func send(compositeRequest: CompositeRequest, _ completionBlock: @escaping (Result<CompositeResponse,RestClientError>) -> () ) {
+        compositeRequest.parseResponse = false
+        __sendCompositeRESTRequest(compositeRequest, fail: { (error, urlResponse) in
+            let apiError = RestClientError.ApiInvocationFailed(underlyingError: error ?? RestClientError.ApiResponseIsEmpty, urlResponse: urlResponse)
+            completionBlock(Result.failure(apiError))
+        }) { (response, urlResponse) in
+            completionBlock(Result.success(response))
+        }
+    }
+    
+    /// Execute a request.
+    /// - Parameter request: Batch Request object
+    /// - Parameter completionBlock: The completion block to invoke.
+    public func send(batchRequest: BatchRequest, _ completionBlock: @escaping (Result<BatchResponse,RestClientError>) -> () ) {
+        batchRequest.parseResponse = false
+        __sendBatchRESTRequest(batchRequest, fail: { (error, urlResponse) in
             let apiError = RestClientError.ApiInvocationFailed(underlyingError: error ?? RestClientError.ApiResponseIsEmpty, urlResponse: urlResponse)
             completionBlock(Result.failure(apiError))
         }) { (response, urlResponse) in
@@ -141,7 +154,20 @@ extension RestClient {
     
     public func publisher(for request: CompositeRequest) -> Future<CompositeResponse, RestClientError> {
         return Future<CompositeResponse, RestClientError> { promise in
-            self.sendComposite(request: request) { (result) in
+            self.send(compositeRequest: request) { (result) in
+                switch result {
+                    case .success(let response):
+                        promise(.success(response))
+                    case .failure(let error):
+                        promise(.failure(error))
+                }
+            }
+        }
+    }
+    
+    public func publisher(for request: BatchRequest) -> Future<BatchResponse, RestClientError> {
+        return Future<BatchResponse, RestClientError> { promise in
+            self.send(batchRequest: request) { (result) in
                 switch result {
                     case .success(let response):
                         promise(.success(response))

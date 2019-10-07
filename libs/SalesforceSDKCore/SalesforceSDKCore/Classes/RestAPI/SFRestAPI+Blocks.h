@@ -29,6 +29,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @class SFSDKCompositeResponse;
+@class SFSDKBatchResponse;
+@class SFSDKCompositeRequest;
+@class SFSDKBatchRequest;
 
 @interface SFRestAPI (Blocks) <SFRestDelegate>
 
@@ -39,6 +42,7 @@ typedef void (^SFRestArrayResponseBlock) (NSArray * _Nullable arr, NSURLResponse
 typedef void (^SFRestDataResponseBlock) (NSData* _Nullable data, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestDataResponseBlock);
 typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestResponseBlock);
 typedef void (^SFRestCompositeResponseBlock) (SFSDKCompositeResponse *response, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestCompositeResponseBlock);
+typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestBatchResponseBlock);
 
 /** Creates an error object with the given description.
  @param description Description
@@ -61,6 +65,14 @@ typedef void (^SFRestCompositeResponseBlock) (SFSDKCompositeResponse *response, 
  * @param completeBlock the block to be executed when the request successfully completes
  */
 - (void) sendCompositeRESTRequest:(SFSDKCompositeRequest *)request failBlock:(SFRestFailBlock)failBlock  completeBlock:(SFRestCompositeResponseBlock)completeBlock NS_REFINED_FOR_SWIFT;
+
+/**
+* Send a request you've already built, using blocks to return status.
+* @param request the Batch request to be sent
+* @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+* @param completeBlock the block to be executed when the request successfully completes
+*/
+- (void) sendBatchRESTRequest:(SFSDKBatchRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestBatchResponseBlock)completeBlock NS_REFINED_FOR_SWIFT;
 
 // Various request types.
 

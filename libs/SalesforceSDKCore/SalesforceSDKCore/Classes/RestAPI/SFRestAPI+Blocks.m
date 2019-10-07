@@ -27,6 +27,8 @@
 #import "SFRestAPI+Blocks.h"
 #import "SFRestAPI+Files.h"
 #import "SFSDKCompositeRequest.h"
+#import "SFSDKBatchRequest.h"
+#import "SFSDKBatchResponse+Internal.h"
 #import "SFSDKCompositeResponse+Internal.h"
 #import <objc/runtime.h>
 
@@ -68,6 +70,14 @@ static char CompleteBlockKey;
     // Copy blocks into the request instance
     [self sendRESTRequest:request failBlock:failBlock completeBlock:^(id response, NSURLResponse * rawResponse) {
         SFSDKCompositeResponse *compositeResponse = [[SFSDKCompositeResponse alloc]initWith:response];
+        completeBlock(compositeResponse,rawResponse);
+    }];
+}
+
+- (void) sendBatchRESTRequest:(SFSDKBatchRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestBatchResponseBlock)completeBlock {
+    // Copy blocks into the request instance
+    [self sendRESTRequest:request failBlock:failBlock completeBlock:^(id response, NSURLResponse * rawResponse) {
+        SFSDKBatchResponse *compositeResponse = [[SFSDKBatchResponse alloc]initWith:response];
         completeBlock(compositeResponse,rawResponse);
     }];
 }
