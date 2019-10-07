@@ -51,8 +51,6 @@ static NSString * const kSFAppFeatureAiltnEnabled = @"AI";
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
-UIBackgroundTaskIdentifier task;
-
 @implementation SFSDKSalesforceAnalyticsManager
 
 + (void)initialize {
@@ -193,13 +191,17 @@ UIBackgroundTaskIdentifier task;
 }
 
 - (void) publishAllEvents {
+    [self publishAllEventsWithTask:UIBackgroundTaskInvalid];
+}
+
+- (void) publishAllEventsWithTask:(UIBackgroundTaskIdentifier) task {
     @synchronized (self) {
         NSArray<SFSDKInstrumentationEvent *> *events = [self.eventStoreManager fetchAllEvents];
-        [self publishEvents:events];
+        [self publishEvents:events withTask:task];
     }
 }
 
-- (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events {
+- (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events withTask:(UIBackgroundTaskIdentifier) task {
     if (events.count == 0 || self.remotes.count == 0) {
         return;
     }
@@ -245,10 +247,14 @@ UIBackgroundTaskIdentifier task;
                 }
                 publishCompleteBlock = nil;
             }
-            [self cleanupBackgroundTask];
+            [self cleanupBackgroundTask:task];
         };
         [self applyTransformAndPublish:currentTpp events:events publishCompleteBlock:publishCompleteBlock];
     }
+}
+
+- (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events {
+    [self publishEvents:events withTask:UIBackgroundTaskInvalid];
 }
 
 - (void) publishEvent:(SFSDKInstrumentationEvent *) event {
@@ -317,10 +323,12 @@ UIBackgroundTaskIdentifier task;
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         __block typeof(self) weakSelf = self;
+        __block UIBackgroundTaskIdentifier task;
+
         task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithName:NSStringFromClass([self class]) expirationHandler:^{
-            [weakSelf cleanupBackgroundTask];
+            [weakSelf cleanupBackgroundTask:task];
         }];
-        [self publishAllEvents];
+        [self publishAllEventsWithTask:task];
     });
 }
 
@@ -353,7 +361,7 @@ UIBackgroundTaskIdentifier task;
     [[self class] removeSharedInstanceWithUser:user];
 }
 
-- (void) cleanupBackgroundTask {
+- (void) cleanupBackgroundTask:(UIBackgroundTaskIdentifier) task {
     [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
     task = UIBackgroundTaskInvalid;
 }
