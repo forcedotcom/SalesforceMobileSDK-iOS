@@ -24,29 +24,20 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 #import "SFSDKBatchRequest.h"
 #import "SFRestRequest+Internal.h"
-@interface SFSDKBatchRequest(){
-    NSMutableArray *_requests;
-}
+@interface SFSDKBatchRequest()
+@property (nonatomic, readwrite) NSArray<SFRestRequest *> *batchRequests;
 @property (nonatomic, readwrite) BOOL haltOnError;
 @property (nonatomic, readwrite) NSString *apiVersion;
+-(instancetype) initWithRequests:(NSArray<SFRestRequest *>*)requests;
 @end
 
 @implementation SFSDKBatchRequest 
 
--(instancetype) init {
+-(instancetype) initWithRequests:(NSArray<SFRestRequest *>*)requests {
     if (self = [super init]) {
-        _requests = [[NSMutableArray alloc] init];
+        _batchRequests = [NSArray arrayWithArray:requests];
     }
     return self;
-}
-
--(NSArray<SFRestRequest *> *)batchRequests {
-    return [NSArray arrayWithArray:_requests];
-}
-
-
--(void)addRequest:(SFRestRequest *)subRequest {
-    [_requests addObject:subRequest];
 }
 
 -(nullable NSURLRequest *)prepareRequestForSend:(nonnull SFUserAccount *)user {
@@ -132,14 +123,10 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 }
 
 -(SFSDKBatchRequest *)buildBatchRequest:(NSString *)apiVersion {
-    SFSDKBatchRequest *batchRequest = [[SFSDKBatchRequest alloc] init];
+    SFSDKBatchRequest *batchRequest = [[SFSDKBatchRequest alloc] initWithRequests:[NSArray arrayWithArray: self.allSubRequests]];
     batchRequest.apiVersion = apiVersion;
     batchRequest.haltOnError = _haltOnError;
     batchRequest.requiresAuthentication = YES;
-    
-    [self.allSubRequests enumerateObjectsUsingBlock:^(SFRestRequest *obj, NSUInteger idx, BOOL *stop) {
-        [batchRequest addRequest:obj];
-    }];
     return batchRequest;
 }
 
