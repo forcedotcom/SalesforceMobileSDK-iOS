@@ -31,18 +31,16 @@ import Foundation
 import Combine
 /// Errors that can be thrown while using RestClient
 public enum RestClientError: Error {
-    case ApiResponseIsEmpty
-    case ApiInvocationFailed(underlyingError: Error, urlResponse: URLResponse?)
-    case DecodingFailed(underlyingError: Error)
-    case JsonSerialization(underlyingError: Error)
+    case apiResponseIsEmpty
+    case apiInvocationFailed(underlyingError: Error, urlResponse: URLResponse?)
+    case decodingFailed(underlyingError: Error)
+    case jsonSerialization(underlyingError: Error)
 }
 
 public struct RestResponse {
-    
-    private static let emptyJsonDictionaryArrayResponse = [String:Any]()
-    private static let emptyJsonArrayResponse = [[String:Any]]()
+    private static let emptyJsonDictionaryArrayResponse = [String: Any]()
+    private static let emptyJsonArrayResponse = [[String: Any]]()
     private static let emptyStringResponse = ""
-    
     private (set) var data: Data
     private (set) var urlResponse: URLResponse
     
@@ -60,7 +58,7 @@ public struct RestResponse {
             let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
             return jsonData
         } catch let error {
-            throw RestClientError.JsonSerialization(underlyingError: error)
+            throw RestClientError.jsonSerialization(underlyingError: error)
         }
     }
     
@@ -77,13 +75,13 @@ public struct RestResponse {
     
     /// Decode the response as  a codable
     /// - Parameter type: The type to use for decoding.
-    public func asDecodable<T:Decodable>(type: T.Type) throws -> Decodable?  {
+    public func asDecodable<T: Decodable>(type: T.Type) throws -> Decodable? {
         let decoder = JSONDecoder()
-        do{
+        do {
             let object = try decoder.decode(type, from: data)
             return object
         } catch let error {
-            throw RestClientError.DecodingFailed(underlyingError: error)
+            throw RestClientError.decodingFailed(underlyingError: error)
         }
     }
 }
@@ -93,60 +91,61 @@ extension RestClient {
     /// Execute a request.
     /// - Parameter request: RestRequest object
     /// - Parameter completionBlock: The completion block to invoke.
-    public func send(request: RestRequest, _ completionBlock: @escaping (Result<RestResponse,RestClientError>) -> () ) {
+    public func send(request: RestRequest, _ completionBlock: @escaping (Result<RestResponse, RestClientError>) -> Void) {
         request.parseResponse = false
         __send(request, fail: { (error, urlResponse) in
-            let apiError = RestClientError.ApiInvocationFailed(underlyingError: error ?? RestClientError.ApiResponseIsEmpty, urlResponse: urlResponse)
+            let apiError = RestClientError.apiInvocationFailed(underlyingError: error ?? RestClientError.apiResponseIsEmpty, urlResponse: urlResponse)
             completionBlock(Result.failure(apiError))
-        }) { (rawResponse, urlResponse) in
+        }, complete: { (rawResponse, urlResponse) in
             if let data = rawResponse as? Data,
                 let urlResponse = urlResponse {
                 let result = RestResponse(data: data, urlResponse: urlResponse)
                 completionBlock(Result.success(result))
             } else {
-                completionBlock(Result.failure(.ApiResponseIsEmpty))
+                completionBlock(Result.failure(.apiResponseIsEmpty))
             }
-        }
+        })
     }
     
     /// Execute a request.
     /// - Parameter request: Composite Request object
     /// - Parameter completionBlock: The completion block to invoke.
-    public func send(compositeRequest: CompositeRequest, _ completionBlock: @escaping (Result<CompositeResponse,RestClientError>) -> () ) {
+    public func send(compositeRequest: CompositeRequest, _ completionBlock: @escaping (Result<CompositeResponse, RestClientError>) -> Void) {
         compositeRequest.parseResponse = false
         __sendCompositeRESTRequest(compositeRequest, fail: { (error, urlResponse) in
-            let apiError = RestClientError.ApiInvocationFailed(underlyingError: error ?? RestClientError.ApiResponseIsEmpty, urlResponse: urlResponse)
+            let apiError = RestClientError.apiInvocationFailed(underlyingError: error ?? RestClientError.apiResponseIsEmpty, urlResponse: urlResponse)
             completionBlock(Result.failure(apiError))
-        }) { (response, urlResponse) in
+        }, complete: { (response, _) in
             completionBlock(Result.success(response))
-        }
+        })
     }
     
     /// Execute a request.
     /// - Parameter request: Batch Request object
     /// - Parameter completionBlock: The completion block to invoke.
-    public func send(batchRequest: BatchRequest, _ completionBlock: @escaping (Result<BatchResponse,RestClientError>) -> () ) {
+    public func send(batchRequest: BatchRequest, _ completionBlock: @escaping (Result<BatchResponse, RestClientError>) -> Void ) {
         batchRequest.parseResponse = false
         __sendBatchRESTRequest(batchRequest, fail: { (error, urlResponse) in
-            let apiError = RestClientError.ApiInvocationFailed(underlyingError: error ?? RestClientError.ApiResponseIsEmpty, urlResponse: urlResponse)
+            let apiError = RestClientError.apiInvocationFailed(underlyingError: error ?? RestClientError.apiResponseIsEmpty, urlResponse: urlResponse)
             completionBlock(Result.failure(apiError))
-        }) { (response, urlResponse) in
+        }, complete: { (response, _) in
             completionBlock(Result.success(response))
-        }
+        })
     }
   
 }
 
 @available(iOS 13.0, watchOS 6.0, *)
 extension RestClient {
+    
     public func publisher(for request: RestRequest) -> Future<RestResponse, RestClientError> {
         return Future<RestResponse, RestClientError> { promise in
             self.send(request: request) { (result) in
                 switch result {
-                    case .success(let response):
-                        promise(.success(response))
-                    case .failure(let error):
-                        promise(.failure(error))
+                case .success(let response):
+                    promise(.success(response))
+                case .failure(let error):
+                    promise(.failure(error))
                 }
             }
         }
@@ -156,10 +155,10 @@ extension RestClient {
         return Future<CompositeResponse, RestClientError> { promise in
             self.send(compositeRequest: request) { (result) in
                 switch result {
-                    case .success(let response):
-                        promise(.success(response))
-                    case .failure(let error):
-                        promise(.failure(error))
+                case .success(let response):
+                    promise(.success(response))
+                case .failure(let error):
+                    promise(.failure(error))
                 }
             }
         }
@@ -169,10 +168,10 @@ extension RestClient {
         return Future<BatchResponse, RestClientError> { promise in
             self.send(batchRequest: request) { (result) in
                 switch result {
-                    case .success(let response):
-                        promise(.success(response))
-                    case .failure(let error):
-                        promise(.failure(error))
+                case .success(let response):
+                    promise(.success(response))
+                case .failure(let error):
+                    promise(.failure(error))
                 }
             }
         }
