@@ -64,7 +64,11 @@ static CGFloat const kControlVerticalPadding = 5.0f;
     [super viewDidLoad];
 	
     self.navigationItem.title = @"User Detail";
-    self.view.backgroundColor = [UIColor whiteColor];
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor systemBackgroundColor];
+    } else {
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)])
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     
