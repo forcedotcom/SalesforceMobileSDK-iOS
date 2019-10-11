@@ -128,7 +128,7 @@
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "Salesforce Login JWT", "Begin");
     
-    return [self instr_loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *account) {
+    return [self instr_loginWithJwtToken:jwtToken completion:^(SFOAuthInfo *authInfo, SFUserAccount *account) {
         sf_os_signpost_interval_end(logger, sid, "Salesforce Login JWT", "Did Login user %{public}@",account.idData.username);
         if (completionBlock) completionBlock(authInfo,account);
     } failure:^(SFOAuthInfo * authInfo, NSError * error) {
