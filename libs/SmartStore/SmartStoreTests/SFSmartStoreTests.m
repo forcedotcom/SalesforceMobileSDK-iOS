@@ -1416,6 +1416,8 @@
         SFStoreCursor* cursor = [[SFStoreCursor alloc] initWithStore:store querySpec:querySpec];
         NSDictionary* serializedCursorDeserialized = [SFJsonUtils objectFromJSONString:[cursor getDataSerialized:store error:&error]];
         XCTAssertNil(error, @"No error expected");
+        NSDictionary* cursorDeserialized = [cursor getDataDeserialized:store error:&error];
+        XCTAssertNil(error, @"No error expected");
         
         // Check cursor
         XCTAssertEqualObjects(cursor.pageSize, @2, @"Wrong page size");
@@ -1429,6 +1431,16 @@
         XCTAssertEqualObjects(serializedCursorDeserialized[@"totalPages"], @2, @"Wrong total pages count");
         XCTAssertEqualObjects(serializedCursorDeserialized[@"totalEntries"], @3, @"Wrong total entries count");
         NSArray* currentPageOrderedEntries = serializedCursorDeserialized[@"currentPageOrderedEntries"];
+        XCTAssertEqual(currentPageOrderedEntries.count, 2, "Wrong entries count in page");
+        XCTAssertEqualObjects(currentPageOrderedEntries[0][@"key"], @"ka1", "Wrong first entry");
+        XCTAssertEqualObjects(currentPageOrderedEntries[1][@"key"], @"ka2", "Wrong second entry");
+        
+        // Check deserialized cursor
+        XCTAssertEqualObjects(cursorDeserialized[@"pageSize"], @2, @"Wrong page size");
+        XCTAssertEqualObjects(cursorDeserialized[@"currentPageIndex"], @0, @"Wrong page index");
+        XCTAssertEqualObjects(cursorDeserialized[@"totalPages"], @2, @"Wrong total pages count");
+        XCTAssertEqualObjects(cursorDeserialized[@"totalEntries"], @3, @"Wrong total entries count");
+        currentPageOrderedEntries = cursorDeserialized[@"currentPageOrderedEntries"];
         XCTAssertEqual(currentPageOrderedEntries.count, 2, "Wrong entries count in page");
         XCTAssertEqualObjects(currentPageOrderedEntries[0][@"key"], @"ka1", "Wrong first entry");
         XCTAssertEqualObjects(currentPageOrderedEntries[1][@"key"], @"ka2", "Wrong second entry");
@@ -1447,12 +1459,19 @@ NB: there are many more tests in SalesforceMobileSDK-iOS-Hybrid exercising Store
         // Query spec
         SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2];
         
-        // Run query with cursor
         NSError* error;
         SFStoreCursor* cursor = [[SFStoreCursor alloc] initWithStore:store querySpec:querySpec];
+
+        // Run query by getting serialized data from cursor
         NSString* serializedCursor = [SFJsonUtils objectFromJSONString:[cursor getDataSerialized:store error:&error]];
         XCTAssertNotNil(error, @"Error expected");
         XCTAssertNil(serializedCursor, @"Serialized cursor should be nil");
+
+        // Run query by getting deserialized data from cursor
+        NSDictionary* deserializedCursor = [cursor getDataDeserialized:store error:&error];
+        XCTAssertNotNil(error, @"Error expected");
+        XCTAssertNil(deserializedCursor, @"Deserialized cursor should be nil");
+
     }
 }
 
