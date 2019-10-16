@@ -1883,7 +1883,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                     }
                 }
             }
-            // Otherwise the value is a atomic type
+            // Otherwise the value is an atomic type
             else {
                 if (computeResultAsString) {
                     if ([value isKindOfClass:[NSNull class]]) {
