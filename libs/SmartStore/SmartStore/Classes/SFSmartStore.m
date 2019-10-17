@@ -1753,10 +1753,14 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error;
 {
     __block NSMutableArray* resultArray = [NSMutableArray new];
-    [self inDatabase:^(FMDatabase* db) {
+    BOOL succ = [self inDatabase:^(FMDatabase* db) {
         [self runQuery:resultArray resultString:nil querySpec:querySpec pageIndex:pageIndex withDb:db];
     } error:error];
-    return resultArray;
+    if (succ) {
+        return resultArray;
+    } else {
+        return nil;
+    }
 }
 
 - (BOOL) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(result:querySpec:pageIndex:))
