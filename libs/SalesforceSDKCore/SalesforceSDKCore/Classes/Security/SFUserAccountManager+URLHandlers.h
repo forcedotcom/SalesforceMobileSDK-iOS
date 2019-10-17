@@ -27,6 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "SFUserAccountManager+Internal.h"
 
 @class SFSDKAuthRequestCommand;
 @class SFSDKAuthResponseCommand;

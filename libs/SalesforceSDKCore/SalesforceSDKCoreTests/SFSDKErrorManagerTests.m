@@ -45,7 +45,7 @@
 
 - (void)testNetworkError {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
-   
+    SFSDKAuthSession *session = [[SFSDKAuthSession alloc] init];
     SFOAuthCredentials *credentials = [[SFUserAccountManager sharedInstance] newClientCredentials];
     credentials.accessToken = @"__ACCESS_TOKEN__";
     credentials.refreshToken = @"__REFRESH_TOKEN__";
@@ -59,13 +59,12 @@
     NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
     NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorTimedOut userInfo:userInfo];
     
-    errorManager.networkErrorHandlerBlock = ^(NSError * error, SFOAuthInfo * authInfo, NSDictionary *options) {
+    errorManager.networkErrorHandlerBlock = ^(NSError * error, SFSDKAuthSession * authSession, NSDictionary *options) {
         [networkErrorExpectation fulfill];
     };
     
-    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     XCTAssertNotNil(errorManager.networkErrorHandlerBlock);
-    BOOL handled = [errorManager processAuthError:error authInfo:authInfo options:userInfo];
+    BOOL handled = [errorManager processAuthError:error authContext:session options:userInfo];
     XCTAssertTrue(handled,@"Network Error Should have been handled by the ErrorManager");
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
@@ -74,17 +73,17 @@
 - (void)testAuthError {
     
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] init];
     XCTAssertNotNil(errorManager);
     XCTestExpectation *errorExpectation =  [self expectationWithDescription:@"authErrorExpectation"];
     NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorInvalidGrant userInfo:userInfo];
     
-    errorManager.invalidAuthCredentialsErrorHandlerBlock = ^(NSError * error, SFOAuthInfo * authInfo, NSDictionary *options) {
+    errorManager.invalidAuthCredentialsErrorHandlerBlock = ^(NSError * error, SFSDKAuthSession * authSession, NSDictionary *options) {
         [errorExpectation fulfill];
     };
-    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
     XCTAssertNotNil(errorManager.invalidAuthCredentialsErrorHandlerBlock);
-    BOOL handled = [errorManager processAuthError:error authInfo:authInfo options:userInfo];
+    BOOL handled = [errorManager processAuthError:error authContext:authSession  options:userInfo];
     XCTAssertTrue(handled,@"Invalid grant auth error Should have been handled by the ErrorManager");
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
 }
@@ -99,35 +98,35 @@
 - (void)testConnectedAppVersionMismatchError {
     
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] init];
     XCTAssertNotNil(errorManager);
     XCTestExpectation *errorExpectation =  [self expectationWithDescription:@"connectedAppVersionMismatchErrorExpectation"];
     NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorWrongVersion userInfo:userInfo];
     
-    errorManager.connectedAppVersionMismatchErrorHandlerBlock  = ^(NSError * error, SFOAuthInfo * authInfo, NSDictionary *options) {
+    errorManager.connectedAppVersionMismatchErrorHandlerBlock  = ^(NSError * error, SFSDKAuthSession *authSession, NSDictionary *options) {
         [errorExpectation fulfill];
     };
-    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
     XCTAssertNotNil(errorManager.connectedAppVersionMismatchErrorHandlerBlock);
-    BOOL handled = [errorManager processAuthError:error authInfo:authInfo options:userInfo];
+    BOOL handled = [errorManager processAuthError:error authContext:authSession options:userInfo];
     XCTAssertTrue(handled,@"Connected app version mismatch should have been handled by the ErrorManager");
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
 }
 
 - (void)testGenericError {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] init];
     XCTAssertNotNil(errorManager);
     XCTestExpectation *errorExpectation =  [self expectationWithDescription:@"genericErrorExpectation"];
     NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
     NSError *error = [NSError errorWithDomain:@"someError" code:-999 userInfo:userInfo];
     
-    errorManager.genericErrorHandlerBlock  = ^(NSError * error, SFOAuthInfo * authInfo, NSDictionary *options) {
+    errorManager.genericErrorHandlerBlock  = ^(NSError * error, SFSDKAuthSession *authSession, NSDictionary *options) {
         [errorExpectation fulfill];
     };
     
-    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
     XCTAssertNotNil(errorManager.genericErrorHandlerBlock);
-    BOOL handled = [errorManager processAuthError:error authInfo:authInfo options:userInfo];
+    BOOL handled = [errorManager processAuthError:error authContext:authSession options:userInfo];
     XCTAssertTrue(handled,@"Generic Error should have been handled by the ErrorManager");
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
 }

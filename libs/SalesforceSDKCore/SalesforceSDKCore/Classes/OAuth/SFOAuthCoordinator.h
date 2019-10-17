@@ -297,7 +297,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 /**
  Auth session through which the user will input OAuth credentials for the user-agent flow OAuth process.
  */
-@property (nonatomic, readonly, null_unspecified) ASWebAuthenticationSession *authSession;
+@property (nonatomic, readonly, null_unspecified) ASWebAuthenticationSession *asWebAuthenticationSession;
 
 /**
  The user agent string that will be used for authentication.  While this property will persist throughout
