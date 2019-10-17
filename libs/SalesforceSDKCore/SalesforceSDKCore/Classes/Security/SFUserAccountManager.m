@@ -357,7 +357,7 @@ static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
             [self resetAuthentication];
             result = YES;
         } else {
-            [SFSDKCoreLogger e:[self class] format:@"Authenttication has already been stopped."];
+            [SFSDKCoreLogger e:[self class] format:@"Authentication has already been stopped."];
         }
         completionBlock(result);
     });
@@ -365,7 +365,7 @@ static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
 
 - (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     if (_authSession && _authSession.isAuthenticating) {
-        [SFSDKCoreLogger e:[self class] format:@"Login has already been called. Stop current authentication using  SFUSerAccountmanger:stopAuthetication and then retry"];
+        [SFSDKCoreLogger e:[self class] format:@"Login has already been called. Stop current authentication using SFUserAccountmanger::stopAuthentication and then retry."];
         return NO;
     }
     SFSDKAuthRequest *request = [self defaultAuthRequest];
