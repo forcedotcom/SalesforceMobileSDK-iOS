@@ -565,7 +565,7 @@ class RootViewController: UIViewController {
     
     func handleError(request: RestRequest, error: RestClientError) {
         switch error {
-            case .ApiInvocationFailed(let underlyinError, _):
+            case .apiInvocationFailed(let underlyinError, _):
                 SalesforceLogger.e(RootViewController.self, message: "Error invoking api \(underlyinError.localizedDescription)")
             default:
                 DispatchQueue.main.async {
