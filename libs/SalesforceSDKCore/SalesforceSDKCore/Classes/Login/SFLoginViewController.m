@@ -338,7 +338,7 @@
 
 - (void)showHostListView {
     SFSDKNavigationController *navController = [[SFSDKNavigationController alloc] initWithRootViewController:self.loginHostListViewController];
-    navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    navController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:navController animated:YES completion:nil];
 }
 
