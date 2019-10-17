@@ -43,6 +43,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccount.syncque
 /** Key that identifies the global scope
  */
 static NSString * const kGlobalScopingKey = @"-global-";
+static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAccount.photos.encryptionKey";
 
 @interface SFUserAccount ()
 {
@@ -141,7 +142,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return [userPhotoPath stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:_credentials.userId]];
 }
 
-- (UIImage*)photo {
+- (UIImage *)photo {
     if (nil == _photo) {
         __weak __typeof(self) weakSelf = self;
         dispatch_sync(_syncQueue, ^{
@@ -149,15 +150,24 @@ static NSString * const kGlobalScopingKey = @"-global-";
             NSString *photoPath = [strongSelf photoPathInternal:nil];
             NSFileManager *manager = [[NSFileManager alloc] init];
             if ([manager fileExistsAtPath:photoPath]) {
-                strongSelf->_photo = [[UIImage alloc] initWithContentsOfFile:photoPath];
+                UIImage *decryptedPhoto = [self decryptPhoto:photoPath];
+                if (decryptedPhoto) {
+                    strongSelf->_photo = decryptedPhoto;
+                } else {
+                    // TODO: Remove in 9.0
+                    // Check for upgrade scenario
+                    NSData *photoData = [[NSData alloc] initWithContentsOfFile:photoPath];
+                    UIImage *photo = [[UIImage alloc] initWithData:photoData];
+                    if (photo) {
+                        // In this case the photo on disk is pre 8.0 and hasn't been encrypted, use it and encrypt it
+                        strongSelf->_photo = photo;
+                        [self storeEncryptedPhoto:photoData path:photoPath error:nil];
+                    }
+                }
             }
         });
     }
     return _photo;
-}
-
-- (void)setPhoto:(UIImage *)photo {
-    [self setPhoto:photo completion:nil];
 }
 
 - (void)setPhoto:(UIImage*)photo completion:(void (^ __nullable)(NSError* _Nullable))completion {
@@ -181,8 +191,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         
         if (photo) {
             NSData *data = UIImagePNGRepresentation(photo);
-            if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
-                [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", error];
+            if (![self storeEncryptedPhoto:data path:photoPath error:&error]) {
                 if (completion) {
                     completion(error);
                 }
@@ -375,6 +384,44 @@ NSString *SFKeyForUserIdAndScope(NSString *userId,NSString *orgId,NSString *comm
     }
     
     return key;
+}
+
+- (BOOL)storeEncryptedPhoto:(NSData *)photoData path:(NSString *)photoPath error:(NSError **)error {
+    NSData *encryptedData = [self encryptPhoto:photoData];
+    if (!encryptedData) {
+        NSString *errorMessage = @"User photo data could not be encrypted.";
+        [SFSDKCoreLogger e:[self class] format:errorMessage];
+
+        if (error) {
+            *error = [NSError errorWithDomain:kSFSDKUserAccountManagerErrorDomain
+                                        code:SFSDKUserAccountManagerCannotEncrypt
+                                    userInfo:@{ NSLocalizedDescriptionKey : errorMessage }];
+        }
+        return NO;
+    }
+    
+    if (![encryptedData writeToFile:photoPath options:NSDataWritingAtomic error:error]) {
+        if (error) {
+            [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", *error];
+        } else {
+            [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk"];
+        }
+        return NO;
+    }
+
+    return YES;
+}
+
+- (UIImage *)decryptPhoto:(NSString *)photoPath {
+    NSData *data = [[NSData alloc] initWithContentsOfFile:photoPath];
+    SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:NO];
+    NSData *decryptedData = [encryptionKey decryptData:data];
+    return [[UIImage alloc] initWithData:decryptedData];
+}
+
+- (NSData *)encryptPhoto:(NSData *)data {
+    SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:YES];
+    return [encryptionKey encryptData:data];
 }
 
 //#pragma mark - Credentials property changes

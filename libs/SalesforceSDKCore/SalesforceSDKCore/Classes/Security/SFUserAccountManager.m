@@ -86,8 +86,8 @@ static NSString *const kErroredClientKey = @"SFErroredOAuthClientKey";
 static NSString * const kSFSPAppFeatureIDPLogin   = @"SP";
 static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
 static NSString *const  kOptionsClientKey          = @"clientIdentifier";
-static NSString * const kSFSDKUserAccountManagerErrorDomain = @"com.salesforce.mobilesdk.SFUserAccountManager";
-static int const kSFSDKUserAccountManagerErrorCode = 100;
+
+NSString * const kSFSDKUserAccountManagerErrorDomain = @"com.salesforce.mobilesdk.SFUserAccountManager";
 
 @interface SFNotificationUserInfo()
 - (instancetype) initWithUser:(SFUserAccount *)user;
@@ -1483,7 +1483,8 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
                 [SFSDKCoreLogger w:[self class] format:@"Error while trying to retrieve user photo: %ld %@", (long) error.code, error.localizedDescription];
                 return;
             } else {
-                account.photo = [UIImage imageWithData:data];
+                UIImage *photo = [UIImage imageWithData:data];
+                [account setPhoto:photo completion:nil];
             }
         }];
     }
@@ -1523,7 +1524,7 @@ static int const kSFSDKUserAccountManagerErrorCode = 100;
 - (void)switchToNewUserWithCompletion:(void (^)(NSError *error, SFUserAccount * currentAccount))completion {
     if (!self.currentUser) {
         NSError *error = [[NSError alloc] initWithDomain:kSFSDKUserAccountManagerErrorDomain
-                                                    code:kSFSDKUserAccountManagerErrorCode
+                                                    code:SFSDKUserAccountManagerError
                                                 userInfo:@{
                                                            NSLocalizedDescriptionKey : @"Cannot switch to new user. No currentUser has been set."
                                                            }];
