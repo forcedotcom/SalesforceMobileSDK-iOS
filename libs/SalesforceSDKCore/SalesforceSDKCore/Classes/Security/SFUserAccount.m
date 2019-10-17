@@ -402,6 +402,8 @@ NSString *SFKeyForUserIdAndScope(NSString *userId,NSString *orgId,NSString *comm
     if (![encryptedData writeToFile:photoPath options:NSDataWritingAtomic error:error]) {
         if (error) {
             [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", *error];
+        } else {
+            [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk"];
         }
         return NO;
     }
@@ -411,7 +413,7 @@ NSString *SFKeyForUserIdAndScope(NSString *userId,NSString *orgId,NSString *comm
 
 - (UIImage *)decryptPhoto:(NSString *)photoPath {
     NSData *data = [[NSData alloc] initWithContentsOfFile:photoPath];
-    SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:YES];
+    SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:NO];
     NSData *decryptedData = [encryptionKey decryptData:data];
     return [[UIImage alloc] initWithData:decryptedData];
 }
