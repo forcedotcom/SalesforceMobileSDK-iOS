@@ -23,14 +23,13 @@
  */
 
 #import <SalesforceSDKCommon/SFJsonUtils.h>
-#import "SFIdentityCoordinator.h"
 #import "SFIdentityCoordinator+Internal.h"
 #import "SFOAuthCredentials.h"
 #import "SFOAuthSessionRefresher.h"
 #import "SFIdentityData.h"
 #import "SFUserAccountManager.h"
 #import "SFNetwork.h"
-#import "SFSDKAuthSession+Internal.h"
+#import "SFSDKAuthSession.h"
 
 // Public constants
 

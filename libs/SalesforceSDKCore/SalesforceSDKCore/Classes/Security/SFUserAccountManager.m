@@ -30,7 +30,9 @@
 #import "SFSDKAuthPreferences.h"
 #import "SFSDKURLHandlerManager.h"
 #import "SFSDKIDPConstants.h"
-#import "SFSDKAuthSession+Internal.h"
+#import "SFSDKAuthRequest.h"
+#import "SFOAuthCoordinator+Internal.h"
+#import "SFIdentityCoordinator+Internal.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import "SFSDKAuthRootController.h"

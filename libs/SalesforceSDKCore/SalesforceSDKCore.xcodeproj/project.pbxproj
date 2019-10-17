@@ -122,7 +122,6 @@
 		B72171532353BFD90022510F /* SFSDKAuthSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B72171512353BFD90022510F /* SFSDKAuthSession.m */; };
 		B72171562353BFF20022510F /* SFSDKAuthRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = B72171542353BFF20022510F /* SFSDKAuthRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B72171572353BFF20022510F /* SFSDKAuthRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B72171552353BFF20022510F /* SFSDKAuthRequest.m */; };
-		B721715A2353C0410022510F /* SFSDKAuthSession+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B72171582353C0410022510F /* SFSDKAuthSession+Internal.h */; };
 		B722A709233C437E0089736E /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B722A708233C437E0089736E /* RestClient.swift */; };
 		B7352CA522761D8400DA2CFF /* SFManagedPreferencesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7352CA422761D8400DA2CFF /* SFManagedPreferencesTest.m */; };
 		B736CB57234D50FE00337189 /* SFSDKAuthUI.h in Headers */ = {isa = PBXBuildFile; fileRef = B736CB55234D50FE00337189 /* SFSDKAuthUI.h */; };
@@ -795,7 +794,6 @@
 		B72171512353BFD90022510F /* SFSDKAuthSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAuthSession.m; sourceTree = "<group>"; };
 		B72171542353BFF20022510F /* SFSDKAuthRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthRequest.h; sourceTree = "<group>"; };
 		B72171552353BFF20022510F /* SFSDKAuthRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAuthRequest.m; sourceTree = "<group>"; };
-		B72171582353C0410022510F /* SFSDKAuthSession+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKAuthSession+Internal.h"; sourceTree = "<group>"; };
 		B722A708233C437E0089736E /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		B7282F3F1D8C70E700475F79 /* SalesforceSDKCoreTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceSDKCoreTestApp.entitlements; sourceTree = "<group>"; };
 		B7341DD622DFE2A500B77778 /* SFSDKOAuth2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKOAuth2.m; sourceTree = "<group>"; };
@@ -1217,7 +1215,6 @@
 				4F3139672331C5B9007B3705 /* SFSDKAuthRootController.h */,
 				4F3139642331C5A1007B3705 /* SFSDKAuthRootController.m */,
 				B72171502353BFD90022510F /* SFSDKAuthSession.h */,
-				B72171582353C0410022510F /* SFSDKAuthSession+Internal.h */,
 				B72171512353BFD90022510F /* SFSDKAuthSession.m */,
 				B72171542353BFF20022510F /* SFSDKAuthRequest.h */,
 				B72171552353BFF20022510F /* SFSDKAuthRequest.m */,
@@ -1860,7 +1857,6 @@
 				CE88BD521D17065C00AE3BF7 /* SFSDKAILTNPublisher.h in Headers */,
 				CE4CE3171C0E523B009F6029 /* SFCrypto+Internal.h in Headers */,
 				CE4CE3111C0E523B009F6029 /* NSNotificationCenter+SFAdditions.h in Headers */,
-				B721715A2353C0410022510F /* SFSDKAuthSession+Internal.h in Headers */,
 				B7E391122209E63E00D61D4D /* SFSDKViewUtils.h in Headers */,
 				B7C274421F814B5700CE539D /* SFSDKAuthCommand.h in Headers */,
 				CE675A331E0B2CC6002DBF5A /* SFSDKSoqlBuilder.h in Headers */,

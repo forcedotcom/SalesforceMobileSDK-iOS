@@ -47,7 +47,7 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
-#import "SFSDKAuthSession+Internal.h"
+#import "SFSDKAuthSession.h"
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
@@ -90,9 +90,6 @@
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
     }
-    
-    // response data is initialized in didReceiveResponse
-    
     return self;
 }
 
@@ -106,16 +103,8 @@
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
     }
-    
-    // response data is initialized in didReceiveResponse
-    
     return self;
 }
-
--(BOOL)useBrowserAuth {
-    return self.authSession.oauthRequest.useBrowserAuth;
-}
-
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
