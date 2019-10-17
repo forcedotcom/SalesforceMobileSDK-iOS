@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Thu Jul 25 08:08:04 PDT 2019.
+ Created by Raj Rao on Sat Oct  5 08:44:41 PDT 2019.
 
  Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
@@ -56,9 +56,11 @@
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCore/SFOAuthOrgAuthConfiguration.h>
+#import <SalesforceSDKCore/SFSDKCompositeResponse.h>
 #import <SalesforceSDKCore/SFOAuthCredentials.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceSDKCore/SFSDKBatchRequest.h>
 #import <SalesforceSDKCore/SFSDKAppLockViewConfig.h>
 #import <SalesforceSDKCore/SFSDKWindowManager.h>
 #import <SalesforceSDKCore/NSNotificationCenter+SFAdditions.h>
@@ -82,6 +84,7 @@
 #import <SalesforceSDKCore/SFUserActivityMonitor.h>
 #import <SalesforceSDKCore/SFSDKWindowContainer.h>
 #import <SalesforceSDKCore/SFPasscodeKeyStore.h>
+#import <SalesforceSDKCore/SFSDKCompositeRequest.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKAnalyticsPublisher.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
@@ -105,6 +108,7 @@
 #import <SalesforceSDKCore/SFOAuthKeychainCredentials.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/SFSDKBatchResponse.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
 #import <SalesforceSDKCore/SFInactivityTimerCenter.h>
 #import <SalesforceSDKCore/SFPBKDFData.h>
@@ -129,7 +133,6 @@
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFRestAPI+Files.h>
 #import <SalesforceSDKCore/SFSDKLoginViewControllerConfig.h>
-#import <SalesforceSDKCore/SFOAuthCrypto.h>
 #import <SalesforceSDKCore/SFUserAccountConstants.h>
 #import <SalesforceSDKCore/SFOAuthSessionRefresher.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>

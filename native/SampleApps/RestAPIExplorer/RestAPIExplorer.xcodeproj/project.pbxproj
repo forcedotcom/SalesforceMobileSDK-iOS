@@ -69,13 +69,6 @@
 			remoteGlobalIDString = CEAAAE55195911E600CBBFE9;
 			remoteInfo = MobileSyncTests;
 		};
-		B79F06EA20EA931200BC7D6F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEA883EE1C19160E008D871B;
-			remoteInfo = MobileSyncStatic;
-		};
 		B79F06F420EA931900BC7D6F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B79F06EC20EA931900BC7D6F /* SalesforceSDKCore.xcodeproj */;
@@ -97,13 +90,6 @@
 			remoteGlobalIDString = 4F7EB4151BFFC88200768720;
 			remoteInfo = SalesforceSDKCoreTests;
 		};
-		B79F06FA20EA931900BC7D6F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B79F06EC20EA931900BC7D6F /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEA8825F1C18F722008D871B;
-			remoteInfo = SalesforceSDKCoreStatic;
-		};
 		B79F070420EA931F00BC7D6F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B79F06FC20EA931F00BC7D6F /* SalesforceAnalytics.xcodeproj */;
@@ -117,13 +103,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = CE2B8BD91CE900F500C6FC6A;
 			remoteInfo = SalesforceAnalyticsTests;
-		};
-		B79F070820EA931F00BC7D6F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B79F06FC20EA931F00BC7D6F /* SalesforceAnalytics.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CE2B8BFF1CE91BFA00C6FC6A;
-			remoteInfo = SalesforceAnalyticsStatic;
 		};
 		B79F070A20EA931F00BC7D6F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -152,13 +131,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = CEAAAE55195911E600CBBFE9;
 			remoteInfo = SmartStoreTests;
-		};
-		B79F071A20EA932400BC7D6F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B79F070C20EA932400BC7D6F /* SmartStore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEA883BA1C1914DE008D871B;
-			remoteInfo = SmartStoreStatic;
 		};
 		B79F072520EA936D00BC7D6F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -201,13 +173,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = B7136D07216684A700F6A221;
 			remoteInfo = SalesforceSDKCommonTests;
-		};
-		B7D641CB218F429D006DF5F0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B7D641C1218F429C006DF5F0 /* SalesforceSDKCommon.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B7136D3921668A2100F6A221;
-			remoteInfo = SalesforceSDKCommonStatic;
 		};
 		B7D641D9218F42C0006DF5F0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -767,7 +732,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -822,7 +787,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -840,7 +805,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = RestAPIExplorer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -860,7 +825,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = RestAPIExplorer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

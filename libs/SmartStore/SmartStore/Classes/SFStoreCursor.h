@@ -85,6 +85,12 @@ NS_SWIFT_NAME(StoreCursor)
 - (NSString*)getDataSerialized:(SFSmartStore*)store error:(NSError**)error;
 
 /**
+* Run query and resturn NSDictionary (deserialized) representation of the cursor.
+* @return NSDictionary representation of this object.
+*/
+- (NSDictionary*)getDataDeserialized:(SFSmartStore*)store error:(NSError**)error;
+
+/**
  Close this cursor when finished operating on it.
  */
 - (void)close; 

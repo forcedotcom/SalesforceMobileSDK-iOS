@@ -34,7 +34,6 @@
 static NSString * const kNavBarTitleText                = @"Contacts";
 static NSUInteger const kNavBarTintColor                = 0xf10000;
 static CGFloat    const kNavBarTitleFontSize            = 27.0;
-static NSUInteger const kSearchHeaderBackgroundColor    = 0xafb6bb;
 static NSUInteger const kContactTitleTextColor          = 0x696969;
 static CGFloat    const kContactTitleFontSize           = 15.0;
 static CGFloat    const kContactDetailFontSize          = 13.0;
@@ -142,10 +141,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
     // Search header
     self.searchHeader = [[UIView alloc] initWithFrame:CGRectZero];
-    self.searchHeader.backgroundColor = [[self class] colorFromRgbHexValue:kSearchHeaderBackgroundColor];
-
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
-    self.searchBar.barTintColor = [[self class] colorFromRgbHexValue:kSearchHeaderBackgroundColor];
     self.searchBar.placeholder = @"Search";
     self.searchBar.delegate = self;
     [self.searchHeader addSubview:self.searchBar];

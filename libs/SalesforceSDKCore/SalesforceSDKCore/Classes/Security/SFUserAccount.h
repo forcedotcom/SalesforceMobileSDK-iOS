@@ -77,10 +77,9 @@ NS_SWIFT_NAME(UserAccount)
 @property (nonatomic, strong, nullable) SFIdentityData *idData;
 
 /** The user's photo. Usually store a thumbnail of the user.
- Note: setting the photo is asynchronous. Use the method
- below to get a callback when the photo is set.
+To set this property use `setPhoto:completion:`
  */
-@property (nonatomic, strong, nullable) UIImage *photo;
+@property (nonatomic, strong, nullable, readonly) UIImage *photo;
 
 /** The access restriction associated with this user
  */

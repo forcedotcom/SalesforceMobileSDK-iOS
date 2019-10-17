@@ -11,16 +11,10 @@
          location = "group:Common-iOS.xcconfig">
       </FileRef>
       <FileRef
-         location = "group:Common-Test.xcconfig">
-      </FileRef>
-      <FileRef
          location = "group:Configuration-Debug.xcconfig">
       </FileRef>
       <FileRef
          location = "group:Configuration-Release.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:Packaging-Static.xcconfig">
       </FileRef>
       <FileRef
          location = "group:Packaging-Dynamic.xcconfig">
