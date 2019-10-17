@@ -37,5 +37,4 @@
 #else
 @interface SFSDKAuthRootController : SFSDKRootController
 #endif
-
 @end

@@ -28,7 +28,7 @@
 #import "SFSDKLoginFlowSelectionView.h"
 #import "SFSDKAlertView.h"
 #import "SFSDKAuthErrorManager.h"
-#import "SFSDKAuthSession+Internal.h"
+#import "SFSDKAuthSession.h"
 #import "SFDefaultUserManagementListViewController.h"
 #import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 

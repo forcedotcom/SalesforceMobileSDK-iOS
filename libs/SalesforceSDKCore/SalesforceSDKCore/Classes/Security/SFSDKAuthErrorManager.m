@@ -30,12 +30,11 @@
 #import "SFSDKAuthErrorManager.h"
 #import "SFAuthErrorHandlerList.h"
 #import "SFAuthErrorHandler.h"
-#import "SFOAuthCoordinator.h"
-#include "SFOAuthInfo.h"
+#import "SFOAuthCoordinator+Internal.h"
 #include "SFSDKResourceUtils.h"
 #include "SFUserAccountManager.h"
 #include "SFSDKOAuth2.h"
-#include "SFSDKAuthSession+Internal.h"
+#include "SFSDKAuthSession.h"
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
@@ -99,10 +98,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     // Network failure handler
     self.networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc] initWithName:kSFNetworkFailureAuthErrorHandler
-                                            authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession  *authSession, NSDictionary *options) {
+                                            authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession *authSession, NSDictionary *options) {
                                                BOOL result = NO;
                                                if ([[weakSelf class] errorIsNetworkFailure:error]) {
-                                                   SFOAuthInfo *authInfo = authSession.oauthCoordinator.authInfo;
+                                                   SFOAuthCoordinator *coord = authSession.oauthCoordinator;
+                                                   SFOAuthInfo *authInfo = coord.authInfo;
                                                    if (authInfo.authType != SFOAuthTypeRefresh) {
                                                        [SFSDKCoreLogger e:[weakSelf class] format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", authInfo.authTypeDescription];
                                                    } else if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken == nil) {

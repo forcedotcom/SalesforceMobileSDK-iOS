@@ -27,10 +27,24 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 NS_ASSUME_NONNULL_BEGIN
 @class SFOAuthCredentials;
 @class SFSDKAuthRequest;
+@class SFIdentityCoordinator;
+@class SFOAuthCoordinator;
+@class SFOAuthInfo;
+@class SFUserAccount;
 
 @interface SFSDKAuthSession : NSObject
 @property (nonatomic, assign) BOOL isAuthenticating;
 @property (nonatomic, strong) SFOAuthCredentials *credentials;
+@property (nonatomic, strong) SFOAuthCoordinator *oauthCoordinator;
+@property (nonatomic, strong) SFSDKAuthRequest *oauthRequest;
+@property (nonatomic, copy, nullable) void (^authSuccessCallback)(SFOAuthInfo *, SFUserAccount *);
+@property (nonatomic, copy, nullable) void (^authFailureCallback)(SFOAuthInfo *, NSError *);
+@property (nonatomic, strong) SFIdentityCoordinator *identityCoordinator;
+@property (nonatomic, assign) BOOL notifiesDelegatesOfFailure;
+@property (nonatomic, strong, nullable)NSError *authError;
+@property (nonatomic, strong) SFOAuthInfo *authInfo;
+@property (nonatomic, copy, nullable) void (^authCoordinatorBrowserBlock)(BOOL);
+
 -(instancetype)initWith:(SFSDKAuthRequest *)request;
 @end
 

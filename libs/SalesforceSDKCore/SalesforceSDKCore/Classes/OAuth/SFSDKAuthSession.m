@@ -22,21 +22,14 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "SFSDKAuthSession+Internal.h"
+#import "SFSDKAuthSession.h"
+#import "SFSDKAuthRequest.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFUserAccountManager+Internal.h"
+#import "SFOAuthCoordinator+Internal.h"
+#import "SFIdentityCoordinator.h"
+
 @interface SFSDKAuthSession()
-
-@property (nonatomic, strong) SFOAuthCoordinator *oauthCoordinator;
-@property (nonatomic, strong) SFSDKAuthRequest *oauthRequest;
-@property (nonatomic, copy, nullable) void (^authSuccessCallback)(SFOAuthInfo *, SFUserAccount *);
-@property (nonatomic, copy, nullable) void (^authFailureCallback)(SFOAuthInfo *, NSError *);
-@property (nonatomic, strong) SFIdentityCoordinator *identityCoordinator;
-@property (nonatomic, assign) BOOL notifiesDelegatesOfFailure;
-@property (nonatomic, strong, nullable)NSError *authError;
-@property (nonatomic, strong) SFOAuthInfo *authInfo;
-@property (nonatomic, copy,nullable) SFOAuthBrowserFlowCallbackBlock authCoordinatorBrowserBlock;
-
 @end
 
 @implementation SFSDKAuthSession

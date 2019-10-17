@@ -23,7 +23,7 @@
  */
 
 #import "SFOAuthCoordinator.h"
-#import "SFSDKAuthSession+Internal.h"
+#import "SFSDKAuthSession.h"
 @class SFOAuthInfo;
 
 typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
