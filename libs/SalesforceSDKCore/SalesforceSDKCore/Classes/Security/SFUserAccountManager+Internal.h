@@ -32,6 +32,13 @@
 
 @class SFSDKAuthPreferences;
 
+extern NSString * _Nonnull const kSFSDKUserAccountManagerErrorDomain;
+
+typedef NS_ENUM(NSUInteger, SFSDKUserAccountManagerErrorCode) {
+    SFSDKUserAccountManagerError = 100,
+    SFSDKUserAccountManagerCannotEncrypt = 10005,
+};
+
 @interface SFUserAccountManager () <SFSDKOAuthClientSafariViewDelegate,SFSDKOAuthClientWebViewDelegate,SFSDKIDPAuthClientDelegate,
     SFSDKOAuthClientDelegate,SFSDKUserSelectionViewDelegate,SFSDKLoginFlowSelectionViewDelegate>
 
