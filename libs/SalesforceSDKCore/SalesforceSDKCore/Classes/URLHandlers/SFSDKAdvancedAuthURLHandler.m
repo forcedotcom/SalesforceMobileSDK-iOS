@@ -48,7 +48,7 @@
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-    return [[SFUserAccountManager sharedInstance] handleNativeAuthResponse:url options:options];
+    return [[SFUserAccountManager sharedInstance] handleAdvancedAuthURL:url];
 }
 
 

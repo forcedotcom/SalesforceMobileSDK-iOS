@@ -28,13 +28,14 @@
 #import "SFSDKLoginFlowSelectionView.h"
 #import "SFSDKAlertView.h"
 #import "SFSDKAuthErrorManager.h"
+#import "SFSDKAuthSession+Internal.h"
+#import "SFDefaultUserManagementListViewController.h"
 #import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 
 @class SFSDKAuthPreferences;
 
-@interface SFUserAccountManager () <SFSDKOAuthClientSafariViewDelegate,SFSDKOAuthClientWebViewDelegate,SFSDKIDPAuthClientDelegate,
-    SFSDKOAuthClientDelegate,SFSDKUserSelectionViewDelegate,SFSDKLoginFlowSelectionViewDelegate>
-
+NS_ASSUME_NONNULL_BEGIN
+@interface SFUserAccountManager ()<SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, SFSDKLoginHostDelegate, SFSDKUserSelectionViewDelegate, SFSDKLoginFlowSelectionViewDelegate, SFLoginViewControllerDelegate>
 {
     NSRecursiveLock *_accountsLock;
 }
@@ -64,6 +65,11 @@
  *
  */
 @property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager;
+
+/** SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.
+ *
+ */
+@property (nonatomic, strong, nullable) SFSDKAuthSession *authSession;
 
 /**
  Indicates if the app is configured to require browser based authentication.
@@ -145,4 +151,10 @@
  * @return SFSDKOAuthClient instance
  */
 - (SFSDKOAuthClient *_Nonnull)fetchOAuthClient:(SFOAuthCredentials *_Nonnull)credentials completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)failureBlock;
+
+
+- (BOOL)handleAdvancedAuthURL:(NSURL *)advancedAuthURL;
+
 @end
+
+NS_ASSUME_NONNULL_END
