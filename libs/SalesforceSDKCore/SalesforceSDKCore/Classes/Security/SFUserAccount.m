@@ -154,6 +154,7 @@ static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.u
                 if (decryptedPhoto) {
                     strongSelf->_photo = decryptedPhoto;
                 } else {
+                    // TODO: Remove in 9.0
                     // Check for upgrade scenario
                     NSData *photoData = [[NSData alloc] initWithContentsOfFile:photoPath];
                     UIImage *photo = [[UIImage alloc] initWithData:photoData];
