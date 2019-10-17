@@ -99,12 +99,6 @@ static NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErro
 static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErrorHandler";
 static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
 
-static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
-static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
-static NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErrorHandler";
-static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErrorHandler";
-static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
-
 @interface SFNotificationUserInfo()
 - (instancetype) initWithUser:(SFUserAccount *)user;
 @end
