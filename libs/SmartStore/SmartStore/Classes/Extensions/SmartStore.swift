@@ -35,9 +35,9 @@ struct Constants {
 }
 
 /**
-  Error used by Combine friendly query:smartSql method in SmartStore extension below
+  Enum for errors
  */
-public enum QueryError: Error {
+public enum SmartStoreError: Error {
     case error(_ error: Error?)
     case unknown
 }
@@ -47,11 +47,27 @@ SmartStore extension
 */
 extension SmartStore {
     /**
+      Register a soup and returns a Result<>
+      @param soupName: name of the soups
+      @param indexPaths: array of paths to index
+      @return a Result<Bool, SmartStoreError>
+    */
+    func registerSoup(_ soupName: String, indexPaths: [String]) throws -> Result<Bool, SmartStoreError> {
+        let soupIndexes:[SoupIndex] = indexPaths.map({ SoupIndex(path:$0, indexType:kSoupIndexTypeJSON1, columnName:nil)! })
+        do {
+            try self.registerSoup(withName: soupName, withIndices: soupIndexes)
+            return .success(true)
+        } catch let error {
+            return .failure(.error(error))
+        }
+    }
+    
+    /**
       Runs a query and return a Result<>
       @param smartSql:String the query smart sql
-      @return a Result<[Any], QueryError>
+      @return a Result<[Any], SmartStoreError>
     */
-    func query(_ smartSql: String) -> Result<[Any], QueryError> {
+    func query(_ smartSql: String) -> Result<[Any], SmartStoreError> {
         let querySpec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: Constants.PAGE_SIZE)!
         
         do {
@@ -72,10 +88,10 @@ extension SmartStore {
     /**
         Runs a query and return a Future<> publisher to consume the result
         @param smartSql:String the query smart sql
-        @return a Future<[Any], QueryError> publisher
+        @return a Future<[Any], SmartStoreError> publisher
      */
-    func publisher(_ smartSql: String) -> Future<[Any], QueryError> {
-        Future<[Any], QueryError> { promise in
+    func publisher(_ smartSql: String) -> Future<[Any], SmartStoreError> {
+        Future<[Any], SmartStoreError> { promise in
             let result = self.query(smartSql)
             switch result {
                 case .success(let results):
