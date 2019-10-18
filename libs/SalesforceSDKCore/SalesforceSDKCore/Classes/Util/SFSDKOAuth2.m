@@ -117,6 +117,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     return self.values[kSFOAuthAccessToken];
 }
 
+- (NSString *)idToken {
+    return self.values[kSFOAuthIdToken];
+}
+
 - (NSString *)refreshToken {
     return self.values[kSFOAuthRefreshToken];
 }
