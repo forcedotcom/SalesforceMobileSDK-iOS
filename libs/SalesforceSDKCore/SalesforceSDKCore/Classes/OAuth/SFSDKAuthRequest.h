@@ -29,65 +29,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSDKAuthRequest : NSObject
 
-/**
- Indicates if the app is configured to require browser based authentication.
- */
-@property (nonatomic, assign) BOOL useBrowserAuth NS_SWIFT_NAME(usesAdvancedAuthentication);
-/**
- An array of additional keys (NSString) to parse during OAuth
- */
+@property (nonatomic, assign) BOOL useBrowserAuth;
 @property (nonatomic, strong) NSArray<NSString *> *additionalOAuthParameterKeys;
-
-/**
- A dictionary of additional parameters (key value pairs) to send during token refresh
- */
-@property (nonatomic, strong) NSDictionary<NSString *,id> * additionalTokenRefreshParams  NS_SWIFT_NAME(additionalTokenRefreshParameters);
-
-/** The host that will be used for login.
- */
+@property (nonatomic, strong) NSDictionary<NSString *,id> * additionalTokenRefreshParams;
 @property (nonatomic, copy) NSString *loginHost;
-
-/** Should the login process start again if it fails (default: YES)
- */
-@property (nonatomic, assign) BOOL retryLoginAfterFailure NS_SWIFT_NAME(retriesLoginAfterFailure);
-
-/** OAuth client ID to use for login.  Apps may customize
- by setting this property before login; otherwise, this
- value is determined by the SFDCOAuthClientIdPreference
- configured via the settings bundle.
- */
-@property (nonatomic, copy) NSString *oauthClientId NS_SWIFT_NAME(oauthClientID);
-
-/** OAuth callback url to use for the OAuth login process.
- Apps may customize this by setting this property before login.
- By default this value is picked up from the main
- bundle property SFDCOAuthRedirectUri
- default: @"sfdc:///axm/detect/oauth/done")
- */
-@property (nonatomic, copy) NSString *oauthCompletionUrl NS_SWIFT_NAME(oauthCompletionURL);
-
-/**
- The Branded Login path configured for this application.
- */
+@property (nonatomic, assign) BOOL retryLoginAfterFailure;
+@property (nonatomic, copy) NSString *oauthClientId;
+@property (nonatomic, copy) NSString *oauthCompletionUrl;
 @property (nonatomic, nullable, copy) NSString *brandLoginPath;
-
-/**
- The OAuth scopes associated with the app.
- */
 @property (nonatomic, copy) NSSet<NSString*> *scopes;
-
-/** Use this property to indicate to provide LoginViewController customizations for themes,navbar and settigs icon.
- *
- */
 @property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
-
-/** Use this property to indicate to provide PasscodeViewController customizations for themes,navbar, icons and settings.
- *
- */
 @property (nonatomic,strong) SFSDKAppLockViewConfig *appLockViewControllerConfig;
-
 @property (nonatomic, copy) NSString *jwtToken;
-
 @property (nonatomic, copy, nullable) NSString *userAgentForAuth;
 
 @end
