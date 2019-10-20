@@ -1,7 +1,7 @@
 import Foundation
 
 /*
- SmartStire.swift
+ SmartStore.swift
  SalesforceSDKCore
  
  Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
