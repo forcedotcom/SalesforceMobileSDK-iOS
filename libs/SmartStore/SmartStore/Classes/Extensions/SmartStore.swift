@@ -52,7 +52,7 @@ extension SmartStore {
      @param withIndexPaths: array of paths to index
      @return a Result<Bool, SmartStoreError>
      */
-    func registerSoup(withName soupName: String, withIndexPaths indexPaths: [String]) -> Result<Bool, SmartStoreError> {
+    public func registerSoup(withName soupName: String, withIndexPaths indexPaths: [String]) -> Result<Bool, SmartStoreError> {
         let soupIndexes:[SoupIndex] = indexPaths.map({ SoupIndex(path:$0, indexType:kSoupIndexTypeJSON1, columnName:nil)! })
         do {
             try self.registerSoup(withName: soupName, withIndices: soupIndexes)
@@ -67,7 +67,7 @@ extension SmartStore {
      @param smartSql:String the query smart sql
      @return a Result<[Any], SmartStoreError>
      */
-    func query(_ smartSql: String) -> Result<[Any], SmartStoreError> {
+    public func query(_ smartSql: String) -> Result<[Any], SmartStoreError> {
         let querySpec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: Constants.PAGE_SIZE)!
         
         do {
@@ -87,10 +87,10 @@ extension SmartStore {
     
     /**
      Runs a query and return a Future<> publisher to consume the result
-     @param smartSql:String the query smart sql
+     @param for:String the query smart sql
      @return a Future<[Any], SmartStoreError> publisher
      */
-    func publisher(_ smartSql: String) -> Future<[Any], SmartStoreError> {
+    public func publisher(for smartSql: String) -> Future<[Any], SmartStoreError> {
         Future<[Any], SmartStoreError> { promise in
             let result = self.query(smartSql)
             switch result {
