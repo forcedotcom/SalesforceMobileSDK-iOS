@@ -46,6 +46,12 @@ static CGFloat      const kSFBioButtonHeight                   = 47.0f;
 static CGFloat      const kSFBioTopPadding                     = 64.5f;
 static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
 
+@interface SFSDKBiometricViewController ()
+
+@property (nonatomic, strong) CAShapeLayer *iconCircle;
+
+@end
+
 @implementation SFSDKBiometricViewController
 
 - (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config {
@@ -65,10 +71,9 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
     self.iconView.accessibilityIdentifier = @"iconView";
     
     CAShapeLayer *iconCircle = [CAShapeLayer layer];
+    self.iconCircle = iconCircle;
     [iconCircle setPath:[UIBezierPath bezierPathWithRoundedRect:self.iconView.bounds cornerRadius:kSFIconCircleDiameter].CGPath];
-    iconCircle.strokeColor = self.viewConfig.borderColor.CGColor;
-    iconCircle.borderColor = self.viewConfig.borderColor.CGColor;
-    iconCircle.fillColor = self.viewConfig.secondaryColor.CGColor;
+    [self updateIconCircleColors];
     iconCircle.borderWidth = 2.0f;
     [[self.iconView layer]  addSublayer:iconCircle];
     
@@ -85,10 +90,10 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
     [self.view addSubview:self.iconView];
     
     self.setUpBiometricView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.setUpBiometricView.backgroundColor = self.viewConfig.secondaryColor;
-    self.setUpBiometricView.layer.borderColor = self.viewConfig.borderColor.CGColor;
+    self.setUpBiometricView.backgroundColor = self.viewConfig.secondaryBackgroundColor;
     self.setUpBiometricView.layer.borderWidth = kSFViewBoarderWidth;
     self.setUpBiometricView.accessibilityIdentifier = @"biometricSetupView";
+    [self updateSetupBiometricViewColors];
     [self.view addSubview:self.setUpBiometricView];
     
     // Biometric Instructions
@@ -130,12 +135,37 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
     self.cancelBiometricButton.titleLabel.font = self.viewConfig.buttonFont;
     [self.cancelBiometricButton setTitleColor:self.viewConfig.primaryColor forState:UIControlStateNormal];
     [self.cancelBiometricButton addTarget:self action:@selector(userDenyBiometricEnablement) forControlEvents:UIControlEventTouchUpInside];
-    self.cancelBiometricButton.layer.borderColor = self.viewConfig.borderColor.CGColor;
     self.cancelBiometricButton.layer.borderWidth = 1.0f;
     self.cancelBiometricButton.layer.cornerRadius = kSFButtonCornerRadius;
     self.cancelBiometricButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"biometricCancelButtonText"];
     self.cancelBiometricButton.accessibilityIdentifier = @"cancelBiometricButton";
+    [self updateCancelBiometricButtonColors];
     [self.setUpBiometricView addSubview:self.cancelBiometricButton];
+}
+
+- (void)updateIconCircleColors {
+    self.iconCircle.strokeColor = self.viewConfig.borderColor.CGColor;
+    self.iconCircle.borderColor = self.viewConfig.borderColor.CGColor;
+    self.iconCircle.fillColor = self.viewConfig.secondaryBackgroundColor.CGColor;
+}
+
+- (void)updateCancelBiometricButtonColors {
+    self.cancelBiometricButton.layer.borderColor = self.viewConfig.borderColor.CGColor;
+}
+
+- (void)updateSetupBiometricViewColors {
+    self.setUpBiometricView.layer.borderColor = self.viewConfig.borderColor.CGColor;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if (@available(iOS 13.0, *)) {
+        if ([self.view.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            [self updateIconCircleColors];
+            [self updateCancelBiometricButtonColors];
+            [self updateSetupBiometricViewColors];
+        }
+    }
 }
 
 - (void)viewWillLayoutSubviews

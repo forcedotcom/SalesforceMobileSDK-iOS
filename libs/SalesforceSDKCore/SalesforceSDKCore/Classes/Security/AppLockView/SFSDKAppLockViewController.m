@@ -35,6 +35,7 @@
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "SFSDKWindowManager.h"
 #import "SFSecurityLockout.h"
+#import "SFSDKViewUtils.h"
 
 @interface SFSDKAppLockViewController () <SFSDKPasscodeCreateDelegate,SFSDKBiometricViewDelegate,SFSDKPasscodeVerifyDelegate>
 
@@ -79,12 +80,8 @@
 - (void)setupNavBar
 {
     [self.navigationController.view setBackgroundColor:[UIColor clearColor]];
-    self.navigationController.navigationBar.backgroundColor = self.viewConfig.navBarColor;
-    self.navigationController.navigationBar.tintColor = self.viewConfig.navBarColor;
     self.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.titleTextAttributes =
-        @{NSForegroundColorAttributeName : self.viewConfig.navBarTextColor,
-                     NSFontAttributeName : self.viewConfig.navBarFont};
+    [SFSDKViewUtils styleNavigationBar:self.navigationBar config:self.viewConfig];
 }
 
 #pragma mark - SFSDKPasscodeCreateDelegate

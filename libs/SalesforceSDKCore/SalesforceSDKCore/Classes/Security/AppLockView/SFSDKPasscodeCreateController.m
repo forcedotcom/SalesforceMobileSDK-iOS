@@ -117,15 +117,6 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     [self.view addSubview:self.passcodeInstructionsLabel];
 }
 
-- (void)setupNavigationBar {
-    self.navigationController.navigationBar.backgroundColor = self.viewConfig.navBarColor;
-    self.navigationController.navigationBar.tintColor = self.viewConfig.navBarColor;
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.titleTextAttributes =
-        @{NSForegroundColorAttributeName : self.viewConfig.navBarTextColor,
-                     NSFontAttributeName : self.viewConfig.navBarFont};
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = self.viewConfig.backgroundColor;

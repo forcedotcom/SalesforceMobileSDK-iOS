@@ -157,14 +157,6 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     [self.navigationItem setLeftBarButtonItem:self.logoutButton];
 }
 
-- (void)setupNavigationBar {
-    self.navigationController.navigationBar.backgroundColor = self.viewConfig.navBarColor;
-    self.navigationController.navigationBar.tintColor = self.viewConfig.navBarColor;
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : self.viewConfig.navBarTextColor,
-                                                                    NSFontAttributeName : self.viewConfig.navBarFont};
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = self.viewConfig.backgroundColor;
