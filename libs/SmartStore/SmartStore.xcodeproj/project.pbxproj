@@ -31,6 +31,7 @@
 		4F06AFF11C49D53D00F70798 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F51C9F11D35ACE500100D66 /* SFSmartStoreFTSWithExternalStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F51C9F01D35ACE500100D66 /* SFSmartStoreFTSWithExternalStorageTests.m */; };
 		4F5BBB9D23592EBB00E6D619 /* SmartStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5BBB9C23592EBB00E6D619 /* SmartStore.swift */; };
+		4F5BBBB4235E1FD900E6D619 /* SmartStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5BBBB3235E1FD900E6D619 /* SmartStoreTests.swift */; };
 		4F75745222B9A96900528BE2 /* SFSmartSqlCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F75745122B9A96900528BE2 /* SFSmartSqlCache.h */; };
 		4F75745F22B9A99900528BE2 /* SFSmartSqlCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F75745E22B9A99900528BE2 /* SFSmartSqlCache.m */; };
 		4F75747222B9BA9000528BE2 /* SFSmartSqlCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F75747122B9BA9000528BE2 /* SFSmartSqlCacheTests.m */; };
@@ -247,6 +248,7 @@
 		4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SmartStore-Prefix.pch"; path = "SmartStore/SmartStore-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		4F51C9F01D35ACE500100D66 /* SFSmartStoreFTSWithExternalStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreFTSWithExternalStorageTests.m; sourceTree = "<group>"; };
 		4F5BBB9C23592EBB00E6D619 /* SmartStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartStore.swift; sourceTree = "<group>"; };
+		4F5BBBB3235E1FD900E6D619 /* SmartStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartStoreTests.swift; sourceTree = "<group>"; };
 		4F75745122B9A96900528BE2 /* SFSmartSqlCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSmartSqlCache.h; sourceTree = "<group>"; };
 		4F75745E22B9A99900528BE2 /* SFSmartSqlCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSmartSqlCache.m; sourceTree = "<group>"; };
 		4F75747122B9BA9000528BE2 /* SFSmartSqlCacheTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSmartSqlCacheTests.m; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				B7352CAC2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m */,
 				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
 				4F75747122B9BA9000528BE2 /* SFSmartSqlCacheTests.m */,
+				4F5BBBB3235E1FD900E6D619 /* SmartStoreTests.swift */,
 			);
 			path = SmartStoreTests;
 			sourceTree = "<group>";
@@ -762,6 +765,7 @@
 						LastSwiftMigration = 1100;
 					};
 					CEAAAE54195911E600CBBFE9 = {
+						LastSwiftMigration = 1110;
 						TestTargetID = 4F06AF081C499EB600F70798;
 					};
 				};
@@ -983,6 +987,7 @@
 				4FEE44851BFD5CCC00F09C43 /* SFSmartSqlWithExternalStorageTests.m in Sources */,
 				B7DD6CE61DC178D0004C04F4 /* SFMultipleSmartStoresTests.m in Sources */,
 				4FF4DC671CF51D9300385C2C /* SFQuerySpecTests.m in Sources */,
+				4F5BBBB4235E1FD900E6D619 /* SmartStoreTests.swift in Sources */,
 				4FEE44861BFD5CD200F09C43 /* SFSmartStoreAlterTests.m in Sources */,
 				4F99B53C1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m in Sources */,
 				4F51C9F11D35ACE500100D66 /* SFSmartStoreFTSWithExternalStorageTests.m in Sources */,
@@ -1168,7 +1173,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-                SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1281,6 +1286,7 @@
 			baseConfigurationReference = 4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1301,6 +1307,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartStoreTestApp.app/SmartStoreTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1311,6 +1319,7 @@
 			baseConfigurationReference = 4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				INFOPLIST_FILE = "SmartStoreTests/SmartStoreTests-Info.plist";
@@ -1327,6 +1336,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartStoreTestApp.app/SmartStoreTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};

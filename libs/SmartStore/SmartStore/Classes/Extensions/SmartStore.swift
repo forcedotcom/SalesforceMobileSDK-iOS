@@ -35,7 +35,7 @@ struct Constants {
 }
 
 /**
-  Enum for errors
+ Enum for errors
  */
 public enum SmartStoreError: Error {
     case error(_ error: Error?)
@@ -43,16 +43,16 @@ public enum SmartStoreError: Error {
 }
 
 /**
-SmartStore extension
-*/
+ SmartStore extension
+ */
 extension SmartStore {
     /**
-      Register a soup and returns a Result<>
-      @param soupName: name of the soups
-      @param indexPaths: array of paths to index
-      @return a Result<Bool, SmartStoreError>
-    */
-    func registerSoup(_ soupName: String, indexPaths: [String]) throws -> Result<Bool, SmartStoreError> {
+     Register a soup and returns a Result<>
+     @param withName: name of the soups
+     @param withIndexPaths: array of paths to index
+     @return a Result<Bool, SmartStoreError>
+     */
+    func registerSoup(withName soupName: String, withIndexPaths indexPaths: [String]) -> Result<Bool, SmartStoreError> {
         let soupIndexes:[SoupIndex] = indexPaths.map({ SoupIndex(path:$0, indexType:kSoupIndexTypeJSON1, columnName:nil)! })
         do {
             try self.registerSoup(withName: soupName, withIndices: soupIndexes)
@@ -63,10 +63,10 @@ extension SmartStore {
     }
     
     /**
-      Runs a query and return a Result<>
-      @param smartSql:String the query smart sql
-      @return a Result<[Any], SmartStoreError>
-    */
+     Runs a query and return a Result<>
+     @param smartSql:String the query smart sql
+     @return a Result<[Any], SmartStoreError>
+     */
     func query(_ smartSql: String) -> Result<[Any], SmartStoreError> {
         let querySpec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: Constants.PAGE_SIZE)!
         
@@ -80,24 +80,24 @@ extension SmartStore {
 }
 
 /**
-SmartStore extension for iOS 13 and above
-*/
+ SmartStore extension for iOS 13 and above
+ */
 @available(iOS 13.0, watchOS 6.0, *)
 extension SmartStore {
     
     /**
-        Runs a query and return a Future<> publisher to consume the result
-        @param smartSql:String the query smart sql
-        @return a Future<[Any], SmartStoreError> publisher
+     Runs a query and return a Future<> publisher to consume the result
+     @param smartSql:String the query smart sql
+     @return a Future<[Any], SmartStoreError> publisher
      */
     func publisher(_ smartSql: String) -> Future<[Any], SmartStoreError> {
         Future<[Any], SmartStoreError> { promise in
             let result = self.query(smartSql)
             switch result {
-                case .success(let results):
-                    promise(.success(results))
-                case .failure(let error):
-                    promise(.failure(error))
+            case .success(let results):
+                promise(.success(results))
+            case .failure(let error):
+                promise(.failure(error))
             }
         }
     }
