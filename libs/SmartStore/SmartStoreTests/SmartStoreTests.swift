@@ -31,14 +31,20 @@ import Foundation
 
 class SmartStoreTests: XCTestCase {
     
-    var store:SmartStore = SmartStore.sharedGlobal(withName: SmartStore.defaultStoreName)
+    let testStoreName = "SmartStoreTestsGlobalStore"
+    
+    var store:SmartStore?
 
+    override func setUp() {
+        store = SmartStore.sharedGlobal(withName: testStoreName)
+    }
+    
     override func tearDown() {
-        store.removeAllSoups()
+        SmartStore.removeSharedGlobal(withName: testStoreName)
     }
 
     func testRegisterSoup() {
-        let result = store.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key", "owner"])
+        let result = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key", "owner"])
         switch(result) {
         case .success(let val): XCTAssertTrue(val)
         case .failure(_): XCTFail("registerSoup should not have failed")
@@ -46,7 +52,7 @@ class SmartStoreTests: XCTestCase {
     }
 
     func testBadRegisterSoup() {
-        let result = store.registerSoup(withName: "", withIndexPaths: ["key", "owner"])
+        let result = store!.registerSoup(withName: "", withIndexPaths: ["key", "owner"])
         switch(result) {
         case .success(_): XCTFail("registerSoup should have failed")
         case .failure(let error): XCTAssertNotNil(error)
@@ -54,11 +60,11 @@ class SmartStoreTests: XCTestCase {
     }
 
     func testQuery() {
-        _ = store.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key", "owner"])
-        store.upsert(entries: [["key":"key1", "owner":"owner1"],
+        _ = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key", "owner"])
+        store!.upsert(entries: [["key":"key1", "owner":"owner1"],
                                ["key":"key2", "owner":"owner2"],
                                ["key":"key3", "owner":"owner1"]], forSoupNamed: "MyTestSoup")
-        let result = store.query("select {MyTestSoup:key} from {MyTestSoup} where {MyTestSoup:owner} = 'owner1' order by {MyTestSoup:key}")
+        let result = store!.query("select {MyTestSoup:key} from {MyTestSoup} where {MyTestSoup:owner} = 'owner1' order by {MyTestSoup:key}")
         switch (result) {
         case .success(let val):
             let arr = val as! [[String]]
@@ -68,8 +74,8 @@ class SmartStoreTests: XCTestCase {
     }
 
     func testBadQuery() {
-        _ = store.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key", "owner"])
-        let result = store.query("select {MyTestSoup:date} from {MyTestSoup}")
+        _ = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key", "owner"])
+        let result = store!.query("select {MyTestSoup:date} from {MyTestSoup}")
         switch (result) {
         case .success(_): XCTFail("query should have failed")
         case .failure(let error): XCTAssertNotNil(error)
