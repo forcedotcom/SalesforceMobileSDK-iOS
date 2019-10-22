@@ -97,7 +97,6 @@ static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredent
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
 static NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErrorHandler";
 static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErrorHandler";
-static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
 
 @interface SFNotificationUserInfo()
 - (instancetype) initWithUser:(SFUserAccount *)user;
@@ -434,25 +433,6 @@ static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
     }];
 }
 
-- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials {
-       if (credentials.refreshToken != nil) {
-           NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@",
-                           credentials.protocol, credentials.domain,
-                           kSFRevokePath, credentials.refreshToken];
-           NSURL *url = [NSURL URLWithString:host];
-           NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-           [request setHTTPMethod:@"GET"];
-           [request setHTTPShouldHandleCookies:NO];
-
-           __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
-           SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
-           [network sendRequest:request dataResponseBlock:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-               [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
-           }];
-       }
-       [credentials revoke];
-   }
-
 - (void)restartAuthentication {
     [self.authSession.oauthCoordinator stopAuthentication];
     [self dismissAuthViewControllerIfPresent];
@@ -482,7 +462,8 @@ static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
                                                        userInfo:userInfo];
 
     [self deleteAccountForUser:user error:nil];
-    [self revokeRefreshToken:user.credentials];
+    id<SFSDKOAuthProtocol> authClient = self.authClient();
+    [authClient revokeRefreshToken:user.credentials];
     [SFSecurityLockout clearPasscodeState:user];
     BOOL isCurrentUser = [user isEqual:self.currentUser];
     if (isCurrentUser) {
@@ -661,7 +642,6 @@ static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
     SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
     viewHolder.isAdvancedAuthFlow = YES;
     viewHolder.session = session;
-    //self.authContext.viewHolder = viewHolder;
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: coordinator.credentials,
                                 kSFNotificationUserInfoAuthTypeKey: coordinator.authInfo };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillShowAuthView object:self  userInfo:userInfo];
@@ -699,7 +679,8 @@ static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
    if (error.code == kSFIdentityErrorMissingParameters) {
         // No retry, as missing parameters are fatal
         [SFSDKCoreLogger e:[self class] format:@"Missing parameters attempting to retrieve identity data.  Error domain: %@, code: %ld, description: %@", [error domain], [error code], [error localizedDescription]];
-       [self revokeRefreshToken:coordinator.credentials];
+        id<SFSDKOAuthProtocol> authClient = self.authClient();
+        [authClient revokeRefreshToken:coordinator.credentials];
        [self handleFailure:error session:self.authSession];
     } else {
         [SFSDKCoreLogger e:[self class] format:@"Error retrieving idData:%@", error];
