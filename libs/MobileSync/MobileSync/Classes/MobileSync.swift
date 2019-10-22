@@ -38,11 +38,11 @@ public enum MobileSyncError: Error {
 
 extension SyncManager {
     
-    /// Runs or reruns a sync.
+    /// Runs or reruns a sync. Does not send progress updates like reSync(named, updateBlock).
     /// - Parameter named: name of sync to run
-    /// - Parameter completionBlock: block invoked with Result<Bool, MobileSyncError>)
+    /// - Parameter completionBlock: block invoked when sync completes or fails with Result<Bool, MobileSyncError>)
     /// Note: boolean indicates completion/failure, error is only returned if the sync could not be started (e.g. invalid name)
-    public func runSync(named syncName: String, _ completionBlock: @escaping (Result<Bool, MobileSyncError>) -> Void) {
+    public func reSyncWithoutUpdates(named syncName: String, _ completionBlock: @escaping (Result<Bool, MobileSyncError>) -> Void) {
         do {
             try self.reSync(named: syncName) { (state) in
                 if state.isDone() {
@@ -65,7 +65,7 @@ extension SyncManager {
     /// Note: boolean indicates completion/failure, error is only returned if the sync could not be started (e.g. invalid name)
     public func publisher(for syncName: String) -> Future<Bool, Error> {
         Future<Bool, Error> { promise in
-            self.runSync(named: syncName) { (result) in
+            self.reSyncWithoutUpdates(named: syncName) { (result) in
                 switch result {
                 case .success(let val):
                     promise(.success(val))
