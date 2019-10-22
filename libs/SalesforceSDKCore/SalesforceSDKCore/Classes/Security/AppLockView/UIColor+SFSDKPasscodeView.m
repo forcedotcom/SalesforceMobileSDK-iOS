@@ -31,66 +31,39 @@
 
 + (UIColor *)passcodeViewBackgroundColor {
     UIColor *lightStyleColor = [UIColor colorWithRed:245.0f/255.0f green:246.0f/255.0f blue:250.0f/255.0f alpha:1.0f];
-    if (@available(iOS 13.0, *)) {
-        return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                return [UIColor colorWithRed:8.0f/255.0f green:7.0f/255.0f blue:7.0f/255.0f alpha:1.0f];
-            } else {
-                return lightStyleColor;
-            }
-        }];
-    }
-    return lightStyleColor;
+    UIColor *darkStyleColor = [UIColor colorWithRed:8.0f/255.0f green:7.0f/255.0f blue:7.0f/255.0f alpha:1.0f];
+    return [UIColor colorForLightStyle:lightStyleColor darkStyle:darkStyleColor];
 }
 
 + (UIColor *)passcodeViewSecondaryBackgroundColor {
     UIColor *lightStyleColor = [UIColor whiteColor];
-    if (@available(iOS 13.0, *)) {
-        return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                return [UIColor colorWithRed:43.0f/255.0f green:40.0f/255.0f blue:38.0f/255.0f alpha:1.0f];
-            } else {
-                return lightStyleColor;
-            }
-        }];
-    }
-    return lightStyleColor;
+    UIColor *darkStyleColor = [UIColor colorWithRed:43.0f/255.0f green:40.0f/255.0f blue:38.0f/255.0f alpha:1.0f];
+    return [UIColor colorForLightStyle:lightStyleColor darkStyle:darkStyleColor];
 }
 
 + (UIColor *)passcodeViewTextColor {
     UIColor *lightStyleColor = [UIColor colorWithRed:22.0f/255.0f green:50.0f/255.0f blue:92.0f/255.0f alpha:1.0f];
-    if (@available(iOS 13.0, *)) {
-        return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                return [UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0f];
-            } else {
-                return lightStyleColor;
-            }
-        }];
-    }
-    return lightStyleColor;
+    UIColor *darkStyleColor = [UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0f];
+    return [UIColor colorForLightStyle:lightStyleColor darkStyle:darkStyleColor];
 }
 
 + (UIColor *)passcodeViewBorderColor {
     UIColor *lightStyleColor = [UIColor colorWithRed:217.0f/255.0f green:221.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
-    if (@available(iOS 13.0, *)) {
-        return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                return [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
-            } else {
-                return lightStyleColor;
-            }
-        }];
-    }
-    return lightStyleColor;
+    UIColor *darkStyleColor = [UIColor colorWithRed:62.0f/255.0f green:62.0f/255.0f blue:60.0f/255.0f alpha:1.0f];
+    return [UIColor colorForLightStyle:lightStyleColor darkStyle:darkStyleColor];
 }
 
 + (UIColor *)passcodeViewNavBarColor {
     UIColor *lightStyleColor = [UIColor whiteColor];
+    UIColor *darkStyleColor = [UIColor colorWithRed:43.0f/255.0f green:40.0f/255.0f blue:38.0f/255.0f alpha:1.0f];
+    return [UIColor colorForLightStyle:lightStyleColor darkStyle:darkStyleColor];
+}
+
++ (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor {
     if (@available(iOS 13.0, *)) {
         return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
             if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                return [UIColor colorWithRed:43.0f/255.0f green:40.0f/255.0f blue:38.0f/255.0f alpha:1.0f];
+                return darkStyleColor;
             } else {
                 return lightStyleColor;
             }
