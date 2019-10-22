@@ -124,8 +124,6 @@
 		B72171572353BFF20022510F /* SFSDKAuthRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B72171552353BFF20022510F /* SFSDKAuthRequest.m */; };
 		B722A709233C437E0089736E /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B722A708233C437E0089736E /* RestClient.swift */; };
 		B7352CA522761D8400DA2CFF /* SFManagedPreferencesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7352CA422761D8400DA2CFF /* SFManagedPreferencesTest.m */; };
-		B736CB57234D50FE00337189 /* SFSDKAuthUI.h in Headers */ = {isa = PBXBuildFile; fileRef = B736CB55234D50FE00337189 /* SFSDKAuthUI.h */; };
-		B736CB58234D50FE00337189 /* SFSDKAuthUI.m in Sources */ = {isa = PBXBuildFile; fileRef = B736CB56234D50FE00337189 /* SFSDKAuthUI.m */; };
 		B7460C0E2347DD4E00C7512E /* SFSDKBatchRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = B7460C0C2347DD4E00C7512E /* SFSDKBatchRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7460C0F2347DD4E00C7512E /* SFSDKBatchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7460C0D2347DD4E00C7512E /* SFSDKBatchRequest.m */; };
 		B7460C1B2347E1A100C7512E /* SFSDKBatchResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = B7460C192347E1A100C7512E /* SFSDKBatchResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -800,8 +798,6 @@
 		B7341DD822E1041600B77778 /* SFSDKOAuth2+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKOAuth2+Internal.h"; sourceTree = "<group>"; };
 		B7352CA422761D8400DA2CFF /* SFManagedPreferencesTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFManagedPreferencesTest.m; path = SalesforceSDKCoreTests/SFManagedPreferencesTest.m; sourceTree = SOURCE_ROOT; };
 		B7355248228E84AF001C7759 /* SFSDKLogoutBlocker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSDKLogoutBlocker.h; path = SalesforceSDKCoreTests/SFSDKLogoutBlocker.h; sourceTree = SOURCE_ROOT; };
-		B736CB55234D50FE00337189 /* SFSDKAuthUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthUI.h; sourceTree = "<group>"; };
-		B736CB56234D50FE00337189 /* SFSDKAuthUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAuthUI.m; sourceTree = "<group>"; };
 		B73BB6F322090DEB0009A7DD /* SFUserAccountIdentity+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFUserAccountIdentity+Internal.h"; sourceTree = "<group>"; };
 		B7460C0C2347DD4E00C7512E /* SFSDKBatchRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKBatchRequest.h; sourceTree = "<group>"; };
 		B7460C0D2347DD4E00C7512E /* SFSDKBatchRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKBatchRequest.m; sourceTree = "<group>"; };
