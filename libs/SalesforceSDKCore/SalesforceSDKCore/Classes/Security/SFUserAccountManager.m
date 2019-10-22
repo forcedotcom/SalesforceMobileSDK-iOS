@@ -625,8 +625,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     loginViewController.oauthView = view;
     SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
     viewHolder.loginController = loginViewController;
-    //self.authContext.viewHolder = viewHolder;
-    //self.config.authViewController  = loginViewController;
     // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
     // to be added to a superview by the end of this method.
     if (![NSThread isMainThread]) {
