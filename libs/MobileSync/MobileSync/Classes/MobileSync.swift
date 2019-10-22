@@ -42,7 +42,7 @@ extension SyncManager {
     /// - Parameter named: name of sync to run
     /// - Parameter completionBlock: block invoked with Result<Bool, MobileSyncError>)
     /// Note: boolean indicates completion/failure, error is only returned if the sync could not be started (e.g. invalid name)
-    func runSync(named syncName: String, _ completionBlock: @escaping (Result<Bool, MobileSyncError>) -> Void) {
+    public func runSync(named syncName: String, _ completionBlock: @escaping (Result<Bool, MobileSyncError>) -> Void) {
         do {
             try self.reSync(named: syncName) { (state) in
                 if state.isDone() {
@@ -63,7 +63,7 @@ extension SyncManager {
     /// - Parameter named: name of sync to run
     /// - Returns: a Future<Bool, MobileSyncError> publisher.
     /// Note: boolean indicates completion/failure, error is only returned if the sync could not be started (e.g. invalid name)
-    func publisher(for syncName: String) -> Future<Bool, Error> {
+    public func publisher(for syncName: String) -> Future<Bool, Error> {
         Future<Bool, Error> { promise in
             self.runSync(named: syncName) { (result) in
                 switch result {
