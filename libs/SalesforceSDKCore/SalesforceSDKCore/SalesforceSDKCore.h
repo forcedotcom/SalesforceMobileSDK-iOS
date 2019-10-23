@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Brianna Birman on Fri Oct 18 23:02:54 PDT 2019.
+ Created by Raj Rao on Tue Oct 15 09:33:32 PDT 2019.
 
  Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
@@ -92,7 +92,6 @@
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
-#import <SalesforceSDKCore/SFSDKAuthErrorManager.h>
 #import <SalesforceSDKCore/NSData+SFSDKUtils.h>
 #import <SalesforceSDKCore/UIScreen+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestAPI+QueryBuilder.h>
@@ -121,7 +120,6 @@
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
-#import <SalesforceSDKCore/SFAuthErrorHandler.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementListViewController.h>
 #import <SalesforceSDKCore/SFSDKWebViewStateManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>

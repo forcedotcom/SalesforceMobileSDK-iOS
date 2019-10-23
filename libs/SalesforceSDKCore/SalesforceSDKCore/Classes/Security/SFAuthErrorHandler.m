@@ -27,25 +27,11 @@
 
 @implementation SFAuthErrorHandler
 
-@synthesize name = _name;
-@synthesize evalBlock = _evalBlock;
-@synthesize evalOptionsBlock = _evalOptionsBlock;
-
-- (id)initWithName:(NSString *)name evalBlock:(SFAuthErrorHandlerEvalBlock)evalBlock
-{
+-(instancetype)initWithName:(NSString *)name authSessionBlock:(SFAuthErrorHandlerContextEvalBlock)authContextEvalBlock {
     self = [super init];
     if (self) {
         _name = [name copy];
-        _evalBlock = [evalBlock copy];
-    }
-    return self;
-}
-
-- (id)initWithName:(NSString *)name evalOptionsBlock:(SFAuthErrorHandlerOptionsEvalBlock)evalOptionsBlock {
-    self = [super init];
-    if (self) {
-        _name = [name copy];
-        _evalOptionsBlock = [evalOptionsBlock copy];
+        _authContextEvalBlock = [authContextEvalBlock copy];
     }
     return self;
 }

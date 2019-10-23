@@ -29,6 +29,7 @@
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
 #import "NSString+SFAdditions.h"
+#import "SFOAuthCredentials+Internal.h"
 #import "SFNetwork.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
@@ -328,6 +329,25 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     if (completionBlock) {
         completionBlock(endpointResponse);
     }
+}
+
+- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials {
+    if (credentials.refreshToken != nil) {
+        NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@",
+                        credentials.protocol, credentials.domain,
+                        kSFRevokePath, credentials.refreshToken];
+        NSURL *url = [NSURL URLWithString:host];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+        [request setHTTPMethod:@"GET"];
+        [request setHTTPShouldHandleCookies:NO];
+
+        __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
+        SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
+        [network sendRequest:request dataResponseBlock:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
+        }];
+    }
+    [credentials revoke];
 }
 
 #pragma mark - Utilities
