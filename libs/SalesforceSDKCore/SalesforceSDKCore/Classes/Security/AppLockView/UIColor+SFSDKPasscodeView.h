@@ -34,9 +34,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIColor *)passcodeViewBackgroundColor;
 
++ (UIColor *)passcodeViewSecondaryBackgroundColor;
+
 + (UIColor *)passcodeViewTextColor;
 
 + (UIColor *)passcodeViewBorderColor;
+
++ (UIColor *)passcodeViewNavBarColor;
 
 @end
 

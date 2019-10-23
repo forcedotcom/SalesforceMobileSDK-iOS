@@ -30,11 +30,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SFSDKLoginViewControllerConfig;
+@class SFSDKViewControllerConfig;
 
 @interface SFSDKViewUtils : NSObject
 
-+ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKLoginViewControllerConfig *) config;
++ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *) config;
 @end
 
 NS_ASSUME_NONNULL_END
