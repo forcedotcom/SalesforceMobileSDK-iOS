@@ -32,7 +32,8 @@ import Combine
 
 /// Errors that can be thrown using MobileSync
 public enum MobileSyncError: Error {
-    case error(_ error: Error?)
+    case failed(_ SyncState: SyncState)
+    case notStarted(_ error: Error?)
     case unknown
 }
 
@@ -40,19 +41,18 @@ extension SyncManager {
     
     /// Runs or reruns a sync. Does not send progress updates like reSync(named, updateBlock).
     /// - Parameter named: name of sync to run
-    /// - Parameter completionBlock: block invoked when sync completes or fails with Result<Bool, MobileSyncError>)
-    /// Note: boolean indicates completion/failure, error is only returned if the sync could not be started (e.g. invalid name)
-    public func reSyncWithoutUpdates(named syncName: String, _ completionBlock: @escaping (Result<Bool, MobileSyncError>) -> Void) {
+    /// - Parameter completionBlock: block invoked when sync completes or fails with Result<SyncState, MobileSyncError>)
+    public func reSyncWithoutUpdates(named syncName: String, _ completionBlock: @escaping (Result<SyncState, MobileSyncError>) -> Void) {
         do {
             try self.reSync(named: syncName) { (state) in
                 if state.isDone() {
-                    completionBlock(.success(true))
+                    completionBlock(.success(state))
                 } else if state.hasFailed() {
-                    completionBlock(.success(false))
+                    completionBlock(.failure(.failed(state)))
                 }
             }
         } catch let error {
-            completionBlock(.failure(.error(error)))
+            completionBlock(.failure(.notStarted(error)))
         }
     }
 }
@@ -61,14 +61,13 @@ extension SyncManager {
 extension SyncManager {
     /// Runs or reruns a sync.
     /// - Parameter named: name of sync to run
-    /// - Returns: a Future<Bool, MobileSyncError> publisher.
-    /// Note: boolean indicates completion/failure, error is only returned if the sync could not be started (e.g. invalid name)
-    public func publisher(for syncName: String) -> Future<Bool, Error> {
-        Future<Bool, Error> { promise in
+    /// - Returns: a Future<SyncState, MobileSyncError> publisher.
+    public func publisher(for syncName: String) -> Future<SyncState, MobileSyncError> {
+        Future<SyncState, MobileSyncError> { promise in
             self.reSyncWithoutUpdates(named: syncName) { (result) in
                 switch result {
-                case .success(let val):
-                    promise(.success(val))
+                case .success(let state):
+                    promise(.success(state))
                 case .failure(let error):
                     promise(.failure(error))
                 }
