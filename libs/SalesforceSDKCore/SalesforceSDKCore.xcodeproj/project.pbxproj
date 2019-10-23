@@ -79,6 +79,8 @@
 		69CEBC7E22F368CF00F16218 /* SFNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */; };
 		69E2FD9E22FB937F008E0AF0 /* SFSDKEncryptedURLCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2FD9622FB937F008E0AF0 /* SFSDKEncryptedURLCache.h */; };
 		69E2FD9F22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E2FD9D22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m */; };
+		69FB22F8235AD868006BD11B /* SFSDKViewControllerConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB22F6235AD868006BD11B /* SFSDKViewControllerConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69FB22F9235AD868006BD11B /* SFSDKViewControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 69FB22F7235AD868006BD11B /* SFSDKViewControllerConfig.m */; };
 		8214D955205316BA0007349E /* SFSDKSalesforceAnalyticsManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8214D954205316BA0007349E /* SFSDKSalesforceAnalyticsManagerTests.m */; };
 		8214D96D205317BC0007349E /* SFSDKSalesforceAnalyticsManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8214D96C205317BB0007349E /* SFSDKSalesforceAnalyticsManager+Internal.h */; };
 		8263FED31E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8263FED21E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m */; };
@@ -730,6 +732,8 @@
 		69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFNetworkTests.m; path = SalesforceSDKCoreTests/SFNetworkTests.m; sourceTree = SOURCE_ROOT; };
 		69E2FD9622FB937F008E0AF0 /* SFSDKEncryptedURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKEncryptedURLCache.h; sourceTree = "<group>"; };
 		69E2FD9D22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKEncryptedURLCache.m; sourceTree = "<group>"; };
+		69FB22F6235AD868006BD11B /* SFSDKViewControllerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKViewControllerConfig.h; sourceTree = "<group>"; };
+		69FB22F7235AD868006BD11B /* SFSDKViewControllerConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKViewControllerConfig.m; sourceTree = "<group>"; };
 		6F89606F1A9E96C400A48FF1 /* SalesforceSDKCore-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common.xcconfig"; sourceTree = "<group>"; };
 		6F8960761A9E96C400A48FF1 /* SalesforceSDKCore-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Test.xcconfig"; sourceTree = "<group>"; };
 		8214D954205316BA0007349E /* SFSDKSalesforceAnalyticsManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKSalesforceAnalyticsManagerTests.m; path = SalesforceSDKCoreTests/SFSDKSalesforceAnalyticsManagerTests.m; sourceTree = SOURCE_ROOT; };
@@ -1347,6 +1351,8 @@
 				B78A238A21014FCA00B19AB3 /* SFSDKAuthHelper.m */,
 				B7E391102209E63E00D61D4D /* SFSDKViewUtils.h */,
 				B7E391112209E63E00D61D4D /* SFSDKViewUtils.m */,
+				69FB22F6235AD868006BD11B /* SFSDKViewControllerConfig.h */,
+				69FB22F7235AD868006BD11B /* SFSDKViewControllerConfig.m */,
 				B7F6908E22C27CEF00E52575 /* SFSDKOAuth2.h */,
 				B7341DD822E1041600B77778 /* SFSDKOAuth2+Internal.h */,
 				B7341DD622DFE2A500B77778 /* SFSDKOAuth2.m */,
@@ -1800,6 +1806,7 @@
 				A35E5C3621924B3B00C2357D /* SFSDKAppLockViewController.h in Headers */,
 				B79F03F520D4684600BC7D6F /* UIFont+SFSDKIDP.h in Headers */,
 				CE4CE35F1C0E526A009F6029 /* SFAuthErrorHandlerList.h in Headers */,
+				69FB22F8235AD868006BD11B /* SFSDKViewControllerConfig.h in Headers */,
 				CE4CE37D1C0E526A009F6029 /* SFPasscodeProviderManager+Internal.h in Headers */,
 				010A9B551CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h in Headers */,
 				B7C273EF1F7EEFB700CE539D /* SFSDKIDPConstants.h in Headers */,
@@ -2211,6 +2218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE4CE3161C0E523B009F6029 /* SFCrypto.m in Sources */,
+				69FB22F9235AD868006BD11B /* SFSDKViewControllerConfig.m in Sources */,
 				CE4CE39C1C0E5272009F6029 /* SFSDKTestCredentialsData.m in Sources */,
 				CE4CE3441C0E5252009F6029 /* SFOAuthCoordinator.m in Sources */,
 				B7895D1A2345304800765D85 /* SFSDKCompositeResponse.m in Sources */,
