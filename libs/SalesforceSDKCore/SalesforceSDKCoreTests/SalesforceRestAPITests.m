@@ -31,6 +31,7 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFSDKBatchRequest.h"
+#import "TestSetupUtils.h"
  // Constants only used in the tests below
 #define ENTITY_PREFIX_NAME @"RestClientTestsiOS"
 #define ACCOUNT @"Account"
@@ -2464,7 +2465,7 @@ static NSException *authException = nil;
 }
 
 - (SFUserAccount *)createNewUser {
-    SFOAuthCredentials *credentials = [[SFUserAccountManager sharedInstance] newClientCredentials];
+    SFOAuthCredentials *credentials = [TestSetupUtils newClientCredentials];
     SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:credentials];
     [account transitionToLoginState:SFUserAccountLoginStateLoggedIn];
     NSString *userId = [self generateRandomId:15];

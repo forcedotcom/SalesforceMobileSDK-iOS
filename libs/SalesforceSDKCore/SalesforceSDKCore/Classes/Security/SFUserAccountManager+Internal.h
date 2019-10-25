@@ -142,7 +142,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)authenticateUsingIDP:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
--(SFSDKAuthRequest *)defaultAuthRequest;
+- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock;
+
+- (SFSDKAuthRequest *)defaultAuthRequest;
 
 @end
 
