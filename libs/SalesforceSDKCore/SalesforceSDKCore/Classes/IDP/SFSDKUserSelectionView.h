@@ -30,7 +30,6 @@
 #import <Foundation/Foundation.h>
 
 @class SFUserAccount;
-@class SFSDKOAuthClient;
 
 @protocol SFSDKUserSelectionViewDelegate
 - (void)createNewUser:(NSDictionary *)spAppOptions;

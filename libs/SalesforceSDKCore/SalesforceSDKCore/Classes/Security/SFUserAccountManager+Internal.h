@@ -23,13 +23,16 @@
  */
 
 #import "SFUserAccountManager.h"
-#import "SFSDKIDPAuthClient.h"
 #import "SFSDKUserSelectionView.h"
 #import "SFSDKLoginFlowSelectionView.h"
 #import "SFSDKAlertView.h"
 #import "SFSDKAuthErrorManager.h"
 #import "SFSDKAuthSession.h"
 #import "SFDefaultUserManagementListViewController.h"
+#import "SFIdentityCoordinator+Internal.h"
+#import "SFSDKLoginHostDelegate.h"
+#import "SFLoginViewController.h"
+#import "SFSDKAuthViewHandler.h"
 #import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 
 @class SFSDKAuthPreferences;
@@ -122,11 +125,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id<SFUserAccountPersister>)accountPersister;
 
 /**
- * @return SFOAuthCredentials
- */
-- (SFOAuthCredentials *_Nonnull)newClientCredentials;
-
-/**
  * @param userIdentity to use for encoding to String
  * @return NSString userid:orgid
  */
@@ -138,29 +136,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (SFUserAccountIdentity *_Nullable)decodeUserIdentity:(NSString *_Nullable)userIdentityEncoded;
 
-/**
- * @param client to remove from cache.
- */
-- (void)disposeOAuthClient:(SFSDKOAuthClient *_Nonnull)client;
-
-/**
- * @param credentials to use to init client
- * @param completionBlock to use for client
- * @param failureBlock  to use for client
- * @return SFSDKIDPAuthClient instance
- */
-- (SFSDKIDPAuthClient *_Nonnull)fetchIDPAuthClient:(SFOAuthCredentials *_Nonnull)credentials completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)failureBlock;
-
-/**
- * @param credentials  to use to init client
- * @param completionBlock to use for the client
- * @param failureBlock  to use for the client
- * @return SFSDKOAuthClient instance
- */
-- (SFSDKOAuthClient *_Nonnull)fetchOAuthClient:(SFOAuthCredentials *_Nonnull)credentials completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)failureBlock;
-
-
 - (BOOL)handleAdvancedAuthURL:(NSURL *)advancedAuthURL;
+
+- (void)restartAuthentication;
+
+- (BOOL)authenticateUsingIDP:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock;
+
+-(SFSDKAuthRequest *)defaultAuthRequest;
 
 @end
 

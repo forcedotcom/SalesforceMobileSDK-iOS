@@ -563,7 +563,7 @@ NS_SWIFT_NAME(UserAccountManager)
 Use this method to stop/clear any authentication which is has already been started
 @param completionBlock The completion block is called with YES if a session was cleared successfully. 
 */
-- (void)stopCurrentAuthentication:(void (^)(BOOL))completionBlock;
+- (void)stopCurrentAuthentication:(nullable void (^)(BOOL))completionBlock;
 /**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.

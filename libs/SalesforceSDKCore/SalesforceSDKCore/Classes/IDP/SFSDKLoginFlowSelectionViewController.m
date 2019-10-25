@@ -66,14 +66,6 @@ static CGFloat kSpace = 20.0;
 
 @implementation SFSDKLoginFlowSelectionViewController
 
-+ (instancetype)sharedInstance {
-    static dispatch_once_t onceToken;
-    static SFSDKLoginFlowSelectionViewController *loginFlowSelectionViewController = nil;
-    dispatch_once(&onceToken, ^{
-        loginFlowSelectionViewController = [[self alloc] initWithNibName:nil bundle:nil];
-    });
-    return loginFlowSelectionViewController;
-}
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

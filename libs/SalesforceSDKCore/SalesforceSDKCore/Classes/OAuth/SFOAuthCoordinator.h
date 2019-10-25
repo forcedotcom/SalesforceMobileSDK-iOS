@@ -388,7 +388,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse;
 
-- (void)beginIDPFlow:(SFOAuthCredentials *)spAppCredentials;
+- (void)beginIDPFlow;
 
 @end
 
