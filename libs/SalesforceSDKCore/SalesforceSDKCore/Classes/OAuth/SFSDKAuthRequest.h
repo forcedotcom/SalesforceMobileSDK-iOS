@@ -51,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *idpAppURIScheme;
 @property (nonatomic, copy) NSString *userHint;
 @property (nonatomic, copy, nullable) UIViewController<SFSDKLoginFlowSelectionView> * (^spAppLoginFlowSelectionAction)(void);
+@property (nonatomic, copy) NSString *appDisplayName;
 
 //IDP flow related properties (IDP App related properties)
 @property (nonatomic, copy, nullable) UIViewController<SFSDKUserSelectionView>* (^idpAppUserSelectionAction)(void);

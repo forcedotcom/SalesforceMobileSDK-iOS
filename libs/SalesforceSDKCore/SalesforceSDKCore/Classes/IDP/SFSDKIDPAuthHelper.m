@@ -55,10 +55,10 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     command.spClientId = session.oauthCoordinator.credentials.clientId;
     command.spCodeChallenge = codeChallengeString;
     command.spAppScopes = [self encodeScopes:session.oauthRequest.scopes];
-    //command.spUserHint = self.context.userHint;
+    command.spUserHint = session.oauthRequest.userHint;
     command.spLoginHost = session.oauthCoordinator.credentials.domain;
     command.spRedirectURI = session.oauthCoordinator.credentials.redirectUri;
-    command.spAppName = @"SomeName";
+    command.spAppName = session.oauthRequest.appDisplayName;
     
     NSURL *url = [command requestURL];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -71,7 +71,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     NSMutableSet *scopes = (requestScopes.count > 0 ? [NSMutableSet setWithSet:requestScopes] : [NSMutableSet set]);
     [scopes addObject:kSFRefreshTokenParam];
     NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@","] stringByURLEncoding];
-    return [NSString stringWithFormat:@"&%@=%@", kSFScopesParam, scopeStr];
+    return [NSString stringWithFormat:@"%@", scopeStr];
 }
 
 + (NSSet<NSString *> *)decodeScopes:(NSString *)scopeString {

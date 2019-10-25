@@ -61,6 +61,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     self.oauthCoordinator.brandLoginPath = self.oauthRequest.brandLoginPath;
     self.oauthCoordinator.useBrowserAuth = self.oauthRequest.useBrowserAuth;
     self.oauthCoordinator.userAgentForAuth = self.oauthRequest.userAgentForAuth;
+    if (_spAppCredentials && _spAppCredentials.domain) {
+        self.oauthCoordinator.credentials.domain = _spAppCredentials.domain;
+    }
 }
 
 - (SFOAuthCredentials *)newClientCredentials{

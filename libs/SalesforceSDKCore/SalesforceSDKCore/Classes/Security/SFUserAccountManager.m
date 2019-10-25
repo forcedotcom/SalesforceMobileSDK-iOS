@@ -823,10 +823,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 -(void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions {
     //User picked IDP flow from login Selection screen. start the idp flow.
+    NSString *loginHost = appOptions[kSFLoginHostParam];
+    if (loginHost) {
+        self.authSession.oauthCoordinator.credentials.domain = loginHost;
+    }
+    self.authSession.oauthRequest.appDisplayName = self.appDisplayName;
     [SFSDKIDPAuthHelper invokeIDPApp:self.authSession completion:^(BOOL result) {
        [SFSDKCoreLogger d:[self class] format:@"Launced IDP App"];
     }];
-    
 }
 
 -(void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions  {
@@ -1417,6 +1421,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     authSession.oauthCoordinator.delegate = self;
     self.authSession = authSession;
     dispatch_async(dispatch_get_main_queue(), ^{
+        
         UIViewController<SFSDKLoginFlowSelectionView> *controller  = request.spAppLoginFlowSelectionAction();
         controller.selectionFlowDelegate = self;
         NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
@@ -1426,10 +1431,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         controller.appOptions = options;
         controller.selectionFlowDelegate = [SFUserAccountManager sharedInstance];
         SFSDKWindowContainer *authWindow = [SFSDKWindowManager sharedManager].authWindow;
-        
+       
+        SFSDKNavigationController *navcontroller = [[SFSDKNavigationController alloc] initWithRootViewController:controller];
+        navcontroller.modalPresentationStyle = UIModalPresentationFullScreen;
         [authWindow presentWindowAnimated:NO withCompletion:^{
            authWindow.viewController.modalPresentationStyle = UIModalPresentationFullScreen;
-           [authWindow.viewController presentViewController:controller animated:YES completion:^{
+           [authWindow.viewController presentViewController:navcontroller animated:YES completion:^{
            }];
         }];
     });
