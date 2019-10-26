@@ -114,36 +114,48 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 + (BOOL)validateNotificationUserInfo:(NSDictionary *)userInfo error:(NSError **)error {
     id secret = userInfo[kRemoteNotificationKeySecret];
     if (secret == nil || ![secret isKindOfClass:[NSString class]]) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoEncryptedSecret description:@"No secret data in the notification content."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoEncryptedSecret description:@"No secret data in the notification content."];
+        }
         return NO;
     }
     
     id encryptedContent = userInfo[kRemoteNotificationKeyContent];
     if (encryptedContent == nil || ![encryptedContent isKindOfClass:[NSString class]]) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoEncryptedContent description:@"No content data in the notification content."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoEncryptedContent description:@"No content data in the notification content."];
+        }
         return NO;
     }
     
     id apsDict = userInfo[kRemoteNotificationKeyAps];
     if (apsDict == nil || ![apsDict isKindOfClass:[NSDictionary class]]) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoApsDictionary description:@"No aps data in the notification content."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoApsDictionary description:@"No aps data in the notification content."];
+        }
         return NO;
     }
     id alertDict = apsDict[kRemoteNotificationKeyAlert];
     if (alertDict == nil || ![alertDict isKindOfClass:[NSDictionary class]]) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoApsAlertDictionary description:@"No alert data in the aps content of the notification."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoApsAlertDictionary description:@"No alert data in the aps content of the notification."];
+        }
         return NO;
     }
     
     id title = alertDict[kRemoteNotificationKeyTitle];
     if (title == nil || ![title isKindOfClass:[NSString class]]) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoApsAlertTitle description:@"No alert title in the notification content."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoApsAlertTitle description:@"No alert title in the notification content."];
+        }
         return NO;
     }
     
     id body = alertDict[kRemoteNotificationKeyBody];
     if (body == nil || ![body isKindOfClass:[NSString class]]) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoApsAlertBody description:@"No alert body in the notification content."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorNoApsAlertBody description:@"No alert body in the notification content."];
+        }
         return NO;
     }
     
@@ -159,7 +171,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 + (SFEncryptionKey *)getAESKeyFromSecret:(NSString *)secret error:(NSError **)error {
     NSData *secretData = [[NSData alloc] initWithBase64EncodedString:secret options:0];
     if (secretData == nil) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorMalformedSecretData description:@"Encrypted secret is an invalid Base64 string."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorMalformedSecretData description:@"Encrypted secret is an invalid Base64 string."];
+        }
         return nil;
     }
     SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:kPNEncryptionKeyName keyLength:kPNEncryptionKeyLength];
@@ -170,7 +184,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     NSData *decryptedData = [SFSDKCryptoUtils decryptUsingRSAforData:secretData withKeyRef:privateKeyRef];
     CFRelease(privateKeyRef);
     if (decryptedData == nil) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorSecretDecryptionFailed description:@"Failed to decrypt secret with RSA private key."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorSecretDecryptionFailed description:@"Failed to decrypt secret with RSA private key."];
+        }
         return nil;
     }
     
@@ -182,19 +198,25 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 + (NSString *)aesDecryptString:(NSString *)encryptedString withKey:(SFEncryptionKey *)key error:(NSError **)error {
     NSData *encryptedData = [[NSData alloc] initWithBase64EncodedString:encryptedString options:0];
     if (encryptedData == nil) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorMalformedContentData description:@"Encrypted content is an invalid Base64 string."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorMalformedContentData description:@"Encrypted content is an invalid Base64 string."];
+        }
         return nil;
     }
     
     NSData *decryptedData = [SFSDKCryptoUtils aes128DecryptData:encryptedData withKey:key.key iv:key.initializationVector];
     if (decryptedData == nil) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorContentDecryptionFailed description:@"Failed to decrypt content with symmetric secret key."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorContentDecryptionFailed description:@"Failed to decrypt content with symmetric secret key."];
+        }
         return nil;
     }
     
     NSString *decryptedString = [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     if (decryptedString == nil) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorContentDecryptionFailed description:@"Failed to decrypt content with symmetric secret key."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorContentDecryptionFailed description:@"Failed to decrypt content with symmetric secret key."];
+        }
         return nil;
     }
     return decryptedString;
