@@ -178,7 +178,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     }
     SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:kPNEncryptionKeyName keyLength:kPNEncryptionKeyLength];
     if (privateKeyRef == nil) {
-        *error = [self pushErrorWithCode:SFSDKPushNotificationErrorPrivateRSAKeyNotFound description:@"Could not retrieve private RSA key for encrypted notification."];
+        if (error) {
+            *error = [self pushErrorWithCode:SFSDKPushNotificationErrorPrivateRSAKeyNotFound description:@"Could not retrieve private RSA key for encrypted notification."];
+        }
         return nil;
     }
     NSData *decryptedData = [SFSDKCryptoUtils decryptUsingRSAforData:secretData withKeyRef:privateKeyRef];
