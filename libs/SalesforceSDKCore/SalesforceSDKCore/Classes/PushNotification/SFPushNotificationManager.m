@@ -31,6 +31,7 @@
 #import "SFApplicationHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFRestAPI+Blocks.h"
+#import "SFSDKPushNotificationEncryption.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
@@ -38,18 +39,6 @@ static NSString* const kSFPushNotificationEndPoint = @"sobjects/MobilePushServic
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-const-variable"
-
-//
-// >= iOS 8 notification types have to be NSUInteger, for backward compatibility with < iOS 8 build environments.
-//
-// UIUserNotificationTypes:
-//   UIUserNotificationTypeNone    = 0,      // the application may not present any UI upon a notification being received
-//   UIUserNotificationTypeBadge   = 1 << 0, // the application may badge its icon upon a notification being received
-//   UIUserNotificationTypeSound   = 1 << 1, // the application may play a sound upon a notification being received
-//   UIUserNotificationTypeAlert   = 1 << 2, // the application may display an alert upon a notification being received
-
-// Default: kiOS8UserNotificationTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert
-static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 << 2));
 
 static NSString * const kSFAppFeaturePushNotifications = @"PN";
 
@@ -82,6 +71,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 #else
         self.isSimulator = NO;
 #endif
+        _encryptionEnabled = NO;
         // Queue for requests
         _queue = [[NSOperationQueue alloc] init];
         
@@ -121,29 +111,6 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 
     // register with Apple for remote notifications
     [SFSDKCoreLogger i:[self class] format:@"Registering with Apple for remote push notifications"];
-    [self registerNotifications];
-}
-
-- (void)registerNotifications
-{
-    // This is necessary to build libraries with the iOS 7 runtime, that can execute iOS 8 methods.  When
-    // we switch to building libraries with Xcode 6, this can go away.
-    NSSet *categories = nil;
-    NSUInteger notificationTypes = kiOS8UserNotificationTypes;
-    Class userNotificationSettings = NSClassFromString(@"UIUserNotificationSettings");
-    NSMethodSignature *settingsForTypesSig = [userNotificationSettings methodSignatureForSelector:@selector(settingsForTypes:categories:)];
-    NSInvocation *settingsForTypesInv = [NSInvocation invocationWithMethodSignature:settingsForTypesSig];
-    [settingsForTypesInv setTarget:userNotificationSettings];
-    [settingsForTypesInv setSelector:@selector(settingsForTypes:categories:)];
-    [settingsForTypesInv setArgument:&notificationTypes atIndex:2];
-    [settingsForTypesInv setArgument:&categories atIndex:3];
-    [settingsForTypesInv invoke];
-    CFTypeRef settingsForTypesRetVal;
-    [settingsForTypesInv getReturnValue:&settingsForTypesRetVal];
-    if (settingsForTypesRetVal) {
-        CFRetain(settingsForTypesRetVal);
-    }
-    [[SFApplicationHelper sharedApplication] performSelector:@selector(registerUserNotificationSettings:) withObject:(__bridge_transfer id)settingsForTypesRetVal];
     [[SFApplicationHelper sharedApplication] performSelector:@selector(registerForRemoteNotifications)];
 }
 
@@ -182,6 +149,15 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 
     if (_customPushRegistrationBody != nil) {
         [bodyDict addEntriesFromDictionary: _customPushRegistrationBody];
+    }
+    
+    if (self.encryptionEnabled) {
+        NSString *rsaPublicKey = [SFSDKPushNotificationEncryption getRSAPublicKey];
+        if (!rsaPublicKey) {
+            [SFSDKCoreLogger e:[self class] format:@"Cannot register for notifications with Salesforce: no RSA key for encrypted notifications"];
+            return NO;
+        }
+        bodyDict[@"RsaPublicKey"] = rsaPublicKey;
     }
     
     [request setCustomRequestBodyDictionary:bodyDict contentType:@"application/json"];

@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Tue Oct 15 09:33:32 PDT 2019.
+ Created by Brianna Birman on Fri Oct 25 21:32:39 PDT 2019.
 
  Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
  
@@ -51,6 +51,7 @@
 #import <SalesforceSDKCore/UIColor+SFColors.h>
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
 #import <SalesforceSDKCore/SFPasscodeProviderManager.h>
+#import <SalesforceSDKCore/SFSDKPushNotificationError.h>
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <SalesforceSDKCore/SFSDKOAuth2.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
@@ -66,6 +67,7 @@
 #import <SalesforceSDKCore/NSNotificationCenter+SFAdditions.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
+#import <SalesforceSDKCore/SFSDKPushNotificationDecryption.h>
 #import <SalesforceSDKCore/SFSDKAILTNPublisher.h>
 #import <SalesforceSDKCore/SFSDKLoginHost.h>
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
@@ -133,11 +135,13 @@
 #import <SalesforceSDKCore/SFRestAPI+Files.h>
 #import <SalesforceSDKCore/SFSDKLoginViewControllerConfig.h>
 #import <SalesforceSDKCore/SFUserAccountConstants.h>
+#import <SalesforceSDKCore/SFSDKPushNotificationEncryption.h>
 #import <SalesforceSDKCore/SFOAuthSessionRefresher.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
 #import <SalesforceSDKCore/SFAppLockViewControllerTypes.h>
 #import <SalesforceSDKCore/SFSecurityLockout+Internal.h>
+#import <SalesforceSDKCore/SFSDKPushNotificationFieldsConstants.h>
 #import <SalesforceSDKCore/UIDevice+SFHardware.h>
 #import <SalesforceSDKCore/SFSDKLoginFlowSelectionView.h>
 #import <SalesforceSDKCore/SFMethodInterceptor.h>
