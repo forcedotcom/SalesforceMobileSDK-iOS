@@ -32,8 +32,9 @@ import Combine
 
 /// Errors that can be thrown using MobileSync
 public enum MobileSyncError: Error {
-    case failed(_ SyncState: SyncState)
     case notStarted(_ error: Error?)
+    case stopped
+    case failed(_ SyncState: SyncState?)
     case unknown
 }
 
@@ -45,10 +46,11 @@ extension SyncManager {
     public func reSyncWithoutUpdates(named syncName: String, _ completionBlock: @escaping (Result<SyncState, MobileSyncError>) -> Void) {
         do {
             try self.reSync(named: syncName) { (state) in
-                if state.isDone() {
-                    completionBlock(.success(state))
-                } else if state.hasFailed() {
-                    completionBlock(.failure(.failed(state)))
+                switch state.status {
+                    case .done: completionBlock(.success(state))
+                    case .stopped: completionBlock(.failure(.stopped))
+                    case .failed: completionBlock(.failure(.failed(state)))
+                    default: break
                 }
             }
         } catch let error {
@@ -62,8 +64,11 @@ extension SyncManager {
     public func cleanGhosts(named syncName: String, _ completionBlock: @escaping (Result<UInt, MobileSyncError>) -> Void) {
         do {
             try self.cleanResyncGhosts(forName: syncName) { (status, numberRecords) in
-                if status == .done {
-                    completionBlock(.success(numberRecords))
+                switch status {
+                    case .done: completionBlock(.success(numberRecords))
+                    case .stopped: completionBlock(.failure(.stopped))
+                    case .failed: completionBlock(.failure(.failed(nil)))
+                    default: break
                 }
             }
         } catch let error {
