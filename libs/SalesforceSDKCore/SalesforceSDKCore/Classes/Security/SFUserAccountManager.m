@@ -890,7 +890,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     NSString *loginHost = callingAppOptions[kSFLoginHostParam];
     
-    if (loginHost==nil || [loginHost isEmptyOrWhitespaceAndNewlines]){
+    if (loginHost == nil || [loginHost isEmptyOrWhitespaceAndNewlines]){
         loginHost = self.loginHost;
     }
     creds.domain = loginHost;
@@ -1425,7 +1425,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         UIViewController<SFSDKLoginFlowSelectionView> *controller  = request.spAppLoginFlowSelectionAction();
         controller.selectionFlowDelegate = self;
         NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-        if(request.userHint) {
+        if (request.userHint) {
             options[kSFUserHintParam] = request.userHint;
         }
         controller.appOptions = options;
@@ -1561,11 +1561,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
            [SFSecurityLockout setPasscodeViewConfig:authSession.oauthRequest.appLockViewControllerConfig];
            [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-               [weakSelf finalizeAuthCompletion:authSession];
+               [strongSelf finalizeAuthCompletion:authSession];
            }];
            [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
                strongSelf.authSession.notifiesDelegatesOfFailure = YES;
-               [weakSelf handleFailure:authSession.authError session:strongSelf.authSession];
+               [strongSelf handleFailure:authSession.authError session:strongSelf.authSession];
            }];
            // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
            // identity service.

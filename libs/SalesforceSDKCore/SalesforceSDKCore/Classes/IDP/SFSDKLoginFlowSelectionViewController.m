@@ -143,7 +143,6 @@ static CGFloat kSpace = 20.0;
     
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:20 weight:UIFontWeightRegular]};
     
-    //[NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: font]
     self.title = @"Log in";
     UIView *container = [[UIView alloc] init];
     container.translatesAutoresizingMaskIntoConstraints = NO;
