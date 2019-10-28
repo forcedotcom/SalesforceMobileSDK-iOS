@@ -53,11 +53,14 @@ extern NSString* const kSFSyncManagerStoppedError;
 extern NSString* const kSFSyncManagerCannotRestartError;
 extern NSString* const kSFSyncAlreadyRunningError;
 extern NSString* const kSFSyncNotExistError;
+extern NSString* const kSFSyncManagerCanOnlyRunCleanGhostsForSyncDown;
 
 extern NSInteger const kSFSyncManagerStoppedErrorCode;
 extern NSInteger const kSFSyncManagerCannotRestartErrorCode;
 extern NSInteger const kSFSyncAlreadyRunningErrorCode;
 extern NSInteger const kSFSyncNotExistErrorCode;
+extern NSInteger const kSFSyncManagerCanOnlyRunCleanGhostsForSyncDownCode;
+
 
 /**
  * This class provides methods for doing synching records to/from the server from/to the smartstore.

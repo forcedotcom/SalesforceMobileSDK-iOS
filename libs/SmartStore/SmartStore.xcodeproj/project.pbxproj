@@ -765,7 +765,7 @@
 						LastSwiftMigration = 1100;
 					};
 					CEAAAE54195911E600CBBFE9 = {
-						LastSwiftMigration = 1110;
+						LastSwiftMigration = 1100;
 						TestTargetID = 4F06AF081C499EB600F70798;
 					};
 				};

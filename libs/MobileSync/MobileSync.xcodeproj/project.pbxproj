@@ -51,6 +51,7 @@
 		4F3DF87E1ECFA8BF00D1D9AF /* SFParentChildrenSyncUpTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F3DF87C1ECFA8BF00D1D9AF /* SFParentChildrenSyncUpTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F3DF87F1ECFA8BF00D1D9AF /* SFParentChildrenSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3DF87D1ECFA8BF00D1D9AF /* SFParentChildrenSyncUpTarget.m */; };
 		4F3DF8861ECFB29900D1D9AF /* SFAdvancedSyncUpTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F3DF8851ECFB29900D1D9AF /* SFAdvancedSyncUpTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F5BBBDC235F734F00E6D619 /* MobileSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5BBBDB235F734F00E6D619 /* MobileSync.swift */; };
 		4F9079811A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9079801A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m */; };
 		4F9732D61A816C2D006E2A86 /* SyncManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9732D51A816C2D006E2A86 /* SyncManagerTests.m */; };
 		4FA9C0CB22A5D0A70058D179 /* SFMobileSyncSyncManager+SFSyncTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA9C0BC22A5D0720058D179 /* SFMobileSyncSyncManager+SFSyncTask.h */; };
@@ -340,6 +341,7 @@
 		4F3DF87C1ECFA8BF00D1D9AF /* SFParentChildrenSyncUpTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFParentChildrenSyncUpTarget.h; path = Target/SFParentChildrenSyncUpTarget.h; sourceTree = "<group>"; };
 		4F3DF87D1ECFA8BF00D1D9AF /* SFParentChildrenSyncUpTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFParentChildrenSyncUpTarget.m; path = Target/SFParentChildrenSyncUpTarget.m; sourceTree = "<group>"; };
 		4F3DF8851ECFB29900D1D9AF /* SFAdvancedSyncUpTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAdvancedSyncUpTarget.h; path = Target/SFAdvancedSyncUpTarget.h; sourceTree = "<group>"; };
+		4F5BBBDB235F734F00E6D619 /* MobileSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSync.swift; sourceTree = "<group>"; };
 		4F9079801A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSyncUpdateCallbackQueue.m; sourceTree = "<group>"; };
 		4F9079821A82EE5100E32659 /* SFSyncUpdateCallbackQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSyncUpdateCallbackQueue.h; sourceTree = "<group>"; };
 		4F9732D51A816C2D006E2A86 /* SyncManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncManagerTests.m; sourceTree = "<group>"; };
@@ -522,6 +524,14 @@
 				4F06AF311C499FD100F70798 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4F5BBBCD235F72C400E6D619 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4F5BBBDB235F734F00E6D619 /* MobileSync.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		4FCA4A951FBE4DE900F081B3 /* Config */ = {
@@ -769,6 +779,7 @@
 		CEF50A79196B3EB60076264C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4F5BBBCD235F72C400E6D619 /* Extensions */,
 				CE2BCCF1224A86AF00C98308 /* Instrumentation */,
 				4FCA4A951FBE4DE900F081B3 /* Config */,
 				CEDA4EE019745B950009D865 /* Manager */,
@@ -968,6 +979,7 @@
 					};
 					CE4CE2C81C0E463C009F6029 = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 1100;
 					};
 					CEAAAE54195911E600CBBFE9 = {
 						TestTargetID = 4F06AF2D1C499FD100F70798;
@@ -1186,6 +1198,7 @@
 				CE4CE4371C0E5A75009F6029 /* SFMobileSyncConstants.m in Sources */,
 				CE1BD1CC20AF801400409FE1 /* SFLayoutSyncManager.m in Sources */,
 				4FAA9B6F225461910006810D /* SFSyncUpTask.m in Sources */,
+				4F5BBBDC235F734F00E6D619 /* MobileSync.swift in Sources */,
 				CE01BB1020B759D3008E91B6 /* SFMetadataSyncManager.m in Sources */,
 				4FAA9B6D225461910006810D /* SFSyncDownTask.m in Sources */,
 				CE98A682209F698400507927 /* SFLayoutSyncDownTarget.m in Sources */,
@@ -1389,6 +1402,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSync;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1424,6 +1441,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSync;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
