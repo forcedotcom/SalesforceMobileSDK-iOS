@@ -45,7 +45,8 @@ static CGFloat kImageHeight = 60;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.contentView.backgroundColor = [UIColor salesforceTableCellBackgroundColor];
+    self.contentView.backgroundColor = [UIColor salesforceSystemBackgroundColor];
+                                        
     UIImage *pimage = [SFSDKResourceUtils imageNamed:@"profile-placeholder"];
     UIImage *image = [SFSDKUITableViewCell resizeImage:pimage  size:CGSizeMake(kImageWidth, kImageHeight)];
     
@@ -62,9 +63,9 @@ static CGFloat kImageHeight = 60;
     self.titleLabel = [[UILabel alloc] init];
     self.detailLabel = [[UILabel alloc] init];
     self.titleLabel.font = [UIFont textRegular:16.0];
-    self.titleLabel.textColor = [UIColor salesforceDefaultTextColor];
+    self.titleLabel.textColor = [UIColor salesforceLabelColor];
     self.detailLabel.font = [UIFont textRegular:14.0];
-    self.detailLabel.textColor = [UIColor salesforceWeakTextColor];
+    self.detailLabel.textColor = [UIColor salesforceLabelColor];
     self.profileImageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
