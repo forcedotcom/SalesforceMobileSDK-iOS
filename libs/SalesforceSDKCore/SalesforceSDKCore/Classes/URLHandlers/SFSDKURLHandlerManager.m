@@ -70,7 +70,6 @@
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
 
     __block BOOL result = NO;
-
     [handlerList enumerateObjectsUsingBlock:^(id <SFSDKURLHandler> handler, NSUInteger idx, BOOL *stop) {
         if ([handler canHandleRequest:url options:options]) {
             result = [handler processRequest:url options:options];

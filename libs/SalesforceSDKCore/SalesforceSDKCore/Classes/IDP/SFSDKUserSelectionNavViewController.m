@@ -29,7 +29,6 @@
 
 #import "SFSDKUserSelectionNavViewController.h"
 #import "SFSDKUserSelectionTableViewController.h"
-#import "SFSDKIDPAuthClient.h"
 
 @interface SFSDKUserSelectionNavViewController ()<SFSDKUserSelectionTableViewControllerDelegate> {
     SFSDKUserSelectionTableViewController *_selectionView;

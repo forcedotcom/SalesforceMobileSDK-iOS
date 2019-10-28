@@ -34,10 +34,19 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 @implementation SFSDKAuthSession
 -(instancetype)initWith:(SFSDKAuthRequest *)request {
+    return [self initWith:request credentials:nil];
+}
+
+-(instancetype)initWith:(SFSDKAuthRequest *)request credentials:(SFOAuthCredentials *)creds {
+    return [self initWith:request credentials:creds spAppCredentials:nil];
+}
+
+-(instancetype)initWith:(SFSDKAuthRequest *)request credentials:(SFOAuthCredentials *)creds spAppCredentials:(SFOAuthCredentials *)spAppCredentials {
     if (self = [super init]) {
         _oauthRequest = request;
-        _credentials = [self newClientCredentials];
+        _credentials = (creds == nil) ? [self newClientCredentials] : creds;
         _credentials.jwt = request.jwtToken;
+        _spAppCredentials = spAppCredentials;
         [self initCoordinator];
     }
     return self;
@@ -45,17 +54,22 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 -(void)initCoordinator {
     self.oauthCoordinator = [[SFOAuthCoordinator alloc] initWithAuthSession:self];
+    self.oauthCoordinator.spAppCredentials = self.spAppCredentials;
     self.oauthCoordinator.additionalOAuthParameterKeys = self.oauthRequest.additionalOAuthParameterKeys;
     self.oauthCoordinator.additionalTokenRefreshParams = self.oauthRequest.additionalTokenRefreshParams;
     self.oauthCoordinator.scopes = self.oauthRequest.scopes;
     self.oauthCoordinator.brandLoginPath = self.oauthRequest.brandLoginPath;
     self.oauthCoordinator.useBrowserAuth = self.oauthRequest.useBrowserAuth;
     self.oauthCoordinator.userAgentForAuth = self.oauthRequest.userAgentForAuth;
+    if (_spAppCredentials && _spAppCredentials.domain) {
+        self.oauthCoordinator.credentials.domain = _spAppCredentials.domain;
+    }
 }
 
 - (SFOAuthCredentials *)newClientCredentials{
     NSString *identifier = [self uniqueUserAccountIdentifier:self.oauthRequest.oauthClientId];
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:self.oauthRequest.oauthClientId encrypted:YES];
+    creds.clientId = self.oauthRequest.oauthClientId;
     creds.redirectUri = self.oauthRequest.oauthCompletionUrl;
     creds.domain = self.oauthRequest.loginHost;
     creds.accessToken = nil;
