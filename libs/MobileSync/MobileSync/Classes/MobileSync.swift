@@ -55,6 +55,21 @@ extension SyncManager {
             completionBlock(.failure(.notStarted(error)))
         }
     }
+    
+    /// Runs a clean ghosts for the given sync.
+    /// - Parameter named: name of sync
+    /// - Parameter completionBlock: block invoked when clean ghosts completes or fails with Result<UInt, MobileSyncError>)
+    public func cleanGhosts(named syncName: String, _ completionBlock: @escaping (Result<UInt, MobileSyncError>) -> Void) {
+        do {
+            try self.cleanResyncGhosts(forName: syncName) { (status, numberRecords) in
+                if status == .done {
+                    completionBlock(.success(numberRecords))
+                }
+            }
+        } catch let error {
+            completionBlock(.failure(.notStarted(error)))
+        }
+    }
 }
 
 @available(iOS 13.0, watchOS 6.0, *)
@@ -68,6 +83,22 @@ extension SyncManager {
                 switch result {
                 case .success(let state):
                     promise(.success(state))
+                case .failure(let error):
+                    promise(.failure(error))
+                }
+            }
+        }
+    }
+
+    /// Runs a clean ghosts.
+    /// - Parameter named: name of sync
+    /// - Returns: a Future<UInt, MobileSyncError> publisher.
+    public func cleanGhostsPublisher(for syncName: String) -> Future<UInt, MobileSyncError> {
+        Future<UInt, MobileSyncError> { promise in
+            self.cleanGhosts(named: syncName) { (result) in
+                switch result {
+                case .success(let numberRecords):
+                    promise(.success(numberRecords))
                 case .failure(let error):
                     promise(.failure(error))
                 }
