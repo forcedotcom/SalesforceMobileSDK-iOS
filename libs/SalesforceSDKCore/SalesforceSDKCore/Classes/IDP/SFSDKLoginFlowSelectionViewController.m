@@ -38,7 +38,6 @@
 #import "SFUserAccountManager.h"
 #import "SFSDKViewUtils.h"
 #import "SFSDKIDPConstants.h"
-static CGFloat kSpace = 20.0;
 
 @interface SFSDKLoginFlowSelectionViewController ()<SFSDKLoginHostDelegate>
 
@@ -136,7 +135,7 @@ static CGFloat kSpace = 20.0;
 }
 
 - (void)setupContent {
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     UIColor *darkblue= [UIColor colorWithDisplayP3Red: 20.0/255.0 green:50.0/255.0 blue:92.0/255.0 alpha:1.0];
     self.navigationController.navigationBar.barTintColor = darkblue;
     [self.navigationController.navigationBar setTranslucent:NO];
@@ -156,6 +155,7 @@ static CGFloat kSpace = 20.0;
     selectLabel.text = @"Select a login flow";
     selectLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightBold];
     selectLabel.textAlignment = NSTextAlignmentCenter;
+    selectLabel.textColor = [UIColor salesforceLabelColor];
     
     UILabel *idpLabel = [[UILabel alloc] init];
     idpLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -164,6 +164,7 @@ static CGFloat kSpace = 20.0;
     idpLabel.lineBreakMode = NSLineBreakByWordWrapping;
     idpLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
     idpLabel.textAlignment = NSTextAlignmentCenter;
+    idpLabel.textColor = [UIColor salesforceLabelColor];
     
     UIButton *idpButton = [UIButton buttonWithType:UIButtonTypeCustom];
     idpButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -179,6 +180,7 @@ static CGFloat kSpace = 20.0;
     appLabel.lineBreakMode = NSLineBreakByWordWrapping;
     appLabel.numberOfLines = 2;
     appLabel.font =  [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
+    appLabel.textColor = [UIColor salesforceLabelColor];
     
     UIButton *appButton = [UIButton buttonWithType:UIButtonTypeCustom];
     appButton.translatesAutoresizingMaskIntoConstraints = NO;
