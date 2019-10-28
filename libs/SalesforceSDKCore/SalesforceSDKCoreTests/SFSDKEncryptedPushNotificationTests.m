@@ -24,11 +24,17 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCore/SFSDKPushNotificationFieldsConstants.h>
-#import <SalesforceSDKCore/SFSDKPushNotificationEncryption.h>
 #import <SalesforceSDKCore/SFSDKPushNotificationDecryption.h>
 #import <SalesforceSDKCore/SFSDKPushNotificationError.h>
+#import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import "SFSDKPushNotificationDataProvider.h"
 #import "SFSDKPushNotificationDecryption+Internal.h"
+
+@interface SFPushNotificationManager (Testing)
+
+- (NSString *)getRSAPublicKey;
+
+@end
 
 @interface SFSDKEncryptedPushNotificationTests : XCTestCase
 
@@ -50,9 +56,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 }
 
 - (void)testGetRSAKeySameData {
-    NSString *rsaKey = [SFSDKPushNotificationEncryption getRSAPublicKey];
+    NSString *rsaKey = [[SFPushNotificationManager sharedInstance] getRSAPublicKey];
     XCTAssertNotNil(rsaKey);
-    NSString *rsaKey2 = [SFSDKPushNotificationEncryption getRSAPublicKey];
+    NSString *rsaKey2 = [[SFPushNotificationManager sharedInstance] getRSAPublicKey];
     XCTAssertEqualObjects(rsaKey, rsaKey2);
 }
 

@@ -31,18 +31,13 @@
 #import "SFApplicationHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFRestAPI+Blocks.h"
-#import "SFSDKPushNotificationEncryption.h"
+#import "SFSDKPushNotificationEncryptionConstants.h"
+#import "SFSDKCryptoUtils.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
 static NSString* const kSFPushNotificationEndPoint = @"sobjects/MobilePushServiceDevice";
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-const-variable"
-
 static NSString * const kSFAppFeaturePushNotifications = @"PN";
-
-#pragma clang diagnostic pop
 
 @interface SFPushNotificationManager ()
 
@@ -152,7 +147,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     }
     
     if (self.encryptionEnabled) {
-        NSString *rsaPublicKey = [SFSDKPushNotificationEncryption getRSAPublicKey];
+        NSString *rsaPublicKey = [self getRSAPublicKey];
         if (!rsaPublicKey) {
             [SFSDKCoreLogger e:[self class] format:@"Cannot register for notifications with Salesforce: no RSA key for encrypted notifications"];
             return NO;
@@ -252,6 +247,15 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     if (completionBlock != nil) {
         completionBlock();
     }
+}
+
+- (NSString *)getRSAPublicKey {
+    NSString *rsaPublicKey = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:kPNEncryptionKeyName keyLength:kPNEncryptionKeyLength];
+    if (rsaPublicKey == nil) {
+        [SFSDKCryptoUtils createRSAKeyPairWithName:kPNEncryptionKeyName keyLength:kPNEncryptionKeyLength accessibleAttribute:kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly];
+        rsaPublicKey = [SFSDKCryptoUtils getRSAPublicKeyStringWithName:kPNEncryptionKeyName keyLength:kPNEncryptionKeyLength];
+    }
+    return rsaPublicKey;
 }
 
 #pragma mark - Events observers

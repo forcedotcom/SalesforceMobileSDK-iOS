@@ -29,6 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSDKPushNotificationDecryption : NSObject
 
+/**
+ * Decrypts the given notification content. Leaves the content unchanged if it's not encrypted.
+ * @param notificationContent Content to decrypt.
+ * @param error The error associated with decryption, if an error occurs.
+ * @return YES on success, NO otherwise.
+ */
 + (BOOL)decryptNotificationContent:(nonnull UNMutableNotificationContent *)notificationContent error:(NSError * _Nullable * _Nullable)error;
 
 @end

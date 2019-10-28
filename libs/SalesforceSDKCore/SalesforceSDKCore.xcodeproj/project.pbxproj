@@ -80,8 +80,6 @@
 		697A91A12363C3D800D2836F /* SFSDKPushNotificationDecryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 697A919F2363C3D800D2836F /* SFSDKPushNotificationDecryption.m */; };
 		69848CA52363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69848CAC2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CAB2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h */; };
-		69848CAF2363F97800893E57 /* SFSDKPushNotificationEncryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CAD2363F97800893E57 /* SFSDKPushNotificationEncryption.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69848CB02363F97800893E57 /* SFSDKPushNotificationEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CAE2363F97800893E57 /* SFSDKPushNotificationEncryption.m */; };
 		69848CB22363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */; };
 		69848CB52363FA3E00893E57 /* SFSDKPushNotificationError.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CB32363FA3E00893E57 /* SFSDKPushNotificationError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69848CB62363FA3E00893E57 /* SFSDKPushNotificationError.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */; };
@@ -748,8 +746,6 @@
 		697A919F2363C3D800D2836F /* SFSDKPushNotificationDecryption.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPushNotificationDecryption.m; sourceTree = "<group>"; };
 		69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationFieldsConstants.h; sourceTree = "<group>"; };
 		69848CAB2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKPushNotificationDecryption+Internal.h"; sourceTree = "<group>"; };
-		69848CAD2363F97800893E57 /* SFSDKPushNotificationEncryption.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationEncryption.h; sourceTree = "<group>"; };
-		69848CAE2363F97800893E57 /* SFSDKPushNotificationEncryption.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPushNotificationEncryption.m; sourceTree = "<group>"; };
 		69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationEncryptionConstants.h; sourceTree = "<group>"; };
 		69848CB32363FA3E00893E57 /* SFSDKPushNotificationError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationError.h; sourceTree = "<group>"; };
 		69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPushNotificationError.m; sourceTree = "<group>"; };
@@ -1265,8 +1261,6 @@
 				69848CAB2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h */,
 				697A919F2363C3D800D2836F /* SFSDKPushNotificationDecryption.m */,
 				69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */,
-				69848CAD2363F97800893E57 /* SFSDKPushNotificationEncryption.h */,
-				69848CAE2363F97800893E57 /* SFSDKPushNotificationEncryption.m */,
 				69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */,
 				69848CB32363FA3E00893E57 /* SFSDKPushNotificationError.h */,
 				69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */,
@@ -1808,7 +1802,6 @@
 				B71129101F8A780800436CFB /* SFSDKAlertMessage.h in Headers */,
 				B7460C0E2347DD4E00C7512E /* SFSDKBatchRequest.h in Headers */,
 				B7E1A7831F4C8844007AC36A /* SFSDKAuthViewHandler.h in Headers */,
-				69848CAF2363F97800893E57 /* SFSDKPushNotificationEncryption.h in Headers */,
 				B7895D8323469DE200765D85 /* SFSDKCompositeResponse+Internal.h in Headers */,
 				CE4CE34E1C0E5252009F6029 /* SFOAuthOrgAuthConfiguration.h in Headers */,
 				CE4CE30F1C0E523B009F6029 /* NSDictionary+SFAdditions.h in Headers */,
@@ -2380,7 +2373,6 @@
 				CE4CE3661C0E526A009F6029 /* SFDefaultUserManagementDetailViewController.m in Sources */,
 				CE4CE3791C0E526A009F6029 /* SFPasscodeKeyStore.m in Sources */,
 				CE4CE30C1C0E523B009F6029 /* NSArray+SFAdditions.m in Sources */,
-				69848CB02363F97800893E57 /* SFSDKPushNotificationEncryption.m in Sources */,
 				CEC75D2220276ECD00A043AA /* SFSDKAuthConfigUtil.m in Sources */,
 				CE4CE33D1C0E5245009F6029 /* SFIdentityData.m in Sources */,
 				CE4CE3A01C0E5272009F6029 /* TestSetupUtils.m in Sources */,
