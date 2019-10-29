@@ -51,8 +51,8 @@
         _instructionFont = [UIFont systemFontOfSize:14];
         _titleFont = [UIFont systemFontOfSize:18 weight:UIFontWeightBold];
         _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
-        _touchIdImage = [[SFSDKResourceUtils imageNamed:@"touchId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        _faceIdImage = [[SFSDKResourceUtils imageNamed:@"faceId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        _touchIdImage = [SFSDKResourceUtils imageNamed:@"touchId"];
+        _faceIdImage = [SFSDKResourceUtils imageNamed:@"faceId"];
         _passcodeLength = [SFSecurityLockout passcodeLength];
     }
     return self;

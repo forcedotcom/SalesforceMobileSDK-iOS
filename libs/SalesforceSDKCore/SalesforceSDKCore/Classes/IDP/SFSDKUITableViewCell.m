@@ -51,7 +51,7 @@ static CGFloat kImageHeight = 60;
     UIImage *image = [SFSDKUITableViewCell resizeImage:pimage  size:CGSizeMake(kImageWidth, kImageHeight)];
     
     self.layer.borderWidth = kHorizontalSpace/2;
-    self.layer.borderColor = [UIColor salesforceSystemBackgroundColor].CGColor;
+    [self updateLayerColor];
     self.profileImageView = [[UIImageView alloc] initWithImage:image];
     self.profileImageView.backgroundColor = [UIColor grayColor];
     [self.profileImageView setBounds:CGRectMake(0, 0, kImageWidth, kImageHeight)];
@@ -80,12 +80,25 @@ static CGFloat kImageHeight = 60;
 
     [self.titleLabel.leftAnchor constraintEqualToAnchor:self.profileImageView.rightAnchor constant:12].active = YES;
 
-   [self.titleLabel.lastBaselineAnchor  constraintEqualToAnchor:self.contentView.centerYAnchor constant:-3].active = YES;
+    [self.titleLabel.lastBaselineAnchor  constraintEqualToAnchor:self.contentView.centerYAnchor constant:-3].active = YES;
 
     [self.detailLabel.topAnchor  constraintEqualToAnchor:self.titleLabel.bottomAnchor constant:4].active = YES;
     
    [self.detailLabel.leftAnchor  constraintEqualToAnchor:self.profileImageView.rightAnchor constant:12].active = YES;
     return self;
+}
+
+- (void)updateLayerColor {
+    self.layer.borderColor = [UIColor salesforceSystemBackgroundColor].CGColor;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            [self updateLayerColor];
+        }
+    }
 }
 
 - (void)awakeFromNib {
