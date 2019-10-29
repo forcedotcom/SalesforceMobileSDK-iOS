@@ -354,7 +354,7 @@ static NSString * const kInspectorPickerDefault = @"default";
 {
     UIPickerView* storePicker = [[UIPickerView alloc] initWithFrame:CGRectZero];
     storePicker.delegate = self;
-    storePicker.backgroundColor = [self backgroundColor];
+    storePicker.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     storePicker.layer.borderColor = [self borderColor];
     storePicker.layer.borderWidth = kTextFieldBorderWidth;
     storePicker.dataSource = self;
@@ -367,7 +367,7 @@ static NSString * const kInspectorPickerDefault = @"default";
     UITextView* textView = [[UITextView alloc] initWithFrame:CGRectZero];
     textView.delegate = self;
     textView.textColor = [self textColor];
-    textView.backgroundColor = [self backgroundColor];
+    textView.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     textView.font = [UIFont fontWithName:kTextFieldFontName size:kTextFieldFontSize];
     textView.text = @"";
     textView.layer.borderColor = [self borderColor];
@@ -380,7 +380,7 @@ static NSString * const kInspectorPickerDefault = @"default";
 {
     UITextField* textField = [[UITextField alloc] initWithFrame:CGRectZero];
     textField.textColor = [self textColor];
-    textField.backgroundColor = [self backgroundColor];
+    textField.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     textField.font = [UIFont fontWithName:kTextFieldFontName size:kTextFieldFontSize];
     textField.text = @"";
     textField.textAlignment = NSTextAlignmentCenter;
@@ -394,7 +394,7 @@ static NSString * const kInspectorPickerDefault = @"default";
 {
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:label forState:UIControlStateNormal];
-    button.backgroundColor = [self backgroundColor];
+    button.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     [button.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [button setTitleColor:[self textColor] forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
@@ -415,7 +415,7 @@ static NSString * const kInspectorPickerDefault = @"default";
     gridView.layer.borderColor = [self borderColor];
     gridView.layer.borderWidth = kResultGridBorderWidth;
     [gridView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kCellIndentifier];
-    [gridView setBackgroundColor:[self backgroundColor]];
+    [gridView setBackgroundColor:[UIColor salesforceSystemBackgroundColor]];
     [gridView setDataSource:self];
     [gridView setDelegate:self];
     [self.view addSubview:gridView];
@@ -515,13 +515,6 @@ static NSString * const kInspectorPickerDefault = @"default";
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = self.view.bounds.size.height - y;
     self.resultGrid.frame = CGRectMake(x, y, w, h);
-}
-
-- (UIColor *)backgroundColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor systemBackgroundColor];
-    }
-    return [UIColor whiteColor];
 }
 
 - (UIColor *)textColor {
