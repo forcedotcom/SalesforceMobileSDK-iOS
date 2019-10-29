@@ -29,7 +29,6 @@
 
 #import "SFSDKUserSelectionNavViewController.h"
 #import "SFSDKUserSelectionTableViewController.h"
-#import "SFSDKIDPAuthClient.h"
 
 @interface SFSDKUserSelectionNavViewController ()<SFSDKUserSelectionTableViewControllerDelegate> {
     SFSDKUserSelectionTableViewController *_selectionView;
@@ -42,7 +41,7 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _selectionView= [self createUserSelectionController];
+        _selectionView = [self createUserSelectionController];
     }
     return self;
 }

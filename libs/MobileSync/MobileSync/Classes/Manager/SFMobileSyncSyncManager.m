@@ -53,6 +53,7 @@ NSString * const kSFSyncManagerStateStopped = @"stopped";
 // Errors
 NSString* const kSFMobileSyncErrorDomain = @"com.salesforce.MobileSync.ErrorDomain";
 NSString* const kSFSyncManagerStoppedError = @"SyncManagerStoppedError";
+NSString* const kSFSyncManagerCanOnlyRunCleanGhostsForSyncDown = @"SyncManagerCanOnlyRunCleanGhostsForSyncDown";
 NSString* const kSFSyncManagerCannotRestartError = @"SyncManagerCannotRestartError";
 NSString* const kSFSyncAlreadyRunningError = @"SyncAlreadyRunningError";
 NSString* const kSFSyncNotExistError = @"SyncNotExistError";
@@ -61,6 +62,7 @@ NSInteger const kSFSyncManagerStoppedErrorCode = 900;
 NSInteger const kSFSyncManagerCannotRestartErrorCode = 901;
 NSInteger const kSFSyncAlreadyRunningErrorCode = 902;
 NSInteger const kSFSyncNotExistErrorCode = 903;
+NSInteger const kSFSyncManagerCanOnlyRunCleanGhostsForSyncDownCode = 904;
 
 @interface SFMobileSyncSyncManager ()
 
@@ -500,9 +502,13 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     
     if (sync.type != SFSyncStateSyncTypeDown) {
-        [SFSDKMobileSyncLogger e:[self class] format:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", @(sync.syncId), [SFSyncState syncTypeToString:sync.type]];
+        if (error) {
+            NSString* description = [NSString stringWithFormat:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", @(sync.syncId), [SFSyncState syncTypeToString:sync.type]];
+            *error = [self errorWithType:kSFSyncManagerCanOnlyRunCleanGhostsForSyncDown code:kSFSyncManagerCanOnlyRunCleanGhostsForSyncDownCode description:description];
+        }
         return NO;
     }
+
     [SFSDKMobileSyncLogger d:[self class] format:@"cleanResyncGhosts:%@", sync];
     
     // Run on background thread

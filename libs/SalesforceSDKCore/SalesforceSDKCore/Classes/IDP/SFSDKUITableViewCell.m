@@ -28,7 +28,7 @@
  */
 #import "SFSDKUITableViewCell.h"
 #import "SFSDKUserSelectionTableViewController.h"
-#import "UIColor+SFSDKIDP.h"
+#import "UIColor+SFColors.h"
 #import "UIFont+SFSDKIDP.h"
 #import "SFSDKResourceUtils.h"
 static CGFloat kHorizontalSpace = 12;
@@ -45,12 +45,13 @@ static CGFloat kImageHeight = 60;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.contentView.backgroundColor = [UIColor tableCellBackgroundColor];
+    self.contentView.backgroundColor = [UIColor salesforceSystemBackgroundColor];
+                                        
     UIImage *pimage = [SFSDKResourceUtils imageNamed:@"profile-placeholder"];
     UIImage *image = [SFSDKUITableViewCell resizeImage:pimage  size:CGSizeMake(kImageWidth, kImageHeight)];
     
     self.layer.borderWidth = kHorizontalSpace/2;
-    self.layer.borderColor = [UIColor backgroundcolor].CGColor;
+    self.layer.borderColor = [UIColor salesforceSystemBackgroundColor].CGColor;
     self.profileImageView = [[UIImageView alloc] initWithImage:image];
     self.profileImageView.backgroundColor = [UIColor grayColor];
     [self.profileImageView setBounds:CGRectMake(0, 0, kImageWidth, kImageHeight)];
@@ -62,9 +63,9 @@ static CGFloat kImageHeight = 60;
     self.titleLabel = [[UILabel alloc] init];
     self.detailLabel = [[UILabel alloc] init];
     self.titleLabel.font = [UIFont textRegular:16.0];
-    self.titleLabel.textColor = [UIColor defaultTextColor];
+    self.titleLabel.textColor = [UIColor salesforceLabelColor];
     self.detailLabel.font = [UIFont textRegular:14.0];
-    self.detailLabel.textColor = [UIColor weakTextColor];
+    self.detailLabel.textColor = [UIColor salesforceLabelColor];
     self.profileImageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.detailLabel.translatesAutoresizingMaskIntoConstraints = NO;

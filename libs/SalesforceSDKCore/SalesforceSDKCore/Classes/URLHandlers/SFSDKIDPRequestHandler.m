@@ -29,10 +29,7 @@
 #import "SFSDKIDPRequestHandler.h"
 #import "SFSDKIDPConstants.h"
 #import "SFOAuthCredentials.h"
-#import "SFSDKOAuthClient.h"
-#import "SFSDKOAuthClientConfig.h"
 #import "SFSDKUserSelectionNavViewController.h"
-#import "SFSDKIDPAuthClient.h"
 #import "SFUserAccountManager+URLHandlers.h"
 #import "SFSDKAuthRequestCommand.h"
 
@@ -47,7 +44,7 @@
 
     SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
     [command fromRequestURL:url];
-    [[SFUserAccountManager sharedInstance] handleIdpRequest:command];
+    [[SFUserAccountManager sharedInstance] handleAuthRequestFromSPApp:command];
     return NO;
 }
 @end

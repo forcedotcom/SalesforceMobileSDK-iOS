@@ -26,7 +26,7 @@
  */
 
 #import "SFSDKPasscodeTextField.h"
-#import "UIColor+SFSDKPasscodeView.h"
+#import "UIColor+SFColors.h"
 #import "SFSDKAppLockViewConfig.h"
 
 static CGFloat      const kDefaultLineWidth                  = 1;

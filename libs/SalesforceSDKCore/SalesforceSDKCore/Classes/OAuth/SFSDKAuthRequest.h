@@ -26,6 +26,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 NS_ASSUME_NONNULL_BEGIN
 @class SFSDKAppLockViewConfig;
 @class SFSDKLoginViewControllerConfig;
+@class UIViewController;
+@protocol SFSDKLoginFlowSelectionView;
+@protocol SFSDKUserSelectionView;
 
 @interface SFSDKAuthRequest : NSObject
 
@@ -42,6 +45,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) SFSDKAppLockViewConfig *appLockViewControllerConfig;
 @property (nonatomic, copy) NSString *jwtToken;
 @property (nonatomic, copy, nullable) NSString *userAgentForAuth;
+
+//IDP flow related properties (SPApp related properties)
+@property (nonatomic, readonly, assign) BOOL ipdEnabled;
+@property (nonatomic, copy) NSString *idpAppURIScheme;
+@property (nonatomic, copy) NSString *userHint;
+@property (nonatomic, copy, nullable) UIViewController<SFSDKLoginFlowSelectionView> * (^spAppLoginFlowSelectionAction)(void);
+@property (nonatomic, copy) NSString *appDisplayName;
+
+//IDP flow related properties (IDP App related properties)
+@property (nonatomic, copy, nullable) UIViewController<SFSDKUserSelectionView>* (^idpAppUserSelectionAction)(void);
+@property (nonatomic, assign) BOOL authenticateRequestFromSPApp;
 
 @end
 

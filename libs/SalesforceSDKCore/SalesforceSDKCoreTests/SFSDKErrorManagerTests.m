@@ -27,6 +27,7 @@
 #import "SFOAuthCoordinator.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
+#import "TestSetupUtils.h"
 @interface SFSDKErrorManagerTests : XCTestCase {
     SFUserAccount *_origCurrentUser;
 }
@@ -46,7 +47,7 @@
 - (void)testNetworkError {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
     SFSDKAuthSession *session = [[SFSDKAuthSession alloc] init];
-    SFOAuthCredentials *credentials = [[SFUserAccountManager sharedInstance] newClientCredentials];
+    SFOAuthCredentials *credentials = [TestSetupUtils newClientCredentials];
     credentials.accessToken = @"__ACCESS_TOKEN__";
     credentials.refreshToken = @"__REFRESH_TOKEN__";
     credentials.userId = @"USER123";

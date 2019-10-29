@@ -475,15 +475,14 @@
 }
 
 // IDP related
-- (void)beginIDPFlow:(SFOAuthCredentials *)spAppCredentials {
+- (void)beginIDPFlow {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
-    self.spAppCredentials = spAppCredentials;
     self.initialRequestLoaded = NO;
     // notify delegate will be begin authentication in our (web) vew
     if (self.credentials.accessToken && self.credentials.apiUrl) {
         NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
-        NSString *approvalUrlString = [self generateCodeApprovalUrlString:spAppCredentials];
-        NSString *codeChallengeString = spAppCredentials.challengeString;
+        NSString *approvalUrlString = [self generateCodeApprovalUrlString:self.spAppCredentials];
+        NSString *codeChallengeString = self.spAppCredentials.challengeString;
         approvalUrlString = [NSString stringWithFormat:@"%@&%@=%@", approvalUrlString, kSFOAuthCodeChallengeParamName, codeChallengeString];
         NSString *escapedApprovalUrlString = [approvalUrlString stringByURLEncoding];
         NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
