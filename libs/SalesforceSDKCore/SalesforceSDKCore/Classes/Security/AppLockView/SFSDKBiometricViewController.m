@@ -30,6 +30,7 @@
 #import "SFSDKResourceUtils.h"
 #import "SFSDKWindowManager.h"
 #import "SalesforceSDKManager.h"
+#import "UIColor+SFColors.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 
 static CGFloat      const kSFFaceIdIconWidth                   = 36.0f;
@@ -39,12 +40,11 @@ static CGFloat      const kSFFaceIconPadding                   = 22.0f;
 static CGFloat      const kSFTouchIconPadding                  = 19.0f;
 static CGFloat      const kSFTitleTextLabelHeight              = 20.0f;
 static CGFloat      const kSFButtonCornerRadius                = 4.0f;
-static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
 static CGFloat      const kSFTopPadding                        = 64.5f;
 static CGFloat      const kSFBioDefaultPadding                 = 20.0f;
 static CGFloat      const kSFBioButtonHeight                   = 47.0f;
 static CGFloat      const kSFBioTopPadding                     = 64.5f;
-static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
+static CGFloat      const kSFBioViewBorderWidth                = 0.5f;
 
 @interface SFSDKBiometricViewController ()
 
@@ -91,7 +91,7 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
     
     self.setUpBiometricView = [[UIView alloc] initWithFrame:CGRectZero];
     self.setUpBiometricView.backgroundColor = self.viewConfig.secondaryBackgroundColor;
-    self.setUpBiometricView.layer.borderWidth = kSFViewBoarderWidth;
+    self.setUpBiometricView.layer.borderWidth = kSFBioViewBorderWidth;
     self.setUpBiometricView.accessibilityIdentifier = @"biometricSetupView";
     [self updateSetupBiometricViewColors];
     [self.view addSubview:self.setUpBiometricView];
@@ -131,9 +131,11 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
     self.cancelBiometricButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.cancelBiometricButton setTitle:[SFSDKResourceUtils localizedString:@"biometricCancelButtonText"] forState:UIControlStateNormal];
     self.cancelBiometricButton.backgroundColor = self.viewConfig.secondaryColor;
+    self.cancelBiometricButton.backgroundColor = [UIColor colorForLightStyle:self.viewConfig.secondaryColor darkStyle:[UIColor clearColor]];
     self.cancelBiometricButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.cancelBiometricButton.titleLabel.font = self.viewConfig.buttonFont;
-    [self.cancelBiometricButton setTitleColor:self.viewConfig.primaryColor forState:UIControlStateNormal];
+    UIColor *cancelButtonTitleColor = [UIColor colorForLightStyle:self.viewConfig.primaryColor darkStyle:self.viewConfig.secondaryColor];
+    [self.cancelBiometricButton setTitleColor:cancelButtonTitleColor forState:UIControlStateNormal];
     [self.cancelBiometricButton addTarget:self action:@selector(userDenyBiometricEnablement) forControlEvents:UIControlEventTouchUpInside];
     self.cancelBiometricButton.layer.borderWidth = 1.0f;
     self.cancelBiometricButton.layer.cornerRadius = kSFButtonCornerRadius;
@@ -150,7 +152,8 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
 }
 
 - (void)updateCancelBiometricButtonColors {
-    self.cancelBiometricButton.layer.borderColor = self.viewConfig.borderColor.CGColor;
+    CGColorRef borderColor = [UIColor colorForLightStyle:self.viewConfig.borderColor darkStyle:self.viewConfig.secondaryColor].CGColor;
+    self.cancelBiometricButton.layer.borderColor = borderColor;
 }
 
 - (void)updateSetupBiometricViewColors {
@@ -206,7 +209,7 @@ static CGFloat      const kSFBioViewBorderWidth                = 1.0f;
     CGFloat hEnableButton = kSFBioButtonHeight;
     self.enableBiometricButton.frame = CGRectMake(xEnableButton, yEnableButton, wEnableButton, hEnableButton);
     
-    CGFloat xSetup = (0 - kSFViewBoarderWidth);
+    CGFloat xSetup = (0 - kSFBioViewBorderWidth);
     CGFloat ySetup = (kSFBioTopPadding * 2) + kSFIconCircleDiameter;
     CGFloat wSetup = self.view.bounds.size.width + (kSFBioViewBorderWidth * 2);
     CGFloat hSetup = (kSFBioDefaultPadding * 3.5) + hTitle + hIns + hCancelButton;

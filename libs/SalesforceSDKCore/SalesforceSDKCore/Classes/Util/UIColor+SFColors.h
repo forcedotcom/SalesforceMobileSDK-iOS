@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable UIColor *)colorFromHexValue:(NSString *)hexString;
 
++ (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor;
+
 /** Returns a CSS hex color representation
  of this color
  */
