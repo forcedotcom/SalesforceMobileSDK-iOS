@@ -531,7 +531,7 @@
 			children = (
 				4F5BBBDB235F734F00E6D619 /* MobileSync.swift */,
 			);
-			name = Extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		4FCA4A951FBE4DE900F081B3 /* Config */ = {
