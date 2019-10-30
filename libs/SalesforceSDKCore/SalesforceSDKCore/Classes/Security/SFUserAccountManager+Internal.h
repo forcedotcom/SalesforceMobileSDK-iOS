@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** A map of user accounts by user ID
  */
-@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap;
+@property (nonatomic, strong, nullable) NSMutableDictionary *userAccountMap;
 
 /** instance of accountPersister
  *

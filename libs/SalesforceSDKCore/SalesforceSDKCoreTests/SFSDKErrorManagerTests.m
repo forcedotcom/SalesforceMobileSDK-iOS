@@ -24,10 +24,11 @@
 #import <XCTest/XCTest.h>
 #import "SFSDKAuthErrorManager.h"
 #import "SFOAuthInfo.h"
-#import "SFOAuthCoordinator.h"
+#import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "TestSetupUtils.h"
+#import "SFSDKAuthRequest.h"
 @interface SFSDKErrorManagerTests : XCTestCase {
     SFUserAccount *_origCurrentUser;
 }
@@ -46,15 +47,20 @@
 
 - (void)testNetworkError {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
-    SFSDKAuthSession *session = [[SFSDKAuthSession alloc] init];
+    
     SFOAuthCredentials *credentials = [TestSetupUtils newClientCredentials];
     credentials.accessToken = @"__ACCESS_TOKEN__";
     credentials.refreshToken = @"__REFRESH_TOKEN__";
     credentials.userId = @"USER123";
     credentials.organizationId = @"ORG123";
+   
     SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:credentials];
     [[SFUserAccountManager sharedInstance] saveAccountForUser:account error:nil];
     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:account];
+    SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
+    SFSDKAuthSession *session = [[SFSDKAuthSession alloc] initWith:request credentials:credentials spAppCredentials:nil];
+    session.oauthCoordinator.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+       
     XCTAssertNotNil(errorManager);
     XCTestExpectation *networkErrorExpectation =  [self expectationWithDescription:@"networkErrorExpectation"];
     NSDictionary *userInfo = [[NSMutableDictionary alloc] init];

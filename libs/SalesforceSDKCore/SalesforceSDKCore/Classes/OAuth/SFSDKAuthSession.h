@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) SFOAuthInfo *authInfo;
 @property (nonatomic, copy, nullable) void (^authCoordinatorBrowserBlock)(BOOL);
 //idp related
-@property (nonatomic, strong) SFOAuthCredentials *spAppCredentials;
+@property (nonatomic, strong, nullable) SFOAuthCredentials *spAppCredentials;
 
 -(instancetype)initWith:(SFSDKAuthRequest *)request credentials:(nullable SFOAuthCredentials *)creds;
 -(instancetype)initWith:(SFSDKAuthRequest *)request credentials:(nullable SFOAuthCredentials *)creds spAppCredentials:(nullable SFOAuthCredentials *)spAppCredentials;
