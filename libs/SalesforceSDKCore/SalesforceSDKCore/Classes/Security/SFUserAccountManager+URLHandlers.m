@@ -79,6 +79,7 @@
     
     SFSDKAuthRequest *request = [self defaultAuthRequest];
     request.userHint = userHint;
+    request.idpInitiatedAuth = YES;
     [self authenticateUsingIDP:request completion:^(SFOAuthInfo *authInfo, SFUserAccount *user) {
         
     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -87,28 +88,31 @@
     return YES;
 }
 
-- (BOOL)handleAuthRequestFromSPApp:(SFSDKAuthRequestCommand *)request
-{
+- (BOOL)handleAuthRequestFromSPApp:(SFSDKAuthRequestCommand *)request {
     NSString *userHint = request.spUserHint;
-    SFOAuthCredentials *foundUserCredentials = nil;
+    SFUserAccount *foundUserAccount= nil;
     [SFSDKCoreLogger d:[self class] format:@"handleAuthRequestFromSPApp for %@", [request.allParams description]];
-    if (userHint) {
-        SFUserAccountIdentity *identity = [self decodeUserIdentity:userHint];
-        SFUserAccount *userAccount = [self userAccountForUserIdentity:identity];
-        if (userAccount.credentials.accessToken!=nil) {
-            [SFSDKCoreLogger d:[self class] format:@"handleAuthRequestFromSPApp userAccount found for userHint"];
-            foundUserCredentials = userAccount.credentials;
-        }
-    }
     
     NSDictionary *userInfo = @{kSFUserInfoAddlOptionsKey : request.allParams};
     [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserDidReceiveIDPRequest
                                                          object:self
                                                        userInfo:userInfo];
+    
+    if (userHint) {
+        SFUserAccountIdentity *identity = [self decodeUserIdentity:userHint];
+        SFUserAccount *userAccount = [self userAccountForUserIdentity:identity];
+        if (userAccount.credentials.accessToken!=nil) {
+            [SFSDKCoreLogger d:[self class] format:@"handleAuthRequestFromSPApp userAccount found for userHint"];
+            foundUserAccount = userAccount;
+        }
+        [self selectedUser:userAccount spAppContext:request.allParams];
+        return YES;
+    }
+    
     BOOL showSelection = NO;
     NSString *domain = request.allParams[kSFLoginHostParam]?:self.loginHost;
     
-    if (self.currentUser!=nil && !foundUserCredentials) {
+    if (self.currentUser != nil) {
         NSArray *domainUsers = [self userAccountsForDomain:domain];
         showSelection = ([domainUsers count] > 0);
     }

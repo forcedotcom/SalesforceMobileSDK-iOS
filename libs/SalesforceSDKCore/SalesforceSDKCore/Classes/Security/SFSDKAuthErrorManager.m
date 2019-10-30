@@ -105,7 +105,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                    SFOAuthInfo *authInfo = coord.authInfo;
                                                    if (authInfo.authType != SFOAuthTypeRefresh) {
                                                        [SFSDKCoreLogger e:[weakSelf class] format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", authInfo.authTypeDescription];
-                                                   } else if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken == nil) {
+                                                   } else if (authSession.credentials.accessToken == nil) {
                                                        [SFSDKCoreLogger w:[weakSelf class] format:@"Network unreachable for access token refresh, and no access token is configured.  Cannot continue."];
                                                    } else {
                                                        [SFSDKCoreLogger i:[weakSelf class]  format:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];

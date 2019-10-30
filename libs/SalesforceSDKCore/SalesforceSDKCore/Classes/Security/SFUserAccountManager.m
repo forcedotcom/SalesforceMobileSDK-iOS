@@ -496,12 +496,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)restartAuthentication {
-    [self.authSession.oauthCoordinator stopAuthentication];
+    [self restartAuthentication:self.authSession];
+}
+
+- (void)restartAuthentication:(SFSDKAuthSession *)session {
+    [session.oauthCoordinator stopAuthentication];
     __weak typeof(self) weakSelf = self;
     [self dismissAuthViewControllerIfPresent:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         strongSelf.authSession.isAuthenticating = NO;
-        [strongSelf authenticateWithRequest:strongSelf.authSession.oauthRequest completion:strongSelf.authSession.authSuccessCallback failure:strongSelf.authSession.authFailureCallback];
+        [strongSelf authenticateWithRequest:session.oauthRequest completion:session.authSuccessCallback failure:session.authFailureCallback];
     }];
     
 }
@@ -1414,32 +1418,41 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 #pragma mark - private methods
 //called by SP app to kick off idp authentication
 - (BOOL)authenticateUsingIDP:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     authSession.isAuthenticating = YES;
     authSession.authFailureCallback = failureBlock;
     authSession.authSuccessCallback = completionBlock;
     authSession.oauthCoordinator.delegate = self;
     self.authSession = authSession;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        UIViewController<SFSDKLoginFlowSelectionView> *controller  = request.spAppLoginFlowSelectionAction();
-        controller.selectionFlowDelegate = self;
-        NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-        if (request.userHint) {
-            options[kSFUserHintParam] = request.userHint;
-        }
-        controller.appOptions = options;
-        controller.selectionFlowDelegate = [SFUserAccountManager sharedInstance];
-        SFSDKWindowContainer *authWindow = [SFSDKWindowManager sharedManager].authWindow;
-       
-        SFSDKNavigationController *navcontroller = [[SFSDKNavigationController alloc] initWithRootViewController:controller];
-        navcontroller.modalPresentationStyle = UIModalPresentationFullScreen;
-        [authWindow presentWindowAnimated:NO withCompletion:^{
-           authWindow.viewController.modalPresentationStyle = UIModalPresentationFullScreen;
-           [authWindow.viewController presentViewController:navcontroller animated:YES completion:^{
-           }];
+    if (request.idpInitiatedAuth && request.userHint) {
+        //no need to show login selection view
+        self.authSession.oauthRequest.appDisplayName = self.appDisplayName;
+        [SFSDKIDPAuthHelper invokeIDPApp:self.authSession completion:^(BOOL result) {
+           [SFSDKCoreLogger d:[self class] format:@"Launced IDP App"];
         }];
-    });
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            UIViewController<SFSDKLoginFlowSelectionView> *controller  = request.spAppLoginFlowSelectionAction();
+            controller.selectionFlowDelegate = self;
+            NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
+            if (request.userHint) {
+                options[kSFUserHintParam] = request.userHint;
+            }
+            controller.appOptions = options;
+            controller.selectionFlowDelegate = [SFUserAccountManager sharedInstance];
+            SFSDKWindowContainer *authWindow = [SFSDKWindowManager sharedManager].authWindow;
+           
+            SFSDKNavigationController *navcontroller = [[SFSDKNavigationController alloc] initWithRootViewController:controller];
+            navcontroller.modalPresentationStyle = UIModalPresentationFullScreen;
+            [authWindow presentWindowAnimated:NO withCompletion:^{
+               authWindow.viewController.modalPresentationStyle = UIModalPresentationFullScreen;
+               [authWindow.viewController presentViewController:navcontroller animated:YES completion:^{
+               }];
+            }];
+        });
+    }
     return self.authSession.isAuthenticating;
 }
 
@@ -1481,7 +1494,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [strongSelf showErrorAlertWithMessage:alertMessage buttonTitle:okButton andCompletion:^() {
             [session.oauthCoordinator stopAuthentication];
             [strongSelf notifyUserCancelledOrDismissedAuth:session.oauthCoordinator.credentials andAuthInfo:session.authInfo];
-            [strongSelf restartAuthentication];
+            [strongSelf restartAuthentication:session];
         }];
     };
     
@@ -1492,7 +1505,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         NSString *retryButton = [SFSDKResourceUtils localizedString:kAlertOkButtonKey];
         [strongSelf showErrorAlertWithMessage:message buttonTitle:retryButton   andCompletion:^() {
             //TODO: RestartAuth
-            [strongSelf restartAuthentication];
+            [strongSelf restartAuthentication:session];
         }];
     };
     
@@ -1731,15 +1744,17 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                            }];
         completion(error,nil);
     } else {
-        [self loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-            [self fireNotificationForSwitchUserFrom:prevUser to:userAccount];
-            if (completion) {
-                completion(nil, userAccount);
-            }
-        } failure:^(SFOAuthInfo * authInfo, NSError * error) {
-            if (completion) {
-                completion(error,nil);
-            }
+        [self stopCurrentAuthentication:^(BOOL result) {
+            [self loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+                [self fireNotificationForSwitchUserFrom:prevUser to:userAccount];
+                if (completion) {
+                    completion(nil, userAccount);
+                }
+            } failure:^(SFOAuthInfo * authInfo, NSError * error) {
+                if (completion) {
+                    completion(error,nil);
+                }
+            }];
         }];
     }
 }

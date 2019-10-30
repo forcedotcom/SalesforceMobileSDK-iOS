@@ -116,7 +116,8 @@ static SFOAuthCredentials *credentials = nil;
 }
 
 + (SFOAuthCredentials *)newClientCredentials {
-    NSString *identifier = [SFUserAccountManager sharedInstance].oauthClientId;
+    
+    NSString *identifier = [[SFUserAccountManager sharedInstance]  uniqueUserAccountIdentifier:[SFUserAccountManager sharedInstance].oauthClientId];
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:[SFUserAccountManager sharedInstance].oauthClientId encrypted:YES];
     creds.clientId = [SFUserAccountManager sharedInstance].oauthClientId;
     creds.redirectUri = [SFUserAccountManager sharedInstance].oauthCompletionUrl;
