@@ -90,7 +90,6 @@
 
 - (BOOL)handleAuthRequestFromSPApp:(SFSDKAuthRequestCommand *)request {
     NSString *userHint = request.spUserHint;
-    SFUserAccount *foundUserAccount= nil;
     [SFSDKCoreLogger d:[self class] format:@"handleAuthRequestFromSPApp for %@", [request.allParams description]];
     
     NSDictionary *userInfo = @{kSFUserInfoAddlOptionsKey : request.allParams};
@@ -103,7 +102,6 @@
         SFUserAccount *userAccount = [self userAccountForUserIdentity:identity];
         if (userAccount.credentials.accessToken!=nil) {
             [SFSDKCoreLogger d:[self class] format:@"handleAuthRequestFromSPApp userAccount found for userHint"];
-            foundUserAccount = userAccount;
         }
         [self selectedUser:userAccount spAppContext:request.allParams];
         return YES;
