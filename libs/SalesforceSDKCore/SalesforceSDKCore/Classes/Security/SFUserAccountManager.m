@@ -1257,7 +1257,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         userAccountChange = SFUserAccountChangeNewUser;
     }
     [credentials resetCredentialsChangeSet];
-    if (!identityData) {
+    if (identityData) {
         currentAccount.idData = identityData;
     }
     [self saveAccountForUser:currentAccount error:nil];
