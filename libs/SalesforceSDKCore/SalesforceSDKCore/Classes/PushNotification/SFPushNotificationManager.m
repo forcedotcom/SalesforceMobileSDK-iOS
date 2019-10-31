@@ -147,7 +147,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     // Sends community ID as part of the registration call, to ensure notifications are scoped by community.
     NSString *communityId = [SFUserAccountManager sharedInstance].currentUser.credentials.communityId;
     if (communityId) {
-        bodyDict["NetworkId"] = communityId;
+        bodyDict[@"NetworkId"] = communityId;
     }
 
     // Adds a RSA public key as part of the registration call if encryption is enabled.
