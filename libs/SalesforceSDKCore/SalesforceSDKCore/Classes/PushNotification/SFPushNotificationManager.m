@@ -139,13 +139,18 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     NSString *path = [NSString stringWithFormat:@"/%@/%@", [SFRestAPI sharedInstance].apiVersion, kSFPushNotificationEndPoint];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     NSString *bundleId = [NSBundle mainBundle].bundleIdentifier;
-    
     NSMutableDictionary* bodyDict = [NSMutableDictionary dictionaryWithDictionary:@{@"ConnectionToken":_deviceToken, @"ServiceType":@"Apple", @"ApplicationBundle":bundleId}];
-
     if (_customPushRegistrationBody != nil) {
         [bodyDict addEntriesFromDictionary: _customPushRegistrationBody];
     }
-    
+
+    // Sends community ID as part of the registration call, to ensure notifications are scoped by community.
+    NSString *communityId = [SFUserAccountManager sharedInstance].currentUser.credentials.communityId;
+    if (communityId) {
+        bodyDict["NetworkId"] = communityId;
+    }
+
+    // Adds a RSA public key as part of the registration call if encryption is enabled.
     if (self.encryptionEnabled) {
         NSString *rsaPublicKey = [self getRSAPublicKey];
         if (!rsaPublicKey) {
@@ -154,7 +159,6 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
         }
         bodyDict[@"RsaPublicKey"] = rsaPublicKey;
     }
-    
     [request setCustomRequestBodyDictionary:bodyDict contentType:@"application/json"];
     __weak typeof(self) weakSelf = self;
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
