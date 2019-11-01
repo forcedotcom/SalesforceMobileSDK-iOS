@@ -44,9 +44,9 @@ public struct RestResponse {
     private (set) var data: Data
     private (set) var urlResponse: URLResponse
     
-    /// Initializes the RestResponse with a Data object and URLResponse
-    /// - Parameter data: Response as raw Data
-    /// - Parameter urlResponse: URlResponse from endpoint
+    /// Initializes the RestResponse with a Data object and URLResponse.
+    /// - Parameter data: Raw response as Data.
+    /// - Parameter urlResponse: URlResponse from endpoint.
     public init(data: Data, urlResponse: URLResponse) {
         self.data = data
         self.urlResponse = urlResponse
@@ -62,18 +62,21 @@ public struct RestResponse {
         }
     }
     
-    /// Get response as Data object. Use this for retrieving  binary objects
+    /// Get response as Data object. Use this for retrieving  binary objects.
+    /// - Returns:
+    /// Data object containing the response.
     public func asData() -> Data {
         return self.data
     }
     
-    /// Parse response as String
+    /// Parse response as String.
+    /// - Returns: `String` containing the response.
     public func asString() -> String {
         let stringData = String(data: data, encoding: String.Encoding.utf8)
         return stringData ?? RestResponse.emptyStringResponse
     }
     
-    /// Decode the response as  a codable
+    /// Decode the response as  a codable.
     /// - Parameter type: The type to use for decoding.
     public func asDecodable<T: Decodable>(type: T.Type) throws -> Decodable? {
         let decoder = JSONDecoder()
@@ -88,9 +91,9 @@ public struct RestResponse {
 
 extension RestClient {
     
-    /// Execute a request.
-    /// - Parameter request: RestRequest object
-    /// - Parameter completionBlock: The completion block to invoke.
+    /// Execute a prebuilt request.
+    /// - Parameter request: `RestRequest` object.
+    /// - Parameter completionBlock: `Result` block that handles the server's response.
     public func send(request: RestRequest, _ completionBlock: @escaping (Result<RestResponse, RestClientError>) -> Void) {
         request.parseResponse = false
         __send(request, fail: { (error, urlResponse) in
@@ -107,9 +110,10 @@ extension RestClient {
         })
     }
     
-    /// Execute a request.
-    /// - Parameter request: Composite Request object
-    /// - Parameter completionBlock: The completion block to invoke.
+    /// Execute a prebuilt composite request.
+    /// - Parameter compositeRequest: `CompositeRequest` object containing the array of subrequests to execute.
+    /// - Parameter completionBlock: `Result` block that handles the server's response.
+    /// - See   [Composite](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm).
     public func send(compositeRequest: CompositeRequest, _ completionBlock: @escaping (Result<CompositeResponse, RestClientError>) -> Void) {
         compositeRequest.parseResponse = false
         __sendCompositeRESTRequest(compositeRequest, fail: { (error, urlResponse) in
@@ -120,9 +124,10 @@ extension RestClient {
         })
     }
     
-    /// Execute a request.
-    /// - Parameter request: Batch Request object
-    /// - Parameter completionBlock: The completion block to invoke.
+    /// Execute a prebuilt batch of requests.
+    /// - Parameter batchRequest: `BatchRequest` object containing the array of subrequests to execute.
+    /// - Parameter completionBlock: `Result` block that handles the server's response.
+    /// - See   [Batch](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm).
     public func send(batchRequest: BatchRequest, _ completionBlock: @escaping (Result<BatchResponse, RestClientError>) -> Void ) {
         batchRequest.parseResponse = false
         __sendBatchRESTRequest(batchRequest, fail: { (error, urlResponse) in
