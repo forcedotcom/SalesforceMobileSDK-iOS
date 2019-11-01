@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param error Input-output parameter that sets or returns any error that occurs during file reading.
  * @return `NSDictionary` object built from the file's contents.
  */
-+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath error:(NSError**)error;
++ (nullable NSDictionary *)loadConfigFromFile:(NSString *)configFilePath error:(NSError**)error;
 
 @end
 

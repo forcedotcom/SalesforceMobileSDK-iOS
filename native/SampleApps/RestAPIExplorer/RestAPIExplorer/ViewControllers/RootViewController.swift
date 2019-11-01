@@ -111,8 +111,8 @@ class RootViewController: UIViewController {
     fileprivate var responseExpandedTopConstraint: NSLayoutConstraint!
     
     fileprivate var fullName: String {
-        if let currentAccount = UserAccountManager.shared.currentUserAccount, let id =  currentAccount.idData  {
-            return (id.firstName ?? "") + " " + (id.lastName)
+        if let currentAccount = UserAccountManager.shared.currentUserAccount {
+            return (currentAccount.idData.firstName ?? "") + " " + (currentAccount.idData.lastName)
         }
         return ""
     }
@@ -827,7 +827,7 @@ extension RootViewController: ActionTableViewDelegate {
             request = restApi.request(forDeleteFileShare: objId, apiVersion: SFRestDefaultAPIVersion)
         case .currentUserInfo:
             guard let currentAccount = UserAccountManager.shared.currentUserAccount else {return}
-            guard let idData = currentAccount.idData else {return}
+            let idData = currentAccount.idData
             var userInfoString = "Name: " + self.fullName
             userInfoString += "\nID: " + idData.username
             userInfoString += "\nEmail: " + idData.email

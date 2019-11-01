@@ -74,7 +74,7 @@ NS_SWIFT_NAME(UserAccount)
 
 /** The identity data associated with this user
  */
-@property (nonatomic, strong, nullable) SFIdentityData *idData;
+@property (nonatomic, strong) SFIdentityData *idData;
 
 /** The user's photo. Usually store a thumbnail of the user.
 To set this property use `setPhoto:completion:`

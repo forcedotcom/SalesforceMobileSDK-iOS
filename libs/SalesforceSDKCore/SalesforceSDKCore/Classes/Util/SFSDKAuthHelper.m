@@ -45,7 +45,12 @@
             [SFSDKCoreLogger e:[self class] format:@"Authentication failed: %@.",[authError localizedDescription]];
             
         };
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+        BOOL result = [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+        if (!result) {
+            [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:^(BOOL result) {
+                [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+            }];
+        }
     } else {
         [self passcodeValidation:completionBlock];
     }

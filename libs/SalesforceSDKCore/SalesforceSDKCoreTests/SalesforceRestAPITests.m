@@ -136,6 +136,7 @@ static NSException *authException = nil;
     }
     [[SFRestAPI sharedGlobalInstance] cleanup];
     [[SFRestAPI sharedInstance] cleanup];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:_currentUser];
     [NSThread sleepForTimeInterval:0.1];  // Some test runs were failing, saying the run didn't complete.  This seems to fix that.
     [super tearDown];
 }

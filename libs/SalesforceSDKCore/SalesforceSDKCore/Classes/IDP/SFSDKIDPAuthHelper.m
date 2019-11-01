@@ -56,7 +56,8 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     command.spCodeChallenge = codeChallengeString;
     command.spAppScopes = [self encodeScopes:session.oauthRequest.scopes];
     command.spUserHint = session.oauthRequest.userHint;
-    command.spLoginHost = session.oauthCoordinator.credentials.domain;
+    if (!session.oauthRequest.idpInitiatedAuth)
+        command.spLoginHost = session.oauthCoordinator.credentials.domain;
     command.spRedirectURI = session.oauthCoordinator.credentials.redirectUri;
     command.spAppName = session.oauthRequest.appDisplayName;
     
