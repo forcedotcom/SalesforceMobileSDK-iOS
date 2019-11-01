@@ -38,11 +38,9 @@ public enum RestClientError: Error {
 }
 
 public struct RestResponse {
-    private static let emptyJsonDictionaryArrayResponse = [String: Any]()
-    private static let emptyJsonArrayResponse = [[String: Any]]()
     private static let emptyStringResponse = ""
     private (set) var data: Data
-    private (set) var urlResponse: URLResponse
+    public private (set) var urlResponse: URLResponse
     
     /// Initializes the RestResponse with a Data object and URLResponse
     /// - Parameter data: Response as raw Data

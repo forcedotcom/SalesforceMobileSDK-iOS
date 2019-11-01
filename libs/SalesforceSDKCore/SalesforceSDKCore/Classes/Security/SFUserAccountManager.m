@@ -599,7 +599,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     UIViewController *presentedViewController = [SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController;
     
-    if (presentedViewController) {
+    if (presentedViewController && presentedViewController.isBeingPresented) {
         [presentedViewController dismissViewControllerAnimated:NO completion:^{
             [[SFSDKWindowManager sharedManager].authWindow dismissWindowAnimated:NO withCompletion:^{
                 if (completionBlock) {
@@ -1861,14 +1861,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             }];
         }
         else {
-#if __IPHONE_OS_VERSION_MIN_ALLOWED >= 130000
             if (@available(iOS 13.0, *)) {
                 SFSDKAuthRootController* authRootController = [[SFSDKAuthRootController alloc] init];
                 [SFSDKWindowManager sharedManager].authWindow.viewController = authRootController;
                 authRootController.modalPresentationStyle = UIModalPresentationFullScreen;
                 viewHandler.session.presentationContextProvider = (id<ASWebAuthenticationPresentationContextProviding>) [SFSDKWindowManager sharedManager].authWindow.viewController;
             }
-#endif
            [viewHandler.session start];
         }
     };
