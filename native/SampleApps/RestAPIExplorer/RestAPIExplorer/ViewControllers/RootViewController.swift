@@ -61,7 +61,7 @@ struct ContentSection {
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.titleLabel.font = UIFont.appRegularFont(20)
         self.titleLabel.text = title
-        self.titleLabel.textColor = UIColor.appDarkBlue
+        self.titleLabel.textColor = UIColor.init(forLightStyle: UIColor.appDarkBlue, darkStyle: UIColor.white)
         self.container.addSubview(self.titleLabel)
         self.titleLabel.leftAnchor.constraint(equalTo: self.container.leftAnchor, constant: ContentSection.horizontalMargin).isActive = true
  
@@ -86,6 +86,8 @@ class RootViewController: UIViewController {
     fileprivate let querySection = ContentSection("Manual query")
     fileprivate var responseSection = ContentSection("Response for...")
     
+    fileprivate var textFields: [UITextField] = []
+    fileprivate var textViews: [UITextView] = []
     fileprivate var objectTypeTextField: UITextField!
     fileprivate var objectIdTextField: UITextField!
     fileprivate var externalIdTextField: UITextField!
@@ -131,8 +133,8 @@ class RootViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
-        
+        self.view.backgroundColor = UIColor.appContentBackground
+
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(clearPopoversForPasscode),
                                                name: NSNotification.Name(rawValue: kSFPasscodeFlowWillBegin),
@@ -156,6 +158,7 @@ class RootViewController: UIViewController {
         let paramContent = self.buildParametersSection()
         let queryContent = self.buildQuerySection()
         let responseContent = self.buildResponseSection()
+        self.updateBorderColor()
         
         let parambar = UIView()
         parambar.translatesAutoresizingMaskIntoConstraints = false
@@ -233,19 +236,19 @@ class RootViewController: UIViewController {
         label.font = UIFont.appRegularFont(12)
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
-        label.textColor = UIColor.appTextBlue
+        label.textColor = UIColor.appLabel
         
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = UIFont.appBoldFont(14)
-        field.textColor = UIColor.appTextFieldBlue
+        field.textColor = UIColor.appTextField
         field.autocorrectionType = .no
         field.borderStyle = .none
         field.layer.cornerRadius = 4.0
-        field.layer.borderColor = UIColor.appTextFieldBorder.cgColor
         field.layer.borderWidth = 1.0
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 4, height: 4))
         field.leftViewMode = .always
+        field.backgroundColor = UIColor.appSecondarySystemGroupedBackground
         
         container.addSubview(label)
         container.addSubview(field)
@@ -258,6 +261,8 @@ class RootViewController: UIViewController {
         field.topAnchor.constraint(equalTo: label.bottomAnchor, constant:2.0).isActive = true
         field.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
         field.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
+        
+        self.textFields.append(field)
         return (container, field)
     }
     
@@ -271,15 +276,14 @@ class RootViewController: UIViewController {
         label.font = UIFont.appRegularFont(12)
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
-        label.textColor = UIColor.appTextBlue
+        label.textColor = UIColor.init(forLightStyle: UIColor.appLabel, darkStyle: UIColor.white)
         
         let field = UITextView()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.font = UIFont.appBoldFont(14)
-        field.textColor = UIColor.appTextFieldBlue
-        field.backgroundColor = UIColor.white
+        field.textColor = UIColor.appTextField
+        field.backgroundColor = UIColor.appSecondarySystemGroupedBackground
         field.layer.cornerRadius = 4.0
-        field.layer.borderColor = UIColor.appTextFieldBorder.cgColor
         field.layer.borderWidth = 1.0
         
         container.addSubview(label)
@@ -292,6 +296,7 @@ class RootViewController: UIViewController {
         field.rightAnchor.constraint(equalTo: container.rightAnchor).isActive = true
         field.topAnchor.constraint(equalTo: label.bottomAnchor, constant:2.0).isActive = true
         field.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
+        self.textViews.append(field)
         return (container, field)
     }
     
@@ -312,7 +317,7 @@ class RootViewController: UIViewController {
         let entityId = self.textFieldWithTitle("Entity ID")
         let shareType = self.textFieldWithTitle("Share Type")
         
-        self.paramSection.container.backgroundColor = UIColor.white
+        self.paramSection.container.backgroundColor = UIColor.appGroupedBackground
         let content = self.paramSection.contentView
         
         content.addSubview(objType.0)
@@ -450,13 +455,13 @@ class RootViewController: UIViewController {
         methodTitle.translatesAutoresizingMaskIntoConstraints = false
         methodTitle.text = "method"
         methodTitle.font = UIFont.appRegularFont(12)
-        methodTitle.textColor = UIColor.appTextBlue
+        methodTitle.textColor = UIColor.appLabel
         
         let methodControl = UISegmentedControl(items: ["Get", "Post", "Put", "Del", "Head", "Patch"])
         methodControl.translatesAutoresizingMaskIntoConstraints = false
         methodControl.selectedSegmentIndex = 0;
         
-        self.querySection.container.backgroundColor = UIColor.white
+        self.querySection.container.backgroundColor = UIColor.appGroupedBackground
         let content = self.querySection.contentView
         
         content.addSubview(query.0)
@@ -496,7 +501,6 @@ class RootViewController: UIViewController {
     func buildResponseSection() -> UIView {
         
         self.responseSection.container.backgroundColor = UIColor.appContentBackground
-        
         let content = self.responseSection.contentView
         
         let expandButton = UIButton(type: .custom)
@@ -515,9 +519,8 @@ class RootViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = false
         textView.font = UIFont.appBoldFont(14)
-        textView.textColor = UIColor.black
+        textView.textColor = UIColor.salesforceLabel
         textView.backgroundColor = UIColor.appTextViewYellowBackground
-        textView.layer.borderColor = UIColor.appTextFieldBorder.cgColor
         textView.layer.borderWidth = 1.0
         textView.layer.cornerRadius = 4.0
         
@@ -531,6 +534,24 @@ class RootViewController: UIViewController {
         self.responseForTextView = textView
         
         return self.responseSection.container
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if #available(iOS 13.0, *) {
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                self.updateBorderColor()
+            }
+        }
+    }
+    
+    func updateBorderColor() -> Void {
+        for textField in self.textFields {
+            textField.layer.borderColor = UIColor.appTextFieldBorder.cgColor
+        }
+        for textView in self.textViews {
+            textView.layer.borderColor = UIColor.appTextFieldBorder.cgColor
+        }
     }
     
     @objc func userDidTapQueryButton(_ sender: UIButton) {
@@ -653,9 +674,10 @@ class RootViewController: UIViewController {
         
         guard let largeFont = UIFont.appRegularFont(20), let regFont = UIFont.appRegularFont(14) else {return}
         let titleAttribs: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: largeFont,
-                                                          NSAttributedString.Key.foregroundColor: UIColor.appDarkBlue]
+                                                          NSAttributedString.Key.foregroundColor: UIColor.appTextField]
+
         let descriptionAttribs: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: regFont,
-                                                                NSAttributedString.Key.foregroundColor: UIColor.appTextFieldBlue]
+                                                                NSAttributedString.Key.foregroundColor: UIColor.appTextField]
         
         let attributedString = NSMutableAttributedString(string: "Response for: ", attributes: titleAttribs)
         
