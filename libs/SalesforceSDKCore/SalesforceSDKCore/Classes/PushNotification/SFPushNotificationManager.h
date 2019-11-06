@@ -45,12 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, nonatomic, strong) NSDictionary* customPushRegistrationBody;
 
-/**
- * Use this flag to indicate if the notifications should be encrypted. NO by default.
- * This should always be be set to NO for Apex push notifications.
- */
-@property (nonatomic, assign) BOOL encryptionEnabled;
-
 /** The share instance of this class.
  */
 + (SFPushNotificationManager *) sharedInstance;
