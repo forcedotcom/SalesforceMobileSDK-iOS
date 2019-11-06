@@ -34,6 +34,7 @@
 #import "SFOAuthSessionRefresher.h"
 #import "NSString+SFAdditions.h"
 #import "SFSDKCompositeRequest.h"
+#import "SFSDKBatchRequest.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v46.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
@@ -643,29 +644,12 @@ static dispatch_once_t pred;
 }
 
 - (SFRestRequest *)batchRequest:(NSArray<SFRestRequest *> *)requests haltOnError:(BOOL)haltOnError apiVersion:(NSString *)apiVersion {
-    NSMutableArray *requestsArrayJson = [NSMutableArray new];
-    for (SFRestRequest *request in requests) {
-        NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
-        requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
-        
-        // queryParams belong in url
-        if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
-            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@", request.path, [self toQueryString:request.queryParams]];
-        }
-        
-        // queryParams belongs in body
-        else {
-            requestJson[@"url"] = request.path;
-            requestJson[@"richInput"] = request.requestBodyAsDictionary;
-        }
-        [requestsArrayJson addObject:requestJson];
+    SFSDKBatchRequestBuilder *builder = [[SFSDKBatchRequestBuilder alloc] init];
+    for (int i = 0; i < requests.count; i++) {
+        [builder addRequest:requests[i]];
     }
-    NSMutableDictionary<NSString *, id> *batchRequestJson = [NSMutableDictionary new];
-    batchRequestJson[@"batchRequests"] = requestsArrayJson;
-    batchRequestJson[@"haltOnError"] = [NSNumber numberWithBool:haltOnError];
-    NSString *path = [NSString stringWithFormat:@"/%@/composite/batch", [self computeAPIVersion:apiVersion]];
-    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    return [self addBodyForPostRequest:batchRequestJson request:request];
+    [builder setHaltOnError:haltOnError];
+    return [builder buildBatchRequest:[self computeAPIVersion:apiVersion]];
 }
 
 - (SFRestRequest *)compositeRequest:(NSArray<SFRestRequest*>*)requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL)allOrNone apiVersion:(NSString *)apiVersion {
