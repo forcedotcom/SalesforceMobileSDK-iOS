@@ -24,16 +24,27 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 #import "SFSDKCompositeResponse+Internal.h"
 
+NSString * const kCompositeResponse = @"compositeResponse";
+NSString * const kHttpStatusCode = @"httpStatusCode";
+NSString * const kHttpHeaders = @"httpHeaders";
+NSString * const kReferenceId = @"referenceId";
+NSString * const kBody = @"body";
+
 @implementation SFSDKCompositeSubResponse
 
 -(instancetype)initWith:(NSDictionary *)dict {
     if (self=[super init]) {
-        _body =  [dict objectForKey:@"body"];
-        _httpHeaders = [dict objectForKey:@"httpHeaders"];
-        _httpStatusCode = [[dict objectForKey:@"httpStatusCode"] integerValue];
-        _referenceId =  [dict objectForKey:@"referenceId"];
+        _dict = dict;
+        _body =  [dict objectForKey:kBody];
+        _httpHeaders = [dict objectForKey:kHttpHeaders];
+        _httpStatusCode = [[dict objectForKey:kHttpStatusCode] integerValue];
+        _referenceId =  [dict objectForKey:kReferenceId];
     }
     return self;
+}
+
+- (NSString*)description {
+    return [self.dict description];
 }
 
 @end
@@ -42,7 +53,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 -(instancetype)initWith:(NSDictionary *)dict {
     if (self=[super init]) {
-        NSArray<NSDictionary *> *results =  [dict objectForKey:@"compositeResponse"];
+        NSArray<NSDictionary *> *results =  [dict objectForKey:kCompositeResponse];
         if (results) {
             NSMutableArray  *subResponses = [[NSMutableArray alloc] init];
             [results enumerateObjectsUsingBlock:^(NSDictionary * obj, NSUInteger idx, BOOL *stop) {

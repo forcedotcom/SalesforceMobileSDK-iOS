@@ -23,6 +23,7 @@
  */
 
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
+#import <SalesforceSDKCore/SFSDKCompositeResponse.h>
 #import "MobileSync.h"
 #import "SFSyncTarget+Internal.h"
 #import "SFSyncUpTarget+Internal.h"
@@ -322,7 +323,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     // Sending composite request
     SFSendCompositeRequestCompleteBlock sendCompositeRequestCompleteBlock = ^(NSDictionary *refIdToResponses) {
         // Build refId to server id
-        NSDictionary *refIdToServerId = [SFCompositeRequestHelper parseIdsFromResponse:refIdToResponses];
+        NSDictionary *refIdToServerId = [SFCompositeRequestHelper parseIdsFromResponses:[refIdToResponses allValues]];
 
         // Will a re-run be required?
         BOOL needReRun = NO;
@@ -431,11 +432,11 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                               children:(NSArray<NSMutableDictionary*> *)children
                              mergeMode:(SFSyncStateMergeMode)mergeMode
                        refIdToServerId:(NSDictionary *)refIdToServerId
-                              response:(NSDictionary *)response {
+                              response:(SFSDKCompositeSubResponse *)response {
     BOOL needReRun = NO;
     NSString* soupName = self.parentInfo.soupName;
     NSString* idFieldName = self.idFieldName;
-    NSUInteger statusCode = [((NSNumber *) response[kHttpStatusCode]) unsignedIntegerValue];
+    NSUInteger statusCode = response.httpStatusCode;
     BOOL successStatusCode = [SFRestAPI isStatusCodeSuccess:statusCode];
     BOOL notFoundStatusCode = [SFRestAPI isStatusCodeNotFound:statusCode];
 
@@ -494,9 +495,9 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     return needReRun;
 }
 
-- (BOOL) isEntityDeleted:(NSDictionary *) response {
+- (BOOL) isEntityDeleted:(SFSDKCompositeSubResponse *) response {
     @try{
-        return [@"ENTITY_IS_DELETED" isEqualToString:response[@"body"][0][@"errorCode"]];
+        return [@"ENTITY_IS_DELETED" isEqualToString:response.body[0][@"errorCode"]];
     } @catch (NSException* exception) {
         return NO;
     }
@@ -507,10 +508,10 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                                parent:(NSMutableDictionary *)parent
                             mergeMode:(SFSyncStateMergeMode)mergeMode
                       refIdToServerId:(NSDictionary *)refIdToServerId
-                             response:(NSDictionary *)response {
+                             response:(SFSDKCompositeSubResponse *)response {
     BOOL needReRun = NO;
     NSString* soupName = self.childrenInfo.soupName;
-    NSUInteger statusCode = [((NSNumber *) response[kHttpStatusCode]) unsignedIntegerValue];
+    NSUInteger statusCode = response.httpStatusCode;
     BOOL successStatusCode = [SFRestAPI isStatusCodeSuccess:statusCode];
     BOOL notFoundStatusCode = [SFRestAPI isStatusCodeNotFound:statusCode];
 

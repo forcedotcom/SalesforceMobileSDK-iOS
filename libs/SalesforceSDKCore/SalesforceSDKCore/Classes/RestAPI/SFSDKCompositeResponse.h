@@ -27,8 +27,15 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString * const kCompositeResponse;
+extern NSString * const kHttpStatusCode;
+extern NSString * const kHttpHeaders;
+extern NSString * const kReferenceId;
+extern NSString * const kBody;
+
 NS_SWIFT_NAME(CompositeSubResponse)
 @interface SFSDKCompositeSubResponse : NSObject
+@property (nonatomic,readonly) id dict;
 @property (nonatomic,readonly) id body;
 @property (nonatomic,readonly) NSDictionary<NSString *,NSString *> *httpHeaders;
 @property (nonatomic,readonly) NSInteger httpStatusCode;
@@ -38,6 +45,7 @@ NS_SWIFT_NAME(CompositeSubResponse)
 NS_SWIFT_NAME(CompositeResponse)
 @interface SFSDKCompositeResponse : NSObject
 @property (nonatomic,readonly) NSArray<SFSDKCompositeSubResponse *> *subResponses;
+-(instancetype)initWith:(NSDictionary *)dict;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -38,10 +38,6 @@ NSString * const kResponseSearchRecords = @"searchRecords";
 NSString * const kResponseTotalSize = @"totalSize";
 NSString * const kResponseNextRecordsUrl = @"nextRecordsUrl";
 NSString * const kRecentItems = @"recentItems";
-NSString * const kCompositeResponse = @"compositeResponse";
-NSString * const kHttpStatusCode = @"httpStatusCode";
-NSString * const kReferenceId = @"referenceId";
-NSString * const kBody = @"body";
 
 NSString * const kAccount = @"Account";
 NSString * const kTask = @"Task";
