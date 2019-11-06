@@ -66,7 +66,6 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 #else
         self.isSimulator = NO;
 #endif
-        _encryptionEnabled = NO;
         // Queue for requests
         _queue = [[NSOperationQueue alloc] init];
         
@@ -150,15 +149,11 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
         bodyDict[@"NetworkId"] = communityId;
     }
 
-    // Adds a RSA public key as part of the registration call if encryption is enabled.
-    if (self.encryptionEnabled) {
-        NSString *rsaPublicKey = [self getRSAPublicKey];
-        if (!rsaPublicKey) {
-            [SFSDKCoreLogger e:[self class] format:@"Cannot register for notifications with Salesforce: no RSA key for encrypted notifications"];
-            return NO;
-        }
+    NSString *rsaPublicKey = [self getRSAPublicKey];
+    if (rsaPublicKey) {
         bodyDict[@"RsaPublicKey"] = rsaPublicKey;
     }
+
     [request setCustomRequestBodyDictionary:bodyDict contentType:@"application/json"];
     __weak typeof(self) weakSelf = self;
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
