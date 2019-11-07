@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
   s.author       = { "Kevin Hawkins" => "khawkins@salesforce.com" }
 
   s.platform     = :ios, "12.2"
+  s.swift_versions = ['5.0']
 
   s.source       = { :git => "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git",
                      :tag => "v#{s.version}",
