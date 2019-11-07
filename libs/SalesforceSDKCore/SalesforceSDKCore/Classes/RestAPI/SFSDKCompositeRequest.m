@@ -178,7 +178,7 @@ NSString* const kSFRestCompositeDefaultAPIVersion = @"v46.0";
 -(SFSDKCompositeRequest *)buildCompositeRequest:(NSString *)apiVersion {
     SFSDKCompositeRequest *compRequest = [[SFSDKCompositeRequest alloc] init];
     compRequest.apiVersion = apiVersion;
-    compRequest.allOrNone = compRequest;
+    compRequest.allOrNone = _allOrNone;
     compRequest.requiresAuthentication = YES;
     [self.allSubRequests enumerateObjectsUsingBlock:^(SFSDKCompositeSubRequest *obj, NSUInteger idx, BOOL *stop) {
         [compRequest addRequest:obj];
