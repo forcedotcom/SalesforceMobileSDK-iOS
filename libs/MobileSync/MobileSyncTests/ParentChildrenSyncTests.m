@@ -1568,11 +1568,6 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         }
     }
 
-    // Sleep before doing remote changes
-    if (remoteChangeForAccount != NONE || remoteChangeForContact != NONE) {
-        [NSThread sleepForTimeInterval:1.0]; // time stamp precision is in seconds
-    }
-
     // Apply remoteChangeForAccount
     NSDictionary *remoteUpdatesAccount = nil;
     switch (remoteChangeForAccount) {
