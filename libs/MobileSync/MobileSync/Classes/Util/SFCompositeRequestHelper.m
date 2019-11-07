@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCore/SFSDKCompositeResponse.h>
 #import "SFCompositeRequestHelper.h"
 #import "SFMobileSyncNetworkUtils.h"
 #import "SFMobileSyncConstants.h"
@@ -40,23 +41,22 @@
                                                      failBlock:^(NSError *e, NSURLResponse *rawResponse) {
                                                          failBlock(e);
                                                      }
-                                                 completeBlock:^(id compositeResponse, NSURLResponse *rawResponse) {
+                                                 completeBlock:^(id response, NSURLResponse *rawResponse) {
+                                                     SFSDKCompositeResponse* compositeResponse = [[SFSDKCompositeResponse alloc] initWith:response];
                                                      NSMutableDictionary *refIdToResponses = [NSMutableDictionary new];
-                                                     NSArray *responses = compositeResponse[kCompositeResponse];
-                                                     for (NSDictionary *response in responses) {
-                                                         refIdToResponses[response[kReferenceId]] = response;
+                                                     for (SFSDKCompositeSubResponse *response in compositeResponse.subResponses) {
+                                                         refIdToResponses[response.referenceId] = response;
                                                      }
                                                      completionBlock(refIdToResponses);
                                                  }];
 }
 
-+ (NSDictionary *)parseIdsFromResponse:(NSDictionary *)refIdToResponses {
++ (NSDictionary<NSString*, NSString*> *)parseIdsFromResponses:(NSArray<SFSDKCompositeResponse*>*)responses {
     NSMutableDictionary *refIdToId = [NSMutableDictionary new];
-    for (NSString *refId in [refIdToResponses allKeys]) {
-        NSDictionary *response = refIdToResponses[refId];
-        if ([((NSNumber *) response[kHttpStatusCode]) unsignedIntegerValue] == 201) {
-            NSString *serverId = response[kBody][kCreatedId];
-            refIdToId[refId] = serverId;
+    for (SFSDKCompositeSubResponse* response in responses) {
+        if (response.httpStatusCode == 201) {
+            NSString *serverId = response.body[kCreatedId];
+            refIdToId[response.referenceId] = serverId;
         }
     }
     return refIdToId;

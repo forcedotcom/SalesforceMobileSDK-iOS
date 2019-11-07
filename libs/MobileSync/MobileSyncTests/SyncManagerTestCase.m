@@ -525,8 +525,6 @@ static NSException *authException = nil;
 }
 
 - (NSDictionary *)makeSomeRemoteChanges:(NSDictionary *)idToFields objectType:(NSString *)objectType {
-    // Make some remote changes
-    [NSThread sleepForTimeInterval:1.0f];
     NSArray* allIds = [[idToFields allKeys] sortedArrayUsingSelector:@selector(compare:)];
     NSArray *idsToUpdate = @[allIds[0], allIds[2]];
     return [self makeSomeRemoteChanges:idToFields objectType:objectType idsToUpdate:idsToUpdate];
@@ -541,6 +539,8 @@ static NSException *authException = nil;
 }
 
 -(void)updateRecordsOnServer:(NSDictionary*)idToFieldsUpdated objectType:(NSString*)objectType {
+    // Sleep before doing remote changes
+    [NSThread sleepForTimeInterval:1.0]; // time stamp precision is in seconds
     for (NSString* accountId in idToFieldsUpdated) {
         NSDictionary* fields = idToFieldsUpdated[accountId];
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:accountId fields:fields apiVersion:kSFRestDefaultAPIVersion];

@@ -23,6 +23,7 @@
  */
 
 #import <SalesforceSDKCommon/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFSDKCompositeResponse.h>
 #import "MobileSync.h"
 #import "SFSyncTarget+Internal.h"
 #import "SFSyncUpTarget+Internal.h"
@@ -122,7 +123,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         __strong typeof(weakSelf) strongSelf = weakSelf;
         
         // Build refId to server id
-        NSDictionary *refIdToServerId = [SFCompositeRequestHelper parseIdsFromResponse:refIdToResponses];
+        NSDictionary *refIdToServerId = [SFCompositeRequestHelper parseIdsFromResponses:[refIdToResponses allValues]];
         
         // Will a re-run be required?
         BOOL needReRun = NO;
@@ -201,10 +202,10 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
     }
 }
 
-- (BOOL) updateRecordInLocalStore:(nonnull SFMobileSyncSyncManager *)syncManager soupName:(nonnull NSString *)soupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(NSDictionary*)response {
+- (BOOL) updateRecordInLocalStore:(nonnull SFMobileSyncSyncManager *)syncManager soupName:(nonnull NSString *)soupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(SFSDKCompositeSubResponse*)response {
 
     BOOL needReRun = NO;
-    NSUInteger statusCode = [((NSNumber *) response[kHttpStatusCode]) unsignedIntegerValue];
+    NSUInteger statusCode = response.httpStatusCode;
     BOOL successStatusCode = [SFRestAPI isStatusCodeSuccess:statusCode];
     BOOL notFoundStatusCode = [SFRestAPI isStatusCodeNotFound:statusCode];
     

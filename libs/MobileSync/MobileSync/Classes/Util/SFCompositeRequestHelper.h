@@ -26,11 +26,12 @@
 
 @class SFMobileSyncSyncManager;
 @class SFRestRequest;
+@class SFSDKCompositeSubResponse;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary *refIdToResponses);
+typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary<NSString*, SFSDKCompositeSubResponse*> *refIdToResponses);
 
 NS_SWIFT_NAME(CompositeRequestHelper)
 
@@ -43,7 +44,7 @@ NS_SWIFT_NAME(CompositeRequestHelper)
              completionBlock:(SFSendCompositeRequestCompleteBlock)completionBlock
                    failBlock:(SFSyncUpTargetErrorBlock)failBlock;
 
-+ (NSDictionary *)parseIdsFromResponse:(NSDictionary *)refIdToResponses;
++ (NSDictionary<NSString*, NSString*> *)parseIdsFromResponses:(NSArray<SFSDKCompositeResponse*>*)responses;
 
 + (void)updateReferences:(NSMutableDictionary *)record
           fieldWithRefId:(NSString *)fieldWithRefId

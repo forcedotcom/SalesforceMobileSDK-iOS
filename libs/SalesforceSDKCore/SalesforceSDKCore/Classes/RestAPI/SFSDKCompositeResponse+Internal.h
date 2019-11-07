@@ -13,8 +13,4 @@ NS_ASSUME_NONNULL_BEGIN
 -(instancetype)initWith:(NSDictionary *)dict;
 @end
 
-@interface SFSDKCompositeResponse (Internal)
--(instancetype)initWith:(NSDictionary *)dict;
-@end
-
 NS_ASSUME_NONNULL_END

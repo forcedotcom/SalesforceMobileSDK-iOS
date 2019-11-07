@@ -227,7 +227,7 @@
     return  result;
 }
 
-- (SFSyncState*)instr_reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError*)error {
+- (SFSyncState*)instr_reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error {
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "reSync:updateBlock", "storeName:%{public}@ syncId:%@", self.store.storeName, syncId);
