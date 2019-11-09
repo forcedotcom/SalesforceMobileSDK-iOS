@@ -93,43 +93,130 @@
     expectedTotalSize:-1];
 }
 
-- (void) testSetupUserSyncsFromDefaulltConfig {
-    XCTAssertFalse([self.syncManager hasSyncWithName:@"userSync1"]);
-    XCTAssertFalse([self.syncManager hasSyncWithName:@"userSync2"]);
+- (void) testSetupUserSyncsFromDefaultConfig {
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"soqlSyncDown"]);
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"soslSyncDown"]);
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"mruSyncDown"]);
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"refreshSyncDown"]);
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"layoutSyncDown"]);
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"metadataSyncDown"]);
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"parentChildrenSyncDown"]);
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"noBatchSyncUp"]);
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"batchSyncUp"]);
+    XCTAssertFalse([self.syncManager hasSyncWithName:@"parentChildrenSyncUp"]);
 
     // Setting up syncs
     [self.sdkManager setupUserSyncsFromDefaultConfig];
 
     // Checking smartstore
-    XCTAssertTrue([self.syncManager hasSyncWithName:@"userSync1"]);
-    XCTAssertTrue([self.syncManager hasSyncWithName:@"userSync2"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"soqlSyncDown"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"soslSyncDown"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"mruSyncDown"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"refreshSyncDown"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"layoutSyncDown"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"metadataSyncDown"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"parentChildrenSyncDown"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"noBatchSyncUp"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"batchSyncUp"]);
+    XCTAssertTrue([self.syncManager hasSyncWithName:@"parentChildrenSyncUp"]);
+}
 
-    // Checking first sync in details
-    SFSyncState* actualSync1 = [self.syncManager getSyncStatusByName:@"userSync1"];
-    XCTAssertEqualObjects(actualSync1.soupName, @"accounts");
-    [self checkStatus:actualSync1
+- (void) testSoqlSyncDownFromConfig {
+
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"soqlSyncDown"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
          expectedType:SFSyncStateSyncTypeDown
-           expectedId:actualSync1.syncId
-         expectedName:@"userSync1"
+           expectedId:sync.syncId
+         expectedName:@"soqlSyncDown"
        expectedTarget:[SFSoqlSyncDownTarget
                newSyncTarget:@"SELECT Id, Name, LastModifiedDate FROM Account"]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
     expectedTotalSize:-1];
+}
 
-    // Checking second sync in details
-    SFSyncState* actualSync2 = [self.syncManager getSyncStatusByName:@"userSync2"];
-    XCTAssertEqualObjects(actualSync2.soupName, @"accounts");
-    [self checkStatus:actualSync2
-         expectedType:SFSyncStateSyncTypeUp
-           expectedId:actualSync2.syncId
-         expectedName:@"userSync2"
-       expectedTarget:[[SFBatchSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:nil]
-      expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[@"Id", @"Name", @"LastModifiedDate"] mergeMode:SFSyncStateMergeModeLeaveIfChanged]
+- (void) testSoslSyncDownFromConfig {
+
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"soslSyncDown"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeDown
+           expectedId:sync.syncId
+         expectedName:@"soslSyncDown"
+       expectedTarget:[SFSoslSyncDownTarget
+               newSyncTarget:@"FIND {Joe} IN NAME FIELDS RETURNING Account"]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
     expectedTotalSize:-1];
 }
+
+- (void) testMruSyncDownFromConfig {
+
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"mruSyncDown"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeDown
+           expectedId:sync.syncId
+         expectedName:@"mruSyncDown"
+       expectedTarget:[SFMruSyncDownTarget
+               newSyncTarget:@"Account" fieldlist:@[@"Name", @"Description"]]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
+}
+
+- (void) testRefreshSyncDownFromConfig {
+
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"refreshSyncDown"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeDown
+           expectedId:sync.syncId
+         expectedName:@"refreshSyncDown"
+       expectedTarget:[SFRefreshSyncDownTarget
+               newSyncTarget:@"accounts" objectType:@"Account" fieldlist:@[@"Name", @"Description"]]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
+}
+
+- (void) testLayoutSyncDownFromConfig {
+    XCTFail(@"test not implemented yet");
+}
+
+- (void) testMetadataSyncDownFromConfig {
+    XCTFail(@"test not implemented yet");
+}
+
+- (void) testParentChildrenSyncDownFromConfig {
+    XCTFail(@"test not implemented yet");
+}
+
+- (void) testNoBatchSyncUpFromConfig {
+    XCTFail(@"test not implemented yet");
+}
+
+- (void) testBatchSyncUpFromConfig {
+    XCTFail(@"test not implemented yet");
+}
+
+- (void) testParentChildrenSyncUpFromConfig {
+    XCTFail(@"test not implemented yet");
+}
+
+
 
 @end
