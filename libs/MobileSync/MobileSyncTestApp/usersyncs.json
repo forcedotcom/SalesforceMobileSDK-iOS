@@ -1,18 +1,164 @@
 {
     "syncs": [
         {
-            "syncName": "userSync1",
+            "syncName": "soqlSyncDown",
             "syncType": "syncDown",
             "soupName": "accounts",
-            "target": {"type":"soql", "query":"SELECT Id, Name, LastModifiedDate FROM Account"},
-            "options": {"mergeMode":"OVERWRITE"}
+            "target": {
+                "type":"soql",
+                "query":"SELECT Id, Name, LastModifiedDate FROM Account"
+            },
+            "options": {
+                "mergeMode":"OVERWRITE"
+            }
         },
         {
-            "syncName": "userSync2",
+            "syncName": "soslSyncDown",
+            "syncType": "syncDown",
+            "soupName": "accounts",
+            "target": {
+                "type":"sosl",
+                "query":"FIND {Joe} IN NAME FIELDS RETURNING Account"
+            },
+            "options": {
+                "mergeMode":"LEAVE_IF_CHANGED"
+            }
+        },
+        {
+            "syncName": "mruSyncDown",
+            "syncType": "syncDown",
+            "soupName": "accounts",
+            "target": {
+                "type":"mru",
+                "sobjectType": "Account",
+                "fieldlist": ["Name", "Description"]
+            },
+            "options": {
+                "mergeMode":"OVERWRITE"
+            }
+        },
+        {
+            "syncName": "refreshSyncDown",
+            "syncType": "syncDown",
+            "soupName": "accounts",
+            "target": {
+                "type":"refresh",
+                "sobjectType": "Account",
+                "fieldlist": ["Name", "Description"]
+            },
+            "options": {
+                "mergeMode":"LEAVE_IF_CHANGED"
+            }
+        },
+        {
+            "syncName": "layoutSyncDown",
+            "syncType": "syncDown",
+            "soupName": "accounts",
+            "target": {
+                "type":"layout",
+                "sobjectType": "Account",
+                "layoutType": "Compact"
+            },
+            "options": {
+                "mergeMode":"OVERWRITE"
+            }
+        },
+        {
+            "syncName": "metadataSyncDown",
+            "syncType": "syncDown",
+            "soupName": "accounts",
+            "target": {
+                "type":"metadata",
+                "sobjectType": "Account"
+            },
+            "options": {
+                "mergeMode":"LEAVE_IF_CHANGED"
+            }
+        },
+        {
+            "syncName": "parentChildrenSyncDown",
+            "syncType": "syncDown",
+            "soupName": "accounts",
+            "target": {
+                "parent" : {
+                    "idFieldName" : "Id",
+                    "sobjectType" : "Account",
+                    "modificationDateFieldName" : "LastModifiedDate",
+                    "soupName" : "accounts"
+                },
+                "parentFieldlist" : ["Id", "Name", "Description"],
+                "children" : {
+                    "parentIdFieldName" : "AccountId",
+                    "idFieldName" : "Id",
+                    "sobjectType" : "Contact",
+                    "modificationDateFieldName" : "LastModifiedDate",
+                    "soupName" : "contacts",
+                    "sobjectTypePlural" : "Contacts"
+                },
+                "childrenFieldlist" : [
+                    "LastName",
+                    "AccountId"
+                ],
+                "relationshipType" : "MASTER_DETAIL",
+                "parentSoqlFilter" : "",
+                "type" : "parent_children"
+            },
+            "options": {
+                "mergeMode": "OVERWRITE"
+            }
+        },
+        {
+            "syncName": "noBatchSyncUp",
             "syncType": "syncUp",
             "soupName": "accounts",
-            "target": {"createFieldlist":["Name"]},
-            "options": {"fieldlist":["Id", "Name", "LastModifiedDate"], "mergeMode":"LEAVE_IF_CHANGED"}
+            "target": {
+                "iOSImpl": "SFSyncUpTarget",
+                "androidImpl": "SyncUpTarget",
+                "createFieldlist": ["Name"],
+                "updateFieldlist": ["Description"]
+            },
+            "options": {
+                "mergeMode":"LEAVE_IF_CHANGED"
+            }
+        },
+        {
+            "syncName": "batchSyncUp",
+            "syncType": "syncUp",
+            "soupName": "accounts",
+            "target": {
+            },
+            "options": {
+                "fieldlist": ["Name", "Description"],
+                "mergeMode":"LEAVE_IF_CHANGED"
+            }
+        },
+        {
+            "syncName": "parentChildrenSyncUp",
+            "syncType": "syncUp",
+            "soupName": "accounts",
+            "target": {
+                "iOSImpl" : "SFParentChildrenSyncUpTarget",
+                "parent" : {
+                    "idFieldName" : "Id",
+                    "sobjectType" : "Account",
+                    "modificationDateFieldName" : "LastModifiedDate",
+                    "soupName" : "accounts"
+                },
+                "parentCreateFieldlist" : ["Id", "Name", "Description"],
+                "parentUpdateFieldlist" : ["Name", "Description"],
+                "children" : {
+                    "parentIdFieldName" : "AccountId",
+                    "idFieldName" : "Id",
+                    "sobjectType" : "Contact",
+                    "modificationDateFieldName" : "LastModifiedDate",
+                    "soupName" : "contacts",
+                    "sobjectTypePlural" : "Contacts"
+                },
+                "childrenCreateFieldlist" : ["LastName", "AccountId"],
+                "childrenUpdateFieldlist" : ["LastName", "AccountId"],
+                "relationshipType" : "MASTER_DETAIL"
+            },
+            "options": {"mergeMode":"LEAVE_IF_CHANGED"}
         }
     ]
 }
