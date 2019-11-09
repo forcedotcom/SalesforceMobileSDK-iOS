@@ -223,7 +223,29 @@
 }
 
 - (void) testParentChildrenSyncDownFromConfig {
-    XCTFail(@"test not implemented yet");
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+    
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"parentChildrenSyncDown"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeDown
+           expectedId:sync.syncId
+         expectedName:@"parentChildrenSyncDown"
+       expectedTarget:[SFParentChildrenSyncDownTarget
+                       newSyncTargetWithParentInfo:[SFParentInfo
+                                                    newWithSObjectType:@"Account"
+                                                    soupName:@"accounts"]
+                       parentFieldlist:@[@"Id",@"Name", @"Description"]
+                       parentSoqlFilter:@""
+                       childrenInfo:[SFChildrenInfo
+                                     newWithSObjectType:@"Contact"
+                                     soupName:@"contacts"]
+                       childrenFieldlist:@[@"LastName", @"AccountId"]
+                       relationshipType:SFParentChildrenRelationpshipMasterDetail]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
 }
 
 - (void) testNoBatchSyncUpFromConfig {
@@ -259,7 +281,30 @@
 }
 
 - (void) testParentChildrenSyncUpFromConfig {
-    XCTFail(@"test not implemented yet");
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+    
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"parentChildrenSyncUp"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeUp
+           expectedId:sync.syncId
+         expectedName:@"parentChildrenSyncUp"
+       expectedTarget:[SFParentChildrenSyncUpTarget
+                       newSyncTargetWithParentInfo:[SFParentInfo
+                                                    newWithSObjectType:@"Account"
+                                                    soupName:@"accounts"]
+                       parentCreateFieldlist:@[@"Id",@"Name", @"Description"]
+                       parentUpdateFieldlist:@[@"Name", @"Description"]
+                       childrenInfo:[SFChildrenInfo
+                                     newWithSObjectType:@"Contact"
+                                     soupName:@"contacts"]
+                       childrenCreateFieldlist:@[@"LastName", @"AccountId"]
+                       childrenUpdateFieldlist:@[@"LastName", @"AccountId"]
+                       relationshipType:SFParentChildrenRelationpshipMasterDetail]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[] mergeMode:SFSyncStateMergeModeLeaveIfChanged]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
 }
 
 

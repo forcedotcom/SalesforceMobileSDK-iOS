@@ -159,7 +159,10 @@
                 "childrenUpdateFieldlist" : ["LastName", "AccountId"],
                 "relationshipType" : "MASTER_DETAIL"
             },
-            "options": {"mergeMode":"LEAVE_IF_CHANGED"}
+            "options": {
+                "fieldlist":[],
+                "mergeMode":"LEAVE_IF_CHANGED"
+            }
         }
     ]
 }
