@@ -57,14 +57,14 @@
 - (void) testSetupGlobalSyncsFromDefaultConfig  {
     XCTAssertFalse([self.globalSyncManager hasSyncWithName:@"globalSync1"]);
     XCTAssertFalse([self.globalSyncManager hasSyncWithName:@"globalSync2"]);
-
+    
     // Setting up syncs
     [self.sdkManager setupGlobalSyncsFromDefaultConfig];
-
+    
     // Checking smartstore
     XCTAssertTrue([self.globalSyncManager hasSyncWithName:@"globalSync1"]);
     XCTAssertTrue([self.globalSyncManager hasSyncWithName:@"globalSync2"]);
-
+    
     // Checking first sync in details
     SFSyncState* actualSync1 = [self.globalSyncManager getSyncStatusByName:@"globalSync1"];
     XCTAssertEqualObjects(actualSync1.soupName, @"accounts");
@@ -73,12 +73,12 @@
            expectedId:actualSync1.syncId
          expectedName:@"globalSync1"
        expectedTarget:[SFSoqlSyncDownTarget
-               newSyncTarget:@"SELECT Id, Name, LastModifiedDate FROM Account"]
+                       newSyncTarget:@"SELECT Id, Name, LastModifiedDate FROM Account"]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
     expectedTotalSize:-1];
-
+    
     // Checking second sync in details
     SFSyncState* actualSync2 = [self.globalSyncManager getSyncStatusByName:@"globalSync2"];
     XCTAssertEqualObjects(actualSync2.soupName, @"accounts");
@@ -104,10 +104,10 @@
     XCTAssertFalse([self.syncManager hasSyncWithName:@"noBatchSyncUp"]);
     XCTAssertFalse([self.syncManager hasSyncWithName:@"batchSyncUp"]);
     XCTAssertFalse([self.syncManager hasSyncWithName:@"parentChildrenSyncUp"]);
-
+    
     // Setting up syncs
     [self.sdkManager setupUserSyncsFromDefaultConfig];
-
+    
     // Checking smartstore
     XCTAssertTrue([self.syncManager hasSyncWithName:@"soqlSyncDown"]);
     XCTAssertTrue([self.syncManager hasSyncWithName:@"soslSyncDown"]);
@@ -122,9 +122,8 @@
 }
 
 - (void) testSoqlSyncDownFromConfig {
-
     [self.sdkManager setupUserSyncsFromDefaultConfig];
-
+    
     SFSyncState* sync = [self.syncManager getSyncStatusByName:@"soqlSyncDown"];
     XCTAssertEqualObjects(sync.soupName, @"accounts");
     [self checkStatus:sync
@@ -132,7 +131,7 @@
            expectedId:sync.syncId
          expectedName:@"soqlSyncDown"
        expectedTarget:[SFSoqlSyncDownTarget
-               newSyncTarget:@"SELECT Id, Name, LastModifiedDate FROM Account"]
+                       newSyncTarget:@"SELECT Id, Name, LastModifiedDate FROM Account"]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
@@ -140,9 +139,8 @@
 }
 
 - (void) testSoslSyncDownFromConfig {
-
     [self.sdkManager setupUserSyncsFromDefaultConfig];
-
+    
     SFSyncState* sync = [self.syncManager getSyncStatusByName:@"soslSyncDown"];
     XCTAssertEqualObjects(sync.soupName, @"accounts");
     [self checkStatus:sync
@@ -150,7 +148,7 @@
            expectedId:sync.syncId
          expectedName:@"soslSyncDown"
        expectedTarget:[SFSoslSyncDownTarget
-               newSyncTarget:@"FIND {Joe} IN NAME FIELDS RETURNING Account"]
+                       newSyncTarget:@"FIND {Joe} IN NAME FIELDS RETURNING Account"]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
@@ -158,9 +156,8 @@
 }
 
 - (void) testMruSyncDownFromConfig {
-
     [self.sdkManager setupUserSyncsFromDefaultConfig];
-
+    
     SFSyncState* sync = [self.syncManager getSyncStatusByName:@"mruSyncDown"];
     XCTAssertEqualObjects(sync.soupName, @"accounts");
     [self checkStatus:sync
@@ -168,7 +165,7 @@
            expectedId:sync.syncId
          expectedName:@"mruSyncDown"
        expectedTarget:[SFMruSyncDownTarget
-               newSyncTarget:@"Account" fieldlist:@[@"Name", @"Description"]]
+                       newSyncTarget:@"Account" fieldlist:@[@"Name", @"Description"]]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
@@ -176,9 +173,8 @@
 }
 
 - (void) testRefreshSyncDownFromConfig {
-
     [self.sdkManager setupUserSyncsFromDefaultConfig];
-
+    
     SFSyncState* sync = [self.syncManager getSyncStatusByName:@"refreshSyncDown"];
     XCTAssertEqualObjects(sync.soupName, @"accounts");
     [self checkStatus:sync
@@ -186,7 +182,7 @@
            expectedId:sync.syncId
          expectedName:@"refreshSyncDown"
        expectedTarget:[SFRefreshSyncDownTarget
-               newSyncTarget:@"accounts" objectType:@"Account" fieldlist:@[@"Name", @"Description"]]
+                       newSyncTarget:@"accounts" objectType:@"Account" fieldlist:@[@"Name", @"Description"]]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
@@ -194,11 +190,36 @@
 }
 
 - (void) testLayoutSyncDownFromConfig {
-    XCTFail(@"test not implemented yet");
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+    
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"layoutSyncDown"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeDown
+           expectedId:sync.syncId
+         expectedName:@"layoutSyncDown"
+       expectedTarget:[SFLayoutSyncDownTarget
+                       newSyncTarget:@"Account" layoutType:@"Compact"]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
 }
 
 - (void) testMetadataSyncDownFromConfig {
-    XCTFail(@"test not implemented yet");
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+    
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"metadataSyncDown"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeDown
+           expectedId:sync.syncId
+         expectedName:@"metadataSyncDown"
+       expectedTarget:[SFMetadataSyncDownTarget newSyncTarget:@"Account"]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
 }
 
 - (void) testParentChildrenSyncDownFromConfig {
@@ -206,11 +227,35 @@
 }
 
 - (void) testNoBatchSyncUpFromConfig {
-    XCTFail(@"test not implemented yet");
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+    
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"noBatchSyncUp"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeUp
+           expectedId:sync.syncId
+         expectedName:@"noBatchSyncUp"
+       expectedTarget:[[SFSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:@[@"Description"]]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[] mergeMode:SFSyncStateMergeModeLeaveIfChanged]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
 }
 
 - (void) testBatchSyncUpFromConfig {
-    XCTFail(@"test not implemented yet");
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+    
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"batchSyncUp"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeUp
+           expectedId:sync.syncId
+         expectedName:@"batchSyncUp"
+       expectedTarget:[[SFBatchSyncUpTarget alloc] initWithCreateFieldlist:nil updateFieldlist:nil]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[@"Name", @"Description"] mergeMode:SFSyncStateMergeModeOverwrite]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
 }
 
 - (void) testParentChildrenSyncUpFromConfig {

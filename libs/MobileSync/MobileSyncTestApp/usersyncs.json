@@ -118,6 +118,7 @@
                 "updateFieldlist": ["Description"]
             },
             "options": {
+                "fieldlist": [],
                 "mergeMode":"LEAVE_IF_CHANGED"
             }
         },
@@ -129,7 +130,7 @@
             },
             "options": {
                 "fieldlist": ["Name", "Description"],
-                "mergeMode":"LEAVE_IF_CHANGED"
+                "mergeMode":"OVERWRITE"
             }
         },
         {
