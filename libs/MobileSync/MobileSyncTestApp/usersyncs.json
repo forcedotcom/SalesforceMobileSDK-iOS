@@ -147,13 +147,13 @@
           "modificationDateFieldName" : "LastModifiedDateX",
           "soupName" : "accounts"
         },
-        "parentCreateFieldlist" : ["IdX", "Name", "Description"],
-        "parentUpdateFieldlist" : ["Name", "Description"],
+        "createFieldlist" : ["IdX", "Name", "Description"],
+        "updateFieldlist" : ["Name", "Description"],
         "children" : {
           "parentIdFieldName" : "AccountId",
-          "idFieldName" : "IdX",
+          "idFieldName" : "IdY",
           "sobjectType" : "Contact",
-          "modificationDateFieldName" : "LastModifiedDateX",
+          "modificationDateFieldName" : "LastModifiedDateY",
           "soupName" : "contacts",
           "sobjectTypePlural" : "Contacts"
         },

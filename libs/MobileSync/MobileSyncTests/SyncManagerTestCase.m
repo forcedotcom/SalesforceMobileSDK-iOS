@@ -33,6 +33,28 @@
 
 static NSException *authException = nil;
 
+
+@interface SFParentChildrenSyncUpTarget (tests)
+
+@property(nonatomic) SFParentInfo *parentInfo;
+@property(nonatomic) SFChildrenInfo *childrenInfo;
+@property(nonatomic) NSArray<NSString *> *childrenCreateFieldlist;
+@property(nonatomic) NSArray<NSString *> *childrenUpdateFieldlist;
+@property(nonatomic) SFParentChildrenRelationshipType relationshipType;
+
+@end
+
+@interface SFParentChildrenSyncDownTarget (tests)
+
+@property (nonatomic) SFParentInfo* parentInfo;
+@property (nonatomic) NSArray<NSString*>* parentFieldlist;
+@property (nonatomic) NSString* parentSoqlFilter;
+@property (nonatomic) SFChildrenInfo* childrenInfo;
+@property (nonatomic) NSArray<NSString*>* childrenFieldlist;
+@property (nonatomic) SFParentChildrenRelationshipType relationshipType;
+
+@end
+
 @implementation SyncManagerTestCase
 
 + (void)setUp
@@ -342,20 +364,37 @@ static NSException *authException = nil;
                 XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).layoutType, ((SFLayoutSyncDownTarget*)sync.target).layoutType);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeParentChildren) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFParentChildrenSyncDownTarget class]]);
-                // FIXME
+                SFParentChildrenSyncDownTarget *expectedTargetTyped = (SFParentChildrenSyncDownTarget*)sync.target;
+                SFParentChildrenSyncDownTarget *actualTargetTyped = (SFParentChildrenSyncDownTarget*)expectedTarget;
+                [self checkParentInfo:actualTargetTyped.parentInfo expectedParentInfo:expectedTargetTyped.parentInfo];
+                [self checkChildrenInfo:actualTargetTyped.childrenInfo expectedChildrenInfo:expectedTargetTyped.childrenInfo];
+                XCTAssertEqual(expectedTargetTyped.relationshipType, actualTargetTyped.relationshipType);
+                XCTAssertEqualObjects(expectedTargetTyped.parentFieldlist, actualTargetTyped.parentFieldlist);
+                XCTAssertEqualObjects(expectedTargetTyped.childrenFieldlist, actualTargetTyped.childrenFieldlist);
+                XCTAssertEqualObjects(expectedTargetTyped.parentSoqlFilter, actualTargetTyped.parentSoqlFilter);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeCustom) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFSyncDownTarget class]]);
             }
         } else {
             if ([sync.target isKindOfClass:[SFBatchSyncUpTarget class]]) {
-                // FIXME
+                XCTAssertTrue([sync.target isKindOfClass:[SFBatchSyncUpTarget class]]);
             } else if ([sync.target isKindOfClass:[SFParentChildrenSyncUpTarget class]]) {
-                // FIXME
-            } else {
-                XCTAssertTrue([sync.target isKindOfClass:[SFSyncUpTarget class]]);
-                XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).createFieldlist, ((SFSyncUpTarget*)sync.target).createFieldlist);
-                XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).updateFieldlist, ((SFSyncUpTarget*)sync.target).updateFieldlist);
+                XCTAssertTrue([sync.target isKindOfClass:[SFParentChildrenSyncUpTarget class]]);
+                SFParentChildrenSyncUpTarget *expectedTargetTyped = (SFParentChildrenSyncUpTarget*)sync.target;
+                SFParentChildrenSyncUpTarget *actualTargetTyped = (SFParentChildrenSyncUpTarget*)expectedTarget;
+                [self checkParentInfo:actualTargetTyped.parentInfo expectedParentInfo:expectedTargetTyped.parentInfo];
+                [self checkChildrenInfo:actualTargetTyped.childrenInfo expectedChildrenInfo:expectedTargetTyped.childrenInfo];
+                XCTAssertEqual(expectedTargetTyped.relationshipType, actualTargetTyped.relationshipType);
+                XCTAssertEqualObjects(expectedTargetTyped.createFieldlist, actualTargetTyped.createFieldlist);
+                XCTAssertEqualObjects(expectedTargetTyped.updateFieldlist, actualTargetTyped.updateFieldlist);
+                XCTAssertEqualObjects(expectedTargetTyped.childrenCreateFieldlist, actualTargetTyped.childrenCreateFieldlist);
+                XCTAssertEqualObjects(expectedTargetTyped.childrenUpdateFieldlist, actualTargetTyped.childrenUpdateFieldlist);
             }
+
+            // Following applies to all sync up targets
+            XCTAssertTrue([sync.target isKindOfClass:[SFSyncUpTarget class]]);
+            XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).createFieldlist, ((SFSyncUpTarget*)sync.target).createFieldlist);
+            XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).updateFieldlist, ((SFSyncUpTarget*)sync.target).updateFieldlist);
         }
     } else {
         XCTAssertNil(sync.target);
@@ -374,6 +413,21 @@ static NSException *authException = nil;
         XCTAssertTrue(sync.endTime > 0);
         XCTAssertTrue(sync.endTime > sync.startTime);
     }
+}
+
+- (void)checkParentInfo:(SFParentInfo*)parentInfo
+     expectedParentInfo:(SFParentInfo*)expectedParentInfo {
+    XCTAssertEqualObjects(expectedParentInfo.idFieldName, parentInfo.idFieldName);
+    XCTAssertEqualObjects(expectedParentInfo.modificationDateFieldName, parentInfo.modificationDateFieldName);
+    XCTAssertEqualObjects(expectedParentInfo.sobjectType, parentInfo.sobjectType);
+    XCTAssertEqualObjects(expectedParentInfo.soupName, parentInfo.soupName);
+}
+
+- (void)checkChildrenInfo:(SFChildrenInfo*)childrenInfo
+       expectedChildrenInfo:(SFChildrenInfo*)expectedChildrenInfo {
+    [self checkParentInfo:childrenInfo expectedParentInfo:expectedChildrenInfo];
+    XCTAssertEqualObjects(expectedChildrenInfo.parentIdFieldName, childrenInfo.parentIdFieldName);
+    XCTAssertEqualObjects(expectedChildrenInfo.sobjectTypePlural, childrenInfo.sobjectTypePlural);
 }
 
 - (void)checkStatus:(SFSyncState*)sync

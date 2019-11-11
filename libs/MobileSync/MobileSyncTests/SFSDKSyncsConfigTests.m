@@ -236,9 +236,9 @@
                                                     newWithSObjectType:@"Account"
                                                     soupName:@"accounts"
                                                     idFieldName:@"IdX"
-                                                    modificationDateFieldName:@"LastModifedDateX"]
+                                                    modificationDateFieldName:@"LastModifiedDateX"]
                        parentFieldlist:@[@"IdX",@"Name", @"Description"]
-                       parentSoqlFilter:@"Name like 'Jame%'"
+                       parentSoqlFilter:@"NameX like 'James%'"
                        childrenInfo:[SFChildrenInfo
                                      newWithSObjectType:@"Contact"
                                      sobjectTypePlural:@"Contacts"
