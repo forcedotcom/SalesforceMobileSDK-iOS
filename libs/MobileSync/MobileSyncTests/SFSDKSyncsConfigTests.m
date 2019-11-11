@@ -234,12 +234,18 @@
        expectedTarget:[SFParentChildrenSyncDownTarget
                        newSyncTargetWithParentInfo:[SFParentInfo
                                                     newWithSObjectType:@"Account"
-                                                    soupName:@"accounts"]
-                       parentFieldlist:@[@"Id",@"Name", @"Description"]
-                       parentSoqlFilter:@""
+                                                    soupName:@"accounts"
+                                                    idFieldName:@"IdX"
+                                                    modificationDateFieldName:@"LastModifedDateX"]
+                       parentFieldlist:@[@"IdX",@"Name", @"Description"]
+                       parentSoqlFilter:@"Name like 'Jame%'"
                        childrenInfo:[SFChildrenInfo
                                      newWithSObjectType:@"Contact"
-                                     soupName:@"contacts"]
+                                     sobjectTypePlural:@"Contacts"
+                                     soupName:@"contacts"
+                                     parentIdFieldName:@"AccountId"
+                                     idFieldName:@"IdY"
+                                     modificationDateFieldName:@"LastModifiedDateY"]
                        childrenFieldlist:@[@"LastName", @"AccountId"]
                        relationshipType:SFParentChildrenRelationpshipMasterDetail]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
@@ -292,14 +298,20 @@
        expectedTarget:[SFParentChildrenSyncUpTarget
                        newSyncTargetWithParentInfo:[SFParentInfo
                                                     newWithSObjectType:@"Account"
-                                                    soupName:@"accounts"]
-                       parentCreateFieldlist:@[@"Id",@"Name", @"Description"]
+                                                    soupName:@"accounts"
+                                                    idFieldName:@"IdX"
+                                                    modificationDateFieldName:@"LastModifiedDateX"]
+                       parentCreateFieldlist:@[@"IdX",@"Name", @"Description"]
                        parentUpdateFieldlist:@[@"Name", @"Description"]
                        childrenInfo:[SFChildrenInfo
                                      newWithSObjectType:@"Contact"
-                                     soupName:@"contacts"]
+                                     sobjectTypePlural:@"Contacts"
+                                     soupName:@"contacts"
+                                     parentIdFieldName:@"AccountId"
+                                     idFieldName:@"IdY"
+                                     modificationDateFieldName:@"LastModifiedDateY"]
                        childrenCreateFieldlist:@[@"LastName", @"AccountId"]
-                       childrenUpdateFieldlist:@[@"LastName", @"AccountId"]
+                       childrenUpdateFieldlist:@[@"FirstName", @"AccountId"]
                        relationshipType:SFParentChildrenRelationpshipMasterDetail]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[] mergeMode:SFSyncStateMergeModeLeaveIfChanged]
        expectedStatus:SFSyncStateStatusNew

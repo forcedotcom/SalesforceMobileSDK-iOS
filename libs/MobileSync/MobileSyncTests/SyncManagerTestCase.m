@@ -328,6 +328,11 @@ static NSException *authException = nil;
                 XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncDownTarget class]]);
                 XCTAssertEqualObjects(((SFMruSyncDownTarget*)expectedTarget).objectType, ((SFMruSyncDownTarget*)sync.target).objectType);
                 XCTAssertEqualObjects(((SFMruSyncDownTarget*)expectedTarget).fieldlist, ((SFMruSyncDownTarget*)sync.target).fieldlist);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeRefresh){
+                XCTAssertTrue([sync.target isKindOfClass:[SFRefreshSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFRefreshSyncDownTarget*)expectedTarget).objectType, ((SFRefreshSyncDownTarget*)sync.target).objectType);
+                XCTAssertEqualObjects(((SFRefreshSyncDownTarget*)expectedTarget).soupName, ((SFRefreshSyncDownTarget*)sync.target).soupName);
+                XCTAssertEqualObjects(((SFRefreshSyncDownTarget*)expectedTarget).fieldlist, ((SFRefreshSyncDownTarget*)sync.target).fieldlist);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeMetadata) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFMetadataSyncDownTarget class]]);
                 XCTAssertEqualObjects(((SFMetadataSyncDownTarget*)expectedTarget).objectType, ((SFMetadataSyncDownTarget*)sync.target).objectType);
@@ -335,13 +340,22 @@ static NSException *authException = nil;
                 XCTAssertTrue([sync.target isKindOfClass:[SFLayoutSyncDownTarget class]]);
                 XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).objectType, ((SFLayoutSyncDownTarget*)sync.target).objectType);
                 XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).layoutType, ((SFLayoutSyncDownTarget*)sync.target).layoutType);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeParentChildren) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFParentChildrenSyncDownTarget class]]);
+                // FIXME
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeCustom) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFSyncDownTarget class]]);
             }
         } else {
-            XCTAssertTrue([sync.target isKindOfClass:[SFSyncUpTarget class]]);
-            XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).createFieldlist, ((SFSyncUpTarget*)sync.target).createFieldlist);
-            XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).updateFieldlist, ((SFSyncUpTarget*)sync.target).updateFieldlist);
+            if ([sync.target isKindOfClass:[SFBatchSyncUpTarget class]]) {
+                // FIXME
+            } else if ([sync.target isKindOfClass:[SFParentChildrenSyncUpTarget class]]) {
+                // FIXME
+            } else {
+                XCTAssertTrue([sync.target isKindOfClass:[SFSyncUpTarget class]]);
+                XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).createFieldlist, ((SFSyncUpTarget*)sync.target).createFieldlist);
+                XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).updateFieldlist, ((SFSyncUpTarget*)sync.target).updateFieldlist);
+            }
         }
     } else {
         XCTAssertNil(sync.target);
