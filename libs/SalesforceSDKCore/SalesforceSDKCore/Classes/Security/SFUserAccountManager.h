@@ -508,7 +508,7 @@ NS_SWIFT_NAME(UserAccountManager)
  Switches to a new user. Sets the current user only if the login succeeds. Completion block is
  invoked if the login flow completes, or if any errors are encountered during the flow.
  */
-- (void)switchToNewUserWithCompletion:(void (^)(NSError * _Nullable, SFUserAccount * _Nullable))completion NS_SWIFT_NAME(switchToNewUserAccount(_:));
+- (void)switchToNewUserWithCompletion:(void (^)(NSError * _Nullable, SFUserAccount * _Nullable))completion NS_REFINED_FOR_SWIFT;
 
 /**
  Switches away from the current user, to the given user account.
@@ -531,7 +531,7 @@ NS_SWIFT_NAME(UserAccountManager)
  in succession.
  */
 - (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
-                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(login(onSuccess:onFailure:));
+                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_REFINED_FOR_SWIFT;
 
 /**
  Kick off the refresh process for the specified credentials.
@@ -544,7 +544,7 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)credentials
                 completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
-                   failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(refresh(using:onSuccess:onFailure:));
+                   failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_REFINED_FOR_SWIFT;
 
 /**
  Login using the given JWT token to exchange with the service for credentials.
@@ -557,7 +557,7 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken
                completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
-                  failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(login(usingJWTToken:onSuccess:onFailure:));
+                  failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_REFINED_FOR_SWIFT;
 
 /**
 Use this method to stop/clear any authentication which is has already been started

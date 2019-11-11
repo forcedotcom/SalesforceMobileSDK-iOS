@@ -22,20 +22,19 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(CompositeSubRequest)
 @interface SFSDKCompositeSubRequest : SFRestRequest
-@property (assign, nonatomic) NSString *referenceId;
+@property (nonatomic, copy) NSString *referenceId;
 -(instancetype)initWithReferenceId:(NSString *)referenceId;
 @end
 
 NS_SWIFT_NAME(CompositeRequest)
 @interface SFSDKCompositeRequest : SFRestRequest
-@property (assign, nonatomic, readonly) BOOL allOrNone;
+@property (nonatomic, readonly) BOOL allOrNone;
 @property (nonatomic, strong, readonly) NSArray<SFSDKCompositeSubRequest *> *allSubRequests;
 @end
 
