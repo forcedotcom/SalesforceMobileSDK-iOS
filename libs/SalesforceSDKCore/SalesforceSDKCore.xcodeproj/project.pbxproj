@@ -175,6 +175,8 @@
 		B7A4AE4522E8C7740060E737 /* SFSDKOAuth2+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B7341DD822E1041600B77778 /* SFSDKOAuth2+Internal.h */; };
 		B7A4AE4722E8C77C0060E737 /* SFSDKOAuth2.m in Sources */ = {isa = PBXBuildFile; fileRef = B7341DD622DFE2A500B77778 /* SFSDKOAuth2.m */; };
 		B7A4AE4922E8CA780060E737 /* SFSDKAuthUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7156B8822DE3603003AB69D /* SFSDKAuthUtilTests.swift */; };
+		B7A6ED32236A3F8600DBA451 /* UserAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6ED31236A3F8600DBA451 /* UserAccountManager.swift */; };
+		B7A6ED3B236B49A100DBA451 /* RestClientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6ED3A236B49A100DBA451 /* RestClientTest.swift */; };
 		B7A901BE228E4DFB0036D749 /* SFSDKLogoutBlocker.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A901BD228E4DFA0036D749 /* SFSDKLogoutBlocker.m */; };
 		B7BAD70C1FBAB8AA0046629F /* SFSDKStartURLHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7BAD70A1FBAB8AA0046629F /* SFSDKStartURLHandler.h */; };
 		B7BAD70E1FBAB8AA0046629F /* SFSDKStartURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BAD70B1FBAB8AA0046629F /* SFSDKStartURLHandler.m */; };
@@ -200,6 +202,8 @@
 		B7E1A7851F4C8844007AC36A /* SFSDKAuthViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1A77E1F4C8844007AC36A /* SFSDKAuthViewHandler.m */; };
 		B7E391122209E63E00D61D4D /* SFSDKViewUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E391102209E63E00D61D4D /* SFSDKViewUtils.h */; };
 		B7E391132209E63E00D61D4D /* SFSDKViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E391112209E63E00D61D4D /* SFSDKViewUtils.m */; };
+		B7E66AE22375007D005A652E /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E66AE12375007D005A652E /* PushNotificationManager.swift */; };
+		B7E66AE923763278005A652E /* RestClientPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E66AE823763278005A652E /* RestClientPublisherTests.swift */; };
 		B7E8A2A51E7369DB007C0D92 /* SFDefaultUserAccountPersister.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */; };
 		B7E8A2A61E7369DB007C0D92 /* SFDefaultUserAccountPersister.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E8A2A41E7369DB007C0D92 /* SFDefaultUserAccountPersister.m */; };
 		B7E8A2AA1E7455FA007C0D92 /* SFUserAccountManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF721C49A16A00F70798 /* SFUserAccountManagerTests.m */; };
@@ -846,6 +850,8 @@
 		B7A20F821F25850E00D1E4B0 /* SFSDKWindowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWindowManager.m; sourceTree = "<group>"; };
 		B7A20FAB1F26C39700D1E4B0 /* SFSDKRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKRootController.h; sourceTree = "<group>"; };
 		B7A20FAC1F26C39700D1E4B0 /* SFSDKRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKRootController.m; sourceTree = "<group>"; };
+		B7A6ED31236A3F8600DBA451 /* UserAccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountManager.swift; sourceTree = "<group>"; };
+		B7A6ED3A236B49A100DBA451 /* RestClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestClientTest.swift; path = SalesforceSDKCoreTests/RestClientTest.swift; sourceTree = SOURCE_ROOT; };
 		B7A901BD228E4DFA0036D749 /* SFSDKLogoutBlocker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKLogoutBlocker.m; path = SalesforceSDKCoreTests/SFSDKLogoutBlocker.m; sourceTree = SOURCE_ROOT; };
 		B7BAD70A1FBAB8AA0046629F /* SFSDKStartURLHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKStartURLHandler.h; sourceTree = "<group>"; };
 		B7BAD70B1FBAB8AA0046629F /* SFSDKStartURLHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKStartURLHandler.m; sourceTree = "<group>"; };
@@ -870,6 +876,8 @@
 		B7E1A77E1F4C8844007AC36A /* SFSDKAuthViewHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAuthViewHandler.m; sourceTree = "<group>"; };
 		B7E391102209E63E00D61D4D /* SFSDKViewUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKViewUtils.h; sourceTree = "<group>"; };
 		B7E391112209E63E00D61D4D /* SFSDKViewUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKViewUtils.m; sourceTree = "<group>"; };
+		B7E66AE12375007D005A652E /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
+		B7E66AE823763278005A652E /* RestClientPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestClientPublisherTests.swift; path = SalesforceSDKCoreTests/RestClientPublisherTests.swift; sourceTree = SOURCE_ROOT; };
 		B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDefaultUserAccountPersister.h; sourceTree = "<group>"; };
 		B7E8A2A41E7369DB007C0D92 /* SFDefaultUserAccountPersister.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFDefaultUserAccountPersister.m; sourceTree = "<group>"; };
 		B7E8A2AE1E77062E007C0D92 /* SFUserAccountManagerPersisterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserAccountManagerPersisterTests.m; path = SalesforceSDKCoreTests/SFUserAccountManagerPersisterTests.m; sourceTree = SOURCE_ROOT; };
@@ -1080,6 +1088,8 @@
 				69848CB72364035300893E57 /* SFSDKEncryptedPushNotificationTests.m */,
 				69848CBB2364063E00893E57 /* SFSDKPushNotificationDataProvider.h */,
 				69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */,
+				B7A6ED3A236B49A100DBA451 /* RestClientTest.swift */,
+				B7E66AE823763278005A652E /* RestClientPublisherTests.swift */,
 			);
 			name = SalesforceSDKCoreTests;
 			path = SalesforceSDKCore;
@@ -1536,6 +1546,8 @@
 			isa = PBXGroup;
 			children = (
 				B722A708233C437E0089736E /* RestClient.swift */,
+				B7A6ED31236A3F8600DBA451 /* UserAccountManager.swift */,
+				B7E66AE12375007D005A652E /* PushNotificationManager.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2168,6 +2180,7 @@
 				E1DDC1441CAEEB34002F51DD /* SFSDKLoginHostTests.m in Sources */,
 				CE02ACEE202E19CF00C6A714 /* SFSDKAuthConfigUtilTests.m in Sources */,
 				4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */,
+				B7E66AE923763278005A652E /* RestClientPublisherTests.swift in Sources */,
 				B7A4AE4922E8CA780060E737 /* SFSDKAuthUtilTests.swift in Sources */,
 				4F7EB4161BFFC8D700768720 /* SDKCommonNSDataTests.m in Sources */,
 				4F06AF931C49A18E00F70798 /* SFSecurityLockoutTests.m in Sources */,
@@ -2195,6 +2208,7 @@
 				4F4055CD2232368000316D91 /* SFSecureEncryptionKeyTests.m in Sources */,
 				CED452F01D808E0F009266EB /* SalesforceRestAPITests.m in Sources */,
 				B71D71E122EA0294003076BB /* SalesforceTestExtenions.swift in Sources */,
+				B7A6ED3B236B49A100DBA451 /* RestClientTest.swift in Sources */,
 				B7E8A2B21E770A57007C0D92 /* SFUserAccountPersisterEphemeral.m in Sources */,
 				B7E8A2AA1E7455FA007C0D92 /* SFUserAccountManagerTests.m in Sources */,
 				4F06AF8B1C49A18E00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */,
@@ -2282,6 +2296,7 @@
 				82A195A71E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m in Sources */,
 				CE675A361E0B2CC6002DBF5A /* SFSDKSoslBuilder.m in Sources */,
 				CE4CE3721C0E526A009F6029 /* SFKeyStore.m in Sources */,
+				B7E66AE22375007D005A652E /* PushNotificationManager.swift in Sources */,
 				FDED97291CAA16EB009D80F2 /* SFApplicationHelper.m in Sources */,
 				B78927622241643500BEDED4 /* SFSDKInstrumentationHelper.m in Sources */,
 				CE4CE39E1C0E5272009F6029 /* SFSDKTestRequestListener.m in Sources */,
@@ -2323,6 +2338,7 @@
 				CE4CE33D1C0E5245009F6029 /* SFIdentityData.m in Sources */,
 				CE4CE3A01C0E5272009F6029 /* TestSetupUtils.m in Sources */,
 				A3161D0E2181113800437BD2 /* SFSDKBiometricViewController.m in Sources */,
+				B7A6ED32236A3F8600DBA451 /* UserAccountManager.swift in Sources */,
 				CE4CE32F1C0E523B009F6029 /* SFApplication.m in Sources */,
 				CE4CE3241C0E523B009F6029 /* UIDevice+SFHardware.m in Sources */,
 				CE675A381E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */,
