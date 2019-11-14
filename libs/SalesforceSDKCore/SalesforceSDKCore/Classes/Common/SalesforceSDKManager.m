@@ -35,6 +35,7 @@
 #import "SFSDKDevInfoViewController.h"
 #import "SFDefaultUserManagementViewController.h"
 #import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
+#import "SFSDKEncryptedURLCache.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -60,6 +61,11 @@ static NSString * const kSFMobileSDKNativeDesignator = @"Native";
 static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
 static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
+
+// URL cache
+static NSString * const kDefaultCachePath = @"salesforce.mobilesdk.URLCache";
+static NSInteger const kDefaultCacheMemoryCapacity = 1024 * 1024 * 4; // 4MB
+static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 @implementation UIWindow (SalesforceSDKManager)
 
@@ -103,6 +109,8 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
 @interface SalesforceSDKManager ()
 
 @property(nonatomic, strong) UIAlertController *actionSheet;
+@property(nonatomic, strong) WKWebView *webView; // for calculating user agent
+@property(nonatomic, strong) NSString *webViewUserAgent; // for calculating user agent
 
 @end
 
@@ -205,7 +213,9 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
         
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
         self.useSnapshotView = YES;
+        [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
+        self.encryptURLCache = YES;
         [self setupServiceConfiguration];
     }
     return self;
@@ -365,6 +375,14 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
     }
     
     return launchActionString;
+}
+- (void)setEncryptURLCache:(BOOL)encryptURLCache {
+    _encryptURLCache = encryptURLCache;
+    if (self.encryptURLCache) {
+        [self enableEncryptedURLCache];
+    } else {
+        [self disableEncryptedURLCache];
+    }
 }
 
 #pragma mark - Dev support methods
@@ -946,7 +964,6 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
         NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
         NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
-        NSString *webViewUserAgent = [self getUIWebViewUserAgent];
 
         // App type.
         NSString *appTypeStr = [self getAppTypeAsString];
@@ -962,23 +979,24 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
                                  (qualifier != nil ? qualifier : @""),
                                  uid,
                                  [[[SFSDKAppFeatureMarkers appFeatures].allObjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."],
-                                 webViewUserAgent
+                                 self.webViewUserAgent == nil ? @"" : self.webViewUserAgent
                                  ];
         return myUserAgent;
     };
 }
 
-- (NSString *)getUIWebViewUserAgent {
-    static NSString *webViewUserAgent = nil;
+- (void)computeWebViewUserAgent {
     static dispatch_once_t onceToken;
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+    [self.webView loadHTMLString:@"<html></html>" baseURL:nil];
+    __weak typeof(self) weakSelf = self;
     dispatch_once_on_main_thread(&onceToken, ^{
-        // Grabs the current user agent. This is very hackish but WKWebView, which we
-        // want to transition too currently evaluates Javscript asynchronously (11/2/17)
-        UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-        webViewUserAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id __nullable userAgent, NSError * __nullable error) {
+            strongSelf.webViewUserAgent = userAgent;
+            strongSelf.webView = nil;
+        }];
     });
-    
-    return webViewUserAgent;
 }
 
 void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t block) {
@@ -1021,6 +1039,22 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
         for (id<SalesforceSDKManagerDelegate> delegate in self.delegates) {
             if (block) block(delegate);
         }
+    }
+}
+
+- (void)enableEncryptedURLCache {
+    if (![NSURLCache.sharedURLCache isKindOfClass:[SFSDKEncryptedURLCache class]]) {
+        [NSURLCache.sharedURLCache removeAllCachedResponses];
+        SFSDKEncryptedURLCache *encryptedCache = [[SFSDKEncryptedURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+        [NSURLCache setSharedURLCache:encryptedCache];
+    }
+}
+
+- (void)disableEncryptedURLCache {
+    if ([NSURLCache.sharedURLCache isKindOfClass:[SFSDKEncryptedURLCache class]]) {
+        [NSURLCache.sharedURLCache removeAllCachedResponses];
+        NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+        [NSURLCache setSharedURLCache:cache];
     }
 }
 

@@ -30,43 +30,42 @@
 import UIKit
 
 protocol ActionTableViewDelegate: class {
-    func userDidSelectAction(_ action:Action)
+    func userDidSelectAction(_ action: Action)
 }
 
 class ActionTableViewController: UIViewController {
-    weak var delegate:ActionTableViewDelegate?
-    let actions:[Action]
+    weak var delegate: ActionTableViewDelegate?
+    let actions: [Action]
     fileprivate var tableView = UITableView(frame: .zero, style: .plain)
     
     init() {
-        let versions = Action(type: ActionType.versions, method: "versions", objectTypes:nil)
-        let resources = Action(type: ActionType.resources, method: "resources", objectTypes:nil)
-        let describeGlobal = Action(type: ActionType.describeGlobal, method: "describeGlobal", objectTypes:nil)
-        let metadata = Action(type: ActionType.metadataWithObjectType, method: "metadataWithObjectType", objectTypes:"objectType")
-        let describe = Action(type: ActionType.describeWithObjectType, method: "describeWithObjectType:", objectTypes:"objectType")
-        let retrieve = Action(type: ActionType.retrieveWithObjectType, method: "retrieveWithObjectType:objectId:fieldList", objectTypes:"objectType, objectId, fieldList")
-        let create = Action(type: ActionType.createWithObjectType, method: "createWithObjectType:fields", objectTypes:"objectType, fields")
-        let upsert = Action(type: ActionType.upsertWithObjectType, method: "upsertWithObjectType:externalField:externalId:fields", objectTypes:"objectType, externalField, externalId, fields")
-        let update = Action(type: ActionType.updateWithObjectType, method: "updateWithObjectType:externalField:externalId:fields", objectTypes:"objectType, objectId, fields")
+        let versions = Action(type: ActionType.versions, method: "versions", objectTypes: nil)
+        let resources = Action(type: ActionType.resources, method: "resources", objectTypes: nil)
+        let describeGlobal = Action(type: ActionType.describeGlobal, method: "describeGlobal", objectTypes: nil)
+        let metadata = Action(type: ActionType.metadataWithObjectType, method: "metadataWithObjectType", objectTypes: "objectType")
+        let describe = Action(type: ActionType.describeWithObjectType, method: "describeWithObjectType:", objectTypes: "objectType")
+        let retrieve = Action(type: ActionType.retrieveWithObjectType, method: "retrieveWithObjectType:objectId:fieldList", objectTypes: "objectType, objectId, fieldList")
+        let create = Action(type: ActionType.createWithObjectType, method: "createWithObjectType:fields", objectTypes: "objectType, fields")
+        let upsert = Action(type: ActionType.upsertWithObjectType, method: "upsertWithObjectType:externalField:externalId:fields", objectTypes: "objectType, externalField, externalId, fields")
+        let update = Action(type: ActionType.updateWithObjectType, method: "updateWithObjectType:externalField:externalId:fields", objectTypes: "objectType, objectId, fields")
         let delete = Action(type: ActionType.deleteWithObjectType, method: "deleteWithObjectType:objectId", objectTypes:"objectType, objectId")
-        let query = Action(type: ActionType.query, method: "query:", objectTypes:"query")
-        let search = Action(type: ActionType.search, method: "search:", objectTypes:"search")
-        let searchScope = Action(type: ActionType.searchScopeAndOrder, method: "searchScopeAndOrder:", objectTypes:nil)
-        let searchResultLayout = Action(type: ActionType.searchResultLayout, method: "searchResultLayout:", objectTypes:"objectList")
-        let ownedFiles = Action(type: ActionType.ownedFilesList, method: "ownedFilesList:page", objectTypes:"userId, page")
-        let filesInUserGroups = Action(type: ActionType.filesInUserGroups, method: "filesInUserGroups:page", objectTypes:"userId, page")
-        let filesShared = Action(type: ActionType.filesSharedWithUser, method: "filesSharedWithUser:page", objectTypes:"userId, page")
-        let fileDetails = Action(type: ActionType.fileDetails, method: "fileDetails:forVersions", objectTypes:"objectId, version")
-        let batchFileDetails = Action(type: ActionType.batchFileDetails, method: "batchFileDetails:", objectTypes:"objectIdList")
-        let fileShares = Action(type: ActionType.fileShares, method: "fileShares:page", objectTypes:"objectId, page")
-        let addFileShare = Action(type: ActionType.addFileShare, method: "addFileShare:entityId:shareType", objectTypes:"objectId, entityId, sharedType")
-        let deleteFileShare = Action(type: ActionType.deleteFileShare, method: "deleteFileShares:", objectTypes:"objectId")
-        let currentUserInfo = Action(type: ActionType.currentUserInfo, method: "current user info", objectTypes:nil)
-        let enableBiometric = Action(type: ActionType.enableBiometric, method: "Enable Touch/Face Id", objectTypes:nil)
-        let logout = Action(type: ActionType.logout, method: "logout", objectTypes:nil)
-        let switchUser = Action(type: ActionType.switchUser, method: "switch user", objectTypes:nil)
-        let exportCredentials = Action(type: ActionType.exportCredentials, method: "Export Credentials to pasteboard", objectTypes:nil)
-        
+        let query = Action(type: ActionType.query, method: "query:", objectTypes: "query")
+        let search = Action(type: ActionType.search, method: "search:", objectTypes: "search")
+        let searchScope = Action(type: ActionType.searchScopeAndOrder, method: "searchScopeAndOrder:", objectTypes: nil)
+        let searchResultLayout = Action(type: ActionType.searchResultLayout, method: "searchResultLayout:", objectTypes: "objectList")
+        let ownedFiles = Action(type: ActionType.ownedFilesList, method: "ownedFilesList:page", objectTypes: "userId, page")
+        let filesInUserGroups = Action(type: ActionType.filesInUserGroups, method: "filesInUserGroups:page", objectTypes: "userId, page")
+        let filesShared = Action(type: ActionType.filesSharedWithUser, method: "filesSharedWithUser:page", objectTypes: "userId, page")
+        let fileDetails = Action(type: ActionType.fileDetails, method: "fileDetails:forVersions", objectTypes: "objectId, version")
+        let batchFileDetails = Action(type: ActionType.batchFileDetails, method: "batchFileDetails:", objectTypes: "objectIdList")
+        let fileShares = Action(type: ActionType.fileShares, method: "fileShares:page", objectTypes: "objectId, page")
+        let addFileShare = Action(type: ActionType.addFileShare, method: "addFileShare:entityId:shareType", objectTypes: "objectId, entityId, sharedType")
+        let deleteFileShare = Action(type: ActionType.deleteFileShare, method: "deleteFileShares:", objectTypes: "objectId")
+        let currentUserInfo = Action(type: ActionType.currentUserInfo, method: "current user info", objectTypes: nil)
+        let enableBiometric = Action(type: ActionType.enableBiometric, method: "Enable Touch/Face Id", objectTypes: nil)
+        let logout = Action(type: ActionType.logout, method: "logout", objectTypes: nil)
+        let switchUser = Action(type: ActionType.switchUser, method: "switch user", objectTypes: nil)
+        let exportCredentials = Action(type: ActionType.exportCredentials, method: "Export Credentials to pasteboard", objectTypes: nil)
         
         self.actions = [versions, resources, describeGlobal, metadata, describe, retrieve, create, upsert, update, delete, query, search, searchScope, searchResultLayout, ownedFiles, filesInUserGroups, filesShared, fileDetails, batchFileDetails, fileShares, addFileShare, deleteFileShare, currentUserInfo, enableBiometric, logout, switchUser, exportCredentials]
         
@@ -97,9 +96,9 @@ class ActionTableViewController: UIViewController {
 
 extension ActionTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let d = self.delegate {
+        if let del = self.delegate {
             let action = self.actions[indexPath.row]
-            d.userDidSelectAction(action)
+            del.userDidSelectAction(action)
         }
     }
     
@@ -111,12 +110,15 @@ extension ActionTableViewController: UITableViewDelegate {
 extension ActionTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let action = self.actions[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActionTableViewCell
-        cell.actionLabel.text = action.method
-        if let types = action.objectTypes {
-            cell.objectLabel.text = "params: " + types
-        } else {
-            cell.objectLabel.text = "no params"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        if let actionCell = cell as? ActionTableViewCell {
+            actionCell.actionLabel.text = action.method
+            if let types = action.objectTypes {
+                actionCell.objectLabel.text = "params: " + types
+            } else {
+                actionCell.objectLabel.text = "no params"
+            }
         }
         return cell
     }

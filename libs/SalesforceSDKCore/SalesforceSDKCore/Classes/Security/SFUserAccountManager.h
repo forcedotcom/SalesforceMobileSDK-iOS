@@ -37,6 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Callback block definition for OAuth completion callback.
  */
+typedef id<SFSDKOAuthProtocol> __nonnull (^SFAuthClientFactoryBlock)(void);
+
+/**
+ Callback block definition for OAuth completion callback.
+ */
 typedef void (^SFUserAccountManagerSuccessCallbackBlock)(SFOAuthInfo *, SFUserAccount *) NS_SWIFT_NAME(AccountManagerSuccessCallbackBlock);
 
 /**
@@ -309,6 +314,8 @@ NS_SWIFT_NAME(UserAccountManager)
  The OAuth scopes associated with the app.
  */
 @property (nonatomic, copy) NSSet<NSString*> *scopes;
+
+@property (nonatomic, copy, nullable) SFAuthClientFactoryBlock authClient;
 
 /**  Convenience property to retrieve the current user's identity.
  */

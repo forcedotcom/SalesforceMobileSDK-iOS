@@ -27,7 +27,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Data object representing an symmetric encryption key, with a key value and initialization vector.
+ Data object representing a symmetric encryption key, with a key value and initialization vector.
  */
 @interface SFEncryptionKey : NSObject <NSCoding, NSCopying>
 
@@ -39,29 +39,32 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithData:(NSData *)keyData initializationVector:(nullable NSData *)iv;
 
 /**
- Generate an encryption key
+ Generate an encryption key.
+ @returns `SFEncryptionKey` object that contains the encryption key.
  */
 + (SFEncryptionKey*) createKey;
 
 /**
- Encrypt given data
- @param dataToEncrypt The data to encrypt
+ Encrypt the given data.
+ @param dataToEncrypt The data to encrypt.
+ @returns `NSData` object that contains the encrypted data.
  */
-- (NSData*)encryptData:(NSData *)dataToEncrypt;
+- (nullable NSData *)encryptData:(NSData *)dataToEncrypt;
 
 /**
- Decrypt given data
- @param dataToDecrypt The data to decrypt
+ Decrypt the given data.
+ @param dataToDecrypt Data to decrypt
+ @returns `NSData` object that contains the decrypted data.
  */
-- (NSData*)decryptData:(NSData *)dataToDecrypt;
+- (nullable NSData *)decryptData:(NSData *)dataToDecrypt;
 
 /**
- The key component of the object.
+ Key component of the object.
  */
 @property (nonatomic, copy, nullable) NSData *key;
 
 /**
- The initialization vector component of the object.
+ Initialization vector component of the object.
  */
 @property (nonatomic, copy) NSData *initializationVector;
 

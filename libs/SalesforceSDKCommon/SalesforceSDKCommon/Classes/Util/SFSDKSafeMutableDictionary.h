@@ -38,6 +38,12 @@ NS_SWIFT_NAME(SafeMutableDictionary)
 - (id)objectForKey:(id<NSCopying>)aKey;
 
 /**
+ Retrieves object for the key specified (Thread Safe)
+ @return object for specified key
+ */
+- (id)objectForKeyedSubscript:(id<NSCopying>)key;
+
+/**
  Retreives all keys for object specified (Thread Safe)
  @return Array with keys
  */
@@ -54,6 +60,13 @@ NS_SWIFT_NAME(SafeMutableDictionary)
  @param aKey for to map the object to
  */
 - (void)setObject:(id)object forKey:(id<NSCopying>)aKey;
+
+/**
+ Sets object for key specified (Thread Safe)
+ @param object to add to collection
+ @param aKey for to map the object to
+ */
+- (void)setObject:(id)object forKeyedSubscript:(id<NSCopying>)aKey;
 
 /**
  Removes object for key specified (Thread Safe)

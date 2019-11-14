@@ -39,6 +39,7 @@
     if (config.navBarColor) {
         UIImage *backgroundImage = [self headerBackgroundImage:config.navBarColor];
         [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+//        navigationBar.backgroundColor = config.navBarColor;
     }
     
     if (config.navBarTintColor) {

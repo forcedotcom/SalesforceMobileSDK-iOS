@@ -68,135 +68,135 @@ NS_SWIFT_NAME(SyncManager)
 @property (nonatomic, strong, readonly) SFSmartStore *store;
 
 /**
- * Singleton method for accessing sync manager instance by user. Configured SmartStore store will be
- * the default store for the user.
+ * Singleton method for accessing the sync manager instance for the given user. This instance uses the
+ * default store.
  *
- * @param user A user that will scope this manager instance data.
+ * @param user User to which this manager instance's data is scoped.
  */
 + (instancetype)sharedInstance:(SFUserAccount*)user NS_SWIFT_NAME(sharedInstance(forUserAccount:));
 
 /**
- * Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
- * store will be the store with the given name for the given user.
+ * Singleton method for accessing a sync manager based on a user and store name. This instance uses the
+ * store with the given name for the given user.
  *
- * @param user The user associated with the store.
- * @param storeName The name of the SmartStore associated with the user.
+ * @param user User associated with the store.
+ * @param storeName Name of the requested store.
  */
 + (instancetype)sharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString *)storeName  NS_SWIFT_UNAVAILABLE("");
 
 /**
- * Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
- * store will be the store with the given name for the given user.
- * @param storeName The name of the SmartStore associated with the user.
- * @param userAccount The user associated with the store.
+ * Singleton method for accessing a sync manager based on user and store name. This instance uses the store
+ * with the given name for the given user.
+ * @param storeName Name of the requested store.
+ * @param userAccount User associated with the store.
  */
 + (instancetype)sharedInstanceForStore:(nullable NSString *)storeName userAccount:(SFUserAccount*)userAccount NS_SWIFT_NAME(sharedInstance(named:forUserAccount:));
 
 /**
  * Singleton method for accessing sync manager instance by SmartStore store.
  *
- * @param store The store instance to configure.
+ * @param store SmartStore instance whose sync manager is being requested.
  */
 + (nullable instancetype)sharedInstanceForStore:(SFSmartStore*)store NS_SWIFT_NAME(sharedInstance(store:));
 
 /**
- * Removes the shared instance associated with the specified user.
+ * Remove the shared instance associated with the given user.
  *
- * @param user The user.
+ * @param user User associated with the store.
  */
 + (void)removeSharedInstance:(SFUserAccount*)user;
 
 /**
- * Removes the shared instance associated with the given user and store name.
+ * Remove the shared instance associated with the given user and store name.
  *
- * @param user The user associated with the store.
- * @param storeName The name of the store associated with the given user.
- */
+ * @param storeName Name of the requested store.
+ * @param user User associated with the store.
+ **/
 + (void)removeSharedInstanceForUser:(SFUserAccount*)user storeName:(nullable NSString*)storeName NS_SWIFT_UNAVAILABLE("");
 
 /**
- * Removes the shared instance associated with the given user and store name.
- * @param storeName The name of the store associated with the given user.
- * @param userAccount The user associated with the store.
+ * Remove the shared instance associated with the given store name and user.
+ * @param storeName Name of the requested store.
+ * @param userAccount User associated with the store.
  */
 + (void)removeSharedInstanceForStore:(nullable NSString*)storeName userAccount:(SFUserAccount*)userAccount  NS_SWIFT_NAME(removeSharedInstance(named:forUserAccount:));
 /**
- * Removes the shared instance associated with the specified store.
+ * Remove the shared instance associated with the specified store.
  *
- * @param store The store instance.
+ * @param store SmartStore instance whose sync manager is to be removed.
  */
 + (void)removeSharedInstanceForStore:(SFSmartStore*)store NS_SWIFT_NAME(removeSharedInstance(store:));
 
 /**
- * Removes all shared instances
+ * Remove all shared instances.
  */
 + (void)removeSharedInstances;
 
 /**
- * Stop the sync manager
- * It might take a while for active syncs to actually get stopped
- * Call isStopped() to see if syncManager is fully paused
+ * Stop the sync manager.
+ * It can take a while for active syncs to actually stop.
+ * Call `isStopped()` to see if the sync manager is fully paused.
  */
 - (void)stop;
 
 /**
- * @return YES if stop was requested but there are still active syncs
+ * @return YES if a stop was requested but some syncs are still active.
  */
 - (BOOL)isStopping;
 
 /**
- * @return YES if stop was requested and there no syncs are active anymore
+ * @return YES if a stop was requested and no syncs are still active.
  */
 - (BOOL)isStopped;
 
 /**
- * Restart this sync manager
+ * Restart this sync manager.
  *
- * @param restartStoppedSyncs Pass YES to restart all stopped sync.
- * @param updateBlock The block to be called with updates.
- * @param error To get an error back (optional).
+ * @param restartStoppedSyncs Pass YES to restart all stopped syncs.
+ * @param updateBlock Block to be called with updates.
+ * @param error Reports any error (optional).
  * @return YES if restarted successfully.
  */
 - (BOOL)restart:(BOOL)restartStoppedSyncs updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error NS_SWIFT_NAME(restart(restartStoppedSyncs:onUpdate:));
 
 /**
- * Check if sync manager is running
+ * Check whether a sync manager is running.
  *
- * @param error To get an error back (optional).
- * @return YES if running and NO if stopping or stopped
+ * @param error Reports any error (optional).
+ * @return YES if the sync manager is running, or NO if it's stopping or stopped.
  */
 - (BOOL) checkAcceptingSyncs:(NSError**)error;
 
 /**
- * Returns details about a sync.
+ * Return status of the sync with the given sync ID.
  *
  * @param syncId Sync ID.
  */
 - (nullable SFSyncState*)getSyncStatus:(NSNumber*)syncId NS_SWIFT_NAME(syncStatus(forId:));
 
 /**
- * Returns details about a sync by name.
+ * Return status of the sync with the given name.
  *
  * @param syncName Sync name.
  */
 - (nullable SFSyncState*)getSyncStatusByName:(NSString*)syncName NS_SWIFT_NAME(syncStatus(forName:));
 
 /**
- * Returns YES if a sync with the given name exists.
+ * Return YES if a sync with the given name exists.
  * @param syncName Sync name.
  * @return YES a sync with the given name exists.
  */
 - (BOOL)hasSyncWithName:(NSString*)syncName NS_SWIFT_NAME(hasSync(forName:));
 
 /**
- * Delete a sync.
+ * Delete the sync with the given ID.
  *
  * @param syncId Sync ID.
  */
 - (void)deleteSyncById:(NSNumber*)syncId NS_SWIFT_NAME(deleteSync(forId:));
 
 /**
- * Delete a sync by name.
+ * Delete the sync with the given name.
  *
  * @param syncName Sync name.
  */
@@ -204,119 +204,125 @@ NS_SWIFT_NAME(SyncManager)
 
 
 /**
- * Creates a sync down without running it.
- * @param target The sync down target that will manage the sync down process.
- * @param options The options associated with this sync down.
- * @param soupName The soup name where the local entries are stored.
- * @param syncName The name for this sync.
- * @return The sync state associated with this sync down.
+ * Create a sync down without running it.
+ * @param target Sync down target that will manage the sync down process.
+ * @param options Options associated with this sync down.
+ * @param soupName Soup name where the local entries are stored.
+ * @param syncName Name for this sync (optional).
+ * @return Sync state associated with this sync down.
  */
 - (SFSyncState *)createSyncDown:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName;
 
 /**
- * Creates and runs a sync down that will overwrite any modified records.
- * @param target The sync down target that will manage the sync down process.
- * @param soupName The soup name where the local entries are stored.
- * @param updateBlock The block to be called with updates.
- * @return The sync state associated with this sync or nil if it could not be created.
+ * Create and run a sync down that overwrites modified records.
+ * @param target Sync down target that will manage the sync down process.
+ * @param soupName Soup name where the local entries are stored.
+ * @param updateBlock Block to be called with updates.
+ * @return Sync state associated with this sync, or nil if it could not be created.
  */
 - (nullable SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(syncDown(target:soupName:onUpdate:));
 
 /**
- * Creates and runs a sync down.
- * @param target The sync down target that will manage the sync down process.
- * @param options The options associated with this sync down.
- * @param soupName The soup name where the local entries are stored.
- * @param updateBlock The block to be called with updates.
- * @return The sync state associated with this sync or nil if it could not be created.
+ * Create and run a sync down.
+ * @param target Sync down target that manages the sync down process.
+ * @param options Options associated with this sync down. Use this parameter to specify how the sync
+ * should handle modified records in the store.
+ * @param soupName Soup name where the local entries are stored.
+ * @param updateBlock Block to be called with updates.
+ * @return Sync state associated with this sync, or nil if it could not be created.
  */
 - (nullable SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(syncDown(target:options:soupName:onUpdate:));
 
 /**
- * Creates and runs a named sync down.
- * @param target The sync down target that will manage the sync down process.
- * @param options The options associated with this sync down.
- * @param soupName The soup name where the local entries are stored.
- * @param syncName The name for this sync.
- * @param updateBlock The block to be called with updates.
- * @return The sync state associated with this sync or nil if it could not be created.
+ * Create and run a named sync down.
+ * @param target Sync down target that will manage the sync down process.
+ * @param options Options associated with this sync down. Use this parameter to specify how the sync
+ * should handle modified records in the store.
+ * @param soupName Soup name where the local entries are stored.
+ * @param syncName Name for this sync.
+ * @param updateBlock Block to be called with updates.
+ * @return Sync state associated with this sync, or nil if it could not be created.
  */
 - (nullable SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(nullable NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use syncDownWithTarget:options:soupName:syncName:updateBlock:error instead");
 
 /**
- * Creates and runs a named sync down.
- * @param target The sync down target that will manage the sync down process.
- * @param options The options associated with this sync down.
- * @param soupName The soup name where the local entries are stored.
- * @param syncName The name for this sync.
- * @param updateBlock The block to be called with updates.
+ * Create and run a named sync down.
+ * @param target Sync down target that will manage the sync down process.
+ * @param options Options associated with this sync down. Use this parameter to specify how the sync
+ * should handle modified records in the store.
+ * @param soupName Soup name where the local entries are stored.
+ * @param syncName Name for this sync.
+ * @param updateBlock Block to be called with updates.
  * @param error Sets error if sync could not be created.
- * @return The sync state associated with this sync or nil if it could not be created.
+ * @return Sync state associated with this sync, or nil if it could not be created.
  */
 - (nullable SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName syncName:(nullable NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error NS_SWIFT_NAME(syncDown(target:options:soupName:syncName:onUpdate:));
 
 /**
- * Performs a resync.
+ * Perform a resync.
  * @param syncId Sync ID.
- * @param updateBlock The block to be called with updates.
+ * @param updateBlock Block to be called with updates.
  */
 - (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use reSync:updateBlock:error instead");
 
 /**
- * Performs a resync.
+ * Perform a resync.
  * @param syncId Sync ID.
- * @param updateBlock The block to be called with updates.
+ * @param updateBlock Block to be called with updates.
  * @param error Sets error if sync could not be started.
- * @return The sync state associated with this sync or nil if it could not be started.
+ * @return Sync state associated with this sync, or nil if it could not be started.
  */
 - (nullable SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**) error NS_SWIFT_NAME(reSync(id:onUpdate:));
 
 /**
- * Performs a resync by name.
+ * Perform a resync by name.
  * @param syncName Sync name.
- * @param updateBlock The block to be called with updates.
- * @return The sync state associated with this sync or nil if it could not be started.
+ * @param updateBlock Block to be called with updates.
+ * @return Sync state associated with this sync, or nil if it could not be started.
  */
 - (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use reSyncByName:updateBlock:error instead");
 
 /**
- * Performs a resync by name.
+ * Perform a resync by name.
  * @param syncName Sync name.
- * @param updateBlock The block to be called with updates.
+ * @param updateBlock Block to be called with updates.
  * @param error Sets error if sync could not be started.
- * @return The sync state associated with this sync or nil if it could not be started.
+ * @return Sync state associated with this sync, or nil if it could not be started.
  */
 - (nullable SFSyncState*) reSyncByName:(NSString*)syncName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock error:(NSError**)error NS_SWIFT_NAME(reSync(named:onUpdate:));
 
 
 /**
  * Create a sync up without running it.
- * @param target The sync up target that will manage the sync up process.
- * @param options The options associated with this sync up.
- * @param soupName The soup name where the local entries are stored.
- * @param syncName The name for this sync.
- * @return The sync state associated with this sync up.
+ * @param target Sync up target that will manage the sync up process.
+ * @param options Options associated with this sync up. Use this parameter to specify how the sync
+ * should handle modified records on the server.
+ * @param soupName Soup name where the local entries are stored.
+ * @param syncName Name for this sync.
+ * @return Sync state associated with this sync up.
  */
 - (SFSyncState *)createSyncUp:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName syncName:(nullable NSString *)syncName;
 
 /**
- * Creates and runs a sync up with the default SFSyncUpTarget.
+ * Create and run a sync up with the default SFSyncUpTarget.
  *
- * @param options The options associated with this sync up.
- * @param soupName The soup name where the local entries are stored.
- * @param updateBlock The block to be called with updates.
- * @return The sync state associated with this sync or nil if it could not be created.
+ * @param options Options associated with this sync up. Use this parameter to specify how the sync
+ * should handle modified records on the server.
+ * @param soupName Soup name where the local entries are stored.
+ * @param updateBlock Block to be called with updates.
+ * @return Sync state associated with this sync, or nil if it could not be created.
  */
 - (nullable SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(syncUp(options:soupName:onUpdate:));
 
 /**
- * Creates and runs a sync up with the configured SFSyncUpTarget.
+ * Create and run a sync up with the configured SFSyncUpTarget.
  *
- * @param target The sync up target that will manage the sync up process.
- * @param options The options associated with this sync up.
- * @param soupName The soup name where the local entries are stored.
- * @param updateBlock The block to be called with updates.
- * @return The sync state associated with this sync or nil if it could not be created.
+ * @param target Sync up target that will manage the sync up process.
+ * @param options Options associated with this sync up. Use this parameter to specify how the sync
+ * should handle modified records on the server.
+ * @param soupName Soup name where the local entries are stored.
+ * @param updateBlock Block to be called with updates.
+ * @return Sync state associated with this sync, or nil if it could not be created.
  */
 - (nullable SFSyncState*) syncUpWithTarget:(SFSyncUpTarget*)target
                                    options:(SFSyncOptions*)options
@@ -324,14 +330,15 @@ NS_SWIFT_NAME(SyncManager)
                                updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock NS_SWIFT_NAME(syncUp(target:options:soupName:onUpdate:));
 
 /**
- * Creates and runs a named sync up.
+ * Create and run a named sync up.
  *
- * @param target The sync up target that will manage the sync up process.
- * @param options The options associated with this sync up.
- * @param soupName The soup name where the local entries are stored.
- * @param syncName The name for this sync.
- * @param updateBlock The block to be called with updates.
- * @return The sync state associated with this sync or nil if it could not be created.
+ * @param target Sync up target that will manage the sync up process.
+ * @param options Options associated with this sync up. Use this parameter to specify how the sync
+ * should handle modified records on the server.
+ * @param soupName Soup name where the local entries are stored.
+ * @param syncName Name for this sync.
+ * @param updateBlock Block to be called with updates.
+ * @return Sync state associated with this sync, or nil if it could not be created.
  */
 - (nullable SFSyncState*) syncUpWithTarget:(SFSyncUpTarget*)target
                                    options:(SFSyncOptions*)options
@@ -340,15 +347,16 @@ NS_SWIFT_NAME(SyncManager)
                                updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock SFSDK_DEPRECATED(7.1, 8.0, "Use syncUpWithTarget:options:soupName:syncName:updateBlock:error instead");
 
 /**
- * Creates and runs a named sync up.
+ * Create and run a named sync up.
  *
- * @param target The sync up target that will manage the sync up process.
- * @param options The options associated with this sync up.
- * @param soupName The soup name where the local entries are stored.
- * @param syncName The name for this sync.
- * @param updateBlock The block to be called with updates.
+ * @param target Sync up target that will manage the sync up process.
+ * @param options Options associated with this sync up. Use this parameter to specify how the sync
+ * should handle modified records on the server.
+ * @param soupName Soup name where the local entries are stored.
+ * @param syncName Name for this sync.
+ * @param updateBlock Block to be called with updates.
  * @param error Sets error if sync could not be created.
- * @return The sync state associated with this sync or nil if it could not be created.
+ * @return Sync state associated with this sync, or nil if it could not be created.
  */
 - (nullable SFSyncState*) syncUpWithTarget:(SFSyncUpTarget*)target
                                    options:(SFSyncOptions*)options
@@ -359,7 +367,7 @@ NS_SWIFT_NAME(SyncManager)
 
 
 /**
- * Removes local copies of records that have been deleted on the server
+ * Remove local copies of records that have been deleted on the server
  * or do not match the query results on the server anymore.
  *
  * @param syncId Sync ID.
@@ -370,7 +378,7 @@ NS_SWIFT_NAME(SyncManager)
     SFSDK_DEPRECATED(7.1, 8.0, "Use cleanResyncGhosts:completionStatusBlock:error instead");
 
 /**
- * Removes local copies of records that have been deleted on the server
+ * Remove local copies of records that have been deleted on the server
  * or do not match the query results on the server anymore.
  *
  * @param syncId Sync ID.
@@ -381,7 +389,7 @@ NS_SWIFT_NAME(SyncManager)
 - (BOOL) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock error:(NSError**)error NS_SWIFT_NAME(cleanResyncGhosts(forId:onComplete:));
 
 /**
- * Removes local copies of records that have been deleted on the server
+ * Remove local copies of records that have been deleted on the server
  * or do not match the query results on the server anymore.
  *
  * @param syncName Sync Name.

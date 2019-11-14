@@ -24,7 +24,6 @@
 
 #import "SFSObjectTree.h"
 
-
 @interface SFSObjectTree ()
 
 @property (nonatomic, strong) NSString *objectType;
