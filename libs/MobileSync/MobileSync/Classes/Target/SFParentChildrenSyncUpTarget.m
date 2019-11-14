@@ -68,8 +68,8 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
 - (instancetype)initWithDict:(NSDictionary *)dict {
     return [self initWithParentInfo:[SFParentInfo newFromDict:dict[kSFParentChildrenSyncTargetParent]]
-              parentCreateFieldlist:dict[kSFParentChildrenSyncTargetParentCreateFieldlist]
-              parentUpdateFieldlist:dict[kSFParentChildrenSyncTargetParentUpdateFieldlist]
+              parentCreateFieldlist:dict[kSFSyncUpTargetCreateFieldlist]
+              parentUpdateFieldlist:dict[kSFSyncUpTargetUpdateFieldlist]
                        childrenInfo:[SFChildrenInfo newFromDict:dict[kSFParentChildrenSyncTargetChildren]]
             childrenCreateFieldlist:dict[kSFParentChildrenSyncTargetChildrenCreateFieldlist]
             childrenUpdateFieldlist:dict[kSFParentChildrenSyncTargetChildrenUpdateFieldlist]
@@ -104,8 +104,8 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 - (NSMutableDictionary *)asDict {
     NSMutableDictionary *dict = [super asDict];
     dict[kSFParentChildrenSyncTargetParent] = [self.parentInfo asDict];
-    dict[kSFParentChildrenSyncTargetParentCreateFieldlist] = self.createFieldlist;
-    dict[kSFParentChildrenSyncTargetParentUpdateFieldlist] = self.updateFieldlist;
+    dict[kSFSyncUpTargetCreateFieldlist] = self.createFieldlist;
+    dict[kSFSyncUpTargetUpdateFieldlist] = self.updateFieldlist;
     dict[kSFParentChildrenSyncTargetChildren] = [self.childrenInfo asDict];
     dict[kSFParentChildrenSyncTargetChildrenCreateFieldlist] = self.childrenCreateFieldlist;
     dict[kSFParentChildrenSyncTargetChildrenUpdateFieldlist] = self.childrenUpdateFieldlist;
