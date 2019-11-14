@@ -237,7 +237,7 @@
 {
     [self createAccountsSoup];
 
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:ACCOUNT_TYPE];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:ACCOUNT_TYPE apiVersion:kSFRestDefaultAPIVersion];
     NSMutableArray* existingAccounts =[self sendSyncRequest:request][kRecentItems];
 
     // Creates 3 accounts on the server.

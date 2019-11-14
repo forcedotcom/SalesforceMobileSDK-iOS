@@ -53,7 +53,7 @@
 
 #define __SALESFORCE_SDK_7_3_0 70300
 
-#define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_7_2_0
+#define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_7_3_0
 
 #define SALESFORCE_SDK_VERSION [NSString stringWithFormat:@"%d.%d.%d%@",              \
                                 (SALESFORCE_SDK_VERSION_MIN_REQUIRED / 10000),        \
@@ -87,20 +87,20 @@ _Pragma("clang diagnostic pop")
  * @function sf_os_signpost_interval_begin
  *
  * @abstract
- * Begins a signposted interval.
+ * Begins a signpost interval.
  *
  * @param log
- * Log handle previously created with os_log_create.
+ * Log handle previously created with `os_log_create`.
  *
  * @param interval_id
- * An ID for the event, see Signpost IDs above.
+ * An ID for the event. See Signpost IDs.
  *
  * @param name
- * The name of this event. This must be a string literal.
+ * The name of this event. Must be a hard-coded string.
  *
  * @param ... (format + arguments)
- * Additional information to include with this signpost.  This format string
- * must be a string literal, as with the os_log family of functions.
+ * Additional information to include with this signpost. 
+ * Must be a hard-coded string, as required by `os_log` functions.
  */
 #define sf_os_signpost_interval_begin(log, interval_id, name, ...) \
 if (@available(iOS 12.0, *)) { \
@@ -112,22 +112,21 @@ if (@available(iOS 12.0, *)) { \
  * @function sf_os_signpost_interval_end
  *
  * @abstract
- * Ends a signposted interval.
+ * Ends a signpost interval.
  *
  * @param log
- * The log handle which was provided to os_signpost_interval_begin,
+ * Log handle provided to `os_signpost_interval_begin`.
  *
  * @param interval_id
- * The ID for the event which was provided to os_signpost_interval_begin.  See
- * Signpost IDs above.
+ * Event ID provided to `os_signpost_interval_begin`. See
+ * Signpost IDs.
  *
  * @param name
- * The name of the event provided to os_signost_interval_begin. This must be a
- * string literal.
+ * Event name provided to 'os_signost_interval_begin'. Must be a
+ * hard-coded string.
  *
  * @param ... (format + arguments)
- * Additional information to include with this signpost.  This format string
- * must be a string literal, as with the os_log family of functions.
+ * Additional information to include with this signpost. Must be a hard-coded string, as required by `os_log` functions.
  */
 #define sf_os_signpost_interval_end(log, interval_id, name, ...) \
 if (@available(iOS 12.0, *)) { \

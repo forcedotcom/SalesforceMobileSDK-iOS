@@ -27,7 +27,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Task class responsible for running clean resync ghosts
+ * This task class is responsible for running "clean resync ghosts" tasks.
  */
 
 @interface SFCleanSyncGhostsTask : SFSyncTask

@@ -28,26 +28,26 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Protocol for advanced sync up target where records are not simply created/updated/deleted
- With advanced sync up target, sync manager simply calls the method: syncUpRecord
+ Protocol for advanced sync up target where records are not simply created, updated, or deleted.
+ With advanced sync up target, sync manager simply calls the `syncUpRecords` method.
  */
 NS_SWIFT_NAME(AdvancedSyncUpTarget)
 @protocol SFAdvancedSyncUpTarget
 
 /**
- max number of records that can be passed to syncUpRecord at once
+ Maximum number of records that can be passed to `syncUpRecords` at once.
  */
 @property (nonatomic,readonly) NSUInteger maxBatchSize;
 
 /**
- Sync up locally created/updated or deleted records back to server
- @param syncManager The sync manager doing the sync
- @param records The records being synced
+ Sync up locally created, updated, or deleted records to the server.
+ @param syncManager Sync manager doing the sync
+ @param records Records being synced
  @param fieldlist List of fields to send to server
- @param mergeMode Merge mode (overwrite or leave if changed)
- @param syncSoupName The soup being synched
- @param completionBlock The block to execute after the server call completes.
- @param failBlock The block to execute if the server call fails.
+ @param mergeMode Merge mode--either "OVERWRITE" or "LEAVE_IF_CHANGED".
+ @param syncSoupName Soup being synced.
+ @param completionBlock Block to execute after the server call completes.
+ @param failBlock Block to execute if the server call fails.
  */
 - (void)syncUpRecords:(SFSmartSyncSyncManager *)syncManager
               records:(NSArray<NSMutableDictionary*>*)records

@@ -85,7 +85,7 @@ static NSString * const kSFSyncTargetObjectType = @"sobjectType";
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:objectType];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:objectType apiVersion:kSFRestDefaultAPIVersion];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {

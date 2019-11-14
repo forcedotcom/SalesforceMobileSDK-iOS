@@ -61,6 +61,7 @@ static SFSmartStoreEncryptionKeyBlock _encryptionKeyBlock = NULL;
 static SFSmartStoreEncryptionSaltBlock _encryptionSaltBlock = NULL;
 static BOOL _storeUpgradeHasRun = NO;
 static BOOL _jsonSerializationCheckEnabled = NO;
+static BOOL _postRawJsonOnError = NO;
 
 // The name of the store name used by the SFSmartStorePlugin for hybrid apps
 NSString * const kDefaultSmartStoreName   = @"defaultStore";
@@ -68,6 +69,7 @@ NSString * const kDefaultSmartStoreName   = @"defaultStore";
 NSString * const kSFAppFeatureSmartStoreUser   = @"US";
 NSString * const kSFAppFeatureSmartStoreGlobal   = @"GS";
 NSString * const kSFSmartStoreJSONParseErrorNotification = @"SFSmartStoreJSONParseErrorNotification";
+NSString * const kSFSmartStoreJSONSerializationErrorNotification = @"SFSmartStoreJSONSerializationErrorNotification";
 
 // NSError constants  (TODO: We should move this stuff into a framework where errors can be configurable
 // in a plist, once we start delivering a bundle.
@@ -865,15 +867,24 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     log(@"1/4 Starting to write to tmp file");
     [outputStream open];
     NSError *error = nil;
-    BOOL success = [NSJSONSerialization writeJSONObject:soupEntry
-                                               toStream:outputStream
-                                                options:0
-                                                  error:&error];
+    
+    // NSJSONSerialization:writeJSONObject returns the number of bytes written
+    // So NSJSONSerialization:writeJSONObject can return a value > 0 while there is an error
+    [NSJSONSerialization writeJSONObject:soupEntry
+                                toStream:outputStream
+                                 options:0
+                                   error:&error];
     [outputStream close];
-    log(@"2/4 Done writing to tmp file");
+    
+    if (error) {
+        [SFSmartStore buildEventOnJsonSerializationErrorForUser:self.user fromMethod:NSStringFromSelector(_cmd) error:error];
+    }
 
+    BOOL success = !error;
+    
     // Renaming tmp file by using moveItemAtPath (but first check if destination exists and deletes it if it does)
     if (success) {
+        log(@"2/4 Done writing to tmp file");
         log(@"3/4 Renaming tmp file");
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
@@ -898,7 +909,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                                   tmpFilePath,
                                   filePath,
                                   error];
-        NSAssert(NO, errorMessage);
         [SFSDKSmartStoreLogger e:[self class] format:errorMessage];
     }
     
@@ -912,18 +922,32 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     return [SFJsonUtils objectFromJSONString:[self loadExternalSoupEntryAsString:soupEntryId soupTableName:soupTableName]];
 }
 
-+ (void)buildEventOnJsonErrorForUser:(SFUserAccount *)user {
++ (void)buildEventOnJsonParseErrorForUser:(SFUserAccount *)user fromMethod:(NSString*)fromMethod rawJson:(NSString*)rawJson {
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     attributes[@"errorCode"] = [NSNumber numberWithInteger:SFJsonUtils.lastError.code];
     attributes[@"errorMessage"] = SFJsonUtils.lastError.localizedDescription;
+    attributes[@"fromMethod"] = fromMethod;
     [SFSDKEventBuilderHelper createAndStoreEvent:@"SmartStoreJSONParseError" userAccount:user className:NSStringFromClass([self class]) attributes:attributes];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSFSmartStoreJSONParseErrorNotification object:self];
+    
+    NSMutableDictionary *info = [NSMutableDictionary dictionaryWithDictionary:attributes];
+    if (_postRawJsonOnError) info[@"rawJson"] = rawJson;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFSmartStoreJSONParseErrorNotification object:self userInfo:info];
+}
+
++ (void)buildEventOnJsonSerializationErrorForUser:(SFUserAccount *)user fromMethod:(NSString*)fromMethod error:(NSError*)error {
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
+    attributes[@"errorMessage"] = error.localizedDescription;
+    attributes[@"fromMethod"] = fromMethod;
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"SmartStoreJSONSerializationError" userAccount:user className:NSStringFromClass([self class]) attributes:attributes];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFSmartStoreJSONParseErrorNotification object:self userInfo:attributes];
 }
 
 - (BOOL)checkRawJson:(NSString*)rawJson fromMethod:(NSString*)fromMethod {
     if (_jsonSerializationCheckEnabled && [SFJsonUtils objectFromJSONString:rawJson] == nil) {
         [SFSDKSmartStoreLogger e:[self class] format:@"Error parsing JSON in SmartStore in %@", fromMethod];
-        [SFSmartStore buildEventOnJsonErrorForUser:self.user];
+        [SFSmartStore buildEventOnJsonParseErrorForUser:self.user fromMethod:fromMethod rawJson:rawJson];
         return NO;
     } else {
         return YES;
@@ -1817,17 +1841,24 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                 NSString *loadResult = [self loadExternalSoupEntryAsString:soupEntryId soupTableName:value];
                 if (loadResult) {
                     [resultStrings addObject:loadResult];
+                } else {
+                    // This is a smart query, we can't skip
+                    // If you do select x,y,z, then you expect 3 values per row in the result set
+                    [resultStrings addObject:@"null"];
                 }
             }
             else if ([value isKindOfClass:[NSNumber class]]) {
                 [resultStrings addObject:[((NSNumber*)value) stringValue]];
             }
             else if ([value isKindOfClass:[NSString class]]) {
-                NSMutableString *tmpString = [[NSMutableString alloc] init];
-                [tmpString appendString:@"\""];
-                [tmpString appendString:[self escapeStringValue:((NSString*) value)]];
-                [tmpString appendString:@"\""];
-                [resultStrings addObject:tmpString];
+                NSString *escapedAndQuotedValue = [self escapeStringValueAndQuote:(NSString*) value];
+                if (escapedAndQuotedValue) {
+                    [resultStrings addObject:escapedAndQuotedValue];
+                } else {
+                    // This is a smart query, we can't skip
+                    // If you do select x,y,z, then you expect 3 values per row in the result set
+                    [resultStrings addObject:@"null"];
+                }
             }
         }
     }
@@ -1836,9 +1867,9 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     [resultString appendString:@"]"];
 }
 
--(NSString*) escapeStringValue:(NSString*) raw {
+-(NSString*) escapeStringValueAndQuote:(NSString*) raw {
     NSMutableString* escaped = [NSMutableString new];
-    
+    [escaped appendString:@"\""];
     for (NSUInteger i = 0; i < raw.length; i += 1) {
         unichar c = [raw characterAtIndex:i];
         switch (c) {
@@ -1870,7 +1901,13 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
                 }
         }
     }
-    return [NSString stringWithString:escaped];
+    [escaped appendString:@"\""];
+    
+    if (![self checkRawJson:[NSString stringWithFormat:@"[%@]", escaped] fromMethod:NSStringFromSelector(_cmd)]) {
+        return nil;
+    } else {
+        return [NSString stringWithString:escaped];
+    }
 }
 
 - (NSString *)idsInPredicate:(NSArray *)ids idCol:(NSString*)idCol
@@ -2452,6 +2489,10 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 
 + (void)setJsonSerializationCheckEnabled:(BOOL)jsonSerializationCheckEnabled {
     _jsonSerializationCheckEnabled = jsonSerializationCheckEnabled;
+}
+
++ (void)setPostRawJsonOnError:(BOOL)postRawJsonOnError {
+    _postRawJsonOnError = postRawJsonOnError;
 }
 
 +(BOOL) isJsonSerializationCheckEnabled {

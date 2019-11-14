@@ -60,7 +60,7 @@ enum ActionType {
 }
 
 struct Action {
-    let type:ActionType
-    let method:String
-    let objectTypes:String?
+    let type: ActionType
+    let method: String
+    let objectTypes: String?
 }

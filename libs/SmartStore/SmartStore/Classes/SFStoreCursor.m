@@ -24,7 +24,7 @@
 
 #import "SFStoreCursor.h"
 
-#import "SFSmartStore.h"
+#import "SFSmartStore+Internal.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
@@ -90,7 +90,11 @@
     [resultBuilder appendFormat:@"\"%@\":", @"currentPageOrderedEntries"];
     [store queryAsString:resultBuilder querySpec:self.querySpec pageIndex:[self.currentPageIndex integerValue] error:error];
     [resultBuilder appendString:@"}"];
-    return resultBuilder;
+    
+    // Verify the entire string for JSON format
+    BOOL validJson = [store checkRawJson:resultBuilder fromMethod:NSStringFromSelector(_cmd)];
+    
+    return (validJson ? resultBuilder : nil);
 }
 
 @end

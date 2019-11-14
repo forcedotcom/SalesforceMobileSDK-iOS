@@ -30,15 +30,15 @@
 import UIKit
 
 extension UIFont {
-    class func appRegularFont(_ size:CGFloat) -> UIFont? {
+    class func appRegularFont(_ size: CGFloat) -> UIFont? {
         return UIFont.systemFont(ofSize: size, weight: .regular)
     }
     
-    class func appBoldFont(_ size:CGFloat) -> UIFont? {
+    class func appBoldFont(_ size: CGFloat) -> UIFont? {
         return UIFont.boldSystemFont(ofSize: size)
     }
     
-    class func appLightFont(_ size:CGFloat) -> UIFont? {
+    class func appLightFont(_ size: CGFloat) -> UIFont? {
         return UIFont.systemFont(ofSize: size, weight: .light)
     }
 }

@@ -95,7 +95,7 @@ static NSException *authException = nil;
 }
 
 - (NSString*)createRecordName:(NSString*)objectType {
-    return [NSString stringWithFormat:@"SyncManagerTestCase_%@_%08d", objectType, arc4random_uniform(100000000)];
+    return [NSString stringWithFormat:@"SyncTest_%@_%lu%03d", objectType, (NSUInteger)([[NSDate date] timeIntervalSince1970]*1000), arc4random_uniform(1000)];
 }
 
 - (NSString*) createAccountName {
@@ -165,15 +165,15 @@ static NSException *authException = nil;
 
     NSMutableArray* requests = [NSMutableArray new];
     for (NSString* recordId in ids) {
-        SFRestRequest *deleteRequest = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:recordId];
+        SFRestRequest *deleteRequest = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:recordId apiVersion:kSFRestDefaultAPIVersion];
         [requests addObject:deleteRequest];
         if (requests.count == 25) {
-            [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+            [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO apiVersion:kSFRestDefaultAPIVersion]];
             [requests removeAllObjects];
         }
     }
     if (requests.count > 0) {
-        [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+        [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO apiVersion:kSFRestDefaultAPIVersion]];
     }
 }
 
@@ -255,11 +255,11 @@ static NSException *authException = nil;
     NSArray *listFields = [self buildFieldsMapForRecords:count objectType:objectType additionalFields:additionalFields];
     NSMutableArray *requests = [NSMutableArray new];
     for (NSUInteger i = 0; i < count; i++) {
-        [requests addObject:[[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:listFields[i]]];
+        [requests addObject:[[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:listFields[i] apiVersion:kSFRestDefaultAPIVersion]];
     }
 
     NSMutableDictionary *idToFields = [NSMutableDictionary new];
-    NSDictionary *batchResponse = [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO]];
+    NSDictionary *batchResponse = [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO apiVersion:kSFRestDefaultAPIVersion]];
     NSArray *results = batchResponse[@"results"];
     for (NSUInteger i = 0; i < results.count; i++) {
         NSDictionary *result = results[i];
@@ -543,7 +543,7 @@ static NSException *authException = nil;
 -(void)updateRecordsOnServer:(NSDictionary*)idToFieldsUpdated objectType:(NSString*)objectType {
     for (NSString* accountId in idToFieldsUpdated) {
         NSDictionary* fields = idToFieldsUpdated[accountId];
-        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:accountId fields:fields];
+        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:accountId fields:fields apiVersion:kSFRestDefaultAPIVersion];
         [self sendSyncRequest:request];
     }
 }
@@ -629,7 +629,7 @@ static NSException *authException = nil;
 
     // Query
     NSString* soql = [NSString stringWithFormat:@"SELECT %@, %@ FROM %@ WHERE Id IN %@", ID, [fieldNames componentsJoinedByString:@","], objectType, idsClause];
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql apiVersion:kSFRestDefaultAPIVersion];
     NSArray* records = [self sendSyncRequest:request][RECORDS];
     XCTAssertEqual(idToFields.count, records.count);
     for (NSDictionary* record in records) {
@@ -677,7 +677,7 @@ static NSException *authException = nil;
 
 -(void) checkServerDeleted:(NSArray*)ids objectType:(NSString*)objectType {
     NSString* soql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ IN %@", ID, objectType, ID, [self buildInClause:ids]];
-    SFRestRequest * request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    SFRestRequest * request = [[SFRestAPI sharedInstance] requestForQuery:soql apiVersion:kSFRestDefaultAPIVersion];
     NSDictionary * response = [self sendSyncRequest:request];
     NSArray* records = response[@"records"];
     XCTAssertEqual(records.count, 0, @"No accounts should have been returned from server");

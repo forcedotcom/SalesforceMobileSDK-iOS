@@ -23,14 +23,15 @@
  */
 
 #import <XCTest/XCTest.h>
-
+#import "SFIdentityCoordinator.h"
 @class SFSDKTestRequestListener;
 @class SFOAuthCoordinator;
+
 
 /**
  * The unit tests associated with SFIdentityCoordinator requests.
  */
-@interface SalesforceSDKIdentityTests : XCTestCase
+@interface SalesforceSDKIdentityTests : XCTestCase<SFIdentityCoordinatorDelegate>
 {
     SFSDKTestRequestListener *_requestListener;
 }

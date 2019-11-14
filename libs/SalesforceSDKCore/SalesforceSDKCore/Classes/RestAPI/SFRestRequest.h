@@ -221,7 +221,6 @@ NS_SWIFT_NAME(RestRequest)
  * the request headers before sending the request.  If NO, they will not.
  */
 @property (nonatomic, assign) BOOL requiresAuthentication;
-;
 
 /**
  * Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
@@ -336,20 +335,22 @@ NS_SWIFT_NAME(RestRequest)
 + (instancetype)requestWithMethod:(SFRestMethod)method serviceHostType:(SFSDKRestServiceHostType)hostType path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 /**
- * Creates an `SFRestRequest` object. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
- * @param method the HTTP method
- * @param baseURL the request URL
- * @param path the request path
- * @param queryParams the parameters of the request (could be nil)
+ * Creates an `SFRestRequest` object. To set the body of the request, use one of the `setCustomRequestBody...` methods on the returned instance.
+ * @param method HTTP method
+ * @param baseURL Request URL
+ * @param path Request path
+ * @param queryParams Parameters of the request (can be nil)
+ * @see SFRestMethod. 
  */
 + (instancetype)requestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 
 /**
- * Creates an `SFRestRequest` object to be used with non-Salesforce endpoints. See SFRestMethod. If you need to set body on the request, use one of the 'setCustomRequestBody...' methods to do so with the instance returned by this method.
+ * Creates an `SFRestRequest` object to be used with non-Salesforce endpoints. To set body on the request, use one of the 'setCustomRequestBody...' methods on the returned instance.
  * @param method the HTTP method
  * @param baseURL the request URL
  * @param path the request path
  * @param queryParams the parameters of the request (could be nil)
+ * @see SFRestMethod. 
  */
 + (instancetype)customUrlRequestWithMethod:(SFRestMethod)method baseURL:(NSString *)baseURL path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, id> *)queryParams;
 

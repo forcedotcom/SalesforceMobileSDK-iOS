@@ -34,34 +34,40 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFSDKLoginHost;
 
 /**
- * View controller that displays a list of hosts that can be used for login.
- * The user can either add a new host or select an existing host to reload the login web page.
+ * Displays a list of hosts that can be used for login.
+ * A customer can either add a new host or select an existing host to reload the login web page.
  */
 NS_SWIFT_NAME(LoginHostListViewController)
 @interface SFSDKLoginHostListViewController : UITableViewController
 
 /**
- * The object that acts as the delegate of the host list view controller.
+ * Delegate object of the host list view controller.
  */
 @property (nonatomic, weak) id<SFSDKLoginHostDelegate> delegate;
 
 /**
- * If you have used a navigation controller to present this view controller,
- * a cancel button is automatically added to the left bar button item.
+ * Hides the Cancel button if it exists. If you've used a navigation controller 
+ * to present this view controller, a Cancel button is automatically added to 
+ * the left bar button item.
  */
 @property (nonatomic,assign) BOOL hidesCancelButton;
 
 /**
- * Adds a new login host.
- * This method updates the underlying storage and refreshes the list of login hosts.
- * @param host The login host to be added.
- * @see showAddLoginHost for presenting a UI for the user to enter a new login host.
+ * Hides the Add button if it exists.  Enables the adding of hosts to the host list.
+ */
+@property (nonatomic,assign) BOOL hidesAddButton;
+
+/**
+ * Adds a new login host. Also updates the underlying storage and refreshes 
+ * the list of login hosts.
+ * @param host Login host to be added.
+ * @see showAddLoginHost for presenting a UI that allows the customer to enter a new login host.
  */
 - (void)addLoginHost:(SFSDKLoginHost *)host;
 
 /**
- * Use this method to display a view for adding a new login host.
- * If you have used a navigation controller to present this view controller,
+ * Displays a view for adding a new login host.
+ * If you've used a navigation controller to present this view controller,
  * an add button is automatically added to the right bar button item.
  * @see addLoginHost: for adding a login host programmatically without showing the UI.
  */

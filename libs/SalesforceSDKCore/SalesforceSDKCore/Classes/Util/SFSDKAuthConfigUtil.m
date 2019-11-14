@@ -40,14 +40,14 @@ static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-
 
 + (void)getMyDomainAuthConfig:(MyDomainAuthConfigBlock)authConfigBlock loginDomain:(NSString *)loginDomain {
     NSString *orgConfigUrl = [NSString stringWithFormat:@"https://%@%@", loginDomain, kSFOAuthEndPointAuthConfiguration];
-    [SFSDKCoreLogger d:[self class] format:@"%@ Advanced authentication configured. Retrieving auth configuration from %@", NSStringFromSelector(_cmd), orgConfigUrl];
+    [SFSDKCoreLogger i:[self class] format:@"%@ Advanced authentication configured. Retrieving auth configuration from %@", NSStringFromSelector(_cmd), orgConfigUrl];
     NSMutableURLRequest *orgConfigRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:orgConfigUrl]];
-    SFNetwork *network = [[SFNetwork alloc] initWithEphemeralSession];
+    SFNetwork *network = [SFNetwork sharedEphemeralInstance];
     __weak __typeof(self) weakSelf = self;
     [network sendRequest:orgConfigRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error) {
-            [SFSDKCoreLogger d:[strongSelf class] format:@"Org config request failed with error: Error Code: %ld, Description: %@", (long) error.code, error.localizedDescription];
+            [SFSDKCoreLogger w:[strongSelf class] format:@"Org config request failed with error: Error Code: %ld, Description: %@", (long) error.code, error.localizedDescription];
             authConfigBlock(nil, error);
             return;
         }
@@ -58,7 +58,7 @@ static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-
 
             // Checks if the server returned any data.
             if (data == nil) {
-                [SFSDKCoreLogger d:[strongSelf class] format:@"No org auth config data returned from %@", orgConfigUrl];
+                [SFSDKCoreLogger w:[strongSelf class] format:@"No org auth config data returned from %@", orgConfigUrl];
                 authConfigBlock(nil, nil);
                 return;
             }
@@ -67,17 +67,17 @@ static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-
             NSDictionary *configDict = [SFJsonUtils objectFromJSONData:data];
             if (configDict == nil) {
                 NSError *jsonParseError = [SFJsonUtils lastError];
-                [SFSDKCoreLogger d:[strongSelf class] format:@"Could not parse org auth config response from %@: %@", orgConfigUrl, [jsonParseError localizedDescription]];
+                [SFSDKCoreLogger e:[strongSelf class] format:@"Could not parse org auth config response from %@: %@", orgConfigUrl, [jsonParseError localizedDescription]];
                 authConfigBlock(nil, jsonParseError);
                 return;
             }
 
             // Passes the retrieved auth config back.
-            [SFSDKCoreLogger d:[strongSelf class] format:@"Successfully retrieved org auth config data from %@", orgConfigUrl];
+            [SFSDKCoreLogger i:[strongSelf class] format:@"Successfully retrieved org auth config data from %@", orgConfigUrl];
             SFOAuthOrgAuthConfiguration *orgAuthConfig = [[SFOAuthOrgAuthConfiguration alloc] initWithConfigDict:configDict];
             authConfigBlock(orgAuthConfig, nil);
         } else {
-            [SFSDKCoreLogger d:[strongSelf class] format:@"Org config request failed with error: Status Code: %ld", statusCode];
+            [SFSDKCoreLogger w:[strongSelf class] format:@"Org config request failed with error: Status Code: %ld", statusCode];
             authConfigBlock(nil, nil);
         }
     }];
