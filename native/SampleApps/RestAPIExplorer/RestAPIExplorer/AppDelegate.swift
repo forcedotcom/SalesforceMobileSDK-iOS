@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // if you want to receive push notifications from Salesforce, you will also need to
         // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
         //
-        // SFPushNotificationManager.sharedInstance().registerForRemoteNotifications()
+        // PushNotificationManager.sharedInstance().registerForRemoteNotifications()
         
         //Uncomment the code below to see how you can customize the color, textcolor,
         //font and fontsize of the navigation bar
@@ -105,13 +105,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uncomment the code below to register your device token with the push notification manager
         //
         //
-        // SFPushNotificationManager.sharedInstance().didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+        // PushNotificationManager.sharedInstance().didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
         // if let _ = UserAccountManager.shared.currentUserAccount?.credentials.accessToken {
-        //     SFPushNotificationManager.sharedInstance().registerSalesforceNotifications(completionBlock: {
-        //         SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications succeeded")
-        //     }, fail: {
-        //         SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications failed")
-        //     })
+        //     PushNotificationManager.sharedInstance().registerForSalesforceNotifications { result in
+        //         switch (result) {
+        //             case .success:
+        //                 SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications succeeded")
+        //             case .failure(let error):
+        //                 SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications failed with error: \(error as Error)")
+        //         }
+        //     }
         // }
     }
     

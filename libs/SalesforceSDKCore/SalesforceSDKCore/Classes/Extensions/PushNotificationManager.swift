@@ -28,8 +28,8 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 */
 import Foundation
 
-enum PushNotificationManagerError: Error {
-    case registrationfailed
+public enum PushNotificationManagerError: Error {
+    case registrationFailed
     case currentUserNotDetected
 }
 
@@ -37,7 +37,7 @@ extension PushNotificationManager {
     
     /// Register for Salesforce notfications for a current user
     /// - Parameter completionBlock: completion block to call with success or failure
-    func registerForSalesforceNotifications(_ completionBlock:@escaping (Result<Bool, PushNotificationManagerError>)->()) {
+    public func registerForSalesforceNotifications(_ completionBlock:@escaping (Result<Bool, PushNotificationManagerError>)->()) {
         if let currentUser = UserAccountManager.shared.currentUserAccount {
             self.registerForSalesforceNotifications(user: currentUser, completionBlock: completionBlock)
         }
@@ -48,20 +48,20 @@ extension PushNotificationManager {
     /// - Parameters:
     ///   - user: A user account ot use  to register for noitfications
     ///   - completionBlock: completion block to call with success or failure
-    func registerForSalesforceNotifications(user: UserAccount, completionBlock:@escaping (Result<Bool, PushNotificationManagerError>)->()) {
+    public func registerForSalesforceNotifications(user: UserAccount, completionBlock:@escaping (Result<Bool, PushNotificationManagerError>)->()) {
         let result = __registerSalesforceNotifications(withCompletionBlock: user, completionBlock:{
              return completionBlock(.success(true))
         } ) {
-             return completionBlock(.failure(.registrationfailed))
+             return completionBlock(.failure(.registrationFailed))
         }
         if (!result) {
-           completionBlock(.failure(.registrationfailed))
+           completionBlock(.failure(.registrationFailed))
         }
     }
     
     /// Unregister from notifications with Salesforce for a current user
     /// - Parameter completionBlock: completion block to call with success or failure
-    func unregisterForSalesforceNotifications(_ completionBlock:@escaping (Bool)->()) {
+    public func unregisterForSalesforceNotifications(_ completionBlock:@escaping (Bool)->()) {
         if let currentUser = UserAccountManager.shared.currentUserAccount {
             self.unregisterForSalesforceNotifications(user: currentUser, completionBlock)
            return
@@ -73,7 +73,7 @@ extension PushNotificationManager {
     /// - Parameters:
     ///   - user: The user that should be unregistered from notfications
     ///   - completionBlock: <#completionBlock description#>
-    func unregisterForSalesforceNotifications(user: UserAccount, _ completionBlock:@escaping (Bool)->()) {
+    public func unregisterForSalesforceNotifications(user: UserAccount, _ completionBlock:@escaping (Bool)->()) {
         let result = __unregisterSalesforceNotifications(withCompletionBlock: user) {
             completionBlock(true)
             return
