@@ -176,6 +176,14 @@
     return (self.isLoggingEnabled && (fileCount < self.maxEvents));
 }
 
+- (BOOL)isLoggingEnabled {
+    BOOL globalAnalyticsDisabled = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCAnalyticsDisabled"] boolValue];
+    if (globalAnalyticsDisabled) {
+        return NO;
+    }
+    return _loggingEnabled;
+}
+
 - (SFSDKInstrumentationEvent *) fetchEventFromFile:(NSString *) file {
     if (!file) {
         return nil;
