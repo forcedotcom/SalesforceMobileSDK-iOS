@@ -91,10 +91,8 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
             if (managedPreferences.onlyShowAuthorizedHosts) {
                 return self;
             }
-        }
-
-        // Load from info.plist.
-        if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"]) {
+        } else if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"]) {
+            // Load from info.plist.
             NSString *customHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"];
 
             /*
