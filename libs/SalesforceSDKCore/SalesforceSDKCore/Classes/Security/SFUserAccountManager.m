@@ -1488,13 +1488,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [strongSelf loggedIn:YES coordinator:session.oauthCoordinator notifyDelegatesOfFailure:NO];
     };
     
-    self.errorManager.hostConnectionErrorHandlerBlock  = ^(NSError *error, SFSDKAuthSession  *session,NSDictionary *options) {
+    self.errorManager.hostConnectionErrorHandlerBlock = ^(NSError *error, SFSDKAuthSession *session, NSDictionary *options) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
         NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]];
         NSString *okButton = [SFSDKResourceUtils localizedString:kAlertOkButtonKey];
         [strongSelf showErrorAlertWithMessage:alertMessage buttonTitle:okButton andCompletion:^() {
             [session.oauthCoordinator stopAuthentication];
             [strongSelf notifyUserCancelledOrDismissedAuth:session.oauthCoordinator.credentials andAuthInfo:session.authInfo];
+            NSString *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:0].host;
+            session.oauthRequest.loginHost = host;
+            strongSelf.loginHost = host;
             [strongSelf restartAuthentication:session];
         }];
     };
