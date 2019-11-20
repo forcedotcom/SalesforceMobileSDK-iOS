@@ -27,6 +27,7 @@
 
 extern NSString * _Nonnull const kSFSyncUpTargetCreateFieldlist;
 extern NSString * _Nonnull const kSFSyncUpTargetUpdateFieldlist;
+extern NSString * _Nonnull const kSFSyncUpTargetExternalIdFieldName;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -120,6 +121,11 @@ NS_SWIFT_NAME(SyncUpTarget)
  Update field list (optional)
  */
 @property (nonatomic, strong, readonly) NSArray<NSString*>*  updateFieldlist;
+
+/**
+ External id field name (optional)
+ */
+@property (nonatomic, copy) NSString *externalIdFieldName;
 
 /**
  Creates a new instance of a server target from a serialized dictionary.
