@@ -4,7 +4,7 @@
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
- and the following disclaimer.
+and the following disclaimer.
  * Redistributions in binary form must reproduce the above copyright notice, this list of
  conditions and the following disclaimer in the documentation and/or other materials provided
  with the distribution.
@@ -45,10 +45,11 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 #pragma mark - Initialization methods
 
 - (instancetype)initWithDict:(NSDictionary *)dict {
-    return [self initWithCreateFieldlist:dict[kSFSyncUpTargetCreateFieldlist]
-                         updateFieldlist:dict[kSFSyncUpTargetUpdateFieldlist]
-                            maxBatchSize:dict[kSFSyncUpTargetMaxBatchSize]
-            ];
+    self = [super initWithDict:dict];
+    if (self) {
+        self.maxBatchSize = [self computeMaxBatchSize:dict[kSFSyncUpTargetMaxBatchSize]];
+    }
+    return self;
 }
 
 - (instancetype)init {
@@ -66,9 +67,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 {
     self = [super initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist];
     if (self) {
-        self.maxBatchSize = (maxBatchSize == nil || [maxBatchSize unsignedIntegerValue] > kSFMaxSubRequestsCompositeAPI)
-                             ? kSFMaxSubRequestsCompositeAPI
-                             : [maxBatchSize unsignedIntegerValue];
+        self.maxBatchSize = [self computeMaxBatchSize:maxBatchSize];
     }
     return self;
 }
@@ -104,7 +103,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         NSString *refId;
         if (record[self.idFieldName] == nil || [record[self.idFieldName] isEqual:[NSNull null]]) {
             // create local id - needed for refId
-            refId = record[self.idFieldName] = [NSString stringWithFormat:@"local_%@", record[SOUP_ENTRY_ID]];
+            refId = record[self.idFieldName] = [self createLocalId:record];
         } else {
             refId = record[self.idFieldName];
         }
@@ -181,7 +180,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         if (isCreate) {
             return nil; // no need to go to server
         } else {
-            return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId apiVersion:kSFRestDefaultAPIVersion];
+            return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId apiVersion:nil];
         }
     }
     // Create/update cases
@@ -191,13 +190,21 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         if (isCreate) {
             fieldlist = self.createFieldlist ? self.createFieldlist : fieldlist;
             fields = [self buildFieldsMap:record fieldlist:fieldlist idFieldName:self.idFieldName modificationDateFieldName:self.modificationDateFieldName];
-            return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields apiVersion:kSFRestDefaultAPIVersion];
-
+            NSString* externalId = self.externalIdFieldName ? record[self.externalIdFieldName] : nil;
+            if (externalId
+                // the following check is there for the case
+                // where the the external id field is the id field
+                // and the empty id field was populated by BatchSyncUpTarget using createLocalId()
+                && ![externalId isEqualToString:[self createLocalId:record]]) {
+                return [[SFRestAPI sharedInstance] requestForUpsertWithObjectType:objectType externalIdField:self.externalIdFieldName externalId:externalId fields:fields apiVersion:nil];
+            } else {
+                return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields apiVersion:nil];
+            }
         }
         else {
             fieldlist = self.updateFieldlist ? self.updateFieldlist : fieldlist;
             fields = [self buildFieldsMap:record fieldlist:fieldlist idFieldName:self.idFieldName modificationDateFieldName:self.modificationDateFieldName];
-            return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields apiVersion:kSFRestDefaultAPIVersion];
+            return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields apiVersion:nil];
         }
     }
 }
@@ -253,5 +260,14 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
     return needReRun;    
 }
 
+- (NSString*) createLocalId:(NSDictionary*)record {
+    return [NSString stringWithFormat:@"local_%@", record[SOUP_ENTRY_ID]];
+}
+
+- (NSUInteger) computeMaxBatchSize:(NSNumber*)maxBatchSize {
+    return (maxBatchSize == nil || [maxBatchSize unsignedIntegerValue] > kSFMaxSubRequestsCompositeAPI)
+        ? kSFMaxSubRequestsCompositeAPI
+        : [maxBatchSize unsignedIntegerValue];
+}
 
 @end
