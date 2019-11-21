@@ -571,6 +571,68 @@
     [self checkServer:idToFieldsRemotelyUpdated];
 }
 
+/**
+ * Create accounts locally but with external id field populated, sync up with external id field name provided, check smartstore and server afterwards
+ */
+-(void) testSyncUpWithExternalId {
+    NSString* externalIdFieldName = @"Id";
+
+    // Create test data
+    [self createTestData];
+    
+    // Creating 3 new names
+    NSString* name1 = [self createAccountName];
+    NSString* name2 = [self createAccountName];
+    NSString* name3 = [self createAccountName];
+
+    // Get id of two records on the server
+    NSArray* allIds = [idToFields allKeys];
+    NSString* id1 = allIds[0];
+    NSString* id2 = allIds[1];
+
+    // Create accounts locally
+    NSArray* localAccounts = [self createAccountsLocally:@[ name1, name2, name3 ]];
+    NSMutableDictionary* localRecord1 = [NSMutableDictionary dictionaryWithDictionary:localAccounts[0]];
+    NSMutableDictionary* localRecord2 = [NSMutableDictionary dictionaryWithDictionary:localAccounts[1]];
+    NSMutableDictionary* localRecord3 = [NSMutableDictionary dictionaryWithDictionary:localAccounts[2]];
+
+    // Update Id field to match and existing id for record 1 and 2
+    localRecord1[externalIdFieldName] = id1;
+    localRecord2[externalIdFieldName] = id2;
+    localRecord3[externalIdFieldName] = nil;
+    [self.store upsertEntries:@[localRecord1, localRecord2, localRecord3] toSoup:ACCOUNTS_SOUP];
+
+    // Sync up with external id field name - NB: only syncing up name field not description
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME]];
+    [self trySyncUp:3 options:options externalIdFieldName:externalIdFieldName];
+    
+    // Getting id for third record upserted - the one without an valid external id
+    NSString* id3 = [[self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[] nameField:NAME names:@[name3]] allKeys][0];
+     
+    // Expected records locally
+    NSMutableDictionary* expectedDbIdFields = [NSMutableDictionary new];
+    expectedDbIdFields[id1] = @{NAME: name1, DESCRIPTION:localRecord1[DESCRIPTION]};
+    expectedDbIdFields[id2] = @{NAME: name2, DESCRIPTION:localRecord2[DESCRIPTION]};
+    expectedDbIdFields[id3] = @{NAME: name3, DESCRIPTION:localRecord3[DESCRIPTION]};
+
+    // Check db
+    [self checkDbStateFlags:[expectedDbIdFields allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+    [self checkDb:expectedDbIdFields soupName:ACCOUNTS_SOUP];
+
+    // Expected records on server
+    NSMutableDictionary* expectedServerIdToFields = [NSMutableDictionary new];
+    expectedServerIdToFields[id1] = @{NAME: name1, DESCRIPTION:idToFields[id1][DESCRIPTION]};
+    expectedServerIdToFields[id2] = @{NAME: name2, DESCRIPTION:idToFields[id2][DESCRIPTION]};
+    expectedServerIdToFields[id3] = @{NAME: name3, DESCRIPTION:[NSNull null]};
+
+    // Check server
+    [self checkServer:expectedServerIdToFields];
+
+    // Adding to idToFields so that they get deleted in tearDown
+    [idToFields addEntriesFromDictionary:expectedServerIdToFields];
+}
+
+
 #pragma mark - helper methods
 
 -(void) trySyncUpWithLocallyCreatedRecords:(SFSyncStateMergeMode)syncUpMergeMode
@@ -602,9 +664,13 @@
     [self trySyncUp:numberChanges options:defaultOptions];
 }
 
-- (void)trySyncUp:(NSInteger)numberChanges
-          options:(SFSyncOptions *) options {
+- (void)trySyncUp:(NSInteger)numberChanges options:(SFSyncOptions *)options {
+    [self trySyncUp:numberChanges options:options externalIdFieldName:nil];
+}
+
+- (void)trySyncUp:(NSInteger)numberChanges options:(SFSyncOptions *)options externalIdFieldName:(NSString*)externalIdFieldName {
     SFSyncUpTarget *defaultTarget = [self buildSyncUpTarget];
+    defaultTarget.externalIdFieldName = externalIdFieldName;
     [self trySyncUp:numberChanges
       actualChanges:numberChanges
              target:defaultTarget

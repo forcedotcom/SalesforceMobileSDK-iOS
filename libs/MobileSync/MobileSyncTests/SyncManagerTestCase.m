@@ -395,6 +395,7 @@ static NSException *authException = nil;
             XCTAssertTrue([sync.target isKindOfClass:[SFSyncUpTarget class]]);
             XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).createFieldlist, ((SFSyncUpTarget*)sync.target).createFieldlist);
             XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).updateFieldlist, ((SFSyncUpTarget*)sync.target).updateFieldlist);
+            XCTAssertEqualObjects(((SFSyncUpTarget*)expectedTarget).externalIdFieldName, ((SFSyncUpTarget*)sync.target).externalIdFieldName);
         }
     } else {
         XCTAssertNil(sync.target);

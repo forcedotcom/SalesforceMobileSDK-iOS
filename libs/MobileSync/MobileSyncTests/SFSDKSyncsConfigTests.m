@@ -275,11 +275,15 @@
     
     SFSyncState* sync = [self.syncManager getSyncStatusByName:@"batchSyncUp"];
     XCTAssertEqualObjects(sync.soupName, @"accounts");
+    SFBatchSyncUpTarget* expectedTarget = [[SFBatchSyncUpTarget alloc] initWithCreateFieldlist:nil updateFieldlist:nil];
+    expectedTarget.idFieldName = @"IdX";
+    expectedTarget.modificationDateFieldName = @"LastModifiedDateX";
+    expectedTarget.externalIdFieldName = @"ExternalIdX";
     [self checkStatus:sync
          expectedType:SFSyncStateSyncTypeUp
            expectedId:sync.syncId
          expectedName:@"batchSyncUp"
-       expectedTarget:[[SFBatchSyncUpTarget alloc] initWithCreateFieldlist:nil updateFieldlist:nil]
+       expectedTarget:expectedTarget
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncUp:@[@"Name", @"Description"] mergeMode:SFSyncStateMergeModeOverwrite]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
