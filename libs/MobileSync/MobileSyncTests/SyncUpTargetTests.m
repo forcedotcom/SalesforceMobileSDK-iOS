@@ -623,10 +623,10 @@
     NSMutableDictionary* expectedServerIdToFields = [NSMutableDictionary new];
     expectedServerIdToFields[id1] = @{NAME: name1, DESCRIPTION:idToFields[id1][DESCRIPTION]};
     expectedServerIdToFields[id2] = @{NAME: name2, DESCRIPTION:idToFields[id2][DESCRIPTION]};
-    expectedServerIdToFields[id3] = @{NAME: name3};
+    expectedServerIdToFields[id3] = @{NAME: name3, DESCRIPTION:[NSNull null]};
 
     // Check server
-    [self checkServer:expectedDbIdFields];
+    [self checkServer:expectedServerIdToFields];
 
     // Adding to idToFields so that they get deleted in tearDown
     [idToFields addEntriesFromDictionary:expectedServerIdToFields];

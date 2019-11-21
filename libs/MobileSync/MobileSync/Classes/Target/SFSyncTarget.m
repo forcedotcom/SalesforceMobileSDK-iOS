@@ -53,7 +53,7 @@ NSString * const kSyncTargetLastError = @"__last_error__";
 #pragma mark - From/to dictionary
 
 - (instancetype)initWithDict:(NSDictionary *)dict {
-    if (dict == nil) return nil;
+    if (dict == nil) dict = @{};
     
     self = [super init];
     if (self) {
