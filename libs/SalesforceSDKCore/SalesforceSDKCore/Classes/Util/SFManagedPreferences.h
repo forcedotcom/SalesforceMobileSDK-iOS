@@ -72,6 +72,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL clearClipboardOnBackground;
 
 /**
+ Whether or not external paste is disabled in the connected app.
+ */
+@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp;
+
+/**
  Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)
  */
 @property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts;
@@ -84,6 +89,8 @@ NS_ASSUME_NONNULL_BEGIN
  The raw NSDictionary of managed preferences.
  */
 @property (nonatomic, strong, readonly) NSDictionary *rawPreferences;
+
+
 
 @end
 
