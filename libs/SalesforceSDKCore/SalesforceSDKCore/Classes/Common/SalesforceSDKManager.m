@@ -68,6 +68,9 @@ static NSString * const kDefaultCachePath = @"salesforce.mobilesdk.URLCache";
 static NSInteger const kDefaultCacheMemoryCapacity = 1024 * 1024 * 4; // 4MB
 static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
+// Pasteboard
+static BOOL pasteboardSwizzled = NO;
+
 @implementation UIWindow (SalesforceSDKManager)
 
 - (void)sfsdk_motionEnded:(__unused UIEventSubtype)motion withEvent:(UIEvent *)event
@@ -742,6 +745,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     // Will set up the passcode timer for auth that occurs out of band from SDK Manager launch.
     [SFSecurityLockout setupTimer];
     [SFSecurityLockout startActivityMonitoring];
+    [self swizzlePasteboardIfNeeded];
 }
 
 - (void)handleIDPInitiatedAuthCompleted:(NSNotification *)notification
@@ -775,6 +779,10 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     [SFSecurityLockout cancelPasscodeScreen];
     [SFSecurityLockout stopActivityMonitoring];
     [SFSecurityLockout removeTimer];
+    if (pasteboardSwizzled) {
+        // Reset to original implementations
+        [self swizzlePasteboard];
+    }
     [self sendPostLogout];
 }
 
@@ -789,6 +797,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 {
     [SFSecurityLockout setupTimer];
     [SFSecurityLockout startActivityMonitoring];
+    [self swizzlePasteboardIfNeeded];
     [self sendUserAccountSwitch:fromUser toUser:toUser];
 }
 
@@ -856,7 +865,6 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
             
         }
     }
-    
 }
 
 - (void)clearClipboard
@@ -868,6 +876,22 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         [UIPasteboard generalPasteboard].images = @[ ];
         [UIPasteboard generalPasteboard].colors = @[ ];
     }
+}
+
+- (void)swizzlePasteboardIfNeeded {
+    BOOL externalPasteDisabled = [SFManagedPreferences sharedPreferences].shouldDisableExternalPasteDefinedByConnectedApp;
+    if ((externalPasteDisabled && !pasteboardSwizzled) || (!externalPasteDisabled && pasteboardSwizzled)) {
+        [self swizzlePasteboard];
+    }
+}
+
+- (void)swizzlePasteboard {
+    method_exchangeImplementations(class_getClassMethod([UIPasteboard class], @selector(generalPasteboard)), class_getInstanceMethod([SalesforceSDKManager class], @selector(sdkPasteboard)));
+    pasteboardSwizzled = !pasteboardSwizzled;
+}
+
+- (UIPasteboard *)sdkPasteboard {
+   return [UIPasteboard pasteboardWithName:@"com.salesforce.mobilesdk.pasteboard" create:YES];
 }
 
 - (void)passcodeValidationAtLaunch
