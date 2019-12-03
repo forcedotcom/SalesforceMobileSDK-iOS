@@ -68,9 +68,6 @@ static NSString * const kDefaultCachePath = @"salesforce.mobilesdk.URLCache";
 static NSInteger const kDefaultCacheMemoryCapacity = 1024 * 1024 * 4; // 4MB
 static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
-// Pasteboard
-static BOOL pasteboardSwizzled = NO;
-
 @implementation UIWindow (SalesforceSDKManager)
 
 - (void)sfsdk_motionEnded:(__unused UIEventSubtype)motion withEvent:(UIEvent *)event
@@ -142,6 +139,12 @@ static BOOL pasteboardSwizzled = NO;
         // For dev support
         method_exchangeImplementations(class_getInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:)), class_getInstanceMethod([UIWindow class], @selector(sfsdk_motionEnded:withEvent:)));
 
+        // Pasteboard
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+             method_exchangeImplementations(class_getClassMethod([UIPasteboard class], @selector(generalPasteboard)), class_getClassMethod([SalesforceSDKManager class], @selector(sdkPasteboard)));
+        });
+
         /*
          * Checks if an analytics app name has already been set by the app.
          * If not, fetches the default app name to be used and sets it.
@@ -186,6 +189,14 @@ static BOOL pasteboardSwizzled = NO;
         }
     });
     return sdkManager;
+}
+
++ (UIPasteboard *)sdkPasteboard {
+    if ([SFManagedPreferences sharedPreferences].shouldDisableExternalPasteDefinedByConnectedApp) {
+        return [UIPasteboard pasteboardWithName:@"com.salesforce.mobilesdk.pasteboard" create:YES];
+    }
+    // General pasteboard that was swizzled
+    return [SalesforceSDKManager sdkPasteboard];
 }
 
 - (instancetype)init {
@@ -745,7 +756,6 @@ static BOOL pasteboardSwizzled = NO;
     // Will set up the passcode timer for auth that occurs out of band from SDK Manager launch.
     [SFSecurityLockout setupTimer];
     [SFSecurityLockout startActivityMonitoring];
-    [self swizzlePasteboardIfNeeded];
 }
 
 - (void)handleIDPInitiatedAuthCompleted:(NSNotification *)notification
@@ -779,10 +789,6 @@ static BOOL pasteboardSwizzled = NO;
     [SFSecurityLockout cancelPasscodeScreen];
     [SFSecurityLockout stopActivityMonitoring];
     [SFSecurityLockout removeTimer];
-    if (pasteboardSwizzled) {
-        // Reset to original implementations
-        [self swizzlePasteboard];
-    }
     [self sendPostLogout];
 }
 
@@ -797,7 +803,6 @@ static BOOL pasteboardSwizzled = NO;
 {
     [SFSecurityLockout setupTimer];
     [SFSecurityLockout startActivityMonitoring];
-    [self swizzlePasteboardIfNeeded];
     [self sendUserAccountSwitch:fromUser toUser:toUser];
 }
 
@@ -876,22 +881,6 @@ static BOOL pasteboardSwizzled = NO;
         [UIPasteboard generalPasteboard].images = @[ ];
         [UIPasteboard generalPasteboard].colors = @[ ];
     }
-}
-
-- (void)swizzlePasteboardIfNeeded {
-    BOOL externalPasteDisabled = [SFManagedPreferences sharedPreferences].shouldDisableExternalPasteDefinedByConnectedApp;
-    if ((externalPasteDisabled && !pasteboardSwizzled) || (!externalPasteDisabled && pasteboardSwizzled)) {
-        [self swizzlePasteboard];
-    }
-}
-
-- (void)swizzlePasteboard {
-    method_exchangeImplementations(class_getClassMethod([UIPasteboard class], @selector(generalPasteboard)), class_getInstanceMethod([SalesforceSDKManager class], @selector(sdkPasteboard)));
-    pasteboardSwizzled = !pasteboardSwizzled;
-}
-
-- (UIPasteboard *)sdkPasteboard {
-   return [UIPasteboard pasteboardWithName:@"com.salesforce.mobilesdk.pasteboard" create:YES];
 }
 
 - (void)passcodeValidationAtLaunch
