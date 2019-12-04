@@ -139,6 +139,12 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         // For dev support
         method_exchangeImplementations(class_getInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:)), class_getInstanceMethod([UIWindow class], @selector(sfsdk_motionEnded:withEvent:)));
 
+        // Pasteboard
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+             method_exchangeImplementations(class_getClassMethod([UIPasteboard class], @selector(generalPasteboard)), class_getClassMethod([SalesforceSDKManager class], @selector(sdkPasteboard)));
+        });
+
         /*
          * Checks if an analytics app name has already been set by the app.
          * If not, fetches the default app name to be used and sets it.
@@ -183,6 +189,14 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         }
     });
     return sdkManager;
+}
+
++ (UIPasteboard *)sdkPasteboard {
+    if ([SFManagedPreferences sharedPreferences].shouldDisableExternalPasteDefinedByConnectedApp) {
+        return [UIPasteboard pasteboardWithName:@"com.salesforce.mobilesdk.pasteboard" create:YES];
+    }
+    // General pasteboard that was swizzled
+    return [SalesforceSDKManager sdkPasteboard];
 }
 
 - (instancetype)init {
@@ -856,7 +870,6 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
             
         }
     }
-    
 }
 
 - (void)clearClipboard
