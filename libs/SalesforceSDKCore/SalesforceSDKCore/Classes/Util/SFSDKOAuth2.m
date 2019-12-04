@@ -306,11 +306,16 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     NSDictionary *json = [SFJsonUtils objectFromJSONData:responseData];
     if (json) {
         endpointResponse  = [[SFSDKOAuthTokenEndpointResponse alloc]initWithDictionary:json  parseAdditionalFields:endpointReq.additionalOAuthParameterKeys];
-
-        // Adds the refresh token to the response for consistency.
-        NSString *jsonRefreshToken = [json objectForKey:kSFOAuthRefreshToken];
-        if (jsonRefreshToken == nil || jsonRefreshToken.length < 1 ){
-            [endpointResponse setRefreshToken:endpointReq.refreshToken];
+        if (!endpointResponse.hasError){
+           // Adds the refresh token to the response for consistency.
+           NSString *jsonRefreshToken = [json objectForKey:kSFOAuthRefreshToken];
+           if (jsonRefreshToken == nil || jsonRefreshToken.length < 1 ) {
+               if (endpointReq.refreshToken) {
+                   [endpointResponse setRefreshToken:endpointReq.refreshToken];
+               } else {
+                  [SFSDKCoreLogger e:[self class] format:@"%@ :Token endpoint call was made without the existence of a refresh token.", NSStringFromSelector(_cmd)];
+               }
+           }
         }
     } else {
         NSError* jsonError = [SFJsonUtils lastError];
