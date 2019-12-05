@@ -56,6 +56,7 @@ static NSString* ailtnAppName = nil;
 
 // Dev support
 static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNotification";
+static IMP motionEndedImplementation = nil;
 
 // User agent constants
 static NSString * const kSFMobileSDKNativeDesignator = @"Native";
@@ -70,11 +71,13 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 @implementation UIWindow (SalesforceSDKManager)
 
-- (void)sfsdk_motionEnded:(__unused UIEventSubtype)motion withEvent:(UIEvent *)event
-{
+- (void)sfsdk_motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
     if (event.subtype == UIEventSubtypeMotionShake) {
         [[NSNotificationCenter defaultCenter] postNotificationName:SFSDKShowDevDialogNotification object:nil];
     }
+    // Doing this instead of exchanging the implementations and calling sfsdk_motionEnded:withEvent: so that
+    // it has the correct value for _cmd (motionEnded:withEvent:)
+    ((void(*)(id, SEL, long, id))motionEndedImplementation)(self, _cmd, motion, event);
 }
 
 @end
@@ -135,13 +138,14 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 + (void)initialize {
     if (self == [SalesforceSDKManager class]) {
-
-        // For dev support
-        method_exchangeImplementations(class_getInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:)), class_getInstanceMethod([UIWindow class], @selector(sfsdk_motionEnded:withEvent:)));
-
-        // Pasteboard
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
+            // For dev support
+            Method sfsdkMotionEndedMethod = class_getInstanceMethod([UIWindow class], @selector(sfsdk_motionEnded:withEvent:));
+            IMP sfsdkMotionEndedImplementation = method_getImplementation(sfsdkMotionEndedMethod);
+            motionEndedImplementation = method_setImplementation(class_getInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:)), sfsdkMotionEndedImplementation);
+
+            // Pasteboard
              method_exchangeImplementations(class_getClassMethod([UIPasteboard class], @selector(generalPasteboard)), class_getClassMethod([SalesforceSDKManager class], @selector(sdkPasteboard)));
         });
 
