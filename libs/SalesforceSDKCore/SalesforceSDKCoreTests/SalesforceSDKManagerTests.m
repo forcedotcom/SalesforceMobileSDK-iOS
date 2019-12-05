@@ -264,6 +264,12 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [_currentSdkManagerFlow clearUserSwitchState];
 }
 
+- (void)testPasteboard {
+    // After swizzling, default should still be general pasteboard
+    NSString *pasteboardName = [UIPasteboard generalPasteboard].name;
+    XCTAssertTrue([pasteboardName isEqualToString:@"com.apple.UIKit.pboard.general"], @"Pasteboard name doesn't match");
+}
+
 #pragma mark - Snapshot Tests
 
 - (void)testUsesSnapshot
