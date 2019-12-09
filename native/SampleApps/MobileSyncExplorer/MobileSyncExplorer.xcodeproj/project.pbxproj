@@ -52,9 +52,7 @@
 		B7A135161D99EC6100A4559C /* SObjectData.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A1346D1D99DF8E00A4559C /* SObjectData.m */; };
 		B7A135171D99EC6100A4559C /* SObjectDataFieldSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A134701D99DF8E00A4559C /* SObjectDataFieldSpec.m */; };
 		B7A135181D99EC6100A4559C /* SObjectDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A134721D99DF8E00A4559C /* SObjectDataSpec.m */; };
-		B7BAD7341FBB7DC30046629F /* IDPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BAD7311FBB7DC30046629F /* IDPLoginViewController.m */; };
 		B7BAD7351FBB7DC30046629F /* IDPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */; };
-		B7BAD7361FBB7DC30046629F /* IDPLoginNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BAD7331FBB7DC30046629F /* IDPLoginNavViewController.m */; };
 		B7DC2CFA20FD491300B62708 /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7DC2CF920FD491300B62708 /* bootconfig.plist */; };
 		B7DF837A1DAD911D00DC7A8F /* MobileSyncExplorerCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7A134301D99D52600A4559C /* MobileSyncExplorerCommon.framework */; };
 		B7E0CF331D91CECE0050A1F4 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */; };
@@ -331,11 +329,7 @@
 		B7A134701D99DF8E00A4559C /* SObjectDataFieldSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SObjectDataFieldSpec.m; sourceTree = "<group>"; };
 		B7A134711D99DF8E00A4559C /* SObjectDataSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SObjectDataSpec.h; sourceTree = "<group>"; };
 		B7A134721D99DF8E00A4559C /* SObjectDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SObjectDataSpec.m; sourceTree = "<group>"; };
-		B7BAD72F1FBB7DC30046629F /* IDPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IDPLoginViewController.h; path = ../../../../../shared/classes/IDPLoginViewController.h; sourceTree = "<group>"; };
-		B7BAD7301FBB7DC30046629F /* IDPLoginNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IDPLoginNavViewController.h; path = ../../../../../shared/classes/IDPLoginNavViewController.h; sourceTree = "<group>"; };
-		B7BAD7311FBB7DC30046629F /* IDPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IDPLoginViewController.m; path = ../../../../../shared/classes/IDPLoginViewController.m; sourceTree = "<group>"; };
 		B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = IDPLoginViewController.xib; path = ../../../../../shared/classes/IDPLoginViewController.xib; sourceTree = "<group>"; };
-		B7BAD7331FBB7DC30046629F /* IDPLoginNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IDPLoginNavViewController.m; path = ../../../../../shared/classes/IDPLoginNavViewController.m; sourceTree = "<group>"; };
 		B7D641CD218F42B5006DF5F0 /* SalesforceSDKCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCommon.xcodeproj; path = ../../../libs/SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj; sourceTree = "<group>"; };
 		B7DC2CF920FD491300B62708 /* bootconfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bootconfig.plist; sourceTree = "<group>"; };
 		B7E0CF311D91CECE0050A1F4 /* RecentContactsTodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RecentContactsTodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -393,10 +387,6 @@
 		820C8B0B19E6054E00E9BE5C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				B7BAD7301FBB7DC30046629F /* IDPLoginNavViewController.h */,
-				B7BAD7331FBB7DC30046629F /* IDPLoginNavViewController.m */,
-				B7BAD72F1FBB7DC30046629F /* IDPLoginViewController.h */,
-				B7BAD7311FBB7DC30046629F /* IDPLoginViewController.m */,
 				B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */,
 				4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */,
 				4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */,
@@ -890,8 +880,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7BAD7341FBB7DC30046629F /* IDPLoginViewController.m in Sources */,
-				B7BAD7361FBB7DC30046629F /* IDPLoginNavViewController.m in Sources */,
 				820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */,
 				820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */,
 				4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */,
