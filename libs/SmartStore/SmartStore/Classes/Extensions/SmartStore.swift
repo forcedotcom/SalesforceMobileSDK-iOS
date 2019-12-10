@@ -56,7 +56,7 @@ extension SmartStore {
         }
     }
     
-    /// Runs a query. Returns a Resul<>.
+    /// Runs a query. Returns a Result<>.
     /// - Parameter smartSql: smart sql query to run
     /// - Returns: a Result<[Any], SmartStoreError>
     public func query(_ smartSql: String) -> Result<[Any], SmartStoreError> {
