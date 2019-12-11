@@ -35,7 +35,6 @@
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <MobileSyncExplorerCommon/MobileSyncExplorerConfig.h>
 #import <SalesforceSDKcore/SFSDKNavigationController.h>
-#import "IDPLoginNavViewController.h"
 
 @interface AppDelegate () <SalesforceSDKManagerDelegate>
 
@@ -77,19 +76,10 @@
             }];
         }];
         
-        //Uncomment following block to enable IDP Login flow.
-        /*
-        //scheme of idpAppp
-        [MobileSyncSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
-         //user friendly display name
-        [MobileSyncSDKManager sharedManager].appDisplayName = @"SampleAppOne";
-         
-        //Use the following code block to replace the login flow selection dialog
-        [MobileSyncSDKManager sharedManager].idpLoginFlowSelectionBlock = ^UIViewController<SFSDKLoginFlowSelectionView> * _Nonnull{
-            IDPLoginNavViewController *controller = [[IDPLoginNavViewController alloc] init];
-            return controller;
-        };
-        */
+        //Uncomment following lines to enable IDP Login flow. Set scheme of idpAppp & display name (optional)
+        //[MobileSyncSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
+        //[MobileSyncSDKManager sharedManager].appDisplayName = @"SampleAppOne";
+        
     }
     return self;
 }
