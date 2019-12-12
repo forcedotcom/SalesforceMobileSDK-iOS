@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFMobileSyncPersistableObject.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFMobileSyncPersistableObject</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncPersistableObject.h</DeclaredIn>
+            
+			
+			<NodeRef refid="18"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMobileSyncPersistableObject/setRawData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncPersistableObject.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMobileSyncPersistableObject/rawData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncPersistableObject.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMobileSyncPersistableObject/rawData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncPersistableObject.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMobileSyncPersistableObject/setObjectType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncPersistableObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMobileSyncPersistableObject/objectType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncPersistableObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMobileSyncPersistableObject/objectType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncPersistableObject+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMobileSyncPersistableObject/initWithDictionary:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncPersistableObject.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)data</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDictionary:</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMobileSyncPersistableObject/initWithDictionary:forObjectType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncPersistableObject.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)data forObjectType:(nullable NSString *)objectType</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDictionary:forObjectType:</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

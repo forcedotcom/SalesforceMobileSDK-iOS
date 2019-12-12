@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFRow.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFRow</TokenIdentifier>
+			<Abstract type="html">Represents a record layout row.</Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+            
+			
+			<NodeRef refid="28"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRow/setLayoutItems:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
+			
+			
+			<Anchor>//api/name/layoutItems</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRow/layoutItems</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
+			
+			
+			<Anchor>//api/name/layoutItems</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRow/layoutItems</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;SFItem*&gt; *layoutItems</Declaration>
+			
+			
+			<Anchor>//api/name/layoutItems</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRow/fromJSON:</TokenIdentifier>
+			<Abstract type="html">Creates an instance of this class from its JSON representation.</Abstract>
+			<DeclaredIn>SFLayout.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">JSON data.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/fromJSON:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -56,9 +56,7 @@
 	
 	<optgroup label="Properties">
 		
-		<option value="//api/name/evalBlock">evalBlock</option>
-		
-		<option value="//api/name/evalOptionsBlock">evalOptionsBlock</option>
+		<option value="//api/name/authContextEvalBlock">authContextEvalBlock</option>
 		
 		<option value="//api/name/name">name</option>
 		
@@ -70,9 +68,7 @@
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/initWithName:evalBlock:">- initWithName:evalBlock:</option>
-		
-		<option value="//api/name/initWithName:evalOptionsBlock:">- initWithName:evalOptionsBlock:</option>
+		<option value="//api/name/initWithName:authSessionBlock:">- initWithName:authSessionBlock:</option>
 		
 	</optgroup>
 	
@@ -166,8 +162,8 @@ error handling filter chain.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/evalBlock" title="evalBlock"></a>
-	<h3 class="method-title"><code><a href="#//api/name/evalBlock">&nbsp;&nbsp;evalBlock</a></code>
+	<a name="//api/name/authContextEvalBlock" title="authContextEvalBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authContextEvalBlock">&nbsp;&nbsp;authContextEvalBlock</a></code>
 </h3>
 
 	<div class="method-info">
@@ -175,83 +171,15 @@ error handling filter chain.</p>
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>The block of code that will evaluate the error.  The block should return YES if it can
-handle the error, and NO if the error should be passed on to the next handler.</p>
-			</div>
-			
-		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFAuthErrorHandlerContextEvalBlock authContextEvalBlock</code></div>
 
 		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFAuthErrorHandler.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/evalOptionsBlock" title="evalOptionsBlock"></a>
-	<h3 class="method-title"><code><a href="#//api/name/evalOptionsBlock">&nbsp;&nbsp;evalOptionsBlock</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The block of code that will evaluate the error.  The block should return YES if it can
-handle the error, and NO if the error should be passed on to the next handler.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFAuthErrorHandlerOptionsEvalBlock evalOptionsBlock</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFAuthErrorHandler.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/initWithName:evalBlock:" title="initWithName:evalBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/initWithName:evalBlock:">&ndash;&nbsp;initWithName:evalBlock:</a></code>
+	<a name="//api/name/initWithName:authSessionBlock:" title="initWithName:authSessionBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithName:authSessionBlock:">&ndash;&nbsp;initWithName:authSessionBlock:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -266,7 +194,7 @@ handle the error, and NO if the error should be passed on to the next handler.</
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (id)initWithName:(NSString *)<em>name</em> evalBlock:(SFAuthErrorHandlerEvalBlock)<em>evalBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (id)initWithName:(NSString *)<em>name</em> authSessionBlock:(SFAuthErrorHandlerContextEvalBlock)<em>authContextEvalBlock</em></code></div>
 
 		    
 			
@@ -280,65 +208,7 @@ handle the error, and NO if the error should be passed on to the next handler.</
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>evalBlock</code></th>
-						<td><p>The block to handle the error evaluation.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFAuthErrorHandler.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/initWithName:evalOptionsBlock:" title="initWithName:evalOptionsBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/initWithName:evalOptionsBlock:">&ndash;&nbsp;initWithName:evalOptionsBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Designated initializer for SFAuthErrorHandler.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (id)initWithName:(NSString *)<em>name</em> evalOptionsBlock:(SFAuthErrorHandlerOptionsEvalBlock)<em>evalOptionsBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>name</code></th>
-						<td><p>The canonical <a href="#//api/name/name">name</a> of the error handler.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>evalOptionsBlock</code></th>
+						<th scope="row" class="argument-name"><code>authContextEvalBlock</code></th>
 						<td><p>The block to handle the error evaluation.</p></td>
 					</tr>
 				
@@ -380,7 +250,7 @@ handle the error, and NO if the error should be passed on to the next handler.</
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-09-16</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-12-12</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

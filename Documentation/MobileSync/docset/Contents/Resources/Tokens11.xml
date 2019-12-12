@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFLayoutSyncDownTarget.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLayoutSyncDownTarget</TokenIdentifier>
+			<Abstract type="html">Sync down target for object layouts. This uses the &apos;/ui-api/layout&apos; API to fetch object layouts.
+The easiest way to use this sync target is through SFLayoutSyncManager.</Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+            
+			
+			<NodeRef refid="11"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setObjectType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/objectType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/objectType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setLayoutType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
+			
+			
+			<Anchor>//api/name/layoutType</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/layoutType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
+			
+			
+			<Anchor>//api/name/layoutType</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/layoutType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
+			
+			
+			<Anchor>//api/name/layoutType</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncDownTarget/newSyncTarget:layoutType:</TokenIdentifier>
+			<Abstract type="html">Factory method.</Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>+ (SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType</Declaration>
+			
+			
+			<Anchor>//api/name/newSyncTarget:layoutType:</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

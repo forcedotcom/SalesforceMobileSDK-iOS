@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKPasscodeVerifyDelegate.html">
+	<File path="Protocols/SFSDKUserSelectionTableViewControllerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKPasscodeVerifyDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionTableViewControllerDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="192"/>
@@ -13,26 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeVerifyDelegate/passcodeVerified</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/createNewuser:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeVerified</Declaration>
+			<Declaration>- (void)createNewuser:(NSDictionary *)options</Declaration>
 			
 			
-			<Anchor>//api/name/passcodeVerified</Anchor>
+			<Anchor>//api/name/createNewuser:</Anchor>
             <NodeRef refid="192"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeVerifyDelegate/passcodeFailed</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/selectedUser:options:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeFailed</Declaration>
+			<Declaration>- (void)selectedUser:(SFUserAccount *)user options:(NSDictionary *)options</Declaration>
 			
 			
-			<Anchor>//api/name/passcodeFailed</Anchor>
+			<Anchor>//api/name/selectedUser:options:</Anchor>
+            <NodeRef refid="192"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/cancel:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)cancel:(NSDictionary *)options</Declaration>
+			
+			
+			<Anchor>//api/name/cancel:</Anchor>
             <NodeRef refid="192"/>
 		</Token>
 		

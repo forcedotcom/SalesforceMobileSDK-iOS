@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionTableViewControllerDelegate.html">
+	<File path="Protocols/SFSDKUserSelectionViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionTableViewControllerDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionViewDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="194"/>
@@ -13,35 +13,35 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/createNewuser:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/createNewUser:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)createNewuser:(NSDictionary *)options</Declaration>
+			<Declaration>- (void)createNewUser:(NSDictionary *)spAppOptions</Declaration>
 			
 			
-			<Anchor>//api/name/createNewuser:</Anchor>
+			<Anchor>//api/name/createNewUser:</Anchor>
             <NodeRef refid="194"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/selectedUser:options:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/selectedUser:spAppContext:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)selectedUser:(SFUserAccount *)user options:(NSDictionary *)options</Declaration>
+			<Declaration>- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions</Declaration>
 			
 			
-			<Anchor>//api/name/selectedUser:options:</Anchor>
+			<Anchor>//api/name/selectedUser:spAppContext:</Anchor>
             <NodeRef refid="194"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/cancel:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/cancel:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)cancel:(NSDictionary *)options</Declaration>
+			<Declaration>- (void)cancel:(NSDictionary *)spAppOptions</Declaration>
 			
 			
 			<Anchor>//api/name/cancel:</Anchor>

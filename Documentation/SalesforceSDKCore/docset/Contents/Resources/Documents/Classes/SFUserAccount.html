@@ -56,15 +56,11 @@
 	
 	<optgroup label="Properties">
 		
-		<option value="//api/name/)">)</option>
-		
 		<option value="//api/name/accessRestrictions">accessRestrictions</option>
 		
 		<option value="//api/name/accessScopes">accessScopes</option>
 		
 		<option value="//api/name/accountIdentity">accountIdentity</option>
-		
-		<option value="//api/name/apiUrl">apiUrl</option>
 		
 		<option value="//api/name/credentials">credentials</option>
 		
@@ -85,10 +81,6 @@
 
 	
 	<optgroup label="Instance Methods">
-		
-		<option value="//api/name/communityUrlWithId:">- communityUrlWithId:</option>
-		
-		<option value="//api/name/communityWithId:">- communityWithId:</option>
 		
 		<option value="//api/name/customDataObjectForKey:">- customDataObjectForKey:</option>
 		
@@ -295,91 +287,7 @@ a user together with the current community it is logged in.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) SFIdentityData *idData</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccount.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/apiUrl" title="apiUrl"></a>
-	<h3 class="method-title"><code><a href="#//api/name/apiUrl">&nbsp;&nbsp;apiUrl</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The URL that can be used to invoke any API
-on the server-side. This URL takes into account the
-current community if available (see <code>communityId</code>).</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, readonly, nullable) NSURL *apiUrl</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccount.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/)" title=")"></a>
-	<h3 class="method-title"><code><a href="#//api/name/)">&nbsp;&nbsp;)</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The user&rsquo;s email</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *SFSDK_DEPRECATED ( 7.1 , 8.0 , &quot;Use SFUserAccount.idData properties instead&quot; )</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFIdentityData *idData</code></div>
 
 		    
 			
@@ -416,13 +324,12 @@ current community if available (see <code>communityId</code>).</p>
 			
 			<div class="method-subsection brief-description">
 				<p>The user&rsquo;s photo. Usually store a thumbnail of the user.
-Note: setting the photo is asynchronous. Use the method
-below to get a callback when the photo is set.</p>
+To set this property use <a href="#//api/name/setPhoto:completion:"><code>setPhoto:completion:</code></a></p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) UIImage *photo</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable, readonly) UIImage *photo</code></div>
 
 		    
 			
@@ -649,123 +556,6 @@ a valid session.</p>
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
 				<p>the account instance</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccount.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/communityUrlWithId:" title="communityUrlWithId:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/communityUrlWithId:">&ndash;&nbsp;communityUrlWithId:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns the community API url for a particular
-community ID if it exists in the communities array</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (nullable NSURL *)communityUrlWithId:(NSString *)<em>communityId</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>communityId</code></th>
-						<td><p>The ID of the community</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The URL of the API endpoint for that community</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccount.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/communityWithId:" title="communityWithId:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/communityWithId:">&ndash;&nbsp;communityWithId:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns the community dictionary for the specified ID</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (nullable SFCommunityData *)communityWithId:(NSString *)<em>communityId</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>communityId</code></th>
-						<td><p>The ID of the community</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The dictionary for the given community</p>
 			</div>
 			
 
@@ -1101,7 +891,7 @@ you can transition from <code>SFUserAccountLoginStateNotLoggedIn</code> to <code
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-09-16</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-12-12</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

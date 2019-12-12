@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthOrgAuthConfiguration.html">
+	<File path="Classes/SFOAuthTestFlowCoordinatorDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthOrgAuthConfiguration</TokenIdentifier>
-			<Abstract type="html">Data class representing the org authentication configuration.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthTestFlowCoordinatorDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="40"/>
@@ -13,163 +13,254 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setUseNativeBrowserForAuth:</TokenIdentifier>
-			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setWillBeginAuthenticationCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
 			
 			
-			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
+			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
-			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/willBeginAuthenticationCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
 			
 			
-			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
+			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
-			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/willBeginAuthenticationCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL willBeginAuthenticationCalled</Declaration>
 			
 			
-			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
+			<Anchor>//api/name/willBeginAuthenticationCalled</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setSsoUrls:</TokenIdentifier>
-			<Abstract type="html">List of configured SSO URLs.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidAuthenticateCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSString*&gt; *ssoUrls</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
 			
 			
-			<Anchor>//api/name/ssoUrls</Anchor>
+			<Anchor>//api/name/didAuthenticateCalled</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/ssoUrls</TokenIdentifier>
-			<Abstract type="html">List of configured SSO URLs.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didAuthenticateCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSString*&gt; *ssoUrls</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
 			
 			
-			<Anchor>//api/name/ssoUrls</Anchor>
+			<Anchor>//api/name/didAuthenticateCalled</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/ssoUrls</TokenIdentifier>
-			<Abstract type="html">List of configured SSO URLs.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didAuthenticateCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSString*&gt; *ssoUrls</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didAuthenticateCalled</Declaration>
 			
 			
-			<Anchor>//api/name/ssoUrls</Anchor>
+			<Anchor>//api/name/didAuthenticateCalled</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setLoginPageUrl:</TokenIdentifier>
-			<Abstract type="html">Configured login page URL.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setAuthInfo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/loginPageUrl</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/loginPageUrl</TokenIdentifier>
-			<Abstract type="html">Configured login page URL.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/loginPageUrl</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/loginPageUrl</TokenIdentifier>
-			<Abstract type="html">Configured login page URL.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
 			
 			
-			<Anchor>//api/name/loginPageUrl</Anchor>
+			<Anchor>//api/name/authInfo</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setAuthConfigDict:</TokenIdentifier>
-			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidFailWithErrorCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
 			
 			
-			<Anchor>//api/name/authConfigDict</Anchor>
+			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
-			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didFailWithErrorCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
 			
 			
-			<Anchor>//api/name/authConfigDict</Anchor>
+			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
-			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didFailWithErrorCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL didFailWithErrorCalled</Declaration>
 			
 			
-			<Anchor>//api/name/authConfigDict</Anchor>
+			<Anchor>//api/name/didFailWithErrorCalled</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/initWithConfigDict:</TokenIdentifier>
-			<Abstract type="html">Designated initializer.</Abstract>
-			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setIsNetworkAvailableCalled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
 			
-			<Declaration>- (nonnull id)initWithConfigDict:(nullable NSDictionary *)authConfigDict</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>authConfigDict</Name>
-					<Abstract type="html">NSDictionary containing the org auth configuration.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
 			
-			<Anchor>//api/name/initWithConfigDict:</Anchor>
+			
+			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailableCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailableCalled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailableCalled</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailableCalled</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setDidFailWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithError</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/didFailWithError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithError</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/didFailWithError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSError *didFailWithError</Declaration>
+			
+			
+			<Anchor>//api/name/didFailWithError</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/setIsNetworkAvailable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailable</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailable</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlowCoordinatorDelegate/isNetworkAvailable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthTestFlowCoordinatorDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isNetworkAvailable</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkAvailable</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		

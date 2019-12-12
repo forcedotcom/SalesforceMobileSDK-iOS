@@ -64,6 +64,8 @@
 		
 		<option value="//api/name/approvalCode">approvalCode</option>
 		
+		<option value="//api/name/asWebAuthenticationSession">asWebAuthenticationSession</option>
+		
 		<option value="//api/name/authClient">authClient</option>
 		
 		<option value="//api/name/authInfo">authInfo</option>
@@ -112,7 +114,9 @@
 		
 		<option value="//api/name/authenticateWithCredentials:">- authenticateWithCredentials:</option>
 		
-		<option value="//api/name/beginIDPFlow:">- beginIDPFlow:</option>
+		<option value="//api/name/beginIDPFlow">- beginIDPFlow</option>
+		
+		<option value="//api/name/beginUserAgentFlow">- beginUserAgentFlow</option>
 		
 		<option value="//api/name/generateApprovalUrlString">- generateApprovalUrlString</option>
 		
@@ -121,6 +125,8 @@
 		<option value="//api/name/handleIDPAuthenticationResponse:">- handleIDPAuthenticationResponse:</option>
 		
 		<option value="//api/name/handleUserAgentResponse:">- handleUserAgentResponse:</option>
+		
+		<option value="//api/name/initWithAuthSession:">- initWithAuthSession:</option>
 		
 		<option value="//api/name/initWithCredentials:">- initWithCredentials:</option>
 		
@@ -504,8 +510,8 @@ OAuth request, which implicitly sets the scope to include: &ldquo;id&rdquo;, &ld
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/authSession" title="authSession"></a>
-	<h3 class="method-title"><code><a href="#//api/name/authSession">&nbsp;&nbsp;authSession</a></code>
+	<a name="//api/name/asWebAuthenticationSession" title="asWebAuthenticationSession"></a>
+	<h3 class="method-title"><code><a href="#//api/name/asWebAuthenticationSession">&nbsp;&nbsp;asWebAuthenticationSession</a></code>
 </h3>
 
 	<div class="method-info">
@@ -520,7 +526,7 @@ OAuth request, which implicitly sets the scope to include: &ldquo;id&rdquo;, &ld
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, null_unspecified) SFAuthenticationSession *authSession</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, null_unspecified) ASWebAuthenticationSession *asWebAuthenticationSession</code></div>
 
 		    
 			
@@ -1203,8 +1209,8 @@ should handle, NO otherwise.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/beginIDPFlow:" title="beginIDPFlow:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/beginIDPFlow:">&ndash;&nbsp;beginIDPFlow:</a></code>
+	<a name="//api/name/beginIDPFlow" title="beginIDPFlow"></a>
+	<h3 class="method-title"><code><a href="#//api/name/beginIDPFlow">&ndash;&nbsp;beginIDPFlow</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1213,7 +1219,7 @@ should handle, NO otherwise.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)beginIDPFlow:(SFOAuthCredentials *)<em>spAppCredentials</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)beginIDPFlow</code></div>
 
 		    
 		</div>
@@ -1253,7 +1259,7 @@ should handle, NO otherwise.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSURLSession *session</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly, nullable) NSURLSession *session</code></div>
 
 		    
 		</div>
@@ -1269,7 +1275,7 @@ should handle, NO otherwise.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSMutableData *responseData</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSMutableData *responseData</code></div>
 
 		    
 		</div>
@@ -1317,7 +1323,7 @@ should handle, NO otherwise.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *codeVerifier</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *codeVerifier</code></div>
 
 		    
 		</div>
@@ -1333,7 +1339,7 @@ should handle, NO otherwise.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFOAuthInfo *authInfo</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) SFOAuthInfo *authInfo</code></div>
 
 		    
 		</div>
@@ -1365,7 +1371,39 @@ should handle, NO otherwise.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFOAuthCredentials *spAppCredentials</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) SFOAuthCredentials *spAppCredentials</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authSession" title="authSession"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authSession">&nbsp;&nbsp;authSession</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak, nullable) SFSDKAuthSession *authSession</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithAuthSession:" title="initWithAuthSession:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithAuthSession:">&ndash;&nbsp;initWithAuthSession:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initWithAuthSession:(SFSDKAuthSession *)<em>authSession</em></code></div>
 
 		    
 		</div>
@@ -1567,6 +1605,22 @@ should handle, NO otherwise.</p>
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/beginUserAgentFlow" title="beginUserAgentFlow"></a>
+	<h3 class="method-title"><code><a href="#//api/name/beginUserAgentFlow">&ndash;&nbsp;beginUserAgentFlow</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)beginUserAgentFlow</code></div>
+
+		    
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1582,7 +1636,7 @@ should handle, NO otherwise.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-09-16</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-12-12</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFAdvancedSyncUpTask.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAdvancedSyncUpTask</TokenIdentifier>
+			<Abstract type="html">This task class is responsible for running advanced sync up tasks.</Abstract>
+			<DeclaredIn>SFAdvancedSyncUpTask.h</DeclaredIn>
+            
+			
+			<NodeRef refid="3"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAdvancedSyncUpTask/init:sync:updateBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAdvancedSyncUpTask.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)init:(SFMobileSyncSyncManager *)syncManager sync:(SFSyncState *)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
+			
+			
+			<Anchor>//api/name/init:sync:updateBlock:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

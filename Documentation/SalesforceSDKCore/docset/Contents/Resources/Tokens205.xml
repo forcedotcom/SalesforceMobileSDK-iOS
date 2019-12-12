@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFAppLockControllerMode.html">
+	<File path="Constants/SFBiometricUnlockState.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFAppLockControllerMode</TokenIdentifier>
-			<Abstract type="html">Mode constants indicating whether to create/verify an passcode or use biometric.</Abstract>
-			<DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFBiometricUnlockState</TokenIdentifier>
+			<Abstract type="html">The state of biometric unlock.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
 			
 			<NodeRef refid="205"/>
@@ -14,51 +14,45 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeCreatePasscode</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeCreatePasscode</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockApproved</TokenIdentifier>
+            <Abstract type="html">     Biometric unlock was approved by user.
+     *</Abstract>
+            <Declaration>SFBiometricUnlockApproved</Declaration>
             
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
-            
-            <NodeRef refid="205"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyPasscode</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeVerifyPasscode</Declaration>
-            
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeChangePasscode</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeChangePasscode</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockDeclined</TokenIdentifier>
+            <Abstract type="html">     Biometric unlock was declined by user - do not prompt user again.
+     *</Abstract>
+            <Declaration>SFBiometricUnlockDeclined</Declaration>
             
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
-            
-            <NodeRef refid="205"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeEnableBiometric</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeEnableBiometric</Declaration>
-            
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyBiometric</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeVerifyBiometric</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockAvailable</TokenIdentifier>
+            <Abstract type="html">     Biometric unlock is available - but user has not been prompted to approve it yet.
+     *</Abstract>
+            <Declaration>SFBiometricUnlockAvailable</Declaration>
             
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="205"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockUnavailable</TokenIdentifier>
+            <Abstract type="html">     Biometric unlock is not available.
+     </Abstract>
+            <Declaration>SFBiometricUnlockUnavailable</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="205"/>
         </Token>

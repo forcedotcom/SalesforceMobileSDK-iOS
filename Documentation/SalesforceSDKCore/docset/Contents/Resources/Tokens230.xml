@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountLoginState.html">
+	<File path="Constants/UIDeviceFamily.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountLoginState</TokenIdentifier>
-			<Abstract type="html">Enumeration of the potential login states of the user account.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/UIDeviceFamily</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
 			
 			<NodeRef refid="230"/>
@@ -14,34 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateNotLoggedIn</TokenIdentifier>
-            <Abstract type="html">     User account is not logged in.
-     </Abstract>
-            <Declaration>SFUserAccountLoginStateNotLoggedIn</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceFamilyiPhone</Declaration>
             
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
-            
-            <NodeRef refid="230"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateLoggedIn</TokenIdentifier>
-            <Abstract type="html">     User account is logged in.
-     </Abstract>
-            <Declaration>SFUserAccountLoginStateLoggedIn</Declaration>
-            
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
             <NodeRef refid="230"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateLoggingOut</TokenIdentifier>
-            <Abstract type="html">     User account is in the process of logging out.
-     </Abstract>
-            <Declaration>SFUserAccountLoginStateLoggingOut</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPod</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceFamilyiPod</Declaration>
             
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="230"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPad</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceFamilyiPad</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="230"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyAppleTV</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceFamilyAppleTV</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="230"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceFamilyUnknown</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
             <NodeRef refid="230"/>
         </Token>

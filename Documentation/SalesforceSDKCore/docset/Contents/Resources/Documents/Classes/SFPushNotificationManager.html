@@ -80,7 +80,11 @@
 		
 		<option value="//api/name/registerForRemoteNotifications">- registerForRemoteNotifications</option>
 		
+		<option value="//api/name/registerSalesforceNotificationsWithCompletionBlock:completionBlock:failBlock:">- registerSalesforceNotificationsWithCompletionBlock:completionBlock:failBlock:</option>
+		
 		<option value="//api/name/registerSalesforceNotificationsWithCompletionBlock:failBlock:">- registerSalesforceNotificationsWithCompletionBlock:failBlock:</option>
+		
+		<option value="//api/name/unregisterSalesforceNotificationsWithCompletionBlock:">- unregisterSalesforceNotificationsWithCompletionBlock:</option>
 		
 		<option value="//api/name/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:">- unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:</option>
 		
@@ -456,6 +460,133 @@ Call this method after authenticating with Salesforce and registering with APNS.
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/registerSalesforceNotificationsWithCompletionBlock:completionBlock:failBlock:" title="registerSalesforceNotificationsWithCompletionBlock:completionBlock:failBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerSalesforceNotificationsWithCompletionBlock:completionBlock:failBlock:">&ndash;&nbsp;registerSalesforceNotificationsWithCompletionBlock:completionBlock:failBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Register for notifications with Salesforce.
+Call this method after authenticating with Salesforce and registering with APNS.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)registerSalesforceNotificationsWithCompletionBlock:(SFUserAccount *)<em>user</em> completionBlock:(nullable void ( ^ ) ( void ))<em>completionBlock</em> failBlock:(nullable void ( ^ ) ( void ))<em>failBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p><a href="../Classes/SFUserAccount.html">SFUserAccount</a> to use.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>Completion block.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>fail block.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES for successful registration call being made.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/unregisterSalesforceNotificationsWithCompletionBlock:" title="unregisterSalesforceNotificationsWithCompletionBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unregisterSalesforceNotificationsWithCompletionBlock:">&ndash;&nbsp;unregisterSalesforceNotificationsWithCompletionBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Unregister from notifications with Salesforce for a specific user. This method is called at logout.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)unregisterSalesforceNotificationsWithCompletionBlock:(nullable void ( ^ ) ( void ))<em>completionBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>Completion block.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES for successful unregistration call being made.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPushNotificationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:" title="unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:">&ndash;&nbsp;unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:</a></code>
 </h3>
@@ -533,7 +664,7 @@ Call this method after authenticating with Salesforce and registering with APNS.
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-09-16</p>
+						<p class="copyright">Copyright &copy; 2019 Salesforce.com. All rights reserved. Updated: 2019-12-12</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

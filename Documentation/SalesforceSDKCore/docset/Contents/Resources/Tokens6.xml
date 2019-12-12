@@ -50,120 +50,58 @@ error handling filter chain.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/setEvalBlock:</TokenIdentifier>
-			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
-handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/setAuthContextEvalBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerContextEvalBlock authContextEvalBlock</Declaration>
 			
 			
-			<Anchor>//api/name/evalBlock</Anchor>
+			<Anchor>//api/name/authContextEvalBlock</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/evalBlock</TokenIdentifier>
-			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
-handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/authContextEvalBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerContextEvalBlock authContextEvalBlock</Declaration>
 			
 			
-			<Anchor>//api/name/evalBlock</Anchor>
+			<Anchor>//api/name/authContextEvalBlock</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandler/evalBlock</TokenIdentifier>
-			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
-handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandler/authContextEvalBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerContextEvalBlock authContextEvalBlock</Declaration>
 			
 			
-			<Anchor>//api/name/evalBlock</Anchor>
+			<Anchor>//api/name/authContextEvalBlock</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/setEvalOptionsBlock:</TokenIdentifier>
-			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
-handle the error, and NO if the error should be passed on to the next handler.</Abstract>
-			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerOptionsEvalBlock evalOptionsBlock</Declaration>
-			
-			
-			<Anchor>//api/name/evalOptionsBlock</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/evalOptionsBlock</TokenIdentifier>
-			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
-handle the error, and NO if the error should be passed on to the next handler.</Abstract>
-			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerOptionsEvalBlock evalOptionsBlock</Declaration>
-			
-			
-			<Anchor>//api/name/evalOptionsBlock</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandler/evalOptionsBlock</TokenIdentifier>
-			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
-handle the error, and NO if the error should be passed on to the next handler.</Abstract>
-			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerOptionsEvalBlock evalOptionsBlock</Declaration>
-			
-			
-			<Anchor>//api/name/evalOptionsBlock</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/initWithName:evalBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/initWithName:authSessionBlock:</TokenIdentifier>
 			<Abstract type="html">Designated initializer for SFAuthErrorHandler.</Abstract>
 			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithName:(NSString *)name evalBlock:(SFAuthErrorHandlerEvalBlock)evalBlock</Declaration>
+			<Declaration>- (id)initWithName:(NSString *)name authSessionBlock:(SFAuthErrorHandlerContextEvalBlock)authContextEvalBlock</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>name</Name>
 					<Abstract type="html">The canonical name of the error handler.</Abstract>
 				</Parameter><Parameter>
-					<Name>evalBlock</Name>
+					<Name>authContextEvalBlock</Name>
 					<Abstract type="html">The block to handle the error evaluation.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithName:evalBlock:</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/initWithName:evalOptionsBlock:</TokenIdentifier>
-			<Abstract type="html">Designated initializer for SFAuthErrorHandler.</Abstract>
-			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithName:(NSString *)name evalOptionsBlock:(SFAuthErrorHandlerOptionsEvalBlock)evalOptionsBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">The canonical name of the error handler.</Abstract>
-				</Parameter><Parameter>
-					<Name>evalOptionsBlock</Name>
-					<Abstract type="html">The block to handle the error evaluation.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithName:evalOptionsBlock:</Anchor>
+			<Anchor>//api/name/initWithName:authSessionBlock:</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		

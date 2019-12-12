@@ -300,6 +300,18 @@ causes currentPageOrderedEntries to be refetched.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/getDataDeserialized:error:</TokenIdentifier>
+			<Abstract type="html">Run query and resturn NSDictionary (deserialized) representation of the cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)getDataDeserialized:(SFSmartStore *)store error:(NSError **)error</Declaration>
+			
+			<ReturnValue><Abstract type="html">NSDictionary representation of this object.</Abstract></ReturnValue>
+			<Anchor>//api/name/getDataDeserialized:error:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/close</TokenIdentifier>
 			<Abstract type="html">Close this cursor when finished operating on it.</Abstract>
 			<DeclaredIn>SFStoreCursor.h</DeclaredIn>

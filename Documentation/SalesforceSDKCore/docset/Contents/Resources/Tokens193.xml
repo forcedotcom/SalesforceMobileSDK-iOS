@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKURLHandler.html">
+	<File path="Protocols/SFSDKUserSelectionView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKURLHandler</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionView</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="193"/>
@@ -13,26 +13,74 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/canHandleRequest:options:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setUserSelectionDelegate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/canHandleRequest:options:</Anchor>
+			<Anchor>//api/name/userSelectionDelegate</Anchor>
             <NodeRef refid="193"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/processRequest:options:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/processRequest:options:</Anchor>
+			<Anchor>//api/name/userSelectionDelegate</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/userSelectionDelegate</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setSpAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
+            <NodeRef refid="193"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
             <NodeRef refid="193"/>
 		</Token>
 		

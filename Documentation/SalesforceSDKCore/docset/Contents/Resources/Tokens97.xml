@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNewLoginHostViewController.html">
+	<File path="Classes/SFSDKInstrumentationPostExecutionData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNewLoginHostViewController</TokenIdentifier>
-			<Abstract type="html">View controller that allows the user to enter a new login host that contains
-a host (the server address) and an optional name.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInstrumentationPostExecutionData</TokenIdentifier>
+			<Abstract type="html">Class containing the perf data associated with a selector execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
             
 			
 			<NodeRef refid="97"/>
@@ -14,113 +13,218 @@ a host (the server address) and an optional name.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setServer:</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setClassName:</TokenIdentifier>
+			<Abstract type="html">The name of the class associated with the selector.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *className</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/className</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/server</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/className</TokenIdentifier>
+			<Abstract type="html">The name of the class associated with the selector.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *className</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/className</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/server</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/className</TokenIdentifier>
+			<Abstract type="html">The name of the class associated with the selector.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *className</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/className</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setName:</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setSelectorName:</TokenIdentifier>
+			<Abstract type="html">The name of the original selector executed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *selectorName</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/selectorName</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/name</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/selectorName</TokenIdentifier>
+			<Abstract type="html">The name of the original selector executed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *selectorName</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/selectorName</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/name</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/selectorName</TokenIdentifier>
+			<Abstract type="html">The name of the original selector executed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *selectorName</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/selectorName</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setLoginHostListViewController:</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setIsInstanceMethod:</TokenIdentifier>
+			<Abstract type="html">Whether or not the selector is an instance method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL isInstanceMethod</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/isInstanceMethod</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/isInstanceMethod</TokenIdentifier>
+			<Abstract type="html">Whether or not the selector is an instance method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL isInstanceMethod</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/isInstanceMethod</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/isInstanceMethod</TokenIdentifier>
+			<Abstract type="html">Whether or not the selector is an instance method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL isInstanceMethod</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/isInstanceMethod</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setExecutionStartDate:</TokenIdentifier>
+			<Abstract type="html">The start date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionStartDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionStartDate</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/executionStartDate</TokenIdentifier>
+			<Abstract type="html">The start date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionStartDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionStartDate</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/executionStartDate</TokenIdentifier>
+			<Abstract type="html">The start date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionStartDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionStartDate</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setExecutionEndDate:</TokenIdentifier>
+			<Abstract type="html">The end date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionEndDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionEndDate</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/executionEndDate</TokenIdentifier>
+			<Abstract type="html">The end date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionEndDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionEndDate</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/executionEndDate</TokenIdentifier>
+			<Abstract type="html">The end date of the selector&apos;s execution.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDate *executionEndDate</Declaration>
+			
+			
+			<Anchor>//api/name/executionEndDate</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/setExecutionTime:</TokenIdentifier>
+			<Abstract type="html">The amount of execution time for the selector, in seconds.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval executionTime</Declaration>
+			
+			
+			<Anchor>//api/name/executionTime</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationPostExecutionData/executionTime</TokenIdentifier>
+			<Abstract type="html">The amount of execution time for the selector, in seconds.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval executionTime</Declaration>
+			
+			
+			<Anchor>//api/name/executionTime</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationPostExecutionData/executionTime</TokenIdentifier>
+			<Abstract type="html">The amount of execution time for the selector, in seconds.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSTimeInterval executionTime</Declaration>
+			
+			
+			<Anchor>//api/name/executionTime</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		

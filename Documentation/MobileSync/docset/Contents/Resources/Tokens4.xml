@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFBatchSyncUpTarget.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFBatchSyncUpTarget</TokenIdentifier>
+			<Abstract type="html">Subclass of SFSyncUpTarget that batches create, update, and delete operations by using the Salesforce composite API.</Abstract>
+			<DeclaredIn>SFBatchSyncUpTarget.h</DeclaredIn>
+            
+			
+			<NodeRef refid="4"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFBatchSyncUpTarget/initWithCreateFieldlist:updateFieldlist:maxBatchSize:</TokenIdentifier>
+			<Abstract type="html">Constructor.</Abstract>
+			<DeclaredIn>SFBatchSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithCreateFieldlist:(nullable NSArray&lt;NSString*&gt; *)createFieldlist updateFieldlist:(nullable NSArray&lt;NSString*&gt; *)updateFieldlist maxBatchSize:(nullable NSNumber *)maxBatchSize</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>createFieldlist</Name>
+					<Abstract type="html">List of fields that can be created on the server.</Abstract>
+				</Parameter><Parameter>
+					<Name>updateFieldlist</Name>
+					<Abstract type="html">List of fields that can be updated on the server.</Abstract>
+				</Parameter><Parameter>
+					<Name>maxBatchSize</Name>
+					<Abstract type="html">Maximum size of a batch.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithCreateFieldlist:updateFieldlist:maxBatchSize:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFBatchSyncUpTarget/newFromDict:</TokenIdentifier>
+			<Abstract type="html">Factory method.</Abstract>
+			<DeclaredIn>SFBatchSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)newFromDict:(nullable NSDictionary *)dict</Declaration>
+			
+			
+			<Anchor>//api/name/newFromDict:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKOAuthClientCache.html">
+	<File path="Classes/SFSDKLoginHostListViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuthClientCache</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHostListViewController</TokenIdentifier>
+			<Abstract type="html">Displays a list of hosts that can be used for login.
+A customer can either add a new host or select an existing host to reload the login web page.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="100"/>
@@ -13,159 +14,158 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/clientForKey:</TokenIdentifier>
-			<Abstract type="html">Fetch A Client from the cache given key</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/setDelegate:</TokenIdentifier>
+			<Abstract type="html">Delegate object of the host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKOAuthClient *)clientForKey:(NSString *)key</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/delegate</TokenIdentifier>
+			<Abstract type="html">Delegate object of the host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHostListViewController/delegate</TokenIdentifier>
+			<Abstract type="html">Delegate object of the host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/setHidesCancelButton:</TokenIdentifier>
+			<Abstract type="html">Hides the Cancel button if it exists. If you&apos;ve used a navigation controller
+to present this view controller, a Cancel button is automatically added to
+the left bar button item.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL hidesCancelButton</Declaration>
+			
+			
+			<Anchor>//api/name/hidesCancelButton</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/hidesCancelButton</TokenIdentifier>
+			<Abstract type="html">Hides the Cancel button if it exists. If you&apos;ve used a navigation controller
+to present this view controller, a Cancel button is automatically added to
+the left bar button item.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL hidesCancelButton</Declaration>
+			
+			
+			<Anchor>//api/name/hidesCancelButton</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHostListViewController/hidesCancelButton</TokenIdentifier>
+			<Abstract type="html">Hides the Cancel button if it exists. If you&apos;ve used a navigation controller
+to present this view controller, a Cancel button is automatically added to
+the left bar button item.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL hidesCancelButton</Declaration>
+			
+			
+			<Anchor>//api/name/hidesCancelButton</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/setHidesAddButton:</TokenIdentifier>
+			<Abstract type="html">Hides the Add button if it exists.  Enables the adding of hosts to the host list.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL hidesAddButton</Declaration>
+			
+			
+			<Anchor>//api/name/hidesAddButton</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/hidesAddButton</TokenIdentifier>
+			<Abstract type="html">Hides the Add button if it exists.  Enables the adding of hosts to the host list.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL hidesAddButton</Declaration>
+			
+			
+			<Anchor>//api/name/hidesAddButton</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHostListViewController/hidesAddButton</TokenIdentifier>
+			<Abstract type="html">Hides the Add button if it exists.  Enables the adding of hosts to the host list.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL hidesAddButton</Declaration>
+			
+			
+			<Anchor>//api/name/hidesAddButton</Anchor>
+            <NodeRef refid="100"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/addLoginHost:</TokenIdentifier>
+			<Abstract type="html">Adds a new login host. Also updates the underlying storage and refreshes
+the list of login hosts.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/showAddLoginHost</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)addLoginHost:(SFSDKLoginHost *)host</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">to use for lookup</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a cached instance of SFSDKOAuthClient</Abstract></ReturnValue>
-			<Anchor>//api/name/clientForKey:</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/addClient:</TokenIdentifier>
-			<Abstract type="html">Add A Client to the cache given key</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
-			
-			<Declaration>- (void)addClient:(SFSDKOAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">instance to add</Abstract>
+					<Name>host</Name>
+					<Abstract type="html">Login host to be added.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addClient:</Anchor>
+			<Anchor>//api/name/addLoginHost:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/addClient:forKey:</TokenIdentifier>
-			<Abstract type="html">Add A Client to the cache given key</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/showAddLoginHost</TokenIdentifier>
+			<Abstract type="html">Displays a view for adding a new login host.
+If you&apos;ve used a navigation controller to present this view controller,
+an add button is automatically added to the right bar button item.</Abstract>
+			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)addClient:(SFSDKOAuthClient *)client forKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">instance to add</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addClient:forKey:</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/addLoginHost:</TokenIdentifier>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/removeClientForKey:</TokenIdentifier>
-			<Abstract type="html">Remove A Cached Client given key</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
-			
-			<Declaration>- (void)removeClientForKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">to use for looking up client</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeClientForKey:</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/removeClient:</TokenIdentifier>
-			<Abstract type="html">Remove a Cached Client</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
-			
-			<Declaration>- (void)removeClient:(SFSDKOAuthClient *)client</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>client</Name>
-					<Abstract type="html">being removed</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeClient:</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthClientCache/removeAllClients</TokenIdentifier>
-			<Abstract type="html">Remove All Cached Clients</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
-			
-			<Declaration>- (void)removeAllClients</Declaration>
+	</RelatedTokens>
+	
+			<Declaration>- (void)showAddLoginHost</Declaration>
 			
 			
-			<Anchor>//api/name/removeAllClients</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuthClientCache/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Shared Singleton</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
-			
-			
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuthClientCache/keyFromClient:</TokenIdentifier>
-			<Abstract type="html">Get unique key from a client instance</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)keyFromClient:(SFSDKOAuthClient *)client</Declaration>
-			
-			
-			<Anchor>//api/name/keyFromClient:</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuthClientCache/keyFromCredentials:</TokenIdentifier>
-			<Abstract type="html">Get unique key from SFOAuthCredentials</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)keyFromCredentials:(SFOAuthCredentials *)credentials</Declaration>
-			
-			
-			<Anchor>//api/name/keyFromCredentials:</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuthClientCache/keyFromCredentials:type:</TokenIdentifier>
-			<Abstract type="html">Get unique key from SFOAuthCredentials</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)keyFromCredentials:(SFOAuthCredentials *)client type:(SFOAuthClientKeyType)clientType</Declaration>
-			
-			
-			<Anchor>//api/name/keyFromCredentials:type:</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuthClientCache/keyFromIdentifierPrefixWithType:type:</TokenIdentifier>
-			<Abstract type="html">Get a state identifier key encode for type of client specified</Abstract>
-			<DeclaredIn>SFSDKOAuthClientCache.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)keyFromIdentifierPrefixWithType:(NSString *)prefix type:(SFOAuthClientKeyType)clientType</Declaration>
-			
-			
-			<Anchor>//api/name/keyFromIdentifierPrefixWithType:type:</Anchor>
+			<Anchor>//api/name/showAddLoginHost</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		

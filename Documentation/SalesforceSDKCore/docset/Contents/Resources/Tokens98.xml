@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKOAuth2.html">
+	<File path="Classes/SFSDKLoginFlowSelectionViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuth2</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginFlowSelectionViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="98"/>
@@ -13,62 +13,74 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/parseQueryString:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/setSelectionFlowDelegate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query</Declaration>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/parseQueryString:</Anchor>
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/parseQueryString:decodeParams:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/selectionFlowDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query decodeParams:(BOOL)decodeParams</Declaration>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/parseQueryString:decodeParams:</Anchor>
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/errorWithType:description:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginFlowSelectionViewController/selectionFlowDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description</Declaration>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/errorWithType:description:</Anchor>
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/errorWithType:description:underlyingError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/setAppOptions:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *_Nullable)underlyingError</Declaration>
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *appOptions</Declaration>
 			
 			
-			<Anchor>//api/name/errorWithType:description:underlyingError:</Anchor>
+			<Anchor>//api/name/appOptions</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/timestampStringToDate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/appOptions</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
 			
-			<Declaration>+ (NSDate *)timestampStringToDate:(NSString *)timestamp</Declaration>
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *appOptions</Declaration>
 			
 			
-			<Anchor>//api/name/timestampStringToDate:</Anchor>
+			<Anchor>//api/name/appOptions</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginFlowSelectionViewController/appOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *appOptions</Declaration>
+			
+			
+			<Anchor>//api/name/appOptions</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		

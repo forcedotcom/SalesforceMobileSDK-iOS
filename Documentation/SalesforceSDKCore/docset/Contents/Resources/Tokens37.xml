@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthCrypto.html">
+	<File path="Classes/SFOAuthKeychainCredentials.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCrypto</TokenIdentifier>
-			<Abstract type="html">Provides a wrapper for cryptographic services.</Abstract>
-			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthKeychainCredentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
             
 			
 			<NodeRef refid="37"/>
@@ -13,69 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/initWithOperation:key:</TokenIdentifier>
-			<Abstract type="html">Initializes a new SFOAuthCrypto object to perform the specified cryptographic operation.</Abstract>
-			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyMacForService:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithOperation:(SFOAuthCryptoOperation)operation key:(NSData *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>operation</Name>
-					<Abstract type="html">Operation to be performed: SFOAuthCryptoEncrypt or SFOAuthCryptoDecrypt</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Key used for encyption/decryption. nil may be specified to use the default key.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSData *)keyMacForService:(NSString *)service</Declaration>
 			
-			<Anchor>//api/name/initWithOperation:key:</Anchor>
+			
+			<Anchor>//api/name/keyMacForService:</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/encryptData:</TokenIdentifier>
-			<Abstract type="html">Encrypts the supplied data. To complete the encryption process and retrieve the encrypted data, call finalizeCipher.</Abstract>
-			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyVendorIdForService:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>- (void)encryptData:(NSData *)data</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">Unencrypted data to encrypt.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSData *)keyVendorIdForService:(NSString *)service</Declaration>
 			
-			<Anchor>//api/name/encryptData:</Anchor>
+			
+			<Anchor>//api/name/keyVendorIdForService:</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/decryptData:</TokenIdentifier>
-			<Abstract type="html">Returns a decrypted representation of the supplied data if the data can be decrypted using the current key. Returns nil
-if decryption fails. Decryption is performed on the current thread.</Abstract>
-			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyBaseAppIdForService:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)decryptData:(NSData *)data</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">Encrypted data to decrypt.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSData *)keyBaseAppIdForService:(NSString *)service</Declaration>
 			
-			<Anchor>//api/name/decryptData:</Anchor>
+			
+			<Anchor>//api/name/keyBaseAppIdForService:</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/finalizeCipher</TokenIdentifier>
-			<Abstract type="html">Finalizes the the data encryption process and returns the encrypted data.</Abstract>
-			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyStoreKeyForService:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSData *)finalizeCipher</Declaration>
+			<Declaration>- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service</Declaration>
 			
 			
-			<Anchor>//api/name/finalizeCipher</Anchor>
+			<Anchor>//api/name/keyStoreKeyForService:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyWithSeed:service:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service</Declaration>
+			
+			
+			<Anchor>//api/name/keyWithSeed:service:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/refreshTokenWithSFEncryptionKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/refreshTokenWithSFEncryptionKey:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setRefreshToken:withSFEncryptionKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			
+			<Declaration>- (void)setRefreshToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key</Declaration>
+			
+			
+			<Anchor>//api/name/setRefreshToken:withSFEncryptionKey:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/accessTokenWithSFEncryptionKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/accessTokenWithSFEncryptionKey:</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setAccessToken:withSFEncryptionKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			
+			<Declaration>- (void)setAccessToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key</Declaration>
+			
+			
+			<Anchor>//api/name/setAccessToken:withSFEncryptionKey:</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		

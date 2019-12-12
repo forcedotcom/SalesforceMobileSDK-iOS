@@ -1,0 +1,1729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocSetNodes version="1.0">
+    <TOC>
+        <Node type="folder">
+            <Name>MobileSync</Name>
+            <Path>index.html</Path>
+			<Subnodes>
+                
+				
+				<Node type="folder">
+					<Name>Classes</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="1"/>
+						<NodeRef refid="2"/>
+						<NodeRef refid="3"/>
+						<NodeRef refid="4"/>
+						<NodeRef refid="5"/>
+						<NodeRef refid="6"/>
+						<NodeRef refid="7"/>
+						<NodeRef refid="8"/>
+						<NodeRef refid="9"/>
+						<NodeRef refid="10"/>
+						<NodeRef refid="11"/>
+						<NodeRef refid="12"/>
+						<NodeRef refid="13"/>
+						<NodeRef refid="14"/>
+						<NodeRef refid="15"/>
+						<NodeRef refid="16"/>
+						<NodeRef refid="17"/>
+						<NodeRef refid="18"/>
+						<NodeRef refid="19"/>
+						<NodeRef refid="20"/>
+						<NodeRef refid="21"/>
+						<NodeRef refid="22"/>
+						<NodeRef refid="23"/>
+						<NodeRef refid="24"/>
+						<NodeRef refid="25"/>
+						<NodeRef refid="26"/>
+						<NodeRef refid="27"/>
+						<NodeRef refid="28"/>
+						<NodeRef refid="29"/>
+						<NodeRef refid="30"/>
+						<NodeRef refid="31"/>
+						<NodeRef refid="32"/>
+						<NodeRef refid="33"/>
+						<NodeRef refid="34"/>
+						<NodeRef refid="35"/>
+						<NodeRef refid="36"/>
+						<NodeRef refid="37"/>
+						<NodeRef refid="38"/>
+						<NodeRef refid="39"/>
+						<NodeRef refid="40"/>
+						<NodeRef refid="41"/>
+						<NodeRef refid="42"/>
+						<NodeRef refid="43"/>
+						<NodeRef refid="44"/>
+						<NodeRef refid="45"/>
+						<NodeRef refid="46"/>
+						<NodeRef refid="47"/>
+						<NodeRef refid="48"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+                
+				<Node>
+					<Name>Protocols</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="49"/>
+						
+					</Subnodes>
+				</Node>
+				
+                
+				<Node>
+					<Name>Constants</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="50"/>
+						<NodeRef refid="51"/>
+						<NodeRef refid="52"/>
+						<NodeRef refid="53"/>
+						<NodeRef refid="54"/>
+						<NodeRef refid="55"/>
+						<NodeRef refid="56"/>
+						<NodeRef refid="57"/>
+						<NodeRef refid="58"/>
+						<NodeRef refid="59"/>
+						
+					</Subnodes>
+				</Node>
+				
+                
+                <Node>
+                    <Name>Blocks</Name>
+                    <Path>index.html</Path>
+                    <Subnodes>
+                        <NodeRef refid="60"/>
+                        <NodeRef refid="61"/>
+                        <NodeRef refid="62"/>
+                        <NodeRef refid="63"/>
+                        <NodeRef refid="64"/>
+                        <NodeRef refid="65"/>
+                        <NodeRef refid="66"/>
+                        <NodeRef refid="67"/>
+                        <NodeRef refid="68"/>
+                        <NodeRef refid="69"/>
+                        
+                    </Subnodes>
+                </Node>
+                
+			</Subnodes>
+        </Node>
+    </TOC>
+	<Library>
+		
+		<Node id="1" type="file" documentType="reference">
+            <Name>AppDelegate</Name>
+            <Path>Classes/AppDelegate.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/AppDelegate.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/AppDelegate.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/AppDelegate.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="2" type="file" documentType="reference">
+            <Name>MobileSyncSDKManager</Name>
+            <Path>Classes/MobileSyncSDKManager.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/MobileSyncSDKManager.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/MobileSyncSDKManager.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/MobileSyncSDKManager.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/MobileSyncSDKManager.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="3" type="file" documentType="reference">
+            <Name>SFAdvancedSyncUpTask</Name>
+            <Path>Classes/SFAdvancedSyncUpTask.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFAdvancedSyncUpTask.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFAdvancedSyncUpTask.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFAdvancedSyncUpTask.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="4" type="file" documentType="reference">
+            <Name>SFBatchSyncUpTarget</Name>
+            <Path>Classes/SFBatchSyncUpTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFBatchSyncUpTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFBatchSyncUpTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFBatchSyncUpTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFBatchSyncUpTarget.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="5" type="file" documentType="reference">
+            <Name>SFChildrenInfo</Name>
+            <Path>Classes/SFChildrenInfo.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFChildrenInfo.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFChildrenInfo.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFChildrenInfo.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFChildrenInfo.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFChildrenInfo.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="6" type="file" documentType="reference">
+            <Name>SFCleanSyncGhostsTask</Name>
+            <Path>Classes/SFCleanSyncGhostsTask.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFCleanSyncGhostsTask.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFCleanSyncGhostsTask.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFCleanSyncGhostsTask.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="7" type="file" documentType="reference">
+            <Name>SFCompositeRequestHelper</Name>
+            <Path>Classes/SFCompositeRequestHelper.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFCompositeRequestHelper.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFCompositeRequestHelper.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFCompositeRequestHelper.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="8" type="file" documentType="reference">
+            <Name>SFItem</Name>
+            <Path>Classes/SFItem.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFItem.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFItem.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFItem.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFItem.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="9" type="file" documentType="reference">
+            <Name>SFLayout</Name>
+            <Path>Classes/SFLayout.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFLayout.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFLayout.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFLayout.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFLayout.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="10" type="file" documentType="reference">
+            <Name>SFLayoutSection</Name>
+            <Path>Classes/SFLayoutSection.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFLayoutSection.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFLayoutSection.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFLayoutSection.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFLayoutSection.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="11" type="file" documentType="reference">
+            <Name>SFLayoutSyncDownTarget</Name>
+            <Path>Classes/SFLayoutSyncDownTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFLayoutSyncDownTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFLayoutSyncDownTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFLayoutSyncDownTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFLayoutSyncDownTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="12" type="file" documentType="reference">
+            <Name>SFLayoutSyncManager</Name>
+            <Path>Classes/SFLayoutSyncManager.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFLayoutSyncManager.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFLayoutSyncManager.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFLayoutSyncManager.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFLayoutSyncManager.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFLayoutSyncManager.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="13" type="file" documentType="reference">
+            <Name>SFMetadata</Name>
+            <Path>Classes/SFMetadata.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFMetadata.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFMetadata.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFMetadata.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFMetadata.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="14" type="file" documentType="reference">
+            <Name>SFMetadataSyncDownTarget</Name>
+            <Path>Classes/SFMetadataSyncDownTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFMetadataSyncDownTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFMetadataSyncDownTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFMetadataSyncDownTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFMetadataSyncDownTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="15" type="file" documentType="reference">
+            <Name>SFMetadataSyncManager</Name>
+            <Path>Classes/SFMetadataSyncManager.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFMetadataSyncManager.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFMetadataSyncManager.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFMetadataSyncManager.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFMetadataSyncManager.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFMetadataSyncManager.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="16" type="file" documentType="reference">
+            <Name>SFMobileSyncNetworkUtils</Name>
+            <Path>Classes/SFMobileSyncNetworkUtils.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncNetworkUtils.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncNetworkUtils.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncNetworkUtils.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="17" type="file" documentType="reference">
+            <Name>SFMobileSyncObjectUtils</Name>
+            <Path>Classes/SFMobileSyncObjectUtils.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncObjectUtils.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncObjectUtils.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncObjectUtils.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="18" type="file" documentType="reference">
+            <Name>SFMobileSyncPersistableObject</Name>
+            <Path>Classes/SFMobileSyncPersistableObject.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncPersistableObject.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncPersistableObject.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncPersistableObject.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncPersistableObject.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="19" type="file" documentType="reference">
+            <Name>SFMobileSyncSyncManager</Name>
+            <Path>Classes/SFMobileSyncSyncManager.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncSyncManager.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncSyncManager.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncSyncManager.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncSyncManager.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFMobileSyncSyncManager.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="20" type="file" documentType="reference">
+            <Name>SFMruSyncDownTarget</Name>
+            <Path>Classes/SFMruSyncDownTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFMruSyncDownTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFMruSyncDownTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFMruSyncDownTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFMruSyncDownTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="21" type="file" documentType="reference">
+            <Name>SFObject</Name>
+            <Path>Classes/SFObject.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFObject.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFObject.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFObject.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFObject.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="22" type="file" documentType="reference">
+            <Name>SFParentChildrenSyncDownTarget</Name>
+            <Path>Classes/SFParentChildrenSyncDownTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFParentChildrenSyncDownTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFParentChildrenSyncDownTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFParentChildrenSyncDownTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="23" type="file" documentType="reference">
+            <Name>SFParentChildrenSyncHelper</Name>
+            <Path>Classes/SFParentChildrenSyncHelper.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFParentChildrenSyncHelper.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFParentChildrenSyncHelper.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFParentChildrenSyncHelper.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="24" type="file" documentType="reference">
+            <Name>SFParentChildrenSyncUpTarget</Name>
+            <Path>Classes/SFParentChildrenSyncUpTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFParentChildrenSyncUpTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFParentChildrenSyncUpTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFParentChildrenSyncUpTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="25" type="file" documentType="reference">
+            <Name>SFParentInfo</Name>
+            <Path>Classes/SFParentInfo.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFParentInfo.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFParentInfo.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFParentInfo.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFParentInfo.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFParentInfo.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="26" type="file" documentType="reference">
+            <Name>SFRecordModDate</Name>
+            <Path>Classes/SFRecordModDate.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFRecordModDate.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFRecordModDate.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFRecordModDate.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFRecordModDate.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="27" type="file" documentType="reference">
+            <Name>SFRefreshSyncDownTarget</Name>
+            <Path>Classes/SFRefreshSyncDownTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFRefreshSyncDownTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFRefreshSyncDownTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFRefreshSyncDownTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFRefreshSyncDownTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="28" type="file" documentType="reference">
+            <Name>SFRow</Name>
+            <Path>Classes/SFRow.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFRow.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFRow.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFRow.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFRow.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="29" type="file" documentType="reference">
+            <Name>SFSDKMobileSyncLogger</Name>
+            <Path>Classes/SFSDKMobileSyncLogger.html</Path>
+            
+        </Node>
+		<Node id="30" type="file" documentType="reference">
+            <Name>SFSDKSoqlMutator</Name>
+            <Path>Classes/SFSDKSoqlMutator.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKSoqlMutator.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKSoqlMutator.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKSoqlMutator.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKSoqlMutator.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="31" type="file" documentType="reference">
+            <Name>SFSDKSoqlTokenizer</Name>
+            <Path>Classes/SFSDKSoqlTokenizer.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKSoqlTokenizer.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKSoqlTokenizer.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKSoqlTokenizer.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="32" type="file" documentType="reference">
+            <Name>SFSDKSyncsConfig</Name>
+            <Path>Classes/SFSDKSyncsConfig.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKSyncsConfig.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKSyncsConfig.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKSyncsConfig.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="33" type="file" documentType="reference">
+            <Name>SFSoqlSyncDownTarget</Name>
+            <Path>Classes/SFSoqlSyncDownTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSoqlSyncDownTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSoqlSyncDownTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSoqlSyncDownTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSoqlSyncDownTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSoqlSyncDownTarget.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="34" type="file" documentType="reference">
+            <Name>SFSoslSyncDownTarget</Name>
+            <Path>Classes/SFSoslSyncDownTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSoslSyncDownTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSoslSyncDownTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSoslSyncDownTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSoslSyncDownTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="35" type="file" documentType="reference">
+            <Name>SFSyncDownTarget</Name>
+            <Path>Classes/SFSyncDownTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSyncDownTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSyncDownTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncDownTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncDownTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncDownTarget.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="36" type="file" documentType="reference">
+            <Name>SFSyncDownTask</Name>
+            <Path>Classes/SFSyncDownTask.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSyncDownTask.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSyncDownTask.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncDownTask.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="37" type="file" documentType="reference">
+            <Name>SFSyncOptions</Name>
+            <Path>Classes/SFSyncOptions.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSyncOptions.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSyncOptions.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncOptions.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncOptions.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncOptions.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="38" type="file" documentType="reference">
+            <Name>SFSyncState</Name>
+            <Path>Classes/SFSyncState.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSyncState.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSyncState.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncState.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncState.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncState.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="39" type="file" documentType="reference">
+            <Name>SFSyncTarget</Name>
+            <Path>Classes/SFSyncTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSyncTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSyncTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncTarget.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="40" type="file" documentType="reference">
+            <Name>SFSyncTask</Name>
+            <Path>Classes/SFSyncTask.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSyncTask.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSyncTask.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncTask.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncTask.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="41" type="file" documentType="reference">
+            <Name>SFSyncUpTarget</Name>
+            <Path>Classes/SFSyncUpTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSyncUpTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSyncUpTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncUpTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncUpTarget.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncUpTarget.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="42" type="file" documentType="reference">
+            <Name>SFSyncUpTask</Name>
+            <Path>Classes/SFSyncUpTask.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSyncUpTask.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSyncUpTask.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncUpTask.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="43" type="file" documentType="reference">
+            <Name>SFSyncUpdateCallbackQueue</Name>
+            <Path>Classes/SFSyncUpdateCallbackQueue.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSyncUpdateCallbackQueue.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSyncUpdateCallbackQueue.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSyncUpdateCallbackQueue.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="44" type="file" documentType="reference">
+            <Name>SyncManagerTestCase</Name>
+            <Path>Classes/SyncManagerTestCase.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SyncManagerTestCase.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SyncManagerTestCase.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SyncManagerTestCase.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SyncManagerTestCase.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="45" type="file" documentType="reference">
+            <Name>SyncUpTargetTests</Name>
+            <Path>Classes/SyncUpTargetTests.html</Path>
+            
+        </Node>
+		<Node id="46" type="file" documentType="reference">
+            <Name>TestSyncDownTarget</Name>
+            <Path>Classes/TestSyncDownTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/TestSyncDownTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/TestSyncDownTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/TestSyncDownTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/TestSyncDownTarget.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="47" type="file" documentType="reference">
+            <Name>TestSyncUpTarget</Name>
+            <Path>Classes/TestSyncUpTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/TestSyncUpTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/TestSyncUpTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/TestSyncUpTarget.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="48" type="file" documentType="reference">
+            <Name>ViewController</Name>
+            <Path>Classes/ViewController.html</Path>
+            
+        </Node>
+		
+		
+        <Node id="49" type="file" documentType="reference">
+            <Name>SFAdvancedSyncUpTarget</Name>
+            <Path>Protocols/SFAdvancedSyncUpTarget.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/SFAdvancedSyncUpTarget.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/SFAdvancedSyncUpTarget.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Protocols/SFAdvancedSyncUpTarget.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Protocols/SFAdvancedSyncUpTarget.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		
+        <Node id="50" type="file" documentType="reference">
+            <Name>SFParentChildrenRelationshipType</Name>
+            <Path>Constants/SFParentChildrenRelationshipType.html</Path>
+            
+        </Node>
+		<Node id="51" type="file" documentType="reference">
+            <Name>SFSDKFetchMode</Name>
+            <Path>Constants/SFSDKFetchMode.html</Path>
+            
+        </Node>
+		<Node id="52" type="file" documentType="reference">
+            <Name>SFSyncDownTargetQueryType</Name>
+            <Path>Constants/SFSyncDownTargetQueryType.html</Path>
+            
+        </Node>
+		<Node id="53" type="file" documentType="reference">
+            <Name>SFSyncManagerState</Name>
+            <Path>Constants/SFSyncManagerState.html</Path>
+            
+        </Node>
+		<Node id="54" type="file" documentType="reference">
+            <Name>SFSyncStateMergeMode</Name>
+            <Path>Constants/SFSyncStateMergeMode.html</Path>
+            
+        </Node>
+		<Node id="55" type="file" documentType="reference">
+            <Name>SFSyncStateStatus</Name>
+            <Path>Constants/SFSyncStateStatus.html</Path>
+            
+        </Node>
+		<Node id="56" type="file" documentType="reference">
+            <Name>SFSyncStateSyncType</Name>
+            <Path>Constants/SFSyncStateSyncType.html</Path>
+            
+        </Node>
+		<Node id="57" type="file" documentType="reference">
+            <Name>SFSyncUpTargetAction</Name>
+            <Path>Constants/SFSyncUpTargetAction.html</Path>
+            
+        </Node>
+		<Node id="58" type="file" documentType="reference">
+            <Name>SFSyncUpTargetType</Name>
+            <Path>Constants/SFSyncUpTargetType.html</Path>
+            
+        </Node>
+		<Node id="59" type="file" documentType="reference">
+            <Name>TestSyncUpTargetModDateCompare</Name>
+            <Path>Constants/TestSyncUpTargetModDateCompare.html</Path>
+            
+        </Node>
+		
+        <Node id="60" type="file" documentType="reference">
+            <Name>SFLayoutSyncCompletionBlock</Name>
+            <Path>Blocks/SFLayoutSyncCompletionBlock.html</Path>
+            
+        </Node>
+        <Node id="61" type="file" documentType="reference">
+            <Name>SFMetadataSyncCompletionBlock</Name>
+            <Path>Blocks/SFMetadataSyncCompletionBlock.html</Path>
+            
+        </Node>
+        <Node id="62" type="file" documentType="reference">
+            <Name>SFSendCompositeRequestCompleteBlock</Name>
+            <Path>Blocks/SFSendCompositeRequestCompleteBlock.html</Path>
+            
+        </Node>
+        <Node id="63" type="file" documentType="reference">
+            <Name>SFSyncDownTargetFetchCompleteBlock</Name>
+            <Path>Blocks/SFSyncDownTargetFetchCompleteBlock.html</Path>
+            
+        </Node>
+        <Node id="64" type="file" documentType="reference">
+            <Name>SFSyncDownTargetFetchErrorBlock</Name>
+            <Path>Blocks/SFSyncDownTargetFetchErrorBlock.html</Path>
+            
+        </Node>
+        <Node id="65" type="file" documentType="reference">
+            <Name>SFSyncSyncManagerCompletionStatusBlock</Name>
+            <Path>Blocks/SFSyncSyncManagerCompletionStatusBlock.html</Path>
+            
+        </Node>
+        <Node id="66" type="file" documentType="reference">
+            <Name>SFSyncSyncManagerUpdateBlock</Name>
+            <Path>Blocks/SFSyncSyncManagerUpdateBlock.html</Path>
+            
+        </Node>
+        <Node id="67" type="file" documentType="reference">
+            <Name>SFSyncUpRecordNewerThanServerBlock</Name>
+            <Path>Blocks/SFSyncUpRecordNewerThanServerBlock.html</Path>
+            
+        </Node>
+        <Node id="68" type="file" documentType="reference">
+            <Name>SFSyncUpTargetCompleteBlock</Name>
+            <Path>Blocks/SFSyncUpTargetCompleteBlock.html</Path>
+            
+        </Node>
+        <Node id="69" type="file" documentType="reference">
+            <Name>SFSyncUpTargetErrorBlock</Name>
+            <Path>Blocks/SFSyncUpTargetErrorBlock.html</Path>
+            
+        </Node>
+        
+	</Library>
+</DocSetNodes>

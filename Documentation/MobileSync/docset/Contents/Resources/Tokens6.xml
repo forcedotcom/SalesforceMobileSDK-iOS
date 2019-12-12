@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFCleanSyncGhostsTask.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCleanSyncGhostsTask</TokenIdentifier>
+			<Abstract type="html">This task class is responsible for running &quot;clean resync ghosts&quot; tasks.</Abstract>
+			<DeclaredIn>SFCleanSyncGhostsTask.h</DeclaredIn>
+            
+			
+			<NodeRef refid="6"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCleanSyncGhostsTask/init:sync:completionStatusBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFCleanSyncGhostsTask.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)init:(SFMobileSyncSyncManager *)syncManager sync:(SFSyncState *)sync completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock</Declaration>
+			
+			
+			<Anchor>//api/name/init:sync:completionStatusBlock:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

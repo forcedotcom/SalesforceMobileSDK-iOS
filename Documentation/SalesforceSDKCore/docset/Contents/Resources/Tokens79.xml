@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKEventBuilderHelper.html">
+	<File path="Classes/SFSDKCompositeRequestBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKEventBuilderHelper</TokenIdentifier>
-			<Abstract type="html">// Event startTime and endTime can be specified by passing values for attributes STARTTIME and ENDTIME</Abstract>
-			<DeclaredIn>SFSDKEventBuilderHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeRequestBuilder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="79"/>
@@ -13,28 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKEventBuilderHelper/createAndStoreEvent:userAccount:className:attributes:</TokenIdentifier>
-			<Abstract type="html">Creates and stores an analytics event with the supplied parameters.</Abstract>
-			<DeclaredIn>SFSDKEventBuilderHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/setAllOrNone:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>+ (void)createAndStoreEvent:(NSString *)name userAccount:(nullable SFUserAccount *)userAccount className:(NSString *)className attributes:(nullable NSDictionary *)attributes</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">Event name.</Abstract>
-				</Parameter><Parameter>
-					<Name>userAccount</Name>
-					<Abstract type="html">User account.</Abstract>
-				</Parameter><Parameter>
-					<Name>className</Name>
-					<Abstract type="html">Class name or context where the event was generated.</Abstract>
-				</Parameter><Parameter>
-					<Name>attributes</Name>
-					<Abstract type="html">Addiitonal attributes.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (SFSDKCompositeRequestBuilder *)setAllOrNone:(BOOL)allOrNone</Declaration>
 			
-			<Anchor>//api/name/createAndStoreEvent:userAccount:className:attributes:</Anchor>
+			
+			<Anchor>//api/name/setAllOrNone:</Anchor>
+            <NodeRef refid="79"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/addRequest:referenceId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKCompositeRequestBuilder *)addRequest:(SFRestRequest *)request referenceId:(NSString *)referenceId</Declaration>
+			
+			
+			<Anchor>//api/name/addRequest:referenceId:</Anchor>
+            <NodeRef refid="79"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/addRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKCompositeRequestBuilder *)addRequest:(SFSDKCompositeSubRequest *)subRequest</Declaration>
+			
+			
+			<Anchor>//api/name/addRequest:</Anchor>
+            <NodeRef refid="79"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/buildCompositeRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKCompositeRequest *)buildCompositeRequest:(NSString *)apiVersion</Declaration>
+			
+			
+			<Anchor>//api/name/buildCompositeRequest:</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		

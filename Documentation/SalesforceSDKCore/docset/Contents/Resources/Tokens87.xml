@@ -1,64 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKInstrumentationHelper.html">
+	<File path="Classes/SFSDKEncryptedURLCache.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInstrumentationHelper</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKEncryptedURLCache</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKEncryptedURLCache.h</DeclaredIn>
             
 			
 			<NodeRef refid="87"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationHelper/setIsEnabled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/isEnabled</Anchor>
-            <NodeRef refid="87"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationHelper/isEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/isEnabled</Anchor>
-            <NodeRef refid="87"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationHelper/isEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/isEnabled</Anchor>
-            <NodeRef refid="87"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKInstrumentationHelper/swizzleMethod:with:forClass:isInstanceMethod:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
-			
-			<Declaration>+ (void)swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector forClass:(Class)clazz isInstanceMethod:(BOOL)isInstanceMethod</Declaration>
-			
-			
-			<Anchor>//api/name/swizzleMethod:with:forClass:isInstanceMethod:</Anchor>
-            <NodeRef refid="87"/>
-		</Token>
 		
         
         

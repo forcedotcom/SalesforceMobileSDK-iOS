@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthKeychainCredentials.html">
+	<File path="Classes/SFOAuthSessionRefresher.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthKeychainCredentials</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthSessionRefresher</TokenIdentifier>
+			<Abstract type="html">This class refreshes stale OAuth sessions, if possible.</Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
             
 			
 			<NodeRef refid="39"/>
@@ -13,170 +13,147 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyMacForService:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/initWithCredentials:</TokenIdentifier>
+			<Abstract type="html">Initializes the object with the given credentials.</Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyMacForService:(NSString *)service</Declaration>
+			<Declaration>- (instancetype)initWithCredentials:(nullable SFOAuthCredentials *)credentials</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">The OAuth credentials used to refresh the session.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/keyMacForService:</Anchor>
+			<Anchor>//api/name/initWithCredentials:</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyVendorIdForService:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/refreshSessionWithCompletion:error:</TokenIdentifier>
+			<Abstract type="html">Refreshes the expired session, with the given completion and error handler blocks.</Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyVendorIdForService:(NSString *)service</Declaration>
+			<Declaration>- (void)refreshSessionWithCompletion:(void ( ^ ) ( SFOAuthCredentials *))completionBlock error:(void ( ^ ) ( NSError *))errorBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Called once the session has been refreshed.</Abstract>
+				</Parameter><Parameter>
+					<Name>errorBlock</Name>
+					<Abstract type="html">Called if there was an error refreshing the session.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/keyVendorIdForService:</Anchor>
+			<Anchor>//api/name/refreshSessionWithCompletion:error:</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyBaseAppIdForService:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setCredentials:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyBaseAppIdForService:(NSString *)service</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/keyBaseAppIdForService:</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyStoreKeyForService:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/credentials</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/keyStoreKeyForService:</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyWithSeed:service:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/credentials</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/keyWithSeed:service:</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/refreshTokenWithKey:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setCompletionBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)refreshTokenWithKey:(NSData *)key</Declaration>
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( SFOAuthCredentials *) completionBlock</Declaration>
 			
 			
-			<Anchor>//api/name/refreshTokenWithKey:</Anchor>
+			<Anchor>//api/name/completionBlock</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/refreshTokenWithSFEncryptionKey:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/completionBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( SFOAuthCredentials *) completionBlock</Declaration>
 			
 			
-			<Anchor>//api/name/refreshTokenWithSFEncryptionKey:</Anchor>
+			<Anchor>//api/name/completionBlock</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setRefreshToken:withSFEncryptionKey:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/completionBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)setRefreshToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key</Declaration>
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( SFOAuthCredentials *) completionBlock</Declaration>
 			
 			
-			<Anchor>//api/name/setRefreshToken:withSFEncryptionKey:</Anchor>
+			<Anchor>//api/name/completionBlock</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/accessTokenWithKey:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setErrorBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)accessTokenWithKey:(NSData *)key</Declaration>
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( NSError *) errorBlock</Declaration>
 			
 			
-			<Anchor>//api/name/accessTokenWithKey:</Anchor>
+			<Anchor>//api/name/errorBlock</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/accessTokenWithSFEncryptionKey:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/errorBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( NSError *) errorBlock</Declaration>
 			
 			
-			<Anchor>//api/name/accessTokenWithSFEncryptionKey:</Anchor>
+			<Anchor>//api/name/errorBlock</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setAccessToken:withSFEncryptionKey:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/errorBlock</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)setAccessToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setAccessToken:withSFEncryptionKey:</Anchor>
-            <NodeRef refid="39"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/updateTokenEncryption</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (void)updateTokenEncryption</Declaration>
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( NSError *) errorBlock</Declaration>
 			
 			
-			<Anchor>//api/name/updateTokenEncryption</Anchor>
-            <NodeRef refid="39"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setAccessToken:withKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (void)setAccessToken:(NSString *)token withKey:(NSData *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setAccessToken:withKey:</Anchor>
-            <NodeRef refid="39"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setRefreshToken:withKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
-			
-			<Declaration>- (void)setRefreshToken:(NSString *)token withKey:(NSData *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setRefreshToken:withKey:</Anchor>
+			<Anchor>//api/name/errorBlock</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		

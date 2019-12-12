@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFMobileSyncObjectUtils.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFMobileSyncObjectUtils</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncObjectUtils.h</DeclaredIn>
+            
+			
+			<NodeRef refid="17"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFMobileSyncObjectUtils/formatValue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)formatValue:(nullable id)value</Declaration>
+			
+			
+			<Anchor>//api/name/formatValue:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFMobileSyncObjectUtils/formatLocalDateToGMTString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate</Declaration>
+			
+			
+			<Anchor>//api/name/formatLocalDateToGMTString:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFMobileSyncObjectUtils/getMillisFromIsoString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (long long)getMillisFromIsoString:(NSString *)dateStr</Declaration>
+			
+			
+			<Anchor>//api/name/getMillisFromIsoString:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFMobileSyncObjectUtils/getIsoStringFromMillis:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)getIsoStringFromMillis:(long long)millis</Declaration>
+			
+			
+			<Anchor>//api/name/getIsoStringFromMillis:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFMobileSyncObjectUtils/getDateFromIsoDateString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSDate *)getDateFromIsoDateString:(nullable NSString *)isoDateString</Declaration>
+			
+			
+			<Anchor>//api/name/getDateFromIsoDateString:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFMobileSyncObjectUtils/getIsoStringFromDate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)getIsoStringFromDate:(NSDate *)date</Declaration>
+			
+			
+			<Anchor>//api/name/getIsoStringFromDate:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFMobileSyncObjectUtils/isEmpty:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFMobileSyncObjectUtils.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isEmpty:(NSString *)value</Declaration>
+			
+			
+			<Anchor>//api/name/isEmpty:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFDecryptStream.html">
+	<File path="Classes/SFDefaultUserAccountPersister.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFDecryptStream</TokenIdentifier>
-			<Abstract type="html">SFDecryptStream implements an input stream that decrypts data immediately after it&apos;s read.
-It uses SFCryptChunks to perform the decryption.</Abstract>
-			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserAccountPersister</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFDefaultUserAccountPersister.h</DeclaredIn>
             
 			
 			<NodeRef refid="12"/>
@@ -14,42 +13,65 @@ It uses SFCryptChunks to perform the decryption.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDecryptStream/setupWithDecryptionKey:</TokenIdentifier>
-			<Abstract type="html">Setup for decryption. Always call either this method or setupWithKey:andInitializationVector:
-before using this stream.</Abstract>
-			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserAccountPersister/loadUserAccountFromFile:account:error:</TokenIdentifier>
+			<Abstract type="html">Loads a user account from a specified file</Abstract>
+			<DeclaredIn>SFDefaultUserAccountPersister.h</DeclaredIn>
 			
-			<Declaration>- (void)setupWithDecryptionKey:(SFEncryptionKey *)decKey</Declaration>
+			<Declaration>- (BOOL)loadUserAccountFromFile:(NSString *)filePath account:(SFUserAccount *_Nullable *_Nullable)account error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>decKey</Name>
-					<Abstract type="html">Decryption key.</Abstract>
+					<Name>filePath</Name>
+					<Abstract type="html">The file to load the user account from</Abstract>
+				</Parameter><Parameter>
+					<Name>account</Name>
+					<Abstract type="html">On output, contains the user account or nil if an error occurred</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">On output, contains the error if the method returned NO</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/setupWithDecryptionKey:</Anchor>
+			<ReturnValue><Abstract type="html">YES if the method succeeded, NO otherwise</Abstract></ReturnValue>
+			<Anchor>//api/name/loadUserAccountFromFile:account:error:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDecryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
-			<Abstract type="html">Setup for decryption. Always call either this method or setupWithDecryptionKey:
-before using this stream. Internally, this method initializes the decryption key using key and iv and then calls
-setupWithDecryptionKey:.</Abstract>
-			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserAccountPersister/saveUserAccount:toFile:error:</TokenIdentifier>
+			<Abstract type="html">Updates/Saves a user account to a specified filePath</Abstract>
+			<DeclaredIn>SFDefaultUserAccountPersister.h</DeclaredIn>
 			
-			<Declaration>- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv</Declaration>
+			<Declaration>- (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath error:(NSError **)error</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Cipher key.</Abstract>
+					<Name>userAccount</Name>
+					<Abstract type="html">On output, contains the user account or nil if an error occurred</Abstract>
 				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">Initialization vector. Its size must match SFCryptChunksCipherBlockSize.</Abstract>
+					<Name>filePath</Name>
+					<Abstract type="html">The file to save the user account to</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">On output, contains the error if the method returned NO</Abstract>
 				</Parameter>
 			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the method succeeded, NO otherwise</Abstract></ReturnValue>
+			<Anchor>//api/name/saveUserAccount:toFile:error:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFDefaultUserAccountPersister/userAccountPlistFileForUser:</TokenIdentifier>
+			<Abstract type="html">Returns the path of the user account plist file for the specified user</Abstract>
+			<DeclaredIn>SFDefaultUserAccountPersister.h</DeclaredIn>
 			
-			<Anchor>//api/name/setupWithKey:andInitializationVector:</Anchor>
+			<Declaration>+ (NSString *)userAccountPlistFileForUser:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the path to the user account plist of the specified user</Abstract></ReturnValue>
+			<Anchor>//api/name/userAccountPlistFileForUser:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		

@@ -1,65 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SalesforceSDKManagerDelegate.html">
+	<File path="Constants/SFAccountManagerServiceType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAccountManagerServiceType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="202"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillResignActive</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationWillResignActiveNotification is received</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)sdkManagerWillResignActive</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerWillResignActive</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeNone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAccountManagerServiceTypeNone</Declaration>
+            
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            
             <NodeRef refid="202"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidBecomeActive</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationDidBecomeActiveNotification is received.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)sdkManagerDidBecomeActive</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerDidBecomeActive</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeOAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAccountManagerServiceTypeOAuth</Declaration>
+            
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            
             <NodeRef refid="202"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillEnterForeground</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationWillEnterForegroundNotification is received.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)sdkManagerWillEnterForeground</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerWillEnterForeground</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeIdentity</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAccountManagerServiceTypeIdentity</Declaration>
+            
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            
             <NodeRef refid="202"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidEnterBackground</TokenIdentifier>
-			<Abstract type="html">Called after UIApplicationDidEnterBackgroundNotification is received</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)sdkManagerDidEnterBackground</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerDidEnterBackground</Anchor>
-            <NodeRef refid="202"/>
-		</Token>
-		
+        </Token>
         
         
 	</File>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSDKSoqlTokenizer.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoqlTokenizer</TokenIdentifier>
+			<Abstract type="html">Simple SOQL tokenizer
+Tokens returned are either:
+- SOQL keyworkds (select, from, where, having, group by, order by, limit, offset)
+- top level parenthesized expression
+- top level single quoted expression
+- strings without white spaces
+- white spaces</Abstract>
+			<DeclaredIn>SFSDKSoqlTokenizer.h</DeclaredIn>
+            
+			
+			<NodeRef refid="31"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlTokenizer/init:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSoqlTokenizer.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)init:(NSString *)soql</Declaration>
+			
+			
+			<Anchor>//api/name/init:</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlTokenizer/tokenize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSoqlTokenizer.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;NSString*&gt; *)tokenize</Declaration>
+			
+			
+			<Anchor>//api/name/tokenize</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

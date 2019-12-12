@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKLaunchAction.html">
+	<File path="Constants/SFSDKWindowType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKLaunchAction</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="222"/>
@@ -14,51 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionNone</Declaration>
+            <Declaration>SFSDKWindowTypeMain</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="222"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthenticated</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthenticated</Declaration>
+            <Declaration>SFSDKWindowTypeAuth</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="222"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAlreadyAuthenticated</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypePasscode</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAlreadyAuthenticated</Declaration>
+            <Declaration>SFSDKWindowTypePasscode</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="222"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthBypassed</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthBypassed</Declaration>
+            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="222"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionPasscodeVerified</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionPasscodeVerified</Declaration>
+            <Declaration>SFSDKWindowTypeOther</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="222"/>
         </Token>
