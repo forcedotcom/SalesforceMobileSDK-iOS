@@ -30,13 +30,6 @@
 #import <Foundation/Foundation.h>
 #import "SalesforceSDKConstants.h"
 
-SFSDK_DEPRECATED(7.3, 8.0, "Will be removed")
-NS_SWIFT_NAME(NetworkManaging)
-@protocol SFNetworkSessionManaging
-- (nonnull NSURLSession *)ephemeralSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sharedInstanceWithIdentifier:sessionConfiguration instead");
-- (nonnull NSURLSession *)backgroundSession:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use sharedInstanceWithIdentifier:sessionConfiguration instead");
-@end
-
 extern NSString * __nonnull const kSFNetworkEphemeralInstanceIdentifier NS_SWIFT_NAME(NetworkEphemeralInstanceIdentifier);
 extern NSString * __nonnull const kSFNetworkBackgroundInstanceIdentifier NS_SWIFT_NAME(NetworkBackgroundInstanceIdentifier);
 
@@ -85,20 +78,6 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
 + (nonnull instancetype)sharedInstanceWithIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfiguration;
 
 /**
- * Initializes this class with an ephemeral session configuration.
- *
- * @return Instance of this class.
- */
-- (nonnull instancetype)initWithEphemeralSession SFSDK_DEPRECATED(7.3, 8.0, "Use sharedEphemeralInstance instead");
-
-/**
- * Initializes this class with a background session configuration.
- *
- * @return Instance of this class.
- */
-- (nonnull instancetype)initWithBackgroundSession SFSDK_DEPRECATED(7.3, 8.0, "Use sharedBackgroundInstance instead");
-
-/**
  * Sends a REST request and calls the appropriate completion block.
  *
  * @param urlRequest NSURLRequest instance.
@@ -111,23 +90,9 @@ typedef void (^SFDataResponseBlock) (NSData * _Nullable data, NSURLResponse * _N
  * Sets a session configuration to be used for network requests in Mobile SDK.
  *
  * @param sessionConfig Session configuration to be used.
- */
-+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig SFSDK_DEPRECATED(7.3, 8.0, "Use setSessionConfiguration:identifier instead");
-
-/**
- * Sets a session configuration to be used for network requests in Mobile SDK.
- *
- * @param sessionConfig Session configuration to be used.
  * @param identifier Identifier for the instance to use this config.
  */
 + (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig identifier:(nonnull NSString *)identifier;
-
-/**
- * Delegates the creation of NSURLSession to an external object.
- *
- * @param manager Object that implements the SFNetworkSessionManaging protocol.
- */
-+ (void)setSessionManager:(nonnull id<SFNetworkSessionManaging>)manager SFSDK_DEPRECATED(7.3, 8.0, "Will be removed");
 
 /**
  * Removes shared instance for the default ephemeral identifier.

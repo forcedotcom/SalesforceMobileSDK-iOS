@@ -33,6 +33,8 @@
 #import "SFNetwork.h"
 #import "SFOAuthSessionRefresher.h"
 #import "NSString+SFAdditions.h"
+#import "SFSDKCompositeRequest.h"
+#import "SFSDKBatchRequest.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v46.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
@@ -513,17 +515,9 @@ static dispatch_once_t pred;
     return request;
 }
 
-- (SFRestRequest *)requestForResources {
-    return [self requestForResources:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForResources:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@", [self computeAPIVersion:apiVersion]];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
-}
-
-- (SFRestRequest *)requestForDescribeGlobal {
-    return [self requestForDescribeGlobal:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForDescribeGlobal:(NSString *)apiVersion {
@@ -531,26 +525,14 @@ static dispatch_once_t pred;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
-- (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType {
-    return [self requestForMetadataWithObjectType:objectType apiVersion:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForMetadataWithObjectType:(NSString *)objectType apiVersion:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@", [self computeAPIVersion:apiVersion], objectType];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
-- (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType {
-    return [self requestForDescribeWithObjectType:objectType apiVersion:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType apiVersion:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/describe", [self computeAPIVersion:apiVersion], objectType];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
-}
-
-- (SFRestRequest *)requestForLayoutWithObjectType:(NSString *)objectType layoutType:(NSString *)layoutType {
-    return [self requestForLayoutWithObjectType:objectType layoutType:layoutType apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForLayoutWithObjectType:(NSString *)objectType layoutType:(NSString *)layoutType apiVersion:(NSString *)apiVersion {
@@ -559,12 +541,6 @@ static dispatch_once_t pred;
                                  : nil);
     NSString *path = [NSString stringWithFormat:@"/%@/ui-api/layout/%@", [self computeAPIVersion:apiVersion], objectType];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
-}
-
-- (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
-                                           objectId:(NSString *)objectId
-                                          fieldList:(NSString *)fieldList {
-    return [self requestForRetrieveWithObjectType:objectType objectId:objectId fieldList:fieldList apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
@@ -579,11 +555,6 @@ static dispatch_once_t pred;
 }
 
 - (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType
-                                           fields:(NSDictionary *)fields {
-    return [self requestForCreateWithObjectType:objectType fields:fields apiVersion:self.apiVersion];
-}
-
-- (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType
                                            fields:(NSDictionary *)fields
                                        apiVersion:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@", [self computeAPIVersion:apiVersion], objectType];
@@ -593,22 +564,9 @@ static dispatch_once_t pred;
 
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
                                          objectId:(NSString *)objectId
-                                           fields:(NSDictionary *)fields {
-    return [self requestForUpdateWithObjectType:objectType objectId:objectId fields:fields apiVersion:self.apiVersion];
-}
-
-- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
-                                         objectId:(NSString *)objectId
                                            fields:(NSDictionary *)fields
                                        apiVersion:(NSString *)apiVersion {
     return [self requestForUpdateWithObjectType:objectType objectId:objectId fields:fields ifUnmodifiedSinceDate:nil apiVersion:[self computeAPIVersion:apiVersion]];
-}
-
-- (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
-                                         objectId:(NSString *)objectId
-                                           fields:(NSDictionary *)fields
-                            ifUnmodifiedSinceDate:(NSDate *) ifUnmodifiedSinceDate {
-    return [self requestForUpdateWithObjectType:objectType objectId:objectId fields:fields ifUnmodifiedSinceDate:nil apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType
@@ -628,13 +586,6 @@ static dispatch_once_t pred;
 - (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
                                   externalIdField:(NSString *)externalIdField
                                        externalId:(NSString *)externalId
-                                           fields:(NSDictionary *)fields {
-    return [self requestForUpsertWithObjectType:objectType externalIdField:externalIdField externalId:externalId fields:fields apiVersion:self.apiVersion];
-}
-
-- (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
-                                  externalIdField:(NSString *)externalIdField
-                                       externalId:(NSString *)externalId
                                            fields:(NSDictionary *)fields
                                        apiVersion:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@/%@",
@@ -648,19 +599,10 @@ static dispatch_once_t pred;
 }
 
 - (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType
-                                         objectId:(NSString *)objectId {
-    return [self requestForDeleteWithObjectType:objectType objectId:objectId apiVersion:self.apiVersion];
-}
-
-- (SFRestRequest *)requestForDeleteWithObjectType:(NSString *)objectType
                                          objectId:(NSString *)objectId
                                        apiVersion:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/sobjects/%@/%@", [self computeAPIVersion:apiVersion], objectType, objectId];
     return [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:nil];
-}
-
-- (SFRestRequest *)requestForQuery:(NSString *)soql {
-    return [self requestForQuery:soql apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForQuery:(NSString *)soql apiVersion:(NSString *)apiVersion {
@@ -672,10 +614,6 @@ static dispatch_once_t pred;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
-- (SFRestRequest *)requestForQueryAll:(NSString *)soql {
-    return [self requestForQueryAll:soql apiVersion:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForQueryAll:(NSString *)soql apiVersion:(NSString *)apiVersion {
     NSDictionary *queryParams = nil;
     if (soql) {
@@ -683,10 +621,6 @@ static dispatch_once_t pred;
     }
     NSString *path = [NSString stringWithFormat:@"/%@/queryAll", [self computeAPIVersion:apiVersion]];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
-}
-
-- (SFRestRequest *)requestForSearch:(NSString *)sosl {
-    return [self requestForSearch:sosl apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForSearch:(NSString *)sosl apiVersion:(NSString *)apiVersion {
@@ -698,17 +632,9 @@ static dispatch_once_t pred;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
-- (SFRestRequest *)requestForSearchScopeAndOrder {
-    return [self requestForSearchScopeAndOrder:self.apiVersion];
-}
-
 - (SFRestRequest *)requestForSearchScopeAndOrder:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/search/scopeOrder", [self computeAPIVersion:apiVersion]];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
-}
-
-- (SFRestRequest *)requestForSearchResultLayout:(NSString*)objectList {
-    return [self requestForSearchResultLayout:objectList apiVersion:self.apiVersion];
 }
 
 - (SFRestRequest *)requestForSearchResultLayout:(NSString *)objectList apiVersion:(NSString *)apiVersion {
@@ -717,71 +643,22 @@ static dispatch_once_t pred;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
-- (SFRestRequest *)batchRequest:(NSArray<SFRestRequest *> *) requests haltOnError:(BOOL) haltOnError {
-    return [self batchRequest:requests haltOnError:haltOnError apiVersion:self.apiVersion];
-}
-
 - (SFRestRequest *)batchRequest:(NSArray<SFRestRequest *> *)requests haltOnError:(BOOL)haltOnError apiVersion:(NSString *)apiVersion {
-    NSMutableArray *requestsArrayJson = [NSMutableArray new];
-    for (SFRestRequest *request in requests) {
-        NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
-        requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
-        
-        // queryParams belong in url
-        if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
-            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@", request.path, [self toQueryString:request.queryParams]];
-        }
-        
-        // queryParams belongs in body
-        else {
-            requestJson[@"url"] = request.path;
-            requestJson[@"richInput"] = request.requestBodyAsDictionary;
-        }
-        [requestsArrayJson addObject:requestJson];
+    SFSDKBatchRequestBuilder *builder = [[SFSDKBatchRequestBuilder alloc] init];
+    for (int i = 0; i < requests.count; i++) {
+        [builder addRequest:requests[i]];
     }
-    NSMutableDictionary<NSString *, id> *batchRequestJson = [NSMutableDictionary new];
-    batchRequestJson[@"batchRequests"] = requestsArrayJson;
-    batchRequestJson[@"haltOnError"] = [NSNumber numberWithBool:haltOnError];
-    NSString *path = [NSString stringWithFormat:@"/%@/composite/batch", [self computeAPIVersion:apiVersion]];
-    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    return [self addBodyForPostRequest:batchRequestJson request:request];
-}
-
-- (SFRestRequest *)compositeRequest:(NSArray<SFRestRequest *> *)requests refIds:(NSArray<NSString *> *)refIds allOrNone:(BOOL)allOrNone {
-    return [self compositeRequest:requests refIds:refIds allOrNone:allOrNone apiVersion:self.apiVersion];
+    [builder setHaltOnError:haltOnError];
+    return [builder buildBatchRequest:[self computeAPIVersion:apiVersion]];
 }
 
 - (SFRestRequest *)compositeRequest:(NSArray<SFRestRequest*>*)requests refIds:(NSArray<NSString*>*)refIds allOrNone:(BOOL)allOrNone apiVersion:(NSString *)apiVersion {
-    NSMutableArray *requestsArrayJson = [NSMutableArray new];
+    SFSDKCompositeRequestBuilder *builder = [[SFSDKCompositeRequestBuilder alloc] init];
     for (int i = 0; i < requests.count; i++) {
-        SFRestRequest *request = requests[i];
-        NSString *refId = refIds[i];
-        NSMutableDictionary<NSString *, id> *requestJson = [NSMutableDictionary new];
-        requestJson[@"referenceId"] = refId;
-        requestJson[@"method"] = [SFRestRequest httpMethodFromSFRestMethod:request.method];
-        
-        // queryParams belong in url
-        if (request.method == SFRestMethodGET || request.method == SFRestMethodDELETE) {
-            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@%@", request.endpoint, request.path, [self toQueryString:request.queryParams]];
-        }
-        
-        // queryParams belongs in body
-        else {
-            requestJson[@"url"] = [NSString stringWithFormat:@"%@%@", request.endpoint, request.path];
-            requestJson[@"body"] = request.requestBodyAsDictionary;
-        }
-        [requestsArrayJson addObject:requestJson];
+        [builder addRequest:requests[i] referenceId:refIds[i]];
     }
-    NSMutableDictionary<NSString *, id> *compositeRequestJson = [NSMutableDictionary new];
-    compositeRequestJson[@"compositeRequest"] = requestsArrayJson;
-    compositeRequestJson[@"allOrNone"] = [NSNumber numberWithBool:allOrNone];
-    NSString *path = [NSString stringWithFormat:@"/%@/composite", [self computeAPIVersion:apiVersion]];
-    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
-    return [self addBodyForPostRequest:compositeRequestJson request:request];
-}
-
-- (SFRestRequest *)requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree *> *)objectTrees {
-    return [self requestForSObjectTree:objectType objectTrees:objectTrees apiVersion:self.apiVersion];
+    [builder setAllOrNone:allOrNone];
+    return [builder buildCompositeRequest:[self computeAPIVersion:apiVersion]];
 }
 
 - (SFRestRequest *)requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree *> *)objectTrees apiVersion:(NSString *)apiVersion {

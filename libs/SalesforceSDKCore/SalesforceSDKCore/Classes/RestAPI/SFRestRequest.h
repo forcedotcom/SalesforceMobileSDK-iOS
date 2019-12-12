@@ -260,16 +260,6 @@ NS_SWIFT_NAME(RestRequest)
 - (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType params:(nullable NSDictionary *)params;
 
 /**
- * Add file to upload.
- * @param fileData Value of this POST parameter
- * @param paramName Name of the POST parameter
- * @param description Description of the file
- * @param fileName Name of the file
- * @param mimeType MIME type of the file
- */
-- (void)addPostFileData:(NSData *)fileData paramName:(NSString*)paramName description:(nullable NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType SFSDK_DEPRECATED(7.2, 8.0, "Use addPostFileData:paramName:fileName:mimeType:params instead");
-
-/**
  * Sets a custom request body based on an NSString representation.
  * @param bodyString The NSString object representing the request body.
  * @param contentType The content type associated with this request.

@@ -24,10 +24,11 @@
 
 #import <Foundation/Foundation.h>
 #import "SFIdentityCoordinator.h"
-
+#import "SFSDKAuthSession.h"
+#import "SFOAuthInfo.h"
 @class SFIdentityData;
 @class SFOAuthSessionRefresher;
-
+NS_ASSUME_NONNULL_BEGIN
 /**
  * Internal interface for the SFIdentityCoordinator.
  */
@@ -41,17 +42,21 @@
 /**
  * The NSURLSession associated with the ID request.
  */
-@property (nonatomic, strong) NSURLSession *session;
+@property (nonatomic, strong, nullable) NSURLSession *session;
 
 /**
  * The OAuth sesssion refresher to use if the identity request fails with expired credentials.
  */
-@property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
+@property (nonatomic, strong, nullable) SFOAuthSessionRefresher *oauthSessionRefresher;
 
 /**
  * Dictionary mapping error codes to their respective types.
  */
 @property (strong, nonatomic, readonly) NSDictionary *typeToCodeDict;
+
+@property (nonatomic, weak, nullable) SFSDKAuthSession *authSession;
+
+- (id)initWithAuthSession:(SFSDKAuthSession *)authSession;
 
 /**
  * Triggers the success notifictation to the delegate.
@@ -85,3 +90,5 @@
 - (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
 
 @end
+
+NS_ASSUME_NONNULL_END

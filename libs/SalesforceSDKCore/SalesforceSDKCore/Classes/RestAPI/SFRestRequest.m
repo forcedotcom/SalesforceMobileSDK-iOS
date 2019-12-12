@@ -289,19 +289,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     [self setHeaderValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary] forHeaderName:@"Content-Type"];
 }
 
-- (void)addPostFileData:(NSData *)fileData paramName:(NSString*)paramName description:(NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
-
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (fileName) {
-        params[@"title"] = fileName;
-    }
-    if (description) {
-        params[@"desc"] = description;
-    }
-
-    [self addPostFileData:fileData paramName:paramName fileName:fileName mimeType:mimeType params:params];
-}
-
 - (NSData *)multiPartRequestBodyForKey:(NSString *)key mimeType:(NSString*)mimeType fileName:(NSString*)fileName file:(NSData *)fileData {
     NSMutableData *body = [NSMutableData data];
     NSString *newline = @"\r\n";
@@ -362,7 +349,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 + (NSString *)toQueryString:(NSDictionary *)components {
     NSMutableString* queryString = [NSMutableString new];
-    if (components) {
+    if (components.count > 0) {
         NSMutableArray *parts = [NSMutableArray array];
         [queryString appendString:@"?"];
         for (NSString *paramName in [components allKeys]) {

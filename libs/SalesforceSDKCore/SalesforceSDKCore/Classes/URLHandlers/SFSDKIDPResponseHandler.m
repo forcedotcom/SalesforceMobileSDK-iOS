@@ -29,9 +29,7 @@
 
 #import "SFSDKIDPConstants.h"
 #import "SFSDKIDPResponseHandler.h"
-#import "SFSDKOAuthClient.h"
 #import "SFSDKAuthPreferences.h"
-#import "SFSDKOAuthClientConfig.h"
 #import "NSURL+SFAdditions.h"
 #import "SFUserAccountManager+URLHandlers.h"
 #import "SFSDKAuthPreferences.h"

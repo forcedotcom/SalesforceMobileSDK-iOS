@@ -39,10 +39,10 @@
 
     self = [super init];
     if (self) {
-        _navBarColor = [UIColor salesforceBlueColor];
-        _navBarTitleColor = [UIColor whiteColor];
-        _navBarTintColor = [UIColor whiteColor];
-        _navBarFont = nil;
+        self.navBarColor = [UIColor salesforceBlueColor];
+        self.navBarTitleColor = [UIColor whiteColor];
+        self.navBarTintColor = [UIColor whiteColor];
+        self.navBarFont = nil;
         _showNavbar = YES;
         _showSettingsIcon = YES;
     }

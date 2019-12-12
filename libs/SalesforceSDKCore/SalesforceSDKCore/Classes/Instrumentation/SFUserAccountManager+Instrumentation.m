@@ -56,36 +56,33 @@
 
 + (void)enableInstrumentation{
     static dispatch_once_t once;
-    if (@available(iOS 12.0, *)) {
-         dispatch_once(&once, ^{
-            [SFSDKCoreLogger d:[self class] format:@"Swizzled :: SFUserAccountManager"];
-            
-            SEL originalSelector = @selector(loginWithCompletion:failure:);
-            SEL swizzledSelector = @selector(instr_loginWithCompletion:failure:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
-            
-            originalSelector = @selector(refreshCredentials:completion:failure:);
-            swizzledSelector = @selector(instr_refreshCredentials:completion:failure:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
-            
-            originalSelector = @selector(loginWithJwtToken:completion:failure:);
-            swizzledSelector = @selector(instr_loginWithJwtToken:completion:failure:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
-            
-            originalSelector = @selector(logout);
-            swizzledSelector = @selector(instr_logout);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
-            
-            originalSelector = @selector(logoutAllUsers);
-            swizzledSelector = @selector(instr_logoutAllUsers);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
-            
-            originalSelector = @selector(logoutUser:);
-            swizzledSelector = @selector(instr_logoutUser:);
-            [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
-         });
-    }
-
+     dispatch_once(&once, ^{
+        [SFSDKCoreLogger d:[self class] format:@"Swizzled :: SFUserAccountManager"];
+        
+        SEL originalSelector = @selector(loginWithCompletion:failure:);
+        SEL swizzledSelector = @selector(instr_loginWithCompletion:failure:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
+        
+        originalSelector = @selector(refreshCredentials:completion:failure:);
+        swizzledSelector = @selector(instr_refreshCredentials:completion:failure:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
+        
+        originalSelector = @selector(loginWithJwtToken:completion:failure:);
+        swizzledSelector = @selector(instr_loginWithJwtToken:completion:failure:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
+        
+        originalSelector = @selector(logout);
+        swizzledSelector = @selector(instr_logout);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
+        
+        originalSelector = @selector(logoutAllUsers);
+        swizzledSelector = @selector(instr_logoutAllUsers);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
+        
+        originalSelector = @selector(logoutUser:);
+        swizzledSelector = @selector(instr_logoutUser:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:self  isInstanceMethod:YES];
+     });
 }
 
 - (BOOL)instr_loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
@@ -131,7 +128,7 @@
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
     sf_os_signpost_interval_begin(logger, sid, "Salesforce Login JWT", "Begin");
     
-    return [self instr_loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *account) {
+    return [self instr_loginWithJwtToken:jwtToken completion:^(SFOAuthInfo *authInfo, SFUserAccount *account) {
         sf_os_signpost_interval_end(logger, sid, "Salesforce Login JWT", "Did Login user %{public}@",account.idData.username);
         if (completionBlock) completionBlock(authInfo,account);
     } failure:^(SFOAuthInfo * authInfo, NSError * error) {

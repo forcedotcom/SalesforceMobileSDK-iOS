@@ -2,22 +2,12 @@ executors:
   mac:
     working_directory: ~/SalesforceMobileSDK-iOS
     macos:
-      xcode: 10.3.0
+      xcode: 11.2.1
     shell: /bin/bash --login -eo pipefail
     environment:
       BASH_ENV: ~/.bashrc
       FASTLANE_SKIP_UPDATE_CHECK: "true"
-      CHRUBY_VER: 2.6.3
-  mac-beta:
-    working_directory: ~/SalesforceMobileSDK-iOS
-    macos:
-      xcode: 11.0.0
-    shell: /bin/bash --login -eo pipefail
-    environment:
-      BASH_ENV: ~/.bashrc
-      FASTLANE_SKIP_UPDATE_CHECK: "true"
-      CHRUBY_VER: 2.6.3
-
+      CHRUBY_VER: 2.6.5
 
 version: 2.1
 jobs:
@@ -28,10 +18,10 @@ jobs:
         default: "SalesforceSDKCommon"
       device:
         type: string
-        default: "iPhone XR"
+        default: "iPhone 11"
       ios:
         type: string
-        default: "12.4"
+        default: "13.2"
       nightly-test:
         type: boolean
         default: false
@@ -48,8 +38,8 @@ jobs:
       - checkout
       - restore_cache: 
           keys:
-            - v5-gems-{{ checksum ".circleci/Gemfile.lock" }}
-            - v5-gems-
+            - v6-gems-{{ checksum ".circleci/Gemfile.lock" }}
+            - v6-gems-
       - run: 
           name: Install Dependencies
           command:  |
@@ -61,7 +51,7 @@ jobs:
             bundle check || sudo bundle install
             sudo bundle update
       - save_cache: 
-          key: v5-gems-{{ checksum ".circleci/Gemfile.lock" }}
+          key: v6-gems-{{ checksum ".circleci/Gemfile.lock" }}
           paths:
             - /Users/distiller/.gem/ruby/2.6.3
       - run: 
@@ -125,54 +115,12 @@ workflows:
               only:
                 - /pull.*/
       - run-tests:
-          name: "SmartSync"
-          lib: "SmartSync"
+          name: "MobileSync"
+          lib: "MobileSync"
           filters:
             branches:
               only:
                 - /pull.*/
-
-  # Cron are on a timezone 8 hours ahead of PST
-  # Build everything at ~9:30pm Tuesday/Thursday Nights
-  nightly-test-ios11:
-    triggers:
-      - schedule:
-          cron: "30 5 * * 3,5"
-          filters:
-            branches:
-              only:
-                - dev
-    jobs:
-      - run-tests:
-          name: "SalesforceSDKCommon iOS 11 Nightly"
-          lib: "SalesforceSDKCommon"
-          device: "iPhone X"
-          ios: "11.4"
-          nightly-test: true
-      - run-tests:
-          name: "SalesforceAnalytics iOS 11 Nightly"
-          lib: "SalesforceAnalytics"
-          device: "iPhone X"
-          ios: "11.4"
-          nightly-test: true 
-      - run-tests:
-          name: "SalesforceSDKCore iOS 11 Nightly"
-          lib: "SalesforceSDKCore"
-          device: "iPhone X"
-          ios: "11.4"
-          nightly-test: true 
-      - run-tests:
-          name: "SmartStore iOS 11 Nightly"
-          lib: "SmartStore"
-          device: "iPhone X"
-          ios: "11.4"
-          nightly-test: true
-      - run-tests:
-          name: "SmartSync iOS 11 Nightly"
-          lib: "SmartSync"
-          device: "iPhone X"
-          ios: "11.4"
-          nightly-test: true
 
   # Cron are on a timezone 8 hours ahead of PST
   # Build everything at ~10:30pm Tuesday/Thursday Nights
@@ -189,22 +137,32 @@ workflows:
           name: "SalesforceSDKCommon iOS 12 Nightly"
           lib: "SalesforceSDKCommon"
           nightly-test: true
+          ios: "12.2"
+          device: "iPhone Xʀ"
       - run-tests:
           name: "SalesforceAnalytics iOS 12 Nightly"
           lib: "SalesforceAnalytics"
           nightly-test: true 
+          ios: "12.2"
+          device: "iPhone Xʀ"
       - run-tests:
           name: "SalesforceSDKCore iOS 12 Nightly"
           lib: "SalesforceSDKCore"
           nightly-test: true 
+          ios: "12.2"
+          device: "iPhone Xʀ"
       - run-tests:
           name: "SmartStore iOS 12 Nightly"
           lib: "SmartStore"
           nightly-test: true
+          ios: "12.2"
+          device: "iPhone Xʀ"
       - run-tests:
-          name: "SmartSync iOS 12 Nightly"
-          lib: "SmartSync"
+          name: "MobileSync iOS 12 Nightly"
+          lib: "MobileSync"
           nightly-test: true
+          ios: "12.2"
+          device: "iPhone Xʀ"
 
   # Cron are on a timezone 8 hours ahead of PST
   # Build everything at ~11:30am Tuesday/Thursday Nights
@@ -221,29 +179,19 @@ workflows:
           name: "SalesforceSDKCommon iOS 13 Nightly"
           lib: "SalesforceSDKCommon"
           nightly-test: true
-          env: "mac-beta"
-          ios: "13.0"
       - run-tests:
           name: "SalesforceAnalytics iOS 13 Nightly"
           lib: "SalesforceAnalytics"
           nightly-test: true 
-          env: "mac-beta"
-          ios: "13.0"
       - run-tests:
           name: "SalesforceSDKCore iOS 13 Nightly"
           lib: "SalesforceSDKCore"
           nightly-test: true 
-          env: "mac-beta"
-          ios: "13.0"
       - run-tests:
           name: "SmartStore iOS 13 Nightly"
           lib: "SmartStore"
           nightly-test: true
-          env: "mac-beta"
-          ios: "13.0"
       - run-tests:
-          name: "SmartSync iOS 13 Nightly"
-          lib: "SmartSync"
+          name: "MobileSync iOS 13 Nightly"
+          lib: "MobileSync"
           nightly-test: true
-          env: "mac-beta"
-          ios: "13.0"

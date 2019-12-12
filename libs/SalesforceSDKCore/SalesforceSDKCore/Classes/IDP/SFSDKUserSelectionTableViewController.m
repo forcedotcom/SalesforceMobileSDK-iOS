@@ -29,7 +29,7 @@
 
 #import "SFSDKUserSelectionTableViewController.h"
 #import "SFSDKIDPConstants.h"
-#import "UIColor+SFSDKIDP.h"
+#import "UIColor+SFColors.h"
 #import "UIFont+SFSDKIDP.h"
 #import "SFSDKUITableViewCell.h"
 #import "SFUserAccountManager.h"
@@ -78,15 +78,15 @@ static CGFloat kHorizontalSpace = 12;
     UIImage *logo  = [SFSDKUserSelectionTableViewController  resizeImage:logotmp resizeSize:CGSizeMake(150,120)];
     self.logoView = [[UIImageView alloc]initWithImage:logo];
     self.logoView.contentMode = UIViewContentModeScaleToFill;
-    self.backgroundColor = [UIColor backgroundcolor];
+    self.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     self.descriptionLabel = [[UILabel alloc] init];
     self.appNameLabel = [[UILabel alloc] init];
     self.descriptionLabel.text = [SFSDKResourceUtils localizedString:@"idpSelectUserLabel"];
     self.appNameLabel.text = self.appName;
     self.descriptionLabel.font = [UIFont textRegular:16.0];
-    self.descriptionLabel.textColor = [UIColor altTextColor];
+    self.descriptionLabel.textColor = [UIColor salesforceAltTextColor];
     self.appNameLabel.font = [UIFont textRegular:16.0];
-    self.appNameLabel.textColor = [UIColor altTextColor];
+    self.appNameLabel.textColor = [UIColor salesforceAltTextColor];
     [self.superview addSubview:self.logoView];
     [self.superview addSubview:self.descriptionLabel];
     [self.superview addSubview:self.appNameLabel];
@@ -110,7 +110,7 @@ static CGFloat kHorizontalSpace = 12;
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.backgroundColor = [UIColor backgroundcolor];
+    self.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     UIImage *addAccountImageTmp = [[SFSDKResourceUtils imageNamed:@"account-add"]  imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIImage *addAccountImage  = [SFSDKUserSelectionTableViewController  resizeImage:addAccountImageTmp resizeSize:CGSizeMake(18,18)];
     self.addButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -118,7 +118,7 @@ static CGFloat kHorizontalSpace = 12;
     self.descriptionLabel = [[UILabel alloc] init];
     self.descriptionLabel.text = [SFSDKResourceUtils localizedString:@"idpAddNewAccountLabel"];
     self.descriptionLabel.font = [UIFont textRegular:16];
-    self.descriptionLabel.textColor = [UIColor defaultTextColor];
+    self.descriptionLabel.textColor = [UIColor salesforceDefaultTextColor];
     self.addButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.superview addSubview:self.addButton];
@@ -144,7 +144,7 @@ static CGFloat kHorizontalSpace = 12;
     [super loadView];
    
     self.tableView = [self createTableView];
-    self.view.backgroundColor = [UIColor backgroundcolor];
+    self.view.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     self.title = [SFSDKResourceUtils localizedString:@"idpSelectUserTitleLabel"];
     UIView *headerView = [self createHeaderView];
     UIView *footerView = [self createFooterView];
@@ -156,7 +156,7 @@ static CGFloat kHorizontalSpace = 12;
     [self.tableView.widthAnchor constraintEqualToConstant:self.view.bounds.size.width].active = YES;
     
     UIStackView *stack = [[UIStackView alloc] initWithFrame:CGRectZero];
-    stack.backgroundColor =  [UIColor backgroundcolor];
+    stack.backgroundColor =  [UIColor salesforceSystemBackgroundColor];
     stack.distribution = UIStackViewDistributionEqualSpacing;
     stack.alignment = UIStackViewAlignmentCenter;
     stack.translatesAutoresizingMaskIntoConstraints = NO;
@@ -259,7 +259,7 @@ static CGFloat kHorizontalSpace = 12;
 
 - (UITableView *)createTableView {
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    tableView.backgroundColor = [UIColor backgroundcolor];
+    tableView.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     [tableView registerClass:[SFSDKUITableViewCell class] forCellReuseIdentifier:[SFSDKUITableViewCell reuseCellIdentifier]];
     return tableView;
 }

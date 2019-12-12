@@ -26,7 +26,7 @@
  */
 
 #import "SFSDKAppLockViewConfig.h"
-#import "UIColor+SFSDKPasscodeView.h"
+#import "UIColor+SFColors.h"
 #import "SFSDKResourceUtils.h"
 #import "SFSecurityLockout.h"
 
@@ -35,22 +35,24 @@
 -(instancetype) init {
     
     if(self = [super init]) {
+        self.navBarColor = [UIColor passcodeViewNavBarColor];
+        self.navBarTintColor = [UIColor passcodeViewNavBarColor];
+        self.navBarTitleColor = [UIColor passcodeViewTextColor];
+        self.navBarFont = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];
         _forcePasscodeLength = NO;
         _maxNumberOfAttempts = (NSUInteger)10;
         _primaryColor = [UIColor salesforceBlueColor];
         _secondaryColor = [UIColor whiteColor];
         _backgroundColor = [UIColor passcodeViewBackgroundColor];
+        _secondaryBackgroundColor = [UIColor passcodeViewSecondaryBackgroundColor];
         _borderColor = [UIColor passcodeViewBorderColor];
         _instructionTextColor = [UIColor passcodeViewTextColor];
         _titleTextColor = [UIColor passcodeViewTextColor];
-        _navBarColor = [UIColor whiteColor];
-        _navBarTextColor = [UIColor passcodeViewTextColor];
         _instructionFont = [UIFont systemFontOfSize:14];
         _titleFont = [UIFont systemFontOfSize:18 weight:UIFontWeightBold];
-        _navBarFont = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];
         _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
-        _touchIdImage = [[SFSDKResourceUtils imageNamed:@"touchId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        _faceIdImage = [[SFSDKResourceUtils imageNamed:@"faceId"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        _touchIdImage = [SFSDKResourceUtils imageNamed:@"touchId"];
+        _faceIdImage = [SFSDKResourceUtils imageNamed:@"faceId"];
         _passcodeLength = [SFSecurityLockout passcodeLength];
     }
     return self;

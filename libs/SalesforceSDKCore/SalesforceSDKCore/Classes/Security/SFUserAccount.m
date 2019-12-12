@@ -26,15 +26,12 @@
 #import "SFUserAccountManager+Internal.h"
 #import "SFDirectoryManager.h"
 #import "SFOAuthCredentials.h"
-#import "SFCommunityData.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFUserAccountIdentity+Internal.h"
 
 static NSString * const kUser_ACCESS_SCOPES       = @"accessScopes";
 static NSString * const kUser_CREDENTIALS         = @"credentials";
-static NSString * const kUser_COMMUNITY_ID        = @"communityId";
-static NSString * const kUser_COMMUNITIES         = @"communities";
 static NSString * const kUser_ID_DATA             = @"idData";
 static NSString * const kUser_CUSTOM_DATA         = @"customData";
 static NSString * const kUser_ACCESS_RESTRICTIONS = @"accessRestrictions";
@@ -46,6 +43,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccount.syncque
 /** Key that identifies the global scope
  */
 static NSString * const kGlobalScopingKey = @"-global-";
+static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAccount.photos.encryptionKey";
 
 @interface SFUserAccount ()
 {
@@ -63,13 +61,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
 @synthesize photo = _photo;
 @synthesize accountIdentity = _accountIdentity;
 @synthesize credentials = _credentials;
-@synthesize communities = _communities;
 @synthesize accessScopes = _accessScopes;
 @synthesize idData = _idData;
-
-+ (NSSet*)keyPathsForValuesAffectingApiUrl {
-    return [NSSet setWithObjects:@"communityId", @"credentials", nil];
-}
 
 + (BOOL)supportsSecureCoding {
     return YES;
@@ -105,8 +98,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
     [encoder encodeObject:_accessScopes forKey:kUser_ACCESS_SCOPES];
     [encoder encodeObject:_credentials forKey:kUser_CREDENTIALS];
     [encoder encodeObject:_idData forKey:kUser_ID_DATA];
-    [encoder encodeObject:_communityId forKey:kUser_COMMUNITY_ID];
-    [encoder encodeObject:_communities forKey:kUser_COMMUNITIES];
     [encoder encodeObject:_customData forKey:kUser_CUSTOM_DATA];
     [encoder encodeInteger:_accessRestrictions forKey:kUser_ACCESS_RESTRICTIONS];
 }
@@ -120,8 +111,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
         SFOAuthCredentials *creds = [decoder decodeObjectOfClass:[SFOAuthCredentials class] forKey:kUser_CREDENTIALS];
         [self setCredentialsInternal:creds];
         _idData           = [decoder decodeObjectOfClass:[SFIdentityData class] forKey:kUser_ID_DATA];
-        _communityId      = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_COMMUNITY_ID];
-        _communities      = [decoder decodeObjectOfClass:[NSArray class] forKey:kUser_COMMUNITIES];
         _customData       = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kUser_CUSTOM_DATA] mutableCopy];
         _accessRestrictions = [decoder decodeIntegerForKey:kUser_ACCESS_RESTRICTIONS];
         _loginState = (_credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
@@ -141,91 +130,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return identity;
 }
 
-- (NSURL*)apiUrl {
-    NSString *communityId = _communityId;
-    __block NSURL *url = _credentials.apiUrl;
-    if (communityId) {
-        dispatch_sync(_syncQueue, ^{
-            NSURL *communityUrl = [self communityUrlWithId:communityId];
-            if (communityUrl) {
-                url =  communityUrl;
-            }
-        });
-    }
-    return url;
-}
-
-- (NSString *)email {
-    __block NSString *email = nil;
-    SFIdentityData *data = _idData;
-    dispatch_sync(_syncQueue, ^{
-        email = data.email;
-    });
-    return email;
-}
-
-- (NSString *)fullName {
-    __block NSString *fullName = nil;
-    SFIdentityData *data = _idData;
-    dispatch_sync(_syncQueue, ^{
-        fullName = [NSString stringWithFormat:@"%@ %@",data.firstName,data.lastName];
-    });
-    return fullName;
-}
-
-- (NSString *)userName {
-    __block NSString *userName = nil;
-    SFIdentityData *data = _idData;
-    dispatch_sync(_syncQueue, ^{
-        userName = [NSString stringWithFormat:@"%@",data.username];
-    });
-    return userName;
-}
-
-- (NSURL*)communityUrlWithId:(NSString *)communityId {
-    if (!communityId) {
-        return nil;
-    }
-    __block NSURL *siteUrl = nil;
-    SFSDK_USE_DEPRECATED_BEGIN
-    dispatch_sync(_syncQueue, ^{
-        SFCommunityData *info = [self communityWithId:communityId];
-        siteUrl = info.siteUrl;
-    });
-    SFSDK_USE_DEPRECATED_END
-    return siteUrl;
-}
-
-- (SFCommunityData*)communityWithId:(NSString*)communityId {
-    if (!communityId || !_communities) return nil;
-    
-    __block SFCommunityData *communityData = nil;
-    __block  NSArray<SFCommunityData *> *communitiesCopy = [_communities copy];
-    dispatch_sync(_syncQueue, ^{
-        for (SFCommunityData *info in communitiesCopy) {
-            if ([info.entityId isEqualToString:communityId]) {
-                communityData = info;
-                break;
-            }
-        }
-    });
-    return communityData;
-}
-
-- (NSArray<SFCommunityData *> *)communities {
-    __block NSArray<SFCommunityData *> *communitiesLocal = nil;
-    dispatch_sync(_syncQueue, ^{
-        communitiesLocal = self->_communities;
-    });
-    return communitiesLocal;
-}
-
-- (void)setCommunities:(NSArray<SFCommunityData *> *)communities {
-    dispatch_barrier_async(_syncQueue, ^{
-        self->_communities = communities;
-    });
-}
-
 - (void)setAccessScopes:(NSSet<NSString *> *)accessScopes {
     dispatch_barrier_async(_syncQueue, ^{
         self->_accessScopes = accessScopes;
@@ -233,12 +137,12 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (NSString *)photoPathInternal:(NSError**)error {
-    NSString *userPhotoPath =  [[SFDirectoryManager sharedManager] directoryForOrg:_credentials.organizationId user:_credentials.userId  community:_communityId?:kDefaultCommunityName type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
+    NSString *userPhotoPath =  [[SFDirectoryManager sharedManager] directoryForOrg:_credentials.organizationId user:_credentials.userId community:_credentials.communityId?:kDefaultCommunityName type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
     [SFDirectoryManager ensureDirectoryExists:userPhotoPath error:error];
     return [userPhotoPath stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:_credentials.userId]];
 }
 
-- (UIImage*)photo {
+- (UIImage *)photo {
     if (nil == _photo) {
         __weak __typeof(self) weakSelf = self;
         dispatch_sync(_syncQueue, ^{
@@ -246,15 +150,24 @@ static NSString * const kGlobalScopingKey = @"-global-";
             NSString *photoPath = [strongSelf photoPathInternal:nil];
             NSFileManager *manager = [[NSFileManager alloc] init];
             if ([manager fileExistsAtPath:photoPath]) {
-                strongSelf->_photo = [[UIImage alloc] initWithContentsOfFile:photoPath];
+                UIImage *decryptedPhoto = [self decryptPhoto:photoPath];
+                if (decryptedPhoto) {
+                    strongSelf->_photo = decryptedPhoto;
+                } else {
+                    // TODO: Remove in 9.0
+                    // Check for upgrade scenario
+                    NSData *photoData = [[NSData alloc] initWithContentsOfFile:photoPath];
+                    UIImage *photo = [[UIImage alloc] initWithData:photoData];
+                    if (photo) {
+                        // In this case the photo on disk is pre 8.0 and hasn't been encrypted, use it and encrypt it
+                        strongSelf->_photo = photo;
+                        [self storeEncryptedPhoto:photoData path:photoPath error:nil];
+                    }
+                }
             }
         });
     }
     return _photo;
-}
-
-- (void)setPhoto:(UIImage *)photo {
-    [self setPhoto:photo completion:nil];
 }
 
 - (void)setPhoto:(UIImage*)photo completion:(void (^ __nullable)(NSError* _Nullable))completion {
@@ -278,8 +191,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         
         if (photo) {
             NSData *data = UIImagePNGRepresentation(photo);
-            if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
-                [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", error];
+            if (![self storeEncryptedPhoto:data path:photoPath error:&error]) {
                 if (completion) {
                     completion(error);
                 }
@@ -410,8 +322,6 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return _credentials.accessToken != nil && _idData != nil;
 }
 
-
-
 - (NSString*)description {
     NSString *theUserName = @"*****";
     NSString *theFullName = @"*****";
@@ -421,8 +331,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
     theFullName = [NSString stringWithFormat:@"%@ %@",_idData.firstName,_idData.lastName];
 #endif
     
-    NSString * s = [NSString stringWithFormat:@"<SFUserAccount username=%@ fullName=%@ accessScopes=%@ credentials=%@, community=%@>",
-                    theUserName, theFullName, _accessScopes, _credentials, _communityId];
+    NSString * s = [NSString stringWithFormat:@"<SFUserAccount username=%@ fullName=%@ accessScopes=%@ credentials=%@>",
+                    theUserName, theFullName, _accessScopes, _credentials];
     return s;
 }
 
@@ -474,6 +384,44 @@ NSString *SFKeyForUserIdAndScope(NSString *userId,NSString *orgId,NSString *comm
     }
     
     return key;
+}
+
+- (BOOL)storeEncryptedPhoto:(NSData *)photoData path:(NSString *)photoPath error:(NSError **)error {
+    NSData *encryptedData = [self encryptPhoto:photoData];
+    if (!encryptedData) {
+        NSString *errorMessage = @"User photo data could not be encrypted.";
+        [SFSDKCoreLogger e:[self class] format:errorMessage];
+
+        if (error) {
+            *error = [NSError errorWithDomain:kSFSDKUserAccountManagerErrorDomain
+                                        code:SFSDKUserAccountManagerCannotEncrypt
+                                    userInfo:@{ NSLocalizedDescriptionKey : errorMessage }];
+        }
+        return NO;
+    }
+    
+    if (![encryptedData writeToFile:photoPath options:NSDataWritingAtomic error:error]) {
+        if (error) {
+            [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk: %@", *error];
+        } else {
+            [SFSDKCoreLogger e:[self class] format:@"Unable to write photo to disk"];
+        }
+        return NO;
+    }
+
+    return YES;
+}
+
+- (UIImage *)decryptPhoto:(NSString *)photoPath {
+    NSData *data = [[NSData alloc] initWithContentsOfFile:photoPath];
+    SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:NO];
+    NSData *decryptedData = [encryptionKey decryptData:data];
+    return [[UIImage alloc] initWithData:decryptedData];
+}
+
+- (NSData *)encryptPhoto:(NSData *)data {
+    SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:YES];
+    return [encryptionKey encryptData:data];
 }
 
 //#pragma mark - Credentials property changes

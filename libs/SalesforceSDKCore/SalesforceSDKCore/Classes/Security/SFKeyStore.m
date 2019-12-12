@@ -81,11 +81,11 @@
 
 - (NSData *)encryptDictionary:(NSDictionary *)dictionary withKey:(SFKeyStoreKey *)storeKey
 {
-    NSMutableData *dictionaryData = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:dictionaryData];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
     [archiver encodeObject:dictionary forKey:self.storeDataArchiveKey];
     [archiver finishEncoding];
-    
+    NSData *dictionaryData = archiver.encodedData;
+
     NSData *encryptedData = dictionaryData;
     if (storeKey != nil) {
         encryptedData = [storeKey encryptData:dictionaryData];
@@ -105,14 +105,14 @@
         return nil;
     
     NSDictionary *keyStoreDict = nil;
-    @try {
-        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:decryptedDictionaryData];
+    NSError* error = nil;
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:decryptedDictionaryData error:&error];
+    unarchiver.requiresSecureCoding = NO;
+    if (error) {
+        [SFSDKCoreLogger e:[self class] format:@"Unable to init unarchiver for key store data. Key store is invalid: %@.", error];
+    } else {
         keyStoreDict = [unarchiver decodeObjectForKey:self.storeDataArchiveKey];
         [unarchiver finishDecoding];
-    }
-    @catch (NSException *exception) {
-        [SFSDKCoreLogger e:[self class] format:@"Unable to decrypt key store data.  Key store is invalid."];
-        return nil;
     }
     
     return keyStoreDict;

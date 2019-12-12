@@ -47,7 +47,7 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
-
+#import "SFSDKAuthSession.h"
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
@@ -60,7 +60,7 @@
 @synthesize delegate             = _delegate;
 @synthesize timeout              = _timeout;
 @synthesize view                 = _view;
-@synthesize authSession          = _authSession;
+@synthesize asWebAuthenticationSession = _asWebAuthenticationSession;
 
 // private
 
@@ -90,9 +90,19 @@
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
     }
-    
-    // response data is initialized in didReceiveResponse
-    
+    return self;
+}
+
+- (instancetype)initWithAuthSession:(SFSDKAuthSession *)authSession {
+    self = [super init];
+    if (self) {
+        self.authSession = authSession;
+        self.credentials = authSession.credentials;
+        self.authenticating = NO;
+        _timeout = kSFOAuthDefaultTimeout;
+        _view = nil;
+        _authClient = [[SFSDKOAuth2 alloc] init];
+    }
     return self;
 }
 
@@ -150,7 +160,7 @@
         [self notifyDelegateOfBeginAuthentication];
         [self beginJwtTokenExchangeFlow];
     } else {
-         __weak typeof(self) weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         if (self.useBrowserAuth) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -364,19 +374,18 @@
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     __weak typeof(self) weakSelf = self;
-    
-    _authSession = [[SFAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:nil completionHandler:^(NSURL * _Nullable callbackURL, NSError * _Nullable error) {
+     
+    _asWebAuthenticationSession = [[ASWebAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:self.credentials.redirectUri   completionHandler:^(NSURL *callbackURL, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
-            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL  options:nil];
-        }
-        else {
+            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:nil];
+        } else {
             [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];
         }
 
     }];
     
-    [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_authSession];
+    [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_asWebAuthenticationSession];
 
 }
 
@@ -466,15 +475,14 @@
 }
 
 // IDP related
-- (void)beginIDPFlow:(SFOAuthCredentials *)spAppCredentials {
+- (void)beginIDPFlow {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
-    self.spAppCredentials = spAppCredentials;
     self.initialRequestLoaded = NO;
     // notify delegate will be begin authentication in our (web) vew
     if (self.credentials.accessToken && self.credentials.apiUrl) {
         NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
-        NSString *approvalUrlString = [self generateCodeApprovalUrlString:spAppCredentials];
-        NSString *codeChallengeString = spAppCredentials.challengeString;
+        NSString *approvalUrlString = [self generateCodeApprovalUrlString:self.spAppCredentials];
+        NSString *codeChallengeString = self.spAppCredentials.challengeString;
         approvalUrlString = [NSString stringWithFormat:@"%@&%@=%@", approvalUrlString, kSFOAuthCodeChallengeParamName, codeChallengeString];
         NSString *escapedApprovalUrlString = [approvalUrlString stringByURLEncoding];
         NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];

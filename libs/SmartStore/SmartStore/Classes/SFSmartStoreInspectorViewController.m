@@ -34,7 +34,6 @@
 #import <SalesforceSDKCore/UIColor+SFColors.h>
 
 // Nav bar
-static CGFloat      const kStatusBarHeight       = 20.0;
 static CGFloat      const kNavBarHeight          = 44.0;
 static CGFloat      const kNavBarTitleFontSize   = 18.0;
 // Store picker
@@ -355,8 +354,8 @@ static NSString * const kInspectorPickerDefault = @"default";
 {
     UIPickerView* storePicker = [[UIPickerView alloc] initWithFrame:CGRectZero];
     storePicker.delegate = self;
-    storePicker.backgroundColor = [UIColor whiteColor];
-    storePicker.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    storePicker.backgroundColor = [UIColor salesforceSystemBackgroundColor];
+    storePicker.layer.borderColor = [self borderColor];
     storePicker.layer.borderWidth = kTextFieldBorderWidth;
     storePicker.dataSource = self;
     [self.view addSubview:storePicker];
@@ -367,11 +366,11 @@ static NSString * const kInspectorPickerDefault = @"default";
 {
     UITextView* textView = [[UITextView alloc] initWithFrame:CGRectZero];
     textView.delegate = self;
-    textView.textColor = [UIColor blackColor];
-    textView.backgroundColor = [UIColor whiteColor];
+    textView.textColor = [self textColor];
+    textView.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     textView.font = [UIFont fontWithName:kTextFieldFontName size:kTextFieldFontSize];
     textView.text = @"";
-    textView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    textView.layer.borderColor = [self borderColor];
     textView.layer.borderWidth = kTextFieldBorderWidth;
     [self.view addSubview:textView];
     return textView;
@@ -380,12 +379,12 @@ static NSString * const kInspectorPickerDefault = @"default";
 - (UITextField *) createTextField
 {
     UITextField* textField = [[UITextField alloc] initWithFrame:CGRectZero];
-    textField.textColor = [UIColor blackColor];
-    textField.backgroundColor = [UIColor whiteColor];
+    textField.textColor = [self textColor];
+    textField.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     textField.font = [UIFont fontWithName:kTextFieldFontName size:kTextFieldFontSize];
     textField.text = @"";
     textField.textAlignment = NSTextAlignmentCenter;
-    textField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    textField.layer.borderColor = [self borderColor];
     textField.layer.borderWidth = kTextFieldBorderWidth;
     [self.view addSubview:textField];
     return textField;
@@ -395,12 +394,12 @@ static NSString * const kInspectorPickerDefault = @"default";
 {
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:label forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor whiteColor];
+    button.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     [button.titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setTitleColor:[self textColor] forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     button.titleLabel.font = [UIFont fontWithName:kButtonFontName size:kButtonFontSize];
-    button.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    button.layer.borderColor = [self borderColor];
     button.layer.borderWidth = kButtonBorderWidth;
     [self.view addSubview:button];
     return button;
@@ -409,14 +408,14 @@ static NSString * const kInspectorPickerDefault = @"default";
 - (UICollectionView*) createGridView
 {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    UICollectionView* gridView= [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    UICollectionView *gridView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     layout.minimumInteritemSpacing = 0;
     layout.minimumLineSpacing = 0;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    gridView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    gridView.layer.borderColor = [self borderColor];
     gridView.layer.borderWidth = kResultGridBorderWidth;
     [gridView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kCellIndentifier];
-    [gridView setBackgroundColor:[UIColor whiteColor]];
+    [gridView setBackgroundColor:[UIColor salesforceSystemBackgroundColor]];
     [gridView setDataSource:self];
     [gridView setDelegate:self];
     [self.view addSubview:gridView];
@@ -466,7 +465,7 @@ static NSString * const kInspectorPickerDefault = @"default";
 - (void) layoutNavBar
 {
     CGFloat x = 0;
-    CGFloat y = kStatusBarHeight;
+    CGFloat y = self.view.safeAreaInsets.top;
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = kNavBarHeight;
     self.navBar.frame = CGRectMake(x, y, w, h);
@@ -516,6 +515,20 @@ static NSString * const kInspectorPickerDefault = @"default";
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = self.view.bounds.size.height - y;
     self.resultGrid.frame = CGRectMake(x, y, w, h);
+}
+
+- (UIColor *)textColor {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor labelColor];
+    }
+    return [UIColor blackColor];
+}
+
+- (CGColorRef)borderColor {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor separatorColor].CGColor;
+    }
+    return [UIColor lightGrayColor].CGColor;
 }
 
 #pragma mark - Text view delegate
@@ -575,8 +588,8 @@ static NSString * const kInspectorPickerDefault = @"default";
     CGFloat w = [self cellWidthWithIndexPath:indexPath];
     CGFloat h = [self cellHeightWithIndexPath:indexPath];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0,0,w,h)];
-    title.textColor = [UIColor blackColor];
-    title.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    title.textColor = [self textColor];
+    title.layer.borderColor = [self borderColor];
     title.layer.borderWidth = kResultCellBorderWidth;
     title.font = [UIFont fontWithName:kResultTextFontName size:kResultTextFontSize];
     title.textAlignment = NSTextAlignmentCenter;

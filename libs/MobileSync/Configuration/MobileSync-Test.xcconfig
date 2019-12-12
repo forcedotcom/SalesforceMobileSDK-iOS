@@ -1,0 +1,9 @@
+//
+//  MobileSync-Test.xcconfig
+//  MobileSync
+//
+//  Created by Bharath Hariharan on 4/7/15.
+//  Copyright (c) 2015-present, Salesforce Inc. All rights reserved.
+//
+
+#include "MobileSync-Dynamic-iOS-Debug.xcconfig"

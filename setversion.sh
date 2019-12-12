@@ -104,7 +104,7 @@ update_podspec "./SalesforceSDKCommon.podspec" "${OPT_VERSION}"
 update_podspec "./SalesforceAnalytics.podspec" "${OPT_VERSION}"
 update_podspec "./SalesforceSDKCore.podspec" "${OPT_VERSION}"
 update_podspec "./SmartStore.podspec" "${OPT_VERSION}"
-update_podspec "./SmartSync.podspec" "${OPT_VERSION}"
+update_podspec "./MobileSync.podspec" "${OPT_VERSION}"
 
 echo "*** Updating SalesforceSDKConstants.h ***"
 update_salesforce_sdk_constants "./libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h" "${OPT_VERSION}" "${OPT_IS_DEV}"

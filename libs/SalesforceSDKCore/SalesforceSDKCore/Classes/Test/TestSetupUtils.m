@@ -23,6 +23,7 @@
  */
 
 #import <SalesforceSDKCommon/SFJsonUtils.h>
+#import "SalesforceSDKManager+Internal.h"
 #import "SFUserAccountManager.h"
 #import "TestSetupUtils.h"
 #import "SFUserAccountManager+Internal.h"
@@ -79,7 +80,7 @@ static SFOAuthCredentials *credentials = nil;
     [SFUserAccountManager sharedInstance].oauthCompletionUrl = credsData.redirectUri;
     [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
     [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
-    credentials = [[SFUserAccountManager sharedInstance] newClientCredentials];
+    credentials = [self newClientCredentials];
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
     credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
     NSString *communityUrlString = credsData.communityUrl;
@@ -112,5 +113,16 @@ static SFOAuthCredentials *credentials = nil;
     NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
              kTestRequestStatusDidLoad,
              authListener.returnStatus);
+}
+
++ (SFOAuthCredentials *)newClientCredentials {
+    
+    NSString *identifier = [[SFUserAccountManager sharedInstance]  uniqueUserAccountIdentifier:[SFUserAccountManager sharedInstance].oauthClientId];
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:[SFUserAccountManager sharedInstance].oauthClientId encrypted:YES];
+    creds.clientId = [SFUserAccountManager sharedInstance].oauthClientId;
+    creds.redirectUri = [SFUserAccountManager sharedInstance].oauthCompletionUrl;
+    creds.domain = [SFUserAccountManager sharedInstance].loginHost;
+    creds.accessToken = nil;
+    return creds;
 }
 @end

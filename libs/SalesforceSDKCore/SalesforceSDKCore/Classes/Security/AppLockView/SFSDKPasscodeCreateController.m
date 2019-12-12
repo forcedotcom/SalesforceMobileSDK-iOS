@@ -37,7 +37,7 @@
 static CGFloat      const kSFDefaultPadding                    = 20.0f;
 static CGFloat      const kSFTopPadding                        = 64.5f;
 static CGFloat      const kSFPasscodeViewHeight                = 48.0f;
-static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
+static CGFloat      const kSFViewBorderWidth                   = 0.5f;
 
 @interface SFSDKPasscodeCreateController ()<UITextFieldDelegate>
 
@@ -97,7 +97,7 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     [super loadView];
     self.passcodeTextView = [[SFSDKPasscodeTextField alloc] initWithFrame:CGRectZero andViewConfig:self.viewConfig];
     self.passcodeTextView.delegate = self;
-    self.passcodeTextView.layer.borderWidth = kSFViewBoarderWidth;
+    self.passcodeTextView.layer.borderWidth = kSFViewBorderWidth;
     self.passcodeTextView.accessibilityIdentifier = @"passcodeTextField";
     self.passcodeTextView.accessibilityLabel = [SFSDKResourceUtils localizedString:@"accessibilityPasscodeFieldLabel"];
     self.passcodeTextView.accessibilityHint = [[NSString alloc] initWithFormat:[SFSDKResourceUtils localizedString:@"accessibilityPasscodeLengthHint"], self.viewConfig.passcodeLength];
@@ -115,15 +115,6 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     self.passcodeInstructionsLabel.font = self.viewConfig.instructionFont;
     self.passcodeInstructionsLabel.accessibilityIdentifier = @"instructionLabel";
     [self.view addSubview:self.passcodeInstructionsLabel];
-}
-
-- (void)setupNavigationBar {
-    self.navigationController.navigationBar.backgroundColor = self.viewConfig.navBarColor;
-    self.navigationController.navigationBar.tintColor = self.viewConfig.navBarColor;
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.titleTextAttributes =
-        @{NSForegroundColorAttributeName : self.viewConfig.navBarTextColor,
-                     NSFontAttributeName : self.viewConfig.navBarFont};
 }
 
 - (void)viewDidLoad {
@@ -167,10 +158,10 @@ static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
     CGFloat hIns = self.passcodeInstructionsLabel.bounds.size.height;
     self.passcodeInstructionsLabel.frame = CGRectMake(xIns, yIns, wIns, hIns);
     
-    CGFloat xView = (0 - kSFViewBoarderWidth);
+    CGFloat xView = (0 - kSFViewBorderWidth);
     CGFloat yView = yIns + hIns + (kSFDefaultPadding / 2.0);
-    CGFloat wView = self.view.bounds.size.width + (kSFViewBoarderWidth * 2);
-    CGFloat hView = kSFPasscodeViewHeight + (kSFViewBoarderWidth * 2);
+    CGFloat wView = self.view.bounds.size.width + (kSFViewBorderWidth * 2);
+    CGFloat hView = kSFPasscodeViewHeight + (kSFViewBorderWidth * 2);
     self.passcodeTextView.frame = CGRectMake(xView, yView, wView, hView);
     self.passcodeTextView.layer.frame = CGRectMake(xView, yView, wView, hView);
     [self.passcodeTextView refreshView];

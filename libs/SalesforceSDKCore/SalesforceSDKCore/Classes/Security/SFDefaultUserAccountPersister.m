@@ -200,7 +200,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     }
 
     // Serialize the user account data.
-    NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:userAccount];
+    NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:userAccount requiringSecureCoding:NO error:nil];
     if (!archiveData) {
         NSString *reason = [NSString stringWithFormat:@"Could not archive user account data to save it.  %@",filePath];
         [SFSDKCoreLogger w:[self class] format:reason];
@@ -244,49 +244,52 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
  @param error On output, contains the error if the method returned NO
  @return YES if the method succeeded, NO otherwise
  */
- - (BOOL)loadUserAccountFromFile:(NSString *)filePath account:(SFUserAccount**)account error:(NSError**)error {
-
-        NSFileManager *manager = [[NSFileManager alloc] init];
-        NSString *reason = @"User account data could not be decrypted. Can't load account.";
-        NSData *encryptedUserAccountData = [manager contentsAtPath:filePath];
-        if (!encryptedUserAccountData) {
-            reason = [NSString stringWithFormat:@"Could not retrieve user account data from '%@'", filePath];
-            if (error) {
-                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
-                                             code:SFUserAccountManagerCannotRetrieveUserData
-                                         userInfo:@{NSLocalizedDescriptionKey: reason}];
-            }
-            [SFSDKCoreLogger d:[self class] format:reason];
-            return NO;
+- (BOOL)loadUserAccountFromFile:(NSString *)filePath account:(SFUserAccount**)account error:(NSError**)error {
+    
+    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSString *reason = @"User account data could not be decrypted. Can't load account.";
+    NSData *encryptedUserAccountData = [manager contentsAtPath:filePath];
+    if (!encryptedUserAccountData) {
+        reason = [NSString stringWithFormat:@"Could not retrieve user account data from '%@'", filePath];
+        if (error) {
+            *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                         code:SFUserAccountManagerCannotRetrieveUserData
+                                     userInfo:@{NSLocalizedDescriptionKey: reason}];
         }
-        SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel autoCreate:YES];
-        NSData *decryptedArchiveData = [encKey decryptData:encryptedUserAccountData];
-        if (!decryptedArchiveData) {
-            if (error) {
-                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
-                                             code:SFUserAccountManagerCannotRetrieveUserData
-                                         userInfo:@{NSLocalizedDescriptionKey: reason}];
-            }
-            [SFSDKCoreLogger w:[self class] format:reason];
-            return NO;
+        [SFSDKCoreLogger d:[self class] format:reason];
+        return NO;
+    }
+    SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel autoCreate:YES];
+    NSData *decryptedArchiveData = [encKey decryptData:encryptedUserAccountData];
+    if (!decryptedArchiveData) {
+        if (error) {
+            *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                         code:SFUserAccountManagerCannotRetrieveUserData
+                                     userInfo:@{NSLocalizedDescriptionKey: reason}];
         }
+        [SFSDKCoreLogger w:[self class] format:reason];
+        return NO;
+    }
+    
+    
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:decryptedArchiveData error:nil];
+    unarchiver.requiresSecureCoding = NO;
+    SFUserAccount *decryptedAccount = [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+    [unarchiver finishDecoding];
 
-        SFUserAccount *decryptedAccount = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedArchiveData];
-
-            // On iOS9, it won't throw an exception, but will return nil instead.
-        if (decryptedAccount) {
-            if (account) {
-                *account = decryptedAccount;
-            }
-            return YES;
-        } else {
-            if (error) {
-                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
-                                             code:SFUserAccountManagerCannotReadDecryptedArchive
-                                         userInfo:@{NSLocalizedDescriptionKey: reason}];
-            }
-            return NO;
+    if (decryptedAccount) {
+        if (account) {
+            *account = decryptedAccount;
         }
+        return YES;
+    } else {
+        if (error) {
+            *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                         code:SFUserAccountManagerCannotReadDecryptedArchive
+                                     userInfo:@{NSLocalizedDescriptionKey: reason}];
+        }
+        return NO;
+    }
 }
 
 + (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user {

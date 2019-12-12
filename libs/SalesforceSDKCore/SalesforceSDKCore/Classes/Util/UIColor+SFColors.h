@@ -32,16 +32,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIColor (SFColors)
 
-+(UIColor *) salesforceBlueColor;
-
 /** Construct a color given hex color, like "#00FF00" (#RRGGBB).
  */
 + (nullable UIColor *)colorFromHexValue:(NSString *)hexString;
+
++ (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor;
 
 /** Returns a CSS hex color representation
  of this color
  */
 - (NSString *)hexStringFromColor;
+
+@property (class, nonatomic, readonly) UIColor *salesforceBlueColor;
+@property (class, nonatomic, readonly) UIColor *salesforceSystemBackgroundColor;
+@property (class, nonatomic, readonly) UIColor *salesforceLabelColor;
+@property (class, nonatomic, readonly) UIColor *salesforceBackgroundRowSelectedColor;
+@property (class, nonatomic, readonly) UIColor *salesforceBorderColor;
+@property (class, nonatomic, readonly) UIColor *salesforceDefaultTextColor;
+@property (class, nonatomic, readonly) UIColor *salesforceWeakTextColor;
+@property (class, nonatomic, readonly) UIColor *salesforceAltTextColor;
+@property (class, nonatomic, readonly) UIColor *salesforceAltBackgroundColor;
+@property (class, nonatomic, readonly) UIColor *salesforceAlt2BackgroundColor;
+@property (class, nonatomic, readonly) UIColor *salesforceTableCellBackgroundColor;
+@property (class, nonatomic, readonly) UIColor *passcodeViewBackgroundColor;
+@property (class, nonatomic, readonly) UIColor *passcodeViewSecondaryBackgroundColor;
+@property (class, nonatomic, readonly) UIColor *passcodeViewTextColor;
+@property (class, nonatomic, readonly) UIColor *passcodeViewBorderColor;
+@property (class, nonatomic, readonly) UIColor *passcodeViewNavBarColor;
 
 @end
 

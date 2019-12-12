@@ -30,10 +30,10 @@
 		4F06AFF01C49D53D00F70798 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; };
 		4F06AFF11C49D53D00F70798 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F51C9F11D35ACE500100D66 /* SFSmartStoreFTSWithExternalStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F51C9F01D35ACE500100D66 /* SFSmartStoreFTSWithExternalStorageTests.m */; };
+		4F5BBB9D23592EBB00E6D619 /* SmartStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5BBB9C23592EBB00E6D619 /* SmartStore.swift */; };
+		4F5BBBB4235E1FD900E6D619 /* SmartStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5BBBB3235E1FD900E6D619 /* SmartStoreTests.swift */; };
 		4F75745222B9A96900528BE2 /* SFSmartSqlCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F75745122B9A96900528BE2 /* SFSmartSqlCache.h */; };
-		4F75745D22B9A98000528BE2 /* SFSmartSqlCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F75745122B9A96900528BE2 /* SFSmartSqlCache.h */; };
 		4F75745F22B9A99900528BE2 /* SFSmartSqlCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F75745E22B9A99900528BE2 /* SFSmartSqlCache.m */; };
-		4F75746022B9A99900528BE2 /* SFSmartSqlCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F75745E22B9A99900528BE2 /* SFSmartSqlCache.m */; };
 		4F75747222B9BA9000528BE2 /* SFSmartSqlCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F75747122B9BA9000528BE2 /* SFSmartSqlCacheTests.m */; };
 		4F883C761C16279F007D4BAE /* SmartStoreSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F883C751C16279F007D4BAE /* SmartStoreSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F883C7B1C1627BD007D4BAE /* SmartStoreSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F883C7A1C1627BD007D4BAE /* SmartStoreSDKManager.m */; };
@@ -49,7 +49,6 @@
 		4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */; };
 		4FF4DC671CF51D9300385C2C /* SFQuerySpecTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */; };
 		4FFEE6351BFE98E100B7AA8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
-		6F96F9A01CB824EF00B2A120 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828917AC1C52DB6B002F9981 /* libsqlcipher.a */; };
 		828917841C52B705002F9981 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177A1C52B705002F9981 /* FMDatabase.h */; };
 		828917851C52B705002F9981 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177B1C52B705002F9981 /* FMDatabase.m */; };
 		828917861C52B705002F9981 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177C1C52B705002F9981 /* FMDatabaseAdditions.h */; };
@@ -60,16 +59,6 @@
 		8289178B1C52B705002F9981 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 828917811C52B705002F9981 /* FMDatabaseQueue.m */; };
 		8289178C1C52B705002F9981 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 828917821C52B705002F9981 /* FMResultSet.h */; };
 		8289178D1C52B705002F9981 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 828917831C52B705002F9981 /* FMResultSet.m */; };
-		8289178E1C52B715002F9981 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177A1C52B705002F9981 /* FMDatabase.h */; };
-		8289178F1C52B715002F9981 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177B1C52B705002F9981 /* FMDatabase.m */; };
-		828917901C52B715002F9981 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177C1C52B705002F9981 /* FMDatabaseAdditions.h */; };
-		828917911C52B715002F9981 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177D1C52B705002F9981 /* FMDatabaseAdditions.m */; };
-		828917921C52B715002F9981 /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177E1C52B705002F9981 /* FMDatabasePool.h */; };
-		828917931C52B715002F9981 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177F1C52B705002F9981 /* FMDatabasePool.m */; };
-		828917941C52B715002F9981 /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 828917801C52B705002F9981 /* FMDatabaseQueue.h */; };
-		828917951C52B715002F9981 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 828917811C52B705002F9981 /* FMDatabaseQueue.m */; };
-		828917961C52B715002F9981 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 828917821C52B705002F9981 /* FMResultSet.h */; };
-		828917971C52B715002F9981 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 828917831C52B705002F9981 /* FMResultSet.m */; };
 		828917AD1C52DB6B002F9981 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828917AC1C52DB6B002F9981 /* libsqlcipher.a */; };
 		829DA2AA1C1266F70040F5F1 /* SmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A91C1266F70040F5F1 /* SmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B716A3D7218F6AD6009D407F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A3B2218F6AAC009D407F /* SalesforceAnalytics.framework */; };
@@ -77,16 +66,11 @@
 		B716A3D9218F6AD6009D407F /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A3CE218F6ABA009D407F /* SalesforceSDKCore.framework */; };
 		B7352CAD2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7352CAC2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m */; };
 		B78928412243DE5700BEDED4 /* SFSmartStore+Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = B789283F2243DE5700BEDED4 /* SFSmartStore+Instrumentation.h */; };
-		B78928422243DE5700BEDED4 /* SFSmartStore+Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = B789283F2243DE5700BEDED4 /* SFSmartStore+Instrumentation.h */; };
 		B78928432243DE5700BEDED4 /* SFSmartStore+Instrumentation.m in Sources */ = {isa = PBXBuildFile; fileRef = B78928402243DE5700BEDED4 /* SFSmartStore+Instrumentation.m */; };
-		B78928442243DE5700BEDED4 /* SFSmartStore+Instrumentation.m in Sources */ = {isa = PBXBuildFile; fileRef = B78928402243DE5700BEDED4 /* SFSmartStore+Instrumentation.m */; };
 		B7DD6CE61DC178D0004C04F4 /* SFMultipleSmartStoresTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DD6CE51DC178D0004C04F4 /* SFMultipleSmartStoresTests.m */; };
 		C03DE7D01D1B296400BFA6BD /* SFSoupSpec.h in Headers */ = {isa = PBXBuildFile; fileRef = C03DE7CD1D1B296400BFA6BD /* SFSoupSpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C03DE7D11D1B296400BFA6BD /* SFSoupSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C03DE7CE1D1B296400BFA6BD /* SFSoupSpec.m */; };
 		C03DE7D31D1B296400BFA6BD /* SFSoupSpec+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C03DE7CF1D1B296400BFA6BD /* SFSoupSpec+Internal.h */; };
-		C03DE7D71D1B297E00BFA6BD /* SFSoupSpec.h in Headers */ = {isa = PBXBuildFile; fileRef = C03DE7CD1D1B296400BFA6BD /* SFSoupSpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C03DE7D81D1B298900BFA6BD /* SFSoupSpec+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C03DE7CF1D1B296400BFA6BD /* SFSoupSpec+Internal.h */; };
-		C03DE7D91D1B29A500BFA6BD /* SFSoupSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C03DE7CE1D1B296400BFA6BD /* SFSoupSpec.m */; };
 		C03DE7DB1D1B44D000BFA6BD /* SFSmartStoreWithExternalStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C03DE7DA1D1B44D000BFA6BD /* SFSmartStoreWithExternalStorageTests.m */; };
 		C03DE7E11D1B6B8E00BFA6BD /* SFSmartSqlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C03DE7E01D1B6B8E00BFA6BD /* SFSmartSqlTests.m */; };
 		CE0AB0761C10D3AF00BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE5841C0FB648009F6029 /* libz.tbd */; };
@@ -129,41 +113,10 @@
 		CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE5841C0FB648009F6029 /* libz.tbd */; };
 		CE682C801F01B5E3003C43C0 /* SFSDKSmartStoreLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE682C7E1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE682C811F01B5E3003C43C0 /* SFSDKSmartStoreLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE682C7F1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.m */; };
-		CE682C851F01B64E003C43C0 /* SFSDKSmartStoreLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE682C7E1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE682C861F01B658003C43C0 /* SFSDKSmartStoreLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE682C7F1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.m */; };
-		CEA883CB1C191580008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
-		CEA883CE1C191595008D871B /* SmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A91C1266F70040F5F1 /* SmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883D11C1915A8008D871B /* SFAlterSoupLongOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC21BFD30030022F021 /* SFAlterSoupLongOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883D21C1915A8008D871B /* SFAlterSoupLongOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC31BFD30030022F021 /* SFAlterSoupLongOperation.m */; };
-		CEA883D31C1915A8008D871B /* SFQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC41BFD30030022F021 /* SFQuerySpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883D41C1915A8008D871B /* SFQuerySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC51BFD30030022F021 /* SFQuerySpec.m */; };
-		CEA883D51C1915A8008D871B /* SFSmartSqlHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC61BFD30030022F021 /* SFSmartSqlHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883D61C1915A8008D871B /* SFSmartSqlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC71BFD30030022F021 /* SFSmartSqlHelper.m */; };
-		CEA883D71C1915A8008D871B /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC81BFD30030022F021 /* SFSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883D81C1915A8008D871B /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC91BFD30030022F021 /* SFSmartStore.m */; };
-		CEA883D91C1915A8008D871B /* SFSmartStore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBCA1BFD30030022F021 /* SFSmartStore+Internal.h */; };
-		CEA883DA1C1915A8008D871B /* SFSmartStoreDatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBCB1BFD30030022F021 /* SFSmartStoreDatabaseManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883DB1C1915A8008D871B /* SFSmartStoreDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBCC1BFD30030022F021 /* SFSmartStoreDatabaseManager.m */; };
-		CEA883DC1C1915A8008D871B /* SFSmartStoreDatabaseManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBCD1BFD30030022F021 /* SFSmartStoreDatabaseManager+Internal.h */; };
-		CEA883DD1C1915A8008D871B /* SFSmartStoreInspectorViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBCE1BFD30030022F021 /* SFSmartStoreInspectorViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883DE1C1915A8008D871B /* SFSmartStoreInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBCF1BFD30030022F021 /* SFSmartStoreInspectorViewController.m */; };
-		CEA883DF1C1915A8008D871B /* SFSmartStoreUpgrade.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD01BFD30030022F021 /* SFSmartStoreUpgrade.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883E01C1915A8008D871B /* SFSmartStoreUpgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD11BFD30030022F021 /* SFSmartStoreUpgrade.m */; };
-		CEA883E11C1915A8008D871B /* SFSmartStoreUpgrade+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD21BFD30030022F021 /* SFSmartStoreUpgrade+Internal.h */; };
-		CEA883E21C1915A8008D871B /* SFSmartStoreUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD31BFD30030022F021 /* SFSmartStoreUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883E31C1915A8008D871B /* SFSmartStoreUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD41BFD30030022F021 /* SFSmartStoreUtils.m */; };
-		CEA883E41C1915A8008D871B /* SFSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD51BFD30030022F021 /* SFSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883E51C1915A8008D871B /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD61BFD30030022F021 /* SFSoupIndex.m */; };
-		CEA883E61C1915A8008D871B /* SFStoreCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD71BFD30030022F021 /* SFStoreCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883E71C1915A8008D871B /* SFStoreCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD81BFD30030022F021 /* SFStoreCursor.m */; };
-		CEA883E81C1915A8008D871B /* SmartStoreSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F883C751C16279F007D4BAE /* SmartStoreSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883E91C1915A8008D871B /* SmartStoreSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F883C7A1C1627BD007D4BAE /* SmartStoreSDKManager.m */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		FDCEC343F565157E01DA4FCC /* SFSDKStoreConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC27040E2DF5A8CEE0449 /* SFSDKStoreConfig.m */; };
 		FDCEC6B90C403AF110F6313E /* SFSDKStoreConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC4788224558787F87BD6 /* SFSDKStoreConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FDCEC6DE28140A9E55B3A04E /* SFSDKStoreConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC4788224558787F87BD6 /* SFSDKStoreConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FDCECF4A428DEAE8F0E9E092 /* SFSDKStoreConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC27040E2DF5A8CEE0449 /* SFSDKStoreConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -195,13 +148,6 @@
 			remoteGlobalIDString = CE2B8BD91CE900F500C6FC6A;
 			remoteInfo = SalesforceAnalyticsTests;
 		};
-		B716A3B5218F6AAC009D407F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B716A3A9218F6AAC009D407F /* SalesforceAnalytics.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CE2B8BFF1CE91BFA00C6FC6A;
-			remoteInfo = SalesforceAnalyticsStatic;
-		};
 		B716A3B7218F6AAC009D407F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B716A3A9218F6AAC009D407F /* SalesforceAnalytics.xcodeproj */;
@@ -222,13 +168,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = B7136D07216684A700F6A221;
 			remoteInfo = SalesforceSDKCommonTests;
-		};
-		B716A3C3218F6AB3009D407F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B716A3B9218F6AB3009D407F /* SalesforceSDKCommon.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B7136D3921668A2100F6A221;
-			remoteInfo = SalesforceSDKCommonStatic;
 		};
 		B716A3CD218F6ABA009D407F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -251,26 +190,12 @@
 			remoteGlobalIDString = 4F7EB4151BFFC88200768720;
 			remoteInfo = SalesforceSDKCoreTests;
 		};
-		B716A3D3218F6ABA009D407F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B716A3C5218F6ABA009D407F /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEA8825F1C18F722008D871B;
-			remoteInfo = SalesforceSDKCoreStatic;
-		};
 		B716A3DC218F6D7A009D407F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B716A3B9218F6AB3009D407F /* SalesforceSDKCommon.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = B7136CFD216684A700F6A221;
 			remoteInfo = SalesforceSDKCommon;
-		};
-		B716A3DE218F6DD5009D407F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B716A3C5218F6ABA009D407F /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CEA8825E1C18F722008D871B;
-			remoteInfo = SalesforceSDKCoreStatic;
 		};
 		B716A40D218F7A8F009D407F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -322,6 +247,8 @@
 		4F06AF1C1C499EB600F70798 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SmartStore-Prefix.pch"; path = "SmartStore/SmartStore-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		4F51C9F01D35ACE500100D66 /* SFSmartStoreFTSWithExternalStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreFTSWithExternalStorageTests.m; sourceTree = "<group>"; };
+		4F5BBB9C23592EBB00E6D619 /* SmartStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartStore.swift; sourceTree = "<group>"; };
+		4F5BBBB3235E1FD900E6D619 /* SmartStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartStoreTests.swift; sourceTree = "<group>"; };
 		4F75745122B9A96900528BE2 /* SFSmartSqlCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSmartSqlCache.h; sourceTree = "<group>"; };
 		4F75745E22B9A99900528BE2 /* SFSmartSqlCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSmartSqlCache.m; sourceTree = "<group>"; };
 		4F75747122B9BA9000528BE2 /* SFSmartSqlCacheTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSmartSqlCacheTests.m; sourceTree = "<group>"; };
@@ -360,8 +287,6 @@
 		4F96FBD71BFD30030022F021 /* SFStoreCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFStoreCursor.h; path = SmartStore/Classes/SFStoreCursor.h; sourceTree = SOURCE_ROOT; };
 		4F96FBD81BFD30030022F021 /* SFStoreCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFStoreCursor.m; path = SmartStore/Classes/SFStoreCursor.m; sourceTree = SOURCE_ROOT; };
 		4F96FC4D1BFD31EF0022F021 /* SmartStore-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Common.xcconfig"; path = "Configuration/SmartStore-Common.xcconfig"; sourceTree = "<group>"; };
-		4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Static-iOS-Debug.xcconfig"; path = "Configuration/SmartStore-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
-		4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Static-iOS-Release.xcconfig"; path = "Configuration/SmartStore-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Test.xcconfig"; path = "Configuration/SmartStore-Test.xcconfig"; sourceTree = "<group>"; };
 		4F99B53B1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreLoadTests.m; sourceTree = "<group>"; };
 		4FAB7D781F8D888400226249 /* userstore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userstore.json; sourceTree = "<group>"; };
@@ -412,7 +337,6 @@
 		CE4CE5841C0FB648009F6029 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CE682C7E1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSmartStoreLogger.h; sourceTree = "<group>"; };
 		CE682C7F1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSmartStoreLogger.m; sourceTree = "<group>"; };
-		CEA883BA1C1914DE008D871B /* libSmartStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE56195911E600CBBFE9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -442,15 +366,6 @@
 				828917AD1C52DB6B002F9981 /* libsqlcipher.a in Frameworks */,
 				CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */,
 				CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CEA883B71C1914DE008D871B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CEA883CB1C191580008D871B /* Foundation.framework in Frameworks */,
-				6F96F9A01CB824EF00B2A120 /* libsqlcipher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +420,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		4F5BBB9323592E9600E6D619 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4F5BBB9C23592EBB00E6D619 /* SmartStore.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		828917791C52B6E2002F9981 /* fmdb */ = {
 			isa = PBXGroup;
 			children = (
@@ -527,7 +450,6 @@
 			children = (
 				B716A3B2218F6AAC009D407F /* SalesforceAnalytics.framework */,
 				B716A3B4218F6AAC009D407F /* SalesforceAnalyticsTests.xctest */,
-				B716A3B6218F6AAC009D407F /* libSalesforceAnalytics.a */,
 				B716A3B8218F6AAC009D407F /* SalesforceAnalyticsTestApp.app */,
 			);
 			name = Products;
@@ -539,7 +461,6 @@
 				B716A3C0218F6AB3009D407F /* SalesforceSDKCommon.framework */,
 				B716A3C2218F6AB3009D407F /* SalesforceSDKCommonTests.xctest */,
 				B716A413218F7A8F009D407F /* SalesforceSDKCommonTestApp.app */,
-				B716A3C4218F6AB3009D407F /* libSalesforceSDKCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -550,7 +471,6 @@
 				B716A3CE218F6ABA009D407F /* SalesforceSDKCore.framework */,
 				B716A3D0218F6ABA009D407F /* SalesforceSDKCoreTestApp.app */,
 				B716A3D2218F6ABA009D407F /* SalesforceSDKCoreTests.xctest */,
-				B716A3D4218F6ABA009D407F /* libSalesforceSDKCore.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -570,8 +490,6 @@
 				CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */,
 				CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */,
 				4F96FC4D1BFD31EF0022F021 /* SmartStore-Common.xcconfig */,
-				4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */,
-				4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */,
 				4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */,
 			);
 			name = Configuration;
@@ -594,7 +512,6 @@
 			children = (
 				CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */,
 				CE4CE2B91C0E4581009F6029 /* SmartStore.framework */,
-				CEA883BA1C1914DE008D871B /* libSmartStore.a */,
 				4F06AF091C499EB600F70798 /* SmartStoreTestApp.app */,
 			);
 			name = Products;
@@ -668,6 +585,7 @@
 				B7352CAC2278F93A00DA2CFF /* SFSmartStoreSharingUpgradeTests.m */,
 				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
 				4F75747122B9BA9000528BE2 /* SFSmartSqlCacheTests.m */,
+				4F5BBBB3235E1FD900E6D619 /* SmartStoreTests.swift */,
 			);
 			path = SmartStoreTests;
 			sourceTree = "<group>";
@@ -684,6 +602,7 @@
 		CEF50A79196B3EB60076264C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4F5BBB9323592E9600E6D619 /* Extensions */,
 				B789278D2242B2AD00BEDED4 /* Instrumentation */,
 				828917791C52B6E2002F9981 /* fmdb */,
 				CE682C7E1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.h */,
@@ -761,39 +680,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CEA883C61C19155B008D871B /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C03DE7D71D1B297E00BFA6BD /* SFSoupSpec.h in Headers */,
-				828917921C52B715002F9981 /* FMDatabasePool.h in Headers */,
-				CE682C851F01B64E003C43C0 /* SFSDKSmartStoreLogger.h in Headers */,
-				CEA883E21C1915A8008D871B /* SFSmartStoreUtils.h in Headers */,
-				CEA883DA1C1915A8008D871B /* SFSmartStoreDatabaseManager.h in Headers */,
-				CEA883D11C1915A8008D871B /* SFAlterSoupLongOperation.h in Headers */,
-				CEA883DC1C1915A8008D871B /* SFSmartStoreDatabaseManager+Internal.h in Headers */,
-				4F75745D22B9A98000528BE2 /* SFSmartSqlCache.h in Headers */,
-				CEA883D31C1915A8008D871B /* SFQuerySpec.h in Headers */,
-				CEA883DD1C1915A8008D871B /* SFSmartStoreInspectorViewController.h in Headers */,
-				CEA883E11C1915A8008D871B /* SFSmartStoreUpgrade+Internal.h in Headers */,
-				CEA883D51C1915A8008D871B /* SFSmartSqlHelper.h in Headers */,
-				828917961C52B715002F9981 /* FMResultSet.h in Headers */,
-				CEA883CE1C191595008D871B /* SmartStore.h in Headers */,
-				828917901C52B715002F9981 /* FMDatabaseAdditions.h in Headers */,
-				828917941C52B715002F9981 /* FMDatabaseQueue.h in Headers */,
-				B78928422243DE5700BEDED4 /* SFSmartStore+Instrumentation.h in Headers */,
-				CEA883D71C1915A8008D871B /* SFSmartStore.h in Headers */,
-				8289178E1C52B715002F9981 /* FMDatabase.h in Headers */,
-				CEA883D91C1915A8008D871B /* SFSmartStore+Internal.h in Headers */,
-				CEA883E61C1915A8008D871B /* SFStoreCursor.h in Headers */,
-				C03DE7D81D1B298900BFA6BD /* SFSoupSpec+Internal.h in Headers */,
-				CEA883DF1C1915A8008D871B /* SFSmartStoreUpgrade.h in Headers */,
-				CEA883E81C1915A8008D871B /* SmartStoreSDKManager.h in Headers */,
-				CEA883E41C1915A8008D871B /* SFSoupIndex.h in Headers */,
-				FDCEC6DE28140A9E55B3A04E /* SFSDKStoreConfig.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -838,24 +724,6 @@
 			productReference = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		CEA883B91C1914DE008D871B /* SmartStoreStatic */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CEA883C51C1914DE008D871B /* Build configuration list for PBXNativeTarget "SmartStoreStatic" */;
-			buildPhases = (
-				CEA883B61C1914DE008D871B /* Sources */,
-				CEA883B71C1914DE008D871B /* Frameworks */,
-				CEA883C61C19155B008D871B /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B716A3DF218F6DD5009D407F /* PBXTargetDependency */,
-			);
-			name = SmartStoreStatic;
-			productName = SmartStoreStatic;
-			productReference = CEA883BA1C1914DE008D871B /* libSmartStore.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		CEAAAE54195911E600CBBFE9 /* SmartStoreTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CEAAAE6B195911E600CBBFE9 /* Build configuration list for PBXNativeTarget "SmartStoreTests" */;
@@ -894,11 +762,10 @@
 					};
 					CE4CE2B81C0E4581009F6029 = {
 						CreatedOnToolsVersion = 7.1;
-					};
-					CEA883B91C1914DE008D871B = {
-						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 1100;
 					};
 					CEAAAE54195911E600CBBFE9 = {
+						LastSwiftMigration = 1100;
 						TestTargetID = 4F06AF081C499EB600F70798;
 					};
 				};
@@ -934,7 +801,6 @@
 				4F06AF081C499EB600F70798 /* SmartStoreTestApp */,
 				CEAAAE54195911E600CBBFE9 /* SmartStoreTests */,
 				CEAAAE75195A181000CBBFE9 /* Documentation */,
-				CEA883B91C1914DE008D871B /* SmartStoreStatic */,
 			);
 		};
 /* End PBXProject section */
@@ -952,13 +818,6 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceAnalyticsTests.xctest;
 			remoteRef = B716A3B3218F6AAC009D407F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B716A3B6218F6AAC009D407F /* libSalesforceAnalytics.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceAnalytics.a;
-			remoteRef = B716A3B5218F6AAC009D407F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B716A3B8218F6AAC009D407F /* SalesforceAnalyticsTestApp.app */ = {
@@ -982,13 +841,6 @@
 			remoteRef = B716A3C1218F6AB3009D407F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B716A3C4218F6AB3009D407F /* libSalesforceSDKCommon.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceSDKCommon.a;
-			remoteRef = B716A3C3218F6AB3009D407F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B716A3CE218F6ABA009D407F /* SalesforceSDKCore.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1008,13 +860,6 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceSDKCoreTests.xctest;
 			remoteRef = B716A3D1218F6ABA009D407F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B716A3D4218F6ABA009D407F /* libSalesforceSDKCore.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceSDKCore.a;
-			remoteRef = B716A3D3218F6ABA009D407F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B716A413218F7A8F009D407F /* SalesforceSDKCommonTestApp.app */ = {
@@ -1127,34 +972,7 @@
 				CE4CE40E1C0E59DA009F6029 /* SFQuerySpec.m in Sources */,
 				CE4CE41D1C0E59DA009F6029 /* SFSmartStoreUtils.m in Sources */,
 				FDCEC343F565157E01DA4FCC /* SFSDKStoreConfig.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CEA883B61C1914DE008D871B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CEA883D21C1915A8008D871B /* SFAlterSoupLongOperation.m in Sources */,
-				CEA883E71C1915A8008D871B /* SFStoreCursor.m in Sources */,
-				CEA883DE1C1915A8008D871B /* SFSmartStoreInspectorViewController.m in Sources */,
-				CE682C861F01B658003C43C0 /* SFSDKSmartStoreLogger.m in Sources */,
-				8289178F1C52B715002F9981 /* FMDatabase.m in Sources */,
-				B78928442243DE5700BEDED4 /* SFSmartStore+Instrumentation.m in Sources */,
-				CEA883D81C1915A8008D871B /* SFSmartStore.m in Sources */,
-				828917951C52B715002F9981 /* FMDatabaseQueue.m in Sources */,
-				828917971C52B715002F9981 /* FMResultSet.m in Sources */,
-				CEA883D61C1915A8008D871B /* SFSmartSqlHelper.m in Sources */,
-				CEA883E51C1915A8008D871B /* SFSoupIndex.m in Sources */,
-				CEA883DB1C1915A8008D871B /* SFSmartStoreDatabaseManager.m in Sources */,
-				828917911C52B715002F9981 /* FMDatabaseAdditions.m in Sources */,
-				C03DE7D91D1B29A500BFA6BD /* SFSoupSpec.m in Sources */,
-				CEA883E91C1915A8008D871B /* SmartStoreSDKManager.m in Sources */,
-				4F75746022B9A99900528BE2 /* SFSmartSqlCache.m in Sources */,
-				CEA883E01C1915A8008D871B /* SFSmartStoreUpgrade.m in Sources */,
-				828917931C52B715002F9981 /* FMDatabasePool.m in Sources */,
-				CEA883D41C1915A8008D871B /* SFQuerySpec.m in Sources */,
-				CEA883E31C1915A8008D871B /* SFSmartStoreUtils.m in Sources */,
-				FDCECF4A428DEAE8F0E9E092 /* SFSDKStoreConfig.m in Sources */,
+				4F5BBB9D23592EBB00E6D619 /* SmartStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1169,6 +987,7 @@
 				4FEE44851BFD5CCC00F09C43 /* SFSmartSqlWithExternalStorageTests.m in Sources */,
 				B7DD6CE61DC178D0004C04F4 /* SFMultipleSmartStoresTests.m in Sources */,
 				4FF4DC671CF51D9300385C2C /* SFQuerySpecTests.m in Sources */,
+				4F5BBBB4235E1FD900E6D619 /* SmartStoreTests.swift in Sources */,
 				4FEE44861BFD5CD200F09C43 /* SFSmartStoreAlterTests.m in Sources */,
 				4F99B53C1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m in Sources */,
 				4F51C9F11D35ACE500100D66 /* SFSmartStoreFTSWithExternalStorageTests.m in Sources */,
@@ -1197,11 +1016,6 @@
 			isa = PBXTargetDependency;
 			name = SalesforceSDKCommon;
 			targetProxy = B716A3DC218F6D7A009D407F /* PBXContainerItemProxy */;
-		};
-		B716A3DF218F6DD5009D407F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SalesforceSDKCoreStatic;
-			targetProxy = B716A3DE218F6DD5009D407F /* PBXContainerItemProxy */;
 		};
 		B716A40E218F7A8F009D407F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1256,7 +1070,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = SmartStoreTestApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1283,7 +1097,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = SmartStoreTestApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1303,7 +1117,7 @@
 				BUILD_VERSION_SUFFIX = "";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1312,7 +1126,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = SmartStore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1322,6 +1136,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1345,7 +1163,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = SmartStore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1355,52 +1173,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		CEA883C01C1914DE008D871B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */;
-			buildSettings = {
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-lz",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
-				PRODUCT_NAME = SmartStore;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		CEA883C11C1914DE008D871B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */;
-			buildSettings = {
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-lz",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
-				PRODUCT_NAME = SmartStore;
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -1451,7 +1229,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1497,7 +1275,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1508,6 +1286,7 @@
 			baseConfigurationReference = 4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1528,6 +1307,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartStoreTestApp.app/SmartStoreTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1538,6 +1319,7 @@
 			baseConfigurationReference = 4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				INFOPLIST_FILE = "SmartStoreTests/SmartStoreTests-Info.plist";
@@ -1554,6 +1336,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartStoreTestApp.app/SmartStoreTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1590,15 +1374,6 @@
 			buildConfigurations = (
 				CE4CE2BE1C0E4581009F6029 /* Debug */,
 				CE4CE2BF1C0E4581009F6029 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CEA883C51C1914DE008D871B /* Build configuration list for PBXNativeTarget "SmartStoreStatic" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CEA883C01C1914DE008D871B /* Debug */,
-				CEA883C11C1914DE008D871B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

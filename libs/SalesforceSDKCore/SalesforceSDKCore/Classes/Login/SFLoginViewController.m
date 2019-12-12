@@ -217,7 +217,10 @@
 
 - (UIBarButtonItem *)createSettingsButton {
     UIImage *image = [[SFSDKResourceUtils imageNamed:@"login-window-gear"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    return [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
+    settingsButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
+    settingsButton.accessibilityIdentifier = @"choose connection button";
+    return settingsButton;
 }
 
 - (UIView *)createTitleItem {
@@ -336,7 +339,12 @@
 
 - (void)showHostListView {
     SFSDKNavigationController *navController = [[SFSDKNavigationController alloc] initWithRootViewController:self.loginHostListViewController];
-    navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    if (@available(iOS 13.0, *)) {
+        navController.modalPresentationStyle = UIModalPresentationFullScreen;
+    } else {
+       navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    }
+    
     [self presentViewController:navController animated:YES completion:nil];
 }
 

@@ -1,6 +1,6 @@
 {
 	"name": "SalesforceMobileSDK-iOS",
-	"version": "7.3.0",
+	"version": "8.0.0",
 	"description": "Salesforce Mobile SDK for iOS",
 	"keywords": [ "mobilesdk", "ios", "salesforce", "mobile", "sdk" ],
 	"homepage": "https://github.com/forcedotcom/SalesforceMobileSDK-iOS",
@@ -24,7 +24,7 @@
         "SalesforceAnalytics.podspec",
 	    "SalesforceSDKCore.podspec",
 	    "SmartStore.podspec",
-        "SmartSync.podspec",
+        "MobileSync.podspec",
         "SalesforceReact.podspec",
         "libs",
         "shared/resources",

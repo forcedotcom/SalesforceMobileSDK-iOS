@@ -41,7 +41,7 @@ static CGFloat      const kSFButtonCornerRadius                = 4.0f;
 static CGFloat      const kSFButtonHeight                      = 47.0f;
 static CGFloat      const kSFVerifyButtonWidth                 = 143.0f;
 static CGFloat      const kSFPasscodeViewHeight                = 48.0f;
-static CGFloat      const kSFViewBoarderWidth                  = 1.0f;
+static CGFloat      const kSFViewBorderWidth                   = 0.5f;
 // Public constants
 NSString * const kSFRemainingAttemptsKey = @"remainingAttempts";
 NSUInteger const kSFMaxNumberofAttempts = 10;
@@ -116,7 +116,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     [super loadView];
     self.passcodeTextView = [[SFSDKPasscodeTextField alloc] initWithFrame:CGRectZero andViewConfig:self.viewConfig];
     self.passcodeTextView.delegate = self;
-    self.passcodeTextView.layer.borderWidth = kSFViewBoarderWidth;
+    self.passcodeTextView.layer.borderWidth = kSFViewBorderWidth;
     self.passcodeTextView.accessibilityIdentifier = @"passcodeTextField";
     self.passcodeTextView.accessibilityLabel = [SFSDKResourceUtils localizedString:@"accessibilityPasscodeFieldLabel"];
     self.passcodeTextView.secureTextEntry = YES;
@@ -155,14 +155,6 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     [self.logoutButton setEnabled:NO];
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor clearColor]];
     [self.navigationItem setLeftBarButtonItem:self.logoutButton];
-}
-
-- (void)setupNavigationBar {
-    self.navigationController.navigationBar.backgroundColor = self.viewConfig.navBarColor;
-    self.navigationController.navigationBar.tintColor = self.viewConfig.navBarColor;
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : self.viewConfig.navBarTextColor,
-                                                                    NSFontAttributeName : self.viewConfig.navBarFont};
 }
 
 - (void)viewDidLoad {
@@ -205,10 +197,10 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     CGFloat hIns = self.passcodeInstructionsLabel.bounds.size.height;
     self.passcodeInstructionsLabel.frame = CGRectMake(xIns, yIns, wIns, hIns);
     
-    CGFloat xView = (0 - kSFViewBoarderWidth);
+    CGFloat xView = (0 - kSFViewBorderWidth);
     CGFloat yView = yIns + hIns + (kSFDefaultPadding / 2.0);
-    CGFloat wView = self.view.bounds.size.width + (kSFViewBoarderWidth * 2);
-    CGFloat hView = kSFPasscodeViewHeight + (kSFViewBoarderWidth * 2);
+    CGFloat wView = self.view.bounds.size.width + (kSFViewBorderWidth * 2);
+    CGFloat hView = kSFPasscodeViewHeight + (kSFViewBorderWidth * 2);
     self.passcodeTextView.frame = CGRectMake(xView, yView, wView, hView);
     self.passcodeTextView.layer.frame = CGRectMake(xView, yView, wView, hView);
     [self.passcodeTextView refreshView];
