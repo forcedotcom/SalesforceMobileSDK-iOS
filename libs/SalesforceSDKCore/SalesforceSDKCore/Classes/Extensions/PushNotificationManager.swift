@@ -39,7 +39,7 @@ extension PushNotificationManager {
     /// - Parameter completionBlock: completion block to call with success or failure
     public func registerForSalesforceNotifications(_ completionBlock:@escaping (Result<Bool, PushNotificationManagerError>)->()) {
         if let currentUser = UserAccountManager.shared.currentUserAccount {
-            self.registerForSalesforceNotifications(user: currentUser, completionBlock: completionBlock)
+            return self.registerForSalesforceNotifications(user: currentUser, completionBlock: completionBlock)
         }
         completionBlock(.failure(.currentUserNotDetected))
     }
