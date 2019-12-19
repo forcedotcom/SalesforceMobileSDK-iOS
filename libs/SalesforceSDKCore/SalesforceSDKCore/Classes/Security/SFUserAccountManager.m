@@ -146,13 +146,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 + (instancetype)sharedInstance {
     static dispatch_once_t pred;
     static SFUserAccountManager *userAccountManager = nil;
+    __block BOOL isFirstRun = NO;
     dispatch_once(&pred, ^{
-		userAccountManager = [[self alloc] init];
-	});
-    static dispatch_once_t pred2;
-    dispatch_once(&pred2, ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidFinishUserInitNotification object:nil];
+        userAccountManager = [[self alloc] init];
+        isFirstRun = YES;
     });
+    if (isFirstRun) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidFinishUserInitNotification object:nil];
+    };
     return userAccountManager;
 }
 
