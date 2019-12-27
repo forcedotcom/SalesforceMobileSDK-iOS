@@ -57,4 +57,11 @@
  */
 - (nonnull instancetype) initWithEventId:(nonnull NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(nonnull NSString *) name attributes:(nullable NSDictionary *) attributes sessionId:(nullable NSString *) sessionId sequenceId:(NSInteger) sequenceId senderId:(nullable NSString *) senderId senderContext:(nullable NSDictionary *) senderContext schemaType:(SFASchemaType) schemaType eventType:(SFAEventType) eventType errorType:(SFAErrorType) errorType deviceAppAttributes:(nonnull SFSDKDeviceAppAttributes *) deviceAppAttributes connectionType:(nonnull NSString *) connectionType senderParentId:(nullable NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(nullable NSDictionary *) page previousPage:(nullable NSDictionary *) previousPage marks:(nullable NSDictionary *) marks;
 
+/**
+* Returns a JSON dictionary representation of this event.
+*
+* @return JSON dictionary representation.
+*/
+- (nonnull NSDictionary *) jsonDictionary;
+
 @end
