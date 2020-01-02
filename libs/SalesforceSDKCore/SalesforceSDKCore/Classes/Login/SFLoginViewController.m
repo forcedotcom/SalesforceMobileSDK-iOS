@@ -272,12 +272,12 @@
 }
 
 - (void)handleBackButtonAction {
-   
+    [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
     if (![SFUserAccountManager sharedInstance].idpEnabled) {
         [[SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
             [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
         }];
-    }else {
+    } else {
         [[SFSDKWindowManager sharedManager].authWindow.viewController dismissViewControllerAnimated:NO completion:nil];
     }
 }
