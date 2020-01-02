@@ -75,7 +75,7 @@
 
     // Copies event, to isolate data for I/O.
     SFSDKInstrumentationEvent *eventCopy = [event copy];
-    if (!eventCopy || ![eventCopy jsonRepresentation]) {
+    if (!eventCopy) {
         return;
     }
     if (![self shouldStoreEvent]) {
