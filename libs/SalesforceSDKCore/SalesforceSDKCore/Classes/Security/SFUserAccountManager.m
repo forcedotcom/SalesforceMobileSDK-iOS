@@ -467,7 +467,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
     request.jwtToken = jwtToken;
-    return [self authenticateWithCompletion:completionBlock failure:failureBlock];
+    return [self authenticateWithRequest:request completion:completionBlock failure:failureBlock];
 }
 
 - (void)logout {
