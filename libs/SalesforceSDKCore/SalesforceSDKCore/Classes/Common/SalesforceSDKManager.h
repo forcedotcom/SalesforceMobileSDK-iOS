@@ -40,6 +40,15 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
     kSFAppTypeNativeSwift
 } NS_SWIFT_NAME(SalesforceManager.AppType);
 
+typedef NS_ENUM(NSUInteger, SFURLCacheType) {
+    // Cache data will be encrypted.
+    kSFURLCacheTypeEncrypted = 1,
+    // Cache won't store responses.
+    kSFURLCacheTypeNull,
+    // Standard URL cache.
+    kSFURLCacheTypeStandard
+} NS_SWIFT_NAME(SalesforceManager.URLCacheType);
+
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *SFAppTypeGetDescription(SFAppType appType) NS_SWIFT_NAME(getter:SFAppType.description(self:));
@@ -262,7 +271,12 @@ NS_SWIFT_NAME(SalesforceManager)
 
 /** Use this flag to indicate if the URL cache should be encrypted. YES by default.
  */
-@property (nonatomic, assign) BOOL encryptURLCache;
+@property (nonatomic, assign) BOOL encryptURLCache SFSDK_DEPRECATED(8.1, 9.0, "Use URLCacheType instead");
+
+/** The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.
+*/
+@property (nonatomic, assign) SFURLCacheType URLCacheType;
+
 
 /**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to
