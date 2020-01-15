@@ -1616,8 +1616,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)resetAuthentication {
+    
     [_accountsLock lock];
-    [self.authSession.oauthCoordinator.view removeFromSuperview];
+    if (self.authSession.authInfo.authType == SFOAuthTypeUserAgent) {
+        [self.authSession.oauthCoordinator.view removeFromSuperview];
+    }
     [self.authSession.oauthCoordinator stopAuthentication];
     self.authSession.identityCoordinator.idData = nil;
     self.authSession.isAuthenticating = NO;
