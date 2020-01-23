@@ -810,8 +810,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 #pragma mark - SFSDKLoginHostDelegate
 - (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
-    [hostListViewController dismissViewControllerAnimated:YES completion:nil];
-    [self restartAuthentication];
+    [self loginHostSelected:hostListViewController];
 }
 
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
@@ -822,6 +821,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [[NSNotificationCenter defaultCenter] postNotification:loginHostChangedNotification];
     self.authSession.oauthRequest.loginHost = newLoginHost.host;
     [_accountsLock unlock];
+}
+
+- (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
+    [self loginHostSelected:hostListViewController];
+}
+
+- (void)loginHostSelected:(SFSDKLoginHostListViewController *)hostListViewController {
+    [hostListViewController dismissViewControllerAnimated:YES completion:nil];
+    [self restartAuthentication];
 }
 
 #pragma mark - SFSDKLoginFlowSelectionViewDelegate (SP App flow Related Actions)
