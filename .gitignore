@@ -23,3 +23,7 @@ node_modules/
 package-lock.json
 npm-debug.log
 index.ios.bundle*
+clangReport/
+test_output/
+.circleci/fastlane/README.md
+.circleci/fastlane/report.xml
