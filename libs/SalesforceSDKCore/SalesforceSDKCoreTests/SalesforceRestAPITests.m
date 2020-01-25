@@ -2479,6 +2479,9 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     NSInteger statusCode = [(NSHTTPURLResponse *)listener.rawResponse statusCode];
     XCTAssertEqual(statusCode, 302, @"Request did not return 302");
+    NSString *redirectLocation = [(NSHTTPURLResponse *)listener.rawResponse allHeaderFields][@"Location"];
+    XCTAssertNotNil(redirectLocation, @"Redirect location nil");
+    XCTAssert([redirectLocation containsString:@"profilephoto/005/T"]);
 }
 
 - (SFUserAccount *)createNewUser {
