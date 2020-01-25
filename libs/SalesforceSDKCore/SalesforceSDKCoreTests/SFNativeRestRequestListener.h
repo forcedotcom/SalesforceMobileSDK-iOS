@@ -30,6 +30,7 @@
 
 @property (nonatomic, strong) SFRestRequest *request;
 @property (nonatomic, assign) NSTimeInterval sleepDuringLoad;
+@property (nonatomic, strong) NSURLResponse *rawResponse;
 
 - (id)initWithRequest:(SFRestRequest *)request;
 

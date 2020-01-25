@@ -75,6 +75,7 @@ int class_uid = 0;
     [SFLogger log:[self class] level:SFLogLevelDebug  format:@"## error for request %d", self->uid];
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
+    self.rawResponse = rawResponse;
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {

@@ -35,7 +35,7 @@ NSString * const kSFNetworkEphemeralInstanceIdentifier = @"com.salesforce.networ
 NSString * const kSFNetworkBackgroundInstanceIdentifier = @"com.salesforce.network.backgroundSession";
 static SFSDKSafeMutableDictionary *sharedInstances = nil;
 
-@interface SFNetwork()<NSURLSessionDelegate>
+@interface SFNetwork()<NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
 @property (nonatomic, readwrite, strong) NSURLSession *activeSession;
 
@@ -137,6 +137,15 @@ static SFSDKSafeMutableDictionary *sharedInstances = nil;
         if (session == sharedInstance.activeSession) {
             [sharedInstances removeObject:identifier];
         }
+    }
+}
+
+-(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler {
+    if ([task.originalRequest valueForHTTPHeaderField:@"Authorization"]) {
+        // Don't auto follow redirects in authenticated case
+        completionHandler(nil);
+    } else {
+        completionHandler(request);
     }
 }
 
