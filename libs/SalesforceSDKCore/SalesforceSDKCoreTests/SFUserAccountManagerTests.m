@@ -91,6 +91,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;
 @property (nonatomic, strong) SFSDKLoginViewControllerConfig *config;
 @property (nonatomic, strong) NSString *origLoginHost;
+@property (nonatomic, strong) SFUserAccount *origAccount;
 
 - (SFUserAccount *)createNewUserWithIndex:(NSUInteger)index;
 - (NSArray *)createAndVerifyUserAccounts:(NSUInteger)numAccounts;
@@ -114,10 +115,11 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     // to ensure the SFUserAccountManager sharedInstance loads from an empty directory
     self.uam = [SFUserAccountManager sharedInstance];
     _origLoginHost = self.uam.loginHost;
+    _origAccount = [SFUserAccountManager sharedInstance].currentUser;
     // Ensure the user account manager doesn't contain any account
     NSArray *userAccounts = [[SFUserAccountManager sharedInstance] allUserAccounts];
     for (SFUserAccount *account in userAccounts) {
-        if (account != [SFUserAccountManager sharedInstance].currentUser) {
+        if (account != _origAccount) {
             NSError *error = nil;
             [self.uam deleteAccountForUser:account error:&error];
         }
@@ -133,6 +135,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [SFUserAccountManager sharedInstance].authViewHandler = self.authViewHandler;
     self.uam.loginViewControllerConfig = self.config;
     self.uam.loginHost = _origLoginHost;
+    [[SFUserAccountManager sharedInstance] setCurrentUser:_origAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:_origAccount];
     [super tearDown];
 }
 
