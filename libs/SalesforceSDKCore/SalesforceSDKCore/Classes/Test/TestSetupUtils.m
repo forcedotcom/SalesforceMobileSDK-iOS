@@ -89,6 +89,7 @@ static SFOAuthCredentials *credentials = nil;
     }
     credentials.accessToken = credsData.accessToken;
     credentials.refreshToken = credsData.refreshToken;
+    [[SFUserAccountManager sharedInstance] currentUser].credentials = credentials;
     return credsData;
 }
 
