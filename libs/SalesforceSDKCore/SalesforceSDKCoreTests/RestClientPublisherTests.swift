@@ -26,7 +26,6 @@ import XCTest
 import Combine
 @testable import SalesforceSDKCore
 
-@available(iOS 13.0, watchOS 6.0, *)
 class RestClientPublisherTests: XCTestCase {
     
     var currentUser: UserAccount?
@@ -43,54 +42,63 @@ class RestClientPublisherTests: XCTestCase {
     }
     
     func testQueryPublisher() {
-        let request = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil)
-        let publisher = RestClient.shared.publisher(for: request)
-        
-        let validTest = evaluateResults(publisher: publisher)
-        wait(for: validTest.expectations, timeout: 5)
-        validTest.cancellable?.cancel()
+        // TODO:  Remove this when iOS 13 becomes the target version.
+        if #available(iOS 13.0, *) {
+            let request = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil)
+            let publisher = RestClient.shared.publisher(for: request)
+            
+            let validTest = evaluateResults(publisher: publisher)
+            wait(for: validTest.expectations, timeout: 5)
+            validTest.cancellable?.cancel()
+        }
     }
     
     func testCompositePublisher() {
-        let accountName = self.generateRecordName()
-        let contactName = self.generateRecordName()
-        let apiVersion = RestClient.shared.apiVersion
-        let requestBuilder = CompositeRequestBuilder()
-            .add(RestClient.shared.requestForCreate(withObjectType: "Account", fields: ["Name": accountName], apiVersion: apiVersion), referenceId: "refAccount")
-            .add(RestClient.shared.requestForCreate(withObjectType: "Contact", fields: ["LastName": contactName,"AccountId": "@{refAccount.id}"], apiVersion: apiVersion), referenceId: "refContact")
-            .add(RestClient.shared.request(forQuery: "select Id, AccountId from Contact where LastName =  '\(contactName)'", apiVersion: apiVersion), referenceId: "refQuery")
-            .setAllOrNone(true)
-        
-        let compositeRequest = requestBuilder.buildCompositeRequest(apiVersion)
-        let publisher = RestClient.shared.publisher(for: compositeRequest)
-        
-        let validTest = evaluateResults(publisher: publisher)
-        wait(for: validTest.expectations, timeout: 10)
-        validTest.cancellable?.cancel()
+        // TODO:  Remove this when iOS 13 becomes the target version.
+        if #available(iOS 13.0, *) {
+            let accountName = self.generateRecordName()
+            let contactName = self.generateRecordName()
+            let apiVersion = RestClient.shared.apiVersion
+            let requestBuilder = CompositeRequestBuilder()
+                .add(RestClient.shared.requestForCreate(withObjectType: "Account", fields: ["Name": accountName], apiVersion: apiVersion), referenceId: "refAccount")
+                .add(RestClient.shared.requestForCreate(withObjectType: "Contact", fields: ["LastName": contactName,"AccountId": "@{refAccount.id}"], apiVersion: apiVersion), referenceId: "refContact")
+                .add(RestClient.shared.request(forQuery: "select Id, AccountId from Contact where LastName =  '\(contactName)'", apiVersion: apiVersion), referenceId: "refQuery")
+                .setAllOrNone(true)
+            
+            let compositeRequest = requestBuilder.buildCompositeRequest(apiVersion)
+            let publisher = RestClient.shared.publisher(for: compositeRequest)
+            
+            let validTest = evaluateResults(publisher: publisher)
+            wait(for: validTest.expectations, timeout: 10)
+            validTest.cancellable?.cancel()
+        }
     }
-    
+
     func testBatchPublisher() {
-        
-        let accountName = self.generateRecordName()
-        let contactName = self.generateRecordName()
-        let apiVersion = RestClient.shared.apiVersion
-        
-        let requestBuilder = BatchRequestBuilder()
-            .add(RestClient.shared.requestForCreate(withObjectType: "Account", fields: ["Name": accountName], apiVersion: apiVersion))
-            .add(RestClient.shared.requestForCreate(withObjectType: "Contact", fields: ["LastName": contactName], apiVersion: apiVersion))
-            .add(RestClient.shared.request(forQuery: "select Id from Account where Name ", apiVersion:  apiVersion)) // bad query
-            .add(RestClient.shared.request(forQuery: "select Id from Contact where Name = '\(contactName)'", apiVersion: apiVersion))
-            .setHaltOnError(false)
-        
-        let batchRequest = requestBuilder.buildBatchRequest(apiVersion)
-        let publisher = RestClient.shared.publisher(for: batchRequest)
-        
-        let validTest = evaluateResults(publisher: publisher)
-        wait(for: validTest.expectations, timeout: 10)
-        validTest.cancellable?.cancel()
+        // TODO:  Remove this when iOS 13 becomes the target version.
+        if #available(iOS 13.0, *) {
+            let accountName = self.generateRecordName()
+            let contactName = self.generateRecordName()
+            let apiVersion = RestClient.shared.apiVersion
+            
+            let requestBuilder = BatchRequestBuilder()
+                .add(RestClient.shared.requestForCreate(withObjectType: "Account", fields: ["Name": accountName], apiVersion: apiVersion))
+                .add(RestClient.shared.requestForCreate(withObjectType: "Contact", fields: ["LastName": contactName], apiVersion: apiVersion))
+                .add(RestClient.shared.request(forQuery: "select Id from Account where Name ", apiVersion:  apiVersion)) // bad query
+                .add(RestClient.shared.request(forQuery: "select Id from Contact where Name = '\(contactName)'", apiVersion: apiVersion))
+                .setHaltOnError(false)
+            
+            let batchRequest = requestBuilder.buildBatchRequest(apiVersion)
+            let publisher = RestClient.shared.publisher(for: batchRequest)
+            
+            let validTest = evaluateResults(publisher: publisher)
+            wait(for: validTest.expectations, timeout: 10)
+            validTest.cancellable?.cancel()
+        }
     }
     
     
+    @available(iOS 13.0, *)
     private func evaluateResults<T: Publisher>(publisher: T?, evaluateValidResult: Bool = true) ->  (expectations:[XCTestExpectation], cancellable: AnyCancellable?)  {
         
         let finished = expectation(description: "finished")

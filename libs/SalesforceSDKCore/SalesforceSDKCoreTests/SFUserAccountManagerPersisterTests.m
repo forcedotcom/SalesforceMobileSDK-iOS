@@ -33,6 +33,7 @@
 
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
+static SFUserAccount *origAccount;
 
 @interface SFUserAccountManagerPersisterTests : XCTestCase {
     id<SFUserAccountPersister> _origAccountPersister;
@@ -84,6 +85,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 - (void)setUp {
     [super setUp];
+    origAccount = [[SFUserAccountManager sharedInstance] currentUser];
     self.uam = [SFUserAccountManager sharedInstance];
     _origAccountPersister = self.uam.accountPersister;
     self.uam.accountPersister = [SFUserAccountPersisterEphemeral new];
@@ -93,6 +95,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [SFUserAccountManager sharedInstance].accountPersister = _origAccountPersister;
     [super tearDown];
+    [[SFUserAccountManager sharedInstance] setCurrentUser:origAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:origAccount];
     
 }
 
