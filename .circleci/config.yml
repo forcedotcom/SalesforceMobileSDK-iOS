@@ -2,7 +2,7 @@ executors:
   mac:
     working_directory: ~/SalesforceMobileSDK-iOS
     macos:
-      xcode: 11.2.1
+      xcode: 11.3.1
     shell: /bin/bash --login -eo pipefail
     environment:
       BASH_ENV: ~/.bashrc
