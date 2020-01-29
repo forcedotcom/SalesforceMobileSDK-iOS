@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
   Reset some associated state with WKWebView e.g. Remove Cookies
  */
-+ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure SFSDK_DEPRECATED("8.1", "9.0", "Will be removed.");
++ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure SFSDK_DEPRECATED("8.1", "9.0", "Will be removed, use resetSessionCookie");
 
 /**
   Remove all associated state with WKWebView e.g. Remove Cookies, reset WKProcessPool unless session cookie removal  has been disabled.
@@ -51,8 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool;
 
 /**
- Clears session cookie data from the cookie store, and sets a new session cookie based on the
- OAuth credentials.
+ Clears session cookie data from the cookie store unless session cookie removal  has been disabled.
  */
 + (void)resetSessionCookie;
 @end
