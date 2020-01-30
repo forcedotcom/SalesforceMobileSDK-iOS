@@ -306,7 +306,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
             
             if (![self.navigationItem.leftBarButtonItem isEnabled]) {
                 [self.navigationItem.leftBarButtonItem setEnabled:YES];
-                [self.navigationItem.leftBarButtonItem setTintColor:self.viewConfig.primaryColor];
+                [self.navigationItem.leftBarButtonItem setTintColor:self.viewConfig.logoutButtonColor];
             }
             [self.view setNeedsDisplay];
         }
