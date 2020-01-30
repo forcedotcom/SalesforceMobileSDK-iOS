@@ -48,6 +48,7 @@
         _borderColor = [UIColor passcodeViewBorderColor];
         _instructionTextColor = [UIColor passcodeViewTextColor];
         _titleTextColor = [UIColor passcodeViewTextColor];
+        _logoutButtonColor = _primaryColor;
         _instructionFont = [UIFont systemFontOfSize:14];
         _titleFont = [UIFont systemFontOfSize:18 weight:UIFontWeightBold];
         _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
