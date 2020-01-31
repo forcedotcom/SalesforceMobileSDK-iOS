@@ -44,8 +44,8 @@ int class_uid = 0;
         self.request = request;
         self.request.delegate = self;
         self->uid = class_uid++;
+        [SFLogger log:[self class] level:SFLogLevelDebug format:@"## created listener %d", self->uid];
     }
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"## created listener %d", self->uid];
     return self;
 }
 

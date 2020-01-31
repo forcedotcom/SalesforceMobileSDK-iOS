@@ -428,8 +428,8 @@ static NSString * const kInspectorPickerDefault = @"default";
     [self layoutSubviews];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self selectCurrentStoreInPicker];
 }
 
