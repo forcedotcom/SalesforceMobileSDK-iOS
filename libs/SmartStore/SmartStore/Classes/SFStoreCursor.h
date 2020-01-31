@@ -82,13 +82,13 @@ NS_SWIFT_NAME(StoreCursor)
  * Run query and resturn JSON serialized representation of the cursor.
  * @return JSON serialized representation of this object.
  */
-- (NSString*)getDataSerialized:(SFSmartStore*)store error:(NSError**)error;
+- (nullable NSString*)getDataSerialized:(SFSmartStore*)store error:(NSError**)error;
 
 /**
 * Run query and resturn NSDictionary (deserialized) representation of the cursor.
 * @return NSDictionary representation of this object.
 */
-- (NSDictionary*)getDataDeserialized:(SFSmartStore*)store error:(NSError**)error;
+- (nullable NSDictionary*)getDataDeserialized:(SFSmartStore*)store error:(NSError**)error;
 
 /**
  Close this cursor when finished operating on it.

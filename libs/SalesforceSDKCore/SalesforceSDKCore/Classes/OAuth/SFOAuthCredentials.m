@@ -135,7 +135,7 @@ NSException * SFOAuthInvalidIdentifierException() {
 }
 
 - (instancetype)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId encrypted:(BOOL)encrypted storageType:(SFOAuthCredentialsStorageType)type {
-    Class targetClass = self.class;
+    Class targetClass;
     switch (type) {
         case SFOAuthCredentialsStorageTypeNone:
             targetClass = NSClassFromString(@"SFOAuthCredentials");
