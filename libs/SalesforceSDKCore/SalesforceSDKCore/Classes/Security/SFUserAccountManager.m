@@ -1733,7 +1733,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
         for (int i = 0; i < numHosts; i++) {
             SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:i];
-            if (host) {
+            if (host.host) {
                 [hosts addObject:host.host];
             }
         }
