@@ -85,13 +85,15 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
             }
             NSArray *hostLabels = managedPreferences.loginHostLabels;
             [managedPreferences.loginHosts enumerateObjectsUsingBlock:^(NSString *loginHost, NSUInteger idx, BOOL *stop) {
+                NSString *sanitizedLoginHost = [loginHost stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                 NSString *hostLabel = hostLabels.count > idx ? hostLabels[idx] : loginHost;
-                [self.loginHostList addObject:[SFSDKLoginHost hostWithName:hostLabel host:loginHost deletable:NO]];
+                [self.loginHostList addObject:[SFSDKLoginHost hostWithName:hostLabel host:sanitizedLoginHost deletable:NO]];
             }];
             if (managedPreferences.onlyShowAuthorizedHosts) {
                 return self;
             }
         } else if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"]) {
+
             // Load from info.plist.
             NSString *customHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"];
 
@@ -104,7 +106,8 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
                 [self.loginHostList removeAllObjects];
                 [self.loginHostList addObject:production];
                 [self.loginHostList addObject:sandbox];
-                SFSDKLoginHost *customLoginHost = [SFSDKLoginHost hostWithName:customHost host:customHost deletable:NO];
+                NSString *sanitizedCustomHost = [customHost stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                SFSDKLoginHost *customLoginHost = [SFSDKLoginHost hostWithName:customHost host:sanitizedCustomHost deletable:NO];
                 [self.loginHostList addObject:customLoginHost];
             }
         }
@@ -113,8 +116,7 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
         NSArray *persistedList = [[NSUserDefaults msdkUserDefaults] objectForKey:SFSDKLoginHostList];
         if (persistedList) {
             for (NSDictionary *dic in persistedList) {
-                [self.loginHostList addObject:[SFSDKLoginHost hostWithName:[dic objectForKey:SFSDKLoginHostNameKey] host:[dic objectForKey:SFSDKLoginHostKey]
-                                                                 deletable:YES]];
+                [self.loginHostList addObject:[SFSDKLoginHost hostWithName:[dic objectForKey:SFSDKLoginHostNameKey] host:[dic objectForKey:SFSDKLoginHostKey] deletable:YES]];
             }
         }
     }
