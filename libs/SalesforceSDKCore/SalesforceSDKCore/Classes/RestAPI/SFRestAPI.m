@@ -309,22 +309,15 @@ static dispatch_once_t pred;
             if ([SFRestAPI isStatusCodeSuccess:statusCode]) {
                 id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
                 [strongSelf notifyDelegateOfResponse:delegate request:request data:dataForDelegate rawResponse:response];
-            }
-
-            // 401 (and sometimes 403) indicates refresh is required.
-            else if (request.shouldRefreshOn403 ? (statusCode == 401 || statusCode == 403) : (statusCode == 401)) {
-                if (shouldRetry) {
+            } else {
+                if (shouldRetry && (request.shouldRefreshOn403 ? (statusCode == 401 || statusCode == 403) : (statusCode == 401))) {
+                    // 401 (and sometimes 403) indicates refresh is required.
                     [strongSelf replayRequest:request response:response delegate:delegate];
                 } else {
-                    NSError *retryError = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:nil];
-                    [strongSelf notifyDelegateOfFailure:delegate request:request error:retryError rawResponse:response];
+                    // Other status codes indicate failure.
+                    NSError *errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
+                    [strongSelf notifyDelegateOfFailure:delegate request:request error:errorForDelegate rawResponse:response];
                 }
-            }
-
-            // Other status codes indicate failure.
-            else {
-                NSError* errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
-                [strongSelf notifyDelegateOfFailure:delegate request:request error:errorForDelegate rawResponse:response];
             }
         }];
         request.sessionDataTask = dataTask;
