@@ -25,6 +25,7 @@
 #import <XCTest/XCTest.h>
 #import <objc/runtime.h>
 #import "SFSDKEncryptedURLCache.h"
+#import "SFSDKNullURLCache.h"
 #import "SFRestAPI.h"
 #import "SFNativeRestRequestListener.h"
 #import "SFNetwork.h"
@@ -40,27 +41,59 @@
 
 @end
 
-@interface SFSDKEncryptedUrlCacheTests : XCTestCase
+@interface SFSDKUrlCacheTests : XCTestCase
 
 @end
 
-@implementation SFSDKEncryptedUrlCacheTests
+@implementation SFSDKUrlCacheTests
 
-- (void)testEnablingDisablingEncryptedCache {
+// TODO: Remove in 9.0
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (void)testDeprecatedEncryptionFlag {
+
     // Enabled by default
     [SalesforceSDKManager sharedManager];
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
     NSString *cachePath = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSCachesDirectory components:@[@"salesforce.mobilesdk.URLCache"]];
     XCTAssertNotNil(cachePath);
+    XCTAssertTrue([SalesforceSDKManager sharedManager].encryptURLCache);
 
     // Disable
     [SalesforceSDKManager sharedManager].encryptURLCache = NO;
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[NSURLCache class]]);
+    XCTAssertFalse([SalesforceSDKManager sharedManager].encryptURLCache);
 
     // Enable again
     [SalesforceSDKManager sharedManager].encryptURLCache = YES;
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
+    XCTAssertTrue([SalesforceSDKManager sharedManager].encryptURLCache);
 }
+
+- (void)testSettingCacheTypes {
+    // Encrypted enabled by default
+    [SalesforceSDKManager sharedManager];
+    XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
+    XCTAssertTrue([SalesforceSDKManager sharedManager].encryptURLCache);
+    NSString *cachePath = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSCachesDirectory components:@[@"salesforce.mobilesdk.URLCache"]];
+    XCTAssertNotNil(cachePath);
+
+    // Set back to vanilla URL cache
+    [SalesforceSDKManager sharedManager].URLCacheType = kSFURLCacheTypeStandard;
+    XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[NSURLCache class]]);
+    XCTAssertFalse([SalesforceSDKManager sharedManager].encryptURLCache);
+    
+    // Set to null cache
+    [SalesforceSDKManager sharedManager].URLCacheType = kSFURLCacheTypeNull;
+    XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKNullURLCache class]]);
+    XCTAssertFalse([SalesforceSDKManager sharedManager].encryptURLCache);
+    
+    // Enable encrypted again
+    [SalesforceSDKManager sharedManager].URLCacheType = kSFURLCacheTypeEncrypted;
+    XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
+    XCTAssertTrue([SalesforceSDKManager sharedManager].encryptURLCache);
+}
+#pragma clang diagnostic pop
 
 - (void)testNilURL {
     // NSURLCache ignores requests with bad/nil URLs, make sure we don't crash
@@ -76,7 +109,23 @@
     XCTAssertNil(cacheResult);
 }
 
-- (void)testEntry {
+- (void)testNullCacheEntry {
+    SFSDKNullURLCache *nullURLCache = [[SFSDKNullURLCache alloc] init];
+    NSString *contentString = @"This is my content";
+    NSData *contentData = [contentString dataUsingEncoding:NSUTF8StringEncoding];
+    NSUInteger dataLength = contentData.length;
+    NSURL *url = [[NSURL alloc] initWithString:@"https://www.salesforce.com"];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSURLResponse *response = [[NSURLResponse alloc] initWithURL:url MIMEType:@"text/plain" expectedContentLength:dataLength textEncodingName:@"NSUTF8StringEncoding"];
+
+    // Should not store
+    NSCachedURLResponse *toStore = [[NSCachedURLResponse alloc] initWithResponse:response data:contentData userInfo:nil storagePolicy:NSURLCacheStorageAllowed];
+    [nullURLCache storeCachedResponse:toStore forRequest:request];
+    NSCachedURLResponse *cacheResult = [nullURLCache cachedResponseForRequest:request];
+    XCTAssertNil(cacheResult);
+}
+
+- (void)testEncryptedCacheEntry {
     SFSDKEncryptedURLCache *encryptedURLCache = [[SFSDKEncryptedURLCache alloc] init];
     NSString *contentString = @"This is my content";
     NSData *contentData = [contentString dataUsingEncoding:NSUTF8StringEncoding];

@@ -146,13 +146,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 + (instancetype)sharedInstance {
     static dispatch_once_t pred;
     static SFUserAccountManager *userAccountManager = nil;
+    __block BOOL isFirstRun = NO;
     dispatch_once(&pred, ^{
-		userAccountManager = [[self alloc] init];
-	});
-    static dispatch_once_t pred2;
-    dispatch_once(&pred2, ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidFinishUserInitNotification object:nil];
+        userAccountManager = [[self alloc] init];
+        isFirstRun = YES;
     });
+    if (isFirstRun) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidFinishUserInitNotification object:nil];
+    };
     return userAccountManager;
 }
 
@@ -464,9 +465,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
-    SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
+    SFSDKAuthRequest *request = [self defaultAuthRequest];
     request.jwtToken = jwtToken;
-    return [self authenticateWithCompletion:completionBlock failure:failureBlock];
+    return [self authenticateWithRequest:request completion:completionBlock failure:failureBlock];
 }
 
 - (void)logout {
@@ -809,8 +810,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 #pragma mark - SFSDKLoginHostDelegate
 - (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
-    [hostListViewController dismissViewControllerAnimated:YES completion:nil];
-    [self restartAuthentication];
+    [self loginHostSelected:hostListViewController];
 }
 
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
@@ -821,6 +821,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [[NSNotificationCenter defaultCenter] postNotification:loginHostChangedNotification];
     self.authSession.oauthRequest.loginHost = newLoginHost.host;
     [_accountsLock unlock];
+}
+
+- (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
+    [self loginHostSelected:hostListViewController];
+}
+
+- (void)loginHostSelected:(SFSDKLoginHostListViewController *)hostListViewController {
+    [hostListViewController dismissViewControllerAnimated:YES completion:nil];
+    [self restartAuthentication];
 }
 
 #pragma mark - SFSDKLoginFlowSelectionViewDelegate (SP App flow Related Actions)
@@ -1615,8 +1624,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)resetAuthentication {
+    
     [_accountsLock lock];
-    [self.authSession.oauthCoordinator.view removeFromSuperview];
+    if (self.authSession.authInfo.authType == SFOAuthTypeUserAgent) {
+        [self.authSession.oauthCoordinator.view removeFromSuperview];
+    }
     [self.authSession.oauthCoordinator stopAuthentication];
     self.authSession.identityCoordinator.idData = nil;
     self.authSession.isAuthenticating = NO;
@@ -1721,7 +1733,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
         for (int i = 0; i < numHosts; i++) {
             SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:i];
-            if (host) {
+            if (host.host) {
                 [hosts addObject:host.host];
             }
         }

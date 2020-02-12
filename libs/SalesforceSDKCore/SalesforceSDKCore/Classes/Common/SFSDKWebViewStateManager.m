@@ -24,10 +24,7 @@
 #import <WebKit/WebKit.h>
 #import "SFSDKWebViewStateManager.h"
 #import "SFUserAccountManager.h"
-static NSString *const SID_COOKIE = @"sid";
-static NSString *const TRUE_STRING = @"TRUE";
 static NSString *const ERR_NO_DOMAIN_NAMES = @"No domain names given for deleting cookies.";
-static NSString *const ERR_NO_COOKIE_NAMES = @"No cookie names given to delete.";
 
 @implementation SFSDKWebViewStateManager
 
@@ -39,11 +36,8 @@ static BOOL _sessionCookieManagementDisabled = NO;
         [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
         return;
     }
-     //reset UIWebView related state if any
-    [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
-    for (NSString *domain in self.domains) {
-        [self addSidCookieForDomain:domain withAccessToken:accessToken isSecureProtocol:isSecure];
-    }
+
+    //reset WKWebView related state if any
     [self removeWKWebViewCookies:self.domains withCompletion:nil];
 }
 
@@ -63,8 +57,7 @@ static BOOL _sessionCookieManagementDisabled = NO;
         return;
     }
     
-    //reset UIWebView related state if any
-    [self removeUIWebViewCookies:@[SID_COOKIE] fromDomains:self.domains];
+    //reset WKWebView related state if any
     [self removeWKWebViewCookies:self.domains withCompletion:NULL];
   
 }
@@ -95,25 +88,13 @@ static BOOL _sessionCookieManagementDisabled = NO;
 
 
 #pragma mark Private helper methods
-+ (void)removeUIWebViewCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames {
-    NSAssert(cookieNames != nil && [cookieNames count] > 0, ERR_NO_COOKIE_NAMES);
-    NSAssert(domainNames != nil && [domainNames count] > 0, ERR_NO_DOMAIN_NAMES);
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
-    for (NSHTTPCookie *cookie in fullCookieList) {
-        for (NSString *cookieToRemoveName in cookieNames) {
-            if ([[cookie.name lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
-                for (NSString *domainToRemoveName in domainNames) {
-                    if ([[cookie.domain lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]]) {
-                        [cookieStorage deleteCookie:cookie];
-                    }
-                }
-            }
-        }
-    }
-}
 
 + (void)removeWKWebViewCookies:(NSArray *)domainNames withCompletion:(nullable void(^)(void))completionBlock {
+    if (_sessionCookieManagementDisabled) {
+        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
+        return;
+    }
+    
     NSAssert(domainNames != nil && [domainNames count] > 0, ERR_NO_DOMAIN_NAMES);
     WKWebsiteDataStore *dataStore = [WKWebsiteDataStore defaultDataStore];
     NSSet *websiteDataTypes = [NSSet setWithArray:@[ WKWebsiteDataTypeCookies]];
@@ -147,27 +128,6 @@ static BOOL _sessionCookieManagementDisabled = NO;
                      }];
 }
 
-+ (void)addSidCookieForDomain:(NSString*)domain withAccessToken:accessToken isSecureProtocol:(BOOL)isSecure {
-    NSAssert(domain != nil && [domain length] > 0, @"addSidCookieForDomain: domain cannot be empty");
-    [SFSDKCoreLogger d:[self class] format:@"addSidCookieForDomain: %@", domain];
-
-    // Set the session ID cookie to be used by the web view.
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-    NSMutableDictionary *newSidCookieProperties = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            domain, NSHTTPCookieDomain,
-            @"/", NSHTTPCookiePath,
-            accessToken, NSHTTPCookieValue,
-            SID_COOKIE, NSHTTPCookieName,
-            TRUE_STRING, NSHTTPCookieDiscard,
-                    nil];
-    if (isSecure) {
-        newSidCookieProperties[NSHTTPCookieSecure] = TRUE_STRING;
-    }
-    NSHTTPCookie *sidCookie0 = [NSHTTPCookie cookieWithProperties:newSidCookieProperties];
-    [cookieStorage setCookie:sidCookie0];
-}
-
 + (NSArray<NSString *> *) domains {
     return @[@".salesforce.com", @".force.com", @".cloudforce.com"];
 }
@@ -178,9 +138,7 @@ static BOOL _sessionCookieManagementDisabled = NO;
         [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
         return;
     }
-    BOOL isSecure = [[SFUserAccountManager   sharedInstance].currentUser.credentials.protocol isEqualToString:@"https"];
-    [SFSDKWebViewStateManager resetSessionWithNewAccessToken:[SFUserAccountManager   sharedInstance].currentUser.credentials.accessToken
-                                            isSecureProtocol:isSecure];
+    [self removeWKWebViewCookies:self.domains withCompletion:nil];
 }
 
 @end

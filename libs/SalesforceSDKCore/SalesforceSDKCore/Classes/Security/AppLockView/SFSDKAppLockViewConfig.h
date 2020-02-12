@@ -89,6 +89,11 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
 @property (nonatomic, strong, nullable) UIColor * titleTextColor;
 
 /**
+ * Color of the logout button on passcode verify screen.
+ */
+@property (nonatomic, strong, nonnull) UIColor * logoutButtonColor;
+
+/**
  * Font used for displaying instructions.
  */
 @property (nonatomic, strong, nullable) UIFont * instructionFont;

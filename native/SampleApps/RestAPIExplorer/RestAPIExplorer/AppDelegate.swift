@@ -61,61 +61,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If you wish to register for push notifications, uncomment the line below.  Note that,
         // if you want to receive push notifications from Salesforce, you will also need to
         // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
-        //
-        // PushNotificationManager.sharedInstance().registerForRemoteNotifications()
+        // self.registerForRemotePushNotifications()
         
-        //Uncomment the code below to see how you can customize the color, textcolor,
-        //font and fontsize of the navigation bar
-        //let loginViewConfig = SalesforceLoginViewControllerConfig()
-        
-        //Set showSettingsIcon to false if you want to hide the settings
-        //icon on the nav bar
-        //loginViewConfig.showsSettingsIcon = false
-        
-        //Set showNavBar to false if you want to hide the top bar
-        //loginViewConfig.showsNavigationBar = false
-        //loginViewConfig.navigationBarColor = UIColor(red: 0.051, green: 0.765, blue: 0.733, alpha: 1.0)
-        //loginViewConfig.navigationBarTextColor = UIColor.white
-        //loginViewConfig.navigationBarFont = UIFont(name: "Helvetica", size: 16.0)
-        //UserAccountManager.shared.loginViewControllerConfig = loginViewConfig
+        // Uncomment the code below to see how you can customize the color, textcolor,
+        // font and fontsize of the navigation bar
+        // self.customizeLoginView()
         
         // Uncomment the code below to customize the color, textcolor and font of the Passcode,
         // Touch Id and Face Id lock screens.  To use this feature please enable inactivity timeout
         // in your connected app.
-        //
-        //let passcodeViewConfig = AppLockViewControllerConfig()
-        //passcodeViewConfig.backgroundColor = UIColor.black
-        //passcodeViewConfig.primaryColor = UIColor.orange
-        //passcodeViewConfig.secondaryColor = UIColor.gray
-        //passcodeViewConfig.titleTextColor = UIColor.white
-        //passcodeViewConfig.instructionTextColor = UIColor.white
-        //passcodeViewConfig.borderColor = UIColor.yellow
-        //passcodeViewConfig.maxNumberOfAttempts = 3
-        //passcodeViewConfig.forcePasscodeLength = true
-        //UserAccountManager.shared.appLockViewControllerConfig = passcodeViewConfig
-        
+        // self.customizePasscodeView()
+
         AuthHelper.loginIfRequired {
             self.setupRootViewController()
         }
         return true
     }
-    
+
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        //
         // Uncomment the code below to register your device token with the push notification manager
-        //
-        //
-        // PushNotificationManager.sharedInstance().didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
-        // if let _ = UserAccountManager.shared.currentUserAccount?.credentials.accessToken {
-        //     PushNotificationManager.sharedInstance().registerForSalesforceNotifications { result in
-        //         switch (result) {
-        //             case .success:
-        //                 SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications succeeded")
-        //             case .failure(let error):
-        //                 SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications failed with error: \(error as Error)")
-        //         }
-        //     }
-        // }
+        // didRegisterForRemoteNotifications(deviceToken)
+    }
+
+    func didRegisterForRemoteNotifications(_ deviceToken: Data) {
+        PushNotificationManager.sharedInstance().didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+        if let _ = UserAccountManager.shared.currentUserAccount?.credentials.accessToken {
+            PushNotificationManager.sharedInstance().registerForSalesforceNotifications { (result) in
+                switch (result) {
+                    case  .success(let successFlag):
+                        SalesforceLogger.d(AppDelegate.self, message: "Registration for Salesforce notifications status:  \(successFlag)")
+                    case .failure(let error):
+                        SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications failed \(error)")
+                }
+            }
+        }
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error ) {
@@ -156,6 +135,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         postResetBlock()
+    }
+
+    func registerForRemotePushNotifications() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+            guard granted else {
+                SalesforceLogger.e(AppDelegate.self, message: "Push notification authorization denied")
+                return
+            }
+            DispatchQueue.main.async {
+                PushNotificationManager.sharedInstance().registerForRemoteNotifications()
+            }
+        }
+    }
+
+    func customizeLoginView() {
+        let loginViewConfig = SalesforceLoginViewControllerConfig()
+
+        // Set showSettingsIcon to NO if you want to hide the settings icon on the nav bar
+        loginViewConfig.showsSettingsIcon = false
+        // Set showNavBar to false if you want to hide the top bar
+        loginViewConfig.showsNavigationBar = false
+        loginViewConfig.navigationBarColor = UIColor(red: 0.051, green: 0.765, blue: 0.733, alpha: 1.0)
+        loginViewConfig.navigationTitleColor = UIColor.white
+        loginViewConfig.navigationBarFont = UIFont(name: "Helvetica", size: 16.0)
+        UserAccountManager.shared.loginViewControllerConfig = loginViewConfig
+    }
+
+    func customizePasscodeView() {
+        let passcodeViewConfig = AppLockViewControllerConfig()
+        passcodeViewConfig.backgroundColor = UIColor.black
+        passcodeViewConfig.primaryColor = UIColor.orange
+        passcodeViewConfig.secondaryColor = UIColor.gray
+        passcodeViewConfig.titleTextColor = UIColor.white
+        passcodeViewConfig.instructionTextColor = UIColor.white
+        passcodeViewConfig.borderColor = UIColor.yellow
+        passcodeViewConfig.maxNumberOfAttempts = 3
+        passcodeViewConfig.forcePasscodeLength = true
+        UserAccountManager.shared.appLockViewControllerConfig = passcodeViewConfig
     }
 
     func exportTestingCredentials() {

@@ -89,6 +89,7 @@ static SFOAuthCredentials *credentials = nil;
     }
     credentials.accessToken = credsData.accessToken;
     credentials.refreshToken = credsData.refreshToken;
+    [[SFUserAccountManager sharedInstance] currentUser].credentials = credentials;
     return credsData;
 }
 
@@ -104,6 +105,10 @@ static SFOAuthCredentials *credentials = nil;
      completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
          authListener.returnStatus = kTestRequestStatusDidLoad;
          user = userAccount;
+         // Ensure tests don't change/corrupt the current user credentials.  
+         if(user.credentials.refreshToken == nil) {
+             user.credentials = credentials;
+         }
      } failure:^(SFOAuthInfo *authInfo, NSError *error) {
          authListener.lastError = error;
          authListener.returnStatus = kTestRequestStatusDidFail;

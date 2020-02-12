@@ -2,7 +2,7 @@ executors:
   mac:
     working_directory: ~/SalesforceMobileSDK-iOS
     macos:
-      xcode: 11.2.1
+      xcode: 11.3.1
     shell: /bin/bash --login -eo pipefail
     environment:
       BASH_ENV: ~/.bashrc
@@ -21,7 +21,7 @@ jobs:
         default: "iPhone 11"
       ios:
         type: string
-        default: "13.2"
+        default: "13.3"
       nightly-test:
         type: boolean
         default: false

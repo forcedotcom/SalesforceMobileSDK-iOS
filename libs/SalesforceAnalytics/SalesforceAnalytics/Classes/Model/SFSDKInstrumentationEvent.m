@@ -183,28 +183,7 @@
 #pragma mark - Public methods
 
 - (NSData *) jsonRepresentation {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    dict[kEventIdKey] = self.eventId;
-    dict[kStartTimeKey] = [NSNumber numberWithInteger:self.startTime];
-    dict[kEndTimeKey] = [NSNumber numberWithInteger:self.endTime];
-    dict[kNameKey] = self.name;
-    dict[kAttributesKey] = self.attributes;
-    dict[kSessionIdKey] = self.sessionId;
-    dict[kSequenceIdKey] = [NSNumber numberWithInteger:self.sequenceId];
-    dict[kSenderIdKey] = self.senderId;
-    dict[kSenderContextKey] = self.senderContext;
-    dict[kSchemaTypeKey] = [self stringValueOfSchemaType:self.schemaType];
-    dict[kEventTypeKey] = [self stringValueOfEventType:self.eventType];
-    dict[kErrorTypeKey] = [self stringValueOfErrorType:self.errorType];
-    if (self.deviceAppAttributes) {
-        dict[kDeviceAppAttributesKey] = [self.deviceAppAttributes jsonRepresentation];
-    }
-    dict[kConnectionTypeKey] = self.connectionType;
-    dict[kSenderParentIdKey] = self.senderParentId;
-    dict[kSessionStartTimeKey] = [NSNumber numberWithInteger:self.sessionStartTime];
-    dict[kPageKey] = self.page;
-    dict[kPreviousPageKey] = self.previousPage;
-    dict[kMarksKey] = self.marks;
+    NSDictionary *dict = [self jsonDictionary];
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
     return jsonData;
@@ -271,6 +250,32 @@
 }
 
 #pragma mark - Private methods
+
+- (NSDictionary *) jsonDictionary {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    dict[kEventIdKey] = self.eventId;
+    dict[kStartTimeKey] = [NSNumber numberWithInteger:self.startTime];
+    dict[kEndTimeKey] = [NSNumber numberWithInteger:self.endTime];
+    dict[kNameKey] = self.name;
+    dict[kAttributesKey] = self.attributes;
+    dict[kSessionIdKey] = self.sessionId;
+    dict[kSequenceIdKey] = [NSNumber numberWithInteger:self.sequenceId];
+    dict[kSenderIdKey] = self.senderId;
+    dict[kSenderContextKey] = self.senderContext;
+    dict[kSchemaTypeKey] = [self stringValueOfSchemaType:self.schemaType];
+    dict[kEventTypeKey] = [self stringValueOfEventType:self.eventType];
+    dict[kErrorTypeKey] = [self stringValueOfErrorType:self.errorType];
+    if (self.deviceAppAttributes) {
+        dict[kDeviceAppAttributesKey] = [self.deviceAppAttributes jsonRepresentation];
+    }
+    dict[kConnectionTypeKey] = self.connectionType;
+    dict[kSenderParentIdKey] = self.senderParentId;
+    dict[kSessionStartTimeKey] = [NSNumber numberWithInteger:self.sessionStartTime];
+    dict[kPageKey] = self.page;
+    dict[kPreviousPageKey] = self.previousPage;
+    dict[kMarksKey] = self.marks;
+    return dict;
+}
 
 - (SFASchemaType) schemaTypeFromString:(NSString *) schemaType {
     SFASchemaType type = SchemaTypeError;

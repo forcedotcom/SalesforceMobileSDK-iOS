@@ -29,6 +29,7 @@
 #import "SalesforceOAuthUnitTestsCoordinatorDelegate.h"
 #import "SalesforceOAuthUnitTests.h"
 #import "SFSDKCryptoUtils.h"
+#import "SFUserAccountManager.h"
 
 static NSString * const kIdentifier = @"com.salesforce.ios.oauth.test";
 static NSString * const kClientId   = @"SfdcMobileChatteriOS";
@@ -40,7 +41,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 
 + (void)setUp
 {
-    
     [SFSDKLogoutBlocker block];
     [super setUp];
 }
@@ -238,13 +238,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
  */
 - (void)testCoordinator {
     
-    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    XCTAssertNotNil(creds, @"credentials should not be nil");
-    creds.domain = @"localhost";
-    creds.redirectUri = @"sfdc://expected/to/fail";
-    creds.refreshToken = @"refresh-token";
-    
-    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:[[SFUserAccountManager sharedInstance] currentUser].credentials];
     XCTAssertNotNil(coordinator, @"coordinator should not be nil");
     SalesforceOAuthUnitTestsCoordinatorDelegate *delegate = [[SalesforceOAuthUnitTestsCoordinatorDelegate alloc] init];
     XCTAssertNotNil(delegate, @"delegate should not be nil");
@@ -253,7 +247,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertTrue([coordinator isAuthenticating], @"authenticating should return true");
     [coordinator stopAuthentication];
     XCTAssertFalse([coordinator isAuthenticating], @"authenticating should return false");
-    
+
+    [coordinator revokeAuthentication];
     coordinator = nil;
     delegate = nil;
 }
