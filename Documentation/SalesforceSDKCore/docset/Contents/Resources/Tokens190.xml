@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKPasscodeVerifyDelegate.html">
+	<File path="Protocols/SFSDKPasscodeDeleteProtocol.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKPasscodeVerifyDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKPasscodeDeleteProtocol</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
             
 			
 			<NodeRef refid="190"/>
@@ -13,26 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeVerifyDelegate/passcodeVerified</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeDeleteProtocol/deleteBackward</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeVerified</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeVerified</Anchor>
-            <NodeRef refid="190"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeVerifyDelegate/passcodeFailed</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>- (void)passcodeFailed</Declaration>
+			<Declaration>- (void)deleteBackward</Declaration>
 			
 			
-			<Anchor>//api/name/passcodeFailed</Anchor>
+			<Anchor>//api/name/deleteBackward</Anchor>
             <NodeRef refid="190"/>
 		</Token>
 		

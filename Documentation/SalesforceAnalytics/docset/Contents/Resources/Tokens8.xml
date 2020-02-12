@@ -847,6 +847,18 @@
             <NodeRef refid="8"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationEvent/jsonDictionary</TokenIdentifier>
+			<Abstract type="html">Returns a JSON dictionary representation of this event.</Abstract>
+			<DeclaredIn>SFSDKInstrumentationEvent+Internal.h</DeclaredIn>
+			
+			<Declaration>- (nonnull NSDictionary *)jsonDictionary</Declaration>
+			
+			<ReturnValue><Abstract type="html">JSON dictionary representation.</Abstract></ReturnValue>
+			<Anchor>//api/name/jsonDictionary</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
         
         
 	</File>

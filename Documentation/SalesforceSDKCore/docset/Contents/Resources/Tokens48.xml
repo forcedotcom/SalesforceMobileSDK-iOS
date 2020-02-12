@@ -695,6 +695,480 @@ to return values. Example: &quot;Account,Contact&quot;.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setActiveRequests:</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/activeRequests</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/activeRequests</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setRequiresAuthentication:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setInstrDelegateInternal:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrDelegateInternal</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/instrDelegateInternal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrDelegateInternal</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/instrDelegateInternal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrDelegateInternal</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/removeActiveRequestObject:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)request</Declaration>
+			
+			
+			<Anchor>//api/name/removeActiveRequestObject:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/forceTimeoutRequest:</TokenIdentifier>
+			<Abstract type="html">Force a request to timeout: for testing only!</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)req</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>req</Name>
+					<Abstract type="html">The request to force a timeout on, or nil to grab any active request and force it to timeout</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if we were able to find and timeout the request, NO if the request could not be found</Abstract></ReturnValue>
+			<Anchor>//api/name/forceTimeoutRequest:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/send:delegate:shouldRetry:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)send:(nonnull SFRestRequest *)request delegate:(nullable id&lt;SFRestDelegate&gt;)delegate shouldRetry:(BOOL)shouldRetry</Declaration>
+			
+			
+			<Anchor>//api/name/send:delegate:shouldRetry:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/computeAPIVersion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)apiVersion</Declaration>
+			
+			
+			<Anchor>//api/name/computeAPIVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/removeSharedInstanceWithUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)user</Declaration>
+			
+			
+			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForOwnedFilesList:page:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a Request that can fetch a page from the files owned by the
+specified user.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForOwnedFilesList:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">if nil the context user is used, otherwise it should be an Id of a user.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForOwnedFilesList:page:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFilesInUsersGroups:page:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a Request that can fetch a page from the list of files from groups
+that the user is a member of.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFilesInUsersGroups:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">if nil the context user is used, otherwise it should be an Id of a user.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFilesInUsersGroups:page:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFilesSharedWithUser:page:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a Request that can fetch a page from the list of files that have
+been shared with the user.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFilesSharedWithUser:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">if nil the context user is used, otherwise it should be an Id of a user.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFilesSharedWithUser:page:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileDetails:forVersion:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a Request that can fetch the file details of a particular version
+of a file.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFileDetails:(NSString *)sfdcId forVersion:(nullable NSString *)version apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sfdcId</Name>
+					<Abstract type="html">The Id of the file</Abstract>
+				</Parameter><Parameter>
+					<Name>version</Name>
+					<Abstract type="html">if nil fetches the most recent version, otherwise fetches this specific version.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFileDetails:forVersion:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForBatchFileDetails:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a request that can fetch the latest file details of one or more
+files in a single request.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForBatchFileDetails:(NSArray&lt;NSString*&gt; *)sfdcIds apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sfdcIds</Name>
+					<Abstract type="html">The list of file Ids to fetch.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForBatchFileDetails:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileRendition:version:renditionType:page:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a Request that can fetch the a preview/rendition of a particular
+page of the file (and version).</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFileRendition:(NSString *)sfdcId version:(nullable NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sfdcId</Name>
+					<Abstract type="html">The Id of the file.</Abstract>
+				</Parameter><Parameter>
+					<Name>version</Name>
+					<Abstract type="html">if nil fetches the most recent version, otherwise fetches this specific version</Abstract>
+				</Parameter><Parameter>
+					<Name>renditionType</Name>
+					<Abstract type="html">What format of rendition do you want to get</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">which page to fetch, pages start at 0.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFileRendition:version:renditionType:page:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileContents:version:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Builds a request that can fetch the actual binary file contents of this
+particular file.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFileContents:(NSString *)sfdcId version:(nullable NSString *)version apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sfdcId</Name>
+					<Abstract type="html">The Id of the file.</Abstract>
+				</Parameter><Parameter>
+					<Name>version</Name>
+					<Abstract type="html">The version of the file.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFileContents:version:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileShares:page:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a request that can fetch a page from the list of entities that this
+file is shared to.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sfdcId</Name>
+					<Abstract type="html">The Id of the file.</Abstract>
+				</Parameter><Parameter>
+					<Name>page</Name>
+					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForFileShares:page:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForAddFileShare:entityId:shareType:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a request that will add a file share for the specified fileId to
+the specified entityId.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForAddFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString *)shareType apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fileId</Name>
+					<Abstract type="html">the Id of the file being shared.</Abstract>
+				</Parameter><Parameter>
+					<Name>entityId</Name>
+					<Abstract type="html">the Id of the entity to share the file to (e.g. a user or a group).</Abstract>
+				</Parameter><Parameter>
+					<Name>shareType</Name>
+					<Abstract type="html">the type of share (V - View, C - Collaboration).</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that be can used to create this share.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForAddFileShare:entityId:shareType:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForDeleteFileShare:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a request that will delete the specified file share.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForDeleteFileShare:(NSString *)shareId apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>shareId</Name>
+					<Abstract type="html">The Id of the file share record (aka ContentDocumentLink).</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to delete this share.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForDeleteFileShare:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForUploadFile:name:description:mimeType:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a request that can upload a new file to the server, this will
+create a new file at version 1.</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Data to upload to the server.</Abstract>
+				</Parameter><Parameter>
+					<Name>name</Name>
+					<Abstract type="html">The name/title of this file.</Abstract>
+				</Parameter><Parameter>
+					<Name>description</Name>
+					<Abstract type="html">A description of the file.</Abstract>
+				</Parameter><Parameter>
+					<Name>mimeType</Name>
+					<Abstract type="html">The mime-type of the file, if known.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A SFRestRequest that can perform this upload.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForUploadFile:name:description:mimeType:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForProfilePhotoUpload:fileName:mimeType:userId:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Build a request that can upload a new profile photo to the server</Abstract>
+			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForProfilePhotoUpload:(NSData *)data fileName:(NSString *)fileName mimeType:(NSString *)mimeType userId:(NSString *)userId apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Data to upload to the server.</Abstract>
+				</Parameter><Parameter>
+					<Name>fileName</Name>
+					<Abstract type="html">The name of this file.</Abstract>
+				</Parameter><Parameter>
+					<Name>mimeType</Name>
+					<Abstract type="html">The mime-type of the file, if known.</Abstract>
+				</Parameter><Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">The id of the user to update.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A SFRestRequest that can perform this upload.</Abstract></ReturnValue>
+			<Anchor>//api/name/requestForProfilePhotoUpload:fileName:mimeType:userId:apiVersion:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/errorWithDescription:</TokenIdentifier>
 			<Abstract type="html">Creates an error object with the given description.</Abstract>
 			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
@@ -1170,480 +1644,6 @@ to return values; for example, &quot;Account,Contact&quot;.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the newly sent SFRestRequest</Abstract></ReturnValue>
 			<Anchor>//api/name/performRequestForSearchResultLayout:failBlock:completeBlock:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setActiveRequests:</TokenIdentifier>
-			<Abstract type="html">Active requests property.</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/activeRequests</TokenIdentifier>
-			<Abstract type="html">Active requests property.</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/activeRequests</TokenIdentifier>
-			<Abstract type="html">Active requests property.</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setRequiresAuthentication:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
-			
-			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requiresAuthentication</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
-			
-			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/requiresAuthentication</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
-			
-			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setInstrDelegateInternal:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</Declaration>
-			
-			
-			<Anchor>//api/name/instrDelegateInternal</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/instrDelegateInternal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</Declaration>
-			
-			
-			<Anchor>//api/name/instrDelegateInternal</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/instrDelegateInternal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</Declaration>
-			
-			
-			<Anchor>//api/name/instrDelegateInternal</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/removeActiveRequestObject:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)request</Declaration>
-			
-			
-			<Anchor>//api/name/removeActiveRequestObject:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/forceTimeoutRequest:</TokenIdentifier>
-			<Abstract type="html">Force a request to timeout: for testing only!</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)req</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>req</Name>
-					<Abstract type="html">The request to force a timeout on, or nil to grab any active request and force it to timeout</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if we were able to find and timeout the request, NO if the request could not be found</Abstract></ReturnValue>
-			<Anchor>//api/name/forceTimeoutRequest:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/send:delegate:shouldRetry:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)send:(nonnull SFRestRequest *)request delegate:(nullable id&lt;SFRestDelegate&gt;)delegate shouldRetry:(BOOL)shouldRetry</Declaration>
-			
-			
-			<Anchor>//api/name/send:delegate:shouldRetry:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/computeAPIVersion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)apiVersion</Declaration>
-			
-			
-			<Anchor>//api/name/computeAPIVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/removeSharedInstanceWithUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)user</Declaration>
-			
-			
-			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForOwnedFilesList:page:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a Request that can fetch a page from the files owned by the
-specified user.</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForOwnedFilesList:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">if nil the context user is used, otherwise it should be an Id of a user.</Abstract>
-				</Parameter><Parameter>
-					<Name>page</Name>
-					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForOwnedFilesList:page:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFilesInUsersGroups:page:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a Request that can fetch a page from the list of files from groups
-that the user is a member of.</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForFilesInUsersGroups:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">if nil the context user is used, otherwise it should be an Id of a user.</Abstract>
-				</Parameter><Parameter>
-					<Name>page</Name>
-					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForFilesInUsersGroups:page:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFilesSharedWithUser:page:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a Request that can fetch a page from the list of files that have
-been shared with the user.</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForFilesSharedWithUser:(nullable NSString *)userId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">if nil the context user is used, otherwise it should be an Id of a user.</Abstract>
-				</Parameter><Parameter>
-					<Name>page</Name>
-					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForFilesSharedWithUser:page:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileDetails:forVersion:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a Request that can fetch the file details of a particular version
-of a file.</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForFileDetails:(NSString *)sfdcId forVersion:(nullable NSString *)version apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>sfdcId</Name>
-					<Abstract type="html">The Id of the file</Abstract>
-				</Parameter><Parameter>
-					<Name>version</Name>
-					<Abstract type="html">if nil fetches the most recent version, otherwise fetches this specific version.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForFileDetails:forVersion:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForBatchFileDetails:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a request that can fetch the latest file details of one or more
-files in a single request.</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForBatchFileDetails:(NSArray&lt;NSString*&gt; *)sfdcIds apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>sfdcIds</Name>
-					<Abstract type="html">The list of file Ids to fetch.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForBatchFileDetails:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileRendition:version:renditionType:page:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a Request that can fetch the a preview/rendition of a particular
-page of the file (and version).</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForFileRendition:(NSString *)sfdcId version:(nullable NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>sfdcId</Name>
-					<Abstract type="html">The Id of the file.</Abstract>
-				</Parameter><Parameter>
-					<Name>version</Name>
-					<Abstract type="html">if nil fetches the most recent version, otherwise fetches this specific version</Abstract>
-				</Parameter><Parameter>
-					<Name>renditionType</Name>
-					<Abstract type="html">What format of rendition do you want to get</Abstract>
-				</Parameter><Parameter>
-					<Name>page</Name>
-					<Abstract type="html">which page to fetch, pages start at 0.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForFileRendition:version:renditionType:page:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileContents:version:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Builds a request that can fetch the actual binary file contents of this
-particular file.</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForFileContents:(NSString *)sfdcId version:(nullable NSString *)version apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>sfdcId</Name>
-					<Abstract type="html">The Id of the file.</Abstract>
-				</Parameter><Parameter>
-					<Name>version</Name>
-					<Abstract type="html">The version of the file.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForFileContents:version:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForFileShares:page:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a request that can fetch a page from the list of entities that this
-file is shared to.</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForFileShares:(NSString *)sfdcId page:(NSUInteger)page apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>sfdcId</Name>
-					<Abstract type="html">The Id of the file.</Abstract>
-				</Parameter><Parameter>
-					<Name>page</Name>
-					<Abstract type="html">if nil fetches the first page, otherwise fetches the specified page.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to fetch this data.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForFileShares:page:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForAddFileShare:entityId:shareType:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a request that will add a file share for the specified fileId to
-the specified entityId.</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForAddFileShare:(NSString *)fileId entityId:(NSString *)entityId shareType:(NSString *)shareType apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fileId</Name>
-					<Abstract type="html">the Id of the file being shared.</Abstract>
-				</Parameter><Parameter>
-					<Name>entityId</Name>
-					<Abstract type="html">the Id of the entity to share the file to (e.g. a user or a group).</Abstract>
-				</Parameter><Parameter>
-					<Name>shareType</Name>
-					<Abstract type="html">the type of share (V - View, C - Collaboration).</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A new SFRestRequest that be can used to create this share.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForAddFileShare:entityId:shareType:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForDeleteFileShare:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a request that will delete the specified file share.</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForDeleteFileShare:(NSString *)shareId apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>shareId</Name>
-					<Abstract type="html">The Id of the file share record (aka ContentDocumentLink).</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A new SFRestRequest that can be used to delete this share.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForDeleteFileShare:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForUploadFile:name:description:mimeType:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a request that can upload a new file to the server, this will
-create a new file at version 1.</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">Data to upload to the server.</Abstract>
-				</Parameter><Parameter>
-					<Name>name</Name>
-					<Abstract type="html">The name/title of this file.</Abstract>
-				</Parameter><Parameter>
-					<Name>description</Name>
-					<Abstract type="html">A description of the file.</Abstract>
-				</Parameter><Parameter>
-					<Name>mimeType</Name>
-					<Abstract type="html">The mime-type of the file, if known.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A SFRestRequest that can perform this upload.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForUploadFile:name:description:mimeType:apiVersion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForProfilePhotoUpload:fileName:mimeType:userId:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Build a request that can upload a new profile photo to the server</Abstract>
-			<DeclaredIn>SFRestAPI+Files.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForProfilePhotoUpload:(NSData *)data fileName:(NSString *)fileName mimeType:(NSString *)mimeType userId:(NSString *)userId apiVersion:(nullable NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">Data to upload to the server.</Abstract>
-				</Parameter><Parameter>
-					<Name>fileName</Name>
-					<Abstract type="html">The name of this file.</Abstract>
-				</Parameter><Parameter>
-					<Name>mimeType</Name>
-					<Abstract type="html">The mime-type of the file, if known.</Abstract>
-				</Parameter><Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">The id of the user to update.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A SFRestRequest that can perform this upload.</Abstract></ReturnValue>
-			<Anchor>//api/name/requestForProfilePhotoUpload:fileName:mimeType:userId:apiVersion:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		

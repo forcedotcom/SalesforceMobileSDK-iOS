@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSecureEncryptionKey.html">
+	<File path="Classes/SFSObjectTree.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSecureEncryptionKey</TokenIdentifier>
-			<Abstract type="html">A secure encryption key. Key bits are not exposed.
-The key lives in the keychain or, if available, the Secure Enclave.
-This key might not be appropriate for encrypting and decrypting large amounts of data.</Abstract>
-			<DeclaredIn>SFSecureEncryptionKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSObjectTree</TokenIdentifier>
+			<Abstract type="html">Helper class for sobject tree requests</Abstract>
+			<DeclaredIn>SFSObjectTree.h</DeclaredIn>
             
 			
 			<NodeRef refid="139"/>
@@ -15,53 +13,43 @@ This key might not be appropriate for encrypting and decrypting large amounts of
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSecureEncryptionKey/createKey:</TokenIdentifier>
-			<Abstract type="html">Create a new SFSecureEncryptionKey with the given label.</Abstract>
-			<DeclaredIn>SFSecureEncryptionKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSObjectTree/initWithObjectType:objectTypePlural:referenceId:fields:childrenTrees:</TokenIdentifier>
+			<Abstract type="html">Constructor</Abstract>
+			<DeclaredIn>SFSObjectTree.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)createKey:(NSString *)label</Declaration>
+			<Declaration>- (nullable instancetype)initWithObjectType:(NSString *)objectType objectTypePlural:(nullable NSString *)objectTypePlural referenceId:(NSString *)referenceId fields:(NSDictionary&lt;NSString*,id&gt; *)fields childrenTrees:(nullable NSArray&lt;SFSObjectTree*&gt; *)childrenTrees</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>label</Name>
-					<Abstract type="html">Key label.</Abstract>
+					<Name>objectType</Name>
+					<Abstract type="html">Object type (e.g. &quot;Contact&quot;)</Abstract>
+				</Parameter><Parameter>
+					<Name>objectTypePlural</Name>
+					<Abstract type="html">Plural object type (e.g. &quot;Contacts&quot;) - can be null for the root sobject</Abstract>
+				</Parameter><Parameter>
+					<Name>referenceId</Name>
+					<Abstract type="html">Reference id for the root record</Abstract>
+				</Parameter><Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">Fields for the root sobject</Abstract>
+				</Parameter><Parameter>
+					<Name>childrenTrees</Name>
+					<Abstract type="html">Array of SFSObjectTree for the children sobject&apos;s</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/createKey:</Anchor>
+			<Anchor>//api/name/initWithObjectType:objectTypePlural:referenceId:fields:childrenTrees:</Anchor>
             <NodeRef refid="139"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSecureEncryptionKey/retrieveKey:</TokenIdentifier>
-			<Abstract type="html">Retrieve the key with the given label from the keychain.</Abstract>
-			<DeclaredIn>SFSecureEncryptionKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSObjectTree/asJSON</TokenIdentifier>
+			<Abstract type="html">NSDictionary representing SObject tree</Abstract>
+			<DeclaredIn>SFSObjectTree.h</DeclaredIn>
 			
-			<Declaration>+ (nullable instancetype)retrieveKey:(NSString *)label</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>label</Name>
-					<Abstract type="html">Key label.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">nil if the key isn&apos;t found.</Abstract></ReturnValue>
-			<Anchor>//api/name/retrieveKey:</Anchor>
-            <NodeRef refid="139"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSecureEncryptionKey/deleteKey:</TokenIdentifier>
-			<Abstract type="html">Delete the key with the given label from the keychain.</Abstract>
-			<DeclaredIn>SFSecureEncryptionKey.h</DeclaredIn>
+			<Declaration>- (NSDictionary&lt;NSString*,id&gt; *)asJSON</Declaration>
 			
-			<Declaration>+ (void)deleteKey:(NSString *)label</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>label</Name>
-					<Abstract type="html">Key label.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/deleteKey:</Anchor>
+			<ReturnValue><Abstract type="html">NSDictionary representing SObject tree</Abstract></ReturnValue>
+			<Anchor>//api/name/asJSON</Anchor>
             <NodeRef refid="139"/>
 		</Token>
 		

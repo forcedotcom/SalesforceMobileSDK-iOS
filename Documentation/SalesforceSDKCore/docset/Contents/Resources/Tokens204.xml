@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFAppType.html">
+	<File path="Constants/SFAppLockControllerMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFAppType</TokenIdentifier>
-			<Abstract type="html">Block typedef for creating a custom snapshot view controller.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAppLockControllerMode</TokenIdentifier>
+			<Abstract type="html">Mode constants indicating whether to create/verify an passcode or use biometric.</Abstract>
+			<DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
 			
 			<NodeRef refid="204"/>
@@ -14,41 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNative</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeCreatePasscode</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeNative</Declaration>
+            <Declaration>SFAppLockControllerModeCreatePasscode</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="204"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeHybrid</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyPasscode</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeHybrid</Declaration>
+            <Declaration>SFAppLockControllerModeVerifyPasscode</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="204"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeReactNative</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeChangePasscode</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeReactNative</Declaration>
+            <Declaration>SFAppLockControllerModeChangePasscode</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="204"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNativeSwift</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeEnableBiometric</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeNativeSwift</Declaration>
+            <Declaration>SFAppLockControllerModeEnableBiometric</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            
+            <NodeRef refid="204"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyBiometric</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAppLockControllerModeVerifyBiometric</Declaration>
+            
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="204"/>
         </Token>

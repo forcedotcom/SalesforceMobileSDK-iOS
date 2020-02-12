@@ -292,7 +292,7 @@ causes currentPageOrderedEntries to be refetched.</Abstract>
 			<Abstract type="html">Run query and resturn JSON serialized representation of the cursor.</Abstract>
 			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)getDataSerialized:(SFSmartStore *)store error:(NSError **)error</Declaration>
+			<Declaration>- (nullable NSString *)getDataSerialized:(SFSmartStore *)store error:(NSError **)error</Declaration>
 			
 			<ReturnValue><Abstract type="html">JSON serialized representation of this object.</Abstract></ReturnValue>
 			<Anchor>//api/name/getDataSerialized:error:</Anchor>
@@ -304,7 +304,7 @@ causes currentPageOrderedEntries to be refetched.</Abstract>
 			<Abstract type="html">Run query and resturn NSDictionary (deserialized) representation of the cursor.</Abstract>
 			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)getDataDeserialized:(SFSmartStore *)store error:(NSError **)error</Declaration>
+			<Declaration>- (nullable NSDictionary *)getDataDeserialized:(SFSmartStore *)store error:(NSError **)error</Declaration>
 			
 			<ReturnValue><Abstract type="html">NSDictionary representation of this object.</Abstract></ReturnValue>
 			<Anchor>//api/name/getDataDeserialized:error:</Anchor>

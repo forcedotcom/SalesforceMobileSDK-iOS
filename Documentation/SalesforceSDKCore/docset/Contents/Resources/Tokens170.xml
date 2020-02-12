@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIDevice+SFHardware.html">
+	<File path="Categories/UIColor+SFColors.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIDevice(SFHardware)</TokenIdentifier>
-			<Abstract type="html">Extension to UIDevice class to provide more hardware related information, including hardware model, capability and also most importantly current device&apos;s orientation</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFColors)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
             
 			
 			<NodeRef refid="170"/>
@@ -13,328 +13,615 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platform</TokenIdentifier>
-			<Abstract type="html">Platform for the Device</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/colorFromHexValue:</TokenIdentifier>
+			<Abstract type="html">Construct a color given hex color, like &quot;#00FF00&quot; (#RRGGBB).</Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)platform</Declaration>
+			<Declaration>+ (nullable UIColor *)colorFromHexValue:(NSString *)hexString</Declaration>
 			
 			
-			<Anchor>//api/name/platform</Anchor>
+			<Anchor>//api/name/colorFromHexValue:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hwmodel</TokenIdentifier>
-			<Abstract type="html">Hardware model</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/colorForLightStyle:darkStyle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)hwmodel</Declaration>
+			<Declaration>+ (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor</Declaration>
 			
 			
-			<Anchor>//api/name/hwmodel</Anchor>
+			<Anchor>//api/name/colorForLightStyle:darkStyle:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformType</TokenIdentifier>
-			<Abstract type="html">Platform type
-See UIDevicePlatform</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/hexStringFromColor</TokenIdentifier>
+			<Abstract type="html">Returns a CSS hex color representation
+of this color</Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (UIDevicePlatform)platformType</Declaration>
+			<Declaration>- (NSString *)hexStringFromColor</Declaration>
 			
 			
-			<Anchor>//api/name/platformType</Anchor>
+			<Anchor>//api/name/hexStringFromColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/systemVersionNumber</TokenIdentifier>
-			<Abstract type="html">Returns the system-dependent version number.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceBlueColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (double)systemVersionNumber</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBlueColor</Declaration>
 			
-			<ReturnValue><Abstract type="html">The system version number.</Abstract></ReturnValue>
-			<Anchor>//api/name/systemVersionNumber</Anchor>
+			
+			<Anchor>//api/name/salesforceBlueColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformString</TokenIdentifier>
-			<Abstract type="html">Platform string</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBlueColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)platformString</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBlueColor</Declaration>
 			
 			
-			<Anchor>//api/name/platformString</Anchor>
+			<Anchor>//api/name/salesforceBlueColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/cpuFrequency</TokenIdentifier>
-			<Abstract type="html">CPU Frequency</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceBlueColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)cpuFrequency</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBlueColor</Declaration>
 			
 			
-			<Anchor>//api/name/cpuFrequency</Anchor>
+			<Anchor>//api/name/salesforceBlueColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/busFrequency</TokenIdentifier>
-			<Abstract type="html">Bus frequency</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceSystemBackgroundColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)busFrequency</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceSystemBackgroundColor</Declaration>
 			
 			
-			<Anchor>//api/name/busFrequency</Anchor>
+			<Anchor>//api/name/salesforceSystemBackgroundColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/cpuCount</TokenIdentifier>
-			<Abstract type="html">CPU Count</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceSystemBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)cpuCount</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceSystemBackgroundColor</Declaration>
 			
 			
-			<Anchor>//api/name/cpuCount</Anchor>
+			<Anchor>//api/name/salesforceSystemBackgroundColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalCPU</TokenIdentifier>
-			<Abstract type="html">Total CUP</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceSystemBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (float)totalCPU</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceSystemBackgroundColor</Declaration>
 			
 			
-			<Anchor>//api/name/totalCPU</Anchor>
+			<Anchor>//api/name/salesforceSystemBackgroundColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalMemory</TokenIdentifier>
-			<Abstract type="html">Total memory</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceLabelColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)totalMemory</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceLabelColor</Declaration>
 			
 			
-			<Anchor>//api/name/totalMemory</Anchor>
+			<Anchor>//api/name/salesforceLabelColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/userMemory</TokenIdentifier>
-			<Abstract type="html">User Memory</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceLabelColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)userMemory</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceLabelColor</Declaration>
 			
 			
-			<Anchor>//api/name/userMemory</Anchor>
+			<Anchor>//api/name/salesforceLabelColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/applicationMemory</TokenIdentifier>
-			<Abstract type="html">Memory used by application (in bytes)</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceLabelColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)applicationMemory</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceLabelColor</Declaration>
 			
 			
-			<Anchor>//api/name/applicationMemory</Anchor>
+			<Anchor>//api/name/salesforceLabelColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeMemory</TokenIdentifier>
-			<Abstract type="html">Free VM page space available to application (in bytes)</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceBackgroundRowSelectedColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)freeMemory</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBackgroundRowSelectedColor</Declaration>
 			
 			
-			<Anchor>//api/name/freeMemory</Anchor>
+			<Anchor>//api/name/salesforceBackgroundRowSelectedColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalDiskSpace</TokenIdentifier>
-			<Abstract type="html">Total disk space</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBackgroundRowSelectedColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (NSNumber *)totalDiskSpace</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBackgroundRowSelectedColor</Declaration>
 			
 			
-			<Anchor>//api/name/totalDiskSpace</Anchor>
+			<Anchor>//api/name/salesforceBackgroundRowSelectedColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeDiskSpace</TokenIdentifier>
-			<Abstract type="html">Total free space</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceBackgroundRowSelectedColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (NSNumber *)freeDiskSpace</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBackgroundRowSelectedColor</Declaration>
 			
 			
-			<Anchor>//api/name/freeDiskSpace</Anchor>
+			<Anchor>//api/name/salesforceBackgroundRowSelectedColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/macaddress</TokenIdentifier>
-			<Abstract type="html">Mac address</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceBorderColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)macaddress</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBorderColor</Declaration>
 			
 			
-			<Anchor>//api/name/macaddress</Anchor>
+			<Anchor>//api/name/salesforceBorderColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasRetinaDisplay</TokenIdentifier>
-			<Abstract type="html">Returns whether the device has a retina display</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBorderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasRetinaDisplay</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBorderColor</Declaration>
 			
 			
-			<Anchor>//api/name/hasRetinaDisplay</Anchor>
+			<Anchor>//api/name/salesforceBorderColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasNeuralEngine</TokenIdentifier>
-			<Abstract type="html">Returns whether the device&apos;s SOC has a neural engine for core ML tasks</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceBorderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasNeuralEngine</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBorderColor</Declaration>
 			
 			
-			<Anchor>//api/name/hasNeuralEngine</Anchor>
+			<Anchor>//api/name/salesforceBorderColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/deviceFamily</TokenIdentifier>
-			<Abstract type="html">Device Family</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceDefaultTextColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (UIDeviceFamily)deviceFamily</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceDefaultTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/deviceFamily</Anchor>
+			<Anchor>//api/name/salesforceDefaultTextColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/interfaceOrientation</TokenIdentifier>
-			<Abstract type="html">Device&apos;s current orientation
-This method will first try to retrieve orientation using UIDevice currentOrientation, if return value is an invalid orientation, it will try to use status bar orientation as fallback</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceDefaultTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (UIInterfaceOrientation)interfaceOrientation</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceDefaultTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/interfaceOrientation</Anchor>
+			<Anchor>//api/name/salesforceDefaultTextColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/isSimulator</TokenIdentifier>
-			<Abstract type="html">Determine if current device is simulator or not</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceDefaultTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isSimulator</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceDefaultTextColor</Declaration>
 			
-			<ReturnValue><Abstract type="html">Return YES if current device is simulator, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/isSimulator</Anchor>
+			
+			<Anchor>//api/name/salesforceDefaultTextColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/canDevicePlaceAPhoneCall</TokenIdentifier>
-			<Abstract type="html">Determines whether the current device can place phone calls.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceWeakTextColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)canDevicePlaceAPhoneCall</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceWeakTextColor</Declaration>
 			
-			<ReturnValue><Abstract type="html">Returns YES if the current device can make a phone call, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/canDevicePlaceAPhoneCall</Anchor>
+			
+			<Anchor>//api/name/salesforceWeakTextColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphone6ScreenSize</TokenIdentifier>
-			<Abstract type="html">Determine if the current device has the screen size of an iPhone 6.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceWeakTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasIphone6ScreenSize</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceWeakTextColor</Declaration>
 			
-			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/hasIphone6ScreenSize</Anchor>
+			
+			<Anchor>//api/name/salesforceWeakTextColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphone6PlusScreenSize</TokenIdentifier>
-			<Abstract type="html">Determine if the current device has the screen size of an iPhone 6 plus.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceWeakTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasIphone6PlusScreenSize</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceWeakTextColor</Declaration>
 			
-			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/hasIphone6PlusScreenSize</Anchor>
+			
+			<Anchor>//api/name/salesforceWeakTextColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphoneXScreenSize</TokenIdentifier>
-			<Abstract type="html">Determine if the current device has the screen size of an iPhone X.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceAltTextColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)hasIphoneXScreenSize</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltTextColor</Declaration>
 			
-			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/hasIphoneXScreenSize</Anchor>
+			
+			<Anchor>//api/name/salesforceAltTextColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/currentDeviceIsIPad</TokenIdentifier>
-			<Abstract type="html">Return YES if device is iPad</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceAltTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)currentDeviceIsIPad</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/currentDeviceIsIPad</Anchor>
+			<Anchor>//api/name/salesforceAltTextColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/currentDeviceIsIPhone</TokenIdentifier>
-			<Abstract type="html">Return YES if device is iPhone</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceAltTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)currentDeviceIsIPhone</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/currentDeviceIsIPhone</Anchor>
+			<Anchor>//api/name/salesforceAltTextColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceAltBackgroundColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/salesforceAltBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceAltBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/salesforceAltBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceAltBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/salesforceAltBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceAlt2BackgroundColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAlt2BackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/salesforceAlt2BackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceAlt2BackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAlt2BackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/salesforceAlt2BackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceAlt2BackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAlt2BackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/salesforceAlt2BackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceTableCellBackgroundColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceTableCellBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/salesforceTableCellBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceTableCellBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceTableCellBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/salesforceTableCellBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceTableCellBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceTableCellBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/salesforceTableCellBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setPasscodeViewBackgroundColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/passcodeViewBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setPasscodeViewSecondaryBackgroundColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewSecondaryBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewSecondaryBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewSecondaryBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewSecondaryBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewSecondaryBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/passcodeViewSecondaryBackgroundColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewSecondaryBackgroundColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewSecondaryBackgroundColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setPasscodeViewTextColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewTextColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewTextColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/passcodeViewTextColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewTextColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewTextColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setPasscodeViewBorderColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBorderColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewBorderColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewBorderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBorderColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewBorderColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/passcodeViewBorderColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBorderColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewBorderColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setPasscodeViewNavBarColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewNavBarColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewNavBarColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewNavBarColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewNavBarColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewNavBarColor</Anchor>
+            <NodeRef refid="170"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/UIColor/passcodeViewNavBarColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewNavBarColor</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeViewNavBarColor</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		

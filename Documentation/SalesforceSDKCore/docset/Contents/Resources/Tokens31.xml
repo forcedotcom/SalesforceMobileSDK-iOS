@@ -85,6 +85,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/setRawResponse:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLResponse *rawResponse</Declaration>
+			
+			
+			<Anchor>//api/name/rawResponse</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/rawResponse</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLResponse *rawResponse</Declaration>
+			
+			
+			<Anchor>//api/name/rawResponse</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNativeRestRequestListener/rawResponse</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLResponse *rawResponse</Declaration>
+			
+			
+			<Anchor>//api/name/rawResponse</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/initWithRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>

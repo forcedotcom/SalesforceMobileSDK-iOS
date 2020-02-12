@@ -358,6 +358,42 @@ length.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setLogoutButtonColor:</TokenIdentifier>
+			<Abstract type="html">Color of the logout button on passcode verify screen.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) UIColor *logoutButtonColor</Declaration>
+			
+			
+			<Anchor>//api/name/logoutButtonColor</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/logoutButtonColor</TokenIdentifier>
+			<Abstract type="html">Color of the logout button on passcode verify screen.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) UIColor *logoutButtonColor</Declaration>
+			
+			
+			<Anchor>//api/name/logoutButtonColor</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/logoutButtonColor</TokenIdentifier>
+			<Abstract type="html">Color of the logout button on passcode verify screen.</Abstract>
+			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) UIColor *logoutButtonColor</Declaration>
+			
+			
+			<Anchor>//api/name/logoutButtonColor</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setInstructionFont:</TokenIdentifier>
 			<Abstract type="html">Font used for displaying instructions.</Abstract>
 			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
