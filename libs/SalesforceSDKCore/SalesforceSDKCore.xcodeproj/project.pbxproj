@@ -1248,17 +1248,6 @@
 			isa = PBXGroup;
 			children = (
 				A3161CF021810D2800437BD2 /* AppLockView */,
-				4F96FCF21BFD32130022F021 /* SFAuthErrorHandler.h */,
-				4F96FCF31BFD32130022F021 /* SFAuthErrorHandler.m */,
-				4F96FCF41BFD32130022F021 /* SFAuthErrorHandlerList.h */,
-				4F96FCF51BFD32130022F021 /* SFAuthErrorHandlerList.m */,
-				4F96FCFA1BFD32130022F021 /* SFDefaultUserManagementDetailViewController.h */,
-				4F96FCFB1BFD32130022F021 /* SFDefaultUserManagementDetailViewController.m */,
-				4F96FCFC1BFD32130022F021 /* SFDefaultUserManagementListViewController.h */,
-				4F96FCFD1BFD32130022F021 /* SFDefaultUserManagementListViewController.m */,
-				4F96FCFE1BFD32130022F021 /* SFDefaultUserManagementViewController+Internal.h */,
-				4F96FCFF1BFD32130022F021 /* SFDefaultUserManagementViewController.h */,
-				4F96FD001BFD32130022F021 /* SFDefaultUserManagementViewController.m */,
 				4F96FD011BFD32130022F021 /* SFEncryptionKey.h */,
 				4F96FD021BFD32130022F021 /* SFEncryptionKey.m */,
 				4F4055C52232304D00316D91 /* SFSecureEncryptionKey.h */,
@@ -1292,28 +1281,12 @@
 				4F96FD201BFD32140022F021 /* SFSecurityLockout.m */,
 				4F96FD211BFD32140022F021 /* SFSHA256PasscodeProvider.h */,
 				4F96FD221BFD32140022F021 /* SFSHA256PasscodeProvider.m */,
-				4F96FD231BFD32140022F021 /* SFUserAccount.h */,
-				4F96FD241BFD32140022F021 /* SFUserAccount.m */,
-				4F96FD251BFD32140022F021 /* SFUserAccount+Internal.h */,
-				4F96FD261BFD32140022F021 /* SFUserAccountConstants.h */,
-				4F96FD271BFD32140022F021 /* SFUserAccountIdentity.h */,
-				4F96FD281BFD32140022F021 /* SFUserAccountIdentity.m */,
-				4F96FD291BFD32140022F021 /* SFUserAccountManager+Internal.h */,
-				4F96FD2A1BFD32140022F021 /* SFUserAccountManager.h */,
-				4F96FD2B1BFD32140022F021 /* SFUserAccountManager.m */,
 				010A9ADE1CC176DD002AF4D3 /* SFCryptChunks.h */,
 				010A9ADF1CC176DD002AF4D3 /* SFCryptChunks.m */,
 				010A9AE01CC176DD002AF4D3 /* SFDecryptStream.h */,
 				010A9AE11CC176DD002AF4D3 /* SFDecryptStream.m */,
 				010A9AE21CC176DD002AF4D3 /* SFEncryptStream.h */,
 				010A9AE31CC176DD002AF4D3 /* SFEncryptStream.m */,
-				B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */,
-				B7E8A2A41E7369DB007C0D92 /* SFDefaultUserAccountPersister.m */,
-				B7CD6D631F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.h */,
-				B7CD6D641F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m */,
-				B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */,
-				B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */,
-				B73BB6F322090DEB0009A7DD /* SFUserAccountIdentity+Internal.h */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -1376,6 +1349,46 @@
 				B7F6909A22C27ED700E52575 /* SFSDKOAuthConstants.h */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		6935FB9823FDE919002BEFCC /* UserAccount */ = {
+			isa = PBXGroup;
+			children = (
+				4F96FD231BFD32140022F021 /* SFUserAccount.h */,
+				4F96FD241BFD32140022F021 /* SFUserAccount.m */,
+				4F96FD251BFD32140022F021 /* SFUserAccount+Internal.h */,
+				4F96FD261BFD32140022F021 /* SFUserAccountConstants.h */,
+				4F96FD271BFD32140022F021 /* SFUserAccountIdentity.h */,
+				B73BB6F322090DEB0009A7DD /* SFUserAccountIdentity+Internal.h */,
+				4F96FD281BFD32140022F021 /* SFUserAccountIdentity.m */,
+				4F96FD291BFD32140022F021 /* SFUserAccountManager+Internal.h */,
+				4F96FD2A1BFD32140022F021 /* SFUserAccountManager.h */,
+				4F96FD2B1BFD32140022F021 /* SFUserAccountManager.m */,
+				B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */,
+				B7E8A2A41E7369DB007C0D92 /* SFDefaultUserAccountPersister.m */,
+				4F96FCF21BFD32130022F021 /* SFAuthErrorHandler.h */,
+				4F96FCF31BFD32130022F021 /* SFAuthErrorHandler.m */,
+				4F96FCF41BFD32130022F021 /* SFAuthErrorHandlerList.h */,
+				4F96FCF51BFD32130022F021 /* SFAuthErrorHandlerList.m */,
+				B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */,
+				B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */,
+				6935FB9E23FDEC92002BEFCC /* ViewControllers */,
+			);
+			path = UserAccount;
+			sourceTree = "<group>";
+		};
+		6935FB9E23FDEC92002BEFCC /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				4F96FCFA1BFD32130022F021 /* SFDefaultUserManagementDetailViewController.h */,
+				4F96FCFB1BFD32130022F021 /* SFDefaultUserManagementDetailViewController.m */,
+				4F96FCFC1BFD32130022F021 /* SFDefaultUserManagementListViewController.h */,
+				4F96FCFD1BFD32130022F021 /* SFDefaultUserManagementListViewController.m */,
+				4F96FCFE1BFD32130022F021 /* SFDefaultUserManagementViewController+Internal.h */,
+				4F96FCFF1BFD32130022F021 /* SFDefaultUserManagementViewController.h */,
+				4F96FD001BFD32130022F021 /* SFDefaultUserManagementViewController.m */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		6F89606E1A9E96C400A48FF1 /* Configuration */ = {
@@ -1471,6 +1484,7 @@
 				4F96FCC41BFD32130022F021 /* OAuth */,
 				4F96FCD61BFD32130022F021 /* Protocols */,
 				4F96FCD81BFD32130022F021 /* PushNotification */,
+				6935FB9823FDE919002BEFCC /* UserAccount */,
 				4F96FCEA1BFD32130022F021 /* Security */,
 				4F96FD2E1BFD32140022F021 /* Test */,
 				4F96FD371BFD32140022F021 /* Util */,
@@ -1611,6 +1625,8 @@
 				B773CCF51F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m */,
 				B7348BED235F7CDB00E3BBE3 /* SFSDKIDPAuthHelper.h */,
 				B7348BEE235F7CDB00E3BBE3 /* SFSDKIDPAuthHelper.m */,
+				B7CD6D631F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.h */,
+				B7CD6D641F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m */,
 			);
 			path = IDP;
 			sourceTree = "<group>";
