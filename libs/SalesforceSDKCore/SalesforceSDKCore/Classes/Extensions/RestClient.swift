@@ -218,8 +218,7 @@ extension RestClient {
     /// Reusable, generic Combine Pipeline returning an array of records of a local
     /// model object that conforms to Decodable. This method accepts a query string and defers
     /// to the method above.
-  func records<Record: Decodable>(forQuery query:String, withApiVersion version: String = kSFRestDefaultAPIVersion ) -> AnyPublisher<[Record], Never> {
-    RestClient.shared.apiVersion
+  func records<Record: Decodable>(forQuery query:String, withApiVersion version: String = SFRestDefaultAPIVersion ) -> AnyPublisher<[Record], Never> {
       let request = RestClient.shared.request(forQuery: query, apiVersion: version)
       return self.records(forRequest: request)
     }
