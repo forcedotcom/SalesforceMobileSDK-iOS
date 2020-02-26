@@ -179,4 +179,47 @@ extension RestClient {
             }
         }
     }
+  
+    /// Struct represents the JSON Structure of a Salesforce Response.
+    /// This struct requires a Model Object that conforms to Decodable
+    /// This model object's properties need to match the Salesforce Schema
+    ///   at least in part.
+    struct SFRestResponseWrapper<Record: Decodable>: Decodable {
+        var totalSize: Int
+        var done: Bool
+        var records: [Record]
+    }
+  
+    /// This method provides a reusuable, generic Combine pipeline for retrieving records
+    ///   from Salesforce. It relys on Swift Generics, and type inference to determine what
+    ///  models to create.
+    ///
+    /// Given a model object - Contact, you can use this pipeline like this:
+    /// contactsForCancellable = RestClient.shared.records(forRequest: request)
+    ///   .receive(on: RunLoop.main)
+    ///   .assign(to: \.contacts, on: self)
+    ///
+    /// This pipeline infers it's return type from the variable in the assign subscriber.
+    func records<Record: Decodable>(forRequest request:RestRequest ) -> AnyPublisher<[Record], Never> {
+      return RestClient.shared.publisher(for: request)
+        .tryMap({ (response) -> Data in
+          response.asData()
+        })
+        .decode(type: SFRestResponseWrapper<Record>.self, decoder: JSONDecoder())
+        .map({ (record) -> [Record] in
+          record.records
+        })
+        .catch({ _ in
+          Just([Record]())
+        })
+        .eraseToAnyPublisher()
+    }
+  
+    /// Reusable, generic Combine Pipeline returning an array of records of a local
+    /// model object that conforms to Decodable. This method accepts a query string and defers
+    /// to the method above.
+    func records<Record: Decodable>(forQuery query:String) -> AnyPublisher<[Record], Never> {
+      let request = RestClient.shared.request(forQuery: query, apiVersion: RestClient.apiVersion)
+      return self.records(forRequest: request)
+    }
 }
