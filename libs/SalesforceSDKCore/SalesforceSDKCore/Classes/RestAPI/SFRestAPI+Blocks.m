@@ -160,8 +160,8 @@ static char CompleteBlockKey;
     return request;
 }
 
-- (SFRestRequest *) performLayoutWithObjectType:(NSString *)objectType layoutType:(NSString *)layoutType failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [self requestForLayoutWithObjectType:objectType layoutType:layoutType apiVersion:self.apiVersion];
+- (SFRestRequest *) performLayoutWithObjectAPIName:(NSString *)objectAPIName formFactor:(NSString *)formFactor layoutType:(NSString *)layoutType mode:(NSString *)mode recordTypeId:(NSString *)recordTypeId failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
+    SFRestRequest *request = [self requestForLayoutWithObjectAPIName:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode apiVersion:self.apiVersion];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];

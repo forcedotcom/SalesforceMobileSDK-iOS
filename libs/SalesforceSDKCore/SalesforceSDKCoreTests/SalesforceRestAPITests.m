@@ -319,16 +319,61 @@ static NSException *authException = nil;
 }
 
 // simple: just invoke requestForLayoutWithObjectType:@"Contact" without layoutType.
-- (void)testGetLayoutWithObjectTypeWithoutLayoutType {
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:nil apiVersion:kSFRestDefaultAPIVersion];
+- (void)testGetLayoutWithObjectAPINameWithoutFormFactor {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" with formFactor:@"Medium".
+- (void)testGetLayoutWithObjectAPINameWithFormFactor {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:@"Medium" layoutType:nil mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" without layoutType.
+- (void)testGetLayoutWithObjectAPINameWithoutLayoutType {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForLayoutWithObjectType:@"Contact" with layoutType:@"Compact".
-- (void)testGetLayoutWithObjectTypeWithLayoutType {
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:@"Compact" apiVersion:kSFRestDefaultAPIVersion];
+- (void)testGetLayoutWithObjectAPINameWithLayoutType {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:@"Compact" mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" without mode.
+- (void)testGetLayoutWithObjectAPINameWithoutMode {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" with mode:@"Edit".
+- (void)testGetLayoutWithObjectAPINameWithMode {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:@"Edit" recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" without recordTypeId.
+- (void)testGetLayoutWithObjectAPINameWithoutRecordTypeId {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" with recordTypeId:@"Test".
+- (void)testGetLayoutWithObjectAPINameWithRecordTypeId {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:nil recordTypeId:@"Test" apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }

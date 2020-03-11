@@ -254,7 +254,7 @@ NS_SWIFT_NAME(RestClient)
  * @param apiVersion API version.
  * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
  */
-- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType apiVersion:(nullable NSString *)apiVersion;
+- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType apiVersion:(nullable NSString *)apiVersion SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use requestForLayoutWithObjectAPIName:objectAPIName:formFactor:layoutType:mode:recordTypeId instead.");
 
 /**
  * Returns an `SFRestRequest` object that provides layout data for the specified parameters.
