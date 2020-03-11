@@ -96,6 +96,29 @@ NS_SWIFT_NAME(LayoutSyncManager)
  * @param mode Fetch mode. See SFSDKFetchMode for available modes.
  * @param completionBlock Layout sync completion block.
  */
-- (void)fetchLayoutForObject:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock;
+- (void)fetchLayoutForObject:(nonnull NSString *)objectType
+                  layoutType:(nullable NSString *)layoutType
+                        mode:(SFSDKFetchMode)mode
+             completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use fetchLayoutForObjectAPIName:objectAPIName:formFactor:layoutType:mode:recordTypeId:syncMode:completionBlock instead.");
+
+/**
+ * Fetches layout data for the specified parameters using the specified sync
+ * mode and triggers the supplied completion block once complete.
+ *
+ * @param objectAPIName Object API name.
+ * @param formFactor Form factor. Could be "Large", "Medium" or "Small". Default value is "Large".
+ * @param layoutType Layout type. Defaults to "Full" if nil is passed in.
+ * @param mode Mode. Could be "Create", "Edit" or "View". Default value is "View".
+ * @param recordTypeId Record type ID. Default will be used if not supplied.
+ * @param syncMode Fetch mode. See SFSDKFetchMode for available modes.
+ * @param completionBlock Layout sync completion block.
+ */
+- (void)fetchLayoutForObjectAPIName:(nonnull NSString *)objectAPIName
+                         formFactor:(nullable NSString *)formFactor
+                         layoutType:(nullable NSString *)layoutType
+                               mode:(nullable NSString *)mode
+                       recordTypeId:(nullable NSString *)recordTypeId
+                           syncMode:(SFSDKFetchMode)syncMode
+                    completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock
 
 @end
