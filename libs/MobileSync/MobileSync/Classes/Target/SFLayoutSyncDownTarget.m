@@ -33,13 +33,19 @@
 #import "SFMobileSyncNetworkUtils.h"
 
 static NSString * const kSFSyncTargetObjectType = @"sobjectType";
+static NSString * const kSFSyncTargetFormFactor = @"formFactor";
 static NSString * const kSFSyncTargetLayoutType = @"layoutType";
-static NSString * const kIDFieldValue = @"%@-%@";
+static NSString * const kSFSyncTargetMode = @"mode";
+static NSString * const kSFSyncTargetRecordTypeId = @"recordTypeId";
+static NSString * const kIDFieldValue = @"%@-%@-%@-%@-%@";
 
 @interface SFLayoutSyncDownTarget ()
 
-@property (nonatomic, strong, readwrite) NSString *objectType;
+@property (nonatomic, strong, readwrite) NSString *objectAPIName;
+@property (nonatomic, strong, readwrite) NSString *formFactor;
 @property (nonatomic, strong, readwrite) NSString *layoutType;
+@property (nonatomic, strong, readwrite) NSString *mode;
+@property (nonatomic, strong, readwrite) NSString *recordTypeId;
 
 @end
 
@@ -49,8 +55,11 @@ static NSString * const kIDFieldValue = @"%@-%@";
     self = [super initWithDict:dict];
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeLayout;
-        self.objectType = dict[kSFSyncTargetObjectType];
+        self.objectAPIName = dict[kSFSyncTargetObjectType];
+        self.formFactor = dict[kSFSyncTargetFormFactor];
         self.layoutType = dict[kSFSyncTargetLayoutType];
+        self.mode = dict[kSFSyncTargetMode];
+        self.recordTypeId = dict[kSFSyncTargetRecordTypeId];
     }
     return self;
 }
@@ -64,17 +73,27 @@ static NSString * const kIDFieldValue = @"%@-%@";
 }
 
 + (SFLayoutSyncDownTarget *)newSyncTarget:(NSString *)objectType layoutType:(NSString *)layoutType {
+    return [SFLayoutSyncDownTarget newSyncTarget:objectType formFactor:nil layoutType:layoutType mode:nil recordTypeId:nil];
+}
+
++ (SFLayoutSyncDownTarget *)newSyncTarget:(NSString *)objectAPIName formFactor:(NSString *)formFactor layoutType:(NSString *)layoutType mode:(NSString *)mode recordTypeId:(NSString *)recordTypeId {
     SFLayoutSyncDownTarget *syncTarget = [[SFLayoutSyncDownTarget alloc] init];
     syncTarget.queryType = SFSyncDownTargetQueryTypeLayout;
-    syncTarget.objectType = objectType;
+    syncTarget.objectAPIName = objectAPIName;
+    syncTarget.formFactor = formFactor;
     syncTarget.layoutType = layoutType;
+    syncTarget.mode = mode;
+    syncTarget.recordTypeId = recordTypeId;
     return syncTarget;
 }
 
 - (NSMutableDictionary *)asDict {
     NSMutableDictionary *dict = [super asDict];
-    dict[kSFSyncTargetObjectType] = self.objectType;
+    dict[kSFSyncTargetObjectType] = self.objectAPIName;
+    dict[kSFSyncTargetFormFactor] = self.formFactor;
     dict[kSFSyncTargetLayoutType] = self.layoutType;
+    dict[kSFSyncTargetMode] = self.mode;
+    dict[kSFSyncTargetRecordTypeId] = self.recordTypeId;
     return dict;
 }
 
