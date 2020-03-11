@@ -163,16 +163,16 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
           recordTypeId:(NSString *)recordTypeId
        completionBlock:(SFLayoutSyncCompletionBlock)completionBlock
       fallbackOnServer:(BOOL)fallbackOnServer {
-    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, objectType, formFactor, layoutType, mode, recordTypeId] withPageSize:1];
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, objectAPIName, formFactor, layoutType, mode, recordTypeId] withPageSize:1];
     NSArray *results = [self.smartStore queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     if (!results || results.count == 0) {
         if (fallbackOnServer) {
             [self fetchFromServer:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId completionBlock:completionBlock];
         } else {
-            completionBlock(objectType, nil);
+            completionBlock(objectAPIName, formFactor, layoutType, mode, recordTypeId, nil);
         }
     } else {
-        completionBlock(objectType, [SFLayout fromJSON:results[0][0]]);
+        completionBlock(objectAPIName, formFactor, layoutType, mode, recordTypeId, [SFLayout fromJSON:results[0][0]]);
     }
 }
 

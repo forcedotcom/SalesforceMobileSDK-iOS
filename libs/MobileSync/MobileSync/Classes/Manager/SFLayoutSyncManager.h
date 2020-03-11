@@ -35,10 +35,14 @@
 /**
  * Completion block triggered when layout sync completes.
  *
- * @param objectType Object type.
+ * @param objectAPIName Object API name.
+ * @param formFactor Form factor.
+ * @param layoutType Layout type.
+ * @param mode Mode.
+ * @param recordTypeId Record type ID.
  * @param layout Layout.
  */
-typedef void (^SFLayoutSyncCompletionBlock) (NSString * _Nonnull objectType, SFLayout  * _Nullable layout) NS_SWIFT_NAME(LayoutSyncCompletionBlock);
+typedef void (^SFLayoutSyncCompletionBlock) (NSString * _Nonnull objectAPIName, NSString * _Nullable formFactor, NSString * _Nullable layoutType, NSString * _Nullable mode, NSString * _Nullable recordTypeId, SFLayout * _Nullable layout) NS_SWIFT_NAME(LayoutSyncCompletionBlock);
 
 /**
  * Provides an easy way to fetch layout data using SFLayoutSyncDownTarget.
