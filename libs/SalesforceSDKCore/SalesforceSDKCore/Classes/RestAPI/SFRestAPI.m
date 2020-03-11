@@ -529,10 +529,24 @@ static dispatch_once_t pred;
 }
 
 - (SFRestRequest *)requestForLayoutWithObjectType:(NSString *)objectType layoutType:(NSString *)layoutType apiVersion:(NSString *)apiVersion {
-    NSDictionary *queryParams = (layoutType ?
-                                 @{@"layoutType": layoutType}
-                                 : nil);
-    NSString *path = [NSString stringWithFormat:@"/%@/ui-api/layout/%@", [self computeAPIVersion:apiVersion], objectType];
+    return [self requestForLayoutWithObjectAPIName:objectType formFactor:nil layoutType:layoutType mode:nil apiVersion:apiVersion recordTypeId:nil];
+}
+
+- (SFRestRequest *)requestForLayoutWithObjectAPIName:(NSString *)objectAPIName formFactor:(NSString *)formFactor layoutType:(NSString *)layoutType mode:(NSString *)mode apiVersion:(NSString *)apiVersion recordTypeId:(NSString *)recordTypeId {
+    NSMutableDictionary *queryParams = [[NSMutableDictionary alloc] init];
+    if (formFactor) {
+        queryParams[@"formFactor"] = formFactor;
+    }
+    if (layoutType) {
+        queryParams[@"layoutType"] = layoutType;
+    }
+    if (mode) {
+        queryParams[@"mode"] = mode;
+    }
+    if (recordTypeId) {
+        queryParams[@"recordTypeId"] = recordTypeId;
+    }
+    NSString *path = [NSString stringWithFormat:@"/%@/ui-api/layout/%@", [self computeAPIVersion:apiVersion], objectAPIName];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 

@@ -257,6 +257,18 @@ NS_SWIFT_NAME(RestClient)
 - (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType apiVersion:(nullable NSString *)apiVersion;
 
 /**
+ * Returns an `SFRestRequest` object that provides layout data for the specified parameters.
+ * @param objectAPIName Object API name.
+ * @param formFactor Form factor. Could be "Large", "Medium" or "Small". Default value is "Large".
+ * @param layoutType Layout type. Could be "Compact" or "Full". Default value is "Full".
+ * @param mode Mode. Could be "Create", "Edit" or "View". Default value is "View".
+ * @param recordTypeId Record type ID. Default will be used if not supplied.
+ * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
+ */
+- (SFRestRequest *)requestForLayoutWithObjectAPIName:(NSString *)objectAPIName formFactor:(NSString *)formFactor layoutType:(NSString *)layoutType mode:(NSString *)mode apiVersion:(NSString *)apiVersion recordTypeId:(NSString *)recordTypeId;
+
+/**
  * Returns an `SFRestRequest` object that retrieves field values for the specified record of the given type.
  * @param objectType Type of a Salesforce object. Example: "Account".
  * @param objectId Requested record's object ID.

@@ -114,7 +114,7 @@ static NSString * const kIDFieldValue = @"%@-%@-%@-%@-%@";
         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId apiVersion:nil];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId apiVersion:nil];
     [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
