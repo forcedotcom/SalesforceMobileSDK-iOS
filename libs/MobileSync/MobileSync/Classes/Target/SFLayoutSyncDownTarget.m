@@ -98,26 +98,29 @@ static NSString * const kIDFieldValue = @"%@-%@-%@-%@-%@";
 }
 
 - (void)startFetch:(SFMobileSyncSyncManager *)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-    [self startFetch:syncManager maxTimeStamp:maxTimeStamp objectType:self.objectType layoutType:self.layoutType errorBlock:errorBlock completeBlock:completeBlock];
+      maxTimeStamp:(long long)maxTimeStamp
+        errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+     completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    [self startFetch:syncManager maxTimeStamp:maxTimeStamp objectAPIName:self.objectAPIName formFactor:self.formFactor layoutType:self.layoutType mode:self.mode recordTypeId:self.recordTypeId errorBlock:errorBlock completeBlock:completeBlock];
 }
 
 - (void)startFetch:(SFMobileSyncSyncManager *)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-           objectType:(NSString *)objectType
-           layoutType:(NSString *)layoutType
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+      maxTimeStamp:(long long)maxTimeStamp
+     objectAPIName:(NSString *)objectAPIName
+        formFactor:(NSString *)formFactor
+        layoutType:(NSString *)layoutType
+              mode:(NSString *)mode
+      recordTypeId:(NSString *)recordTypeId
+        errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+     completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:objectType layoutType:layoutType apiVersion:nil];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId apiVersion:nil];
     [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = 1;
         NSMutableDictionary *record = [[NSMutableDictionary alloc] initWithDictionary:d];
-        record[kId] = [NSString stringWithFormat:kIDFieldValue, weakSelf.objectType, weakSelf.layoutType];
+        record[kId] = [NSString stringWithFormat:kIDFieldValue, weakSelf.objectAPIName, weakSelf.formFactor, weakSelf.layoutType, weakSelf.mode, weakSelf.recordTypeId];
         NSMutableArray *records = [[NSMutableArray alloc] initWithCapacity:1];
         records[0] = record;
         completeBlock(records);
@@ -125,13 +128,17 @@ static NSString * const kIDFieldValue = @"%@-%@-%@-%@-%@";
 }
 
 - (void)getRemoteIds:(SFMobileSyncSyncManager *)syncManager
-             localIds:(NSArray *)localIds
-           errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-        completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+            localIds:(NSArray *)localIds
+          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     completeBlock(nil);
 }
 
-- (void)cleanGhosts:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+- (void)cleanGhosts:(SFMobileSyncSyncManager *)syncManager
+           soupName:(NSString *)soupName
+             syncId:(NSNumber *)syncId
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     completeBlock(nil);
 }
 
