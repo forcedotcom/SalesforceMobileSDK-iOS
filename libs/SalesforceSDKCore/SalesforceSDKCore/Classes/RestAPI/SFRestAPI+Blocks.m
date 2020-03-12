@@ -161,7 +161,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performLayoutWithObjectAPIName:(NSString *)objectAPIName formFactor:(NSString *)formFactor layoutType:(NSString *)layoutType mode:(NSString *)mode recordTypeId:(NSString *)recordTypeId failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [self requestForLayoutWithObjectAPIName:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode apiVersion:self.apiVersion];
+    SFRestRequest *request = [self requestForLayoutWithObjectAPIName:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId apiVersion:self.apiVersion];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
