@@ -360,7 +360,7 @@ static NSException *authException = nil;
                 XCTAssertEqualObjects(((SFMetadataSyncDownTarget*)expectedTarget).objectType, ((SFMetadataSyncDownTarget*)sync.target).objectType);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeLayout) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFLayoutSyncDownTarget class]]);
-                XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).objectType, ((SFLayoutSyncDownTarget*)sync.target).objectType);
+                XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).objectAPIName, ((SFLayoutSyncDownTarget*)sync.target).objectAPIName);
                 XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).layoutType, ((SFLayoutSyncDownTarget*)sync.target).layoutType);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeParentChildren) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFParentChildrenSyncDownTarget class]]);
