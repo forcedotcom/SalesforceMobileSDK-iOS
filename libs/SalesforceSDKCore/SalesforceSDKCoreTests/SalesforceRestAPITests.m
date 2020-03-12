@@ -371,13 +371,6 @@ static NSException *authException = nil;
     self.dataCleanupRequired = NO;
 }
 
-// simple: just invoke requestForLayoutWithObjectType:@"Contact" with recordTypeId:@"Test".
-- (void)testGetLayoutWithObjectAPINameWithRecordTypeId {
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:nil recordTypeId:@"Test" apiVersion:kSFRestDefaultAPIVersion];
-    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-}
-
 // simple: just invoke requestForSearchScopeAndOrder
 - (void)testGetSearchScopeAndOrder {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchScopeAndOrder:kSFRestDefaultAPIVersion];
