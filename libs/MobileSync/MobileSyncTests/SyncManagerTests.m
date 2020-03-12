@@ -416,7 +416,7 @@
                             [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil]
                             ];
     [self.store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs error:nil];
-    [self trySyncDown:SFSyncStateMergeModeOverwrite target:[SFLayoutSyncDownTarget newSyncTarget:ACCOUNT_TYPE layoutType:@"Compact"] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:[SFLayoutSyncDownTarget newSyncTarget:ACCOUNT_TYPE formFactor:@"Medium" layoutType:@"Compact" mode:@"Edit" recordTypeId:nil] soupName:ACCOUNTS_SOUP totalSize:1 numberFetches:1];
     NSString* smartSql = @"SELECT {accounts:_soup} FROM {accounts}";
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:1];
     NSArray *rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
@@ -425,6 +425,8 @@
     XCTAssertNotNil(layout, @"Layout should not be nil");
     NSString *layoutType = layout[@"layoutType"];
     XCTAssertEqualObjects(layoutType, @"Compact", @"Layout type should be Compact");
+    NSString *mode = layout[@"mode"];
+    XCTAssertEqualObjects(mode, @"Edit", @"Mode should be Edit");
 }
 
 /**
