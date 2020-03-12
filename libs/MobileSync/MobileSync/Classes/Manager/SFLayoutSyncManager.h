@@ -123,6 +123,6 @@ NS_SWIFT_NAME(LayoutSyncManager)
                                mode:(nullable NSString *)mode
                        recordTypeId:(nullable NSString *)recordTypeId
                            syncMode:(SFSDKFetchMode)syncMode
-                    completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock
+                    completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock;
 
 @end
