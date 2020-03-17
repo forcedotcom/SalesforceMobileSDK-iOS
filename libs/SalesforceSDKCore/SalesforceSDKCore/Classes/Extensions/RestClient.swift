@@ -106,7 +106,7 @@ extension RestClient {
     /// This struct requires a Model Object that conforms to Decodable
     /// This model object's properties need to match the Salesforce Schema
     ///   at least in part.
-    struct QueryResponseWrapper<Record: Decodable>: Decodable {
+    struct QueryResponse<Record: Decodable>: Decodable {
       var totalSize: Int
       var done: Bool
       var records: [Record]
@@ -185,7 +185,7 @@ extension RestClient {
               case .success(let response):
                 do {
                   let decoder = JSONDecoder()
-                  let wrapper = try decoder.decode(QueryResponseWrapper<Record>.self, from: response.asData())
+                  let wrapper = try decoder.decode(QueryResponse<Record>.self, from: response.asData())
                   completionBlock(.success(wrapper.records))
                 } catch {
                   completionBlock(.success([Record]()))
@@ -288,7 +288,7 @@ extension RestClient {
         .tryMap({ (response) -> Data in
           response.asData()
         })
-        .decode(type: QueryResponseWrapper<Record>.self, decoder: JSONDecoder())
+        .decode(type: QueryResponse<Record>.self, decoder: JSONDecoder())
         .map({ (record) -> [Record] in
           record.records
         })
