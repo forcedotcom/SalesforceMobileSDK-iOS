@@ -89,12 +89,12 @@ public struct RestResponse {
 
 extension RestRequest {
   
-  /// Calculated property to determine if this request is a data retrieval request with a SOQL query.
+  /// Calculated property to determine if this request is a data retrieval request with a SOQL or SOSL query.
   /// All such queries will return a JSON decodable QueryResponseWrapper.
   /// Implied contract is that all requests matching both properties here will be decodable via QueryResponseWrapper<Record>
   public var isQueryRequest: Bool {
     get {
-      return self.method == .GET && self.path.lowercased().hasSuffix("query")
+      return self.method == .GET && (self.path.lowercased().hasSuffix("query") || self.path.lowercased().hasSuffix("search"))
     }
   }
   
