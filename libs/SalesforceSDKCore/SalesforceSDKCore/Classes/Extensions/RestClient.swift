@@ -178,7 +178,7 @@ extension RestClient {
     /// This method relies on the passed parameter ofModelType to infer the generic Record's
     /// concrete type.
     func fetchRecords<Record: Decodable>(ofModelType: Record.Type, forRequest request: RestRequest,
-                                       _ completionBlock: @escaping (Result<[Record], RestClientError>) -> Void) {
+                                       _ completionBlock: @escaping (Result<QueryResponse<Record>, RestClientError>) -> Void) {
       guard request.isQueryRequest else { return }
       RestClient.shared.send(request: request) { result in
           switch result {
@@ -186,9 +186,9 @@ extension RestClient {
                 do {
                   let decoder = JSONDecoder()
                   let wrapper = try decoder.decode(QueryResponse<Record>.self, from: response.asData())
-                  completionBlock(.success(wrapper.records))
+                  completionBlock(.success(wrapper))
                 } catch {
-                  completionBlock(.success([Record]()))
+                  completionBlock(.success(QueryResponse<Record>(totalSize: 0, done: true, records: [])))
               }
               case .failure(let err):
                   completionBlock(.failure(err))
@@ -217,7 +217,7 @@ extension RestClient {
     func fetchRecords<Record: Decodable>(ofModelType: Record.Type,
                                          forQuery query: String,
                                          withApiVersion version: String = SFRestDefaultAPIVersion,
-                                         _ completionBlock: @escaping (Result<[Record], RestClientError>) -> Void) {
+                                         _ completionBlock: @escaping (Result<QueryResponse<Record>, RestClientError>) -> Void) {
         let request = RestClient.shared.request(forQuery: query, apiVersion: version)
         guard request.isQueryRequest else { return }
         return self.fetchRecords(ofModelType: ofModelType, forRequest: request, completionBlock)
@@ -280,7 +280,7 @@ extension RestClient {
     ///   .assign(to: \.contacts, on: self)
     ///
     /// This pipeline infers it's return type from the variable in the assign subscriber.
-    func records<Record: Decodable>(forRequest request:RestRequest ) -> AnyPublisher<[Record], Never> {
+    func records<Record: Decodable>(forRequest request:RestRequest ) -> AnyPublisher<QueryResponse<Record>, RestClientError> {
       guard request.isQueryRequest else {
         return Empty(completeImmediately: true).eraseToAnyPublisher()
       }
@@ -289,11 +289,8 @@ extension RestClient {
           response.asData()
         })
         .decode(type: QueryResponse<Record>.self, decoder: JSONDecoder())
-        .map({ (record) -> [Record] in
-          record.records
-        })
-        .catch({ _ in
-          Just([Record]())
+        .mapError({ error in
+          return RestClientError.decodingFailed(underlyingError: error)
         })
         .eraseToAnyPublisher()
     }
@@ -301,7 +298,7 @@ extension RestClient {
     /// Reusable, generic Combine Pipeline returning an array of records of a local
     /// model object that conforms to Decodable. This method accepts a query string and defers
     /// to records<Record:Decodable>(forRequest request: RestRequest) -> AnyPublisher<[Record], Never>
-    func records<Record: Decodable>(forQuery query:String, withApiVersion version: String = SFRestDefaultAPIVersion ) -> AnyPublisher<[Record], Never> {
+    func records<Record: Decodable>(forQuery query:String, withApiVersion version: String = SFRestDefaultAPIVersion ) -> AnyPublisher<QueryResponse<Record>, RestClientError> {
         let request = RestClient.shared.request(forQuery: query, apiVersion: version)
         return self.records(forRequest: request)
     }
