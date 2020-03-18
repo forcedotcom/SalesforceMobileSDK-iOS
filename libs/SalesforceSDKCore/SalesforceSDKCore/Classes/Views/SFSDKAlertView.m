@@ -72,14 +72,15 @@
         }];
          [self.controller addAction:actionTwoButton];
     }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        __strong typeof (weakSelf) strongSelf = weakSelf;
-        [strongSelf.window presentWindowAnimated:NO withCompletion:^{
-            UIViewController *controller = strongSelf.window.viewController.presentedViewController?:strongSelf.window.viewController;
-            [controller presentViewController:weakSelf.controller animated:animated completion:completion];
-            }];
-        });
+    __strong typeof (weakSelf) strongSelf = weakSelf;
+    [self.window presentWindowAnimated:NO withCompletion:^{
+        UIViewController *controller =  strongSelf.window.viewController;
+        if (!strongSelf.window.viewController.presentedViewController.isBeingDismissed) {
+            controller = strongSelf.window.viewController.presentedViewController;
+        }
+        [controller presentViewController:strongSelf.controller animated:animated completion:completion];
+     }];
+
 }
 
 - (UIViewController *)blankViewController {

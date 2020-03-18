@@ -129,17 +129,6 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info;
 
 /**
- Sent if authentication fails due to an error. Note: This method is deprecated.  You should use the
- `oauthCoordinator:didFailWithError:authInfo` method instead.
- 
- @param coordinator The SFOAuthCoordinator instance processing this message
- @param error       The error message
- 
- @see SFOAuthCoordinator
- */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error __attribute__((deprecated));
-
-/**
  Sent if authentication fails due to an error.
  
  @param coordinator The SFOAuthCoordinator instance processing this message.
