@@ -107,9 +107,9 @@ extension RestClient {
     /// This model object's properties need to match the Salesforce Schema
     ///   at least in part.
     struct QueryResponse<Record: Decodable>: Decodable {
-      var totalSize: Int
-      var done: Bool
-      var records: [Record]
+      var totalSize: Int?
+      var done: Bool?
+      var records: [Record]?
     }
     
     /// Execute a prebuilt request.
@@ -280,7 +280,7 @@ extension RestClient {
     ///   .assign(to: \.contacts, on: self)
     ///
     /// This pipeline infers it's return type from the variable in the assign subscriber.
-    func records<Record: Decodable>(forRequest request:RestRequest ) -> AnyPublisher<QueryResponse<Record>, RestClientError> {
+    func records<Record: Decodable>(forRequest request:RestRequest ) -> AnyPublisher<QueryResponse<Record>, Never> {
       guard request.isQueryRequest else {
         return Empty(completeImmediately: true).eraseToAnyPublisher()
       }
@@ -289,8 +289,8 @@ extension RestClient {
           response.asData()
         })
         .decode(type: QueryResponse<Record>.self, decoder: JSONDecoder())
-        .mapError({ error in
-          return RestClientError.decodingFailed(underlyingError: error)
+        .catch({ _ in
+          Just(QueryResponse<Record>(totalSize: 0, done: true, records: []))
         })
         .eraseToAnyPublisher()
     }
@@ -298,7 +298,7 @@ extension RestClient {
     /// Reusable, generic Combine Pipeline returning an array of records of a local
     /// model object that conforms to Decodable. This method accepts a query string and defers
     /// to records<Record:Decodable>(forRequest request: RestRequest) -> AnyPublisher<[Record], Never>
-    func records<Record: Decodable>(forQuery query:String, withApiVersion version: String = SFRestDefaultAPIVersion ) -> AnyPublisher<QueryResponse<Record>, RestClientError> {
+    func records<Record: Decodable>(forQuery query:String, withApiVersion version: String = SFRestDefaultAPIVersion ) -> AnyPublisher<QueryResponse<Record>, Never> {
         let request = RestClient.shared.request(forQuery: query, apiVersion: version)
         return self.records(forRequest: request)
     }
