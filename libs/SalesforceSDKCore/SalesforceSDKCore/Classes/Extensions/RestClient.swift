@@ -87,7 +87,30 @@ public struct RestResponse {
     }
 }
 
+extension RestRequest {
+  
+  /// Calculated property to determine if this request is a data retrieval request with a SOQL or SOSL query.
+  /// All such queries will return a JSON decodable QueryResponseWrapper.
+  /// Implied contract is that all requests matching both properties here will be decodable via QueryResponseWrapper<Record>
+  public var isQueryRequest: Bool {
+    get {
+      return self.method == .GET && (self.path.lowercased().hasSuffix("query") || self.path.lowercased().hasSuffix("search"))
+    }
+  }
+  
+}
+
 extension RestClient {
+  
+    /// Struct represents the JSON Structure of a Salesforce Response.
+    /// This struct requires a Model Object that conforms to Decodable
+    /// This model object's properties need to match the Salesforce Schema
+    ///   at least in part.
+    struct QueryResponse<Record: Decodable>: Decodable {
+      var totalSize: Int?
+      var done: Bool?
+      var records: [Record]?
+    }
     
     /// Execute a prebuilt request.
     /// - Parameter request: `RestRequest` object.
@@ -136,6 +159,70 @@ extension RestClient {
         })
     }
   
+    // MARK: Record Convience API - Pure Swift 4+
+    
+    /// This method provides a reusuable, generic pipeline for retrieving records
+    ///   from Salesforce. It relys on Swift Generics, and type inference to determine what
+    ///  models to create.
+    ///
+    /// Given a model object - Contact, you can use this method like this:
+    ///   RestClient.shared.fetchRecords(ofModelType: ModelName.self, forRequest: request) { result in
+    ///       switch result {
+    ///       case .success(let records):
+    ///           do something with your array of model objects
+    ///       case .failure(let error):
+    ///           print(error)
+    ///       }
+    ///     }
+    ///
+    /// This method relies on the passed parameter ofModelType to infer the generic Record's
+    /// concrete type.
+    func fetchRecords<Record: Decodable>(ofModelType: Record.Type, forRequest request: RestRequest,
+                                       _ completionBlock: @escaping (Result<QueryResponse<Record>, RestClientError>) -> Void) {
+      guard request.isQueryRequest else { return }
+      RestClient.shared.send(request: request) { result in
+          switch result {
+              case .success(let response):
+                do {
+                  let decoder = JSONDecoder()
+                  let wrapper = try decoder.decode(QueryResponse<Record>.self, from: response.asData())
+                  completionBlock(.success(wrapper))
+                } catch {
+                  completionBlock(.success(QueryResponse<Record>(totalSize: 0, done: true, records: [])))
+              }
+              case .failure(let err):
+                  completionBlock(.failure(err))
+          }
+        }
+    }
+  
+    /// This method provides a reusuable, generic pipeline for retrieving records
+    ///   from Salesforce. It relys on Swift Generics, and type inference to determine what
+    ///  models to create.
+    ///
+    /// Given a model object - Account, you can use this method like this:
+    ///   RestClient.shared.fetchRecords(ofModelType: Account.self,
+    ///                                  forQuery: "select id from account"
+    ///                                  withApiVersion: "v48.0") { result in
+    ///       switch result {
+    ///       case .success(let records):
+    ///           do something with your array of model objects
+    ///       case .failure(let error):
+    ///           print(error)
+    ///       }
+    ///     }
+    ///
+    /// This method relies on the passed parameter ofModelType to infer the generic Record's
+    /// concrete type.
+    func fetchRecords<Record: Decodable>(ofModelType: Record.Type,
+                                         forQuery query: String,
+                                         withApiVersion version: String = SFRestDefaultAPIVersion,
+                                         _ completionBlock: @escaping (Result<QueryResponse<Record>, RestClientError>) -> Void) {
+        let request = RestClient.shared.request(forQuery: query, apiVersion: version)
+        guard request.isQueryRequest else { return }
+        return self.fetchRecords(ofModelType: ofModelType, forRequest: request, completionBlock)
+    }
+  
 }
 
 @available(iOS 13.0, watchOS 6.0, *)
@@ -178,5 +265,41 @@ extension RestClient {
                 }
             }
         }
+    }
+  
+    // MARK: Record Convience API - Swift & Combine
+
+  
+    /// This method provides a reusuable, generic Combine pipeline for retrieving records
+    ///   from Salesforce. It relys on Swift Generics, and type inference to determine what
+    ///  models to create.
+    ///
+    /// Given a model object - Contact, you can use this pipeline like this:
+    /// contactsForCancellable = RestClient.shared.records(forRequest: request)
+    ///   .receive(on: RunLoop.main)
+    ///   .assign(to: \.contacts, on: self)
+    ///
+    /// This pipeline infers it's return type from the variable in the assign subscriber.
+    func records<Record: Decodable>(forRequest request:RestRequest ) -> AnyPublisher<QueryResponse<Record>, Never> {
+      guard request.isQueryRequest else {
+        return Empty(completeImmediately: true).eraseToAnyPublisher()
+      }
+      return RestClient.shared.publisher(for: request)
+        .tryMap({ (response) -> Data in
+          response.asData()
+        })
+        .decode(type: QueryResponse<Record>.self, decoder: JSONDecoder())
+        .catch({ _ in
+          Just(QueryResponse<Record>(totalSize: 0, done: true, records: []))
+        })
+        .eraseToAnyPublisher()
+    }
+  
+    /// Reusable, generic Combine Pipeline returning an array of records of a local
+    /// model object that conforms to Decodable. This method accepts a query string and defers
+    /// to records<Record:Decodable>(forRequest request: RestRequest) -> AnyPublisher<[Record], Never>
+    func records<Record: Decodable>(forQuery query:String, withApiVersion version: String = SFRestDefaultAPIVersion ) -> AnyPublisher<QueryResponse<Record>, Never> {
+        let request = RestClient.shared.request(forQuery: query, apiVersion: version)
+        return self.records(forRequest: request)
     }
 }
