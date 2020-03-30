@@ -1128,7 +1128,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bytelogics.mobilesdk.MobileSyncExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
@@ -1151,7 +1151,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bytelogics.mobilesdk.MobileSyncExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
@@ -1180,7 +1180,7 @@
 					"@loader_path/Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorerCommon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bytelogics.mobilesdk.MobileSyncExplorerCommon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1211,7 +1211,7 @@
 					"@loader_path/Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorerCommon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bytelogics.mobilesdk.MobileSyncExplorerCommon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1235,7 +1235,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorer.RecentContactsTodayExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bytelogics.mobilesdk.MobileSyncExplorer.RecentContactsTodayExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1258,7 +1258,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorer.RecentContactsTodayExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bytelogics.mobilesdk.MobileSyncExplorer.RecentContactsTodayExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
