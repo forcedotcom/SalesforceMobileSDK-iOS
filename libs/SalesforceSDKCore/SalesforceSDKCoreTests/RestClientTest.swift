@@ -26,6 +26,13 @@ import XCTest
 import Foundation
 @testable import SalesforceSDKCore
 
+struct TestContact: Decodable{
+  var id: UUID = UUID()
+  var Id: String?
+  var FirstName: String?
+  var LastName: String?
+}
+
 class RestClientTests: XCTestCase {
 
     var currentUser: UserAccount?
@@ -42,6 +49,23 @@ class RestClientTests: XCTestCase {
     }
 
     
+    func testFetchRecordsNonCombine() {
+      let expectation = XCTestExpectation(description: "queryTest")
+      let request = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil)
+      
+      var erroredResult: RestClientError?
+      RestClient.shared.fetchRecords(ofModelType: TestContact.self, forRequest: request) { result in
+        switch (result) {
+          case .failure(let error):
+            erroredResult = error
+          default: break
+        }
+        expectation.fulfill()
+      }
+      self.wait(for: [expectation], timeout: 10.0)
+      XCTAssertNil(erroredResult,"Query call should not have failed")
+    }
+  
     func testQuery() {
         let expectation = XCTestExpectation(description: "queryTest")
         let request = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil)

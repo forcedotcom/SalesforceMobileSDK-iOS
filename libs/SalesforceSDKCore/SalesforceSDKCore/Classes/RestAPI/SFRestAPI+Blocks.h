@@ -132,6 +132,26 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
                                     completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
+ * Returns an `SFRestRequest` object that provides layout data for the specified parameters.
+ * @param objectAPIName Object API name.
+ * @param formFactor Form factor. Could be "Large", "Medium" or "Small". Default value is "Large".
+ * @param layoutType Layout type. Could be "Compact" or "Full". Default value is "Full".
+ * @param mode Mode. Could be "Create", "Edit" or "View". Default value is "View".
+ * @param recordTypeId Record type ID. Default will be used if not supplied.
+ * @param failBlock Failure block.
+ * @param completeBlock Completion block.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
+ */
+- (SFRestRequest *) performLayoutWithObjectAPIName:(NSString *)objectAPIName
+                                        formFactor:(NSString *)formFactor
+                                        layoutType:(NSString *)layoutType
+                                              mode:(NSString *)mode
+                                      recordTypeId:(NSString *)recordTypeId
+                                         failBlock:(SFRestFailBlock)failBlock
+                                     completeBlock:(SFRestDictionaryResponseBlock)completeBlock
+                                        NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");;
+
+/**
  * Executes a metadata describe on a single sObject.
  * @param objectType the API name of the object to describe.
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)

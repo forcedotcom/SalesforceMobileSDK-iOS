@@ -291,12 +291,9 @@
     self.authenticating = NO;
     self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
-        [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
-    } else if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self.delegate oauthCoordinator:self didFailWithError:error];
-#pragma clang diagnostic pop
+        dispatch_async(dispatch_get_main_queue(), ^{
+           [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
+        });
     }
     self.authInfo = nil;
 }
