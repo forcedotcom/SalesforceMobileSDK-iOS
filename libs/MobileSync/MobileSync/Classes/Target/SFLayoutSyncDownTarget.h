@@ -46,7 +46,7 @@ NS_SWIFT_NAME(LayoutSyncDownTarget)
 /**
  * Factory method.
  */
-+ (nonnull SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use newSyncTarget:objectAPIName:formFactor:layoutType:mode:recordTypeId instead.");
++ (nonnull SFLayoutSyncDownTarget * )newSyncTarget:(nonnull NSString * )objectType layoutType:(nullable NSString * )layoutType;
 
 /**
  * Factory method.

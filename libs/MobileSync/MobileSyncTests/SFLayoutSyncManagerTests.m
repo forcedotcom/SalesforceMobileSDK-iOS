@@ -103,7 +103,7 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
     __block NSString *recordTypeIdBlock = nil;
     __block SFLayout *layoutBlock = nil;
     XCTestExpectation *fetchLayoutCacheFirst = [self expectationWithDescription:@"fetchLayoutCacheFirst"];
-    [self.layoutSyncManager fetchLayoutForObjectAPIName:kAccount formFactor:kMedium layoutType:kCompact mode:kEdit recordTypeId:nil syncMode:SFSDKFetchModeCacheFirst completionBlock:^(NSString *objectAPIName, NSString *formFactor, NSString *layoutType, NSString *mode, NSString *recordTypeId, SFLayout *layout) {
+    [self.layoutSyncManager fetchLayoutForObjectAPIName:@"Opportunity" formFactor:@"Large" layoutType:@"Full" mode:@"View" recordTypeId:@"01224000000AubiAAC" syncMode:SFSDKFetchModeCacheFirst completionBlock:^(NSString *objectAPIName, NSString *formFactor, NSString *layoutType, NSString *mode, NSString *recordTypeId, SFLayout *layout) {
         objectAPINameBlock = objectAPIName;
         formFactorBlock = formFactor;
         layoutTypeBlock = layoutType;
