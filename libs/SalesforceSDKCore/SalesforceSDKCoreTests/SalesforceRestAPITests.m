@@ -2557,6 +2557,21 @@ static NSException *authException = nil;
     return s;
 }
 
+#pragma mark - Notification tests
 
+// TODO: Enable these when test org has v49.0
+- (void)disabled_testNotificationsStatus {
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotificationsStatus:@"v49.0"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+- (void)disabled_testGetNotifications {
+    SFSDKFetchNotificationsRequestBuilder *builder = [SFSDKFetchNotificationsRequestBuilder new];
+    [builder setSize:10];
+    SFRestRequest* request = [builder buildFetchNotificationRequest:@"v49.0"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
 
 @end
