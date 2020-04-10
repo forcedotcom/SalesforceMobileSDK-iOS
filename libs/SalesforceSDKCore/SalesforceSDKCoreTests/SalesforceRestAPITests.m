@@ -2569,7 +2569,7 @@ static NSException *authException = nil;
 - (void)disabled_testGetNotifications {
     SFSDKFetchNotificationsRequestBuilder *builder = [SFSDKFetchNotificationsRequestBuilder new];
     [builder setSize:10];
-    SFRestRequest* request = [builder buildFetchNotificationRequest:@"v49.0"];
+    SFRestRequest* request = [builder buildFetchNotificationsRequest:@"v49.0"];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
