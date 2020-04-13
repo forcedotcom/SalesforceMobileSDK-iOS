@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Brianna Birman on Wed Apr  8 21:57:10 PDT 2020.
+ Created by Brianna Birman on Mon Apr 13 11:24:42 PDT 2020.
 
  Copyright (c) 2020-present, salesforce.com, inc. All rights reserved.
  
@@ -30,6 +30,7 @@
 #import <SalesforceSDKCore/SFDefaultUserManagementDetailViewController.h>
 #import <SalesforceSDKCore/SFSDKCoreLogger.h>
 #import <SalesforceSDKCore/SFKeyStoreKey.h>
+#import <SalesforceSDKCore/SFFormatUtils.h>
 #import <SalesforceSDKCore/SFCryptChunks.h>
 #import <SalesforceSDKCore/SFSDKAlertMessageBuilder.h>
 #import <SalesforceSDKCore/SFSHA256PasscodeProvider.h>

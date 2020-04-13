@@ -1,8 +1,8 @@
 //
-//  NSDate+SFAdditions.m
+//  SFFormatUtils.h
 //  SalesforceSDKCore
 //
-//  Created by Brianna Birman on 4/12/20.
+//  Created by Brianna Birman on 4/13/20.
 //  Copyright (c) 2020-present, salesforce.com, inc. All rights reserved.
 // 
 //  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -25,18 +25,23 @@
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "NSDate+SFAdditions.h"
+#import <Foundation/Foundation.h>
 
-static NSISO8601DateFormatter *dateFormatter = nil;
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation NSDate (SFAdditions)
+NS_SWIFT_NAME(FormatUtils)
+@interface SFFormatUtils : NSObject
 
-- (NSString *)iso8601String {
-    if (dateFormatter == nil) {
-        dateFormatter = [[NSISO8601DateFormatter alloc] init];
-    }
-    dateFormatter.formatOptions = NSISO8601DateFormatWithFractionalSeconds | NSISO8601DateFormatWithInternetDateTime | NSISO8601DateFormatWithDashSeparatorInDate | NSISO8601DateFormatWithColonSeparatorInTime;
-    return [dateFormatter stringFromDate:self];
-}
++ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate;
+
++ (long long)getMillisFromIsoString:(NSString *)dateStr;
+
++ (nullable NSString*)getIsoStringFromMillis:(long long)millis;
+
++ (nullable NSDate *)getDateFromIsoDateString:(nullable NSString *)isoDateString;
+
++ (NSString *)getIsoStringFromDate:(NSDate *)date;
 
 @end
+
+NS_ASSUME_NONNULL_END

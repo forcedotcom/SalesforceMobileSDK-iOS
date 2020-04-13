@@ -27,7 +27,7 @@
 
 #import "SFRestAPI+Notifications.h"
 #import "SFRestAPI+Internal.h"
-#import "NSDate+SFAdditions.h"
+#import "SFFormatUtils.h"
 
 @implementation SFRestAPI(Notifications)
 
@@ -58,12 +58,12 @@
 }
 
 - (SFSDKFetchNotificationsRequestBuilder *)setAfter:(NSDate *)date {
-    self.parameters[@"after"] = [date iso8601String];
+    self.parameters[@"after"] = [SFFormatUtils getIsoStringFromDate:date];
     return self;
 }
 
 - (SFSDKFetchNotificationsRequestBuilder *)setBefore:(NSDate *)date {
-    self.parameters[@"before"] = [date iso8601String];
+    self.parameters[@"before"] = [SFFormatUtils getIsoStringFromDate:date];
     return self;
 }
 
@@ -106,7 +106,7 @@
 }
 
 - (SFSDKUpdateNotificationsRequestBuilder *)setBefore:(NSDate *)date {
-    self.parameters[@"before"] = [date iso8601String];
+    self.parameters[@"before"] = [SFFormatUtils getIsoStringFromDate:date];
     return self;
 }
 
