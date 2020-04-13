@@ -2594,6 +2594,13 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+- (void)testGetNotificationRequestPath {
+    NSString *notificationId = @"testID";
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotification:notificationId apiVersion:kSFRestDefaultAPIVersion];
+    NSString *expectedPath = [NSString stringWithFormat:@"/connect/notifications/%@", notificationId];
+    XCTAssert([request.path hasSuffix:expectedPath]);
+}
+
 - (void)testUpdateNotificationRequestPath {
     SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
     NSString *notificationId = @"testID";

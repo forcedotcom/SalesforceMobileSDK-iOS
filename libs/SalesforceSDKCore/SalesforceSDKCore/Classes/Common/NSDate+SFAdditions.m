@@ -27,9 +27,9 @@
 
 #import "NSDate+SFAdditions.h"
 
-@implementation NSDate (SFAdditions)
-
 static NSISO8601DateFormatter *dateFormatter = nil;
+
+@implementation NSDate (SFAdditions)
 
 - (NSString *)iso8601String {
     if (dateFormatter == nil) {
