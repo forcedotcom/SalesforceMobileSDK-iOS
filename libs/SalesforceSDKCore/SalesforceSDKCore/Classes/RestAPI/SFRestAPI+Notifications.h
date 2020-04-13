@@ -57,15 +57,15 @@ NS_SWIFT_NAME(FetchNotificationsRequestBuilder)
 
 /**
  * Notifications occurring before the provided date will be fetched. Shouldn't be used with `setAfter`.
- * @param date ISO 8601 formatted string.
+ * @param date Before date. If unspecified, defaults to current date and time.
  */
-- (SFSDKFetchNotificationsRequestBuilder *)setBefore:(NSString *)date;
+- (SFSDKFetchNotificationsRequestBuilder *)setBefore:(NSDate *)date;
 
 /**
  * Notifications occurring after the provided date will be fetched. Shouldn't be used with `setBefore`.
- * @param date ISO 8601 formatted string.
+ * @param date After date.
  */
-- (SFSDKFetchNotificationsRequestBuilder *)setAfter:(NSString *)date;
+- (SFSDKFetchNotificationsRequestBuilder *)setAfter:(NSDate *)date;
 
 /**
  * Returns a request to fetch notifications based on values from the builder.
@@ -92,9 +92,9 @@ NS_SWIFT_NAME(UpdateNotificationsRequestBuilder)
 
 /**
  * Notifications occurring before the provided date will be updated. Shouldn't be used with `setNotificationId` or `setNotificationIds`.
- * @param date ISO 8601 formatted string.
+ * @param date Before date. If unspecified, defaults to current date and time.
  */
-- (SFSDKUpdateNotificationsRequestBuilder *)setBefore:(NSString *)date;
+- (SFSDKUpdateNotificationsRequestBuilder *)setBefore:(NSDate *)date;
 
 /**
  * Marks the notification(s) as seen (true) or unseen (false)
