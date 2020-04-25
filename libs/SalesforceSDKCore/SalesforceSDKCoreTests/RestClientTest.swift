@@ -413,7 +413,7 @@ class RestClientTests: XCTestCase {
         let expectation = XCTestExpectation(description: "decodableResponseTest")
         let apiVersion = RestClient.shared.apiVersion
 
-        let query = "select Id from Account limit 5"
+        let query = "select Id, CreatedDate from Account limit 5"
         let request = RestClient.shared.request(forQuery: query, apiVersion: apiVersion)
         
         var response: RestResponse?
@@ -441,6 +441,7 @@ class RestClientTests: XCTestCase {
                 
                 let attributes: Attributes
                 let Id: String
+                let CreatedDate: Date
             }
             
             let totalSize: Int

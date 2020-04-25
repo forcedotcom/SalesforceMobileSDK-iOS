@@ -77,7 +77,11 @@ public struct RestResponse {
     /// Decode the response as  a codable.
     /// - Parameter type: The type to use for decoding.
     public func asDecodable<T: Decodable>(type: T.Type) throws -> Decodable? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
         do {
             let object = try decoder.decode(type, from: data)
             return object
