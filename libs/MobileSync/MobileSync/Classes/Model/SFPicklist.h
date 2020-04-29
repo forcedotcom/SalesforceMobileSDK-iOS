@@ -29,8 +29,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class SFField;
-@class SFValue;
+@class SFPicklistField;
+@class SFPicklistValue;
 
 /**
  * Represents the Picklist of a Salesforce object.
@@ -40,7 +40,7 @@
 NS_SWIFT_NAME(Picklist)
 @interface SFPicklist : NSObject
 
-@property (nonatomic, strong, readonly, nullable) NSDictionary<NSString *, SFField *> *fields;
+@property (nonatomic, strong, readonly, nullable) NSDictionary<NSString *, SFPicklistField *> *fields;
 @property (nonatomic, strong, readonly, nullable) NSDictionary *rawData;
 
 /**
@@ -57,10 +57,10 @@ NS_SWIFT_NAME(Picklist)
  * Represents a record Picklist fields.
  *
  **/
-@interface SFField : NSObject
+@interface SFPicklistField : NSObject
 
-@property (nonatomic, strong, readonly, nullable) SFValue *defaultValue;
-@property (nonatomic, strong, readonly, nullable) NSArray<SFValue *> *values;
+@property (nonatomic, strong, readonly, nullable) SFPicklistValue *defaultValue;
+@property (nonatomic, strong, readonly, nullable) NSArray<SFPicklistValue *> *values;
 @property (nonatomic, strong, readonly, nullable) NSDictionary<NSString *, NSNumber *> *controllerValues;
 
 /**
@@ -77,7 +77,7 @@ NS_SWIFT_NAME(Picklist)
  * Represents a record picklist value.
  *
  */
-@interface SFValue : NSObject
+@interface SFPicklistValue : NSObject
 
 @property (nonatomic, strong, readonly, nullable) NSString *label;
 @property (nonatomic, strong, readonly, nullable) NSString *value;

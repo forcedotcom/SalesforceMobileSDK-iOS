@@ -40,7 +40,7 @@ static NSString * const kSFValidFor = @"validFor";
 
 @interface SFPicklist ()
 
-@property (nonatomic, strong, readwrite) NSDictionary<NSString *, SFField *> *fields;
+@property (nonatomic, strong, readwrite) NSDictionary<NSString *, SFPicklistField *> *fields;
 @property (nonatomic, strong, readwrite) NSDictionary *rawData;
 
 @end
@@ -53,13 +53,13 @@ static NSString * const kSFValidFor = @"validFor";
         picklist = [[SFPicklist alloc] init];
         picklist.rawData = data;
         NSDictionary *sections = data[kSFFieldValues];
-        NSMutableDictionary<NSString *, SFField *> *extractedSections = nil;
+        NSMutableDictionary<NSString *, SFPicklistField *> *extractedSections = nil;
         if (sections) {
             extractedSections = [[NSMutableDictionary alloc] init];
             for (id key in sections) {
                 NSDictionary *section = [sections objectForKey:key];
                 if (section) {
-                    [extractedSections setObject:[SFField fromJSON:section] forKey:key];
+                    [extractedSections setObject:[SFPicklistField fromJSON:section] forKey:key];
                 }
             }
         }
@@ -70,30 +70,30 @@ static NSString * const kSFValidFor = @"validFor";
 
 @end
 
-@interface SFField ()
+@interface SFPicklistField ()
 
-@property (nonatomic, strong, readwrite) SFValue *defaultValue;
-@property (nonatomic, strong, readwrite) NSArray<SFValue *> *values;
+@property (nonatomic, strong, readwrite) SFPicklistValue *defaultValue;
+@property (nonatomic, strong, readwrite) NSArray<SFPicklistValue *> *values;
 @property (nonatomic, strong, readwrite) NSDictionary<NSString *, NSNumber *> *controllerValues;
 
 @end
 
-@implementation SFField
+@implementation SFPicklistField
 
 + (instancetype)fromJSON:(NSDictionary *)data {
-    SFField *field = nil;
+    SFPicklistField *field = nil;
     if (data) {
-        field = [[SFField alloc] init];
+        field = [[SFPicklistField alloc] init];
         field.defaultValue = data[kSFDefaultValue];
         field.controllerValues = data[kSFControllerValues];
         NSArray *rows = data[kSFValues];
-        NSMutableArray<SFValue *> *extractedRows = nil;
+        NSMutableArray<SFPicklistValue *> *extractedRows = nil;
         if (rows) {
             extractedRows = [[NSMutableArray alloc] init];
             for (int i = 0; i < rows.count; i++) {
                 NSDictionary *row = rows[i];
                 if (row) {
-                    [extractedRows addObject:[SFValue fromJSON:row]];
+                    [extractedRows addObject:[SFPicklistValue fromJSON:row]];
                 }
             }
         }
@@ -104,19 +104,19 @@ static NSString * const kSFValidFor = @"validFor";
 
 @end
 
-@interface SFValue ()
+@interface SFPicklistValue ()
 @property (nonatomic, strong, readwrite) NSString *label;
 @property (nonatomic, strong, readwrite) NSString *value;
 @property (nonatomic, strong, readwrite) NSDictionary *attributes;
 @property (nonatomic, strong, readwrite) NSArray<NSNumber *> *validFor;
 
 @end
-@implementation SFValue
+@implementation SFPicklistValue
 
 + (instancetype)fromJSON:(NSDictionary *)data {
-    SFValue *item = nil;
+    SFPicklistValue *item = nil;
     if (data) {
-        item = [[SFValue alloc] init];
+        item = [[SFPicklistValue alloc] init];
         item.label = data[kSFLabel];
         item.value = data[kSFValue];
         item.attributes = data[kSFAttributes];
