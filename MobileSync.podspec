@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "MobileSync"
-  s.version      = "8.2.1"
+  s.version      = "8.2.3"
   s.summary      = "Salesforce Mobile SDK for iOS - MobileSync"
   s.homepage     = "https://github.com/siilats/SalesforceMobileSDK-iOS"
 
