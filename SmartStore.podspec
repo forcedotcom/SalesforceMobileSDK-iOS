@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.subspec 'SmartStore' do |smartstore|
 
       smartstore.dependency 'SalesforceSDKCore'
-      smartstore.dependency 'FMDB/SQLCipher', '~> 2.7.6'
+      smartstore.dependency 'FMDB/SQLCipher', '~> 2.7.5'
       smartstore.dependency 'SQLCipher/fts', '~> 4.3.0'
       smartstore.source_files = 'libs/SmartStore/SmartStore/Classes/**/*.{h,m,swift}', 'libs/SmartStore/SmartStore/SmartStore.h'
       smartstore.public_header_files = 'libs/SmartStore/SmartStore/Classes/SFAlterSoupLongOperation.h', 'libs/SmartStore/SmartStore/Classes/SFQuerySpec.h', 'libs/SmartStore/SmartStore/Classes/SFSDKSmartStoreLogger.h', 'libs/SmartStore/SmartStore/Classes/SFSDKStoreConfig.h', 'libs/SmartStore/SmartStore/Classes/SFSmartSqlHelper.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStore.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreDatabaseManager.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreInspectorViewController.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreUpgrade.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreUtils.h', 'libs/SmartStore/SmartStore/Classes/SFSoupIndex.h', 'libs/SmartStore/SmartStore/Classes/SFSoupSpec.h', 'libs/SmartStore/SmartStore/Classes/SFStoreCursor.h', 'libs/SmartStore/SmartStore/SmartStore.h', 'libs/SmartStore/SmartStore/Classes/SmartStoreSDKManager.h'
