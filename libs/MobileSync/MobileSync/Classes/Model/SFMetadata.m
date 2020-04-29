@@ -77,6 +77,7 @@ static NSString * const kSFUrls = @"urls";
 @property (nonatomic, strong, readwrite) NSString *label;
 @property (nonatomic, strong, readwrite) NSString *labelPlural;
 @property (nonatomic, readwrite, assign) BOOL layoutable;
+@property (nonatomic, readwrite, assign) BOOL picklistable;
 @property (nonatomic, readwrite, assign) BOOL mergeable;
 @property (nonatomic, readwrite, assign) BOOL mruEnabled;
 @property (nonatomic, strong, readwrite) NSString *name;

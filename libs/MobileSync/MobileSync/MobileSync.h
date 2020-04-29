@@ -2,9 +2,9 @@
  MobileSync.h
  MobileSync
 
- Created by Wolfgang Mathurin on Thu Sep 19 10:37:50 PDT 2019.
+ Created by keith siilats on Tue Apr 28 21:45:45 EDT 2020.
 
- Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2020-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -36,7 +36,6 @@
 #import <MobileSync/SFMobileSyncConstants.h>
 #import <MobileSync/SFMetadataSyncDownTarget.h>
 #import <MobileSync/SFLayout.h>
-#import <MobileSync/SFPicklist.h>
 #import <MobileSync/SFMetadata.h>
 #import <MobileSync/SFMetadataSyncManager.h>
 #import <MobileSync/SFMobileSyncPersistableObject.h>
@@ -46,12 +45,10 @@
 #import <MobileSync/SFChildrenInfo.h>
 #import <MobileSync/SFSyncTarget.h>
 #import <MobileSync/SFLayoutSyncManager.h>
-#import <MobileSync/SFPicklistSyncManager.h>
 #import <MobileSync/SFParentChildrenSyncHelper.h>
 #import <MobileSync/SFSyncUpTarget.h>
 #import <MobileSync/SFMruSyncDownTarget.h>
 #import <MobileSync/SFLayoutSyncDownTarget.h>
-#import <MobileSync/SFPicklistSyncDownTarget.h>
 #import <MobileSync/SFAdvancedSyncUpTarget.h>
 #import <MobileSync/SFSyncDownTarget.h>
 #import <MobileSync/MobileSyncSDKManager.h>
