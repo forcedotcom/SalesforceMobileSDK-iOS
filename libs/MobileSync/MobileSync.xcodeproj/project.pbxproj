@@ -92,12 +92,12 @@
 		4FF9331722165CD30058807A /* BatchSyncUpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9331622165CD30058807A /* BatchSyncUpTests.m */; };
 		4FF9331922167E420058807A /* SFCompositeRequestHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF9331822167E420058807A /* SFCompositeRequestHelper.h */; };
 		4FF9331C22167E590058807A /* SFCompositeRequestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9331B22167E590058807A /* SFCompositeRequestHelper.m */; };
-		7B89C5372458FB9500C79AA2 /* SFPicklistSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B89C5352458FB9500C79AA2 /* SFPicklistSyncDownTarget.h */; };
+		7B89C5372458FB9500C79AA2 /* SFPicklistSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B89C5352458FB9500C79AA2 /* SFPicklistSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B89C5382458FB9500C79AA2 /* SFPicklistSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B89C5362458FB9500C79AA2 /* SFPicklistSyncDownTarget.m */; };
-		7B89C53B2458FE1B00C79AA2 /* SFPicklistSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B89C5392458FE1B00C79AA2 /* SFPicklistSyncManager.h */; };
+		7B89C53B2458FE1B00C79AA2 /* SFPicklistSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B89C5392458FE1B00C79AA2 /* SFPicklistSyncManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B89C53C2458FE1B00C79AA2 /* SFPicklistSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B89C53A2458FE1B00C79AA2 /* SFPicklistSyncManager.m */; };
 		7B89C53F2459023900C79AA2 /* SFPicklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B89C53D2459023900C79AA2 /* SFPicklist.m */; };
-		7B89C5402459023900C79AA2 /* SFPicklist.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B89C53E2459023900C79AA2 /* SFPicklist.h */; };
+		7B89C5402459023900C79AA2 /* SFPicklist.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B89C53E2459023900C79AA2 /* SFPicklist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E531AB398AA004E0AF2 /* TestSyncUpTarget.m */; };
 		829DA2AF1C12674D0040F5F1 /* MobileSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* MobileSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B716A36E218F4FC5009D407F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A34B218F4F9C009D407F /* SalesforceAnalytics.framework */; };
@@ -1165,7 +1165,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"\n";
 		};
 		CE4CE4FF1C0E6E5C009F6029 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1178,7 +1178,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s mobilesync";
+			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s mobilesync\n";
 		};
 		CEAAAE79195A184100CBBFE9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
