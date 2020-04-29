@@ -29,18 +29,22 @@
 
 #import <Foundation/Foundation.h>
 
-@class SFPicklistField;
-@class SFPicklistValue;
+@class SFLayoutSection;
+@class SFRow;
+@class SFItem;
 
 /**
- * Represents the Picklist of a Salesforce object.
+ * Represents the layout of a Salesforce object.
  *
- * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_responses_record_Picklist.htm
+ * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_responses_record_layout.htm
  */
-NS_SWIFT_NAME(Picklist)
-@interface SFPicklist : NSObject
+NS_SWIFT_NAME(Layout)
+@interface SFLayout : NSObject
 
-@property (nonatomic, strong, readonly, nullable) NSDictionary<NSString *, SFPicklistField *> *fields;
+@property (nonatomic, strong, readonly, nullable) NSString *id;
+@property (nonatomic, strong, readonly, nonnull) NSString *layoutType;
+@property (nonatomic, strong, readonly, nullable) NSString *mode;
+@property (nonatomic, strong, readonly, nullable) NSArray<SFLayoutSection *> *sections;
 @property (nonatomic, strong, readonly, nullable) NSDictionary *rawData;
 
 /**
@@ -54,14 +58,19 @@ NS_SWIFT_NAME(Picklist)
 @end
 
 /**
- * Represents a record Picklist fields.
+ * Represents a record layout section.
  *
- **/
-@interface SFPicklistField : NSObject
+ * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_responses_record_layout_section.htm#ui_api_responses_record_layout_section
+ */
+@interface SFLayoutSection : NSObject
 
-@property (nonatomic, strong, readonly, nullable) SFPicklistValue *defaultValue;
-@property (nonatomic, strong, readonly, nullable) NSArray<SFPicklistValue *> *values;
-@property (nonatomic, strong, readonly, nullable) NSDictionary<NSString *, NSNumber *> *controllerValues;
+@property (nonatomic, readonly, assign) BOOL collapsible;
+@property (nonatomic, strong, readonly, nullable) NSNumber *columns;
+@property (nonatomic, strong, readonly, nullable) NSString *heading;
+@property (nonatomic, strong, readonly, nullable) NSString *id;
+@property (nonatomic, strong, readonly, nullable) NSArray<SFRow *> *layoutRows;
+@property (nonatomic, strong, readonly, nullable) NSNumber *rows;
+@property (nonatomic, readonly, assign) BOOL userHeading;
 
 /**
  * Creates an instance of this class from its JSON representation.
@@ -74,16 +83,38 @@ NS_SWIFT_NAME(Picklist)
 @end
 
 /**
- * Represents a record picklist value.
+ * Represents a record layout row.
  *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_responses_record_layout_row.htm#ui_api_responses_record_layout_row
  */
-@interface SFPicklistValue : NSObject
+@interface SFRow : NSObject
 
+@property (nonatomic, strong, readonly, nullable) NSArray<SFItem *> *layoutItems;
+
+/**
+ * Creates an instance of this class from its JSON representation.
+ *
+ * @param data JSON data.
+ * @return Instance of this class.
+ */
++ (nonnull instancetype)fromJSON:(nonnull NSDictionary *)data;
+
+@end
+
+/**
+ * Represents a record layout item.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_responses_record_layout_item.htm#ui_api_responses_record_layout_item
+ */
+@interface SFItem : NSObject
+
+@property (nonatomic, readonly, assign) BOOL editableForNew;
+@property (nonatomic, readonly, assign) BOOL editableForUpdate;
 @property (nonatomic, strong, readonly, nullable) NSString *label;
-@property (nonatomic, strong, readonly, nullable) NSString *value;
-@property (nonatomic, strong, readonly, nullable) NSDictionary *attributes;
-@property (nonatomic, strong, readonly, nullable) NSArray<NSNumber *> *validFor;
-
+@property (nonatomic, strong, readonly, nullable) NSDictionary *layoutComponents;
+@property (nonatomic, strong, readonly, nullable) NSString *lookupIdApiName;
+@property (nonatomic, readonly, assign) BOOL required;
+@property (nonatomic, readonly, assign) BOOL sortable;
 
 /**
  * Creates an instance of this class from its JSON representation.

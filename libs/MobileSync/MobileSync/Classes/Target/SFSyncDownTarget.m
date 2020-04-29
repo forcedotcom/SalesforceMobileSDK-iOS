@@ -45,7 +45,7 @@ NSString * const kSFSyncTargetQueryTypeParentChidlren = @"parent_children";
 NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
 NSString * const kSFSyncTargetQueryTypeMetadata = @"metadata";
 NSString * const kSFSyncTargetQueryTypeLayout = @"layout";
-NSString * const kSFSyncTargetQueryTypePicklist = @"picklist";
+NSString * const kSFSyncTargetQueryTypeLayout = @"picklist";
 
 @implementation SFSyncDownTarget
 

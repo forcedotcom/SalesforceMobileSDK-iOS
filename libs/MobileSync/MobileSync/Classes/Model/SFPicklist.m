@@ -1,10 +1,10 @@
 /*
- SFPicklist.m
+ SFLayout.m
  MobileSync
  
- Created by Keith Siilats on 4/23/2020.
+ Created by Bharath Hariharan on 5/17/18.
  
- Copyright (c) 2018-present, Bytelogics.com, inc. All rights reserved.
+ Copyright (c) 2018-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,100 +27,162 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFPicklist.h"
+#import "SFLayout.h"
 
-static NSString * const kSFFieldValues = @"picklistFieldValues";
-static NSString * const kSFDefaultValue = @"defaultValue";
-static NSString * const kSFValues = @"values";
-static NSString * const kSFControllerValues = @"controllerValues";
+static NSString * const kSFId = @"id";
+static NSString * const kSFLayoutType = @"layoutType";
+static NSString * const kSFMode = @"mode";
+static NSString * const kSFSections = @"sections";
+static NSString * const kSFCollapsible = @"collapsible";
+static NSString * const kSFColumns = @"columns";
+static NSString * const kSFHeading = @"heading";
+static NSString * const kSFLayoutRows = @"layoutRows";
+static NSString * const kSFRows = @"rows";
+static NSString * const kSFUseHeading = @"useHeading";
+static NSString * const kSFLayoutItems = @"layoutItems";
+static NSString * const kSFEditableForNew = @"editableForNew";
+static NSString * const kSFEditableForUpdate = @"editableForUpdate";
 static NSString * const kSFLabel = @"label";
-static NSString * const kSFValue = @"value";
-static NSString * const kSFAttributes = @"attributes";
-static NSString * const kSFValidFor = @"validFor";
+static NSString * const kSFLayoutComponents = @"layoutComponents";
+static NSString * const kSFLookupIdApiName = @"lookupIdApiName";
+static NSString * const kSFRequired = @"required";
+static NSString * const kSFSortable = @"sortable";
 
-@interface SFPicklist ()
+@interface SFLayout ()
 
-@property (nonatomic, strong, readwrite) NSDictionary<NSString *, SFPicklistField *> *fields;
+@property (nonatomic, strong, readwrite) NSString *id;
+@property (nonatomic, strong, readwrite) NSString *layoutType;
+@property (nonatomic, strong, readwrite) NSString *mode;
+@property (nonatomic, strong, readwrite) NSArray<SFLayoutSection *> *sections;
 @property (nonatomic, strong, readwrite) NSDictionary *rawData;
 
 @end
 
-@implementation SFPicklist
+@implementation SFLayout
 
 + (instancetype)fromJSON:(NSDictionary *)data {
-    SFPicklist *picklist = nil;
+    SFLayout *layout = nil;
     if (data) {
-        picklist = [[SFPicklist alloc] init];
-        picklist.rawData = data;
-        NSDictionary *sections = data[kSFFieldValues];
-        NSMutableDictionary<NSString *, SFPicklistField *> *extractedSections = nil;
+        layout = [[SFLayout alloc] init];
+        layout.rawData = data;
+        layout.id = data[kSFId];
+        layout.layoutType = data[kSFLayoutType];
+        layout.mode = data[kSFMode];
+        NSArray *sections = data[kSFSections];
+        NSMutableArray<SFLayoutSection *> *extractedSections = nil;
         if (sections) {
-            extractedSections = [[NSMutableDictionary alloc] init];
-            for (id key in sections) {
-                NSDictionary *section = [sections objectForKey:key];
+            extractedSections = [[NSMutableArray alloc] init];
+            for (int i = 0; i < sections.count; i++) {
+                NSDictionary *section = sections[i];
                 if (section) {
-                    [extractedSections setObject:[SFPicklistField fromJSON:section] forKey:key];
+                    [extractedSections addObject:[SFLayoutSection fromJSON:section]];
                 }
             }
         }
-        picklist.fields = extractedSections;
+        layout.sections = extractedSections;
     }
-    return picklist;
+    return layout;
 }
 
 @end
 
-@interface SFPicklistField ()
+@interface SFLayoutSection ()
 
-@property (nonatomic, strong, readwrite) SFPicklistValue *defaultValue;
-@property (nonatomic, strong, readwrite) NSArray<SFPicklistValue *> *values;
-@property (nonatomic, strong, readwrite) NSDictionary<NSString *, NSNumber *> *controllerValues;
+@property (nonatomic, readwrite, assign) BOOL collapsible;
+@property (nonatomic, strong, readwrite) NSNumber *columns;
+@property (nonatomic, strong, readwrite) NSString *heading;
+@property (nonatomic, strong, readwrite) NSString *id;
+@property (nonatomic, strong, readwrite) NSArray<SFRow *> *layoutRows;
+@property (nonatomic, strong, readwrite) NSNumber *rows;
+@property (nonatomic, readwrite, assign) BOOL userHeading;
 
 @end
 
-@implementation SFPicklistField
+@implementation SFLayoutSection
 
 + (instancetype)fromJSON:(NSDictionary *)data {
-    SFPicklistField *field = nil;
+    SFLayoutSection *layoutSection = nil;
     if (data) {
-        field = [[SFPicklistField alloc] init];
-        field.defaultValue = data[kSFDefaultValue];
-        field.controllerValues = data[kSFControllerValues];
-        NSArray *rows = data[kSFValues];
-        NSMutableArray<SFPicklistValue *> *extractedRows = nil;
+        layoutSection = [[SFLayoutSection alloc] init];
+        layoutSection.collapsible = data[kSFCollapsible];
+        layoutSection.columns = data[kSFColumns];
+        layoutSection.heading = data[kSFHeading];
+        layoutSection.id = data[kSFId];
+        NSArray *rows = data[kSFLayoutRows];
+        NSMutableArray<SFRow *> *extractedRows = nil;
         if (rows) {
             extractedRows = [[NSMutableArray alloc] init];
             for (int i = 0; i < rows.count; i++) {
                 NSDictionary *row = rows[i];
                 if (row) {
-                    [extractedRows addObject:[SFPicklistValue fromJSON:row]];
+                    [extractedRows addObject:[SFRow fromJSON:row]];
                 }
             }
         }
-        field.values = extractedRows;
+        layoutSection.layoutRows = extractedRows;
+        layoutSection.rows = data[kSFRows];
+        layoutSection.userHeading = data[kSFUseHeading];
     }
-    return field;
+    return layoutSection;
 }
 
 @end
 
-@interface SFPicklistValue ()
-@property (nonatomic, strong, readwrite) NSString *label;
-@property (nonatomic, strong, readwrite) NSString *value;
-@property (nonatomic, strong, readwrite) NSDictionary *attributes;
-@property (nonatomic, strong, readwrite) NSArray<NSNumber *> *validFor;
+@interface SFRow ()
+
+@property (nonatomic, strong, readwrite) NSArray<SFItem *> *layoutItems;
 
 @end
-@implementation SFPicklistValue
+
+@implementation SFRow
 
 + (instancetype)fromJSON:(NSDictionary *)data {
-    SFPicklistValue *item = nil;
+    SFRow *row = nil;
     if (data) {
-        item = [[SFPicklistValue alloc] init];
+        row = [[SFRow alloc] init];
+        NSArray *items = data[kSFLayoutItems];
+        NSMutableArray<SFItem *> *extractedItems = nil;
+        if (items) {
+            extractedItems = [[NSMutableArray alloc] init];
+            for (int i = 0; i < items.count; i++) {
+                NSDictionary *item = items[i];
+                if (item) {
+                    [extractedItems addObject:[SFItem fromJSON:item]];
+                }
+            }
+        }
+        row.layoutItems = extractedItems;
+    }
+    return row;
+}
+
+@end
+
+@interface SFItem ()
+
+@property (nonatomic, readwrite, assign) BOOL editableForNew;
+@property (nonatomic, readwrite, assign) BOOL editableForUpdate;
+@property (nonatomic, strong, readwrite) NSString *label;
+@property (nonatomic, strong, readwrite) NSDictionary *layoutComponents;
+@property (nonatomic, strong, readwrite) NSString *lookupIdApiName;
+@property (nonatomic, readwrite, assign) BOOL required;
+@property (nonatomic, readwrite, assign) BOOL sortable;
+
+@end
+
+@implementation SFItem
+
++ (instancetype)fromJSON:(NSDictionary *)data {
+    SFItem *item = nil;
+    if (data) {
+        item = [[SFItem alloc] init];
+        item.editableForNew = data[kSFEditableForNew];
+        item.editableForUpdate = data[kSFEditableForUpdate];
         item.label = data[kSFLabel];
-        item.value = data[kSFValue];
-        item.attributes = data[kSFAttributes];
-        item.validFor = data[kSFValidFor];
+        item.layoutComponents = data[kSFLayoutComponents];
+        item.lookupIdApiName = data[kSFLookupIdApiName];
+        item.required = data[kSFRequired];
+        item.sortable = data[kSFSortable];
     }
     return item;
 }
