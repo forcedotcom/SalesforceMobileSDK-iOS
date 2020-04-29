@@ -47,6 +47,11 @@ NS_SWIFT_NAME(PicklistSyncDownTarget)
 /**
  * Factory method.
  */
++ (nonnull SFPicklistSyncDownTarget * )newSyncTarget:(nonnull NSString * )objectType layoutType:(nullable NSString * )layoutType;
+
+/**
+ * Factory method.
+ */
 + (nonnull SFPicklistSyncDownTarget *)newSyncTarget:(nonnull NSString *)objectAPIName formFactor:(nullable NSString *)formFactor layoutType:(nullable NSString *)layoutType mode:(nullable NSString *)mode recordTypeId:(nullable NSString *)recordTypeId;
 
 @end
