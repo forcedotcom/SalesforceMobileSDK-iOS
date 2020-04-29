@@ -180,6 +180,8 @@ NS_SWIFT_NAME(RestClient)
  */
 - (SFRestRequest *)requestForLayoutWithObjectAPIName:(nonnull NSString *)objectAPIName formFactor:(nullable NSString *)formFactor layoutType:(nullable NSString *)layoutType mode:(nullable NSString *)mode recordTypeId:(nullable NSString *)recordTypeId apiVersion:(nullable NSString *)apiVersion;
 
+- (SFRestRequest *)requestForPicklistWithObjectAPIName:(nonnull NSString *)objectAPIName formFactor:(nullable NSString *)formFactor layoutType:(nullable NSString *)layoutType mode:(nullable NSString *)mode recordTypeId:(nullable NSString *)recordTypeId apiVersion:(nullable NSString *)apiVersion;
+
 /**
  * Returns an `SFRestRequest` object that retrieves field values for the specified record of the given type.
  * @param objectType Type of a Salesforce object. Example: "Account".

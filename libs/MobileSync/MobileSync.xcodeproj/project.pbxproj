@@ -92,6 +92,12 @@
 		4FF9331722165CD30058807A /* BatchSyncUpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9331622165CD30058807A /* BatchSyncUpTests.m */; };
 		4FF9331922167E420058807A /* SFCompositeRequestHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF9331822167E420058807A /* SFCompositeRequestHelper.h */; };
 		4FF9331C22167E590058807A /* SFCompositeRequestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9331B22167E590058807A /* SFCompositeRequestHelper.m */; };
+		7B89C5372458FB9500C79AA2 /* SFPicklistSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B89C5352458FB9500C79AA2 /* SFPicklistSyncDownTarget.h */; };
+		7B89C5382458FB9500C79AA2 /* SFPicklistSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B89C5362458FB9500C79AA2 /* SFPicklistSyncDownTarget.m */; };
+		7B89C53B2458FE1B00C79AA2 /* SFPicklistSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B89C5392458FE1B00C79AA2 /* SFPicklistSyncManager.h */; };
+		7B89C53C2458FE1B00C79AA2 /* SFPicklistSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B89C53A2458FE1B00C79AA2 /* SFPicklistSyncManager.m */; };
+		7B89C53F2459023900C79AA2 /* SFPicklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B89C53D2459023900C79AA2 /* SFPicklist.m */; };
+		7B89C5402459023900C79AA2 /* SFPicklist.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B89C53E2459023900C79AA2 /* SFPicklist.h */; };
 		828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E531AB398AA004E0AF2 /* TestSyncUpTarget.m */; };
 		829DA2AF1C12674D0040F5F1 /* MobileSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* MobileSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B716A36E218F4FC5009D407F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A34B218F4F9C009D407F /* SalesforceAnalytics.framework */; };
@@ -384,6 +390,12 @@
 		4FF9331822167E420058807A /* SFCompositeRequestHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFCompositeRequestHelper.h; sourceTree = "<group>"; };
 		4FF9331B22167E590058807A /* SFCompositeRequestHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFCompositeRequestHelper.m; sourceTree = "<group>"; };
 		4FFEE5B31BFE8F8800B7AA8A /* SmartStore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartStore.xcodeproj; path = ../SmartStore/SmartStore.xcodeproj; sourceTree = "<group>"; };
+		7B89C5352458FB9500C79AA2 /* SFPicklistSyncDownTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPicklistSyncDownTarget.h; path = Target/SFPicklistSyncDownTarget.h; sourceTree = "<group>"; };
+		7B89C5362458FB9500C79AA2 /* SFPicklistSyncDownTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPicklistSyncDownTarget.m; path = Target/SFPicklistSyncDownTarget.m; sourceTree = "<group>"; };
+		7B89C5392458FE1B00C79AA2 /* SFPicklistSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPicklistSyncManager.h; path = Manager/SFPicklistSyncManager.h; sourceTree = "<group>"; };
+		7B89C53A2458FE1B00C79AA2 /* SFPicklistSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPicklistSyncManager.m; path = Manager/SFPicklistSyncManager.m; sourceTree = "<group>"; };
+		7B89C53D2459023900C79AA2 /* SFPicklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPicklist.m; sourceTree = "<group>"; };
+		7B89C53E2459023900C79AA2 /* SFPicklist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPicklist.h; sourceTree = "<group>"; };
 		8207891D1A1BBC56009E9831 /* SFMobileSyncPersistableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMobileSyncPersistableObject.h; sourceTree = "<group>"; };
 		820789211A1D2555009E9831 /* SFMobileSyncPersistableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMobileSyncPersistableObject.m; sourceTree = "<group>"; };
 		820789231A1D26D9009E9831 /* SFMobileSyncPersistableObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFMobileSyncPersistableObject+Internal.h"; sourceTree = "<group>"; };
@@ -545,6 +557,8 @@
 			children = (
 				CE98A681209F698400507927 /* SFLayoutSyncDownTarget.h */,
 				CE98A680209F698300507927 /* SFLayoutSyncDownTarget.m */,
+				7B89C5352458FB9500C79AA2 /* SFPicklistSyncDownTarget.h */,
+				7B89C5362458FB9500C79AA2 /* SFPicklistSyncDownTarget.m */,
 				CE98A67A209F5C5700507927 /* SFMetadataSyncDownTarget.h */,
 				CE98A67B209F5C5700507927 /* SFMetadataSyncDownTarget.m */,
 				4F3DF8851ECFB29900D1D9AF /* SFAdvancedSyncUpTarget.h */,
@@ -753,6 +767,8 @@
 				FDCEC1FBF745182967AD6BA9 /* MobileSyncSDKManager.m */,
 				CE1BD1C820AF801400409FE1 /* SFLayoutSyncManager.h */,
 				CE1BD1C920AF801400409FE1 /* SFLayoutSyncManager.m */,
+				7B89C5392458FE1B00C79AA2 /* SFPicklistSyncManager.h */,
+				7B89C53A2458FE1B00C79AA2 /* SFPicklistSyncManager.m */,
 				CE01BB1420B75A07008E91B6 /* SFMetadataSyncManager.h */,
 				CE01BB0B20B759D2008E91B6 /* SFMetadataSyncManager.m */,
 				4F22155A19DF4BAD00FF2D26 /* SFMobileSyncSyncManager.h */,
@@ -791,6 +807,8 @@
 			children = (
 				CE01BB1720B761C1008E91B6 /* SFMetadata.h */,
 				CE01BB1820B761C1008E91B6 /* SFMetadata.m */,
+				7B89C53E2459023900C79AA2 /* SFPicklist.h */,
+				7B89C53D2459023900C79AA2 /* SFPicklist.m */,
 				CE1BD1C320AE23B500409FE1 /* SFLayout.h */,
 				CE1BD1BF20AE23B500409FE1 /* SFLayout.m */,
 				CEF50A7C196B3EB60076264C /* SFObject.h */,
@@ -845,6 +863,7 @@
 				CE4CE4361C0E5A75009F6029 /* SFMobileSyncConstants.h in Headers */,
 				CE01BB1520B75A07008E91B6 /* SFMetadataSyncManager.h in Headers */,
 				4FAA9B66225460340006810D /* SFAdvancedSyncUpTask.h in Headers */,
+				7B89C5372458FB9500C79AA2 /* SFPicklistSyncDownTarget.h in Headers */,
 				CE4CE4381C0E5A75009F6029 /* SFMobileSyncNetworkUtils.h in Headers */,
 				4F307E331EBD49250040CFC4 /* SFParentChildrenSyncHelper.h in Headers */,
 				4FAA9B6222545FE00006810D /* SFSyncDownTask.h in Headers */,
@@ -860,7 +879,9 @@
 				4FAA9B722255CA2F0006810D /* SFSDKSoqlMutator.h in Headers */,
 				4FF93311221644110058807A /* SFBatchSyncUpTarget.h in Headers */,
 				4F3DF86C1ECCF44900D1D9AF /* SFSoqlSyncDownTarget+Internal.h in Headers */,
+				7B89C5402459023900C79AA2 /* SFPicklist.h in Headers */,
 				CE4CE43A1C0E5A75009F6029 /* SFMobileSyncObjectUtils.h in Headers */,
+				7B89C53B2458FE1B00C79AA2 /* SFPicklistSyncManager.h in Headers */,
 				CE682C771F01A866003C43C0 /* SFSDKMobileSyncLogger.h in Headers */,
 				4FF9331922167E420058807A /* SFCompositeRequestHelper.h in Headers */,
 				4FDCBD531E8DDC5C008F8FCE /* SFSyncUpTarget.h in Headers */,
@@ -1202,6 +1223,7 @@
 				4F3DF87F1ECFA8BF00D1D9AF /* SFParentChildrenSyncUpTarget.m in Sources */,
 				4FAA9B5F22545B630006810D /* SFSyncTask.m in Sources */,
 				CE4CE4471C0E5A75009F6029 /* SFSyncOptions.m in Sources */,
+				7B89C53F2459023900C79AA2 /* SFPicklist.m in Sources */,
 				CE4CE42A1C0E5A49009F6029 /* SFObject.m in Sources */,
 				4FF9331C22167E590058807A /* SFCompositeRequestHelper.m in Sources */,
 				4FF93314221644640058807A /* SFBatchSyncUpTarget.m in Sources */,
@@ -1225,10 +1247,12 @@
 				CE4CE4391C0E5A75009F6029 /* SFMobileSyncNetworkUtils.m in Sources */,
 				CE4CE4231C0E5A35009F6029 /* SFMobileSyncSyncManager.m in Sources */,
 				4F307E2A1EBA92450040CFC4 /* SFParentInfo.m in Sources */,
+				7B89C53C2458FE1B00C79AA2 /* SFPicklistSyncManager.m in Sources */,
 				4FDCBD571E8DDC5C008F8FCE /* SFSyncDownTarget.m in Sources */,
 				CE2BCCF5224A86C100C98308 /* SFMobileSyncSyncManager+Instrumentation.m in Sources */,
 				4FAA9B6E225461910006810D /* SFCleanSyncGhostsTask.m in Sources */,
 				FDCEC3CBF6FA262ACF305285 /* MobileSyncSDKManager.m in Sources */,
+				7B89C5382458FB9500C79AA2 /* SFPicklistSyncDownTarget.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

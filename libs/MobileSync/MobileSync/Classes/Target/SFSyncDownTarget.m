@@ -34,6 +34,7 @@
 #import "SFParentChildrenSyncDownTarget.h"
 #import "SFMetadataSyncDownTarget.h"
 #import "SFLayoutSyncDownTarget.h"
+#import "SFPicklistSyncDownTarget.h"
 
 // query types
 NSString * const kSFSyncTargetQueryTypeMru = @"mru";
@@ -44,6 +45,7 @@ NSString * const kSFSyncTargetQueryTypeParentChidlren = @"parent_children";
 NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
 NSString * const kSFSyncTargetQueryTypeMetadata = @"metadata";
 NSString * const kSFSyncTargetQueryTypeLayout = @"layout";
+NSString * const kSFSyncTargetQueryTypeLayout = @"picklist";
 
 @implementation SFSyncDownTarget
 
@@ -78,6 +80,8 @@ NSString * const kSFSyncTargetQueryTypeLayout = @"layout";
                 return [[SFMetadataSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeLayout:
                 return [[SFLayoutSyncDownTarget alloc] initWithDict:dict];
+            case SFSyncDownTargetQueryTypePicklist:
+                return [[SFPicklistSyncDownTarget alloc] initWithDict:dict];
             case SFSyncDownTargetQueryTypeCustom:
                 [SFSDKMobileSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
@@ -182,6 +186,9 @@ ABSTRACT_METHOD
     if ([queryType isEqualToString:kSFSyncTargetQueryTypeLayout]) {
         return SFSyncDownTargetQueryTypeLayout;
     }
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypePicklist]) {
+        return SFSyncDownTargetQueryTypePicklist;
+    }
 
     // Must be custom
     return SFSyncDownTargetQueryTypeCustom;
@@ -197,6 +204,7 @@ ABSTRACT_METHOD
         case SFSyncDownTargetQueryTypeCustom: return kSFSyncTargetQueryTypeCustom;
         case SFSyncDownTargetQueryTypeMetadata: return kSFSyncTargetQueryTypeMetadata;
         case SFSyncDownTargetQueryTypeLayout: return kSFSyncTargetQueryTypeLayout;
+        case SFSyncDownTargetQueryTypePicklist: return kSFSyncTargetQueryTypePicklist;
     }
 }
 
