@@ -532,6 +532,10 @@ static dispatch_once_t pred;
     return [self requestForLayoutWithObjectAPIName:objectType formFactor:nil layoutType:layoutType mode:nil recordTypeId:nil apiVersion:apiVersion];
 }
 
+- (SFRestRequest *)requestForPicklistWithObjectType:(NSString *)objectType layoutType:(NSString *)layoutType apiVersion:(NSString *)apiVersion {
+    return [self requestForPicklistWithObjectAPIName:objectType formFactor:nil layoutType:layoutType mode:nil recordTypeId:nil apiVersion:apiVersion];
+}
+
 - (SFRestRequest *)requestForLayoutWithObjectAPIName:(NSString *)objectAPIName formFactor:(NSString *)formFactor layoutType:(NSString *)layoutType mode:(NSString *)mode recordTypeId:(NSString *)recordTypeId apiVersion:(NSString *)apiVersion {
     NSMutableDictionary *queryParams = [[NSMutableDictionary alloc] init];
     if (formFactor) {
@@ -547,6 +551,25 @@ static dispatch_once_t pred;
         queryParams[@"recordTypeId"] = recordTypeId;
     }
     NSString *path = [NSString stringWithFormat:@"/%@/ui-api/layout/%@", [self computeAPIVersion:apiVersion], objectAPIName];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
+}
+
+
+- (SFRestRequest *)requestForPicklistWithObjectAPIName:(NSString *)objectAPIName formFactor:(NSString *)formFactor layoutType:(NSString *)layoutType mode:(NSString *)mode recordTypeId:(NSString *)recordTypeId apiVersion:(NSString *)apiVersion {
+    NSMutableDictionary *queryParams = [[NSMutableDictionary alloc] init];
+    if (formFactor) {
+        queryParams[@"formFactor"] = formFactor;
+    }
+    if (layoutType) {
+        queryParams[@"layoutType"] = layoutType;
+    }
+    if (mode) {
+        queryParams[@"mode"] = mode;
+    }
+    if (recordTypeId) {
+        queryParams[@"recordTypeId"] = recordTypeId;
+    }
+    NSString *path = [NSString stringWithFormat:@"/%@/ui-api/object-info/%@/picklist-values/%@", [self computeAPIVersion:apiVersion], objectAPIName, recordTypeId];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
