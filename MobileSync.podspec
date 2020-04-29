@@ -1,17 +1,17 @@
 Pod::Spec.new do |s|
 
   s.name         = "MobileSync"
-  s.version      = "8.2.0"
+  s.version      = "8.2.1"
   s.summary      = "Salesforce Mobile SDK for iOS - MobileSync"
-  s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
+  s.homepage     = "https://github.com/siilats/SalesforceMobileSDK-iOS"
 
   s.license      = { :type => "Salesforce.com Mobile SDK License", :file => "LICENSE.md" }
-  s.author       = { "Kevin Hawkins" => "khawkins@salesforce.com" }
+  s.author       = { "Keith Siilats" => "keith@siilats.com" }
 
   s.platform     = :ios, "12.2"
   s.swift_versions = ['5.0']
 
-  s.source       = { :git => "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git",
+  s.source       = { :git => "https://github.com/siilats/SalesforceMobileSDK-iOS.git",
                      :tag => "v#{s.version}",
                      :submodules => true }
   
