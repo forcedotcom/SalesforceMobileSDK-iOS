@@ -76,8 +76,7 @@ public struct RestResponse {
     
     /// Decode the response as  a codable.
     /// - Parameter type: The type to use for decoding.
-    public func asDecodable<T: Decodable>(type: T.Type) throws -> T {
-        let decoder = JSONDecoder()
+    public func asDecodable<T: Decodable>(type: T.Type, decoder: JSONDecoder = .init()) throws -> T {
         do {
             let object = try decoder.decode(type, from: data)
             return object
