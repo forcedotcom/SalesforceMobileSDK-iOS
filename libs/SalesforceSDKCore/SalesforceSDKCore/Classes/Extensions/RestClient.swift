@@ -176,15 +176,16 @@ extension RestClient {
     ///
     /// This method relies on the passed parameter ofModelType to infer the generic Record's
     /// concrete type.
-    func fetchRecords<Record: Decodable>(ofModelType: Record.Type, forRequest request: RestRequest,
+    func fetchRecords<Record: Decodable>(ofModelType modelType: Record.Type,
+                                         forRequest request: RestRequest,
+                                         withDecoder decoder: JSONDecoder = .init(),
                                        _ completionBlock: @escaping (Result<QueryResponse<Record>, RestClientError>) -> Void) {
       guard request.isQueryRequest else { return }
       RestClient.shared.send(request: request) { result in
           switch result {
               case .success(let response):
                 do {
-                  let decoder = JSONDecoder()
-                  let wrapper = try decoder.decode(QueryResponse<Record>.self, from: response.asData())
+                  let wrapper = try response.asDecodable(type: QueryResponse<Record>.self, decoder: decoder)
                   completionBlock(.success(wrapper))
                 } catch {
                   completionBlock(.success(QueryResponse<Record>(totalSize: 0, done: true, records: [])))
@@ -213,13 +214,14 @@ extension RestClient {
     ///
     /// This method relies on the passed parameter ofModelType to infer the generic Record's
     /// concrete type.
-    func fetchRecords<Record: Decodable>(ofModelType: Record.Type,
+    func fetchRecords<Record: Decodable>(ofModelType modelType: Record.Type,
                                          forQuery query: String,
                                          withApiVersion version: String = SFRestDefaultAPIVersion,
+                                         withDecoder decoder: JSONDecoder = .init(),
                                          _ completionBlock: @escaping (Result<QueryResponse<Record>, RestClientError>) -> Void) {
         let request = RestClient.shared.request(forQuery: query, apiVersion: version)
         guard request.isQueryRequest else { return }
-        return self.fetchRecords(ofModelType: ofModelType, forRequest: request, completionBlock)
+        return self.fetchRecords(ofModelType: modelType, forRequest: request, withDecoder: decoder, completionBlock)
     }
   
 }
