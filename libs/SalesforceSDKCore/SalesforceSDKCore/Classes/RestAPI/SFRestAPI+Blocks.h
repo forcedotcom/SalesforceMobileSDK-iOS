@@ -28,6 +28,10 @@
 #import "SFRestAPI.h"
 
 NS_ASSUME_NONNULL_BEGIN
+@class SFSDKCompositeResponse;
+@class SFSDKBatchResponse;
+@class SFSDKCompositeRequest;
+@class SFSDKBatchRequest;
 
 @interface SFRestAPI (Blocks) <SFRestDelegate>
 
@@ -37,6 +41,9 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary * _Nullable dict, NS
 typedef void (^SFRestArrayResponseBlock) (NSArray * _Nullable arr, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestArrayResponseBlock);
 typedef void (^SFRestDataResponseBlock) (NSData* _Nullable data, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestDataResponseBlock);
 typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestResponseBlock);
+typedef void (^SFRestCompositeResponseBlock) (SFSDKCompositeResponse *response, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestCompositeResponseBlock);
+typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestBatchResponseBlock);
+
 /** Creates an error object with the given description.
  @param description Description
  */
@@ -49,7 +56,23 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
  */
-- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock NS_SWIFT_NAME(send(request:onFailure:onSuccess:));
+- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock NS_REFINED_FOR_SWIFT;
+
+/**
+ * Send a request you've already built, using blocks to return status.
+ * @param request the Composite request to be sent
+ * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+ * @param completeBlock the block to be executed when the request successfully completes
+ */
+- (void) sendCompositeRESTRequest:(SFSDKCompositeRequest *)request failBlock:(SFRestFailBlock)failBlock  completeBlock:(SFRestCompositeResponseBlock)completeBlock NS_REFINED_FOR_SWIFT;
+
+/**
+* Send a request you've already built, using blocks to return status.
+* @param request the Batch request to be sent
+* @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+* @param completeBlock the block to be executed when the request successfully completes
+*/
+- (void) sendBatchRESTRequest:(SFSDKBatchRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestBatchResponseBlock)completeBlock NS_REFINED_FOR_SWIFT;
 
 // Various request types.
 
@@ -60,9 +83,9 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performSOQLQuery:(NSString *)query 
-                           failBlock:(SFRestFailBlock)failBlock 
-                       completeBlock:(SFRestDictionaryResponseBlock)completeBlock  NS_SWIFT_NAME(query(_:onFailure:onSuccess:));
+- (SFRestRequest *) performSOQLQuery:(NSString *)query
+                           failBlock:(SFRestFailBlock)failBlock
+                       completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a SOQL query that returns the deleted objects.
@@ -74,7 +97,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
 - (SFRestRequest *) performSOQLQueryAll:(NSString *)query
                               failBlock:(SFRestFailBlock)failBlock
                           completeBlock:(SFRestDictionaryResponseBlock)completeBlock
-                          NS_SWIFT_NAME(queryAll(_:onFailure:onSuccess:));
+                          NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a SOSL search.
@@ -83,10 +106,10 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performSOSLSearch:(NSString *)search 
-                            failBlock:(SFRestFailBlock)failBlock 
+- (SFRestRequest *) performSOSLSearch:(NSString *)search
+                            failBlock:(SFRestFailBlock)failBlock
                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock
-                        NS_SWIFT_NAME(search(_:onFailure:onSuccess:));
+                         NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a global describe.
@@ -94,8 +117,8 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performDescribeGlobalWithFailBlock:(SFRestFailBlock)failBlock 
-                                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(describeGlobal(onFailure:onSuccess:));
+- (SFRestRequest *) performDescribeGlobalWithFailBlock:(SFRestFailBlock)failBlock
+                                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a describe on a single sObject.
@@ -104,9 +127,9 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performDescribeWithObjectType:(NSString *)objectType 
-                                        failBlock:(SFRestFailBlock)failBlock 
-                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(describe(_:onFailure:onSuccess:));
+- (SFRestRequest *) performDescribeWithObjectType:(NSString *)objectType
+                                        failBlock:(SFRestFailBlock)failBlock
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a metadata describe on a single sObject.
@@ -115,9 +138,9 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType 
-                                        failBlock:(SFRestFailBlock)failBlock 
-                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(metadata(_:onFailure:onSuccess:));
+- (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType
+                                        failBlock:(SFRestFailBlock)failBlock
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a retrieve for a single record.
@@ -128,11 +151,11 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performRetrieveWithObjectType:(NSString *)objectType 
-                                         objectId:(NSString *)objectId 
+- (SFRestRequest *) performRetrieveWithObjectType:(NSString *)objectType
+                                         objectId:(NSString *)objectId
                                         fieldList:(NSArray<NSString*> *)fieldList
-                                        failBlock:(SFRestFailBlock)failBlock 
-                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(retrieve(_:objectId:fields:onFailure:onSuccess:));
+                                        failBlock:(SFRestFailBlock)failBlock
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a DML update for a single record.
@@ -143,11 +166,11 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performUpdateWithObjectType:(NSString *)objectType 
-                                       objectId:(NSString *)objectId 
+- (SFRestRequest *) performUpdateWithObjectType:(NSString *)objectType
+                                       objectId:(NSString *)objectId
                                          fields:(NSDictionary<NSString*, id> *)fields
-                                      failBlock:(SFRestFailBlock)failBlock 
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(update(_:objectId:fields:onFailure:onSuccess:));
+                                      failBlock:(SFRestFailBlock)failBlock
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a DML upsert for a single record.
@@ -159,12 +182,12 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performUpsertWithObjectType:(NSString *)objectType 
-                                externalIdField:(NSString *)externalIdField 
-                                     externalId:(NSString *)externalId 
+- (SFRestRequest *) performUpsertWithObjectType:(NSString *)objectType
+                                externalIdField:(NSString *)externalIdField
+                                     externalId:(NSString *)externalId
                                          fields:(NSDictionary<NSString*, id> *)fields
-                                      failBlock:(SFRestFailBlock)failBlock 
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(upsert(_:externalIdField:externalId:fields:onFailure:onSuccess:));
+                                      failBlock:(SFRestFailBlock)failBlock
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a DML delete on a single record
@@ -174,10 +197,10 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performDeleteWithObjectType:(NSString *)objectType 
-                                       objectId:(NSString *)objectId 
-                                      failBlock:(SFRestFailBlock)failBlock 
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(delete(_:objectId:onFailure:onSuccess:));
+- (SFRestRequest *) performDeleteWithObjectType:(NSString *)objectType
+                                       objectId:(NSString *)objectId
+                                      failBlock:(SFRestFailBlock)failBlock
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a DML insert.
@@ -187,10 +210,10 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performCreateWithObjectType:(NSString *)objectType 
+- (SFRestRequest *) performCreateWithObjectType:(NSString *)objectType
                                          fields:(NSDictionary<NSString*, id> *)fields
-                                      failBlock:(SFRestFailBlock)failBlock 
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(create(_:fields:onFailure:onSuccess:));
+                                      failBlock:(SFRestFailBlock)failBlock
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a request to list REST API resources
@@ -198,8 +221,8 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performRequestForResourcesWithFailBlock:(SFRestFailBlock)failBlock 
-                                              completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_NAME(resources(onFailure:onSuccess:));
+- (SFRestRequest *) performRequestForResourcesWithFailBlock:(SFRestFailBlock)failBlock
+                                              completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a request to list REST API versions
@@ -207,8 +230,8 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @param completeBlock the block to be executed when the request successfully completes
  * @return the newly sent SFRestRequest
  */
-- (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock 
-                                             completeBlock:(SFRestArrayResponseBlock)completeBlock  NS_SWIFT_NAME(apiVersions(onFailure:onSuccess:));
+- (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock
+                                             completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a request to get a file rendition
@@ -225,7 +248,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
                                      renditionType:(NSString *)renditionType
                                               page:(NSUInteger)page
                                          failBlock:(SFRestFailBlock)failBlock
-                                     completeBlock:(SFRestDataResponseBlock)completeBlock NS_SWIFT_NAME(fileRendition(fileId:version:renditionType:page:onFailure:onSuccess:));
+                                     completeBlock:(SFRestDataResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a request to get search scope and order
@@ -234,7 +257,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForSearchScopeAndOrderWithFailBlock:(SFRestFailBlock)failBlock
-                                     completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_NAME(searchScopeOrder(onFailure:onSuccess:));
+                                     completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a request to get search result layout
@@ -246,7 +269,7 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
  */
 - (SFRestRequest *) performRequestForSearchResultLayout:(NSString*)objectList
                                               failBlock:(SFRestFailBlock)failBlock
-                                          completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_NAME(searchResultLayout(list:onFailure:onSuccess:));
+                                          completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
 
 @end
 

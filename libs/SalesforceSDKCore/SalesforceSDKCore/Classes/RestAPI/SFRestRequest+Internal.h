@@ -23,6 +23,7 @@
  */
 
 #import "SFRestRequest.h"
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SFRestRequest ()
 
@@ -33,5 +34,9 @@
 @property (nullable, nonatomic, strong) id<SFRestDelegate>instrDelegateInternal;
 
 + (nonnull NSString *)restUrlForBaseUrl:(nullable NSString *)baseUrl serviceHostType:(SFSDKRestServiceHostType)hostType credentials:(nonnull SFOAuthCredentials *)credentials;
-
++ (NSString *)toQueryString:(nullable NSDictionary *)components;
++ (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod;
++ (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)httpMethod;
 @end
+
+NS_ASSUME_NONNULL_END

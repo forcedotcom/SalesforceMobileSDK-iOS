@@ -29,6 +29,7 @@
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
 #import "NSString+SFAdditions.h"
+#import "SFOAuthCredentials+Internal.h"
 #import "SFNetwork.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
@@ -115,6 +116,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (NSString *)accessToken {
     return self.values[kSFOAuthAccessToken];
+}
+
+- (NSString *)idToken {
+    return self.values[kSFOAuthIdToken];
 }
 
 - (NSString *)refreshToken {
@@ -301,11 +306,16 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     NSDictionary *json = [SFJsonUtils objectFromJSONData:responseData];
     if (json) {
         endpointResponse  = [[SFSDKOAuthTokenEndpointResponse alloc]initWithDictionary:json  parseAdditionalFields:endpointReq.additionalOAuthParameterKeys];
-
-        // Adds the refresh token to the response for consistency.
-        NSString *jsonRefreshToken = [json objectForKey:kSFOAuthRefreshToken];
-        if (jsonRefreshToken == nil || jsonRefreshToken.length < 1 ){
-            [endpointResponse setRefreshToken:endpointReq.refreshToken];
+        if (!endpointResponse.hasError){
+           // Adds the refresh token to the response for consistency.
+           NSString *jsonRefreshToken = [json objectForKey:kSFOAuthRefreshToken];
+           if (jsonRefreshToken == nil || jsonRefreshToken.length < 1 ) {
+               if (endpointReq.refreshToken) {
+                   [endpointResponse setRefreshToken:endpointReq.refreshToken];
+               } else {
+                  [SFSDKCoreLogger e:[self class] format:@"%@ :Token endpoint call was made without the existence of a refresh token.", NSStringFromSelector(_cmd)];
+               }
+           }
         }
     } else {
         NSError* jsonError = [SFJsonUtils lastError];
@@ -324,6 +334,25 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     if (completionBlock) {
         completionBlock(endpointResponse);
     }
+}
+
+- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials {
+    if (credentials.refreshToken != nil) {
+        NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@",
+                        credentials.protocol, credentials.domain,
+                        kSFRevokePath, credentials.refreshToken];
+        NSURL *url = [NSURL URLWithString:host];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+        [request setHTTPMethod:@"GET"];
+        [request setHTTPShouldHandleCookies:NO];
+
+        __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
+        SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
+        [network sendRequest:request dataResponseBlock:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
+        }];
+    }
+    [credentials revoke];
 }
 
 #pragma mark - Utilities

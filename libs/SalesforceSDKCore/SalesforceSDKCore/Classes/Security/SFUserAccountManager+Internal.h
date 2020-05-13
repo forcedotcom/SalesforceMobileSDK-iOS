@@ -23,18 +23,29 @@
  */
 
 #import "SFUserAccountManager.h"
-#import "SFSDKIDPAuthClient.h"
 #import "SFSDKUserSelectionView.h"
 #import "SFSDKLoginFlowSelectionView.h"
 #import "SFSDKAlertView.h"
 #import "SFSDKAuthErrorManager.h"
+#import "SFSDKAuthSession.h"
+#import "SFDefaultUserManagementListViewController.h"
+#import "SFIdentityCoordinator+Internal.h"
+#import "SFSDKLoginHostDelegate.h"
+#import "SFLoginViewController.h"
+#import "SFSDKAuthViewHandler.h"
 #import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 
 @class SFSDKAuthPreferences;
 
-@interface SFUserAccountManager () <SFSDKOAuthClientSafariViewDelegate,SFSDKOAuthClientWebViewDelegate,SFSDKIDPAuthClientDelegate,
-    SFSDKOAuthClientDelegate,SFSDKUserSelectionViewDelegate,SFSDKLoginFlowSelectionViewDelegate>
+extern NSString * _Nonnull const kSFSDKUserAccountManagerErrorDomain;
 
+typedef NS_ENUM(NSUInteger, SFSDKUserAccountManagerErrorCode) {
+    SFSDKUserAccountManagerError = 100,
+    SFSDKUserAccountManagerCannotEncrypt = 10005,
+};
+
+NS_ASSUME_NONNULL_BEGIN
+@interface SFUserAccountManager ()<SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, SFSDKLoginHostDelegate, SFSDKUserSelectionViewDelegate, SFSDKLoginFlowSelectionViewDelegate, SFLoginViewControllerDelegate>
 {
     NSRecursiveLock *_accountsLock;
 }
@@ -43,7 +54,7 @@
 
 /** A map of user accounts by user ID
  */
-@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap;
+@property (nonatomic, strong, nullable) NSMutableDictionary *userAccountMap;
 
 /** instance of accountPersister
  *
@@ -64,6 +75,11 @@
  *
  */
 @property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager;
+
+/** SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.
+ *
+ */
+@property (nonatomic, strong, nullable) SFSDKAuthSession *authSession;
 
 /**
  Indicates if the app is configured to require browser based authentication.
@@ -109,11 +125,6 @@
 - (nullable id<SFUserAccountPersister>)accountPersister;
 
 /**
- * @return SFOAuthCredentials
- */
-- (SFOAuthCredentials *_Nonnull)newClientCredentials;
-
-/**
  * @param userIdentity to use for encoding to String
  * @return NSString userid:orgid
  */
@@ -125,24 +136,16 @@
  */
 - (SFUserAccountIdentity *_Nullable)decodeUserIdentity:(NSString *_Nullable)userIdentityEncoded;
 
-/**
- * @param client to remove from cache.
- */
-- (void)disposeOAuthClient:(SFSDKOAuthClient *_Nonnull)client;
+- (BOOL)handleAdvancedAuthURL:(NSURL *)advancedAuthURL;
 
-/**
- * @param credentials to use to init client
- * @param completionBlock to use for client
- * @param failureBlock  to use for client
- * @return SFSDKIDPAuthClient instance
- */
-- (SFSDKIDPAuthClient *_Nonnull)fetchIDPAuthClient:(SFOAuthCredentials *_Nonnull)credentials completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)failureBlock;
+- (void)restartAuthentication;
 
-/**
- * @param credentials  to use to init client
- * @param completionBlock to use for the client
- * @param failureBlock  to use for the client
- * @return SFSDKOAuthClient instance
- */
-- (SFSDKOAuthClient *_Nonnull)fetchOAuthClient:(SFOAuthCredentials *_Nonnull)credentials completion:(SFUserAccountManagerSuccessCallbackBlock _Nullable)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock _Nullable)failureBlock;
+- (BOOL)authenticateUsingIDP:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock;
+
+- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock;
+
+- (SFSDKAuthRequest *)defaultAuthRequest;
+
 @end
+
+NS_ASSUME_NONNULL_END

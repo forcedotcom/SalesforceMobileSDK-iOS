@@ -27,13 +27,15 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import <Foundation/Foundation.h>
+#include "SFOAuthInfo.h"
+
 @class SFAuthErrorHandler;
 @class SFAuthErrorHandlerList;
-@class SFOAuthInfo;
+@class SFSDKAuthSession;
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^SFSDKFailureNotificationBlock)(void);
-typedef void (^SFSDKErrorHandlerBlock)(NSError *error,SFOAuthInfo *authInfo,NSDictionary *options);
+typedef void (^SFSDKErrorHandlerBlock)(NSError *error, SFSDKAuthSession *session, NSDictionary *options);
 
 @interface SFSDKAuthErrorManager : NSObject
 
@@ -47,15 +49,8 @@ typedef void (^SFSDKErrorHandlerBlock)(NSError *error,SFOAuthInfo *authInfo,NSDi
 
 @property (nonatomic,copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock;
 
-/**
- Determines whether an error is due to invalid auth credentials.
- @param error The error to process.
- @param info  type of auth.
- @param options addl. execution context related params
- @return YES if the error is handled, NO otherwise.
- */
-- (BOOL)processAuthError:(NSError *)error authInfo:(SFOAuthInfo *)info options:(NSDictionary *)options;
 
+- (BOOL)processAuthError:(NSError *)error authContext:(SFSDKAuthSession *)session options:(NSDictionary * _Nullable)options;
 /**
  Determines whether an error is due to invalid auth credentials.
  @param error The error to check against an invalid credentials error.

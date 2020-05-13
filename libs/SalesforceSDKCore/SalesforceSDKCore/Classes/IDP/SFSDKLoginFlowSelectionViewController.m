@@ -35,7 +35,9 @@
 #import "SFUserAccountManager.h"
 #import "SFSDKLoginHost.h"
 #import "SFManagedPreferences.h"
-static CGFloat kSpace = 20.0;
+#import "SFUserAccountManager.h"
+#import "SFSDKViewUtils.h"
+#import "SFSDKIDPConstants.h"
 
 @interface SFSDKLoginFlowSelectionViewController ()<SFSDKLoginHostDelegate>
 
@@ -66,14 +68,6 @@ static CGFloat kSpace = 20.0;
 
 @implementation SFSDKLoginFlowSelectionViewController
 
-+ (instancetype)sharedInstance {
-    static dispatch_once_t onceToken;
-    static SFSDKLoginFlowSelectionViewController *loginFlowSelectionViewController = nil;
-    dispatch_once(&onceToken, ^{
-        loginFlowSelectionViewController = [[self alloc] initWithNibName:nil bundle:nil];
-    });
-    return loginFlowSelectionViewController;
-}
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -94,7 +88,7 @@ static CGFloat kSpace = 20.0;
     if(self.showNavbar){
         [self setupNavigationBar];
     };
-    [self setupViews];
+    [self setupContent];
     
 }
 
@@ -114,7 +108,6 @@ static CGFloat kSpace = 20.0;
 }
 
 - (void)setupNavigationBar {
-    
     self.navBar =self.navigationController.navigationBar;
     NSString *title = [SFSDKResourceUtils localizedString:@"TITLE_LOGIN"];
     if ( !title ) {
@@ -126,7 +119,6 @@ static CGFloat kSpace = 20.0;
     [item sizeToFit];
     
     self.navBar.topItem.titleView = item;
-    [self styleNavigationBar:self.navBar];
     [self showSettingsIcon];
     [self setNeedsStatusBarAppearanceUpdate];
 }
@@ -142,90 +134,96 @@ static CGFloat kSpace = 20.0;
     return newImage;
 }
 
-- (void)setupViews {
-    self.view.translatesAutoresizingMaskIntoConstraints  = NO;
-    UILabel *infoLabel = [[UILabel alloc] init];
-    infoLabel.text = [SFSDKResourceUtils localizedString:@"idpLoginFlowInfoLabel"];
+- (void)setupContent {
+    self.view.backgroundColor = [UIColor salesforceSystemBackgroundColor];
+    UIColor *darkblue= [UIColor colorWithDisplayP3Red: 20.0/255.0 green:50.0/255.0 blue:92.0/255.0 alpha:1.0];
+    self.navigationController.navigationBar.barTintColor = darkblue;
+    [self.navigationController.navigationBar setTranslucent:NO];
     
-    infoLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    infoLabel.numberOfLines = 1;
-    [infoLabel setFont:[UIFont systemFontOfSize:20]];
-    [infoLabel setTextColor:[UIColor salesforceBlueColor]];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:20 weight:UIFontWeightRegular]};
     
-    UILabel *descLabel = [[UILabel alloc]init];
-    descLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    descLabel.text =
-    [SFSDKResourceUtils localizedString:@"idpLoginLocalFlowDescriptionLabel"];
-    descLabel.textAlignment = NSTextAlignmentCenter;
-    [descLabel setFont:[UIFont systemFontOfSize:15]];
-    [descLabel setTextColor:[UIColor grayColor]];
+    self.title = @"Log in";
+    UIView *container = [[UIView alloc] init];
+    container.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:container];
+    [[container.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor] setActive:YES];
+    [[container.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor] setActive:YES];
+    [[container.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:1.0 constant:-100] setActive:YES];
     
+    UILabel *selectLabel = [[UILabel alloc] init];
+    selectLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    selectLabel.text = @"Select a login flow";
+    selectLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightBold];
+    selectLabel.textAlignment = NSTextAlignmentCenter;
+    selectLabel.textColor = [UIColor salesforceLabelColor];
     
-    UILabel *descLabel2 = [[UILabel alloc]init];
-    descLabel2.numberOfLines = 3;
-    descLabel2.translatesAutoresizingMaskIntoConstraints = NO;
-    descLabel2.text = [SFSDKResourceUtils localizedString:@"idpLoginIDPFlowDescriptionLabel"];
-    [descLabel2 setFont:[UIFont systemFontOfSize:15]];
-    [descLabel2 setTextColor:[UIColor grayColor]];
+    UILabel *idpLabel = [[UILabel alloc] init];
+    idpLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    idpLabel.text = @"Use the IDP option if you prefer to share your credentials between multiple apps";
+    idpLabel.numberOfLines = 2;
+    idpLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    idpLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
+    idpLabel.textAlignment = NSTextAlignmentCenter;
+    idpLabel.textColor = [UIColor salesforceLabelColor];
     
-    
-    UIButton *idpButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [idpButton setTitle:[SFSDKResourceUtils localizedString:@"idpLoginButtonTitle"]  forState:UIControlStateNormal];
+    UIButton *idpButton = [UIButton buttonWithType:UIButtonTypeCustom];
     idpButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [idpButton.titleLabel setFont:[UIFont systemFontOfSize:20]];
+    [idpButton setTitle:@"Log in Using IDP Application" forState:UIControlStateNormal];
+    [idpButton.titleLabel setFont:[UIFont systemFontOfSize:16 weight:UIFontWeightRegular]];
+    idpButton.backgroundColor = [UIColor colorWithDisplayP3Red: 0.0/255.0 green:112.0/255.0 blue:210.0/255.0 alpha:1.0];
+    idpButton.layer.cornerRadius = 4.0;
     [idpButton addTarget:self action:@selector(useIDPAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *localButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [localButton setTitle:[SFSDKResourceUtils localizedString:@"idpLocalLoginButtonTitle"]   forState:UIControlStateNormal];
-    localButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [localButton.titleLabel setFont:[UIFont systemFontOfSize:20]];
-    [localButton addTarget:self action:@selector(useLocalAction:) forControlEvents:UIControlEventTouchUpInside];
+    UILabel *appLabel = [[UILabel alloc] init];
+    appLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    appLabel.text = @"Use this option if you prefer to use your credentials for this app only.";
+    appLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    appLabel.numberOfLines = 2;
+    appLabel.font =  [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
+    appLabel.textColor = [UIColor salesforceLabelColor];
     
-    [self.view addSubview:infoLabel];
-    [self.view addSubview:descLabel];
-    [self.view addSubview:descLabel2];
-    [self.view addSubview:idpButton];
-    [self.view addSubview:localButton];
+    UIButton *appButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    appButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [appButton setTitle:@"Log in Using App" forState:UIControlStateNormal];
+    [appButton.titleLabel setFont:[UIFont systemFontOfSize:16 weight:UIFontWeightRegular]];
+    appButton.backgroundColor = [UIColor colorWithDisplayP3Red: 0.0/255.0 green:112.0/255.0 blue:210.0/255.0 alpha:1.0];
+    appButton.layer.cornerRadius = 4.0;
+    [appButton addTarget:self action:@selector(useLocalAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    [infoLabel.topAnchor constraintEqualToAnchor:self.view.topAnchor  constant:kSpace].active = YES;
-    [infoLabel.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.75].active = YES;
-    [infoLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
-    [descLabel.topAnchor constraintEqualToAnchor:infoLabel.bottomAnchor constant:kSpace].active = YES;
-    [descLabel.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:kSpace].active = YES;
-    [descLabel2.topAnchor constraintEqualToAnchor:descLabel.bottomAnchor  constant:kSpace].active = YES;
-    [descLabel2.leftAnchor constraintEqualToAnchor:descLabel.leftAnchor].active = YES;
-    [idpButton.topAnchor constraintEqualToAnchor:descLabel2.bottomAnchor  constant:kSpace].active = YES;
-    [idpButton.leftAnchor constraintEqualToAnchor:descLabel.leftAnchor  constant:kSpace].active = YES;
-    [localButton.topAnchor constraintEqualToAnchor:descLabel2.bottomAnchor  constant:kSpace].active = YES;
-    [localButton.leftAnchor constraintEqualToAnchor:idpButton.rightAnchor  constant:kSpace*2].active = YES;
+    [container addSubview:selectLabel];
+    [container addSubview:idpLabel];
+    [container addSubview:idpButton];
+    [container addSubview:appLabel];
+    [container addSubview:appButton];
     
+    [selectLabel.topAnchor constraintEqualToAnchor:container.topAnchor].active = YES;
+    [selectLabel.centerXAnchor constraintEqualToAnchor:container.centerXAnchor].active = YES;
+    
+    [idpLabel.topAnchor constraintEqualToAnchor:selectLabel.bottomAnchor].active = YES;
+    [idpLabel.leftAnchor constraintEqualToAnchor:container.leftAnchor].active = YES;
+    [idpLabel.rightAnchor constraintEqualToAnchor:container.rightAnchor].active = YES;
+
+    [idpButton.topAnchor constraintEqualToAnchor:idpLabel.bottomAnchor constant:14].active = YES;
+    [idpButton.leftAnchor constraintEqualToAnchor:container.leftAnchor].active = YES;
+    [idpButton.rightAnchor constraintEqualToAnchor:container.rightAnchor].active = YES;
+    [idpButton.heightAnchor constraintEqualToConstant:50.0].active = YES;
+    
+    [appLabel.topAnchor constraintEqualToAnchor:idpButton.bottomAnchor constant:60].active = YES;
+    [appLabel.leftAnchor constraintEqualToAnchor:container.leftAnchor].active = YES;
+    [appLabel.rightAnchor constraintEqualToAnchor:container.rightAnchor].active = YES;
+    
+    [appButton.topAnchor constraintEqualToAnchor:appLabel.bottomAnchor constant:14].active = YES;
+    [appButton.leftAnchor constraintEqualToAnchor:container.leftAnchor].active = YES;
+    [appButton.rightAnchor constraintEqualToAnchor:container.rightAnchor].active = YES;
+    [appButton.heightAnchor constraintEqualToConstant:50.0].active = YES;
+    [appButton.bottomAnchor constraintEqualToAnchor:container.bottomAnchor].active = YES;
 }
 
-- (void) styleNavigationBar:(UINavigationBar *)navigationBar {
+- (void)styleNavigationBar:(UINavigationBar *)navigationBar {
     if (!navigationBar) {
         return;
     }
-    if (self.navBarColor) {
-        UIImage *backgroundImage = [self headerBackgroundImage];
-        [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
-    }
-    if (self.navBarTextColor) {
-        navigationBar.tintColor = self.navBarTextColor;
-        [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: self.navBarTextColor}];
-    } else {
-        // default color
-        navigationBar.tintColor = [UIColor whiteColor];
-    }
-    
-    if (self.navBarFont && self.navBarTextColor) {
-        [navigationBar setTitleTextAttributes:@{ NSForegroundColorAttributeName: self.navBarTextColor,
-                                                 NSFontAttributeName: self.navBarFont}];
-    }
-}
-
-- ( UIImage * _Nonnull )headerBackgroundImage {
-    UIImage *backgroundImage = [[self class] imageFromColor:self.navBarColor];
-    return backgroundImage;
+    [SFSDKViewUtils styleNavigationBar:navigationBar config:[SFUserAccountManager sharedInstance].loginViewControllerConfig];
 }
 
 - (void)showSettingsIcon {
@@ -287,19 +285,8 @@ static CGFloat kSpace = 20.0;
 }
 
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
-    [SFUserAccountManager sharedInstance].loginHost = newLoginHost.host;
-    [[SFUserAccountManager sharedInstance] switchToUser:nil];
-}
-
-+ (UIImage *)imageFromColor:(UIColor *)color {
-    CGRect rect = CGRectMake(0, 0, 1, 1);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
+    self.appOptions[kSFLoginHostParam] = newLoginHost.host;
+    [self.selectionFlowDelegate loginFlowSelectionIDPSelected:self options:self.appOptions];
 }
 
 @end

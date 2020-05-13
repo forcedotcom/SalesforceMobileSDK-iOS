@@ -63,7 +63,7 @@ enum {
 };
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class SFOAuthCredentials;
 @interface SFSDKOAuthTokenEndpointErrorResponse : NSObject
 @property  (nonatomic, readonly) NSString *tokenEndpointErrorCode;
 @property  (nonatomic, readonly) NSString *tokenEndpointErrorDescription;
@@ -105,6 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock;
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock;
 - (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(NSString *))completionBlock;
+- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials;
 @end
 
 @protocol SFSDKOAuthSessionManaging<NSObject>

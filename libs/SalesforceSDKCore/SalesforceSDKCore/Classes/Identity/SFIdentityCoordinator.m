@@ -23,13 +23,13 @@
  */
 
 #import <SalesforceSDKCommon/SFJsonUtils.h>
-#import "SFIdentityCoordinator.h"
 #import "SFIdentityCoordinator+Internal.h"
 #import "SFOAuthCredentials.h"
 #import "SFOAuthSessionRefresher.h"
 #import "SFIdentityData.h"
 #import "SFUserAccountManager.h"
 #import "SFNetwork.h"
+#import "SFSDKAuthSession.h"
 
 // Public constants
 
@@ -58,7 +58,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 @end
 
 @implementation SFIdentityCoordinator
-
+@synthesize authSession = _authSession;
 @synthesize credentials = _credentials;
 @synthesize idData = _idData;
 @synthesize delegate = _delegate;
@@ -74,6 +74,18 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     self = [super init];
     if (self) {
         self.credentials = credentials;
+        self.timeout = kSFIdentityRequestDefaultTimeoutSeconds;
+        self.retrievingData = NO;
+    }
+    
+    return self;
+}
+
+- (id)initWithAuthSession:(SFSDKAuthSession *)authSession {
+    self = [super init];
+    if (self) {
+        self.authSession = authSession;
+        self.credentials = authSession.credentials;
         self.timeout = kSFIdentityRequestDefaultTimeoutSeconds;
         self.retrievingData = NO;
     }

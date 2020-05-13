@@ -27,7 +27,7 @@
 
 static NSString * const kWebNotSupportedExceptionName = @"com.salesforce.oauth.tests.WebNotSupported";
 static NSString * const kWebNotSupportedReasonFormat  = @"%@ WKWebView transactions not supported in unit test framework.";
-static NSString * const kSFAuthenticationSessionNotSupportedReasonFormat  = @"%@ SFAuthenticationSession transactions not supported in unit test framework.";
+static NSString * const kASWebAuthenticationSessionNotSupportedReasonFormat  = @"%@ ASWebAuthenticationSession transactions not supported in unit test framework.";
 
 @implementation SFOAuthTestFlowCoordinatorDelegate
 
@@ -90,15 +90,15 @@ static NSString * const kSFAuthenticationSessionNotSupportedReasonFormat  = @"%@
     return self.isNetworkAvailable;
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session {
     [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kSFAuthenticationSessionNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kSFAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
+    NSString *reason = [NSString stringWithFormat:kASWebAuthenticationSessionNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
+    @throw [NSException exceptionWithName:kASWebAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
 }
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
     [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kSFAuthenticationSessionNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kSFAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
+    NSString *reason = [NSString stringWithFormat:kASWebAuthenticationSessionNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
+    @throw [NSException exceptionWithName:kASWebAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
 }
 
 @end

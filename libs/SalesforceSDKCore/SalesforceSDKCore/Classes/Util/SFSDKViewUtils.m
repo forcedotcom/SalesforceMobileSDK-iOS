@@ -26,32 +26,35 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "SFSDKViewUtils.h"
-#import "SFSDKLoginViewControllerConfig.h"
+#import "SFSDKViewControllerConfig.h"
 
 @implementation SFSDKViewUtils
 
-+ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKLoginViewControllerConfig *) config {
-    
++ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *) config {
+
     if (!navigationBar && !config) {
         return;
     }
     
     if (config.navBarColor) {
-        UIImage *backgroundImage = [self headerBackgroundImage:config.navBarColor];
-        [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
-//        navigationBar.backgroundColor = config.navBarColor;
+        if (@available(iOS 13.0, *)) {
+            navigationBar.standardAppearance.backgroundColor = config.navBarColor;
+        } else {
+            UIImage *backgroundImage = [self headerBackgroundImage:config.navBarColor];
+            [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+        }
+        navigationBar.backgroundColor = config.navBarColor;
     }
     
+    NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc] init];
     if (config.navBarTintColor) {
         navigationBar.tintColor = config.navBarTintColor;
-        [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: config.navBarTintColor}];
-        
+        [textAttributes setObject:config.navBarTintColor forKey:NSForegroundColorAttributeName];
     } else {
         // default color
         navigationBar.tintColor = [UIColor whiteColor];
     }
     
-    NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc]init];
     if (config.navBarTitleColor){
         [textAttributes setObject:config.navBarTitleColor forKey:NSForegroundColorAttributeName];
     }
@@ -61,6 +64,9 @@
     }
     
     if ([textAttributes count] > 0) {
+        if (@available(iOS 13.0, *)) {
+            navigationBar.standardAppearance.titleTextAttributes = textAttributes;
+        }
         [navigationBar setTitleTextAttributes:textAttributes];
     }
 }

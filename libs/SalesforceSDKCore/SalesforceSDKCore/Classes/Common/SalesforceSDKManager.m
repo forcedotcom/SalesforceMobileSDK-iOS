@@ -36,6 +36,8 @@
 #import "SFDefaultUserManagementViewController.h"
 #import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
 #import "SFSDKEncryptedURLCache.h"
+#import "SFSDKNullURLCache.h"
+#import "UIColor+SFColors.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -55,6 +57,7 @@ static NSString* ailtnAppName = nil;
 
 // Dev support
 static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNotification";
+static IMP motionEndedImplementation = nil;
 
 // User agent constants
 static NSString * const kSFMobileSDKNativeDesignator = @"Native";
@@ -69,11 +72,13 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 @implementation UIWindow (SalesforceSDKManager)
 
-- (void)sfsdk_motionEnded:(__unused UIEventSubtype)motion withEvent:(UIEvent *)event
-{
+- (void)sfsdk_motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
     if (event.subtype == UIEventSubtypeMotionShake) {
         [[NSNotificationCenter defaultCenter] postNotificationName:SFSDKShowDevDialogNotification object:nil];
     }
+    // Doing this instead of exchanging the implementations and calling sfsdk_motionEnded:withEvent: so that
+    // it has the correct value for _cmd (motionEnded:withEvent:)
+    ((void(*)(id, SEL, long, id))motionEndedImplementation)(self, _cmd, motion, event);
 }
 
 @end
@@ -84,7 +89,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     [super viewDidLoad];
     self.view.frame = [UIScreen mainScreen].bounds;
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor salesforceSystemBackgroundColor];
 }
 
 - (BOOL)shouldAutorotate {
@@ -134,10 +139,6 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 + (void)initialize {
     if (self == [SalesforceSDKManager class]) {
-
-        // For dev support
-        method_exchangeImplementations(class_getInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:)), class_getInstanceMethod([UIWindow class], @selector(sfsdk_motionEnded:withEvent:)));
-
         /*
          * Checks if an analytics app name has already been set by the app.
          * If not, fetches the default app name to be used and sets it.
@@ -184,6 +185,27 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     return sdkManager;
 }
 
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        // For dev support
+        Method sfsdkMotionEndedMethod = class_getInstanceMethod([UIWindow class], @selector(sfsdk_motionEnded:withEvent:));
+        IMP sfsdkMotionEndedImplementation = method_getImplementation(sfsdkMotionEndedMethod);
+        motionEndedImplementation = method_setImplementation(class_getInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:)), sfsdkMotionEndedImplementation);
+
+        // Pasteboard
+         method_exchangeImplementations(class_getClassMethod([UIPasteboard class], @selector(generalPasteboard)), class_getClassMethod([SalesforceSDKManager class], @selector(sdkPasteboard)));
+    });
+}
+
++ (UIPasteboard *)sdkPasteboard {
+    if ([SFManagedPreferences sharedPreferences].shouldDisableExternalPasteDefinedByConnectedApp) {
+        return [UIPasteboard pasteboardWithName:@"com.salesforce.mobilesdk.pasteboard" create:YES];
+    }
+    // General pasteboard that was swizzled
+    return [SalesforceSDKManager sdkPasteboard];
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -215,7 +237,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         self.useSnapshotView = YES;
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
-        self.encryptURLCache = YES;
+        self.URLCacheType = kSFURLCacheTypeEncrypted;
         [self setupServiceConfiguration];
     }
     return self;
@@ -377,11 +399,10 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     return launchActionString;
 }
 - (void)setEncryptURLCache:(BOOL)encryptURLCache {
-    _encryptURLCache = encryptURLCache;
-    if (self.encryptURLCache) {
-        [self enableEncryptedURLCache];
+    if (encryptURLCache) {
+        [self setURLCacheType:kSFURLCacheTypeEncrypted];
     } else {
-        [self disableEncryptedURLCache];
+        [self setURLCacheType:kSFURLCacheTypeStandard];
     }
 }
 
@@ -719,9 +740,9 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     // Don't present snapshot during advanced authentication or Passcode Presentation
     // ==============================================================================
     // During advanced authentication, application is briefly backgrounded then foregrounded
-    // The SFAuthenticationSession's view controller is pushed into the key window
-    // If we make the snapshot window the active window now, that's where the SFAuthenticationSession's view controller will end up
-    // Then when the application is foregrounded and the snapshot window is dismissed, we will lose the SFAuthenticationSession
+    // The ASWebAuthenticationSession's view controller is pushed into the key window
+    // If we make the snapshot window the active window now, that's where the ASWebAuthenticationSession's view controller will end up
+    // Then when the application is foregrounded and the snapshot window is dismissed, we will lose the ASWebAuthenticationSession
     SFSDKWindowContainer* activeWindow = [SFSDKWindowManager sharedManager].activeWindow;
     if ([activeWindow isAuthWindow] || [activeWindow isPasscodeWindow]) {
         return;
@@ -855,7 +876,6 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
             
         }
     }
-    
 }
 
 - (void)clearClipboard
@@ -1042,18 +1062,25 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     }
 }
 
-- (void)enableEncryptedURLCache {
-    if (![NSURLCache.sharedURLCache isKindOfClass:[SFSDKEncryptedURLCache class]]) {
+- (void)setURLCacheType:(SFURLCacheType)URLCacheType {
+    if (_URLCacheType != URLCacheType) {
+        _URLCacheType = URLCacheType;
         [NSURLCache.sharedURLCache removeAllCachedResponses];
-        SFSDKEncryptedURLCache *encryptedCache = [[SFSDKEncryptedURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
-        [NSURLCache setSharedURLCache:encryptedCache];
-    }
-}
-
-- (void)disableEncryptedURLCache {
-    if ([NSURLCache.sharedURLCache isKindOfClass:[SFSDKEncryptedURLCache class]]) {
-        [NSURLCache.sharedURLCache removeAllCachedResponses];
-        NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+        NSURLCache *cache;
+        switch (URLCacheType) {
+            case kSFURLCacheTypeEncrypted:
+                _encryptURLCache = YES;
+                cache = [[SFSDKEncryptedURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+                break;
+            case kSFURLCacheTypeNull:
+                _encryptURLCache = NO;
+                 cache = [[SFSDKNullURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+                break;
+            case kSFURLCacheTypeStandard:
+                _encryptURLCache = NO;
+                cache = [[NSURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+                break;
+        }
         [NSURLCache setSharedURLCache:cache];
     }
 }

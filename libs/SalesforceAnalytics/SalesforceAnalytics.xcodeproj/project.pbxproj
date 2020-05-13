@@ -23,7 +23,6 @@
 /* Begin PBXBuildFile section */
 		B716A37F218F5D9F009D407F /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A378218F5D60009D407F /* SalesforceSDKCommon.framework */; };
 		CE1F09E4201A6C18006FA9D2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F09D5201A6C17006FA9D2 /* CoreTelephony.framework */; };
-		CE1F09E5201A6C2C006FA9D2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F09D5201A6C17006FA9D2 /* CoreTelephony.framework */; };
 		CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8C2E1CE9218900C6FC6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C2D1CE9218900C6FC6A /* main.m */; };
 		CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C301CE9218900C6FC6A /* AppDelegate.m */; };
@@ -34,33 +33,21 @@
 		CE2B8E131CE9352B00C6FC6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */; };
 		CE2B8FEB1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEA1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch */; };
 		CE2B8FED1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEC1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE2B8FEE1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEC1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8FF01CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FEF1CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m */; };
-		CE2B8FF21CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FEF1CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m */; };
 		CE2B8FF81CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FF71CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE2B8FF91CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FF71CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8FFE1CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FFD1CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m */; };
-		CE2B90001CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FFD1CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m */; };
 		CE2B91B01D03A61000C6FC6A /* SFSDKEventStoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B91AE1D03A61000C6FC6A /* SFSDKEventStoreManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B91B11D03A61000C6FC6A /* SFSDKEventStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B91AF1D03A61000C6FC6A /* SFSDKEventStoreManager.m */; };
-		CE2B91B41D03A69D00C6FC6A /* SFSDKEventStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B91AF1D03A61000C6FC6A /* SFSDKEventStoreManager.m */; };
-		CE2B91B61D03A6A900C6FC6A /* SFSDKEventStoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B91AE1D03A61000C6FC6A /* SFSDKEventStoreManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE41A60522F765B1006CBC44 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE41A60222F765B1006CBC44 /* Default-568h@2x.png */; };
 		CE47129B1F04257600D9E059 /* SFSDKAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4712991F04257600D9E059 /* SFSDKAnalyticsLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE47129C1F04257600D9E059 /* SFSDKAnalyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE47129A1F04257600D9E059 /* SFSDKAnalyticsLogger.m */; };
-		CE4712AB1F04263100D9E059 /* SFSDKAnalyticsLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4712991F04257600D9E059 /* SFSDKAnalyticsLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE4712AC1F04263A00D9E059 /* SFSDKAnalyticsLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE47129A1F04257600D9E059 /* SFSDKAnalyticsLogger.m */; };
 		CEF371A81D0E57ED0004A237 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A71D0E57ED0004A237 /* Foundation.framework */; };
 		CEF371AA1D0E57F50004A237 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A91D0E57F50004A237 /* UIKit.framework */; };
 		CEF371AB1D0E58000004A237 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A71D0E57ED0004A237 /* Foundation.framework */; };
 		CEF371AC1D0E58070004A237 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A91D0E57F50004A237 /* UIKit.framework */; };
-		CEF371AD1D0E58130004A237 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A71D0E57ED0004A237 /* Foundation.framework */; };
-		CEF371AE1D0E58190004A237 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A91D0E57F50004A237 /* UIKit.framework */; };
 		CEF371AF1D0E58260004A237 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A71D0E57ED0004A237 /* Foundation.framework */; };
 		CEF371B01D0E582C0004A237 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A91D0E57F50004A237 /* UIKit.framework */; };
-		CEF371B21D0F6B410004A237 /* SalesforceAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEF371B41D0F6E6D0004A237 /* SFSDKInstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF371B31D0F6E6D0004A237 /* SFSDKInstrumentationEvent+Internal.h */; };
-		CEF371B51D0F6E710004A237 /* SFSDKInstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF371B31D0F6E6D0004A237 /* SFSDKInstrumentationEvent+Internal.h */; };
 		CEF371E51D10D7E60004A237 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF371E31D10D7E60004A237 /* Main_iPad.storyboard */; };
 		CEF371E61D10D7E60004A237 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF371E41D10D7E60004A237 /* Main_iPhone.storyboard */; };
 		CEF371E81D11B76E0004A237 /* EventStoreManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF371E71D11B76E0004A237 /* EventStoreManagerTests.m */; };
@@ -68,20 +55,12 @@
 		CEF372CB1D1324040004A237 /* SFSDKAILTNTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF372C81D1324040004A237 /* SFSDKAILTNTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEF372CC1D1324040004A237 /* SFSDKAILTNTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF372C91D1324040004A237 /* SFSDKAILTNTransform.m */; };
 		CEF372CD1D1324040004A237 /* SFSDKTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF372CA1D1324040004A237 /* SFSDKTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEF372CE1D1324080004A237 /* SFSDKAILTNTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF372C81D1324040004A237 /* SFSDKAILTNTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEF372CF1D1324100004A237 /* SFSDKTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF372CA1D1324040004A237 /* SFSDKTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEF372D01D1324190004A237 /* SFSDKAILTNTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF372C91D1324040004A237 /* SFSDKAILTNTransform.m */; };
 		CEFEB5531D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEFEB5541D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.m */; };
-		CEFEB5551D048AB3007D5EAE /* SFSDKInstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEFEB5571D048ABD007D5EAE /* SFSDKInstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.m */; };
 		CEFEB55A1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */; };
 		CEFEB55F1D050E4C007D5EAE /* SFSDKAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB55D1D050E4C007D5EAE /* SFSDKAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEFEB5601D050E4C007D5EAE /* SFSDKAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* SFSDKAnalyticsManager.m */; };
 		CEFEB5621D05DFFA007D5EAE /* SFSDKAnalyticsManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5611D05DFFA007D5EAE /* SFSDKAnalyticsManager+Internal.h */; };
-		CEFEB5631D05E3ED007D5EAE /* SFSDKAnalyticsManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5611D05DFFA007D5EAE /* SFSDKAnalyticsManager+Internal.h */; };
-		CEFEB5641D05E3F3007D5EAE /* SFSDKAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB55D1D050E4C007D5EAE /* SFSDKAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEFEB5651D05E3FD007D5EAE /* SFSDKAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* SFSDKAnalyticsManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,26 +78,12 @@
 			remoteGlobalIDString = B7136D07216684A700F6A221;
 			remoteInfo = SalesforceSDKCommonTests;
 		};
-		B716A37B218F5D60009D407F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B716A371218F5D60009D407F /* SalesforceSDKCommon.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B7136D3921668A2100F6A221;
-			remoteInfo = SalesforceSDKCommonStatic;
-		};
 		B716A37D218F5D7D009D407F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B716A371218F5D60009D407F /* SalesforceSDKCommon.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = B7136CFD216684A700F6A221;
 			remoteInfo = SalesforceSDKCommon;
-		};
-		B73CE5E121933D1A00DB34C5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B716A371218F5D60009D407F /* SalesforceSDKCommon.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B7686AD821929D3B00D4332A;
-			remoteInfo = SalesforceSDKCommonStatic;
 		};
 		B7686AD321929B8C00D4332A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -164,7 +129,6 @@
 		CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceAnalytics.h; sourceTree = "<group>"; };
 		CE2B8BD91CE900F500C6FC6A /* SalesforceAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE2B8BFF1CE91BFA00C6FC6A /* libSalesforceAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8C2A1CE9218900C6FC6A /* SalesforceAnalyticsTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceAnalyticsTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8C2D1CE9218900C6FC6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CE2B8C2F1CE9218900C6FC6A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -176,12 +140,9 @@
 		CE2B8C501CE9245B00C6FC6A /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
 		CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SalesforceAnalyticsTestApp-Info.plist"; sourceTree = "<group>"; };
 		CE2B8CA71CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Common-Dynamic.xcconfig"; path = "Configuration/SalesforceAnalytics-Common-Dynamic.xcconfig"; sourceTree = "<group>"; };
-		CE2B8CA81CE9281F00C6FC6A /* SalesforceAnalytics-Common-Static.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Common-Static.xcconfig"; path = "Configuration/SalesforceAnalytics-Common-Static.xcconfig"; sourceTree = "<group>"; };
 		CE2B8CA91CE9281F00C6FC6A /* SalesforceAnalytics-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Common.xcconfig"; path = "Configuration/SalesforceAnalytics-Common.xcconfig"; sourceTree = "<group>"; };
 		CE2B8CAA1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CE2B8CAB1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SalesforceAnalytics-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
-		CE2B8CAC1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Static-iOS-Debug.xcconfig"; path = "Configuration/SalesforceAnalytics-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
-		CE2B8CAD1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceAnalytics-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Test.xcconfig"; path = "Configuration/SalesforceAnalytics-Test.xcconfig"; sourceTree = "<group>"; };
 		CE2B8FE71CF550F900C6FC6A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		CE2B8FEA1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SalesforceAnalytics-Prefix.pch"; path = "Supporting Files/SalesforceAnalytics-Prefix.pch"; sourceTree = "<group>"; };
@@ -235,16 +196,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE2B8BFC1CE91BFA00C6FC6A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CE1F09E5201A6C2C006FA9D2 /* CoreTelephony.framework in Frameworks */,
-				CEF371AE1D0E58190004A237 /* UIKit.framework in Frameworks */,
-				CEF371AD1D0E58130004A237 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CE2B8C271CE9218900C6FC6A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -264,7 +215,6 @@
 				B716A378218F5D60009D407F /* SalesforceSDKCommon.framework */,
 				B716A37A218F5D60009D407F /* SalesforceSDKCommonTests.xctest */,
 				B7686AD421929B8C00D4332A /* SalesforceSDKCommonTestApp.app */,
-				B716A37C218F5D60009D407F /* libSalesforceSDKCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -288,7 +238,6 @@
 			children = (
 				CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */,
 				CE2B8BD91CE900F500C6FC6A /* SalesforceAnalyticsTests.xctest */,
-				CE2B8BFF1CE91BFA00C6FC6A /* libSalesforceAnalytics.a */,
 				CE2B8C2A1CE9218900C6FC6A /* SalesforceAnalyticsTestApp.app */,
 			);
 			name = Products;
@@ -346,12 +295,9 @@
 			isa = PBXGroup;
 			children = (
 				CE2B8CA71CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig */,
-				CE2B8CA81CE9281F00C6FC6A /* SalesforceAnalytics-Common-Static.xcconfig */,
 				CE2B8CA91CE9281F00C6FC6A /* SalesforceAnalytics-Common.xcconfig */,
 				CE2B8CAA1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig */,
 				CE2B8CAB1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Release.xcconfig */,
-				CE2B8CAC1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Debug.xcconfig */,
-				CE2B8CAD1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Release.xcconfig */,
 				CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */,
 			);
 			name = Configuration;
@@ -471,24 +417,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE2B8C081CE91DC600C6FC6A /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CE2B91B61D03A6A900C6FC6A /* SFSDKEventStoreManager.h in Headers */,
-				CE2B8FEE1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h in Headers */,
-				CEFEB5631D05E3ED007D5EAE /* SFSDKAnalyticsManager+Internal.h in Headers */,
-				CE4712AB1F04263100D9E059 /* SFSDKAnalyticsLogger.h in Headers */,
-				CE2B8FF91CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h in Headers */,
-				CEF372CE1D1324080004A237 /* SFSDKAILTNTransform.h in Headers */,
-				CEF371B51D0F6E710004A237 /* SFSDKInstrumentationEvent+Internal.h in Headers */,
-				CEFEB5551D048AB3007D5EAE /* SFSDKInstrumentationEventBuilder.h in Headers */,
-				CEF372CF1D1324100004A237 /* SFSDKTransform.h in Headers */,
-				CEFEB5641D05E3F3007D5EAE /* SFSDKAnalyticsManager.h in Headers */,
-				CEF371B21D0F6B410004A237 /* SalesforceAnalytics.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -530,24 +458,6 @@
 			productReference = CE2B8BD91CE900F500C6FC6A /* SalesforceAnalyticsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		CE2B8BFE1CE91BFA00C6FC6A /* SalesforceAnalyticsStatic */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CE2B8C051CE91BFA00C6FC6A /* Build configuration list for PBXNativeTarget "SalesforceAnalyticsStatic" */;
-			buildPhases = (
-				CE2B8BFB1CE91BFA00C6FC6A /* Sources */,
-				CE2B8BFC1CE91BFA00C6FC6A /* Frameworks */,
-				CE2B8C081CE91DC600C6FC6A /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B73CE5E221933D1A00DB34C5 /* PBXTargetDependency */,
-			);
-			name = SalesforceAnalyticsStatic;
-			productName = SalesforceAnalyticsStatic;
-			productReference = CE2B8BFF1CE91BFA00C6FC6A /* libSalesforceAnalytics.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		CE2B8C291CE9218900C6FC6A /* SalesforceAnalyticsTestApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CE2B8C411CE9218900C6FC6A /* Build configuration list for PBXNativeTarget "SalesforceAnalyticsTestApp" */;
@@ -584,9 +494,6 @@
 						ProvisioningStyle = Manual;
 						TestTargetID = CE2B8C291CE9218900C6FC6A;
 					};
-					CE2B8BFE1CE91BFA00C6FC6A = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
 					CE2B8C091CE91F9200C6FC6A = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -622,7 +529,6 @@
 			targets = (
 				CE2B8BCE1CE900F500C6FC6A /* SalesforceAnalytics */,
 				CE2B8BD81CE900F500C6FC6A /* SalesforceAnalyticsTests */,
-				CE2B8BFE1CE91BFA00C6FC6A /* SalesforceAnalyticsStatic */,
 				CE2B8C091CE91F9200C6FC6A /* Documentation */,
 				CE2B8C291CE9218900C6FC6A /* SalesforceAnalyticsTestApp */,
 			);
@@ -642,13 +548,6 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceSDKCommonTests.xctest;
 			remoteRef = B716A379218F5D60009D407F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B716A37C218F5D60009D407F /* libSalesforceSDKCommon.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceSDKCommon.a;
-			remoteRef = B716A37B218F5D60009D407F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B7686AD421929B8C00D4332A /* SalesforceSDKCommonTestApp.app */ = {
@@ -749,20 +648,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE2B8BFB1CE91BFA00C6FC6A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CE2B91B41D03A69D00C6FC6A /* SFSDKEventStoreManager.m in Sources */,
-				CEFEB5571D048ABD007D5EAE /* SFSDKInstrumentationEventBuilder.m in Sources */,
-				CEFEB5651D05E3FD007D5EAE /* SFSDKAnalyticsManager.m in Sources */,
-				CE4712AC1F04263A00D9E059 /* SFSDKAnalyticsLogger.m in Sources */,
-				CEF372D01D1324190004A237 /* SFSDKAILTNTransform.m in Sources */,
-				CE2B8FF21CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m in Sources */,
-				CE2B90001CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CE2B8C261CE9218900C6FC6A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -780,11 +665,6 @@
 			isa = PBXTargetDependency;
 			name = SalesforceSDKCommon;
 			targetProxy = B716A37D218F5D7D009D407F /* PBXContainerItemProxy */;
-		};
-		B73CE5E221933D1A00DB34C5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SalesforceSDKCommonStatic;
-			targetProxy = B73CE5E121933D1A00DB34C5 /* PBXContainerItemProxy */;
 		};
 		CE2B8C471CE921E000C6FC6A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -923,7 +803,7 @@
 				BUILD_VERSION_SUFFIX = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -931,7 +811,7 @@
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceAnalytics/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -959,7 +839,7 @@
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceAnalytics/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -983,7 +863,7 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1006,7 +886,7 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1017,55 +897,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesforceAnalyticsTestApp.app/SalesforceAnalyticsTestApp";
-			};
-			name = Release;
-		};
-		CE2B8C061CE91BFA00C6FC6A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE2B8CAC1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Headers",
-					"$(TARGET_BUILD_DIR)/Headers",
-					"$(inherited)",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_LDFLAGS = "-ObjC";
-				PRIVATE_HEADERS_FOLDER_PATH = "PrivateHeaders/$(PRODUCT_NAME)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceAnalytics;
-				PRODUCT_NAME = SalesforceAnalytics;
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/$(PRODUCT_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		CE2B8C071CE91BFA00C6FC6A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE2B8CAD1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Headers",
-					"$(TARGET_BUILD_DIR)/Headers",
-					"$(inherited)",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_LDFLAGS = "-ObjC";
-				PRIVATE_HEADERS_FOLDER_PATH = "PrivateHeaders/$(PRODUCT_NAME)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceAnalytics;
-				PRODUCT_NAME = SalesforceAnalytics;
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/$(PRODUCT_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -1102,7 +933,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1131,7 +962,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1170,15 +1001,6 @@
 			buildConfigurations = (
 				CE2B8BE71CE900F500C6FC6A /* Debug */,
 				CE2B8BE81CE900F500C6FC6A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CE2B8C051CE91BFA00C6FC6A /* Build configuration list for PBXNativeTarget "SalesforceAnalyticsStatic" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CE2B8C061CE91BFA00C6FC6A /* Debug */,
-				CE2B8C071CE91BFA00C6FC6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

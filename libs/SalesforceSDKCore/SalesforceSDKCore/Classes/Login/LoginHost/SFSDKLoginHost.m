@@ -40,7 +40,7 @@
     SFSDKLoginHost *loginHost = [[SFSDKLoginHost alloc] init];
     
     loginHost.name = name ? : @"";  // Ensure name is not nil.
-    if ([host hasSuffix:@"/"]) {
+    if ([host hasSuffix:@"/"] && host.length > 1) {
         loginHost.host = [host substringToIndex:host.length-1];
     } else {
         loginHost.host = host;

@@ -35,7 +35,7 @@
 
 static NSString * const kSFTestId = @"test_id";
 static NSString * const kSFTestClientId = @"test_client_id";
-static NSString * const kSFMyDomainEndpoint = @"images.cs4.my.salesforce.com";
+static NSString * const kSFMyDomainEndpoint = @"mobilesdk.my.salesforce.com";
 static NSString * const kSFAlternateMyDomainEndpoint = @"powerofus.force.com";
 static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
 

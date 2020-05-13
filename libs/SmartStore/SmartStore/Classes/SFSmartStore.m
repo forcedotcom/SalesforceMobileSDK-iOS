@@ -1752,9 +1752,12 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error;
 {
-    NSMutableString* resultString = [NSMutableString new];
-    if ([self queryAsString:resultString querySpec:querySpec pageIndex:pageIndex error:error]) {
-        return [SFJsonUtils objectFromJSONString:resultString];
+    __block NSMutableArray* resultArray = [NSMutableArray new];
+    BOOL succ = [self inDatabase:^(FMDatabase* db) {
+        [self runQuery:resultArray resultString:nil querySpec:querySpec pageIndex:pageIndex withDb:db];
+    } error:error];
+    if (succ) {
+        return resultArray;
     } else {
         return nil;
     }
@@ -1763,12 +1766,15 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 - (BOOL) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(result:querySpec:pageIndex:))
 {
     return [self inDatabase:^(FMDatabase* db) {
-        [self queryAsString:resultString querySpec:querySpec pageIndex:pageIndex withDb:db];
+        [self runQuery:nil resultString:resultString querySpec:querySpec pageIndex:pageIndex withDb:db];
     } error:error];
 }
 
-- (void)queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex withDb:(FMDatabase*)db
+- (void)runQuery:(NSMutableArray*)resultArray resultString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex withDb:(FMDatabase*)db
 {
+    NSAssert(resultArray != nil ^ resultString != nil, @"resultArray or resultString must be non-nil, but not both at the same times.");
+    BOOL computeResultAsString = resultString != nil;
+    
     // Page
     NSUInteger offsetRows = querySpec.pageSize * pageIndex;
     NSUInteger numberRows = querySpec.pageSize;
@@ -1790,81 +1796,128 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         
         // Smart queries
         if (querySpec.queryType == kSFSoupQueryTypeSmart || querySpec.selectPaths != nil) {
-            NSMutableString *getDataFromRow = [[NSMutableString alloc] init];
-            [self getDataFromRowAsString:getDataFromRow resultSet:frs];
-            [resultStrings addObject:getDataFromRow];
+            if (computeResultAsString) {
+                NSMutableString *rowData = [NSMutableString new];
+                [self getDataFromRow:nil resultString:rowData resultSet:frs];
+                if (rowData) {
+                    [resultStrings addObject:rowData];
+                }
+            } else {
+                NSMutableArray *rowData = [NSMutableArray new];
+                [self getDataFromRow:rowData resultString:nil resultSet:frs];
+                if (rowData) {
+                    [resultArray addObject:rowData];
+                }
+            }
         }
         // Exact/like/range queries
         else {
-            for (int i = 0; i < frs.columnCount; i++) {
-                @autoreleasepool {
-                    NSString *columnName = [frs columnNameForIndex:i];
-                    if ([columnName isEqualToString:SOUP_COL]) {
-                        NSString *rawJson = [frs stringForColumnIndex:i];
-                        [resultStrings addObject:rawJson];
-                    }
-                    else if ([columnName isEqualToString:kSoupFeatureExternalStorage]) {
-                        NSString *tableName = [frs stringForColumnIndex:i];
-                        NSNumber *soupEntryId = @([frs longForColumnIndex:++i]);
-                        NSString *loadResult = [self loadExternalSoupEntryAsString:soupEntryId soupTableName:tableName];
-                        if (loadResult) {
-                            [resultStrings addObject:loadResult];
-                        }
-                    }
+            NSString* rawJson;
+            NSString *columnName = [frs columnNameForIndex:0];
+            if ([columnName isEqualToString:SOUP_COL]) {
+                rawJson = [frs stringForColumnIndex:0];
+            }
+            else if ([columnName isEqualToString:kSoupFeatureExternalStorage]) {
+                NSString *tableName = [frs stringForColumnIndex:0];
+                NSNumber *soupEntryId = @([frs longForColumnIndex:1]);
+                rawJson = [self loadExternalSoupEntryAsString:soupEntryId soupTableName:tableName];
+            }
+            
+            if (computeResultAsString) {
+                if (rawJson) {
+                    [resultStrings addObject:rawJson];
+                }
+            } else {
+                id entry = [SFJsonUtils objectFromJSONString:rawJson];
+                if (entry) {
+                    [resultArray addObject:entry];
                 }
             }
         }
     }
     [frs close];
-    [resultString appendString:@"["];
-    [resultString appendString:[resultStrings componentsJoinedByString:@","]];
-    [resultString appendString:@"]"];
+    
+    if (computeResultAsString) {
+        [resultString appendString:@"["];
+        [resultString appendString:[resultStrings componentsJoinedByString:@","]];
+        [resultString appendString:@"]"];
+    }
 }
 
-- (void) getDataFromRowAsString:(NSMutableString*)resultString resultSet:(FMResultSet*)frs
+- (void) getDataFromRow:(NSMutableArray*)resultArray resultString:(NSMutableString*)resultString resultSet:(FMResultSet*)frs
 {
+    NSAssert(resultArray != nil ^ resultString != nil, @"resultArray or resultString must be non-nil, but not both at the same times.");
+    BOOL computeResultAsString = resultString != nil;
     NSDictionary* valuesMap = [frs resultDictionary];
     NSMutableArray *resultStrings = [NSMutableArray array];
+    
     for (int i = 0; i < frs.columnCount; i++) {
         @autoreleasepool {
             NSString* columnName = [frs columnNameForIndex:i];
             id value = valuesMap[columnName];
-            if ([value isKindOfClass:[NSNull class]]) {
-                [resultStrings addObject:@"null"];
-            }
-            else if ([value isKindOfClass:[NSString class]] &&
-                     ([columnName isEqualToString:SOUP_COL] || [columnName hasPrefix:[NSString stringWithFormat:@"%@:", SOUP_COL]])) {
-                [resultStrings addObject:value];
-            }
-            else if ([columnName isEqualToString:kSoupFeatureExternalStorage]) {
-                NSNumber *soupEntryId = @([frs longForColumnIndex:++i]);
-                NSString *loadResult = [self loadExternalSoupEntryAsString:soupEntryId soupTableName:value];
-                if (loadResult) {
-                    [resultStrings addObject:loadResult];
+            
+            BOOL isSoupCol = [value isKindOfClass:[NSString class]] &&
+            ([columnName isEqualToString:SOUP_COL] || [columnName hasPrefix:[NSString stringWithFormat:@"%@:", SOUP_COL]]);
+            BOOL isExternalSoupCol = [columnName isEqualToString:kSoupFeatureExternalStorage];
+            
+            // If this is a soup column then the value is a serialized json
+            if (isSoupCol || isExternalSoupCol) {
+                if (isExternalSoupCol) {
+                    // Reading the actual value from external storage
+                    NSNumber *soupEntryId = @([frs longForColumnIndex:++i]);
+                    value = [self loadExternalSoupEntryAsString:soupEntryId soupTableName:value];
+                }
+
+                if (computeResultAsString) {
+                    if (value) {
+                        [resultStrings addObject:value];
+                    } else {
+                        // This is a smart query, we can't skip
+                        // If you do select x,y,z, then you expect 3 values per row in the result set
+                        [resultStrings addObject:@"null"];
+                    }
                 } else {
-                    // This is a smart query, we can't skip
-                    // If you do select x,y,z, then you expect 3 values per row in the result set
-                    [resultStrings addObject:@"null"];
+                    id entry = [SFJsonUtils objectFromJSONString:value];
+                    if (entry) {
+                        [resultArray addObject:entry];
+                    } else {
+                        // This is a smart query, we can't skip
+                        // If you do select x,y,z, then you expect 3 values per row in the result set
+                        [resultStrings addObject:[NSNull null]];
+                    }
                 }
             }
-            else if ([value isKindOfClass:[NSNumber class]]) {
-                [resultStrings addObject:[((NSNumber*)value) stringValue]];
-            }
-            else if ([value isKindOfClass:[NSString class]]) {
-                NSString *escapedAndQuotedValue = [self escapeStringValueAndQuote:(NSString*) value];
-                if (escapedAndQuotedValue) {
-                    [resultStrings addObject:escapedAndQuotedValue];
+            // Otherwise the value is an atomic type
+            else {
+                if (computeResultAsString) {
+                    if ([value isKindOfClass:[NSNull class]]) {
+                        [resultStrings addObject:@"null"];
+                    } else if ([value isKindOfClass:[NSNumber class]]) {
+                        [resultStrings addObject:[((NSNumber*)value) stringValue]];
+                    }
+                    else if ([value isKindOfClass:[NSString class]]) {
+                        NSString *escapedAndQuotedValue = [self escapeStringValueAndQuote:(NSString*) value];
+                        if (escapedAndQuotedValue) {
+                            [resultStrings addObject:escapedAndQuotedValue];
+                        } else {
+                            // This is a smart query, we can't skip
+                            // If you do select x,y,z, then you expect 3 values per row in the result set
+                            [resultStrings addObject:@"null"];
+                        }
+                    }
+
                 } else {
-                    // This is a smart query, we can't skip
-                    // If you do select x,y,z, then you expect 3 values per row in the result set
-                    [resultStrings addObject:@"null"];
+                    [resultArray addObject:value];
                 }
             }
         }
     }
-    [resultString appendString:@"["];
-    [resultString appendString:[resultStrings componentsJoinedByString:@","]];
-    [resultString appendString:@"]"];
+    
+    if (computeResultAsString) {
+        [resultString appendString:@"["];
+        [resultString appendString:[resultStrings componentsJoinedByString:@","]];
+        [resultString appendString:@"]"];
+    }
 }
 
 -(NSString*) escapeStringValueAndQuote:(NSString*) raw {

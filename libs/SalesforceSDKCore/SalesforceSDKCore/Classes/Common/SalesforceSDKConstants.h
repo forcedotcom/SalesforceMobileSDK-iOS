@@ -53,7 +53,11 @@
 
 #define __SALESFORCE_SDK_7_3_0 70300
 
-#define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_7_3_0
+#define __SALESFORCE_SDK_8_0_0 80000
+
+#define __SALESFORCE_SDK_8_1_0 80100
+
+#define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_8_1_0
 
 #define SALESFORCE_SDK_VERSION [NSString stringWithFormat:@"%d.%d.%d%@",              \
                                 (SALESFORCE_SDK_VERSION_MIN_REQUIRED / 10000),        \
@@ -103,9 +107,7 @@ _Pragma("clang diagnostic pop")
  * Must be a hard-coded string, as required by `os_log` functions.
  */
 #define sf_os_signpost_interval_begin(log, interval_id, name, ...) \
-if (@available(iOS 12.0, *)) { \
-    os_signpost_emit_with_type(log, OS_SIGNPOST_INTERVAL_BEGIN, interval_id, name, ##__VA_ARGS__); \
-}
+    os_signpost_emit_with_type(log, OS_SIGNPOST_INTERVAL_BEGIN, interval_id, name, ##__VA_ARGS__);
 
 
 /*!
@@ -129,15 +131,11 @@ if (@available(iOS 12.0, *)) { \
  * Additional information to include with this signpost. Must be a hard-coded string, as required by `os_log` functions.
  */
 #define sf_os_signpost_interval_end(log, interval_id, name, ...) \
-if (@available(iOS 12.0, *)) { \
-    os_signpost_emit_with_type(log, OS_SIGNPOST_INTERVAL_END, interval_id, name, ##__VA_ARGS__); \
-}
+    os_signpost_emit_with_type(log, OS_SIGNPOST_INTERVAL_END, interval_id, name, ##__VA_ARGS__);
 
 #define sf_os_signpost_id_generate(log) \
 ({ os_signpost_id_t sid = OS_SIGNPOST_ID_INVALID; \
-    if (@available(iOS 12.0, *)) { \
-        sid = os_signpost_id_generate(log); \
-    }\
+    sid = os_signpost_id_generate(log); \
     sid; \
 })
 

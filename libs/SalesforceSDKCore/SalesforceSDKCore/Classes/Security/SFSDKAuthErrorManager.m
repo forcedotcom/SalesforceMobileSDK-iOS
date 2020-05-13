@@ -30,11 +30,11 @@
 #import "SFSDKAuthErrorManager.h"
 #import "SFAuthErrorHandlerList.h"
 #import "SFAuthErrorHandler.h"
-#import "SFOAuthCoordinator.h"
-#include "SFOAuthInfo.h"
+#import "SFOAuthCoordinator+Internal.h"
 #include "SFSDKResourceUtils.h"
 #include "SFUserAccountManager.h"
 #include "SFSDKOAuth2.h"
+#include "SFSDKAuthSession.h"
 // Auth error handler name constants
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
@@ -69,11 +69,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Invalid credentials handler
     self.invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                initWithName:kSFInvalidCredentialsAuthErrorHandler
-                                               evalOptionsBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo, NSDictionary *options) {
+                                               authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession  *authSession, NSDictionary *options) {
                                                    __strong typeof(weakSelf) strongSelf = weakSelf;
                                                    if ([[strongSelf class] errorIsInvalidAuthCredentials:error]) {
                                                        if (self.invalidAuthCredentialsErrorHandlerBlock) {
-                                                           self.invalidAuthCredentialsErrorHandlerBlock(error, authInfo, options);
+                                                           self.invalidAuthCredentialsErrorHandlerBlock(error, authSession, options);
                                                            return YES;
                                                        }
                                                    }
@@ -85,10 +85,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     self.connectedAppVersionAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                 initWithName:kSFConnectedAppVersionAuthErrorHandler
-                                                evalOptionsBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo, NSDictionary *options) {
+                                                 authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession  *authSession, NSDictionary *options) {
                                                     if (error.code == kSFOAuthErrorWrongVersion) {
                                                         if (self.connectedAppVersionMismatchErrorHandlerBlock) {
-                                                            self.connectedAppVersionMismatchErrorHandlerBlock(error, authInfo, options);
+                                                            self.connectedAppVersionMismatchErrorHandlerBlock(error, authSession, options);
                                                             return YES;
                                                         }
                                                     }
@@ -97,19 +97,20 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [authHandlerList addAuthErrorHandler:self.connectedAppVersionAuthErrorHandler];
     
     // Network failure handler
-    self.networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
-                                           initWithName:kSFNetworkFailureAuthErrorHandler
-                                           evalOptionsBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo, NSDictionary *options) {
+    self.networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc] initWithName:kSFNetworkFailureAuthErrorHandler
+                                            authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession *authSession, NSDictionary *options) {
                                                BOOL result = NO;
                                                if ([[weakSelf class] errorIsNetworkFailure:error]) {
+                                                   SFOAuthCoordinator *coord = authSession.oauthCoordinator;
+                                                   SFOAuthInfo *authInfo = coord.authInfo;
                                                    if (authInfo.authType != SFOAuthTypeRefresh) {
                                                        [SFSDKCoreLogger e:[weakSelf class] format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", authInfo.authTypeDescription];
-                                                   } else if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken == nil) {
+                                                   } else if (authSession.credentials.accessToken == nil) {
                                                        [SFSDKCoreLogger w:[weakSelf class] format:@"Network unreachable for access token refresh, and no access token is configured.  Cannot continue."];
                                                    } else {
                                                        [SFSDKCoreLogger i:[weakSelf class]  format:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
                                                         if (self.networkErrorHandlerBlock) {
-                                                            self.networkErrorHandlerBlock(error, authInfo, options);
+                                                            self.networkErrorHandlerBlock(error, authSession, options);
                                                             result = YES;
                                                         }
                                                    }
@@ -119,12 +120,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [authHandlerList addAuthErrorHandler:self.networkFailureAuthErrorHandler];
     
     // Generic failure handler
-    self.hostConnectionErrorHandler = [[SFAuthErrorHandler alloc]
-                                    initWithName:kSFHostConnectionErrorHandler
-                                    evalOptionsBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo, NSDictionary *options) {
+    self.hostConnectionErrorHandler = [[SFAuthErrorHandler alloc] initWithName:kSFHostConnectionErrorHandler
+                                     authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession *authSession, NSDictionary *options) {
                                         if (error.userInfo[@"_kCFStreamErrorCodeKey"] && error.userInfo[@"_kCFStreamErrorDomainKey"] ) {
                                             if (self.hostConnectionErrorHandlerBlock) {
-                                                self.hostConnectionErrorHandlerBlock(error, authInfo, options);
+                                                self.hostConnectionErrorHandlerBlock(error, authSession, options);
                                                  return YES;
                                             }
                                         }
@@ -135,9 +135,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Generic failure handler
     self.genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                     initWithName:kSFGenericFailureAuthErrorHandler
-                                    evalOptionsBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo, NSDictionary *options) {
+                                    authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession *authSession, NSDictionary *options) {
                                         if (self.genericErrorHandlerBlock) {
-                                            self.genericErrorHandlerBlock(error, authInfo, options);
+                                            self.genericErrorHandlerBlock(error, authSession, options);
                                             return YES;
                                         }
                                         return NO;
@@ -146,14 +146,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return authHandlerList;
 }
 
-- (BOOL)processAuthError:(NSError *)error authInfo:(SFOAuthInfo *)info options:(NSDictionary *)options
-{
+- (BOOL)processAuthError:(NSError *)error authContext:(SFSDKAuthSession *)authSession options:(NSDictionary *)options {
     NSInteger i = 0;
     BOOL errorHandled = NO;
     NSArray *authHandlerArray = self.authErrorHandlerList.authHandlerArray;
     while (i < [authHandlerArray count] && !errorHandled) {
         SFAuthErrorHandler *currentHandler = (self.authErrorHandlerList.authHandlerArray)[i];
-        errorHandled = currentHandler.evalOptionsBlock(error, info,options);
+        errorHandled = currentHandler.authContextEvalBlock(error, authSession, options);
         i++;
     }
     return errorHandled;

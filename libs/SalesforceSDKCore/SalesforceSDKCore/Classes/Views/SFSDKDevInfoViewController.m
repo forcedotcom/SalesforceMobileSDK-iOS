@@ -29,7 +29,6 @@
 #import "UIColor+SFColors.h"
 
 // Nav bar
-static CGFloat      const kStatusBarHeight       = 20.0;
 static CGFloat      const kNavBarHeight          = 44.0;
 static CGFloat      const kNavBarTitleFontSize   = 18.0;
 // Resource keys
@@ -120,7 +119,6 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 - (UITableView*) createTableView
 {
     UITableView *infoTable = [[UITableView alloc] initWithFrame:CGRectZero];
-    infoTable.backgroundColor = [UIColor lightGrayColor];
     [infoTable setDataSource:self];
     [infoTable setDelegate:self];
     [self.view addSubview:infoTable];
@@ -160,7 +158,7 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 - (void) layoutNavBar
 {
     CGFloat x = 0;
-    CGFloat y = kStatusBarHeight;
+    CGFloat y = self.view.safeAreaInsets.top;
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = kNavBarHeight;
     self.navBar.frame = CGRectMake(x, y, w, h);

@@ -31,10 +31,9 @@
 #import "SFSDKLoginFlowSelectionView.h"
 NS_ASSUME_NONNULL_BEGIN
 
-
 @interface SFSDKLoginFlowSelectionViewController : UIViewController<SFSDKLoginFlowSelectionView>
 @property (weak,nonatomic) id <SFSDKLoginFlowSelectionViewDelegate> selectionFlowDelegate;
-@property (nonatomic,strong) NSDictionary *appOptions;
+@property (nonatomic,strong) NSMutableDictionary *appOptions;
 @end
 
 NS_ASSUME_NONNULL_END

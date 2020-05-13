@@ -15,7 +15,7 @@ shared/test/test_credentials.json
 /libs/SalesforceSDKCore/build/
 /libs/SalesforceAnalytics/build/
 /libs/SmartStore/build/
-/libs/SmartSync/build/
+/libs/MobileSync/build/
 /native/SampleApps/RestAPIExplorer/build/
 node_modules/
 .github/
@@ -23,3 +23,7 @@ node_modules/
 package-lock.json
 npm-debug.log
 index.ios.bundle*
+clangReport/
+test_output/
+.circleci/fastlane/README.md
+.circleci/fastlane/report.xml
