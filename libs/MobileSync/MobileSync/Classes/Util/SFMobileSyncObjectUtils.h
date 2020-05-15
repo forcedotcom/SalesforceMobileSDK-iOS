@@ -23,23 +23,14 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SFFormatUtils.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(ObjectUtils)
-@interface SFMobileSyncObjectUtils : NSObject
+@interface SFMobileSyncObjectUtils : SFFormatUtils
 
 + (nullable NSString *)formatValue:(nullable id)value;
-
-+ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate;
-
-+ (long long) getMillisFromIsoString:(NSString*) dateStr;
-
-+ (nullable NSString*) getIsoStringFromMillis:(long long) millis;
-
-+ (nullable NSDate *)getDateFromIsoDateString:(nullable NSString *)isoDateString;
-
-+ (NSString *)getIsoStringFromDate:(NSDate *)date;
 
 + (BOOL)isEmpty:(NSString *)value;
 
