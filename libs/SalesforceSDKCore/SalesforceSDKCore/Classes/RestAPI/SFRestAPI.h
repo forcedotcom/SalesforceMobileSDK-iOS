@@ -256,6 +256,8 @@ NS_SWIFT_NAME(RestClient)
  */
 - (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType apiVersion:(nullable NSString *)apiVersion SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use requestForLayoutWithObjectAPIName:objectAPIName:formFactor:layoutType:mode:recordTypeId:apiVersion instead.");
 
+- (SFRestRequest *)requestForPicklistWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType apiVersion:(nullable NSString *)apiVersion SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use requestForPicklistWithObjectAPIName:objectAPIName:formFactor:layoutType:mode:recordTypeId:apiVersion instead.");
+
 /**
  * Returns an `SFRestRequest` object that provides layout data for the specified parameters.
  * @param objectAPIName Object API name.
@@ -267,6 +269,8 @@ NS_SWIFT_NAME(RestClient)
  * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
  */
 - (SFRestRequest *)requestForLayoutWithObjectAPIName:(nonnull NSString *)objectAPIName formFactor:(nullable NSString *)formFactor layoutType:(nullable NSString *)layoutType mode:(nullable NSString *)mode recordTypeId:(nullable NSString *)recordTypeId apiVersion:(nullable NSString *)apiVersion;
+
+- (SFRestRequest *)requestForPicklistWithObjectAPIName:(nonnull NSString *)objectAPIName formFactor:(nullable NSString *)formFactor layoutType:(nullable NSString *)layoutType mode:(nullable NSString *)mode recordTypeId:(nullable NSString *)recordTypeId apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object that retrieves field values for the specified record of the given type.
