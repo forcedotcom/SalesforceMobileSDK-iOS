@@ -34,9 +34,7 @@
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <MobileSyncExplorerCommon/MobileSyncExplorerConfig.h>
-#import <SalesforceSDKCore/SFSDKNavigationController.h>
-#import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <UserNotifications/UserNotifications.h>
+#import <SalesforceSDKcore/SFSDKNavigationController.h>
 
 @interface AppDelegate () <SalesforceSDKManagerDelegate>
 
@@ -96,12 +94,6 @@
     // UIWindow.
     self.window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
-    
-    // If you wish to register for push notifications, uncomment the line below.  Note that,
-    // if you want to receive push notifications from Salesforce, you will also need to
-    // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
-//    [self registerForRemotePushNotifications];
-    
     __weak typeof (self) weakSelf = self;
     [SFSDKAuthHelper loginIfRequired:^{
         [weakSelf setupRootViewController];
@@ -109,33 +101,16 @@
     return YES;
 }
 
-- (void)registerForRemotePushNotifications {
-    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
-        if (granted) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-               [[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
-            });
-        } else {
-            [SFLogger d:[self class] format:@"Push notification authorization denied"];
-        }
-
-        if (error) {
-            [SFLogger e:[self class] format:@"Push notification authorization error: %@", error];
-        }
-    }];
-}
-
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+    //
     // Uncomment the code below to register your device token with the push notification manager
-//    [self didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-    if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
-        [[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
-    }
+    //
+    // [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    // if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
+    //     [[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+    // }
+    //
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error

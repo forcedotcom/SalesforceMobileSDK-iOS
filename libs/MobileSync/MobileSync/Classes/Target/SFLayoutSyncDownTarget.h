@@ -28,7 +28,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import "SFSyncDownTarget.h"
 
 /**
