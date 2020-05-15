@@ -2557,6 +2557,68 @@ static NSException *authException = nil;
     return s;
 }
 
+#pragma mark - Notification tests
 
+// TODO: Enable these when test org has v49.0
+- (void)disabled_testNotificationsStatus {
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotificationsStatus:@"v49.0"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+- (void)disabled_testGetNotifications {
+    SFSDKFetchNotificationsRequestBuilder *builder = [SFSDKFetchNotificationsRequestBuilder new];
+    NSDate *yesterdayDate = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24];
+    [builder setAfter:yesterdayDate];
+    [builder setSize:10];
+    SFRestRequest* request = [builder buildFetchNotificationsRequest:@"v49.0"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+- (void)disabled_testUpdateReadNotifications {
+    SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
+    [builder setBefore:[NSDate date]];
+    [builder setRead:NO];
+    SFRestRequest* request = [builder buildUpdateNotificationsRequest:@"v49.0"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+- (void)disabled_testUpdateSeenNotifications {
+    SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
+    [builder setBefore:[NSDate date]];
+    [builder setSeen:YES];
+    SFRestRequest* request = [builder buildUpdateNotificationsRequest:@"v49.0"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+- (void)testGetNotificationRequestPath {
+    NSString *notificationId = @"testID";
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotification:notificationId apiVersion:kSFRestDefaultAPIVersion];
+    NSString *expectedPath = [NSString stringWithFormat:@"/connect/notifications/%@", notificationId];
+    XCTAssert([request.path hasSuffix:expectedPath]);
+}
+
+- (void)testUpdateNotificationRequestPath {
+    SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
+    NSString *notificationId = @"testID";
+    [builder setNotificationId:notificationId];
+    SFRestRequest *request = [builder buildUpdateNotificationsRequest:kSFRestDefaultAPIVersion];
+    NSString *expectedPath = [NSString stringWithFormat:@"/connect/notifications/%@", notificationId];
+    XCTAssert([request.path hasSuffix:expectedPath]);
+}
+
+- (void)testUpdateNotificationsRequestContent {
+    SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
+    NSArray *notificationIds = @[@"testID1", @"testID2"];
+    [builder setNotificationIds:notificationIds];
+    SFRestRequest *request = [builder buildUpdateNotificationsRequest:kSFRestDefaultAPIVersion];
+    XCTAssert([request.path hasSuffix:@"/connect/notifications"]);
+    NSDictionary *requestBody = request.requestBodyAsDictionary;
+    NSString *requestNotificationIds = requestBody[@"notificationIds"];
+    XCTAssertEqualObjects(notificationIds, requestNotificationIds);
+}
 
 @end

@@ -24,20 +24,7 @@
 
 #import "SFMobileSyncObjectUtils.h"
 
-__strong static NSDateFormatter *utcDateFormatter;
-__strong static NSDateFormatter *isoDateFormatter;
-
 @implementation SFMobileSyncObjectUtils
-
-+ (void) initialize {
-    utcDateFormatter = [NSDateFormatter new];
-    isoDateFormatter = [NSDateFormatter new];
-    // See https://developer.apple.com/documentation/foundation/nsdateformatter and https://developer.apple.com/library/archive/qa/qa1480/_index.html
-    NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
-    [isoDateFormatter setLocale:enUSPOSIXLocale];
-    [isoDateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-}
 
 + (NSString *)formatValue:(id)value {
     if (nil == value) {
@@ -63,44 +50,6 @@ __strong static NSDateFormatter *isoDateFormatter;
         returnValue = (NSString *)[value performSelector:@selector(stringValue)];
     }
     return returnValue;
-}
-
-+ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate {
-    if (nil == localDate) {
-        return nil;
-    }
-    NSString *dateString = [utcDateFormatter stringFromDate:localDate];
-    return dateString;
-}
-
-+ (long long) getMillisFromIsoString:(NSString*) dateStr {
-    NSDate* date = [isoDateFormatter dateFromString:dateStr];
-    if (nil == date) {
-        return -1;
-    }
-    return (long long) (date.timeIntervalSince1970 * 1000.0);
-}
-
-+ (NSString*) getIsoStringFromMillis:(long long) millis {
-    if (millis < 0) {
-        return nil;
-    }
-    NSDate* date = [NSDate dateWithTimeIntervalSince1970:((double)millis)/1000.0];
-    return [isoDateFormatter stringFromDate:date];
-}
-
-+ (NSDate *)getDateFromIsoDateString:(NSString *)isoDateString {
-    if (isoDateString.length == 0) {
-        return nil;
-    }
-    
-    return [isoDateFormatter dateFromString:isoDateString];
-}
-
-+ (NSString *)getIsoStringFromDate:(NSDate *)date {
-    if (date == nil) return nil;
-    
-    return [isoDateFormatter stringFromDate:date];
 }
 
 + (BOOL)isEmpty:(NSString *)value {
