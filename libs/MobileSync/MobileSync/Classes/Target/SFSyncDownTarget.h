@@ -40,8 +40,7 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
   SFSyncDownTargetQueryTypeParentChildren,
   SFSyncDownTargetQueryTypeCustom,
   SFSyncDownTargetQueryTypeMetadata,
-  SFSyncDownTargetQueryTypeLayout,
-   SFSyncDownTargetQueryTypePicklist
+  SFSyncDownTargetQueryTypeLayout
 } NS_SWIFT_NAME(SyncDownTarget.QueryType);
 
 NS_SWIFT_NAME(SyncDownTarget)

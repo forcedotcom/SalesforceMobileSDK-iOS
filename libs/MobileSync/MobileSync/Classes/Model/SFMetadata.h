@@ -52,7 +52,6 @@ NS_SWIFT_NAME(Metadata)
 @property (nonatomic, strong, readonly, nullable) NSString *label;
 @property (nonatomic, strong, readonly, nullable) NSString *labelPlural;
 @property (nonatomic, readonly, assign) BOOL layoutable;
-@property (nonatomic, readonly, assign) BOOL picklistable;
 @property (nonatomic, readonly, assign) BOOL mergeable;
 @property (nonatomic, readonly, assign) BOOL mruEnabled;
 @property (nonatomic, strong, readonly, nonnull) NSString *name;
