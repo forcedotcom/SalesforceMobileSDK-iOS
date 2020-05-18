@@ -409,6 +409,48 @@ class RestClientTests: XCTestCase {
        XCTAssertTrue(resp4["statusCode"] as? Int == 200, "Request processing should have stopped on error")
    }
     
+    func testDecodableResponse() {
+        let expectation = XCTestExpectation(description: "decodableResponseTest")
+        let apiVersion = RestClient.shared.apiVersion
+
+        let query = "select Id from Account limit 5"
+        let request = RestClient.shared.request(forQuery: query, apiVersion: apiVersion)
+        
+        var response: RestResponse?
+        var restClientError: Error?
+
+        RestClient.shared.send(request: request) { result in
+            defer { expectation.fulfill() }
+            switch (result) {
+            case .success(let resp):
+                response = resp
+            case .failure(let error):
+                restClientError = error
+            }
+        }
+        self.wait(for: [expectation], timeout: 20)
+        XCTAssertNil(restClientError, "Error should not have occurred")
+        XCTAssertNotNil(response, "RestResponse should not be nil")
+
+        struct Response: Decodable {
+            struct Record: Decodable {
+                struct Attributes: Decodable {
+                    let type: String
+                    let url: String
+                }
+                
+                let attributes: Attributes
+                let Id: String
+            }
+            
+            let totalSize: Int
+            let done: Bool
+            let records: [Record]
+        }
+        
+        XCTAssertNoThrow(try response?.asDecodable(type: Response.self), "RestResponse should be decodable")
+    }
+
     private func generateRecordName() -> String {
         let timecode = Date.timeIntervalSinceReferenceDate
         return "SwiftTestsiOS\(timecode)"
