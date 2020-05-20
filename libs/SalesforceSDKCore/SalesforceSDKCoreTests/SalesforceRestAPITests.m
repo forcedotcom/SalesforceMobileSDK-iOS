@@ -2559,14 +2559,14 @@ static NSException *authException = nil;
 
 #pragma mark - Notification tests
 
-// TODO: Enable these when test org has v49.0
-- (void)disabled_testNotificationsStatus {
+- (void)testNotificationsStatus {
+    // TODO move notification tests to kSFRestDefaultAPIVersion when it's >= 49
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotificationsStatus:@"v49.0"];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
-- (void)disabled_testGetNotifications {
+- (void)testGetNotifications {
     SFSDKFetchNotificationsRequestBuilder *builder = [SFSDKFetchNotificationsRequestBuilder new];
     NSDate *yesterdayDate = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24];
     [builder setAfter:yesterdayDate];
@@ -2576,7 +2576,7 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
-- (void)disabled_testUpdateReadNotifications {
+- (void)testUpdateReadNotifications {
     SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
     [builder setBefore:[NSDate date]];
     [builder setRead:NO];
@@ -2585,7 +2585,7 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
-- (void)disabled_testUpdateSeenNotifications {
+- (void)testUpdateSeenNotifications {
     SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
     [builder setBefore:[NSDate date]];
     [builder setSeen:YES];
