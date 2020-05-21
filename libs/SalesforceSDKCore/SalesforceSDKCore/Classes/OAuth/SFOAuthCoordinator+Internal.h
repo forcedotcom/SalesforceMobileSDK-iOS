@@ -23,7 +23,7 @@
  */
 
 #import "SFOAuthCoordinator.h"
-
+#import "SFSDKAuthSession.h"
 @class SFOAuthInfo;
 
 typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
@@ -31,24 +31,29 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowRefresh,
     SFOAuthTokenEndpointFlowAdvancedBrowser
 };
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SFOAuthCoordinator ()
 
 @property (assign) BOOL authenticating;
-@property (nonatomic, strong, readonly) NSURLSession *session;
-@property (nonatomic, strong) NSMutableData *responseData;
+@property (nonatomic, strong, readonly, nullable) NSURLSession *session;
+@property (nonatomic, strong , nullable) NSMutableData *responseData;
 @property (nonatomic, assign) BOOL initialRequestLoaded;
 @property (nonatomic, copy) NSString *approvalCode;
-@property (nonatomic, strong) WKWebView *view;
-@property (nonatomic, strong) NSString *codeVerifier;
-@property (nonatomic, strong) SFOAuthInfo *authInfo;
+@property (nonatomic, strong, nullable) WKWebView *view;
+@property (nonatomic, strong, nullable) NSString *codeVerifier;
+@property (nonatomic, strong, nullable) SFOAuthInfo *authInfo;
 @property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState;
 @property (nonatomic, copy) NSString *origWebUserAgent;
-@property (nonatomic, strong) SFOAuthCredentials *spAppCredentials;
+@property (nonatomic, strong ,nullable) SFOAuthCredentials *spAppCredentials;
+@property (nonatomic, weak, nullable) SFSDKAuthSession *authSession;
+
+- (instancetype)initWithAuthSession:(SFSDKAuthSession *)authSession;
+
 /** UpdateCredentials and record changes to instanceUrl,accessToken,communityId
   @param params NV pairs received from token endpoint.
  */
-- (void) updateCredentials:(NSDictionary *) params;
+- (void)updateCredentials:(NSDictionary *) params;
 
 - (void)handleUserAgentResponse:(NSURL *)requestUrl;
 
@@ -66,6 +71,8 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
  */
 - (NSString *)generateApprovalUrlString;
 
+- (void)beginUserAgentFlow;
+
 @end
 
-
+NS_ASSUME_NONNULL_END

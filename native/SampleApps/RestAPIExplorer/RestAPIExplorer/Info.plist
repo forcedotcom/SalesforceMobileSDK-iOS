@@ -34,9 +34,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
-	<string>"Use FaceID"</string>
+	<string>&quot;Use FaceID&quot;</string>
 	<key>SFDCOAuthLoginHost</key>
-	<string>sdk.cs1.my.salesforce.com</string>
+	<string>mobilesdk.my.salesforce.com</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

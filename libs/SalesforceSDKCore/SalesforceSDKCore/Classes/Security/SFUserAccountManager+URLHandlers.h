@@ -27,6 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "SFUserAccountManager+Internal.h"
 
 @class SFSDKAuthRequestCommand;
 @class SFSDKAuthResponseCommand;
@@ -34,14 +35,6 @@
 @class SFSDKIDPInitCommand;
 
 @interface SFUserAccountManager (URLHandlers)
-/**
- Handle an advanced authentication response from the external browser, continuing any
- in-progress adavanced authentication flow.
- @param  url The URL response returned to the app from the external browser.
- @param  options Dictionary of name-value pairs received from open URL
- @return YES if this is request is handled, NO otherwise.
- */
-- (BOOL)handleNativeAuthResponse:(NSURL *_Nonnull)url options:(NSDictionary *_Nullable)options;
 
 /**
  Handle an error situation that occured in the IDP flow.
@@ -62,7 +55,7 @@
  @param request The  request from the SP APP.
  @return YES if this request is handled, NO otherwise.
  */
-- (BOOL)handleIdpRequest:(SFSDKAuthRequestCommand *_Nonnull)request;
+- (BOOL)handleAuthRequestFromSPApp:(SFSDKAuthRequestCommand *_Nonnull)request;
 
 /**
  Handle an IDP response received from an IDP APP.

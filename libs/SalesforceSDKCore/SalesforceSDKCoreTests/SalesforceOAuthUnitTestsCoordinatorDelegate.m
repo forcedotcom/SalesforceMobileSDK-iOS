@@ -39,15 +39,15 @@
     XCTFail(@"user agent authentication flow should not begin");
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(SFAuthenticationSession *)session {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session {
 
-    // SFAuthenticationSession auth flow is not supported in unit test framework.
-    XCTFail(@"SFAuthenticationSession auth flow is not supported in unit test framework");
+    // ASWebAuthenticationSession auth flow is not supported in unit test framework.
+    XCTFail(@"ASWebAuthenticationSession auth flow is not supported in unit test framework");
 }
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
 
-    // SFAuthenticationSession auth flow is not supported in unit test framework.
-    XCTFail(@"SFAuthenticationSession auth flow is not supported in unit test framework");
+    // ASWebAuthenticationSession auth flow is not supported in unit test framework.
+    XCTFail(@"ASWebAuthenticationSession auth flow is not supported in unit test framework");
 }
 
 @end

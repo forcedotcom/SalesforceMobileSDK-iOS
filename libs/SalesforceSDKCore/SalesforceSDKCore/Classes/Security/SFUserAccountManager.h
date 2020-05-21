@@ -77,6 +77,9 @@ FOUNDATION_EXTERN NSNotificationName kSFNotificationUserWillSwitch NS_SWIFT_NAME
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserDidSwitch NS_SWIFT_NAME(UserAccountManager.didSwitchUser);
 
+/** Notification sent after user switch. In swift access this constant using Notification.Name.didChangeLoginHost
+*/
+FOUNDATION_EXTERN NSNotificationName kSFNotificationDidChangeLoginHost  NS_SWIFT_NAME(UserAccountManager.didChangeLoginHost);
 /** Notification sent when all users of org have logged off. In swift access this constant using Notification.Name.SFUserAccountManagerDidLogoutOrg
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationOrgDidLogout NS_SWIFT_NAME(UserAccountManager.didLogoutOrg);
@@ -500,16 +503,12 @@ NS_SWIFT_NAME(UserAccountManager)
  @param userAccount The SFUserAccount to apply this change to.
  */
 - (void)setObjectForUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key andUser:(SFUserAccount *)userAccount NS_SWIFT_NAME(setCustomData(withObject:key:userAccount:));
-/**
- Switches away from the current user, to a new user context.
- */
-- (void)switchToNewUser NS_SWIFT_NAME(switchToNewUserAccount()) SFSDK_DEPRECATED(7.2, 8.0, "Use switchToNewUserWithCompletion instead.");
 
 /**
  Switches to a new user. Sets the current user only if the login succeeds. Completion block is
  invoked if the login flow completes, or if any errors are encountered during the flow.
  */
-- (void)switchToNewUserWithCompletion:(void (^)(NSError *, SFUserAccount *))completion NS_SWIFT_NAME(switchToNewUserAccount(_:));
+- (void)switchToNewUserWithCompletion:(void (^)(NSError * _Nullable, SFUserAccount * _Nullable))completion NS_REFINED_FOR_SWIFT;
 
 /**
  Switches away from the current user, to the given user account.
@@ -532,7 +531,7 @@ NS_SWIFT_NAME(UserAccountManager)
  in succession.
  */
 - (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
-                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(login(onSuccess:onFailure:));
+                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_REFINED_FOR_SWIFT;
 
 /**
  Kick off the refresh process for the specified credentials.
@@ -545,7 +544,7 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)credentials
                 completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
-                   failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(refresh(using:onSuccess:onFailure:));
+                   failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_REFINED_FOR_SWIFT;
 
 /**
  Login using the given JWT token to exchange with the service for credentials.
@@ -558,8 +557,13 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken
                completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
-                  failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(login(usingJWTToken:onSuccess:onFailure:));
+                  failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_REFINED_FOR_SWIFT;
 
+/**
+Use this method to stop/clear any authentication which is has already been started
+@param completionBlock The completion block is called with YES if a session was cleared successfully. 
+*/
+- (void)stopCurrentAuthentication:(nullable void (^)(BOOL))completionBlock;
 /**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
@@ -632,8 +636,6 @@ NS_SWIFT_NAME(UserAccountManager)
  @return SFBiometricUnlockState UserAllowed, UserDeclined, PromptUser or Unavalible.  
  */
 - (SFBiometricUnlockState)biometricUnlockState;
-
-- (void)setCurrentUser:(SFUserAccount * _Nullable)currentUser SFSDK_DEPRECATED(7.2, 8.0, "Use switchToUser or  switchToNewUserWithCompletion instead.");
 
 @end
 

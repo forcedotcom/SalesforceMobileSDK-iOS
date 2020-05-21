@@ -38,24 +38,30 @@
 + (void)loginIfRequired:(void (^)(void))completionBlock {
     if (![SFUserAccountManager sharedInstance].currentUser && [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate) {
         SFUserAccountManagerSuccessCallbackBlock successBlock = ^(SFOAuthInfo *authInfo,SFUserAccount *userAccount) {
-           completionBlock();
+            if (completionBlock) {
+                completionBlock();
+            }
         };
-        
         SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
             [SFSDKCoreLogger e:[self class] format:@"Authentication failed: %@.",[authError localizedDescription]];
-            
         };
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+        BOOL result = [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+        if (!result) {
+            [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:^(BOOL result) {
+                [[SFUserAccountManager sharedInstance] loginWithCompletion:successBlock failure:failureBlock];
+            }];
+        }
     } else {
         [self passcodeValidation:completionBlock];
     }
 }
 
 + (void) passcodeValidation:(void (^)(void))completionBlock  {
-    
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
         [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
-        completionBlock();
+        if (completionBlock) {
+            completionBlock();
+        }
     }];
     [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
         // Note: Failed passcode verification automatically logs out users, which the logout
@@ -80,35 +86,37 @@
         SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
             [[SFSDKWindowManager sharedManager].mainWindow.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
         }];
-        [[SFSDKWindowManager sharedManager].mainWindow.window.rootViewController  presentViewController:userSwitchVc animated:YES completion:NULL];
+        [[SFSDKWindowManager sharedManager].mainWindow.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
     } else {
         if ([allAccounts count] == 1) {
             [[SFUserAccountManager sharedInstance] switchToUser:([SFUserAccountManager sharedInstance].allUserAccounts)[0]];
-            completionBlock();
+            if (completionBlock) {
+                completionBlock();
+            }
         } else {
             [self loginIfRequired:completionBlock];
         }
     }
 }
 
-+(void)registerBlockForCurrentUserChangeNotifications:(void (^)(void))completionBlock {
++ (void)registerBlockForCurrentUserChangeNotifications:(void (^)(void))completionBlock {
     [self registerBlockForLogoutNotifications:completionBlock];
     [self registerBlockForSwitchUserNotifications:completionBlock];
 }
 
-+(void)registerBlockForLogoutNotifications:(void (^)(void))completionBlock {
++ (void)registerBlockForLogoutNotifications:(void (^)(void))completionBlock {
     __weak typeof (self) weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:kSFNotificationUserDidLogout  object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         [weakSelf handleLogout:completionBlock];
     }];
 }
 
-+(void)registerBlockForSwitchUserNotifications:(void (^)(void))completionBlock {
++ (void)registerBlockForSwitchUserNotifications:(void (^)(void))completionBlock {
     [[NSNotificationCenter defaultCenter] addObserverForName:kSFNotificationUserDidSwitch   object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * note) {
-        completionBlock();
-        
+        if (completionBlock) {
+            completionBlock();
+        }
     }];
 }
-
 
 @end

@@ -26,6 +26,10 @@
 #import "SFRestAPI+Internal.h"
 #import "SFRestAPI+Blocks.h"
 #import "SFRestAPI+Files.h"
+#import "SFSDKCompositeRequest.h"
+#import "SFSDKBatchRequest.h"
+#import "SFSDKBatchResponse+Internal.h"
+#import "SFSDKCompositeResponse+Internal.h"
 #import <objc/runtime.h>
 
 // Pattern demonstrated in the Apple documentation. We use a static key
@@ -60,6 +64,22 @@ static char CompleteBlockKey;
     objc_setAssociatedObject(request, &FailBlockKey, failBlock, OBJC_ASSOCIATION_COPY);
     objc_setAssociatedObject(request, &CompleteBlockKey, completeBlock, OBJC_ASSOCIATION_COPY);
     [self send:request delegate:self];
+}
+
+- (void) sendCompositeRESTRequest:(SFSDKCompositeRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestCompositeResponseBlock)completeBlock {
+    // Copy blocks into the request instance
+    [self sendRESTRequest:request failBlock:failBlock completeBlock:^(id response, NSURLResponse * rawResponse) {
+        SFSDKCompositeResponse *compositeResponse = [[SFSDKCompositeResponse alloc]initWith:response];
+        completeBlock(compositeResponse,rawResponse);
+    }];
+}
+
+- (void) sendBatchRESTRequest:(SFSDKBatchRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestBatchResponseBlock)completeBlock {
+    // Copy blocks into the request instance
+    [self sendRESTRequest:request failBlock:failBlock completeBlock:^(id response, NSURLResponse * rawResponse) {
+        SFSDKBatchResponse *compositeResponse = [[SFSDKBatchResponse alloc]initWith:response];
+        completeBlock(compositeResponse,rawResponse);
+    }];
 }
 
 #pragma mark - various request types

@@ -72,16 +72,6 @@
     return image;
 }
 
-+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath {
-    NSError *fileReadError = nil;
-    NSDictionary* jsonDict = [self loadConfigFromFile:configFilePath error:&fileReadError];
-    if (jsonDict == nil) {
-        [SFSDKCoreLogger i:[SFSDKCoreLogger class] format:@"Config at specified path '%@' could not be read: %@", configFilePath, fileReadError];
-        return nil;
-    }
-    return jsonDict;
-}
-
 + (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath error:(NSError**)error
 {
     NSString *fullPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:configFilePath];

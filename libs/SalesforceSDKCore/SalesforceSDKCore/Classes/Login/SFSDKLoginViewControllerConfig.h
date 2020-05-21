@@ -28,6 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFSDKViewControllerConfig.h"
 @protocol SFLoginViewControllerDelegate;
 @class SFLoginViewController;
 
@@ -37,21 +38,7 @@
 typedef SFLoginViewController * _Nonnull (^SFLoginViewControllerCreationBlock)(void) NS_SWIFT_NAME(LoginViewControllerCreationBlock);
 
 NS_SWIFT_NAME(SalesforceLoginViewControllerConfig)
-@interface SFSDKLoginViewControllerConfig : NSObject
-
-/** Specify the font to use for navigation bar header text.*/
-@property (nonatomic, strong, nullable) UIFont * navBarFont NS_SWIFT_NAME(navigationBarFont);
-
-/** Specify the text color to use for navigation bar header text. */
-@property (nonatomic, strong, nullable) UIColor * navBarTintColor  NS_SWIFT_NAME(navigationBarTintColor);
-
-/** Specify navigation bar color. This color will be used by the login view header.
- */
-@property (nonatomic, strong, nullable) UIColor *navBarColor NS_SWIFT_NAME(navigationBarColor);
-
-/** Specify navigation bar title color. This color will be used by the login view header.
- */
-@property (nonatomic, strong, nullable) UIColor *navBarTitleColor NS_SWIFT_NAME(navigationTitleColor);
+@interface SFSDKLoginViewControllerConfig : SFSDKViewControllerConfig
 
 /** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
 @property (nonatomic) BOOL showNavbar NS_SWIFT_NAME(showsNavigationBar);

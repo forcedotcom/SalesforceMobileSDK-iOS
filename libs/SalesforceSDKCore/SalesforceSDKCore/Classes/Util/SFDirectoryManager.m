@@ -207,15 +207,12 @@ static NSString * const kFilesSharedKey = @"filesShared";
     if (directories.count > 0) {
         docDirectory = [directories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
     }
-    
-    NSURL *sharedURL = [fileManager containerURLForSecurityApplicationGroupIdentifier:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-    NSString *sharedDirectory = [sharedURL path];
-    sharedDirectory = [sharedDirectory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+
     if (libDirectories.count > 0) {
         libDirectory = [libDirectories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
     }
     
-    if( isGroupAccessEnabled || filesShared ) {
+    if (isGroupAccessEnabled || filesShared) {
         NSURL *sharedURL = [fileManager containerURLForSecurityApplicationGroupIdentifier:[SFSDKDatasharingHelper sharedInstance].appGroupName];
         NSString *sharedDirectory = [sharedURL path];
         NSString *sharedLibDirectory = nil;

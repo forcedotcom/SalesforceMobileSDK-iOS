@@ -47,8 +47,8 @@
 #define kTestSmartStoreName  @"testSmartStore"
 #define kTestSoupName        @"testSoup"
 
-@interface SFSmartStoreTests ()
-
+@interface SFSmartStore (Tests)
++ (void)setJsonSerializationCheckEnabled:(BOOL)jsonSerializationCheckEnabled;
 @end
 
 @implementation SFSmartStoreTests
@@ -1389,6 +1389,123 @@
     
     NSString *outputText = [SFSmartStore stringFromInputStream:is];
     XCTAssertEqualObjects(text, outputText);
+}
+
+/**
+ Test running a valid query with SFStoreCursor
+ NB: there are many more tests in SalesforceMobileSDK-iOS-Hybrid exercising SFStoreCursor
+ */
+- (void)testValidQueryWithStoreCursor {
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Register
+        NSDictionary* soupIndex = @{@"path": @"key",@"type": @"string"};
+        [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:nil];
+        
+        // Populate soup
+        NSDictionary* soupElt0 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt1 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt2 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
+
+        [store upsertEntries:@[soupElt0, soupElt1, soupElt2] toSoup:kTestSoupName];
+        
+        // Query spec
+        SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2];
+        
+        // Run query with cursor
+        NSError* error;
+        SFStoreCursor* cursor = [[SFStoreCursor alloc] initWithStore:store querySpec:querySpec];
+        NSDictionary* serializedCursorDeserialized = [SFJsonUtils objectFromJSONString:[cursor getDataSerialized:store error:&error]];
+        XCTAssertNil(error, @"No error expected");
+        NSDictionary* cursorDeserialized = [cursor getDataDeserialized:store error:&error];
+        XCTAssertNil(error, @"No error expected");
+        
+        // Check cursor
+        XCTAssertEqualObjects(cursor.pageSize, @2, @"Wrong page size");
+        XCTAssertEqualObjects(cursor.currentPageIndex, @0, @"Wrong page index");
+        XCTAssertEqualObjects(cursor.totalPages, @2, @"Wrong total pages count");
+        XCTAssertEqualObjects(cursor.totalEntries, @3, @"Wrong total entries count");
+
+        // Check serialized cursor
+        XCTAssertEqualObjects(serializedCursorDeserialized[@"pageSize"], @2, @"Wrong page size");
+        XCTAssertEqualObjects(serializedCursorDeserialized[@"currentPageIndex"], @0, @"Wrong page index");
+        XCTAssertEqualObjects(serializedCursorDeserialized[@"totalPages"], @2, @"Wrong total pages count");
+        XCTAssertEqualObjects(serializedCursorDeserialized[@"totalEntries"], @3, @"Wrong total entries count");
+        NSArray* currentPageOrderedEntries = serializedCursorDeserialized[@"currentPageOrderedEntries"];
+        XCTAssertEqual(currentPageOrderedEntries.count, 2, "Wrong entries count in page");
+        XCTAssertEqualObjects(currentPageOrderedEntries[0][@"key"], @"ka1", "Wrong first entry");
+        XCTAssertEqualObjects(currentPageOrderedEntries[1][@"key"], @"ka2", "Wrong second entry");
+        
+        // Check deserialized cursor
+        XCTAssertEqualObjects(cursorDeserialized[@"pageSize"], @2, @"Wrong page size");
+        XCTAssertEqualObjects(cursorDeserialized[@"currentPageIndex"], @0, @"Wrong page index");
+        XCTAssertEqualObjects(cursorDeserialized[@"totalPages"], @2, @"Wrong total pages count");
+        XCTAssertEqualObjects(cursorDeserialized[@"totalEntries"], @3, @"Wrong total entries count");
+        currentPageOrderedEntries = cursorDeserialized[@"currentPageOrderedEntries"];
+        XCTAssertEqual(currentPageOrderedEntries.count, 2, "Wrong entries count in page");
+        XCTAssertEqualObjects(currentPageOrderedEntries[0][@"key"], @"ka1", "Wrong first entry");
+        XCTAssertEqualObjects(currentPageOrderedEntries[1][@"key"], @"ka2", "Wrong second entry");
+    }
+}
+
+/**
+Test running an invalid query with SFStoreCursor
+NB: there are many more tests in SalesforceMobileSDK-iOS-Hybrid exercising StoreCursor
+*/
+- (void)testInvalidQueryWithStoreCursor {
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Make sure soup does NOT exist
+        XCTAssertFalse([store soupExists:kTestSoupName]);
+        
+        // Query spec
+        SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2];
+        
+        NSError* error;
+        SFStoreCursor* cursor = [[SFStoreCursor alloc] initWithStore:store querySpec:querySpec];
+
+        // Run query by getting serialized data from cursor
+        NSString* serializedCursor = [SFJsonUtils objectFromJSONString:[cursor getDataSerialized:store error:&error]];
+        XCTAssertNotNil(error, @"Error expected");
+        XCTAssertNil(serializedCursor, @"Serialized cursor should be nil");
+
+        // Run query by getting deserialized data from cursor
+        NSDictionary* deserializedCursor = [cursor getDataDeserialized:store error:&error];
+        XCTAssertNotNil(error, @"Error expected");
+        XCTAssertNil(deserializedCursor, @"Deserialized cursor should be nil");
+
+    }
+}
+
+/**
+Test running an invalid query with SFStoreCursor while JSON check are on
+Make sure we do NOT get a notification for a JSON parsing error
+*/
+- (void)testInvalidQueryWithStoreCursorWithRawJsonCheckOn {
+    [SFSmartStore setJsonSerializationCheckEnabled:YES];
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Make sure soup does NOT exist
+        XCTAssertFalse([store soupExists:kTestSoupName]);
+        
+        // Query spec
+        SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2];
+        
+        // Setup notification observer
+        XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"JSON parse error notification"];
+        expectation.inverted = YES; // not supposed to be fulfilled
+        [[NSNotificationCenter defaultCenter] addObserverForName:kSFSmartStoreJSONParseErrorNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+            [expectation fulfill];
+        }];
+        
+        // Run query with cursor
+        NSError* error;
+        SFStoreCursor* cursor = [[SFStoreCursor alloc] initWithStore:store querySpec:querySpec];
+        NSString* serializedCursor = [SFJsonUtils objectFromJSONString:[cursor getDataSerialized:store error:&error]];
+        XCTAssertNotNil(error, @"Error expected");
+        XCTAssertNil(serializedCursor, @"Serialized cursor should be nil");
+        
+        // Wait for notification (timeout expected)
+        [self waitForExpectations:@[expectation] timeout:1];
+    }
+    [SFSmartStore setJsonSerializationCheckEnabled:NO];
 }
 
 #pragma mark - helper methods

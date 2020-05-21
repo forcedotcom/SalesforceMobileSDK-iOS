@@ -35,17 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSData *)keyBaseAppIdForService:(NSString*)service;
 - (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service;
 - (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service;
-- (nullable NSString *)refreshTokenWithKey:(NSData *)key;
 - (nullable NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
 - (void)setRefreshToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
-- (nullable NSString *)accessTokenWithKey:(NSData *)key;
 - (nullable NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
 - (void)setAccessToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
-- (void)updateTokenEncryption;
-
-// These are only for unit tests of legacy functionality.  Do not use in app code!
-- (void)setAccessToken:(NSString *)token withKey:(NSData *)key;
-- (void)setRefreshToken:(NSString *)token withKey:(NSData *)key;
 
 @end
 
