@@ -51,6 +51,10 @@ __strong static NSDateFormatter *isoDateFormatter;
 }
 
 + (long long)getMillisFromIsoString:(NSString *)dateStr {
+    if (![dateStr isKindOfClass:[NSString class]]) {
+        return -1;
+    }
+
     NSDate* date = [isoDateFormatter dateFromString:dateStr];
     if (nil == date) {
         return -1;
@@ -67,7 +71,7 @@ __strong static NSDateFormatter *isoDateFormatter;
 }
 
 + (NSDate *)getDateFromIsoDateString:(NSString *)isoDateString {
-    if (isoDateString.length == 0) {
+    if (![isoDateString isKindOfClass:[NSString class]] || isoDateString.length == 0) {
         return nil;
     }
     
