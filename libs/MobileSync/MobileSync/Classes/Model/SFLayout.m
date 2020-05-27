@@ -182,7 +182,8 @@ static NSString * const kSFSortable = @"sortable";
         item.label = data[kSFLabel];
         item.layoutComponents = data[kSFLayoutComponents];
         item.lookupIdApiName = data[kSFLookupIdApiName];
-        item.required = data[kSFRequired];
+        //        item.required = data[kSFRequired];
+        item.required = [[data valueForKey:kSFRequired] boolValue]
         item.sortable = data[kSFSortable];
     }
     return item;
