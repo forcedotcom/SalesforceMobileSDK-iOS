@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'SmartStore' do |smartstore|
 
-      smartstore.dependency 'SalesforceSDKCore'
+      smartstore.dependency 'SalesforceSDKCore', "~>#{s.version}"
       smartstore.dependency 'FMDB/SQLCipher', '~> 2.7.5'
       smartstore.dependency 'SQLCipher/fts', '~> 4.3.0'
       smartstore.source_files = 'libs/SmartStore/SmartStore/Classes/**/*.{h,m,swift}', 'libs/SmartStore/SmartStore/SmartStore.h'
