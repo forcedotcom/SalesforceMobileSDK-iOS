@@ -26,6 +26,7 @@
 #import "SFIdentityData.h"
 #import "SFDefaultUserAccountPersister.h"
 #import "SFDirectoryManager.h"
+#import "SFDirectoryManager+Internal.h"
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
 #import <SalesforceSDKCommon/SFFileProtectionHelper.h>
@@ -33,12 +34,6 @@
 
 // Name of the individual file containing the archived SFUserAccount class
 static NSString * const kUserAccountPlistFileName = @"UserAccount.plist";
-
-// Prefix of an org ID
-static NSString * const kOrgPrefix = @"00D";
-
-// Prefix of a user ID
-static NSString * const kUserPrefix = @"005";
 
 // Label for encryption key for user account persistence.
 static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAccount.encryptionKey";

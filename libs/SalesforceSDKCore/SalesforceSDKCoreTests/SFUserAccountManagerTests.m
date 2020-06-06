@@ -420,14 +420,14 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     
 }
 
-- (void)testEntityId15 {
+- (void)testEntityId {
     NSString *userId = @"ABCDE12345ABCDE".entityId18;
     SFUserAccountIdentity *identity = [[SFUserAccountIdentity alloc] initWithUserId:userId  orgId:@"ABCDE12345ABCDE"];
     XCTAssertNotNil(identity);
     XCTAssertTrue(userId.length == 18,@"EntityId18 should not be nil");
     XCTAssertNotNil(identity.userId,@"userId should not be nil");
     XCTAssertNotNil(identity.orgId,@"orgId should not be nil");
-    XCTAssertTrue(identity.userId.length == 15 ,@"userId should be set to EntityId 15 format");
+    XCTAssertTrue(identity.userId.length == 18, @"userId should be set to EntityId 18 format");
 }
 
 - (void)testAuthHandler {

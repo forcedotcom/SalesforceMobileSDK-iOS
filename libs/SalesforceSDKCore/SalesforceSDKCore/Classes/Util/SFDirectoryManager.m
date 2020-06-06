@@ -23,8 +23,10 @@
  */
 
 #import "SFDirectoryManager.h"
+#import "SFDirectoryManager+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
+#import "NSString+SFAdditions.h"
 #import <SalesforceSDKCommon/SFFileProtectionHelper.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 
@@ -233,6 +235,47 @@ static NSString * const kFilesSharedKey = @"filesShared";
     }
     
     [sharedDefaults synchronize];
+}
+
++ (void)upgradeUserDirectories {
+    [SFDirectoryManager upgradeUserDirectory:NSLibraryDirectory];
+    [SFDirectoryManager upgradeUserDirectory:NSDocumentDirectory];
+}
+
++ (void)upgradeUserDirectory:(NSSearchPathDirectory)type {
+    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:type components:nil];
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSError *error = nil;
+
+    if ([fm fileExistsAtPath:rootDirectory]) {
+        NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:&error];
+        if (error) {
+            [SFSDKCoreLogger d:[self class] format:@"Error retreiving contents of %@: %@", rootDirectory, error];
+        }
+
+        for (NSString *rootContent in rootContents) {
+            if (![rootContent hasPrefix:kOrgPrefix]) {
+                continue;
+            }
+            NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
+            NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:&error];
+            if (error) {
+                [SFSDKCoreLogger d:[self class] format:@"Error retreiving contents of %@: %@", rootPath, error];
+            }
+
+            for (NSString *orgContent in orgContents) {
+                if ([orgContent hasPrefix:kUserPrefix] && [orgContent length] == 15) {
+                    NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
+                    NSString *newDirectory = [orgContent entityId18];
+                    NSString *newPath = [rootPath stringByAppendingPathComponent:newDirectory];
+                    [fm moveItemAtPath:orgPath toPath:newPath error:&error];
+                    if (error) {
+                        [SFSDKCoreLogger e:[self class] format:@"Error moving %@ to %@: %@", orgPath, newPath, error];
+                    }
+                }
+            }
+        }
+    }
 }
 
 @end
