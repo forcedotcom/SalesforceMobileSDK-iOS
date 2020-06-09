@@ -11,13 +11,13 @@
 		4FADBCB51BA0CEDA00D01855 /* ImagesMobileSyncExplorer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FADBCB41BA0CEDA00D01855 /* ImagesMobileSyncExplorer.xcassets */; };
 		4FCA4A9D1FBE61C300F081B3 /* usersyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FCA4A9C1FBE61C300F081B3 /* usersyncs.json */; };
 		4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */; };
+		6931EAD92490097D00417362 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6931EAD82490097D00417362 /* CoreServices.framework */; };
 		820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B0D19E6054E00E9BE5C /* AppDelegate.m */; };
 		820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B1019E6059400E9BE5C /* InitialViewController.m */; };
 		820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1E19E6081C00E9BE5C /* ImageIO.framework */; };
 		820C8B2319E6088400E9BE5C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2219E6088400E9BE5C /* MessageUI.framework */; };
 		820C8B2719E6091100E9BE5C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */; };
 		820C8B3219E60BDE00E9BE5C /* ContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B3119E60BDE00E9BE5C /* ContactListViewController.m */; };
-		8258804B1AA4222A000C551E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8258804A1AA4222A000C551E /* MobileCoreServices.framework */; };
 		827C631519E6018C00027484 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631419E6018C00027484 /* Foundation.framework */; };
 		827C631719E6018C00027484 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631619E6018C00027484 /* CoreGraphics.framework */; };
 		827C631919E6018C00027484 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631819E6018C00027484 /* UIKit.framework */; };
@@ -285,6 +285,7 @@
 		4FCA4A9C1FBE61C300F081B3 /* usersyncs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = usersyncs.json; sourceTree = "<group>"; };
 		4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionsPopupController.m; sourceTree = "<group>"; };
 		4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsPopupController.h; sourceTree = "<group>"; };
+		6931EAD82490097D00417362 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		820C8B0C19E6054E00E9BE5C /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		820C8B0D19E6054E00E9BE5C /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		820C8B0F19E6059400E9BE5C /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
@@ -294,7 +295,6 @@
 		820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		820C8B3019E60BDE00E9BE5C /* ContactListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListViewController.h; sourceTree = "<group>"; };
 		820C8B3119E60BDE00E9BE5C /* ContactListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactListViewController.m; sourceTree = "<group>"; };
-		8258804A1AA4222A000C551E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		827C631119E6018C00027484 /* MobileSyncExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileSyncExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827C631419E6018C00027484 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		827C631619E6018C00027484 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -353,8 +353,8 @@
 				827C631719E6018C00027484 /* CoreGraphics.framework in Frameworks */,
 				820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */,
 				82D0AC061C49A7BE0081F833 /* SalesforceSDKCore.framework in Frameworks */,
+				6931EAD92490097D00417362 /* CoreServices.framework in Frameworks */,
 				820C8B2319E6088400E9BE5C /* MessageUI.framework in Frameworks */,
-				8258804B1AA4222A000C551E /* MobileCoreServices.framework in Frameworks */,
 				82D0AC161C49A8120081F833 /* MobileSync.framework in Frameworks */,
 				B7A134371D99D52600A4559C /* MobileSyncExplorerCommon.framework in Frameworks */,
 				A3D23092219749D4009F433D /* SalesforceSDKCommon.framework in Frameworks */,
@@ -445,7 +445,7 @@
 				82D0AB921C49A6FB0081F833 /* SmartStore.xcodeproj */,
 				82D0ABBB1C49A7540081F833 /* SalesforceSDKCore.xcodeproj */,
 				CE6AB39A1C10C4F50012125E /* libz.tbd */,
-				8258804A1AA4222A000C551E /* MobileCoreServices.framework */,
+				6931EAD82490097D00417362 /* CoreServices.framework */,
 				827C631419E6018C00027484 /* Foundation.framework */,
 				820C8B1E19E6081C00E9BE5C /* ImageIO.framework */,
 				820C8B2219E6088400E9BE5C /* MessageUI.framework */,
