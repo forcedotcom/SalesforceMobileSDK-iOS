@@ -37,6 +37,7 @@ static NSString * const kUserPrefix = @"005";
 
 // Starting in SDK 8.2, 18 character IDs are used instead of 15 character IDs.
 // This renames 15 character user ID directories to 18 characters.
+// TODO: Remove in Mobile SDK 10.0
 + (void)upgradeUserDirectories;
 
 @end
