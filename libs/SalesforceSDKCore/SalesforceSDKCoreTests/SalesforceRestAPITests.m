@@ -1559,7 +1559,7 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     XCTAssertEqual((int)[listener.dataResponse[@"shares"] count], 1, @"expected one share");
-    XCTAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][LID] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
+    XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"entity"][LID], _currentUser.credentials.userId, @"expected share with current user");
     XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
 
     // get count files shared with other user
@@ -1581,16 +1581,15 @@ static NSException *authException = nil;
     NSMutableDictionary* actualUserIdToType = [NSMutableDictionary new];
     for (int i=0; i < [listener.dataResponse[@"shares"] count]; i++) {
         NSDictionary* share = listener.dataResponse[@"shares"][i];
-        NSString* shareEntityId = [(NSString*) share[@"entity"][LID] substringToIndex:15];
+        NSString* shareEntityId = share[@"entity"][LID];
         NSString* shareType = share[@"sharingType"];
         actualUserIdToType[shareEntityId] = shareType;
     }
-    NSString* otherUserId15 = [otherUserId substringToIndex:15];
     XCTAssertEqual([actualUserIdToType count], 2, @"expected two shares");
     XCTAssertTrue([[actualUserIdToType allKeys] containsObject:_currentUser.credentials.userId], @"expected share with current user");
     XCTAssertEqualObjects(actualUserIdToType[_currentUser.credentials.userId], @"I", @"wrong sharing type for current user");
-    XCTAssertTrue([[actualUserIdToType allKeys] containsObject:otherUserId15], @"expected shared with other user");
-    XCTAssertEqualObjects(actualUserIdToType[otherUserId15], @"V", @"wrong sharing type for other user");
+    XCTAssertTrue([[actualUserIdToType allKeys] containsObject:otherUserId], @"expected shared with other user");
+    XCTAssertEqualObjects(actualUserIdToType[otherUserId], @"V", @"wrong sharing type for other user");
     
     // get count files shared with other user
     request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:otherUserId page:0 apiVersion:kSFRestDefaultAPIVersion];
@@ -1608,7 +1607,7 @@ static NSException *authException = nil;
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     XCTAssertEqual((int)[listener.dataResponse[@"shares"] count], 1, @"expected one share");
-    XCTAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][LID] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
+    XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"entity"][LID], _currentUser.credentials.userId, @"expected share with current user");
     XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
     
     // get count files shared with other user
@@ -2526,7 +2525,7 @@ static NSException *authException = nil;
     SFOAuthCredentials *credentials = [TestSetupUtils newClientCredentials];
     SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:credentials];
     [account transitionToLoginState:SFUserAccountLoginStateLoggedIn];
-    NSString *userId = [self generateRandomId:15];
+    NSString *userId = [self generateRandomId:18];
     NSString *orgId = [self generateRandomId:18];
     account.credentials.userId = userId;
     account.credentials.organizationId = orgId;

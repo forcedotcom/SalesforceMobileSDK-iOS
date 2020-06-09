@@ -38,6 +38,7 @@
 #import "SFSDKEncryptedURLCache.h"
 #import "SFSDKNullURLCache.h"
 #import "UIColor+SFColors.h"
+#import "SFDirectoryManager+Internal.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -239,6 +240,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
         [self setupServiceConfiguration];
+        [SFDirectoryManager upgradeUserDirectories];
     }
     return self;
 }
