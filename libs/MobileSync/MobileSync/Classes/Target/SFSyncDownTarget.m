@@ -124,6 +124,11 @@ ABSTRACT_METHOD
     // Fetches list of IDs present in local soup that have not been modified locally.
     NSMutableOrderedSet *localIds = [NSMutableOrderedSet orderedSetWithOrderedSet:[self getNonDirtyRecordIds:syncManager soupName:soupName idField:self.idFieldName additionalPredicate:[self buildSyncIdPredicateIfIndexed:syncManager soupName:soupName syncId:syncId]]];
 
+    if (localIds.count == 0) {
+        completeBlock(@[]);
+        return;
+    }
+
     // Fetches list of IDs still present on the server from the list of local IDs
     // and removes the list of IDs that are still present on the server.
     NSArray *localIdsArr = [localIds array];
