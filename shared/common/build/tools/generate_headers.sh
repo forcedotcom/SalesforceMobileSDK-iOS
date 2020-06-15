@@ -127,6 +127,10 @@ for file in $(find $wrapper_directory -type f); do
     if [[ $filename == $wrapper_filename ]]; then
         continue;
     fi
+    # The Swift header imports the umbrella header, skip the Swift header here to avoid circular dependency
+    if [[ $filename == "$OPT_NAME-Swift.h" ]]; then
+        continue;
+    fi
     import_line=`echo "#import <$OPT_NAME/$filename>"`
     updated_imports=`echo "${updated_imports}${import_line}"`
     echo "$import_line" >> $OPT_TEMP
