@@ -249,10 +249,10 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     NSString* parentId = record[self.idFieldName];
     SFRestRequest* lastModRequest = [self getRequestForTimestamps:parentId];
     [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:lastModRequest
-                                                     failBlock:^(NSError *error, NSURLResponse *rawResponse) {
+                                                     failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
                                                          completionBlock(nil);
                                                      }
-                                                 completeBlock:^(id lastModResponse, NSURLResponse *rawResponse) {
+                                                 successBlock:^(id lastModResponse, NSURLResponse *rawResponse) {
                                                      NSMutableDictionary<NSString *, NSString *> * idToRemoteTimestamps = nil;
                                                      id rows = lastModResponse[kResponseRecords];
                                                      if (rows && rows != [NSNull null] && [rows count] > 0) {
