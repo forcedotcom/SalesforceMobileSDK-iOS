@@ -61,7 +61,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString * const kAccessToken   = @"howAboutaNice";
     NSString * const kRefreshToken  = @"hawaiianPunch";
     NSString * const kUserId12      = @"00530000004c";          // 12 characters   00530000004cwSi
-    NSString * const kUserId15      = @"00530000004cwSi";       // 15 characters
     NSString * const kUserId18      = @"00530000004cwSi123";    // 18 characters
 
     NSString * identifier       = kIdentifier;
