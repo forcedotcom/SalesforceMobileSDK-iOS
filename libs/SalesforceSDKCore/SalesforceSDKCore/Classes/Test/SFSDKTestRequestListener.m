@@ -25,11 +25,10 @@
 #import "SFSDKTestRequestListener.h"
 #import "TestSetupUtils.h"
 #import "SFUserAccountManager.h"
+
 NSString* const kTestRequestStatusWaiting = @"waiting";
 NSString* const kTestRequestStatusDidLoad = @"didLoad";
 NSString* const kTestRequestStatusDidFail = @"didFail";
-NSString* const kTestRequestStatusDidCancel = @"didCancel";
-NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 @interface SFSDKTestRequestListener ()
 @end
@@ -39,7 +38,6 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 @synthesize dataResponse = _dataResponse;
 @synthesize lastError = _lastError;
 @synthesize returnStatus = _returnStatus;
-
 @synthesize maxWaitTime = _maxWaitTime;
 
 - (id)init
@@ -49,7 +47,6 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
         self.maxWaitTime = 30.0;
         self.returnStatus = kTestRequestStatusWaiting;
     }
-    
     return self;
 }
 
@@ -59,21 +56,16 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     self.returnStatus = nil;
 }
 
-
 - (NSString *)waitForCompletion {
-    
     NSDate *startTime = [NSDate date] ;
-        
     while ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > self.maxWaitTime) {
             [SFSDKCoreLogger d:[self class] format:@"Request took too long (> %f secs) to complete.", elapsed];
             return kTestRequestStatusDidTimeout;
         }
-        
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
-    
     return self.returnStatus;
 }
 
@@ -114,10 +106,12 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
     NSAssert(NO, @"User Agent flow not supported in this class.");
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session
+{
     NSAssert(NO, @"Web Server flow not supported in this class.");
 }
-- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
+- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator
+{
     NSAssert(NO, @"Web Server flow not supported in this class.");
 }
 
@@ -135,4 +129,3 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 }
 
 @end
-

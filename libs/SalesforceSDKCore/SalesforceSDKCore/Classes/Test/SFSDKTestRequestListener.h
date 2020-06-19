@@ -33,8 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString* const kTestRequestStatusWaiting;
 extern NSString* const kTestRequestStatusDidLoad;
 extern NSString* const kTestRequestStatusDidFail;
-extern NSString* const kTestRequestStatusDidCancel;
-extern NSString* const kTestRequestStatusDidTimeout;
 
 typedef NS_ENUM(NSUInteger, SFAccountManagerServiceType) {
     SFAccountManagerServiceTypeNone = 0,
