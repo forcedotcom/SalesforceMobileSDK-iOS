@@ -232,7 +232,7 @@ static char CompleteBlockKey;
 #pragma mark - response delegate
 
 - (void) sendActionForRequest:(SFRestRequest *)request success:(BOOL)success withObject:(id)object rawResponse:(NSURLResponse* )rawResponse {
-    if( success ) {
+    if (success) {
         // This block def basically generalizes the SFRestDictionaryResponseBlock and SFRestArrayResponseBlock
         // block typedefs, so that we can handle either.
         void (^successBlock)(id, NSURLResponse*);

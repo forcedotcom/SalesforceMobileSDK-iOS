@@ -53,88 +53,10 @@ extern NSString* const kSFRestDefaultAPIVersion NS_SWIFT_NAME(SFRestDefaultAPIVe
 extern NSString* const kSFRestIfUnmodifiedSince NS_SWIFT_NAME(SFRestIfUnmodifiedSince);
 
 /**
- Main class used to issue REST requests to the standard Force.com REST API.
- 
- See the [Force.com REST API Developer's Guide](http://www.salesforce.com/us/developer/docs/api_rest/index.htm)
- for more information regarding the Force.com REST API.
-
- ## Initialization
- 
- This class is a singleton, and can be accessed by referencing [SFRestAPI sharedInstance].  It relies
- upon the shared credentials managed by SFAccountManager, for forming up and sending authenticated
- REST requests.
- 
- ## Sending requests
-
- Sending a request is done using `send:delegate:`.
- The class sending the request has to conform to the protocol `SFRestDelegate`.
- 
- A request can be obtained in two different ways:
-
- - by calling the appropriate `requestFor[...]` method
-
- - by building the `SFRestRequest` manually
- 
- Note: If you opt to build an SFRestRequest manually, you should be aware that
- send:delegate: expects that if the request.path does not begin with the
- request.endpoint prefix, it will add the request.endpoint prefix 
- (kSFDefaultRestEndpoint by default) to the request path.
-  
- For example, this sample code calls the `requestForDescribeWithObjectType:` method to return
- information about the Account object.
-
-    - (void)describeAccount {
-        SFRestRequest *request = [[SFRestAPI sharedInstance]
-                                  requestForDescribeWithObjectType:@"Account"];
-        [[SFRestAPI sharedInstance] send:request delegate:self];
-    }
- 
-    #pragma mark - SFRestDelegate
- 
-    - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
-        NSDictionary *dict = (NSDictionary *)dataResponse;
-        NSArray *fields = (NSArray *)[dict objectForKey:@"fields"];
-        // ...
-    }
- 
-    - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
-        // handle error
-    }
- 
-    - (void)requestDidCancelLoad:(SFRestRequest *)request {
-        // handle error
-    }
-
-    - (void)requestDidTimeout:(SFRestRequest *)request {
-        // handle error
-    }
- 
- ## Error handling
- 
- When sending a `SFRestRequest`, you may encounter one of these errors:
-
- - The request parameters could be invalid (for instance, passing `nil` to the `requestForQuery:`,
- or trying to update a non-existent object).
- In this case, `request:didFailLoadWithError:` is called on the `SFRestDelegate`.
- The error passed will have an error domain of `kSFRestErrorDomain`
- 
- - The oauth access token (session ID) managed by SFAccountManager could have expired.
- In this case, the framework tries to acquire another access token and re-issue
- the `SFRestRequest`. This is all done transparently and the appropriate delegate method
- is called once the second `SFRestRequest` returns. 
-
- - Requesting a new access token (session ID) could fail (if the access token has expired
- and the OAuth refresh token is invalid).
- In this case, `request:didFailLoadWithError:` will be called on the `SFRestDelegate`.
- The error passed will have an error domain of `kSFOAuthErrorDomain`.
- Note that this is a very rare case.
-
- - The underlying HTTP request could fail (Salesforce server is innaccessible...)
- In this case, `request:didFailLoadWithError:` is called on the `SFRestDelegate`.
- The error passed will be a standard `RestKit` error with an error domain of `RKRestKitErrorDomain`. 
-
- */
-
+ * Main class used to issue REST requests to the standard Force.com REST API.
+ * See the [Force.com REST API Developer's Guide](http://www.salesforce.com/us/developer/docs/api_rest/index.htm)
+ * for more information regarding the Force.com REST API.
+*/
 NS_SWIFT_NAME(RestClient)
 @interface SFRestAPI : NSObject
 
@@ -192,7 +114,15 @@ NS_SWIFT_NAME(RestClient)
  * @param delegate Delegate object that handles the server response. 
  * This value overwrites the delegate property of the request.
  */
-- (void)send:(SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate;
+- (void)send:(SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use send:request:requestDelegate instead.");
+
+/**
+ * Sends a REST request to the Salesforce server and invokes the appropriate delegate method.
+ *
+ * @param request `SFRestRequest` object to be sent.
+ * @param requestDelegate Delegate object that handles the server response.
+ */
+- (void)send:(SFRestRequest *)request requestDelegate:(nullable id<SFRestRequestDelegate>)requestDelegate;
 
 ///---------------------------------------------------------------------------------------
 /// @name SFRestRequest factory methods

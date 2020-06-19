@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let _ = UserAccountManager.shared.currentUserAccount?.credentials.accessToken {
             PushNotificationManager.sharedInstance().registerForSalesforceNotifications { (result) in
                 switch (result) {
-                    case  .success(let successFlag):
+                    case .success(let successFlag):
                         SalesforceLogger.d(AppDelegate.self, message: "Registration for Salesforce notifications status:  \(successFlag)")
                     case .failure(let error):
                         SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications failed \(error)")
