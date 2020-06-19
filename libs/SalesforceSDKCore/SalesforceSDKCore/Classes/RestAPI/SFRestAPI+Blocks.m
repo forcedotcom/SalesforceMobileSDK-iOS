@@ -278,7 +278,7 @@ static char SuccessBlockKey;
     } else {
         SFRestRequestFailBlock failBlock = (SFRestRequestFailBlock)objc_getAssociatedObject(request, &FailureBlockKey);
         if (failBlock) {
-            failBlock(object, rawResponse);
+            failBlock(object, rawResponse, error);
         }
     }
 

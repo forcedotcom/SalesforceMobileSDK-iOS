@@ -240,7 +240,12 @@ NS_SWIFT_NAME(RestRequest)
 /**
  * The delegate for this request. Notified of request status.
  */
-@property (nullable, nonatomic, weak) id<SFRestDelegate> delegate;
+@property (nullable, nonatomic, weak) id<SFRestDelegate> delegate SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use the 'requestDelegate' property instead.");
+
+/**
+ * The delegate for this request. Notified of request status.
+ */
+@property (nullable, nonatomic, weak) id<SFRestRequestDelegate> requestDelegate;
 
 /**
  * Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints
