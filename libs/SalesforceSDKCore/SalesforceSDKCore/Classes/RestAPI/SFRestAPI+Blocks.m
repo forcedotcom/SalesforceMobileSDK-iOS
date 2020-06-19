@@ -67,7 +67,7 @@ static char SuccessBlockKey;
 - (void) sendRequest:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock {
     objc_setAssociatedObject(request, &FailureBlockKey, failureBlock, OBJC_ASSOCIATION_COPY);
     objc_setAssociatedObject(request, &SuccessBlockKey, successBlock, OBJC_ASSOCIATION_COPY);
-    [self send:request delegate:self];
+    [self send:request requestDelegate:self];
 }
 
 - (void) sendCompositeRESTRequest:(SFSDKCompositeRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestCompositeResponseBlock)completeBlock {
@@ -278,7 +278,7 @@ static char SuccessBlockKey;
     } else {
         SFRestRequestFailBlock failBlock = (SFRestRequestFailBlock)objc_getAssociatedObject(request, &FailureBlockKey);
         if (failBlock) {
-            failBlock(object, rawResponse, error);
+            failBlock(object, error, rawResponse);
         }
     }
 
