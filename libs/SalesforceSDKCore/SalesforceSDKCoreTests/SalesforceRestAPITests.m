@@ -179,7 +179,7 @@ static NSException *authException = nil;
 
 - (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request usingInstance:(SFRestAPI *) instance {
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [instance send:request delegate:listener];
+    [instance send:request requestDelegate:listener];
     [listener waitForCompletion];
     return listener;
 }
@@ -206,9 +206,9 @@ static NSException *authException = nil;
                                                    forKey:NSAssertionHandlerKey];
     SFRestRequest* request = [[SFRestAPI sharedGlobalInstance] requestForResources:kSFRestDefaultAPIVersion];
     @try {
-        [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *  rawResponse) {
+        [[SFRestAPI sharedGlobalInstance] sendRequest:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             
-        } completeBlock:^(id response, NSURLResponse *rawResponse) {
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
             
         }];
     }
@@ -227,7 +227,7 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
     
     //exercises overwriting the delegate at send time
-    [[SFRestAPI sharedInstance] send:request delegate:listener];
+    [[SFRestAPI sharedInstance] send:request requestDelegate:listener];
     [listener waitForCompletion];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     self.dataCleanupRequired = NO;
@@ -280,10 +280,10 @@ static NSException *authException = nil;
 - (void)testGetDescribeGlobal_Cancel {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [[SFRestAPI sharedInstance] send:request delegate:listener];
+    [[SFRestAPI sharedInstance] send:request requestDelegate:listener];
     [[SFRestAPI sharedInstance] cancelAllRequests];
     [listener waitForCompletion];
-    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidCancel, @"request should have been cancelled");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have been cancelled");
     self.dataCleanupRequired = NO;
 
 }
@@ -292,13 +292,11 @@ static NSException *authException = nil;
 - (void)testGetDescribeGlobal_Timeout {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [[SFRestAPI sharedInstance] send:request delegate:listener];
-    
+    [[SFRestAPI sharedInstance] send:request requestDelegate:listener];
     BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:request];
     XCTAssertTrue(found , @"Could not find request to force a timeout");
-    
     [listener waitForCompletion];
-    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidTimeout, @"request should have timed out");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have timed out");
     self.dataCleanupRequired = NO;
  }
 
@@ -917,7 +915,6 @@ static NSException *authException = nil;
     SFSDKBatchRequest *batchRequest = [batchRequestBuiler buildBatchRequest:kSFRestDefaultAPIVersion];
     __block SFSDKBatchResponse *batchResponse = nil;
     __block NSError *error = nil;
-     
     [[SFRestAPI sharedInstance] sendBatchRESTRequest:batchRequest failBlock:^(NSError * err, NSURLResponse * rawResponse) {
         error = err;
         [expectation fulfill];
@@ -1104,7 +1101,6 @@ static NSException *authException = nil;
     SFSDKCompositeRequest *compositeRequest = [requestBuilder buildCompositeRequest:[SFRestAPI sharedInstance].apiVersion];
     __block SFSDKCompositeResponse *compositeResponse = nil;
     __block NSError *error = nil;
-     
     [[SFRestAPI sharedInstance] sendCompositeRESTRequest:compositeRequest failBlock:^(NSError * err, NSURLResponse * rawResponse) {
         error = err;
         [expectation fulfill];
@@ -1857,7 +1853,6 @@ static NSException *authException = nil;
     };
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
                                    completeBlock:successWithUnexpectedSuccessBlock];
-    
     BOOL completionTimedOut = [self waitForExpectation];
     XCTAssertFalse(completionTimedOut);
     XCTAssertEqual(0, [SFRestAPI sharedInstance].activeRequests.count, @"Active requests queue should be empty.");
@@ -1921,42 +1916,41 @@ static NSException *authException = nil;
         SFRestRequest* request3 = [restAPI requestForDescribeGlobal:kSFRestDefaultAPIVersion];
         SFRestRequest* request4 = [restAPI requestForDescribeGlobal:kSFRestDefaultAPIVersion];
         
-        [restAPI sendRESTRequest:request0 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+        [restAPI sendRequest:request0 failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             [expectation0 fulfill];
             XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        } completeBlock:^(id  response, NSURLResponse * rawResponse) {
+        } successBlock:^(id  response, NSURLResponse *rawResponse) {
             
         }];
         
-        [restAPI sendRESTRequest:request1 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+        [restAPI sendRequest:request1 failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             [expectation1 fulfill];
             XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        } completeBlock:^(id response, NSURLResponse * rawResponse) {
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
             
         }];
         
-        [restAPI sendRESTRequest:request2 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+        [restAPI sendRequest:request2 failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             [expectation2 fulfill];
             XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
             
         }];
         
-        [restAPI sendRESTRequest:request3 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+        [restAPI sendRequest:request3 failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             [expectation3 fulfill];
             XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
             
         }];
         
-        [restAPI sendRESTRequest:request4 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+        [restAPI sendRequest:request4 failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             [expectation4 fulfill];
             XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
             
         }];
         [self waitForExpectations:@[expectation0,expectation1,expectation2,expectation3,expectation4] timeout:10.0];
-        
     }
     @finally {
         [self deleteUser:fakeUser];
@@ -2076,7 +2070,6 @@ static NSException *authException = nil;
         XCTAssertTrue([a isKindOfClass:[NSArray class]], @"Response should be an array");
         [self.currentExpectation fulfill];
     };
-
     
     // Class helper function that creates an error.
     NSString *errorStr = @"Sample error.";
@@ -2234,7 +2227,6 @@ static NSException *authException = nil;
     BOOL found = [api forceTimeoutRequest:nil];
     #pragma clang diagnostic pop
     XCTAssertTrue(found , @"Request was not sent and should not be found.");
-
     BOOL completionTimedOut = [self waitForExpectation];
     XCTAssertTrue(!completionTimedOut); // when we force timeout the request, its error handler gets invoked right away, so the semaphore-wait should not time out
 }
@@ -2242,7 +2234,6 @@ static NSException *authException = nil;
 #pragma mark - queryBuilder tests
 
 - (void) testSOQL {
-
     XCTAssertNil( [SFRestAPI SOQLQueryWithFields:(NSArray<NSString*>* _Nonnull)nil sObject:(NSString* _Nonnull) nil whereClause:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
@@ -2444,12 +2435,10 @@ static NSException *authException = nil;
     __block NSDictionary *response = nil;
     SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
     XCTAssertEqual(request.baseURL, @"https://api.github.com", @"Base URL should match");
-    
-    [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request failBlock:^(NSError *  e, NSURLResponse * rawResponse) {
+    [[SFRestAPI sharedGlobalInstance] sendRequest:request failureBlock:^(id resp, NSError *e, NSURLResponse *rawResponse) {
         error = e;
         [getExpectation fulfill];
-        
-    } completeBlock:^(id  resp, NSURLResponse *  rawResponse) {
+    } successBlock:^(id resp, NSURLResponse *rawResponse) {
         response = resp;
         [getExpectation fulfill];
     }];
@@ -2460,7 +2449,6 @@ static NSException *authException = nil;
 }
 
 - (void)testCustomSalesforceEndpoint {
-    
     NSString *endpoint = @"/custom/endpoint";
     NSString *path = @"/custom/endpoint";
     SFRestRequest *request =  [SFRestRequest customEndPointRequestWithMethod:SFRestMethodGET endPoint:endpoint path:path queryParams:nil];
@@ -2544,7 +2532,6 @@ static NSException *authException = nil;
 }
 
 - (NSString *) generateRandomId:(NSInteger)len {
-    
     NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
     NSMutableString *s = [NSMutableString stringWithCapacity:20];
     for (NSUInteger i = 0U; i < len; i++) {
@@ -2552,7 +2539,6 @@ static NSException *authException = nil;
         unichar c = [alphabet characterAtIndex:r];
         [s appendFormat:@"%C", c];
     }
-    
     return s;
 }
 

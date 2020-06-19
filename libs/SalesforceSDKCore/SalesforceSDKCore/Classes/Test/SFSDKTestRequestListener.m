@@ -62,7 +62,7 @@ NSString* const kTestRequestStatusDidFail = @"didFail";
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > self.maxWaitTime) {
             [SFSDKCoreLogger d:[self class] format:@"Request took too long (> %f secs) to complete.", elapsed];
-            return kTestRequestStatusDidTimeout;
+            return kTestRequestStatusDidFail;
         }
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
