@@ -170,7 +170,7 @@
         SEL swizzledSelector = @selector(instr_send:delegate:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class isInstanceMethod:YES];
         originalSelector = @selector(send:requestDelegate:);
-        swizzledSelector = @selector(instr_send:requestDelegate:);
+        swizzledSelector = @selector(instrumentation_send:requestDelegate:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class isInstanceMethod:YES];
     });
 }
@@ -186,7 +186,7 @@
     return [self instr_send:request delegate:delegateWrapper];
 }
 
-- (void)instr_send:(SFRestRequest *)request requestDelegate:(id<SFRestRequestDelegate>)requestDelegate {
+- (void)instrumentation_send:(SFRestRequest *)request requestDelegate:(id<SFRestRequestDelegate>)requestDelegate {
 
     // Begin an os_signpost_interval.
     os_log_t logger = self.class.oslog;
@@ -194,7 +194,7 @@
     sf_os_signpost_interval_begin(logger, sid, "Send", "Method:%ld path:%{public}@", (long)request.method, request.path);
     id<SFRestRequestDelegate> delegateWrapper = [SFRestDelegateWrapperWithInstrumentation factoryWith:requestDelegate signpost:sid logger:logger];
     request.instrumentationDelegateInternal = delegateWrapper;
-    return [self instr_send:request delegate:delegateWrapper];
+    return [self instrumentation_send:request requestDelegate:delegateWrapper];
 }
 
 @end

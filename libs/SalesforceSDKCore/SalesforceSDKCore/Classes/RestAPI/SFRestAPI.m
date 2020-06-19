@@ -230,6 +230,10 @@ static dispatch_once_t pred;
     [self send:request requestDelegate:nil delegate:delegate shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
 }
 
+- (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
+    [self send:request requestDelegate:nil delegate:delegate shouldRetry:shouldRetry];
+}
+
 - (void)send:(SFRestRequest *)request requestDelegate:(id<SFRestRequestDelegate>)requestDelegate delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
     if (nil != delegate) {
         request.delegate = delegate;
