@@ -53,6 +53,7 @@ NSString* const kSFRestCompositeDefaultAPIVersion = @"v46.0";
         self.requestBodyAsDictionary = request.requestBodyAsDictionary;
         self.shouldRefreshOn403 = request.shouldRefreshOn403;
         self.delegate = request.delegate;
+        self.requestDelegate = request.requestDelegate;
     }
     return self;
 }

@@ -41,7 +41,16 @@ NS_SWIFT_NAME(NetworkUtils)
  @param failBlock The block to call if the request fails.
  @param completeBlock The block to call if the request succeeds.
  */
-+ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock;
++ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use sendRequestWithMobileSyncUserAgent:request:failureBlock:successBlock instead.");
+
+/**
+ * Sends a REST request, after applying the MobileSync user agent string.
+ *
+ * @param request The request to send.
+ * @param failureBlock The block to call if the request fails.
+ * @param successBlock The block to call if the request succeeds.
+ */
++ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock;
 
 @end
 

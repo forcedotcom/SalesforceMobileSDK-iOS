@@ -70,14 +70,14 @@ static NSError *sLastError = nil;
     return [SFJsonUtils JSONRepresentation:obj options:options];
 }
 
-+ (NSString*)JSONRepresentation:(id)obj options:(NSJSONWritingOptions)options {
++ (NSString *)JSONRepresentation:(id)obj options:(NSJSONWritingOptions)options {
     NSString *result = nil;
-    
-    NSData *jsonData = [self JSONDataRepresentation:obj options:options];
-    if (nil != jsonData) {
-          result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    if (obj) {
+        NSData *jsonData = [self JSONDataRepresentation:obj options:options];
+        if (nil != jsonData) {
+            result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
     }
-    
     return result;
 }
 

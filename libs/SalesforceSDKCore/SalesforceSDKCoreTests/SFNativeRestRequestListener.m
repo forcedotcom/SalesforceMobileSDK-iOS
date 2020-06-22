@@ -42,7 +42,7 @@ int class_uid = 0;
     self = [super init];
     if (self) {
         self.request = request;
-        self.request.delegate = self;
+        self.request.requestDelegate = self;
         self->uid = class_uid++;
         [SFLogger log:[self class] level:SFLogLevelDebug format:@"## created listener %d", self->uid];
     }
@@ -51,7 +51,7 @@ int class_uid = 0;
 
 - (void)dealloc
 {
-    self.request.delegate = nil;
+    self.request.requestDelegate = nil;
     self.request = nil;
 }
 
@@ -60,31 +60,21 @@ int class_uid = 0;
     return @"SFRestRequest";
 }
 
-#pragma mark - SFRestDelegate
+#pragma mark - SFRestRequestDelegate
 
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
+- (void)request:(SFRestRequest *)request didSucceed:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
     if (self.sleepDuringLoad > 0) {
         [NSThread sleepForTimeInterval:self.sleepDuringLoad];
     }
-     
     self.dataResponse = dataResponse;
     self.returnStatus = kTestRequestStatusDidLoad;
 }
 
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse {
-    [SFLogger log:[self class] level:SFLogLevelDebug  format:@"## error for request %d", self->uid];
+- (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error {
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
     self.rawResponse = rawResponse;
-}
-
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
-    [SFLogger log:[self class] level:SFLogLevelDebug  format:@"## cancel for request %d", self->uid];
-    self.returnStatus = kTestRequestStatusDidCancel;
-}
-
-- (void)requestDidTimeout:(SFRestRequest *)request {
-    self.returnStatus = kTestRequestStatusDidTimeout;
+    self.dataResponse = dataResponse;
 }
 
 @end

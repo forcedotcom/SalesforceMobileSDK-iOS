@@ -222,7 +222,7 @@ class RestClientTests: XCTestCase {
     func testBatchRequest() {
         
         let expectation = XCTestExpectation(description: "batchRequestTest")
-        let bathRequestBuilder = BatchRequestBuilder()
+
         // Create account
         let accountName = self.generateRecordName()
         let contactName = self.generateRecordName()
@@ -296,10 +296,9 @@ class RestClientTests: XCTestCase {
 
     }
     
-    func testBatchRequestStopOnFailure() {
-        
+    func testBatchRequestStopOnFailure() {        
         let expectation = XCTestExpectation(description: "batchRequestTest")
-        let bathRequestBuilder = BatchRequestBuilder()
+
         // Create account
         let accountName = self.generateRecordName()
         let contactName = self.generateRecordName()
@@ -356,7 +355,7 @@ class RestClientTests: XCTestCase {
     func testBatchRequestContinueOnFailure() {
            
        let expectation = XCTestExpectation(description: "batchRequestTest")
-       let bathRequestBuilder = BatchRequestBuilder()
+
        // Create account
        let accountName = self.generateRecordName()
        let contactName = self.generateRecordName()

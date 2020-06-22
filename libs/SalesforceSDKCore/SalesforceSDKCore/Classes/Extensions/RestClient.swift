@@ -116,10 +116,10 @@ extension RestClient {
     /// - Parameter completionBlock: `Result` block that handles the server's response.
     public func send(request: RestRequest, _ completionBlock: @escaping (Result<RestResponse, RestClientError>) -> Void) {
         request.parseResponse = false
-        __send(request, fail: { (error, urlResponse) in
+        __send(request, failureBlock: { (rawResponse, error, urlResponse) in
             let apiError = RestClientError.apiInvocationFailed(underlyingError: error ?? RestClientError.apiResponseIsEmpty, urlResponse: urlResponse)
             completionBlock(Result.failure(apiError))
-        }, complete: { (rawResponse, urlResponse) in
+        }, successBlock: { (rawResponse, urlResponse) in
             if let data = rawResponse as? Data,
                 let urlResponse = urlResponse {
                 let result = RestResponse(data: data, urlResponse: urlResponse)
@@ -136,10 +136,10 @@ extension RestClient {
     /// - See   [Composite](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm).
     public func send(compositeRequest: CompositeRequest, _ completionBlock: @escaping (Result<CompositeResponse, RestClientError>) -> Void) {
         compositeRequest.parseResponse = false
-        __sendCompositeRESTRequest(compositeRequest, fail: { (error, urlResponse) in
+        __send(compositeRequest, failureBlock: { (response, error, urlResponse) in
             let apiError = RestClientError.apiInvocationFailed(underlyingError: error ?? RestClientError.apiResponseIsEmpty, urlResponse: urlResponse)
             completionBlock(Result.failure(apiError))
-        }, complete: { (response, _) in
+        }, successBlock: { (response, _) in
             completionBlock(Result.success(response))
         })
     }
@@ -150,10 +150,10 @@ extension RestClient {
     /// - See   [Batch](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm).
     public func send(batchRequest: BatchRequest, _ completionBlock: @escaping (Result<BatchResponse, RestClientError>) -> Void ) {
         batchRequest.parseResponse = false
-        __sendBatchRESTRequest(batchRequest, fail: { (error, urlResponse) in
+        __send(batchRequest, failureBlock: { (response, error, urlResponse) in
             let apiError = RestClientError.apiInvocationFailed(underlyingError: error ?? RestClientError.apiResponseIsEmpty, urlResponse: urlResponse)
             completionBlock(Result.failure(apiError))
-        }, complete: { (response, _) in
+        }, successBlock: { (response, _) in
             completionBlock(Result.success(response))
         })
     }

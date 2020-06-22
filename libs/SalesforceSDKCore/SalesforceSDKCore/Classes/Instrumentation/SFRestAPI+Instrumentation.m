@@ -35,13 +35,19 @@
 #import <os/signpost.h>
 #import "SFSDKCoreLogger.h"
 
-@interface SFRestDelegateWrapperWithInstrumentation<SFRestDelegate>: NSObject
-- (instancetype)initWithDelegate:(id<SFRestDelegate>) delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t) logger;
-@property (weak,nonatomic,readonly) id<SFRestDelegate> delegate;
-@property (nonatomic,readonly) os_signpost_id_t signpostId;
-@property (nonatomic,readonly) os_log_t logger;
+@interface SFRestDelegateWrapperWithInstrumentation<SFRestDelegate, SFRestRequestDelegate>: NSObject
 
-+(id<SFRestDelegate>)wrapperWith:delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t) logger;
+- (instancetype)initWithDelegate:(id<SFRestDelegate>)delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t)logger;
+- (instancetype)initWithRequestDelegate:(id<SFRestRequestDelegate>)requestDelegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t)logger;
+
+@property (weak, nonatomic, readonly) id<SFRestDelegate> delegate;
+@property (weak, nonatomic, readonly) id<SFRestRequestDelegate> requestDelegate;
+@property (nonatomic, readonly) os_signpost_id_t signpostId;
+@property (nonatomic, readonly) os_log_t logger;
+
++ (id<SFRestDelegate>)wrapperWith:delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t)logger;
++ (id<SFRestRequestDelegate>)factoryWith:requestDelegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t)logger;
+
 @end
 
 @implementation SFRestDelegateWrapperWithInstrumentation
@@ -49,6 +55,15 @@
 - (instancetype)initWithDelegate:(id<SFRestDelegate>)delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t)logger {
     if (self = [super init]) {
         _delegate = delegate;
+        _signpostId = signpostId;
+        _logger = logger;
+    }
+    return self;
+}
+
+- (instancetype)initWithRequestDelegate:(id<SFRestRequestDelegate>)requestDelegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t)logger {
+    if (self = [super init]) {
+        _requestDelegate = requestDelegate;
         _signpostId = signpostId;
         _logger = logger;
     }
@@ -71,7 +86,6 @@
     request.instrDelegateInternal = nil;
 }
 
-
 - (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse {
     sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "didFailLoadWithError:rawResponse %ld %{public}@", (long)request.method, request.path);
     if ([self.delegate respondsToSelector:@selector(request:didFailLoadWithError:rawResponse:)]) {
@@ -80,7 +94,6 @@
     request.instrDelegateInternal = nil;
 }
 
-
 - (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error {
     sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "didFailLoadWithError %ld %{public}@", (long)request.method, request.path);
     if ([self.delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
@@ -88,7 +101,6 @@
     }
     request.instrDelegateInternal = nil;
 }
-
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
     sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "requestDidCancelLoad %ld %{public}@", (long)request.method, request.path);
@@ -106,9 +118,30 @@
     request.instrDelegateInternal = nil;
 }
 
-+(id<SFRestDelegate>)wrapperWith:delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t) logger {
-    return (id<SFRestDelegate>) [[SFRestDelegateWrapperWithInstrumentation alloc] initWithDelegate:delegate  signpost:signpostId logger:logger];
+- (void)request:(SFRestRequest *)request didSucceed:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
+    sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "requestDidSucceed %ld %{public}@", (long)request.method, request.path);
+    if ([self.requestDelegate respondsToSelector:@selector(request:didSucceed:rawResponse:)]) {
+        [self.requestDelegate request:request didSucceed:dataResponse rawResponse:rawResponse];
+    }
+    request.instrumentationDelegateInternal = nil;
 }
+
+- (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error {
+    sf_os_signpost_interval_end(self.logger, self.signpostId, "Send", "requestDidFail %ld %{public}@", (long)request.method, request.path);
+    if ([self.requestDelegate respondsToSelector:@selector(request:didFail:rawResponse:error:)]) {
+        [self.requestDelegate request:request didFail:dataResponse rawResponse:rawResponse error:error];
+    }
+    request.instrumentationDelegateInternal = nil;
+}
+
++ (id<SFRestDelegate>)wrapperWith:delegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t) logger {
+    return (id<SFRestDelegate>) [[SFRestDelegateWrapperWithInstrumentation alloc] initWithDelegate:delegate signpost:signpostId logger:logger];
+}
+
++ (id<SFRestRequestDelegate>)factoryWith:requestDelegate signpost:(os_signpost_id_t)signpostId logger:(os_log_t)logger {
+    return (id<SFRestRequestDelegate>) [[SFRestDelegateWrapperWithInstrumentation alloc] initWithRequestDelegate:requestDelegate signpost:signpostId logger:logger];
+}
+
 @end
 
 @implementation SFRestAPI(Instrumentation)
@@ -123,8 +156,7 @@
     return _logger;
 }
 
-
-+ (void)load{
++ (void)load {
     if ([SFSDKInstrumentationHelper isEnabled] && (self == SFRestAPI.self)) {
         [self enableInstrumentation];
     }
@@ -136,11 +168,15 @@
         Class class = [self class];
         SEL originalSelector = @selector(send:delegate:);
         SEL swizzledSelector = @selector(instr_send:delegate:);
-        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class isInstanceMethod:YES];
+        originalSelector = @selector(send:requestDelegate:);
+        swizzledSelector = @selector(instrumentation_send:requestDelegate:);
+        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class isInstanceMethod:YES];
     });
 }
 
 - (void)instr_send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
+
     // Begin an os_signpost_interval.
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
@@ -148,8 +184,17 @@
     id<SFRestDelegate> delegateWrapper = [SFRestDelegateWrapperWithInstrumentation wrapperWith:delegate signpost:sid logger:logger];
     request.instrDelegateInternal = delegateWrapper;
     return [self instr_send:request delegate:delegateWrapper];
- 
 }
 
+- (void)instrumentation_send:(SFRestRequest *)request requestDelegate:(id<SFRestRequestDelegate>)requestDelegate {
+
+    // Begin an os_signpost_interval.
+    os_log_t logger = self.class.oslog;
+    os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
+    sf_os_signpost_interval_begin(logger, sid, "Send", "Method:%ld path:%{public}@", (long)request.method, request.path);
+    id<SFRestRequestDelegate> delegateWrapper = [SFRestDelegateWrapperWithInstrumentation factoryWith:requestDelegate signpost:sid logger:logger];
+    request.instrumentationDelegateInternal = delegateWrapper;
+    return [self instrumentation_send:request requestDelegate:delegateWrapper];
+}
 
 @end

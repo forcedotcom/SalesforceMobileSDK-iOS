@@ -878,13 +878,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     __weak typeof (self) weakSelf = self;
     SFOAuthCredentials *spAppCredentials = [self spAppCredentials:spAppOptions];
     SFRestRequest *request = [[SFRestAPI sharedInstanceWithUser:user] requestForUserInfo];
-    [[SFRestAPI sharedInstanceWithUser:user] sendRESTRequest:request failBlock:^(NSError *error, NSURLResponse *rawResponse) {
+    [[SFRestAPI sharedInstanceWithUser:user] sendRequest:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         [SFSDKIDPAuthHelper invokeSPAppWithError:spAppCredentials error:error reason:@"Failed refreshing credentials"];
-    } completeBlock:^(id response, NSURLResponse *rawResponse) {
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
         __strong typeof (self) strongSelf = weakSelf;
         [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials];
     }];
-
 }
 
 - (void)cancel:(NSDictionary *)spAppOptions {
