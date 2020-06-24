@@ -26,8 +26,10 @@
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <XCTest/XCTest.h>
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceSDKCore/SFOAuthCredentials.h>
+#import <SalesforceSDKCore/SFDirectoryManager.h>
+#import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 @interface SFOAuthCredentials ()

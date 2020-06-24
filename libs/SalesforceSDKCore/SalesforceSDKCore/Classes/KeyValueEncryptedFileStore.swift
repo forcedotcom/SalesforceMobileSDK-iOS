@@ -384,7 +384,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         if user == nil {
             return SFKeyForGlobalScope() as NSString
         } else {
-            let key = SFKeyForUserAndScope(user, UserAccount.AccountScope.community)
+            let key = SFKeyForUserAndScope(user, .community)
             if let key = key {
                 return key as NSString
             } else {
