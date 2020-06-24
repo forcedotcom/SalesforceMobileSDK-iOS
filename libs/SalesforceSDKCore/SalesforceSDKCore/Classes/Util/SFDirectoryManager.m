@@ -56,16 +56,21 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
 }
 
 + (BOOL)ensureDirectoryExists:(NSString*)directory error:(NSError**)error {
+    if (!directory) {
+        return NO;
+    }
     NSFileManager *manager = [[NSFileManager alloc] init];
     BOOL isDirectory;
     BOOL fileExists = [manager fileExistsAtPath:directory isDirectory:&isDirectory];
-    if (directory && !fileExists) {
+    if (!fileExists) {
         return [manager createDirectoryAtPath:directory
                   withIntermediateDirectories:YES
                                    attributes:@{NSFileProtectionKey: [SFFileProtectionHelper fileProtectionForPath:directory]}
                                         error:error];
     } else if (fileExists && !isDirectory) {
-        *error = [[NSError alloc] initWithDomain:kDirectoryManagerErrorDomain code:100 userInfo:@{ NSLocalizedDescriptionKey: @"File exists at path and is not a directory" }];
+        if (error) {
+            *error = [[NSError alloc] initWithDomain:kDirectoryManagerErrorDomain code:100 userInfo:@{ NSLocalizedDescriptionKey: @"File exists at path and is not a directory" }];
+        }
         return NO;
     } else {
         return YES;

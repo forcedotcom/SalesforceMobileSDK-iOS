@@ -1412,6 +1412,14 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		69C5F99F24A3D999002C294D /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		6F89606E1A9E96C400A48FF1 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -1507,9 +1515,9 @@
 				4F96FCD81BFD32130022F021 /* PushNotification */,
 				6935FB9823FDE919002BEFCC /* UserAccount */,
 				4F96FCEA1BFD32130022F021 /* Security */,
+				69C5F99F24A3D999002C294D /* Storage */,
 				4F96FD2E1BFD32140022F021 /* Test */,
 				4F96FD371BFD32140022F021 /* Util */,
-				693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

@@ -336,11 +336,11 @@ public class KeyValueEncryptedFileStore: NSObject {
 
     // MARK: Private
     private static func storesDirectory(forUser user: UserAccount) -> String? {
-        return SFDirectoryManager.shared().directory(forUser: user, type: .libraryDirectory, components: [keyValueStoresDirectory])
+        return SFDirectoryManager.shared().directory(forUser: user, type: .documentDirectory, components: [keyValueStoresDirectory])
     }
 
     private static func globalStoresDirectory() -> String {
-        return SFDirectoryManager.shared().globalDirectory(ofType: .libraryDirectory, components: [keyValueStoresDirectory])
+        return SFDirectoryManager.shared().globalDirectory(ofType: .documentDirectory, components: [keyValueStoresDirectory])
     }
 
     private static func contentsOfDirectory(_ directory: String?, function: String) -> [String] {

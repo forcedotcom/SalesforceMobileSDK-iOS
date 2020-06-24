@@ -292,11 +292,11 @@
 
 # pragma mark - Helpers
 - (NSString *)globalPath {
-    return [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSLibraryDirectory components:@[@"key_value_stores"]];
+    return [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSDocumentDirectory components:@[@"key_value_stores"]];
 }
 
 - (NSString *)userPath:(SFUserAccount *)user {
-    return [[SFDirectoryManager sharedManager] directoryForUser:user type:NSLibraryDirectory components:@[@"key_value_stores"]];
+    return [[SFDirectoryManager sharedManager] directoryForUser:user type:NSDocumentDirectory components:@[@"key_value_stores"]];
 }
 
 - (SFSDKKeyValueEncryptedFileStore *)createStoreWithName:(NSString *)name {
