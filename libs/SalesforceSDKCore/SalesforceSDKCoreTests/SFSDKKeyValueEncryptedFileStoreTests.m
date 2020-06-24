@@ -45,7 +45,7 @@
 - (void)setUp {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"keyvalue-test"] clientId:@"fakeClientIdForTesting" encrypted:YES];
     self.userAccount = [[SFUserAccount alloc] initWithCredentials:credentials];
-    self.userAccount.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0"];
+    self.userAccount.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0IAC"];
 }
 
 - (void)tearDown {

@@ -104,7 +104,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         if let store = globalStores[name as NSString] {
             return store
         } else {
-            let directory = globalStoresDirectory() + "/\(name)"
+            let directory = globalStoresDirectory()
             let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true))
             globalStores[name as NSString] = store
             return store
