@@ -2545,7 +2545,7 @@ static NSException *authException = nil;
 
 - (void)testNotificationsStatus {
     // TODO move notification tests to kSFRestDefaultAPIVersion when it's >= 49
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotificationsStatus:@"v49.0"];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotificationsStatus:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -2555,7 +2555,7 @@ static NSException *authException = nil;
     NSDate *yesterdayDate = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24];
     [builder setAfter:yesterdayDate];
     [builder setSize:10];
-    SFRestRequest* request = [builder buildFetchNotificationsRequest:@"v49.0"];
+    SFRestRequest* request = [builder buildFetchNotificationsRequest:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -2564,7 +2564,7 @@ static NSException *authException = nil;
     SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
     [builder setBefore:[NSDate date]];
     [builder setRead:NO];
-    SFRestRequest* request = [builder buildUpdateNotificationsRequest:@"v49.0"];
+    SFRestRequest* request = [builder buildUpdateNotificationsRequest:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
@@ -2573,7 +2573,7 @@ static NSException *authException = nil;
     SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
     [builder setBefore:[NSDate date]];
     [builder setSeen:YES];
-    SFRestRequest* request = [builder buildUpdateNotificationsRequest:@"v49.0"];
+    SFRestRequest* request = [builder buildUpdateNotificationsRequest:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
