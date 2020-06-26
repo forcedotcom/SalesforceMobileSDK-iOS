@@ -1506,7 +1506,6 @@ static NSException *authException = nil;
 
     // upload first file
     NSDictionary *fileAttrs = [self uploadFile];
-    
     // get owned files
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0 apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
