@@ -348,6 +348,9 @@ public class KeyValueEncryptedFileStore: NSObject {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Directory is nil")
             return [String]()
         }
+        guard FileManager.default.fileExists(atPath: directory) else {
+            return [String]()
+        }
 
         do {
             return try FileManager.default.contentsOfDirectory(atPath: directory)
