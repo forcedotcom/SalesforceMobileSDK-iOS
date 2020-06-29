@@ -277,7 +277,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
              failBlock:(SFSyncUpTargetErrorBlock)failBlock
 {
     [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
-        self.lastError = e.description;
+        self.lastError = [SFJsonUtils JSONRepresentation:response];
         failBlock(e);
     } successBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         completionBlock(d);

@@ -226,7 +226,8 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         }
         // Failure
         else {
-            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
     }
     
@@ -252,7 +253,8 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         }
         // Failure
         else {
-            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
         
     }

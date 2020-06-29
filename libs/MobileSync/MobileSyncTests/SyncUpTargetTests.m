@@ -24,6 +24,7 @@
 
 #import "SyncManagerTestCase.h"
 #import "SFSyncUpdateCallbackQueue.h"
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 
 #define COUNT_TEST_ACCOUNTS 10
 
@@ -89,9 +90,11 @@
         NSString* lastError = fields[kSyncTargetLastError];
         if ([name isEqualToString:nameTooLong]) {
             XCTAssertTrue([lastError containsString:@"Account Name: data value too large"], @"Name too large error expected");
+            XCTAssertNotNil([SFJsonUtils objectFromJSONString:lastError], "Unable to parse error");
         }
         else if ([name isEqualToString:@""]) {
             XCTAssertTrue([lastError containsString:@"Required fields are missing: [Name]"], @"Missing name error expected");
+            XCTAssertNotNil([SFJsonUtils objectFromJSONString:lastError], "Unable to parse error");
         }
         else {
             XCTFail(@"Unexpected record found: %@", name);
