@@ -406,7 +406,7 @@ static dispatch_once_t pred;
             errorDict = [NSDictionary dictionaryWithObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:@"error"];
         }
     }
-    return [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:errorDict];
+    return [[NSError alloc] initWithDomain:kSFRestErrorDomain code:statusCode userInfo:errorDict];
 }
 
 - (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response requestDelegate:(id<SFRestRequestDelegate>)requestDelegate delegate:(id<SFRestDelegate>)delegate {
