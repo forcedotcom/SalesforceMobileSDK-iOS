@@ -163,7 +163,7 @@ static NSString * const kSFSortable = @"sortable";
 @property (nonatomic, readwrite, assign) BOOL editableForNew;
 @property (nonatomic, readwrite, assign) BOOL editableForUpdate;
 @property (nonatomic, strong, readwrite) NSString *label;
-@property (nonatomic, strong, readwrite) NSDictionary *layoutComponents;
+@property (nonatomic, strong, readwrite) NSArray<NSDictionary *> *layoutComponents;
 @property (nonatomic, strong, readwrite) NSString *lookupIdApiName;
 @property (nonatomic, readwrite, assign) BOOL required;
 @property (nonatomic, readwrite, assign) BOOL sortable;

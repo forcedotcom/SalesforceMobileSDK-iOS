@@ -111,7 +111,7 @@ NS_SWIFT_NAME(Layout)
 @property (nonatomic, readonly, assign) BOOL editableForNew;
 @property (nonatomic, readonly, assign) BOOL editableForUpdate;
 @property (nonatomic, strong, readonly, nullable) NSString *label;
-@property (nonatomic, strong, readonly, nullable) NSDictionary *layoutComponents;
+@property (nonatomic, strong, readonly, nullable) NSArray<NSDictionary *> *layoutComponents;
 @property (nonatomic, strong, readonly, nullable) NSString *lookupIdApiName;
 @property (nonatomic, readonly, assign) BOOL required;
 @property (nonatomic, readonly, assign) BOOL sortable;
