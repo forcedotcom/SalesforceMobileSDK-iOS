@@ -87,11 +87,13 @@ public class KeyValueEncryptedFileStore: NSObject {
             return store
         } else {
             guard let directory = KeyValueEncryptedFileStore.storesDirectory(forUser: user) else {
-                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): user stores directory is nil")
+                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): User stores directory is nil")
                 return nil
             }
-
-            let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true))
+            guard let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true)) else {
+                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Creating store failed")
+                return nil
+            }
             userStores[userKey]?[name as NSString] = store
             return store
         }
@@ -105,7 +107,10 @@ public class KeyValueEncryptedFileStore: NSObject {
             return store
         } else {
             let directory = globalStoresDirectory()
-            let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true))
+            guard let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true)) else {
+                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Creating store failed")
+                return nil
+            }
             globalStores[name as NSString] = store
             return store
         }
@@ -188,7 +193,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     @objc(removeAllStoresForUser:)
     public static func removeAll(forUserAccount user: UserAccount) {
         guard let directory = storesDirectory(forUser: user) else {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): user stores directory is nil")
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): User stores directory is nil")
             return
         }
 
