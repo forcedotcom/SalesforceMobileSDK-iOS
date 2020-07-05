@@ -129,9 +129,13 @@ static CGFloat      const kSFViewBorderWidth                   = 0.5f;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSString *instructions = self.updateMode ? @"passcodeChangeInstructions" : @"passcodeCreateInstructions";
-    self.passcodeInstructionsLabel.text = [SFSDKResourceUtils localizedString:instructions];
-    [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"createPasscodeNavTitle"]];
+    if (self.updateMode) {
+        self.passcodeInstructionsLabel.text = [SFSDKResourceUtils localizedString:@"passcodeChangeInstructions"];
+        [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"changePasscodeNavTitle"]];
+    } else {
+        self.passcodeInstructionsLabel.text = [SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"];
+        [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"createPasscodeNavTitle"]];
+    }
     [self.passcodeInstructionsLabel setFont:self.viewConfig.instructionFont];
     if (UIAccessibilityIsVoiceOverRunning()) {
         UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.passcodeInstructionsLabel);
@@ -171,11 +175,13 @@ static CGFloat      const kSFViewBorderWidth                   = 0.5f;
 {
     [super viewDidAppear:animated];
     if (self.updateMode) {
-       self.passcodeInstructionsLabel.text = [SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"];
+        [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"changePasscodeNavTitle"]];
+        self.passcodeInstructionsLabel.text = [SFSDKResourceUtils localizedString:@"passcodeChangeInstructions"];
     } else {
-       self.passcodeInstructionsLabel.text = [SFSDKResourceUtils localizedString:@"passcodeChangeInstructions"];
+        [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"createPasscodeNavTitle"]];
+        self.passcodeInstructionsLabel.text = [SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"];
     }
-    [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"createPasscodeNavTitle"]];
+
     [self.passcodeInstructionsLabel setFont:self.viewConfig.instructionFont];
     [self.passcodeInstructionsLabel setHidden:NO];
     [self.passcodeTextView setHidden:NO];
@@ -222,7 +228,11 @@ static CGFloat      const kSFViewBorderWidth                   = 0.5f;
             self.firstPasscodeValidated = YES;
             
             //Change labels for confirm passcode
-            [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"verifyPasscodeNavTitle"]];
+            if (self.updateMode) {
+                [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"confirmChangePasscodeNavTitle"]];
+            } else {
+                [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"confirmPasscodeNavTitle"]];
+            }
             [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodeConfirmInstructions"]];
             if (UIAccessibilityIsVoiceOverRunning()) {
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.passcodeInstructionsLabel.text);

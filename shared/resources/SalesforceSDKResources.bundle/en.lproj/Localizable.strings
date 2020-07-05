@@ -29,6 +29,8 @@
 // Passcode view controller
 "createPasscodeNavTitle" = "Passcode";
 "confirmPasscodeNavTitle" = "Passcode";
+"changePasscodeNavTitle" = "Passcode";
+"confirmChangePasscodeNavTitle" = "Passcode";
 "verifyPasscodeNavTitle" = "Passcode";
 "passcodeCreateInstructions" = "Create a passcode";
 "passcodeChangeInstructions" = "Create a passcode";
