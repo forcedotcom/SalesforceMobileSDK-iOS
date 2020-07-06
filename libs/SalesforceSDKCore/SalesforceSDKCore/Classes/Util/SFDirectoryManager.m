@@ -34,6 +34,7 @@ static NSString * const kDefaultOrgName = @"org";
 NSString * const kDefaultCommunityName = @"internal";
 static NSString * const kSharedLibraryLocation = @"Library";
 static NSString * const kFilesSharedKey = @"filesShared";
+static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesdk.DirectoryManager.ErrorDomain";
 
 @implementation SFDirectoryManager
 
@@ -55,12 +56,22 @@ static NSString * const kFilesSharedKey = @"filesShared";
 }
 
 + (BOOL)ensureDirectoryExists:(NSString*)directory error:(NSError**)error {
+    if (!directory) {
+        return NO;
+    }
     NSFileManager *manager = [[NSFileManager alloc] init];
-    if (directory && ![manager fileExistsAtPath:directory]) {
+    BOOL isDirectory;
+    BOOL fileExists = [manager fileExistsAtPath:directory isDirectory:&isDirectory];
+    if (!fileExists) {
         return [manager createDirectoryAtPath:directory
                   withIntermediateDirectories:YES
                                    attributes:@{NSFileProtectionKey: [SFFileProtectionHelper fileProtectionForPath:directory]}
                                         error:error];
+    } else if (fileExists && !isDirectory) {
+        if (error) {
+            *error = [[NSError alloc] initWithDomain:kDirectoryManagerErrorDomain code:100 userInfo:@{ NSLocalizedDescriptionKey: @"File exists at path and is not a directory" }];
+        }
+        return NO;
     } else {
         return YES;
     }
