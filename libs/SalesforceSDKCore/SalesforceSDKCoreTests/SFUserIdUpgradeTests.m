@@ -51,7 +51,7 @@ static NSString *communityId = @"COMMUNITYID";
 @implementation SFUserIdUpgradeTests
 
 - (void)setUp {
-    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSFileManager *fm = [NSFileManager defaultManager];
     NSString *libraryDirectoryOrg = [[SFDirectoryManager sharedManager] directoryForOrg:orgId user:nil community:nil type:NSLibraryDirectory components:nil];
     [fm removeItemAtPath:libraryDirectoryOrg error:nil];
     NSString *documentDirectoryOrg = [[SFDirectoryManager sharedManager] directoryForOrg:orgId user:nil community:nil type:NSDocumentDirectory components:nil];

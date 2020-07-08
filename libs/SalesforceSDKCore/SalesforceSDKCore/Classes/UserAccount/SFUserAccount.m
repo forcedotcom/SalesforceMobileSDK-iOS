@@ -167,7 +167,7 @@ static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.u
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf upgradePhotoPath];
             NSString *photoPath = [strongSelf photoPathInternal:nil];
-            NSFileManager *manager = [[NSFileManager alloc] init];
+            NSFileManager *manager = [NSFileManager defaultManager];
             if ([manager fileExistsAtPath:photoPath]) {
                 UIImage *decryptedPhoto = [self decryptPhoto:photoPath];
                 if (decryptedPhoto) {

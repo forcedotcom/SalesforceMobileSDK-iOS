@@ -59,7 +59,7 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
     if (!directory) {
         return NO;
     }
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     BOOL isDirectory;
     BOOL fileExists = [manager fileExistsAtPath:directory isDirectory:&isDirectory];
     if (!fileExists) {
@@ -176,7 +176,7 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
 #pragma mark - File Migration Methods
 
 - (void)moveContentsOfDirectory:(NSString *)sourceDirectory toDirectory:(NSString *)destinationDirectory {
-    NSFileManager *fileManager = [[NSFileManager alloc]init];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;
     if (sourceDirectory && [fileManager fileExistsAtPath:sourceDirectory]) {
         [SFDirectoryManager ensureDirectoryExists:destinationDirectory error:nil];
@@ -255,7 +255,7 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
 
 + (void)upgradeUserDirectory:(NSSearchPathDirectory)type {
     NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:type components:nil];
-    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSFileManager *fm = [NSFileManager defaultManager];
     NSError *error = nil;
 
     if ([fm fileExistsAtPath:rootDirectory]) {

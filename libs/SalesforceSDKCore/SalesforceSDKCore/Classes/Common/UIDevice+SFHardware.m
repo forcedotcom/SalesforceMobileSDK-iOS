@@ -269,14 +269,14 @@
 #pragma mark file system -- Thanks Joachim Bean!
 - (NSNumber *) totalDiskSpace
 {
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDictionary *fattributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return [fattributes objectForKey:NSFileSystemSize];
 }
 
 - (NSNumber *) freeDiskSpace
 {
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDictionary *fattributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return [fattributes objectForKey:NSFileSystemFreeSize];
 }

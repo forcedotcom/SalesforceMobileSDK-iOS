@@ -157,9 +157,9 @@
 }
 
 - (void) deleteAllEvents {
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *files = [fileManager contentsOfDirectoryAtPath:self.storeDirectory error:nil];
     for (NSString *file in files) {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *filePath = [self filenameForEvent:file];
         if ([fileManager fileExistsAtPath:filePath]) {
             [fileManager removeItemAtPath:filePath error:nil];
