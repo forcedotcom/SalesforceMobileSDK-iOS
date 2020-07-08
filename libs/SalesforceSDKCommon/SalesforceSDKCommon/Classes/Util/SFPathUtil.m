@@ -74,7 +74,7 @@
         fileProtection = [SFFileProtectionHelper fileProtectionForPath:path];
     }
     
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     
     if (![fileManager fileExistsAtPath:path]) {
         [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:[NSDictionary dictionaryWithObjectsAndKeys:fileProtection, NSFileProtectionKey, nil] error:nil];
@@ -151,7 +151,7 @@
         fileProtection = [SFFileProtectionHelper fileProtectionForPath:filePath];
     }
     
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:filePath]){
         NSError *error = nil;
         NSDictionary *attrs = [fileManager attributesOfItemAtPath:filePath error:&error];

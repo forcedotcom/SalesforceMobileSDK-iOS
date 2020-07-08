@@ -59,7 +59,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
             [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Successfully migrated store '%@'", storeName];
         }
     }
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     [manager removeItemAtPath:[SFSmartStoreUpgrade legacyRootStoreDirectory] error:nil];
 }
 
@@ -71,7 +71,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
     NSString *newStoreFilePath = [[SFSmartStoreDatabaseManager sharedManager] fullDbFilePathForStoreName:storeName];
 
     // No store in the original location?  Nothing to do.
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     if (![manager fileExistsAtPath:origStoreFilePath]) {
         [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"File for store '%@' does not exist at legacy path.  Nothing to do.", storeName];
         [manager removeItemAtPath:origStoreDirPath error:nil];
@@ -413,7 +413,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
 {
     NSString *rootDir = [SFSmartStoreUpgrade legacyRootStoreDirectory];
     NSError *getStoresError = nil;
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     
     // First see if the legacy root folder exists.
     BOOL rootDirIsDirectory = NO;
@@ -440,7 +440,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
 + (BOOL)legacyPersistentStoreExists:(NSString *)storeName
 {
     NSString *fullDbFilePath = [SFSmartStoreUpgrade legacyFullDbFilePathForStoreName:storeName];
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     BOOL result = [manager fileExistsAtPath:fullDbFilePath];
     return result;
 }
