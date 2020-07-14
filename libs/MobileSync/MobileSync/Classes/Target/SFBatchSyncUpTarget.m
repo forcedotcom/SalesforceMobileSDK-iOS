@@ -250,8 +250,8 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         }
         // Handling remotely deleted records
         else if (notFoundStatusCode
-                 && mergeMode == SFSyncStateMergeModeOverwrite
-                 && !isReRun) { // Record needs to be recreated
+                 && mergeMode == SFSyncStateMergeModeOverwrite // Record needs to be recreated
+                 && !isReRun) {
             record[kSyncTargetLocal] = @YES;
             record[kSyncTargetLocallyCreated] = @YES;
             needReRun = YES;
