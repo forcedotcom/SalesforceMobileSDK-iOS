@@ -109,6 +109,22 @@
 }
 
 /**
+ * Sync up records missing sobject type
+ */
+- (void) testSyncUpWithNoType {
+    [self trySyncUpBadTypeOrNoType:YES];
+}
+
+
+/**
+  * Sync up records using bad sobject type
+ */
+- (void) testSyncUpWithBadType {
+    [self trySyncUpBadTypeOrNoType:NO];
+}
+
+
+/**
  * Sync down the test accounts, modify none, sync up, check smartstore and server afterwards
  */
 -(void)testSyncUpWithNoLocalUpdates
@@ -637,6 +653,59 @@
 
 
 #pragma mark - helper methods
+
+-(void) trySyncUpBadTypeOrNoType:(BOOL) noType
+{
+    // Setup soup
+    [self createAccountsSoup];
+    idToFields = [NSMutableDictionary new];
+    
+    // Create a few entries locally
+    NSArray* namesGoodRecords = @[ [self createAccountName], [self createAccountName], [self createAccountName]];
+    NSArray* namesBadRecords = @[ [self createAccountName], [self createAccountName] ];
+    
+    [self createAccountsLocally:namesGoodRecords];
+    [self createAccountsLocally:namesBadRecords mutateBlock:^NSMutableDictionary *(NSMutableDictionary *record) {
+        if (noType) {
+            [record removeObjectForKey:ATTRIBUTES];
+        } else {
+            NSMutableDictionary* attributes = [NSMutableDictionary new];
+            attributes[TYPE] = @"badType";
+            record[ATTRIBUTES] = attributes;
+        }
+        return record;
+    }];
+    
+    // Sync up
+    [self trySyncUp:5 mergeMode:SFSyncStateMergeModeOverwrite];
+    
+    // Check db for records with good names
+    NSDictionary* idToFieldsGoodNames = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME, DESCRIPTION] nameField:NAME names:namesGoodRecords];
+    [self checkDbStateFlags:[idToFieldsGoodNames allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+    
+    // Check db for records with bad names
+    NSDictionary* idToFieldsBadNames = [self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[NAME, DESCRIPTION, kSyncTargetLastError] nameField:NAME names:namesBadRecords];
+    [self checkDbStateFlags:[idToFieldsBadNames allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:YES expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+    
+    XCTAssertEqual(idToFieldsBadNames.count, namesBadRecords.count);
+    for (NSDictionary * fields in [idToFieldsBadNames allValues]) {
+        NSString* name = fields[NAME];
+        NSString* lastError = fields[kSyncTargetLastError];
+        if ([namesBadRecords containsObject:name]) {
+            XCTAssertTrue([lastError containsString:@"The requested resource does not exist"], @"Wrong error: %@", lastError);
+        }
+        else {
+            XCTFail(@"Unexpected record found: %@", name);
+        }
+    }
+            
+    // Check server for records with good names
+    [self checkServer:idToFieldsGoodNames];
+    
+    // Adding to idToFields so that they get deleted in tearDown
+    [idToFields addEntriesFromDictionary:idToFieldsGoodNames];
+}
+
 
 -(void) trySyncUpWithLocallyCreatedRecords:(SFSyncStateMergeMode)syncUpMergeMode
 {

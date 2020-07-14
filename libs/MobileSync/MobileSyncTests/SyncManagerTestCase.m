@@ -126,6 +126,11 @@ static NSException *authException = nil;
 
 
 - (NSArray*) createAccountsLocally:(NSArray*)names {
+    return [self createAccountsLocally:names mutateBlock:nil];
+}
+
+- (NSArray *) createAccountsLocally:(NSArray*)names mutateBlock:(SFRecordMutatorBlock)mutateBlock;
+ {
     NSMutableArray* createdAccounts = [NSMutableArray new];
     NSMutableDictionary* attributes = [NSMutableDictionary new];
     attributes[TYPE] = ACCOUNT_TYPE;
@@ -140,6 +145,7 @@ static NSException *authException = nil;
         account[kSyncTargetLocallyCreated] = @YES;
         account[kSyncTargetLocallyDeleted] = @NO;
         account[kSyncTargetLocallyUpdated] = @NO;
+        if (mutateBlock) { account = mutateBlock(account); }
         [createdAccounts addObject:account];
     }
     return [self.store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];

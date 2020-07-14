@@ -46,6 +46,9 @@
 #define REMOTELY_UPDATED    @"_r_upd"
 #define LOCALLY_UPDATED     @"_l_upd"
 
+// block type
+typedef NSMutableDictionary* (^SFRecordMutatorBlock) (NSMutableDictionary* record);
+
 @interface SyncManagerTestCase : XCTestCase
 
 @property (nonatomic, strong) SFUserAccount* currentUser;
@@ -62,6 +65,7 @@
 - (NSString *)buildInClause:(NSArray *)values;
 
 - (NSArray *) createAccountsLocally:(NSArray*)names;
+- (NSArray *) createAccountsLocally:(NSArray*)names mutateBlock:(SFRecordMutatorBlock)mutateBlock;
 - (void)createAccountsSoup;
 - (void)dropAccountsSoup;
 - (void)createContactsSoup;
