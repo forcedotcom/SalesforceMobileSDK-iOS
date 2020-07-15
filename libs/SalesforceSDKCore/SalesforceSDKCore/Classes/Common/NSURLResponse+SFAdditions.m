@@ -37,7 +37,8 @@
     responseDictionary[@"textEncodingName"] = self.textEncodingName;
     responseDictionary[@"URL"] = self.URL.absoluteString;
     if ([self isKindOfClass:[NSHTTPURLResponse class]]) {
-        responseDictionary[@"allHeaderFields"] = ((NSHTTPURLResponse *)self).allHeaderFields;
+        responseDictionary[@"headers"] = ((NSHTTPURLResponse *)self).allHeaderFields;
+        responseDictionary[@"statusCode"] = [NSNumber numberWithInteger:((NSHTTPURLResponse *)self).statusCode];
     }
     return responseDictionary;
 }
