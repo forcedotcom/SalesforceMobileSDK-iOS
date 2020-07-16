@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns a request to fetch the status of notifications, including unread and unseen count.
  * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm
  */
 - (SFRestRequest *)requestForNotificationsStatus:(NSString *)apiVersion;
 
@@ -42,10 +43,15 @@ NS_ASSUME_NONNULL_BEGIN
  * Returns a request to fetch the given notification.
  * @param notificationId ID of notification to fetch.
  * @param apiVersion API version.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm
  */
 - (SFRestRequest *)requestForNotification:(NSString *)notificationId apiVersion:(NSString *)apiVersion;
 @end
 
+/**
+ * Use this interface to create a RestRequest object that calls the Notifications REST API.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_list.htm
+ */
 NS_SWIFT_NAME(FetchNotificationsRequestBuilder)
 @interface SFSDKFetchNotificationsRequestBuilder: NSObject
 
@@ -75,6 +81,11 @@ NS_SWIFT_NAME(FetchNotificationsRequestBuilder)
 
 @end
 
+/**
+ * Use this interface to create a RestRequest object that calls the NotificationUpdate and NotificationsUpdate REST API.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_list.htm
+ * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm
+ */
 NS_SWIFT_NAME(UpdateNotificationsRequestBuilder)
 @interface SFSDKUpdateNotificationsRequestBuilder: NSObject
 
