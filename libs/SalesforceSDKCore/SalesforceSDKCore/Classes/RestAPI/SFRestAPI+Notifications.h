@@ -82,7 +82,7 @@ NS_SWIFT_NAME(FetchNotificationsRequestBuilder)
 @end
 
 /**
- * Use this interface to create a RestRequest object that calls the NotificationUpdate and NotificationsUpdate REST API.
+ * Use this interface to create a PATCH RestRequest object that calls the Notifications REST API.
  * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_list.htm
  * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm
  */
