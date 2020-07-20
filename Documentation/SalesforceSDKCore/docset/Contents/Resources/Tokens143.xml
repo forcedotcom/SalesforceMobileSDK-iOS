@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFTestSDKManagerFlow.html">
+	<File path="Classes/SFSecureEncryptionKey.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFTestSDKManagerFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSecureEncryptionKey</TokenIdentifier>
+			<Abstract type="html">A secure encryption key. Key bits are not exposed.
+The key lives in the keychain or, if available, the Secure Enclave.
+This key might not be appropriate for encrypting and decrypting large amounts of data.</Abstract>
+			<DeclaredIn>SFSecureEncryptionKey.h</DeclaredIn>
             
 			
 			<NodeRef refid="143"/>
@@ -13,98 +15,53 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/setPauseInAuth:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecureEncryptionKey/createKey:</TokenIdentifier>
+			<Abstract type="html">Create a new SFSecureEncryptionKey with the given label.</Abstract>
+			<DeclaredIn>SFSecureEncryptionKey.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>+ (instancetype)createKey:(NSString *)label</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>label</Name>
+					<Abstract type="html">Key label.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Anchor>//api/name/createKey:</Anchor>
             <NodeRef refid="143"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecureEncryptionKey/retrieveKey:</TokenIdentifier>
+			<Abstract type="html">Retrieve the key with the given label from the keychain.</Abstract>
+			<DeclaredIn>SFSecureEncryptionKey.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
-			
-			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Declaration>+ (nullable instancetype)retrieveKey:(NSString *)label</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>label</Name>
+					<Abstract type="html">Key label.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">nil if the key isn&apos;t found.</Abstract></ReturnValue>
+			<Anchor>//api/name/retrieveKey:</Anchor>
             <NodeRef refid="143"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecureEncryptionKey/deleteKey:</TokenIdentifier>
+			<Abstract type="html">Delete the key with the given label from the keychain.</Abstract>
+			<DeclaredIn>SFSecureEncryptionKey.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>+ (void)deleteKey:(NSString *)label</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>label</Name>
+					<Abstract type="html">Key label.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/pauseInAuth</Anchor>
-            <NodeRef refid="143"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/initWithStepTimeDelaySecs:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithStepTimeDelaySecs:(NSTimeInterval)timeDelayInSecs</Declaration>
-			
-			
-			<Anchor>//api/name/initWithStepTimeDelaySecs:</Anchor>
-            <NodeRef refid="143"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/resumeAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (void)resumeAuth</Declaration>
-			
-			
-			<Anchor>//api/name/resumeAuth</Anchor>
-            <NodeRef refid="143"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/waitForLaunchCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)waitForLaunchCompletion</Declaration>
-			
-			
-			<Anchor>//api/name/waitForLaunchCompletion</Anchor>
-            <NodeRef refid="143"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/setUpUserSwitchState:toUser:completion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (void)setUpUserSwitchState:(SFUserAccount *)fromUser toUser:(SFUserAccount *)fromUser completion:(void ( ^ ) ( SFUserAccount *, SFUserAccount *, BOOL before ))switchUserCompletionBlock</Declaration>
-			
-			
-			<Anchor>//api/name/setUpUserSwitchState:toUser:completion:</Anchor>
-            <NodeRef refid="143"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/clearUserSwitchState</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (void)clearUserSwitchState</Declaration>
-			
-			
-			<Anchor>//api/name/clearUserSwitchState</Anchor>
+			<Anchor>//api/name/deleteKey:</Anchor>
             <NodeRef refid="143"/>
 		</Token>
 		

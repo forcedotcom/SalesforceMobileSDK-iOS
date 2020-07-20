@@ -182,6 +182,18 @@ return &quot;Library/Caches/&lt;bundleIdentifier&gt;/&quot;</Abstract>
             <NodeRef refid="16"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFDirectoryManager/upgradeUserDirectories</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFDirectoryManager+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)upgradeUserDirectories</Declaration>
+			
+			
+			<Anchor>//api/name/upgradeUserDirectories</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
         
         
 	</File>

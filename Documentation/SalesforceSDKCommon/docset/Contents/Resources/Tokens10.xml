@@ -89,7 +89,7 @@
 			<Abstract type="html">Retrieves object for the key specified (Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (id)objectForKey:(id&lt;NSCopying&gt;)aKey</Declaration>
+			<Declaration>- (nullable ObjectType)objectForKey:(KeyType&lt;NSCopying&gt;)aKey</Declaration>
 			
 			<ReturnValue><Abstract type="html">object for specified key</Abstract></ReturnValue>
 			<Anchor>//api/name/objectForKey:</Anchor>
@@ -101,7 +101,7 @@
 			<Abstract type="html">Retrieves object for the key specified (Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (id)objectForKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
+			<Declaration>- (nullable ObjectType)objectForKeyedSubscript:(KeyType&lt;NSCopying&gt;)key</Declaration>
 			
 			<ReturnValue><Abstract type="html">object for specified key</Abstract></ReturnValue>
 			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
@@ -113,7 +113,7 @@
 			<Abstract type="html">Retreives all keys for object specified (Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)allKeysForObject:(id)anObject</Declaration>
+			<Declaration>- (NSArray&lt;KeyType&gt; *)allKeysForObject:(ObjectType)anObject</Declaration>
 			
 			<ReturnValue><Abstract type="html">Array with keys</Abstract></ReturnValue>
 			<Anchor>//api/name/allKeysForObject:</Anchor>
@@ -125,7 +125,7 @@
 			<Abstract type="html">Get a NSDictionary from the mutable Dictionary (Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (NSDictionary *)dictionary</Declaration>
+			<Declaration>- (NSDictionary&lt;KeyType,ObjectType&gt; *)dictionary</Declaration>
 			
 			
 			<Anchor>//api/name/dictionary</Anchor>
@@ -137,7 +137,7 @@
 			<Abstract type="html">Sets object for key specified (Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (void)setObject:(id)object forKey:(id&lt;NSCopying&gt;)aKey</Declaration>
+			<Declaration>- (void)setObject:(ObjectType)object forKey:(KeyType&lt;NSCopying&gt;)aKey</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>object</Name>
@@ -157,7 +157,7 @@
 			<Abstract type="html">Sets object for key specified (Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (void)setObject:(id)object forKeyedSubscript:(id&lt;NSCopying&gt;)aKey</Declaration>
+			<Declaration>- (void)setObject:(ObjectType)object forKeyedSubscript:(KeyType&lt;NSCopying&gt;)aKey</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>object</Name>
@@ -177,7 +177,7 @@
 			<Abstract type="html">Removes object for key specified (Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (void)removeObject:(id&lt;NSCopying&gt;)aKey</Declaration>
+			<Declaration>- (void)removeObject:(KeyType&lt;NSCopying&gt;)aKey</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>aKey</Name>
@@ -206,7 +206,7 @@
 			<Abstract type="html">removes objects for keys (Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (void)removeObjects:(NSArray&lt;id&lt;NSCopying&gt; &gt; *)keys</Declaration>
+			<Declaration>- (void)removeObjects:(NSArray&lt;KeyType&lt;NSCopying&gt; &gt; *)keys</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>keys</Name>
@@ -223,7 +223,7 @@
 			<Abstract type="html">Adds entries from the dictionary passed in (Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (void)addEntries:(NSDictionary *)otherDictionary</Declaration>
+			<Declaration>- (void)addEntries:(NSDictionary&lt;KeyType,ObjectType&gt; *)otherDictionary</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>otherDictionary</Name>
@@ -240,7 +240,7 @@
 			<Abstract type="html">Sets the dictionary collection to the dictionary passed in(Thread Safe)</Abstract>
 			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
 			
-			<Declaration>- (void)setDictionary:(NSDictionary *)dictionary</Declaration>
+			<Declaration>- (void)setDictionary:(NSDictionary&lt;KeyType,ObjectType&gt; *)dictionary</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>dictionary</Name>

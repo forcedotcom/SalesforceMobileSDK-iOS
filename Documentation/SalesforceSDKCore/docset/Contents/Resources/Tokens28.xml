@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFLoginViewController.html">
+	<File path="Classes/SFKeychainItemWrapper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFLoginViewController</TokenIdentifier>
-			<Abstract type="html">The Salesforce login screen view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFKeychainItemWrapper</TokenIdentifier>
+			<Abstract type="html">This class is a wrapper class used to interact with the keychain.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
             
 			
 			<NodeRef refid="28"/>
@@ -13,356 +13,243 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setDelegate:</TokenIdentifier>
-			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/accessibleAttribute</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/accessibleAttribute</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
+			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/accessibleAttribute</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setOauthView:</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainAccessErrorsAreFatal</TokenIdentifier>
+			<Abstract type="html">Indicates whether keychain access errors cause a fatal exception.  Default is YES.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
+			<Declaration>+ (BOOL)keychainAccessErrorsAreFatal</Declaration>
 			
-			
-			<Anchor>//api/name/oauthView</Anchor>
+			<ReturnValue><Abstract type="html">Indicates whether keychain access errors cause a fatal exception.  Default is YES.</Abstract></ReturnValue>
+			<Anchor>//api/name/keychainAccessErrorsAreFatal</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/oauthView</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/setKeychainAccessErrorsAreFatal:</TokenIdentifier>
+			<Abstract type="html">Sets whether or not keychain access errors cause a fatal exception.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
-			
-			
-			<Anchor>//api/name/oauthView</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/oauthView</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
-			
-			
-			<Anchor>//api/name/oauthView</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/set:</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/)</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/)</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setConfig:</TokenIdentifier>
-			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
-a config object</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
-			
-			
-			<Anchor>//api/name/config</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/config</TokenIdentifier>
-			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
-a config object</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
-			
-			
-			<Anchor>//api/name/config</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/config</TokenIdentifier>
-			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
-a config object</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
-			
-			
-			<Anchor>//api/name/config</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBar:</TokenIdentifier>
-			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
-			
-			
-			<Anchor>//api/name/navBar</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBar</TokenIdentifier>
-			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
-			
-			
-			<Anchor>//api/name/navBar</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBar</TokenIdentifier>
-			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
-			
-			
-			<Anchor>//api/name/navBar</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setLoginHostListViewController:</TokenIdentifier>
-			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
-			
-			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
-			
-			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
-			
-			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/styleNavigationBar:</TokenIdentifier>
-			<Abstract type="html">Applies the view&apos;s style attributes to the given navigation bar.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar</Declaration>
+			<Declaration>+ (void)setKeychainAccessErrorsAreFatal:(BOOL)errorsAreFatal</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>navigationBar</Name>
-					<Abstract type="html">The navigation bar that the style is applied to.</Abstract>
+					<Name>errorsAreFatal</Name>
+					<Abstract type="html">Whether keychain access errors should be fatal.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/styleNavigationBar:</Anchor>
+			<Anchor>//api/name/setKeychainAccessErrorsAreFatal:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showHostListView</TokenIdentifier>
-			<Abstract type="html">Present the Host List View.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
+			<Abstract type="html">Sets the accessible attribute used by this keychain item wrapper class.
+If the previous attribute value is different, this method will trigger
+an update of all the items in the keychain.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>- (void)showHostListView</Declaration>
-			
-			
-			<Anchor>//api/name/showHostListView</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/hideHostListView:</TokenIdentifier>
-			<Abstract type="html">Hide the Host List View.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)hideHostListView:(BOOL)animated</Declaration>
+			<Declaration>+ (void)setAccessibleAttribute:(nullable CFTypeRef)accessibleAttribute</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>animated</Name>
-					<Abstract type="html">Indicates whether or not the hiding should be animated.</Abstract>
+					<Name>accessibleAttribute</Name>
+					<Abstract type="html">The accessible attribute for this keychain item wrapper class.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/hideHostListView:</Anchor>
+			<Anchor>//api/name/setAccessibleAttribute:</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createBackButton</TokenIdentifier>
-			<Abstract type="html">Factory Method to create the back button.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/itemWithIdentifier:account:</TokenIdentifier>
+			<Abstract type="html">Factory method to hand out an SFKeychainItemWrapper object with the given identifier and account.
+Note that, for any given combination of identifier and account, only one object will be created
+at runtime.  Subsequent requests will return the same object.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>- (nonnull UIBarButtonItem *)createBackButton</Declaration>
-			
-			
-			<Anchor>//api/name/createBackButton</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createSettingsButton</TokenIdentifier>
-			<Abstract type="html">Factory Method to create the settings button.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (nonnull UIBarButtonItem *)createSettingsButton</Declaration>
-			
-			
-			<Anchor>//api/name/createSettingsButton</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createTitleItem</TokenIdentifier>
-			<Abstract type="html">Factory Method to create the navigation title.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (nonnull UIView *)createTitleItem</Declaration>
-			
-			
-			<Anchor>//api/name/createTitleItem</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createLoginHostListViewController</TokenIdentifier>
-			<Abstract type="html">Factory Method to create the hostListView Controller.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (nonnull SFSDKLoginHostListViewController *)createLoginHostListViewController</Declaration>
-			
-			
-			<Anchor>//api/name/createLoginHostListViewController</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/shouldShowBackButton</TokenIdentifier>
-			<Abstract type="html">Logic to show back button.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)shouldShowBackButton</Declaration>
-			
-			
-			<Anchor>//api/name/shouldShowBackButton</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/handleBackButtonAction</TokenIdentifier>
-			<Abstract type="html">Back Button was pressed by user</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)handleBackButtonAction</Declaration>
-			
-			
-			<Anchor>//api/name/handleBackButtonAction</Anchor>
-            <NodeRef refid="28"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/handleLoginHostSelectedAction:</TokenIdentifier>
-			<Abstract type="html">User Selected a host from the host list</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)handleLoginHostSelectedAction:(nonnull SFSDKLoginHost *)host</Declaration>
+			<Declaration>+ (nullable SFKeychainItemWrapper *)itemWithIdentifier:(nullable NSString *)identifier account:(nullable NSString *)account</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>host</Name>
-					<Abstract type="html">SFSDKLoginHost</Abstract>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier to use for the SFKeychainItemWrapper object.</Abstract>
+				</Parameter><Parameter>
+					<Name>account</Name>
+					<Abstract type="html">Account to use for the SFKeychainItemWrapper object.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/handleLoginHostSelectedAction:</Anchor>
+			<Anchor>//api/name/itemWithIdentifier:account:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/resetKeychainItem</TokenIdentifier>
+			<Abstract type="html">Reset the keychain item.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)resetKeychainItem</Declaration>
+			
+			
+			<Anchor>//api/name/resetKeychainItem</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setValueData:</TokenIdentifier>
+			<Abstract type="html">Store arbitrary data to the keychain for the service (identifier) and account specified in the initializer.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			
+			<Declaration>- (OSStatus)setValueData:(nullable NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Arbitrary data to store in the keychain. Can be nil.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The status of the keychain update request.</Abstract></ReturnValue>
+			<Anchor>//api/name/setValueData:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/valueString</TokenIdentifier>
+			<Abstract type="html">Read arbitrary string from the keychain for the service (identifier) and account specified in the initializer.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)valueString</Declaration>
+			
+			<ReturnValue><Abstract type="html">Arbitrary string read from the keychain. Can be nil.</Abstract></ReturnValue>
+			<Anchor>//api/name/valueString</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setValueString:</TokenIdentifier>
+			<Abstract type="html">Store arbitrary string to the keychain for the service (identifier) and account specified in the initializer.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			
+			<Declaration>- (OSStatus)setValueString:(nullable NSString *)string</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>string</Name>
+					<Abstract type="html">Arbitrary string to store in the keychain. Can be nil.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The status of the keychain update request.</Abstract></ReturnValue>
+			<Anchor>//api/name/setValueString:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/valueData</TokenIdentifier>
+			<Abstract type="html">Read arbitrary data from the keychain for the service (identifier) and account specified in the initializer.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSData *)valueData</Declaration>
+			
+			<ReturnValue><Abstract type="html">Arbitrary data read from the keychain. Can be nil.</Abstract></ReturnValue>
+			<Anchor>//api/name/valueData</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainErrorCodeString:</TokenIdentifier>
+			<Abstract type="html">Return a string value for an OSStatus error code.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)keychainErrorCodeString:(OSStatus)errorCode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>errorCode</Name>
+					<Abstract type="html">The code to stringify.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The string version of the error code.</Abstract></ReturnValue>
+			<Anchor>//api/name/keychainErrorCodeString:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setKeychainData:</TokenIdentifier>
+			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			
+			
+			<Anchor>//api/name/keychainData</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/keychainData</TokenIdentifier>
+			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			
+			
+			<Anchor>//api/name/keychainData</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/keychainData</TokenIdentifier>
+			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			
+			
+			<Anchor>//api/name/keychainData</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/resetInMemoryKeychainItems</TokenIdentifier>
+			<Abstract type="html">Clears the memory cache of keychain items.  NOTE: Used for unit tests only!</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)resetInMemoryKeychainItems</Declaration>
+			
+			
+			<Anchor>//api/name/resetInMemoryKeychainItems</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		

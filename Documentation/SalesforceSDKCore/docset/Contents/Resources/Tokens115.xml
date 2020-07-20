@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPushNotificationDecryption.html">
+	<File path="Classes/SFSDKPasscodeVerifyController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDecryption</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPasscodeVerifyController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDecryption.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
             
 			
 			<NodeRef refid="115"/>
@@ -13,58 +13,122 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/decryptNotificationContent:error:</TokenIdentifier>
-			<Abstract type="html">Decrypts the given notification content. Leaves the content unchanged if it&apos;s not encrypted.</Abstract>
-			<DeclaredIn>SFSDKPushNotificationDecryption.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setViewConfig:</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)decryptNotificationContent:(nonnull UNMutableNotificationContent *)notificationContent error:(NSError *_Nullable *_Nullable)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>notificationContent</Name>
-					<Abstract type="html">Content to decrypt.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error associated with decryption, if an error occurs.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES on success, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/decryptNotificationContent:error:</Anchor>
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
+			
+			
+			<Anchor>//api/name/viewConfig</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/validateNotificationUserInfo:error:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/viewConfig</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)validateNotificationUserInfo:(nonnull NSDictionary *)userInfo error:(NSError *_Nullable *_Nullable)error</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
 			
 			
-			<Anchor>//api/name/validateNotificationUserInfo:error:</Anchor>
+			<Anchor>//api/name/viewConfig</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/getAESKeyFromSecret:error:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/viewConfig</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
 			
-			<Declaration>+ (nullable SFEncryptionKey *)getAESKeyFromSecret:(nonnull NSString *)secret error:(NSError *_Nullable *_Nullable)error</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
 			
 			
-			<Anchor>//api/name/getAESKeyFromSecret:error:</Anchor>
+			<Anchor>//api/name/viewConfig</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/aesDecryptString:withKey:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setPasscodeLengthKnown:</TokenIdentifier>
+			<Abstract type="html">Wether the passcode length is known.</Abstract>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/passcodeLengthKnown</TokenIdentifier>
+			<Abstract type="html">Wether the passcode length is known.</Abstract>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/passcodeLengthKnown</TokenIdentifier>
+			<Abstract type="html">Wether the passcode length is known.</Abstract>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setVerifyDelegate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)aesDecryptString:(nonnull NSString *)encryptedString withKey:(nonnull SFEncryptionKey *)key error:(NSError *_Nullable *_Nullable)error</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/aesDecryptString:withKey:error:</Anchor>
+			<Anchor>//api/name/verifyDelegate</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/verifyDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/verifyDelegate</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/verifyDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/verifyDelegate</Anchor>
+            <NodeRef refid="115"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/initWithViewConfig:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
+			
+			
+			<Anchor>//api/name/initWithViewConfig:</Anchor>
             <NodeRef refid="115"/>
 		</Token>
 		

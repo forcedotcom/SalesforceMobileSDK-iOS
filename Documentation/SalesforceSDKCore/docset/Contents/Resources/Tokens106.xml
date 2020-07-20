@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNullURLCache.html">
+	<File path="Classes/SFSDKNavigationController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNullURLCache</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNavigationController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKNullURLCache.h</DeclaredIn>
+			<DeclaredIn>SFSDKNavigationController.h</DeclaredIn>
             
 			
 			<NodeRef refid="106"/>

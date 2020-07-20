@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFSHA.html">
+	<File path="Categories/NSData+SFHexSupport.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSHA)</TokenIdentifier>
-			<Abstract type="html">Provides MD5 conversion support.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFHexSupport)</TokenIdentifier>
+			<Abstract type="html">Provides hex string conversion support.</Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
@@ -13,50 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/digest</TokenIdentifier>
-			<Abstract type="html">Derives  a 16-byte  hex encoded string .</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/newHexStringFromBytes</TokenIdentifier>
+			<Abstract type="html">Creates a hex string representation of this object&apos;s data.</Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)digest</Declaration>
+			<Declaration>- (NSString *)newHexStringFromBytes</Declaration>
 			
-			<ReturnValue><Abstract type="html">16-byte  hex encoded string.</Abstract></ReturnValue>
-			<Anchor>//api/name/digest</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha1</TokenIdentifier>
-			<Abstract type="html">Derives  a  sha1  hex encoded string.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)sha1</Declaration>
-			
-			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
-			<Anchor>//api/name/sha1</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha224</TokenIdentifier>
-			<Abstract type="html">Derives  a  sha224  hex encoded string.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)sha224</Declaration>
-			
-			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
-			<Anchor>//api/name/sha224</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha256</TokenIdentifier>
-			<Abstract type="html">Derives  a  sha256  hex encoded string.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)sha256</Declaration>
-			
-			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
-			<Anchor>//api/name/sha256</Anchor>
+			<ReturnValue><Abstract type="html">Hex string representation of this object&apos;s data.</Abstract></ReturnValue>
+			<Anchor>//api/name/newHexStringFromBytes</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		

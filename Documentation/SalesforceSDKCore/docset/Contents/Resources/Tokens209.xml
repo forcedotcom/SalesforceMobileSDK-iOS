@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFEntityIdLength.html">
+	<File path="Constants/SFAppLockControllerMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFEntityIdLength</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAppLockControllerMode</TokenIdentifier>
+			<Abstract type="html">Mode constants indicating whether to create/verify an passcode or use biometric.</Abstract>
+			<DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
 			
 			<NodeRef refid="209"/>
@@ -14,41 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength15</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeCreatePasscode</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength15</Declaration>
+            <Declaration>SFAppLockControllerModeCreatePasscode</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength18</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyPasscode</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLength18</Declaration>
+            <Declaration>SFAppLockControllerModeVerifyPasscode</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMin</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeChangePasscode</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMin</Declaration>
+            <Declaration>SFAppLockControllerModeChangePasscode</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMax</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeEnableBiometric</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFEntityIdLengthMax</Declaration>
+            <Declaration>SFAppLockControllerModeEnableBiometric</Declaration>
             
-            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            
+            <NodeRef refid="209"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyBiometric</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAppLockControllerModeVerifyBiometric</Declaration>
+            
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
             <NodeRef refid="209"/>
         </Token>

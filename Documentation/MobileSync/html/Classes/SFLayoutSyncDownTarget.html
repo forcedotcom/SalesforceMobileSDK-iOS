@@ -56,15 +56,23 @@
 	
 	<optgroup label="Properties">
 		
+		<option value="//api/name/formFactor">formFactor</option>
+		
 		<option value="//api/name/layoutType">layoutType</option>
 		
-		<option value="//api/name/objectType">objectType</option>
+		<option value="//api/name/mode">mode</option>
+		
+		<option value="//api/name/objectAPIName">objectAPIName</option>
+		
+		<option value="//api/name/recordTypeId">recordTypeId</option>
 		
 	</optgroup>
 	
 
 	
 	<optgroup label="Class Methods">
+		
+		<option value="//api/name/newSyncTarget:formFactor:layoutType:mode:recordTypeId:">+ newSyncTarget:formFactor:layoutType:mode:recordTypeId:</option>
 		
 		<option value="//api/name/newSyncTarget:layoutType:">+ newSyncTarget:layoutType:</option>
 		
@@ -121,8 +129,8 @@ The easiest way to use this sync target is through <a href="../Classes/SFLayoutS
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/objectType" title="objectType"></a>
-	<h3 class="method-title"><code><a href="#//api/name/objectType">&nbsp;&nbsp;objectType</a></code>
+	<a name="//api/name/objectAPIName" title="objectAPIName"></a>
+	<h3 class="method-title"><code><a href="#//api/name/objectAPIName">&nbsp;&nbsp;objectAPIName</a></code>
 </h3>
 
 	<div class="method-info">
@@ -131,7 +139,23 @@ The easiest way to use this sync target is through <a href="../Classes/SFLayoutS
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *objectType</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonnull, nonatomic, strong, readonly) NSString *objectAPIName</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/formFactor" title="formFactor"></a>
+	<h3 class="method-title"><code><a href="#//api/name/formFactor">&nbsp;&nbsp;formFactor</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong, readonly) NSString *formFactor</code></div>
 
 		    
 		</div>
@@ -147,7 +171,39 @@ The easiest way to use this sync target is through <a href="../Classes/SFLayoutS
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *layoutType</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong, readonly) NSString *layoutType</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/mode" title="mode"></a>
+	<h3 class="method-title"><code><a href="#//api/name/mode">&nbsp;&nbsp;mode</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong, readonly) NSString *mode</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/recordTypeId" title="recordTypeId"></a>
+	<h3 class="method-title"><code><a href="#//api/name/recordTypeId">&nbsp;&nbsp;recordTypeId</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong, readonly) NSString *recordTypeId</code></div>
 
 		    
 		</div>
@@ -169,7 +225,48 @@ The easiest way to use this sync target is through <a href="../Classes/SFLayoutS
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)<em>objectType</em> layoutType:(nullable NSString *)<em>layoutType</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (nonnull SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)<em>objectType</em> layoutType:(nullable NSString *)<em>layoutType</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFLayoutSyncDownTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newSyncTarget:formFactor:layoutType:mode:recordTypeId:" title="newSyncTarget:formFactor:layoutType:mode:recordTypeId:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newSyncTarget:formFactor:layoutType:mode:recordTypeId:">+&nbsp;newSyncTarget:formFactor:layoutType:mode:recordTypeId:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Factory method.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nonnull SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)<em>objectAPIName</em> formFactor:(nullable NSString *)<em>formFactor</em> layoutType:(nullable NSString *)<em>layoutType</em> mode:(nullable NSString *)<em>mode</em> recordTypeId:(nullable NSString *)<em>recordTypeId</em></code></div>
 
 		    
 			
@@ -208,7 +305,7 @@ The easiest way to use this sync target is through <a href="../Classes/SFLayoutS
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 Salesforce.com. All rights reserved. Updated: 2020-02-12</p>
+						<p class="copyright">Copyright &copy; 2020 Salesforce.com. All rights reserved. Updated: 2020-07-20</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

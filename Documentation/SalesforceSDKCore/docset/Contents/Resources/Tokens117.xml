@@ -1,16 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKRootController.html">
+	<File path="Classes/SFSDKPushNotificationDecryption.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKRootController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDecryption</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKRootController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption.h</DeclaredIn>
             
 			
 			<NodeRef refid="117"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/decryptNotificationContent:error:</TokenIdentifier>
+			<Abstract type="html">Decrypts the given notification content. Leaves the content unchanged if it&apos;s not encrypted.</Abstract>
+			<DeclaredIn>SFSDKPushNotificationDecryption.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)decryptNotificationContent:(nonnull UNMutableNotificationContent *)notificationContent error:(NSError *_Nullable *_Nullable)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationContent</Name>
+					<Abstract type="html">Content to decrypt.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with decryption, if an error occurs.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES on success, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/decryptNotificationContent:error:</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/validateNotificationUserInfo:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)validateNotificationUserInfo:(nonnull NSDictionary *)userInfo error:(NSError *_Nullable *_Nullable)error</Declaration>
+			
+			
+			<Anchor>//api/name/validateNotificationUserInfo:error:</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/getAESKeyFromSecret:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (nullable SFEncryptionKey *)getAESKeyFromSecret:(nonnull NSString *)secret error:(NSError *_Nullable *_Nullable)error</Declaration>
+			
+			
+			<Anchor>//api/name/getAESKeyFromSecret:error:</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/aesDecryptString:withKey:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)aesDecryptString:(nonnull NSString *)encryptedString withKey:(nonnull SFEncryptionKey *)key error:(NSError *_Nullable *_Nullable)error</Declaration>
+			
+			
+			<Anchor>//api/name/aesDecryptString:withKey:error:</Anchor>
+            <NodeRef refid="117"/>
+		</Token>
 		
         
         

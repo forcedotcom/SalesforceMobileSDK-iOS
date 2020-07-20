@@ -191,6 +191,42 @@ mode and triggers the supplied completion block once complete.</Abstract>
             <NodeRef refid="12"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncManager/fetchLayoutForObjectAPIName:formFactor:layoutType:mode:recordTypeId:syncMode:completionBlock:</TokenIdentifier>
+			<Abstract type="html">Fetches layout data for the specified parameters using the specified sync
+mode and triggers the supplied completion block once complete.</Abstract>
+			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
+			
+			<Declaration>- (void)fetchLayoutForObjectAPIName:(nonnull NSString *)objectAPIName formFactor:(nullable NSString *)formFactor layoutType:(nullable NSString *)layoutType mode:(nullable NSString *)mode recordTypeId:(nullable NSString *)recordTypeId syncMode:(SFSDKFetchMode)syncMode completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectAPIName</Name>
+					<Abstract type="html">Object API name.</Abstract>
+				</Parameter><Parameter>
+					<Name>formFactor</Name>
+					<Abstract type="html">Form factor. Could be &quot;Large&quot;, &quot;Medium&quot; or &quot;Small&quot;. Default value is &quot;Large&quot;.</Abstract>
+				</Parameter><Parameter>
+					<Name>layoutType</Name>
+					<Abstract type="html">Layout type. Defaults to &quot;Full&quot; if nil is passed in.</Abstract>
+				</Parameter><Parameter>
+					<Name>mode</Name>
+					<Abstract type="html">Mode. Could be &quot;Create&quot;, &quot;Edit&quot; or &quot;View&quot;. Default value is &quot;View&quot;.</Abstract>
+				</Parameter><Parameter>
+					<Name>recordTypeId</Name>
+					<Abstract type="html">Record type ID. Default will be used if not supplied.</Abstract>
+				</Parameter><Parameter>
+					<Name>syncMode</Name>
+					<Abstract type="html">Fetch mode. See SFSDKFetchMode for available modes.</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Layout sync completion block.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/fetchLayoutForObjectAPIName:formFactor:layoutType:mode:recordTypeId:syncMode:completionBlock:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
         
         
 	</File>

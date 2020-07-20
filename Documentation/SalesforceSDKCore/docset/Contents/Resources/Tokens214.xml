@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthSessionRefreshErrorCode.html">
+	<File path="Constants/SFEntityIdLength.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthSessionRefreshErrorCode</TokenIdentifier>
-			<Abstract type="html">Error codes for refresh failures.</Abstract>
-			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFEntityIdLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="214"/>
@@ -14,11 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthSessionRefreshErrorCodeInvalidCredentials</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength15</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthSessionRefreshErrorCodeInvalidCredentials</Declaration>
+            <Declaration>SFEntityIdLength15</Declaration>
             
-            <DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            
+            <NodeRef refid="214"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength18</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFEntityIdLength18</Declaration>
+            
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            
+            <NodeRef refid="214"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMin</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFEntityIdLengthMin</Declaration>
+            
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+            
+            <NodeRef refid="214"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMax</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFEntityIdLengthMax</Declaration>
+            
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
             <NodeRef refid="214"/>
         </Token>

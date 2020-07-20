@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFzlib.html">
+	<File path="Categories/NSData+SFSDKUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFzlib)</TokenIdentifier>
-			<Abstract type="html">Provides gzip uncompressed conversion support.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtils)</TokenIdentifier>
+			<Abstract type="html">Mobile SDK utility additions to NSData.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="163"/>
@@ -13,26 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipInflate</TokenIdentifier>
-			<Abstract type="html">Converts this data to gzip uncompressed format.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkBase64UrlString</TokenIdentifier>
+			<Abstract type="html">Creates a base64url string based on the data.  See RFC 4648.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSData *)gzipInflate</Declaration>
+			<Declaration>- (NSString *)msdkBase64UrlString</Declaration>
 			
-			<ReturnValue><Abstract type="html">This data in gzip uncompressed format.</Abstract></ReturnValue>
-			<Anchor>//api/name/gzipInflate</Anchor>
+			<ReturnValue><Abstract type="html">The base64url string based on the data.</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkBase64UrlString</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipDeflate</TokenIdentifier>
-			<Abstract type="html">Converts this data to gzip compressed format.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkSha256Data</TokenIdentifier>
+			<Abstract type="html">Creates an SHA256 hash of the given data.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSData *)gzipDeflate</Declaration>
+			<Declaration>- (nullable NSData *)msdkSha256Data</Declaration>
 			
-			<ReturnValue><Abstract type="html">This data in gzip compressed format.</Abstract></ReturnValue>
-			<Anchor>//api/name/gzipDeflate</Anchor>
+			<ReturnValue><Abstract type="html">The SHA256 hash of the given data.</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkSha256Data</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		

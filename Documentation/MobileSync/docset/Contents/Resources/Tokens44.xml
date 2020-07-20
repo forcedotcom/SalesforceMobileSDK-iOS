@@ -265,6 +265,18 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createAccountsLocally:mutateBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)createAccountsLocally:(NSArray *)names mutateBlock:(SFRecordMutatorBlock)mutateBlock</Declaration>
+			
+			
+			<Anchor>//api/name/createAccountsLocally:mutateBlock:</Anchor>
+            <NodeRef refid="44"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createAccountsSoup</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>

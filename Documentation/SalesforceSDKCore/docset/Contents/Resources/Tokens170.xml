@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIColor+SFColors.html">
+	<File path="Categories/NSString+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFColors)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSString(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Extension to NSString object</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="170"/>
@@ -13,615 +13,234 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/colorFromHexValue:</TokenIdentifier>
-			<Abstract type="html">Construct a color given hex color, like &quot;#00FF00&quot; (#RRGGBB).</Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringWithHexData:</TokenIdentifier>
+			<Abstract type="html">A hex string representation of the supplied data; or nil if data is nil or empty.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (nullable UIColor *)colorFromHexValue:(NSString *)hexString</Declaration>
-			
-			
-			<Anchor>//api/name/colorFromHexValue:</Anchor>
+			<Declaration>+ (nullable NSString *)stringWithHexData:(nullable NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">NSData to be represented as a base 16 string.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A hex string representation of the supplied data; or nil if data is nil or empty.</Abstract></ReturnValue>
+			<Anchor>//api/name/stringWithHexData:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/colorForLightStyle:darkStyle:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sha256</TokenIdentifier>
+			<Abstract type="html">Returns an SHA 256 hash of the current string</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor</Declaration>
+			<Declaration>- (NSData *)sha256</Declaration>
 			
 			
-			<Anchor>//api/name/colorForLightStyle:darkStyle:</Anchor>
+			<Anchor>//api/name/sha256</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/hexStringFromColor</TokenIdentifier>
-			<Abstract type="html">Returns a CSS hex color representation
-of this color</Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/escapeXMLCharacter:</TokenIdentifier>
+			<Abstract type="html">Escape XML entities</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)hexStringFromColor</Declaration>
+			<Declaration>+ (nullable NSString *)escapeXMLCharacter:(nullable NSString *)value</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>value</Name>
+					<Abstract type="html">String value to escape. If nil is passed, this method will return nil.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/hexStringFromColor</Anchor>
+			<Anchor>//api/name/escapeXMLCharacter:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceBlueColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/unescapeXMLCharacter:</TokenIdentifier>
+			<Abstract type="html">unescape XML entities</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBlueColor</Declaration>
+			<Declaration>+ (nullable NSString *)unescapeXMLCharacter:(nullable NSString *)value</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>value</Name>
+					<Abstract type="html">String value to unescape. If nil is passed, this method will return nil.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/salesforceBlueColor</Anchor>
+			<Anchor>//api/name/unescapeXMLCharacter:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBlueColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/trim</TokenIdentifier>
+			<Abstract type="html">Trim string by taking out beginning and ending space.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBlueColor</Declaration>
+			<Declaration>- (NSString *)trim</Declaration>
 			
 			
-			<Anchor>//api/name/salesforceBlueColor</Anchor>
+			<Anchor>//api/name/trim</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceBlueColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/redacted</TokenIdentifier>
+			<Abstract type="html">Returns the string in debug build or a redacted version of it
+for production build</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBlueColor</Declaration>
+			<Declaration>- (NSString *)redacted</Declaration>
 			
 			
-			<Anchor>//api/name/salesforceBlueColor</Anchor>
+			<Anchor>//api/name/redacted</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceSystemBackgroundColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/redactedWithPrefix:</TokenIdentifier>
+			<Abstract type="html">Returns the string in debug build or a redacted version of it
+for production build. The prefix length is the number of characters
+that won&apos;t be redacted from the beginning of the string.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceSystemBackgroundColor</Declaration>
+			<Declaration>- (NSString *)redactedWithPrefix:(NSUInteger)prefixLength</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>prefixLength</Name>
+					<Abstract type="html">The number of characters to preserve at the beginning of the string.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/salesforceSystemBackgroundColor</Anchor>
+			<Anchor>//api/name/redactedWithPrefix:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceSystemBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEmpty:</TokenIdentifier>
+			<Abstract type="html">Return YES if string is nil or length is 0 or with white space only</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceSystemBackgroundColor</Declaration>
+			<Declaration>+ (BOOL)isEmpty:(nullable NSString *)string</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>string</Name>
+					<Abstract type="html">String to check</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/salesforceSystemBackgroundColor</Anchor>
+			<Anchor>//api/name/isEmpty:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceSystemBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/removeWhitespaces</TokenIdentifier>
+			<Abstract type="html">Returns a string after taking out any space</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceSystemBackgroundColor</Declaration>
+			<Declaration>- (NSString *)removeWhitespaces</Declaration>
 			
 			
-			<Anchor>//api/name/salesforceSystemBackgroundColor</Anchor>
+			<Anchor>//api/name/removeWhitespaces</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceLabelColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringByURLEncoding</TokenIdentifier>
+			<Abstract type="html">A string with all non-legal URL characters (per RFC 3986) escaped.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceLabelColor</Declaration>
+			<Declaration>- (NSString *)stringByURLEncoding</Declaration>
 			
-			
-			<Anchor>//api/name/salesforceLabelColor</Anchor>
+			<ReturnValue><Abstract type="html">A string with all non-legal URL characters (per RFC 3986) escaped.</Abstract></ReturnValue>
+			<Anchor>//api/name/stringByURLEncoding</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceLabelColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringByStrippingHTML</TokenIdentifier>
+			<Abstract type="html">Strips any HTML markup from the source string.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceLabelColor</Declaration>
+			<Declaration>- (NSString *)stringByStrippingHTML</Declaration>
 			
 			
-			<Anchor>//api/name/salesforceLabelColor</Anchor>
+			<Anchor>//api/name/stringByStrippingHTML</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceLabelColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringWithTitleCharacter</TokenIdentifier>
+			<Abstract type="html">Returns an uppercase title character for the string without accents or other diacritic marks.
+Intended for use with UI index titles.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceLabelColor</Declaration>
+			<Declaration>- (NSString *)stringWithTitleCharacter</Declaration>
 			
 			
-			<Anchor>//api/name/salesforceLabelColor</Anchor>
+			<Anchor>//api/name/stringWithTitleCharacter</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceBackgroundRowSelectedColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/queryStringComponents</TokenIdentifier>
+			<Abstract type="html">Returns a dictionary of query string components for the string object.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBackgroundRowSelectedColor</Declaration>
+			<Declaration>- (NSDictionary *)queryStringComponents</Declaration>
 			
 			
-			<Anchor>//api/name/salesforceBackgroundRowSelectedColor</Anchor>
+			<Anchor>//api/name/queryStringComponents</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBackgroundRowSelectedColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEmptyOrWhitespaceAndNewlines</TokenIdentifier>
+			<Abstract type="html">Returns YES if the string is empty of contains only whitespance or newline characters.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBackgroundRowSelectedColor</Declaration>
+			<Declaration>- (BOOL)isEmptyOrWhitespaceAndNewlines</Declaration>
 			
 			
-			<Anchor>//api/name/salesforceBackgroundRowSelectedColor</Anchor>
+			<Anchor>//api/name/isEmptyOrWhitespaceAndNewlines</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceBackgroundRowSelectedColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/entityId18</TokenIdentifier>
+			<Abstract type="html">The 18 character case-insensitive entity ID representing the receiver.
+Returns nil if the receiver is not a valid Salesforce entity ID.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBackgroundRowSelectedColor</Declaration>
+			<Declaration>- (nullable NSString *)entityId18</Declaration>
 			
-			
-			<Anchor>//api/name/salesforceBackgroundRowSelectedColor</Anchor>
+			<ReturnValue><Abstract type="html">The 18 character case-insensitive entity ID representing the receiver.
+Returns nil if the receiver is not a valid Salesforce entity ID.</Abstract></ReturnValue>
+			<Anchor>//api/name/entityId18</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceBorderColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBorderColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceBorderColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBorderColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBorderColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceBorderColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceBorderColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceBorderColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceBorderColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceDefaultTextColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceDefaultTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceDefaultTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceDefaultTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceDefaultTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceDefaultTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceDefaultTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceDefaultTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceDefaultTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceWeakTextColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceWeakTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceWeakTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceWeakTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceWeakTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceWeakTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceWeakTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceWeakTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceWeakTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceAltTextColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceAltTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceAltTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceAltTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceAltTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceAltTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceAltBackgroundColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceAltBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceAltBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceAltBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceAltBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAltBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceAltBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceAlt2BackgroundColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAlt2BackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceAlt2BackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceAlt2BackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAlt2BackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceAlt2BackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceAlt2BackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceAlt2BackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceAlt2BackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setSalesforceTableCellBackgroundColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceTableCellBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceTableCellBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceTableCellBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceTableCellBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceTableCellBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/salesforceTableCellBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *salesforceTableCellBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/salesforceTableCellBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setPasscodeViewBackgroundColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/passcodeViewBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setPasscodeViewSecondaryBackgroundColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewSecondaryBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewSecondaryBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewSecondaryBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewSecondaryBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewSecondaryBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/passcodeViewSecondaryBackgroundColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewSecondaryBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewSecondaryBackgroundColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setPasscodeViewTextColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/passcodeViewTextColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewTextColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setPasscodeViewBorderColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBorderColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewBorderColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewBorderColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBorderColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewBorderColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/passcodeViewBorderColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewBorderColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewBorderColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/setPasscodeViewNavBarColor:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewNavBarColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewNavBarColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/passcodeViewNavBarColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewNavBarColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewNavBarColor</Anchor>
-            <NodeRef refid="170"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/UIColor/passcodeViewNavBarColor</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) UIColor *passcodeViewNavBarColor</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeViewNavBarColor</Anchor>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEqualToEntityId:</TokenIdentifier>
+			<Abstract type="html">Returns a Boolean value that indicates if the given entity ID is equal to the
+receiver. The comparison properly handles comparing 15 character case-sensitive
+ID&apos;s against 18 character case-insensitive ID&apos;s.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isEqualToEntityId:(NSString *)entityId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>entityId</Name>
+					<Abstract type="html">The entity ID to compare with the receiver.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Returns YES if the given entityId is semantically equal to the receiver,
+otherwise returns NO. Returns NO if either the given ID or receiver are not
+valid Salesforce entity ID&apos;s.</Abstract></ReturnValue>
+			<Anchor>//api/name/isEqualToEntityId:</Anchor>
             <NodeRef refid="170"/>
 		</Token>
 		

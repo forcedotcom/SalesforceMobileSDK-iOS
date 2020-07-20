@@ -14,38 +14,74 @@ The easiest way to use this sync target is through SFLayoutSyncManager.</Abstrac
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setObjectType:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setObjectAPIName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong, readonly) NSString *objectAPIName</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/objectAPIName</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/objectAPIName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong, readonly) NSString *objectAPIName</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/objectAPIName</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/objectType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/objectAPIName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *objectType</Declaration>
+			<Declaration>@property (nonnull, nonatomic, strong, readonly) NSString *objectAPIName</Declaration>
 			
 			
-			<Anchor>//api/name/objectType</Anchor>
+			<Anchor>//api/name/objectAPIName</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setFormFactor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *formFactor</Declaration>
+			
+			
+			<Anchor>//api/name/formFactor</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/formFactor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *formFactor</Declaration>
+			
+			
+			<Anchor>//api/name/formFactor</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/formFactor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *formFactor</Declaration>
+			
+			
+			<Anchor>//api/name/formFactor</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
@@ -54,7 +90,7 @@ The easiest way to use this sync target is through SFLayoutSyncManager.</Abstrac
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *layoutType</Declaration>
 			
 			
 			<Anchor>//api/name/layoutType</Anchor>
@@ -66,7 +102,7 @@ The easiest way to use this sync target is through SFLayoutSyncManager.</Abstrac
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *layoutType</Declaration>
 			
 			
 			<Anchor>//api/name/layoutType</Anchor>
@@ -78,10 +114,82 @@ The easiest way to use this sync target is through SFLayoutSyncManager.</Abstrac
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *layoutType</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *layoutType</Declaration>
 			
 			
 			<Anchor>//api/name/layoutType</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/mode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/mode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *mode</Declaration>
+			
+			
+			<Anchor>//api/name/mode</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/setRecordTypeId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *recordTypeId</Declaration>
+			
+			
+			<Anchor>//api/name/recordTypeId</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncDownTarget/recordTypeId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *recordTypeId</Declaration>
+			
+			
+			<Anchor>//api/name/recordTypeId</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLayoutSyncDownTarget/recordTypeId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong, readonly) NSString *recordTypeId</Declaration>
+			
+			
+			<Anchor>//api/name/recordTypeId</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
@@ -90,10 +198,22 @@ The easiest way to use this sync target is through SFLayoutSyncManager.</Abstrac
 			<Abstract type="html">Factory method.</Abstract>
 			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
 			
-			<Declaration>+ (SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType</Declaration>
+			<Declaration>+ (nonnull SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType</Declaration>
 			
 			
 			<Anchor>//api/name/newSyncTarget:layoutType:</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncDownTarget/newSyncTarget:formFactor:layoutType:mode:recordTypeId:</TokenIdentifier>
+			<Abstract type="html">Factory method.</Abstract>
+			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)objectAPIName formFactor:(nullable NSString *)formFactor layoutType:(nullable NSString *)layoutType mode:(nullable NSString *)mode recordTypeId:(nullable NSString *)recordTypeId</Declaration>
+			
+			
+			<Anchor>//api/name/newSyncTarget:formFactor:layoutType:mode:recordTypeId:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		

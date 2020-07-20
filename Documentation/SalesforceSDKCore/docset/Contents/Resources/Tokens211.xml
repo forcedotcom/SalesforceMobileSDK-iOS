@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthAdvancedAuthState.html">
+	<File path="Constants/SFBiometricUnlockState.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthState</TokenIdentifier>
-			<Abstract type="html">Enumeration of different advanced authentication stages.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFBiometricUnlockState</TokenIdentifier>
+			<Abstract type="html">The state of biometric unlock.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
 			
 			<NodeRef refid="211"/>
@@ -14,35 +14,45 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateNotStarted</TokenIdentifier>
-            <Abstract type="html">     No advanced authentication is currently under way.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateNotStarted</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockApproved</TokenIdentifier>
+            <Abstract type="html">     Biometric unlock was approved by user.
+     *</Abstract>
+            <Declaration>SFBiometricUnlockApproved</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-            
-            <NodeRef refid="211"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateBrowserRequestInitiated</TokenIdentifier>
-            <Abstract type="html">     The advanced authentication flow has initiated a request through Safari view controller.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateBrowserRequestInitiated</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="211"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateTokenRequestInitiated</TokenIdentifier>
-            <Abstract type="html">     The advanced authentication flow has received a response from Safari view controller, and has
-     initiated a token exchange request.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateTokenRequestInitiated</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockDeclined</TokenIdentifier>
+            <Abstract type="html">     Biometric unlock was declined by user - do not prompt user again.
+     *</Abstract>
+            <Declaration>SFBiometricUnlockDeclined</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="211"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockAvailable</TokenIdentifier>
+            <Abstract type="html">     Biometric unlock is available - but user has not been prompted to approve it yet.
+     *</Abstract>
+            <Declaration>SFBiometricUnlockAvailable</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="211"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockUnavailable</TokenIdentifier>
+            <Abstract type="html">     Biometric unlock is not available.
+     </Abstract>
+            <Declaration>SFBiometricUnlockUnavailable</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="211"/>
         </Token>

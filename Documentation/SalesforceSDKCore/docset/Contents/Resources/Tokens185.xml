@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKLoginFlowSelectionViewDelegate.html">
+	<File path="Protocols/SFRestRequestDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionViewDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFRestRequestDelegate</TokenIdentifier>
+			<Abstract type="html">Lifecycle events for REST requests.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="185"/>
@@ -13,42 +13,55 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionIDPSelected:options:</TokenIdentifier>
-			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didSucceed:rawResponse:</TokenIdentifier>
+			<Abstract type="html">Called when a request was successful.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didSucceed:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>controller</Name>
-					<Abstract type="html">instance invoking this delegate</Abstract>
+					<Name>request</Name>
+					<Abstract type="html">REST request.</Abstract>
 				</Parameter><Parameter>
-					<Name>appOptions</Name>
-					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionView</Abstract>
+					<Name>dataResponse</Name>
+					<Abstract type="html">The data from the response.  By default, this will be an object
+containing the parsed JSON response.  However, if the response is not JSON,
+the data will be contained in a binary NSData object.</Abstract>
+				</Parameter><Parameter>
+					<Name>rawResponse</Name>
+					<Abstract type="html">Raw response returned by the server.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/loginFlowSelectionIDPSelected:options:</Anchor>
+			<Anchor>//api/name/request:didSucceed:rawResponse:</Anchor>
             <NodeRef refid="185"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionLocalLoginSelected:options:</TokenIdentifier>
-			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didFail:rawResponse:error:</TokenIdentifier>
+			<Abstract type="html">Called when a request failed.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>controller</Name>
-					<Abstract type="html">instance invoking this delegate</Abstract>
+					<Name>request</Name>
+					<Abstract type="html">REST request.</Abstract>
 				</Parameter><Parameter>
-					<Name>appOptions</Name>
-					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionVie</Abstract>
+					<Name>dataResponse</Name>
+					<Abstract type="html">The data from the response.  By default, this will be an object
+containing the parsed JSON response.  However, if the response is not JSON,
+the data will be contained in a binary NSData object.</Abstract>
+				</Parameter><Parameter>
+					<Name>rawResponse</Name>
+					<Abstract type="html">Raw response returned by the server.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Error received.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/loginFlowSelectionLocalLoginSelected:options:</Anchor>
+			<Anchor>//api/name/request:didFail:rawResponse:error:</Anchor>
             <NodeRef refid="185"/>
 		</Token>
 		

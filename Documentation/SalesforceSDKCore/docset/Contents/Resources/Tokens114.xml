@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPushNotificationDataProvider.html">
+	<File path="Classes/SFSDKPasscodeTextField.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDataProvider</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPasscodeTextField</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
             
 			
 			<NodeRef refid="114"/>
@@ -13,98 +13,194 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setUserInfoDict:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setDeleteDelegate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
+			<Declaration>@property (weak, nonatomic) id deleteDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/userInfoDict</Anchor>
+			<Anchor>//api/name/deleteDelegate</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/deleteDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
+			<Declaration>@property (weak, nonatomic) id deleteDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/userInfoDict</Anchor>
+			<Anchor>//api/name/deleteDelegate</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/deleteDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
+			<Declaration>@property (weak, nonatomic) id deleteDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/userInfoDict</Anchor>
+			<Anchor>//api/name/deleteDelegate</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setContentJSONData:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setPasscodeLengthKnown:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
 			
 			
-			<Anchor>//api/name/contentJSONData</Anchor>
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/passcodeLengthKnown</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
 			
 			
-			<Anchor>//api/name/contentJSONData</Anchor>
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/passcodeLengthKnown</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
+			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
 			
 			
-			<Anchor>//api/name/contentJSONData</Anchor>
+			<Anchor>//api/name/passcodeLengthKnown</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentObj:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setPasscodeLength:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithContentObj:(nullable id)contentObj</Declaration>
+			<Declaration>@property (assign, assign) NSUInteger passcodeLength</Declaration>
 			
 			
-			<Anchor>//api/name/initWithContentObj:</Anchor>
+			<Anchor>//api/name/passcodeLength</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentJSON:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/passcodeLength</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithContentJSON:(nullable NSString *)contentJSON</Declaration>
+			<Declaration>@property (assign, assign) NSUInteger passcodeLength</Declaration>
 			
 			
-			<Anchor>//api/name/initWithContentJSON:</Anchor>
+			<Anchor>//api/name/passcodeLength</Anchor>
+            <NodeRef refid="114"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/passcodeLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (assign, assign) NSUInteger passcodeLength</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeLength</Anchor>
+            <NodeRef refid="114"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/setPasscodeInput:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) NSMutableString *passcodeInput</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeInput</Anchor>
+            <NodeRef refid="114"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/passcodeInput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) NSMutableString *passcodeInput</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeInput</Anchor>
+            <NodeRef refid="114"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeTextField/passcodeInput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic) NSMutableString *passcodeInput</Declaration>
+			
+			
+			<Anchor>//api/name/passcodeInput</Anchor>
+            <NodeRef refid="114"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/clearPasscode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (void)clearPasscode</Declaration>
+			
+			
+			<Anchor>//api/name/clearPasscode</Anchor>
+            <NodeRef refid="114"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/refreshView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (void)refreshView</Declaration>
+			
+			
+			<Anchor>//api/name/refreshView</Anchor>
+            <NodeRef refid="114"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/initWithFrame:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:</Anchor>
+            <NodeRef refid="114"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeTextField/initWithFrame:andViewConfig:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeTextField.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithFrame:(CGRect)frame andViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
+			
+			
+			<Anchor>//api/name/initWithFrame:andViewConfig:</Anchor>
             <NodeRef refid="114"/>
 		</Token>
 		

@@ -108,6 +108,7 @@
                         <NodeRef refid="67"/>
                         <NodeRef refid="68"/>
                         <NodeRef refid="69"/>
+                        <NodeRef refid="70"/>
                         
                     </Subnodes>
                 </Node>
@@ -1685,41 +1686,46 @@
             
         </Node>
         <Node id="62" type="file" documentType="reference">
+            <Name>SFRecordMutatorBlock</Name>
+            <Path>Blocks/SFRecordMutatorBlock.html</Path>
+            
+        </Node>
+        <Node id="63" type="file" documentType="reference">
             <Name>SFSendCompositeRequestCompleteBlock</Name>
             <Path>Blocks/SFSendCompositeRequestCompleteBlock.html</Path>
             
         </Node>
-        <Node id="63" type="file" documentType="reference">
+        <Node id="64" type="file" documentType="reference">
             <Name>SFSyncDownTargetFetchCompleteBlock</Name>
             <Path>Blocks/SFSyncDownTargetFetchCompleteBlock.html</Path>
             
         </Node>
-        <Node id="64" type="file" documentType="reference">
+        <Node id="65" type="file" documentType="reference">
             <Name>SFSyncDownTargetFetchErrorBlock</Name>
             <Path>Blocks/SFSyncDownTargetFetchErrorBlock.html</Path>
             
         </Node>
-        <Node id="65" type="file" documentType="reference">
+        <Node id="66" type="file" documentType="reference">
             <Name>SFSyncSyncManagerCompletionStatusBlock</Name>
             <Path>Blocks/SFSyncSyncManagerCompletionStatusBlock.html</Path>
             
         </Node>
-        <Node id="66" type="file" documentType="reference">
+        <Node id="67" type="file" documentType="reference">
             <Name>SFSyncSyncManagerUpdateBlock</Name>
             <Path>Blocks/SFSyncSyncManagerUpdateBlock.html</Path>
             
         </Node>
-        <Node id="67" type="file" documentType="reference">
+        <Node id="68" type="file" documentType="reference">
             <Name>SFSyncUpRecordNewerThanServerBlock</Name>
             <Path>Blocks/SFSyncUpRecordNewerThanServerBlock.html</Path>
             
         </Node>
-        <Node id="68" type="file" documentType="reference">
+        <Node id="69" type="file" documentType="reference">
             <Name>SFSyncUpTargetCompleteBlock</Name>
             <Path>Blocks/SFSyncUpTargetCompleteBlock.html</Path>
             
         </Node>
-        <Node id="69" type="file" documentType="reference">
+        <Node id="70" type="file" documentType="reference">
             <Name>SFSyncUpTargetErrorBlock</Name>
             <Path>Blocks/SFSyncUpTargetErrorBlock.html</Path>
             

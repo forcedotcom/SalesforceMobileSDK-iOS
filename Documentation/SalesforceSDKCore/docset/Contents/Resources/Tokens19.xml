@@ -1,16 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFGeneratedKeyStore.html">
+	<File path="Classes/SFFormatUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFGeneratedKeyStore</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFFormatUtils</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFGeneratedKeyStore.h</DeclaredIn>
+			<DeclaredIn>SFFormatUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="19"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFFormatUtils/formatLocalDateToGMTString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFFormatUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)formatLocalDateToGMTString:(NSDate *)localDate</Declaration>
+			
+			
+			<Anchor>//api/name/formatLocalDateToGMTString:</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFFormatUtils/getMillisFromIsoString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFFormatUtils.h</DeclaredIn>
+			
+			<Declaration>+ (long long)getMillisFromIsoString:(NSString *)dateStr</Declaration>
+			
+			
+			<Anchor>//api/name/getMillisFromIsoString:</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFFormatUtils/getIsoStringFromMillis:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFFormatUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)getIsoStringFromMillis:(long long)millis</Declaration>
+			
+			
+			<Anchor>//api/name/getIsoStringFromMillis:</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFFormatUtils/getDateFromIsoDateString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFFormatUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSDate *)getDateFromIsoDateString:(nullable NSString *)isoDateString</Declaration>
+			
+			
+			<Anchor>//api/name/getDateFromIsoDateString:</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFFormatUtils/getIsoStringFromDate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFFormatUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)getIsoStringFromDate:(NSDate *)date</Declaration>
+			
+			
+			<Anchor>//api/name/getIsoStringFromDate:</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
 		
         
         

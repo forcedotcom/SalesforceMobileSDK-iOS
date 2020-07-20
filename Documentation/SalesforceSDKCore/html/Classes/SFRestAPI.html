@@ -64,6 +64,8 @@
 		
 		<option value="//api/name/instrDelegateInternal">instrDelegateInternal</option>
 		
+		<option value="//api/name/instrumentationDelegateInternal">instrumentationDelegateInternal</option>
+		
 		<option value="//api/name/requiresAuthentication">requiresAuthentication</option>
 		
 	</optgroup>
@@ -126,6 +128,8 @@
 		
 		<option value="//api/name/performDescribeWithObjectType:failBlock:completeBlock:">- performDescribeWithObjectType:failBlock:completeBlock:</option>
 		
+		<option value="//api/name/performLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:failBlock:completeBlock:">- performLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:failBlock:completeBlock:</option>
+		
 		<option value="//api/name/performMetadataWithObjectType:failBlock:completeBlock:">- performMetadataWithObjectType:failBlock:completeBlock:</option>
 		
 		<option value="//api/name/performRequestForFileRendition:version:renditionType:page:failBlock:completeBlock:">- performRequestForFileRendition:version:renditionType:page:failBlock:completeBlock:</option>
@@ -178,9 +182,15 @@
 		
 		<option value="//api/name/requestForFilesSharedWithUser:page:apiVersion:">- requestForFilesSharedWithUser:page:apiVersion:</option>
 		
+		<option value="//api/name/requestForLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:apiVersion:">- requestForLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:apiVersion:</option>
+		
 		<option value="//api/name/requestForLayoutWithObjectType:layoutType:apiVersion:">- requestForLayoutWithObjectType:layoutType:apiVersion:</option>
 		
 		<option value="//api/name/requestForMetadataWithObjectType:apiVersion:">- requestForMetadataWithObjectType:apiVersion:</option>
+		
+		<option value="//api/name/requestForNotification:apiVersion:">- requestForNotification:apiVersion:</option>
+		
+		<option value="//api/name/requestForNotificationsStatus:">- requestForNotificationsStatus:</option>
 		
 		<option value="//api/name/requestForOwnedFilesList:page:apiVersion:">- requestForOwnedFilesList:page:apiVersion:</option>
 		
@@ -218,11 +228,19 @@
 		
 		<option value="//api/name/send:delegate:shouldRetry:">- send:delegate:shouldRetry:</option>
 		
+		<option value="//api/name/send:requestDelegate:">- send:requestDelegate:</option>
+		
 		<option value="//api/name/sendBatchRESTRequest:failBlock:completeBlock:">- sendBatchRESTRequest:failBlock:completeBlock:</option>
+		
+		<option value="//api/name/sendBatchRequest:failureBlock:successBlock:">- sendBatchRequest:failureBlock:successBlock:</option>
 		
 		<option value="//api/name/sendCompositeRESTRequest:failBlock:completeBlock:">- sendCompositeRESTRequest:failBlock:completeBlock:</option>
 		
+		<option value="//api/name/sendCompositeRequest:failureBlock:successBlock:">- sendCompositeRequest:failureBlock:successBlock:</option>
+		
 		<option value="//api/name/sendRESTRequest:failBlock:completeBlock:">- sendRESTRequest:failBlock:completeBlock:</option>
+		
+		<option value="//api/name/sendRequest:failureBlock:successBlock:">- sendRequest:failureBlock:successBlock:</option>
 		
 	</optgroup>
 	
@@ -258,93 +276,9 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Main class used to issue REST requests to the standard Force.com REST API.</p>
-
-<p>See the <a href="http://www.salesforce.com/us/developer/docs/api_rest/index.htm">Force.com REST API Developer&rsquo;s Guide</a>
+						<p>Main class used to issue REST requests to the standard Force.com REST API.
+See the <a href="http://www.salesforce.com/us/developer/docs/api_rest/index.htm">Force.com REST API Developer&rsquo;s Guide</a>
 for more information regarding the Force.com REST API.</p>
-
-<h2>Initialization</h2>
-
-<p>This class is a singleton, and can be accessed by referencing [SFRestAPI sharedInstance].  It relies
-upon the shared credentials managed by SFAccountManager, for forming up and sending authenticated
-REST requests.</p>
-
-<h2>Sending requests</h2>
-
-<p>Sending a request is done using <a href="#//api/name/send:delegate:"><code>send:delegate:</code></a>.
-The class sending the request has to conform to the protocol <a href="../Protocols/SFRestDelegate.html"><code>SFRestDelegate</code></a>.</p>
-
-<p>A request can be obtained in two different ways:</p>
-
-<ul>
-<li><p>by calling the appropriate <code>requestFor[...]</code> method</p></li>
-<li><p>by building the <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> manually</p></li>
-</ul>
-
-
-<p>Note: If you opt to build an <a href="../Classes/SFRestRequest.html">SFRestRequest</a> manually, you should be aware that
-<a href="#//api/name/send:delegate:">send:delegate:</a> expects that if the request.path does not begin with the
-request.endpoint prefix, it will add the request.endpoint prefix
-(kSFDefaultRestEndpoint by default) to the request path.</p>
-
-<p>For example, this sample code calls the <code>requestForDescribeWithObjectType:</code> method to return
-information about the Account object.</p>
-
-<pre><code>- (void)describeAccount {
-    SFRestRequest *request = [[SFRestAPI sharedInstance]
-                              requestForDescribeWithObjectType:@"Account"];
-    [[SFRestAPI sharedInstance] send:request delegate:self];
-}
-
-#pragma mark - SFRestDelegate
-
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
-    NSDictionary *dict = (NSDictionary *)dataResponse;
-    NSArray *fields = (NSArray *)[dict objectForKey:@"fields"];
-    // ...
-}
-
-- (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
-    // handle error
-}
-
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
-    // handle error
-}
-
-- (void)requestDidTimeout:(SFRestRequest *)request {
-    // handle error
-}
-</code></pre>
-
-<h2>Error handling</h2>
-
-<p>When sending a <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a>, you may encounter one of these errors:</p>
-
-<ul>
-<li><p>The request parameters could be invalid (for instance, passing <code>nil</code> to the <code>requestForQuery:</code>,
-or trying to update a non-existent object).
-In this case, <code>request:didFailLoadWithError:</code> is called on the <a href="../Protocols/SFRestDelegate.html"><code>SFRestDelegate</code></a>.
-The error passed will have an error domain of <code>kSFRestErrorDomain</code></p></li>
-<li><p>The oauth access token (session ID) managed by SFAccountManager could have expired.
-In this case, the framework tries to acquire another access token and re-issue
-the <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a>. This is all done transparently and the appropriate delegate method
-is called once the second <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> returns.</p></li>
-<li><p>Requesting a new access token (session ID) could fail (if the access token has expired
-and the OAuth refresh token is invalid).
-In this case, <code>request:didFailLoadWithError:</code> will be called on the <a href="../Protocols/SFRestDelegate.html"><code>SFRestDelegate</code></a>.
-The error passed will have an error domain of <code>kSFOAuthErrorDomain</code>.
-Note that this is a very rare case.</p></li>
-<li><p>The underlying HTTP request could fail (Salesforce server is innaccessible&hellip;)
-In this case, <code>request:didFailLoadWithError:</code> is called on the <a href="../Protocols/SFRestDelegate.html"><code>SFRestDelegate</code></a>.
-The error passed will be a standard <code>RestKit</code> error with an error domain of <code>RKRestKitErrorDomain</code>.</p></li>
-</ul>
-
-
-<p>We declare here a set of interfaces that are meant to be used by code running internally
-to SFRestAPI or close &ldquo;friend&rdquo; classes such as unit test helpers. You SHOULD NOT access these interfaces
-from application code.  If you find yourself accessing properties or calling methods
-declared in this file from app code, you&rsquo;re probably doing something wrong.</p>
 
 <p>This category assists with creating SOQL and SOSL queries.</p>
 
@@ -362,6 +296,11 @@ limit:10];</p>
 [SFRestAPI SOSLSearchWithSearchTerm:@&ldquo;all of these will be escaped:~{]&rdquo;
                               objectScope:[NSDictionary dictionaryWithObject:@&ldquo;WHERE isactive=true ORDER BY lastname asc limit 5&rdquo;
                                                                       forKey:@&ldquo;User&rdquo;]];</p>
+
+<p>We declare here a set of interfaces that are meant to be used by code running internally
+to SFRestAPI or close &ldquo;friend&rdquo; classes such as unit test helpers. You SHOULD NOT access these interfaces
+from application code.  If you find yourself accessing properties or calling methods
+declared in this file from app code, you&rsquo;re probably doing something wrong.</p>
 					</div>
 					
 					
@@ -389,7 +328,7 @@ limit:10];</p>
 			
 			<div class="method-subsection brief-description">
 				<p>The REST API version used for all the calls.
-The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v46.0&rdquo;)</p>
+The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v49.0&rdquo;)</p>
 			</div>
 			
 		    
@@ -715,6 +654,64 @@ The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v46
 						<th scope="row" class="argument-name"><code>delegate</code></th>
 						<td><p>Delegate object that handles the server response.
 This value overwrites the delegate property of the request.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/send:requestDelegate:" title="send:requestDelegate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/send:requestDelegate:">&ndash;&nbsp;send:requestDelegate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sends a REST request to the Salesforce server and invokes the appropriate delegate method.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)send:(SFRestRequest *)<em>request</em> requestDelegate:(nullable id&lt;SFRestRequestDelegate&gt;)<em>requestDelegate</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p><a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> object to be sent.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>requestDelegate</code></th>
+						<td><p>Delegate object that handles the server response.</p></td>
 					</tr>
 				
 				</table>
@@ -1145,6 +1142,93 @@ at all levels for the specified object.</p>
 					<tr>
 						<th scope="row" class="argument-name"><code>layoutType</code></th>
 						<td><p>Layout type. Supported types are &ldquo;Full&rdquo; and &ldquo;Compact&rdquo;. Default is &ldquo;Full&rdquo;.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm">https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:apiVersion:" title="requestForLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:apiVersion:">&ndash;&nbsp;requestForLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:apiVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> object that provides layout data for the specified parameters.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForLayoutWithObjectAPIName:(nonnull NSString *)<em>objectAPIName</em> formFactor:(nullable NSString *)<em>formFactor</em> layoutType:(nullable NSString *)<em>layoutType</em> mode:(nullable NSString *)<em>mode</em> recordTypeId:(nullable NSString *)<em>recordTypeId</em> apiVersion:(nullable NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectAPIName</code></th>
+						<td><p>Object API name.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>formFactor</code></th>
+						<td><p>Form factor. Could be &ldquo;Large&rdquo;, &ldquo;Medium&rdquo; or &ldquo;Small&rdquo;. Default value is &ldquo;Large&rdquo;.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>layoutType</code></th>
+						<td><p>Layout type. Could be &ldquo;Compact&rdquo; or &ldquo;Full&rdquo;. Default value is &ldquo;Full&rdquo;.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>mode</code></th>
+						<td><p>Mode. Could be &ldquo;Create&rdquo;, &ldquo;Edit&rdquo; or &ldquo;View&rdquo;. Default value is &ldquo;View&rdquo;.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>recordTypeId</code></th>
+						<td><p>Record type ID. Default will be used if not supplied.</p></td>
 					</tr>
 				
 					<tr>
@@ -2354,209 +2438,6 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 						</div>
 						
 
-						<a title="Extension Methods" name="task_Extension Methods"></a>
-						<h2 class="task-title">Extension Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/activeRequests" title="activeRequests"></a>
-	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Active requests property.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requiresAuthentication" title="requiresAuthentication"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requiresAuthentication">&nbsp;&nbsp;requiresAuthentication</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL requiresAuthentication</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/instrDelegateInternal" title="instrDelegateInternal"></a>
-	<h3 class="method-title"><code><a href="#//api/name/instrDelegateInternal">&nbsp;&nbsp;instrDelegateInternal</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)<em>request</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Force a request to timeout: for testing only!</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)<em>req</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>req</code></th>
-						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/send:delegate:shouldRetry:" title="send:delegate:shouldRetry:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/send:delegate:shouldRetry:">&ndash;&nbsp;send:delegate:shouldRetry:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)send:(nonnull SFRestRequest *)<em>request</em> delegate:(nullable id&lt;SFRestDelegate&gt;)<em>delegate</em> shouldRetry:(BOOL)<em>shouldRetry</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/computeAPIVersion:" title="computeAPIVersion:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/computeAPIVersion:">&ndash;&nbsp;computeAPIVersion:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)<em>apiVersion</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeSharedInstanceWithUser:" title="removeSharedInstanceWithUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceWithUser:">+&nbsp;removeSharedInstanceWithUser:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)<em>user</em></code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
 						<a title="Files Methods" name="task_Files Methods"></a>
 						<h2 class="task-title">Files Methods</h2>
 
@@ -3416,6 +3297,643 @@ create a new file at version 1.</p>
 						</div>
 						
 
+						<a title="QueryBuilder Methods" name="task_QueryBuilder Methods"></a>
+						<h2 class="task-title">QueryBuilder Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/sanitizeSOSLSearchTerm:" title="sanitizeSOSLSearchTerm:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sanitizeSOSLSearchTerm:">+&nbsp;sanitizeSOSLSearchTerm:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The search term to be sanitized.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)<em>searchTerm</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>searchTerm</code></th>
+						<td><p>The search term to be sanitized.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>SOSL-safe version of search term</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/SOSLSearchWithSearchTerm:objectScope:" title="SOSLSearchWithSearchTerm:objectScope:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/SOSLSearchWithSearchTerm:objectScope:">+&nbsp;SOSLSearchWithSearchTerm:objectScope:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Generate a SOSL search.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)<em>objectScope</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>term</code></th>
+						<td><ul>
+<li>the search term. This is sanitized for proper characters</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectScope</code></th>
+						<td><ul>
+<li>nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</li>
+</ul>
+</td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>query or nil if a query could not be generated</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:" title="SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:">+&nbsp;SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Generate a SOSL search.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> fieldScope:(nullable NSString *)<em>fieldScope</em> objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)<em>objectScope</em> limit:(NSInteger)<em>limit</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>term</code></th>
+						<td><ul>
+<li>the search term. This is sanitized for proper characters</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fieldScope</code></th>
+						<td><ul>
+<li>nil OR the SOSL scope, e.g. &ldquo;IN ALL FIELDS&rdquo;. if nil, defaults to &ldquo;IN NAME FIELDS&rdquo;</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectScope</code></th>
+						<td><ul>
+<li>nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>limit</code></th>
+						<td><ul>
+<li>overall search limit (max 200)</li>
+</ul>
+</td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>query or nil if a query could not be generated</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/SOQLQueryWithFields:sObject:whereClause:limit:" title="SOQLQueryWithFields:sObject:whereClause:limit:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/SOQLQueryWithFields:sObject:whereClause:limit:">+&nbsp;SOQLQueryWithFields:sObject:whereClause:limit:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Generate a SOQL query.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)<em>fields</em> sObject:(NSString *)<em>sObject</em> whereClause:(nullable NSString *)<em>whereClause</em> limit:(NSInteger)<em>limit</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fields</code></th>
+						<td><ul>
+<li>NSArray of fields to select</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sObject</code></th>
+						<td><ul>
+<li>object to query</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>whereClause</code></th>
+						<td><ul>
+<li>nil OR where clause</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>limit</code></th>
+						<td><ul>
+<li>limit count, or 0 for no limit (for use with query locators)</li>
+</ul>
+</td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>query or nil if a query could not be generated</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:" title="SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:">+&nbsp;SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Generate a SOQL query.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)<em>fields</em> sObject:(NSString *)<em>sObject</em> whereClause:(nullable NSString *)<em>whereClause</em> groupBy:(nullable NSArray&lt;NSString*&gt; *)<em>groupBy</em> having:(nullable NSString *)<em>having</em> orderBy:(nullable NSArray&lt;NSString*&gt; *)<em>orderBy</em> limit:(NSInteger)<em>limit</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fields</code></th>
+						<td><ul>
+<li>NSArray of fields to select</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sObject</code></th>
+						<td><ul>
+<li>object to query</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>whereClause</code></th>
+						<td><ul>
+<li>nil OR where clause</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>groupBy</code></th>
+						<td><ul>
+<li>nil OR NSArray of strings, each string is an individual group by clause</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>having</code></th>
+						<td><ul>
+<li>nil OR having clause</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>orderBy</code></th>
+						<td><ul>
+<li>nil OR NSArray of strings, each string is an individual order by clause</li>
+</ul>
+</td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>limit</code></th>
+						<td><ul>
+<li>limit count, or 0 for no limit (for use with query locators)</li>
+</ul>
+</td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>query or nil if a query could not be generated</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/activeRequests" title="activeRequests"></a>
+	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Active requests property.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requiresAuthentication" title="requiresAuthentication"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requiresAuthentication">&nbsp;&nbsp;requiresAuthentication</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL requiresAuthentication</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/instrDelegateInternal" title="instrDelegateInternal"></a>
+	<h3 class="method-title"><code><a href="#//api/name/instrDelegateInternal">&nbsp;&nbsp;instrDelegateInternal</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) id&lt;SFRestDelegate&gt; instrDelegateInternal</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/instrumentationDelegateInternal" title="instrumentationDelegateInternal"></a>
+	<h3 class="method-title"><code><a href="#//api/name/instrumentationDelegateInternal">&nbsp;&nbsp;instrumentationDelegateInternal</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)<em>request</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Force a request to timeout: for testing only!</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)<em>req</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>req</code></th>
+						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/send:delegate:shouldRetry:" title="send:delegate:shouldRetry:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/send:delegate:shouldRetry:">&ndash;&nbsp;send:delegate:shouldRetry:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)send:(nonnull SFRestRequest *)<em>request</em> delegate:(nullable id&lt;SFRestDelegate&gt;)<em>delegate</em> shouldRetry:(BOOL)<em>shouldRetry</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/computeAPIVersion:" title="computeAPIVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/computeAPIVersion:">&ndash;&nbsp;computeAPIVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)<em>apiVersion</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeSharedInstanceWithUser:" title="removeSharedInstanceWithUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceWithUser:">+&nbsp;removeSharedInstanceWithUser:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)<em>user</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
 						<a title="Blocks Methods" name="task_Blocks Methods"></a>
 						<h2 class="task-title">Blocks Methods</h2>
 
@@ -3537,6 +4055,69 @@ create a new file at version 1.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/sendRequest:failureBlock:successBlock:" title="sendRequest:failureBlock:successBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendRequest:failureBlock:successBlock:">&ndash;&nbsp;sendRequest:failureBlock:successBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendRequest:(SFRestRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestResponseBlock)<em>successBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p><a href="../Classes/SFRestRequest.html">SFRestRequest</a> to be sent.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>successBlock</code></th>
+						<td><p>Block to be executed when the request successfully completes.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/sendCompositeRESTRequest:failBlock:completeBlock:" title="sendCompositeRESTRequest:failBlock:completeBlock:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/sendCompositeRESTRequest:failBlock:completeBlock:">&ndash;&nbsp;sendCompositeRESTRequest:failBlock:completeBlock:</a></code>
 </h3>
@@ -3600,6 +4181,69 @@ create a new file at version 1.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/sendCompositeRequest:failureBlock:successBlock:" title="sendCompositeRequest:failureBlock:successBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendCompositeRequest:failureBlock:successBlock:">&ndash;&nbsp;sendCompositeRequest:failureBlock:successBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendCompositeRequest:(SFSDKCompositeRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestCompositeResponseBlock)<em>successBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>Composite request to be sent.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>successBlock</code></th>
+						<td><p>Block to be executed when the request successfully completes.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/sendBatchRESTRequest:failBlock:completeBlock:" title="sendBatchRESTRequest:failBlock:completeBlock:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/sendBatchRESTRequest:failBlock:completeBlock:">&ndash;&nbsp;sendBatchRESTRequest:failBlock:completeBlock:</a></code>
 </h3>
@@ -3637,6 +4281,69 @@ create a new file at version 1.</p>
 					<tr>
 						<th scope="row" class="argument-name"><code>completeBlock</code></th>
 						<td><p>the block to be executed when the request successfully completes</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendBatchRequest:failureBlock:successBlock:" title="sendBatchRequest:failureBlock:successBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendBatchRequest:failureBlock:successBlock:">&ndash;&nbsp;sendBatchRequest:failureBlock:successBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendBatchRequest:(SFSDKBatchRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestBatchResponseBlock)<em>successBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>Batch request to be sent.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>successBlock</code></th>
+						<td><p>Block to be executed when the request successfully completes.</p></td>
 					</tr>
 				
 				</table>
@@ -3986,6 +4693,98 @@ create a new file at version 1.</p>
 
 			
 
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/performLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:failBlock:completeBlock:" title="performLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:failBlock:completeBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/performLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:failBlock:completeBlock:">&ndash;&nbsp;performLayoutWithObjectAPIName:formFactor:layoutType:mode:recordTypeId:failBlock:completeBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> object that provides layout data for the specified parameters.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)performLayoutWithObjectAPIName:(NSString *)<em>objectAPIName</em> formFactor:(NSString *)<em>formFactor</em> layoutType:(NSString *)<em>layoutType</em> mode:(NSString *)<em>mode</em> recordTypeId:(NSString *)<em>recordTypeId</em> failBlock:(SFRestFailBlock)<em>failBlock</em> completeBlock:(SFRestDictionaryResponseBlock)<em>completeBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectAPIName</code></th>
+						<td><p>Object API name.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>formFactor</code></th>
+						<td><p>Form factor. Could be &ldquo;Large&rdquo;, &ldquo;Medium&rdquo; or &ldquo;Small&rdquo;. Default value is &ldquo;Large&rdquo;.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>layoutType</code></th>
+						<td><p>Layout type. Could be &ldquo;Compact&rdquo; or &ldquo;Full&rdquo;. Default value is &ldquo;Full&rdquo;.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>mode</code></th>
+						<td><p>Mode. Could be &ldquo;Create&rdquo;, &ldquo;Edit&rdquo; or &ldquo;View&rdquo;. Default value is &ldquo;View&rdquo;.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>recordTypeId</code></th>
+						<td><p>Record type ID. Default will be used if not supplied.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failBlock</code></th>
+						<td><p>Failure block.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completeBlock</code></th>
+						<td><p>Completion block.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm">https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm</a></p></code></li>
+					
+				</ul>
+			</div>
 			
 
 			
@@ -4795,13 +5594,13 @@ to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
 						</div>
 						
 
-						<a title="QueryBuilder Methods" name="task_QueryBuilder Methods"></a>
-						<h2 class="task-title">QueryBuilder Methods</h2>
+						<a title="Notifications Methods" name="task_Notifications Methods"></a>
+						<h2 class="task-title">Notifications Methods</h2>
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/sanitizeSOSLSearchTerm:" title="sanitizeSOSLSearchTerm:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sanitizeSOSLSearchTerm:">+&nbsp;sanitizeSOSLSearchTerm:</a></code>
+	<a name="//api/name/requestForNotificationsStatus:" title="requestForNotificationsStatus:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForNotificationsStatus:">&ndash;&nbsp;requestForNotificationsStatus:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -4811,12 +5610,12 @@ to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>The search term to be sanitized.</p>
+				<p>Returns a request to fetch the status of notifications, including unread and unseen count.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)<em>searchTerm</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)<em>apiVersion</em></code></div>
 
 		    
 			
@@ -4825,8 +5624,8 @@ to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>searchTerm</code></th>
-						<td><p>The search term to be sanitized.</p></td>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>API version.</p></td>
 					</tr>
 				
 				</table>
@@ -4834,32 +5633,36 @@ to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
 			
 
 			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>SOSL-safe version of search term</p>
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm</a></p></code></li>
+					
+				</ul>
 			</div>
-			
-
-			
-
-			
-
-			
-
 			
 
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
 			</div>
 			
 			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/SOSLSearchWithSearchTerm:objectScope:" title="SOSLSearchWithSearchTerm:objectScope:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/SOSLSearchWithSearchTerm:objectScope:">+&nbsp;SOSLSearchWithSearchTerm:objectScope:</a></code>
+	<a name="//api/name/requestForNotification:apiVersion:" title="requestForNotification:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForNotification:apiVersion:">&ndash;&nbsp;requestForNotification:apiVersion:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -4869,83 +5672,12 @@ to return values; for example, &ldquo;Account,Contact&rdquo;.</p></td>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Generate a SOSL search.</p>
+				<p>Returns a request to fetch the given notification.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)<em>objectScope</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>term</code></th>
-						<td><ul>
-<li>the search term. This is sanitized for proper characters</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectScope</code></th>
-						<td><ul>
-<li>nil to search all searchable objects, or a dictionary where each key is an sObject name
-and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
-or NSNull to not specify any fields/clauses for that object</li>
-</ul>
-</td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>query or nil if a query could not be generated</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:" title="SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:">+&nbsp;SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Generate a SOSL search.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)<em>term</em> fieldScope:(nullable NSString *)<em>fieldScope</em> objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)<em>objectScope</em> limit:(NSInteger)<em>limit</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotification:(NSString *)<em>notificationId</em> apiVersion:(NSString *)<em>apiVersion</em></code></div>
 
 		    
 			
@@ -4954,37 +5686,13 @@ or NSNull to not specify any fields/clauses for that object</li>
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>term</code></th>
-						<td><ul>
-<li>the search term. This is sanitized for proper characters</li>
-</ul>
-</td>
+						<th scope="row" class="argument-name"><code>notificationId</code></th>
+						<td><p>ID of notification to fetch.</p></td>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>fieldScope</code></th>
-						<td><ul>
-<li>nil OR the SOSL scope, e.g. &ldquo;IN ALL FIELDS&rdquo;. if nil, defaults to &ldquo;IN NAME FIELDS&rdquo;</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>objectScope</code></th>
-						<td><ul>
-<li>nil to search all searchable objects, or a dictionary where each key is an sObject name
-and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
-or NSNull to not specify any fields/clauses for that object</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>limit</code></th>
-						<td><ul>
-<li>overall search limit (max 200)</li>
-</ul>
-</td>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>API version.</p></td>
 					</tr>
 				
 				</table>
@@ -4992,218 +5700,28 @@ or NSNull to not specify any fields/clauses for that object</li>
 			
 
 			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>query or nil if a query could not be generated</p>
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm</a></p></code></li>
+					
+				</ul>
 			</div>
-			
-
-			
-
-			
-
-			
-
 			
 
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/SOQLQueryWithFields:sObject:whereClause:limit:" title="SOQLQueryWithFields:sObject:whereClause:limit:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/SOQLQueryWithFields:sObject:whereClause:limit:">+&nbsp;SOQLQueryWithFields:sObject:whereClause:limit:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Generate a SOQL query.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)<em>fields</em> sObject:(NSString *)<em>sObject</em> whereClause:(nullable NSString *)<em>whereClause</em> limit:(NSInteger)<em>limit</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>fields</code></th>
-						<td><ul>
-<li>NSArray of fields to select</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sObject</code></th>
-						<td><ul>
-<li>object to query</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>whereClause</code></th>
-						<td><ul>
-<li>nil OR where clause</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>limit</code></th>
-						<td><ul>
-<li>limit count, or 0 for no limit (for use with query locators)</li>
-</ul>
-</td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>query or nil if a query could not be generated</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:" title="SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:">+&nbsp;SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Generate a SOQL query.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)<em>fields</em> sObject:(NSString *)<em>sObject</em> whereClause:(nullable NSString *)<em>whereClause</em> groupBy:(nullable NSArray&lt;NSString*&gt; *)<em>groupBy</em> having:(nullable NSString *)<em>having</em> orderBy:(nullable NSArray&lt;NSString*&gt; *)<em>orderBy</em> limit:(NSInteger)<em>limit</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>fields</code></th>
-						<td><ul>
-<li>NSArray of fields to select</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sObject</code></th>
-						<td><ul>
-<li>object to query</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>whereClause</code></th>
-						<td><ul>
-<li>nil OR where clause</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>groupBy</code></th>
-						<td><ul>
-<li>nil OR NSArray of strings, each string is an individual group by clause</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>having</code></th>
-						<td><ul>
-<li>nil OR having clause</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>orderBy</code></th>
-						<td><ul>
-<li>nil OR NSArray of strings, each string is an individual order by clause</li>
-</ul>
-</td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>limit</code></th>
-						<td><ul>
-<li>limit count, or 0 for no limit (for use with query locators)</li>
-</ul>
-</td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>query or nil if a query could not be generated</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
 			</div>
 			
 			
@@ -5224,7 +5742,7 @@ or NSNull to not specify any fields/clauses for that object</li>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 Salesforce.com. All rights reserved. Updated: 2020-02-12</p>
+						<p class="copyright">Copyright &copy; 2020 Salesforce.com. All rights reserved. Updated: 2020-07-20</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

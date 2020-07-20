@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKBatchResponse.html">
+	<File path="Classes/SFSDKBatchRequestBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchRequestBuilder</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="76"/>
@@ -13,86 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/setHasErrors:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/setHaltOnError:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
+			<Declaration>- (SFSDKBatchRequestBuilder *)setHaltOnError:(BOOL)haltOnError</Declaration>
 			
 			
-			<Anchor>//api/name/hasErrors</Anchor>
+			<Anchor>//api/name/setHaltOnError:</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/hasErrors</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/addRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
+			<Declaration>- (SFSDKBatchRequestBuilder *)addRequest:(SFRestRequest *)request</Declaration>
 			
 			
-			<Anchor>//api/name/hasErrors</Anchor>
+			<Anchor>//api/name/addRequest:</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchResponse/hasErrors</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/buildBatchRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
-			
-			
-			<Anchor>//api/name/hasErrors</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/setResults:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
+			<Declaration>- (SFSDKBatchRequest *)buildBatchRequest:(NSString *)apiVersion</Declaration>
 			
 			
-			<Anchor>//api/name/results</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/results</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
-			
-			
-			<Anchor>//api/name/results</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchResponse/results</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
-			
-			
-			<Anchor>//api/name/results</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/initWith:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse+Internal.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/initWith:</Anchor>
+			<Anchor>//api/name/buildBatchRequest:</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		

@@ -125,7 +125,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *layoutComponents</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSDictionary*&gt; *layoutComponents</Declaration>
 			
 			
 			<Anchor>//api/name/layoutComponents</Anchor>
@@ -137,7 +137,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *layoutComponents</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSDictionary*&gt; *layoutComponents</Declaration>
 			
 			
 			<Anchor>//api/name/layoutComponents</Anchor>
@@ -149,7 +149,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFLayout.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *layoutComponents</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSDictionary*&gt; *layoutComponents</Declaration>
 			
 			
 			<Anchor>//api/name/layoutComponents</Anchor>
