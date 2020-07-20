@@ -26,6 +26,13 @@ import XCTest
 import Foundation
 @testable import SalesforceSDKCore
 
+struct TestContact: Decodable{
+  var id: UUID = UUID()
+  var Id: String?
+  var FirstName: String?
+  var LastName: String?
+}
+
 class RestClientTests: XCTestCase {
 
     var currentUser: UserAccount?
@@ -42,6 +49,23 @@ class RestClientTests: XCTestCase {
     }
 
     
+    func testFetchRecordsNonCombine() {
+      let expectation = XCTestExpectation(description: "queryTest")
+      let request = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil)
+      
+      var erroredResult: RestClientError?
+      RestClient.shared.fetchRecords(ofModelType: TestContact.self, forRequest: request) { result in
+        switch (result) {
+          case .failure(let error):
+            erroredResult = error
+          default: break
+        }
+        expectation.fulfill()
+      }
+      self.wait(for: [expectation], timeout: 10.0)
+      XCTAssertNil(erroredResult,"Query call should not have failed")
+    }
+  
     func testQuery() {
         let expectation = XCTestExpectation(description: "queryTest")
         let request = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil)
@@ -198,7 +222,7 @@ class RestClientTests: XCTestCase {
     func testBatchRequest() {
         
         let expectation = XCTestExpectation(description: "batchRequestTest")
-        let bathRequestBuilder = BatchRequestBuilder()
+
         // Create account
         let accountName = self.generateRecordName()
         let contactName = self.generateRecordName()
@@ -272,10 +296,9 @@ class RestClientTests: XCTestCase {
 
     }
     
-    func testBatchRequestStopOnFailure() {
-        
+    func testBatchRequestStopOnFailure() {        
         let expectation = XCTestExpectation(description: "batchRequestTest")
-        let bathRequestBuilder = BatchRequestBuilder()
+
         // Create account
         let accountName = self.generateRecordName()
         let contactName = self.generateRecordName()
@@ -332,7 +355,7 @@ class RestClientTests: XCTestCase {
     func testBatchRequestContinueOnFailure() {
            
        let expectation = XCTestExpectation(description: "batchRequestTest")
-       let bathRequestBuilder = BatchRequestBuilder()
+
        // Create account
        let accountName = self.generateRecordName()
        let contactName = self.generateRecordName()
@@ -385,6 +408,48 @@ class RestClientTests: XCTestCase {
        XCTAssertTrue(resp4["statusCode"] as? Int == 200, "Request processing should have stopped on error")
    }
     
+    func testDecodableResponse() {
+        let expectation = XCTestExpectation(description: "decodableResponseTest")
+        let apiVersion = RestClient.shared.apiVersion
+
+        let query = "select Id from Account limit 5"
+        let request = RestClient.shared.request(forQuery: query, apiVersion: apiVersion)
+        
+        var response: RestResponse?
+        var restClientError: Error?
+
+        RestClient.shared.send(request: request) { result in
+            defer { expectation.fulfill() }
+            switch (result) {
+            case .success(let resp):
+                response = resp
+            case .failure(let error):
+                restClientError = error
+            }
+        }
+        self.wait(for: [expectation], timeout: 20)
+        XCTAssertNil(restClientError, "Error should not have occurred")
+        XCTAssertNotNil(response, "RestResponse should not be nil")
+
+        struct Response: Decodable {
+            struct Record: Decodable {
+                struct Attributes: Decodable {
+                    let type: String
+                    let url: String
+                }
+                
+                let attributes: Attributes
+                let Id: String
+            }
+            
+            let totalSize: Int
+            let done: Bool
+            let records: [Record]
+        }
+        
+        XCTAssertNoThrow(try response?.asDecodable(type: Response.self), "RestResponse should be decodable")
+    }
+
     private func generateRecordName() -> String {
         let timecode = Date.timeIntervalSinceReferenceDate
         return "SwiftTestsiOS\(timecode)"

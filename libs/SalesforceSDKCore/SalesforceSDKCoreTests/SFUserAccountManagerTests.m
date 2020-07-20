@@ -110,7 +110,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [super setUp];
     // Delete the content of the global library directory
     NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
-    [[[NSFileManager alloc] init] removeItemAtPath:globalLibraryDirectory error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:globalLibraryDirectory error:nil];
     // Set the oauth client ID after deleting the content of the global library directory
     // to ensure the SFUserAccountManager sharedInstance loads from an empty directory
     self.uam = [SFUserAccountManager sharedInstance];
@@ -218,7 +218,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSString *expectedLocation = [[SFDirectoryManager sharedManager] directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:NSLibraryDirectory components:nil];
     expectedLocation = [expectedLocation stringByAppendingPathComponent:@"UserAccount.plist"];
     XCTAssertEqualObjects(expectedLocation, [SFDefaultUserAccountPersister userAccountPlistFileForUser:user], @"Mismatching user account paths");
-    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSFileManager *fm = [NSFileManager defaultManager];
     XCTAssertTrue([fm fileExistsAtPath:expectedLocation], @"Unable to find new UserAccount.plist");
 
     NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)0];
@@ -232,7 +232,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
     // Create 10 users
     [self createAndVerifyUserAccounts:10];
-    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSFileManager *fm = [NSFileManager defaultManager];
 
     // Ensure all directories have been correctly created
     {
@@ -420,14 +420,14 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     
 }
 
-- (void)testEntityId15 {
+- (void)testEntityId {
     NSString *userId = @"ABCDE12345ABCDE".entityId18;
     SFUserAccountIdentity *identity = [[SFUserAccountIdentity alloc] initWithUserId:userId  orgId:@"ABCDE12345ABCDE"];
     XCTAssertNotNil(identity);
     XCTAssertTrue(userId.length == 18,@"EntityId18 should not be nil");
     XCTAssertNotNil(identity.userId,@"userId should not be nil");
     XCTAssertNotNil(identity.orgId,@"orgId should not be nil");
-    XCTAssertTrue(identity.userId.length == 15 ,@"userId should be set to EntityId 15 format");
+    XCTAssertTrue(identity.userId.length == 18, @"userId should be set to EntityId 18 format");
 }
 
 - (void)testAuthHandler {
@@ -541,7 +541,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSError *deleteAccountError = nil;
     [self.uam deleteAccountForUser:user error:&deleteAccountError];
     XCTAssertNil(deleteAccountError, @"Error deleting account with User ID '%@' and Org ID '%@': %@", identity.userId, identity.orgId, [deleteAccountError localizedDescription]);
-    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSFileManager *fm = [NSFileManager defaultManager];
     XCTAssertFalse([fm fileExistsAtPath:userDir], @"User directory for User ID '%@' and Org ID '%@' should be removed.", identity.userId, identity.orgId);
     SFUserAccount *inMemoryAccount = [self.uam userAccountForUserIdentity:identity];
     XCTAssertNil(inMemoryAccount, @"deleteUser should have removed user account with User ID '%@' and OrgID '%@' from the list of users.", identity.userId, identity.orgId);
@@ -619,7 +619,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 {
     NSString *tokenPath = [[NSBundle bundleForClass:testClass] pathForResource:@"test_credentials" ofType:@"json"];
     NSAssert(nil != tokenPath, @"Test config file not found!");
-    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSFileManager *fm = [NSFileManager defaultManager];
     NSData *tokenJson = [fm contentsAtPath:tokenPath];
     id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
     NSAssert(jsonResponse != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);

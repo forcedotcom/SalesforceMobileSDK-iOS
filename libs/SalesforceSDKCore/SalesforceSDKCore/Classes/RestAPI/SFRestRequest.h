@@ -48,7 +48,6 @@ typedef NS_ENUM(NSInteger, SFSDKNetworkServiceType) {
    
 } NS_SWIFT_NAME(RestRequest.NetWorkServiceType);
 
-
 /**
  * The type of service host to use for Rest requests.
  */
@@ -81,6 +80,38 @@ extern NSString * const kSFDefaultRestEndpoint;
 @class SFRestRequest;
 
 /**
+ * Lifecycle events for REST requests.
+ */
+NS_SWIFT_NAME(RestRequestDelegate)
+@protocol SFRestRequestDelegate <NSObject>
+@optional
+
+/**
+ * Called when a request was successful.
+ *
+ * @param request REST request.
+ * @param dataResponse The data from the response.  By default, this will be an object
+ * containing the parsed JSON response.  However, if the response is not JSON,
+ * the data will be contained in a binary `NSData` object.
+ * @param rawResponse Raw response returned by the server.
+ */
+- (void)request:(SFRestRequest *)request didSucceed:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse;
+
+/**
+ * Called when a request failed.
+ *
+ * @param request REST request.
+ * @param dataResponse The data from the response.  By default, this will be an object
+ * containing the parsed JSON response.  However, if the response is not JSON,
+ * the data will be contained in a binary `NSData` object.
+ * @param rawResponse Raw response returned by the server.
+ * @param error Error received.
+*/
+- (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error;
+
+@end
+
+/**
  * Lifecycle events for SFRestRequests.
  */
 NS_SWIFT_NAME(RestClientDelegate)
@@ -95,7 +126,7 @@ NS_SWIFT_NAME(RestClientDelegate)
  * the data will be contained in a binary `NSData` object.
  * @param rawResponse Raw response returned by the server.
  */
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse;
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
 
 /**
  * Sent when a request has finished loading.
@@ -107,7 +138,7 @@ NS_SWIFT_NAME(RestClientDelegate)
  * The pre SDK 6.0 signature
  * Is called only if request:didLoadResponse:rawResponse: is not provided
  */
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse;
+- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
 
 /**
  * Sent when a request has failed due to an error.
@@ -117,7 +148,7 @@ NS_SWIFT_NAME(RestClientDelegate)
  * @param error The error associated with the failed request.
  * @param rawResponse Raw response returned by the server.
  */
-- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse;
+- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
 
 /**
  * Sent when a request has failed due to an error.
@@ -129,20 +160,20 @@ NS_SWIFT_NAME(RestClientDelegate)
  * The pre SDK 6.0 signature
  * Is called only if request:didFailLoadWithError:rawResponse: is not provided
  */
-- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error;
+- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
 
 /**
  * Sent to the delegate when a request was cancelled.
  * @param request The canceled request.
  */
-- (void)requestDidCancelLoad:(SFRestRequest *)request;
+- (void)requestDidCancelLoad:(SFRestRequest *)request SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
 
 /**
  * Sent to the delegate when a request has timed out. This is sent when a
  * backgrounded request expired before completion.
  * @param request The request that timed out.
  */
-- (void)requestDidTimeout:(SFRestRequest *)request;
+- (void)requestDidTimeout:(SFRestRequest *)request SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
 
 @end
 
@@ -209,7 +240,12 @@ NS_SWIFT_NAME(RestRequest)
 /**
  * The delegate for this request. Notified of request status.
  */
-@property (nullable, nonatomic, weak) id<SFRestDelegate> delegate;
+@property (nullable, nonatomic, weak) id<SFRestDelegate> delegate SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use the 'requestDelegate' property instead.");
+
+/**
+ * The delegate for this request. Notified of request status.
+ */
+@property (nullable, nonatomic, weak) id<SFRestRequestDelegate> requestDelegate;
 
 /**
  * Typically kSFDefaultRestEndpoint but you may use eg custom Apex endpoints

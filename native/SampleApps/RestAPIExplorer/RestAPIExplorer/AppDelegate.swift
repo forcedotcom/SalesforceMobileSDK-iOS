@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let _ = UserAccountManager.shared.currentUserAccount?.credentials.accessToken {
             PushNotificationManager.sharedInstance().registerForSalesforceNotifications { (result) in
                 switch (result) {
-                    case  .success(let successFlag):
+                    case .success(let successFlag):
                         SalesforceLogger.d(AppDelegate.self, message: "Registration for Salesforce notifications status:  \(successFlag)")
                     case .failure(let error):
                         SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications failed \(error)")
@@ -139,12 +139,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerForRemotePushNotifications() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
-            guard granted else {
-                SalesforceLogger.e(AppDelegate.self, message: "Push notification authorization denied")
-                return
+            if granted {
+                DispatchQueue.main.async {
+                    PushNotificationManager.sharedInstance().registerForRemoteNotifications()
+                }
+            } else {
+                SalesforceLogger.d(AppDelegate.self, message: "Push notification authorization denied")
             }
-            DispatchQueue.main.async {
-                PushNotificationManager.sharedInstance().registerForRemoteNotifications()
+
+            if let error = error {
+                SalesforceLogger.e(AppDelegate.self, message: "Push notification authorization error: \(error)")
             }
         }
     }

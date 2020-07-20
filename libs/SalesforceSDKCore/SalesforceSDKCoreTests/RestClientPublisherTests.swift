@@ -53,6 +53,19 @@ class RestClientPublisherTests: XCTestCase {
         }
     }
     
+    func testRecordsPublisher() {
+      // TODO:  Remove this when iOS 13 becomes the target version.
+      if #available(iOS 13.0, *) {
+        
+        let request = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil)
+        let publisher: AnyPublisher<RestClient.QueryResponse<TestContact>, Never> = RestClient.shared.records(forRequest: request)
+        
+        let validTest = evaluateResults(publisher: publisher)
+        wait(for: validTest.expectations, timeout: 5)
+        validTest.cancellable?.cancel()
+      }
+    }
+  
     func testCompositePublisher() {
         // TODO:  Remove this when iOS 13 becomes the target version.
         if #available(iOS 13.0, *) {

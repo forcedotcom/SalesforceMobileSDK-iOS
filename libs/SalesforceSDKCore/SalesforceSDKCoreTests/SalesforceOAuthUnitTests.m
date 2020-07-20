@@ -61,7 +61,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString * const kAccessToken   = @"howAboutaNice";
     NSString * const kRefreshToken  = @"hawaiianPunch";
     NSString * const kUserId12      = @"00530000004c";          // 12 characters   00530000004cwSi
-    NSString * const kUserId15      = @"00530000004cwSi";       // 15 characters
     NSString * const kUserId18      = @"00530000004cwSi123";    // 18 characters
 
     NSString * identifier       = kIdentifier;
@@ -83,7 +82,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(credentials.clientId, kClientId, @"client ID must match initWithIdentifier arg");
     XCTAssertEqualObjects(credentials.accessToken, kAccessToken, @"access token mismatch");
     XCTAssertEqualObjects(credentials.refreshToken, kRefreshToken, @"refresh token mismatch");
-    XCTAssertEqualObjects(credentials.userId, kUserId15, @"user ID (18) mismatch/truncation issue");
+    XCTAssertEqualObjects(credentials.userId, kUserId18, @"user ID (18) mismatch issue");
     
     credentials.userId = kUserId12;
     XCTAssertEqualObjects(credentials.userId, kUserId12, @"user ID (12) mismatch/truncation issue");
@@ -125,7 +124,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credsIn.instanceUrl     = [NSURL URLWithString:@"http://www.salesforce.com"];
     credsIn.issuedAt        = [NSDate date];
     
-    NSString *expectedUserId = @"eighteenCharUsr"; // derived from identityUrl, 18 character ID's are truncated to 15 chars
+    NSString *expectedUserId = @"eighteenCharUsrXYZ"; // derived from identityUrl
     
     [archiver encodeObject:credsIn forKey:@"creds"];
     [archiver finishEncoding];

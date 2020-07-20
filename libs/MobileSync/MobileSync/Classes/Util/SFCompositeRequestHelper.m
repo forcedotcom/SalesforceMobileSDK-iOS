@@ -35,13 +35,12 @@
                     requests:(NSArray<SFRestRequest *> *)requests
              completionBlock:(SFSendCompositeRequestCompleteBlock)completionBlock
                    failBlock:(SFSyncUpTargetErrorBlock)failBlock {
-    
     SFRestRequest *compositeRequest = [[SFRestAPI sharedInstance] compositeRequest:requests refIds:refIds allOrNone:allOrNone apiVersion:nil];
     [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:compositeRequest
-                                                     failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+                                                     failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
                                                          failBlock(e);
                                                      }
-                                                 completeBlock:^(id response, NSURLResponse *rawResponse) {
+                                                 successBlock:^(id response, NSURLResponse *rawResponse) {
                                                      SFSDKCompositeResponse* compositeResponse = [[SFSDKCompositeResponse alloc] initWith:response];
                                                      NSMutableDictionary *refIdToResponses = [NSMutableDictionary new];
                                                      for (SFSDKCompositeSubResponse *response in compositeResponse.subResponses) {

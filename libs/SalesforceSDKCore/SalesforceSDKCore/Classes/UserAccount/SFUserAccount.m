@@ -136,10 +136,28 @@ static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.u
     });
 }
 
+- (NSString *)userPhotoDirectory {
+    return [[SFDirectoryManager sharedManager] directoryForOrg:_credentials.organizationId user:_credentials.userId community:_credentials.communityId?:kDefaultCommunityName type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
+}
+
 - (NSString *)photoPathInternal:(NSError**)error {
-    NSString *userPhotoPath =  [[SFDirectoryManager sharedManager] directoryForOrg:_credentials.organizationId user:_credentials.userId community:_credentials.communityId?:kDefaultCommunityName type:NSLibraryDirectory components:@[@"mobilesdk", @"photos"]];
-    [SFDirectoryManager ensureDirectoryExists:userPhotoPath error:error];
-    return [userPhotoPath stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:_credentials.userId]];
+    [SFDirectoryManager ensureDirectoryExists:[self userPhotoDirectory] error:error];
+    return [[self userPhotoDirectory] stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:_credentials.userId]];
+}
+
+// Starting in SDK 8.2, 18 character IDs are used instead of 15 character IDs.
+// This renames the 15 character profile picture to 18 characters.
+// TODO: Remove in Mobile SDK 10.0
+- (void)upgradePhotoPath {
+    NSString *shortIdPath = [[self userPhotoDirectory] stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:[_credentials.userId substringToIndex:15]]];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:shortIdPath]) {
+        NSString *newPath = [[self userPhotoDirectory] stringByAppendingPathComponent:_credentials.userId];
+        NSError *error = nil;
+        [[NSFileManager defaultManager] moveItemAtPath:shortIdPath toPath:newPath error:&error];
+        if (error) {
+            [SFSDKCoreLogger e:[self class] format:@"Error moving %@ to %@: %@", shortIdPath, newPath, error];
+        }
+    }
 }
 
 - (UIImage *)photo {
@@ -147,8 +165,9 @@ static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.u
         __weak __typeof(self) weakSelf = self;
         dispatch_sync(_syncQueue, ^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf upgradePhotoPath];
             NSString *photoPath = [strongSelf photoPathInternal:nil];
-            NSFileManager *manager = [[NSFileManager alloc] init];
+            NSFileManager *manager = [NSFileManager defaultManager];
             if ([manager fileExistsAtPath:photoPath]) {
                 UIImage *decryptedPhoto = [self decryptPhoto:photoPath];
                 if (decryptedPhoto) {

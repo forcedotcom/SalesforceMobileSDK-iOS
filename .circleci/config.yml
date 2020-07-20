@@ -2,12 +2,12 @@ executors:
   mac:
     working_directory: ~/SalesforceMobileSDK-iOS
     macos:
-      xcode: 11.3.1
+      xcode: 11.5.0
     shell: /bin/bash --login -eo pipefail
     environment:
       BASH_ENV: ~/.bashrc
       FASTLANE_SKIP_UPDATE_CHECK: "true"
-      CHRUBY_VER: 2.6.5
+      CHRUBY_VER: 2.7.1
 
 version: 2.1
 jobs:
@@ -21,7 +21,7 @@ jobs:
         default: "iPhone 11"
       ios:
         type: string
-        default: "13.3"
+        default: "13.5"
       nightly-test:
         type: boolean
         default: false

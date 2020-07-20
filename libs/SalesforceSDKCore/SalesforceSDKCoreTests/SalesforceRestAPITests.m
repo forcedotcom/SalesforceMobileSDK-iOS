@@ -179,7 +179,7 @@ static NSException *authException = nil;
 
 - (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request usingInstance:(SFRestAPI *) instance {
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [instance send:request delegate:listener];
+    [instance send:request requestDelegate:listener];
     [listener waitForCompletion];
     return listener;
 }
@@ -206,9 +206,9 @@ static NSException *authException = nil;
                                                    forKey:NSAssertionHandlerKey];
     SFRestRequest* request = [[SFRestAPI sharedGlobalInstance] requestForResources:kSFRestDefaultAPIVersion];
     @try {
-        [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *  rawResponse) {
+        [[SFRestAPI sharedGlobalInstance] sendRequest:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             
-        } completeBlock:^(id response, NSURLResponse *rawResponse) {
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
             
         }];
     }
@@ -227,7 +227,7 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
     
     //exercises overwriting the delegate at send time
-    [[SFRestAPI sharedInstance] send:request delegate:listener];
+    [[SFRestAPI sharedInstance] send:request requestDelegate:listener];
     [listener waitForCompletion];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     self.dataCleanupRequired = NO;
@@ -280,10 +280,10 @@ static NSException *authException = nil;
 - (void)testGetDescribeGlobal_Cancel {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [[SFRestAPI sharedInstance] send:request delegate:listener];
+    [[SFRestAPI sharedInstance] send:request requestDelegate:listener];
     [[SFRestAPI sharedInstance] cancelAllRequests];
     [listener waitForCompletion];
-    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidCancel, @"request should have been cancelled");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have been cancelled");
     self.dataCleanupRequired = NO;
 
 }
@@ -292,13 +292,11 @@ static NSException *authException = nil;
 - (void)testGetDescribeGlobal_Timeout {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [[SFNativeRestRequestListener alloc] initWithRequest:request];
-    [[SFRestAPI sharedInstance] send:request delegate:listener];
-    
+    [[SFRestAPI sharedInstance] send:request requestDelegate:listener];
     BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:request];
     XCTAssertTrue(found , @"Could not find request to force a timeout");
-    
     [listener waitForCompletion];
-    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidTimeout, @"request should have timed out");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have timed out");
     self.dataCleanupRequired = NO;
  }
 
@@ -319,18 +317,56 @@ static NSException *authException = nil;
 }
 
 // simple: just invoke requestForLayoutWithObjectType:@"Contact" without layoutType.
-- (void)testGetLayoutWithObjectTypeWithoutLayoutType {
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:nil apiVersion:kSFRestDefaultAPIVersion];
+- (void)testGetLayoutWithObjectAPINameWithoutFormFactor {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" with formFactor:@"Medium".
+- (void)testGetLayoutWithObjectAPINameWithFormFactor {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:@"Medium" layoutType:nil mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" without layoutType.
+- (void)testGetLayoutWithObjectAPINameWithoutLayoutType {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForLayoutWithObjectType:@"Contact" with layoutType:@"Compact".
-- (void)testGetLayoutWithObjectTypeWithLayoutType {
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:CONTACT layoutType:@"Compact" apiVersion:kSFRestDefaultAPIVersion];
+- (void)testGetLayoutWithObjectAPINameWithLayoutType {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:@"Compact" mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" without mode.
+- (void)testGetLayoutWithObjectAPINameWithoutMode {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" with mode:@"Edit".
+- (void)testGetLayoutWithObjectAPINameWithMode {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:@"Edit" recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForLayoutWithObjectType:@"Contact" without recordTypeId.
+- (void)testGetLayoutWithObjectAPINameWithoutRecordTypeId {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:CONTACT formFactor:nil layoutType:nil mode:nil recordTypeId:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
 }
 
 // simple: just invoke requestForSearchScopeAndOrder
@@ -879,7 +915,6 @@ static NSException *authException = nil;
     SFSDKBatchRequest *batchRequest = [batchRequestBuiler buildBatchRequest:kSFRestDefaultAPIVersion];
     __block SFSDKBatchResponse *batchResponse = nil;
     __block NSError *error = nil;
-     
     [[SFRestAPI sharedInstance] sendBatchRESTRequest:batchRequest failBlock:^(NSError * err, NSURLResponse * rawResponse) {
         error = err;
         [expectation fulfill];
@@ -1066,7 +1101,6 @@ static NSException *authException = nil;
     SFSDKCompositeRequest *compositeRequest = [requestBuilder buildCompositeRequest:[SFRestAPI sharedInstance].apiVersion];
     __block SFSDKCompositeResponse *compositeResponse = nil;
     __block NSError *error = nil;
-     
     [[SFRestAPI sharedInstance] sendCompositeRESTRequest:compositeRequest failBlock:^(NSError * err, NSURLResponse * rawResponse) {
         error = err;
         [expectation fulfill];
@@ -1472,7 +1506,6 @@ static NSException *authException = nil;
 
     // upload first file
     NSDictionary *fileAttrs = [self uploadFile];
-    
     // get owned files
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0 apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
@@ -1521,7 +1554,7 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     XCTAssertEqual((int)[listener.dataResponse[@"shares"] count], 1, @"expected one share");
-    XCTAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][LID] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
+    XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"entity"][LID], _currentUser.credentials.userId, @"expected share with current user");
     XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
 
     // get count files shared with other user
@@ -1543,16 +1576,15 @@ static NSException *authException = nil;
     NSMutableDictionary* actualUserIdToType = [NSMutableDictionary new];
     for (int i=0; i < [listener.dataResponse[@"shares"] count]; i++) {
         NSDictionary* share = listener.dataResponse[@"shares"][i];
-        NSString* shareEntityId = [(NSString*) share[@"entity"][LID] substringToIndex:15];
+        NSString* shareEntityId = share[@"entity"][LID];
         NSString* shareType = share[@"sharingType"];
         actualUserIdToType[shareEntityId] = shareType;
     }
-    NSString* otherUserId15 = [otherUserId substringToIndex:15];
     XCTAssertEqual([actualUserIdToType count], 2, @"expected two shares");
     XCTAssertTrue([[actualUserIdToType allKeys] containsObject:_currentUser.credentials.userId], @"expected share with current user");
     XCTAssertEqualObjects(actualUserIdToType[_currentUser.credentials.userId], @"I", @"wrong sharing type for current user");
-    XCTAssertTrue([[actualUserIdToType allKeys] containsObject:otherUserId15], @"expected shared with other user");
-    XCTAssertEqualObjects(actualUserIdToType[otherUserId15], @"V", @"wrong sharing type for other user");
+    XCTAssertTrue([[actualUserIdToType allKeys] containsObject:otherUserId], @"expected shared with other user");
+    XCTAssertEqualObjects(actualUserIdToType[otherUserId], @"V", @"wrong sharing type for other user");
     
     // get count files shared with other user
     request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:otherUserId page:0 apiVersion:kSFRestDefaultAPIVersion];
@@ -1570,7 +1602,7 @@ static NSException *authException = nil;
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     XCTAssertEqual((int)[listener.dataResponse[@"shares"] count], 1, @"expected one share");
-    XCTAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][LID] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
+    XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"entity"][LID], _currentUser.credentials.userId, @"expected share with current user");
     XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
     
     // get count files shared with other user
@@ -1820,7 +1852,6 @@ static NSException *authException = nil;
     };
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
                                    completeBlock:successWithUnexpectedSuccessBlock];
-    
     BOOL completionTimedOut = [self waitForExpectation];
     XCTAssertFalse(completionTimedOut);
     XCTAssertEqual(0, [SFRestAPI sharedInstance].activeRequests.count, @"Active requests queue should be empty.");
@@ -1884,42 +1915,41 @@ static NSException *authException = nil;
         SFRestRequest* request3 = [restAPI requestForDescribeGlobal:kSFRestDefaultAPIVersion];
         SFRestRequest* request4 = [restAPI requestForDescribeGlobal:kSFRestDefaultAPIVersion];
         
-        [restAPI sendRESTRequest:request0 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+        [restAPI sendRequest:request0 failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             [expectation0 fulfill];
             XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        } completeBlock:^(id  response, NSURLResponse * rawResponse) {
+        } successBlock:^(id  response, NSURLResponse *rawResponse) {
             
         }];
         
-        [restAPI sendRESTRequest:request1 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+        [restAPI sendRequest:request1 failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             [expectation1 fulfill];
             XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        } completeBlock:^(id response, NSURLResponse * rawResponse) {
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
             
         }];
         
-        [restAPI sendRESTRequest:request2 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+        [restAPI sendRequest:request2 failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             [expectation2 fulfill];
             XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
             
         }];
         
-        [restAPI sendRESTRequest:request3 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+        [restAPI sendRequest:request3 failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             [expectation3 fulfill];
             XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
             
         }];
         
-        [restAPI sendRESTRequest:request4 failBlock:^(NSError *  e, NSURLResponse *rawResponse) {
+        [restAPI sendRequest:request4 failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
             [expectation4 fulfill];
             XCTAssertEqualObjects(e.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        } completeBlock:^(id response, NSURLResponse *  rawResponse) {
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
             
         }];
         [self waitForExpectations:@[expectation0,expectation1,expectation2,expectation3,expectation4] timeout:10.0];
-        
     }
     @finally {
         [self deleteUser:fakeUser];
@@ -2039,7 +2069,6 @@ static NSException *authException = nil;
         XCTAssertTrue([a isKindOfClass:[NSArray class]], @"Response should be an array");
         [self.currentExpectation fulfill];
     };
-
     
     // Class helper function that creates an error.
     NSString *errorStr = @"Sample error.";
@@ -2197,7 +2226,6 @@ static NSException *authException = nil;
     BOOL found = [api forceTimeoutRequest:nil];
     #pragma clang diagnostic pop
     XCTAssertTrue(found , @"Request was not sent and should not be found.");
-
     BOOL completionTimedOut = [self waitForExpectation];
     XCTAssertTrue(!completionTimedOut); // when we force timeout the request, its error handler gets invoked right away, so the semaphore-wait should not time out
 }
@@ -2205,7 +2233,6 @@ static NSException *authException = nil;
 #pragma mark - queryBuilder tests
 
 - (void) testSOQL {
-
     XCTAssertNil( [SFRestAPI SOQLQueryWithFields:(NSArray<NSString*>* _Nonnull)nil sObject:(NSString* _Nonnull) nil whereClause:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
@@ -2407,23 +2434,20 @@ static NSException *authException = nil;
     __block NSDictionary *response = nil;
     SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
     XCTAssertEqual(request.baseURL, @"https://api.github.com", @"Base URL should match");
-    
-    [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request failBlock:^(NSError *  e, NSURLResponse * rawResponse) {
+    [[SFRestAPI sharedGlobalInstance] sendRequest:request failureBlock:^(id resp, NSError *e, NSURLResponse *rawResponse) {
         error = e;
         [getExpectation fulfill];
-        
-    } completeBlock:^(id  resp, NSURLResponse *  rawResponse) {
+    } successBlock:^(id resp, NSURLResponse *rawResponse) {
         response = resp;
         [getExpectation fulfill];
     }];
     [self waitForExpectations:@[getExpectation] timeout:20];
     XCTAssertTrue(error == nil,@"RestApi call to a public api should not fail");
     XCTAssertFalse(response == nil,@"RestApi call to a public api should not have a nil response");
-    XCTAssertTrue(response.count > 0 ,@"The reponse should have github/forcedotcom repos");
+    XCTAssertTrue(response.count > 0 ,@"The response should have github/forcedotcom repos");
 }
 
 - (void)testCustomSalesforceEndpoint {
-    
     NSString *endpoint = @"/custom/endpoint";
     NSString *path = @"/custom/endpoint";
     SFRestRequest *request =  [SFRestRequest customEndPointRequestWithMethod:SFRestMethodGET endPoint:endpoint path:path queryParams:nil];
@@ -2488,7 +2512,7 @@ static NSException *authException = nil;
     SFOAuthCredentials *credentials = [TestSetupUtils newClientCredentials];
     SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:credentials];
     [account transitionToLoginState:SFUserAccountLoginStateLoggedIn];
-    NSString *userId = [self generateRandomId:15];
+    NSString *userId = [self generateRandomId:18];
     NSString *orgId = [self generateRandomId:18];
     account.credentials.userId = userId;
     account.credentials.organizationId = orgId;
@@ -2507,7 +2531,6 @@ static NSException *authException = nil;
 }
 
 - (NSString *) generateRandomId:(NSInteger)len {
-    
     NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
     NSMutableString *s = [NSMutableString stringWithCapacity:20];
     for (NSUInteger i = 0U; i < len; i++) {
@@ -2515,10 +2538,71 @@ static NSException *authException = nil;
         unichar c = [alphabet characterAtIndex:r];
         [s appendFormat:@"%C", c];
     }
-    
     return s;
 }
 
+#pragma mark - Notification tests
 
+- (void)testNotificationsStatus {
+    // TODO move notification tests to kSFRestDefaultAPIVersion when it's >= 49
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotificationsStatus:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+- (void)testGetNotifications {
+    SFSDKFetchNotificationsRequestBuilder *builder = [SFSDKFetchNotificationsRequestBuilder new];
+    NSDate *yesterdayDate = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24];
+    [builder setAfter:yesterdayDate];
+    [builder setSize:10];
+    SFRestRequest* request = [builder buildFetchNotificationsRequest:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+- (void)testUpdateReadNotifications {
+    SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
+    [builder setBefore:[NSDate date]];
+    [builder setRead:NO];
+    SFRestRequest* request = [builder buildUpdateNotificationsRequest:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+- (void)testUpdateSeenNotifications {
+    SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
+    [builder setBefore:[NSDate date]];
+    [builder setSeen:YES];
+    SFRestRequest* request = [builder buildUpdateNotificationsRequest:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+- (void)testGetNotificationRequestPath {
+    NSString *notificationId = @"testID";
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotification:notificationId apiVersion:kSFRestDefaultAPIVersion];
+    NSString *expectedPath = [NSString stringWithFormat:@"/connect/notifications/%@", notificationId];
+    XCTAssert([request.path hasSuffix:expectedPath]);
+}
+
+- (void)testUpdateNotificationRequestPath {
+    SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
+    NSString *notificationId = @"testID";
+    [builder setNotificationId:notificationId];
+    SFRestRequest *request = [builder buildUpdateNotificationsRequest:kSFRestDefaultAPIVersion];
+    NSString *expectedPath = [NSString stringWithFormat:@"/connect/notifications/%@", notificationId];
+    XCTAssert([request.path hasSuffix:expectedPath]);
+}
+
+- (void)testUpdateNotificationsRequestContent {
+    SFSDKUpdateNotificationsRequestBuilder *builder = [SFSDKUpdateNotificationsRequestBuilder new];
+    NSArray *notificationIds = @[@"testID1", @"testID2"];
+    [builder setNotificationIds:notificationIds];
+    SFRestRequest *request = [builder buildUpdateNotificationsRequest:kSFRestDefaultAPIVersion];
+    XCTAssert([request.path hasSuffix:@"/connect/notifications"]);
+    NSDictionary *requestBody = request.requestBodyAsDictionary;
+    NSString *requestNotificationIds = requestBody[@"notificationIds"];
+    XCTAssertEqualObjects(notificationIds, requestNotificationIds);
+}
 
 @end

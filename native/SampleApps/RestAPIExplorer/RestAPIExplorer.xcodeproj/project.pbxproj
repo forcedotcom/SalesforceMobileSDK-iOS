@@ -247,7 +247,6 @@
 				B79F06E520EA931200BC7D6F /* MobileSync.framework */,
 				B79F06E720EA931200BC7D6F /* MobileSyncTestApp.app */,
 				B79F06E920EA931200BC7D6F /* MobileSyncTests.xctest */,
-				B79F06EB20EA931200BC7D6F /* libMobileSync.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -258,7 +257,6 @@
 				B79F06F520EA931900BC7D6F /* SalesforceSDKCore.framework */,
 				B79F06F720EA931900BC7D6F /* SalesforceSDKCoreTestApp.app */,
 				B79F06F920EA931900BC7D6F /* SalesforceSDKCoreTests.xctest */,
-				B79F06FB20EA931900BC7D6F /* libSalesforceSDKCore.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -268,7 +266,6 @@
 			children = (
 				B79F070520EA931F00BC7D6F /* SalesforceAnalytics.framework */,
 				B79F070720EA931F00BC7D6F /* SalesforceAnalyticsTests.xctest */,
-				B79F070920EA931F00BC7D6F /* libSalesforceAnalytics.a */,
 				B79F070B20EA931F00BC7D6F /* SalesforceAnalyticsTestApp.app */,
 			);
 			name = Products;
@@ -280,7 +277,6 @@
 				B79F071520EA932400BC7D6F /* SmartStore.framework */,
 				B79F071720EA932400BC7D6F /* SmartStoreTestApp.app */,
 				B79F071920EA932400BC7D6F /* SmartStoreTests.xctest */,
-				B79F071B20EA932400BC7D6F /* libSmartStore.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -382,7 +378,6 @@
 				B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */,
 				B7D641CA218F429D006DF5F0 /* SalesforceSDKCommonTests.xctest */,
 				A3D2306C219749BF009F433D /* SalesforceSDKCommonTestApp.app */,
-				B7D641CC218F429D006DF5F0 /* libSalesforceSDKCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -443,6 +438,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = B79F06DD20EA931200BC7D6F /* Products */;
+					ProjectRef = B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */;
+				},
+				{
 					ProductGroup = B79F06FD20EA931F00BC7D6F /* Products */;
 					ProjectRef = B79F06FC20EA931F00BC7D6F /* SalesforceAnalytics.xcodeproj */;
 				},
@@ -457,10 +456,6 @@
 				{
 					ProductGroup = B79F070D20EA932400BC7D6F /* Products */;
 					ProjectRef = B79F070C20EA932400BC7D6F /* SmartStore.xcodeproj */;
-				},
-				{
-					ProductGroup = B79F06DD20EA931200BC7D6F /* Products */;
-					ProjectRef = B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -499,13 +494,6 @@
 			remoteRef = B79F06E820EA931200BC7D6F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B79F06EB20EA931200BC7D6F /* libMobileSync.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libMobileSync.a;
-			remoteRef = B79F06EA20EA931200BC7D6F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B79F06F520EA931900BC7D6F /* SalesforceSDKCore.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -527,13 +515,6 @@
 			remoteRef = B79F06F820EA931900BC7D6F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B79F06FB20EA931900BC7D6F /* libSalesforceSDKCore.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceSDKCore.a;
-			remoteRef = B79F06FA20EA931900BC7D6F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B79F070520EA931F00BC7D6F /* SalesforceAnalytics.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -546,13 +527,6 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceAnalyticsTests.xctest;
 			remoteRef = B79F070620EA931F00BC7D6F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B79F070920EA931F00BC7D6F /* libSalesforceAnalytics.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceAnalytics.a;
-			remoteRef = B79F070820EA931F00BC7D6F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B79F070B20EA931F00BC7D6F /* SalesforceAnalyticsTestApp.app */ = {
@@ -583,13 +557,6 @@
 			remoteRef = B79F071820EA932400BC7D6F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B79F071B20EA932400BC7D6F /* libSmartStore.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSmartStore.a;
-			remoteRef = B79F071A20EA932400BC7D6F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -602,13 +569,6 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceSDKCommonTests.xctest;
 			remoteRef = B7D641C9218F429D006DF5F0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B7D641CC218F429D006DF5F0 /* libSalesforceSDKCommon.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceSDKCommon.a;
-			remoteRef = B7D641CB218F429D006DF5F0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

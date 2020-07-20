@@ -89,6 +89,10 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 #pragma mark - SFAdvancedSyncUpTarget methods
 
 - (void)syncUpRecords:(nonnull SFMobileSyncSyncManager *)syncManager records:(nonnull NSArray<NSMutableDictionary *> *)records fieldlist:(nonnull NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode syncSoupName:(nonnull NSString *)syncSoupName completionBlock:(nonnull SFSyncUpTargetCompleteBlock)completionBlock failBlock:(nonnull SFSyncUpTargetErrorBlock)failBlock {
+    [self syncUpRecords:syncManager records:records fieldlist:fieldlist mergeMode:mergeMode syncSoupName:syncSoupName isReRun:NO completionBlock:completionBlock failBlock:failBlock];
+}
+
+- (void)syncUpRecords:(nonnull SFMobileSyncSyncManager *)syncManager records:(nonnull NSArray<NSMutableDictionary *> *)records fieldlist:(nonnull NSArray *)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode syncSoupName:(nonnull NSString *)syncSoupName isReRun:(BOOL)isReRun completionBlock:(nonnull SFSyncUpTargetCompleteBlock)completionBlock failBlock:(nonnull SFSyncUpTargetErrorBlock)failBlock {
     
     if (records.count == 0) {
         completionBlock(nil);
@@ -135,17 +139,19 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
                                                                        record:record
                                                                     mergeMode:mergeMode
                                                               refIdToServerId:refIdToServerId
-                                                                     response:refIdToResponses[record[strongSelf.idFieldName]]];
+                                                                     response:refIdToResponses[record[strongSelf.idFieldName]]
+                                                                      isReRun:isReRun];
             }
         }
         
         // Re-run if required
-        if (needReRun) {
+        if (needReRun && !isReRun) {
             [strongSelf syncUpRecords:syncManager
                               records:records
                             fieldlist:fieldlist
                             mergeMode:mergeMode
                          syncSoupName:syncSoupName
+                              isReRun:YES
                       completionBlock:completionBlock
                             failBlock:failBlock];
         } else {
@@ -209,7 +215,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
     }
 }
 
-- (BOOL) updateRecordInLocalStore:(nonnull SFMobileSyncSyncManager *)syncManager soupName:(nonnull NSString *)soupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(SFSDKCompositeSubResponse*)response {
+- (BOOL) updateRecordInLocalStore:(nonnull SFMobileSyncSyncManager *)syncManager soupName:(nonnull NSString *)soupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(SFSDKCompositeSubResponse*)response isReRun:(BOOL)isReRun {
 
     BOOL needReRun = NO;
     NSUInteger statusCode = response.httpStatusCode;
@@ -226,7 +232,8 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         }
         // Failure
         else {
-            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
     }
     
@@ -242,17 +249,17 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
             [self cleanAndSaveInLocalStore:syncManager soupName:soupName record:record];
         }
         // Handling remotely deleted records
-        else if (notFoundStatusCode) {
-            // Record needs to be recreated
-            if (mergeMode == SFSyncStateMergeModeOverwrite) {
-                record[kSyncTargetLocal] = @YES;
-                record[kSyncTargetLocallyCreated] = @YES;
-                needReRun = YES;
-            }
+        else if (notFoundStatusCode
+                 && mergeMode == SFSyncStateMergeModeOverwrite // Record needs to be recreated
+                 && !isReRun) {
+            record[kSyncTargetLocal] = @YES;
+            record[kSyncTargetLocallyCreated] = @YES;
+            needReRun = YES;
         }
         // Failure
         else {
-            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
         
     }

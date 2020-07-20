@@ -24,7 +24,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 #import "SFSDKCompositeRequest+Internal.h"
 #import "SFRestRequest+Internal.h"
-NSString* const kSFRestCompositeDefaultAPIVersion = @"v46.0";
+#import "SFRestAPI.h"
 
 @implementation SFSDKCompositeSubRequest
 
@@ -53,6 +53,7 @@ NSString* const kSFRestCompositeDefaultAPIVersion = @"v46.0";
         self.requestBodyAsDictionary = request.requestBodyAsDictionary;
         self.shouldRefreshOn403 = request.shouldRefreshOn403;
         self.delegate = request.delegate;
+        self.requestDelegate = request.requestDelegate;
     }
     return self;
 }
@@ -109,7 +110,7 @@ NSString* const kSFRestCompositeDefaultAPIVersion = @"v46.0";
     NSMutableDictionary<NSString *, id> *compositeRequestJson = [NSMutableDictionary new];
     compositeRequestJson[@"compositeRequest"] = requestsArrayJson;
     compositeRequestJson[@"allOrNone"] = [NSNumber numberWithBool:self.allOrNone];
-    self.path = [NSString stringWithFormat:@"/%@/composite", self.apiVersion ?: kSFRestCompositeDefaultAPIVersion];
+    self.path = [NSString stringWithFormat:@"/%@/composite", self.apiVersion ?: kSFRestDefaultAPIVersion];
     [super setCustomRequestBodyDictionary:compositeRequestJson contentType:@"application/json"];
     super.serviceHostType = SFSDKRestServiceHostTypeInstance;
     super.method = SFRestMethodPOST;

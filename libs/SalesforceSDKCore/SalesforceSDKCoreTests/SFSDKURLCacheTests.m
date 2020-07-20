@@ -214,7 +214,7 @@
 
 - (void)sendRequest:(SFRestRequest *)request {
     SFSDKTestRequestListener *listener = [[SFSDKTestRequestListener alloc] init];
-    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
+    SFRestRequestFailBlock failBlock = ^(id response, NSError *error, NSURLResponse *rawResponse) {
         listener.lastError = error;
         listener.returnStatus = kTestRequestStatusDidFail;
     };
@@ -222,9 +222,9 @@
         listener.dataResponse = data;
         listener.returnStatus = kTestRequestStatusDidLoad;
     };
-    [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request
-                                            failBlock:failBlock
-                                        completeBlock:completeBlock];
+    [[SFRestAPI sharedGlobalInstance] sendRequest:request
+                                            failureBlock:failBlock
+                                        successBlock:completeBlock];
     [listener waitForCompletion];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }

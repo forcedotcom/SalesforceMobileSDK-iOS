@@ -88,9 +88,9 @@ static NSString * const kSFSoslSyncTargetQuery = @"query";
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:queryRun apiVersion:nil];
-    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
-    } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
+    } successBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = [d[kResponseSearchRecords] count];
         completeBlock(d[kResponseSearchRecords]);
     }];

@@ -26,6 +26,7 @@
 #import "SFIdentityData.h"
 #import "SFDefaultUserAccountPersister.h"
 #import "SFDirectoryManager.h"
+#import "SFDirectoryManager+Internal.h"
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
 #import <SalesforceSDKCommon/SFFileProtectionHelper.h>
@@ -33,12 +34,6 @@
 
 // Name of the individual file containing the archived SFUserAccount class
 static NSString * const kUserAccountPlistFileName = @"UserAccount.plist";
-
-// Prefix of an org ID
-static NSString * const kOrgPrefix = @"00D";
-
-// Prefix of a user ID
-static NSString * const kUserPrefix = @"005";
 
 // Label for encryption key for user account persistence.
 static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAccount.encryptionKey";
@@ -70,7 +65,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     
     // Get the root directory, usually ~/Library/<appBundleId>/
     NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
-    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:rootDirectory]) {
         // Now iterate over the org and then user directories to load
         // each individual user account file.
@@ -134,7 +129,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
 - (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error {
     BOOL success = NO;
     if (nil != user) {
-        NSFileManager *manager = [[NSFileManager alloc] init];
+        NSFileManager *manager = [NSFileManager defaultManager];
         NSString *userDirectory = [[SFDirectoryManager sharedManager] directoryForUser:user
                                                                                  scope:SFUserAccountScopeUser
                                                                                   type:NSLibraryDirectory
@@ -185,7 +180,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     }
 
     // Remove any existing file.
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     if ([manager fileExistsAtPath:filePath]) {
         NSError *removeAccountFileError = nil;
         if (![manager removeItemAtPath:filePath error:&removeAccountFileError]) {
@@ -246,7 +241,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
  */
 - (BOOL)loadUserAccountFromFile:(NSString *)filePath account:(SFUserAccount**)account error:(NSError**)error {
     
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     NSString *reason = @"User account data could not be decrypted. Can't load account.";
     NSData *encryptedUserAccountData = [manager contentsAtPath:filePath];
     if (!encryptedUserAccountData) {

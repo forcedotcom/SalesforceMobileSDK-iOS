@@ -195,7 +195,7 @@ static NSMutableDictionary *instances = nil;
 
 - (void)removeAllObjects {
     @synchronized (self) {
-        NSFileManager *manager = [[NSFileManager alloc] init];
+        NSFileManager *manager = [NSFileManager defaultManager];
         if ([manager fileExistsAtPath:self.path]) {
             NSError *error = nil;
             BOOL success = [manager removeItemAtPath:self.path error:&error];

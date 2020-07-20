@@ -23,8 +23,10 @@
  */
 
 #import "SFDirectoryManager.h"
+#import "SFDirectoryManager+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
+#import "NSString+SFAdditions.h"
 #import <SalesforceSDKCommon/SFFileProtectionHelper.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 
@@ -32,6 +34,7 @@ static NSString * const kDefaultOrgName = @"org";
 NSString * const kDefaultCommunityName = @"internal";
 static NSString * const kSharedLibraryLocation = @"Library";
 static NSString * const kFilesSharedKey = @"filesShared";
+static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesdk.DirectoryManager.ErrorDomain";
 
 @implementation SFDirectoryManager
 
@@ -53,12 +56,22 @@ static NSString * const kFilesSharedKey = @"filesShared";
 }
 
 + (BOOL)ensureDirectoryExists:(NSString*)directory error:(NSError**)error {
-    NSFileManager *manager = [[NSFileManager alloc] init];
-    if (directory && ![manager fileExistsAtPath:directory]) {
+    if (!directory) {
+        return NO;
+    }
+    NSFileManager *manager = [NSFileManager defaultManager];
+    BOOL isDirectory;
+    BOOL fileExists = [manager fileExistsAtPath:directory isDirectory:&isDirectory];
+    if (!fileExists) {
         return [manager createDirectoryAtPath:directory
                   withIntermediateDirectories:YES
                                    attributes:@{NSFileProtectionKey: [SFFileProtectionHelper fileProtectionForPath:directory]}
                                         error:error];
+    } else if (fileExists && !isDirectory) {
+        if (error) {
+            *error = [[NSError alloc] initWithDomain:kDirectoryManagerErrorDomain code:100 userInfo:@{ NSLocalizedDescriptionKey: @"File exists at path and is not a directory" }];
+        }
+        return NO;
     } else {
         return YES;
     }
@@ -163,7 +176,7 @@ static NSString * const kFilesSharedKey = @"filesShared";
 #pragma mark - File Migration Methods
 
 - (void)moveContentsOfDirectory:(NSString *)sourceDirectory toDirectory:(NSString *)destinationDirectory {
-    NSFileManager *fileManager = [[NSFileManager alloc]init];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;
     if (sourceDirectory && [fileManager fileExistsAtPath:sourceDirectory]) {
         [SFDirectoryManager ensureDirectoryExists:destinationDirectory error:nil];
@@ -233,6 +246,47 @@ static NSString * const kFilesSharedKey = @"filesShared";
     }
     
     [sharedDefaults synchronize];
+}
+
++ (void)upgradeUserDirectories {
+    [SFDirectoryManager upgradeUserDirectory:NSLibraryDirectory];
+    [SFDirectoryManager upgradeUserDirectory:NSDocumentDirectory];
+}
+
++ (void)upgradeUserDirectory:(NSSearchPathDirectory)type {
+    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:type components:nil];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSError *error = nil;
+
+    if ([fm fileExistsAtPath:rootDirectory]) {
+        NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:&error];
+        if (error) {
+            [SFSDKCoreLogger d:[self class] format:@"Error retreiving contents of %@: %@", rootDirectory, error];
+        }
+
+        for (NSString *rootContent in rootContents) {
+            if (![rootContent hasPrefix:kOrgPrefix]) {
+                continue;
+            }
+            NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
+            NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:&error];
+            if (error) {
+                [SFSDKCoreLogger d:[self class] format:@"Error retreiving contents of %@: %@", rootPath, error];
+            }
+
+            for (NSString *orgContent in orgContents) {
+                if ([orgContent hasPrefix:kUserPrefix] && [orgContent length] == 15) {
+                    NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
+                    NSString *newDirectory = [orgContent entityId18];
+                    NSString *newPath = [rootPath stringByAppendingPathComponent:newDirectory];
+                    [fm moveItemAtPath:orgPath toPath:newPath error:&error];
+                    if (error) {
+                        [SFSDKCoreLogger e:[self class] format:@"Error moving %@ to %@: %@", orgPath, newPath, error];
+                    }
+                }
+            }
+        }
+    }
 }
 
 @end

@@ -1,7 +1,9 @@
+# Salesforce.com Mobile SDK for iOS
 [![CircleCI](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev.svg?style=svg)](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev)
 [![codecov](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev/graph/badge.svg)](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev)
+[![Known Vulnerabilities](https://snyk.io/test/github/forcedotcom/SalesforceMobileSDK-iOS/badge.svg)](https://snyk.io/test/github/forcedotcom/SalesforceMobileSDK-iOS)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/forcedotcom/SalesforceMobileSDK-iOS?sort=semver)
 
-# Salesforce.com Mobile SDK for iOS
 
 You have arrived at the source repository for the Salesforce Mobile SDK for iOS.  Welcome!  There are two ways you can choose to work with the Mobile SDK:
 
@@ -31,8 +33,8 @@ The Salesforce Mobile SDK for iOS requires iOS 11.0 or greater.  The install.sh 
 Introduction
 ==
 
-### What's New in 8.1.0
-See [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/releases/tag/v8.1.0).
+### What's New in 8.2.0
+See [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/releases/tag/v8.2.0).
 
 ### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides wrappers for the Salesforce REST API that you can use from both Swift and Objective-C.

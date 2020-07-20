@@ -33,10 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 @class SFSDKCompositeRequest;
 @class SFSDKBatchRequest;
 
-@interface SFRestAPI (Blocks) <SFRestDelegate>
+@interface SFRestAPI (Blocks) <SFRestDelegate, SFRestRequestDelegate>
 
 // Block types
-typedef void (^SFRestFailBlock) (NSError * _Nullable e, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestFailBlock);
+typedef void (^SFRestFailBlock) (NSError * _Nullable e, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestFailBlock) SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestFailBlock instead.");
+typedef void (^SFRestRequestFailBlock) (id _Nullable response, NSError * _Nullable e, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestRequestFailBlock);
 typedef void (^SFRestDictionaryResponseBlock) (NSDictionary * _Nullable dict, NSURLResponse * _Nullable rawResponse)  NS_SWIFT_NAME(RestDictionaryResponseBlock);
 typedef void (^SFRestArrayResponseBlock) (NSArray * _Nullable arr, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestArrayResponseBlock);
 typedef void (^SFRestDataResponseBlock) (NSData* _Nullable data, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestDataResponseBlock);
@@ -49,14 +50,22 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
  */
 + (NSError *)errorWithDescription:(NSString *)description;
 
-
 /**
  * Send a request you've already built, using blocks to return status.
  * @param request the SFRestRequest to be sent
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
  */
-- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock NS_REFINED_FOR_SWIFT;
+- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock NS_REFINED_FOR_SWIFT SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use sendRequest:request:failureBlock:successBlock instead.");
+
+/**
+ * Sends a request you've already built, using blocks to return status.
+ *
+ * @param request SFRestRequest to be sent.
+ * @param failureBlock Block to be executed when the request fails (timeout, cancel, or error).
+ * @param successBlock Block to be executed when the request successfully completes.
+ */
+- (void) sendRequest:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock NS_REFINED_FOR_SWIFT;
 
 /**
  * Send a request you've already built, using blocks to return status.
@@ -64,17 +73,33 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
  */
-- (void) sendCompositeRESTRequest:(SFSDKCompositeRequest *)request failBlock:(SFRestFailBlock)failBlock  completeBlock:(SFRestCompositeResponseBlock)completeBlock NS_REFINED_FOR_SWIFT;
+- (void) sendCompositeRESTRequest:(SFSDKCompositeRequest *)request failBlock:(SFRestFailBlock)failBlock  completeBlock:(SFRestCompositeResponseBlock)completeBlock NS_REFINED_FOR_SWIFT SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use sendCompositeRequest:request:failureBlock:successBlock instead.");
 
 /**
-* Send a request you've already built, using blocks to return status.
-* @param request the Batch request to be sent
-* @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
-* @param completeBlock the block to be executed when the request successfully completes
-*/
-- (void) sendBatchRESTRequest:(SFSDKBatchRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestBatchResponseBlock)completeBlock NS_REFINED_FOR_SWIFT;
+ * Sends a request you've already built, using blocks to return status.
+ *
+ * @param request Composite request to be sent.
+ * @param failureBlock Block to be executed when the request fails (timeout, cancel, or error).
+ * @param successBlock Block to be executed when the request successfully completes.
+ */
+- (void) sendCompositeRequest:(SFSDKCompositeRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestCompositeResponseBlock)successBlock NS_REFINED_FOR_SWIFT;
 
-// Various request types.
+/**
+ * Send a request you've already built, using blocks to return status.
+ * @param request the Batch request to be sent
+ * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+ * @param completeBlock the block to be executed when the request successfully completes
+ */
+- (void) sendBatchRESTRequest:(SFSDKBatchRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestBatchResponseBlock)completeBlock NS_REFINED_FOR_SWIFT SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use sendBatchRequest:request:failureBlock:successBlock instead.");
+
+/**
+ * Sends a request you've already built, using blocks to return status.
+ *
+ * @param request Batch request to be sent.
+ * @param failureBlock Block to be executed when the request fails (timeout, cancel, or error).
+ * @param successBlock Block to be executed when the request successfully completes.
+ */
+- (void) sendBatchRequest:(SFSDKBatchRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestBatchResponseBlock)successBlock NS_REFINED_FOR_SWIFT;
 
 /**
  * Executes a SOQL query.
@@ -85,7 +110,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
  */
 - (SFRestRequest *) performSOQLQuery:(NSString *)query
                            failBlock:(SFRestFailBlock)failBlock
-                       completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                       completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a SOQL query that returns the deleted objects.
@@ -97,7 +122,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
 - (SFRestRequest *) performSOQLQueryAll:(NSString *)query
                               failBlock:(SFRestFailBlock)failBlock
                           completeBlock:(SFRestDictionaryResponseBlock)completeBlock
-                          NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                          NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a SOSL search.
@@ -109,7 +134,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
 - (SFRestRequest *) performSOSLSearch:(NSString *)search
                             failBlock:(SFRestFailBlock)failBlock
                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock
-                         NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                         NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a global describe.
@@ -118,7 +143,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performDescribeGlobalWithFailBlock:(SFRestFailBlock)failBlock
-                                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                         completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a describe on a single sObject.
@@ -129,7 +154,27 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
  */
 - (SFRestRequest *) performDescribeWithObjectType:(NSString *)objectType
                                         failBlock:(SFRestFailBlock)failBlock
-                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
+
+/**
+ * Returns an `SFRestRequest` object that provides layout data for the specified parameters.
+ * @param objectAPIName Object API name.
+ * @param formFactor Form factor. Could be "Large", "Medium" or "Small". Default value is "Large".
+ * @param layoutType Layout type. Could be "Compact" or "Full". Default value is "Full".
+ * @param mode Mode. Could be "Create", "Edit" or "View". Default value is "View".
+ * @param recordTypeId Record type ID. Default will be used if not supplied.
+ * @param failBlock Failure block.
+ * @param completeBlock Completion block.
+ * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
+ */
+- (SFRestRequest *) performLayoutWithObjectAPIName:(NSString *)objectAPIName
+                                        formFactor:(NSString *)formFactor
+                                        layoutType:(NSString *)layoutType
+                                              mode:(NSString *)mode
+                                      recordTypeId:(NSString *)recordTypeId
+                                         failBlock:(SFRestFailBlock)failBlock
+                                     completeBlock:(SFRestDictionaryResponseBlock)completeBlock
+                                        NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a metadata describe on a single sObject.
@@ -140,7 +185,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
  */
 - (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType
                                         failBlock:(SFRestFailBlock)failBlock
-                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a retrieve for a single record.
@@ -155,7 +200,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
                                          objectId:(NSString *)objectId
                                         fieldList:(NSArray<NSString*> *)fieldList
                                         failBlock:(SFRestFailBlock)failBlock
-                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                    completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a DML update for a single record.
@@ -170,7 +215,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
                                        objectId:(NSString *)objectId
                                          fields:(NSDictionary<NSString*, id> *)fields
                                       failBlock:(SFRestFailBlock)failBlock
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a DML upsert for a single record.
@@ -187,7 +232,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
                                      externalId:(NSString *)externalId
                                          fields:(NSDictionary<NSString*, id> *)fields
                                       failBlock:(SFRestFailBlock)failBlock
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a DML delete on a single record
@@ -200,7 +245,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
 - (SFRestRequest *) performDeleteWithObjectType:(NSString *)objectType
                                        objectId:(NSString *)objectId
                                       failBlock:(SFRestFailBlock)failBlock
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a DML insert.
@@ -213,7 +258,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
 - (SFRestRequest *) performCreateWithObjectType:(NSString *)objectType
                                          fields:(NSDictionary<NSString*, id> *)fields
                                       failBlock:(SFRestFailBlock)failBlock
-                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                  completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a request to list REST API resources
@@ -222,7 +267,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForResourcesWithFailBlock:(SFRestFailBlock)failBlock
-                                              completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                              completeBlock:(SFRestDictionaryResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a request to list REST API versions
@@ -231,7 +276,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock
-                                             completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                             completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a request to get a file rendition
@@ -248,7 +293,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
                                      renditionType:(NSString *)renditionType
                                               page:(NSUInteger)page
                                          failBlock:(SFRestFailBlock)failBlock
-                                     completeBlock:(SFRestDataResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                     completeBlock:(SFRestDataResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a request to get search scope and order
@@ -257,7 +302,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performRequestForSearchScopeAndOrderWithFailBlock:(SFRestFailBlock)failBlock
-                                     completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                     completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 /**
  * Executes a request to get search result layout
@@ -269,7 +314,7 @@ typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLRes
  */
 - (SFRestRequest *) performRequestForSearchResultLayout:(NSString*)objectList
                                               failBlock:(SFRestFailBlock)failBlock
-                                          completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.");
+                                          completeBlock:(SFRestArrayResponseBlock)completeBlock NS_SWIFT_UNAVAILABLE("Use RestRequest factory methods to construct the request and RestClient send instead.") SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use RestRequest factory methods to construct the request and RestClient send instead.");
 
 @end
 

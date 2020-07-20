@@ -59,7 +59,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
             [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Successfully migrated store '%@'", storeName];
         }
     }
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     [manager removeItemAtPath:[SFSmartStoreUpgrade legacyRootStoreDirectory] error:nil];
 }
 
@@ -71,7 +71,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
     NSString *newStoreFilePath = [[SFSmartStoreDatabaseManager sharedManager] fullDbFilePathForStoreName:storeName];
 
     // No store in the original location?  Nothing to do.
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     if (![manager fileExistsAtPath:origStoreFilePath]) {
         [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"File for store '%@' does not exist at legacy path.  Nothing to do.", storeName];
         [manager removeItemAtPath:origStoreDirPath error:nil];
@@ -103,6 +103,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
     [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Updating encryption method for all stores, where necessary."];
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Number of stores to update: %d", [allStoreNames count]];
+    [SFSmartStoreUpgrade updateEncryptionUserKeys];
     
     // Encryption updates will only apply to the current user.  Multi-user comes concurrently with these encryption updates.
     SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
@@ -112,6 +113,44 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
             [SFSmartStore removeSharedStoreWithName:storeName forUser:currentUser];
         }
     }
+}
+
++ (void)updateEncryptionUserKeys {
+    // The userID length changed in 8.2, update the user key used to track key store encryption
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
+    NSMutableDictionary *keyStoreDict = [[userDefaults objectForKey:kKeyStoreEncryptedStoresKey] mutableCopy];
+    BOOL updateDictionary = NO;
+    for (NSString *key in [keyStoreDict allKeys]) {
+        NSString *legacyUserId = [SFSmartStoreUpgrade legacyUserIdFromKey:key];
+        if (legacyUserId){
+            // Create new key with 18 character ID
+            NSString *newUserId = [legacyUserId entityId18];
+            NSString *newKey = [key stringByReplacingOccurrencesOfString:legacyUserId withString:newUserId];
+
+            // Move value from old key to new key
+            NSDictionary *userKeyStoreDict = keyStoreDict[key];
+            keyStoreDict[newKey] = userKeyStoreDict;
+            [keyStoreDict removeObjectForKey:key];
+            updateDictionary = YES;
+        }
+    }
+
+    if (updateDictionary) {
+        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Updating encrypted key stores dictionary to use 18-character user ID"];
+        [userDefaults setObject:keyStoreDict forKey:kKeyStoreEncryptedStoresKey];
+        [userDefaults synchronize];
+    }
+}
+
++ (NSString *)legacyUserIdFromKey:(NSString *)key {
+    NSString *pattern = @"00D[a-zA-Z0-9]{15}-(005[a-zA-Z0-9]{12})-"; // OrgId-UserId-
+    NSRegularExpression *userIdExpression = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
+    NSTextCheckingResult *match = [userIdExpression firstMatchInString:key options:0 range:NSMakeRange(0, key.length)];
+    if (match) {
+        NSRange matchRange = [match rangeAtIndex:1];
+        return [key substringWithRange:matchRange];
+    }
+    return nil;
 }
 
 + (void)updateEncryptionSalt
@@ -413,7 +452,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
 {
     NSString *rootDir = [SFSmartStoreUpgrade legacyRootStoreDirectory];
     NSError *getStoresError = nil;
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     
     // First see if the legacy root folder exists.
     BOOL rootDirIsDirectory = NO;
@@ -440,7 +479,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
 + (BOOL)legacyPersistentStoreExists:(NSString *)storeName
 {
     NSString *fullDbFilePath = [SFSmartStoreUpgrade legacyFullDbFilePathForStoreName:storeName];
-    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSFileManager *manager = [NSFileManager defaultManager];
     BOOL result = [manager fileExistsAtPath:fullDbFilePath];
     return result;
 }

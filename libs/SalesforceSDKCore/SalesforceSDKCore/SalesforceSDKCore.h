@@ -2,9 +2,9 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Brianna Birman on Fri Oct 25 21:32:39 PDT 2019.
+ Created by Brianna Birman on Wed Jul  8 11:59:21 PDT 2020.
 
- Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2020-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -30,6 +30,7 @@
 #import <SalesforceSDKCore/SFDefaultUserManagementDetailViewController.h>
 #import <SalesforceSDKCore/SFSDKCoreLogger.h>
 #import <SalesforceSDKCore/SFKeyStoreKey.h>
+#import <SalesforceSDKCore/SFFormatUtils.h>
 #import <SalesforceSDKCore/SFCryptChunks.h>
 #import <SalesforceSDKCore/SFSDKAlertMessageBuilder.h>
 #import <SalesforceSDKCore/SFSHA256PasscodeProvider.h>
@@ -45,6 +46,7 @@
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFSDKDevInfoViewController.h>
 #import <SalesforceSDKCore/SFSDKUserSelectionNavViewController.h>
+#import <SalesforceSDKCore/SFRestAPI+Notifications.h>
 #import <SalesforceSDKCore/SFSDKInstrumentationHelper.h>
 #import <SalesforceSDKCore/SFSDKAsyncProcessListener.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
@@ -76,6 +78,7 @@
 #import <SalesforceSDKCore/SFSDKUserSelectionView.h>
 #import <SalesforceSDKCore/SFPasscodeManager+Internal.h>
 #import <SalesforceSDKCore/SFPBKDF2PasscodeProvider.h>
+#import <SalesforceSDKCore/NSURLResponse+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKAuthViewHandler.h>
 #import <SalesforceSDKCore/SFApplicationHelper.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>

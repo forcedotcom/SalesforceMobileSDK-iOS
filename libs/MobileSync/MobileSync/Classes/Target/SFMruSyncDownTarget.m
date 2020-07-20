@@ -86,9 +86,9 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType apiVersion:nil];
-    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
-    } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
+    } successBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         NSArray* recentItems = [strongSelf pluck:d[kRecentItems] key:strongSelf.idFieldName];
         NSString* inPredicate = [@[ strongSelf.idFieldName, @" IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
@@ -108,9 +108,9 @@ static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     SFRestRequest * soqlRequest = [[SFRestAPI sharedInstance] requestForQuery:queryRun apiVersion:nil];
-    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:soqlRequest failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:soqlRequest failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
-    } completeBlock:^(NSDictionary * d, NSURLResponse *rawResponse) {
+    } successBlock:^(NSDictionary * d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
         completeBlock(d[kResponseRecords]);
     }];

@@ -126,6 +126,11 @@ static NSException *authException = nil;
 
 
 - (NSArray*) createAccountsLocally:(NSArray*)names {
+    return [self createAccountsLocally:names mutateBlock:nil];
+}
+
+- (NSArray *) createAccountsLocally:(NSArray*)names mutateBlock:(SFRecordMutatorBlock)mutateBlock;
+ {
     NSMutableArray* createdAccounts = [NSMutableArray new];
     NSMutableDictionary* attributes = [NSMutableDictionary new];
     attributes[TYPE] = ACCOUNT_TYPE;
@@ -140,6 +145,7 @@ static NSException *authException = nil;
         account[kSyncTargetLocallyCreated] = @YES;
         account[kSyncTargetLocallyDeleted] = @NO;
         account[kSyncTargetLocallyUpdated] = @NO;
+        if (mutateBlock) { account = mutateBlock(account); }
         [createdAccounts addObject:account];
     }
     return [self.store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];
@@ -360,7 +366,7 @@ static NSException *authException = nil;
                 XCTAssertEqualObjects(((SFMetadataSyncDownTarget*)expectedTarget).objectType, ((SFMetadataSyncDownTarget*)sync.target).objectType);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeLayout) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFLayoutSyncDownTarget class]]);
-                XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).objectType, ((SFLayoutSyncDownTarget*)sync.target).objectType);
+                XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).objectAPIName, ((SFLayoutSyncDownTarget*)sync.target).objectAPIName);
                 XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).layoutType, ((SFLayoutSyncDownTarget*)sync.target).layoutType);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeParentChildren) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFParentChildrenSyncDownTarget class]]);

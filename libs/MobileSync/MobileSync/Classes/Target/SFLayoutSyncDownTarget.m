@@ -33,13 +33,19 @@
 #import "SFMobileSyncNetworkUtils.h"
 
 static NSString * const kSFSyncTargetObjectType = @"sobjectType";
+static NSString * const kSFSyncTargetFormFactor = @"formFactor";
 static NSString * const kSFSyncTargetLayoutType = @"layoutType";
-static NSString * const kIDFieldValue = @"%@-%@";
+static NSString * const kSFSyncTargetMode = @"mode";
+static NSString * const kSFSyncTargetRecordTypeId = @"recordTypeId";
+static NSString * const kIDFieldValue = @"%@-%@-%@-%@-%@";
 
 @interface SFLayoutSyncDownTarget ()
 
-@property (nonatomic, strong, readwrite) NSString *objectType;
+@property (nonatomic, strong, readwrite) NSString *objectAPIName;
+@property (nonatomic, strong, readwrite) NSString *formFactor;
 @property (nonatomic, strong, readwrite) NSString *layoutType;
+@property (nonatomic, strong, readwrite) NSString *mode;
+@property (nonatomic, strong, readwrite) NSString *recordTypeId;
 
 @end
 
@@ -49,8 +55,11 @@ static NSString * const kIDFieldValue = @"%@-%@";
     self = [super initWithDict:dict];
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeLayout;
-        self.objectType = dict[kSFSyncTargetObjectType];
+        self.objectAPIName = dict[kSFSyncTargetObjectType];
+        self.formFactor = dict[kSFSyncTargetFormFactor];
         self.layoutType = dict[kSFSyncTargetLayoutType];
+        self.mode = dict[kSFSyncTargetMode];
+        self.recordTypeId = dict[kSFSyncTargetRecordTypeId];
     }
     return self;
 }
@@ -63,42 +72,60 @@ static NSString * const kIDFieldValue = @"%@-%@";
     return self;
 }
 
-+ (SFLayoutSyncDownTarget *)newSyncTarget:(NSString *)objectType layoutType:(NSString *)layoutType {
++ (SFLayoutSyncDownTarget *)newSyncTarget:(NSString *)objectType
+                               layoutType:(NSString *)layoutType {
+    return [SFLayoutSyncDownTarget newSyncTarget:objectType formFactor:nil layoutType:layoutType mode:nil recordTypeId:nil];
+}
+
++ (SFLayoutSyncDownTarget *)newSyncTarget:(NSString *)objectAPIName
+                               formFactor:(NSString *)formFactor
+                               layoutType:(NSString *)layoutType
+                                     mode:(NSString *)mode
+                             recordTypeId:(NSString *)recordTypeId {
     SFLayoutSyncDownTarget *syncTarget = [[SFLayoutSyncDownTarget alloc] init];
     syncTarget.queryType = SFSyncDownTargetQueryTypeLayout;
-    syncTarget.objectType = objectType;
+    syncTarget.objectAPIName = objectAPIName;
+    syncTarget.formFactor = formFactor;
     syncTarget.layoutType = layoutType;
+    syncTarget.mode = mode;
+    syncTarget.recordTypeId = recordTypeId;
     return syncTarget;
 }
 
 - (NSMutableDictionary *)asDict {
     NSMutableDictionary *dict = [super asDict];
-    dict[kSFSyncTargetObjectType] = self.objectType;
+    dict[kSFSyncTargetObjectType] = self.objectAPIName;
+    dict[kSFSyncTargetFormFactor] = self.formFactor;
     dict[kSFSyncTargetLayoutType] = self.layoutType;
+    dict[kSFSyncTargetMode] = self.mode;
+    dict[kSFSyncTargetRecordTypeId] = self.recordTypeId;
     return dict;
 }
 
 - (void)startFetch:(SFMobileSyncSyncManager *)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-    [self startFetch:syncManager maxTimeStamp:maxTimeStamp objectType:self.objectType layoutType:self.layoutType errorBlock:errorBlock completeBlock:completeBlock];
+      maxTimeStamp:(long long)maxTimeStamp
+        errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+     completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    [self startFetch:syncManager maxTimeStamp:maxTimeStamp objectAPIName:self.objectAPIName formFactor:self.formFactor layoutType:self.layoutType mode:self.mode recordTypeId:self.recordTypeId errorBlock:errorBlock completeBlock:completeBlock];
 }
 
 - (void)startFetch:(SFMobileSyncSyncManager *)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-           objectType:(NSString *)objectType
-           layoutType:(NSString *)layoutType
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+      maxTimeStamp:(long long)maxTimeStamp
+     objectAPIName:(NSString *)objectAPIName
+        formFactor:(NSString *)formFactor
+        layoutType:(NSString *)layoutType
+              mode:(NSString *)mode
+      recordTypeId:(NSString *)recordTypeId
+        errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+     completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectType:objectType layoutType:layoutType apiVersion:nil];
-    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForLayoutWithObjectAPIName:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId apiVersion:nil];
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
-    } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
+    } successBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = 1;
         NSMutableDictionary *record = [[NSMutableDictionary alloc] initWithDictionary:d];
-        record[kId] = [NSString stringWithFormat:kIDFieldValue, weakSelf.objectType, weakSelf.layoutType];
+        record[kId] = [NSString stringWithFormat:kIDFieldValue, weakSelf.objectAPIName, weakSelf.formFactor, weakSelf.layoutType, weakSelf.mode, weakSelf.recordTypeId];
         NSMutableArray *records = [[NSMutableArray alloc] initWithCapacity:1];
         records[0] = record;
         completeBlock(records);
@@ -106,13 +133,17 @@ static NSString * const kIDFieldValue = @"%@-%@";
 }
 
 - (void)getRemoteIds:(SFMobileSyncSyncManager *)syncManager
-             localIds:(NSArray *)localIds
-           errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-        completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+            localIds:(NSArray *)localIds
+          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     completeBlock(nil);
 }
 
-- (void)cleanGhosts:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName syncId:(NSNumber *)syncId errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+- (void)cleanGhosts:(SFMobileSyncSyncManager *)syncManager
+           soupName:(NSString *)soupName
+             syncId:(NSNumber *)syncId
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     completeBlock(nil);
 }
 

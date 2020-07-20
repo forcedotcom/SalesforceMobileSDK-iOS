@@ -36,7 +36,7 @@
 
 static NSString * const kSoupName = @"sfdcLayouts";
 static NSString * const kSFAppFeatureLayoutSync = @"LY";
-static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '%@-%@'";
+static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '%@-%@-%@-%@-%@'";
 
 @interface SFLayoutSyncManager ()
 
@@ -103,16 +103,29 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
     }
 }
 
-- (void)fetchLayoutForObject:(NSString *)objectType layoutType:(NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(SFLayoutSyncCompletionBlock)completionBlock {
-    switch (mode) {
+- (void)fetchLayoutForObject:(NSString *)objectType
+                  layoutType:(NSString *)layoutType
+                        mode:(SFSDKFetchMode)mode
+             completionBlock:(SFLayoutSyncCompletionBlock)completionBlock {
+    [self fetchLayoutForObjectAPIName:objectType formFactor:nil layoutType:layoutType mode:nil recordTypeId:nil syncMode:mode completionBlock:completionBlock];
+}
+
+- (void)fetchLayoutForObjectAPIName:(NSString *)objectAPIName
+                         formFactor:(NSString *)formFactor
+                         layoutType:(NSString *)layoutType
+                               mode:(NSString *)mode
+                       recordTypeId:(NSString *)recordTypeId
+                           syncMode:(SFSDKFetchMode)syncMode
+                    completionBlock:(SFLayoutSyncCompletionBlock)completionBlock {
+    switch (syncMode) {
         case SFSDKFetchModeCacheOnly:
-            [self fetchFromCache:objectType layoutType:layoutType completionBlock:completionBlock fallbackOnServer:NO];
+            [self fetchFromCache:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId completionBlock:completionBlock fallbackOnServer:NO];
             break;
         case SFSDKFetchModeCacheFirst:
-            [self fetchFromCache:objectType layoutType:layoutType completionBlock:completionBlock fallbackOnServer:YES];
+            [self fetchFromCache:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId completionBlock:completionBlock fallbackOnServer:YES];
             break;
         case SFSDKFetchModeServerFirst:
-            [self fetchFromServer:objectType layoutType:layoutType completionBlock:completionBlock];
+            [self fetchFromServer:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId completionBlock:completionBlock];
             break;
     }
 }
@@ -127,28 +140,39 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
     return self;
 }
 
-- (void)fetchFromServer:(NSString *)objectType layoutType:(NSString *)layoutType completionBlock:(SFLayoutSyncCompletionBlock)completionBlock {
-    SFLayoutSyncDownTarget *target = [SFLayoutSyncDownTarget newSyncTarget:objectType layoutType:layoutType];
+- (void)fetchFromServer:(NSString *)objectAPIName
+             formFactor:(NSString *)formFactor
+             layoutType:(NSString *)layoutType
+                   mode:(NSString *)mode
+           recordTypeId:(NSString *)recordTypeId
+        completionBlock:(SFLayoutSyncCompletionBlock)completionBlock {
+    SFLayoutSyncDownTarget *target = [SFLayoutSyncDownTarget newSyncTarget:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId];
     __weak typeof (self) weakSelf = self;
     [self.syncManager syncDownWithTarget:target soupName:kSoupName updateBlock:^(SFSyncState *sync) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
         if (sync.status == SFSyncStateStatusDone) {
-            [strongSelf fetchFromCache:objectType layoutType:layoutType completionBlock:completionBlock fallbackOnServer:NO];
+            [strongSelf fetchFromCache:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId completionBlock:completionBlock fallbackOnServer:NO];
         }
     }];
 }
 
-- (void)fetchFromCache:(NSString *)objectType layoutType:(NSString *)layoutType completionBlock:(SFLayoutSyncCompletionBlock)completionBlock fallbackOnServer:(BOOL)fallbackOnServer {
-    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, objectType, layoutType] withPageSize:1];
+- (void)fetchFromCache:(NSString *)objectAPIName
+            formFactor:(NSString *)formFactor
+            layoutType:(NSString *)layoutType
+                  mode:(NSString *)mode
+          recordTypeId:(NSString *)recordTypeId
+       completionBlock:(SFLayoutSyncCompletionBlock)completionBlock
+      fallbackOnServer:(BOOL)fallbackOnServer {
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, objectAPIName, formFactor, layoutType, mode, recordTypeId] withPageSize:1];
     NSArray *results = [self.smartStore queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     if (!results || results.count == 0) {
         if (fallbackOnServer) {
-            [self fetchFromServer:objectType layoutType:layoutType completionBlock:completionBlock];
+            [self fetchFromServer:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId completionBlock:completionBlock];
         } else {
-            completionBlock(objectType, nil);
+            completionBlock(objectAPIName, formFactor, layoutType, mode, recordTypeId, nil);
         }
     } else {
-        completionBlock(objectType, [SFLayout fromJSON:results[0][0]]);
+        completionBlock(objectAPIName, formFactor, layoutType, mode, recordTypeId, [SFLayout fromJSON:results[0][0]]);
     }
 }
 

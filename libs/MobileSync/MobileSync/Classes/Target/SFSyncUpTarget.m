@@ -276,10 +276,10 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
        completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
              failBlock:(SFSyncUpTargetErrorBlock)failBlock
 {
-    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
-        self.lastError = e.description;
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
+        self.lastError = [SFJsonUtils JSONRepresentation:response];
         failBlock(e);
-    } completeBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
+    } successBlock:^(NSDictionary* d, NSURLResponse *rawResponse) {
         completionBlock(d);
     }];
 }
@@ -296,12 +296,11 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
                                    fieldList:self.modificationDateFieldName
                                   apiVersion:nil];
 
-    [SFMobileSyncNetworkUtils
-            sendRequestWithMobileSyncUserAgent:request
-                                    failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request
+                                    failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
                                         completeBlock([[SFRecordModDate alloc] initWithTimestamp:nil isDeleted:e.code == 404]);
                                     }
-                                completeBlock:^(id response, NSURLResponse *rawResponse) {
+                                successBlock:^(id response, NSURLResponse *rawResponse) {
                                     completeBlock([[SFRecordModDate alloc] initWithTimestamp:response[self.modificationDateFieldName] isDeleted:FALSE]);
                                 }
     ];

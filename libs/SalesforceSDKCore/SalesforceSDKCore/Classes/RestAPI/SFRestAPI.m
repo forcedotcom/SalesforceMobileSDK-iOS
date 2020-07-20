@@ -36,7 +36,7 @@
 #import "SFSDKCompositeRequest.h"
 #import "SFSDKBatchRequest.h"
 
-NSString* const kSFRestDefaultAPIVersion = @"v46.0";
+NSString* const kSFRestDefaultAPIVersion = @"v49.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
@@ -95,13 +95,11 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 }
 
 - (void)cancelAllRequests {
-    
     [self.activeRequests enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         SFRestRequest *request = obj;
         [request cancel];
     }];
     [self.activeRequests removeAllObjects];
-    
 }
 
 #pragma mark - singleton
@@ -192,12 +190,13 @@ static dispatch_once_t pred;
     }
 }
 
-- (BOOL)forceTimeoutRequest:(SFRestRequest*)req {
+- (BOOL)forceTimeoutRequest:(SFRestRequest *)req {
     BOOL found = NO;
     SFRestRequest *toCancel = (nil != req ? req : [self.activeRequests anyObject]);
     if (nil != toCancel) {
         found = YES;
         [self notifyDelegateOfTimeout:toCancel.delegate request:toCancel];
+        [self notifyDelegateOfFailure:toCancel.requestDelegate request:toCancel data:nil rawResponse:nil error:nil];
     }
     return found;
 }
@@ -219,16 +218,31 @@ static dispatch_once_t pred;
 
 #pragma mark - send method
 
+- (void)send:(SFRestRequest *)request requestDelegate:(nullable id<SFRestRequestDelegate>)requestDelegate {
+    [self send:request requestDelegate:requestDelegate shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
+}
+
+- (void)send:(SFRestRequest *)request requestDelegate:(nullable id<SFRestRequestDelegate>)requestDelegate shouldRetry:(BOOL)shouldRetry {
+    [self send:request requestDelegate:requestDelegate delegate:nil shouldRetry:shouldRetry];
+}
+
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate {
-    [self send:request delegate:delegate shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
+    [self send:request requestDelegate:nil delegate:delegate shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
 }
 
 - (void)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
+    [self send:request requestDelegate:nil delegate:delegate shouldRetry:shouldRetry];
+}
+
+- (void)send:(SFRestRequest *)request requestDelegate:(id<SFRestRequestDelegate>)requestDelegate delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
     if (nil != delegate) {
         request.delegate = delegate;
     }
+    if (requestDelegate != nil) {
+        request.requestDelegate = requestDelegate;
+    }
     if (!self.requiresAuthentication) {
-         NSAssert(!request.requiresAuthentication , @"Use SFRestAPI sharedInstance for authenticated requests");
+        NSAssert(!request.requiresAuthentication , @"Use SFRestAPI sharedInstance for authenticated requests");
     }
 
     // Adds this request to the list of active requests if it's not already on the list.
@@ -239,7 +253,7 @@ static dispatch_once_t pred;
         [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             strongSelf.user = userAccount;
-            [strongSelf enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
+            [strongSelf enqueueRequest:request requestDelegate:requestDelegate delegate:delegate shouldRetry:shouldRetry];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFSDKCoreLogger e:[strongSelf class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
@@ -250,7 +264,7 @@ static dispatch_once_t pred;
             [[SFUserAccountManager sharedInstance] logout];
         }];
     } else {
-        [self enqueueRequest:request delegate:delegate shouldRetry:shouldRetry];
+        [self enqueueRequest:request requestDelegate:requestDelegate delegate:delegate shouldRetry:shouldRetry];
     }
 }
 
@@ -268,7 +282,7 @@ static dispatch_once_t pred;
     return self.oauthSessionRefresher;
 }
 
-- (void)enqueueRequest:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
+- (void)enqueueRequest:(SFRestRequest *)request requestDelegate:(id<SFRestRequestDelegate>)requestDelegate delegate:(id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry {
     __weak __typeof(self) weakSelf = self;
     NSURLRequest *finalRequest = [request prepareRequestForSend:self.user];
     if (finalRequest) {
@@ -280,7 +294,6 @@ static dispatch_once_t pred;
         } else {
             network = [self networkForRequest:request];
         }
-
         NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
@@ -295,12 +308,15 @@ static dispatch_once_t pred;
                 } else {
                     [strongSelf notifyDelegateOfFailure:delegate request:request error:error rawResponse:response];
                 }
+                id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
+                [strongSelf notifyDelegateOfFailure:requestDelegate request:request data:dataForDelegate rawResponse:response error:error];
                 return;
             }
 
             // Timeout.
             if (!response) {
                 [strongSelf notifyDelegateOfTimeout:delegate request:request];
+                [strongSelf notifyDelegateOfFailure:requestDelegate request:request data:nil rawResponse:nil error:nil];
                 return;
             }
             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
@@ -309,14 +325,19 @@ static dispatch_once_t pred;
             if ([SFRestAPI isStatusCodeSuccess:statusCode]) {
                 id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
                 [strongSelf notifyDelegateOfResponse:delegate request:request data:dataForDelegate rawResponse:response];
+                [strongSelf notifyDelegateOfSuccess:requestDelegate request:request data:dataForDelegate rawResponse:response];
             } else {
                 if (shouldRetry && (request.shouldRefreshOn403 ? (statusCode == 401 || statusCode == 403) : (statusCode == 401))) {
+
                     // 401 (and sometimes 403) indicates refresh is required.
-                    [strongSelf replayRequest:request response:response delegate:delegate];
+                    [strongSelf replayRequest:request response:response requestDelegate:requestDelegate delegate:delegate];
                 } else {
+
                     // Other status codes indicate failure.
                     NSError *errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
                     [strongSelf notifyDelegateOfFailure:delegate request:request error:errorForDelegate rawResponse:response];
+                    id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
+                    [strongSelf notifyDelegateOfFailure:requestDelegate request:request data:dataForDelegate rawResponse:response error:errorForDelegate];
                 }
             }
         }];
@@ -385,10 +406,10 @@ static dispatch_once_t pred;
             errorDict = [NSDictionary dictionaryWithObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:@"error"];
         }
     }
-    return [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:errorDict];
+    return [[NSError alloc] initWithDomain:kSFRestErrorDomain code:statusCode userInfo:errorDict];
 }
 
-- (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response delegate:(id<SFRestDelegate>)delegate {
+- (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response requestDelegate:(id<SFRestRequestDelegate>)requestDelegate delegate:(id<SFRestDelegate>)delegate {
     [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
 
     /*
@@ -415,6 +436,7 @@ static dispatch_once_t pred;
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
                 [strongSelf notifyDelegateOfFailure:delegate request:request error:refreshError rawResponse:response];
+                [strongSelf notifyDelegateOfFailure:requestDelegate request:request data:nil rawResponse:response error:refreshError];
                 strongSelf.pendingRequestsBeingProcessed = YES;
                 [strongSelf flushPendingRequestQueue:refreshError rawResponse:response];
                 strongSelf.sessionRefreshInProgress = NO;
@@ -438,6 +460,7 @@ static dispatch_once_t pred;
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
             [self notifyDelegateOfFailure:request.delegate request:request error:error rawResponse:rawResponse];
+            [self notifyDelegateOfFailure:request.requestDelegate request:request data:nil rawResponse:rawResponse error:error];
         }
         self.pendingRequestsBeingProcessed = NO;
     }
@@ -447,7 +470,7 @@ static dispatch_once_t pred;
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
-           [self send:request delegate:request.delegate shouldRetry:NO];
+            [self send:request requestDelegate:request.requestDelegate delegate:request.delegate shouldRetry:NO];
         }
         self.pendingRequestsBeingProcessed = NO;
     }
@@ -481,6 +504,20 @@ static dispatch_once_t pred;
 - (void)notifyDelegateOfTimeout:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request {
     if ([delegate respondsToSelector:@selector(requestDidTimeout:)]) {
         [delegate requestDidTimeout:request];
+    }
+    [self removeActiveRequestObject:request];
+}
+
+- (void)notifyDelegateOfSuccess:(id<SFRestRequestDelegate>)delegate request:(SFRestRequest *)request data:(id)data rawResponse:(NSURLResponse *)rawResponse {
+    if ([delegate respondsToSelector:@selector(request:didSucceed:rawResponse:)]) {
+        [delegate request:request didSucceed:data rawResponse:rawResponse];
+    }
+    [self removeActiveRequestObject:request];
+}
+
+- (void)notifyDelegateOfFailure:(id<SFRestRequestDelegate>)delegate request:(SFRestRequest *)request data:(id)data rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error {
+    if ([delegate respondsToSelector:@selector(request:didFail:rawResponse:error:)]) {
+        [delegate request:request didFail:data rawResponse:rawResponse error:error];
     }
     [self removeActiveRequestObject:request];
 }
@@ -529,10 +566,24 @@ static dispatch_once_t pred;
 }
 
 - (SFRestRequest *)requestForLayoutWithObjectType:(NSString *)objectType layoutType:(NSString *)layoutType apiVersion:(NSString *)apiVersion {
-    NSDictionary *queryParams = (layoutType ?
-                                 @{@"layoutType": layoutType}
-                                 : nil);
-    NSString *path = [NSString stringWithFormat:@"/%@/ui-api/layout/%@", [self computeAPIVersion:apiVersion], objectType];
+    return [self requestForLayoutWithObjectAPIName:objectType formFactor:nil layoutType:layoutType mode:nil recordTypeId:nil apiVersion:apiVersion];
+}
+
+- (SFRestRequest *)requestForLayoutWithObjectAPIName:(NSString *)objectAPIName formFactor:(NSString *)formFactor layoutType:(NSString *)layoutType mode:(NSString *)mode recordTypeId:(NSString *)recordTypeId apiVersion:(NSString *)apiVersion {
+    NSMutableDictionary *queryParams = [[NSMutableDictionary alloc] init];
+    if (formFactor) {
+        queryParams[@"formFactor"] = formFactor;
+    }
+    if (layoutType) {
+        queryParams[@"layoutType"] = layoutType;
+    }
+    if (mode) {
+        queryParams[@"mode"] = mode;
+    }
+    if (recordTypeId) {
+        queryParams[@"recordTypeId"] = recordTypeId;
+    }
+    NSString *path = [NSString stringWithFormat:@"/%@/ui-api/layout/%@", [self computeAPIVersion:apiVersion], objectAPIName];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 

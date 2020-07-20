@@ -32,9 +32,11 @@
 #import "SFMobileSyncSyncManager.h"
 #import <SmartStore/SFQuerySpec.h>
 
+static NSString * const kMedium = @"Medium";
 static NSString * const kCompact = @"Compact";
+static NSString * const kEdit = @"Edit";
 static NSString * const kSoupName = @"sfdcLayouts";
-static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '%@-%@'";
+static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '%@-%@-%@-%@-%@'";
 
 @interface SFLayoutSyncManagerTests : SyncManagerTestCase
 
@@ -61,20 +63,28 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
  */
 - (void)testFetchLayoutInCacheOnlyMode {
     XCTestExpectation *fetchLayoutServerFirst = [self expectationWithDescription:@"fetchLayoutServerFirst"];
-    [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
+    [self.layoutSyncManager fetchLayoutForObjectAPIName:kAccount formFactor:kMedium layoutType:kCompact mode:kEdit recordTypeId:nil syncMode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectAPIName, NSString *formFactor, NSString *layoutType, NSString *mode, NSString *recordTypeId, SFLayout *layout) {
         [fetchLayoutServerFirst fulfill];
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    __block NSString *objType = nil;
-    __block SFLayout *layoutData = nil;
+    __block NSString *objectAPINameBlock = nil;
+    __block NSString *formFactorBlock = nil;
+    __block NSString *layoutTypeBlock = nil;
+    __block NSString *modeBlock = nil;
+    __block NSString *recordTypeIdBlock = nil;
+    __block SFLayout *layoutBlock = nil;
     XCTestExpectation *fetchLayoutCacheOnly = [self expectationWithDescription:@"fetchLayoutCacheOnly"];
-    [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeCacheOnly completionBlock:^(NSString *objectType, SFLayout *layout) {
-        objType = objectType;
-        layoutData = layout;
+    [self.layoutSyncManager fetchLayoutForObjectAPIName:kAccount formFactor:kMedium layoutType:kCompact mode:kEdit recordTypeId:nil syncMode:SFSDKFetchModeCacheOnly completionBlock:^(NSString *objectAPIName, NSString *formFactor, NSString *layoutType, NSString *mode, NSString *recordTypeId, SFLayout *layout) {
+        objectAPINameBlock = objectAPIName;
+        formFactorBlock = formFactor;
+        layoutTypeBlock = layoutType;
+        modeBlock = mode;
+        recordTypeIdBlock = recordTypeId;
+        layoutBlock = layout;
         [fetchLayoutCacheOnly fulfill];
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    [self validateResult:objType layout:layoutData];
+    [self validateResult:objectAPINameBlock formFactor:formFactorBlock layoutType:layoutTypeBlock mode:modeBlock recordTypeId:recordTypeIdBlock layout:layoutBlock];
 }
 
 /**
@@ -82,85 +92,128 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
  */
 - (void)testFetchLayoutInCacheFirstModeWithCacheData {
     XCTestExpectation *fetchLayoutServerFirst = [self expectationWithDescription:@"fetchLayoutServerFirst"];
-    [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
+    [self.layoutSyncManager fetchLayoutForObjectAPIName:kAccount formFactor:kMedium layoutType:kCompact mode:kEdit recordTypeId:nil syncMode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectAPIName, NSString *formFactor, NSString *layoutType, NSString *mode, NSString *recordTypeId, SFLayout *layout) {
         [fetchLayoutServerFirst fulfill];
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    __block NSString *objType = nil;
-    __block SFLayout *layoutData = nil;
+    __block NSString *objectAPINameBlock = nil;
+    __block NSString *formFactorBlock = nil;
+    __block NSString *layoutTypeBlock = nil;
+    __block NSString *modeBlock = nil;
+    __block NSString *recordTypeIdBlock = nil;
+    __block SFLayout *layoutBlock = nil;
     XCTestExpectation *fetchLayoutCacheFirst = [self expectationWithDescription:@"fetchLayoutCacheFirst"];
-    [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeCacheFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
-        objType = objectType;
-        layoutData = layout;
+    [self.layoutSyncManager fetchLayoutForObjectAPIName:kAccount formFactor:kMedium layoutType:kCompact mode:kEdit recordTypeId:nil syncMode:SFSDKFetchModeCacheFirst completionBlock:^(NSString *objectAPIName, NSString *formFactor, NSString *layoutType, NSString *mode, NSString *recordTypeId, SFLayout *layout) {
+        objectAPINameBlock = objectAPIName;
+        formFactorBlock = formFactor;
+        layoutTypeBlock = layoutType;
+        modeBlock = mode;
+        recordTypeIdBlock = recordTypeId;
+        layoutBlock = layout;
         [fetchLayoutCacheFirst fulfill];
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    [self validateResult:objType layout:layoutData];
+    [self validateResult:objectAPINameBlock formFactor:formFactorBlock layoutType:layoutTypeBlock mode:modeBlock recordTypeId:recordTypeIdBlock layout:layoutBlock];
 }
 
 /**
  * Test for fetching layout in SFSDKFetchModeCacheFirst mode with an empty cache.
  */
 - (void)testFetchLayoutInCacheFirstModeWithoutCacheData {
-    __block NSString *objType = nil;
-    __block SFLayout *layoutData = nil;
+    __block NSString *objectAPINameBlock = nil;
+    __block NSString *formFactorBlock = nil;
+    __block NSString *layoutTypeBlock = nil;
+    __block NSString *modeBlock = nil;
+    __block NSString *recordTypeIdBlock = nil;
+    __block SFLayout *layoutBlock = nil;
     XCTestExpectation *fetchLayoutCacheFirst = [self expectationWithDescription:@"fetchLayoutCacheFirst"];
-    [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeCacheFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
-        objType = objectType;
-        layoutData = layout;
+    [self.layoutSyncManager fetchLayoutForObjectAPIName:kAccount formFactor:kMedium layoutType:kCompact mode:kEdit recordTypeId:nil syncMode:SFSDKFetchModeCacheFirst completionBlock:^(NSString *objectAPIName, NSString *formFactor, NSString *layoutType, NSString *mode, NSString *recordTypeId, SFLayout *layout) {
+        objectAPINameBlock = objectAPIName;
+        formFactorBlock = formFactor;
+        layoutTypeBlock = layoutType;
+        modeBlock = mode;
+        recordTypeIdBlock = recordTypeId;
+        layoutBlock = layout;
         [fetchLayoutCacheFirst fulfill];
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    [self validateResult:objType layout:layoutData];
+    [self validateResult:objectAPINameBlock formFactor:formFactorBlock layoutType:layoutTypeBlock mode:modeBlock recordTypeId:recordTypeIdBlock layout:layoutBlock];
 }
 
 /**
  * Test for fetching layout in SFSDKFetchModeServerFirst mode.
  */
 - (void)testFetchLayoutInServerFirstMode {
-    __block NSString *objType = nil;
-    __block SFLayout *layoutData = nil;
+    __block NSString *objectAPINameBlock = nil;
+    __block NSString *formFactorBlock = nil;
+    __block NSString *layoutTypeBlock = nil;
+    __block NSString *modeBlock = nil;
+    __block NSString *recordTypeIdBlock = nil;
+    __block SFLayout *layoutBlock = nil;
     XCTestExpectation *fetchLayoutServerFirst = [self expectationWithDescription:@"fetchLayoutServerFirst"];
-    [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
-        objType = objectType;
-        layoutData = layout;
+    [self.layoutSyncManager fetchLayoutForObjectAPIName:kAccount formFactor:kMedium layoutType:kCompact mode:kEdit recordTypeId:nil syncMode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectAPIName, NSString *formFactor, NSString *layoutType, NSString *mode, NSString *recordTypeId, SFLayout *layout) {
+        objectAPINameBlock = objectAPIName;
+        formFactorBlock = formFactor;
+        layoutTypeBlock = layoutType;
+        modeBlock = mode;
+        recordTypeIdBlock = recordTypeId;
+        layoutBlock = layout;
         [fetchLayoutServerFirst fulfill];
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    [self validateResult:objType layout:layoutData];
+    [self validateResult:objectAPINameBlock formFactor:formFactorBlock layoutType:layoutTypeBlock mode:modeBlock recordTypeId:recordTypeIdBlock layout:layoutBlock];
 }
 
 /**
  * Test for fetching layout multiple times and ensuring only 1 row is created.
  */
 - (void)testFetchLayoutMultipleTimes {
-    __block NSString *objType = nil;
-    __block SFLayout *layoutData = nil;
+    __block NSString *objectAPINameBlock = nil;
+    __block NSString *formFactorBlock = nil;
+    __block NSString *layoutTypeBlock = nil;
+    __block NSString *modeBlock = nil;
+    __block NSString *recordTypeIdBlock = nil;
+    __block SFLayout *layoutBlock = nil;
     XCTestExpectation *fetchLayoutOne = [self expectationWithDescription:@"fetchLayoutOne"];
-    [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
-        objType = objectType;
-        layoutData = layout;
+    [self.layoutSyncManager fetchLayoutForObjectAPIName:kAccount formFactor:kMedium layoutType:kCompact mode:kEdit recordTypeId:nil syncMode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectAPIName, NSString *formFactor, NSString *layoutType, NSString *mode, NSString *recordTypeId, SFLayout *layout) {
+        objectAPINameBlock = objectAPIName;
+        formFactorBlock = formFactor;
+        layoutTypeBlock = layoutType;
+        modeBlock = mode;
+        recordTypeIdBlock = recordTypeId;
+        layoutBlock = layout;
         [fetchLayoutOne fulfill];
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    [self validateResult:objType layout:layoutData];
+    [self validateResult:objectAPINameBlock formFactor:formFactorBlock layoutType:layoutTypeBlock mode:modeBlock recordTypeId:recordTypeIdBlock layout:layoutBlock];
     XCTestExpectation *fetchLayoutTwo = [self expectationWithDescription:@"fetchLayoutTwo"];
-    [self.layoutSyncManager fetchLayoutForObject:kAccount layoutType:kCompact mode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectType, SFLayout *layout) {
-        objType = objectType;
-        layoutData = layout;
+    [self.layoutSyncManager fetchLayoutForObjectAPIName:kAccount formFactor:kMedium layoutType:kCompact mode:kEdit recordTypeId:nil syncMode:SFSDKFetchModeServerFirst completionBlock:^(NSString *objectAPIName, NSString *formFactor, NSString *layoutType, NSString *mode, NSString *recordTypeId, SFLayout *layout) {
+        objectAPINameBlock = objectAPIName;
+        formFactorBlock = formFactor;
+        layoutTypeBlock = layoutType;
+        modeBlock = mode;
+        recordTypeIdBlock = recordTypeId;
+        layoutBlock = layout;
         [fetchLayoutTwo fulfill];
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    [self validateResult:objType layout:layoutData];
-    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, kAccount, kCompact] withPageSize:2];
+    [self validateResult:objectAPINameBlock formFactor:formFactorBlock layoutType:layoutTypeBlock mode:modeBlock recordTypeId:recordTypeIdBlock layout:layoutBlock];
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:kQuery, kSoupName, kSoupName, kSoupName, kAccount, kMedium, kCompact, kEdit, nil] withPageSize:2];
     long numRows = [[self.layoutSyncManager.smartStore countWithQuerySpec:querySpec error:nil] longValue];
     XCTAssertEqual(numRows, 1, "Number of rows should be 1");
 }
 
-- (void)validateResult:(NSString *)objectType layout:(SFLayout *)layout {
-    XCTAssertEqual(objectType, kAccount, @"Object types should match");
+- (void)validateResult:(NSString *)objectAPIName
+            formFactor:(NSString *)formFactor
+            layoutType:(NSString *)layoutType
+                  mode:(NSString *)mode
+          recordTypeId:(NSString *)recordTypeId
+                layout:(SFLayout *)layout {
+    XCTAssertEqual(objectAPIName, kAccount, @"Object types should match");
+    XCTAssertEqualObjects(formFactor, kMedium, @"Form factors should match");
     XCTAssertNotEqualObjects(layout, nil, @"Layout data should not be nil");
     XCTAssertEqualObjects(layout.layoutType, kCompact, @"Layout types should match");
+    XCTAssertEqualObjects(mode, kEdit, @"Modes should match");
     XCTAssertNotEqualObjects(layout.rawData, nil, @"Layout raw data should not be nil");
     XCTAssertNotEqualObjects(layout.sections, nil, @"Layout sections should not be nil");
     XCTAssertTrue(layout.sections.count > 0, @"Number of layout sections should be 1 or more");
@@ -168,6 +221,11 @@ static NSString * const kQuery = @"SELECT {%@:_soup} FROM {%@} WHERE {%@:Id} = '
     XCTAssertTrue(layout.sections[0].layoutRows.count > 0, @"Number of layout rows for a section should be 1 or more");
     XCTAssertNotEqualObjects(layout.sections[0].layoutRows[0].layoutItems, nil, @"Layout items for a row should not be nil");
     XCTAssertTrue(layout.sections[0].layoutRows[0].layoutItems.count > 0, @"Number of layout items for a row should be 1 or more");
+    SFItem *layoutItem = layout.sections[0].layoutRows[0].layoutItems[0];
+    XCTAssertFalse(layoutItem.sortable, @"Sortable should be false");
+    XCTAssertTrue(layoutItem.editableForNew, @"Editable should be true");
+    XCTAssert(layoutItem.layoutComponents.count > 0, "Number of layout components for an item should be 1 or more");
+    XCTAssert(layoutItem.layoutComponents[0].allKeys.count > 1, "Layout component fields should be 2 or more");
 }
 
 @end

@@ -199,7 +199,11 @@
            expectedId:sync.syncId
          expectedName:@"layoutSyncDown"
        expectedTarget:[SFLayoutSyncDownTarget
-                       newSyncTarget:@"Account" layoutType:@"Compact"]
+                       newSyncTarget:@"Account"
+                       formFactor:@"Medium"
+                       layoutType:@"Compact"
+                       mode:@"Edit"
+                       recordTypeId:nil]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0

@@ -249,11 +249,8 @@ NSException * SFOAuthInvalidIdentifierException() {
 
 // This setter is exposed publicly for unit tests.
 - (void)setUserId:(NSString *)userId {
-    //ensure we only use the first 15 chars of any user ID,
-    //since some sources might set 15 char, some might set 18 char
-    NSString *truncUserId = [userId substringToIndex:MIN([userId length], 15)]; 
-    if (![truncUserId isEqualToString:_userId]) {
-        _userId = [truncUserId copy];
+    if (![userId isEqualToString:_userId]) {
+        _userId = [userId copy];
     }
 }
 
