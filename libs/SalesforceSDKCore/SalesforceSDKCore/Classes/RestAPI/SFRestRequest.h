@@ -262,7 +262,7 @@ NS_SWIFT_NAME(RestRequest)
  * Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
  * attempt to refresh on HTTP 403. If NO, refresh will not be attempted.
  */
-@property (nonatomic, assign) BOOL shouldRefreshOn403;
+@property (nonatomic, assign) BOOL shouldRefreshOn403 SFSDK_DEPRECATED("8.3", "9.0", "Will be removed in Mobile SDK 9.0.");
 
 /**
  * Prepares the request before sending it out.
