@@ -874,7 +874,21 @@ extension RootViewController: ActionTableViewDelegate {
         case .exportCredentials:
             self.exportTestingCredentials()
             return
-            
+        case .overrideStyleLight:
+            if #available(iOS 13, *) {
+                SFSDKWindowManager.shared().userInterfaceStyle = .light
+            }
+            return
+        case .overrideStyleDark:
+            if #available(iOS 13, *) {
+                SFSDKWindowManager.shared().userInterfaceStyle = .dark
+            }
+            return
+        case .overrideStyleUnspecified:
+            if #available(iOS 13, *) {
+                SFSDKWindowManager.shared().userInterfaceStyle = .unspecified
+            }
+            return
         }
         
         if let sendRequest = request {

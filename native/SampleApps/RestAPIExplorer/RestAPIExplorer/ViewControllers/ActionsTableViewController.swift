@@ -66,8 +66,11 @@ class ActionTableViewController: UIViewController {
         let logout = Action(type: ActionType.logout, method: "logout", objectTypes: nil)
         let switchUser = Action(type: ActionType.switchUser, method: "switch user", objectTypes: nil)
         let exportCredentials = Action(type: ActionType.exportCredentials, method: "Export Credentials to pasteboard", objectTypes: nil)
+        let overrideStyleLight = Action(type: ActionType.overrideStyleLight, method: "Override user interface style: light", objectTypes: nil)
+        let overrideStyleDark = Action(type: ActionType.overrideStyleDark, method: "Override user interface style: dark", objectTypes: nil)
+        let overrideStyleUnspecified = Action(type: ActionType.overrideStyleUnspecified, method: "Override user interface style: unspecified", objectTypes: nil)
         
-        self.actions = [versions, resources, describeGlobal, metadata, describe, retrieve, create, upsert, update, delete, query, search, searchScope, searchResultLayout, ownedFiles, filesInUserGroups, filesShared, fileDetails, batchFileDetails, fileShares, addFileShare, deleteFileShare, currentUserInfo, enableBiometric, logout, switchUser, exportCredentials]
+        self.actions = [versions, resources, describeGlobal, metadata, describe, retrieve, create, upsert, update, delete, query, search, searchScope, searchResultLayout, ownedFiles, filesInUserGroups, filesShared, fileDetails, batchFileDetails, fileShares, addFileShare, deleteFileShare, currentUserInfo, enableBiometric, logout, switchUser, exportCredentials, overrideStyleLight, overrideStyleDark, overrideStyleUnspecified]
         
         super.init(nibName: nil, bundle: nil)
         
