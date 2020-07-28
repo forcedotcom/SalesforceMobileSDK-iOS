@@ -139,6 +139,7 @@
 }
 
 - (void)testStyleOverride {
+    // TODO: Remove this check in Mobile SDK 9.0
     if (@available(iOS 13.0, *)) {
         SFSDKWindowContainer *snapshotWindow = [SFSDKWindowManager sharedManager].snapshotWindow;
         SFSDKWindowContainer *passcodeWindow = [SFSDKWindowManager sharedManager].passcodeWindow;

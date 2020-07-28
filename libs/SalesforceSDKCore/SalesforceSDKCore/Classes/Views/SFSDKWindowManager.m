@@ -1,3 +1,4 @@
+
 /*
  SFUIWindowManager.m
  SalesforceSDKCore
@@ -453,7 +454,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     return [SFApplicationHelper sharedApplication].keyWindow;
 }
 
-// TODO remove wrapping method in Mobile SDK 9.0
+// TODO: Remove wrapping method in Mobile SDK 9.0
 - (void)overrideStyle:(SFSDKWindowContainer *)container {
     if (@available(iOS 13.0, *)) {
         container.window.overrideUserInterfaceStyle = self.userInterfaceStyle;
