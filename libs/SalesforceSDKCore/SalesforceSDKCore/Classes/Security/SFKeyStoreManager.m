@@ -136,6 +136,8 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
     }
 }
 
+// TODO: Remove methods in Mobile SDK 9.0
+SFSDK_USE_DEPRECATED_BEGIN
 - (void)renameKeysWithKeyTypePasscode:(SFGeneratedKeyStore*)generatedKeyStore
 {
     @synchronized (self) {
@@ -174,6 +176,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         passcodeKeyStore.keyStoreDictionary = nil;
     }
 }
+SFSDK_USE_DEPRECATED_END
 
 - (void)storeKeyStoreKey:(SFKeyStoreKey *)key withLabel:(NSString *)keyLabel
 {
@@ -204,6 +207,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 
 #pragma mark - SFPasscodeManager encryption key updates
 
+// TODO: Remove in Mobile SDK 9.0
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     // Starting in SDK 6.0, we no longer use SFPasscodeKeyStore.
@@ -222,11 +226,13 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 
         if ([oldKey length] == 0 && [newKey length] > 0) {
             // We just got the passcode, migrate keys (if any)
+            SFSDK_USE_DEPRECATED_BEGIN
             SFPasscodeKeyStore *passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
             passcodeKeyStore.keyStoreKey.encryptionKey.key = [[self class] keyStringToData:newKey];
             if (passcodeKeyStore.keyStoreKey != nil && passcodeKeyStore.keyStoreDictionary.count > 0) {
                 [self migratePasscodeToGenerated:passcodeKeyStore];
             }
+            SFSDK_USE_DEPRECATED_END
         }
     }
 }

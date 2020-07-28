@@ -30,8 +30,10 @@
  *
  */
 
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.")
 extern NSString * const kPasscodeKeyLabelSuffix;
 
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.")
 @interface SFPasscodeKeyStore : SFKeyStore
 
 @end
