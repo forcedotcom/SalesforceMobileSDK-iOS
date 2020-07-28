@@ -95,6 +95,11 @@
  */
 @property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull mainWindow;
 
+// TODO: Remove API_AVAILABLE in Mobile SDK 9.0
+/** Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.
+ */
+@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE(ios(13));
+
 /** Returns the SFSDKWindowContainer window representing the active presented Window that has been set
  */
 - (SFSDKWindowContainer * _Nullable)activeWindow;
