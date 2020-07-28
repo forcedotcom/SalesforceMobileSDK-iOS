@@ -27,6 +27,7 @@
 #import "SFKeyStoreManager+Internal.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFSecureEncryptionKey.h"
+#import "SalesforceSDKConstants.h"
 
 // Keychain and NSCoding constants
 static NSString * const kKeyStoreKeychainIdentifier = @"com.salesforce.keystore.keystoreKeychainId";
