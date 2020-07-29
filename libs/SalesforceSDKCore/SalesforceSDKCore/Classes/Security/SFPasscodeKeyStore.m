@@ -42,7 +42,10 @@ NSString * const kPasscodeKeyLabelSuffix = @"Passcode";
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFPasscodeKeyStore
+#pragma clang diagnostic pop
 
 - (NSString *)storeDataArchiveKey
 {

@@ -90,6 +90,8 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 
 #pragma mark - Upgrade tests
 
+// TODO: Remove tests in Mobile SDK 9.0
+SFSDK_USE_DEPRECATED_BEGIN
 - (void)testUpgradeTo60NoPasscode
 {
     // Pre SDK 6.0 code would store keys with keytype passcode in generated store if there was no passcode enabled
@@ -198,6 +200,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     // Cleanup
     [mgr removeKeyWithLabel:keyLabel];
 }
+SFSDK_USE_DEPRECATED_END
 
 - (void)testUpgradeTo71
 {
