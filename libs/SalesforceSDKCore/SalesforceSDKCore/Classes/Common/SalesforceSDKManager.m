@@ -560,6 +560,8 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         [launchStateErrorMessages addObject:errorMessage];
         validInputs = NO;
     }
+    // TODO: Remove in Mobile SDK 9.0
+    SFSDK_USE_DEPRECATED_BEGIN
     if (!self.postLaunchAction) {
         [SFSDKCoreLogger w:[self class] format:@"No post-launch action set.  Nowhere to go after launch completes."];
     }
@@ -569,6 +571,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     if (!self.postLogoutAction) {
         [SFSDKCoreLogger w:[self class] format:@"No post-logout action set.  Nowhere to go when the user is logged out."];
     }
+    SFSDK_USE_DEPRECATED_END
     
     if (!validInputs && launchStateError) {
         *launchStateError = [[NSError alloc] initWithDomain:kSalesforceSDKManagerErrorDomain
@@ -608,6 +611,8 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     [SFUserAccountManager sharedInstance].scopes = self.appConfig.oauthScopes;
 }
 
+// TODO: Remove in Mobile SDK 9.0
+SFSDK_USE_DEPRECATED_BEGIN
 - (void)sendLaunchError:(NSError *)theLaunchError
 {
     _isLaunching = NO;
@@ -656,16 +661,20 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         }
     }
 }
+SFSDK_USE_DEPRECATED_END
 
 - (void)handleAppForeground:(NSNotification *)notification
 {
     [SFSDKCoreLogger d:[self class] format:@"App is entering the foreground."];
     
+    // TODO: Remove in Mobile SDK 9.0
+    SFSDK_USE_DEPRECATED_BEGIN
     [self enumerateDelegates:^(NSObject<SalesforceSDKManagerDelegate> *delegate) {
         if ([delegate respondsToSelector:@selector(sdkManagerWillEnterForeground)]) {
             [delegate sdkManagerWillEnterForeground];
         }
     }];
+    SFSDK_USE_DEPRECATED_END
     
     if (_isLaunching) {
         [SFSDKCoreLogger d:[self class] format:@"SDK is still launching.  No foreground action taken."];
@@ -698,11 +707,14 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 {
     [SFSDKCoreLogger d:[self class] format:@"App is entering the background."];
     
+    // TODO: Remove in Mobile SDK 9.0
+    SFSDK_USE_DEPRECATED_BEGIN
     [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(sdkManagerDidEnterBackground)]) {
             [delegate sdkManagerDidEnterBackground];
         }
     }];
+    SFSDK_USE_DEPRECATED_END
     
     [self savePasscodeActivityInfo];
     [self clearClipboard];
@@ -717,11 +729,14 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 {
     [SFSDKCoreLogger d:[self class] format:@"App is resuming active state."];
     
+    // TODO: Remove in Mobile SDK 9.0
+    SFSDK_USE_DEPRECATED_BEGIN
     [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(sdkManagerDidBecomeActive)]) {
             [delegate sdkManagerDidBecomeActive];
         }
     }];
+    SFSDK_USE_DEPRECATED_END
     
     @try {
         [self dismissSnapshot];
@@ -735,11 +750,14 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 {
     [SFSDKCoreLogger d:[self class] format:@"App is resigning active state."];
     
+    // TODO: Remove in Mobile SDK 9.0
+    SFSDK_USE_DEPRECATED_BEGIN
     [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(sdkManagerWillResignActive)]) {
             [delegate sdkManagerWillResignActive];
         }
     }];
+    SFSDK_USE_DEPRECATED_END
     
     // Don't present snapshot during advanced authentication or Passcode Presentation
     // ==============================================================================
@@ -1061,6 +1079,8 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     }
 }
 
+// TODO: Remove in Mobile SDK 9.0
+SFSDK_USE_DEPRECATED_BEGIN
 - (void)enumerateDelegates:(void (^)(id<SalesforceSDKManagerDelegate>))block
 {
     @synchronized(self) {
@@ -1069,6 +1089,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
         }
     }
 }
+SFSDK_USE_DEPRECATED_END
 
 - (void)setURLCacheType:(SFURLCacheType)URLCacheType {
     if (_URLCacheType != URLCacheType) {
