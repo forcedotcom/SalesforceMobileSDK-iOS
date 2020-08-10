@@ -67,7 +67,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 
 /** Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.
  */
-NS_SWIFT_NAME(SalesforceManagerDelegate)
+NS_SWIFT_NAME(SalesforceManagerDelegate) SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.")
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
 @optional
@@ -159,7 +159,7 @@ NS_SWIFT_NAME(SalesforceManager)
 /**
  Whether or not the SDK is currently in the middle of a launch process.
  */
-@property (nonatomic, readonly) BOOL isLaunching NS_SWIFT_UNAVAILABLE("");
+@property (nonatomic, readonly) BOOL isLaunching NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  App type (native, hybrid or react native)
@@ -174,27 +174,27 @@ NS_SWIFT_NAME(SalesforceManager)
 /**
  The configured post launch action block to execute when launch completes.
  */
-@property (nonatomic, copy, nullable) SFSDKPostLaunchCallbackBlock postLaunchAction NS_SWIFT_UNAVAILABLE("");
+@property (nonatomic, copy, nullable) SFSDKPostLaunchCallbackBlock postLaunchAction NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  The configured launch error action block to execute in the event of an error during launch.
  */
-@property (nonatomic, copy, nullable) SFSDKLaunchErrorCallbackBlock launchErrorAction NS_SWIFT_UNAVAILABLE("");
+@property (nonatomic, copy, nullable) SFSDKLaunchErrorCallbackBlock launchErrorAction NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  The post logout action block to execute after the current user has been logged out.
  */
-@property (nonatomic, copy, nullable) SFSDKLogoutCallbackBlock postLogoutAction NS_SWIFT_UNAVAILABLE("");
+@property (nonatomic, copy, nullable) SFSDKLogoutCallbackBlock postLogoutAction NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Use registerBlockForLogoutNotifications: on AuthHelper instead.");
 
 /**
  The switch user action block to execute when switching from one user to another.
  */
-@property (nonatomic, copy, nullable) SFSDKSwitchUserCallbackBlock switchUserAction NS_SWIFT_UNAVAILABLE("");
+@property (nonatomic, copy, nullable) SFSDKSwitchUserCallbackBlock switchUserAction NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Use registerBlockForSwitchUserNotifications: on AuthHelper instead.");
 
 /**
  The block to execute after the app has entered the foreground.
  */
-@property (nonatomic, copy, nullable) SFSDKAppForegroundCallbackBlock postAppForegroundAction NS_SWIFT_UNAVAILABLE("");
+@property (nonatomic, copy, nullable) SFSDKAppForegroundCallbackBlock postAppForegroundAction NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  Whether or not to use a security snapshot view when the app is backgrounded, to prevent
@@ -241,7 +241,7 @@ NS_SWIFT_NAME(SalesforceManager)
          [SFPasscodeProviderManager addPasscodeProvider:myProvider];
          [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];
  */
-@property (nonatomic, nullable, copy) NSString *preferredPasscodeProvider NS_SWIFT_UNAVAILABLE("");
+@property (nonatomic, nullable, copy) NSString *preferredPasscodeProvider NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Passcode will be managed internally.");
 
 /**
  Gets or sets a block that will return a user agent string, created with an optional qualifier.
@@ -285,7 +285,7 @@ NS_SWIFT_NAME(SalesforceManager)
  actions.
  @return YES if the launch successfully kicks off, NO if launch is already running.
  */
-- (BOOL)launch NS_SWIFT_UNAVAILABLE("");
+- (BOOL)launch NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  Initializes the SDK.
@@ -306,19 +306,19 @@ NS_SWIFT_NAME(SalesforceManager)
  Adds an SDK Manager delegate to the list of delegates.
  @param delegate The delegate to add.
  */
-- (void)addDelegate:(id<SalesforceSDKManagerDelegate>)delegate NS_SWIFT_UNAVAILABLE("");
+- (void)addDelegate:(id<SalesforceSDKManagerDelegate>)delegate NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  Removes an SDK Manager delegate from the list of delegates.
  @param delegate The delegate to remove.
  */
-- (void)removeDelegate:(id<SalesforceSDKManagerDelegate>)delegate NS_SWIFT_UNAVAILABLE("");
+- (void)removeDelegate:(id<SalesforceSDKManagerDelegate>)delegate NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  @param launchActions Bit-coded descriptor of actions taken during launch.
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
  */
-+ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions NS_SWIFT_UNAVAILABLE("");
++ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  * Show dev support dialog
