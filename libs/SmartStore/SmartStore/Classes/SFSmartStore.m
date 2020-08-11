@@ -174,9 +174,12 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         @synchronized ([SFSmartStore class]) {
             if ([SFUserAccountManager sharedInstance].currentUser != nil && !_storeUpgradeHasRun) {
                 _storeUpgradeHasRun = YES;
+                // TODO: Remove in Mobile SDK 9.0
+                SFSDK_USE_DEPRECATED_BEGIN
                 [SFSmartStoreUpgrade updateStoreLocations];
                 [SFSmartStoreUpgrade updateEncryption];
                 [SFSmartStoreUpgrade updateEncryptionSalt];
+                SFSDK_USE_DEPRECATED_END
             }
         }
         _storeName = name;
@@ -287,7 +290,10 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         [self.dbMgr removeStoreDir:self.storeName];
     }
     if (self.user != nil) {
+        // TODO: Remove in Mobile SDK 9.0
+        SFSDK_USE_DEPRECATED_BEGIN
         [SFSmartStoreUpgrade setUsesKeyStoreEncryption:result forUser:self.user store:self.storeName];
+        SFSDK_USE_DEPRECATED_END
     }
     return result;
 }
@@ -416,7 +422,10 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             [existingStore.storeQueue close];
             [_allSharedStores[userKey] removeObjectForKey:storeName];
         }
+        // TODO: Remove in Mobile SDK 9.0
+        SFSDK_USE_DEPRECATED_BEGIN
         [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:user store:storeName];
+        SFSDK_USE_DEPRECATED_END
         [[SFSmartStoreDatabaseManager sharedManagerForUser:user] removeStoreDir:storeName];
     }
 }
