@@ -31,6 +31,7 @@
 #import "SFSDKLoginViewControllerConfig.h"
 #import "SFSDKAppLockViewConfig.h"
 #import "SFSecurityLockout.h"
+#import "SalesforceSDKConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -215,6 +216,7 @@ NS_SWIFT_NAME(UserAccountManagerDelegate)
 @end
 
 NS_SWIFT_NAME(UserAccountPersister)
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed and managed internally.")
 @protocol SFUserAccountPersister <NSObject>
 
 /**
@@ -223,13 +225,13 @@ NS_SWIFT_NAME(UserAccountPersister)
  @param  error On output, the error if the return value is NO
  @return YES if the account was saved properly, NO in case of error
  */
-- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **) error NS_SWIFT_UNAVAILABLE("");
+- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **) error NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /** Fetches all the accounts.
   @param error On output, the error if the return value is NO
   @return NSDictionary with SFUserAccountIdentity as keys and SFUserAccount as values
   */
-- (NSDictionary<SFUserAccountIdentity *,SFUserAccount *> *)fetchAllAccounts:(NSError **)error NS_SWIFT_UNAVAILABLE("");
+- (NSDictionary<SFUserAccountIdentity *,SFUserAccount *> *)fetchAllAccounts:(NSError **)error NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  Allows you to remove the given user account.
@@ -239,7 +241,7 @@ NS_SWIFT_NAME(UserAccountPersister)
  @return YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
  the user parameter is found, no action will be taken, and deletion will be reported as successful.
  */
-- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error NS_SWIFT_UNAVAILABLE("");
+- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 @end
 
@@ -453,7 +455,7 @@ NS_SWIFT_NAME(UserAccountManager)
  This will post user update notification.
  @param credentials The credentials to apply
  */
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials NS_SWIFT_UNAVAILABLE("");
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /** Invoke this method to apply the specified credentials to the
  a user whose credentials match. If no user exists, a new one is created. Fire notifications.
@@ -461,7 +463,7 @@ NS_SWIFT_NAME(UserAccountManager)
  @param credentials The credentials to apply
  @param identityData The identityData to apply
  */
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData NS_SWIFT_UNAVAILABLE("");
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /** Invoke this method to apply the specified credentials to the
  a user whose credentials match. If no user exists, a new one is created.
@@ -470,7 +472,7 @@ NS_SWIFT_NAME(UserAccountManager)
  @param identityData The identityData to apply
  @param shouldSendNotification whether to post notifications.
  */
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification NS_SWIFT_UNAVAILABLE("");
+- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 
 /** Invoke this method to apply the specified id data to the
@@ -478,21 +480,21 @@ NS_SWIFT_NAME(UserAccountManager)
   @param idData The ID data to apply
   @param userAccount The SFUserAccount to apply this change to.
  */
-- (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)userAccount NS_SWIFT_NAME(apply(identityData:to:)) NS_SWIFT_UNAVAILABLE("");
+- (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)userAccount NS_SWIFT_NAME(apply(identityData:to:)) NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /** This method will selectively update the custom attributes identity data for the  user.
  Other identity data will not be impacted.
  @param customAttributes The new custom attributes data to update in the identity data.
  @param user The SFUserAccount to apply this change to.
  */
-- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user NS_SWIFT_UNAVAILABLE("");
+- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /** This method will selectively update the custom permissions identity data for the  user.
  Other identity data will not be impacted.
  @param customPermissions The new custom permissions data to update in the identity data.
  @param user The SFUserAccount to apply this change to.
  */
-- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user NS_SWIFT_UNAVAILABLE("");
+- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /** Apply custom data to the SFUserAccount that can be
  accessed outside that user's sandbox. This data will be persisted
@@ -520,7 +522,7 @@ NS_SWIFT_NAME(UserAccountManager)
  @param user  The user
  @param change The type of change (enum type). Use SFUserAccountDataChange.
  */
-- (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change  NS_SWIFT_UNAVAILABLE("");
+- (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  Kick off the login process for credentials that's previously configured.
@@ -595,7 +597,7 @@ Use this method to stop/clear any authentication which is has already been start
  @options Dictionary of name-value pairs received from open URL
  @return YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.
  */
-- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options  NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
 
 /**
  Set this block to handle presentation of the Authentication View Controller.
@@ -605,19 +607,19 @@ Use this method to stop/clear any authentication which is has already been start
 /**
  Change this block to handle all alerts  required by the SFUserAccountManager.
  */
-@property (nonatomic, copy, nonnull) void (^alertDisplayBlock)(SFSDKAlertMessage *,SFSDKWindowContainer *) NS_SWIFT_UNAVAILABLE("");
+@property (nonatomic, copy, nonnull) void (^alertDisplayBlock)(SFSDKAlertMessage *,SFSDKWindowContainer *) NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  Change this block to customize behavior for user initiated auth cancellation
  */
-@property (nonatomic, copy, nonnull) void (^authCancelledByUserHandlerBlock)(void) NS_SWIFT_UNAVAILABLE("");
+@property (nonatomic, copy, nonnull) void (^authCancelledByUserHandlerBlock)(void) NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  Determines whether an error is due to invalid auth credentials.
  @param error The error to check against an invalid credentials error.
  @return YES if the error is due to invalid credentials, NO otherwise.
  */
-+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error NS_SWIFT_UNAVAILABLE("");
++ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error NS_SWIFT_UNAVAILABLE("") SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  Presents the setup screen that allows the user to opt into Touch/Face Id as a replacement for Passcode.

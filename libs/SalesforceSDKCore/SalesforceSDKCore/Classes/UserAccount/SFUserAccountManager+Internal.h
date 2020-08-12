@@ -59,7 +59,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** instance of accountPersister
  *
  */
+SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
 @property (nonatomic, strong, nullable) id<SFUserAccountPersister> accountPersister;
+SFSDK_USE_DEPRECATED_END
 
 /** instance of authPreferences
  *
@@ -122,7 +124,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Get the Account Persister being used.
  * @return SFUserAccountPersister that is used.
  */
+SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
 - (nullable id<SFUserAccountPersister>)accountPersister;
+SFSDK_USE_DEPRECATED_END
 
 /**
  * @param userIdentity to use for encoding to String

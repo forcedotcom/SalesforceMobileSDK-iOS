@@ -23,12 +23,15 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol SFUserAccountPersister;
 
+SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
 @interface SFDefaultUserAccountPersister:NSObject<SFUserAccountPersister>
+SFSDK_USE_DEPRECATED_END
 
 /** Loads a user account from a specified file
  @param filePath The file to load the user account from
