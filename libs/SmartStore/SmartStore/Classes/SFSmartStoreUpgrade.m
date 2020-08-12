@@ -42,7 +42,10 @@ static NSString * const kLegacyDefaultEncryptionTypeKey = @"com.salesforce.smart
 static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstore.keyStoreEncryptedStores";
 static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.external.hasExternalSalt";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFSmartStoreUpgrade
+#pragma clang diagnostic pop
 
 + (void)updateStoreLocations
 {
