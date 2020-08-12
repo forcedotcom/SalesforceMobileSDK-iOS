@@ -257,7 +257,9 @@ static NSString * const kInspectorPickerDefault = @"default";
         [self showAlert:[SFSDKResourceUtils localizedString:kInspectorNoSoupsFoundKey] title:errorAlertTitle];
     }
     if ([names count] > 100) {
+        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         self.queryField.text = [NSString stringWithFormat:@"select %@ from %@", SOUP_NAME_COL, SOUP_ATTRS_TABLE];
+        SFSDK_USE_DEPRECATED_END
     } else {
         NSMutableString* q = [NSMutableString string];
         BOOL first = YES;
@@ -274,7 +276,9 @@ static NSString * const kInspectorPickerDefault = @"default";
 
 - (void) indicesButtonClicked
 {
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     self.queryField.text = [NSString stringWithFormat:@"select %@,%@,%@ from %@", SOUP_NAME_COL, PATH_COL, COLUMN_TYPE_COL, SOUP_INDEX_MAP_TABLE];
+    SFSDK_USE_DEPRECATED_END
     [self runQuery];
 }
 
