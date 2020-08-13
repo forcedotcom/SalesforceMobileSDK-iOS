@@ -29,6 +29,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFSDKViewControllerConfig.h"
+#import "SalesforceSDKConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -46,7 +47,7 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
  *           but users will be unable to unlock the app if their pin is longer than the specified
  *           length.
  */
-@property (nonatomic) BOOL forcePasscodeLength;
+@property (nonatomic) BOOL forcePasscodeLength SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  * The number of allowed passcode entry attempts before the user is logged out.
@@ -121,7 +122,7 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
 /**
  * Length of the user's passcode.
  */
-@property (nonatomic) NSUInteger passcodeLength;
+@property (nonatomic) NSUInteger passcodeLength SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 @end
 

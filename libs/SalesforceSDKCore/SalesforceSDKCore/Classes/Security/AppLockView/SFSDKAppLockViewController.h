@@ -32,7 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(AppLockViewController)
+NS_SWIFT_NAME(AppLockViewController) SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.")
 @interface SFSDKAppLockViewController : SFSDKNavigationController
 
 - (instancetype)initWithMode:(SFAppLockControllerMode)mode andViewConfig:(SFSDKAppLockViewConfig *)config;

@@ -27,7 +27,7 @@
 #import "SFGeneratedKeyStore.h"
 #import "SFPasscodeKeyStore.h"
 
-@interface SFKeyStoreManager () <SFPasscodeManagerDelegate>
+@interface SFKeyStoreManager ()
 
 @property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore;
 

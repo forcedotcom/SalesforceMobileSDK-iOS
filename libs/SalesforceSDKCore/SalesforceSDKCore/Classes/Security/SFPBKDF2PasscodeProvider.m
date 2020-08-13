@@ -40,7 +40,11 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFPBKDF2PasscodeProvider
+#pragma clang diagnostic pop
+
 @synthesize passcodeLength;
 @synthesize saltLengthInBytes = _saltLengthInBytes;
 @synthesize numDerivationRounds = _numDerivationRounds;

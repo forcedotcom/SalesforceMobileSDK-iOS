@@ -37,7 +37,10 @@ static NSString * const kSFCurrentPasscodeProviderUserDefaultsKey = @"com.salesf
 
 static NSMutableDictionary *PasscodeProviderMap;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFPasscodeProviderManager
+#pragma clang diagnostic pop
 
 + (void)initialize
 {

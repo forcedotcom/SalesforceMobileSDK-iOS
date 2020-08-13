@@ -27,7 +27,7 @@
 
 @end
 
-@interface SalesforceSDKManager () <SalesforceSDKManagerFlow, SFSecurityLockoutDelegate>
+@interface SalesforceSDKManager () <SalesforceSDKManagerFlow>
 {
     BOOL _isLaunching;
     UIViewController* _snapshotViewController;

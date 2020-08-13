@@ -175,7 +175,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         passcodeViewConfig.instructionTextColor = UIColor.white
         passcodeViewConfig.borderColor = UIColor.yellow
         passcodeViewConfig.maxNumberOfAttempts = 3
-        passcodeViewConfig.forcePasscodeLength = true
         UserAccountManager.shared.appLockViewControllerConfig = passcodeViewConfig
     }
 

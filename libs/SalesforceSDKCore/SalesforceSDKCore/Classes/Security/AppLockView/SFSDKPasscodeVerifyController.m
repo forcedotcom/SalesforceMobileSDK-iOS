@@ -98,7 +98,9 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
         if (self.remainingAttempts == 0) {
             [self resetReaminingAttemps];
         }
+        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         self.passcodeLengthKnown = (self.viewConfig.passcodeLength != 0);
+        SFSDK_USE_DEPRECATED_END
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutVerifyButton:) name:UIKeyboardDidShowNotification object:nil];
     }
     return self;
@@ -122,7 +124,9 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     self.passcodeTextView.secureTextEntry = YES;
     self.passcodeTextView.isAccessibilityElement = YES;
     if (self.passcodeLengthKnown) {
+        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         self.passcodeTextView.accessibilityHint = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"accessibilityPasscodeLengthHint"], self.viewConfig.passcodeLength];
+        SFSDK_USE_DEPRECATED_END
     }
     [self.passcodeTextView clearPasscode];
     [self.view addSubview:self.passcodeTextView];
@@ -228,7 +232,9 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)rString
 {
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     NSUInteger length = (self.passcodeLengthKnown) ? self.viewConfig.passcodeLength : kSFMaxPasscodeLength;
+    SFSDK_USE_DEPRECATED_END
     
     // This fixes deleting if VoiceOver is on.
     if (UIAccessibilityIsVoiceOverRunning() && [rString isEqualToString:@""]) {
@@ -283,6 +289,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 
 - (void)verifyPasscode
 {
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     if ([[SFPasscodeManager sharedManager] verifyPasscode:self.passcodeTextView.passcodeInput]) {
         if ([self.passcodeTextView isFirstResponder]) {
             [self.passcodeTextView resignFirstResponder];
@@ -292,6 +299,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
         // This can happen when upgrading to new UX that requires actual length.
         if ([SFSecurityLockout passcodeLength] == 0) {
             [SFSecurityLockout setUpgradePasscodeLength:[self.passcodeTextView.passcodeInput length]];
+            SFSDK_USE_DEPRECATED_END
         }
         [self validatePasscodeConfirmed:self.passcodeTextView.passcodeInput];
     } else {

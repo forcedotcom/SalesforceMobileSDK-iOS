@@ -24,12 +24,14 @@
 
 #import <Foundation/Foundation.h>
 #import "SFPasscodeProviderManager.h"
+#import "SalesforceSDKConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Passcode provider for passcodes hashed with the SHA-256 algorithm.
  */
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed and passcode will be managed internally.")
 @interface SFSHA256PasscodeProvider : NSObject <SFPasscodeProvider>
 
 @end
