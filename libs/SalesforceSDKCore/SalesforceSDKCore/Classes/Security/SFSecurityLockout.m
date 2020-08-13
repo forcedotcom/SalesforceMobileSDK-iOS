@@ -47,6 +47,9 @@
 #import "SFSDKPasscodeCreateController.h"
 #import "SFSDKPasscodeVerifyController.h"
 #import "SFSDKBiometricViewController+Internal.h"
+#import "SalesforceSDKConstants.h"
+#import "SFSDKCryptoUtils.h"
+#import "SFPasscodeProviderManager.h"
 
 // Private constants
 
@@ -69,10 +72,12 @@ static NSUInteger              securityLockoutTime;
 static UIViewController        *sPasscodeViewController        = nil;
 static SFLockScreenSuccessCallbackBlock sLockScreenSuccessCallbackBlock = NULL;
 static SFLockScreenFailureCallbackBlock sLockScreenFailureCallbackBlock = NULL;
+SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
 static SFPasscodeViewControllerCreationBlock sPasscodeViewControllerCreationBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sPresentPasscodeViewControllerBlock = NULL;
 static SFPasscodeViewControllerDismissBlock sDismissPasscodeViewControllerBlock = NULL;
 static NSHashTable<id<SFSecurityLockoutDelegate>> *sDelegates = nil;
+SFSDK_USE_DEPRECATED_END
 static BOOL sForcePasscodeDisplay = NO;
 static BOOL sValidatePasscodeAtStartup = NO;
 static SFSDKAppLockViewConfig *_passcodeViewConfig = nil;
@@ -105,9 +110,10 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
         } else {
             securityLockoutTime = [[SFSecurityLockout readLockoutTimeFromKeychain] unsignedIntegerValue];
         }
-        
-        sDelegates = [NSHashTable weakObjectsHashTable];
     
+        sDelegates = [NSHashTable weakObjectsHashTable];
+
+        SFSDK_USE_DEPRECATED_BEGIN
         [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFAppLockControllerMode mode, SFSDKAppLockViewConfig *viewConfig) {
             SFSDKAppLockViewController *pvc = [[SFSDKAppLockViewController alloc] initWithMode:mode andViewConfig:viewConfig];
             return pvc;
@@ -130,6 +136,7 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
                                                     }];
                 }];
         }];
+        SFSDK_USE_DEPRECATED_END
     }
 }
 
@@ -181,6 +188,7 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
     }
 }
 
+SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
 + (void)addDelegate:(id<SFSecurityLockoutDelegate>)delegate
 {
     @synchronized (self) {
@@ -207,6 +215,7 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
         }
     }
 }
+SFSDK_USE_DEPRECATED_END
 
 + (void)validateTimer
 {
@@ -240,11 +249,13 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
         result |= SFPasscodePolicyTimeoutIsMoreRestrictive;
     }
     
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     if ([self passcodeLength] == kDefaultPasscodeLength) {
          result |= SFPasscodePolicySetupNewPasscode;
-    }else if (newPasscodeLength > [self passcodeLength]) {
+    } else if (newPasscodeLength > [self passcodeLength]) {
         result |= SFPasscodePolicyPasscodeLengthIsMoreRestrictive;
     }
+    SFSDK_USE_DEPRECATED_END
     
     return result;
 }
@@ -285,7 +296,9 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
     if ([self policy:newPolicy equals:SFPasscodePolicySetupNewPasscode]) {
          mode = SFAppLockControllerModeCreatePasscode;
         SFSDKAppLockViewConfig *config = [self passcodeViewConfig];
+        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         config.passcodeLength = newPasscodeLength;
+        SFSDK_USE_DEPRECATED_END
         [self setPasscodeViewConfig:config];
         shouldShowView = true;
     }
@@ -377,7 +390,9 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
     [SFSecurityLockout setPasscodeLength:kDefaultPasscodeLength];
     [SFSecurityLockout setBiometricState:SFBiometricUnlockUnavailable];
     [SFInactivityTimerCenter removeTimer:kTimerSecurity];
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     [[SFPasscodeManager sharedManager] changePasscode:nil];
+    SFSDK_USE_DEPRECATED_END
 }
 
 + (NSUInteger)passcodeLength
@@ -393,9 +408,19 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
     [SFSecurityLockout writePasscodeLengthToKeychain:[NSNumber numberWithInteger:newPasscodeLength]];
 }
 
++ (BOOL)deviceHasBiometric {
+    LAContext *context = [[LAContext alloc] init];
+    NSError *biometricError;
+    BOOL deviceHasBiometric = [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&biometricError];
+    if (!deviceHasBiometric) {
+        [SFSDKCoreLogger d:[self class] format:@"Device cannot use Touch Id or Face Id.  Error: %@", biometricError];
+    }
+    return deviceHasBiometric;
+}
+
 + (BOOL)biometricUnlockAllowed
 {
-    return [[SFPreferences globalPreferences] boolForKey:kBiometricUnlockAllowedKey] && [[SFPasscodeManager sharedManager] deviceHasBiometric];
+    return [[SFPreferences globalPreferences] boolForKey:kBiometricUnlockAllowedKey] && [SFSecurityLockout deviceHasBiometric];
 }
 
 + (void)setBiometricAllowed:(BOOL)enabled
@@ -461,9 +486,11 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
 
 + (void)startActivityMonitoring
 {
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     if ([SFSecurityLockout lockoutTime] > 0) {
         [[SFUserActivityMonitor sharedInstance] startMonitoring];
     }
+    SFSDK_USE_DEPRECATED_END
 }
 
 + (void)stopActivityMonitoring
@@ -490,6 +517,7 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
 + (void)setPasscodeViewConfig:(SFSDKAppLockViewConfig *)passcodeViewConfig {
     _passcodeViewConfig = passcodeViewConfig;
     
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     // This guarentees the user's passcode is the length specified in the connected app.
     if (_passcodeViewConfig.forcePasscodeLength) {
         // Set passcode length to the last minimum length we got from the connected app.
@@ -499,16 +527,19 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
             _passcodeViewConfig.passcodeLength = [SFSecurityLockout passcodeLength];
         }
     }
+    SFSDK_USE_DEPRECATED_END
 }
 
 + (SFSDKAppLockViewConfig *)passcodeViewConfig {
     if (_passcodeViewConfig == nil) {
         _passcodeViewConfig = [SFSDKAppLockViewConfig createDefaultConfig];
     } else {
+        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         NSUInteger storedLength = [SFSecurityLockout passcodeLength];
         if (storedLength) {
             _passcodeViewConfig.passcodeLength = storedLength;
         }
+        SFSDK_USE_DEPRECATED_END
     }
     return _passcodeViewConfig;
 }
@@ -536,6 +567,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     [SFSDKEventBuilderHelper createAndStoreEvent:@"passcodeUnlock" userAccount:nil className:NSStringFromClass([self class]) attributes:nil];
     [self sendPasscodeFlowCompletedNotification:success];
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     UIViewController *passVc = [SFSecurityLockout passcodeViewController];
     if (passVc != nil) {
         SFPasscodeViewControllerDismissBlock dismissBlock = [SFSecurityLockout dismissPasscodeViewControllerBlock];
@@ -561,6 +593,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
                     [delegate passcodeFlowDidComplete:success];
                 }
             }];
+            SFSDK_USE_DEPRECATED_END
         });
         
     }
@@ -580,7 +613,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         [SFSecurityLockout lock];
     } else {
         [SFInactivityTimerCenter removeTimer:kTimerSecurity];
+        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         [SFSecurityLockout setupTimer];
+        SFSDK_USE_DEPRECATED_END
     }
 }
 
@@ -603,8 +638,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];
             return;
         }
-        
+        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         if ([SFSecurityLockout lockoutTime] == 0) {
+            SFSDK_USE_DEPRECATED_END
             [SFSDKCoreLogger i:[self class] format:@"Skipping 'lock' since pin policies are not configured."];
             [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];
             return;
@@ -612,7 +648,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
     
     if ([SFApplicationHelper sharedApplication].applicationState == UIApplicationStateActive || ![SFSDKWindowManager sharedManager].snapshotWindow.isEnabled) {
-        if (![[SFPasscodeManager sharedManager] deviceHasBiometric]) {
+        if (![SFSecurityLockout deviceHasBiometric]) {
             [self setBiometricState:SFBiometricUnlockUnavailable];
         }
         
@@ -622,8 +658,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [SFSDKCoreLogger i:[self class] format:@"Device locked."];
     sForcePasscodeDisplay = NO;
 }
-
-
 
 + (SFPasscodeViewControllerCreationBlock)passcodeViewControllerCreationBlock
 {
@@ -649,10 +683,12 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
 }
 
+SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
 + (SFPasscodeViewControllerDismissBlock)dismissPasscodeViewControllerBlock
 {
     return sDismissPasscodeViewControllerBlock;
 }
+SFSDK_USE_DEPRECATED_END
 
 + (void)setDismissPasscodeViewControllerBlock:(SFPasscodeViewControllerDismissBlock)vcBlock
 {
@@ -678,6 +714,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         return;
     }
     
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     [self setIsLocked:YES];
     if (_showPasscode) {
         [self sendPasscodeFlowWillBeginNotification:modeValue];
@@ -691,6 +728,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         UIViewController *passcodeViewController = passcodeVcCreationBlock(modeValue, self.passcodeViewConfig);
         [SFSecurityLockout setPasscodeViewController:passcodeViewController];
         SFPasscodeViewControllerPresentationBlock presentBlock = [SFSecurityLockout presentPasscodeViewControllerBlock];
+        SFSDK_USE_DEPRECATED_END
         if (presentBlock != nil) {
             presentBlock(passcodeViewController);
         }
@@ -711,7 +749,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     } else {
         SFSDKAppLockViewConfig *displayConfig = (viewConfig) ? viewConfig : self.passcodeViewConfig;
         [[SFSDKWindowManager sharedManager].passcodeWindow presentWindowAnimated:NO withCompletion:^{
+            SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
             SFSDKAppLockViewController *navController = [[SFSDKAppLockViewController alloc] initWithMode:SFAppLockControllerModeEnableBiometric andViewConfig:displayConfig];
+            SFSDK_USE_DEPRECATED_END
             navController.modalPresentationStyle = UIModalPresentationFullScreen;
             [[SFSDKWindowManager sharedManager].passcodeWindow.viewController presentViewController:navController animated:NO completion:^{}];
         }];
@@ -737,6 +777,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [[NSNotificationCenter defaultCenter] postNotification:n];
 }
 
+// TODO: Remove this and sValidatePasscodeAtStartup in 9.0
 + (BOOL)validatePasscodeAtStartup
 {
     return sValidatePasscodeAtStartup;
@@ -757,17 +798,28 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     return locked;
 }
 
++ (BOOL)isPasscodeSet {
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Migrate in Mobile SDK 9.0
+    return [[SFPasscodeManager sharedManager] passcodeIsSet];
+    SFSDK_USE_DEPRECATED_END
+}
+
 + (BOOL)isPasscodeValid
 {
 	if(securityLockoutTime == 0) return YES; // no passcode is required.
-    return([[SFPasscodeManager sharedManager] passcodeIsSet]);
+    return [SFSecurityLockout isPasscodeSet];
 }
 
-+ (BOOL)isPasscodeNeeded
-{
-    if(securityLockoutTime == 0) return NO; // no passcode is required.
++ (BOOL)isPasscodeNeeded {
+    return [SFSecurityLockout shouldLock];
+}
 
-    BOOL result = [SFSecurityLockout inactivityExpired] || [SFSecurityLockout validatePasscodeAtStartup] || ![SFSecurityLockout isPasscodeValid];
++ (BOOL)shouldLock {
+    if (securityLockoutTime == 0) return NO; // no passcode is required.
+
+    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
+    BOOL result = [SFSecurityLockout inactivityExpired] || ![SFSecurityLockout isPasscodeValid];
+    SFSDK_USE_DEPRECATED_END
     result = result || sForcePasscodeDisplay;
     return result;
 }
@@ -792,6 +844,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)cancelPasscodeScreen
 {
     void (^cancelPasscodeBlock)(void) = ^{
+        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         UIViewController *passVc = [SFSecurityLockout passcodeViewController];
         [SFSDKCoreLogger i:[SFSecurityLockout class] format:@"App requested passcode screen cancel.  Screen %@ displayed.", (passVc != nil ? @"is" : @"is not")];
         if (passVc != nil) {
@@ -799,8 +852,8 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             dismissBlock(passVc,^{
                 [SFSecurityLockout setPasscodeViewController:nil];
             });
-            
         }
+        SFSDK_USE_DEPRECATED_END
     };
     
     if (![NSThread isMainThread]) {
@@ -836,6 +889,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     return sLockScreenSuccessCallbackBlock;
 }
 
+SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
 + (BOOL)passcodeScreenIsPresent
 {
     if ([SFSecurityLockout passcodeViewController] != nil && [[SFSecurityLockout  passcodeViewController] presentedViewController]!= nil) {
@@ -868,6 +922,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         blockCopy();
     }
 }
+SFSDK_USE_DEPRECATED_END
 
 + (void)userAllowedBiometricUnlock:(BOOL)userAllowedBiometric
 {
@@ -962,4 +1017,3 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 }
 
 @end
-

@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,16 +36,17 @@ typedef NSString * SFPasscodeProviderId NS_EXTENSIBLE_STRING_ENUM;
 /**
  * String representing the provider name for the SHA-256 passcode provider.
  */
-FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderSHA256;
+FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderSHA256 SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  * String representing the provider name for the PBKDF2 passcode provider.
  */
-FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderPBKDF2;
+FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderPBKDF2 SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  * Protocol that a passcode provider class must implement.
  */
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed and passcode will be managed internally.")
 @protocol SFPasscodeProvider <NSObject>
 
 /**
@@ -103,6 +105,7 @@ FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderPBKDF2;
 /**
  * Class for managing passcode providers.
  */
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed and passcode will be managed internally.")
 @interface SFPasscodeProviderManager : NSObject
 
 /**

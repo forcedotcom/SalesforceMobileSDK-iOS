@@ -24,10 +24,13 @@
 
 #import "SFPasscodeManager+Internal.h"
 #import "SFPasscodeProviderManager.h"
-#import <LocalAuthentication/LocalAuthentication.h>
 #import "SFKeychainItemWrapper.h"
+#import "SFSecurityLockout+Internal.h"
+#import "SFSecurityLockout.h"
 
+SFSDK_USE_DEPRECATED_BEGIN
 static SFPasscodeManager *sharedInstance = nil;
+SFSDK_USE_DEPRECATED_END
 
 //
 // Public constants
@@ -43,7 +46,10 @@ NSString *const SFPasscodeResetOldPasscodeKey = @"SFPasscodeResetOldPasswordKey"
 // Key in userInfo published by `SFPasscodeResetNotification` to store the new hashed passcode that triggers the new passcode reset
 NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFPasscodeManager
+#pragma clang diagnostic pop
 
 @synthesize encryptionKey = _encryptionKey;
 @synthesize preferredPasscodeProvider = _preferredPasscodeProvider;
@@ -111,7 +117,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 }
 
 #pragma mark - Passcode management
-
+SFSDK_USE_DEPRECATED_BEGIN
 - (void)setEncryptionKeyForPasscode:(NSString *)passcode
 {
     id<SFPasscodeProvider> currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
@@ -167,6 +173,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
         return [currentProvider verifyPasscode:passcode];
     }
 }
+SFSDK_USE_DEPRECATED_END
 
 - (void)changePasscode:(NSString *)newPasscode
 {
@@ -220,7 +227,6 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
         [SFPasscodeProviderManager setCurrentPasscodeProviderByName:preferredProvider.providerName];
         currentProvider = [SFPasscodeProviderManager currentPasscodeProvider];
     }
-    
     [currentProvider setVerificationPasscode:newPasscode];
     NSString *encryptionKey = [currentProvider generateEncryptionKey:newPasscode];
     [self setEncryptionKey:encryptionKey];
@@ -232,15 +238,8 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
     return self.passcodeLength;
 }
 
-- (BOOL)deviceHasBiometric
-{
-    LAContext *context = [[LAContext alloc] init];
-    NSError *biometricError;
-    BOOL deviceHasBiometric = [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&biometricError];
-    if (!deviceHasBiometric) {
-        [SFSDKCoreLogger d:[self class] format:@"Device cannot use Touch Id or Face Id.  Error: %@", biometricError];
-    }
-    return deviceHasBiometric;
+- (BOOL)deviceHasBiometric {
+    return [SFSecurityLockout deviceHasBiometric];
 }
 
 @end

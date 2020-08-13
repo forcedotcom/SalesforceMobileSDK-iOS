@@ -9,6 +9,7 @@ static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islock
 static NSString * const kBiometricUnlockAllowedKey           = @"security.biometric.allowed"; // Enabled in the Org
 static NSString * const kBiometricStateKey                   = @"secuirty.biometric.state";
 
+SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.")
 @interface SFSecurityLockout ()
 
 /**

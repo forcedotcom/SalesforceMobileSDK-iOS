@@ -31,7 +31,11 @@
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
 static NSString * const kKeychainIdentifierPasscodeLength = @"com.salesforce.security.passcodeLength";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFSHA256PasscodeProvider
+#pragma clang diagnostic pop
+
 @synthesize passcodeLength;
 @synthesize providerName = _providerName;
 

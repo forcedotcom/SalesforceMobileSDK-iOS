@@ -55,7 +55,9 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
     self = [super init];
     if (self) {
         [self initializeKeyStores];
+        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         [[SFPasscodeManager sharedManager] addObserver:self forKeyPath:@"encryptionKey" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
+        SFSDK_USE_DEPRECATED_END
     }
     return self;
 }
@@ -214,7 +216,7 @@ SFSDK_USE_DEPRECATED_END
     // Starting in SDK 6.0, we no longer use SFPasscodeKeyStore.
     // The only reason we are still watching the encryption key of the passcode manager is to handle upgrade from pre-6.0 SDK to 6+.
     // As soon as we get the passcode, we migrate all the keys from the passcode key store to the generated key store.
-    
+    SFSDK_USE_DEPRECATED_BEGIN
     if (!(object == [SFPasscodeManager sharedManager] && [keyPath isEqualToString:@"encryptionKey"])) {
         return;
     }
@@ -227,7 +229,6 @@ SFSDK_USE_DEPRECATED_END
 
         if ([oldKey length] == 0 && [newKey length] > 0) {
             // We just got the passcode, migrate keys (if any)
-            SFSDK_USE_DEPRECATED_BEGIN
             SFPasscodeKeyStore *passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
             passcodeKeyStore.keyStoreKey.encryptionKey.key = [[self class] keyStringToData:newKey];
             if (passcodeKeyStore.keyStoreKey != nil && passcodeKeyStore.keyStoreDictionary.count > 0) {
