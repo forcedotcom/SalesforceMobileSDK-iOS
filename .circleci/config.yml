@@ -47,8 +47,8 @@ jobs:
       - checkout
       - restore_cache: 
           keys:
-            - v6-gems-{{ checksum ".circleci/Gemfile.lock" }}
-            - v6-gems-
+            - v7-gems-{{ checksum ".circleci/Gemfile.lock" }}
+            - v7-gems-
       - run: 
           name: Install Dependencies
           command:  |
