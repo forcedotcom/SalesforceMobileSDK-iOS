@@ -381,6 +381,10 @@
         }
 
     }];
+ 
+    if (@available(iOS 13.0, *)) {
+        _authSession.prefersEphemeralWebBrowserSession = true;
+    }
     
     [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_asWebAuthenticationSession];
 
