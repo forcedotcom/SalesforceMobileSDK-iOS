@@ -382,6 +382,7 @@
 
     }];
  
+    // TODO: Remove in MobileSDK 9.0
     if (@available(iOS 13.0, *)) {
         _asWebAuthenticationSession.prefersEphemeralWebBrowserSession = YES;
     }
