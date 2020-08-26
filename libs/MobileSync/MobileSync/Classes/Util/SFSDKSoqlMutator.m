@@ -140,7 +140,7 @@ static NSString * const kSFSDKSoqlMutatorOffset = @"offset";
                                      from:[self trimmedClause:kSFSDKSoqlMutatorFrom]]
                                     whereClause:[self trimmedClause:kSFSDKSoqlMutatorWhere]]
                                    having:[self trimmedClause:kSFSDKSoqlMutatorHaving]]
-                                  groupBy:[self trimmedClause:kSFSDKSoqlMutatorOffset]]
+                                  groupBy:[self trimmedClause:kSFSDKSoqlMutatorGroupBy]]
                                  orderBy:[self trimmedClause:kSFSDKSoqlMutatorOrderBy]];
     
     NSNumber* limit = [self clauseAsInteger:kSFSDKSoqlMutatorLimit];
