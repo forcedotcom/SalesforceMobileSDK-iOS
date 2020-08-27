@@ -198,21 +198,6 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [self compareAppNames:appName];
 }
 
-- (void)testOverrideInvalidAppName
-{
-    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:[self createUserAccount]];
-    [self createStandardPostLaunchBlock];
-    [self createTestAppIdentity];
-    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
-    [self verifyPostLaunchState];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-    [SalesforceSDKManager setAppName:nil];
-#pragma clang diagnostic pop
-    NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
-    [self compareAppNames:appName];
-}
-
 - (void)testPasscodeVerificationAtLaunch
 {
     [self createStandardPostLaunchBlock];
