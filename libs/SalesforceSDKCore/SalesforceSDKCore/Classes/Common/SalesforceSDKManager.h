@@ -137,13 +137,19 @@ NS_SWIFT_NAME(SalesforceManager)
  *
  * @return App name.
  */
-@property (class,nonatomic,strong)NSString *ailtnAppName NS_SWIFT_NAME(analyticsAppName);
+@property (class, nonatomic, strong) NSString *ailtnAppName NS_SWIFT_NAME(analyticsAppName);
 
+/**
+ * Gets & sets the app name being used by the SDK for user agent and other parts within the SDK.
+ *
+ * @return App name.
+ */
+@property (class, nonatomic, strong) NSString *appName NS_SWIFT_NAME(appName);
 
 /**
  @return The singleton instance of the SDK Manager.
  */
-@property(class,nonatomic,readonly)SalesforceSDKManager *sharedManager NS_SWIFT_NAME(shared);
+@property (class, nonatomic, strong) SalesforceSDKManager *sharedManager NS_SWIFT_NAME(shared);
 
 /**
  * Returns a unique device ID.

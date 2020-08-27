@@ -57,6 +57,9 @@ static Class InstanceClass = nil;
 // AILTN app name
 static NSString* ailtnAppName = nil;
 
+// App name
+static NSString* appName = nil;
+
 // Dev support
 static NSString *const SFSDKShowDevDialogNotification = @"SFSDKShowDevDialogNotification";
 static IMP motionEndedImplementation = nil;
@@ -139,8 +142,21 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     return ailtnAppName;
 }
 
++ (void)setAppName:(NSString *)newAppName {
+    @synchronized (appName) {
+        if (newAppName) {
+            appName = newAppName;
+        }
+    }
+}
+
++ (NSString *)appName {
+    return appName;
+}
+
 + (void)initialize {
     if (self == [SalesforceSDKManager class]) {
+
         /*
          * Checks if an analytics app name has already been set by the app.
          * If not, fetches the default app name to be used and sets it.
@@ -150,6 +166,18 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
             NSString *ailtnAppName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
             if (ailtnAppName) {
                 [SalesforceSDKManager setAiltnAppName:ailtnAppName];
+            }
+        }
+
+        /*
+         * Checks if an app name has already been set by the app.
+         * If not, fetches the default app name to be used and sets it.
+         */
+        NSString *currentAppName = [SalesforceSDKManager appName];
+        if (!currentAppName) {
+            NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
+            if (appName) {
+                [SalesforceSDKManager setAppName:appName];
             }
         }
     }
@@ -1024,7 +1052,7 @@ SFSDK_USE_DEPRECATED_END
 - (SFSDKUserAgentCreationBlock)defaultUserAgentString {
     return ^NSString *(NSString *qualifier) {
         UIDevice *curDevice = [UIDevice currentDevice];
-        NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
+        NSString *appName = [SalesforceSDKManager appName];
         NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
         NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
