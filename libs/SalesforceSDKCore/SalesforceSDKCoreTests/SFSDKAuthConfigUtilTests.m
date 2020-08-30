@@ -81,21 +81,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
         XCTAssertNotNil(authConfig, @"Auth config should not be nil");
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
         XCTAssertNotNil(authConfig.ssoUrls, @"SSO URLs should not be nil");
-        XCTAssertTrue(authConfig.ssoUrls.count >= 1, @"SSO URLs should have at least 1 valid entry");
-        [expect fulfill];
-    } loginDomain:credentials.domain];
-    [self waitForExpectationsWithTimeout:20 handler:nil];
-}
-
-- (void)testGetNoSSOUrls {
-    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kSFTestId clientId:kSFTestClientId encrypted:YES];
-    [credentials setDomain:kSFMyDomainEndpoint];
-    XCTestExpectation *expect = [self expectationWithDescription:@"testGetNoSSOUrls"];
-    [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
-        XCTAssertNil(error, @"Error should be nil");
-        XCTAssertNotNil(authConfig, @"Auth config should not be nil");
-        XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
-        XCTAssertTrue(authConfig.ssoUrls.count == 0, @"SSO URLs should be empty");
+        XCTAssertEqual(authConfig.ssoUrls.count, 3, @"SSO URLs should have 3 valid entries");
         [expect fulfill];
     } loginDomain:credentials.domain];
     [self waitForExpectationsWithTimeout:20 handler:nil];
