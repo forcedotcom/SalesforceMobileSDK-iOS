@@ -1,8 +1,15 @@
+anchors:
+  - &latest-xcode "11.7.0"
+  - &latest-ios   "13.7"
+  - &min-ios      "12.2"
+  - &beta-xcode   "12.0.0"
+  - &beta-ios     "14.0"
+
 executors:
   mac:
     working_directory: ~/SalesforceMobileSDK-iOS
     macos:
-      xcode: 11.6.0
+      xcode: *latest-xcode
     shell: /bin/bash --login -eo pipefail
     environment:
       BASH_ENV: ~/.bashrc
@@ -11,7 +18,7 @@ executors:
   mac-beta:
     working_directory: ~/SalesforceMobileSDK-iOS
     macos:
-      xcode: 12.0.0
+      xcode: *beta-xcode
     shell: /bin/bash --login -eo pipefail
     environment:
       BASH_ENV: ~/.bashrc
@@ -30,7 +37,7 @@ jobs:
         default: "iPhone 11"
       ios:
         type: string
-        default: "13.6"
+        default: *latest-xcode
       nightly-test:
         type: boolean
         default: false
@@ -43,6 +50,7 @@ jobs:
       DEVICE: << parameters.device >>
       IOS_VERSION: << parameters.ios >>
       NIGHTLY_TEST: << parameters.nightly-test >>
+    parallelism: 5
     steps:
       - checkout
       - restore_cache: 
@@ -106,7 +114,7 @@ workflows:
 
   # Cron are on a timezone 8 hours ahead of PST
   # Build everything at ~10:30pm Tuesday/Thursday Nights
-  nightly-test-ios12:
+  nightly-test-ios:
     triggers:
       - schedule:
           cron: "30 6 * * 3,5"
@@ -116,45 +124,18 @@ workflows:
                 - dev
     jobs:
       - run-tests:
+          name: test << matrix.lib >> iOS << matrix.ios >> 
           matrix:
             parameters:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
               nightly-test: [true]
-              ios: ["12.2"]
-              device: ["iPhone Xʀ"]
-
-  # Cron are on a timezone 8 hours ahead of PST
-  # Build everything at ~11:30pm Tuesday/Thursday Nights
-  nightly-test-ios13:
-    triggers:
-      - schedule:
-          cron: "30 7 * * 3,5"
-          filters:
-            branches:
-              only:
-                - dev
-    jobs:
+              ios: [*min-ios, *latest-ios]
+              device: ["iPhone 8"]
       - run-tests:
+          name: test << matrix.lib >> iOS << matrix.ios >> 
           matrix:
             parameters:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
               nightly-test: [true]
-
-
-  # Cron are on a timezone 8 hours ahead of PST
-  # Build everything at ~12:30am Tuesday/Thursday Nights
-  nightly-test-ios14:
-    triggers:
-      - schedule:
-          cron: "30 8 * * 3,5"
-          filters:
-            branches:
-              only:
-                - dev
-    jobs:
-      - run-tests:
-          matrix:
-            parameters:
-              lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
-              nightly-test: [true]
-              ios: ["14.0"]
+              ios: [*beta-ios]
+              env: [mac-beta]
