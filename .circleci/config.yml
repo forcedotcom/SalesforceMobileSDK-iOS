@@ -50,7 +50,6 @@ jobs:
       DEVICE: << parameters.device >>
       IOS_VERSION: << parameters.ios >>
       NIGHTLY_TEST: << parameters.nightly-test >>
-    parallelism: 5
     steps:
       - checkout
       - restore_cache: 
