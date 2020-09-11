@@ -128,8 +128,17 @@ workflows:
             parameters:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
               nightly-test: [true]
-              ios: [*min-ios, *latest-ios]
+              ios: [*min-ios]
               device: ["iPhone 8"]
+      - run-tests:
+          name: test << matrix.lib >> iOS << matrix.ios >> 
+          matrix:
+            parameters:
+              lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
+              nightly-test: [true]
+              ios: [*latest-ios]
+          requires:
+            - test << matrix.lib >> iOS 12.2
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
           matrix:
@@ -138,3 +147,5 @@ workflows:
               nightly-test: [true]
               ios: [*beta-ios]
               env: [mac-beta]
+          requires:
+            - test << matrix.lib >> iOS 13.7
