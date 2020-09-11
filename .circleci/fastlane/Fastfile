@@ -102,7 +102,7 @@ end
 def analyze_scheme(scheme)
     begin
       xcodebuild(
-          xcargs: 'CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES',
+          xcargs: 'CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES ARCHS=x86_64',
           workspace: 'SalesforceMobileSDK.xcworkspace',
           scheme: scheme,
           sdk: 'iphonesimulator',
