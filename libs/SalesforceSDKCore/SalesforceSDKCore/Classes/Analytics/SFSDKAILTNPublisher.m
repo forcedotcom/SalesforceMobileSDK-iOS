@@ -72,12 +72,12 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
     [request setHeaderValue:@"gzip" forHeaderName:@"Content-Encoding"];
     [request setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHeaderName:@"Content-Length"];
 
-    [restAPI sendRequest:request failureBlock:^(id  _Nullable response, NSError * _Nullable e, NSURLResponse * _Nullable rawResponse) {
+    [restAPI sendRequest:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         if (e) {
             [SFSDKCoreLogger e:[self class] format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
         }
         publishCompleteBlock(NO, e);
-    } successBlock:^(id  _Nullable response, NSURLResponse * _Nullable rawResponse) {
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
         publishCompleteBlock(YES, nil);
     }];
 }
