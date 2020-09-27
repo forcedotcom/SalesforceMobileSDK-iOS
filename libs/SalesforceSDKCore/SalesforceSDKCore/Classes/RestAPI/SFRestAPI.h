@@ -110,14 +110,6 @@ NS_SWIFT_NAME(RestClient)
 
 /**
  * Sends a REST request to the Salesforce server and invokes the appropriate delegate method.
- * @param request `SFRestRequest` object to be sent.
- * @param delegate Delegate object that handles the server response. 
- * This value overwrites the delegate property of the request.
- */
-- (void)send:(SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use send:request:requestDelegate instead.");
-
-/**
- * Sends a REST request to the Salesforce server and invokes the appropriate delegate method.
  *
  * @param request `SFRestRequest` object to be sent.
  * @param requestDelegate Delegate object that handles the server response.
@@ -175,16 +167,6 @@ NS_SWIFT_NAME(RestClient)
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_describe.htm
  */
 - (SFRestRequest *)requestForDescribeWithObjectType:(NSString *)objectType apiVersion:(nullable NSString *)apiVersion;
-
-/**
- * Returns an `SFRestRequest` object that provides layout data for the specified object and layout type.
- *
- * @param objectType Type of a Salesforce object. Example: "Account".
- * @param layoutType Layout type. Supported types are "Full" and "Compact". Default is "Full".
- * @param apiVersion API version.
- * @see https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/ui_api_resources_record_layout.htm
- */
-- (SFRestRequest *)requestForLayoutWithObjectType:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType apiVersion:(nullable NSString *)apiVersion SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use requestForLayoutWithObjectAPIName:objectAPIName:formFactor:layoutType:mode:recordTypeId:apiVersion instead.");
 
 /**
  * Returns an `SFRestRequest` object that provides layout data for the specified parameters.
