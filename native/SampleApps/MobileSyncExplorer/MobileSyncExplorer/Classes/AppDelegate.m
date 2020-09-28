@@ -72,8 +72,8 @@
         __weak typeof (self) weakSelf = self;
         [SFSDKAuthHelper registerBlockForCurrentUserChangeNotifications:^{
             __strong typeof (weakSelf) strongSelf = weakSelf;
-           [strongSelf resetUserloginStatus];
-           [strongSelf resetViewState:^{
+            [strongSelf resetUserloginStatus];
+            [strongSelf resetViewState:^{
                 [strongSelf setupRootViewController];
             }];
         }];
@@ -103,7 +103,7 @@
     
     __weak typeof (self) weakSelf = self;
     [SFSDKAuthHelper loginIfRequired:^{
-        [self resetUserloginStatus];
+        [weakSelf resetUserloginStatus];
         [weakSelf setupRootViewController];
     }];
     return YES;
