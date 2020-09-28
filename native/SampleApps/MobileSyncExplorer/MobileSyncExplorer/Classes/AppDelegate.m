@@ -51,7 +51,6 @@
  */
 - (void)initializeAppViewState;
 
-- (void)setUserLoginStatus :(BOOL) loggedIn;
 @end
 
 @implementation AppDelegate
