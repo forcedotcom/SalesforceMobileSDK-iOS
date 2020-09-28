@@ -326,39 +326,6 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqual(self.uam.loginHost, newUser.credentials.domain, @"Switch user should set current login host to users domain.");
 }
 
-- (void)testIdentityDataModification {
-    NSArray *accounts = [self createAndVerifyUserAccounts:1];
-    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:accounts[0]];
-    SFIdentityData *idData = [self sampleIdentityData];
-    [self.uam applyIdData:idData forUser:self.uam.currentUser];
-    int origMobileAppPinLength = self.uam.currentUser.idData.mobileAppPinLength;
-    int origMobileAppScreenLockTimeout = self.uam.currentUser.idData.mobileAppScreenLockTimeout;
-    
-    // Verify selective custom settings updates do not interfere with other previous identity data.
-    NSDictionary *origCustomAttributes = self.uam.currentUser.idData.customAttributes;
-    NSDictionary *origCustomPermissions = self.uam.currentUser.idData.customPermissions;
-    NSMutableDictionary *mutableCustomAttributes = [origCustomAttributes mutableCopy];
-    NSMutableDictionary *mutableCustomPermissions = [origCustomPermissions mutableCopy];
-    mutableCustomAttributes[@"ANewCustomAttribute"] = @"ANewCustomAttributeValue";
-    mutableCustomPermissions[@"ANewCustomPermission"] = @"ANewCustomPermissionValue";
-    [self.uam applyIdDataCustomAttributes:mutableCustomAttributes forUser:self.uam.currentUser];
-    [self.uam applyIdDataCustomPermissions:mutableCustomPermissions forUser:self.uam.currentUser];
-    XCTAssertTrue([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomAttributes], @"Attributes dictionaries are not equal.");
-    XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:origCustomAttributes], @"Attributes dictionaries should not be equal.");
-    XCTAssertTrue([self.uam.currentUser.idData.customPermissions isEqualToDictionary:mutableCustomPermissions], @"Permissions dictionaries are not equal.");
-    XCTAssertFalse([self.uam.currentUser.idData.customPermissions isEqualToDictionary:origCustomPermissions], @"Permissions dictionaries should not be equal.");
-    XCTAssertEqual(origMobileAppPinLength, self.uam.currentUser.idData.mobileAppPinLength, @"Mobile app pin length should not have changed.");
-    XCTAssertEqual(origMobileAppScreenLockTimeout, self.uam.currentUser.idData.mobileAppScreenLockTimeout, @"Mobile app screen lock timeout should not have changed.");
-    
-    // Verify that re-applying the whole of the identity data, overwrites changes.
-    idData = [self sampleIdentityData];
-    [self.uam applyIdData:idData forUser:self.uam.currentUser];
-    XCTAssertTrue([self.uam.currentUser.idData.customAttributes isEqualToDictionary:origCustomAttributes], @"Custom atttribute changes should have been overwritten with whole identity write.");
-    XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomAttributes], @"Attributes dictionaries should not be equal.");
-    XCTAssertTrue([self.uam.currentUser.idData.customPermissions isEqualToDictionary:origCustomPermissions], @"Custom permission changes should have been overwritten with whole identity write.");
-    XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomPermissions], @"Permissions dictionaries should not be equal.");
-}
-
 - (void)testUserAccountManagerPersistentProperties {
     NSArray *oldAdditionalOAuthParameterKeys = [SFUserAccountManager sharedInstance].additionalOAuthParameterKeys;
     NSArray *addlKeys = @[@"A", @"__B", @"123", @""];

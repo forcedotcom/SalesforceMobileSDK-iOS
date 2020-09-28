@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 
 @interface SFUserAccountPersisterEphemeral : NSObject<SFUserAccountPersister>
 

@@ -53,9 +53,7 @@
     }];
    
     dispatch_async(dispatch_get_main_queue(), ^{
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         self.alertDisplayBlock(messageObject,[SFSDKWindowManager sharedManager].authWindow);
-        SFSDK_USE_DEPRECATED_BEGIN
         [self stopCurrentAuthentication:nil];
     });
     return YES;
@@ -149,9 +147,7 @@
          }];
         
          dispatch_async(dispatch_get_main_queue(), ^{
-             SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
              self.alertDisplayBlock(messageObject,[SFSDKWindowManager sharedManager].authWindow);
-             SFSDK_USE_DEPRECATED_END
          });
     }
     return YES;
