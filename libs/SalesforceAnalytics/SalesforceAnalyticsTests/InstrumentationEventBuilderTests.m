@@ -98,6 +98,25 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     XCTAssertEqualObjects(event, nil, @"Event should be nil due to missing mandatory field 'page'");
 }
 
+/**
+ * Test for invalid json properties.
+ */
+- (void) testInvalidJsonProperties {
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+        double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+        NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
+        builder.startTime = curTime;
+        builder.name = eventName;
+        builder.sessionId = kTestSessionId;
+        builder.page =  @{[NSNull null]: @""}; // NSNull is invalid as a key
+        builder.senderId = kTestSenderId;
+        builder.schemaType = SchemaTypeError;
+        builder.eventType = EventTypeSystem;
+        builder.errorType = ErrorTypeWarn;
+    } analyticsManager:self.analyticsManager];
+    XCTAssertEqualObjects(event, nil, @"Event should be nil due to invalid json key of NSNull");
+}
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
 

@@ -1,7 +1,7 @@
 $git_pr_api = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
-$schemes = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'SmartSync']
-ENV['DEVICE'] = 'iPhone Xʀ' unless ENV.has_key?('DEVICE')
-ENV['IOS_VERSION'] = '12.4' unless ENV.has_key?('IOS_VERSION')
+$schemes = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'MobileSync']
+ENV['DEVICE'] = 'iPhone 11' unless ENV.has_key?('DEVICE')
+ENV['IOS_VERSION'] = '13.2' unless ENV.has_key?('IOS_VERSION')
 
 lane :PR do |options|
   lib_to_test = options[:lib]
@@ -78,11 +78,17 @@ end
 
 def test_scheme(scheme)
   analyze_scheme(scheme)
+
+  device = ENV['DEVICE'].gsub(' ', '-')
+  ios = ENV['IOS_VERSION'].gsub('.', '-')
+  system('xcrun simctl delete test_device') or true
+  sim_id = `xcrun simctl create test_device com.apple.CoreSimulator.SimDeviceType.#{device} com.apple.CoreSimulator.SimRuntime.iOS-#{ios}`.delete("\n")
+  destination = "test_device (" + `instruments -s devices | grep test_device | awk -F"[()]" '{print $2}'`.delete("\n") + ")"
   begin
     scan(
         workspace: 'SalesforceMobileSDK.xcworkspace',
         scheme: scheme,
-        device: ENV['DEVICE'] + ' (' + ENV['IOS_VERSION'] + ')',
+        device: destination,
         output_directory: 'test_output',
         output_types: 'html,junit',
         code_coverage: true,
@@ -108,6 +114,6 @@ def analyze_scheme(scheme)
       system('mv ../libs/SalesforceAnalytics/clangReport/StaticAnalyzer/SalesforceAnalytics ../clangReport/StaticAnalyzer/')
       system('mv ../libs/SalesforceSDKCore/clangReport/StaticAnalyzer/SalesforceSDKCore ../clangReport/StaticAnalyzer/')
       system('mv ../libs/SmartStore/clangReport/StaticAnalyzer/SmartStore ../clangReport/StaticAnalyzer/')
-      system('mv ../libs/SmartSync/clangReport/StaticAnalyzer/SmartSync ../clangReport/StaticAnalyzer/')
+      system('mv ../libs/MobileSync/clangReport/StaticAnalyzer/MobileSync ../clangReport/StaticAnalyzer/')
     end
 end

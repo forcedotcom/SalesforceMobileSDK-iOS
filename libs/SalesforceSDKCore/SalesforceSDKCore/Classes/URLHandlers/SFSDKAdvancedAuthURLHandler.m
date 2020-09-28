@@ -28,12 +28,9 @@
  */
 #import "SFSDKURLHandler.h"
 #import "SFSDKAdvancedAuthURLHandler.h"
-#import "SFSDKOAuthClient.h"
 #import "SFSDKAuthPreferences.h"
 #import "SFUserAccountManager+URLHandlers.h"
 #import "NSURL+SFAdditions.h"
-#import "SFSDKOAuthClientConfig.h"
-
 @implementation SFSDKAdvancedAuthURLHandler
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
@@ -48,7 +45,7 @@
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-    return [[SFUserAccountManager sharedInstance] handleNativeAuthResponse:url options:options];
+    return [[SFUserAccountManager sharedInstance] handleAdvancedAuthURL:url];
 }
 
 

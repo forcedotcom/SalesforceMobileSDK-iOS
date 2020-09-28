@@ -1,0 +1,19 @@
+//
+//  MobileSync-Common.xcconfig
+//  MobileSync
+//
+//  Created by Bharath Hariharan on 4/7/15.
+//  Copyright (c) 2015-present, Salesforce Inc. All rights reserved.
+//
+
+#include "../../../configuration/Version.xcconfig"
+
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
+
+PRODUCT_NAME = MobileSync
+
+LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher $(inherited)
+
+// Make sure to use only API that are safe for application extensions
+APPLICATION_EXTENSION_API_ONLY = YES

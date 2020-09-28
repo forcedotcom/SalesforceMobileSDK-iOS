@@ -25,6 +25,7 @@
 #import "SFDefaultUserManagementDetailViewController.h"
 #import "SFDefaultUserManagementViewController+Internal.h"
 #import "SFUserAccountManager.h"
+#import "UIColor+SFColors.h"
 #import "SFUserAccount.h"
 #import "SFIdentityData.h"
 static CGFloat const kButtonWidth = 150.0f;
@@ -64,7 +65,7 @@ static CGFloat const kControlVerticalPadding = 5.0f;
     [super viewDidLoad];
 	
     self.navigationItem.title = @"User Detail";
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor salesforceSystemBackgroundColor];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)])
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     

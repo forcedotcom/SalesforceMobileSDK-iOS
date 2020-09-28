@@ -55,18 +55,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Read a configuration resource file and parse its contents. The file must be in JSON format.
  * @param configFilePath Path to the configuration resource file.
- * @return `NSDictionary` object built from the file's contents.
- */
-+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath SFSDK_DEPRECATED(7.1, 8.0, "Use loadConfigFromFile:configFilePath:error instead");
-
-
-/**
- * Read a configuration resource file and parse its contents. The file must be in JSON format.
- * @param configFilePath Path to the configuration resource file.
  * @param error Input-output parameter that sets or returns any error that occurs during file reading.
  * @return `NSDictionary` object built from the file's contents.
  */
-+ (NSDictionary *)loadConfigFromFile:(NSString *)configFilePath error:(NSError**)error;
++ (nullable NSDictionary *)loadConfigFromFile:(NSString *)configFilePath error:(NSError**)error;
 
 @end
 

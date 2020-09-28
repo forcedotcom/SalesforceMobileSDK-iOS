@@ -643,7 +643,7 @@
     if ([[SFApplicationHelper sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
         // Confirm it can make a phone call right now
         CTTelephonyNetworkInfo *netInfo = [[CTTelephonyNetworkInfo alloc] init];
-        CTCarrier *carrier = [netInfo subscriberCellularProvider];
+        CTCarrier *carrier = netInfo.serviceSubscriberCellularProviders.allValues.firstObject;
         NSString *mnc = [carrier mobileNetworkCode];
         canPlaceCall = [mnc length] != 0;
     }

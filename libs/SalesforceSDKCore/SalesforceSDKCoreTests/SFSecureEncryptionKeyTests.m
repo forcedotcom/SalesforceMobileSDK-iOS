@@ -173,10 +173,10 @@
     NSDictionary *dictionary = @{@"one":@"", @"two":@""};
 
     // Serialize dictionary into data
-    NSMutableData *dictionaryData = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:dictionaryData];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
     [archiver encodeObject:dictionary forKey:archiveKey];
     [archiver finishEncoding];
+    NSData* dictionaryData = archiver.encodedData;
     
     // Encrypt data
     NSData* encryptedData = [key encryptData:dictionaryData];
@@ -185,7 +185,8 @@
     NSData* decryptedData = [key decryptData:encryptedData];
     
     // Deserialize decrypted data
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:decryptedData];
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:decryptedData error:nil];
+    unarchiver.requiresSecureCoding = NO;
     NSDictionary* decryptedDictionary = [unarchiver decodeObjectForKey:archiveKey];
     [unarchiver finishDecoding];
     

@@ -57,7 +57,6 @@
     [super viewDidLoad];
 
     self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.title = @"User List";
     

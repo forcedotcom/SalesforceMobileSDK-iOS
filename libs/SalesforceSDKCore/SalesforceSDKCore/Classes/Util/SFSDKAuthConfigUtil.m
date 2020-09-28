@@ -34,10 +34,6 @@ static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-
 
 @implementation SFSDKAuthConfigUtil
 
-+ (void)getMyDomainAuthConfig:(MyDomainAuthConfigBlock)authConfigBlock oauthCredentials:(SFOAuthCredentials *)oauthCredentials {
-    [SFSDKAuthConfigUtil getMyDomainAuthConfig:authConfigBlock loginDomain:oauthCredentials.domain];
-}
-
 + (void)getMyDomainAuthConfig:(MyDomainAuthConfigBlock)authConfigBlock loginDomain:(NSString *)loginDomain {
     NSString *orgConfigUrl = [NSString stringWithFormat:@"https://%@%@", loginDomain, kSFOAuthEndPointAuthConfiguration];
     [SFSDKCoreLogger i:[self class] format:@"%@ Advanced authentication configured. Retrieving auth configuration from %@", NSStringFromSelector(_cmd), orgConfigUrl];

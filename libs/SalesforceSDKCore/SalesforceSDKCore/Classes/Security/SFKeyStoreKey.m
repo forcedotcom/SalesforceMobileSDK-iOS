@@ -75,9 +75,15 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
     if (keyStoreKeyData == nil) {
         return nil;
     } else {
-        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:keyStoreKeyData];
-        keyStoreKey = [unarchiver decodeObjectForKey:archiverKey];
-        [unarchiver finishDecoding];
+        NSError* error = nil;
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:keyStoreKeyData error:&error];
+        unarchiver.requiresSecureCoding = NO;
+        if (error) {
+            [SFSDKCoreLogger e:[self class] format:@"Failed to init unarchiver for key store key data: %@.", error];
+        } else {
+            keyStoreKey = [unarchiver decodeObjectForKey:archiverKey];
+            [unarchiver finishDecoding];
+        }
         
         return keyStoreKey;
     }
@@ -86,11 +92,10 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
 - (OSStatus) toKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
 {
     SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
-    NSMutableData *keyStoreKeyData = [NSMutableData data];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:keyStoreKeyData];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
     [archiver encodeObject:self forKey:archiverKey];
     [archiver finishEncoding];
-    return [keychainItem setValueData:keyStoreKeyData];
+    return [keychainItem setValueData:archiver.encodedData];
 }
 
 - (NSData*)encryptData:(NSData *)dataToEncrypt

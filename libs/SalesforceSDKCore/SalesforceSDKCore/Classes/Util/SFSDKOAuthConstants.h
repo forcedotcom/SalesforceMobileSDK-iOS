@@ -33,6 +33,8 @@
 static NSString * const kSFOAuthEndPointAuthorize               = @"/services/oauth2/authorize";    // user agent flow
 static NSString * const kSFOAuthEndPointToken                   = @"/services/oauth2/token";        // token refresh flow
 
+static NSString * const kSFRevokePath = @"/services/oauth2/revoke";
+
 // Advanced auth constants
 static NSUInteger const kSFOAuthCodeVerifierByteLength          = 128;
 static NSString * const kSFOAuthCodeVerifierParamName           = @"code_verifier";

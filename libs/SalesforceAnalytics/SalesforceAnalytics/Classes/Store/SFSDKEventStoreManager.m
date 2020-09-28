@@ -75,7 +75,7 @@
 
     // Copies event, to isolate data for I/O.
     SFSDKInstrumentationEvent *eventCopy = [event copy];
-    if (!eventCopy || ![eventCopy jsonRepresentation]) {
+    if (!eventCopy) {
         return;
     }
     if (![self shouldStoreEvent]) {
@@ -174,6 +174,14 @@
         fileCount = files.count;
     }
     return (self.isLoggingEnabled && (fileCount < self.maxEvents));
+}
+
+- (BOOL)isLoggingEnabled {
+    BOOL globalAnalyticsDisabled = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCAnalyticsDisabled"] boolValue];
+    if (globalAnalyticsDisabled) {
+        return NO;
+    }
+    return _loggingEnabled;
 }
 
 - (SFSDKInstrumentationEvent *) fetchEventFromFile:(NSString *) file {

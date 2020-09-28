@@ -44,8 +44,8 @@ int class_uid = 0;
         self.request = request;
         self.request.delegate = self;
         self->uid = class_uid++;
+        [SFLogger log:[self class] level:SFLogLevelDebug format:@"## created listener %d", self->uid];
     }
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"## created listener %d", self->uid];
     return self;
 }
 
@@ -75,6 +75,7 @@ int class_uid = 0;
     [SFLogger log:[self class] level:SFLogLevelDebug  format:@"## error for request %d", self->uid];
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
+    self.rawResponse = rawResponse;
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {

@@ -30,7 +30,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SFCommunityData;
 @class SFUserAccountIdentity;
 @class SFOAuthCredentials;
 
@@ -75,47 +74,16 @@ NS_SWIFT_NAME(UserAccount)
 
 /** The identity data associated with this user
  */
-@property (nonatomic, strong, nullable) SFIdentityData *idData;
-
-/** The URL that can be used to invoke any API
- on the server-side. This URL takes into account the
- current community if available (see `communityId`).
- */
-@property (nonatomic, copy, readonly, nullable) NSURL *apiUrl;
-
-/** The user's email
- */
-@property (nonatomic, copy, nullable) NSString *email SFSDK_DEPRECATED(7.1, 8.0, "Use SFUserAccount.idData properties instead");
-
-/** The user's organization name
- */
-@property (nonatomic, copy) NSString *organizationName SFSDK_DEPRECATED(7.1, 8.0, "Will be removed");
-
-/** The user's full name
- */
-@property (nonatomic, copy) NSString *fullName SFSDK_DEPRECATED(7.1, 8.0, "Use SFUserAccount.idData properties instead");
-
-/** The user's name
- */
-@property (nonatomic, copy) NSString *userName SFSDK_DEPRECATED(7.1, 8.0, "Use SFUserAccount.idData properties instead");
+@property (nonatomic, strong) SFIdentityData *idData;
 
 /** The user's photo. Usually store a thumbnail of the user.
- Note: setting the photo is asynchronous. Use the method
- below to get a callback when the photo is set.
+To set this property use `setPhoto:completion:`
  */
-@property (nonatomic, strong, nullable) UIImage *photo;
+@property (nonatomic, strong, nullable, readonly) UIImage *photo;
 
 /** The access restriction associated with this user
  */
 @property (nonatomic) SFUserAccountAccessRestriction accessRestrictions;
-
-/** The current community id the user is logged in
- */
-@property (nonatomic, copy, nullable) NSString *communityId SFSDK_DEPRECATED(7.3, 8.0, "Use communityId on SFOAuthCredentials instead.");
-
-/** The list of communities (as SFCommunityData item)
- */
-@property (nonatomic, copy, nullable) NSArray<SFCommunityData *> *communities SFSDK_DEPRECATED(7.1, 8.0, "Save these types of properties in your app.");
 
 /** Returns YES if the user has an access token and, presumably,
  a valid session.
@@ -136,20 +104,6 @@ NS_SWIFT_NAME(UserAccount)
  @return the account instance
  */
 - (instancetype)initWithCredentials:(SFOAuthCredentials *) credentials NS_DESIGNATED_INITIALIZER;
-
-/** Returns the community API url for a particular
- community ID if it exists in the communities array
- 
- @param communityId The ID of the community
- @return The URL of the API endpoint for that community
- */
-- (nullable NSURL*)communityUrlWithId:(NSString *)communityId;
-
-/** Returns the community dictionary for the specified ID
- @param communityId The ID of the community
- @return The dictionary for the given community
- */
-- (nullable SFCommunityData*)communityWithId:(NSString*)communityId SFSDK_DEPRECATED(7.1, 8.0, "Store SFCommunityData in your app.");
 
 /** Set object in customData dictionary
  

@@ -28,7 +28,7 @@
  */
 #import <Foundation/Foundation.h>
 @class WKWebView;
-@class SFAuthenticationSession;
+@class ASWebAuthenticationSession;
 @class SFSDKAuthViewHolder;
 @class SFLoginViewController;
 NS_ASSUME_NONNULL_BEGIN
@@ -49,7 +49,7 @@ NS_SWIFT_NAME(AuthViewHolder)
 
 @property (nonatomic,weak) SFLoginViewController *loginController;
 
-@property (nonatomic,weak,nullable) SFAuthenticationSession *session;
+@property (nonatomic,weak,nullable) ASWebAuthenticationSession *session;
 
 @property (nonatomic,assign) BOOL isAdvancedAuthFlow;
 

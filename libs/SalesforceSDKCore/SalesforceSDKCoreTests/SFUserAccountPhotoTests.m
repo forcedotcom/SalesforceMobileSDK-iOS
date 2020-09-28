@@ -26,6 +26,13 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFOAuthCredentials+Internal.h"
 
+@interface SFUserAccount (Testing)
+
+- (NSString *)photoPathInternal:(NSError**)error;
+- (UIImage *)decryptPhoto:(NSString *)photoPath;
+
+@end
+
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
@@ -34,6 +41,37 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @end
 
 @implementation SFUserAccountPhotoTests
+
+- (void)testPhotoEncryption {
+    SFUserAccount *user = [self createNewUserWithIndex:0];
+    NSError *error = nil;
+    NSString *userPhotoPath = [user photoPathInternal:&error];
+    
+    // Write unencrypted file to disk for upgrade scenario
+    // Recreating UIImage from named resource because otherwise resource includes additional metadata that breaks comparison of
+    // images as NSData
+    UIImage *originalPhoto = [[UIImage alloc] initWithCGImage:[SFSDKResourceUtils imageNamed:@"salesforce-logo"].CGImage];
+    NSData *originalPhotoData = UIImagePNGRepresentation(originalPhoto);
+    [originalPhotoData writeToFile:userPhotoPath options:NSDataWritingAtomic error:&error];
+    XCTAssertNil(error);
+    
+    // Access photo which should pick up from disk and encrypt it
+    UIImage *userPhoto = user.photo;
+    XCTAssertNotNil(userPhoto);
+    NSData *userPhotoData = UIImagePNGRepresentation(userPhoto);
+    XCTAssertNotNil(userPhotoData);
+    XCTAssertTrue([userPhotoData isEqualToData:originalPhotoData]);
+    
+    // Check that data on disk is different since it should be encrypted now
+    NSData *encryptedPhotoData = [[NSData alloc] initWithContentsOfFile:userPhotoPath];
+    XCTAssertNotNil(encryptedPhotoData);
+    XCTAssertFalse([encryptedPhotoData isEqualToData:originalPhotoData]);
+    
+    // Check decrypted disk data
+    UIImage *decryptedPhoto = [user decryptPhoto:userPhotoPath];
+    NSData *decryptedPhotoData = UIImagePNGRepresentation(decryptedPhoto);
+    XCTAssertTrue([decryptedPhotoData isEqualToData:originalPhotoData]);
+}
 
 - (void)testPhotoWithCompletionBlock {
     SFUserAccount *user = [self createNewUserWithIndex:0];

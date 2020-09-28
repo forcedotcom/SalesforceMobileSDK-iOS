@@ -28,11 +28,12 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFSDKViewControllerConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(AppLockViewControllerConfig)
-@interface SFSDKAppLockViewConfig : NSObject
+@interface SFSDKAppLockViewConfig : SFSDKViewControllerConfig
 
 /**
  * factory method to create a default config instance
@@ -68,6 +69,11 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
 @property (nonatomic, strong, nullable) UIColor * backgroundColor;
 
 /**
+ * The background color of layered content.
+ */
+@property (nonatomic, strong, nullable) UIColor *secondaryBackgroundColor;
+
+/**
  * Border color for the passcode and biometric enable fields.
  */
 @property (nonatomic, strong, nullable) UIColor * borderColor;
@@ -83,14 +89,9 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
 @property (nonatomic, strong, nullable) UIColor * titleTextColor;
 
 /**
- * Color of the navigation bar.
+ * Color of the logout button on passcode verify screen.
  */
-@property (nonatomic, strong, nullable) UIColor * navBarColor;
-
-/**
- * Color of the text displayed in the navigation bar.
- */
-@property (nonatomic, strong, nullable) UIColor * navBarTextColor;
+@property (nonatomic, strong, nonnull) UIColor * logoutButtonColor;
 
 /**
  * Font used for displaying instructions.
@@ -101,11 +102,6 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
  * Font used for displaying titles.
  */
 @property (nonatomic, strong, nullable) UIFont * titleFont;
-
-/**
- * Font used for displaying nav bar titles.
- */
-@property (nonatomic, strong, nullable) UIFont * navBarFont;
 
 /**
  * Font used for displaying buttons.
