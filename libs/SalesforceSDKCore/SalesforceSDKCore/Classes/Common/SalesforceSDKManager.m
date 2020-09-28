@@ -243,8 +243,14 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 - (SFSDKAppConfig *)appConfig {
     if (_appConfig == nil) {
-        SFSDKAppConfig *config = [SFSDKAppConfig fromDefaultConfigFile];
-        _appConfig = config?:[[SFSDKAppConfig alloc] init];
+        SFSDKAppConfig *config;
+        if (![self.configCustomFilePath isEmptyString]) {
+            config = [SFSDKAppConfig fromCustomConfigFile: self.configCustomFilePath];
+            _appConfig = config?:[[SFSDKAppConfig alloc] init];
+        } else {
+            config = [SFSDKAppConfig fromDefaultConfigFile];
+            _appConfig = config?:[[SFSDKAppConfig alloc] init];
+        }
     }
     return _appConfig;
 }

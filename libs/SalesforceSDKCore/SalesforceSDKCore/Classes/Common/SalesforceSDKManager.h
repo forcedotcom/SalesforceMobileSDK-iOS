@@ -90,6 +90,12 @@ NS_SWIFT_NAME(DevAction)
 
 /**
  * Gets the  name being used by the action. Is used to display the option
+ * @return configCustomFilePath.
+ */
+@property(nonatomic) NSString *configCustomFilePath;
+
+/**
+ * Gets the  name being used by the action. Is used to display the option
  * @return name.
  */
 @property(nonatomic, readonly) NSString *name;
