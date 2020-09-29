@@ -99,12 +99,6 @@ NS_SWIFT_NAME(DevAction)
 
 /**
  * Gets the  name being used by the action. Is used to display the option
- * @return configCustomFilePath.
- */
-@property(nonatomic) NSString *configCustomFilePath;
-
-/**
- * Gets the  name being used by the action. Is used to display the option
  * @return name.
  */
 @property(nonatomic, readonly) NSString *name;
@@ -161,6 +155,10 @@ NS_SWIFT_NAME(SalesforceManager)
 /** The OAuth configuration parameters defined in the developer's Salesforce connected app.
  */
 @property (nonatomic, strong, nullable) SFSDKAppConfig *appConfig NS_SWIFT_NAME(bootConfig);
+
+/** The custom config file path points to the developer's Salesforce connected app.
+ */
+@property (nonatomic, strong, nullable) NSString *customConfigFilePath;
 
 /**
  Whether or not the SDK is currently in the middle of a launch process.
@@ -297,6 +295,11 @@ NS_SWIFT_NAME(SalesforceManager)
  Initializes the SDK.
  */
 + (void)initializeSDK;
+
+/**
+ Initializes the SDK with custom config file path
+ */
++ (void)initializeSDKWithConfigFileName:(NSString *)configFileName;
 
 /**
  Initializes the SDK.  Class instance to be used to instantiate the sdkManager.

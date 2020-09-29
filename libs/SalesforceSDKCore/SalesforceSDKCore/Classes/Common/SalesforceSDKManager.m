@@ -162,6 +162,18 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     [SalesforceSDKManager sharedManager];
 }
 
++ (void)initializeSDKWithConfigFileName:(NSString *)configFileName {
+    [self initializeSDKWithClass:InstanceClass andConfigFileName:configFileName];
+}
+
++ (void)initializeSDKWithClass:(Class)className andConfigFileName:(NSString *)fileName {
+    [self setInstanceClass:className];
+    [SalesforceSDKManager sharedManager];
+    [SalesforceSDKManager sharedManager].customConfigFilePath = fileName;
+    [[SalesforceSDKManager sharedManager] setupServiceConfiguration];
+
+}
+
 + (instancetype)sharedManager {
     static dispatch_once_t pred;
     static SalesforceSDKManager *sdkManager = nil;
@@ -266,13 +278,9 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 - (SFSDKAppConfig *)appConfig {
     if (_appConfig == nil) {
         SFSDKAppConfig *config;
-        if (![self.configCustomFilePath isEmptyString]) {
-            config = [SFSDKAppConfig fromCustomConfigFile: self.configCustomFilePath];
-            _appConfig = config?:[[SFSDKAppConfig alloc] init];
-        } else {
-            config = [SFSDKAppConfig fromDefaultConfigFile];
-            _appConfig = config?:[[SFSDKAppConfig alloc] init];
-        }
+        
+        config = [SFSDKAppConfig fromConfigFile:self.customConfigFilePath];
+        _appConfig = config?:[[SFSDKAppConfig alloc] init];
     }
     return _appConfig;
 }
