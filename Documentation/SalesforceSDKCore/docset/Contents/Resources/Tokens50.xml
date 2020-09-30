@@ -510,45 +510,6 @@ the request headers before sending the request.  If NO, they will not.</Abstract
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setShouldRefreshOn403:</TokenIdentifier>
-			<Abstract type="html">Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
-attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL shouldRefreshOn403</Declaration>
-			
-			
-			<Anchor>//api/name/shouldRefreshOn403</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/shouldRefreshOn403</TokenIdentifier>
-			<Abstract type="html">Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
-attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL shouldRefreshOn403</Declaration>
-			
-			
-			<Anchor>//api/name/shouldRefreshOn403</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/shouldRefreshOn403</TokenIdentifier>
-			<Abstract type="html">Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
-attempt to refresh on HTTP 403. If NO, refresh will not be attempted.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL shouldRefreshOn403</Declaration>
-			
-			
-			<Anchor>//api/name/shouldRefreshOn403</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/prepareRequestForSend:</TokenIdentifier>
 			<Abstract type="html">Prepares the request before sending it out.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>

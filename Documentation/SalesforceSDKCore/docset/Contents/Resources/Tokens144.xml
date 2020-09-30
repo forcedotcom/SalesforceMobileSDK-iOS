@@ -352,6 +352,42 @@ be subject to that policy.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/isPasscodeSet</TokenIdentifier>
+			<Abstract type="html">Whether or not a passcode has been set.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isPasscodeSet</Declaration>
+			
+			
+			<Anchor>//api/name/isPasscodeSet</Anchor>
+            <NodeRef refid="144"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/shouldLock</TokenIdentifier>
+			<Abstract type="html">Whether screen should be locked or not.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)shouldLock</Declaration>
+			
+			
+			<Anchor>//api/name/shouldLock</Anchor>
+            <NodeRef refid="144"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/deviceHasBiometric</TokenIdentifier>
+			<Abstract type="html">Whether the device has the capability to use biometric unlock.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)deviceHasBiometric</Declaration>
+			
+			
+			<Anchor>//api/name/deviceHasBiometric</Anchor>
+            <NodeRef refid="144"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSecurityLockout/setCanShowPasscode:</TokenIdentifier>
 			<Abstract type="html">Show the passcode view. Used by unit tests.</Abstract>
 			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
@@ -603,7 +639,7 @@ to its default value of NO.</Abstract>
 			<Parameters>
 				<Parameter>
 					<Name>userAllowedBiometric</Name>
-					<Abstract type="html">YES if the user accpeted, NO otherwise.</Abstract>
+					<Abstract type="html">YES if the user accepted, NO otherwise.</Abstract>
 				</Parameter>
 			</Parameters>
 			

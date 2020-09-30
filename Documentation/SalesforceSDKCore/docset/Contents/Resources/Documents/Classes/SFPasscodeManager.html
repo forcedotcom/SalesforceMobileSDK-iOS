@@ -56,15 +56,9 @@
 	
 	<optgroup label="Properties">
 		
+		<option value="//api/name/)">)</option>
+		
 		<option value="//api/name/delegates">delegates</option>
-		
-		<option value="//api/name/deviceHasBiometric">deviceHasBiometric</option>
-		
-		<option value="//api/name/encryptionKey">encryptionKey</option>
-		
-		<option value="//api/name/passcodeLength">passcodeLength</option>
-		
-		<option value="//api/name/preferredPasscodeProvider">preferredPasscodeProvider</option>
 		
 	</optgroup>
 	
@@ -196,8 +190,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/encryptionKey" title="encryptionKey"></a>
-	<h3 class="method-title"><code><a href="#//api/name/encryptionKey">&nbsp;&nbsp;encryptionKey</a></code>
+	<a name="//api/name/)" title=")"></a>
+	<h3 class="method-title"><code><a href="#//api/name/)">&nbsp;&nbsp;)</a></code>
 </h3>
 
 	<div class="method-info">
@@ -212,132 +206,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) NSString *encryptionKey</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFPasscodeManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/preferredPasscodeProvider" title="preferredPasscodeProvider"></a>
-	<h3 class="method-title"><code><a href="#//api/name/preferredPasscodeProvider">&nbsp;&nbsp;preferredPasscodeProvider</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *preferredPasscodeProvider</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFPasscodeManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/passcodeLength" title="passcodeLength"></a>
-	<h3 class="method-title"><code><a href="#//api/name/passcodeLength">&nbsp;&nbsp;passcodeLength</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The lenght of the user&rsquo;s passcode.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic) NSUInteger passcodeLength</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFPasscodeManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/deviceHasBiometric" title="deviceHasBiometric"></a>
-	<h3 class="method-title"><code><a href="#//api/name/deviceHasBiometric">&nbsp;&nbsp;deviceHasBiometric</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Whether the device has the capability to use biometric unlock.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic) BOOL deviceHasBiometric</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) NSString *SFSDK_DEPRECATED ( 8.3 , 9.0 , &quot;Will be removed.&quot; )</code></div>
 
 		    
 			
@@ -811,7 +680,7 @@ existing passcode.</p></td>
 			
 			<div class="method-subsection brief-description">
 				<p>Set a value for the encryption key.  Note: this is just the internal setter for
-the <a href="#//api/name/encryptionKey">encryptionKey</a> property.  I.e. the value you set should be the end-result
+the encryptionKey property.  I.e. the value you set should be the end-result
 encryption key value.  Call setEncryptionKeyForPasscode if you want validation
 and encryption based on a plain-text passcode value.</p>
 			</div>
@@ -924,7 +793,7 @@ the interests of maintaining a consistent passcode state.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 Salesforce.com. All rights reserved. Updated: 2020-07-20</p>
+						<p class="copyright">Copyright &copy; 2020 Salesforce.com. All rights reserved. Updated: 2020-09-30</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

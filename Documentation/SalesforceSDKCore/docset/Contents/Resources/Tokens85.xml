@@ -50,6 +50,25 @@ derived key length.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/pbkdf2DerivedKey:</TokenIdentifier>
+			<Abstract type="html">Creates a PBKDF2 derived key from an input key string. Uses default values for the
+random-generated salt data and its length, the number of derivation rounds, and the
+derived key length.</Abstract>
+			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSData *)pbkdf2DerivedKey:(NSString *)stringToHash</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>stringToHash</Name>
+					<Abstract type="html">Plain-text string used to generate the key.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The derived key.</Abstract></ReturnValue>
+			<Anchor>//api/name/pbkdf2DerivedKey:</Anchor>
+            <NodeRef refid="85"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/createPBKDF2DerivedKey:salt:derivationRounds:keyLength:</TokenIdentifier>
 			<Abstract type="html">Creates a PBKDF2-derived key from an input key string, a salt, number of derivation
 rounds, and the given derived key length.</Abstract>
@@ -73,6 +92,33 @@ rounds, and the given derived key length.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">SFPBKDFData object representing the derived key.</Abstract></ReturnValue>
 			<Anchor>//api/name/createPBKDF2DerivedKey:salt:derivationRounds:keyLength:</Anchor>
+            <NodeRef refid="85"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKCryptoUtils/pbkdf2DerivedKey:salt:derivationRounds:keyLength:</TokenIdentifier>
+			<Abstract type="html">Creates a PBKDF2-derived key from an input key string, a salt, number of derivation
+rounds, and the given derived key length.</Abstract>
+			<DeclaredIn>SFSDKCryptoUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSData *)pbkdf2DerivedKey:(NSString *)stringToHash salt:(NSData *)salt derivationRounds:(NSUInteger)numDerivationRounds keyLength:(NSUInteger)derivedKeyLength</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>stringToHash</Name>
+					<Abstract type="html">Base string to use for the derived key.</Abstract>
+				</Parameter><Parameter>
+					<Name>salt</Name>
+					<Abstract type="html">Salt to append to the string.</Abstract>
+				</Parameter><Parameter>
+					<Name>numDerivationRounds</Name>
+					<Abstract type="html">Number of derivation rounds used to generate the key.</Abstract>
+				</Parameter><Parameter>
+					<Name>derivedKeyLength</Name>
+					<Abstract type="html">Requested derived key length.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The derived key.</Abstract></ReturnValue>
+			<Anchor>//api/name/pbkdf2DerivedKey:salt:derivationRounds:keyLength:</Anchor>
             <NodeRef refid="85"/>
 		</Token>
 		

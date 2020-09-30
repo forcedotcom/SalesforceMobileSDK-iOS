@@ -157,6 +157,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/set:</TokenIdentifier>
+			<Abstract type="html">Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE ( ios ( 13 )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="140"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/)</TokenIdentifier>
+			<Abstract type="html">Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE ( ios ( 13 )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="140"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowManager/)</TokenIdentifier>
+			<Abstract type="html">Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE ( ios ( 13 )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="140"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/activeWindow</TokenIdentifier>
 			<Abstract type="html">Returns the SFSDKWindowContainer window representing the active presented Window that has been set</Abstract>
 			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>

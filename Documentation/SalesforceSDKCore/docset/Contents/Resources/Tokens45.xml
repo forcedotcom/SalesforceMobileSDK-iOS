@@ -25,152 +25,38 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/set:</TokenIdentifier>
 			<Abstract type="html">The encryption key associated with the app.</Abstract>
 			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *SFSDK_DEPRECATED ( 8.3 , 9.0 , &quot;Will be removed.&quot; )</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/encryptionKey</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/)</TokenIdentifier>
 			<Abstract type="html">The encryption key associated with the app.</Abstract>
 			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *SFSDK_DEPRECATED ( 8.3 , 9.0 , &quot;Will be removed.&quot; )</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/encryptionKey</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/)</TokenIdentifier>
 			<Abstract type="html">The encryption key associated with the app.</Abstract>
 			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *SFSDK_DEPRECATED ( 8.3 , 9.0 , &quot;Will be removed.&quot; )</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPreferredPasscodeProvider:</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
-			
-			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
-			
-			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
-			
-			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPasscodeLength:</TokenIdentifier>
-			<Abstract type="html">The lenght of the user&apos;s passcode.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLength</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/passcodeLength</TokenIdentifier>
-			<Abstract type="html">The lenght of the user&apos;s passcode.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLength</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/passcodeLength</TokenIdentifier>
-			<Abstract type="html">The lenght of the user&apos;s passcode.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLength</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setDeviceHasBiometric:</TokenIdentifier>
-			<Abstract type="html">Whether the device has the capability to use biometric unlock.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL deviceHasBiometric</Declaration>
-			
-			
-			<Anchor>//api/name/deviceHasBiometric</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/deviceHasBiometric</TokenIdentifier>
-			<Abstract type="html">Whether the device has the capability to use biometric unlock.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL deviceHasBiometric</Declaration>
-			
-			
-			<Anchor>//api/name/deviceHasBiometric</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/deviceHasBiometric</TokenIdentifier>
-			<Abstract type="html">Whether the device has the capability to use biometric unlock.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL deviceHasBiometric</Declaration>
-			
-			
-			<Anchor>//api/name/deviceHasBiometric</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		

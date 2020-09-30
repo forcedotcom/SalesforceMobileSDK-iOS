@@ -405,7 +405,7 @@ for the given user.</Abstract>
 			<Abstract type="html">Name of the soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
-			<Declaration>- (SFSoupSpec *)attributesForSoup:(NSString *)soupName</Declaration>
+			<Declaration>- (nullable SFSoupSpec *)attributesForSoup:(NSString *)soupName</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>

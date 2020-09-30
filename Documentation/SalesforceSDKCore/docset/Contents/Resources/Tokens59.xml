@@ -25,47 +25,47 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setForcePasscodeLength:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/set:</TokenIdentifier>
 			<Abstract type="html">Warning - only set to YES/true if the app has always enforced a passcode of the exact length of
 the connected app setting (not longer).  This setting is used to force a cleaner UI,
 but users will be unable to unlock the app if their pin is longer than the specified
 length.</Abstract>
 			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL forcePasscodeLength</Declaration>
+			<Declaration>@property (nonatomic) BOOL forcePasscodeLength SFSDK_DEPRECATED ( 8.3 , 9.0 , &quot;Will be removed.&quot; )</Declaration>
 			
 			
-			<Anchor>//api/name/forcePasscodeLength</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="59"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/forcePasscodeLength</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/)</TokenIdentifier>
 			<Abstract type="html">Warning - only set to YES/true if the app has always enforced a passcode of the exact length of
 the connected app setting (not longer).  This setting is used to force a cleaner UI,
 but users will be unable to unlock the app if their pin is longer than the specified
 length.</Abstract>
 			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL forcePasscodeLength</Declaration>
+			<Declaration>@property (nonatomic) BOOL forcePasscodeLength SFSDK_DEPRECATED ( 8.3 , 9.0 , &quot;Will be removed.&quot; )</Declaration>
 			
 			
-			<Anchor>//api/name/forcePasscodeLength</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="59"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/forcePasscodeLength</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/)</TokenIdentifier>
 			<Abstract type="html">Warning - only set to YES/true if the app has always enforced a passcode of the exact length of
 the connected app setting (not longer).  This setting is used to force a cleaner UI,
 but users will be unable to unlock the app if their pin is longer than the specified
 length.</Abstract>
 			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL forcePasscodeLength</Declaration>
+			<Declaration>@property (nonatomic) BOOL forcePasscodeLength SFSDK_DEPRECATED ( 8.3 , 9.0 , &quot;Will be removed.&quot; )</Declaration>
 			
 			
-			<Anchor>//api/name/forcePasscodeLength</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="59"/>
 		</Token>
 		
@@ -570,42 +570,6 @@ length.</Abstract>
 			
 			
 			<Anchor>//api/name/faceIdImage</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setPasscodeLength:</TokenIdentifier>
-			<Abstract type="html">Length of the user&apos;s passcode.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLength</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/passcodeLength</TokenIdentifier>
-			<Abstract type="html">Length of the user&apos;s passcode.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLength</Anchor>
-            <NodeRef refid="59"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/passcodeLength</TokenIdentifier>
-			<Abstract type="html">Length of the user&apos;s passcode.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) NSUInteger passcodeLength</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLength</Anchor>
             <NodeRef refid="59"/>
 		</Token>
 		

@@ -32,6 +32,29 @@
             <NodeRef refid="186"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAnalyticsPublisher/publish:user:publishCompleteBlock:</TokenIdentifier>
+			<Abstract type="html">Publishes events to a network endpoint.</Abstract>
+			<DeclaredIn>SFSDKAnalyticsPublisher.h</DeclaredIn>
+			
+			<Declaration>- (void)publish:(nonnull NSArray *)events user:(nonnull SFUserAccount *)user publishCompleteBlock:(nonnull PublishCompleteBlock)publishCompleteBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>events</Name>
+					<Abstract type="html">Events to be published.</Abstract>
+				</Parameter><Parameter>
+					<Name>user</Name>
+					<Abstract type="html">SFUserAccount to use to determine where events are to be published.</Abstract>
+				</Parameter><Parameter>
+					<Name>publishCompleteBlock</Name>
+					<Abstract type="html">Completion block invoked once network publish is complete.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/publish:user:publishCompleteBlock:</Anchor>
+            <NodeRef refid="186"/>
+		</Token>
+		
         
         
 	</File>
