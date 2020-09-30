@@ -211,7 +211,7 @@ static NSException *authException = nil;
 
 - (NSDictionary*)sendSyncRequest:(SFRestRequest*)request ignoreNotFound:(BOOL)ignoreNotFound {
     SFSDKTestRequestListener *listener = [[SFSDKTestRequestListener alloc] init];
-    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
+    SFRestRequestFailBlock failBlock = ^(id response, NSError *error, NSURLResponse *rawResponse) {
         listener.lastError = error;
         listener.returnStatus = kTestRequestStatusDidFail;
 
@@ -220,9 +220,9 @@ static NSException *authException = nil;
         listener.dataResponse = data;
         listener.returnStatus = kTestRequestStatusDidLoad;
     };
-    [[SFRestAPI sharedInstance] sendRESTRequest:request
-                                      failBlock:failBlock
-                                  completeBlock:completeBlock];
+    [[SFRestAPI sharedInstance] sendRequest:request
+                               failureBlock:failBlock
+                               successBlock:completeBlock];
     [listener waitForCompletion];
     if (listener.lastError && (listener.lastError.code != 404 || !ignoreNotFound)) {
         XCTFail(@"Rest call %@ failed with error %@", request, listener.lastError);
