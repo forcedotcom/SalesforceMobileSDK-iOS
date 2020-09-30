@@ -156,6 +156,10 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, strong, nullable) SFSDKAppConfig *appConfig NS_SWIFT_NAME(bootConfig);
 
+/** The custom config file path points to the developer's Salesforce connected app.
+ */
+@property (nonatomic, strong, nullable) NSString *customConfigFilePath;
+
 /**
  Whether or not the SDK is currently in the middle of a launch process.
  */
@@ -291,6 +295,11 @@ NS_SWIFT_NAME(SalesforceManager)
  Initializes the SDK.
  */
 + (void)initializeSDK;
+
+/**
+ Initializes the SDK with custom config file path
+ */
++ (void)initializeSDKWithConfigFileName:(NSString *)configFileName;
 
 /**
  Initializes the SDK.  Class instance to be used to instantiate the sdkManager.

@@ -162,6 +162,18 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     [SalesforceSDKManager sharedManager];
 }
 
++ (void)initializeSDKWithConfigFileName:(NSString *)configFileName {
+    [self initializeSDKWithClass:InstanceClass andConfigFileName:configFileName];
+}
+
++ (void)initializeSDKWithClass:(Class)className andConfigFileName:(NSString *)fileName {
+    [self setInstanceClass:className];
+    [SalesforceSDKManager sharedManager];
+    [SalesforceSDKManager sharedManager].customConfigFilePath = fileName;
+    [[SalesforceSDKManager sharedManager] setupServiceConfiguration];
+
+}
+
 + (instancetype)sharedManager {
     static dispatch_once_t pred;
     static SalesforceSDKManager *sdkManager = nil;
@@ -238,7 +250,6 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
-        [self setupServiceConfiguration];
     }
     return self;
 }
@@ -265,7 +276,9 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 - (SFSDKAppConfig *)appConfig {
     if (_appConfig == nil) {
-        SFSDKAppConfig *config = [SFSDKAppConfig fromDefaultConfigFile];
+        SFSDKAppConfig *config;
+        
+        config = [SFSDKAppConfig fromConfigFile:self.customConfigFilePath];
         _appConfig = config?:[[SFSDKAppConfig alloc] init];
     }
     return _appConfig;
