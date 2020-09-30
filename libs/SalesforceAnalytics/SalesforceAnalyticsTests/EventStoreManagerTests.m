@@ -233,6 +233,30 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     XCTAssertEqualObjects(event, [events firstObject], @"Stored event should be the same as generated event");
 }
 
+/**
+ * Test for event count manipulation.
+ */
+- (void) testEventCountManipulation {
+    SFSDKInstrumentationEvent *event = [self createTestEvent];
+    XCTAssertTrue(event != nil, @"Generated event stored should not be nil");
+    NSInteger eventCount = self.storeManager.numStoredEvents;
+    XCTAssertEqual(0, eventCount, @"Event count should be 0");
+    [self.storeManager storeEvent:event];
+    eventCount = self.storeManager.numStoredEvents;
+    XCTAssertEqual(1, eventCount, @"Event count should be 1");
+    event = [self createTestEvent];
+    XCTAssertTrue(event != nil, @"Generated event stored should not be nil");
+    [self.storeManager storeEvent:event];
+    eventCount = self.storeManager.numStoredEvents;
+    XCTAssertEqual(2, eventCount, @"Event count should be 2");
+    [self.storeManager deleteEvent:event.eventId];
+    eventCount = self.storeManager.numStoredEvents;
+    XCTAssertEqual(1, eventCount, @"Event count should be 1");
+    [self.storeManager deleteAllEvents];
+    eventCount = self.storeManager.numStoredEvents;
+    XCTAssertEqual(0, eventCount, @"Event count should be 0");
+}
+
 - (SFSDKInstrumentationEvent *) createTestEvent {
     SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
         double curTime = 1000 * [[NSDate date] timeIntervalSince1970];

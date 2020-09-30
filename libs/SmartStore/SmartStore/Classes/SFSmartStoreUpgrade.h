@@ -24,12 +24,14 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  Used internally for upgrading SmartStore.
  */
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.")
 @interface SFSmartStoreUpgrade : NSObject
 
 /**

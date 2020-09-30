@@ -27,6 +27,7 @@
 #import "SFPasscodeManager.h"
 #import "SFKeyStoreManager+Internal.h"
 #import "SFKeychainItemWrapper.h"
+#import "SFSecurityLockout.h"
 
 // Keychain and NSCoding constants
 static NSString * const kPasscodeKeyStoreKeychainIdentifier = @"com.salesforce.keystore.passcodeKeystoreKeychainId";
@@ -42,7 +43,10 @@ NSString * const kPasscodeKeyLabelSuffix = @"Passcode";
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFPasscodeKeyStore
+#pragma clang diagnostic pop
 
 - (NSString *)storeDataArchiveKey
 {
@@ -71,7 +75,7 @@ NSString * const kPasscodeKeyLabelSuffix = @"Passcode";
 
 - (BOOL)keyStoreEnabled
 {
-    return [[SFPasscodeManager sharedManager] passcodeIsSet];
+    return [SFSecurityLockout isPasscodeSet];
 }
 
 - (SFKeyStoreKey *)keyStoreKey

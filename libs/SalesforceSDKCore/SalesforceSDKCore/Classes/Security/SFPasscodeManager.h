@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,26 +32,27 @@ NS_ASSUME_NONNULL_BEGIN
  populated with old passcode stored with `SFPasscodeResetOldPasscodeKey` key and new passcode
  stored with `SFPasscodeResetNewPasscodeKey` key.
  */
-extern NSString *const SFPasscodeResetNotification;
+extern NSString *const SFPasscodeResetNotification SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /** Key in userInfo published by `SFPasscodeResetNotification`.
  
  The value of this key is the old hashed passcode before the passcode reset
  */
-extern NSString *const SFPasscodeResetOldPasscodeKey;
+extern NSString *const SFPasscodeResetOldPasscodeKey SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 
 /** Key in userInfo published by `SFPasscodeResetNotification`.
  
  The value of this key is the new hashed passcode that triggers the new passcode reset
  */
-extern NSString *const SFPasscodeResetNewPasscodeKey;
+extern NSString *const SFPasscodeResetNewPasscodeKey SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 @class SFPasscodeManager;
 
 /**
  Delegate protocol for SFPasscodeManager callbacks
  */
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.")
 @protocol SFPasscodeManagerDelegate <NSObject>
 
 @optional
@@ -68,63 +70,64 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
 /**
  Class for managing storage, retrieval, and verification of passcodes.
  */
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.")
 @interface SFPasscodeManager : NSObject
 
 /**
  @return The shared instance of the passcode manager.
  */
-+ (SFPasscodeManager *)sharedManager;
++ (SFPasscodeManager *)sharedManager SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  The encryption key associated with the app.
  */
-@property (nonatomic, readonly, nullable) NSString *encryptionKey;
+@property (nonatomic, readonly, nullable) NSString *encryptionKey SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  The preferred passcode provider for the app.  If another provider was previously configured,
  the passcode manager will automatically update to the preferred provider at the next passcode
  update or verification.
  */
-@property (nonatomic, copy) NSString *preferredPasscodeProvider;
+@property (nonatomic, copy) NSString *preferredPasscodeProvider SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  The lenght of the user's passcode.
  */
-@property (nonatomic) NSUInteger passcodeLength;
+@property (nonatomic) NSUInteger passcodeLength SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  Whether the device has the capability to use biometric unlock.
  */
-@property (nonatomic) BOOL deviceHasBiometric;
+@property (nonatomic) BOOL deviceHasBiometric SFSDK_DEPRECATED(8.3, 9.0, "Use deviceHasBiometric on SFSecurityLockout instead");
 
 /**
  Adds a delegate to the list of passcode manager delegates.
  @param delegate Delegate to add to the list.
  */
-- (void)addDelegate:(id<SFPasscodeManagerDelegate>)delegate;
+- (void)addDelegate:(id<SFPasscodeManagerDelegate>)delegate SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.
  @param delegate Delegate to be removed.
  */
-- (void)removeDelegate:(id<SFPasscodeManagerDelegate>)delegate;
+- (void)removeDelegate:(id<SFPasscodeManagerDelegate>)delegate SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
 
 /**
  @return Whether or not a passcode has been set.
  */
-- (BOOL)passcodeIsSet;
+- (BOOL)passcodeIsSet SFSDK_DEPRECATED(8.3, 9.0, "Use isPasscodeSet on SFSecurityLockout instead.");
 
 /**
  Reset the passcode in the keychain.
  */
-- (void)resetPasscode;
+- (void)resetPasscode SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 /**
  Verify the passcode.
  @param passcode The passcode to verify.
  @return YES if the passcode verifies, NO otherwise.
  */
-- (BOOL)verifyPasscode:(NSString *)passcode;
+- (BOOL)verifyPasscode:(NSString *)passcode SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 /**
  Change the current passcode.  This method serves as an entry point for managing the change
@@ -133,13 +136,13 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
  @param newPasscode The new passcode to change to.  If nil or empty, this method will unset the
  existing passcode.
  */
-- (void)changePasscode:(nullable NSString *)newPasscode;
+- (void)changePasscode:(nullable NSString *)newPasscode SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 /**
  Set the passcode.
  @param newPasscode The passcode to set.
  */
-- (void)setPasscode:(NSString *)newPasscode;
+- (void)setPasscode:(NSString *)newPasscode SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 @end
 

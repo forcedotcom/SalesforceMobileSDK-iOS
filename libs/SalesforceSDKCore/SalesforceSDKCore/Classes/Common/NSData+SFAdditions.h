@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**Derives  a 16-byte  hex encoded string .
  @return 16-byte  hex encoded string.
  */
--(NSString *)digest;
+-(NSString *)digest SFSDK_DEPRECATED("8.3", "9.0", "Will be removed in Mobile SDK 9.0.");
 
 /** Derives  a  sha1  hex encoded string.
  @return md5 version of data.

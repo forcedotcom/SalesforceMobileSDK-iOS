@@ -24,13 +24,14 @@
 
 #import <Foundation/Foundation.h>
 #import "SFPasscodeProviderManager.h"
+#import "SalesforceSDKConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Contains configuration values for generating an encryption key.
  */
-
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed and passcode will be managed internally.")
 @interface SFPBKDF2PasscodeProvider : NSObject <SFPasscodeProvider>
 
 /**

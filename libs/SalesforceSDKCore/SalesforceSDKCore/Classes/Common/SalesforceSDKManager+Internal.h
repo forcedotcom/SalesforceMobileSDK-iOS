@@ -27,7 +27,7 @@
 
 @end
 
-@interface SalesforceSDKManager () <SalesforceSDKManagerFlow, SFSecurityLockoutDelegate>
+@interface SalesforceSDKManager () <SalesforceSDKManagerFlow>
 {
     BOOL _isLaunching;
     UIViewController* _snapshotViewController;
@@ -37,7 +37,10 @@
 @property (nonatomic, weak, nullable) id<SalesforceSDKManagerFlow> sdkManagerFlow;
 @property (nonatomic, assign) BOOL hasVerifiedPasscodeAtStartup;
 @property (nonatomic, assign) SFSDKLaunchAction launchActions;
+// TODO: Remove in Mobile SDK 9.0
+SFSDK_USE_DEPRECATED_BEGIN
 @property (nonatomic, strong, nonnull) NSHashTable<id<SalesforceSDKManagerDelegate>> *delegates;
+SFSDK_USE_DEPRECATED_END
 @property (nonatomic, assign, getter=isPasscodeDisplayed) BOOL passcodeDisplayed;
 @property (nonatomic, assign, getter=isInManagerForegroundProcess) BOOL inManagerForegroundProcess;
 

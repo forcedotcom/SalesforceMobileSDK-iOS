@@ -320,6 +320,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
                 return [@[@"WHERE ", field, @" >= ? AND ", field, @" <= ? "] componentsJoinedByString:@""];
 
         case kSFSoupQueryTypeMatch:
+            SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
             return [@[@"WHERE ",
                       [self computeFieldReference:SOUP_ENTRY_ID],
                       @" IN ",
@@ -334,6 +335,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
                       @"') "
                       ]
                     componentsJoinedByString:@""];
+            SFSDK_USE_DEPRECATED_END
 
         default: break;
     }

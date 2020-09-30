@@ -57,6 +57,9 @@ enum ActionType {
     case logout
     case switchUser
     case exportCredentials
+    case overrideStyleLight
+    case overrideStyleDark
+    case overrideStyleUnspecified
 }
 
 struct Action {

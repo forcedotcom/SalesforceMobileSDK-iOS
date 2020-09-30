@@ -24,6 +24,7 @@
 
 #import "SFPasscodeManager.h"
 
+SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.")
 @interface SFPasscodeManager ()
 
 @property (nonatomic, strong, nonnull) NSHashTable<id<SFPasscodeManagerDelegate>> *delegates;

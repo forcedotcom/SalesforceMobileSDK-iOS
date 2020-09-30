@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -83,37 +84,37 @@ extern NSString *const SOUP_COL NS_SWIFT_NAME(SmartStore.soupColumn);
 /**
  The columns of a soup fts table
  */
-extern NSString *const ROWID_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const ROWID_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 /**
  Soup index map table
  */
-extern NSString *const SOUP_INDEX_MAP_TABLE NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const SOUP_INDEX_MAP_TABLE NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 /**
  Soup attributes table
  */
-extern NSString *const SOUP_ATTRS_TABLE NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const SOUP_ATTRS_TABLE NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 /**
  Table to keep track of status of long operations in flight
 */
-extern NSString *const LONG_OPERATIONS_STATUS_TABLE NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const LONG_OPERATIONS_STATUS_TABLE NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 /*
  Columns of the soup index map table
  */
-extern NSString *const SOUP_NAME_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
-extern NSString *const PATH_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
-extern NSString *const COLUMN_NAME_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
-extern NSString *const COLUMN_TYPE_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const SOUP_NAME_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
+extern NSString *const PATH_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
+extern NSString *const COLUMN_NAME_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
+extern NSString *const COLUMN_TYPE_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 /*
  Columns of the long operations status table
  */
-extern NSString *const TYPE_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
-extern NSString *const DETAILS_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
-extern NSString *const STATUS_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const TYPE_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
+extern NSString *const DETAILS_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
+extern NSString *const STATUS_COL NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 /*
  JSON fields added to soup element on insert/update
@@ -124,9 +125,9 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE NS_SWIFT_NAME(SmartStore.lastModi
 /*
  Support for explain query plan
  */
-extern NSString *const EXPLAIN_SQL NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
-extern NSString *const EXPLAIN_ARGS NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
-extern NSString *const EXPLAIN_ROWS NS_SWIFT_UNAVAILABLE("Internal to SmartStore");
+extern NSString *const EXPLAIN_SQL NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
+extern NSString *const EXPLAIN_ARGS NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
+extern NSString *const EXPLAIN_ROWS NS_SWIFT_UNAVAILABLE("Internal to SmartStore") SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
 
 @class FMDatabaseQueue;
 @class SFQuerySpec;
@@ -276,7 +277,7 @@ NS_SWIFT_NAME(SmartStore)
  *  @param soupName Name of the soup.
  *  @return Specs of the soup if it exists.
  */
-- (SFSoupSpec*)attributesForSoup:(NSString*)soupName NS_SWIFT_NAME(specification(forSoupNamed:));
+- (nullable SFSoupSpec*)attributesForSoup:(NSString*)soupName NS_SWIFT_NAME(specification(forSoupNamed:));
 
 /**
  @param soupName Name of the soup.

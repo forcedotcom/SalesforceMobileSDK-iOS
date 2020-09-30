@@ -27,6 +27,7 @@
 #import "SFKeyStoreManager+Internal.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFSecureEncryptionKey.h"
+#import "SalesforceSDKConstants.h"
 
 // Keychain and NSCoding constants
 static NSString * const kKeyStoreKeychainIdentifier = @"com.salesforce.keystore.keystoreKeychainId";
@@ -54,7 +55,9 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
     self = [super init];
     if (self) {
         [self initializeKeyStores];
+        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         [[SFPasscodeManager sharedManager] addObserver:self forKeyPath:@"encryptionKey" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
+        SFSDK_USE_DEPRECATED_END
     }
     return self;
 }
@@ -136,6 +139,8 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
     }
 }
 
+// TODO: Remove methods in Mobile SDK 9.0
+SFSDK_USE_DEPRECATED_BEGIN
 - (void)renameKeysWithKeyTypePasscode:(SFGeneratedKeyStore*)generatedKeyStore
 {
     @synchronized (self) {
@@ -174,6 +179,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         passcodeKeyStore.keyStoreDictionary = nil;
     }
 }
+SFSDK_USE_DEPRECATED_END
 
 - (void)storeKeyStoreKey:(SFKeyStoreKey *)key withLabel:(NSString *)keyLabel
 {
@@ -204,12 +210,13 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 
 #pragma mark - SFPasscodeManager encryption key updates
 
+// TODO: Remove in Mobile SDK 9.0
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     // Starting in SDK 6.0, we no longer use SFPasscodeKeyStore.
     // The only reason we are still watching the encryption key of the passcode manager is to handle upgrade from pre-6.0 SDK to 6+.
     // As soon as we get the passcode, we migrate all the keys from the passcode key store to the generated key store.
-    
+    SFSDK_USE_DEPRECATED_BEGIN
     if (!(object == [SFPasscodeManager sharedManager] && [keyPath isEqualToString:@"encryptionKey"])) {
         return;
     }
@@ -227,6 +234,7 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
             if (passcodeKeyStore.keyStoreKey != nil && passcodeKeyStore.keyStoreDictionary.count > 0) {
                 [self migratePasscodeToGenerated:passcodeKeyStore];
             }
+            SFSDK_USE_DEPRECATED_END
         }
     }
 }

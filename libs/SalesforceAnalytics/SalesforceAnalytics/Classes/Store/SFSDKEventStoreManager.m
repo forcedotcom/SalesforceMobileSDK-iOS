@@ -35,6 +35,8 @@
 @property (nonatomic, strong, readwrite) NSString *storeDirectory;
 @property (nonatomic, strong, readwrite) DataEncryptorBlock dataEncryptorBlock;
 @property (nonatomic, strong, readwrite) DataDecryptorBlock dataDecryptorBlock;
+@property (nonatomic, assign, readwrite) NSInteger numStoredEvents;
+@property (nonatomic, strong, readwrite) NSObject *eventCountMutex;
 
 @end
 
@@ -64,6 +66,14 @@
                 return data;
             };
         }
+
+        // Gets current number of events stored.
+        self.eventCountMutex = [[NSObject alloc] init];
+        self.numStoredEvents = 0;
+        NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
+        if (files) {
+            self.numStoredEvents = files.count;
+        }
     }
     return self;
 }
@@ -90,6 +100,10 @@
         [encryptedData writeToFile:filename options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:&error];
         if (error) {
             [SFSDKAnalyticsLogger w:[self class] format:@"Error occurred while writing to file: %@", error.localizedDescription];
+        } else {
+            @synchronized (self.eventCountMutex) {
+                self.numStoredEvents++;
+            }
         }
     }
 }
@@ -104,15 +118,6 @@
     for (SFSDKInstrumentationEvent* event in events) {
         [self storeEvent:event];
     }
-}
-
-- (NSInteger) numStoredEvents {
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
-    NSInteger fileCount = 0;
-    if (files) {
-        fileCount = files.count;
-    }
-    return fileCount;
 }
 
 - (SFSDKInstrumentationEvent *) fetchEvent:(NSString *) eventId {
@@ -141,8 +146,15 @@
     }
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *filePath = [self filenameForEvent:eventId];
+    BOOL success = NO;
     if ([fileManager fileExistsAtPath:filePath]) {
-        return [fileManager removeItemAtPath:filePath error:nil];
+        success = [fileManager removeItemAtPath:filePath error:nil];
+        if (success) {
+            @synchronized (self.eventCountMutex) {
+                self.numStoredEvents--;
+            }
+        }
+        return success;
     }
     return NO;
 }
@@ -165,18 +177,16 @@
             [fileManager removeItemAtPath:filePath error:nil];
         }
     }
+    @synchronized (self.eventCountMutex) {
+        self.numStoredEvents = 0;
+    }
 }
 
 - (BOOL) shouldStoreEvent {
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
-    NSInteger fileCount = 0;
-    if (files) {
-        fileCount = files.count;
-    }
-    return (self.isLoggingEnabled && (fileCount < self.maxEvents));
+    return (self.isLoggingEnabled && (self.numStoredEvents < self.maxEvents));
 }
 
-- (BOOL)isLoggingEnabled {
+- (BOOL) isLoggingEnabled {
     BOOL globalAnalyticsDisabled = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCAnalyticsDisabled"] boolValue];
     if (globalAnalyticsDisabled) {
         return NO;

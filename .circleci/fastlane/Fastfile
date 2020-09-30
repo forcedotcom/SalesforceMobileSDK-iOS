@@ -1,7 +1,7 @@
 $git_pr_api = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
 $schemes = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'MobileSync']
 ENV['DEVICE'] = 'iPhone 11' unless ENV.has_key?('DEVICE')
-ENV['IOS_VERSION'] = '13.2' unless ENV.has_key?('IOS_VERSION')
+ENV['IOS_VERSION'] = '13.7' unless ENV.has_key?('IOS_VERSION')
 
 lane :PR do |options|
   lib_to_test = options[:lib]
@@ -102,7 +102,7 @@ end
 def analyze_scheme(scheme)
     begin
       xcodebuild(
-          xcargs: 'CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES',
+          xcargs: 'CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES ARCHS=x86_64',
           workspace: 'SalesforceMobileSDK.xcworkspace',
           scheme: scheme,
           sdk: 'iphonesimulator',

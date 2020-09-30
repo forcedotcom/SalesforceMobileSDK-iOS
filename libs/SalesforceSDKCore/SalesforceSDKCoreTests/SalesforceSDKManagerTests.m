@@ -168,6 +168,36 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [self compareAiltnAppNames:appName];
 }
 
+- (void)testOverrideAppNameBeforeSDKManagerLaunch
+{
+    [SalesforceSDKManager setAppName:kTestAppName];
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    [self compareAppNames:kTestAppName];
+}
+
+- (void)testOverrideAppNameAfterSDKManagerInit
+{
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    [SalesforceSDKManager setAppName:kTestAppName];
+    [self compareAppNames:kTestAppName];
+}
+
+- (void)testDefaultAppName
+{
+    [self createStandardPostLaunchBlock];
+    [self createTestAppIdentity];
+    [self launchAndVerify:YES failMessage:@"Launch attempt should have been successful."];
+    [self verifyPostLaunchState];
+    NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
+    [self compareAppNames:appName];
+}
+
 - (void)testPasscodeVerificationAtLaunch
 {
     [self createStandardPostLaunchBlock];
@@ -595,10 +625,16 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertNotNil(deviceAttributes, @"SFSDKDeviceAppAttributes instance should not be nil");
     XCTAssertEqualObjects(deviceAttributes.appName, expectedAppName, @"App names should match");
     [SFSDKSalesforceAnalyticsManager removeSharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
-     NSError *error = nil;
+    NSError *error = nil;
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:[SFUserAccountManager sharedInstance].currentUser error:&error];
-    XCTAssertNil(error, @"SalesforceSDKManagerTests for ailtn could not delete created user");
+    XCTAssertNil(error, @"SalesforceSDKManagerTests for AILTN could not delete created user");
     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:prevCurrentUser];
+}
+
+- (void)compareAppNames:(NSString *)expectedAppName
+{
+    NSString *userAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
+    XCTAssertTrue([userAgent containsString:expectedAppName], @"App names should match");
 }
 
 @end

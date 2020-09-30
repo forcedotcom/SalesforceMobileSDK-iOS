@@ -28,6 +28,9 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+
+@class SFUserAccount;
 
 @protocol SFSDKAnalyticsPublisher <NSObject>
 
@@ -39,6 +42,15 @@ typedef void (^ _Nonnull PublishCompleteBlock)(BOOL success, NSError * _Nullable
  * @param events Events to be published.
  * @param publishCompleteBlock Completion block invoked once network publish is complete.
  */
-- (void) publish:(nonnull NSArray *) events publishCompleteBlock:(nonnull PublishCompleteBlock) publishCompleteBlock;
+- (void) publish:(nonnull NSArray *) events publishCompleteBlock:(nonnull PublishCompleteBlock) publishCompleteBlock SFSDK_DEPRECATED(8.3, 9.0, "Will be removed. Use new method below the requires a user parameter.");
+
+/**
+* Publishes events to a network endpoint.
+*
+* @param events Events to be published.
+* @param user SFUserAccount to use to determine where events are to be published.
+* @param publishCompleteBlock Completion block invoked once network publish is complete.
+*/
+- (void) publish:(nonnull NSArray *) events user:(nonnull SFUserAccount *)user publishCompleteBlock:(nonnull PublishCompleteBlock) publishCompleteBlock;
 
 @end
