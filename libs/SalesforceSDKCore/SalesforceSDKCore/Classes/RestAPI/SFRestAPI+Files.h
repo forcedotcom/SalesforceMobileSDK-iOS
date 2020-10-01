@@ -29,7 +29,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SFRestAPI (Files) <SFRestDelegate>
+@interface SFRestAPI (Files)
 
 /**
  * Build a Request that can fetch a page from the files owned by the

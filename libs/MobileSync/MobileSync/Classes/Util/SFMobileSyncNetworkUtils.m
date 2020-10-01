@@ -32,20 +32,6 @@ NSString * const kMobileSync = @"MobileSync";
 
 @implementation SFMobileSyncNetworkUtils
 
-+ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
-    [SFSDKMobileSyncLogger d:[self class] format:@"sendRequestWithMobileSyncUserAgent:request:%@", request];
-    [request setHeaderValue:[SFRestAPI userAgentString:kMobileSync] forHeaderName:kUserAgent];
-    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
-    SFRestAPI *restApiInstance = (!user) ? [SFRestAPI sharedGlobalInstance] : [SFRestAPI sharedInstance];
-    [restApiInstance sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
-        [SFSDKMobileSyncLogger e:[self class] format:@"sendRequestWithMobileSyncUserAgent:error:%ld:%@", (long) e.code, e.domain];
-        failBlock(e, rawResponse);
-    } completeBlock:^(id response, NSURLResponse *rawResponse) {
-        [SFSDKMobileSyncLogger d:[self class] format:@"sendRequestWithMobileSyncUserAgent:response:%@", response];
-        completeBlock(response, rawResponse);
-    }];
-}
-
 + (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock {
     [SFSDKMobileSyncLogger d:[self class] format:@"sendRequestWithMobileSyncUserAgent:request:%@", request];
     [request setHeaderValue:[SFRestAPI userAgentString:kMobileSync] forHeaderName:kUserAgent];

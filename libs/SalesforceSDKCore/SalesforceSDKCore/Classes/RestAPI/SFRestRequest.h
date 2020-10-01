@@ -112,72 +112,6 @@ NS_SWIFT_NAME(RestRequestDelegate)
 @end
 
 /**
- * Lifecycle events for SFRestRequests.
- */
-NS_SWIFT_NAME(RestClientDelegate)
-@protocol SFRestDelegate <NSObject>
-@optional
-
-/**
- * Sent when a request has finished loading.
- * @param request The request that was loaded.
- * @param dataResponse The data from the response.  By default, this will be an object
- * containing the parsed JSON response.  However, if the response is not JSON,
- * the data will be contained in a binary `NSData` object.
- * @param rawResponse Raw response returned by the server.
- */
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
-
-/**
- * Sent when a request has finished loading.
- * @param request The request that was loaded.
- * @param dataResponse The data from the response.  By default, this will be an object
- * containing the parsed JSON response.  However, if the response is not JSON,
- * the data will be contained in a binary `NSData` object.
- *
- * The pre SDK 6.0 signature
- * Is called only if request:didLoadResponse:rawResponse: is not provided
- */
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
-
-/**
- * Sent when a request has failed due to an error.
- * This includes HTTP network errors, as well as Salesforce errors
- * (for example, passing an invalid SOQL string when doing a query).
- * @param request The attempted request.
- * @param error The error associated with the failed request.
- * @param rawResponse Raw response returned by the server.
- */
-- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error rawResponse:(NSURLResponse *)rawResponse SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
-
-/**
- * Sent when a request has failed due to an error.
- * This includes HTTP network errors, as well as Salesforce errors
- * (for example, passing an invalid SOQL string when doing a query).
- * @param request The attempted request.
- * @param error The error associated with the failed request.
- *
- * The pre SDK 6.0 signature
- * Is called only if request:didFailLoadWithError:rawResponse: is not provided
- */
-- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError*)error SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
-
-/**
- * Sent to the delegate when a request was cancelled.
- * @param request The canceled request.
- */
-- (void)requestDidCancelLoad:(SFRestRequest *)request SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
-
-/**
- * Sent to the delegate when a request has timed out. This is sent when a
- * backgrounded request expired before completion.
- * @param request The request that timed out.
- */
-- (void)requestDidTimeout:(SFRestRequest *)request SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use SFRestRequestDelegate methods instead.");
-
-@end
-
-/**
  * Request object used to send a REST request to Salesforce.com
  * @see SFRestAPI
  */
@@ -240,11 +174,6 @@ NS_SWIFT_NAME(RestRequest)
 /**
  * The delegate for this request. Notified of request status.
  */
-@property (nullable, nonatomic, weak) id<SFRestDelegate> delegate SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use the 'requestDelegate' property instead.");
-
-/**
- * The delegate for this request. Notified of request status.
- */
 @property (nullable, nonatomic, weak) id<SFRestRequestDelegate> requestDelegate;
 
 /**
@@ -257,12 +186,6 @@ NS_SWIFT_NAME(RestRequest)
  * the request headers before sending the request.  If NO, they will not.
  */
 @property (nonatomic, assign) BOOL requiresAuthentication;
-
-/**
- * Used to specify if the SDK should attempt to refresh tokens on HTTP 403. If YES, the SDK will
- * attempt to refresh on HTTP 403. If NO, refresh will not be attempted.
- */
-@property (nonatomic, assign) BOOL shouldRefreshOn403 SFSDK_DEPRECATED("8.3", "9.0", "Will be removed in Mobile SDK 9.0.");
 
 /**
  * Prepares the request before sending it out.
