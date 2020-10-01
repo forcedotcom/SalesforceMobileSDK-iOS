@@ -113,8 +113,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, nullable) SFSDKAuthSession *authSession;
 
-
-
 /**
  Indicates if the app is configured to require browser based authentication.
  */

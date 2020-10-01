@@ -1260,14 +1260,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         currentAccount.idData = identityData;
     }
     [self saveAccountForUser:currentAccount error:nil];
-
    
     if (accountDataChange != SFUserAccountChangeUnknown) {
         [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:currentAccount andChange:accountDataChange];
     } else if (userAccountChange!=SFUserAccountDataChangeUnknown) {
         [self notifyUserChange:SFUserAccountManagerDidChangeUserNotification withUser:currentAccount andChange:userAccountChange];
     }
-
     return currentAccount;
 }
 
