@@ -208,10 +208,8 @@
         }
         
         // Removing row from soup index map table
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
                          SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, self.soupName];
-        SFSDK_USE_DEPRECATED_END
         [self executeUpdate:db sql:sql context:@"dropOldIndexes"];
         
         // Update row in alter status table
@@ -298,9 +296,7 @@
         // Fts
         if ([SFSoupIndex hasFts:self.indexSpecs]) {
             NSMutableArray* oldColumnsFts = [NSMutableArray arrayWithObjects:ID_COL, nil];
-            SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
             NSMutableArray* newColumnsFts = [NSMutableArray arrayWithObjects:ROWID_COL, nil];
-            SFSDK_USE_DEPRECATED_END
 
             // Adding indexed path columns that we are keeping
             for (NSString* keptPath in keptPaths) {
@@ -461,14 +457,12 @@
 {
     NSNumber* now = [self.store currentTimeInMilliseconds];
     NSMutableDictionary* values = [NSMutableDictionary dictionary];
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     values[TYPE_COL] = @"AlterSoup";
     values[DETAILS_COL] = [SFJsonUtils JSONRepresentation:[self getDetails]];
     values[STATUS_COL] = @(SFAlterSoupStepStarting);
     values[CREATED_COL] = now;
     values[LAST_MODIFIED_COL] = now;
     [self.store insertIntoTable:LONG_OPERATIONS_STATUS_TABLE values:values withDb:db];
-    SFSDK_USE_DEPRECATED_END
     return [db lastInsertRowId];
 }
 
@@ -496,7 +490,6 @@
 - (void) updateLongOperationDbRow:(SFAlterSoupStep)newStatus withDb:(FMDatabase*)db
 {
     if (newStatus == kLastStep) {
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = %lld",
                                LONG_OPERATIONS_STATUS_TABLE, ID_COL, self.rowId];
         [self.store executeUpdateThrows:sql withDb:db];
@@ -507,7 +500,6 @@
         values[STATUS_COL] = [NSNumber numberWithUnsignedInteger:newStatus];
         values[LAST_MODIFIED_COL] = now;
         [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:@(self.rowId) idCol:ID_COL withDb:db];
-        SFSDK_USE_DEPRECATED_END
     }
 }
 

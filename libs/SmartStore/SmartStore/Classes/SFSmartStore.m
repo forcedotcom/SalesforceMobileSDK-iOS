@@ -92,34 +92,16 @@ NSString * const kSFSmartStoreEncryptionKeyLabel = @"com.salesforce.smartstore.e
 NSString * const kSFSmartStoreEncryptionSaltLabel = @"com.salesforce.smartstore.encryption.saltLabel";
 
 // Table to keep track of soup attributes
-NSString *const SOUP_ATTRS_TABLE = @"soup_attrs";
 static NSString *const SOUP_NAMES_TABLE = @"soup_names"; //legacy soup attrs, still around for backward compatibility. Do not use it.
 
-// Table to keep track of soup's index specs
-NSString *const SOUP_INDEX_MAP_TABLE = @"soup_index_map";
-
 // Columns of the soup index map table
-NSString *const SOUP_NAME_COL = @"soupName";
-NSString *const PATH_COL = @"path";
 NSString *const COLUMN_NAME_COL = @"columnName";
-NSString *const COLUMN_TYPE_COL = @"columnType";
 
 // Columns of a soup table
 NSString *const ID_COL = @"id";
 NSString *const CREATED_COL = @"created";
 NSString *const LAST_MODIFIED_COL = @"lastModified";
 NSString *const SOUP_COL = @"soup";
-
-// Columns of a soup fts table
-NSString *const ROWID_COL = @"rowid";
-
-// Table to keep track of status of long operations in flight
-NSString *const LONG_OPERATIONS_STATUS_TABLE = @"long_operations_status";
-
-// Columns of long operations status table
-NSString *const TYPE_COL = @"type";
-NSString *const DETAILS_COL = @"details";
-NSString *const STATUS_COL = @"status";
 
 // JSON fields added to soup element on insert/update
 NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
@@ -128,7 +110,6 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 // Explain support
 NSString *const EXPLAIN_SQL = @"sql";
 NSString *const EXPLAIN_ARGS = @"args";
-NSString *const EXPLAIN_ROWS = @"rows";
 
 // Caches count limit
 NSUInteger CACHES_COUNT_LIMIT = 1024;
@@ -174,11 +155,9 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         @synchronized ([SFSmartStore class]) {
             if ([SFUserAccountManager sharedInstance].currentUser != nil && !_storeUpgradeHasRun) {
                 _storeUpgradeHasRun = YES;
-                SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
                 [SFSmartStoreUpgrade updateStoreLocations];
                 [SFSmartStoreUpgrade updateEncryption];
                 [SFSmartStoreUpgrade updateEncryptionSalt];
-                SFSDK_USE_DEPRECATED_END
             }
         }
         _storeName = name;
@@ -289,9 +268,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         [self.dbMgr removeStoreDir:self.storeName];
     }
     if (self.user != nil) {
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         [SFSmartStoreUpgrade setUsesKeyStoreEncryption:result forUser:self.user store:self.storeName];
-        SFSDK_USE_DEPRECATED_END
     }
     return result;
 }
@@ -420,9 +397,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             [existingStore.storeQueue close];
             [_allSharedStores[userKey] removeObjectForKey:storeName];
         }
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:user store:storeName];
-        SFSDK_USE_DEPRECATED_END
         [[SFSmartStoreDatabaseManager sharedManagerForUser:user] removeStoreDir:storeName];
     }
 }
@@ -498,7 +473,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     return !error;
 }
 
-SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
 - (void)createMetaTablesWithDb:(FMDatabase*) db {
     // Create SOUP_INDEX_MAP_TABLE
     NSString *createSoupIndexTableSql = [NSString stringWithFormat:
@@ -590,7 +564,6 @@ SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     [SFSDKSmartStoreLogger d:[self class] format:@"createLongOperationsStatusTableSql: %@", createLongOperationsStatusTableSql];
     [self executeUpdateThrows:createLongOperationsStatusTableSql withDb:db];
 }
-SFSDK_USE_DEPRECATED_END
 
 #pragma mark - Long operations recovery methods
 
@@ -619,14 +592,12 @@ SFSDK_USE_DEPRECATED_END
     // TODO assuming all long operations are alter soup operations
     //      revisit when we introduced another type of long operation
     
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     FMResultSet* frs = [self queryTable:LONG_OPERATIONS_STATUS_TABLE forColumns:@[ID_COL, DETAILS_COL, STATUS_COL] orderBy:nil limit:nil whereClause:nil whereArgs:nil withDb:db];
     
     while([frs next]) {
         long rowId = [frs longForColumn:ID_COL];
         NSDictionary *details = [SFJsonUtils objectFromJSONString:[frs stringForColumn:DETAILS_COL]];
         SFAlterSoupStep status = (SFAlterSoupStep)[frs intForColumn:STATUS_COL];
-        SFSDK_USE_DEPRECATED_END
         SFAlterSoupLongOperation *longOperation = [[SFAlterSoupLongOperation alloc] initWithStore:self rowId:rowId details:details status:status];
         [longOperations addObject:longOperation];
     }
@@ -648,7 +619,6 @@ SFSDK_USE_DEPRECATED_END
     if (self.captureExplainQueryPlan) {
         NSString* explainSql = [NSString stringWithFormat:@"EXPLAIN QUERY PLAN %@", sql];
         NSMutableDictionary* lastPlan = [NSMutableDictionary new];
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         lastPlan[EXPLAIN_SQL] = explainSql;
         if (arguments.count > 0) lastPlan[EXPLAIN_ARGS] = arguments;
         NSMutableArray* explainRows = [NSMutableArray new];
@@ -663,7 +633,6 @@ SFSDK_USE_DEPRECATED_END
         }
         [frs close];
         lastPlan[EXPLAIN_ROWS] = explainRows;
-        SFSDK_USE_DEPRECATED_END
         self.lastExplainQueryPlan = lastPlan;
     }
     
@@ -749,9 +718,7 @@ SFSDK_USE_DEPRECATED_END
 - (NSArray*) allSoupNamesWithDb:(FMDatabase*) db
 {
     NSMutableArray* soupNames = [NSMutableArray array];
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     FMResultSet* frs = [self executeQueryThrows:[NSString stringWithFormat:@"SELECT %@ FROM %@", SOUP_NAME_COL, SOUP_ATTRS_TABLE] withDb:db];
-    SFSDK_USE_DEPRECATED_END
     while ([frs next]) {
         [soupNames addObject:[frs stringForColumnIndex:0]];
     }
@@ -1171,13 +1138,11 @@ SFSDK_USE_DEPRECATED_END
         return result;
     }
     
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     NSString *querySql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ? AND %@ = ?",
                           COLUMN_NAME_COL,SOUP_INDEX_MAP_TABLE,
                           SOUP_NAME_COL,
                           PATH_COL
                           ];
-    SFSDK_USE_DEPRECATED_END
     FMResultSet *frs = [self executeQueryThrows:querySql withArgumentsInArray:@[soupName, path] withDb:db];
     if ([frs next]) {
         result = [frs stringForColumnIndex:0];
@@ -1258,9 +1223,7 @@ SFSDK_USE_DEPRECATED_END
     NSString *soupTableName = [_soupNameToTableName objectForKey:soupName];
     
     if (nil == soupTableName) {
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?",ID_COL,SOUP_ATTRS_TABLE,SOUP_NAME_COL];
-        SFSDK_USE_DEPRECATED_END
         FMResultSet *frs = [self executeQueryThrows:sql withArgumentsInArray:@[soupName] withDb:db];
         if ([frs next]) {
             int colIdx = [frs columnIndexForName:ID_COL];
@@ -1288,12 +1251,10 @@ SFSDK_USE_DEPRECATED_END
 
 - (NSArray *)tableNamesForAllSoupsWithDb:(FMDatabase*) db{
     NSMutableArray* result = [NSMutableArray array]; // equivalent to: [[[NSMutableArray alloc] init] autorelease]
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     NSString* sql = [NSString stringWithFormat:@"SELECT %@ FROM %@", SOUP_NAME_COL, SOUP_ATTRS_TABLE];
     FMResultSet *frs = [self executeQueryThrows:sql withDb:db];
     while ([frs next]) {
         NSString* tableName = [frs stringForColumn:SOUP_NAME_COL];
-        SFSDK_USE_DEPRECATED_END
         [result addObject:tableName];
     }
     
@@ -1314,9 +1275,7 @@ SFSDK_USE_DEPRECATED_END
     SFSoupSpec *attrs = [_attrSpecBySoup objectForKey:soupName];
     if (nil == attrs) {
         //no cached attributes ...reload from SOUP_ATTRS_TABLE
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         NSString *attrsSql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = ?", SOUP_ATTRS_TABLE, SOUP_NAME_COL];
-        SFSDK_USE_DEPRECATED_END
         [SFSDKSmartStoreLogger d:[self class] format:@"attrs sql: %@", attrsSql];
         FMResultSet *frs = [self executeQueryThrows:attrsSql withArgumentsInArray:@[soupName] withDb:db];
         if ([frs next]) {
@@ -1353,7 +1312,6 @@ SFSDK_USE_DEPRECATED_END
     NSMutableArray *result = [_indexSpecsBySoup objectForKey:soupName];
     if (nil == result) {
         result = [NSMutableArray array];
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         //no cached indices ...reload from SOUP_INDEX_MAP_TABLE
         NSString *querySql = [NSString stringWithFormat:@"SELECT %@,%@,%@ FROM %@ WHERE %@ = ?",
                               PATH_COL, COLUMN_NAME_COL, COLUMN_TYPE_COL,
@@ -1368,7 +1326,6 @@ SFSDK_USE_DEPRECATED_END
             SFSoupIndex *spec = [[SFSoupIndex alloc] initWithPath:path indexType:type columnName:columnName];
             [result addObject:spec];
         }
-        SFSDK_USE_DEPRECATED_END
         [frs close];
         
         // update the cache
@@ -1402,7 +1359,6 @@ SFSDK_USE_DEPRECATED_END
 
 
 - (void)insertIntoSoupIndexMap:(NSArray*)soupIndexMapInserts withDb:(FMDatabase*)db {
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     // update the mapping table for this soup's columns
     for (NSDictionary *map in soupIndexMapInserts) {
         [self insertIntoTable:SOUP_INDEX_MAP_TABLE values:map withDb:db];
@@ -1417,7 +1373,6 @@ SFSDK_USE_DEPRECATED_END
         }
     }
     [self insertIntoTable:SOUP_ATTRS_TABLE values:soupMapValues withDb:db];
-    SFSDK_USE_DEPRECATED_END
     // Get a safe table name for the soupName
     NSString *soupTableName = [self tableNameBySoupId:[db lastInsertRowId]];
     if (nil == soupTableName) {
@@ -1439,13 +1394,7 @@ SFSDK_USE_DEPRECATED_END
     }
     
     NSNumber *soupId = [self soupIdFromTableName:soupTableName];
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     [self updateTable:SOUP_ATTRS_TABLE values:featuresMapValues entryId:soupId idCol:ID_COL withDb:db];
-    SFSDK_USE_DEPRECATED_END
-}
-
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs {
-    return [self registerSoup:soupName withIndexSpecs:indexSpecs error:nil];
 }
 
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error {
@@ -1547,12 +1496,10 @@ SFSDK_USE_DEPRECATED_END
         
         // for inserting into meta mapping table
         NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         values[SOUP_NAME_COL] = soupSpec.soupName;
         values[PATH_COL] = indexSpec.path;
         values[COLUMN_NAME_COL] = columnName;
         values[COLUMN_TYPE_COL] = indexSpec.indexType;
-        SFSDK_USE_DEPRECATED_END
         [soupIndexMapInserts addObject:values];
         
         // for creating an index on the soup table
@@ -1631,14 +1578,12 @@ SFSDK_USE_DEPRECATED_END
         NSString *dropFtsSql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@_fts",soupTableName];
         [self executeUpdateThrows:dropFtsSql withDb:db];
     }
-    
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
+
     NSString *deleteIndexSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
                                 SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, soupName];
     [self executeUpdateThrows:deleteIndexSql withDb:db];
     NSString *deleteNameSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
                                SOUP_ATTRS_TABLE, SOUP_NAME_COL, soupName];
-    SFSDK_USE_DEPRECATED_END
     [self executeUpdateThrows:deleteNameSql withDb:db];
     
     // Cleanup caches
@@ -2118,11 +2063,9 @@ SFSDK_USE_DEPRECATED_END
 
     // fts
     if ([SFSoupIndex hasFts:indices]) {
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         NSMutableDictionary *ftsValues = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                           newEntryId, ROWID_COL,
                                           nil];
-        SFSDK_USE_DEPRECATED_END
         [self projectIndexedPaths:entry values:ftsValues indices:indices typeFilter:kValueExtractedToFtsColumn];
         [self insertIntoTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues withDb:db];
     }
@@ -2179,9 +2122,7 @@ SFSDK_USE_DEPRECATED_END
     if ([SFSoupIndex hasFts:indices]) {
         NSMutableDictionary *ftsValues = [NSMutableDictionary new];
         [self projectIndexedPaths:entry values:ftsValues indices:indices typeFilter:kValueExtractedToFtsColumn];
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         [self updateTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues entryId:entryId idCol:ROWID_COL withDb:db];
-        SFSDK_USE_DEPRECATED_END
     }
     
     return mutableEntry;
@@ -2326,10 +2267,8 @@ SFSDK_USE_DEPRECATED_END
 
         // fts
         if ([self hasFts:soupName withDb:db]) {
-            SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
             NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@", soupTableName, [self idsInPredicate:soupEntryIds idCol:ROWID_COL]];
             [self executeUpdateThrows:deleteFtsSql withDb:db];
-            SFSDK_USE_DEPRECATED_END
         }
 
         SFSoupSpec *soupSpec = [self attributesForSoup:soupName withDb:db];
@@ -2377,9 +2316,7 @@ SFSDK_USE_DEPRECATED_END
     [self executeUpdateThrows:deleteSql withArgumentsInArray:args withDb:db];
     // fts
     if ([self hasFts:soupName withDb:db]) {
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@ in (%@)", soupTableName, ROWID_COL, querySql];
-        SFSDK_USE_DEPRECATED_END
         [self executeUpdateThrows:deleteFtsSql withDb:db];
     }
 
@@ -2561,9 +2498,7 @@ SFSDK_USE_DEPRECATED_END
                     NSMutableDictionary *ftsValues = [NSMutableDictionary dictionary];
                     [self projectIndexedPaths:entry values:ftsValues indices:indices typeFilter:kValueExtractedToFtsColumn];
                     if ([ftsValues count] > 0) {
-                        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
                         [self updateTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues entryId:entryId idCol:ROWID_COL withDb:db];
-                        SFSDK_USE_DEPRECATED_END
                     }
                 }
             }
@@ -2620,13 +2555,11 @@ SFSDK_USE_DEPRECATED_END
     [self inDatabase:^(FMDatabase *db) {
         if ([db tableExists:SOUP_NAMES_TABLE]) {
             // Renames SOUP_NAMES_TABLE to SOUP_ATTRS_TABLE
-            SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
             NSString *renameSoupNamesTableSql = [NSString stringWithFormat:
                                                  @"ALTER TABLE %@ RENAME TO %@",
                                                  SOUP_NAMES_TABLE,
                                                  SOUP_ATTRS_TABLE
                                                  ];
-            SFSDK_USE_DEPRECATED_END
             [SFSDKSmartStoreLogger d:[self class] format:@"renameSoupNamesTableSql: %@", renameSoupNamesTableSql];
             [self executeUpdateThrows:renameSoupNamesTableSql withDb:db];
         }
