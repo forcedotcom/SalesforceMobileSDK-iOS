@@ -167,13 +167,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         _authPreferences = [SFSDKAuthPreferences  new];
         _errorManager = [[SFSDKAuthErrorManager alloc] init];
         __weak typeof (self) weakSelf = self;
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         self.alertDisplayBlock = ^(SFSDKAlertMessage * message, SFSDKWindowContainer *window) {
             __strong typeof (weakSelf) strongSelf = weakSelf;
             strongSelf.alertView = [[SFSDKAlertView alloc] initWithMessage:message window:window];
             [strongSelf.alertView presentViewController:NO completion:nil];
         };
-        SFSDK_USE_DEPRECATED_END
         _authClient = ^(void){
             static  id<SFSDKOAuthProtocol> authClient = nil;
             static dispatch_once_t authClientPred;
@@ -369,9 +367,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 credentials.additionalOAuthFields = response.additionalOAuthFields;
             SFUserAccount *userAccount = [strongSelf accountForCredentials:credentials];
             if (!userAccount) {
-                SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
                 userAccount = [self applyCredentials:credentials];
-                SFSDK_USE_DEPRECATED_END
             }
             [self retrieveUserPhotoIfNeeded:userAccount];
             NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
@@ -539,9 +535,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self deleteAccountForUser:user error:nil];
     id<SFSDKOAuthProtocol> authClient = self.authClient();
     [authClient revokeRefreshToken:user.credentials];
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     [SFSecurityLockout clearPasscodeState:user];
-    SFSDK_USE_DEPRECATED_END
     BOOL isCurrentUser = [user isEqual:self.currentUser];
     if (isCurrentUser) {
         [self setCurrentUserInternal:nil];
@@ -623,10 +617,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
 }
 
-+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error {
-    return [SFSDKAuthErrorManager errorIsInvalidAuthCredentials:error];
-}
-
 #pragma mark - SFOAuthCoordinatorDelegate
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
     coordinator.authSession.authInfo  = info;
@@ -693,9 +683,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
        builder.actionOneCompletion = completion;
    }];
     dispatch_async(dispatch_get_main_queue(), ^{
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         self.alertDisplayBlock(messageObject, [SFSDKWindowManager sharedManager].authWindow);
-        SFSDK_USE_DEPRECATED_END
    });
     
 }
@@ -714,9 +702,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         };
     }];
     dispatch_async(dispatch_get_main_queue(), ^{
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         self.alertDisplayBlock(messageObject, [SFSDKWindowManager sharedManager].authWindow);
-        SFSDK_USE_DEPRECATED_END
     });
 }
 // IDP related code fetched as an identity provider app
@@ -764,7 +750,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                kSFNotificationUserInfoAuthTypeKey: authInfo };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserCancelledAuth
                                                        object:self userInfo:userInfo];
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     if (!self.authCancelledByUserHandlerBlock) {
            SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
            hostListViewController.delegate = self;
@@ -777,7 +762,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     } else {
         self.authCancelledByUserHandlerBlock();
     }
-    SFSDK_USE_DEPRECATED_END
 }
 
 #pragma mark - SFIdentityCoordinatorDelegate
@@ -805,9 +789,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             };
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
-            SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
             self.alertDisplayBlock(message, [SFSDKWindowManager sharedManager].authWindow);
-            SFSDK_USE_DEPRECATED_END
         });
     }
 }
@@ -961,9 +943,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return _userAccountMap;
 }
 
-SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
 - (void)setAccountPersister:(id<SFUserAccountPersister>) persister {
-SFSDK_USE_DEPRECATED_END
     if(persister != _accountPersister) {
         [_accountsLock lock];
         _accountPersister = persister;
@@ -1107,9 +1087,7 @@ SFSDK_USE_DEPRECATED_END
     [_accountsLock lock];
 
     NSError *internalError = nil;
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     NSDictionary<SFUserAccountIdentity *,SFUserAccount *> *accounts = [self.accountPersister fetchAllAccounts:&internalError];
-    SFSDK_USE_DEPRECATED_END
     
     if (_userAccountMap)
         [_userAccountMap removeAllObjects];
@@ -1209,9 +1187,7 @@ SFSDK_USE_DEPRECATED_END
     if ([self.userAccountMap objectForKey:userAccount.accountIdentity]!=nil)
         [self.userAccountMap removeObjectForKey:userAccount.accountIdentity];
 
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     success = [self.accountPersister saveAccountForUser:userAccount error:error];
-    SFSDK_USE_DEPRECATED_END
     if (success) {
         [self.userAccountMap setObject:userAccount forKey:userAccount.accountIdentity];
         if (self.userAccountMap.count>1 && oldCount<self.userAccountMap.count ) {
@@ -1226,9 +1202,7 @@ SFSDK_USE_DEPRECATED_END
 - (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error {
     BOOL success = NO;
     [_accountsLock lock];
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     success = [self.accountPersister deleteAccountForUser:user error:error];
-    SFSDK_USE_DEPRECATED_END
 
     if (success) {
         user.userDeleted = YES;
@@ -1251,11 +1225,6 @@ SFSDK_USE_DEPRECATED_END
 }
 
 - (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData {
-    return [self applyCredentials:credentials withIdData:identityData andNotification:YES];
-}
-
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification{
-    
     SFUserAccount *currentAccount = [self accountForCredentials:credentials];
     SFUserAccountDataChange accountDataChange = SFUserAccountDataChangeUnknown;
     SFUserAccountChange userAccountChange = SFUserAccountChangeUnknown;
@@ -1291,13 +1260,11 @@ SFSDK_USE_DEPRECATED_END
         currentAccount.idData = identityData;
     }
     [self saveAccountForUser:currentAccount error:nil];
-
-    if(shouldSendNotification) {
-        if (accountDataChange != SFUserAccountChangeUnknown) {
-            [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:currentAccount andChange:accountDataChange];
-        } else if (userAccountChange!=SFUserAccountDataChangeUnknown) {
-            [self notifyUserChange:SFUserAccountManagerDidChangeUserNotification withUser:currentAccount andChange:userAccountChange];
-        }
+   
+    if (accountDataChange != SFUserAccountChangeUnknown) {
+        [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:currentAccount andChange:accountDataChange];
+    } else if (userAccountChange!=SFUserAccountDataChangeUnknown) {
+        [self notifyUserChange:SFUserAccountManagerDidChangeUserNotification withUser:currentAccount andChange:userAccountChange];
     }
     return currentAccount;
 }
@@ -1388,36 +1355,6 @@ SFSDK_USE_DEPRECATED_END
     }
     [_accountsLock unlock];
     [standardDefaults synchronize];
-}
-
-- (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)user {
-    if (user) {
-        [_accountsLock lock];
-        user.idData = idData;
-        [self saveAccountForUser:user error:nil];
-        [_accountsLock unlock];
-        [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
-    }
-}
-
-- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user {
-    if (user) {
-        [_accountsLock lock];
-        user.idData.customAttributes = customAttributes;
-        [self saveAccountForUser:user error:nil];
-        [_accountsLock unlock];
-        [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
-    }
-}
-
-- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user {
-     if (user) {
-        [_accountsLock lock];
-        user.idData.customPermissions = customPermissions;
-        [self saveAccountForUser:user error:nil];
-        [_accountsLock unlock];
-        [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:SFUserAccountDataChangeIdData];
-     }
 }
 
 - (void)setObjectForUserCustomData:(NSObject <NSCoding> *)object forKey:(NSString *)key andUser:(SFUserAccount *)user {
@@ -1561,9 +1498,7 @@ SFSDK_USE_DEPRECATED_END
         };
     }];
     dispatch_async(dispatch_get_main_queue(), ^{
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         weakSelf.alertDisplayBlock(message, SFSDKWindowManager.sharedManager.authWindow);
-        SFSDK_USE_DEPRECATED_END
     });
 }
 
@@ -1581,9 +1516,7 @@ SFSDK_USE_DEPRECATED_END
         };
     }];
     dispatch_async(dispatch_get_main_queue(), ^{
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         weakSelf.alertDisplayBlock(message, SFSDKWindowManager.sharedManager.authWindow);
-        SFSDK_USE_DEPRECATED_END
     });
 }
 
@@ -1662,11 +1595,9 @@ SFSDK_USE_DEPRECATED_END
 }
 
 - (void)finalizeAuthCompletion:(SFSDKAuthSession *)authSession {
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     // Apply the credentials that will ensure there is a user and that this
     // current user as the proper credentials.
     SFUserAccount *userAccount = [self applyCredentials:authSession.oauthCoordinator.credentials withIdData:authSession.identityCoordinator.idData];
-    SFSDK_USE_DEPRECATED_END
     BOOL loginStateTransitionSucceeded = [userAccount transitionToLoginState:SFUserAccountLoginStateLoggedIn];
     if (!loginStateTransitionSucceeded) {
 
@@ -1838,9 +1769,6 @@ SFSDK_USE_DEPRECATED_END
 }
 
 #pragma mark - User Change Notifications
-- (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change {
-    [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:user andChange:change];
-}
 
 - (void)notifyUserDataChange:(NSString *)notificationName withUser:(SFUserAccount *)user andChange:(SFUserAccountDataChange)change {
     if (user) {
