@@ -72,11 +72,6 @@ static NSString * const kIDFieldValue = @"%@-%@-%@-%@-%@";
     return self;
 }
 
-+ (SFLayoutSyncDownTarget *)newSyncTarget:(NSString *)objectType
-                               layoutType:(NSString *)layoutType {
-    return [SFLayoutSyncDownTarget newSyncTarget:objectType formFactor:nil layoutType:layoutType mode:nil recordTypeId:nil];
-}
-
 + (SFLayoutSyncDownTarget *)newSyncTarget:(NSString *)objectAPIName
                                formFactor:(NSString *)formFactor
                                layoutType:(NSString *)layoutType

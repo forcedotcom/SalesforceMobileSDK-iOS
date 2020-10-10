@@ -103,13 +103,6 @@ static NSArray<SFSoupIndex *> *indexSpecs = nil;
     }
 }
 
-- (void)fetchLayoutForObject:(NSString *)objectType
-                  layoutType:(NSString *)layoutType
-                        mode:(SFSDKFetchMode)mode
-             completionBlock:(SFLayoutSyncCompletionBlock)completionBlock {
-    [self fetchLayoutForObjectAPIName:objectType formFactor:nil layoutType:layoutType mode:nil recordTypeId:nil syncMode:mode completionBlock:completionBlock];
-}
-
 - (void)fetchLayoutForObjectAPIName:(NSString *)objectAPIName
                          formFactor:(NSString *)formFactor
                          layoutType:(NSString *)layoutType
