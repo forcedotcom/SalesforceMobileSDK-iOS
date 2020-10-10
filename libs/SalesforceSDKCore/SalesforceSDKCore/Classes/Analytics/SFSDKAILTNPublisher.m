@@ -43,10 +43,6 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
 
 @implementation SFSDKAILTNPublisher
 
-- (void) publish:(NSArray *) events publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
-    [self publish:events user:[SFUserAccountManager sharedInstance].currentUser publishCompleteBlock:publishCompleteBlock];
-}
-
 - (void) publish:(NSArray *) events user:(SFUserAccount *)user publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
     if (!events || [events count] == 0) {
         publishCompleteBlock(NO, nil);
