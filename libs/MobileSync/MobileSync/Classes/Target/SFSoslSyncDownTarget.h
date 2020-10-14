@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSyncDownTarget.h"
+#import <MobileSync/SFSyncDownTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(SoslSyncDownTarget)

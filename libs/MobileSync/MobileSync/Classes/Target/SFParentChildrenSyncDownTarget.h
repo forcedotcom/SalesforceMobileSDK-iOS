@@ -22,10 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFParentInfo.h"
-#import "SFChildrenInfo.h"
-#import "SFParentChildrenSyncHelper.h"
-#import "SFSoqlSyncDownTarget.h"
+#import <MobileSync/SFParentInfo.h>
+#import <MobileSync/SFChildrenInfo.h>
+#import <MobileSync/SFParentChildrenSyncHelper.h>
+#import <MobileSync/SFSoqlSyncDownTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(ParentChildrenSyncDownTarget)

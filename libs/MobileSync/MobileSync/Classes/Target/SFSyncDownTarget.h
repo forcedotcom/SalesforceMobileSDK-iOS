@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSyncTarget.h"
+#import <MobileSync/SFSyncTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

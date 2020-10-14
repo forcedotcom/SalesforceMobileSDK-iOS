@@ -29,7 +29,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-#import "SFSyncDownTarget.h"
+#import <MobileSync/SFSyncDownTarget.h>
 
 /**
  * Sync down target for object layouts. This uses the '/ui-api/layout' API to fetch object layouts.

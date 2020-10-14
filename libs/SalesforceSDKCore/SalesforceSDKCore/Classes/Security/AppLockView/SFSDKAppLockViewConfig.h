@@ -28,8 +28,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSDKViewControllerConfig.h"
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SFSDKViewControllerConfig.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

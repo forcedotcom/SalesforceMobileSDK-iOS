@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFEncryptionKey.h"
+#import <SalesforceSDKCore/SFEncryptionKey.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

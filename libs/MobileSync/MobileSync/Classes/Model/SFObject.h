@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFMobileSyncPersistableObject.h"
+#import <MobileSync/SFMobileSyncPersistableObject.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

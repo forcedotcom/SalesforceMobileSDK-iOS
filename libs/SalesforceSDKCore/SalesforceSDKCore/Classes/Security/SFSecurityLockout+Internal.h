@@ -1,4 +1,4 @@
-#import "SFSecurityLockout.h"
+#import <SalesforceSDKCore/SFSecurityLockout.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

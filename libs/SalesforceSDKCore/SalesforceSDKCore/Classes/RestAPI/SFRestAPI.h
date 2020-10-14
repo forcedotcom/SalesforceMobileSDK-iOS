@@ -23,10 +23,10 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFRestRequest.h"
-#import "SFSObjectTree.h"
-#import "SFUserAccount.h"
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SFRestRequest.h>
+#import <SalesforceSDKCore/SFSObjectTree.h>
+#import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

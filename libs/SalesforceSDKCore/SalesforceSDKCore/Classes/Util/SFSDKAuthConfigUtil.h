@@ -26,9 +26,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthOrgAuthConfiguration.h"
-#import "SFOAuthCredentials.h"
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SFOAuthOrgAuthConfiguration.h>
+#import <SalesforceSDKCore/SFOAuthCredentials.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 @interface SFSDKAuthConfigUtil : NSObject
 
