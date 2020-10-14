@@ -23,8 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SalesforceSDKConstants.h"
-#import "SFUserAccount.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+#import <SalesforceSDKCore/SFUserAccount.h>
 
 /**
  * HTTP methods for requests.

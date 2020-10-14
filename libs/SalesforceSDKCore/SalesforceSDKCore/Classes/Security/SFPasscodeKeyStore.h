@@ -22,8 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFKeyStore.h"
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SFKeyStore.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 /*
  * NB: Starting with SDK 6.0, we no longer store key in the passcode key store.

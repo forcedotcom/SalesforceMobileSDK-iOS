@@ -22,8 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncUpTarget.h"
-#import "SFAdvancedSyncUpTarget.h"
+#import <MobileSync/SFSyncUpTarget.h>
+#import <MobileSync/SFAdvancedSyncUpTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

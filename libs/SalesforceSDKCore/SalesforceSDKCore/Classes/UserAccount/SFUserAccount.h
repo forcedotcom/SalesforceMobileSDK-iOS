@@ -24,9 +24,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "SFUserAccountConstants.h"
-#import "SFIdentityData.h"
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SFUserAccountConstants.h>
+#import <SalesforceSDKCore/SFIdentityData.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

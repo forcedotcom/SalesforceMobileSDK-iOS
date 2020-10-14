@@ -28,9 +28,9 @@
  */
 
 #import <SmartStore/SFSmartStore.h>
-#import "SFMobileSyncSyncManager.h"
-#import "SFMetadata.h"
-#import "SFMobileSyncConstants.h"
+#import <MobileSync/SFMobileSyncSyncManager.h>
+#import <MobileSync/SFMetadata.h>
+#import <MobileSync/SFMobileSyncConstants.h>
 
 /**
  * Completion block triggered when metadata sync completes.

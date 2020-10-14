@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFPasscodeManager.h"
+#import <SalesforceSDKCore/SFPasscodeManager.h>
 
 SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.")
 @interface SFPasscodeManager ()

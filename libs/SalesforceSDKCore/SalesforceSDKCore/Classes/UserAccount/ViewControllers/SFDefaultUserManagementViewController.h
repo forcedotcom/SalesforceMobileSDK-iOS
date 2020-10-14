@@ -23,7 +23,7 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SFUserAccount.h"
+#import <SalesforceSDKCore/SFUserAccount.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

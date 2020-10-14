@@ -26,8 +26,8 @@
 #import <Security/Security.h>
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
-#import "SFOAuthCredentials.h"
-#import "SFSDKOAuth2.h"
+#import <SalesforceSDKCore/SFOAuthCredentials.h>
+#import <SalesforceSDKCore/SFSDKOAuth2.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @class SFOAuthCoordinator;

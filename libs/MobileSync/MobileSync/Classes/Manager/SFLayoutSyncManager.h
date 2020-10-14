@@ -29,9 +29,9 @@
 
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SmartStore/SFSmartStore.h>
-#import "SFMobileSyncSyncManager.h"
-#import "SFLayout.h"
-#import "SFMobileSyncConstants.h"
+#import <MobileSync/SFMobileSyncSyncManager.h>
+#import <MobileSync/SFLayout.h>
+#import <MobileSync/SFMobileSyncConstants.h>
 
 /**
  * Completion block triggered when layout sync completes.

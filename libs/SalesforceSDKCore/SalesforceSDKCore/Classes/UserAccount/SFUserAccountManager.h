@@ -21,17 +21,17 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SalesforceSDKCoreDefines.h"
-#import "SFUserAccount.h"
-#import "SFOAuthCredentials.h"
-#import "SFUserAccountIdentity.h"
-#import "SFUserAccountConstants.h"
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthCoordinator.h"
-#import "SFSDKLoginViewControllerConfig.h"
-#import "SFSDKAppLockViewConfig.h"
-#import "SFSecurityLockout.h"
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
+#import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceSDKCore/SFOAuthCredentials.h>
+#import <SalesforceSDKCore/SFUserAccountIdentity.h>
+#import <SalesforceSDKCore/SFUserAccountConstants.h>
+#import <SalesforceSDKCore/SFOAuthCoordinator.h>
+#import <SalesforceSDKCore/SFOAuthCoordinator.h>
+#import <SalesforceSDKCore/SFSDKLoginViewControllerConfig.h>
+#import <SalesforceSDKCore/SFSDKAppLockViewConfig.h>
+#import <SalesforceSDKCore/SFSecurityLockout.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -29,7 +29,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "SFSDKWindowContainer.h"
+#import <SalesforceSDKCore/SFSDKWindowContainer.h>
 @class SFSDKWindowManager;
 /**
  Delegate of the SFSDKWindowManager
