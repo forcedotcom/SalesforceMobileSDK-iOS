@@ -226,7 +226,7 @@ extension RestClient {
   
 }
 
-@available(iOS 13.0, watchOS 6.0, *)
+@available(watchOS 6.0, *)
 extension RestClient {
     
     public func publisher(for request: RestRequest) -> Future<RestResponse, RestClientError> {

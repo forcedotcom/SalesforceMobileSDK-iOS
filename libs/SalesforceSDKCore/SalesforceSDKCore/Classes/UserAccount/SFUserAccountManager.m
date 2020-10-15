@@ -1830,13 +1830,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             }];
         }
         else {
-            if (@available(iOS 13.0, *)) {
-                SFSDKAuthRootController* authRootController = [[SFSDKAuthRootController alloc] init];
-                [SFSDKWindowManager sharedManager].authWindow.viewController = authRootController;
-                authRootController.modalPresentationStyle = UIModalPresentationFullScreen;
-                viewHandler.session.presentationContextProvider = (id<ASWebAuthenticationPresentationContextProviding>) [SFSDKWindowManager sharedManager].authWindow.viewController;
-            }
-           [viewHandler.session start];
+            SFSDKAuthRootController* authRootController = [[SFSDKAuthRootController alloc] init];
+            [SFSDKWindowManager sharedManager].authWindow.viewController = authRootController;
+            authRootController.modalPresentationStyle = UIModalPresentationFullScreen;
+            viewHandler.session.presentationContextProvider = (id<ASWebAuthenticationPresentationContextProviding>) [SFSDKWindowManager sharedManager].authWindow.viewController;
+            [viewHandler.session start];
         }
     };
   

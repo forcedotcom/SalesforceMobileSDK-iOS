@@ -813,7 +813,7 @@
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceAnalytics/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -841,7 +841,7 @@
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceAnalytics/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -865,7 +865,7 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -888,7 +888,7 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -935,7 +935,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -964,7 +964,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
