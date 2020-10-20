@@ -1,24 +1,13 @@
 anchors:
-  - &latest-xcode "11.7.0"
-  - &latest-ios   "13.7"
-  - &min-ios      "12.2"
-  - &beta-xcode   "12.0.0"
-  - &beta-ios     "14.0"
+  - &latest-xcode "12.0.1"
+  - &latest-ios   "14.1"
+  - &min-ios      "13.5"
 
 executors:
   mac:
     working_directory: ~/SalesforceMobileSDK-iOS
     macos:
       xcode: *latest-xcode
-    shell: /bin/bash --login -eo pipefail
-    environment:
-      BASH_ENV: ~/.bashrc
-      FASTLANE_SKIP_UPDATE_CHECK: "true"
-      CHRUBY_VER: 2.7.1
-  mac-beta:
-    working_directory: ~/SalesforceMobileSDK-iOS
-    macos:
-      xcode: *beta-xcode
     shell: /bin/bash --login -eo pipefail
     environment:
       BASH_ENV: ~/.bashrc
@@ -138,14 +127,4 @@ workflows:
               nightly-test: [true]
               ios: [*latest-ios]
           requires:
-            - test << matrix.lib >> iOS 12.2
-      - run-tests:
-          name: test << matrix.lib >> iOS << matrix.ios >> 
-          matrix:
-            parameters:
-              lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
-              nightly-test: [true]
-              ios: [*beta-ios]
-              env: [mac-beta]
-          requires:
-            - test << matrix.lib >> iOS 13.7
+            - test << matrix.lib >> iOS 13.5
