@@ -77,7 +77,6 @@ extension SyncManager {
     }
 }
 
-@available(watchOS 6.0, *)
 extension SyncManager {
     /// Runs or reruns a sync.
     /// - Parameter named: name of sync to run

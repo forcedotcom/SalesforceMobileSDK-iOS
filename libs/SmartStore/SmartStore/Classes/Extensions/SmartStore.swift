@@ -71,7 +71,6 @@ extension SmartStore {
     }
 }
 
-@available(watchOS 6.0, *)
 extension SmartStore {
     
     /// Runs a query. Returns a Combine Publisher.
