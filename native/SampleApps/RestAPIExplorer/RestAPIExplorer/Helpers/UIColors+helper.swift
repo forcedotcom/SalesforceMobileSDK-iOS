@@ -80,10 +80,7 @@ extension UIColor {
 
     class var appContentBackground: UIColor {
         let lightStyleColor = UIColor(displayP3Red: 224.0/255.0, green: 229.0/255.0, blue: 238.0/255.0, alpha: 1.0)
-        if #available(iOS 13.0, *) {
-            return UIColor.init(forLightStyle: lightStyleColor, darkStyle: UIColor.secondarySystemBackground)
-        }
-        return lightStyleColor
+        return UIColor.init(forLightStyle: lightStyleColor, darkStyle: UIColor.secondarySystemBackground)
     }
     
     class var appTextViewYellowBackground: UIColor {

@@ -37,12 +37,7 @@
     }
     
     if (config.navBarColor) {
-        if (@available(iOS 13.0, *)) {
-            navigationBar.standardAppearance.backgroundColor = config.navBarColor;
-        } else {
-            UIImage *backgroundImage = [self headerBackgroundImage:config.navBarColor];
-            [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
-        }
+        navigationBar.standardAppearance.backgroundColor = config.navBarColor;
         navigationBar.backgroundColor = config.navBarColor;
     }
     
@@ -64,9 +59,7 @@
     }
     
     if ([textAttributes count] > 0) {
-        if (@available(iOS 13.0, *)) {
-            navigationBar.standardAppearance.titleTextAttributes = textAttributes;
-        }
+        navigationBar.standardAppearance.titleTextAttributes = textAttributes;
         [navigationBar setTitleTextAttributes:textAttributes];
     }
 }

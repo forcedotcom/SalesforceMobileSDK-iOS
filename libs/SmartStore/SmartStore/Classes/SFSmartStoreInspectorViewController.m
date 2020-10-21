@@ -519,17 +519,11 @@ static NSString * const kInspectorPickerDefault = @"default";
 }
 
 - (UIColor *)textColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor labelColor];
-    }
-    return [UIColor blackColor];
+    return [UIColor labelColor];
 }
 
 - (CGColorRef)borderColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor separatorColor].CGColor;
-    }
-    return [UIColor lightGrayColor].CGColor;
+    return [UIColor separatorColor].CGColor;
 }
 
 #pragma mark - Text view delegate

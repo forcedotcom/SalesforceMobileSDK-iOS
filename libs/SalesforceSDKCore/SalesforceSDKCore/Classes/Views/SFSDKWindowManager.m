@@ -251,9 +251,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 }
 
 - (void)setWindowScene:(SFSDKWindowContainer *)container {
-    if (@available(iOS 13.0, *)) {
-         container.window.windowScene = self.mainWindow.window.windowScene;
-    }
+    container.window.windowScene = self.mainWindow.window.windowScene;
 }
 
 - (void)addDelegate:(id<SFSDKWindowManagerDelegate>)delegate
@@ -437,13 +435,11 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 
 - (UIWindow *)findKeyWindow {
     UIWindow *mainWindow = [SFApplicationHelper sharedApplication].delegate.window;
-    if (@available(iOS 13.0, *)) {
-        UIWindowScene *scene = (UIWindowScene *) [SFApplicationHelper  sharedApplication].connectedScenes.allObjects.firstObject;
-        for (UIWindow *window in scene.windows) {
-            if (window.isKeyWindow) {
-                mainWindow = window;
-                break;
-            }
+    UIWindowScene *scene = (UIWindowScene *) [SFApplicationHelper  sharedApplication].connectedScenes.allObjects.firstObject;
+    for (UIWindow *window in scene.windows) {
+        if (window.isKeyWindow) {
+            mainWindow = window;
+            break;
         }
     }
     return mainWindow;
@@ -456,9 +452,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 
 // TODO: Remove wrapping method in Mobile SDK 9.0
 - (void)overrideStyle:(SFSDKWindowContainer *)container {
-    if (@available(iOS 13.0, *)) {
-        container.window.overrideUserInterfaceStyle = self.userInterfaceStyle;
-    }
+    container.window.overrideUserInterfaceStyle = self.userInterfaceStyle;
 }
 
 + (instancetype)sharedManager {
