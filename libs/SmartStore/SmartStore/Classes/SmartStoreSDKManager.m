@@ -27,6 +27,8 @@
 #import "SmartStoreSDKManager.h"
 #import "SFSDKStoreConfig.h"
 #import "SFSmartStoreInspectorViewController.h"
+#import "SFKeyValueStoreInspectorViewController.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 
 @interface SalesforceSDKManager()
@@ -83,11 +85,16 @@
 -(NSArray*) getDevActions:(UIViewController *)presentedViewController
 {
     NSMutableArray * devActions = [NSMutableArray arrayWithArray:[super getDevActions:presentedViewController]];
-    SFSDKDevAction *action = [[SFSDKDevAction alloc]initWith:@"Inspect SmartStore" handler:^{
+    SFSDKDevAction *smartStoreAction = [[SFSDKDevAction alloc]initWith:@"Inspect SmartStore" handler:^{
         SFSmartStoreInspectorViewController *devInfo = [[SFSmartStoreInspectorViewController alloc] init];
         [presentedViewController presentViewController:devInfo animated:NO completion:nil];
     }];
-    [devActions addObjectsFromArray:@[action]];
+    [devActions addObjectsFromArray:@[smartStoreAction]];
+    SFSDKDevAction *keyValueStoreAction = [[SFSDKDevAction alloc]initWith:@"Inspect Key-Value Store" handler:^{
+        SFKeyValueStoreInspectorViewController *devInfo = [[SFKeyValueStoreInspectorViewController alloc] init];
+        [presentedViewController presentViewController:devInfo animated:NO completion:nil];
+    }];
+    [devActions addObjectsFromArray:@[keyValueStoreAction]];
     return devActions;
 }
 
@@ -99,8 +106,10 @@
             @"SQLCipher version", [store getSQLCipherVersion],
             @"SQLCipher Compile Options", [[store getCompileOptions] componentsJoinedByString:@", "],
             @"SQLCipher Runtime Settings", [[store getRuntimeSettings] componentsJoinedByString:@", "],
-            @"User Stores", [self safeJoin:[SFSmartStore allStoreNames] separator:@", "],
-            @"Global Stores", [self safeJoin:[SFSmartStore allGlobalStoreNames] separator:@", "]
+            @"User SmartStores", [self safeJoin:[SFSmartStore allStoreNames] separator:@", "],
+            @"Global SmartStores", [self safeJoin:[SFSmartStore allGlobalStoreNames] separator:@", "],
+            @"User Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allStoreNames] separator:@", "],
+            @"Global Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allGlobalStoreNames] separator:@", "]
     ]];
     return devInfos;
 }

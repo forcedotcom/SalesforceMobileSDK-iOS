@@ -517,6 +517,10 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
                      [presentedViewController dismissViewControllerAnimated:YES completion:nil];
                  }];
                  [presentedViewController presentViewController:umvc animated:YES completion:nil];
+             }],
+             [[SFSDKDevAction alloc]initWith:@"Inspect Key-Value Store" handler:^{
+                 UIViewController *keyValueStoreInspector = [[SFSDKKeyValueEncryptedFileStoreViewController new] createUI];
+                 [presentedViewController presentViewController:keyValueStoreInspector animated:YES completion:nil];
              }]
     ];
 }
@@ -528,11 +532,13 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
             @"User Agent", self.userAgentString(@""),
-             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
+            @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
             @"Current User", [self userToString:userAccountManager.currentUser],
-            @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts]
+            @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts],
+            @"User Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allStoreNames] separator:@", "],
+            @"Global Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allGlobalStoreNames] separator:@", "]
     ]];
 
     [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict keyPrefix:@"BootConfig"]];
@@ -1159,6 +1165,11 @@ SFSDK_USE_DEPRECATED_END
         [NSURLCache setSharedURLCache:cache];
     }
 }
+
+- (NSString*) safeJoin:(NSArray*)array separator:(NSString*)separator {
+    return array ? [array componentsJoinedByString:separator] : @"";
+}
+
 
 #pragma mark - SFUserAccountManagerDelegate
 - (void)handleUserDidLogout:(NSNotification *)notification {
