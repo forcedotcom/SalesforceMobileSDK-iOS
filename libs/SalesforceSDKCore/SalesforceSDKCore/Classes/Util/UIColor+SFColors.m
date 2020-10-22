@@ -70,17 +70,11 @@
 }
 
 + (UIColor *)salesforceSystemBackgroundColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor systemBackgroundColor];
-    }
-    return [UIColor whiteColor];
+    return [UIColor systemBackgroundColor];
 }
 
 + (UIColor *)salesforceLabelColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor labelColor];
-    }
-    return [UIColor blackColor];
+    return [UIColor labelColor];
 }
 
 + (UIColor *)salesforceBackgroundRowSelectedColor {
@@ -146,16 +140,13 @@
 }
 
 + (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor {
-    if (@available(iOS 13.0, *)) {
-        return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                return darkStyleColor;
-            } else {
-                return lightStyleColor;
-            }
-        }];
-    }
-    return lightStyleColor;
+    return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                    return darkStyleColor;
+                } else {
+                    return lightStyleColor;
+                }
+            }];
 }
 
 

@@ -139,20 +139,17 @@
 }
 
 - (void)testStyleOverride {
-    // TODO: Remove this check in Mobile SDK 9.0
-    if (@available(iOS 13.0, *)) {
-        SFSDKWindowContainer *snapshotWindow = [SFSDKWindowManager sharedManager].snapshotWindow;
-        SFSDKWindowContainer *passcodeWindow = [SFSDKWindowManager sharedManager].passcodeWindow;
+    SFSDKWindowContainer *snapshotWindow = [SFSDKWindowManager sharedManager].snapshotWindow;
+    SFSDKWindowContainer *passcodeWindow = [SFSDKWindowManager sharedManager].passcodeWindow;
 
-        // Check default
-        XCTAssertEqual(snapshotWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleUnspecified);
-        XCTAssertEqual(passcodeWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleUnspecified);
+    // Check default
+    XCTAssertEqual(snapshotWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleUnspecified);
+    XCTAssertEqual(passcodeWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleUnspecified);
 
-        // Set it directly
-        [SFSDKWindowManager sharedManager].userInterfaceStyle = UIUserInterfaceStyleDark;
-        XCTAssertEqual(snapshotWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleDark);
-        XCTAssertEqual(passcodeWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleDark);
-    }
+    // Set it directly
+    [SFSDKWindowManager sharedManager].userInterfaceStyle = UIUserInterfaceStyleDark;
+    XCTAssertEqual(snapshotWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleDark);
+    XCTAssertEqual(passcodeWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleDark);
 }
 
 - (void)testActive {

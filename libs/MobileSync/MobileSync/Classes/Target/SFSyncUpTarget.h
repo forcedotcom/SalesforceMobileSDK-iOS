@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSyncTarget.h"
+#import <MobileSync/SFSyncTarget.h>
 
 extern NSString * _Nonnull const kSFSyncUpTargetCreateFieldlist;
 extern NSString * _Nonnull const kSFSyncUpTargetUpdateFieldlist;

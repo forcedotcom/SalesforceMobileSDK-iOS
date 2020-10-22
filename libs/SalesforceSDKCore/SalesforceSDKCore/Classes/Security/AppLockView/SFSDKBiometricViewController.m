@@ -162,12 +162,10 @@ static CGFloat      const kSFBioViewBorderWidth                = 0.5f;
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    if (@available(iOS 13.0, *)) {
-        if ([self.view.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
-            [self updateIconCircleColors];
-            [self updateCancelBiometricButtonColors];
-            [self updateSetupBiometricViewColors];
-        }
+    if ([self.view.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+        [self updateIconCircleColors];
+        [self updateCancelBiometricButtonColors];
+        [self updateSetupBiometricViewColors];
     }
 }
 

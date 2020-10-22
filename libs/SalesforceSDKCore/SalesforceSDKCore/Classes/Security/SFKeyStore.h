@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFKeyStoreKey.h"
+#import <SalesforceSDKCore/SFKeyStoreKey.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

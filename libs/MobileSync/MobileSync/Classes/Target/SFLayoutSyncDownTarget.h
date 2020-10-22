@@ -29,7 +29,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-#import "SFSyncDownTarget.h"
+#import <MobileSync/SFSyncDownTarget.h>
 
 /**
  * Sync down target for object layouts. This uses the '/ui-api/layout' API to fetch object layouts.
@@ -43,11 +43,6 @@ NS_SWIFT_NAME(LayoutSyncDownTarget)
 @property (nullable, nonatomic, strong, readonly) NSString *layoutType;
 @property (nullable, nonatomic, strong, readonly) NSString *mode;
 @property (nullable, nonatomic, strong, readonly) NSString *recordTypeId;
-
-/**
- * Factory method.
- */
-+ (nonnull SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use newSyncTarget:objectAPIName:formFactor:layoutType:mode:recordTypeId instead.");
 
 /**
  * Factory method.

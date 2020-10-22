@@ -24,8 +24,8 @@
 
 #import <Foundation/Foundation.h>
 #import <MobileSync/SFMobileSyncSyncManager.h>
-#import "SObjectDataSpec.h"
-#import "SObjectData.h"
+#import <MobileSyncExplorerCommon/SObjectDataSpec.h>
+#import <MobileSyncExplorerCommon/SObjectData.h>
 
 
 @interface SObjectDataManager : NSObject

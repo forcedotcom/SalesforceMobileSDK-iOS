@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSDKSoslReturningBuilder.h"
+#import <SalesforceSDKCore/SFSDKSoslReturningBuilder.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

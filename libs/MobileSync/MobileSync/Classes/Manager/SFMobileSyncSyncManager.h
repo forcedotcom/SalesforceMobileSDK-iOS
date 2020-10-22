@@ -23,10 +23,10 @@
  */
 
 #import <SalesforceSDKCore/SFRestAPI+Blocks.h>
-#import "SFSyncState.h"
-#import "SFSyncOptions.h"
-#import "SFSyncUpTarget.h"
-#import "SFSyncDownTarget.h"
+#import <MobileSync/SFSyncState.h>
+#import <MobileSync/SFSyncOptions.h>
+#import <MobileSync/SFSyncUpTarget.h>
+#import <MobileSync/SFSyncDownTarget.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

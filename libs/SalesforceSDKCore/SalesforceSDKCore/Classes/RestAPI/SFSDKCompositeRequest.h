@@ -23,7 +23,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 */
 
 #import <Foundation/Foundation.h>
-#import "SFRestRequest.h"
+#import <SalesforceSDKCore/SFRestRequest.h>
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(CompositeSubRequest)

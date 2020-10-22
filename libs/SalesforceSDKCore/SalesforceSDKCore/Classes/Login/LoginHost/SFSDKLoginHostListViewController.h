@@ -27,7 +27,7 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SFSDKLoginHostDelegate.h"
+#import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -25,8 +25,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "SFAppLockViewControllerTypes.h"
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SFAppLockViewControllerTypes.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

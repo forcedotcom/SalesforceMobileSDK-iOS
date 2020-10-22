@@ -29,7 +29,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "SFSDKWindowContainer.h"
+#import <SalesforceSDKCore/SFSDKWindowContainer.h>
 @class SFSDKWindowManager;
 /**
  Delegate of the SFSDKWindowManager
@@ -95,10 +95,9 @@
  */
 @property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull mainWindow;
 
-// TODO: Remove API_AVAILABLE in Mobile SDK 9.0
 /** Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.
  */
-@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE(ios(13));
+@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle;
 
 /** Returns the SFSDKWindowContainer window representing the active presented Window that has been set
  */
