@@ -27,13 +27,14 @@
 
 import SwiftUI
 
+private let GLOBAL = " (global)"
+
 struct KeyValueEncryptedFileStoreInpector: View {
     var stores = getStores()
     @State private var selectedIndex = 0
     @State private var key: String = ""
     @State private var keyValueList: [KeyValuePair] = []
     @State private var keyNotFoundAlert: Bool = false
-    private let GLOBAL = " (global)"
     
     var body: some View {
         NavigationView {
@@ -123,7 +124,7 @@ struct KeyValueEncryptedFileStoreInpector: View {
 func getStores() -> [String] {
     var stores = KeyValueEncryptedFileStore.allNames()
     for globalStore in KeyValueEncryptedFileStore.allGlobalNames() {
-        stores.append(globalStore + " (global)")
+        stores.append(globalStore + GLOBAL)
     }
     return stores
 }
