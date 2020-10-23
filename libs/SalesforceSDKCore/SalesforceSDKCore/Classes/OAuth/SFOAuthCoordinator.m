@@ -615,6 +615,17 @@
         if (nil == error) {
             [self.credentials updateCredentials:params];
             self.credentials.refreshToken   = params[kSFOAuthRefreshToken];
+            // Parse additional flags
+            if(self.additionalOAuthParameterKeys.count > 0) {
+                NSMutableDictionary * parsedValues = [NSMutableDictionary dictionaryWithCapacity:self.additionalOAuthParameterKeys.count];
+                for(NSString * key in self.additionalOAuthParameterKeys) {
+                    id obj = params[key];
+                    if(obj) {
+                        parsedValues[key] = obj;
+                    }
+                }
+                self.credentials.additionalOAuthFields = parsedValues;
+            }
             [self notifyDelegateOfSuccess:self.authInfo];
         } else {
             NSError *finalError;
