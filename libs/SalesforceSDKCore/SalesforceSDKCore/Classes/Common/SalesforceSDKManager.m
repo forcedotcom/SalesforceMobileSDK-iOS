@@ -38,6 +38,7 @@
 #import "UIColor+SFColors.h"
 #import "SFDirectoryManager+Internal.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
+#import "SFSDKResourceUtils.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -389,7 +390,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
     // On larger devices we don't have an anchor point for the action sheet
     UIAlertControllerStyle style = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? UIAlertControllerStyleActionSheet : UIAlertControllerStyleAlert;
-    self.actionSheet = [UIAlertController alertControllerWithTitle:@"Mobile SDK Dev Support"
+    self.actionSheet = [UIAlertController alertControllerWithTitle:[SFSDKResourceUtils localizedString:@"devInfoTitle"]
                                                        message:@""
                                                 preferredStyle:style];
 
@@ -405,7 +406,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
                                                            }]];
     }
     
-    [self.actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
+    [self.actionSheet addAction:[UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"devInfoCancelKey"]
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(__unused UIAlertAction *action) {
                                                            self.actionSheet = nil;
