@@ -27,7 +27,6 @@
 #import "SmartStoreSDKManager.h"
 #import "SFSDKStoreConfig.h"
 #import "SFSmartStoreInspectorViewController.h"
-#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 
 @interface SalesforceSDKManager()
@@ -84,11 +83,11 @@
 -(NSArray*) getDevActions:(UIViewController *)presentedViewController
 {
     NSMutableArray * devActions = [NSMutableArray arrayWithArray:[super getDevActions:presentedViewController]];
-    SFSDKDevAction *smartStoreAction = [[SFSDKDevAction alloc]initWith:@"Inspect SmartStore" handler:^{
+    SFSDKDevAction *action = [[SFSDKDevAction alloc]initWith:@"Inspect SmartStore" handler:^{
         SFSmartStoreInspectorViewController *devInfo = [[SFSmartStoreInspectorViewController alloc] init];
         [presentedViewController presentViewController:devInfo animated:NO completion:nil];
     }];
-    [devActions addObjectsFromArray:@[smartStoreAction]];
+    [devActions addObjectsFromArray:@[action]];
     return devActions;
 }
 
@@ -102,8 +101,6 @@
             @"SQLCipher Runtime Settings", [[store getRuntimeSettings] componentsJoinedByString:@", "],
             @"User SmartStores", [self safeJoin:[SFSmartStore allStoreNames] separator:@", "],
             @"Global SmartStores", [self safeJoin:[SFSmartStore allGlobalStoreNames] separator:@", "],
-            @"User Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allStoreNames] separator:@", "],
-            @"Global Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allGlobalStoreNames] separator:@", "]
     ]];
     return devInfos;
 }
