@@ -162,7 +162,7 @@
     } else {
         __weak typeof(self) weakSelf = self;
         if (self.useBrowserAuth) {
-            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAdvancedAuthForLogin];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
@@ -176,12 +176,12 @@
                     // Ignore any errors why retrieving authconfig. Default to WKWebView
                     // Errors should have already been logged.
                     if (authConfig.useNativeBrowserForAuth) {
-                         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAdvancedAuthForLogin];
+                         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                         [strongSelf notifyDelegateOfBeginAuthentication];
                         [strongSelf beginNativeBrowserFlow];
                     } else {
-                        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAdvancedAuthForLogin];
+                        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         [strongSelf notifyDelegateOfBeginAuthentication];
                         [strongSelf beginUserAgentFlow];
                     }
@@ -369,7 +369,7 @@
     // Launch the native browser.
     [SFSDKCoreLogger d:[self class] format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
-    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAdvancedAuthForLogin];
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     __weak typeof(self) weakSelf = self;
      
     _asWebAuthenticationSession = [[ASWebAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:self.credentials.redirectUri   completionHandler:^(NSURL *callbackURL, NSError *error) {

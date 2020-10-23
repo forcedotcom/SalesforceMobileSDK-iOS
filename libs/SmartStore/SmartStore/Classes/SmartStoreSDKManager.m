@@ -27,7 +27,6 @@
 #import "SmartStoreSDKManager.h"
 #import "SFSDKStoreConfig.h"
 #import "SFSmartStoreInspectorViewController.h"
-#import "SFKeyValueStoreInspectorViewController.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 
@@ -90,11 +89,6 @@
         [presentedViewController presentViewController:devInfo animated:NO completion:nil];
     }];
     [devActions addObjectsFromArray:@[smartStoreAction]];
-    SFSDKDevAction *keyValueStoreAction = [[SFSDKDevAction alloc]initWith:@"Inspect Key-Value Store" handler:^{
-        SFKeyValueStoreInspectorViewController *devInfo = [[SFKeyValueStoreInspectorViewController alloc] init];
-        [presentedViewController presentViewController:devInfo animated:NO completion:nil];
-    }];
-    [devActions addObjectsFromArray:@[keyValueStoreAction]];
     return devActions;
 }
 

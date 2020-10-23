@@ -125,8 +125,6 @@
 		A3457AAD216EA91200620098 /* SFAppLockViewControllerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD171BFD32140022F021 /* SFAppLockViewControllerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A35E5C3621924B3B00C2357D /* SFSDKAppLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D0421810D9D00437BD2 /* SFSDKAppLockViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A37F3116252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37F3115252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift */; };
-		A392FE9A2537A9D200FBE082 /* SFSDKKeyValueEncryptedFileStoreInspectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392FE992537A9D200FBE082 /* SFSDKKeyValueEncryptedFileStoreInspectorTests.swift */; };
-		A392FEB52537C1F200FBE082 /* KeyValueEncryptedFileStoreInspectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392FEB42537C1F200FBE082 /* KeyValueEncryptedFileStoreInspectorTests.swift */; };
 		A3D0B14D217A951800DDA414 /* SFSDKAppLockViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0B138217A951700DDA414 /* SFSDKAppLockViewConfig.m */; };
 		A3D0B14E217A951800DDA414 /* SFSDKAppLockViewConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = A3D0B14C217A951700DDA414 /* SFSDKAppLockViewConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B70135621F87F63900995171 /* SFSDKAuthErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -812,8 +810,6 @@
 		A32FA720217A972B006D7930 /* SFSDKPasscodeTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeTextField.h; sourceTree = "<group>"; };
 		A32FA734217A972C006D7930 /* SFSDKPasscodeTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeTextField.m; sourceTree = "<group>"; };
 		A37F3115252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStoreViewController.swift; sourceTree = "<group>"; };
-		A392FE992537A9D200FBE082 /* SFSDKKeyValueEncryptedFileStoreInspectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSDKKeyValueEncryptedFileStoreInspectorTests.swift; sourceTree = "<group>"; };
-		A392FEB42537C1F200FBE082 /* KeyValueEncryptedFileStoreInspectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStoreInspectorTests.swift; sourceTree = "<group>"; };
 		A3D0B138217A951700DDA414 /* SFSDKAppLockViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAppLockViewConfig.m; sourceTree = "<group>"; };
 		A3D0B14C217A951700DDA414 /* SFSDKAppLockViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAppLockViewConfig.h; sourceTree = "<group>"; };
 		B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthErrorManager.h; sourceTree = "<group>"; };
@@ -1124,8 +1120,6 @@
 				B7E66AE823763278005A652E /* RestClientPublisherTests.swift */,
 				6931EA48248F000600417362 /* SFUserIdUpgradeTests.m */,
 				693E623A24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m */,
-				A392FE992537A9D200FBE082 /* SFSDKKeyValueEncryptedFileStoreInspectorTests.swift */,
-				A392FEB42537C1F200FBE082 /* KeyValueEncryptedFileStoreInspectorTests.swift */,
 			);
 			name = SalesforceSDKCoreTests;
 			path = SalesforceSDKCore;
@@ -2258,8 +2252,6 @@
 				010A9B591CC1A147002AF4D3 /* SFCryptoStreamTestUtils.m in Sources */,
 				E1DDC1441CAEEB34002F51DD /* SFSDKLoginHostTests.m in Sources */,
 				CE02ACEE202E19CF00C6A714 /* SFSDKAuthConfigUtilTests.m in Sources */,
-				A392FEB52537C1F200FBE082 /* KeyValueEncryptedFileStoreInspectorTests.swift in Sources */,
-				A392FE9A2537A9D200FBE082 /* SFSDKKeyValueEncryptedFileStoreInspectorTests.swift in Sources */,
 				4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */,
 				B7E66AE923763278005A652E /* RestClientPublisherTests.swift in Sources */,
 				B7A4AE4922E8CA780060E737 /* SFSDKAuthUtilTests.swift in Sources */,
