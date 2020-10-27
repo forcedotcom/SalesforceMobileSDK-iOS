@@ -38,6 +38,7 @@
 #import "UIColor+SFColors.h"
 #import "SFDirectoryManager+Internal.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
+#import "SFSDKResourceUtils.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -389,7 +390,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
     // On larger devices we don't have an anchor point for the action sheet
     UIAlertControllerStyle style = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? UIAlertControllerStyleActionSheet : UIAlertControllerStyleAlert;
-    self.actionSheet = [UIAlertController alertControllerWithTitle:@"Mobile SDK Dev Support"
+    self.actionSheet = [UIAlertController alertControllerWithTitle:[SFSDKResourceUtils localizedString:@"devInfoTitle"]
                                                        message:@""
                                                 preferredStyle:style];
 
@@ -405,7 +406,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
                                                            }]];
     }
     
-    [self.actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
+    [self.actionSheet addAction:[UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"devInfoCancelKey"]
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(__unused UIAlertAction *action) {
                                                            self.actionSheet = nil;
@@ -430,6 +431,10 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
                      [presentedViewController dismissViewControllerAnimated:YES completion:nil];
                  }];
                  [presentedViewController presentViewController:umvc animated:YES completion:nil];
+             }],
+             [[SFSDKDevAction alloc]initWith:@"Inspect Key-Value Store" handler:^{
+                 UIViewController *keyValueStoreInspector = [[SFSDKKeyValueEncryptedFileStoreViewController new] createUI];
+                 [presentedViewController presentViewController:keyValueStoreInspector animated:YES completion:nil];
              }]
     ];
 }
@@ -441,11 +446,13 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
             @"User Agent", self.userAgentString(@""),
-             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
+            @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
             @"Current User", [self userToString:userAccountManager.currentUser],
-            @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts]
+            @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts],
+            @"User Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allStoreNames] separator:@", "],
+            @"Global Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allGlobalStoreNames] separator:@", "]
     ]];
 
     [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict keyPrefix:@"BootConfig"]];
@@ -792,6 +799,11 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
         [NSURLCache setSharedURLCache:cache];
     }
 }
+
+- (NSString*) safeJoin:(NSArray*)array separator:(NSString*)separator {
+    return array ? [array componentsJoinedByString:separator] : @"";
+}
+
 
 #pragma mark - SFUserAccountManagerDelegate
 - (void)handleUserDidLogout:(NSNotification *)notification {
