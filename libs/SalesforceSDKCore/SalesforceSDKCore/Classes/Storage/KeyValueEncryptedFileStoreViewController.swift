@@ -29,9 +29,9 @@ import UIKit
 import SwiftUI
 
 @objc(SFSDKKeyValueEncryptedFileStoreViewController)
-class KeyValueEncryptedFileStoreViewController: NSObject {
+public class KeyValueEncryptedFileStoreViewController: NSObject {
     
-    @objc func createUI() -> UIViewController {
+    @objc public func createUI() -> UIViewController {
         let view = KeyValueEncryptedFileStoreInpector()
         return UIHostingController(rootView: view)
     }
