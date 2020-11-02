@@ -67,9 +67,9 @@ static NSString * const kAuthConfigLoginPageUrlKey     = @"LoginPageUrl";
             }
         }
     }
-    int curPos = samlProviders.count;
 
     // Parses auth provider list and adds it to the list of SSO URLs.
+    NSUInteger curPos = samlProviders.count;
     NSArray *authProviders = self.authConfigDict[kAuthConfigAuthProvidersKey];
     if (authProviders && authProviders.count > 0) {
         for (int i = 0; i < authProviders.count; i++) {
