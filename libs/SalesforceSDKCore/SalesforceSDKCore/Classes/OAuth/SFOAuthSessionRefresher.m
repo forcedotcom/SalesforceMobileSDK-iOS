@@ -104,10 +104,12 @@
     if (self.completionBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
             SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
-            NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : account };
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
-                                                                object:self
-                                                              userInfo:userInfo];
+            if (account != NULL) {
+                NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : account };
+                [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
+                                                                    object:self
+                                                                  userInfo:userInfo];
+            }
             self.completionBlock(self.credentials);
         });
     }
