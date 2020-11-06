@@ -28,7 +28,6 @@
 		B716A3F3218F6EEC009D407F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B716A3F1218F6EEC009D407F /* LaunchScreen.storyboard */; };
 		B716A3F6218F6EEC009D407F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B716A3F5218F6EEC009D407F /* main.m */; };
 		B716A40A218F6F33009D407F /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7136CFE216684A700F6A221 /* SalesforceSDKCommon.framework */; };
-		B7686ACF219295C200D4332A /* SalesforceSDKCommon-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B7686ACE219295C200D4332A /* SalesforceSDKCommon-Prefix.pch */; };
 		B77F5CF02170FF74004F3005 /* SFSDKSafeMutableSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5CEA2170FF73004F3005 /* SFSDKSafeMutableSet.m */; };
 		B77F5CF22170FF74004F3005 /* SFSDKSafeMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5CEB2170FF73004F3005 /* SFSDKSafeMutableDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B77F5CF42170FF74004F3005 /* SFSDKSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5CEC2170FF73004F3005 /* SFSDKSafeMutableDictionary.m */; };
@@ -104,7 +103,6 @@
 		B716A3F5218F6EEC009D407F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B716A3FF218F6EEC009D407F /* SalesforceSDKCommonTestAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKCommonTestAppUITests.m; sourceTree = "<group>"; };
 		B716A401218F6EEC009D407F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B7686ACE219295C200D4332A /* SalesforceSDKCommon-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDKCommon-Prefix.pch"; sourceTree = "<group>"; };
 		B77F5CEA2170FF73004F3005 /* SFSDKSafeMutableSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableSet.m; sourceTree = "<group>"; };
 		B77F5CEB2170FF73004F3005 /* SFSDKSafeMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSafeMutableDictionary.h; sourceTree = "<group>"; };
 		B77F5CEC2170FF73004F3005 /* SFSDKSafeMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableDictionary.m; sourceTree = "<group>"; };
@@ -179,7 +177,6 @@
 		B7136D00216684A700F6A221 /* SalesforceSDKCommon */ = {
 			isa = PBXGroup;
 			children = (
-				B7686ACB2192937200D4332A /* Supporting Files */,
 				B7136D182166865A00F6A221 /* Classes */,
 				B7136D01216684A700F6A221 /* SalesforceSDKCommon.h */,
 				B7136D02216684A700F6A221 /* Info.plist */,
@@ -273,14 +270,6 @@
 			path = SalesforceSDKCommonTestAppUITests;
 			sourceTree = "<group>";
 		};
-		B7686ACB2192937200D4332A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B7686ACE219295C200D4332A /* SalesforceSDKCommon-Prefix.pch */,
-			);
-			path = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		B78898BA218D0329006E0C77 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,7 +286,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F5DDEB721A4B2530024E7F3 /* SFJsonUtils.h in Headers */,
-				B7686ACF219295C200D4332A /* SalesforceSDKCommon-Prefix.pch in Headers */,
 				B77F5D132170FFEE004F3005 /* SFPathUtil.h in Headers */,
 				B7136D33216686EB00F6A221 /* NSUserDefaults+SFAdditions.h in Headers */,
 				B7136D5021669DA400F6A221 /* SFLogger.h in Headers */,
