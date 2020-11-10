@@ -149,7 +149,6 @@
 		CE98A67E209F5C5700507927 /* SFMetadataSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = CE98A67B209F5C5700507927 /* SFMetadataSyncDownTarget.m */; };
 		CE98A682209F698400507927 /* SFLayoutSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = CE98A680209F698300507927 /* SFLayoutSyncDownTarget.m */; };
 		CE98A684209F698400507927 /* SFLayoutSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = CE98A681209F698400507927 /* SFLayoutSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
 		CEFB4B3020B4951100D70F2B /* SFLayoutSyncManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFB4B2F20B4951000D70F2B /* SFLayoutSyncManagerTests.m */; };
@@ -418,7 +417,6 @@
 		CE1F0B0119ACF95B0007F22F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CE1F0B0319ACF95B0007F22F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a"; sourceTree = "<absolute>"; };
 		CE1F0B1819ACFD260007F22F /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		CE2BCCF2224A86C000C98308 /* SFMobileSyncSyncManager+Instrumentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFMobileSyncSyncManager+Instrumentation.h"; path = "Instrumentation/SFMobileSyncSyncManager+Instrumentation.h"; sourceTree = "<group>"; };
 		CE2BCCF3224A86C000C98308 /* SFMobileSyncSyncManager+Instrumentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SFMobileSyncSyncManager+Instrumentation.m"; path = "Instrumentation/SFMobileSyncSyncManager+Instrumentation.m"; sourceTree = "<group>"; };
@@ -437,7 +435,6 @@
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEAAAE4C195911E600CBBFE9 /* MobileSync-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobileSync-Prefix.pch"; sourceTree = "<group>"; };
 		CEAAAE55195911E600CBBFE9 /* MobileSyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileSyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CEAAAE56195911E600CBBFE9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CEAAAE60195911E600CBBFE9 /* MobileSyncTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MobileSyncTests-Info.plist"; sourceTree = "<group>"; };
 		CEAAAE62195911E600CBBFE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CECB662A1C1BB8A9008038AE /* MobileSync-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "MobileSync-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/MobileSync-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -492,7 +489,6 @@
 				CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */,
 				CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */,
 				CE1F0B0D19ACF95B0007F22F /* UIKit.framework in Frameworks */,
-				CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,9 +687,7 @@
 				CE1F0B0119ACF95B0007F22F /* Security.framework */,
 				CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */,
 				CE1F0B0319ACF95B0007F22F /* UIKit.framework */,
-				CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */,
 				CEAAAE48195911E600CBBFE9 /* Foundation.framework */,
-				CEAAAE56195911E600CBBFE9 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
