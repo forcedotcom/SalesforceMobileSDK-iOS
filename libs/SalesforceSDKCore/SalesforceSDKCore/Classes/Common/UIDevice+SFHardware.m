@@ -608,11 +608,11 @@
 }
 
 + (BOOL)currentDeviceIsIPad {
-    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+    return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 }
 
 + (BOOL)currentDeviceIsIPhone {
-    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
+    return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
 }
 
 - (BOOL)isSimulator {
