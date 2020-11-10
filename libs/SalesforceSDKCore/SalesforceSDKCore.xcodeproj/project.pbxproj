@@ -60,8 +60,6 @@
 		4F4055CD2232368000316D91 /* SFSecureEncryptionKeyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F4055CB2232361500316D91 /* SFSecureEncryptionKeyTests.m */; };
 		4F755F5820D48F8600CE4E0E /* NSString+SFAdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F755F4120D48D6700CE4E0E /* NSString+SFAdditionsTests.m */; };
 		4F7EB40D1BFFC88200768720 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EC1716E15FFC00768DE8 /* MessageUI.framework */; };
-		4F7EB40E1BFFC88200768720 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4644419C7C8180006BDFE /* XCTest.framework */; };
-		4F7EB40F1BFFC88200768720 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
 		4F7EB4101BFFC88200768720 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		4F7EB4161BFFC8D700768720 /* SDKCommonNSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB3F71BFFC87600768720 /* SDKCommonNSDataTests.m */; };
 		4F7EB4171BFFC8D700768720 /* SFEncryptionKeyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB3F81BFFC87600768720 /* SFEncryptionKeyTests.m */; };
@@ -110,7 +108,6 @@
 		82C5E3EE1C1B62AF00376C00 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */; };
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
-		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
 		A3161D062181104000437BD2 /* SFSDKAppLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D052181104000437BD2 /* SFSDKAppLockViewController.m */; };
 		A3161D08218110A000437BD2 /* SFSDKPasscodeCreateController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D07218110A000437BD2 /* SFSDKPasscodeCreateController.h */; };
 		A3161D0A218110D400437BD2 /* SFSDKPasscodeCreateController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D09218110D400437BD2 /* SFSDKPasscodeCreateController.m */; };
@@ -780,8 +777,6 @@
 		8220B74F16D804CA00EC3921 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8220B75316D804CA00EC3921 /* SalesforceSDKCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSDKCore-Prefix.pch"; sourceTree = "<group>"; };
 		8263FED21E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAppFeatureMarkersTests.m; path = SalesforceSDKCoreTests/SFSDKAppFeatureMarkersTests.m; sourceTree = SOURCE_ROOT; };
-		8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		8280EBB516E14E9F00768DE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8280EC1116E15FCC00768DE8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		8280EC1316E15FD400768DE8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -796,7 +791,6 @@
 		82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		A3161D0421810D9D00437BD2 /* SFSDKAppLockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAppLockViewController.h; sourceTree = "<group>"; };
 		A3161D052181104000437BD2 /* SFSDKAppLockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAppLockViewController.m; sourceTree = "<group>"; };
 		A3161D07218110A000437BD2 /* SFSDKPasscodeCreateController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeCreateController.h; sourceTree = "<group>"; };
@@ -1015,8 +1009,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F7EB40D1BFFC88200768720 /* MessageUI.framework in Frameworks */,
-				4F7EB40E1BFFC88200768720 /* XCTest.framework in Frameworks */,
-				4F7EB40F1BFFC88200768720 /* UIKit.framework in Frameworks */,
 				4F7EB4101BFFC88200768720 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1028,7 +1020,6 @@
 				4F230BC21BFEABA00030EEFA /* libz.tbd in Frameworks */,
 				82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */,
 				CE4CE2721C0E449C009F6029 /* SalesforceSDKCore.framework in Frameworks */,
-				82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */,
 				82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1482,10 +1473,7 @@
 				8280EC1116E15FCC00768DE8 /* MobileCoreServices.framework */,
 				8280EC1916E1600200768DE8 /* QuartzCore.framework */,
 				8280EC1316E15FD400768DE8 /* Security.framework */,
-				8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */,
 				8280EC1516E15FDD00768DE8 /* SystemConfiguration.framework */,
-				8280EBB516E14E9F00768DE8 /* UIKit.framework */,
-				82D4644419C7C8180006BDFE /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
