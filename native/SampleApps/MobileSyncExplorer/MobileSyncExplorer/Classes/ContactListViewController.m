@@ -495,16 +495,14 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.toastMessage = message;
     [self layoutToastView];
     self.toastView.alpha = 0.0;
-    [UIView beginAnimations:@"toastFadeIn" context:NULL];
-    [UIView setAnimationDuration:0.3];
-    self.toastView.alpha = 1.0;
-    [UIView commitAnimations];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.toastView.alpha = 1.0;
+    }];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, toastDisplayTimeSecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [UIView beginAnimations:@"toastFadeOut" context:NULL];
-        [UIView setAnimationDuration:0.3];
-        self.toastView.alpha = 0.0;
-        [UIView commitAnimations];
+        [UIView animateWithDuration:0.3 animations:^{
+            self.toastView.alpha = 0.0;
+        }];
     });
 }
 
