@@ -1131,6 +1131,16 @@ SFSDK_USE_DEPRECATED_END
     SFUserAccount *result = nil;
     [_accountsLock lock];
     result = (self.userAccountMap)[userIdentity];
+
+    // TODO: Remove this block in Mobile SDK 10.0, needed for upgrade step after changing from 15 character to 18 character user IDs
+    if (!result) {
+        for (SFUserAccountIdentity *key in self.userAccountMap.allKeys) {
+            if ([key isEqual:userIdentity]) {
+                result = self.userAccountMap[key];
+            }
+        }
+    }
+
     [_accountsLock unlock];
     return result;
 }
