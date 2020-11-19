@@ -32,7 +32,7 @@ import SwiftUI
 public class KeyValueEncryptedFileStoreViewController: NSObject {
     
     @objc public func createUI() -> UIViewController {
-        let view = KeyValueEncryptedFileStoreInpector()
+        let view = KeyValueEncryptedFileStoreInspector()
         return UIHostingController(rootView: view)
     }
 }

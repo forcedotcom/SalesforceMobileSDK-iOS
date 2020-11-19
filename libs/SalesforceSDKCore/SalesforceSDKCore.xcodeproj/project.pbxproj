@@ -116,7 +116,7 @@
 		A3161D102181117100437BD2 /* SFSDKBiometricViewController+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D0F2181117100437BD2 /* SFSDKBiometricViewController+Internal.h */; };
 		A3161D122182349200437BD2 /* SFSDKPasscodeVerifyController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D112182349200437BD2 /* SFSDKPasscodeVerifyController.h */; };
 		A3161D142182358900437BD2 /* SFSDKPasscodeVerifyController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D132182358900437BD2 /* SFSDKPasscodeVerifyController.m */; };
-		A32C854A25268005000FFA42 /* KeyValueEncryptedFileStoreInpector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32C854925268005000FFA42 /* KeyValueEncryptedFileStoreInpector.swift */; };
+		A32C854A25268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32C854925268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift */; };
 		A32FA735217A972C006D7930 /* SFSDKPasscodeTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = A32FA720217A972B006D7930 /* SFSDKPasscodeTextField.h */; };
 		A32FA736217A972C006D7930 /* SFSDKPasscodeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A32FA734217A972C006D7930 /* SFSDKPasscodeTextField.m */; };
 		A3457AAD216EA91200620098 /* SFAppLockViewControllerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD171BFD32140022F021 /* SFAppLockViewControllerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -800,7 +800,7 @@
 		A3161D0F2181117100437BD2 /* SFSDKBiometricViewController+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKBiometricViewController+Internal.h"; sourceTree = "<group>"; };
 		A3161D112182349200437BD2 /* SFSDKPasscodeVerifyController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeVerifyController.h; sourceTree = "<group>"; };
 		A3161D132182358900437BD2 /* SFSDKPasscodeVerifyController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeVerifyController.m; sourceTree = "<group>"; };
-		A32C854925268005000FFA42 /* KeyValueEncryptedFileStoreInpector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStoreInpector.swift; sourceTree = "<group>"; };
+		A32C854925268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStoreInspector.swift; sourceTree = "<group>"; };
 		A32FA720217A972B006D7930 /* SFSDKPasscodeTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeTextField.h; sourceTree = "<group>"; };
 		A32FA734217A972C006D7930 /* SFSDKPasscodeTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeTextField.m; sourceTree = "<group>"; };
 		A37F3115252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStoreViewController.swift; sourceTree = "<group>"; };
@@ -1417,7 +1417,7 @@
 			isa = PBXGroup;
 			children = (
 				693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */,
-				A32C854925268005000FFA42 /* KeyValueEncryptedFileStoreInpector.swift */,
+				A32C854925268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift */,
 				A37F3115252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift */,
 			);
 			path = Storage;
@@ -2368,7 +2368,7 @@
 				B7E1A7851F4C8844007AC36A /* SFSDKAuthViewHandler.m in Sources */,
 				B7FB26C61F78094A00FB25A2 /* SFSDKUserSelectionNavViewController.m in Sources */,
 				CE4CE34F1C0E5252009F6029 /* SFOAuthOrgAuthConfiguration.m in Sources */,
-				A32C854A25268005000FFA42 /* KeyValueEncryptedFileStoreInpector.swift in Sources */,
+				A32C854A25268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift in Sources */,
 				B79F03FD20D4684600BC7D6F /* UIFont+SFSDKIDP.m in Sources */,
 				CE4CE30E1C0E523B009F6029 /* NSData+SFAdditions.m in Sources */,
 				E1C80CF61C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.m in Sources */,
