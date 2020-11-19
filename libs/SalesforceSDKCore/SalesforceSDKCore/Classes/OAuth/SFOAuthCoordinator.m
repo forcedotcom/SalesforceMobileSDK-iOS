@@ -382,7 +382,7 @@
 
     }];
  
-    _asWebAuthenticationSession.prefersEphemeralWebBrowserSession = YES;
+    _asWebAuthenticationSession.prefersEphemeralWebBrowserSession = [SalesforceSDKManager sharedManager].useEphemeralSessionForAdvancedAuth;
     [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_asWebAuthenticationSession];
 
 }
