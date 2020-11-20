@@ -209,6 +209,10 @@ NS_SWIFT_NAME(SalesforceManager)
 */
 @property (nonatomic, assign) SFURLCacheType URLCacheType;
 
+/** Use this flag to indicate if advanced authentication should use an ephemeral web session. Defaults to YES.
+*/
+@property (nonatomic, assign) BOOL useEphemeralSessionForAdvancedAuth;
+
 /**
  Initializes the SDK.
  */
