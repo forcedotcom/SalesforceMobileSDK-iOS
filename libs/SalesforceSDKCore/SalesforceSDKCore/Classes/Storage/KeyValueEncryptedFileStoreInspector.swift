@@ -29,7 +29,7 @@ import SwiftUI
 
 private let GLOBAL = " (global)"
 
-struct KeyValueEncryptedFileStoreInpector: View {
+struct KeyValueEncryptedFileStoreInspector: View {
     var stores = getStores()
     @State private var selectedIndex = 0
     @State private var key: String = ""
@@ -50,8 +50,8 @@ struct KeyValueEncryptedFileStoreInpector: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .autocapitalization(.none)
                         Button("Get Value", action: {
-                            getValue(key: key)
-                            key = ""
+                            self.getValue(key: self.key)
+                            self.key = ""
                         }).alert(isPresented: self.$keyNotFoundAlert) {
                             Alert(title: Text("Key not found in selected store."))
                         }
@@ -136,7 +136,7 @@ struct KeyValuePair: Hashable {
 
 struct KeyValueEncryptedFileStoreInpector_Previews: PreviewProvider {
     static var previews: some View {
-        KeyValueEncryptedFileStoreInpector()
+        KeyValueEncryptedFileStoreInspector()
     }
 }
     
