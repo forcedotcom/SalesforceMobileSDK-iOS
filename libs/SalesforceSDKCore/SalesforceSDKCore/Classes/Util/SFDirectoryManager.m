@@ -155,7 +155,7 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
 - (NSString*)directoryForUser:(SFUserAccount*)user type:(NSSearchPathDirectory)type components:(NSArray*)components {
     if (user) {
         if (!user.credentials.organizationId || !user.credentials.userId) {
-                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user"];
+            [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user"];
             return nil;
         }
         // Note: if the user communityId is nil, we use the default (internal) name for it.

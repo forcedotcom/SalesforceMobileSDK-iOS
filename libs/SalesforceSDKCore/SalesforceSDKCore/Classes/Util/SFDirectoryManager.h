@@ -94,7 +94,7 @@ FOUNDATION_EXTERN NSString * const kDefaultCommunityName NS_SWIFT_NAME(SFDirecto
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
  */
-- (NSString*)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray*)components;
+- (NSString*)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(nullable NSArray*)components;
 
 /** Returns the path to the global directory of the specified type. For example, NSCachesDirectory will
  return "Library/Caches/<bundleIdentifier>/"
@@ -102,7 +102,7 @@ FOUNDATION_EXTERN NSString * const kDefaultCommunityName NS_SWIFT_NAME(SFDirecto
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
  */
-- (NSString*)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray*)components;
+- (NSString*)globalDirectoryOfType:(NSSearchPathDirectory)type components:(nullable NSArray*)components;
 
 @end
 
