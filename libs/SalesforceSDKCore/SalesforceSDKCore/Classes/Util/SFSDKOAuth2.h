@@ -89,8 +89,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *accessToken;
 @property (nonatomic, readonly) NSString *refreshToken;
 @property (nonatomic, readonly) NSDate *issuedAt;
-@property (nonatomic, readonly) NSURL *instanceUrl;
-@property (nonatomic, readonly) NSURL *identityUrl;
+@property (nonatomic, readonly, nullable) NSURL *instanceUrl;
+@property (nonatomic, readonly, nullable) NSURL *identityUrl;
 @property (nonatomic, readonly, nullable) NSString *idToken;
 @property (nonatomic, readonly, nullable) NSString *communityId;
 @property (nonatomic, readonly, nullable) NSURL *communityUrl;
