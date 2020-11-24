@@ -79,7 +79,7 @@ FOUNDATION_EXTERN NSString * const kDefaultCommunityName NS_SWIFT_NAME(SFDirecto
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
  */
-- (nullable NSString*)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(nullable NSArray *)components;
+- (nullable NSString*)directoryForUser:(nullable SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(nullable NSArray *)components;
 
 /** Returns the path to the directory type for the specified user.
  @param account The user account to use. If nil, the path returned corresponds to the global path type
