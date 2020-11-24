@@ -108,16 +108,14 @@ public class KeyValueEncryptedFileStore: NSObject {
     public static func sharedGlobal(withName name: String) -> KeyValueEncryptedFileStore? {
         if let store = globalStores[name as NSString] {
             return store
-        } else {
-            let directory = globalStoresDirectory()
-            guard
-                let encryptionKey = SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true),
-                let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: encryptionKey) else {
-                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Creating store failed")
-                return nil
-            }
+        } else if let directory = globalStoresDirectory(),
+                  let encryptionKey = SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true),
+                  let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: encryptionKey) {
             globalStores[name as NSString] = store
             return store
+        } else {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Creating store failed")
+            return nil
         }
     }
 
@@ -177,7 +175,10 @@ public class KeyValueEncryptedFileStore: NSObject {
     /// - Parameter name: Name of the store.
     @objc(removeSharedGlobalStoreWithName:)
     public static func removeSharedGlobal(withName name: String) {
-        let storesDirectory = globalStoresDirectory()
+        guard let storesDirectory = globalStoresDirectory() else {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Global stores directory is nil")
+            return
+        }
         let storeDirectory = URL(fileURLWithPath: storesDirectory).appendingPathComponent(name)
         removeFile(storeDirectory, function: #function)
         globalStores.removeObject(name as NSString)
@@ -220,7 +221,10 @@ public class KeyValueEncryptedFileStore: NSObject {
     /// Completely removes all persisted shared global stores.
     @objc(removeAllGlobalStores)
     public static func removeAllGlobal() {
-        let directory = globalStoresDirectory()
+        guard let directory = globalStoresDirectory() else {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Global stores directory is nil")
+            return
+        }
         let storeDirectories = contentsOfDirectory(directory, function: #function)
         for store in storeDirectories {
             let storeURL = URL(fileURLWithPath: directory).appendingPathComponent(store)
@@ -349,7 +353,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         return SFDirectoryManager.shared().directory(forUser: user, type: .documentDirectory, components: [keyValueStoresDirectory])
     }
 
-    private static func globalStoresDirectory() -> String {
+    private static func globalStoresDirectory() -> String? {
         return SFDirectoryManager.shared().globalDirectory(ofType: .documentDirectory, components: [keyValueStoresDirectory])
     }
 
