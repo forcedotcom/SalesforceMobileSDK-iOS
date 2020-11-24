@@ -91,7 +91,9 @@ public class KeyValueEncryptedFileStore: NSObject {
                 SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): User stores directory is nil")
                 return nil
             }
-            guard let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true)) else {
+            guard
+                let encryptionKey = SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true),
+                let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: encryptionKey) else {
                 SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Creating store failed")
                 return nil
             }
@@ -108,7 +110,9 @@ public class KeyValueEncryptedFileStore: NSObject {
             return store
         } else {
             let directory = globalStoresDirectory()
-            guard let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true)) else {
+            guard
+                let encryptionKey = SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: encryptionKeyLabel, autoCreate: true),
+                let store = KeyValueEncryptedFileStore(parentDirectory: directory, name: name, encryptionKey: encryptionKey) else {
                 SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Creating store failed")
                 return nil
             }
