@@ -308,7 +308,8 @@
                                                     newWithSObjectType:@"Account"
                                                     soupName:@"accounts"
                                                     idFieldName:@"IdX"
-                                                    modificationDateFieldName:@"LastModifiedDateX"]
+                                                    modificationDateFieldName:@"LastModifiedDateX"
+                                                    externalIdFieldName:@"ExternalIdX"]
                        parentCreateFieldlist:@[@"IdX",@"Name", @"Description"]
                        parentUpdateFieldlist:@[@"Name", @"Description"]
                        childrenInfo:[SFChildrenInfo
@@ -317,7 +318,8 @@
                                      soupName:@"contacts"
                                      parentIdFieldName:@"AccountId"
                                      idFieldName:@"IdY"
-                                     modificationDateFieldName:@"LastModifiedDateY"]
+                                     modificationDateFieldName:@"LastModifiedDateY"
+                                     externalIdFieldName:@"ExternalIdY"]
                        childrenCreateFieldlist:@[@"LastName", @"AccountId"]
                        childrenUpdateFieldlist:@[@"FirstName", @"AccountId"]
                        relationshipType:SFParentChildrenRelationpshipMasterDetail]
