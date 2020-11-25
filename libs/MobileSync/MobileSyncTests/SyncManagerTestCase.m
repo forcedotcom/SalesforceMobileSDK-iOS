@@ -136,7 +136,7 @@ static NSException *authException = nil;
     attributes[TYPE] = ACCOUNT_TYPE;
     for (NSString* name in names) {
         NSMutableDictionary* account = [NSMutableDictionary new];
-        NSString* accountId = [self createLocalId];
+        NSString* accountId = [SFSyncTarget createLocalId];
         account[ID] = accountId;
         account[NAME] = name;
         account[DESCRIPTION] = [self createDescription:name];
@@ -149,10 +149,6 @@ static NSException *authException = nil;
         [createdAccounts addObject:account];
     }
     return [self.store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];
-}
-
-- (NSString*) createLocalId {
-    return [NSString stringWithFormat:@"local_%08d", arc4random_uniform(100000000)];
 }
 
 - (void)createAccountsSoup {
@@ -502,8 +498,8 @@ static NSException *authException = nil;
         XCTAssertEqualObjects(@(expectedLocallyUpdated), recordFromDb[kSyncTargetLocallyUpdated]);
         XCTAssertEqualObjects(@(expectedLocallyDeleted), recordFromDb[kSyncTargetLocallyDeleted]);
         NSString* id = recordFromDb[ID];
-        bool hasLocalIdPrefix = [id hasPrefix:LOCAL_ID_PREFIX];
-        XCTAssertEqual(expectedLocallyCreated, hasLocalIdPrefix);
+        bool isLocalId = [SFSyncTarget isLocalId:id];
+        XCTAssertEqual(expectedLocallyCreated, isLocalId);
 
         // Last error field should be empty for a clean record
         if (!expectedDirty) {

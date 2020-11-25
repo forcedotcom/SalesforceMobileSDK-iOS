@@ -261,10 +261,10 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     NSMutableDictionary * mapAccountContacts = [NSMutableDictionary new];
 
     for (NSUInteger i = 0; i<numberAccounts; i++) {
-        NSDictionary * account = @{ID: [self createLocalId], ATTRIBUTES: accountAttributes};
+        NSDictionary * account = @{ID: [SFSyncTarget createLocalId], ATTRIBUTES: accountAttributes};
         NSMutableArray * contacts = [NSMutableArray new];
         for (NSUInteger j = 0; j < numberContactsPerAccount; j++) {
-            [contacts addObject:@{ID: [self createLocalId], ATTRIBUTES: contactAttributes, ACCOUNT_ID: account[ID]}];
+            [contacts addObject:@{ID: [SFSyncTarget createLocalId], ATTRIBUTES: contactAttributes, ACCOUNT_ID: account[ID]}];
         }
         mapAccountContacts[account] = contacts;
         [accounts addObject:account];
@@ -355,14 +355,14 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     NSMutableDictionary * mapAccountContacts = [NSMutableDictionary new];
 
     for (NSUInteger i = 0; i<numberAccounts; i++) {
-        NSDictionary * account = @{ID: [self createLocalId],
+        NSDictionary * account = @{ID: [SFSyncTarget createLocalId],
                 ATTRIBUTES: accountAttributes,
                 @"AccountTimeStamp1": timeStampStrs[i % timeStampStrs.count],
                 @"AccountTimeStamp2": timeStampStrs[0]
         };
         NSMutableArray * contacts = [NSMutableArray new];
         for (NSUInteger j = 0; j < numberContactsPerAccount; j++) {
-            [contacts addObject:@{ID: [self createLocalId],
+            [contacts addObject:@{ID: [SFSyncTarget createLocalId],
                     ATTRIBUTES: contactAttributes,
                     ACCOUNT_ID: account[ID],
                     @"ContactTimeStamp1": timeStampStrs[1],
@@ -1435,7 +1435,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     NSDictionary *attributes = @{TYPE: ACCOUNT_TYPE};
     for (NSString* name in names) {
         NSDictionary *account = @{
-                                  ID: [self createLocalId],
+                                  ID: [SFSyncTarget createLocalId],
                                   NAME: name,
                                   DESCRIPTION: [@[DESCRIPTION, name] componentsJoinedByString:@"_"],
                                   ATTRIBUTES: attributes,
@@ -1469,7 +1469,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
         NSMutableArray* contacts = [NSMutableArray new];
         for (NSUInteger i=0; i<numberOfContactsPerAccount; i++) {
             NSDictionary *contact = @{
-                    ID: [self createLocalId],
+                    ID: [SFSyncTarget createLocalId],
                     LAST_NAME: [self createRecordName:CONTACT_TYPE],
                     ATTRIBUTES: attributes,
                     ACCOUNT_ID: accountId,

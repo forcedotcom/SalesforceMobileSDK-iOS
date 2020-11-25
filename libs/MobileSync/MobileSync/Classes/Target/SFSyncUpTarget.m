@@ -160,7 +160,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
         // the following check is there for the case
         // where the the external id field is the id field
         // and the field is populated by a local id
-        && ![self isLocalId:externalId]) {
+        && ![SFSyncTarget isLocalId:externalId]) {
         [self upsertOnServer:objectType fields:fields externalId:externalId completionBlock:completionBlock failBlock:failBlock];
     } else {
         [self createOnServer:objectType fields:fields completionBlock:completionBlock failBlock:failBlock];

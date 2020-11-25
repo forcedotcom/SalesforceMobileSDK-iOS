@@ -426,7 +426,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                 // the following check is there for the case
                 // where the the external id field is the id field
                 // and the field is populated by a local id
-                && ![self isLocalId:externalId]) {
+                && ![SFSyncTarget isLocalId:externalId]) {
                 return [[SFRestAPI sharedInstance] requestForUpsertWithObjectType:info.sobjectType externalIdField:info.externalIdFieldName externalId:externalId fields:fields apiVersion:nil];
             } else {
                 return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:info.sobjectType fields:fields apiVersion:nil];

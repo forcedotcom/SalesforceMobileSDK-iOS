@@ -107,7 +107,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         NSString *refId;
         if (record[self.idFieldName] == nil || [record[self.idFieldName] isEqual:[NSNull null]]) {
             // create local id - needed for refId
-            refId = record[self.idFieldName] = [self createLocalId];
+            refId = record[self.idFieldName] = [SFSyncTarget createLocalId];
         } else {
             refId = record[self.idFieldName];
         }
@@ -201,7 +201,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
                 // the following check is there for the case
                 // where the the external id field is the id field
                 // and the field is populated by a local id
-                && ![self isLocalId:externalId]) {
+                && ![SFSyncTarget isLocalId:externalId]) {
                 return [[SFRestAPI sharedInstance] requestForUpsertWithObjectType:objectType externalIdField:self.externalIdFieldName externalId:externalId fields:fields apiVersion:nil];
             } else {
                 return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields apiVersion:nil];

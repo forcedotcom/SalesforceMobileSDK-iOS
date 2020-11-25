@@ -129,14 +129,14 @@ extern NSString * const kSyncTargetLastError;
 /**
  * Generate local id for record
  */
-- (NSString*) createLocalId;
++ (NSString*) createLocalId;
 
 /**
  * Check if record id was locally generated
  * @param recordId  The record id
  * @return YES if recordId was locally generated
  */
-- (BOOL) isLocalId:(NSString*)recordId;
++ (BOOL) isLocalId:(NSString*)recordId;
 
 @end
 
