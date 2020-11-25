@@ -207,7 +207,7 @@ NSString * const kSyncTargetLastError = @"__last_error__";
 }
 
 + (NSString*) createLocalId {
-    return [NSString stringWithFormat:@"local_%@", [[NSUUID UUID] UUIDString]];
+    return [NSString stringWithFormat:@"local_%09d", arc4random_uniform(1000000000)];
 }
 
 + (BOOL) isLocalId:(NSString*)recordId {

@@ -498,7 +498,7 @@ static NSException *authException = nil;
         XCTAssertEqualObjects(@(expectedLocallyUpdated), recordFromDb[kSyncTargetLocallyUpdated]);
         XCTAssertEqualObjects(@(expectedLocallyDeleted), recordFromDb[kSyncTargetLocallyDeleted]);
         NSString* id = recordFromDb[ID];
-        bool isLocalId = [SFSyncTarget isLocalId:id];
+        BOOL isLocalId = [SFSyncTarget isLocalId:id];
         XCTAssertEqual(expectedLocallyCreated, isLocalId);
 
         // Last error field should be empty for a clean record
