@@ -1277,6 +1277,129 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     [self checkServer:contactIdToFieldsExpectedOnServer objectType:CONTACT_TYPE];
 }
 
+/**
+ * Create accounts and contacts on server.
+ * Create accounts and contacts locally - some with external id matching server record:
+ * - account with external id populated with contact with no external id
+ * - account with external id populated with contact with external id
+ * - account with no external id with contact with external id
+ *
+ * Sync up with external id field name provided, check smartstore and server afterwards.
+ */
+- (void) testParentChildrenSyncUpWithExternalId
+{
+    NSString* externalIdFieldName = @"Id";
+
+    // Creating test accounts and contacts on server
+    [self createAccountsAndContactsOnServer:3 numberContactsPerAccount:1];
+
+    // Get id of accounts on the server
+    NSArray<NSString*>* accountIds = [accountIdToFields allKeys];
+    NSString* accountId0 = accountIds[0];
+    NSString* accountId1 = accountIds[1];
+    NSString* accountId2 = accountIds[2];
+    
+    // Get name of third account on server
+    NSString* originalAccountName2 = accountIdToFields[accountId2][NAME];
+
+    // Get id of contacts on the server
+    NSString* contactId0 = [accountIdContactIdToFields[accountId0] allKeys][0];
+    NSString* contactId1 = [accountIdContactIdToFields[accountId1] allKeys][0];
+    NSString* contactId2 = [accountIdContactIdToFields[accountId2] allKeys][0];
+
+    // Get name of first contact on server
+    NSString* originalContactName0 = accountIdContactIdToFields[accountId0][contactId0][LAST_NAME];
+
+    // Creating 3 new account names
+    NSString* accountName0 = [self createAccountName];
+    NSString* accountName1 = [self createAccountName];
+    NSString* accountName2 = [self createAccountName];
+
+    // Create accounts and contacts locally
+    NSDictionary* accountToContactMap = [self createAccountsAndContactsLocally:@[accountName0, accountName1, accountName2] numberOfContactsPerAccount:1];
+    NSArray<NSMutableDictionary*>* localAccounts = [self arrayOfMutableDicts:[accountToContactMap allKeys]];
+    NSArray<NSMutableDictionary*>* localContacts = [self arrayOfMutableDicts:@[accountToContactMap[localAccounts[0]][0],
+                                                                               accountToContactMap[localAccounts[1]][0],
+                                                                               accountToContactMap[localAccounts[2]][0]
+                                                    ]];
+
+    // Local contact names
+    NSString* contactName0 = localContacts[0][LAST_NAME];
+    NSString* contactName1 = localContacts[1][LAST_NAME];
+    NSString* contactName2 = localContacts[2][LAST_NAME];
+
+    // Update Id field to match existing id for account 0 and 1
+    localAccounts[0][externalIdFieldName] = accountId0;
+    localAccounts[1][externalIdFieldName] = accountId1;
+    [self.store upsertEntries:localAccounts toSoup:ACCOUNTS_SOUP];
+    
+    // Update Id field to match existing id for contact 1 and 2
+    // Update accountId field also for contact 0 and 1
+    localContacts[0][ACCOUNT_ID] = accountId0;
+    localContacts[1][externalIdFieldName] = contactId1;
+    localContacts[1][ACCOUNT_ID] = accountId1;
+    localContacts[2][externalIdFieldName] = contactId2;
+    [self.store upsertEntries:localContacts toSoup:CONTACTS_SOUP];
+
+    // Sync up
+    [self trySyncUp:3
+             target:[self getAccountContactsSyncUpTargetWithAccountModificationDateFieldName:LAST_MODIFIED_DATE
+                                                                     contactModificationDateFieldName:LAST_MODIFIED_DATE
+                                                                           accountExternalIdFieldName:externalIdFieldName
+                                                                           contactExternalIdFieldName:externalIdFieldName]
+          mergeMode:SFSyncStateMergeModeOverwrite];
+    
+    // Getting id for third account upserted - the one without an valid external id
+    NSString* newAccountId = [[self getIdToFieldsByName:ACCOUNTS_SOUP fieldNames:@[] nameField:NAME names:@[accountName2]] allKeys][0];
+
+    // Getting id for first contact upserted - the one without an valid external id
+    NSString* newContactId = [[self getIdToFieldsByName:CONTACTS_SOUP fieldNames:@[] nameField:LAST_NAME names:@[contactName0]] allKeys][0];
+
+    // Expected accounts records locally
+    NSMutableDictionary* expectedAccountsDbIdToFields = [NSMutableDictionary new];
+    expectedAccountsDbIdToFields[accountId0] = @{NAME: accountName0};
+    expectedAccountsDbIdToFields[accountId1] = @{NAME: accountName1};
+    expectedAccountsDbIdToFields[newAccountId] = @{NAME: accountName2};
+
+    // Check db
+    [self checkDbStateFlags:[expectedAccountsDbIdToFields allKeys] soupName:ACCOUNTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+    [self checkDb:expectedAccountsDbIdToFields soupName:ACCOUNTS_SOUP];
+    
+    // Expected contacts records locally
+    NSMutableDictionary* expectedContactsDbIdToFields = [NSMutableDictionary new];
+    expectedContactsDbIdToFields[newContactId] = @{LAST_NAME: contactName0};
+    expectedContactsDbIdToFields[newContactId] = @{LAST_NAME: contactName1};
+    expectedContactsDbIdToFields[contactId2] = @{LAST_NAME: contactName2};
+
+    // Check db
+    [self checkDbStateFlags:[expectedContactsDbIdToFields allKeys] soupName:CONTACTS_SOUP expectedLocallyCreated:NO expectedLocallyUpdated:NO expectedLocallyDeleted:NO];
+    [self checkDb:expectedContactsDbIdToFields soupName:CONTACTS_SOUP];
+
+    // Expected accounts on server
+    NSMutableDictionary* expectedAccountsServerIdToFields = [NSMutableDictionary new];
+    expectedAccountsServerIdToFields[accountId0] = @{NAME: accountName0};
+    expectedAccountsServerIdToFields[accountId1] = @{NAME: accountName1};
+    expectedAccountsServerIdToFields[accountId2] = @{NAME: originalAccountName2};
+    expectedAccountsServerIdToFields[newAccountId] = @{NAME: accountName2};
+
+    // Check server
+    [self checkServer:expectedAccountsServerIdToFields objectType:ACCOUNT_TYPE];
+
+    // Expected contacts on server
+    NSMutableDictionary* expectedContactsServerIdToFields = [NSMutableDictionary new];
+    expectedContactsServerIdToFields[newContactId] = @{LAST_NAME: contactName0};
+    expectedContactsServerIdToFields[contactId0] = @{LAST_NAME: originalContactName0};
+    expectedContactsServerIdToFields[contactId1] = @{LAST_NAME: contactName1};
+    expectedContactsServerIdToFields[contactId2] = @{LAST_NAME: contactName2};
+   
+    // Check server
+    [self checkServer:expectedContactsServerIdToFields objectType:CONTACT_TYPE];
+
+    // Cleanup
+    [self deleteRecordsOnServer:@[newAccountId] objectType:ACCOUNT_TYPE];
+    [self deleteRecordsOnServer:@[newContactId] objectType:CONTACT_TYPE];
+}
+
 #pragma mark - Helper methods
 
 - (void)createTestData {
@@ -1888,27 +2011,47 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 }
 
 - (SFParentChildrenSyncUpTarget *)getAccountContactsSyncUpTarget {
-    return [self getAccountContactsSyncUpTargetWithParentSoqlFilter:@""];
+    return [self getAccountContactsSyncUpTargetWithAccountModificationDateFieldName:LAST_MODIFIED_DATE
+                                                   contactModificationDateFieldName:LAST_MODIFIED_DATE
+                                                         accountExternalIdFieldName:NULL
+                                                         contactExternalIdFieldName:NULL
+            ];
 }
 
-- (SFParentChildrenSyncUpTarget *)getAccountContactsSyncUpTargetWithParentSoqlFilter:(NSString*)parentSoqlFilter {
-    return [self getAccountContactsSyncUpTargetWithParentSoqlFilter:parentSoqlFilter accountModificationDateFieldName:LAST_MODIFIED_DATE contactModificationDateFieldName:LAST_MODIFIED_DATE];
-}
-
-- (SFParentChildrenSyncUpTarget *)getAccountContactsSyncUpTargetWithParentSoqlFilter:(NSString*)parentSoqlFilter
-                                                    accountModificationDateFieldName:(NSString*)accountModificationDateFieldName
-                                                    contactModificationDateFieldName:(NSString*)contactModificationDateFieldName {
+- (SFParentChildrenSyncUpTarget *)getAccountContactsSyncUpTargetWithAccountModificationDateFieldName:(NSString*)accountModificationDateFieldName
+                                                                    contactModificationDateFieldName:(NSString*)contactModificationDateFieldName
+                                                                          accountExternalIdFieldName:(NSString*)accountExternalIdFieldName
+                                                                          contactExternalIdFieldName:(NSString*)contactExternalIdFieldName
+{
 
 
     SFParentChildrenSyncUpTarget *target = [SFParentChildrenSyncUpTarget
-            newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:ACCOUNT_TYPE soupName:ACCOUNTS_SOUP idFieldName:ID modificationDateFieldName:accountModificationDateFieldName]
+            newSyncTargetWithParentInfo:[SFParentInfo newWithSObjectType:ACCOUNT_TYPE
+                                                                soupName:ACCOUNTS_SOUP
+                                                             idFieldName:ID
+                                               modificationDateFieldName:accountModificationDateFieldName
+                                                     externalIdFieldName:accountExternalIdFieldName]
                         parentCreateFieldlist:@[ID, NAME, DESCRIPTION]
                   parentUpdateFieldlist:@[NAME, DESCRIPTION]
-                           childrenInfo:[SFChildrenInfo newWithSObjectType:CONTACT_TYPE sobjectTypePlural:CONTACT_TYPE_PLURAL soupName:CONTACTS_SOUP parentIdFieldName:ACCOUNT_ID idFieldName:ID modificationDateFieldName:contactModificationDateFieldName]
+                           childrenInfo:[SFChildrenInfo newWithSObjectType:CONTACT_TYPE
+                                                         sobjectTypePlural:CONTACT_TYPE_PLURAL
+                                                                  soupName:CONTACTS_SOUP
+                                                         parentIdFieldName:ACCOUNT_ID
+                                                               idFieldName:ID
+                                                 modificationDateFieldName:contactModificationDateFieldName
+                                                       externalIdFieldName:contactExternalIdFieldName]
                       childrenCreateFieldlist:@[LAST_NAME, ACCOUNT_ID]
             childrenUpdateFieldlist:@[LAST_NAME, ACCOUNT_ID]
                        relationshipType:SFParentChildrenRelationpshipMasterDetail]; // account-contacts are master-detail
     return target;
+}
+
+- (NSArray<NSMutableDictionary*>*) arrayOfMutableDicts:(NSArray<NSDictionary*>*)arrayDicts {
+    NSMutableArray* result = [NSMutableArray new];
+    for (NSDictionary* dict in arrayDicts) {
+        [result addObject:[dict mutableCopy]];
+    }
+    return result;
 }
 
 @end
