@@ -710,7 +710,7 @@ static NSException *authException = nil;
     for (NSDictionary* record in records) {
         NSString* recordId = record[ID];
         for (NSString* fieldName in [idToFields[recordId] allKeys]) {
-            XCTAssertEqualObjects(idToFields[recordId][fieldName], record[fieldName]);
+            XCTAssertEqualObjects(idToFields[recordId][fieldName], record[fieldName], "Wrong value for field %@ on record %@", fieldName, recordId);
         }
     }
 }

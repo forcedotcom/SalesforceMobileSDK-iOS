@@ -1310,18 +1310,18 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     // Get name of first contact on server
     NSString* originalContactName0 = accountIdContactIdToFields[accountId0][contactId0][LAST_NAME];
 
-    // Creating 3 new account names
-    NSString* accountName0 = [self createAccountName];
-    NSString* accountName1 = [self createAccountName];
-    NSString* accountName2 = [self createAccountName];
-
     // Create accounts and contacts locally
-    NSDictionary* accountToContactMap = [self createAccountsAndContactsLocally:@[accountName0, accountName1, accountName2] numberOfContactsPerAccount:1];
+    NSDictionary* accountToContactMap = [self createAccountsAndContactsLocally:@[[self createAccountName], [self createAccountName], [self createAccountName]] numberOfContactsPerAccount:1];
     NSArray<NSMutableDictionary*>* localAccounts = [self arrayOfMutableDicts:[accountToContactMap allKeys]];
     NSArray<NSMutableDictionary*>* localContacts = [self arrayOfMutableDicts:@[accountToContactMap[localAccounts[0]][0],
                                                                                accountToContactMap[localAccounts[1]][0],
                                                                                accountToContactMap[localAccounts[2]][0]
                                                     ]];
+
+    // Local account names
+    NSString* accountName0 = localAccounts[0][NAME];
+    NSString* accountName1 = localAccounts[1][NAME];
+    NSString* accountName2 = localAccounts[2][NAME];
 
     // Local contact names
     NSString* contactName0 = localContacts[0][LAST_NAME];
@@ -1368,7 +1368,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     // Expected contacts records locally
     NSMutableDictionary* expectedContactsDbIdToFields = [NSMutableDictionary new];
     expectedContactsDbIdToFields[newContactId] = @{LAST_NAME: contactName0};
-    expectedContactsDbIdToFields[newContactId] = @{LAST_NAME: contactName1};
+    expectedContactsDbIdToFields[contactId1] = @{LAST_NAME: contactName1};
     expectedContactsDbIdToFields[contactId2] = @{LAST_NAME: contactName2};
 
     // Check db

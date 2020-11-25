@@ -55,7 +55,7 @@ NSString * const kSFChildrenInfoParentIdFieldName = @"parentIdFieldName"; // nam
           modificationDateFieldName:(NSString *)modificationDateFieldName
                 externalIdFieldName:(NSString *)externalIdFieldName {
     
-    self = [super initWithSObjectType:sobjectType soupName:soupName idFieldName:idFieldName modificationDateFieldName:modificationDateFieldName externalIdFieldName:NULL];
+    self = [super initWithSObjectType:sobjectType soupName:soupName idFieldName:idFieldName modificationDateFieldName:modificationDateFieldName externalIdFieldName:externalIdFieldName];
 
     if (self) {
         self.sobjectTypePlural = sobjectTypePlural;
