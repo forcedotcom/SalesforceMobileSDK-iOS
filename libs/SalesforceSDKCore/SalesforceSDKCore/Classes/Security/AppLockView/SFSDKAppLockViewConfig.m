@@ -25,10 +25,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKAppLockViewConfig.h"
+#import "SFSDKAppLockViewConfig+Internal.h"
 #import "UIColor+SFColors.h"
 #import "SFSDKResourceUtils.h"
-#import "SFSecurityLockout.h"
+#import "SFSecurityLockout+Internal.h"
 
 @implementation SFSDKAppLockViewConfig
 
@@ -39,7 +39,6 @@
         self.navBarTintColor = [UIColor passcodeViewNavBarColor];
         self.navBarTitleColor = [UIColor passcodeViewTextColor];
         self.navBarFont = [UIFont systemFontOfSize:17 weight:UIFontWeightBold];
-        _forcePasscodeLength = NO;
         _maxNumberOfAttempts = (NSUInteger)10;
         _primaryColor = [UIColor salesforceBlueColor];
         _secondaryColor = [UIColor whiteColor];
@@ -54,9 +53,7 @@
         _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
         _touchIdImage = [SFSDKResourceUtils imageNamed:@"touchId"];
         _faceIdImage = [SFSDKResourceUtils imageNamed:@"faceId"];
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         _passcodeLength = [SFSecurityLockout passcodeLength];
-        SFSDK_USE_DEPRECATED_END
     }
     return self;
 }

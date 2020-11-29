@@ -38,7 +38,6 @@
 #import "SFQuerySpec.h"
 #import "SFSoupSpec.h"
 #import "SFSoupSpec+Internal.h"
-#import <SalesforceSDKCore/SFPasscodeManager.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
@@ -155,8 +154,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         @synchronized ([SFSmartStore class]) {
             if ([SFUserAccountManager sharedInstance].currentUser != nil && !_storeUpgradeHasRun) {
                 _storeUpgradeHasRun = YES;
-                [SFSmartStoreUpgrade updateStoreLocations];
-                [SFSmartStoreUpgrade updateEncryption];
                 [SFSmartStoreUpgrade updateEncryptionSalt];
             }
         }
@@ -266,9 +263,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     if (!result) {
         [SFSDKSmartStoreLogger e:[self class] format:@"Deleting store dir since we can't set it up properly: %@", self.storeName];
         [self.dbMgr removeStoreDir:self.storeName];
-    }
-    if (self.user != nil) {
-        [SFSmartStoreUpgrade setUsesKeyStoreEncryption:result forUser:self.user store:self.storeName];
     }
     return result;
 }
@@ -397,7 +391,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             [existingStore.storeQueue close];
             [_allSharedStores[userKey] removeObjectForKey:storeName];
         }
-        [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:user store:storeName];
         [[SFSmartStoreDatabaseManager sharedManagerForUser:user] removeStoreDir:storeName];
     }
 }

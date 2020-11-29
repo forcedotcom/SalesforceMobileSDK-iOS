@@ -30,7 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Data class for PBKDF-generated keys.
  */
-SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.")
 @interface SFPBKDFData : NSObject <NSCoding>
 
 /**

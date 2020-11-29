@@ -25,7 +25,6 @@
 #import "SFSecurityLockoutTests.h"
 #import "SFSecurityLockout+Internal.h"
 #import "SFPreferences.h"
-#import "SFPasscodeManager.h"
 
 @interface SFSecurityLockoutTests ()
 

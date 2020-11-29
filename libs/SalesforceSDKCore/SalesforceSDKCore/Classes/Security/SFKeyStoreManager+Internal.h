@@ -23,9 +23,7 @@
  */
 
 #import "SFKeyStoreManager.h"
-#import "SFPasscodeManager.h"
 #import "SFGeneratedKeyStore.h"
-#import "SFPasscodeKeyStore.h"
 
 @interface SFKeyStoreManager ()
 

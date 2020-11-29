@@ -27,7 +27,7 @@
 
 #import "SFSDKPasscodeTextField.h"
 #import "UIColor+SFColors.h"
-#import "SFSDKAppLockViewConfig.h"
+#import "SFSDKAppLockViewConfig+Internal.h"
 
 static CGFloat      const kDefaultLineWidth                  = 1;
 static NSUInteger   const kMaxPasscodeLength                 = 8;
@@ -58,10 +58,8 @@ static CGFloat      const kPasscodeCircleDiameter            = 22.f;
 {
     if (self = [super initWithFrame:frame]) {
         _subLayerRefs = [[NSMutableArray alloc] init];
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         _passcodeLength = config.passcodeLength;
         _passcodeLengthKnown = (config.passcodeLength != 0);
-        SFSDK_USE_DEPRECATED_END
         _viewConfig = config;
         self.keyboardType = UIKeyboardTypeNumberPad;
         self.backgroundColor = config.secondaryBackgroundColor;
