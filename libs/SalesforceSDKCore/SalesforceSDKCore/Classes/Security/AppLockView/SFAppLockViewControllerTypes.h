@@ -35,6 +35,6 @@ typedef NS_ENUM(NSUInteger, SFAppLockControllerMode) {
     SFAppLockControllerModeChangePasscode,
     SFAppLockControllerModeEnableBiometric,
     SFAppLockControllerModeVerifyBiometric
-} NS_SWIFT_NAME(AppLockViewController.AppLockControllerMode);
+} NS_SWIFT_NAME(AppLockControllerMode);
 
 NS_ASSUME_NONNULL_END
