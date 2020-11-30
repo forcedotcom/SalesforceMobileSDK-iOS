@@ -107,7 +107,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         NSString *refId;
         if (record[self.idFieldName] == nil || [record[self.idFieldName] isEqual:[NSNull null]]) {
             // create local id - needed for refId
-            refId = record[self.idFieldName] = [self createLocalId:record];
+            refId = record[self.idFieldName] = [SFSyncTarget createLocalId];
         } else {
             refId = record[self.idFieldName];
         }
@@ -200,8 +200,8 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
             if (externalId
                 // the following check is there for the case
                 // where the the external id field is the id field
-                // and the empty id field was populated by BatchSyncUpTarget using createLocalId()
-                && ![externalId isEqualToString:[self createLocalId:record]]) {
+                // and the field is populated by a local id
+                && ![SFSyncTarget isLocalId:externalId]) {
                 return [[SFRestAPI sharedInstance] requestForUpsertWithObjectType:objectType externalIdField:self.externalIdFieldName externalId:externalId fields:fields apiVersion:nil];
             } else {
                 return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields apiVersion:nil];
@@ -265,10 +265,6 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
     }
     
     return needReRun;    
-}
-
-- (NSString*) createLocalId:(NSDictionary*)record {
-    return [NSString stringWithFormat:@"local_%@", record[SOUP_ENTRY_ID]];
 }
 
 - (NSUInteger) computeMaxBatchSize:(NSNumber*)maxBatchSize {

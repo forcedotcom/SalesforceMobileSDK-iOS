@@ -125,6 +125,19 @@ extern NSString * const kSyncTargetLastError;
  */
 - (void) deleteFromLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record NS_SWIFT_NAME(deleteFromLocalStore(syncManager:soupName:record:));
 
+
+/**
+ * Generate local id for record
+ */
++ (NSString*) createLocalId;
+
+/**
+ * Check if record id was locally generated
+ * @param recordId  The record id
+ * @return YES if recordId was locally generated
+ */
++ (BOOL) isLocalId:(NSString*)recordId;
+
 @end
 
 NS_ASSUME_NONNULL_END

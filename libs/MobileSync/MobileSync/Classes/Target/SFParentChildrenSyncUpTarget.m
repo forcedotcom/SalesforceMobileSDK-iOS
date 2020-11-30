@@ -405,7 +405,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
             return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:info.sobjectType objectId:id apiVersion:nil];
         }
     }
-        // Create/update cases
+    // Create/update cases
     else {
         fieldlist = isParent
                 ? isCreate
@@ -421,7 +421,16 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
 
         if (isCreate) {
-            return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:info.sobjectType fields:fields apiVersion:nil];
+            NSString *externalId = info.externalIdFieldName ? record[info.externalIdFieldName] : nil;
+            if (externalId
+                // the following check is there for the case
+                // where the the external id field is the id field
+                // and the field is populated by a local id
+                && ![SFSyncTarget isLocalId:externalId]) {
+                return [[SFRestAPI sharedInstance] requestForUpsertWithObjectType:info.sobjectType externalIdField:info.externalIdFieldName externalId:externalId fields:fields apiVersion:nil];
+            } else {
+                return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:info.sobjectType fields:fields apiVersion:nil];
+            }
         } else {
             return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:info.sobjectType objectId:id fields:fields apiVersion:nil];
         }

@@ -156,7 +156,11 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
     NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
     NSDictionary * fields = [self buildFieldsMap:record fieldlist:fieldlist];
     NSString* externalId = self.externalIdFieldName ? record[self.externalIdFieldName] : nil;
-    if (externalId) {
+    if (externalId
+        // the following check is there for the case
+        // where the the external id field is the id field
+        // and the field is populated by a local id
+        && ![SFSyncTarget isLocalId:externalId]) {
         [self upsertOnServer:objectType fields:fields externalId:externalId completionBlock:completionBlock failBlock:failBlock];
     } else {
         [self createOnServer:objectType fields:fields completionBlock:completionBlock failBlock:failBlock];

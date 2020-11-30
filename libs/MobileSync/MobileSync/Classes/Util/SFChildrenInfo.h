@@ -40,8 +40,25 @@ NS_SWIFT_NAME(ChildrenInfo)
 
 /** Factory methods
  */
-+ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName;
-+ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName;
++ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType
+                     sobjectTypePlural:(NSString *)sobjectTypePlural
+                              soupName:(NSString *)soupName
+                     parentIdFieldName:(NSString *)parentIdFieldName;
+
++ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType
+                     sobjectTypePlural:(NSString *)sobjectTypePlural
+                              soupName:(NSString *)soupName
+                     parentIdFieldName:(NSString *)parentIdFieldName
+                           idFieldName:(NSString *)idFieldName
+             modificationDateFieldName:(NSString *)modificationDateFieldName;
+
++ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType
+                     sobjectTypePlural:(NSString *)sobjectTypePlural
+                              soupName:(NSString *)soupName
+                     parentIdFieldName:(NSString *)parentIdFieldName
+                           idFieldName:(NSString *)idFieldName
+             modificationDateFieldName:(NSString *)modificationDateFieldName
+                   externalIdFieldName:(NSString * __nullable)externalIdFieldName;
 
 + (SFChildrenInfo*) newFromDict:(NSDictionary*)dict;
 
