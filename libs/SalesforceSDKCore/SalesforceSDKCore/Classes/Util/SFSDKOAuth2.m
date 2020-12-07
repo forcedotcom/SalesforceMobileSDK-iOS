@@ -135,17 +135,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 }
 
 - (NSURL *)instanceUrl {
-    if (self.values[kSFOAuthInstanceUrl]) {
-        return [NSURL URLWithString:self.values[kSFOAuthInstanceUrl]];
-    }
-    return nil;
+    return [NSURL URLWithString:self.values[kSFOAuthInstanceUrl]];
 }
 
 - (NSURL *)identityUrl {
-    if (self.values[kSFOAuthId]) {
-        return [NSURL URLWithString:self.values[kSFOAuthId]];
-    }
-    return nil;
+    return [NSURL URLWithString:self.values[kSFOAuthId]];
 }
 
 - (NSString *)communityId {

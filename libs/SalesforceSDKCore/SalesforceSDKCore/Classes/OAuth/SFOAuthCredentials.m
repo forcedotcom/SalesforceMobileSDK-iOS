@@ -249,7 +249,7 @@ NSException * SFOAuthInvalidIdentifierException() {
 
 // This setter is exposed publicly for unit tests.
 - (void)setUserId:(NSString *)userId {
-    if (![userId isEqualToString:_userId]) {
+    if (_userId && ![userId isEqualToString:_userId]) {
         _userId = [userId copy];
     }
 }
