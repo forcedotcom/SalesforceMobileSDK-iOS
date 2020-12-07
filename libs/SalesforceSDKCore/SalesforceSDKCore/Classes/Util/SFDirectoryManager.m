@@ -124,29 +124,18 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
         // do nothing
         return nil;
     }
+    
     switch (scope) {
         case SFUserAccountScopeGlobal:
             return [self directoryForOrg:nil user:nil community:nil type:type components:components];
             
         case SFUserAccountScopeOrg:
-            if (!user.credentials.organizationId) {
-                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user"];
-                return nil;
-            }
             return [self directoryForOrg:user.credentials.organizationId user:nil community:nil type:type components:components];
             
         case SFUserAccountScopeUser:
-            if (!user.credentials.organizationId || !user.credentials.userId) {
-                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user"];
-                return nil;
-            }
             return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:type components:components];
             
         case SFUserAccountScopeCommunity:
-            if (!user.credentials.organizationId || !user.credentials.userId) {
-                [SFSDKCoreLogger w:[self class] format:@"Credentials missing for user"];
-                return nil;
-            }
             // Note: if the user communityId is nil, we use the default (internal) name for it.
             return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.credentials.communityId?:kDefaultCommunityName type:type components:components];
     }
