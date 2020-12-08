@@ -20,7 +20,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'SalesforceSDKCore' do |sdkcore|
 
-      sdkcore.dependency 'SalesforceSDKCommon', "~>#{s.version}"
       sdkcore.dependency 'SalesforceAnalytics', "~>#{s.version}"
       sdkcore.libraries = 'z'
       sdkcore.resource_bundles = { 'SalesforceSDKResources' => [ 'shared/resources/SalesforceSDKResources.bundle/**' ] }
