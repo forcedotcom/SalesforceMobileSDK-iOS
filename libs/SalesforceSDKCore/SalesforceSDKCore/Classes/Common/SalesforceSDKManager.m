@@ -223,16 +223,32 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         motionEndedImplementation = method_setImplementation(class_getInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:)), sfsdkMotionEndedImplementation);
 
         // Pasteboard
-         method_exchangeImplementations(class_getClassMethod([UIPasteboard class], @selector(generalPasteboard)), class_getClassMethod([SalesforceSDKManager class], @selector(sdkPasteboard)));
+        // Get implementation of general pasteboard and store it
+        Method generalPasteboardMethod = class_getClassMethod([UIPasteboard class], @selector(generalPasteboard));
+        IMP generalPasteboardImplementation = method_getImplementation(generalPasteboardMethod);
+        method_setImplementation(class_getClassMethod([SalesforceSDKManager class], @selector(generalPasteboard)), generalPasteboardImplementation);
+        
+        // Set general pasteboard to sdkPasteboard that will either direct to a named pasteboard or the original [UIPasteboard generalPasteboard]
+        Method sdkPasteboardMethod = class_getClassMethod([SalesforceSDKManager class], @selector(sdkPasteboard));
+        IMP sdkPasteboardImplementation = method_getImplementation(sdkPasteboardMethod);
+        method_setImplementation(class_getClassMethod([UIPasteboard class], @selector(generalPasteboard)), sdkPasteboardImplementation);
     });
+}
+
++ (UIPasteboard *)generalPasteboard {
+    // As a result of swizzling, will contain the implementation of [UIPasteboard generalPasteboard]
+    return nil;
+}
+
++ (UIPasteboard *)sdkNamedPasteboard {
+     return [UIPasteboard pasteboardWithName:@"com.salesforce.mobilesdk.pasteboard" create:YES];
 }
 
 + (UIPasteboard *)sdkPasteboard {
     if ([SFManagedPreferences sharedPreferences].shouldDisableExternalPasteDefinedByConnectedApp) {
-        return [UIPasteboard pasteboardWithName:@"com.salesforce.mobilesdk.pasteboard" create:YES];
+        return [SalesforceSDKManager sdkNamedPasteboard];
     }
-    // General pasteboard that was swizzled
-    return [SalesforceSDKManager sdkPasteboard];
+    return [SalesforceSDKManager generalPasteboard];
 }
 
 - (instancetype)init {
@@ -716,10 +732,14 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 {
     if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground) {
         [SFSDKCoreLogger i:[self class] format:@"%@: Clearing clipboard on app background.", NSStringFromSelector(_cmd)];
-        [UIPasteboard generalPasteboard].strings = @[ ];
-        [UIPasteboard generalPasteboard].URLs = @[ ];
-        [UIPasteboard generalPasteboard].images = @[ ];
-        [UIPasteboard generalPasteboard].colors = @[ ];
+        [SalesforceSDKManager generalPasteboard].strings = @[ ];
+        [SalesforceSDKManager generalPasteboard].URLs = @[ ];
+        [SalesforceSDKManager generalPasteboard].images = @[ ];
+        [SalesforceSDKManager generalPasteboard].colors = @[ ];
+        [SalesforceSDKManager sdkNamedPasteboard].strings = @[ ];
+        [SalesforceSDKManager sdkNamedPasteboard].URLs = @[ ];
+        [SalesforceSDKManager sdkNamedPasteboard].images = @[ ];
+        [SalesforceSDKManager sdkNamedPasteboard].colors = @[ ];
     }
 }
 
