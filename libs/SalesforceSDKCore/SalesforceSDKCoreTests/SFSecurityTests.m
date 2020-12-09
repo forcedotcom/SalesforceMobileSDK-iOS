@@ -56,7 +56,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     [super setUp];
 
     // No passcode, to start.
-    [SFSecurityLockout setPasscode:(NSString* _Nonnull)nil];
+    [SFSecurityLockout changePasscode:nil];
     mgr = [SFKeyStoreManager sharedInstance];
 }
 

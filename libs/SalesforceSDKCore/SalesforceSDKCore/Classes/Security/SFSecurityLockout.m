@@ -40,7 +40,6 @@
 #import "SFSDKNavigationController.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import "SFSDKAppLockViewController.h"
-#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "SFSDKPasscodeCreateController.h"
 #import "SFSDKPasscodeVerifyController.h"
@@ -160,7 +159,6 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
     
     return result;
 }
-
 
 + (void)setBiometricPolicy:(BOOL)newBiometricAllowed {
     if (newBiometricAllowed != [self biometricUnlockAllowed] && [self biometricState] != SFBiometricUnlockDeclined) {
@@ -525,7 +523,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }];
 }
 
-+ (void)presentBiometricEnrollment:(SFSDKAppLockViewConfig*)viewConfig
++ (void)presentBiometricEnrollment:(SFSDKAppLockViewConfig *)viewConfig
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -592,7 +590,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (BOOL)isPasscodeValid
 {
-	if(securityLockoutTime == 0) return YES; // no passcode is required.
+	if (securityLockoutTime == 0) return YES; // no passcode is required.
     return [SFSecurityLockout isPasscodeSet];
 }
 
@@ -677,7 +675,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (BOOL)passcodeScreenIsPresent
 {
-    if ([SFSecurityLockout passcodeViewController] != nil && [[SFSecurityLockout  passcodeViewController] presentedViewController]!= nil) {
+    if ([SFSecurityLockout passcodeViewController] != nil && [[SFSecurityLockout passcodeViewController] presentedViewController] != nil) {
         [SFSDKCoreLogger i:[self class] format:kPasscodeScreenAlreadyPresentMessage];
         return YES;
     } else {
