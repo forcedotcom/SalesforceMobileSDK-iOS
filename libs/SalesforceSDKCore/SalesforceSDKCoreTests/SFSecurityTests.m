@@ -27,6 +27,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFKeyStoreManager+Internal.h"
 #import "SFKeyStore+Internal.h"
+#import "SFSecurityLockout+Internal.h"
 
 static NSUInteger const kNumThreadsInSafetyTest = 100;
 
@@ -55,7 +56,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
     [super setUp];
 
     // No passcode, to start.
-    [[SFPasscodeManager sharedManager] changePasscode:nil];
+    [SFSecurityLockout setPasscode:(NSString* _Nonnull)nil];
     mgr = [SFKeyStoreManager sharedInstance];
 }
 
@@ -66,8 +67,8 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 // Kick off a bunch of threads and, while threads are still doing things, randomly change passcodes.
 - (void)testKeyStoreThreadSafety
 {
-    // set up passcode mgr
-    [[SFPasscodeManager sharedManager] changePasscode:@"12345"];
+    // set up passcode
+    [SFSecurityLockout changePasscode:@"12345"];
     
     // start threads
     _threadSafetyTestCompleted = NO;
@@ -82,7 +83,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
         NSUInteger randomInt = arc4random() % 10;
         if (randomInt > 4) {
             NSString *newPasscode = [[SFSDKCryptoUtils randomByteDataWithLength:32] base64EncodedStringWithOptions: 0];
-            [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
+            [SFSecurityLockout changePasscode:newPasscode];
         }
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }

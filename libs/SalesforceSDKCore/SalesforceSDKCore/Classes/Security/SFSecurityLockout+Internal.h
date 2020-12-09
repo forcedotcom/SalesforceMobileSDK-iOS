@@ -4,8 +4,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 static NSUInteger const kDefaultLockoutTime        = 0;
 static NSUInteger const kDefaultPasscodeLength     = 0;
-static NSString * _Nullable const kSecurityTimeoutLegacyKey  = @"security.timeout";
-static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islocked";
 static NSString * const kBiometricUnlockAllowedKey           = @"security.biometric.allowed"; // Enabled in the Org
 static NSString * const kBiometricStateKey                   = @"secuirty.biometric.state";
 

@@ -39,7 +39,6 @@
 #import "SalesforceSDKManager+Internal.h"
 #import "SFSDKNavigationController.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
-#import "SFSDKAppLockViewConfig+Internal.h"
 #import "SFSDKAppLockViewController.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <LocalAuthentication/LocalAuthentication.h>
@@ -54,15 +53,12 @@
 // Private constants
 
 static NSString * const kTimerSecurity                       = @"security.timer";
-static NSString * const kLegacyPasscodeLengthKey             = @"security.pinlength";
-static NSString * const kKeychainIdntifierPasscodeLengthKey  = @"com.salesforce.security.passcode.length";
+static NSString * const kKeychainIdentifierPasscodeLengthKey = @"com.salesforce.security.passcode.length";
 static NSString * const kPasscodeScreenAlreadyPresentMessage = @"A passcode screen is already present.";
 static NSString * const kKeychainIdentifierLockoutTime       = @"com.salesforce.security.lockoutTime";
 static NSString * const kKeychainIdentifierIsLocked          = @"com.salesforce.security.isLocked";
 static NSString * const kKeychainIdentifierPasscodeVerify    = @"com.salesforce.security.passcode.pbkdf2.verify";
-static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
-static NSString * const kSFCurrentPasscodeProviderUserDefaultsKey = @"com.salesforce.mobilesdk.currentPasscodeProvider";
-static NSString * const kSFPasscodeProviderPBKDF2 = @"pbkdf2";
+static NSString * const kPBKDFArchiveDataKey                 = @"pbkdfDataArchive";
 
 // Public constants
 
@@ -72,6 +68,7 @@ NSString * const kSFPasscodeFlowCompleted                         = @"SFPasscode
 // Static vars
 
 static NSUInteger              securityLockoutTime;
+static NSUInteger              passcodeLength;
 static UIViewController        *sPasscodeViewController        = nil;
 static SFLockScreenSuccessCallbackBlock sLockScreenSuccessCallbackBlock = NULL;
 static SFLockScreenFailureCallbackBlock sLockScreenFailureCallbackBlock = NULL;
@@ -100,6 +97,7 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
             [SFSecurityLockout setBiometricState:SFBiometricUnlockUnavailable];
         } else {
             securityLockoutTime = [[SFSecurityLockout readLockoutTimeFromKeychain] unsignedIntegerValue];
+            passcodeLength = [[SFSecurityLockout readPasscodeLengthFromKeychain] unsignedIntegerValue];
         }
     }
 }
@@ -109,13 +107,7 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
     // Lockout time
     NSNumber *lockoutTime = [SFSecurityLockout readLockoutTimeFromKeychain];
 	if (lockoutTime == nil) {
-        // Try falling back to user defaults if there's no timeout in the keychain.
-        lockoutTime = [[NSUserDefaults msdkUserDefaults] objectForKey:kSecurityTimeoutLegacyKey];
-        if (lockoutTime == nil) {
-            [SFSecurityLockout writeLockoutTimeToKeychain:@(kDefaultLockoutTime)];
-        } else {
-            [SFSecurityLockout writeLockoutTimeToKeychain:lockoutTime];
-        }
+        [SFSecurityLockout writeLockoutTimeToKeychain:@(kDefaultLockoutTime)];
     }
     
     BOOL biometricAllowedExists = [[SFPreferences globalPreferences] keyExists:kBiometricUnlockAllowedKey];
@@ -125,30 +117,6 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
     BOOL biometricModeExists = [[SFPreferences globalPreferences] keyExists:kBiometricStateKey];
     if (!biometricModeExists) {
         [self setBiometricState:SFBiometricUnlockAvailable];
-    }
-    
-    // Is locked
-    NSNumber *n = [SFSecurityLockout readIsLockedFromKeychain];
-    if (n == nil) {
-        // Try to fall back to the user defaults if isLocked isn't found in the keychain
-        BOOL locked = [[NSUserDefaults msdkUserDefaults] boolForKey:kSecurityIsLockedLegacyKey];
-        [SFSecurityLockout writeIsLockedToKeychain:@(locked)];
-    }
-    
-    NSNumber *currentPasscodeLength = [SFSecurityLockout readPasscodeLengthFromKeychain];
-    
-    if (currentPasscodeLength) {
-        NSNumber *previousLength = [[NSUserDefaults msdkUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
-        if (previousLength) {
-            [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
-        }
-        return;
-    }
-    
-    NSNumber *previousLength = [[NSUserDefaults msdkUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
-    if (previousLength) {
-        [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
-        [self setPasscodeLength:[previousLength unsignedIntegerValue]];
     }
 }
 
@@ -317,15 +285,15 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
 
 + (NSUInteger)passcodeLength
 {
-    NSNumber *nPasscodeLength = [SFSecurityLockout readPasscodeLengthFromKeychain];
-    return (nPasscodeLength != nil ? [nPasscodeLength integerValue] : kDefaultPasscodeLength);
+    return passcodeLength;
 }
 
 + (void)setPasscodeLength:(NSUInteger)newPasscodeLength
 {
     // NOTE: This method directly alters the passcode length global preference persisted value.  Do not call if
     // passcode policy evaluation is required.
-    [SFSecurityLockout writePasscodeLengthToKeychain:[NSNumber numberWithInteger:newPasscodeLength]];
+    passcodeLength = newPasscodeLength;
+    [SFSecurityLockout writePasscodeLengthToKeychain:[NSNumber numberWithUnsignedInteger:newPasscodeLength]];
 }
 
 + (BOOL)deviceHasBiometric {
@@ -439,11 +407,6 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
 + (SFSDKAppLockViewConfig *)passcodeViewConfig {
     if (_passcodeViewConfig == nil) {
         _passcodeViewConfig = [SFSDKAppLockViewConfig createDefaultConfig];
-    } else {
-        NSUInteger storedLength = [SFSecurityLockout passcodeLength];
-        if (storedLength) {
-            _passcodeViewConfig.passcodeLength = storedLength;
-        }
     }
     return _passcodeViewConfig;
 }
@@ -764,12 +727,12 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (NSNumber *)readPasscodeLengthFromKeychain
 {
-    return [SFSecurityLockout readNumberFromKeychain:kKeychainIdntifierPasscodeLengthKey];
+    return [SFSecurityLockout readNumberFromKeychain:kKeychainIdentifierPasscodeLengthKey];
 }
 
 + (void)writePasscodeLengthToKeychain:(NSNumber *)length
 {
-    [SFSecurityLockout writeNumberToKeychain:length identifier:kKeychainIdntifierPasscodeLengthKey];
+    [SFSecurityLockout writeNumberToKeychain:length identifier:kKeychainIdentifierPasscodeLengthKey];
 }
 
 + (NSNumber *)readIsLockedFromKeychain
@@ -870,25 +833,6 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 }
 
 + (void)setPasscode:(NSString *)newPasscode {
-    // TODO: This checks if the passcode is using deprecated passcode providers, remove in Mobile SDK 10.0
-    NSString *currentProviderName = [SFSecurityLockout currentPasscodeProviderName];
-    if (currentProviderName) {
-        if (![currentProviderName isEqualToString:kSFPasscodeProviderPBKDF2]) {
-            [SFSecurityLockout resetPasscode];
-        }
-        [SFSecurityLockout removeCurrentProvider];
-    }
-    
-    [SFSecurityLockout setVerificationPasscode:newPasscode];
-    
-}
-
-+ (void)removeCurrentProvider {
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    [defs removeObjectForKey:kSFCurrentPasscodeProviderUserDefaultsKey];
-}
-
-+ (void)setVerificationPasscode:(NSString *)newPasscode {
     if (newPasscode == nil) {
         [SFSecurityLockout resetPasscode];
         return;
@@ -932,12 +876,5 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:keychainIdentifier account:nil];
     [keychainWrapper setValueData:archiver.encodedData];
 }
-
-+ (NSString *)currentPasscodeProviderName {
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    NSString *currentProviderName = [defs objectForKey:kSFCurrentPasscodeProviderUserDefaultsKey];
-    return currentProviderName;
-}
-
 
 @end

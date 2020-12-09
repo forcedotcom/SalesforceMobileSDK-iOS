@@ -26,7 +26,6 @@
  */
 
 #import "SFSDKPasscodeVerifyController.h"
-#import "SFSDKAppLockViewConfig+Internal.h"
 #import "SFSecurityLockout.h"
 #import "SFSDKPasscodeTextField.h"
 #import "SFSDKResourceUtils.h"
@@ -98,7 +97,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
         if (self.remainingAttempts == 0) {
             [self resetRemainingAttempts];
         }
-        self.passcodeLengthKnown = (self.viewConfig.passcodeLength != 0);
+        self.passcodeLengthKnown = ([SFSecurityLockout passcodeLength] != 0);
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutVerifyButton:) name:UIKeyboardDidShowNotification object:nil];
     }
     return self;
@@ -122,7 +121,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
     self.passcodeTextView.secureTextEntry = YES;
     self.passcodeTextView.isAccessibilityElement = YES;
     if (self.passcodeLengthKnown) {
-        self.passcodeTextView.accessibilityHint = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"accessibilityPasscodeLengthHint"], self.viewConfig.passcodeLength];
+        self.passcodeTextView.accessibilityHint = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"accessibilityPasscodeLengthHint"], [SFSecurityLockout passcodeLength]];
     }
     [self.passcodeTextView clearPasscode];
     [self.view addSubview:self.passcodeTextView];
@@ -228,7 +227,7 @@ NSUInteger const kSFMaxNumberofAttempts = 10;
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)rString
 {
-    NSUInteger length = (self.passcodeLengthKnown) ? self.viewConfig.passcodeLength : kSFMaxPasscodeLength;
+    NSUInteger length = (self.passcodeLengthKnown) ? [SFSecurityLockout passcodeLength] : kSFMaxPasscodeLength;
     
     // This fixes deleting if VoiceOver is on.
     if (UIAccessibilityIsVoiceOverRunning() && [rString isEqualToString:@""]) {

@@ -25,7 +25,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKAppLockViewConfig+Internal.h"
+#import "SFSDKAppLockViewConfig.h"
 #import "UIColor+SFColors.h"
 #import "SFSDKResourceUtils.h"
 #import "SFSecurityLockout+Internal.h"
@@ -53,7 +53,6 @@
         _buttonFont = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
         _touchIdImage = [SFSDKResourceUtils imageNamed:@"touchId"];
         _faceIdImage = [SFSDKResourceUtils imageNamed:@"faceId"];
-        _passcodeLength = [SFSecurityLockout passcodeLength];
     }
     return self;
 }

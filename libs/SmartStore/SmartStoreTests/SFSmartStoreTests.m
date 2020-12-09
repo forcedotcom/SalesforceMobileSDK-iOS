@@ -33,10 +33,6 @@
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFSmartStoreUpgrade.h"
-#import "SFSmartStoreUpgrade+Internal.h"
-#import <SalesforceSDKCore/SFPasscodeManager+Internal.h>
-#import <SalesforceSDKCore/SFPasscodeProviderManager.h>
-#import <SalesforceSDKCore/SFSecurityLockout+Internal.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
@@ -1147,64 +1143,6 @@
         // Cleanup.
         for (NSString *storeName in initialStoreList) {
             [dbMgr removeStoreDir:storeName];
-        }
-    }
-}
-
-- (void)testEncryptionForSFSmartStore
-{
-    for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
-        for (NSString *passcodeProviderName in @[kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2]) {
-            [SFSDKSmartStoreLogger d:[self class] format:@"---Testing encryption using passcode provider '%@'.---", passcodeProviderName];
-            [SFPasscodeProviderManager setCurrentPasscodeProviderByName:passcodeProviderName];
-            
-            [[SFPasscodeManager sharedManager] changePasscode:nil];
-            NSString *noPasscodeKey = [SFSmartStore encKey];
-            XCTAssertTrue([noPasscodeKey length] > 0, @"Even without passcode, SmartStore should have an encryption key.");
-            NSString *newNoPasscodeStoreName = @"new_no_passcode_store";
-            XCTAssertFalse([dbMgr persistentStoreExists:newNoPasscodeStoreName], @"For provider '%@': Store '%@' should not currently exist.", passcodeProviderName, newNoPasscodeStoreName);
-            SFSmartStore *newNoPasscodeStore = [self smartStoreForManager:dbMgr withName:newNoPasscodeStoreName];
-            BOOL canReadSmartStoreDb = [self canReadDatabaseQueue:newNoPasscodeStore.storeQueue];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
-            [newNoPasscodeStore.storeQueue close];
-            
-            FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
-            XCTAssertNil(rawDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
-            if(rawDb) [rawDb close];
-            
-            // Make sure SFSmartStore encrypts a new store with a passcode, if a passcode exists.
-            NSString *newPasscodeStoreName = @"new_passcode_store";
-            NSString *passcode = @"blah";
-            [[SFPasscodeManager sharedManager] changePasscode:passcode];
-            NSString *passcodeKey = [SFSmartStore encKey];
-            XCTAssertTrue([passcodeKey isEqualToString:noPasscodeKey], @"Passcode change shouldn't impact encryption key value.");
-            XCTAssertFalse([dbMgr persistentStoreExists:newPasscodeStoreName], @"For provider '%@': Store '%@' should not currently exist.", passcodeProviderName, newPasscodeStoreName);
-            SFSmartStore *newPasscodeStore = [self smartStoreForManager:dbMgr withName:newPasscodeStoreName];
-            canReadSmartStoreDb = [self canReadDatabaseQueue:newPasscodeStore.storeQueue];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
-            [newPasscodeStore.storeQueue close];
-            
-            rawDb = [self openDatabase:newPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
-            XCTAssertNil(rawDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
-            if(rawDb) [rawDb close];
-            
-            // Make sure existing stores have the expected keys associated with them, between launches.
-            [SFSmartStore clearSharedStoreMemoryState];
-            [[SFPasscodeManager sharedManager] changePasscode:nil];
-            SFSmartStore *existingNoPasscodeStore = [self smartStoreForManager:dbMgr withName:newNoPasscodeStoreName];
-            canReadSmartStoreDb = [self canReadDatabaseQueue:existingNoPasscodeStore.storeQueue];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read existing store with default key.", passcodeProviderName);
-            [[SFPasscodeManager sharedManager] changePasscode:passcode];
-            SFSmartStore *existingPasscodeStore = [self smartStoreForManager:dbMgr withName:newPasscodeStoreName];
-            canReadSmartStoreDb = [self canReadDatabaseQueue:existingPasscodeStore.storeQueue];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read existing store with passcode key.", passcodeProviderName);
-            
-            // Cleanup.
-            [[SFPasscodeManager sharedManager] changePasscode:nil];
-            [self removeStoreForManager:dbMgr withName:newNoPasscodeStoreName];
-            [self removeStoreForManager:dbMgr withName:newPasscodeStoreName];
-            XCTAssertFalse([dbMgr persistentStoreExists:newNoPasscodeStoreName], @"For provider '%@': Store '%@' should no longer exist.", passcodeProviderName, newNoPasscodeStoreName);
-            XCTAssertFalse([dbMgr persistentStoreExists:newPasscodeStoreName], @"For provider '%@': Store '%@' should no longer exist.", passcodeProviderName, newPasscodeStoreName);
         }
     }
 }

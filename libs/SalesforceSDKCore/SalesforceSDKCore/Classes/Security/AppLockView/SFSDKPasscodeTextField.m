@@ -26,8 +26,8 @@
  */
 
 #import "SFSDKPasscodeTextField.h"
+#import "SFSecurityLockout+Internal.h"
 #import "UIColor+SFColors.h"
-#import "SFSDKAppLockViewConfig+Internal.h"
 
 static CGFloat      const kDefaultLineWidth                  = 1;
 static NSUInteger   const kMaxPasscodeLength                 = 8;
@@ -58,8 +58,8 @@ static CGFloat      const kPasscodeCircleDiameter            = 22.f;
 {
     if (self = [super initWithFrame:frame]) {
         _subLayerRefs = [[NSMutableArray alloc] init];
-        _passcodeLength = config.passcodeLength;
-        _passcodeLengthKnown = (config.passcodeLength != 0);
+        _passcodeLength = [SFSecurityLockout passcodeLength];
+        _passcodeLengthKnown = ([SFSecurityLockout passcodeLength] != 0);
         _viewConfig = config;
         self.keyboardType = UIKeyboardTypeNumberPad;
         self.backgroundColor = config.secondaryBackgroundColor;
