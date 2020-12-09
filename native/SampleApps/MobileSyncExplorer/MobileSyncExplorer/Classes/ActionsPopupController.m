@@ -54,7 +54,7 @@ NSString *const kActionDbInspector = @"Inspect db";
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAll;
 }
 
 #pragma mark - Table view data source

@@ -71,7 +71,7 @@
     if(self.showNavbar){
         [self setupNavigationBar];
     } else {
-        self.navigationController.navigationBarHidden  =  YES;
+        self.navigationController.navigationBarHidden = YES;
     }
 }
 
@@ -244,20 +244,17 @@
 }
 
 - (BOOL)shouldAutorotate {
-    return NO;
+    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)layoutWebView {
     if (nil != _oauthView) {
         [_oauthView removeFromSuperview];
         [self.view addSubview:_oauthView];
-        NSDictionary *views = NSDictionaryOfVariableBindings(_oauthView);
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_oauthView]|" options:0 metrics:nil views:views]];
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_oauthView]|" options:0 metrics:nil views:views]];
     }
 }
 
