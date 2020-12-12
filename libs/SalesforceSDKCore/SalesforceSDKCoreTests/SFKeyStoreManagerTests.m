@@ -36,9 +36,6 @@
 
 - (void)setUp {
     [super setUp];
-
-    // initialize passcode mgr
-    [[SFPasscodeManager sharedManager] changePasscode: nil];
     
     mgr = [SFKeyStoreManager sharedInstance];
 }

@@ -54,9 +54,9 @@
 #import "SFSDKLoginHost.h"
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKEventBuilderHelper.h"
-#import "SFPasscodeManager.h"
 #import "SFNetwork.h"
 #import "SFSDKSalesforceAnalyticsManager.h"
+#import "SFSecurityLockout+Internal.h"
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";

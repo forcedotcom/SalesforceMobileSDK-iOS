@@ -101,7 +101,6 @@
 		CE4CE4181C0E59DA009F6029 /* SFSmartStoreInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBCF1BFD30030022F021 /* SFSmartStoreInspectorViewController.m */; };
 		CE4CE4191C0E59DA009F6029 /* SFSmartStoreUpgrade.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD01BFD30030022F021 /* SFSmartStoreUpgrade.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE41A1C0E59DA009F6029 /* SFSmartStoreUpgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD11BFD30030022F021 /* SFSmartStoreUpgrade.m */; };
-		CE4CE41B1C0E59DA009F6029 /* SFSmartStoreUpgrade+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD21BFD30030022F021 /* SFSmartStoreUpgrade+Internal.h */; };
 		CE4CE41C1C0E59DA009F6029 /* SFSmartStoreUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD31BFD30030022F021 /* SFSmartStoreUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE41D1C0E59DA009F6029 /* SFSmartStoreUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD41BFD30030022F021 /* SFSmartStoreUtils.m */; };
 		CE4CE41E1C0E59DA009F6029 /* SFSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD51BFD30030022F021 /* SFSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -278,7 +277,6 @@
 		4F96FBCF1BFD30030022F021 /* SFSmartStoreInspectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreInspectorViewController.m; path = SmartStore/Classes/SFSmartStoreInspectorViewController.m; sourceTree = SOURCE_ROOT; };
 		4F96FBD01BFD30030022F021 /* SFSmartStoreUpgrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreUpgrade.h; path = SmartStore/Classes/SFSmartStoreUpgrade.h; sourceTree = SOURCE_ROOT; };
 		4F96FBD11BFD30030022F021 /* SFSmartStoreUpgrade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreUpgrade.m; path = SmartStore/Classes/SFSmartStoreUpgrade.m; sourceTree = SOURCE_ROOT; };
-		4F96FBD21BFD30030022F021 /* SFSmartStoreUpgrade+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSmartStoreUpgrade+Internal.h"; path = "SmartStore/Classes/SFSmartStoreUpgrade+Internal.h"; sourceTree = SOURCE_ROOT; };
 		4F96FBD31BFD30030022F021 /* SFSmartStoreUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreUtils.h; path = SmartStore/Classes/SFSmartStoreUtils.h; sourceTree = SOURCE_ROOT; };
 		4F96FBD41BFD30030022F021 /* SFSmartStoreUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreUtils.m; path = SmartStore/Classes/SFSmartStoreUtils.m; sourceTree = SOURCE_ROOT; };
 		4F96FBD51BFD30030022F021 /* SFSoupIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSoupIndex.h; path = SmartStore/Classes/SFSoupIndex.h; sourceTree = SOURCE_ROOT; };
@@ -621,7 +619,6 @@
 				4F96FBCF1BFD30030022F021 /* SFSmartStoreInspectorViewController.m */,
 				4F96FBD01BFD30030022F021 /* SFSmartStoreUpgrade.h */,
 				4F96FBD11BFD30030022F021 /* SFSmartStoreUpgrade.m */,
-				4F96FBD21BFD30030022F021 /* SFSmartStoreUpgrade+Internal.h */,
 				4F96FBD31BFD30030022F021 /* SFSmartStoreUtils.h */,
 				4F96FBD41BFD30030022F021 /* SFSmartStoreUtils.m */,
 				4F96FBD51BFD30030022F021 /* SFSoupIndex.h */,
@@ -655,7 +652,6 @@
 				4F75745222B9A96900528BE2 /* SFSmartSqlCache.h in Headers */,
 				B78928412243DE5700BEDED4 /* SFSmartStore+Instrumentation.h in Headers */,
 				828917841C52B705002F9981 /* FMDatabase.h in Headers */,
-				CE4CE41B1C0E59DA009F6029 /* SFSmartStoreUpgrade+Internal.h in Headers */,
 				CE4CE40F1C0E59DA009F6029 /* SFSmartSqlHelper.h in Headers */,
 				829DA2AA1C1266F70040F5F1 /* SmartStore.h in Headers */,
 				CE4CE4111C0E59DA009F6029 /* SFSmartStore.h in Headers */,

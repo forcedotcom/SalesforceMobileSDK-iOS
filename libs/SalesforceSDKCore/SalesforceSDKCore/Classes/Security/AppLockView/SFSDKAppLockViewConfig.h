@@ -42,14 +42,6 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
 + (instancetype)createDefaultConfig;
 
 /**
- * Warning - only set to YES/true if the app has always enforced a passcode of the exact length of
- *           the connected app setting (not longer).  This setting is used to force a cleaner UI,
- *           but users will be unable to unlock the app if their pin is longer than the specified
- *           length.
- */
-@property (nonatomic) BOOL forcePasscodeLength SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.");
-
-/**
  * The number of allowed passcode entry attempts before the user is logged out.
  */
 @property (nonatomic) NSUInteger maxNumberOfAttempts;
@@ -119,12 +111,6 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
  */
 @property (nonatomic, strong, nullable) UIImage * faceIdImage;
 
-/**
- * Length of the user's passcode.
- */
-@property (nonatomic) NSUInteger passcodeLength SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.");
-
 @end
 
 NS_ASSUME_NONNULL_END
-
