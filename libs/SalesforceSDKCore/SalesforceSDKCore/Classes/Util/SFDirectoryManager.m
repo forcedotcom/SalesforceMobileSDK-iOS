@@ -243,7 +243,7 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
 }
 
 + (void)upgradeUserDirectory:(NSSearchPathDirectory)type {
-    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:type components:nil];
+    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForOrg:nil user:nil community:nil type:type components:nil];
     NSFileManager *fm = [NSFileManager defaultManager];
     NSError *error = nil;
 
