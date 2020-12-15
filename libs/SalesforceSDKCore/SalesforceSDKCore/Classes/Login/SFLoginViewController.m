@@ -54,7 +54,7 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _config = [[SFSDKLoginViewControllerConfig  alloc] init];
+        _config = [[SFSDKLoginViewControllerConfig alloc] init];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
     }
     return self;
@@ -73,11 +73,11 @@
     } else {
         self.navigationController.navigationBarHidden = YES;
     }
+    [self layoutWebView];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    [self layoutWebView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
