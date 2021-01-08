@@ -75,7 +75,7 @@
     __strong typeof (weakSelf) strongSelf = weakSelf;
     [self.window presentWindowAnimated:NO withCompletion:^{
         UIViewController *controller =  strongSelf.window.viewController;
-        if (!strongSelf.window.viewController.presentedViewController.isBeingDismissed) {
+        if (strongSelf.window.viewController.presentedViewController && !strongSelf.window.viewController.presentedViewController.isBeingDismissed) {
             controller = strongSelf.window.viewController.presentedViewController;
         }
         [controller presentViewController:strongSelf.controller animated:animated completion:completion];
