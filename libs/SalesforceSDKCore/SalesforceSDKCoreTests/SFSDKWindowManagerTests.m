@@ -25,6 +25,7 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSDKWindowManager.h"
+#import "SFApplicationHelper.h"
 
 @interface SFSDKWindowManagerTests: XCTestCase{
     UIWindow *_origApplicationWindow;
@@ -99,13 +100,27 @@
 - (void)testSetMainWindow {
     XCTAssert(_origApplicationWindow!=nil);
     [[SFSDKWindowManager sharedManager] setMainUIWindow:_origApplicationWindow];
-    XCTAssertTrue([SFSDKWindowManager sharedManager].mainWindow.window==_origApplicationWindow);
+    XCTAssert([SFSDKWindowManager sharedManager].mainWindow.window == _origApplicationWindow);
+    XCTAssert([[SFSDKWindowManager sharedManager] mainWindow:nil].window == _origApplicationWindow);
+    UIScene *scene = [SFApplicationHelper sharedApplication].connectedScenes.allObjects.firstObject;
+    XCTAssert([[SFSDKWindowManager sharedManager] mainWindow:scene].window == _origApplicationWindow);
 }
 
 - (void)testLoginWindow {
     SFSDKWindowContainer *authWindow = [SFSDKWindowManager sharedManager].authWindow;
     XCTAssert(authWindow.window!=nil);
     XCTAssert(authWindow.windowType == SFSDKWindowTypeAuth);
+    
+    SFSDKWindowContainer *authWindowNilScene = [[SFSDKWindowManager sharedManager] authWindow:nil];
+    XCTAssert(authWindowNilScene.window != nil);
+    XCTAssert(authWindowNilScene.windowType == SFSDKWindowTypeAuth);
+    XCTAssertEqualObjects(authWindow, authWindowNilScene);
+    
+    UIScene *scene = [SFApplicationHelper sharedApplication].connectedScenes.allObjects.firstObject;
+    SFSDKWindowContainer *authWindowScene = [[SFSDKWindowManager sharedManager] authWindow:scene];
+    XCTAssert(authWindowScene.window != nil);
+    XCTAssert(authWindowScene.windowType == SFSDKWindowTypeAuth);
+    XCTAssertEqualObjects(authWindow, authWindowScene);
 }
 
 - (void)testPasscodeWindow {
@@ -118,6 +133,17 @@
     SFSDKWindowContainer *snapshotWindow = [SFSDKWindowManager sharedManager].snapshotWindow;
     XCTAssert(snapshotWindow.window!=nil);
     XCTAssert(snapshotWindow.windowType == SFSDKWindowTypeSnapshot);
+    
+    SFSDKWindowContainer *snapshotWindowNilScene = [[SFSDKWindowManager sharedManager] snapshotWindow:nil];
+    XCTAssert(snapshotWindowNilScene.window != nil);
+    XCTAssert(snapshotWindowNilScene.windowType == SFSDKWindowTypeSnapshot);
+    XCTAssertEqualObjects(snapshotWindow, snapshotWindowNilScene);
+    
+    UIScene *scene = [SFApplicationHelper sharedApplication].connectedScenes.allObjects.firstObject;
+    SFSDKWindowContainer *snapshowWindowScene = [[SFSDKWindowManager sharedManager] snapshotWindow:scene];
+    XCTAssert(snapshowWindowScene.window != nil);
+    XCTAssert(snapshowWindowScene.windowType == SFSDKWindowTypeSnapshot);
+    XCTAssertEqualObjects(snapshotWindow, snapshowWindowScene);
 }
 
 - (void)testEnable {
@@ -125,8 +151,8 @@
     [passcodeWindow presentWindow];
     XCTAssert(passcodeWindow.window!=nil);
     XCTAssertTrue([passcodeWindow.window isKeyWindow]);
+    XCTAssertTrue(passcodeWindow.isEnabled);
 }
-
 
 - (void)testDisable {
     SFSDKWindowContainer *passcodeWindow = [SFSDKWindowManager sharedManager].passcodeWindow;
@@ -135,6 +161,7 @@
     XCTAssertTrue([passcodeWindow.window isKeyWindow]);
     [passcodeWindow dismissWindowAnimated:NO  withCompletion:^{
         XCTAssertFalse(passcodeWindow.window.isKeyWindow);
+        XCTAssertFalse(passcodeWindow.isEnabled);
     }];
 }
 
@@ -166,7 +193,7 @@
     [self waitForExpectations:@[expectation] timeout:10];
     activeWindow = [SFSDKWindowManager sharedManager].activeWindow;
     XCTAssert(passcodeWindow!=activeWindow);
-    
+
 }
 
 - (void)testLevels {
@@ -174,8 +201,7 @@
     [SFSDKWindowManager sharedManager].snapshotWindow.window.windowLevel = 1;
     [SFSDKWindowManager sharedManager].passcodeWindow.window.windowLevel = 4;
     [SFSDKWindowManager sharedManager].authWindow.window.windowLevel = 3;
-    XCTAssertTrue(
-                  [SFSDKWindowManager sharedManager].snapshotWindow.windowLevel !=1  );
+    XCTAssertTrue([SFSDKWindowManager sharedManager].snapshotWindow.windowLevel !=1  );
     XCTAssertTrue([SFSDKWindowManager sharedManager].passcodeWindow.windowLevel != 4);
     XCTAssertTrue([SFSDKWindowManager sharedManager].authWindow.windowLevel != 3);
    
