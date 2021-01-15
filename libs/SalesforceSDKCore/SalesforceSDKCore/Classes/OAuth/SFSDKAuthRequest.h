@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSSet<NSString*> *scopes;
 @property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
 @property (nonatomic,strong) SFSDKAppLockViewConfig *appLockViewControllerConfig;
+@property (nullable, nonatomic, strong) UIScene *scene;
 @property (nonatomic, copy) NSString *jwtToken;
 @property (nonatomic, copy, nullable) NSString *userAgentForAuth;
 

@@ -79,29 +79,13 @@
 
 @interface SFSDKWindowManager : NSObject
 
-/** SDK uses this window to present the login flow.
- */
-@property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull authWindow;
-
-/** SDK uses this window to present the snapshot View.
- */
-@property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull snapshotWindow;
-
-/** SDK uses this window to present the passcode View.
- */
-@property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull passcodeWindow;
-
-/** Returns the SFSDKWindowContainer window representing the mainWindow that has been set
- */
-@property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull mainWindow;
-
 /** Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.
  */
 @property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle;
 
-/** Returns the SFSDKWindowContainer window representing the active presented Window that has been set
+/** SDK uses this window to present the passcode view.
  */
-- (SFSDKWindowContainer * _Nullable)activeWindow;
+- (nonnull SFSDKWindowContainer *)passcodeWindow;
 
 /** SDK uses this window to present the login flow for the given scene. Defaults to the first connected scene if one isn't provided.
  */

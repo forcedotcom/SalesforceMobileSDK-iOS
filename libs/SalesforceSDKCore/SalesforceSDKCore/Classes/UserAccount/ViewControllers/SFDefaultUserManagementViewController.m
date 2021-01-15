@@ -25,6 +25,13 @@
 #import "SFDefaultUserManagementViewController+Internal.h"
 #import "SFDefaultUserManagementListViewController.h"
 #import "SFUserAccountManager.h"
+
+@interface SFDefaultUserManagementViewController ()
+
+@property (nonatomic, strong) UIScene *scene;
+
+@end
+
 @implementation SFDefaultUserManagementViewController
 
 - (id)initWithCompletionBlock:(SFUserManagementCompletionBlock)completionBlock
@@ -77,7 +84,7 @@
 
 - (void)actionCreateNewUser
 {
-    [[SFUserAccountManager sharedInstance] switchToNewUserWithCompletion:^(NSError * error, SFUserAccount * newUser) {
+    [[SFUserAccountManager sharedInstance] switchToNewUser:self.scene completion:^(NSError * error, SFUserAccount * newUser) {
         if (error) {
             [SFSDKCoreLogger e:[self class] format:@"Attempt to add new user failed %@",[error localizedDescription]];
         } else {
@@ -90,6 +97,7 @@
 {
     self.action = action;
     self.actionAccount = actionAccount;
+    self.scene = self.view.window.windowScene;
     if (self.completionBlock) {
         self.completionBlock(action);
     }

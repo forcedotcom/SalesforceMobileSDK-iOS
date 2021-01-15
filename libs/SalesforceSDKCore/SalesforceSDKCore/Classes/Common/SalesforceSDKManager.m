@@ -261,8 +261,9 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneWillDeactivate:) name:UISceneWillDeactivateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidActivate:) name:UISceneDidActivateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidDisconnect:) name:UISceneDidDisconnectNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow
                                                 selector:@selector(handleAuthCompleted:)
                                                      name:kSFNotificationUserDidLogIn object:nil];
@@ -278,13 +279,13 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidSwitch:) name:kSFNotificationUserDidSwitch object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowWillBegin:) name:kSFPasscodeFlowWillBegin object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowDidComplete:) name:kSFPasscodeFlowCompleted object:nil];
-
         self.useSnapshotView = YES;
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
         self.useEphemeralSessionForAdvancedAuth = YES;
         [self setupServiceConfiguration];
+        _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         [SFDirectoryManager upgradeUserDirectories];
     }
     return self;
@@ -389,7 +390,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 - (void)showDevSupportDialog
 {
-    SFSDKWindowContainer * activeWindow = [SFSDKWindowManager sharedManager].activeWindow;
+    SFSDKWindowContainer *activeWindow = [[SFSDKWindowManager sharedManager] activeWindow:nil];
     if ([self isDevSupportEnabled] && activeWindow.isEnabled) {
         UIViewController * topViewController = activeWindow.topViewController;
         if (topViewController) {
@@ -571,39 +572,49 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     [self savePasscodeActivityInfo];
 }
 
-- (void)handleAppDidBecomeActive:(NSNotification *)notification
-{
-    [SFSDKCoreLogger d:[self class] format:@"App is resuming active state."];
-    @try {
-        [self dismissSnapshot];
-    }
-    @catch (NSException *exception) {
-        [SFSDKCoreLogger w:[self class] format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
-    }
+- (void)handleSceneDidActivate:(NSNotification *)notification {
+     UIScene *scene = (UIScene *)notification.object;
+     NSString *sceneId = scene.session.persistentIdentifier;
+     [SFSDKCoreLogger d:[self class] format:@"Scene %@ is resuming active state.", sceneId];
+
+     @try {
+         [self dismissSnapshot:scene];
+     }
+     @catch (NSException *exception) {
+         [SFSDKCoreLogger w:[self class] format:@"Exception thrown while removing security snapshot view for scene %@: '%@'. Will continue to resume scene.", sceneId, [exception reason]];
+     }
 }
 
-- (void)handleAppWillResignActive:(NSNotification *)notification
-{
-    [SFSDKCoreLogger d:[self class] format:@"App is resigning active state."];
-    
+- (void)handleSceneWillDeactivate:(NSNotification *)notification {
+    UIScene *scene = (UIScene *)notification.object;
+    NSString *sceneId = scene.session.persistentIdentifier;
+
+    [SFSDKCoreLogger d:[self class] format:@"Scene %@ is resigning active state.", sceneId];
+
     // Don't present snapshot during advanced authentication or Passcode Presentation
     // ==============================================================================
     // During advanced authentication, application is briefly backgrounded then foregrounded
     // The ASWebAuthenticationSession's view controller is pushed into the key window
     // If we make the snapshot window the active window now, that's where the ASWebAuthenticationSession's view controller will end up
     // Then when the application is foregrounded and the snapshot window is dismissed, we will lose the ASWebAuthenticationSession
-    SFSDKWindowContainer* activeWindow = [SFSDKWindowManager sharedManager].activeWindow;
+    SFSDKWindowContainer *activeWindow = [[SFSDKWindowManager sharedManager] activeWindow:scene];
     if ([activeWindow isAuthWindow] || [activeWindow isPasscodeWindow]) {
         return;
     }
-  
+
     // Set up snapshot security view, if it's configured.
     @try {
-        [self presentSnapshot];
+        [SFSDKCoreLogger d:[self class] format:@"Scene %@ is trying to present snapshot.", sceneId];
+        [self presentSnapshot:scene];
     }
     @catch (NSException *exception) {
-        [SFSDKCoreLogger w:[self class] format:@"Exception thrown while setting up security snapshot view: '%@'. Continuing resign active.", [exception reason]];
+        [SFSDKCoreLogger w:[self class] format:@"Exception thrown while setting up security snapshot view for scene %@: '%@'. Continuing resign active.", sceneId, [exception reason]];
     }
+}
+
+- (void)handleSceneDidDisconnect:(NSNotification *)notification {
+    UIScene *scene = (UIScene *)notification.object;
+    [self.snapshotViewControllers removeObject:scene.session.persistentIdentifier];
 }
 
 - (void)handleAuthCompleted:(NSNotification *)notification
@@ -668,17 +679,15 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     [SFInactivityTimerCenter saveActivityTimestamp];
 }
     
-- (BOOL)isSnapshotPresented
-{
-    return [[SFSDKWindowManager sharedManager].snapshotWindow isEnabled];
+- (BOOL)isSnapshotPresented:(UIScene *)scene {
+    return [[[SFSDKWindowManager sharedManager] snapshotWindow:scene] isEnabled];
 }
 
-- (void)presentSnapshot
-{
+- (void)presentSnapshot:(UIScene *)scene {
     if (!self.useSnapshotView) {
         return;
     }
-
+    NSString *sceneId = scene.session.persistentIdentifier;
     // Try to retrieve a custom snapshot view controller
     UIViewController* customSnapshotViewController = nil;
     if (self.snapshotViewControllerCreationAction) {
@@ -687,43 +696,42 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     
     // Custom snapshot view controller provided
     if (customSnapshotViewController) {
-        _snapshotViewController = customSnapshotViewController;
+        _snapshotViewControllers[sceneId] = customSnapshotViewController;
     }
     // No custom snapshot view controller provided
     else {
-        _snapshotViewController =  [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
+        _snapshotViewControllers[sceneId] = [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
     }
-    _snapshotViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+    _snapshotViewControllers[sceneId].modalPresentationStyle = UIModalPresentationFullScreen;
     // Presentation
+    SFSDKWindowContainer *snapshotWindow = [[SFSDKWindowManager sharedManager] snapshotWindow:scene];
     __weak typeof (self) weakSelf = self;
-    [[SFSDKWindowManager sharedManager].snapshotWindow  presentWindowAnimated:NO withCompletion:^{
+    [snapshotWindow presentWindowAnimated:NO withCompletion:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.snapshotPresentationAction && strongSelf.snapshotDismissalAction) {
-            strongSelf.snapshotPresentationAction(strongSelf->_snapshotViewController);
-        }else {
-            [SFSDKWindowManager.sharedManager.snapshotWindow.viewController presentViewController:strongSelf->_snapshotViewController animated:NO completion:nil];
+            strongSelf.snapshotPresentationAction(strongSelf.snapshotViewControllers[sceneId]);
+        } else {
+            [snapshotWindow.viewController presentViewController:strongSelf.snapshotViewControllers[sceneId] animated:NO completion:nil];
         }
     }];
-    
 }
 
-- (void)dismissSnapshot
-{
-    if ([self isSnapshotPresented]) {
+- (void)dismissSnapshot:(UIScene *)scene {
+    if ([self isSnapshotPresented:scene]) {
         if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
-            self.snapshotDismissalAction(_snapshotViewController);
+            self.snapshotDismissalAction(self.snapshotViewControllers[scene.session.persistentIdentifier]);
             if ([SFSecurityLockout shouldLock]) {
                 [SFSecurityLockout validateTimer];
             }
         } else {
-            [[SFSDKWindowManager sharedManager].snapshotWindow.viewController dismissViewControllerAnimated:NO completion:^{
-                [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindowAnimated:NO  withCompletion:^{
+            SFSDKWindowContainer *snapshotWindow = [[SFSDKWindowManager sharedManager] snapshotWindow:scene];
+            [snapshotWindow.viewController dismissViewControllerAnimated:NO completion:^{
+                [snapshotWindow dismissWindowAnimated:NO withCompletion:^{
                     if ([SFSecurityLockout shouldLock]) {
                         [SFSecurityLockout validateTimer];
                     }
                 }];
             }];
-            
         }
     }
 }

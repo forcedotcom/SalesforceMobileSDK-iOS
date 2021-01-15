@@ -1,3 +1,4 @@
+#import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 #import "SalesforceSDKManager.h"
 #import "SFSecurityLockout+Internal.h"
 #import "SFUserAccountManager.h"
@@ -9,8 +10,6 @@
 - (void)handleAppForeground:(nonnull NSNotification *)notification;
 - (void)handleAppBackground:(nonnull NSNotification *)notification;
 - (void)handleAppTerminate:(nonnull NSNotification *)notification;
-- (void)handleAppDidBecomeActive:(nonnull NSNotification *)notification;
-- (void)handleAppWillResignActive:(nonnull NSNotification *)notification;
 - (void)handlePostLogout;
 - (void)handleAuthCompleted:(nonnull NSNotification *)notification;
 - (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification;
@@ -25,17 +24,14 @@
 @end
 
 @interface SalesforceSDKManager () <SalesforceSDKManagerFlow>
-{
-    BOOL _isLaunching;
-    UIViewController* _snapshotViewController;
-}
 
 @property (nonatomic, assign) SFAppType appType;
 @property (nonatomic, weak, nullable) id<SalesforceSDKManagerFlow> sdkManagerFlow;
+@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
 @property (nonatomic, assign, getter=isPasscodeDisplayed) BOOL passcodeDisplayed;
 
-- (void)presentSnapshot;
-- (BOOL)isSnapshotPresented;
-- (void)dismissSnapshot;
+- (void)presentSnapshot:(nullable UIScene *)scene;
+- (BOOL)isSnapshotPresented:(nullable UIScene *)scene;
+- (void)dismissSnapshot:(nullable UIScene *)scene;
 
 @end
