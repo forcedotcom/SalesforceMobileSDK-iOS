@@ -114,7 +114,6 @@
 		CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFC19ACF95B0007F22F /* CoreData.framework */; };
 		CE1F0B0719ACF95B0007F22F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFD19ACF95B0007F22F /* CoreGraphics.framework */; };
 		CE1F0B0819ACF95B0007F22F /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFE19ACF95B0007F22F /* MessageUI.framework */; };
-		CE1F0B0919ACF95B0007F22F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFF19ACF95B0007F22F /* MobileCoreServices.framework */; };
 		CE1F0B0A19ACF95B0007F22F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0019ACF95B0007F22F /* QuartzCore.framework */; };
 		CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0119ACF95B0007F22F /* Security.framework */; };
 		CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */; };
@@ -152,6 +151,7 @@
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
 		CEFB4B3020B4951100D70F2B /* SFLayoutSyncManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFB4B2F20B4951000D70F2B /* SFLayoutSyncManagerTests.m */; };
+		F238E06825B920C80036E9DB /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F238E05C25B920C80036E9DB /* CoreServices.framework */; };
 		FDCEC0C25636E0D2262599C8 /* MobileSyncSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCECA332FB12607AF78D737 /* MobileSyncSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDCEC3CBF6FA262ACF305285 /* MobileSyncSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC1FBF745182967AD6BA9 /* MobileSyncSDKManager.m */; };
 /* End PBXBuildFile section */
@@ -445,6 +445,7 @@
 		CEF50A7C196B3EB60076264C /* SFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFObject.h; sourceTree = "<group>"; };
 		CEF50A7D196B3EB60076264C /* SFObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFObject.m; sourceTree = "<group>"; };
 		CEFB4B2F20B4951000D70F2B /* SFLayoutSyncManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLayoutSyncManagerTests.m; sourceTree = "<group>"; };
+		F238E05C25B920C80036E9DB /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		FDCEC1FBF745182967AD6BA9 /* MobileSyncSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MobileSyncSDKManager.m; path = Manager/MobileSyncSDKManager.m; sourceTree = "<group>"; };
 		FDCECA332FB12607AF78D737 /* MobileSyncSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobileSyncSDKManager.h; path = Manager/MobileSyncSDKManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -476,6 +477,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F238E06825B920C80036E9DB /* CoreServices.framework in Frameworks */,
 				CE0AB0871C10D43A00BFAEED /* libxml2.tbd in Frameworks */,
 				CE0AB0861C10D43300BFAEED /* libz.tbd in Frameworks */,
 				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
@@ -484,7 +486,6 @@
 				CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */,
 				CE1F0B0719ACF95B0007F22F /* CoreGraphics.framework in Frameworks */,
 				CE1F0B0819ACF95B0007F22F /* MessageUI.framework in Frameworks */,
-				CE1F0B0919ACF95B0007F22F /* MobileCoreServices.framework in Frameworks */,
 				CE1F0B0A19ACF95B0007F22F /* QuartzCore.framework in Frameworks */,
 				CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */,
 				CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */,
@@ -671,6 +672,7 @@
 		CEAAAE47195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F238E05C25B920C80036E9DB /* CoreServices.framework */,
 				B716A342218F4F9C009D407F /* SalesforceAnalytics.xcodeproj */,
 				B716A352218F4FA3009D407F /* SalesforceSDKCommon.xcodeproj */,
 				B716A35E218F4FAA009D407F /* SalesforceSDKCore.xcodeproj */,
