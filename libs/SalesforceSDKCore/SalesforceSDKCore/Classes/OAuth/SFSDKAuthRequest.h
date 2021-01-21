@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *userAgentForAuth;
 
 //IDP flow related properties (SPApp related properties)
-@property (nonatomic, readonly, assign) BOOL ipdEnabled;
+@property (nonatomic, readonly, assign) BOOL idpEnabled;
 @property (nonatomic, copy) NSString *idpAppURIScheme;
 @property (nonatomic, copy, nullable) NSString *userHint;
 @property (nonatomic, copy, nullable) UIViewController<SFSDKLoginFlowSelectionView> * (^spAppLoginFlowSelectionAction)(void);

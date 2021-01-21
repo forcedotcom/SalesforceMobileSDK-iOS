@@ -76,4 +76,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     return creds;
 }
 
+// Pass through for convenience
+- (NSString *)sceneId {
+    return self.oauthRequest.scene.session.persistentIdentifier;
+}
+
 @end

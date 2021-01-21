@@ -27,6 +27,8 @@
  */
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 NS_SWIFT_NAME(AuthHelper)
 @interface SFSDKAuthHelper : NSObject
 
@@ -36,14 +38,31 @@ NS_SWIFT_NAME(AuthHelper)
  @param completionBlock Block that executes immediately if the user is already logged in, or if the app config's `shouldAuthenticate` is set to false.
                         Otherwise, this block executes after the user logs in successfully, if login is required.
  */
-+ (void)loginIfRequired:(void (^)(void))completionBlock;
++ (void)loginIfRequired:(nullable void (^)(void))completionBlock;
 
-+ (void)handleLogout:(void (^)(void))completionBlock;
+/**
+ Initiate a login flow if the user is not already logged in to Salesforce and if the app config's `shouldAuthenticate` flag is set to false.
+ 
+ @param scene Scene that login is initiated for.
+ @param completionBlock Block that executes immediately if the user is already logged in, or if the app config's `shouldAuthenticate` is set to false.
+                        Otherwise, this block executes after the user logs in successfully, if login is required.
+ */
++ (void)loginIfRequired:(UIScene *)scene completion:(nullable void (^)(void))completionBlock;
+
++ (void)handleLogout:(nullable void (^)(void))completionBlock;
+
++ (void)handleLogout:(UIScene *)scene completion:(nullable void (^)(void))completionBlock;
 
 + (void)registerBlockForCurrentUserChangeNotifications:(void (^)(void))completionBlock;
 
++ (void)registerBlockForCurrentUserChangeNotifications:(UIScene *)scene completion:(void (^)(void))completionBlock;
+
 + (void)registerBlockForLogoutNotifications:(void (^)(void))completionBlock;
+
++ (void)registerBlockForLogoutNotifications:(UIScene *)scene completion:(void (^)(void))completionBlock;
 
 + (void)registerBlockForSwitchUserNotifications:(void (^)(void))completionBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -30,8 +30,8 @@
 @property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
 @property (nonatomic, assign, getter=isPasscodeDisplayed) BOOL passcodeDisplayed;
 
-- (void)presentSnapshot:(nullable UIScene *)scene;
-- (BOOL)isSnapshotPresented:(nullable UIScene *)scene;
-- (void)dismissSnapshot:(nullable UIScene *)scene;
+- (void)presentSnapshot:(nonnull UIScene *)scene;
+- (BOOL)isSnapshotPresented:(nonnull UIScene *)scene;
+- (void)dismissSnapshot:(nonnull UIScene *)scene completion:(void (^ __nullable)(void))completion;
 
 @end

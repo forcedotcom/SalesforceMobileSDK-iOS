@@ -108,15 +108,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager;
 
-/** SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.
- *
- */
-@property (nonatomic, strong, nullable) SFSDKAuthSession *authSession;
+@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, SFSDKAuthSession *> *authSessions;
 
 /**
  Indicates if the app is configured to require browser based authentication.
  */
 @property (nonatomic, assign) BOOL useBrowserAuth;
+
+/**
+Set this block to handle presentation of the Authentication View Controller.
+*/
+@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;
 
 - (void)setCurrentUserInternal:(SFUserAccount* _Nullable)user;
 
@@ -183,15 +185,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (SFUserAccountIdentity *_Nullable)decodeUserIdentity:(NSString *_Nullable)userIdentityEncoded;
 
-- (BOOL)handleAdvancedAuthURL:(NSURL *)advancedAuthURL;
-
-- (void)restartAuthentication;
+- (BOOL)handleAdvancedAuthURL:(NSURL *)advancedAuthURL options:(nullable NSDictionary *)options;
 
 - (BOOL)authenticateUsingIDP:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
 - (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
 - (SFSDKAuthRequest *)defaultAuthRequest;
+
+- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock
+                      scene:(nullable UIScene *)scene;
 
 @end
 

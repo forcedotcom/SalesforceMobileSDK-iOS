@@ -263,6 +263,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneWillDeactivate:) name:UISceneWillDeactivateNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidActivate:) name:UISceneDidActivateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneWillConnect:) name:UISceneWillConnectNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidDisconnect:) name:UISceneDidDisconnectNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow
                                                 selector:@selector(handleAuthCompleted:)
@@ -578,11 +579,22 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
      [SFSDKCoreLogger d:[self class] format:@"Scene %@ is resuming active state.", sceneId];
 
      @try {
-         [self dismissSnapshot:scene];
+         [self dismissSnapshot:scene completion:nil];
      }
      @catch (NSException *exception) {
          [SFSDKCoreLogger w:[self class] format:@"Exception thrown while removing security snapshot view for scene %@: '%@'. Will continue to resume scene.", sceneId, [exception reason]];
      }
+}
+
+- (void)handleSceneWillConnect:(NSNotification *)notification {
+    UIScene *scene = (UIScene *)notification.object;
+    if (scene.activationState == UISceneActivationStateBackground) {
+        SFSDKWindowContainer *activeWindow = [[SFSDKWindowManager sharedManager] activeWindow:scene];
+        if ([activeWindow isAuthWindow] || [activeWindow isPasscodeWindow]) {
+            return;
+        }
+        [self presentSnapshot:scene];
+    }
 }
 
 - (void)handleSceneWillDeactivate:(NSNotification *)notification {
@@ -716,7 +728,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     }];
 }
 
-- (void)dismissSnapshot:(UIScene *)scene {
+- (void)dismissSnapshot:(UIScene *)scene completion:(void (^ __nullable)(void))completion {
     if ([self isSnapshotPresented:scene]) {
         if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
             self.snapshotDismissalAction(self.snapshotViewControllers[scene.session.persistentIdentifier]);
@@ -729,6 +741,9 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
                 [snapshotWindow dismissWindowAnimated:NO withCompletion:^{
                     if ([SFSecurityLockout shouldLock]) {
                         [SFSecurityLockout validateTimer];
+                    }
+                    if (completion) {
+                        completion();
                     }
                 }];
             }];

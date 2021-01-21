@@ -162,6 +162,10 @@ FOUNDATION_EXTERN NSString * const kSFNotificationFromUserKey NS_SWIFT_NAME(User
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey NS_SWIFT_NAME(UserAccountManager.userInfoToUserKey);
 
+/**  Key used to provide triggering scene info for IDP flow from a scene delegate.
+ */
+FOUNDATION_EXTERN NSString * const kSFIDPSceneIdKey NS_SWIFT_NAME(UserAccountManager.IDPSceneKey);
+
 @class SFUserAccountManager;
 @class SFSDKAlertMessage;
 @class SFSDKWindowContainer;
@@ -504,23 +508,12 @@ Use this method to stop/clear any authentication which is has already been start
 - (void)logoutAllUsers;
 
 /**
- Dismisses the auth view controller, resetting the UI state back to its original
- presentation.
- */
-- (void)dismissAuthViewControllerIfPresent NS_SWIFT_UNAVAILABLE("");
-
-/**
  Handle an authentication response from the IDP application
  @param url The URL response returned to the app from the IDP application.
  @options Dictionary of name-value pairs received from open URL
  @return YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.
  */
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
-
-/**
- Set this block to handle presentation of the Authentication View Controller.
- */
-@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler NS_SWIFT_UNAVAILABLE("");
 
 /**
  Presents the setup screen that allows the user to opt into Touch/Face Id as a replacement for Passcode.

@@ -84,7 +84,7 @@
 
 - (void)actionCreateNewUser
 {
-    [[SFUserAccountManager sharedInstance] switchToNewUser:self.scene completion:^(NSError * error, SFUserAccount * newUser) {
+    [[SFUserAccountManager sharedInstance] switchToNewUserWithCompletion:^(NSError * error, SFUserAccount * newUser) {
         if (error) {
             [SFSDKCoreLogger e:[self class] format:@"Attempt to add new user failed %@",[error localizedDescription]];
         } else {

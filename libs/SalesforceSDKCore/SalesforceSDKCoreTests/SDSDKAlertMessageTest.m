@@ -107,7 +107,7 @@
         };
     }];
     
-    SFSDKAlertView *view = [[SFSDKAlertView alloc] initWithMessage:message window:[[SFSDKWindowManager sharedManager] authWindow:nil] ];
+    SFSDKAlertView *view = [[SFSDKAlertView alloc] initWithMessage:message window:[[SFSDKWindowManager sharedManager] authWindow:nil]];
     XCTAssertNotNil(view);
     XCTAssertNotNil(view.controller);
     XCTAssertNotNil(view.window);
