@@ -80,7 +80,6 @@
 		CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFC19ACF95B0007F22F /* CoreData.framework */; };
 		CE1F0B0719ACF95B0007F22F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFD19ACF95B0007F22F /* CoreGraphics.framework */; };
 		CE1F0B0819ACF95B0007F22F /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFE19ACF95B0007F22F /* MessageUI.framework */; };
-		CE1F0B0919ACF95B0007F22F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFF19ACF95B0007F22F /* MobileCoreServices.framework */; };
 		CE1F0B0A19ACF95B0007F22F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0019ACF95B0007F22F /* QuartzCore.framework */; };
 		CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0119ACF95B0007F22F /* Security.framework */; };
 		CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */; };
@@ -113,6 +112,7 @@
 		CE682C801F01B5E3003C43C0 /* SFSDKSmartStoreLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE682C7E1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE682C811F01B5E3003C43C0 /* SFSDKSmartStoreLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE682C7F1F01B5E3003C43C0 /* SFSDKSmartStoreLogger.m */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
+		F238E04A25B9201F0036E9DB /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F238E04125B9201F0036E9DB /* CoreServices.framework */; };
 		FDCEC343F565157E01DA4FCC /* SFSDKStoreConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC27040E2DF5A8CEE0449 /* SFSDKStoreConfig.m */; };
 		FDCEC6B90C403AF110F6313E /* SFSDKStoreConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC4788224558787F87BD6 /* SFSDKStoreConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -339,6 +339,7 @@
 		CEAAAE62195911E600CBBFE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SmartStore-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SmartStore-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		F238E04125B9201F0036E9DB /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		FDCEC27040E2DF5A8CEE0449 /* SFSDKStoreConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKStoreConfig.m; sourceTree = "<group>"; };
 		FDCEC4788224558787F87BD6 /* SFSDKStoreConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKStoreConfig.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -369,6 +370,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F238E04A25B9201F0036E9DB /* CoreServices.framework in Frameworks */,
 				CE0AB0781C10D3B500BFAEED /* libxml2.tbd in Frameworks */,
 				CE0AB0761C10D3AF00BFAEED /* libz.tbd in Frameworks */,
 				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
@@ -377,7 +379,6 @@
 				CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */,
 				CE1F0B0719ACF95B0007F22F /* CoreGraphics.framework in Frameworks */,
 				CE1F0B0819ACF95B0007F22F /* MessageUI.framework in Frameworks */,
-				CE1F0B0919ACF95B0007F22F /* MobileCoreServices.framework in Frameworks */,
 				CE1F0B0A19ACF95B0007F22F /* QuartzCore.framework in Frameworks */,
 				CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */,
 				CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */,
@@ -515,6 +516,7 @@
 		CEAAAE47195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F238E04125B9201F0036E9DB /* CoreServices.framework */,
 				B716A3C5218F6ABA009D407F /* SalesforceSDKCore.xcodeproj */,
 				B716A3B9218F6AB3009D407F /* SalesforceSDKCommon.xcodeproj */,
 				B716A3A9218F6AAC009D407F /* SalesforceAnalytics.xcodeproj */,
