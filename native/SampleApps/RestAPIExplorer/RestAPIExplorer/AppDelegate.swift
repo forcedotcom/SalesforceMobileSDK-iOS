@@ -41,6 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
         SalesforceManager.initializeSDK()
         SalesforceManager.shared.appDisplayName = "Rest API Explorer"
+        
+        //Uncomment following block to enable IDP Login flow.
+        //SalesforceManager.shared.identityProviderURLScheme = "sampleidpapp"
     }
     
     // MARK: - App delegate lifecycle
@@ -85,13 +88,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error ) {
         // Respond to any push notification registration errors here.
-    }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        
-        // Uncomment following block to enable IDP Login flow
-        // return  UserAccountManager.shared.handleIdentityProviderResponse(from: url, with: options)
-        return false;
     }
     
     // MARK: - Private methods
