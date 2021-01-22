@@ -47,11 +47,13 @@ NS_SWIFT_NAME(AuthViewHolder)
 
 @property (nonatomic,weak,nullable) WKWebView *wkWebView;
 
-@property (nonatomic,weak) SFLoginViewController *loginController;
+@property (nonatomic, strong) SFLoginViewController *loginController;
 
 @property (nonatomic,weak,nullable) ASWebAuthenticationSession *session;
 
 @property (nonatomic,assign) BOOL isAdvancedAuthFlow;
+
+@property (nonatomic, strong) UIScene *scene;
 
 @end
 

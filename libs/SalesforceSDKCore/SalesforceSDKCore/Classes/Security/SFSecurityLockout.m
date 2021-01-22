@@ -485,7 +485,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         return;
     }
     
-    if ([SFApplicationHelper sharedApplication].applicationState == UIApplicationStateActive || ![SFSDKWindowManager sharedManager].snapshotWindow.isEnabled) {
+    if ([SFApplicationHelper sharedApplication].applicationState == UIApplicationStateActive || ![[SFSDKWindowManager sharedManager] snapshotWindow:nil].isEnabled) {
         if (![SFSecurityLockout deviceHasBiometric]) {
             [self setBiometricState:SFBiometricUnlockUnavailable];
         }
@@ -505,8 +505,8 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         return;
     }
     
-    if ([[SFSDKWindowManager sharedManager].snapshotWindow isEnabled]) {
-        [[SFSDKWindowManager sharedManager].snapshotWindow dismissWindow];
+    if ([[[SFSDKWindowManager sharedManager] snapshotWindow:nil] isEnabled]) {
+        [[[SFSDKWindowManager sharedManager] snapshotWindow:nil] dismissWindow];
     }
     // Don't present the passcode screen if it's already present.
     if ([SFSecurityLockout passcodeScreenIsPresent]) {

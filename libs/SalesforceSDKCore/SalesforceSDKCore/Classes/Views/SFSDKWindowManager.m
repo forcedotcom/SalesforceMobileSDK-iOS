@@ -489,9 +489,21 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 
 - (UIScene *)nonnullScene:(UIScene *)scene {
     if (!scene) {
-        return [SFApplicationHelper sharedApplication].connectedScenes.allObjects.firstObject;
+        return [self defaultScene];
     }
     return scene;
+}
+
+- (UIScene *)defaultScene {
+    NSArray *connectedScenes = [SFApplicationHelper sharedApplication].connectedScenes.allObjects;
+    for (UIScene *connectedScene in connectedScenes) {
+        if (connectedScene.activationState == UISceneActivationStateForegroundActive) {
+            return connectedScene;
+        } else if (connectedScene.activationState == UISceneActivationStateForegroundInactive) {
+            return connectedScene;
+        }
+    }
+    return connectedScenes.firstObject;
 }
 
 - (void)sceneDidDisconnect:(NSNotification *)notification {

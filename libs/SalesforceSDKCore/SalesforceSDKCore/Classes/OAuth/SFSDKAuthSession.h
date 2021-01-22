@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) SFOAuthCredentials *credentials;
 @property (nonatomic, strong) SFOAuthCoordinator *oauthCoordinator;
 @property (nonatomic, strong) SFSDKAuthRequest *oauthRequest;
+@property (nonatomic, strong, readonly) NSString *sceneId;
 @property (nonatomic, copy, nullable) void (^authSuccessCallback)(SFOAuthInfo *, SFUserAccount *);
 @property (nonatomic, copy, nullable) void (^authFailureCallback)(SFOAuthInfo *, NSError *);
 @property (nonatomic, strong) SFIdentityCoordinator *identityCoordinator;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6965555E2589961000A1AB82 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965555D2589961000A1AB82 /* SceneDelegate.swift */; };
 		A34601F72176B16700DC6900 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C0B9082175444F0037A7CB /* main.swift */; };
 		A3D23079219749C3009F433D /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */; };
 		A3D2307A219749C3009F433D /* SalesforceSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -202,6 +203,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6965555D2589961000A1AB82 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A3C0B9082175444F0037A7CB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileSync.xcodeproj; path = ../../../libs/MobileSync/MobileSync.xcodeproj; sourceTree = "<group>"; };
 		B79F06EC20EA931900BC7D6F /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				B7CEA6FE20B71060007D0564 /* Info.plist */,
 				B7C5120920C084B100B39DAA /* bootconfig.plist */,
 				A3C0B9082175444F0037A7CB /* main.swift */,
+				6965555D2589961000A1AB82 /* SceneDelegate.swift */,
 			);
 			path = RestAPIExplorer;
 			sourceTree = "<group>";
@@ -602,6 +605,7 @@
 				B7CEA71C20B71202007D0564 /* UIFont+helper.swift in Sources */,
 				B7CEA71D20B71202007D0564 /* UIColors+helper.swift in Sources */,
 				B7CEA71520B71202007D0564 /* ActionTableViewCell.swift in Sources */,
+				6965555E2589961000A1AB82 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

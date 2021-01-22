@@ -165,7 +165,8 @@ static NSString* const kTestAppName = @"OverridenAppName";
         creationViewControllerCalled = YES;
         return nil;
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    UIScene *scene = UIApplication.sharedApplication.connectedScenes.allObjects.firstObject;
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneWillDeactivateNotification object:scene];
     XCTAssertTrue(creationViewControllerCalled, @"Did not call the snapshot view controller creation block upon application resigning active, when use snapshot is set to YES.");
 }
 
@@ -196,9 +197,10 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
         dismissOnDidBecomeActive = YES;
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    UIScene *scene = UIApplication.sharedApplication.connectedScenes.allObjects.firstObject;
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneWillDeactivateNotification object:scene];
     XCTAssertTrue(presentOnResignActive, @"Did not respond to app resign active.");
-    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneDidActivateNotification object:scene];
     XCTAssertTrue(dismissOnDidBecomeActive, @"Did not respond to app did become active.");
 }
 
@@ -236,13 +238,14 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
         defaultViewControllerOnDismissal = snapshotViewController;
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    UIScene *scene = UIApplication.sharedApplication.connectedScenes.allObjects.firstObject;
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneWillDeactivateNotification object:scene];
     XCTAssertTrue([defaultViewControllerOnPresentation isKindOfClass:UIViewController.class], @"Did not provide a valid default snapshot view controller.");
 
     // This will simulate that the snapshot view is being presented
     UIView* fakeView = [UIView new];
     [fakeView addSubview:defaultViewControllerOnPresentation.view];
-    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneDidActivateNotification object:scene];
     XCTAssertEqual(defaultViewControllerOnPresentation, defaultViewControllerOnDismissal, @"Default snapshot view controller on dismissal is different than the one provided on presentation!");
 }
 
@@ -260,7 +263,8 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
         // Need to set the dismissal block in order to get the presentation block called.
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    UIScene *scene = UIApplication.sharedApplication.connectedScenes.allObjects.firstObject;
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneWillDeactivateNotification object:scene];
     XCTAssertTrue([defaultViewController isKindOfClass:UIViewController.class], @"Did not provide a valid default snapshot view controller.");
 }
 
@@ -280,13 +284,14 @@ static NSString* const kTestAppName = @"OverridenAppName";
         snapshotOnDismissal = snapshotViewController;
     };
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    UIScene *scene = UIApplication.sharedApplication.connectedScenes.allObjects.firstObject;
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneWillDeactivateNotification object:scene];
     XCTAssertEqual(customSnapshot, snapshotOnPresentation, @"Custom snapshot view controller was not used on presentation!");
 
     // This will simulate that the snapshot view is being presented
     UIView* fakeView = [UIView new];
     [fakeView addSubview:customSnapshot.view];
-    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneDidActivateNotification object:scene];
     XCTAssertEqual(customSnapshot, snapshotOnDismissal, @"Custom snapshot view controller was not used on dismissal!");
 }
 

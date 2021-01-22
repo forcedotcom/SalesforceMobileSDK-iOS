@@ -47,6 +47,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
         _credentials = (creds == nil) ? [self newClientCredentials] : creds;
         _credentials.jwt = request.jwtToken;
         _spAppCredentials = spAppCredentials;
+        _sceneId = request.scene.session.persistentIdentifier; // Pass through for convenience
         [self initCoordinator];
     }
     return self;

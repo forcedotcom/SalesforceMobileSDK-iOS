@@ -63,16 +63,6 @@
     
 }
 
-- (void)handleAppDidBecomeActive:(NSNotification *)notification
-{
-    
-}
-
-- (void)handleAppWillResignActive:(NSNotification *)notification
-{
-    
-}
-
 - (void)handleAuthCompleted:(NSNotification *)notification
 {
     

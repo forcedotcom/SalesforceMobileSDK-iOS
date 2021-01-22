@@ -43,11 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSSet<NSString*> *scopes;
 @property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
 @property (nonatomic,strong) SFSDKAppLockViewConfig *appLockViewControllerConfig;
+@property (nullable, nonatomic, strong) UIScene *scene;
 @property (nonatomic, copy) NSString *jwtToken;
 @property (nonatomic, copy, nullable) NSString *userAgentForAuth;
 
 //IDP flow related properties (SPApp related properties)
-@property (nonatomic, readonly, assign) BOOL ipdEnabled;
+@property (nonatomic, readonly, assign) BOOL idpEnabled;
 @property (nonatomic, copy) NSString *idpAppURIScheme;
 @property (nonatomic, copy, nullable) NSString *userHint;
 @property (nonatomic, copy, nullable) UIViewController<SFSDKLoginFlowSelectionView> * (^spAppLoginFlowSelectionAction)(void);

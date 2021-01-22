@@ -59,8 +59,9 @@
 
 /**
  Handle an IDP response received from an IDP APP.
- @param  response The URL response from the IDP APP.
+ @param response The URL response from the IDP APP.
+ @param sceneId The identifier for the scene that's handling the response.
  @return YES if this is request is handled, NO otherwise.
  */
-- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)response;
+- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId;
 @end

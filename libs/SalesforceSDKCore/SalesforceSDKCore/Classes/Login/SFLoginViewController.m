@@ -269,13 +269,14 @@
 }
 
 - (void)handleBackButtonAction {
+    UIScene *scene = self.view.window.windowScene;
     [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
     if (![SFUserAccountManager sharedInstance].idpEnabled) {
-        [[SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
-            [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
+        [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
+            [[[SFSDKWindowManager sharedManager] authWindow:scene] dismissWindow];
         }];
     } else {
-        [[SFSDKWindowManager sharedManager].authWindow.viewController dismissViewControllerAnimated:NO completion:nil];
+        [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController dismissViewControllerAnimated:NO completion:nil];
     }
 }
 
