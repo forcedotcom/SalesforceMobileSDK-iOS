@@ -73,7 +73,6 @@
 #import <SalesforceSDKCore/SFIdentityCoordinator.h>
 #import <SalesforceSDKCore/SFSDKUserSelectionView.h>
 #import <SalesforceSDKCore/NSURLResponse+SFAdditions.h>
-#import <SalesforceSDKCore/SFSDKAuthViewHandler.h>
 #import <SalesforceSDKCore/SFApplicationHelper.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SFSecureEncryptionKey.h>

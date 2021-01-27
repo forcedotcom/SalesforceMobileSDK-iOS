@@ -210,7 +210,7 @@
 		B7CD6D671F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CD6D641F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m */; };
 		B7D7A5322360D9CC00363A9B /* SFSDKViewControllerConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FB22F6235AD868006BD11B /* SFSDKViewControllerConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7E1A50E1F43B0FE007AC36A /* SFSDKWindowManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1A50D1F43B0FE007AC36A /* SFSDKWindowManagerTests.m */; };
-		B7E1A7831F4C8844007AC36A /* SFSDKAuthViewHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E1A77D1F4C8844007AC36A /* SFSDKAuthViewHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7E1A7831F4C8844007AC36A /* SFSDKAuthViewHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E1A77D1F4C8844007AC36A /* SFSDKAuthViewHandler.h */; };
 		B7E1A7851F4C8844007AC36A /* SFSDKAuthViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1A77E1F4C8844007AC36A /* SFSDKAuthViewHandler.m */; };
 		B7E391122209E63E00D61D4D /* SFSDKViewUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E391102209E63E00D61D4D /* SFSDKViewUtils.h */; };
 		B7E391132209E63E00D61D4D /* SFSDKViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E391112209E63E00D61D4D /* SFSDKViewUtils.m */; };

@@ -2531,7 +2531,6 @@ static NSException *authException = nil;
 #pragma mark - Notification tests
 
 - (void)testNotificationsStatus {
-    // TODO move notification tests to kSFRestDefaultAPIVersion when it's >= 49
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotificationsStatus:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
