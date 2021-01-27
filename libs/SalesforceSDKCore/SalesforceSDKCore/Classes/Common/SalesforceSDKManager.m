@@ -39,6 +39,7 @@
 #import "SFDirectoryManager+Internal.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKResourceUtils.h"
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -68,6 +69,7 @@ static NSString * const kSFMobileSDKNativeDesignator = @"Native";
 static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
 static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
+static NSString * const kWebViewUserAgentKey = @"web_view_user_agent";
 
 // URL cache
 static NSString * const kDefaultCachePath = @"salesforce.mobilesdk.URLCache";
@@ -124,6 +126,8 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 @end
 
 @implementation SalesforceSDKManager
+
+@synthesize webViewUserAgent = _webViewUserAgent;
 
 + (void)setInstanceClass:(Class)className {
     InstanceClass = className;
@@ -806,6 +810,22 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
             strongSelf.webView = nil;
         }];
     });
+}
+
+- (void)setWebViewUserAgent:(NSString *)webViewUserAgent {
+    _webViewUserAgent = webViewUserAgent;
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults msdkUserDefaults];
+    [standardUserDefaults setObject:webViewUserAgent forKey:kWebViewUserAgentKey];
+    [standardUserDefaults synchronize];
+}
+
+- (NSString *)webViewUserAgent {
+    if (_webViewUserAgent) {
+        return _webViewUserAgent;
+    } else {
+        return [[NSUserDefaults msdkUserDefaults] stringForKey:kWebViewUserAgentKey];
+    }
 }
 
 void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t block) {
