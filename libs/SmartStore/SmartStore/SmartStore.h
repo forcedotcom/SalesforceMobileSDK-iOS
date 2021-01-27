@@ -32,7 +32,6 @@
 #import <SmartStore/SFQuerySpec.h>
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFSmartStoreUtils.h>
-#import <SmartStore/SFSmartStoreUpgrade.h>
 #import <SmartStore/SFSmartStoreInspectorViewController.h>
 #import <SmartStore/SFStoreCursor.h>
 #import <SmartStore/SFSmartStoreDatabaseManager.h>
