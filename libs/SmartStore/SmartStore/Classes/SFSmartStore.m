@@ -38,6 +38,7 @@
 #import "SFQuerySpec.h"
 #import "SFSoupSpec.h"
 #import "SFSoupSpec+Internal.h"
+#import "NSData+SFAdditions.h"
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
@@ -49,7 +50,6 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
-#import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
 #import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCommon/SFSDKDataSharingHelper.h>
