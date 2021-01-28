@@ -1,6 +1,6 @@
 //
-//  NSData+SFAdditions+Internal.h
-//  SalesforceSDKCore
+//  NSData+SFAdditions.h
+//  SmartStore
 //
 //  Created by Brianna Birman on 1/27/21.
 //  Copyright (c) 2021-present, salesforce.com, inc. All rights reserved.
