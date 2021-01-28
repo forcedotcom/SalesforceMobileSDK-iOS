@@ -115,34 +115,12 @@ static NSString * const kSFECPrivateKeyTagPrefix = @"com.salesforce.eckey.privat
     return data;
 }
 
-+ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
-{
-    NSData *salt = [SFSDKCryptoUtils randomByteDataWithLength:kSFPBKDFDefaultSaltByteLength];
-    return [SFSDKCryptoUtils createPBKDF2DerivedKey:stringToHash
-                                               salt:salt
-                                   derivationRounds:kSFPBKDFDefaultNumberOfDerivationRounds
-                                          keyLength:kSFPBKDFDefaultDerivedKeyByteLength];
-}
-
 + (nullable NSData *)pbkdf2DerivedKey:(NSString *)stringToHash {
     NSData *salt = [SFSDKCryptoUtils randomByteDataWithLength:kSFPBKDFDefaultSaltByteLength];
     return [SFSDKCryptoUtils pbkdf2DerivedKey:stringToHash
                                          salt:salt
                              derivationRounds:kSFPBKDFDefaultNumberOfDerivationRounds
                                     keyLength:kSFPBKDFDefaultDerivedKeyByteLength];
-}
-
-+ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
-                                   salt:(NSData *)salt
-                       derivationRounds:(NSUInteger)numDerivationRounds
-                              keyLength:(NSUInteger)derivedKeyLength
-{
-    NSData *keyData = [SFSDKCryptoUtils pbkdf2DerivedKey:stringToHash salt:salt derivationRounds:numDerivationRounds keyLength:derivedKeyLength];
-    if (keyData) {
-        return [[SFPBKDFData alloc] initWithKey:keyData salt:salt derivationRounds:numDerivationRounds derivedKeyLength:derivedKeyLength];
-    } else {
-        return nil;
-    }
 }
 
 + (nullable NSData *)pbkdf2DerivedKey:(NSString *)stringToHash

@@ -814,10 +814,10 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
        }
        
        // Generate verification key from input passcode.
-       SFPBKDFData *verifyData = [SFSDKCryptoUtils createPBKDF2DerivedKey:passcode
-                                                                     salt:passcodeData.salt
-                                                         derivationRounds:passcodeData.numDerivationRounds
-                                                                keyLength:[passcodeData.derivedKey length]];
+       SFPBKDFData *verifyData = [self createPBKDF2DerivedKey:passcode
+                                                         salt:passcodeData.salt
+                                             derivationRounds:passcodeData.numDerivationRounds
+                                                    keyLength:[passcodeData.derivedKey length]];
        return [passcodeData.derivedKey isEqualToData:verifyData.derivedKey];
     
 }
@@ -837,10 +837,10 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
     
     NSData *salt = [SFSDKCryptoUtils randomByteDataWithLength:kSFPBKDFDefaultSaltByteLength];
-    SFPBKDFData *pbkdfData = [SFSDKCryptoUtils createPBKDF2DerivedKey:newPasscode
-                                                                 salt:salt
-                                                     derivationRounds:kSFPBKDFDefaultNumberOfDerivationRounds
-                                                            keyLength:kSFPBKDFDefaultDerivedKeyByteLength];
+    SFPBKDFData *pbkdfData = [self createPBKDF2DerivedKey:newPasscode
+                                                     salt:salt
+                                         derivationRounds:kSFPBKDFDefaultNumberOfDerivationRounds
+                                                keyLength:kSFPBKDFDefaultDerivedKeyByteLength];
     [SFSecurityLockout setPasscodeData:pbkdfData keychainId:kKeychainIdentifierPasscodeVerify];
 }
 
@@ -873,6 +873,18 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     
     SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:keychainIdentifier account:nil];
     [keychainWrapper setValueData:archiver.encodedData];
+}
+
++ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
+                                   salt:(NSData *)salt
+                       derivationRounds:(NSUInteger)numDerivationRounds
+                              keyLength:(NSUInteger)derivedKeyLength {
+    NSData *keyData = [SFSDKCryptoUtils pbkdf2DerivedKey:stringToHash salt:salt derivationRounds:numDerivationRounds keyLength:derivedKeyLength];
+    if (keyData) {
+        return [[SFPBKDFData alloc] initWithKey:keyData salt:salt derivationRounds:numDerivationRounds derivedKeyLength:derivedKeyLength];
+    } else {
+        return nil;
+    }
 }
 
 @end

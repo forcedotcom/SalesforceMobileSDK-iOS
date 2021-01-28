@@ -25,7 +25,7 @@
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
-#import <SalesforceSDKCore/NSData+SFAdditions.h>
+#import "NSData+SFAdditions.h"
 #import "SFSmartStoreTestCase.h"
 #import "SFSmartStoreUpgrade.h"
 #import "SFSmartStoreDatabaseManager.h"
