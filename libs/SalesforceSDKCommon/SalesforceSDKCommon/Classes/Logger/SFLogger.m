@@ -177,7 +177,7 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
 }
 
 + (void)d:(nonnull Class)cls message:(nonnull NSString *)message {
-    [[self defaultLogger] e:cls message:message];
+    [[self defaultLogger] d:cls message:message];
 }
 
 + (void)w:(nonnull Class)cls format:(nonnull NSString *)format, ... {
