@@ -23,8 +23,6 @@
 def use_mobile_sdk! (options={})
   path = options[:path] ||= "./mobile_sdk/SalesforceMobileSDK-iOS"
 
-  Pod::UI.puts path
-  
   pod 'SalesforceSDKCommon', :path => path
   pod 'SalesforceAnalytics', :path => path
   pod 'SalesforceSDKCore', :path => path
