@@ -48,6 +48,7 @@
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
 #import "SFSDKAuthSession.h"
+#import "SFSDKAuthRequest.h"
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
@@ -271,11 +272,13 @@
     if (_view == nil) {
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         config.processPool = SFSDKWebViewStateManager.sharedProcessPool;
-        _view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds] configuration:config];
+        UIWindowScene *scene = (UIWindowScene *)self.authSession.oauthRequest.scene;
+        CGRect viewBounds = scene? scene.coordinateSpace.bounds : [UIScreen mainScreen].bounds;
+        _view = [[WKWebView alloc] initWithFrame:viewBounds configuration:config];
         _view.navigationDelegate = self;
         _view.autoresizesSubviews = YES;
         _view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-         _view.clipsToBounds = YES;
+        _view.clipsToBounds = YES;
         _view.translatesAutoresizingMaskIntoConstraints = NO;
         _view.customUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
         _view.UIDelegate = self;
@@ -375,18 +378,14 @@
     _asWebAuthenticationSession = [[ASWebAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:self.credentials.redirectUri   completionHandler:^(NSURL *callbackURL, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
-            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:nil];
+            NSDictionary *options = @{kSFIDPSceneIdKey : self.authSession.sceneId};
+            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:options];
         } else {
             [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];
         }
-
     }];
  
-    // TODO: Remove in MobileSDK 9.0
-    if (@available(iOS 13.0, *)) {
-        _asWebAuthenticationSession.prefersEphemeralWebBrowserSession = YES;
-    }
-    
+    _asWebAuthenticationSession.prefersEphemeralWebBrowserSession = [SalesforceSDKManager sharedManager].useEphemeralSessionForAdvancedAuth;
     [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_asWebAuthenticationSession];
 
 }

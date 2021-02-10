@@ -33,8 +33,8 @@ The Salesforce Mobile SDK for iOS requires iOS 11.0 or greater.  The install.sh 
 Introduction
 ==
 
-### What's New in 8.3.0
-See [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/releases/tag/v8.3.0).
+### What's New in 9.0.0
+See [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/releases/tag/v9.0.0).
 
 ### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides wrappers for the Salesforce REST API that you can use from both Swift and Objective-C.

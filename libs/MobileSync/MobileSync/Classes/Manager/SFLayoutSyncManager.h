@@ -29,9 +29,9 @@
 
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SmartStore/SFSmartStore.h>
-#import "SFMobileSyncSyncManager.h"
-#import "SFLayout.h"
-#import "SFMobileSyncConstants.h"
+#import <MobileSync/SFMobileSyncSyncManager.h>
+#import <MobileSync/SFLayout.h>
+#import <MobileSync/SFMobileSyncConstants.h>
 
 /**
  * Completion block triggered when layout sync completes.
@@ -91,20 +91,6 @@ NS_SWIFT_NAME(LayoutSyncManager)
  * @param user User account.
  */
 + (void)reset:(nullable SFUserAccount *)user;
-
-/**
- * Fetches layout data for the specified object type and layout type using the specified
- * mode and triggers the supplied completion block once complete.
- *
- * @param objectType Object type.
- * @param layoutType Layout type. Defaults to "Full" if nil is passed in.
- * @param mode Fetch mode. See SFSDKFetchMode for available modes.
- * @param completionBlock Layout sync completion block.
- */
-- (void)fetchLayoutForObject:(nonnull NSString *)objectType
-                  layoutType:(nullable NSString *)layoutType
-                        mode:(SFSDKFetchMode)mode
-             completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock SFSDK_DEPRECATED("8.2", "9.0", "Will be removed in Mobile SDK 9.0, use fetchLayoutForObjectAPIName:objectAPIName:formFactor:layoutType:mode:recordTypeId:syncMode:completionBlock instead.");
 
 /**
  * Fetches layout data for the specified parameters using the specified sync

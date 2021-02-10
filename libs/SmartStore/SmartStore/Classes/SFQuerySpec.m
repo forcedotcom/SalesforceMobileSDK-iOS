@@ -22,10 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
-#import "SFSmartStore.h"
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
+#import "SFSmartStore.h"
+#import "SFSmartStore+Internal.h"
+#import "SFQuerySpec.h"
 
 NSString * const kQuerySpecSortOrderAscending = @"ascending";
 NSString * const kQuerySpecSortOrderDescending = @"descending";
@@ -320,7 +321,6 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
                 return [@[@"WHERE ", field, @" >= ? AND ", field, @" <= ? "] componentsJoinedByString:@""];
 
         case kSFSoupQueryTypeMatch:
-            SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
             return [@[@"WHERE ",
                       [self computeFieldReference:SOUP_ENTRY_ID],
                       @" IN ",
@@ -335,7 +335,6 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
                       @"') "
                       ]
                     componentsJoinedByString:@""];
-            SFSDK_USE_DEPRECATED_END
 
         default: break;
     }

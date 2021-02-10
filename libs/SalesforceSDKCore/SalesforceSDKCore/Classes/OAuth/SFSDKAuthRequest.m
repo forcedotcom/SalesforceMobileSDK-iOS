@@ -29,7 +29,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 @implementation SFSDKAuthRequest
 
-- (BOOL)ipdEnabled {
+- (BOOL)idpEnabled {
      return self.idpAppURIScheme && self.idpAppURIScheme.length > 0;
 }
 @end

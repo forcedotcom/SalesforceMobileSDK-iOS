@@ -31,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Used internally for upgrading SmartStore.
  */
-SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.")
 @interface SFSmartStoreUpgrade : NSObject
 
 /**
@@ -39,28 +38,7 @@ SFSDK_DEPRECATED(8.3, 9.0, "Will be removed.")
  */
 + (void)updateStoreLocations;
 
-/**
- Updates the encryption scheme of each SmartStore database to the currently supported scheme.
- */
-+ (void)updateEncryption;
-
 + (void)updateEncryptionSalt;
-
-/**
- Whether or not a given store for the given user is encrypted based on the key store key.
- @param user The user associated with the store.
- @param storeName The store to query.
- @return YES if the store is encrypted with the key store, NO otherwise.
- */
-+ (BOOL)usesKeyStoreEncryptionForUser:(SFUserAccount *)user store:(NSString *)storeName;
-
-/**
- Sets a flag denoting whether or not the store for the given user uses encryption based the key store key.
- @param usesKeyStoreEncryption YES if it does, NO if it doesn't.
- @param user The user associated with the store.
- @param storeName The store to which the flag applies.
- */
-+ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forUser:(SFUserAccount *)user store:(NSString *)storeName;
 
 @end
 

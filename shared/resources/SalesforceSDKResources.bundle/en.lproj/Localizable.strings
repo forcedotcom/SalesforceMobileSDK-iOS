@@ -110,10 +110,12 @@
 "inspectorNoRowsReturned" = "No rows returned";
 "inspectorNoSoupsFound" = "No soups found";
 
-// SmartStore Inspector
+// Dev Menu
 "devInfoTitle" = "Mobile SDK Dev Support";
 "devInfoBackButtonTitle" = "Back";
 "devInfoOKKey" = "OK";
+"devInfoCancelKey" = "Cancel";
+
 
 //IDP User Selection Screen
 "idpSelectUserLabel" = "Select your account to log into";
@@ -127,4 +129,12 @@
 "idpLoginButtonTitle" = "IDP Log In";
 "idpLocalLoginButtonTitle" = "Local Log In";
 
-
+// Key-Value Store Inspector
+"Store" = "Store";
+"Enter Key" = "Enter Key";
+"Get Value" = "Get Value";
+"Key not found in selected store." = "Key not found in selected store.";
+"Copy value to clipboard" = "Copy value to clipboard";
+"Copy key to clipboard" = "Copy key to clipboard";
+"Key-Value Store Inspector" = "Key-Value Store Inspector";
+" (global)" = " (global)";

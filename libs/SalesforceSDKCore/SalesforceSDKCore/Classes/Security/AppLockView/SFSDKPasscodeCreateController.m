@@ -26,11 +26,9 @@
  */
 
 #import "SFSDKPasscodeCreateController.h"
-#import "SFSDKAppLockViewConfig.h"
-#import "SFSecurityLockout.h"
+#import "SFSecurityLockout+Internal.h"
 #import "SFSDKPasscodeTextField.h"
 #import "SFSDKResourceUtils.h"
-#import "SFPasscodeManager+Internal.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 // Private view layout constants
@@ -100,9 +98,7 @@ static CGFloat      const kSFViewBorderWidth                   = 0.5f;
     self.passcodeTextView.layer.borderWidth = kSFViewBorderWidth;
     self.passcodeTextView.accessibilityIdentifier = @"passcodeTextField";
     self.passcodeTextView.accessibilityLabel = [SFSDKResourceUtils localizedString:@"accessibilityPasscodeFieldLabel"];
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
-    self.passcodeTextView.accessibilityHint = [[NSString alloc] initWithFormat:[SFSDKResourceUtils localizedString:@"accessibilityPasscodeLengthHint"], self.viewConfig.passcodeLength];
-    SFSDK_USE_DEPRECATED_END
+    self.passcodeTextView.accessibilityHint = [[NSString alloc] initWithFormat:[SFSDKResourceUtils localizedString:@"accessibilityPasscodeLengthHint"], [SFSecurityLockout passcodeLength]];
     self.passcodeTextView.secureTextEntry = YES;
     self.passcodeTextView.isAccessibilityElement = YES;
     [self.passcodeTextView clearPasscode];
@@ -202,13 +198,11 @@ static CGFloat      const kSFViewBorderWidth                   = 0.5f;
         return NO;
     }
     
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
-    if (self.passcodeTextView.passcodeInput.length < self.viewConfig.passcodeLength) {
+    if (self.passcodeTextView.passcodeInput.length < [SFSecurityLockout passcodeLength]) {
         [self.passcodeTextView.passcodeInput appendString:rString];
     }
     
-    if ([self.passcodeTextView.passcodeInput length] == self.viewConfig.passcodeLength) {
-    SFSDK_USE_DEPRECATED_END
+    if ([self.passcodeTextView.passcodeInput length] == [SFSecurityLockout passcodeLength]) {
         if (self.firstPasscodeValidated) {
             if ([self.passcodeTextView.passcodeInput isEqualToString:self.initialPasscode] ) {
                 if ([self.passcodeTextView isFirstResponder]) {

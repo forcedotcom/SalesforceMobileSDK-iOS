@@ -30,11 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKWebViewStateManager : NSObject
 
 /**
-  Reset some associated state with WKWebView e.g. Remove Cookies
- */
-+ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure SFSDK_DEPRECATED("8.1", "9.0", "Will be removed, use resetSessionCookie");
-
-/**
   Remove all associated state with WKWebView e.g. Remove Cookies, reset WKProcessPool unless session cookie removal  has been disabled.
  */
 + (void)removeSession;

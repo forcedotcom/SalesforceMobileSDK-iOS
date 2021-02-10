@@ -30,7 +30,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SFRestAPI(Instrumentation) <SFRestDelegate, SFRestRequestDelegate>
+@interface SFRestAPI(Instrumentation) <SFRestRequestDelegate>
 
 @end
 

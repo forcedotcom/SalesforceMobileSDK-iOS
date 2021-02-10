@@ -52,9 +52,6 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
 
 @implementation SFDefaultUserAccountPersister
 
-// TODO: Remove in Mobile SDK 9.0
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **)error {
     BOOL success = NO;
     NSString *userAccountPlist = [SFDefaultUserAccountPersister userAccountPlistFileForUser:userAccount];
@@ -67,7 +64,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     NSMutableDictionary<SFUserAccountIdentity *,SFUserAccount *> *userAccountMap = [NSMutableDictionary new];
     
     // Get the root directory, usually ~/Library/<appBundleId>/
-    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
+    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForOrg:nil user:nil community:nil type:NSLibraryDirectory components:nil];
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:rootDirectory]) {
         // Now iterate over the org and then user directories to load
@@ -159,7 +156,6 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     }
     return success;
 }
-#pragma clang diagnostic pop
 
 - (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath error:(NSError**)error {
 

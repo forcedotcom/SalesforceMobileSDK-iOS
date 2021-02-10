@@ -23,7 +23,7 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SFSmartStore.h"
+#import <SmartStore/SFSmartStore.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

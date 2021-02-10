@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFUserAccountConstants.h"
+#import <SalesforceSDKCore/SFUserAccountConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -87,14 +87,14 @@ FOUNDATION_EXTERN NSString * const kDefaultCommunityName NS_SWIFT_NAME(SFDirecto
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
  */
-- (nullable NSString*)directoryForUser:(nullable SFUserAccount*)account type:(NSSearchPathDirectory)type components:(nullable NSArray*)components;
+- (nullable NSString*)directoryForUser:(SFUserAccount*)account type:(NSSearchPathDirectory)type components:(nullable NSArray*)components;
 
 /** Returns the path to the directory type for the current user and current community.
  @param type The type of directory to return (see NSSearchPathDirectory)
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
  */
-- (NSString*)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray*)components;
+- (nullable NSString*)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(nullable NSArray*)components;
 
 /** Returns the path to the global directory of the specified type. For example, NSCachesDirectory will
  return "Library/Caches/<bundleIdentifier>/"
@@ -102,7 +102,7 @@ FOUNDATION_EXTERN NSString * const kDefaultCommunityName NS_SWIFT_NAME(SFDirecto
  @param components The additional path components to be added at the end of the directory (eg ['mybundle', 'common'])
  @return The path to the directory
  */
-- (NSString*)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray*)components;
+- (nullable NSString*)globalDirectoryOfType:(NSSearchPathDirectory)type components:(nullable NSArray*)components;
 
 @end
 

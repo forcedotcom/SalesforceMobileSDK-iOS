@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKDeviceAppAttributes.h"
+#import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
 static NSString * _Nonnull const kEventIdKey = @"eventId";
 static NSString * _Nonnull const kStartTimeKey = @"startTime";

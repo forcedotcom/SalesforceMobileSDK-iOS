@@ -28,7 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSDKViewControllerConfig.h"
+#import <SalesforceSDKCore/SFSDKViewControllerConfig.h>
 @protocol SFLoginViewControllerDelegate;
 @class SFLoginViewController;
 

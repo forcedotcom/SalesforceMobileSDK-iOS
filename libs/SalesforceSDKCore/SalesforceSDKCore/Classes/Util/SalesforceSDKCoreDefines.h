@@ -38,40 +38,6 @@ enum {
     kSalesforceSDKManagerErrorInvalidLaunchParameters
 };
 
-// Launch actions taken
-typedef NS_OPTIONS(NSInteger, SFSDKLaunchAction) {
-    SFSDKLaunchActionNone                 = 0,
-    SFSDKLaunchActionAuthenticated        = 1 << 0,
-    SFSDKLaunchActionAlreadyAuthenticated = 1 << 1,
-    SFSDKLaunchActionAuthBypassed         = 1 << 2,
-    SFSDKLaunchActionPasscodeVerified     = 1 << 3
-} NS_SWIFT_NAME(LaunchAction);
-
-/**
- Callback block to implement for post launch actions.
- */
-typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction) NS_SWIFT_NAME(PostLaunchBlock);
-
-/**
- Callback block to implement for handling launch errors.
- */
-typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction) NS_SWIFT_NAME(LaunchErrorBlock);
-
-/**
- Callback block to implement for post logout actions.
- */
-typedef void (^SFSDKLogoutCallbackBlock)(void) NS_SWIFT_NAME(LogoutBlock);
-
-/**
- Callback block to implement for user switching.
- */
-typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*) NS_SWIFT_NAME(SwitchUserBlock);
-
-/**
- Callback block to implement for post app foregrounding actions.
- */
-typedef void (^SFSDKAppForegroundCallbackBlock)(void)  NS_SWIFT_NAME(AppForegroundBlock);
-
 /**
  Block to return a user agent string, with an optional qualifier.
  */

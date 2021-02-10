@@ -30,6 +30,7 @@ extern NSString * const kSFParentInfoSObjectType;
 extern NSString * const kSFParentInfoSoupName;
 extern NSString * const kSFParentInfoIdFieldName;
 extern NSString * const kSFParentInfoModifificationDateFieldName;
+extern NSString * const kSFParentInfoExternalIdFieldName;
 
 /**
  * Simple object to capture details of parent in parent-child relationship
@@ -41,14 +42,23 @@ NS_SWIFT_NAME(ParentInfo)
 @property (nonatomic, readonly) NSString* idFieldName;
 @property (nonatomic, readonly) NSString* modificationDateFieldName;
 @property (nonatomic, readonly) NSString* soupName;
-
+@property (nonatomic, readonly) NSString* externalIdFieldName;
 
 /** Factory methods
  */
 + (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType
                             soupName:(NSString *)soupName;
 
-+ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName;
++ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType
+                            soupName:(NSString *)soupName
+                         idFieldName:(NSString *)idFieldName
+           modificationDateFieldName:(NSString *)modificationDateFieldName;
+
++ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType
+                            soupName:(NSString *)soupName
+                         idFieldName:(NSString *)idFieldName
+           modificationDateFieldName:(NSString *)modificationDateFieldName
+                 externalIdFieldName:(NSString * __nullable) externalIdFieldName;
 
 + (SFParentInfo*) newFromDict:(NSDictionary*)dict;
 

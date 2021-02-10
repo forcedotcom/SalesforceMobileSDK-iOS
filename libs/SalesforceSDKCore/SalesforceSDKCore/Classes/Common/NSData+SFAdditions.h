@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 NS_ASSUME_NONNULL_BEGIN
 
 /** Extension to NSData class to provide common functions. Added functionality includes:
@@ -67,11 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
 /** Provides MD5 conversion support.
  */
 @interface NSData (SFSHA)
-
-/**Derives  a 16-byte  hex encoded string .
- @return 16-byte  hex encoded string.
- */
--(NSString *)digest SFSDK_DEPRECATED("8.3", "9.0", "Will be removed in Mobile SDK 9.0.");
 
 /** Derives  a  sha1  hex encoded string.
  @return md5 version of data.

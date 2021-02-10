@@ -28,7 +28,6 @@
 #import "SFSDKAppLockViewController.h"
 #import "SFSDKPasscodeCreateController.h"
 #import "SFSDKPasscodeVerifyController.h"
-#import "SFPasscodeManager.h"
 #import "SFSDKBiometricViewController+Internal.h"
 #import "SFSDKAppLockViewConfig.h"
 #import "SFSDKResourceUtils.h"
@@ -47,10 +46,7 @@
 
 @end
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFSDKAppLockViewController
-#pragma clang diagnostic pop
 
 - (instancetype)initWithMode:(SFAppLockControllerMode)mode andViewConfig:(SFSDKAppLockViewConfig *)config
 {
@@ -73,12 +69,12 @@
 
 - (BOOL)shouldAutorotate
 {
-    return NO;
+    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)setupNavBar
@@ -92,9 +88,7 @@
 
 - (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode
 {
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
-    [[SFPasscodeManager sharedManager] changePasscode:passcode];
-    [SFSecurityLockout setUpgradePasscodeLength:[passcode length]];
+    [SFSecurityLockout changePasscode:passcode];
     if ([SFSecurityLockout biometricState] == SFBiometricUnlockAvailable) {
         [self promptBiometricEnrollment];
     } else {
@@ -102,7 +96,6 @@
         [self.navigationController popViewControllerAnimated:NO];
         [SFSecurityLockout unlock:action];
     }
-   SFSDK_USE_DEPRECATED_END
 }
 
 #pragma mark - SFSDKPasscodeVerifyDelegate
@@ -113,18 +106,14 @@
         [self promptBiometricEnrollment];
     } else {
         [self.navigationController popViewControllerAnimated:NO];
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         [SFSecurityLockout unlock:SFSecurityLockoutActionPasscodeVerified];
-        SFSDK_USE_DEPRECATED_END
     }
 }
 
 - (void)passcodeFailed
 {
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
-    [[SFPasscodeManager sharedManager] resetPasscode];
+    [SFSecurityLockout resetPasscode];
     [SFSecurityLockout wipeState];
-    SFSDK_USE_DEPRECATED_END
 }
 
 #pragma mark - SFSDKBiometricViewDelegate
@@ -133,11 +122,9 @@
 {
     [SFSecurityLockout userAllowedBiometricUnlock:YES];
     
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     if ([SFSecurityLockout locked]) {
         [self.navigationController popViewControllerAnimated:NO];
         [SFSecurityLockout unlock:SFSecurityLockoutActionBiometricVerified];
-        SFSDK_USE_DEPRECATED_END
     } else {
         [self dismissStandaloneBiometricSetup];
     }
@@ -152,12 +139,9 @@
         [self pushViewController:pvc animated:NO];
     } else {
         [SFSecurityLockout userAllowedBiometricUnlock:NO];
-       
-        SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
         if ([SFSecurityLockout locked]) {
             [self.navigationController popViewControllerAnimated:NO];
             [SFSecurityLockout unlock:SFSecurityLockoutActionPasscodeCreated];
-            SFSDK_USE_DEPRECATED_END
         } else {
             [self dismissStandaloneBiometricSetup];
         }
@@ -166,9 +150,7 @@
 
 - (void)dismissStandaloneBiometricSetup
 {
-    SFSDK_USE_DEPRECATED_BEGIN // TODO: Remove in Mobile SDK 9.0
     [SFSecurityLockout setupTimer];
-    SFSDK_USE_DEPRECATED_END
     [[[SFSDKWindowManager sharedManager] passcodeWindow].viewController dismissViewControllerAnimated:NO completion:^{
         [[SFSDKWindowManager sharedManager].passcodeWindow dismissWindowAnimated:NO withCompletion:^{}];
     }];

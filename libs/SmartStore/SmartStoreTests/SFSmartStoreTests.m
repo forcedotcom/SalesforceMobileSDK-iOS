@@ -33,11 +33,6 @@
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFSmartStoreUpgrade.h"
-#import "SFSmartStoreUpgrade+Internal.h"
-#import <SalesforceSDKCore/SFPasscodeManager.h>
-#import <SalesforceSDKCore/SFPasscodeManager+Internal.h>
-#import <SalesforceSDKCore/SFPasscodeProviderManager.h>
-#import <SalesforceSDKCore/SFSecurityLockout+Internal.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
@@ -113,13 +108,13 @@
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.31.0");
+    XCTAssertEqualObjects(version, @"3.33.0");
 }
 
 - (void) testSqlCipherVersion
 {
     NSString* version = [self.store getSQLCipherVersion];
-    XCTAssertEqualObjects(version, @"4.4.0 community");
+    XCTAssertEqualObjects(version, @"4.4.2 community");
 }
 
 /**
@@ -1150,199 +1145,6 @@
             [dbMgr removeStoreDir:storeName];
         }
     }
-}
-
-- (void)testEncryptionForSFSmartStore
-{
-    for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
-        for (NSString *passcodeProviderName in @[kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2]) {
-            [SFSDKSmartStoreLogger d:[self class] format:@"---Testing encryption using passcode provider '%@'.---", passcodeProviderName];
-            [SFPasscodeProviderManager setCurrentPasscodeProviderByName:passcodeProviderName];
-            
-            [[SFPasscodeManager sharedManager] changePasscode:nil];
-            NSString *noPasscodeKey = [SFSmartStore encKey];
-            XCTAssertTrue([noPasscodeKey length] > 0, @"Even without passcode, SmartStore should have an encryption key.");
-            NSString *newNoPasscodeStoreName = @"new_no_passcode_store";
-            XCTAssertFalse([dbMgr persistentStoreExists:newNoPasscodeStoreName], @"For provider '%@': Store '%@' should not currently exist.", passcodeProviderName, newNoPasscodeStoreName);
-            SFSmartStore *newNoPasscodeStore = [self smartStoreForManager:dbMgr withName:newNoPasscodeStoreName];
-            BOOL canReadSmartStoreDb = [self canReadDatabaseQueue:newNoPasscodeStore.storeQueue];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
-            [newNoPasscodeStore.storeQueue close];
-            
-            FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
-            XCTAssertNil(rawDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
-            if(rawDb) [rawDb close];
-            
-            // Make sure SFSmartStore encrypts a new store with a passcode, if a passcode exists.
-            NSString *newPasscodeStoreName = @"new_passcode_store";
-            NSString *passcode = @"blah";
-            [[SFPasscodeManager sharedManager] changePasscode:passcode];
-            NSString *passcodeKey = [SFSmartStore encKey];
-            XCTAssertTrue([passcodeKey isEqualToString:noPasscodeKey], @"Passcode change shouldn't impact encryption key value.");
-            XCTAssertFalse([dbMgr persistentStoreExists:newPasscodeStoreName], @"For provider '%@': Store '%@' should not currently exist.", passcodeProviderName, newPasscodeStoreName);
-            SFSmartStore *newPasscodeStore = [self smartStoreForManager:dbMgr withName:newPasscodeStoreName];
-            canReadSmartStoreDb = [self canReadDatabaseQueue:newPasscodeStore.storeQueue];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
-            [newPasscodeStore.storeQueue close];
-            
-            rawDb = [self openDatabase:newPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
-            XCTAssertNil(rawDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
-            if(rawDb) [rawDb close];
-            
-            // Make sure existing stores have the expected keys associated with them, between launches.
-            [SFSmartStore clearSharedStoreMemoryState];
-            [[SFPasscodeManager sharedManager] changePasscode:nil];
-            SFSmartStore *existingNoPasscodeStore = [self smartStoreForManager:dbMgr withName:newNoPasscodeStoreName];
-            canReadSmartStoreDb = [self canReadDatabaseQueue:existingNoPasscodeStore.storeQueue];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read existing store with default key.", passcodeProviderName);
-            [[SFPasscodeManager sharedManager] changePasscode:passcode];
-            SFSmartStore *existingPasscodeStore = [self smartStoreForManager:dbMgr withName:newPasscodeStoreName];
-            canReadSmartStoreDb = [self canReadDatabaseQueue:existingPasscodeStore.storeQueue];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read existing store with passcode key.", passcodeProviderName);
-            
-            // Cleanup.
-            [[SFPasscodeManager sharedManager] changePasscode:nil];
-            [self removeStoreForManager:dbMgr withName:newNoPasscodeStoreName];
-            [self removeStoreForManager:dbMgr withName:newPasscodeStoreName];
-            XCTAssertFalse([dbMgr persistentStoreExists:newNoPasscodeStoreName], @"For provider '%@': Store '%@' should no longer exist.", passcodeProviderName, newNoPasscodeStoreName);
-            XCTAssertFalse([dbMgr persistentStoreExists:newPasscodeStoreName], @"For provider '%@': Store '%@' should no longer exist.", passcodeProviderName, newPasscodeStoreName);
-        }
-    }
-}
-
-- (void)testPasscodeChange
-{
-    NSArray *internalPasscodeProviders = @[kSFPasscodeProviderSHA256, kSFPasscodeProviderPBKDF2];
-    
-    for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
-        // This loop changes the 'preferred' provider, to create test scenarios for jumping between one passcode provider
-        // and another.  See [SFPasscodeManager setPasscode:].
-        for (NSString *preferredPasscodeProviderName in internalPasscodeProviders) {
-            [SFPasscodeManager sharedManager].preferredPasscodeProvider = preferredPasscodeProviderName;
-            
-            // This loop will toggle the 'current' passcode provider.
-            for (NSString *currentPasscodeProviderName in internalPasscodeProviders) {
-                [SFPasscodeProviderManager setCurrentPasscodeProviderByName:currentPasscodeProviderName];
-                
-                // First, no passcode -> passcode.
-                [SFSecurityLockout setLockoutTimeInternal:600];
-                NSString *newPasscode = @"blah";
-                [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
-                NSString *encryptionKey = [SFSmartStore encKey];
-                FMDatabase *db = [self openDatabase:kTestSmartStoreName withManager:dbMgr key:encryptionKey openShouldFail:NO];
-                [db close];
-                SFSmartStore *store = [self smartStoreForManager:dbMgr withName:kTestSmartStoreName];
-                BOOL canReadDb = [self canReadDatabaseQueue:store.storeQueue];
-                XCTAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, kTestSmartStoreName);
-                BOOL usesDefault = [SFSmartStoreUpgrade usesLegacyDefaultKey:kTestSmartStoreName];
-                XCTAssertFalse(usesDefault, @"Preferred provider: '%@', Current provider: '%@' -- The store should not be configured with the default passcode.", preferredPasscodeProviderName, currentPasscodeProviderName);
-                
-                // Passcode to no passcode.
-                [[SFPasscodeManager sharedManager] changePasscode:@""];
-                db = [self openDatabase:kTestSmartStoreName withManager:dbMgr key:encryptionKey openShouldFail:NO];
-                [db close];
-                store = [self smartStoreForManager:dbMgr withName:kTestSmartStoreName];
-                canReadDb = [self canReadDatabaseQueue:store.storeQueue];
-                XCTAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, kTestSmartStoreName);
-                usesDefault = [SFSmartStoreUpgrade usesLegacyDefaultKey:kTestSmartStoreName];
-                XCTAssertFalse(usesDefault, @"Preferred provider: '%@', Current provider: '%@' -- The store should not be configured with the default passcode.", preferredPasscodeProviderName, currentPasscodeProviderName);
-                
-                [SFSecurityLockout setLockoutTimeInternal:0];
-            }
-        }
-    }
-}
-
-- (void)testEncryptionUpdate
-{
-    NSString *encKey = [SFSmartStore encKey];
-    
-    // Set up different database encryptions, verify that encryption upgrade updates all of them.  NB: "Default"
-    // store already exists.
-    NSString *unencryptedStoreName = @"unencryptedStore";
-    NSString *macStoreName = @"macStore";
-    NSString *vendorIdStoreName = @"vendorIdStore";
-    NSString *baseAppIdStoreName = @"baseAppIdStore";
-    NSArray *goodKeyStoreNames = @[ kTestSmartStoreName,
-                             unencryptedStoreName,
-                             macStoreName,
-                             vendorIdStoreName,
-                             baseAppIdStoreName
-                             ];
-    NSString *badKeyStoreName = @"badKeyStore";
-    NSArray *initialStoreInstances = @[ [SFSmartStore sharedStoreWithName:kTestSmartStoreName],
-                                        [SFSmartStore sharedStoreWithName:unencryptedStoreName],
-                                        [SFSmartStore sharedStoreWithName:macStoreName],
-                                        [SFSmartStore sharedStoreWithName:vendorIdStoreName],
-                                        [SFSmartStore sharedStoreWithName:baseAppIdStoreName],
-                                        [SFSmartStore sharedStoreWithName:badKeyStoreName]
-                                        ];
-    
-    // Clear all in-memory state and DB handles prior to upgrade.  It's the state SmartStore will be in when the
-    // upgrade runs.
-    for (SFSmartStore *store in initialStoreInstances) {
-        [store.storeQueue close];
-    }
-    [SFSmartStore clearSharedStoreMemoryState];
-    
-    // Unencrypted store
-    FMDatabase *storeDb = [self openDatabase:unencryptedStoreName withManager:[SFSmartStoreDatabaseManager sharedManager] key:encKey openShouldFail:NO];
-    NSError *unencryptStoreError = nil;
-    storeDb = [[SFSmartStoreDatabaseManager sharedManager] unencryptDb:storeDb name:unencryptedStoreName oldKey:encKey salt:nil error:&unencryptStoreError];
-    XCTAssertNotNil(storeDb, @"Failed to unencrypt '%@': %@", unencryptedStoreName, [unencryptStoreError localizedDescription]);
-    [storeDb close];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:unencryptedStoreName];
-    [SFSmartStoreUpgrade setUsesLegacyDefaultKey:NO forStore:unencryptedStoreName];
-    
-    // MAC store
-    storeDb = [self openDatabase:macStoreName withManager:[SFSmartStoreDatabaseManager sharedManager] key:encKey openShouldFail:NO];
-    BOOL rekeyResult = [storeDb rekey:[SFSmartStoreUpgrade legacyDefaultKeyMac]];
-    XCTAssertTrue(rekeyResult, @"Re-encryption to MAC address should have been successful.");
-    [storeDb close];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:macStoreName];
-    [SFSmartStoreUpgrade setUsesLegacyDefaultKey:YES forStore:macStoreName];
-    [SFSmartStoreUpgrade setLegacyDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeMac forStore:macStoreName];
-    
-    // Vendor ID store
-    storeDb = [self openDatabase:vendorIdStoreName withManager:[SFSmartStoreDatabaseManager sharedManager] key:encKey openShouldFail:NO];
-    rekeyResult = [storeDb rekey:[SFSmartStoreUpgrade legacyDefaultKeyIdForVendor]];
-    XCTAssertTrue(rekeyResult, @"Re-encryption to Vendor ID should have been successful.");
-    [storeDb close];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:vendorIdStoreName];
-    [SFSmartStoreUpgrade setUsesLegacyDefaultKey:YES forStore:vendorIdStoreName];
-    [SFSmartStoreUpgrade setLegacyDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeIdForVendor forStore:vendorIdStoreName];
-    
-    // Base App ID store
-    storeDb = [self openDatabase:baseAppIdStoreName withManager:[SFSmartStoreDatabaseManager sharedManager] key:encKey openShouldFail:NO];
-    rekeyResult = [storeDb rekey:[SFSmartStoreUpgrade legacyDefaultKeyBaseAppId]];
-    XCTAssertTrue(rekeyResult, @"Re-encryption to Base App ID should have been successful.");
-    [storeDb close];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:baseAppIdStoreName];
-    [SFSmartStoreUpgrade setUsesLegacyDefaultKey:YES forStore:baseAppIdStoreName];
-    [SFSmartStoreUpgrade setLegacyDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeBaseAppId forStore:baseAppIdStoreName];
-    
-    // Bad key store
-    storeDb = [self openDatabase:badKeyStoreName withManager:[SFSmartStoreDatabaseManager sharedManager] key:encKey openShouldFail:NO];
-    rekeyResult = [storeDb rekey:@"SomeUnrecognizedKey"];
-    XCTAssertTrue(rekeyResult, @"Re-encryption to bad key should have been successful.");
-    [storeDb close];
-    [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:[SFUserAccountManager sharedInstance].currentUser store:badKeyStoreName];
-    [SFSmartStoreUpgrade setUsesLegacyDefaultKey:YES forStore:badKeyStoreName]; // Random configuration.
-    [SFSmartStoreUpgrade setLegacyDefaultEncryptionType:SFSmartStoreDefaultEncryptionTypeBaseAppId forStore:badKeyStoreName];
-    
-    // Update encryption
-    [SFSmartStoreUpgrade updateEncryption];
-    
-    // Verify that all good key store DBs are now accessible through the same store encryption.
-    for (NSString *storeName in goodKeyStoreNames) {
-        storeDb = [self openDatabase:storeName withManager:[SFSmartStoreDatabaseManager sharedManager] key:encKey openShouldFail:NO];
-    }
-    
-    // Verify that a bad key store will be removed as part of the upgrade process.
-    BOOL storeExists = [[SFSmartStoreDatabaseManager sharedManager] persistentStoreExists:badKeyStoreName];
-    XCTAssertFalse(storeExists, @"Un-decryptable store should have been removed on encryption update.");
-    
-    [self clearAllStores];
 }
 
 - (void) testGetDatabaseSize

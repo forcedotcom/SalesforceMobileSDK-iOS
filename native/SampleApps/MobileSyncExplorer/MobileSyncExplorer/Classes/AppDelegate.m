@@ -38,7 +38,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <UserNotifications/UserNotifications.h>
 
-@interface AppDelegate () <SalesforceSDKManagerDelegate>
+@interface AppDelegate ()
 
 /**
  * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
@@ -184,10 +184,4 @@
     }
 }
 
-- (void)sdkManagerWillResignActive {
-    if ([MobileSyncSDKManager sharedManager].useSnapshotView) {
-        // Remove the keyboard if it is showing..
-        [[SFSDKWindowManager sharedManager].activeWindow.window endEditing:YES];
-    }
-}
 @end

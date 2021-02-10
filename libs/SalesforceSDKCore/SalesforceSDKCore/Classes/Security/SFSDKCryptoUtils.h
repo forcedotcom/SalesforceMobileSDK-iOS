@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -62,32 +62,9 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  * random-generated salt data and its length, the number of derivation rounds, and the
  * derived key length.
  * @param stringToHash Plain-text string used to generate the key.
- * @return `SFPBKDFData` object representing the derived key.
- */
-+ (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash SFSDK_DEPRECATED(8.3, 9.0, "Use pbkdf2DerivedKey: instead.");
-
-/**
- * Creates a PBKDF2 derived key from an input key string. Uses default values for the
- * random-generated salt data and its length, the number of derivation rounds, and the
- * derived key length.
- * @param stringToHash Plain-text string used to generate the key.
  * @return The derived key.
  */
 + (nullable NSData *)pbkdf2DerivedKey:(NSString *)stringToHash;
-
-/**
- * Creates a PBKDF2-derived key from an input key string, a salt, number of derivation
- * rounds, and the given derived key length.
- * @param stringToHash Base string to use for the derived key.
- * @param salt Salt to append to the string.
- * @param numDerivationRounds Number of derivation rounds used to generate the key.
- * @param derivedKeyLength Requested derived key length.
- * @return `SFPBKDFData` object representing the derived key.
- */
-+ (nullable SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash
-                                   salt:(NSData *)salt
-                       derivationRounds:(NSUInteger)numDerivationRounds
-                              keyLength:(NSUInteger)derivedKeyLength SFSDK_DEPRECATED(8.3, 9.0, "Use pbkdf2DerivedKey:salt:derivationRounds:keyLength: instead.");
 
 /**
  * Creates a PBKDF2-derived key from an input key string, a salt, number of derivation

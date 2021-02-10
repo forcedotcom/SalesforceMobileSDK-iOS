@@ -56,9 +56,6 @@
    <Group
       location = "group:external/ThirdPartyDependencies"
       name = "ThirdPartyDependencies">
-      <FileRef
-         location = "group:README.md">
-      </FileRef>
       <Group
          location = "group:sqlcipher"
          name = "sqlcipher">
@@ -89,16 +86,7 @@
                   location = "group:appicon40x40.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon50x50.png">
-               </FileRef>
-               <FileRef
-                  location = "group:appicon57x57.png">
-               </FileRef>
-               <FileRef
                   location = "group:appicon58x58.png">
-               </FileRef>
-               <FileRef
-                  location = "group:appicon72x72.png">
                </FileRef>
                <FileRef
                   location = "group:appicon76x76.png">
@@ -110,41 +98,13 @@
                   location = "group:appicon87x87.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon100x100.png">
-               </FileRef>
-               <FileRef
-                  location = "group:appicon114x114.png">
-               </FileRef>
-               <FileRef
                   location = "group:appicon120x120.png">
-               </FileRef>
-               <FileRef
-                  location = "group:appicon144x144.png">
                </FileRef>
                <FileRef
                   location = "group:appicon152x152.png">
                </FileRef>
                <FileRef
                   location = "group:appicon180x180.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Contents.json">
-               </FileRef>
-            </Group>
-            <Group
-               location = "group:LaunchImage.launchimage"
-               name = "LaunchImage.launchimage">
-               <FileRef
-                  location = "group:Default640x960.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default640x1136.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default1242x2208.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default2208x1242.png">
                </FileRef>
                <FileRef
                   location = "group:Contents.json">
@@ -166,9 +126,6 @@
          name = "test">
          <FileRef
             location = "group:test_credentials.json">
-         </FileRef>
-         <FileRef
-            location = "group:ui_test_credentials.json">
          </FileRef>
       </Group>
    </Group>

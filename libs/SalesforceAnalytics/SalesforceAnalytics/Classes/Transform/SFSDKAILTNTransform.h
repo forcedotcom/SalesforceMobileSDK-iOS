@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKTransform.h"
+#import <SalesforceAnalytics/SFSDKTransform.h>
 
 @interface SFSDKAILTNTransform : NSObject <SFSDKTransform>
 

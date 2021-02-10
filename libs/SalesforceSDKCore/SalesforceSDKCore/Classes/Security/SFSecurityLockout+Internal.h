@@ -1,15 +1,12 @@
-#import "SFSecurityLockout.h"
+#import <SalesforceSDKCore/SFSecurityLockout.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 static NSUInteger const kDefaultLockoutTime        = 0;
 static NSUInteger const kDefaultPasscodeLength     = 0;
-static NSString * _Nullable const kSecurityTimeoutLegacyKey  = @"security.timeout";
-static NSString * _Nullable const kSecurityIsLockedLegacyKey = @"security.islocked";
 static NSString * const kBiometricUnlockAllowedKey           = @"security.biometric.allowed"; // Enabled in the Org
 static NSString * const kBiometricStateKey                   = @"secuirty.biometric.state";
 
-SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.")
 @interface SFSecurityLockout ()
 
 /**
@@ -118,11 +115,70 @@ SFSDK_DEPRECATED(8.3, 9.0, "Will be internal.")
  */
 + (void)upgradeSettings;
 
-/**
- Runs the given block of code against the list of security lockout delegates.
- @param block The block of code to execute for each delegate.
+/** Initialize the timer
  */
-+ (void)enumerateDelegates:(void(^)(id <SFSecurityLockoutDelegate> delegate))block;
++ (void)setupTimer;
+
+/** Unregister and invalidate the timer
+ */
++ (void)removeTimer;
+
+/** Validate the timer upon app entering the foreground
+ */
++ (void)validateTimer;
+
+/**
+ Resets the passcode state of the app, *if* there aren't other users with an overriding passcode
+ policy.  I.e. passcode state can only be cleared if the  user is the only user who would
+ be subject to that policy.
+ */
++ (void)clearPasscodeState:(SFUserAccount *)userLoggingOut;
+
+/**
+ Reset the passcode in the keychain.
+ */
++ (void)resetPasscode;
+
+/**
+ Verify the passcode.
+ @param passcode The passcode to verify.
+ @return YES if the passcode verifies, NO otherwise.
+ */
++ (BOOL)verifyPasscode:(NSString *)passcode;
+
+/**
+ Change the current passcode.  This method serves as an entry point for managing the change
+ or removal of a passcode, notifications of the change, etc.  The setPasscode method, by
+ comparison, handles the internals of actually setting a new passcode value.
+ @param newPasscode The new passcode to change to.  If nil or empty, this method will unset the
+ existing passcode.
+ */
++ (void)changePasscode:(nullable NSString *)newPasscode;
+
+/**
+ Set the passcode.
+ @param newPasscode The passcode to set.
+ */
++ (void)setPasscode:(NSString *)newPasscode;
+
+/**
+ Gets the configured passcode length.
+ @return The passcode length.
+ */
++ (NSUInteger)passcodeLength;
+
+/** Unlock the device (e.g a result of a successful passcode/biometric challenge)
+ @param action Action that was taken during lockout.
+ */
++ (void)unlock:(SFSecurityLockoutAction)action;
+
+/** Wipe the device (e.g. because passcode/biometric challenge failed)
+*/
++ (void)wipeState;
+
+/** Check if device is locked
+ */
++ (BOOL)locked;
 
 @end
 

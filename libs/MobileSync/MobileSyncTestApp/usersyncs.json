@@ -148,6 +148,7 @@
         "androidImpl": "com.salesforce.androidsdk.mobilesync.target.ParentChildrenSyncUpTarget",
         "parent" : {
           "idFieldName" : "IdX",
+          "externalIdFieldName": "ExternalIdX",
           "sobjectType" : "Account",
           "modificationDateFieldName" : "LastModifiedDateX",
           "soupName" : "accounts"
@@ -157,6 +158,7 @@
         "children" : {
           "parentIdFieldName" : "AccountId",
           "idFieldName" : "IdY",
+          "externalIdFieldName": "ExternalIdY",
           "sobjectType" : "Contact",
           "modificationDateFieldName" : "LastModifiedDateY",
           "soupName" : "contacts",

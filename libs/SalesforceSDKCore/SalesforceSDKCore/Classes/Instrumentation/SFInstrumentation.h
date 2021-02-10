@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFMethodInterceptor.h"
+#import <SalesforceSDKCore/SFMethodInterceptor.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
