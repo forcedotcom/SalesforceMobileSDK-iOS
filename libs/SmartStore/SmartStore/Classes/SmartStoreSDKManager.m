@@ -37,7 +37,7 @@
 
 -(instancetype)init {
     if (self = [super init]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogoutForSmartStoreManager:)  name:kSFNotificationUserWillLogout object:nil];
     }
     return self;
 }
@@ -46,7 +46,7 @@
     [super initializeSDKWithClass:self.class];
 }
 
-- (void)handleUserWillLogout:(NSNotification *)notification {
+- (void)handleUserWillLogoutForSmartStoreManager:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [SFSmartStore removeAllStoresForUser:user];
 }
