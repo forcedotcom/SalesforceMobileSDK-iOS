@@ -43,6 +43,7 @@
 					<Path>index.html</Path>
 					<Subnodes>
 						<NodeRef refid="23"/>
+						<NodeRef refid="24"/>
 						
 					</Subnodes>
 				</Node>
@@ -53,7 +54,6 @@
 					<Name>Constants</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="24"/>
 						<NodeRef refid="25"/>
 						<NodeRef refid="26"/>
 						<NodeRef refid="27"/>
@@ -691,6 +691,33 @@
         </Node>
 		
 		<Node id="23" type="file" documentType="reference">
+            <Name>NSData(SFSHA)</Name>
+            <Path>Categories/NSData+SFSHA.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Categories/NSData+SFSHA.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Categories/NSData+SFSHA.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Categories/NSData+SFSHA.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="24" type="file" documentType="reference">
             <Name>SFUserAccount(SmartStoreTest)</Name>
             <Path>Categories/SFUserAccount+SmartStoreTest.html</Path>
             
@@ -719,19 +746,14 @@
         </Node>
 		
         
-        <Node id="24" type="file" documentType="reference">
+        <Node id="25" type="file" documentType="reference">
             <Name>SFAlterSoupStep</Name>
             <Path>Constants/SFAlterSoupStep.html</Path>
             
         </Node>
-		<Node id="25" type="file" documentType="reference">
+		<Node id="26" type="file" documentType="reference">
             <Name>SFSmartStoreFtsExtension</Name>
             <Path>Constants/SFSmartStoreFtsExtension.html</Path>
-            
-        </Node>
-		<Node id="26" type="file" documentType="reference">
-            <Name>SFSmartStoreLegacyDefaultEncryptionType</Name>
-            <Path>Constants/SFSmartStoreLegacyDefaultEncryptionType.html</Path>
             
         </Node>
 		<Node id="27" type="file" documentType="reference">

@@ -109,6 +109,18 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFChildrenInfo/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:idFieldName:modificationDateFieldName:externalIdFieldName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>+ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName externalIdFieldName:(NSString *__nullable)externalIdFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:idFieldName:modificationDateFieldName:externalIdFieldName:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFChildrenInfo/newFromDict:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>

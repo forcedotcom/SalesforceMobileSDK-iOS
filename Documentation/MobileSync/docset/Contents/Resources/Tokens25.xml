@@ -157,6 +157,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/setExternalIdFieldName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *externalIdFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/externalIdFieldName</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFParentInfo/externalIdFieldName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *externalIdFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/externalIdFieldName</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFParentInfo/externalIdFieldName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *externalIdFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/externalIdFieldName</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFParentInfo/newWithSObjectType:soupName:</TokenIdentifier>
 			<Abstract type="html">Factory methods</Abstract>
 			<DeclaredIn>SFParentInfo.h</DeclaredIn>
@@ -177,6 +213,18 @@
 			
 			
 			<Anchor>//api/name/newWithSObjectType:soupName:idFieldName:modificationDateFieldName:</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFParentInfo/newWithSObjectType:soupName:idFieldName:modificationDateFieldName:externalIdFieldName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFParentInfo.h</DeclaredIn>
+			
+			<Declaration>+ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName externalIdFieldName:(NSString *__nullable)externalIdFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/newWithSObjectType:soupName:idFieldName:modificationDateFieldName:externalIdFieldName:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		

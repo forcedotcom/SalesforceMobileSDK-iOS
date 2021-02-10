@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthTokenEndpointFlow.html">
+	<File path="Constants/SFUserAccountAccessRestriction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthTokenEndpointFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountAccessRestriction</TokenIdentifier>
+			<Abstract type="html">User account restrictions</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="220"/>
@@ -14,31 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowNone</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionNone</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="220"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowRefresh</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionChatter</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowRefresh</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionChatter</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="220"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowAdvancedBrowser</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionREST</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowAdvancedBrowser</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionREST</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="220"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionOther</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFUserAccountAccessRestrictionOther</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="220"/>
         </Token>

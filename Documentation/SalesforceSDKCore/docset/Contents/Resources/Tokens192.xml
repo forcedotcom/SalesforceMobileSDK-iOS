@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthProtocol.html">
+	<File path="Protocols/SFSDKUserSelectionViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthProtocol</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionViewDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="192"/>
@@ -13,50 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/accessTokenForApprovalCode:completion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/createNewUser:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void ( ^ ) ( SFSDKOAuthTokenEndpointResponse *))completionBlock</Declaration>
+			<Declaration>- (void)createNewUser:(NSDictionary *)spAppOptions</Declaration>
 			
 			
-			<Anchor>//api/name/accessTokenForApprovalCode:completion:</Anchor>
+			<Anchor>//api/name/createNewUser:</Anchor>
             <NodeRef refid="192"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/accessTokenForRefresh:completion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/selectedUser:spAppContext:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void ( ^ ) ( SFSDKOAuthTokenEndpointResponse *))completionBlock</Declaration>
+			<Declaration>- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions</Declaration>
 			
 			
-			<Anchor>//api/name/accessTokenForRefresh:completion:</Anchor>
+			<Anchor>//api/name/selectedUser:spAppContext:</Anchor>
             <NodeRef refid="192"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/openIDTokenForRefresh:completion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/cancel:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void ( ^ ) ( NSString *))completionBlock</Declaration>
-			
-			
-			<Anchor>//api/name/openIDTokenForRefresh:completion:</Anchor>
-            <NodeRef refid="192"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/revokeRefreshToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
-			
-			<Declaration>- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials</Declaration>
+			<Declaration>- (void)cancel:(NSDictionary *)spAppOptions</Declaration>
 			
 			
-			<Anchor>//api/name/revokeRefreshToken:</Anchor>
+			<Anchor>//api/name/cancel:</Anchor>
             <NodeRef refid="192"/>
 		</Token>
 		

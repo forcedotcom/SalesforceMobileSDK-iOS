@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFCryptoOperation.html">
+	<File path="Constants/SFSDKAppConfigErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="213"/>
@@ -14,21 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationEncrypt</Declaration>
+            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="213"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationDecrypt</Declaration>
+            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
             
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            
+            <NodeRef refid="213"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
+            
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="213"/>
         </Token>

@@ -64,21 +64,15 @@
 	
 	<optgroup label="Class Methods">
 		
-		<option value="//api/name/addDelegate:">+ addDelegate:</option>
-		
 		<option value="//api/name/biometricState">+ biometricState</option>
 		
 		<option value="//api/name/cancelPasscodeScreen">+ cancelPasscodeScreen</option>
 		
-		<option value="//api/name/clearPasscodeState">+ clearPasscodeState</option>
+		<option value="//api/name/changePasscode:">+ changePasscode:</option>
 		
 		<option value="//api/name/clearPasscodeState:">+ clearPasscodeState:</option>
 		
 		<option value="//api/name/deviceHasBiometric">+ deviceHasBiometric</option>
-		
-		<option value="//api/name/enumerateDelegates:">+ enumerateDelegates:</option>
-		
-		<option value="//api/name/forcePasscodeDisplay">+ forcePasscodeDisplay</option>
 		
 		<option value="//api/name/hasValidSession">+ hasValidSession</option>
 		
@@ -86,11 +80,7 @@
 		
 		<option value="//api/name/isLockoutEnabled">+ isLockoutEnabled</option>
 		
-		<option value="//api/name/isPasscodeNeeded">+ isPasscodeNeeded</option>
-		
 		<option value="//api/name/isPasscodeSet">+ isPasscodeSet</option>
-		
-		<option value="//api/name/isPasscodeValid">+ isPasscodeValid</option>
 		
 		<option value="//api/name/lock">+ lock</option>
 		
@@ -100,21 +90,15 @@
 		
 		<option value="//api/name/locked">+ locked</option>
 		
-		<option value="//api/name/lockoutTime">+ lockoutTime</option>
-		
 		<option value="//api/name/passcodeLength">+ passcodeLength</option>
 		
 		<option value="//api/name/passcodeScreenIsPresent">+ passcodeScreenIsPresent</option>
 		
 		<option value="//api/name/passcodeViewController">+ passcodeViewController</option>
 		
-		<option value="//api/name/passcodeViewControllerCreationBlock">+ passcodeViewControllerCreationBlock</option>
-		
 		<option value="//api/name/presentBiometricEnrollment:">+ presentBiometricEnrollment:</option>
 		
 		<option value="//api/name/presentPasscodeController:">+ presentPasscodeController:</option>
-		
-		<option value="//api/name/presentPasscodeViewControllerBlock">+ presentPasscodeViewControllerBlock</option>
 		
 		<option value="//api/name/readIsLockedFromKeychain">+ readIsLockedFromKeychain</option>
 		
@@ -122,23 +106,15 @@
 		
 		<option value="//api/name/readPasscodeLengthFromKeychain">+ readPasscodeLengthFromKeychain</option>
 		
-		<option value="//api/name/removeDelegate:">+ removeDelegate:</option>
-		
 		<option value="//api/name/removeTimer">+ removeTimer</option>
+		
+		<option value="//api/name/resetPasscode">+ resetPasscode</option>
 		
 		<option value="//api/name/sendPasscodeFlowCompletedNotification:">+ sendPasscodeFlowCompletedNotification:</option>
 		
 		<option value="//api/name/sendPasscodeFlowWillBeginNotification:">+ sendPasscodeFlowWillBeginNotification:</option>
 		
-		<option value="//api/name/setCanShowPasscode:">+ setCanShowPasscode:</option>
-		
-		<option value="//api/name/setDismissPasscodeViewControllerBlock:">+ setDismissPasscodeViewControllerBlock:</option>
-		
-		<option value="//api/name/setForcePasscodeDisplay:">+ setForcePasscodeDisplay:</option>
-		
 		<option value="//api/name/setInactivityConfiguration:lockoutTime:biometricAllowed:">+ setInactivityConfiguration:lockoutTime:biometricAllowed:</option>
-		
-		<option value="//api/name/setIsLocked:">+ setIsLocked:</option>
 		
 		<option value="//api/name/setLockScreenFailureCallbackBlock:">+ setLockScreenFailureCallbackBlock:</option>
 		
@@ -146,13 +122,9 @@
 		
 		<option value="//api/name/setLockoutTimeInternal:">+ setLockoutTimeInternal:</option>
 		
+		<option value="//api/name/setPasscode:">+ setPasscode:</option>
+		
 		<option value="//api/name/setPasscodeViewController:">+ setPasscodeViewController:</option>
-		
-		<option value="//api/name/setPasscodeViewControllerCreationBlock:">+ setPasscodeViewControllerCreationBlock:</option>
-		
-		<option value="//api/name/setPresentPasscodeViewControllerBlock:">+ setPresentPasscodeViewControllerBlock:</option>
-		
-		<option value="//api/name/setUpgradePasscodeLength:">+ setUpgradePasscodeLength:</option>
 		
 		<option value="//api/name/setupTimer">+ setupTimer</option>
 		
@@ -174,9 +146,9 @@
 		
 		<option value="//api/name/userAllowedBiometricUnlock:">+ userAllowedBiometricUnlock:</option>
 		
-		<option value="//api/name/validatePasscodeAtStartup">+ validatePasscodeAtStartup</option>
-		
 		<option value="//api/name/validateTimer">+ validateTimer</option>
+		
+		<option value="//api/name/verifyPasscode:">+ verifyPasscode:</option>
 		
 		<option value="//api/name/wipeState">+ wipeState</option>
 		
@@ -260,204 +232,6 @@ It is responsible for locking and unlocking the device by presenting the passcod
 		    
 			
 
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/addDelegate:" title="addDelegate:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/addDelegate:">+&nbsp;addDelegate:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Adds a delegate to the list of SFSecurityLockout delegates.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)addDelegate:(id&lt;SFSecurityLockoutDelegate&gt;)<em>delegate</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>delegate</code></th>
-						<td><p>The delegate to add to the list.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeDelegate:" title="removeDelegate:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeDelegate:">+&nbsp;removeDelegate:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Removes a delegate from the list of SFSecurityLockout delegates.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)removeDelegate:(id&lt;SFSecurityLockoutDelegate&gt;)<em>delegate</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>delegate</code></th>
-						<td><p>The delegate to remove from the list.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/lockoutTime" title="lockoutTime"></a>
-	<h3 class="method-title"><code><a href="#//api/name/lockoutTime">+&nbsp;lockoutTime</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Get the current lockout time, in seconds</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (NSUInteger)lockoutTime</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The lockout time limit.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/passcodeLength" title="passcodeLength"></a>
-	<h3 class="method-title"><code><a href="#//api/name/passcodeLength">+&nbsp;passcodeLength</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Gets the configured passcode length.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (NSUInteger)passcodeLength</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The passcode length.</p>
-			</div>
 			
 
 			
@@ -568,215 +342,6 @@ configured time, to support the most restrictive passcode policy across users.</
 				
 				</table>
 			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/clearPasscodeState" title="clearPasscodeState"></a>
-	<h3 class="method-title"><code><a href="#//api/name/clearPasscodeState">+&nbsp;clearPasscodeState</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Resets the passcode state of the app, <em>if</em> there aren&rsquo;t other users with an overriding passcode
-policy.  I.e. passcode state can only be cleared if the current user is the only user who would
-be subject to that policy.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)clearPasscodeState</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/clearPasscodeState:" title="clearPasscodeState:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/clearPasscodeState:">+&nbsp;clearPasscodeState:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Resets the passcode state of the app, <em>if</em> there aren&rsquo;t other users with an overriding passcode
-policy.  I.e. passcode state can only be cleared if the  user is the only user who would
-be subject to that policy.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)clearPasscodeState:(SFUserAccount *)<em>userLoggingOut</em></code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setupTimer" title="setupTimer"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setupTimer">+&nbsp;setupTimer</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Initialize the timer</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setupTimer</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeTimer" title="removeTimer"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeTimer">+&nbsp;removeTimer</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Unregister and invalidate the timer</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)removeTimer</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/validateTimer" title="validateTimer"></a>
-	<h3 class="method-title"><code><a href="#//api/name/validateTimer">+&nbsp;validateTimer</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Validate the timer upon app entering the foreground</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)validateTimer</code></div>
-
-		    
 			
 
 			
@@ -1014,276 +579,6 @@ be subject to that policy.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/unlock:" title="unlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/unlock:">+&nbsp;unlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Un<a href="#//api/name/lock">lock</a> the device (e.g a result of a successful passcode/biometric challenge)</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)unlock:(SFSecurityLockoutAction)<em>action</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>action</code></th>
-						<td><p>Action that was taken during lockout.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/wipeState" title="wipeState"></a>
-	<h3 class="method-title"><code><a href="#//api/name/wipeState">+&nbsp;wipeState</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Wipe the device (e.g. because passcode/biometric challenge failed)</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)wipeState</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setIsLocked:" title="setIsLocked:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setIsLocked:">+&nbsp;setIsLocked:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Toggle the <a href="#//api/name/locked">locked</a> state</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setIsLocked:(BOOL)<em>locked</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>locked</code></th>
-						<td><p>Locks the device if <code>YES</code>, otherwise unlocks the device.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/locked" title="locked"></a>
-	<h3 class="method-title"><code><a href="#//api/name/locked">+&nbsp;locked</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Check if device is locked</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (BOOL)locked</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/isPasscodeValid" title="isPasscodeValid"></a>
-	<h3 class="method-title"><code><a href="#//api/name/isPasscodeValid">+&nbsp;isPasscodeValid</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Check if the passcode is valid</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (BOOL)isPasscodeValid</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/isPasscodeNeeded" title="isPasscodeNeeded"></a>
-	<h3 class="method-title"><code><a href="#//api/name/isPasscodeNeeded">+&nbsp;isPasscodeNeeded</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Check to see if the passcode screen is needed.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (BOOL)isPasscodeNeeded</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/isPasscodeSet" title="isPasscodeSet"></a>
 	<h3 class="method-title"><code><a href="#//api/name/isPasscodeSet">+&nbsp;isPasscodeSet</a></code>
 </h3>
@@ -1385,59 +680,6 @@ be subject to that policy.</p>
 			<div class="method-subsection method-declaration"><code>+ (BOOL)deviceHasBiometric</code></div>
 
 		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setCanShowPasscode:" title="setCanShowPasscode:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setCanShowPasscode:">+&nbsp;setCanShowPasscode:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Show the passcode view. Used by unit tests.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setCanShowPasscode:(BOOL)<em>showPasscode</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>showPasscode</code></th>
-						<td><p>If YES, passcode view can be displayed.</p></td>
-					</tr>
-				
-				</table>
-			</div>
 			
 
 			
@@ -1650,310 +892,6 @@ verify the passcode to un<a href="#//api/name/lock">lock</a> the screen.  Option
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/passcodeViewControllerCreationBlock" title="passcodeViewControllerCreationBlock"></a>
-	<h3 class="method-title"><code><a href="#//api/name/passcodeViewControllerCreationBlock">+&nbsp;passcodeViewControllerCreationBlock</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The b<a href="#//api/name/lock">lock</a> used to create the passcode view controller</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (SFPasscodeViewControllerCreationBlock)passcodeViewControllerCreationBlock</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The b<a href="#//api/name/lock">lock</a> used to create the passcode view controller</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setPasscodeViewControllerCreationBlock:" title="setPasscodeViewControllerCreationBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setPasscodeViewControllerCreationBlock:">+&nbsp;setPasscodeViewControllerCreationBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Sets the b<a href="#//api/name/lock">lock</a> that will create the passcode view controller.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setPasscodeViewControllerCreationBlock:(SFPasscodeViewControllerCreationBlock)<em>vcBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>vcBlock</code></th>
-						<td><p>The passcode view controller creation b<a href="#//api/name/lock">lock</a> to use.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/presentPasscodeViewControllerBlock" title="presentPasscodeViewControllerBlock"></a>
-	<h3 class="method-title"><code><a href="#//api/name/presentPasscodeViewControllerBlock">+&nbsp;presentPasscodeViewControllerBlock</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The b<a href="#//api/name/lock">lock</a> used to present the passcode view controller.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (SFPasscodeViewControllerPresentationBlock)presentPasscodeViewControllerBlock</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The b<a href="#//api/name/lock">lock</a> used to present the passcode view controller.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setPresentPasscodeViewControllerBlock:" title="setPresentPasscodeViewControllerBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setPresentPasscodeViewControllerBlock:">+&nbsp;setPresentPasscodeViewControllerBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Sets the b<a href="#//api/name/lock">lock</a> that will present the passcode view controller.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setPresentPasscodeViewControllerBlock:(SFPasscodeViewControllerPresentationBlock)<em>vcBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>vcBlock</code></th>
-						<td><p>The b<a href="#//api/name/lock">lock</a> to use to present the passcode view controller.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setDismissPasscodeViewControllerBlock:" title="setDismissPasscodeViewControllerBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setDismissPasscodeViewControllerBlock:">+&nbsp;setDismissPasscodeViewControllerBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Set the b<a href="#//api/name/lock">lock</a> that will dismiss the passcode view controller.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setDismissPasscodeViewControllerBlock:(SFPasscodeViewControllerDismissBlock)<em>vcBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>vcBlock</code></th>
-						<td><p>The b<a href="#//api/name/lock">lock</a> defined to dismiss the passcode view controller.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setPasscodeViewController:" title="setPasscodeViewController:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setPasscodeViewController:">+&nbsp;setPasscodeViewController:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Sets a retained instance of the current passcode view controller that&rsquo;s displayed.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setPasscodeViewController:(nullable UIViewController *)<em>vc</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>vc</code></th>
-						<td><p>The passcode view controller.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/presentBiometricEnrollment:" title="presentBiometricEnrollment:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/presentBiometricEnrollment:">+&nbsp;presentBiometricEnrollment:</a></code>
 </h3>
@@ -2008,195 +946,6 @@ This can be used to prompt the user to enable biometric un<a href="#//api/name/l
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/passcodeViewController" title="passcodeViewController"></a>
-	<h3 class="method-title"><code><a href="#//api/name/passcodeViewController">+&nbsp;passcodeViewController</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns the currently displayed passcode view controller, or nil if the passcode view controller
-is not currently displayed.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (UIViewController *)passcodeViewController</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setForcePasscodeDisplay:" title="setForcePasscodeDisplay:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setForcePasscodeDisplay:">+&nbsp;setForcePasscodeDisplay:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Whether to force the passcode screen to be displayed, despite sanity conditions for whether passcodes
-are configured.  This method is only useful for unit test code, and the value should otherwise be left
-to its default value of NO.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setForcePasscodeDisplay:(BOOL)<em>forceDisplay</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>forceDisplay</code></th>
-						<td><p>Whether to force the passcode screen to be displayed.  Default value is NO.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/forcePasscodeDisplay" title="forcePasscodeDisplay"></a>
-	<h3 class="method-title"><code><a href="#//api/name/forcePasscodeDisplay">+&nbsp;forcePasscodeDisplay</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Whether or not the app is configured to force the display of the passcode screen.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (BOOL)forcePasscodeDisplay</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>Whether or not the app is configured to force the display of the passcode screen.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/validatePasscodeAtStartup" title="validatePasscodeAtStartup"></a>
-	<h3 class="method-title"><code><a href="#//api/name/validatePasscodeAtStartup">+&nbsp;validatePasscodeAtStartup</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Whether or not to validate the passcode at app startup.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (BOOL)validatePasscodeAtStartup</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>Whether or not to validate the passcode at app startup.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/userAllowedBiometricUnlock:" title="userAllowedBiometricUnlock:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/userAllowedBiometricUnlock:">+&nbsp;userAllowedBiometricUnlock:</a></code>
 </h3>
@@ -2224,59 +973,6 @@ to its default value of NO.</p>
 					<tr>
 						<th scope="row" class="argument-name"><code>userAllowedBiometric</code></th>
 						<td><p>YES if the user accepted, NO otherwise.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSecurityLockout.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/setUpgradePasscodeLength:" title="setUpgradePasscodeLength:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setUpgradePasscodeLength:">+&nbsp;setUpgradePasscodeLength:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Set the passcode length upon upgrade if it was not previously set.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (void)setUpgradePasscodeLength:(NSUInteger)<em>length</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>length</code></th>
-						<td><p>Length of the user&rsquo;s passcode.</p></td>
 					</tr>
 				
 				</table>
@@ -2369,6 +1065,89 @@ to its default value of NO.</p>
 		    
 
 			<div class="method-subsection method-declaration"><code>+ (void)presentPasscodeController:(SFAppLockControllerMode)<em>modeValue</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setPasscodeViewController:" title="setPasscodeViewController:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setPasscodeViewController:">+&nbsp;setPasscodeViewController:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets a retained instance of the current passcode view controller that&rsquo;s displayed.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setPasscodeViewController:(UIViewController *_Nullable)<em>vc</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/passcodeViewController" title="passcodeViewController"></a>
+	<h3 class="method-title"><code><a href="#//api/name/passcodeViewController">+&nbsp;passcodeViewController</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns the currently displayed passcode view controller, or nil if the passcode view controller
+is not currently displayed.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (nullable UIViewController *)passcodeViewController</code></div>
 
 		    
 			
@@ -3107,8 +1886,8 @@ to its default value of NO.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/enumerateDelegates:" title="enumerateDelegates:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/enumerateDelegates:">+&nbsp;enumerateDelegates:</a></code>
+	<a name="//api/name/setupTimer" title="setupTimer"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setupTimer">+&nbsp;setupTimer</a></code>
 </h3>
 
 	<div class="method-info">
@@ -3118,12 +1897,219 @@ to its default value of NO.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Runs the given b<a href="#//api/name/lock">lock</a> of code against the list of security lockout delegates.</p>
+				<p>Initialize the timer</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (void)enumerateDelegates:(void ( ^ ) ( id&lt;SFSecurityLockoutDelegate&gt; delegate ))<em>block</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (void)setupTimer</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeTimer" title="removeTimer"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeTimer">+&nbsp;removeTimer</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Unregister and invalidate the timer</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeTimer</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/validateTimer" title="validateTimer"></a>
+	<h3 class="method-title"><code><a href="#//api/name/validateTimer">+&nbsp;validateTimer</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Validate the timer upon app entering the foreground</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)validateTimer</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/clearPasscodeState:" title="clearPasscodeState:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/clearPasscodeState:">+&nbsp;clearPasscodeState:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Resets the passcode state of the app, <em>if</em> there aren&rsquo;t other users with an overriding passcode
+policy.  I.e. passcode state can only be cleared if the  user is the only user who would
+be subject to that policy.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)clearPasscodeState:(SFUserAccount *)<em>userLoggingOut</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/resetPasscode" title="resetPasscode"></a>
+	<h3 class="method-title"><code><a href="#//api/name/resetPasscode">+&nbsp;resetPasscode</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Reset the passcode in the keychain.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)resetPasscode</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/verifyPasscode:" title="verifyPasscode:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/verifyPasscode:">+&nbsp;verifyPasscode:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Verify the passcode.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)verifyPasscode:(NSString *)<em>passcode</em></code></div>
 
 		    
 			
@@ -3132,12 +2118,307 @@ to its default value of NO.</p>
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>block</code></th>
-						<td><p>The b<a href="#//api/name/lock">lock</a> of code to execute for each delegate.</p></td>
+						<th scope="row" class="argument-name"><code>passcode</code></th>
+						<td><p>The passcode to verify.</p></td>
 					</tr>
 				
 				</table>
 			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if the passcode verifies, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/changePasscode:" title="changePasscode:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/changePasscode:">+&nbsp;changePasscode:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Change the current passcode.  This method serves as an entry point for managing the change
+or removal of a passcode, notifications of the change, etc.  The setPasscode method, by
+comparison, handles the internals of actually setting a new passcode value.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)changePasscode:(nullable NSString *)<em>newPasscode</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>newPasscode</code></th>
+						<td><p>The new passcode to change to.  If nil or empty, this method will unset the
+existing passcode.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setPasscode:" title="setPasscode:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setPasscode:">+&nbsp;setPasscode:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Set the passcode.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setPasscode:(NSString *)<em>newPasscode</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>newPasscode</code></th>
+						<td><p>The passcode to set.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/passcodeLength" title="passcodeLength"></a>
+	<h3 class="method-title"><code><a href="#//api/name/passcodeLength">+&nbsp;passcodeLength</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Gets the configured passcode length.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSUInteger)passcodeLength</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The passcode length.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/unlock:" title="unlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unlock:">+&nbsp;unlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Un<a href="#//api/name/lock">lock</a> the device (e.g a result of a successful passcode/biometric challenge)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)unlock:(SFSecurityLockoutAction)<em>action</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>action</code></th>
+						<td><p>Action that was taken during lockout.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/wipeState" title="wipeState"></a>
+	<h3 class="method-title"><code><a href="#//api/name/wipeState">+&nbsp;wipeState</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Wipe the device (e.g. because passcode/biometric challenge failed)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)wipeState</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSecurityLockout+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/locked" title="locked"></a>
+	<h3 class="method-title"><code><a href="#//api/name/locked">+&nbsp;locked</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Check if device is locked</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)locked</code></div>
+
+		    
 			
 
 			
@@ -3174,7 +2455,7 @@ to its default value of NO.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 Salesforce.com. All rights reserved. Updated: 2020-09-30</p>
+						<p class="copyright">Copyright &copy; 2021 Salesforce.com. All rights reserved. Updated: 2021-02-10</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -194,18 +194,6 @@ The easiest way to use this sync target is through SFLayoutSyncManager.</Abstrac
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncDownTarget/newSyncTarget:layoutType:</TokenIdentifier>
-			<Abstract type="html">Factory method.</Abstract>
-			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull SFLayoutSyncDownTarget *)newSyncTarget:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType</Declaration>
-			
-			
-			<Anchor>//api/name/newSyncTarget:layoutType:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFLayoutSyncDownTarget/newSyncTarget:formFactor:layoutType:mode:recordTypeId:</TokenIdentifier>
 			<Abstract type="html">Factory method.</Abstract>
 			<DeclaredIn>SFLayoutSyncDownTarget.h</DeclaredIn>

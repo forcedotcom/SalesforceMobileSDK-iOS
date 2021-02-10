@@ -13,29 +13,6 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFMobileSyncNetworkUtils/sendRequestWithMobileSyncUserAgent:failBlock:completeBlock:</TokenIdentifier>
-			<Abstract type="html">Sends a REST request, applying the MobileSync user agent string.</Abstract>
-			<DeclaredIn>SFMobileSyncNetworkUtils.h</DeclaredIn>
-			
-			<Declaration>+ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The request to send.</Abstract>
-				</Parameter><Parameter>
-					<Name>failBlock</Name>
-					<Abstract type="html">The block to call if the request fails.</Abstract>
-				</Parameter><Parameter>
-					<Name>completeBlock</Name>
-					<Abstract type="html">The block to call if the request succeeds.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/sendRequestWithMobileSyncUserAgent:failBlock:completeBlock:</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFMobileSyncNetworkUtils/sendRequestWithMobileSyncUserAgent:failureBlock:successBlock:</TokenIdentifier>
 			<Abstract type="html">Sends a REST request, after applying the MobileSync user agent string.</Abstract>
 			<DeclaredIn>SFMobileSyncNetworkUtils.h</DeclaredIn>

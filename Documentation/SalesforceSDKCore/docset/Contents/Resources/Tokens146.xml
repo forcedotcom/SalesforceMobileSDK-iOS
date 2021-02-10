@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFTestSDKManagerFlow.html">
+	<File path="Classes/SFUserActivityMonitor.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFTestSDKManagerFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFUserActivityMonitor</TokenIdentifier>
+			<Abstract type="html">Singleton class to monitor the application for user activity, and update SFInactivityTimerCenter when
+a change is detected.</Abstract>
+			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
             
 			
 			<NodeRef refid="146"/>
@@ -13,98 +14,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/setPauseInAuth:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFUserActivityMonitor/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Returns the singleton instance of the class.</Abstract>
+			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>+ (instancetype)sharedInstance</Declaration>
 			
 			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="146"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserActivityMonitor/startMonitoring</TokenIdentifier>
+			<Abstract type="html">Starts the application monitoring process.</Abstract>
+			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			<Declaration>- (void)startMonitoring</Declaration>
 			
 			
-			<Anchor>//api/name/pauseInAuth</Anchor>
+			<Anchor>//api/name/startMonitoring</Anchor>
             <NodeRef refid="146"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserActivityMonitor/stopMonitoring</TokenIdentifier>
+			<Abstract type="html">Stops the application monitoring process.</Abstract>
+			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
-			
-			
-			<Anchor>//api/name/pauseInAuth</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/initWithStepTimeDelaySecs:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithStepTimeDelaySecs:(NSTimeInterval)timeDelayInSecs</Declaration>
+			<Declaration>- (void)stopMonitoring</Declaration>
 			
 			
-			<Anchor>//api/name/initWithStepTimeDelaySecs:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/resumeAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (void)resumeAuth</Declaration>
-			
-			
-			<Anchor>//api/name/resumeAuth</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/waitForLaunchCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)waitForLaunchCompletion</Declaration>
-			
-			
-			<Anchor>//api/name/waitForLaunchCompletion</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/setUpUserSwitchState:toUser:completion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (void)setUpUserSwitchState:(SFUserAccount *)fromUser toUser:(SFUserAccount *)fromUser completion:(void ( ^ ) ( SFUserAccount *, SFUserAccount *, BOOL before ))switchUserCompletionBlock</Declaration>
-			
-			
-			<Anchor>//api/name/setUpUserSwitchState:toUser:completion:</Anchor>
-            <NodeRef refid="146"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/clearUserSwitchState</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
-			
-			<Declaration>- (void)clearUserSwitchState</Declaration>
-			
-			
-			<Anchor>//api/name/clearUserSwitchState</Anchor>
+			<Anchor>//api/name/stopMonitoring</Anchor>
             <NodeRef refid="146"/>
 		</Token>
 		

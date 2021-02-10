@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKBatchRequestBuilder.html">
+	<File path="Classes/SFSDKCompositeRequestBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchRequestBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeRequestBuilder</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="76"/>
@@ -13,23 +13,35 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/setHaltOnError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/setAllOrNone:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKBatchRequestBuilder *)setHaltOnError:(BOOL)haltOnError</Declaration>
+			<Declaration>- (SFSDKCompositeRequestBuilder *)setAllOrNone:(BOOL)allOrNone</Declaration>
 			
 			
-			<Anchor>//api/name/setHaltOnError:</Anchor>
+			<Anchor>//api/name/setAllOrNone:</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/addRequest:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/addRequest:referenceId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKBatchRequestBuilder *)addRequest:(SFRestRequest *)request</Declaration>
+			<Declaration>- (SFSDKCompositeRequestBuilder *)addRequest:(SFRestRequest *)request referenceId:(NSString *)referenceId</Declaration>
+			
+			
+			<Anchor>//api/name/addRequest:referenceId:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/addRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKCompositeRequestBuilder *)addRequest:(SFSDKCompositeSubRequest *)subRequest</Declaration>
 			
 			
 			<Anchor>//api/name/addRequest:</Anchor>
@@ -37,14 +49,14 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/buildBatchRequest:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/buildCompositeRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKBatchRequest *)buildBatchRequest:(NSString *)apiVersion</Declaration>
+			<Declaration>- (SFSDKCompositeRequest *)buildCompositeRequest:(NSString *)apiVersion</Declaration>
 			
 			
-			<Anchor>//api/name/buildBatchRequest:</Anchor>
+			<Anchor>//api/name/buildCompositeRequest:</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		

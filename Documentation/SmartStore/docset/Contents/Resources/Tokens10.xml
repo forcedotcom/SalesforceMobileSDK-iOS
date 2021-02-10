@@ -4,7 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStore</TokenIdentifier>
-			<Abstract type="html">Table to keep track of status of long operations in flight</Abstract>
+			<Abstract type="html">The columns of a soup table</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
             
 			
@@ -471,26 +471,6 @@ for the given user.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the soup is registered or already exists.</Abstract></ReturnValue>
 			<Anchor>//api/name/registerSoup:withIndexSpecs:error:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoup:withIndexSpecs:</TokenIdentifier>
-			<Abstract type="html">Creates a new soup or confirms the existence of an existing soup.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)registerSoup:(NSString *)soupName withIndexSpecs:(NSArray&lt;SFSoupIndex*&gt; *)indexSpecs</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The name of the soup to register.</Abstract>
-				</Parameter><Parameter>
-					<Name>indexSpecs</Name>
-					<Abstract type="html">Array of one or more SFSoupIndex objects.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the soup is registered or already exists.</Abstract></ReturnValue>
-			<Anchor>//api/name/registerSoup:withIndexSpecs:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

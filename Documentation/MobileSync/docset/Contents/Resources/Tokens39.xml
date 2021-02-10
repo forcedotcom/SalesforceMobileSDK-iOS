@@ -302,6 +302,35 @@ dictionary along the way.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncTarget/createLocalId</TokenIdentifier>
+			<Abstract type="html">Generate local id for record</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)createLocalId</Declaration>
+			
+			
+			<Anchor>//api/name/createLocalId</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSyncTarget/isLocalId:</TokenIdentifier>
+			<Abstract type="html">Check if record id was locally generated</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isLocalId:(NSString *)recordId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>recordId</Name>
+					<Abstract type="html">The record id</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if recordId was locally generated</Abstract></ReturnValue>
+			<Anchor>//api/name/isLocalId:</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/getIdsWithQuery:syncManager:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSyncTarget+Internal.h</DeclaredIn>

@@ -62,19 +62,15 @@
 		
 		<option value="//api/name/appType">appType</option>
 		
-		<option value="//api/name/delegates">delegates</option>
-		
-		<option value="//api/name/hasVerifiedPasscodeAtStartup">hasVerifiedPasscodeAtStartup</option>
-		
-		<option value="//api/name/inManagerForegroundProcess">inManagerForegroundProcess</option>
-		
 		<option value="//api/name/isDevSupportEnabled">isDevSupportEnabled</option>
-		
-		<option value="//api/name/launchActions">launchActions</option>
 		
 		<option value="//api/name/passcodeDisplayed">passcodeDisplayed</option>
 		
 		<option value="//api/name/sdkManagerFlow">sdkManagerFlow</option>
+		
+		<option value="//api/name/snapshotViewControllers">snapshotViewControllers</option>
+		
+		<option value="//api/name/useEphemeralSessionForAdvancedAuth">useEphemeralSessionForAdvancedAuth</option>
 		
 	</optgroup>
 	
@@ -86,8 +82,6 @@
 		
 		<option value="//api/name/initializeSDKWithClass:">+ initializeSDKWithClass:</option>
 		
-		<option value="//api/name/launchActionsStringRepresentation:">+ launchActionsStringRepresentation:</option>
-		
 		<option value="//api/name/setInstanceClass:">+ setInstanceClass:</option>
 		
 	</optgroup>
@@ -96,13 +90,9 @@
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/addDelegate:">- addDelegate:</option>
-		
-		<option value="//api/name/authValidatedToPostAuth:">- authValidatedToPostAuth:</option>
-		
 		<option value="//api/name/deviceId">- deviceId</option>
 		
-		<option value="//api/name/dismissSnapshot">- dismissSnapshot</option>
+		<option value="//api/name/dismissSnapshot:completion:">- dismissSnapshot:completion:</option>
 		
 		<option value="//api/name/getAppTypeAsString">- getAppTypeAsString</option>
 		
@@ -110,15 +100,9 @@
 		
 		<option value="//api/name/getDevSupportInfos">- getDevSupportInfos</option>
 		
-		<option value="//api/name/isSnapshotPresented">- isSnapshotPresented</option>
+		<option value="//api/name/isSnapshotPresented:">- isSnapshotPresented:</option>
 		
-		<option value="//api/name/launch">- launch</option>
-		
-		<option value="//api/name/passcodeValidatedToAuthValidation">- passcodeValidatedToAuthValidation</option>
-		
-		<option value="//api/name/presentSnapshot">- presentSnapshot</option>
-		
-		<option value="//api/name/removeDelegate:">- removeDelegate:</option>
+		<option value="//api/name/presentSnapshot:">- presentSnapshot:</option>
 		
 		<option value="//api/name/showDevSupportDialog:">- showDevSupportDialog:</option>
 		
@@ -442,8 +426,8 @@ backgrounding and foregrounding state.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/launch" title="launch"></a>
-	<h3 class="method-title"><code><a href="#//api/name/launch">&ndash;&nbsp;launch</a></code>
+	<a name="//api/name/useEphemeralSessionForAdvancedAuth" title="useEphemeralSessionForAdvancedAuth"></a>
+	<h3 class="method-title"><code><a href="#//api/name/useEphemeralSessionForAdvancedAuth">&nbsp;&nbsp;useEphemeralSessionForAdvancedAuth</a></code>
 </h3>
 
 	<div class="method-info">
@@ -453,24 +437,16 @@ backgrounding and foregrounding state.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to
-authenticate if the current user is not already authenticated.  @see postLaunchAction, launchErrorAction,
-postLogoutAction, and switchUserAction for callbacks that can be set for handling post launch
-actions.</p>
+				<p>Use this flag to indicate if advanced authentication should use an ephemeral web session. Defaults to YES.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)launch</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL useEphemeralSessionForAdvancedAuth</code></div>
 
 		    
 			
 
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if the launch successfully kicks off, NO if launch is already running.</p>
-			</div>
 			
 
 			
@@ -598,170 +574,6 @@ actions.</p>
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
 				<p>app type as a string</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/addDelegate:" title="addDelegate:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/addDelegate:">&ndash;&nbsp;addDelegate:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Adds an SDK Manager delegate to the list of <a href="#//api/name/delegates">delegates</a>.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)addDelegate:(id&lt;SalesforceSDKManagerDelegate&gt;)<em>delegate</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>delegate</code></th>
-						<td><p>The delegate to add.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeDelegate:" title="removeDelegate:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeDelegate:">&ndash;&nbsp;removeDelegate:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Removes an SDK Manager delegate from the list of <a href="#//api/name/delegates">delegates</a>.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)removeDelegate:(id&lt;SalesforceSDKManagerDelegate&gt;)<em>delegate</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>delegate</code></th>
-						<td><p>The delegate to remove.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/launchActionsStringRepresentation:" title="launchActionsStringRepresentation:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/launchActionsStringRepresentation:">+&nbsp;launchActionsStringRepresentation:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Bit-coded descriptor of actions taken during <a href="#//api/name/launch">launch</a>.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)<em>launchActions</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>launchActions</code></th>
-						<td><p>Bit-coded descriptor of actions taken during <a href="#//api/name/launch">launch</a>.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A log-friendly string of the <a href="#//api/name/launch">launch</a> actions that were taken, given in postLaunchAction.</p>
 			</div>
 			
 
@@ -964,8 +776,8 @@ actions.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/hasVerifiedPasscodeAtStartup" title="hasVerifiedPasscodeAtStartup"></a>
-	<h3 class="method-title"><code><a href="#//api/name/hasVerifiedPasscodeAtStartup">&nbsp;&nbsp;hasVerifiedPasscodeAtStartup</a></code>
+	<a name="//api/name/snapshotViewControllers" title="snapshotViewControllers"></a>
+	<h3 class="method-title"><code><a href="#//api/name/snapshotViewControllers">&nbsp;&nbsp;snapshotViewControllers</a></code>
 </h3>
 
 	<div class="method-info">
@@ -974,39 +786,7 @@ actions.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL hasVerifiedPasscodeAtStartup</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/launchActions" title="launchActions"></a>
-	<h3 class="method-title"><code><a href="#//api/name/launchActions">&nbsp;&nbsp;launchActions</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFSDKLaunchAction launchActions</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/delegates" title="delegates"></a>
-	<h3 class="method-title"><code><a href="#//api/name/delegates">&nbsp;&nbsp;delegates</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SalesforceSDKManagerDelegate&gt; &gt; *delegates</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary&lt;NSString*UIViewController*&gt; *snapshotViewControllers</code></div>
 
 		    
 		</div>
@@ -1028,8 +808,8 @@ actions.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/inManagerForegroundProcess" title="inManagerForegroundProcess"></a>
-	<h3 class="method-title"><code><a href="#//api/name/inManagerForegroundProcess">&nbsp;&nbsp;inManagerForegroundProcess</a></code>
+	<a name="//api/name/presentSnapshot:" title="presentSnapshot:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/presentSnapshot:">&ndash;&nbsp;presentSnapshot:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1038,14 +818,14 @@ actions.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, getter=isInManagerForegroundProcess) BOOL inManagerForegroundProcess</code></div>
+			<div class="method-subsection method-declaration"><code>- (void)presentSnapshot:(nonnull UIScene *)<em>scene</em></code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/passcodeValidatedToAuthValidation" title="passcodeValidatedToAuthValidation"></a>
-	<h3 class="method-title"><code><a href="#//api/name/passcodeValidatedToAuthValidation">&ndash;&nbsp;passcodeValidatedToAuthValidation</a></code>
+	<a name="//api/name/isSnapshotPresented:" title="isSnapshotPresented:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isSnapshotPresented:">&ndash;&nbsp;isSnapshotPresented:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1054,14 +834,14 @@ actions.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)passcodeValidatedToAuthValidation</code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)isSnapshotPresented:(nonnull UIScene *)<em>scene</em></code></div>
 
 		    
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/authValidatedToPostAuth:" title="authValidatedToPostAuth:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/authValidatedToPostAuth:">&ndash;&nbsp;authValidatedToPostAuth:</a></code>
+	<a name="//api/name/dismissSnapshot:completion:" title="dismissSnapshot:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/dismissSnapshot:completion:">&ndash;&nbsp;dismissSnapshot:completion:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1070,55 +850,7 @@ actions.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)authValidatedToPostAuth:(SFSDKLaunchAction)<em>launchAction</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/presentSnapshot" title="presentSnapshot"></a>
-	<h3 class="method-title"><code><a href="#//api/name/presentSnapshot">&ndash;&nbsp;presentSnapshot</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)presentSnapshot</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/isSnapshotPresented" title="isSnapshotPresented"></a>
-	<h3 class="method-title"><code><a href="#//api/name/isSnapshotPresented">&ndash;&nbsp;isSnapshotPresented</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)isSnapshotPresented</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/dismissSnapshot" title="dismissSnapshot"></a>
-	<h3 class="method-title"><code><a href="#//api/name/dismissSnapshot">&ndash;&nbsp;dismissSnapshot</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)dismissSnapshot</code></div>
+			<div class="method-subsection method-declaration"><code>- (void)dismissSnapshot:(nonnull UIScene *)<em>scene</em> completion:(void ( ^ __nullable ) ( void ))<em>completion</em></code></div>
 
 		    
 		</div>
@@ -1138,7 +870,7 @@ actions.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 Salesforce.com. All rights reserved. Updated: 2020-09-30</p>
+						<p class="copyright">Copyright &copy; 2021 Salesforce.com. All rights reserved. Updated: 2021-02-10</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAlertMessage.html">
+	<File path="Classes/SFSDKAppConfig.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAlertMessage</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAppConfig</TokenIdentifier>
+			<Abstract type="html">Contains this app&apos;s OAuth configuration as defined in the developer&apos;s Salesforce connected app.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="53"/>
@@ -13,242 +13,262 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setAlertTitle:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setRemoteAccessConsumerKey:</TokenIdentifier>
+			<Abstract type="html">The Connected App key associated with this application.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *alertTitle</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *remoteAccessConsumerKey</Declaration>
 			
 			
-			<Anchor>//api/name/alertTitle</Anchor>
+			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/alertTitle</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/remoteAccessConsumerKey</TokenIdentifier>
+			<Abstract type="html">The Connected App key associated with this application.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *alertTitle</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *remoteAccessConsumerKey</Declaration>
 			
 			
-			<Anchor>//api/name/alertTitle</Anchor>
+			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/alertTitle</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/remoteAccessConsumerKey</TokenIdentifier>
+			<Abstract type="html">The Connected App key associated with this application.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *alertTitle</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *remoteAccessConsumerKey</Declaration>
 			
 			
-			<Anchor>//api/name/alertTitle</Anchor>
+			<Anchor>//api/name/remoteAccessConsumerKey</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setAlertMessage:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setOauthRedirectURI:</TokenIdentifier>
+			<Abstract type="html">The OAuth Redirect URI associated with the configured Connected Application.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *alertMessage</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *oauthRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/alertMessage</Anchor>
+			<Anchor>//api/name/oauthRedirectURI</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/alertMessage</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/oauthRedirectURI</TokenIdentifier>
+			<Abstract type="html">The OAuth Redirect URI associated with the configured Connected Application.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *alertMessage</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *oauthRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/alertMessage</Anchor>
+			<Anchor>//api/name/oauthRedirectURI</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/alertMessage</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/oauthRedirectURI</TokenIdentifier>
+			<Abstract type="html">The OAuth Redirect URI associated with the configured Connected Application.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *alertMessage</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *oauthRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/alertMessage</Anchor>
+			<Anchor>//api/name/oauthRedirectURI</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setActionOneTitle:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setOauthScopes:</TokenIdentifier>
+			<Abstract type="html">The OAuth Scopes being requested for this app.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *actionOneTitle</Declaration>
+			<Declaration>@property (nonatomic, strong) NSSet&lt;NSString*&gt; *oauthScopes</Declaration>
 			
 			
-			<Anchor>//api/name/actionOneTitle</Anchor>
+			<Anchor>//api/name/oauthScopes</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/actionOneTitle</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/oauthScopes</TokenIdentifier>
+			<Abstract type="html">The OAuth Scopes being requested for this app.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *actionOneTitle</Declaration>
+			<Declaration>@property (nonatomic, strong) NSSet&lt;NSString*&gt; *oauthScopes</Declaration>
 			
 			
-			<Anchor>//api/name/actionOneTitle</Anchor>
+			<Anchor>//api/name/oauthScopes</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/actionOneTitle</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/oauthScopes</TokenIdentifier>
+			<Abstract type="html">The OAuth Scopes being requested for this app.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *actionOneTitle</Declaration>
+			<Declaration>@property (nonatomic, strong) NSSet&lt;NSString*&gt; *oauthScopes</Declaration>
 			
 			
-			<Anchor>//api/name/actionOneTitle</Anchor>
+			<Anchor>//api/name/oauthScopes</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setActionTwoTitle:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/set:</TokenIdentifier>
+			<Abstract type="html">Whether or not this app should authenticate when it first starts.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *actionTwoTitle</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL shouldAuthenticate NS_SWIFT_NAME ( shouldAuthenticateOnFirstLaunch )</Declaration>
 			
 			
-			<Anchor>//api/name/actionTwoTitle</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/actionTwoTitle</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/)</TokenIdentifier>
+			<Abstract type="html">Whether or not this app should authenticate when it first starts.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *actionTwoTitle</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL shouldAuthenticate NS_SWIFT_NAME ( shouldAuthenticateOnFirstLaunch )</Declaration>
 			
 			
-			<Anchor>//api/name/actionTwoTitle</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/actionTwoTitle</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/)</TokenIdentifier>
+			<Abstract type="html">Whether or not this app should authenticate when it first starts.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *actionTwoTitle</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL shouldAuthenticate NS_SWIFT_NAME ( shouldAuthenticateOnFirstLaunch )</Declaration>
 			
 			
-			<Anchor>//api/name/actionTwoTitle</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setActionOneCompletion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/setConfigDict:</TokenIdentifier>
+			<Abstract type="html">The config as a dictionary</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionOneCompletion</Declaration>
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *configDict</Declaration>
 			
 			
-			<Anchor>//api/name/actionOneCompletion</Anchor>
+			<Anchor>//api/name/configDict</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/actionOneCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/configDict</TokenIdentifier>
+			<Abstract type="html">The config as a dictionary</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionOneCompletion</Declaration>
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *configDict</Declaration>
 			
 			
-			<Anchor>//api/name/actionOneCompletion</Anchor>
+			<Anchor>//api/name/configDict</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/actionOneCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppConfig/configDict</TokenIdentifier>
+			<Abstract type="html">The config as a dictionary</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionOneCompletion</Declaration>
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *configDict</Declaration>
 			
 			
-			<Anchor>//api/name/actionOneCompletion</Anchor>
+			<Anchor>//api/name/configDict</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/setActionTwoCompletion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/initWithDict:</TokenIdentifier>
+			<Abstract type="html">Initializer with a given JSON-based configuration dictionary.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
+			<Declaration>- (nullable instancetype)initWithDict:(nullable NSDictionary *)configDict</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>configDict</Name>
+					<Abstract type="html">The dictionary containing the configuration.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/actionTwoCompletion</Anchor>
+			<Anchor>//api/name/initWithDict:</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/actionTwoCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/initWithConfigFile:</TokenIdentifier>
+			<Abstract type="html">Initializer with a given a config file.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
+			<Declaration>- (nullable instancetype)initWithConfigFile:(NSString *)configFile</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>configFile</Name>
+					<Abstract type="html">The path to config file</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/actionTwoCompletion</Anchor>
+			<Anchor>//api/name/initWithConfigFile:</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertMessage/actionTwoCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppConfig/validate:</TokenIdentifier>
+			<Abstract type="html">Validate the app config inputs.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) void ( ^ ) ( void ) actionTwoCompletion</Declaration>
-			
-			
-			<Anchor>//api/name/actionTwoCompletion</Anchor>
+			<Declaration>- (BOOL)validate:(NSError *_Nullable *_Nullable)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with validation, if an error occurs.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if validation was successful, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/validate:</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertMessage/initWithBuilder:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppConfig/fromDefaultConfigFile</TokenIdentifier>
+			<Abstract type="html">The app config from the default configuration file location.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithBuilder:(SFSDKAlertMessageBuilder *)builder</Declaration>
+			<Declaration>+ (nullable instancetype)fromDefaultConfigFile</Declaration>
 			
-			
-			<Anchor>//api/name/initWithBuilder:</Anchor>
+			<ReturnValue><Abstract type="html">The app config from the default configuration file location.</Abstract></ReturnValue>
+			<Anchor>//api/name/fromDefaultConfigFile</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAlertMessage/messageWithBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertMessage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppConfig/fromConfigFile:</TokenIdentifier>
+			<Abstract type="html">Create an app config from the config file at the specified file path.</Abstract>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKAlertMessage *)messageWithBlock:(void ( ^ ) ( SFSDKAlertMessageBuilder *))builderBlock</Declaration>
-			
-			
-			<Anchor>//api/name/messageWithBlock:</Anchor>
+			<Declaration>+ (nullable instancetype)fromConfigFile:(NSString *)configFilePath</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>configFilePath</Name>
+					<Abstract type="html">The file path to the configuration file, relative to the resources root path.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The app config from the given file path.</Abstract></ReturnValue>
+			<Anchor>//api/name/fromConfigFile:</Anchor>
             <NodeRef refid="53"/>
 		</Token>
 		

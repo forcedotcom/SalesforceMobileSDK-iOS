@@ -1,136 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPasscodeVerifyController.html">
+	<File path="Classes/SFSDKRootController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPasscodeVerifyController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKRootController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
+			<DeclaredIn>SFSDKRootController.h</DeclaredIn>
             
 			
 			<NodeRef refid="115"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setViewConfig:</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/viewConfig</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/viewConfig</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setPasscodeLengthKnown:</TokenIdentifier>
-			<Abstract type="html">Wether the passcode length is known.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLengthKnown</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/passcodeLengthKnown</TokenIdentifier>
-			<Abstract type="html">Wether the passcode length is known.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLengthKnown</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/passcodeLengthKnown</TokenIdentifier>
-			<Abstract type="html">Wether the passcode length is known.</Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL passcodeLengthKnown</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeLengthKnown</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/setVerifyDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/verifyDelegate</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/verifyDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/verifyDelegate</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeVerifyController/verifyDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeVerifyDelegate&gt; verifyDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/verifyDelegate</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeVerifyController/initWithViewConfig:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
-			
-			
-			<Anchor>//api/name/initWithViewConfig:</Anchor>
-            <NodeRef refid="115"/>
-		</Token>
 		
         
         

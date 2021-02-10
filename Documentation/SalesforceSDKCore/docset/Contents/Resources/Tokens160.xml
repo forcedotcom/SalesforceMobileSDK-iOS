@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSArray+SFAdditions.html">
+	<File path="Categories/NSData+SFSHA.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSArray(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Provides Salesforce Mobile SDK filtering for NSArray objects.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSHA)</TokenIdentifier>
+			<Abstract type="html">Provides MD5 conversion support.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="160"/>
@@ -13,59 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithElementsOfClass:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements are guaranteed to be instances of the given class.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha1</TokenIdentifier>
+			<Abstract type="html">Derives  a  sha1  hex encoded string.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>aClass</Name>
-					<Abstract type="html">The class to filter on.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An array whose elements are all of the given type (or a subtype).</Abstract></ReturnValue>
-			<Anchor>//api/name/filteredArrayWithElementsOfClass:</Anchor>
+			<Declaration>- (NSString *)sha1</Declaration>
+			
+			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sha1</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements have a given value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha224</TokenIdentifier>
+			<Abstract type="html">Derives  a  sha224  hex encoded string.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithValue:(id)value forKeyPath:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSString *)sha224</Declaration>
 			
-			<Anchor>//api/name/filteredArrayWithValue:forKeyPath:</Anchor>
+			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sha224</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayExcludingValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements exclude a given value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha256</TokenIdentifier>
+			<Abstract type="html">Derives  a  sha256  hex encoded string.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayExcludingValue:(id)value forKeyPath:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSString *)sha256</Declaration>
 			
-			<Anchor>//api/name/filteredArrayExcludingValue:forKeyPath:</Anchor>
+			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sha256</Anchor>
             <NodeRef refid="160"/>
 		</Token>
 		

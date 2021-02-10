@@ -76,7 +76,9 @@
 		
 		<option value="//api/name/authPreferences">authPreferences</option>
 		
-		<option value="//api/name/authSession">authSession</option>
+		<option value="//api/name/authSessions">authSessions</option>
+		
+		<option value="//api/name/authViewHandler">authViewHandler</option>
 		
 		<option value="//api/name/brandLoginPath">brandLoginPath</option>
 		
@@ -110,12 +112,6 @@
 	
 
 	
-	<optgroup label="Class Methods">
-		
-		<option value="//api/name/errorIsInvalidAuthCredentials:">+ errorIsInvalidAuthCredentials:</option>
-		
-	</optgroup>
-	
 
 	
 	<optgroup label="Instance Methods">
@@ -140,14 +136,6 @@
 		
 		<option value="//api/name/applyCredentials:withIdData:">- applyCredentials:withIdData:</option>
 		
-		<option value="//api/name/applyCredentials:withIdData:andNotification:">- applyCredentials:withIdData:andNotification:</option>
-		
-		<option value="//api/name/applyIdData:forUser:">- applyIdData:forUser:</option>
-		
-		<option value="//api/name/applyIdDataCustomAttributes:forUser:">- applyIdDataCustomAttributes:forUser:</option>
-		
-		<option value="//api/name/applyIdDataCustomPermissions:forUser:">- applyIdDataCustomPermissions:forUser:</option>
-		
 		<option value="//api/name/authenticateUsingIDP:completion:failure:">- authenticateUsingIDP:completion:failure:</option>
 		
 		<option value="//api/name/authenticateWithRequest:completion:failure:">- authenticateWithRequest:completion:failure:</option>
@@ -166,13 +154,11 @@
 		
 		<option value="//api/name/deviceHasBiometric">- deviceHasBiometric</option>
 		
-		<option value="//api/name/dismissAuthViewControllerIfPresent">- dismissAuthViewControllerIfPresent</option>
-		
 		<option value="//api/name/encodeUserIdentity:">- encodeUserIdentity:</option>
 		
 		<option value="//api/name/enumerateDelegates:">- enumerateDelegates:</option>
 		
-		<option value="//api/name/handleAdvancedAuthURL:">- handleAdvancedAuthURL:</option>
+		<option value="//api/name/handleAdvancedAuthURL:options:">- handleAdvancedAuthURL:options:</option>
 		
 		<option value="//api/name/handleAuthRequestFromSPApp:">- handleAuthRequestFromSPApp:</option>
 		
@@ -182,11 +168,13 @@
 		
 		<option value="//api/name/handleIdpInitiatedAuth:">- handleIdpInitiatedAuth:</option>
 		
-		<option value="//api/name/handleIdpResponse:">- handleIdpResponse:</option>
+		<option value="//api/name/handleIdpResponse:sceneId:">- handleIdpResponse:sceneId:</option>
 		
 		<option value="//api/name/loadAccounts:">- loadAccounts:</option>
 		
 		<option value="//api/name/loginWithCompletion:failure:">- loginWithCompletion:failure:</option>
+		
+		<option value="//api/name/loginWithCompletion:failure:scene:">- loginWithCompletion:failure:scene:</option>
 		
 		<option value="//api/name/loginWithJwtToken:completion:failure:">- loginWithJwtToken:completion:failure:</option>
 		
@@ -206,8 +194,6 @@
 		
 		<option value="//api/name/removeDelegate:">- removeDelegate:</option>
 		
-		<option value="//api/name/restartAuthentication">- restartAuthentication</option>
-		
 		<option value="//api/name/saveAccountForUser:error:">- saveAccountForUser:error:</option>
 		
 		<option value="//api/name/setCurrentUserInternal:">- setCurrentUserInternal:</option>
@@ -225,8 +211,6 @@
 		<option value="//api/name/userAccountForUserIdentity:">- userAccountForUserIdentity:</option>
 		
 		<option value="//api/name/userAccountsForDomain:">- userAccountsForDomain:</option>
-		
-		<option value="//api/name/userChanged:change:">- userChanged:change:</option>
 		
 	</optgroup>
 	
@@ -1609,363 +1593,6 @@ the user parameter is found, no action will be taken, and deletion will be repor
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/applyCredentials:" title="applyCredentials:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyCredentials:">&ndash;&nbsp;applyCredentials:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Invoke this method to apply the specified credentials to the
-a user whose credentials match. If no user exists, a new one is created. Fire notifications.
-This will post user update notification.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>credentials</code></th>
-						<td><p>The credentials to apply</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/applyCredentials:withIdData:" title="applyCredentials:withIdData:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyCredentials:withIdData:">&ndash;&nbsp;applyCredentials:withIdData:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Invoke this method to apply the specified credentials to the
-a user whose credentials match. If no user exists, a new one is created. Fire notifications.
-This will post user update notification.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)<em>credentials</em> withIdData:(nullable SFIdentityData *)<em>identityData</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>credentials</code></th>
-						<td><p>The credentials to apply</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>identityData</code></th>
-						<td><p>The identityData to apply</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/applyCredentials:withIdData:andNotification:" title="applyCredentials:withIdData:andNotification:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyCredentials:withIdData:andNotification:">&ndash;&nbsp;applyCredentials:withIdData:andNotification:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Invoke this method to apply the specified credentials to the
-a user whose credentials match. If no user exists, a new one is created.
-This will post user update notification.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)<em>credentials</em> withIdData:(nullable SFIdentityData *)<em>identityData</em> andNotification:(BOOL)<em>shouldSendNotification</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>credentials</code></th>
-						<td><p>The credentials to apply</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>identityData</code></th>
-						<td><p>The identityData to apply</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>shouldSendNotification</code></th>
-						<td><p>whether to post notifications.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/applyIdData:forUser:" title="applyIdData:forUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyIdData:forUser:">&ndash;&nbsp;applyIdData:forUser:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Invoke this method to apply the specified id data to the
-  user. This will post user update notification.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)applyIdData:(SFIdentityData *)<em>idData</em> forUser:(SFUserAccount *)<em>userAccount</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>idData</code></th>
-						<td><p>The ID data to apply</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>userAccount</code></th>
-						<td><p>The <a href="../Classes/SFUserAccount.html">SFUserAccount</a> to apply this change to.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/applyIdDataCustomAttributes:forUser:" title="applyIdDataCustomAttributes:forUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyIdDataCustomAttributes:forUser:">&ndash;&nbsp;applyIdDataCustomAttributes:forUser:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>This method will selectively update the custom attributes identity data for the  user.
-Other identity data will not be impacted.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)applyIdDataCustomAttributes:(NSDictionary *)<em>customAttributes</em> forUser:(SFUserAccount *)<em>user</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>customAttributes</code></th>
-						<td><p>The new custom attributes data to update in the identity data.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>The <a href="../Classes/SFUserAccount.html">SFUserAccount</a> to apply this change to.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/applyIdDataCustomPermissions:forUser:" title="applyIdDataCustomPermissions:forUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/applyIdDataCustomPermissions:forUser:">&ndash;&nbsp;applyIdDataCustomPermissions:forUser:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>This method will selectively update the custom permissions identity data for the  user.
-Other identity data will not be impacted.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)applyIdDataCustomPermissions:(NSDictionary *)<em>customPermissions</em> forUser:(SFUserAccount *)<em>user</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>customPermissions</code></th>
-						<td><p>The new custom permissions data to update in the identity data.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>The <a href="../Classes/SFUserAccount.html">SFUserAccount</a> to apply this change to.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/setObjectForUserCustomData:forKey:andUser:" title="setObjectForUserCustomData:forKey:andUser:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/setObjectForUserCustomData:forKey:andUser:">&ndash;&nbsp;setObjectForUserCustomData:forKey:andUser:</a></code>
 </h3>
@@ -2101,64 +1728,6 @@ invoked if the login flow completes, or if any errors are encountered during the
 					<tr>
 						<th scope="row" class="argument-name"><code>userAccount</code></th>
 						<td><p>The user to switch to.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/userChanged:change:" title="userChanged:change:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/userChanged:change:">&ndash;&nbsp;userChanged:change:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Invoke this method to inform this manager that something has changed for the  user.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)userChanged:(SFUserAccount *)<em>user</em> change:(SFUserAccountDataChange)<em>change</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>The user</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>change</code></th>
-						<td><p>The type of change (enum type). Use <a href="../Constants/SFUserAccountDataChange.html">SFUserAccountDataChange</a>.</p></td>
 					</tr>
 				
 				</table>
@@ -2581,48 +2150,6 @@ current app state.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/dismissAuthViewControllerIfPresent" title="dismissAuthViewControllerIfPresent"></a>
-	<h3 class="method-title"><code><a href="#//api/name/dismissAuthViewControllerIfPresent">&ndash;&nbsp;dismissAuthViewControllerIfPresent</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Dismisses the auth view controller, resetting the UI state back to its original
-presentation.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)dismissAuthViewControllerIfPresent</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/handleIDPAuthenticationResponse:options:" title="handleIDPAuthenticationResponse:options:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/handleIDPAuthenticationResponse:options:">&ndash;&nbsp;handleIDPAuthenticationResponse:options:</a></code>
 </h3>
@@ -2661,146 +2188,6 @@ presentation.</p>
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
 				<p>YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/alertDisplayBlock" title="alertDisplayBlock"></a>
-	<h3 class="method-title"><code><a href="#//api/name/alertDisplayBlock">&nbsp;&nbsp;alertDisplayBlock</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Change this block to handle all alerts  required by the SFUserAccountManager.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nonnull) void ( ^ ) ( SFSDKAlertMessage *, SFSDKWindowContainer *) ( &quot;&quot; ) ( 8.3 , 9.0 , &quot;Will be removed.&quot; ) alertDisplayBlock</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/authCancelledByUserHandlerBlock" title="authCancelledByUserHandlerBlock"></a>
-	<h3 class="method-title"><code><a href="#//api/name/authCancelledByUserHandlerBlock">&nbsp;&nbsp;authCancelledByUserHandlerBlock</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Change this block to customize behavior for user initiated auth cancellation</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) ( &quot;&quot; ) ( 8.3 , 9.0 , &quot;Will be removed.&quot; ) authCancelledByUserHandlerBlock</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/errorIsInvalidAuthCredentials:" title="errorIsInvalidAuthCredentials:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/errorIsInvalidAuthCredentials:">+&nbsp;errorIsInvalidAuthCredentials:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Determines whether an error is due to invalid auth credentials.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)<em>error</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>error</code></th>
-						<td><p>The error to check against an invalid credentials error.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if the error is due to invalid credentials, NO otherwise.</p>
 			</div>
 			
 
@@ -2961,6 +2348,251 @@ presentation.</p>
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
 				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="URLHandlers Methods" name="task_URLHandlers Methods"></a>
+						<h2 class="task-title">URLHandlers Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/handleIdpAuthError:" title="handleIdpAuthError:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpAuthError:">&ndash;&nbsp;handleIdpAuthError:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an error situation that occured in the IDP flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)<em>command</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>command</code></th>
+						<td><p>The Error URL request from the idp or SP App.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleIdpInitiatedAuth:" title="handleIdpInitiatedAuth:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpInitiatedAuth:">&ndash;&nbsp;handleIdpInitiatedAuth:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an IDP initiated auth flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *_Nonnull)<em>command</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>command</code></th>
+						<td><p>The URL request from the IDP APP.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleAuthRequestFromSPApp:" title="handleAuthRequestFromSPApp:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleAuthRequestFromSPApp:">&ndash;&nbsp;handleAuthRequestFromSPApp:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an IDP request initiated from an SP APP.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleAuthRequestFromSPApp:(SFSDKAuthRequestCommand *_Nonnull)<em>request</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>The  request from the SP APP.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleIdpResponse:sceneId:" title="handleIdpResponse:sceneId:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpResponse:sceneId:">&ndash;&nbsp;handleIdpResponse:sceneId:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an IDP response received from an IDP APP.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)<em>response</em> sceneId:(nullable NSString *)<em>sceneId</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>response</code></th>
+						<td><p>The URL response from the IDP APP.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sceneId</code></th>
+						<td><p>The identifier for the scene that&rsquo;s handling the response.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
 			</div>
 			
 			
@@ -3155,6 +2787,38 @@ presentation.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/alertDisplayBlock" title="alertDisplayBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/alertDisplayBlock">&nbsp;&nbsp;alertDisplayBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nonnull) void ( ^ ) ( SFSDKAlertMessage *, SFSDKWindowContainer *) alertDisplayBlock</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authCancelledByUserHandlerBlock" title="authCancelledByUserHandlerBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authCancelledByUserHandlerBlock">&nbsp;&nbsp;authCancelledByUserHandlerBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) authCancelledByUserHandlerBlock</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/errorManager" title="errorManager"></a>
 	<h3 class="method-title"><code><a href="#//api/name/errorManager">&nbsp;&nbsp;errorManager</a></code>
 </h3>
@@ -3196,8 +2860,24 @@ presentation.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/authSession" title="authSession"></a>
-	<h3 class="method-title"><code><a href="#//api/name/authSession">&nbsp;&nbsp;authSession</a></code>
+	<a name="//api/name/authSessions" title="authSessions"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authSessions">&nbsp;&nbsp;authSessions</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary&lt;NSString*SFSDKAuthSession*&gt; *authSessions</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/useBrowserAuth" title="useBrowserAuth"></a>
+	<h3 class="method-title"><code><a href="#//api/name/useBrowserAuth">&nbsp;&nbsp;useBrowserAuth</a></code>
 </h3>
 
 	<div class="method-info">
@@ -3207,12 +2887,12 @@ presentation.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p><a href="../Classes/SFSDKAlertView.html">SFSDKAlertView</a> used to wrap display of SFSDKMessage using an AlertController.</p>
+				<p>Indicates if the app is configured to require browser based authentication.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) SFSDKAuthSession *authSession</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL useBrowserAuth</code></div>
 
 		    
 			
@@ -3237,8 +2917,8 @@ presentation.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/useBrowserAuth" title="useBrowserAuth"></a>
-	<h3 class="method-title"><code><a href="#//api/name/useBrowserAuth">&nbsp;&nbsp;useBrowserAuth</a></code>
+	<a name="//api/name/authViewHandler" title="authViewHandler"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authViewHandler">&nbsp;&nbsp;authViewHandler</a></code>
 </h3>
 
 	<div class="method-info">
@@ -3248,12 +2928,12 @@ presentation.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Indicates if the app is configured to require browser based authentication.</p>
+				<p>Set this block to handle presentation of the Authentication View Controller.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL useBrowserAuth</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler</code></div>
 
 		    
 			
@@ -3596,6 +3276,121 @@ presentation.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/applyCredentials:" title="applyCredentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/applyCredentials:">&ndash;&nbsp;applyCredentials:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Invoke this method to apply the specified credentials to the
+a user whose credentials match. If no user exists, a new one is created. Fire notifications.
+This will post user update notification.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>The credentials to apply</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/applyCredentials:withIdData:" title="applyCredentials:withIdData:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/applyCredentials:withIdData:">&ndash;&nbsp;applyCredentials:withIdData:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Invoke this method to apply the specified credentials to the
+a user whose credentials match. If no user exists, a new one is created. Fire notifications.
+This will post user update notification.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)<em>credentials</em> withIdData:(nullable SFIdentityData *)<em>identityData</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>The credentials to apply</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>identityData</code></th>
+						<td><p>The identityData to apply</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/encodeUserIdentity:" title="encodeUserIdentity:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/encodeUserIdentity:">&ndash;&nbsp;encodeUserIdentity:</a></code>
 </h3>
@@ -3712,8 +3507,8 @@ presentation.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/handleAdvancedAuthURL:" title="handleAdvancedAuthURL:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/handleAdvancedAuthURL:">&ndash;&nbsp;handleAdvancedAuthURL:</a></code>
+	<a name="//api/name/handleAdvancedAuthURL:options:" title="handleAdvancedAuthURL:options:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleAdvancedAuthURL:options:">&ndash;&nbsp;handleAdvancedAuthURL:options:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -3722,23 +3517,7 @@ presentation.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)handleAdvancedAuthURL:(NSURL *)<em>advancedAuthURL</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/restartAuthentication" title="restartAuthentication"></a>
-	<h3 class="method-title"><code><a href="#//api/name/restartAuthentication">&ndash;&nbsp;restartAuthentication</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)restartAuthentication</code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleAdvancedAuthURL:(NSURL *)<em>advancedAuthURL</em> options:(nullable NSDictionary *)<em>options</em></code></div>
 
 		    
 		</div>
@@ -3791,75 +3570,9 @@ presentation.</p>
 		    
 		</div>
 	</div>
-</div>
-						</div>
-						
-
-						<a title="URLHandlers Methods" name="task_URLHandlers Methods"></a>
-						<h2 class="task-title">URLHandlers Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/handleIdpAuthError:" title="handleIdpAuthError:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/handleIdpAuthError:">&ndash;&nbsp;handleIdpAuthError:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Handle an error situation that occured in the IDP flow.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)<em>command</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>command</code></th>
-						<td><p>The Error URL request from the idp or SP App.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if this is request is handled, NO otherwise.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
 </div><div class="section-method">
-	<a name="//api/name/handleIdpInitiatedAuth:" title="handleIdpInitiatedAuth:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/handleIdpInitiatedAuth:">&ndash;&nbsp;handleIdpInitiatedAuth:</a></code>
+	<a name="//api/name/loginWithCompletion:failure:scene:" title="loginWithCompletion:failure:scene:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginWithCompletion:failure:scene:">&ndash;&nbsp;loginWithCompletion:failure:scene:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -3867,168 +3580,10 @@ presentation.</p>
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>Handle an IDP initiated auth flow.</p>
-			</div>
-			
-		    
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *_Nonnull)<em>command</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFUserAccountManagerFailureCallbackBlock)<em>failureBlock</em> scene:(nullable UIScene *)<em>scene</em></code></div>
 
 		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>command</code></th>
-						<td><p>The URL request from the IDP APP.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if this is request is handled, NO otherwise.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/handleAuthRequestFromSPApp:" title="handleAuthRequestFromSPApp:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/handleAuthRequestFromSPApp:">&ndash;&nbsp;handleAuthRequestFromSPApp:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Handle an IDP request initiated from an SP APP.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)handleAuthRequestFromSPApp:(SFSDKAuthRequestCommand *_Nonnull)<em>request</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>request</code></th>
-						<td><p>The  request from the SP APP.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if this request is handled, NO otherwise.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/handleIdpResponse:" title="handleIdpResponse:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/handleIdpResponse:">&ndash;&nbsp;handleIdpResponse:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Handle an IDP response received from an IDP APP.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)<em>response</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>response</code></th>
-						<td><p>The URL response from the IDP APP.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if this is request is handled, NO otherwise.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div>
@@ -4046,7 +3601,7 @@ presentation.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 Salesforce.com. All rights reserved. Updated: 2020-09-30</p>
+						<p class="copyright">Copyright &copy; 2021 Salesforce.com. All rights reserved. Updated: 2021-02-10</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,64 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKCompositeRequestBuilder.html">
+	<File path="Classes/SFSDKCoreLogger.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeRequestBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCoreLogger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCoreLogger.h</DeclaredIn>
             
 			
 			<NodeRef refid="80"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/setAllOrNone:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKCompositeRequestBuilder *)setAllOrNone:(BOOL)allOrNone</Declaration>
-			
-			
-			<Anchor>//api/name/setAllOrNone:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/addRequest:referenceId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKCompositeRequestBuilder *)addRequest:(SFRestRequest *)request referenceId:(NSString *)referenceId</Declaration>
-			
-			
-			<Anchor>//api/name/addRequest:referenceId:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/addRequest:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKCompositeRequestBuilder *)addRequest:(SFSDKCompositeSubRequest *)subRequest</Declaration>
-			
-			
-			<Anchor>//api/name/addRequest:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/buildCompositeRequest:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKCompositeRequest *)buildCompositeRequest:(NSString *)apiVersion</Declaration>
-			
-			
-			<Anchor>//api/name/buildCompositeRequest:</Anchor>
-            <NodeRef refid="80"/>
-		</Token>
 		
         
         

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKBatchRequest.html">
+	<File path="Classes/SFSDKCompositeRequest.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchRequest</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeRequest</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="75"/>
@@ -13,74 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/setHaltOnError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/setAllOrNone:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL allOrNone</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/allOrNone</Anchor>
             <NodeRef refid="75"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/haltOnError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/allOrNone</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL allOrNone</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/allOrNone</Anchor>
             <NodeRef refid="75"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchRequest/haltOnError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCompositeRequest/allOrNone</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL allOrNone</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/allOrNone</Anchor>
             <NodeRef refid="75"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/setBatchRequests:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/setAllSubRequests:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;SFSDKCompositeSubRequest*&gt; *allSubRequests</Declaration>
 			
 			
-			<Anchor>//api/name/batchRequests</Anchor>
+			<Anchor>//api/name/allSubRequests</Anchor>
             <NodeRef refid="75"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/batchRequests</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/allSubRequests</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;SFSDKCompositeSubRequest*&gt; *allSubRequests</Declaration>
 			
 			
-			<Anchor>//api/name/batchRequests</Anchor>
+			<Anchor>//api/name/allSubRequests</Anchor>
             <NodeRef refid="75"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchRequest/batchRequests</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCompositeRequest/allSubRequests</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;SFSDKCompositeSubRequest*&gt; *allSubRequests</Declaration>
 			
 			
-			<Anchor>//api/name/batchRequests</Anchor>
+			<Anchor>//api/name/allSubRequests</Anchor>
+            <NodeRef refid="75"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/addRequest:referenceId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)addRequest:(SFRestRequest *)request referenceId:(NSString *)identifier</Declaration>
+			
+			
+			<Anchor>//api/name/addRequest:referenceId:</Anchor>
             <NodeRef refid="75"/>
 		</Token>
 		

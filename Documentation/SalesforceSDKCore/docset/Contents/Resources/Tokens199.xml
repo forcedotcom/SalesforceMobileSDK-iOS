@@ -1,89 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionView.html">
+	<File path="Constants/SFAppLockControllerMode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAppLockControllerMode</TokenIdentifier>
+			<Abstract type="html">Mode constants indicating whether to create/verify an passcode or use biometric.</Abstract>
+			<DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
             
 			
 			<NodeRef refid="199"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setUserSelectionDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeCreatePasscode</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAppLockControllerModeCreatePasscode</Declaration>
+            
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            
             <NodeRef refid="199"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyPasscode</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAppLockControllerModeVerifyPasscode</Declaration>
+            
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            
             <NodeRef refid="199"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeChangePasscode</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAppLockControllerModeChangePasscode</Declaration>
+            
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            
             <NodeRef refid="199"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setSpAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeEnableBiometric</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAppLockControllerModeEnableBiometric</Declaration>
+            
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            
             <NodeRef refid="199"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyBiometric</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAppLockControllerModeVerifyBiometric</Declaration>
+            
+            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            
             <NodeRef refid="199"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="199"/>
-		</Token>
-		
+        </Token>
         
         
 	</File>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTestRequestListener.html">
+	<File path="Classes/SFSDKURLHandlerManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestRequestListener</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKURLHandlerManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="126"/>
@@ -13,159 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setDataResponse:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/canHandleRequest:options:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/canHandleRequest:options:</Anchor>
             <NodeRef refid="126"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/processRequest:options:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/processRequest:options:</Anchor>
             <NodeRef refid="126"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKURLHandlerManager/sharedInstance</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
-			
-			
-			<Anchor>//api/name/dataResponse</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setLastError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>+ (instancetype)sharedInstance</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/lastError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
-			
-			
-			<Anchor>//api/name/lastError</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/lastError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
-			
-			
-			<Anchor>//api/name/lastError</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setReturnStatus:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
-			
-			
-			<Anchor>//api/name/returnStatus</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
-			
-			
-			<Anchor>//api/name/returnStatus</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
-			
-			
-			<Anchor>//api/name/returnStatus</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setMaxWaitTime:</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
-			
-			
-			<Anchor>//api/name/maxWaitTime</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
-			
-			
-			<Anchor>//api/name/maxWaitTime</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
-			
-			
-			<Anchor>//api/name/maxWaitTime</Anchor>
-            <NodeRef refid="126"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/waitForCompletion</TokenIdentifier>
-			<Abstract type="html">Wait for the request to complete (success or fail)
-Waits for up to maxWaitTime.</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)waitForCompletion</Declaration>
-			
-			<ReturnValue><Abstract type="html">returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded</Abstract></ReturnValue>
-			<Anchor>//api/name/waitForCompletion</Anchor>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="126"/>
 		</Token>
 		

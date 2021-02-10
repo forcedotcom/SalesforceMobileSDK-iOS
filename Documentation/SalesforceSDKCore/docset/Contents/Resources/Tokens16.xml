@@ -123,7 +123,7 @@ safely used to identify a path on the disk.</Abstract>
 			<Abstract type="html">Returns the path to the directory type for the specified user.</Abstract>
 			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)directoryForUser:(nullable SFUserAccount *)account type:(NSSearchPathDirectory)type components:(nullable NSArray *)components</Declaration>
+			<Declaration>- (nullable NSString *)directoryForUser:(SFUserAccount *)account type:(NSSearchPathDirectory)type components:(nullable NSArray *)components</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>account</Name>
@@ -146,7 +146,7 @@ safely used to identify a path on the disk.</Abstract>
 			<Abstract type="html">Returns the path to the directory type for the current user and current community.</Abstract>
 			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
+			<Declaration>- (nullable NSString *)directoryOfCurrentUserForType:(NSSearchPathDirectory)type components:(nullable NSArray *)components</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>type</Name>
@@ -167,7 +167,7 @@ safely used to identify a path on the disk.</Abstract>
 return &quot;Library/Caches/&lt;bundleIdentifier&gt;/&quot;</Abstract>
 			<DeclaredIn>SFDirectoryManager.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)globalDirectoryOfType:(NSSearchPathDirectory)type components:(NSArray *)components</Declaration>
+			<Declaration>- (nullable NSString *)globalDirectoryOfType:(NSSearchPathDirectory)type components:(nullable NSArray *)components</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>type</Name>

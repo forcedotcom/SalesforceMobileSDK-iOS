@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKOAuth2.html">
+	<File path="Classes/SFSDKPasscodeCreateController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuth2</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPasscodeCreateController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
             
 			
 			<NodeRef refid="109"/>
@@ -13,62 +13,122 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/parseQueryString:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/setViewConfig:</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
 			
 			
-			<Anchor>//api/name/parseQueryString:</Anchor>
+			<Anchor>//api/name/viewConfig</Anchor>
             <NodeRef refid="109"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/parseQueryString:decodeParams:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/viewConfig</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query decodeParams:(BOOL)decodeParams</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
 			
 			
-			<Anchor>//api/name/parseQueryString:decodeParams:</Anchor>
+			<Anchor>//api/name/viewConfig</Anchor>
             <NodeRef refid="109"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/errorWithType:description:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeCreateController/viewConfig</TokenIdentifier>
+			<Abstract type="html">Setup passcode view related preferences.</Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
 			
 			
-			<Anchor>//api/name/errorWithType:description:</Anchor>
+			<Anchor>//api/name/viewConfig</Anchor>
             <NodeRef refid="109"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/errorWithType:description:underlyingError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/setUpdateMode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *_Nullable)underlyingError</Declaration>
+			<Declaration>@property (nonatomic) BOOL updateMode</Declaration>
 			
 			
-			<Anchor>//api/name/errorWithType:description:underlyingError:</Anchor>
+			<Anchor>//api/name/updateMode</Anchor>
             <NodeRef refid="109"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/timestampStringToDate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/updateMode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
 			
-			<Declaration>+ (NSDate *)timestampStringToDate:(NSString *)timestamp</Declaration>
+			<Declaration>@property (nonatomic) BOOL updateMode</Declaration>
 			
 			
-			<Anchor>//api/name/timestampStringToDate:</Anchor>
+			<Anchor>//api/name/updateMode</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeCreateController/updateMode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL updateMode</Declaration>
+			
+			
+			<Anchor>//api/name/updateMode</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/setCreateDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeCreateDelegate&gt; createDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/createDelegate</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/createDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeCreateDelegate&gt; createDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/createDelegate</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeCreateController/createDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeCreateDelegate&gt; createDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/createDelegate</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/initWithViewConfig:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
+			
+			
+			<Anchor>//api/name/initWithViewConfig:</Anchor>
             <NodeRef refid="109"/>
 		</Token>
 		

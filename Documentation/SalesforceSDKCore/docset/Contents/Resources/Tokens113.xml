@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPasscodeCreateController.html">
+	<File path="Classes/SFSDKPushNotificationDecryption.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPasscodeCreateController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDecryption</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption.h</DeclaredIn>
             
 			
 			<NodeRef refid="113"/>
@@ -13,122 +13,58 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/setViewConfig:</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/decryptNotificationContent:error:</TokenIdentifier>
+			<Abstract type="html">Decrypts the given notification content. Leaves the content unchanged if it&apos;s not encrypted.</Abstract>
+			<DeclaredIn>SFSDKPushNotificationDecryption.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
+			<Declaration>+ (BOOL)decryptNotificationContent:(nonnull UNMutableNotificationContent *)notificationContent error:(NSError *_Nullable *_Nullable)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationContent</Name>
+					<Abstract type="html">Content to decrypt.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with decryption, if an error occurs.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES on success, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/decryptNotificationContent:error:</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/viewConfig</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeCreateController/viewConfig</TokenIdentifier>
-			<Abstract type="html">Setup passcode view related preferences.</Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKAppLockViewConfig *viewConfig</Declaration>
-			
-			
-			<Anchor>//api/name/viewConfig</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/setUpdateMode:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/validateNotificationUserInfo:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL updateMode</Declaration>
+			<Declaration>+ (BOOL)validateNotificationUserInfo:(nonnull NSDictionary *)userInfo error:(NSError *_Nullable *_Nullable)error</Declaration>
 			
 			
-			<Anchor>//api/name/updateMode</Anchor>
+			<Anchor>//api/name/validateNotificationUserInfo:error:</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/updateMode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/getAESKeyFromSecret:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL updateMode</Declaration>
+			<Declaration>+ (nullable SFEncryptionKey *)getAESKeyFromSecret:(nonnull NSString *)secret error:(NSError *_Nullable *_Nullable)error</Declaration>
 			
 			
-			<Anchor>//api/name/updateMode</Anchor>
+			<Anchor>//api/name/getAESKeyFromSecret:error:</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeCreateController/updateMode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/aesDecryptString:withKey:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL updateMode</Declaration>
-			
-			
-			<Anchor>//api/name/updateMode</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/setCreateDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeCreateDelegate&gt; createDelegate</Declaration>
+			<Declaration>+ (nullable NSString *)aesDecryptString:(nonnull NSString *)encryptedString withKey:(nonnull SFEncryptionKey *)key error:(NSError *_Nullable *_Nullable)error</Declaration>
 			
 			
-			<Anchor>//api/name/createDelegate</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/createDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeCreateDelegate&gt; createDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/createDelegate</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPasscodeCreateController/createDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKPasscodeCreateDelegate&gt; createDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/createDelegate</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPasscodeCreateController/initWithViewConfig:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPasscodeCreateController.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithViewConfig:(SFSDKAppLockViewConfig *)config</Declaration>
-			
-			
-			<Anchor>//api/name/initWithViewConfig:</Anchor>
+			<Anchor>//api/name/aesDecryptString:withKey:error:</Anchor>
             <NodeRef refid="113"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthCredentialsStorageType.html">
+	<File path="Constants/SFSDKWindowType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredentialsStorageType</TokenIdentifier>
-			<Abstract type="html">@enum OAuth credential storage type</Abstract>
-			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="217"/>
@@ -14,23 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeNone</TokenIdentifier>
-            <Abstract type="html">     No storage or persistence of OAuth credentials will be attempted
-     </Abstract>
-            <Declaration>SFOAuthCredentialsStorageTypeNone</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeMain</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="217"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeKeychain</TokenIdentifier>
-            <Abstract type="html">     OAuth credentials will be stored securely within the keychain.
-     </Abstract>
-            <Declaration>SFOAuthCredentialsStorageTypeKeychain</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeAuth</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="217"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypePasscode</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypePasscode</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="217"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="217"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeOther</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="217"/>
         </Token>

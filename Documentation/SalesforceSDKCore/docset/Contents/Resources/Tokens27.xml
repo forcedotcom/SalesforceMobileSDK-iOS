@@ -29,7 +29,7 @@
 			<Abstract type="html">Retrieves a key with the given label from the keystore or nil, depending on the autoCreate value.</Abstract>
 			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
 			
-			<Declaration>- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create</Declaration>
+			<Declaration>- (nullable SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>keyLabel</Name>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKLaunchAction.html">
+	<File path="Constants/SFUserAccountScope.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKLaunchAction</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
+			<Abstract type="html">The various scopes related to a user account</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="224"/>
@@ -14,51 +14,45 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionNone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionNone</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
+            <Abstract type="html">Global scope (one per application)
+     </Abstract>
+            <Declaration>SFUserAccountScopeGlobal</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="224"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthenticated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthenticated</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="224"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAlreadyAuthenticated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAlreadyAuthenticated</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
+            <Abstract type="html">Scope by organization
+     </Abstract>
+            <Declaration>SFUserAccountScopeOrg</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="224"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthBypassed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthBypassed</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="224"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionPasscodeVerified</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionPasscodeVerified</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
+            <Abstract type="html">Scope by user
+     </Abstract>
+            <Declaration>SFUserAccountScopeUser</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="224"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
+            <Abstract type="html">Scope by community
+     </Abstract>
+            <Declaration>SFUserAccountScopeCommunity</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="224"/>
         </Token>

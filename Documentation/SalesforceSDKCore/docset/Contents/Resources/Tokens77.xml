@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKBatchResponse.html">
+	<File path="Classes/SFSDKCompositeResponse.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeResponse</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
             
 			
 			<NodeRef refid="77"/>
@@ -13,81 +13,45 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/setHasErrors:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeResponse/setSubResponses:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCompositeSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/hasErrors</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/hasErrors</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeResponse/subResponses</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCompositeSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/hasErrors</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchResponse/hasErrors</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCompositeResponse/subResponses</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCompositeSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/hasErrors</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="77"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/setResults:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeResponse/initWith:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
-			
-			
-			<Anchor>//api/name/results</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/results</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
-			
-			
-			<Anchor>//api/name/results</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchResponse/results</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
-			
-			
-			<Anchor>//api/name/results</Anchor>
-            <NodeRef refid="77"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/initWith:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchResponse+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
 			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
 			

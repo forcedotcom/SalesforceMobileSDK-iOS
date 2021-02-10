@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthCredsEncryptionType.html">
+	<File path="Constants/SFSecurityLockoutAction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredsEncryptionType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSecurityLockoutAction</TokenIdentifier>
+			<Abstract type="html">The action that was taken as the result of calling into the security lockout functionality.
+Note: This value should denote the action actually taken, as opposed to an expected action
+going in.  Callbacks will use this value to determine what action took place.</Abstract>
+			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
 			
 			<NodeRef refid="218"/>
@@ -14,51 +16,78 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeNotSet</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeNotSet</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionNone</TokenIdentifier>
+            <Abstract type="html">     No action taken
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionNone</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="218"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeMac</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeMac</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="218"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeIdForVendor</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeIdForVendor</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeCreated</TokenIdentifier>
+            <Abstract type="html">     Passcode creation functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionPasscodeCreated</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="218"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeBaseAppId</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeBaseAppId</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="218"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeKeyStore</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeKeyStore</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeChanged</TokenIdentifier>
+            <Abstract type="html">     Passcode change functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionPasscodeChanged</Declaration>
             
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="218"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeVerified</TokenIdentifier>
+            <Abstract type="html">     Passcode verification functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionPasscodeVerified</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="218"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionPasscodeRemoved</TokenIdentifier>
+            <Abstract type="html">     Passcode removal functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionPasscodeRemoved</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="218"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionBiometricEnabled</TokenIdentifier>
+            <Abstract type="html">     Biometric creation functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionBiometricEnabled</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            
+            <NodeRef refid="218"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSecurityLockoutActionBiometricVerified</TokenIdentifier>
+            <Abstract type="html">     Biometric verification functionality was called.
+     </Abstract>
+            <Declaration>SFSecurityLockoutActionBiometricVerified</Declaration>
+            
+            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
             
             <NodeRef refid="218"/>
         </Token>

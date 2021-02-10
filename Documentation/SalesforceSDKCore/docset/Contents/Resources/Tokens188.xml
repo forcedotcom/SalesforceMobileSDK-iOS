@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKBiometricViewDelegate.html">
+	<File path="Protocols/SFSDKPasscodeVerifyDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKBiometricViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKPasscodeVerifyDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
             
 			
 			<NodeRef refid="188"/>
@@ -13,26 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKBiometricViewDelegate/biometricUnlockSucceeded:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeVerifyDelegate/passcodeVerified</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
 			
-			<Declaration>- (void)biometricUnlockSucceeded:(BOOL)isVerificationMode</Declaration>
+			<Declaration>- (void)passcodeVerified</Declaration>
 			
 			
-			<Anchor>//api/name/biometricUnlockSucceeded:</Anchor>
+			<Anchor>//api/name/passcodeVerified</Anchor>
             <NodeRef refid="188"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKBiometricViewDelegate/biometricUnlockFailed:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKPasscodeVerifyDelegate/passcodeFailed</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBiometricViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKPasscodeVerifyController.h</DeclaredIn>
 			
-			<Declaration>- (void)biometricUnlockFailed:(BOOL)isVerificationMode</Declaration>
+			<Declaration>- (void)passcodeFailed</Declaration>
 			
 			
-			<Anchor>//api/name/biometricUnlockFailed:</Anchor>
+			<Anchor>//api/name/passcodeFailed</Anchor>
             <NodeRef refid="188"/>
 		</Token>
 		

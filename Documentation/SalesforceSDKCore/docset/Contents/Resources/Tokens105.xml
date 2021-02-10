@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLogoutBlocker.html">
+	<File path="Classes/SFSDKOAuth2.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLogoutBlocker</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuth2</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLogoutBlocker.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
             
 			
 			<NodeRef refid="105"/>
@@ -13,14 +13,62 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLogoutBlocker/block</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/parseQueryString:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLogoutBlocker.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)block</Declaration>
+			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query</Declaration>
 			
 			
-			<Anchor>//api/name/block</Anchor>
+			<Anchor>//api/name/parseQueryString:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/parseQueryString:decodeParams:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query decodeParams:(BOOL)decodeParams</Declaration>
+			
+			
+			<Anchor>//api/name/parseQueryString:decodeParams:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/errorWithType:description:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description</Declaration>
+			
+			
+			<Anchor>//api/name/errorWithType:description:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/errorWithType:description:underlyingError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *_Nullable)underlyingError</Declaration>
+			
+			
+			<Anchor>//api/name/errorWithType:description:underlyingError:</Anchor>
+            <NodeRef refid="105"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/timestampStringToDate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSDate *)timestampStringToDate:(NSString *)timestamp</Declaration>
+			
+			
+			<Anchor>//api/name/timestampStringToDate:</Anchor>
             <NodeRef refid="105"/>
 		</Token>
 		

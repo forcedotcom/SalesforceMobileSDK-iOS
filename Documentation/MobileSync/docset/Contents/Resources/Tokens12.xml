@@ -165,33 +165,6 @@ a meaningful data structure, i.e. SFLayout.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncManager/fetchLayoutForObject:layoutType:mode:completionBlock:</TokenIdentifier>
-			<Abstract type="html">Fetches layout data for the specified object type and layout type using the specified
-mode and triggers the supplied completion block once complete.</Abstract>
-			<DeclaredIn>SFLayoutSyncManager.h</DeclaredIn>
-			
-			<Declaration>- (void)fetchLayoutForObject:(nonnull NSString *)objectType layoutType:(nullable NSString *)layoutType mode:(SFSDKFetchMode)mode completionBlock:(nonnull SFLayoutSyncCompletionBlock)completionBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>objectType</Name>
-					<Abstract type="html">Object type.</Abstract>
-				</Parameter><Parameter>
-					<Name>layoutType</Name>
-					<Abstract type="html">Layout type. Defaults to &quot;Full&quot; if nil is passed in.</Abstract>
-				</Parameter><Parameter>
-					<Name>mode</Name>
-					<Abstract type="html">Fetch mode. See SFSDKFetchMode for available modes.</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Layout sync completion block.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/fetchLayoutForObject:layoutType:mode:completionBlock:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFLayoutSyncManager/fetchLayoutForObjectAPIName:formFactor:layoutType:mode:recordTypeId:syncMode:completionBlock:</TokenIdentifier>
 			<Abstract type="html">Fetches layout data for the specified parameters using the specified sync
 mode and triggers the supplied completion block once complete.</Abstract>

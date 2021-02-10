@@ -229,18 +229,6 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createLocalId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)createLocalId</Declaration>
-			
-			
-			<Anchor>//api/name/createLocalId</Anchor>
-            <NodeRef refid="44"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/buildInClause:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>

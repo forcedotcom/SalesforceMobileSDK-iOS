@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthHelper.html">
+	<File path="Classes/SFSDKAuthResponseCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthHelper</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthResponseCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="66"/>
@@ -13,68 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthHelper/loginIfRequired:</TokenIdentifier>
-			<Abstract type="html">Initiate a login flow if the user is not already logged in to Salesforce and if the app config&apos;s shouldAuthenticate flag is set to false.</Abstract>
-			<DeclaredIn>SFSDKAuthHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setState:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>+ (void)loginIfRequired:(void ( ^ ) ( void ))completionBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Block that executes immediately if the user is already logged in, or if the app config&apos;s shouldAuthenticate is set to false.
-                        Otherwise, this block executes after the user logs in successfully, if login is required.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
-			<Anchor>//api/name/loginIfRequired:</Anchor>
+			
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthHelper/handleLogout:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/state</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>+ (void)handleLogout:(void ( ^ ) ( void ))completionBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/handleLogout:</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthHelper/registerBlockForCurrentUserChangeNotifications:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/state</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>+ (void)registerBlockForCurrentUserChangeNotifications:(void ( ^ ) ( void ))completionBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/registerBlockForCurrentUserChangeNotifications:</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthHelper/registerBlockForLogoutNotifications:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setAuthCode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>+ (void)registerBlockForLogoutNotifications:(void ( ^ ) ( void ))completionBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/registerBlockForLogoutNotifications:</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthHelper/registerBlockForSwitchUserNotifications:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/authCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
 			
-			<Declaration>+ (void)registerBlockForSwitchUserNotifications:(void ( ^ ) ( void ))completionBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/registerBlockForSwitchUserNotifications:</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/authCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			
+			
+			<Anchor>//api/name/authCode</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/setDomain:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthResponseCommand/domain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthResponseCommand/domain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		

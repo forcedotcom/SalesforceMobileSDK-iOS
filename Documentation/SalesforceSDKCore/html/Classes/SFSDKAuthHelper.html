@@ -58,11 +58,19 @@
 		
 		<option value="//api/name/handleLogout:">+ handleLogout:</option>
 		
+		<option value="//api/name/handleLogout:completion:">+ handleLogout:completion:</option>
+		
 		<option value="//api/name/loginIfRequired:">+ loginIfRequired:</option>
+		
+		<option value="//api/name/loginIfRequired:completion:">+ loginIfRequired:completion:</option>
 		
 		<option value="//api/name/registerBlockForCurrentUserChangeNotifications:">+ registerBlockForCurrentUserChangeNotifications:</option>
 		
+		<option value="//api/name/registerBlockForCurrentUserChangeNotifications:completion:">+ registerBlockForCurrentUserChangeNotifications:completion:</option>
+		
 		<option value="//api/name/registerBlockForLogoutNotifications:">+ registerBlockForLogoutNotifications:</option>
+		
+		<option value="//api/name/registerBlockForLogoutNotifications:completion:">+ registerBlockForLogoutNotifications:completion:</option>
 		
 		<option value="//api/name/registerBlockForSwitchUserNotifications:">+ registerBlockForSwitchUserNotifications:</option>
 		
@@ -126,13 +134,72 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (void)loginIfRequired:(void ( ^ ) ( void ))<em>completionBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (void)loginIfRequired:(nullable void ( ^ ) ( void ))<em>completionBlock</em></code></div>
 
 		    
 			
 			<div class="method-subsection arguments-section parameters">
 				<h4 class="method-subtitle parameter-title">Parameters</h4>
 				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionBlock</code></th>
+						<td><p>Block that executes immediately if the user is already logged in, or if the app config&rsquo;s <code>shouldAuthenticate</code> is set to false.
+                        Otherwise, this block executes after the user logs in successfully, if login is required.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSDKAuthHelper.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/loginIfRequired:completion:" title="loginIfRequired:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginIfRequired:completion:">+&nbsp;loginIfRequired:completion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Initiate a login flow if the user is not already logged in to Salesforce and if the app config&rsquo;s <code>shouldAuthenticate</code> flag is set to false.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)loginIfRequired:(UIScene *)<em>scene</em> completion:(nullable void ( ^ ) ( void ))<em>completionBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>scene</code></th>
+						<td><p>Scene that login is initiated for.</p></td>
+					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>completionBlock</code></th>
@@ -174,7 +241,23 @@
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>+ (void)handleLogout:(void ( ^ ) ( void ))<em>completionBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (void)handleLogout:(nullable void ( ^ ) ( void ))<em>completionBlock</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleLogout:completion:" title="handleLogout:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleLogout:completion:">+&nbsp;handleLogout:completion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)handleLogout:(UIScene *)<em>scene</em> completion:(nullable void ( ^ ) ( void ))<em>completionBlock</em></code></div>
 
 		    
 		</div>
@@ -196,6 +279,22 @@
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/registerBlockForCurrentUserChangeNotifications:completion:" title="registerBlockForCurrentUserChangeNotifications:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerBlockForCurrentUserChangeNotifications:completion:">+&nbsp;registerBlockForCurrentUserChangeNotifications:completion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)registerBlockForCurrentUserChangeNotifications:(UIScene *)<em>scene</em> completion:(void ( ^ ) ( void ))<em>completionBlock</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/registerBlockForLogoutNotifications:" title="registerBlockForLogoutNotifications:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/registerBlockForLogoutNotifications:">+&nbsp;registerBlockForLogoutNotifications:</a></code>
 </h3>
@@ -207,6 +306,22 @@
 			
 
 			<div class="method-subsection method-declaration"><code>+ (void)registerBlockForLogoutNotifications:(void ( ^ ) ( void ))<em>completionBlock</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerBlockForLogoutNotifications:completion:" title="registerBlockForLogoutNotifications:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerBlockForLogoutNotifications:completion:">+&nbsp;registerBlockForLogoutNotifications:completion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)registerBlockForLogoutNotifications:(UIScene *)<em>scene</em> completion:(void ( ^ ) ( void ))<em>completionBlock</em></code></div>
 
 		    
 		</div>
@@ -242,7 +357,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 Salesforce.com. All rights reserved. Updated: 2020-09-30</p>
+						<p class="copyright">Copyright &copy; 2021 Salesforce.com. All rights reserved. Updated: 2021-02-10</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthErrorManager.html">
+	<File path="Classes/SFSDKAuthRequestCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthErrorManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthRequestCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="65"/>
@@ -13,211 +13,362 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setNetworkErrorHandlerBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpState:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
 			
 			
-			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spState</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/networkErrorHandlerBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spState</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
 			
 			
-			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spState</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/networkErrorHandlerBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spState</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
 			
 			
-			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spState</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setConnectedAppVersionMismatchErrorHandlerBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpClientId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spClientId</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/connectedAppVersionMismatchErrorHandlerBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spClientId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spClientId</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/connectedAppVersionMismatchErrorHandlerBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spClientId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spClientId</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setInvalidAuthCredentialsErrorHandlerBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpRedirectURI:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spRedirectURI</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/invalidAuthCredentialsErrorHandlerBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spRedirectURI</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spRedirectURI</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/invalidAuthCredentialsErrorHandlerBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spRedirectURI</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
 			
 			
-			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spRedirectURI</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setHostConnectionErrorHandlerBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpCodeChallenge:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
 			
 			
-			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spCodeChallenge</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/hostConnectionErrorHandlerBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spCodeChallenge</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
 			
 			
-			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spCodeChallenge</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/hostConnectionErrorHandlerBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spCodeChallenge</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
 			
 			
-			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spCodeChallenge</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setGenericErrorHandlerBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpUserHint:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
 			
 			
-			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spUserHint</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/genericErrorHandlerBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spUserHint</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
 			
 			
-			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spUserHint</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/genericErrorHandlerBlock</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spUserHint</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
 			
 			
-			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/spUserHint</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/processAuthError:authContext:options:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setCallingAppUrl:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)processAuthError:(NSError *)error authContext:(SFSDKAuthSession *)session options:(NSDictionary *_Nullable)options</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *callingAppUrl</Declaration>
 			
 			
-			<Anchor>//api/name/processAuthError:authContext:options:</Anchor>
+			<Anchor>//api/name/callingAppUrl</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthErrorManager/errorIsInvalidAuthCredentials:</TokenIdentifier>
-			<Abstract type="html">Determines whether an error is due to invalid auth credentials.</Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/callingAppUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error to check against an invalid credentials error.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the error is due to invalid credentials, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/errorIsInvalidAuthCredentials:</Anchor>
+			<Declaration>@property (nonatomic, copy) NSString *callingAppUrl</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppUrl</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/callingAppUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *callingAppUrl</Declaration>
+			
+			
+			<Anchor>//api/name/callingAppUrl</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpAppName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
+			
+			
+			<Anchor>//api/name/spAppName</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spAppName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
+			
+			
+			<Anchor>//api/name/spAppName</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spAppName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
+			
+			
+			<Anchor>//api/name/spAppName</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpAppDescription:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppDescription</Declaration>
+			
+			
+			<Anchor>//api/name/spAppDescription</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spAppDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppDescription</Declaration>
+			
+			
+			<Anchor>//api/name/spAppDescription</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spAppDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppDescription</Declaration>
+			
+			
+			<Anchor>//api/name/spAppDescription</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpLoginHost:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
+			
+			
+			<Anchor>//api/name/spLoginHost</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spLoginHost</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
+			
+			
+			<Anchor>//api/name/spLoginHost</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spLoginHost</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
+			
+			
+			<Anchor>//api/name/spLoginHost</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/setSpAppScopes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
+			
+			
+			<Anchor>//api/name/spAppScopes</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequestCommand/spAppScopes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
+			
+			
+			<Anchor>//api/name/spAppScopes</Anchor>
+            <NodeRef refid="65"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequestCommand/spAppScopes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
+			
+			
+			<Anchor>//api/name/spAppScopes</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
