@@ -849,15 +849,16 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
         _URLCacheType = URLCacheType;
         [NSURLCache.sharedURLCache removeAllCachedResponses];
         NSURLCache *cache;
+        NSURL *defaultURL = [NSURL URLWithString:kDefaultCachePath];
         switch (URLCacheType) {
             case kSFURLCacheTypeEncrypted:
-                cache = [[SFSDKEncryptedURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+                cache = [[SFSDKEncryptedURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:defaultURL];
                 break;
             case kSFURLCacheTypeNull:
-                 cache = [[SFSDKNullURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+                cache = [[SFSDKNullURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:defaultURL];
                 break;
             case kSFURLCacheTypeStandard:
-                cache = [[NSURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+                cache = [[NSURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:defaultURL];
                 break;
         }
         [NSURLCache setSharedURLCache:cache];
