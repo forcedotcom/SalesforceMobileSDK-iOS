@@ -29,7 +29,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "SFSDKWindowContainer.h"
+#import <SalesforceSDKCore/SFSDKWindowContainer.h>
 @class SFSDKWindowManager;
 /**
  Delegate of the SFSDKWindowManager
@@ -79,41 +79,61 @@
 
 @interface SFSDKWindowManager : NSObject
 
-/** SDK uses this window to present the login flow.
+/** Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.
  */
-@property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull authWindow;
+@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle;
 
-/** SDK uses this window to present the snapshot View.
+/** SDK uses this window to present the passcode view.
  */
-@property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull snapshotWindow;
+- (nonnull SFSDKWindowContainer *)passcodeWindow;
 
-/** SDK uses this window to present the passocde View.
+/** SDK uses this window to present the login flow for the given scene. Defaults a connected scene if one isn't provided.
  */
-@property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull passcodeWindow;
+- (nonnull SFSDKWindowContainer *)authWindow:(nullable UIScene *)scene;
 
-/** Returns the SFSDKWindowContainer window representing the mainWindow that has been set
+/** SDK uses this window to present the snapshot view for a given scene. Defaults to a connected scene if one isn't provided.
  */
-@property (readonly,nonatomic,strong) SFSDKWindowContainer * _Nonnull mainWindow;
+- (nonnull SFSDKWindowContainer *)snapshotWindow:(nullable UIScene *)scene;
 
-/** Returns the SFSDKWindowContainer window representing the active presented Window that has been set
+/** Returns the SFSDKWindowContainer window representing the mainWindow that has been set for a given scene. Defaults to a connected scene if one isn't provided.
  */
-- (SFSDKWindowContainer * _Nullable)activeWindow;
+- (nonnull SFSDKWindowContainer *)mainWindow:(nullable UIScene *)scene;
+
+/** Returns the SFSDKWindowContainer window representing the active presented window that has been set for a given scene. Defaults to a connected scene if one isn't provided.
+ */
+- (nullable SFSDKWindowContainer *)activeWindow:(nullable UIScene *)scene;
 
 /** Used to setup the main application window.
  */
 - (void)setMainUIWindow:(UIWindow *_Nonnull)window;
 
-/** Used to create a new Window keyed by a  specified name
+/** Used to setup the main window for a given scene. Defaults to a connected scene if one isn't provided.
+ */
+- (void)setMainUIWindow:(nonnull UIWindow *)window scene:(nullable UIScene *)scene;
+
+/** Used to create a new Window keyed by a specified name
  */
 - (SFSDKWindowContainer *_Nullable)createNewNamedWindow:(NSString *_Nonnull)windowName;
 
-/** Used to remove a  Window by a  specified name
+/** Used to create a new window keyed by a specified name for a given scene. Defaults to a  connected scene if one isn't provided.
+ */
+- (nullable SFSDKWindowContainer *)createNewNamedWindow:(nonnull NSString *)windowName scene:(nullable UIScene *)scene;
+
+/** Used to remove a Window by a specified name
  */
 - (BOOL)removeNamedWindow:(NSString *_Nonnull)windowName;
 
-/** Used to retrieve a Window by a  specified name
+/** Used to remove a window by a specified name for a given scene. Defaults to a connected scene if one isn't provided.
+ */
+- (BOOL)removeNamedWindow:(nonnull NSString *)windowName scene:(nullable UIScene *)scene;
+
+/** Used to retrieve a Window by a specified name
  */
 - (SFSDKWindowContainer *_Nullable)windowWithName:(NSString *_Nonnull)name;
+
+/** Used to retrieve a window by a specified name for a given scene. Defaults to a connected scene if one isn't provided.
+ */
+- (nullable SFSDKWindowContainer *)windowWithName:(nonnull NSString *)name scene:(nullable UIScene *)scene;
 
 /** Add a Window Manager Delegate
  */

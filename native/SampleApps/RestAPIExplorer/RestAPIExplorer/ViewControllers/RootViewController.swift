@@ -538,10 +538,8 @@ class RootViewController: UIViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if #available(iOS 13.0, *) {
-            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                self.updateBorderColor()
-            }
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            self.updateBorderColor()
         }
     }
     
@@ -586,7 +584,7 @@ class RootViewController: UIViewController {
     
     func handleError(request: RestRequest, error: RestClientError) {
         switch error {
-            case .apiInvocationFailed(let underlyingError, _):
+            case .apiFailed(_, let underlyingError, _):
                 SalesforceLogger.e(RootViewController.self, message: "Error invoking api \(underlyingError.localizedDescription)")
             default:
                 DispatchQueue.main.async {
@@ -874,7 +872,15 @@ extension RootViewController: ActionTableViewDelegate {
         case .exportCredentials:
             self.exportTestingCredentials()
             return
-            
+        case .overrideStyleLight:
+            SFSDKWindowManager.shared().userInterfaceStyle = .light
+            return
+        case .overrideStyleDark:
+            SFSDKWindowManager.shared().userInterfaceStyle = .dark
+            return
+        case .overrideStyleUnspecified:
+            SFSDKWindowManager.shared().userInterfaceStyle = .unspecified
+            return
         }
         
         if let sendRequest = request {

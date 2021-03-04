@@ -47,53 +47,25 @@
 
 @implementation SFSDKUrlCacheTests
 
-// TODO: Remove in 9.0
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (void)testDeprecatedEncryptionFlag {
-
-    // Enabled by default
-    [SalesforceSDKManager sharedManager];
-    XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
-    NSString *cachePath = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSCachesDirectory components:@[@"salesforce.mobilesdk.URLCache"]];
-    XCTAssertNotNil(cachePath);
-    XCTAssertTrue([SalesforceSDKManager sharedManager].encryptURLCache);
-
-    // Disable
-    [SalesforceSDKManager sharedManager].encryptURLCache = NO;
-    XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[NSURLCache class]]);
-    XCTAssertFalse([SalesforceSDKManager sharedManager].encryptURLCache);
-
-    // Enable again
-    [SalesforceSDKManager sharedManager].encryptURLCache = YES;
-    XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
-    XCTAssertTrue([SalesforceSDKManager sharedManager].encryptURLCache);
-}
-
 - (void)testSettingCacheTypes {
     // Encrypted enabled by default
     [SalesforceSDKManager sharedManager];
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
-    XCTAssertTrue([SalesforceSDKManager sharedManager].encryptURLCache);
     NSString *cachePath = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSCachesDirectory components:@[@"salesforce.mobilesdk.URLCache"]];
     XCTAssertNotNil(cachePath);
 
     // Set back to vanilla URL cache
     [SalesforceSDKManager sharedManager].URLCacheType = kSFURLCacheTypeStandard;
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[NSURLCache class]]);
-    XCTAssertFalse([SalesforceSDKManager sharedManager].encryptURLCache);
     
     // Set to null cache
     [SalesforceSDKManager sharedManager].URLCacheType = kSFURLCacheTypeNull;
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKNullURLCache class]]);
-    XCTAssertFalse([SalesforceSDKManager sharedManager].encryptURLCache);
     
     // Enable encrypted again
     [SalesforceSDKManager sharedManager].URLCacheType = kSFURLCacheTypeEncrypted;
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
-    XCTAssertTrue([SalesforceSDKManager sharedManager].encryptURLCache);
 }
-#pragma clang diagnostic pop
 
 - (void)testNilURL {
     // NSURLCache ignores requests with bad/nil URLs, make sure we don't crash
@@ -214,7 +186,7 @@
 
 - (void)sendRequest:(SFRestRequest *)request {
     SFSDKTestRequestListener *listener = [[SFSDKTestRequestListener alloc] init];
-    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
+    SFRestRequestFailBlock failBlock = ^(id response, NSError *error, NSURLResponse *rawResponse) {
         listener.lastError = error;
         listener.returnStatus = kTestRequestStatusDidFail;
     };
@@ -222,9 +194,9 @@
         listener.dataResponse = data;
         listener.returnStatus = kTestRequestStatusDidLoad;
     };
-    [[SFRestAPI sharedGlobalInstance] sendRESTRequest:request
-                                            failBlock:failBlock
-                                        completeBlock:completeBlock];
+    [[SFRestAPI sharedGlobalInstance] sendRequest:request
+                                            failureBlock:failBlock
+                                        successBlock:completeBlock];
     [listener waitForCompletion];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }

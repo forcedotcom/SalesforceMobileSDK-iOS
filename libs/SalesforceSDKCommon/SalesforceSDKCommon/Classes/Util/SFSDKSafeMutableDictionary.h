@@ -26,7 +26,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(SafeMutableDictionary)
-@interface SFSDKSafeMutableDictionary : NSObject
+@interface SFSDKSafeMutableDictionary<KeyType, ObjectType> : NSObject
 
 @property (copy, nonatomic, readonly) NSArray *allKeys;
 @property (copy, nonatomic, readonly) NSArray *allValues;
@@ -35,44 +35,44 @@ NS_SWIFT_NAME(SafeMutableDictionary)
  Retrieves object for the key specified (Thread Safe)
  @return object for specified key
  */
-- (id)objectForKey:(id<NSCopying>)aKey;
+- (nullable ObjectType)objectForKey:(KeyType<NSCopying>)aKey;
 
 /**
  Retrieves object for the key specified (Thread Safe)
  @return object for specified key
  */
-- (id)objectForKeyedSubscript:(id<NSCopying>)key;
+- (nullable ObjectType)objectForKeyedSubscript:(KeyType<NSCopying>)key;
 
 /**
  Retreives all keys for object specified (Thread Safe)
  @return Array with keys
  */
-- (NSArray *)allKeysForObject:(id)anObject;
+- (NSArray<KeyType> *)allKeysForObject:(ObjectType)anObject;
 
 /**
  * Get a NSDictionary from the mutable Dictionary (Thread Safe)
  */
-- (NSDictionary *)dictionary;
+- (NSDictionary<KeyType, ObjectType> *)dictionary;
 
 /**
  Sets object for key specified (Thread Safe)
  @param object to add to collection
  @param aKey for to map the object to
  */
-- (void)setObject:(id)object forKey:(id<NSCopying>)aKey;
+- (void)setObject:(ObjectType)object forKey:(KeyType<NSCopying>)aKey;
 
 /**
  Sets object for key specified (Thread Safe)
  @param object to add to collection
  @param aKey for to map the object to
  */
-- (void)setObject:(id)object forKeyedSubscript:(id<NSCopying>)aKey;
+- (void)setObject:(ObjectType)object forKeyedSubscript:(KeyType<NSCopying>)aKey;
 
 /**
  Removes object for key specified (Thread Safe)
  @param aKey to remove from the collection.
  */
-- (void)removeObject:(id<NSCopying>)aKey;
+- (void)removeObject:(KeyType<NSCopying>)aKey;
 
 /**
  removes all objects (Thread Safe)
@@ -83,19 +83,19 @@ NS_SWIFT_NAME(SafeMutableDictionary)
  removes objects for keys (Thread Safe)
  @param keys to remove from the collection.
  */
-- (void)removeObjects:(NSArray<id<NSCopying>> *)keys;
+- (void)removeObjects:(NSArray<KeyType<NSCopying>> *)keys;
 
 /**
  Adds entries from the dictionary passed in (Thread Safe)
  @param otherDictionary to add to collection
  */
-- (void)addEntries:(NSDictionary *)otherDictionary;
+- (void)addEntries:(NSDictionary<KeyType, ObjectType> *)otherDictionary;
 
 /**
  Sets the dictionary collection to the dictionary passed in(Thread Safe)
  @param dictionary to set
  */
-- (void)setDictionary:(NSDictionary *)dictionary;
+- (void)setDictionary:(NSDictionary<KeyType, ObjectType> *)dictionary;
 
 @end
 

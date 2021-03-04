@@ -28,6 +28,7 @@
  */
 
 #import "SFUserAccountManager+Internal.h"
+#import "SFSDKWindowManager+Internal.h"
 #import "SFUserAccountManager+URLHandlers.h"
 #import "SFSDKAuthRequestCommand.h"
 #import "SFSDKIDPConstants.h"
@@ -53,7 +54,7 @@
     }];
    
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.alertDisplayBlock(messageObject,[SFSDKWindowManager sharedManager].authWindow);
+        self.alertDisplayBlock(messageObject, [[SFSDKWindowManager sharedManager] authWindow:nil]);
         [self stopCurrentAuthentication:nil];
     });
     return YES;
@@ -117,13 +118,13 @@
 
     if (showSelection) {
         dispatch_async(dispatch_get_main_queue(), ^{
-           UIViewController<SFSDKUserSelectionView> *controller  = self.idpUserSelectionAction();
-           controller.spAppOptions = request.allParams;
-           controller.userSelectionDelegate = self;
-           controller.modalPresentationStyle = UIModalPresentationFullScreen;
-           SFSDKWindowContainer *authWindow = [SFSDKWindowManager sharedManager].authWindow;
-           [authWindow presentWindowAnimated:NO withCompletion:^{
-               [authWindow.viewController presentViewController:controller animated:NO  completion:nil];
+            UIViewController<SFSDKUserSelectionView> *controller = self.idpUserSelectionAction();
+            controller.spAppOptions = request.allParams;
+            controller.userSelectionDelegate = self;
+            controller.modalPresentationStyle = UIModalPresentationFullScreen;
+            SFSDKWindowContainer *authWindow = [[SFSDKWindowManager sharedManager] authWindow:nil];
+            [authWindow presentWindowAnimated:NO withCompletion:^{
+                [authWindow.viewController presentViewController:controller animated:NO completion:nil];
            }];
         });
     } else {
@@ -132,22 +133,21 @@
     return YES;
 }
 
-- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *)response {
-    if (self.authSession) {
-        [self.authSession.oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
+- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *)response sceneId:(NSString *)sceneId {
+    if (!sceneId) {
+        sceneId = [[SFSDKWindowManager sharedManager] defaultScene].session.persistentIdentifier;
+    }
+    if (self.authSessions[sceneId]) {
+        [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
     } else {
         SFSDKAlertMessage *messageObject = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
             builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertCancelButton"];
             builder.alertTitle = @"Authentication Failed";
             builder.alertMessage = @"Authentication session for sp app was evicted. Try again." ;
-            builder.actionTwoTitle = [SFSDKResourceUtils localizedString:@"Retry"];
-            builder.actionTwoCompletion = ^{
-                [self restartAuthentication];
-            };
          }];
         
          dispatch_async(dispatch_get_main_queue(), ^{
-             self.alertDisplayBlock(messageObject,[SFSDKWindowManager sharedManager].authWindow);
+             self.alertDisplayBlock(messageObject, [[SFSDKWindowManager sharedManager] authWindow:self.authSessions[sceneId].oauthRequest.scene]);
          });
     }
     return YES;

@@ -24,8 +24,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "SalesforceSDKCoreDefines.h"
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 @class SFUserAccount, SFSDKAppConfig;
 
 /**
@@ -63,36 +63,6 @@ typedef void (^SFSnapshotViewControllerPresentationBlock)(UIViewController* snap
  Block typedef for dismissing the snapshot view controller.
  */
 typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapshotViewController) NS_SWIFT_NAME(SalesforceManager.SnapshotViewDismissBlock);
-
-
-/** Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.
- */
-NS_SWIFT_NAME(SalesforceManagerDelegate)
-@protocol SalesforceSDKManagerDelegate <NSObject>
-
-@optional
-
-/**
- Called after UIApplicationWillResignActiveNotification is received
- */
-- (void)sdkManagerWillResignActive;
-
-/**
- Called after UIApplicationDidBecomeActiveNotification is received.
- */
-- (void)sdkManagerDidBecomeActive;
-
-/**
- Called after UIApplicationWillEnterForegroundNotification is received.
- */
-- (void)sdkManagerWillEnterForeground;
-
-/**
- Called after UIApplicationDidEnterBackgroundNotification is received
- */
-- (void)sdkManagerDidEnterBackground;
-
-@end
 
 NS_SWIFT_NAME(DevAction)
 @interface SFSDKDevAction : NSObject
@@ -137,13 +107,19 @@ NS_SWIFT_NAME(SalesforceManager)
  *
  * @return App name.
  */
-@property (class,nonatomic,strong)NSString *ailtnAppName NS_SWIFT_NAME(analyticsAppName);
+@property (class, nonatomic, strong) NSString *ailtnAppName NS_SWIFT_NAME(analyticsAppName);
 
+/**
+ * Gets & sets the app name being used by the SDK for user agent and other parts within the SDK.
+ *
+ * @return App name.
+ */
+@property (class, nonatomic, strong) NSString *appName NS_SWIFT_NAME(appName);
 
 /**
  @return The singleton instance of the SDK Manager.
  */
-@property(class,nonatomic,readonly)SalesforceSDKManager *sharedManager NS_SWIFT_NAME(shared);
+@property (class, nonatomic, readonly) SalesforceSDKManager *sharedManager NS_SWIFT_NAME(shared);
 
 /**
  * Returns a unique device ID.
@@ -161,11 +137,6 @@ NS_SWIFT_NAME(SalesforceManager)
 @property (nonatomic, strong, nullable) NSString *customConfigFilePath;
 
 /**
- Whether or not the SDK is currently in the middle of a launch process.
- */
-@property (nonatomic, readonly) BOOL isLaunching NS_SWIFT_UNAVAILABLE("");
-
-/**
  App type (native, hybrid or react native)
  */
 @property (nonatomic, readonly) SFAppType appType;
@@ -174,31 +145,6 @@ NS_SWIFT_NAME(SalesforceManager)
  The Branded Login path configured for this application.
  */
 @property (nonatomic, nullable, copy) NSString *brandLoginPath NS_SWIFT_NAME(brandLoginIdentifier);
-
-/**
- The configured post launch action block to execute when launch completes.
- */
-@property (nonatomic, copy, nullable) SFSDKPostLaunchCallbackBlock postLaunchAction NS_SWIFT_UNAVAILABLE("");
-
-/**
- The configured launch error action block to execute in the event of an error during launch.
- */
-@property (nonatomic, copy, nullable) SFSDKLaunchErrorCallbackBlock launchErrorAction NS_SWIFT_UNAVAILABLE("");
-
-/**
- The post logout action block to execute after the current user has been logged out.
- */
-@property (nonatomic, copy, nullable) SFSDKLogoutCallbackBlock postLogoutAction NS_SWIFT_UNAVAILABLE("");
-
-/**
- The switch user action block to execute when switching from one user to another.
- */
-@property (nonatomic, copy, nullable) SFSDKSwitchUserCallbackBlock switchUserAction NS_SWIFT_UNAVAILABLE("");
-
-/**
- The block to execute after the app has entered the foreground.
- */
-@property (nonatomic, copy, nullable) SFSDKAppForegroundCallbackBlock postAppForegroundAction NS_SWIFT_UNAVAILABLE("");
 
 /**
  Whether or not to use a security snapshot view when the app is backgrounded, to prevent
@@ -239,15 +185,6 @@ NS_SWIFT_NAME(SalesforceManager)
 @property (nonatomic, copy, nullable) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction NS_SWIFT_NAME(snapshotViewDismissalHandler);
 
 /**
- The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.
- NOTE: If you wanted to set your own provider, you could do the following:
-         id<SFPasscodeProvider> *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
-         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
-         [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];
- */
-@property (nonatomic, nullable, copy) NSString *preferredPasscodeProvider NS_SWIFT_UNAVAILABLE("");
-
-/**
  Gets or sets a block that will return a user agent string, created with an optional qualifier.
  Default implementation, when executed, will return a user agent of the form:
  SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion *Native or Hybrid with optional qualifier* *Web-based user agent string*
@@ -268,28 +205,17 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic,copy) NSString *appDisplayName NS_SWIFT_NAME(appDisplayName);
 
-
 /** Use this flag to indicate if the dev support dialog should be enabled in the APP
  */
 @property (nonatomic, assign) BOOL isDevSupportEnabled;
-
-/** Use this flag to indicate if the URL cache should be encrypted. YES by default.
- */
-@property (nonatomic, assign) BOOL encryptURLCache SFSDK_DEPRECATED(8.1, 9.0, "Use URLCacheType instead");
 
 /** The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.
 */
 @property (nonatomic, assign) SFURLCacheType URLCacheType;
 
-
-/**
- Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to
- authenticate if the current user is not already authenticated.  @see postLaunchAction, launchErrorAction,
- postLogoutAction, and switchUserAction for callbacks that can be set for handling post launch
- actions.
- @return YES if the launch successfully kicks off, NO if launch is already running.
- */
-- (BOOL)launch NS_SWIFT_UNAVAILABLE("");
+/** Use this flag to indicate if advanced authentication should use an ephemeral web session. Defaults to YES.
+*/
+@property (nonatomic, assign) BOOL useEphemeralSessionForAdvancedAuth;
 
 /**
  Initializes the SDK.
@@ -310,24 +236,6 @@ NS_SWIFT_NAME(SalesforceManager)
  @return app type as a string
  */
 - (NSString *)getAppTypeAsString;
-
-/**
- Adds an SDK Manager delegate to the list of delegates.
- @param delegate The delegate to add.
- */
-- (void)addDelegate:(id<SalesforceSDKManagerDelegate>)delegate NS_SWIFT_UNAVAILABLE("");
-
-/**
- Removes an SDK Manager delegate from the list of delegates.
- @param delegate The delegate to remove.
- */
-- (void)removeDelegate:(id<SalesforceSDKManagerDelegate>)delegate NS_SWIFT_UNAVAILABLE("");
-
-/**
- @param launchActions Bit-coded descriptor of actions taken during launch.
- @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
- */
-+ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions NS_SWIFT_UNAVAILABLE("");
 
 /**
  * Show dev support dialog

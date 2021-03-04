@@ -28,7 +28,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSDKViewControllerConfig.h"
+#import <SalesforceSDKCore/SFSDKViewControllerConfig.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,14 +40,6 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
  * factory method to create a default config instance
  */
 + (instancetype)createDefaultConfig;
-
-/**
- * Warning - only set to YES/true if the app has always enforced a passcode of the exact length of
- *           the connected app setting (not longer).  This setting is used to force a cleaner UI,
- *           but users will be unable to unlock the app if their pin is longer than the specified
- *           length.
- */
-@property (nonatomic) BOOL forcePasscodeLength;
 
 /**
  * The number of allowed passcode entry attempts before the user is logged out.
@@ -118,12 +111,6 @@ NS_SWIFT_NAME(AppLockViewControllerConfig)
  */
 @property (nonatomic, strong, nullable) UIImage * faceIdImage;
 
-/**
- * Length of the user's passcode.
- */
-@property (nonatomic) NSUInteger passcodeLength;
-
 @end
 
 NS_ASSUME_NONNULL_END
-

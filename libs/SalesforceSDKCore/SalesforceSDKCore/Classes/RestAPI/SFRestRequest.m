@@ -42,7 +42,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.queryParams = [queryParams mutableCopy];
         self.endpoint = (hostType == SFSDKRestServiceHostTypeCustom)?@"":kSFDefaultRestEndpoint;
         self.parseResponse = YES;
-        self.shouldRefreshOn403 = YES;
         self.request = [[NSMutableURLRequest alloc] init];
     }
     return self;

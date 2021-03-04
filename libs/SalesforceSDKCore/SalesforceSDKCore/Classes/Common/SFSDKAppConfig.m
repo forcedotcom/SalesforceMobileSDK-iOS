@@ -59,6 +59,10 @@ static BOOL const kDefaultShouldAuthenticate = YES;
         if ((self.configDict)[kShouldAuthenticate] == nil) {
             self.shouldAuthenticate = kDefaultShouldAuthenticate;
         }
+
+        NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+        self.configDict[kRemoteAccessConsumerKey] = [self.configDict[kRemoteAccessConsumerKey] stringByTrimmingCharactersInSet:whitespaceSet];
+        self.configDict[kOauthRedirectURI] = [self.configDict[kOauthRedirectURI] stringByTrimmingCharactersInSet:whitespaceSet];
     }
     return self;
 }
@@ -76,8 +80,8 @@ static BOOL const kDefaultShouldAuthenticate = YES;
             [SFSDKCoreLogger i:[self class] format:@"%@ Could not parse the config file at path '%@'.  Config file is not in a valid plist format.", NSStringFromSelector(_cmd), fullPath];
             return nil;
         }
-        
-       self = [self initWithDict:configDict];
+
+        self = [self initWithDict:configDict];
     }
     return self;
 }

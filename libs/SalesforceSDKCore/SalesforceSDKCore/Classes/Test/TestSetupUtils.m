@@ -40,7 +40,7 @@ static SFOAuthCredentials *credentials = nil;
 {
     NSString *tokenPath = [[NSBundle bundleForClass:testClass] pathForResource:@"ui_test_credentials" ofType:@"json"];
     NSAssert(nil != tokenPath, @"UI test config file not found!");
-    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSFileManager *fm = [NSFileManager defaultManager];
     NSData *jsonData = [fm contentsAtPath:tokenPath];
     NSArray *jsonDataArray = [[NSArray alloc] initWithArray:[SFJsonUtils objectFromJSONData:jsonData]];
     NSAssert(jsonDataArray != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);
@@ -51,7 +51,7 @@ static SFOAuthCredentials *credentials = nil;
 {
     NSString *tokenPath = [[NSBundle bundleForClass:testClass] pathForResource:@"test_credentials" ofType:@"json"];
     NSAssert(nil != tokenPath, @"Test config file not found!");
-    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSFileManager *fm = [NSFileManager defaultManager];
     NSData *tokenJson = [fm contentsAtPath:tokenPath];
     id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
     NSAssert(jsonResponse != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);

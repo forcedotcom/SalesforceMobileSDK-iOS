@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,16 +22,39 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFKeyStore.h"
+#import <Foundation/Foundation.h>
+#import "SalesforceSDKConstants.h"
+#import "SFUserAccountManager+Internal.h"
 
-/*
- * NB: Starting with SDK 6.0, we no longer store key in the passcode key store.
- * The code is still needed to handle upgrade from pre-6.0 SDK to 6+.
- *
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol SFUserAccountPersister;
+
+@interface SFDefaultUserAccountPersister:NSObject<SFUserAccountPersister>
+
+/** Loads a user account from a specified file
+ @param filePath The file to load the user account from
+ @param account On output, contains the user account or nil if an error occurred
+ @param error On output, contains the error if the method returned NO
+ @return YES if the method succeeded, NO otherwise
  */
+- (BOOL)loadUserAccountFromFile:(NSString *)filePath account:(SFUserAccount*_Nullable*_Nullable)account error:(NSError**)error;
 
-extern NSString * const kPasscodeKeyLabelSuffix;
+/** Updates/Saves a user account to a specified filePath
+ * @param userAccount On output, contains the user account or nil if an error occurred
+ * @param filePath  The file to save the user account to
+ * @param error On output, contains the error if the method returned NO
+ * @return YES if the method succeeded, NO otherwise
+ */
+- (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath error:(NSError**)error;
 
-@interface SFPasscodeKeyStore : SFKeyStore
+/**
+ Returns the path of the user account plist file for the specified user
+ @param user The user
+ @return the path to the user account plist of the specified user
+ */
++ (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
 
 @end
+
+NS_ASSUME_NONNULL_END

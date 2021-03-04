@@ -34,9 +34,11 @@
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <MobileSyncExplorerCommon/MobileSyncExplorerConfig.h>
-#import <SalesforceSDKcore/SFSDKNavigationController.h>
+#import <SalesforceSDKCore/SFSDKNavigationController.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <UserNotifications/UserNotifications.h>
 
-@interface AppDelegate () <SalesforceSDKManagerDelegate>
+@interface AppDelegate ()
 
 /**
  * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
@@ -49,7 +51,6 @@
  */
 - (void)initializeAppViewState;
 
-- (void)setUserLoginStatus :(BOOL) loggedIn;
 @end
 
 @implementation AppDelegate
@@ -70,12 +71,11 @@
         __weak typeof (self) weakSelf = self;
         [SFSDKAuthHelper registerBlockForCurrentUserChangeNotifications:^{
             __strong typeof (weakSelf) strongSelf = weakSelf;
-            [strongSelf setUserLoginStatus:YES];
+            [strongSelf resetUserloginStatus];
             [strongSelf resetViewState:^{
                 [strongSelf setupRootViewController];
             }];
         }];
-        
         //Uncomment following lines to enable IDP Login flow. Set scheme of idpAppp & display name (optional)
         //[MobileSyncSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
         //[MobileSyncSDKManager sharedManager].appDisplayName = @"SampleAppOne";
@@ -94,23 +94,47 @@
     // UIWindow.
     self.window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
+    
+    // If you wish to register for push notifications, uncomment the line below.  Note that,
+    // if you want to receive push notifications from Salesforce, you will also need to
+    // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
+//    [self registerForRemotePushNotifications];
+    
     __weak typeof (self) weakSelf = self;
     [SFSDKAuthHelper loginIfRequired:^{
+        [weakSelf resetUserloginStatus];
         [weakSelf setupRootViewController];
     }];
     return YES;
 }
 
+- (void)registerForRemotePushNotifications {
+    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        if (granted) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+               [[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
+            });
+        } else {
+            [SFLogger d:[self class] format:@"Push notification authorization denied"];
+        }
+
+        if (error) {
+            [SFLogger e:[self class] format:@"Push notification authorization error: %@", error];
+        }
+    }];
+}
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    //
     // Uncomment the code below to register your device token with the push notification manager
-    //
-    // [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-    // if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
-    //     [[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
-    // }
-    //
+//    [self didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
+        [[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+    }
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
@@ -128,7 +152,8 @@
 }
 
 #pragma mark - Private methods
-- (void)setUserLoginStatus:(BOOL) loggedIn {
+- (void)resetUserloginStatus {
+    BOOL loggedIn = [SFUserAccountManager.sharedInstance currentUser] != nil;
     [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
     [[NSUserDefaults msdkUserDefaults] synchronize];
     [SFSDKMobileSyncLogger log:[self class] level:SFLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
@@ -159,10 +184,4 @@
     }
 }
 
-- (void)sdkManagerWillResignActive {
-    if ([MobileSyncSDKManager sharedManager].useSnapshotView) {
-        // Remove the keyboard if it is showing..
-        [[SFSDKWindowManager sharedManager].activeWindow.window endEditing:YES];
-    }
-}
 @end

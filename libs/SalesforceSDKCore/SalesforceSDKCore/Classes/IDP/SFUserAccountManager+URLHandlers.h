@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFUserAccountManager+URLHandlers.h
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 9/25/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -21,49 +26,42 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "SFUserAccountManager+Internal.h"
 
-#import <UIKit/UIKit.h>
-#import "SFUserAccount.h"
+@class SFSDKAuthRequestCommand;
+@class SFSDKAuthResponseCommand;
+@class SFSDKAuthErrorCommand;
+@class SFSDKIDPInitCommand;
 
-NS_ASSUME_NONNULL_BEGIN
-
-/** The various actions that may have been taken for account management.
- */
-typedef NS_ENUM(NSUInteger, SFUserManagementAction) {
-    /** No action was taken.
-     */
-    SFUserManagementActionCancel = 0,
-    
-    /** A user was logged out.
-     */
-    SFUserManagementActionLogoutUser,
-    
-    /** Switched from one user to another.
-     */
-    SFUserManagementActionSwitchUser,
-    
-    /** Logging in as a new user.
-     */
-    SFUserManagementActionCreateNewUser
-} NS_SWIFT_NAME(SalesforceUserManagementAction);
+@interface SFUserAccountManager (URLHandlers)
 
 /**
- Type definition for the user management completion block.
+ Handle an error situation that occured in the IDP flow.
+ @param command The Error URL request from the idp or SP App.
+ @return YES if this is request is handled, NO otherwise.
  */
-typedef void (^SFUserManagementCompletionBlock)(SFUserManagementAction action)  NS_SWIFT_NAME(SalesforceUserCompletionBlock);
+- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)command;
 
 /**
- View controller for managing the different users of the app.
+ Handle an IDP initiated auth flow.
+ @param command The URL request from the IDP APP.
+ @return YES if this is request is handled, NO otherwise.
  */
-NS_SWIFT_NAME(SalesforceUserManagementViewController)
-@interface SFDefaultUserManagementViewController : UINavigationController
+- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *_Nonnull)command;
 
 /**
- Creates an instance with the given completion block.
- @param completionBlock The (optional) completion block to execute once action has been taken.
+ Handle an IDP request initiated from an SP APP.
+ @param request The  request from the SP APP.
+ @return YES if this request is handled, NO otherwise.
  */
-- (id)initWithCompletionBlock:(SFUserManagementCompletionBlock)completionBlock;
+- (BOOL)handleAuthRequestFromSPApp:(SFSDKAuthRequestCommand *_Nonnull)request;
 
+/**
+ Handle an IDP response received from an IDP APP.
+ @param response The URL response from the IDP APP.
+ @param sceneId The identifier for the scene that's handling the response.
+ @return YES if this is request is handled, NO otherwise.
+ */
+- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId;
 @end
-
-NS_ASSUME_NONNULL_END

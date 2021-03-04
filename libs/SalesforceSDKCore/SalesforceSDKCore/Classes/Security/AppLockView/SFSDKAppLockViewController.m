@@ -28,7 +28,6 @@
 #import "SFSDKAppLockViewController.h"
 #import "SFSDKPasscodeCreateController.h"
 #import "SFSDKPasscodeVerifyController.h"
-#import "SFPasscodeManager.h"
 #import "SFSDKBiometricViewController+Internal.h"
 #import "SFSDKAppLockViewConfig.h"
 #import "SFSDKResourceUtils.h"
@@ -36,6 +35,7 @@
 #import "SFSDKWindowManager.h"
 #import "SFSecurityLockout.h"
 #import "SFSDKViewUtils.h"
+#import "SFSecurityLockout+Internal.h"
 
 @interface SFSDKAppLockViewController () <SFSDKPasscodeCreateDelegate,SFSDKBiometricViewDelegate,SFSDKPasscodeVerifyDelegate>
 
@@ -69,12 +69,12 @@
 
 - (BOOL)shouldAutorotate
 {
-    return NO;
+    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)setupNavBar
@@ -88,8 +88,7 @@
 
 - (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode
 {
-    [[SFPasscodeManager sharedManager] changePasscode:passcode];
-    [SFSecurityLockout setUpgradePasscodeLength:[passcode length]];
+    [SFSecurityLockout changePasscode:passcode];
     if ([SFSecurityLockout biometricState] == SFBiometricUnlockAvailable) {
         [self promptBiometricEnrollment];
     } else {
@@ -113,7 +112,7 @@
 
 - (void)passcodeFailed
 {
-    [[SFPasscodeManager sharedManager] resetPasscode];
+    [SFSecurityLockout resetPasscode];
     [SFSecurityLockout wipeState];
 }
 
@@ -140,7 +139,6 @@
         [self pushViewController:pvc animated:NO];
     } else {
         [SFSecurityLockout userAllowedBiometricUnlock:NO];
-       
         if ([SFSecurityLockout locked]) {
             [self.navigationController popViewControllerAnimated:NO];
             [SFSecurityLockout unlock:SFSecurityLockoutActionPasscodeCreated];

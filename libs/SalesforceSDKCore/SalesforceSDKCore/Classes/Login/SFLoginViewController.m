@@ -54,7 +54,7 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _config = [[SFSDKLoginViewControllerConfig  alloc] init];
+        _config = [[SFSDKLoginViewControllerConfig alloc] init];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
     }
     return self;
@@ -71,13 +71,13 @@
     if(self.showNavbar){
         [self setupNavigationBar];
     } else {
-        self.navigationController.navigationBarHidden  =  YES;
+        self.navigationController.navigationBarHidden = YES;
     }
+    [self layoutWebView];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    [self layoutWebView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -244,20 +244,17 @@
 }
 
 - (BOOL)shouldAutorotate {
-    return NO;
+    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)layoutWebView {
     if (nil != _oauthView) {
         [_oauthView removeFromSuperview];
         [self.view addSubview:_oauthView];
-        NSDictionary *views = NSDictionaryOfVariableBindings(_oauthView);
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_oauthView]|" options:0 metrics:nil views:views]];
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_oauthView]|" options:0 metrics:nil views:views]];
     }
 }
 
@@ -272,13 +269,14 @@
 }
 
 - (void)handleBackButtonAction {
+    UIScene *scene = self.view.window.windowScene;
     [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
     if (![SFUserAccountManager sharedInstance].idpEnabled) {
-        [[SFSDKWindowManager sharedManager].authWindow.viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
-            [[SFSDKWindowManager sharedManager].authWindow dismissWindow];
+        [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
+            [[[SFSDKWindowManager sharedManager] authWindow:scene] dismissWindow];
         }];
     } else {
-        [[SFSDKWindowManager sharedManager].authWindow.viewController dismissViewControllerAnimated:NO completion:nil];
+        [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController dismissViewControllerAnimated:NO completion:nil];
     }
 }
 
@@ -339,11 +337,7 @@
 
 - (void)showHostListView {
     SFSDKNavigationController *navController = [[SFSDKNavigationController alloc] initWithRootViewController:self.loginHostListViewController];
-    if (@available(iOS 13.0, *)) {
-        navController.modalPresentationStyle = UIModalPresentationFullScreen;
-    } else {
-       navController.modalPresentationStyle = UIModalPresentationPageSheet;
-    }
+    navController.modalPresentationStyle = UIModalPresentationPageSheet;
     
     [self presentViewController:navController animated:YES completion:nil];
 }

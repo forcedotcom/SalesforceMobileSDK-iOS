@@ -269,14 +269,14 @@
 #pragma mark file system -- Thanks Joachim Bean!
 - (NSNumber *) totalDiskSpace
 {
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDictionary *fattributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return [fattributes objectForKey:NSFileSystemSize];
 }
 
 - (NSNumber *) freeDiskSpace
 {
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDictionary *fattributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return [fattributes objectForKey:NSFileSystemFreeSize];
 }
@@ -608,11 +608,11 @@
 }
 
 + (BOOL)currentDeviceIsIPad {
-    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+    return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 }
 
 + (BOOL)currentDeviceIsIPhone {
-    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
+    return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
 }
 
 - (BOOL)isSimulator {

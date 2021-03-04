@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SFSyncState.h"
+#import <MobileSync/SFSyncState.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

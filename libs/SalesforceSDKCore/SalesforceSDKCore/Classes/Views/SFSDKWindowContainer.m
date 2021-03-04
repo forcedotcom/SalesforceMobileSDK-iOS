@@ -55,7 +55,7 @@
 
 - (UIWindow *)window {
     if (_window == nil) {
-        _window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds  andName:_windowName];
+        _window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds andName:_windowName];
         _window.windowLevel = self.windowLevel;
         if (!self.viewController ) {
             self.viewController = [[SFSDKRootController alloc] init];
@@ -75,7 +75,6 @@
         return _window.rootViewController;
     }
     return nil;
-    
 }
 
 - (void)presentWindow {
@@ -83,7 +82,7 @@
 }
 
 - (BOOL)isEnabled {
-    return _window && _window.isKeyWindow;
+    return self.window.alpha == 1.0 && !self.window.isHidden;
 }
 
 - (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion {
@@ -111,7 +110,6 @@
 - (BOOL)isAuthWindow {
     return _windowType == SFSDKWindowTypeAuth;
 }
-
 
 - (BOOL)isSnapshotWindow {
     return _windowType == SFSDKWindowTypeSnapshot;

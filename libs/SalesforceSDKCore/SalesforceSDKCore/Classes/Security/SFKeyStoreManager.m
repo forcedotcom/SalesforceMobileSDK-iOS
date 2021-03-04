@@ -27,6 +27,7 @@
 #import "SFKeyStoreManager+Internal.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFSecureEncryptionKey.h"
+#import "SalesforceSDKConstants.h"
 
 // Keychain and NSCoding constants
 static NSString * const kKeyStoreKeychainIdentifier = @"com.salesforce.keystore.keystoreKeychainId";
@@ -54,7 +55,6 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
     self = [super init];
     if (self) {
         [self initializeKeyStores];
-        [[SFPasscodeManager sharedManager] addObserver:self forKeyPath:@"encryptionKey" options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) context:NULL];
     }
     return self;
 }
@@ -118,11 +118,6 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         // Starting in SDK 7.1, we use SFSecureEncryptionKey instead
         // Switch to SFSecureEncryptionKey if needed
         [self switchToSecureKeyIfNeeded:self.generatedKeyStore];
-        
-        // Pre SDK 6.0 code would store keys with keytype passcode in generated store if there was no passcode enabled
-        // Starting with SDK 6.0, we don't pass the keytype anymore (it's always generated)
-        // For things to work, we need to rename keys named xxx__Passcode to xxx__Generated
-        [self renameKeysWithKeyTypePasscode:self.generatedKeyStore];
     }
 }
 
@@ -133,45 +128,6 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
         SFKeyStoreKey* newKey = [self createDefaultKey];
         generatedKeyStore.keyStoreKey = newKey;
         [SFSDKCoreLogger i:[self class] format:@"Switching to secure key"];
-    }
-}
-
-- (void)renameKeysWithKeyTypePasscode:(SFGeneratedKeyStore*)generatedKeyStore
-{
-    @synchronized (self) {
-        NSDictionary *originalKeys = [NSDictionary dictionaryWithDictionary:generatedKeyStore.keyStoreDictionary];
-        NSMutableDictionary *updatedGeneratedDictionary = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
-        for (NSString *originalKeyLabel in [originalKeys allKeys]) {
-            SFKeyStoreKey *key = originalKeys[originalKeyLabel];
-            NSRange suffixRange = [originalKeyLabel rangeOfString:kPasscodeKeyLabelSuffix options:NSBackwardsSearch];
-            if (suffixRange.location != NSNotFound) {
-                NSString* renamedKeyLabel = [originalKeyLabel stringByReplacingCharactersInRange:suffixRange withString:kGeneratedKeyLabelSuffix];
-                updatedGeneratedDictionary[renamedKeyLabel] = key;
-                [updatedGeneratedDictionary removeObjectForKey:originalKeyLabel];
-                [SFSDKCoreLogger i:[self class] format:@"Renaming key %@ to %@", originalKeyLabel, renamedKeyLabel];
-            }
-        }
-        
-        self.generatedKeyStore.keyStoreDictionary = updatedGeneratedDictionary;
-    }
-
-}
-
-- (void)migratePasscodeToGenerated:(SFPasscodeKeyStore*)passcodeKeyStore
-{
-    @synchronized (self) {
-        NSDictionary *keysToMove = [NSDictionary dictionaryWithDictionary:passcodeKeyStore.keyStoreDictionary];
-        NSMutableDictionary *updatedGeneratedDictionary = [NSMutableDictionary dictionaryWithDictionary:self.generatedKeyStore.keyStoreDictionary];
-        for (NSString *keyToMoveLabel in [keysToMove allKeys]) {
-            SFKeyStoreKey *keyToMove = keysToMove[keyToMoveLabel];
-            NSRange suffixRange = [keyToMoveLabel rangeOfString:kPasscodeKeyLabelSuffix options:NSBackwardsSearch];
-            NSString* movedKeyLabel = [keyToMoveLabel stringByReplacingCharactersInRange:suffixRange withString:kGeneratedKeyLabelSuffix];
-            updatedGeneratedDictionary[movedKeyLabel] = keyToMove;
-            [SFSDKCoreLogger i:[self class] format:@"Migrating key %@ to %@", keyToMoveLabel, movedKeyLabel];
-        }
-        
-        self.generatedKeyStore.keyStoreDictionary = updatedGeneratedDictionary;
-        passcodeKeyStore.keyStoreDictionary = nil;
     }
 }
 
@@ -200,35 +156,6 @@ static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt k
 + (NSData *)keyStringToData:(NSString *)keyString
 {
     return [keyString dataUsingEncoding:NSUTF8StringEncoding];
-}
-
-#pragma mark - SFPasscodeManager encryption key updates
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    // Starting in SDK 6.0, we no longer use SFPasscodeKeyStore.
-    // The only reason we are still watching the encryption key of the passcode manager is to handle upgrade from pre-6.0 SDK to 6+.
-    // As soon as we get the passcode, we migrate all the keys from the passcode key store to the generated key store.
-    
-    if (!(object == [SFPasscodeManager sharedManager] && [keyPath isEqualToString:@"encryptionKey"])) {
-        return;
-    }
-    
-    @synchronized (self) {
-        NSString *oldKey = change[NSKeyValueChangeOldKey];
-        NSString *newKey = change[NSKeyValueChangeNewKey];
-        if ([oldKey isEqual:[NSNull null]]) oldKey = nil;
-        if ([newKey isEqual:[NSNull null]]) newKey = nil;
-
-        if ([oldKey length] == 0 && [newKey length] > 0) {
-            // We just got the passcode, migrate keys (if any)
-            SFPasscodeKeyStore *passcodeKeyStore = [[SFPasscodeKeyStore alloc] init];
-            passcodeKeyStore.keyStoreKey.encryptionKey.key = [[self class] keyStringToData:newKey];
-            if (passcodeKeyStore.keyStoreKey != nil && passcodeKeyStore.keyStoreDictionary.count > 0) {
-                [self migratePasscodeToGenerated:passcodeKeyStore];
-            }
-        }
-    }
 }
 
 @end

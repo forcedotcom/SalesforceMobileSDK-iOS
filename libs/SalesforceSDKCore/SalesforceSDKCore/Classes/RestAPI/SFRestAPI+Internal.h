@@ -40,7 +40,7 @@
 
 @property (nonatomic, assign) BOOL requiresAuthentication;
 
-@property (nullable, nonatomic, strong) id<SFRestDelegate>instrDelegateInternal;
+@property (nullable, nonatomic, strong) id<SFRestRequestDelegate> instrumentationDelegateInternal;
 
 - (void)removeActiveRequestObject:(nonnull SFRestRequest *)request;
 
@@ -51,8 +51,6 @@
  @return YES if we were able to find and timeout the request, NO if the request could not be found
  */
 - (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)req;
-
-- (void)send:(nonnull SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate shouldRetry:(BOOL)shouldRetry;
 
 - (nonnull NSString *)computeAPIVersion:(nullable NSString *)apiVersion;
 

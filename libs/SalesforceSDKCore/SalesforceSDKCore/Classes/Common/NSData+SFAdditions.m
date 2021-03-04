@@ -359,19 +359,7 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 
 @end
 
-
 @implementation NSData (SFSHA)
-
--(NSString *)digest {
-    unsigned char digest[DIGEST_LENGTH];
-    digest[0] = 0;
-    CC_SHA1([self bytes], (CC_LONG)[self length], digest);
-    NSMutableString *ms = [NSMutableString string];
-    for(int i = 0; i < 16; i++) {
-        [ms appendFormat:@"%02x", digest[i]];
-    }
-    return [ms copy];
-}
 
 -(NSString *)sha1 {
     unsigned char digest[CC_SHA1_DIGEST_LENGTH];

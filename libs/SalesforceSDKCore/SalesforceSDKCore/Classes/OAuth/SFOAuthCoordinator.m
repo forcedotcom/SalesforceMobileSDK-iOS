@@ -276,11 +276,13 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
     if (_view == nil) {
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         config.processPool = SFSDKWebViewStateManager.sharedProcessPool;
-        _view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds] configuration:config];
+        UIWindowScene *scene = (UIWindowScene *)self.authSession.oauthRequest.scene;
+        CGRect viewBounds = scene? scene.coordinateSpace.bounds : [UIScreen mainScreen].bounds;
+        _view = [[WKWebView alloc] initWithFrame:viewBounds configuration:config];
         _view.navigationDelegate = self;
         _view.autoresizesSubviews = YES;
         _view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-         _view.clipsToBounds = YES;
+        _view.clipsToBounds = YES;
         _view.translatesAutoresizingMaskIntoConstraints = NO;
         _view.customUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
         _view.UIDelegate = self;
@@ -296,12 +298,9 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
     self.authenticating = NO;
     self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
-        [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
-    } else if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self.delegate oauthCoordinator:self didFailWithError:error];
-#pragma clang diagnostic pop
+        dispatch_async(dispatch_get_main_queue(), ^{
+           [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
+        });
     }
     self.authInfo = nil;
 }
@@ -383,13 +382,14 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
     _asWebAuthenticationSession = [[ASWebAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:self.credentials.redirectUri   completionHandler:^(NSURL *callbackURL, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
-            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:nil];
+            NSDictionary *options = @{kSFIDPSceneIdKey : self.authSession.sceneId};
+            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:options];
         } else {
             [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];
         }
-
     }];
-    
+ 
+    _asWebAuthenticationSession.prefersEphemeralWebBrowserSession = [SalesforceSDKManager sharedManager].useEphemeralSessionForAdvancedAuth;
     [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_asWebAuthenticationSession];
 
 }
@@ -622,6 +622,17 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
         if (nil == error) {
             [self.credentials updateCredentials:params];
             self.credentials.refreshToken   = params[kSFOAuthRefreshToken];
+            // Parse additional flags
+            if(self.additionalOAuthParameterKeys.count > 0) {
+                NSMutableDictionary * parsedValues = [NSMutableDictionary dictionaryWithCapacity:self.additionalOAuthParameterKeys.count];
+                for(NSString * key in self.additionalOAuthParameterKeys) {
+                    id obj = params[key];
+                    if(obj) {
+                        parsedValues[key] = obj;
+                    }
+                }
+                self.credentials.additionalOAuthFields = parsedValues;
+            }
             [self notifyDelegateOfSuccess:self.authInfo];
         } else {
             NSError *finalError;

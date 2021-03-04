@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SObjectDataSpec.h"
+#import <MobileSyncExplorerCommon/SObjectDataSpec.h>
 
 extern NSString * const kContactFirstNameField;
 extern NSString * const kContactLastNameField;

@@ -147,26 +147,23 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     if (communityId) {
         bodyDict[@"NetworkId"] = communityId;
     }
-
     NSString *rsaPublicKey = [self getRSAPublicKey];
     if (rsaPublicKey) {
         bodyDict[@"RsaPublicKey"] = rsaPublicKey;
     }
-
     [request setCustomRequestBodyDictionary:bodyDict contentType:@"application/json"];
     __weak typeof(self) weakSelf = self;
-    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [[SFRestAPI sharedInstance] sendRequest:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (e != nil) {
             [SFSDKCoreLogger e:[strongSelf class] format:@"Registration for notifications with Salesforce failed with error %@", e];
         }
         [strongSelf postPushNotificationRegistration:failBlock];
-    } completeBlock:^(id response, NSURLResponse *rawResponse) {
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeaturePushNotifications];
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) rawResponse;
         NSInteger statusCode = httpResponse.statusCode;
-
         if (statusCode < 200 || statusCode >= 300) {
             [SFSDKCoreLogger e:[strongSelf class] format:@"Registration for notifications with Salesforce failed with status %ld", statusCode];
             [SFSDKCoreLogger e:[strongSelf class] format:@"Response:%@", response];
@@ -228,13 +225,13 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     NSString *path = [NSString stringWithFormat:@"/%@/%@/%@", [SFRestAPI sharedInstance].apiVersion, kSFPushNotificationEndPoint, deviceSFID];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:nil];
     __weak typeof(self) weakSelf = self;
-    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [[SFRestAPI sharedInstance] sendRequest:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (e) {
             [SFSDKCoreLogger e:[strongSelf class] format:@"Push notification unregistration failed %ld %@", (long)[e code], [e localizedDescription]];
         }
         [strongSelf postPushNotificationUnregistration:completionBlock];
-    } completeBlock:^(id response, NSURLResponse *rawResponse) {
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf postPushNotificationUnregistration:completionBlock];
     }];

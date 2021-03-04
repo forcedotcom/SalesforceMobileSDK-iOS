@@ -26,25 +26,23 @@
 #import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
-// For user agent
+// For user agent.
 NSString * const kUserAgent = @"User-Agent";
 NSString * const kMobileSync = @"MobileSync";
 
 @implementation SFMobileSyncNetworkUtils
 
-+ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
++ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock {
     [SFSDKMobileSyncLogger d:[self class] format:@"sendRequestWithMobileSyncUserAgent:request:%@", request];
     [request setHeaderValue:[SFRestAPI userAgentString:kMobileSync] forHeaderName:kUserAgent];
-    
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     SFRestAPI *restApiInstance = (!user) ? [SFRestAPI sharedGlobalInstance] : [SFRestAPI sharedInstance];
-    
-    [restApiInstance sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [restApiInstance sendRequest:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         [SFSDKMobileSyncLogger e:[self class] format:@"sendRequestWithMobileSyncUserAgent:error:%ld:%@", (long) e.code, e.domain];
-        failBlock(e, rawResponse);
-    } completeBlock:^(id response, NSURLResponse *rawResponse) {
+        failureBlock(response, e, rawResponse);
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
         [SFSDKMobileSyncLogger d:[self class] format:@"sendRequestWithMobileSyncUserAgent:response:%@", response];
-        completeBlock(response, rawResponse);
+        successBlock(response, rawResponse);
     }];
 }
 

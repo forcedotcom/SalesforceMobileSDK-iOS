@@ -31,16 +31,6 @@ static NSString *const ERR_NO_DOMAIN_NAMES = @"No domain names given for deletin
 static WKProcessPool *_processPool = nil;
 static BOOL _sessionCookieManagementDisabled = NO;
 
-+ (void)resetSessionWithNewAccessToken:(NSString *)accessToken isSecureProtocol:(BOOL)isSecure {
-    if (_sessionCookieManagementDisabled) {
-        [SFSDKCoreLogger d:self format:@"[%@ %@]: Cookie Management disabled. Will do nothing.", NSStringFromClass(self), NSStringFromSelector(_cmd)];
-        return;
-    }
-
-    //reset WKWebView related state if any
-    [self removeWKWebViewCookies:self.domains withCompletion:nil];
-}
-
 + (void)removeSession {
     
     if (![NSThread isMainThread]) {

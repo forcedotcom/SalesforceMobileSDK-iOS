@@ -36,12 +36,13 @@ NS_SWIFT_NAME(NetworkUtils)
 @interface SFMobileSyncNetworkUtils : NSObject
 
 /**
- Sends a REST request, applying the MobileSync user agent string.
- @param request The request to send.
- @param failBlock The block to call if the request fails.
- @param completeBlock The block to call if the request succeeds.
+ * Sends a REST request, after applying the MobileSync user agent string.
+ *
+ * @param request The request to send.
+ * @param failureBlock The block to call if the request fails.
+ * @param successBlock The block to call if the request succeeds.
  */
-+ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock;
++ (void)sendRequestWithMobileSyncUserAgent:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock;
 
 @end
 

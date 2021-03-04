@@ -85,7 +85,7 @@
     if (topViewController!=nil && topViewController!=self)
         return [topViewController supportedInterfaceOrientations];
     
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAll;
 }
 
 #pragma mark - Helper class methods

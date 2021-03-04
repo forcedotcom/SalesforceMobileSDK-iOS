@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFUserAccountConstants.h"
+#import <SalesforceSDKCore/SFUserAccountConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

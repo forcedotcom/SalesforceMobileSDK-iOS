@@ -45,7 +45,7 @@
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-    return [[SFUserAccountManager sharedInstance] handleAdvancedAuthURL:url];
+    return [[SFUserAccountManager sharedInstance] handleAdvancedAuthURL:url options:options];
 }
 
 

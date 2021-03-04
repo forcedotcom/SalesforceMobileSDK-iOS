@@ -43,7 +43,7 @@ static inline BOOL IsValidEntityId(NSString *string) {
 @implementation NSString (SFAdditions)
 
 + (BOOL)isEmpty:(nullable NSString *)string {
-    if (nil == string){
+    if (nil == string || [string isKindOfClass:[NSNull class]]) {
         return YES;
     }
     string = [string trim];

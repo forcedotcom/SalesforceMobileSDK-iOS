@@ -199,7 +199,11 @@
            expectedId:sync.syncId
          expectedName:@"layoutSyncDown"
        expectedTarget:[SFLayoutSyncDownTarget
-                       newSyncTarget:@"Account" layoutType:@"Compact"]
+                       newSyncTarget:@"Account"
+                       formFactor:@"Medium"
+                       layoutType:@"Compact"
+                       mode:@"Edit"
+                       recordTypeId:nil]
       expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
        expectedStatus:SFSyncStateStatusNew
      expectedProgress:0
@@ -304,7 +308,8 @@
                                                     newWithSObjectType:@"Account"
                                                     soupName:@"accounts"
                                                     idFieldName:@"IdX"
-                                                    modificationDateFieldName:@"LastModifiedDateX"]
+                                                    modificationDateFieldName:@"LastModifiedDateX"
+                                                    externalIdFieldName:@"ExternalIdX"]
                        parentCreateFieldlist:@[@"IdX",@"Name", @"Description"]
                        parentUpdateFieldlist:@[@"Name", @"Description"]
                        childrenInfo:[SFChildrenInfo
@@ -313,7 +318,8 @@
                                      soupName:@"contacts"
                                      parentIdFieldName:@"AccountId"
                                      idFieldName:@"IdY"
-                                     modificationDateFieldName:@"LastModifiedDateY"]
+                                     modificationDateFieldName:@"LastModifiedDateY"
+                                     externalIdFieldName:@"ExternalIdY"]
                        childrenCreateFieldlist:@[@"LastName", @"AccountId"]
                        childrenUpdateFieldlist:@[@"FirstName", @"AccountId"]
                        relationshipType:SFParentChildrenRelationpshipMasterDetail]

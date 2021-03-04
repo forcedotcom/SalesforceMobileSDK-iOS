@@ -38,7 +38,7 @@
 #import "SFQuerySpec.h"
 #import "SFSoupSpec.h"
 #import "SFSoupSpec+Internal.h"
-#import <SalesforceSDKCore/SFPasscodeManager.h>
+#import "NSData+SFAdditions.h"
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
@@ -50,7 +50,6 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
-#import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
 #import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCommon/SFSDKDataSharingHelper.h>
@@ -92,34 +91,16 @@ NSString * const kSFSmartStoreEncryptionKeyLabel = @"com.salesforce.smartstore.e
 NSString * const kSFSmartStoreEncryptionSaltLabel = @"com.salesforce.smartstore.encryption.saltLabel";
 
 // Table to keep track of soup attributes
-NSString *const SOUP_ATTRS_TABLE = @"soup_attrs";
 static NSString *const SOUP_NAMES_TABLE = @"soup_names"; //legacy soup attrs, still around for backward compatibility. Do not use it.
 
-// Table to keep track of soup's index specs
-NSString *const SOUP_INDEX_MAP_TABLE = @"soup_index_map";
-
 // Columns of the soup index map table
-NSString *const SOUP_NAME_COL = @"soupName";
-NSString *const PATH_COL = @"path";
 NSString *const COLUMN_NAME_COL = @"columnName";
-NSString *const COLUMN_TYPE_COL = @"columnType";
 
 // Columns of a soup table
 NSString *const ID_COL = @"id";
 NSString *const CREATED_COL = @"created";
 NSString *const LAST_MODIFIED_COL = @"lastModified";
 NSString *const SOUP_COL = @"soup";
-
-// Columns of a soup fts table
-NSString *const ROWID_COL = @"rowid";
-
-// Table to keep track of status of long operations in flight
-NSString *const LONG_OPERATIONS_STATUS_TABLE = @"long_operations_status";
-
-// Columns of long operations status table
-NSString *const TYPE_COL = @"type";
-NSString *const DETAILS_COL = @"details";
-NSString *const STATUS_COL = @"status";
 
 // JSON fields added to soup element on insert/update
 NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
@@ -128,7 +109,6 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 // Explain support
 NSString *const EXPLAIN_SQL = @"sql";
 NSString *const EXPLAIN_ARGS = @"args";
-NSString *const EXPLAIN_ROWS = @"rows";
 
 // Caches count limit
 NSUInteger CACHES_COUNT_LIMIT = 1024;
@@ -174,8 +154,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         @synchronized ([SFSmartStore class]) {
             if ([SFUserAccountManager sharedInstance].currentUser != nil && !_storeUpgradeHasRun) {
                 _storeUpgradeHasRun = YES;
-                [SFSmartStoreUpgrade updateStoreLocations];
-                [SFSmartStoreUpgrade updateEncryption];
                 [SFSmartStoreUpgrade updateEncryptionSalt];
             }
         }
@@ -285,9 +263,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     if (!result) {
         [SFSDKSmartStoreLogger e:[self class] format:@"Deleting store dir since we can't set it up properly: %@", self.storeName];
         [self.dbMgr removeStoreDir:self.storeName];
-    }
-    if (self.user != nil) {
-        [SFSmartStoreUpgrade setUsesKeyStoreEncryption:result forUser:self.user store:self.storeName];
     }
     return result;
 }
@@ -416,7 +391,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             [existingStore.storeQueue close];
             [_allSharedStores[userKey] removeObjectForKey:storeName];
         }
-        [SFSmartStoreUpgrade setUsesKeyStoreEncryption:NO forUser:user store:storeName];
         [[SFSmartStoreDatabaseManager sharedManagerForUser:user] removeStoreDir:storeName];
     }
 }
@@ -524,6 +498,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     [self createLongOperationsStatusTableWithDb:db];
     [self executeUpdateThrows:createSoupNamesIndexSql withDb:db];
 }
+
 
 - (void)registerNewSoupAttribute:(NSString *)attrColName
 {
@@ -1330,7 +1305,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     NSMutableArray *result = [_indexSpecsBySoup objectForKey:soupName];
     if (nil == result) {
         result = [NSMutableArray array];
-        
         //no cached indices ...reload from SOUP_INDEX_MAP_TABLE
         NSString *querySql = [NSString stringWithFormat:@"SELECT %@,%@,%@ FROM %@ WHERE %@ = ?",
                               PATH_COL, COLUMN_NAME_COL, COLUMN_TYPE_COL,
@@ -1392,7 +1366,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         }
     }
     [self insertIntoTable:SOUP_ATTRS_TABLE values:soupMapValues withDb:db];
-
     // Get a safe table name for the soupName
     NSString *soupTableName = [self tableNameBySoupId:[db lastInsertRowId]];
     if (nil == soupTableName) {
@@ -1415,10 +1388,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     
     NSNumber *soupId = [self soupIdFromTableName:soupTableName];
     [self updateTable:SOUP_ATTRS_TABLE values:featuresMapValues entryId:soupId idCol:ID_COL withDb:db];
-}
-
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs {
-    return [self registerSoup:soupName withIndexSpecs:indexSpecs error:nil];
 }
 
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error {
@@ -1519,7 +1488,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         }
         
         // for inserting into meta mapping table
-        NSMutableDictionary *values = [[NSMutableDictionary alloc] init ];
+        NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
         values[SOUP_NAME_COL] = soupSpec.soupName;
         values[PATH_COL] = indexSpec.path;
         values[COLUMN_NAME_COL] = columnName;
@@ -1602,7 +1571,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         NSString *dropFtsSql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@_fts",soupTableName];
         [self executeUpdateThrows:dropFtsSql withDb:db];
     }
-    
+
     NSString *deleteIndexSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
                                 SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, soupName];
     [self executeUpdateThrows:deleteIndexSql withDb:db];

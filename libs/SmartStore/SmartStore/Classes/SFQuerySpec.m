@@ -22,10 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
-#import "SFSmartStore.h"
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
+#import "SFSmartStore.h"
+#import "SFSmartStore+Internal.h"
+#import "SFQuerySpec.h"
 
 NSString * const kQuerySpecSortOrderAscending = @"ascending";
 NSString * const kQuerySpecSortOrderDescending = @"descending";

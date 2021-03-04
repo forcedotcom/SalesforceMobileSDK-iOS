@@ -28,7 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSDKInstrumentationEvent.h"
+#import <SalesforceAnalytics/SFSDKInstrumentationEvent.h>
 
 @protocol SFSDKTransform <NSObject>
 

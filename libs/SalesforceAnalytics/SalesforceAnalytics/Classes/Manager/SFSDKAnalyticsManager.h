@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKEventStoreManager.h"
+#import <SalesforceAnalytics/SFSDKEventStoreManager.h>
 
 @interface SFSDKAnalyticsManager : NSObject
 

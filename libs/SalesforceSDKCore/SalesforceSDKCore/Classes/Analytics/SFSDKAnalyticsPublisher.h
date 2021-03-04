@@ -28,17 +28,21 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+
+@class SFUserAccount;
 
 @protocol SFSDKAnalyticsPublisher <NSObject>
 
 typedef void (^ _Nonnull PublishCompleteBlock)(BOOL success, NSError * _Nullable error);
 
 /**
- * Publishes events to a network endpoint.
- *
- * @param events Events to be published.
- * @param publishCompleteBlock Completion block invoked once network publish is complete.
- */
-- (void) publish:(nonnull NSArray *) events publishCompleteBlock:(nonnull PublishCompleteBlock) publishCompleteBlock;
+* Publishes events to a network endpoint.
+*
+* @param events Events to be published.
+* @param user SFUserAccount to use to determine where events are to be published.
+* @param publishCompleteBlock Completion block invoked once network publish is complete.
+*/
+- (void) publish:(nonnull NSArray *) events user:(nonnull SFUserAccount *)user publishCompleteBlock:(nonnull PublishCompleteBlock) publishCompleteBlock;
 
 @end

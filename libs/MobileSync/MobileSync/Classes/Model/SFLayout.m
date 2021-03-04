@@ -104,7 +104,7 @@ static NSString * const kSFSortable = @"sortable";
     SFLayoutSection *layoutSection = nil;
     if (data) {
         layoutSection = [[SFLayoutSection alloc] init];
-        layoutSection.collapsible = data[kSFCollapsible];
+        layoutSection.collapsible = [data[kSFCollapsible] boolValue];
         layoutSection.columns = data[kSFColumns];
         layoutSection.heading = data[kSFHeading];
         layoutSection.id = data[kSFId];
@@ -121,7 +121,7 @@ static NSString * const kSFSortable = @"sortable";
         }
         layoutSection.layoutRows = extractedRows;
         layoutSection.rows = data[kSFRows];
-        layoutSection.userHeading = data[kSFUseHeading];
+        layoutSection.userHeading = [data[kSFUseHeading] boolValue];
     }
     return layoutSection;
 }
@@ -163,7 +163,7 @@ static NSString * const kSFSortable = @"sortable";
 @property (nonatomic, readwrite, assign) BOOL editableForNew;
 @property (nonatomic, readwrite, assign) BOOL editableForUpdate;
 @property (nonatomic, strong, readwrite) NSString *label;
-@property (nonatomic, strong, readwrite) NSDictionary *layoutComponents;
+@property (nonatomic, strong, readwrite) NSArray<NSDictionary *> *layoutComponents;
 @property (nonatomic, strong, readwrite) NSString *lookupIdApiName;
 @property (nonatomic, readwrite, assign) BOOL required;
 @property (nonatomic, readwrite, assign) BOOL sortable;
@@ -176,13 +176,13 @@ static NSString * const kSFSortable = @"sortable";
     SFItem *item = nil;
     if (data) {
         item = [[SFItem alloc] init];
-        item.editableForNew = data[kSFEditableForNew];
-        item.editableForUpdate = data[kSFEditableForUpdate];
+        item.editableForNew = [data[kSFEditableForNew] boolValue];
+        item.editableForUpdate = [data[kSFEditableForUpdate] boolValue];
         item.label = data[kSFLabel];
         item.layoutComponents = data[kSFLayoutComponents];
         item.lookupIdApiName = data[kSFLookupIdApiName];
-        item.required = data[kSFRequired];
-        item.sortable = data[kSFSortable];
+        item.required = [data[kSFRequired] boolValue];
+        item.sortable = [data[kSFSortable] boolValue];
     }
     return item;
 }

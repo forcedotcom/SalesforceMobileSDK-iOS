@@ -35,13 +35,12 @@
                     requests:(NSArray<SFRestRequest *> *)requests
              completionBlock:(SFSendCompositeRequestCompleteBlock)completionBlock
                    failBlock:(SFSyncUpTargetErrorBlock)failBlock {
-    
     SFRestRequest *compositeRequest = [[SFRestAPI sharedInstance] compositeRequest:requests refIds:refIds allOrNone:allOrNone apiVersion:nil];
     [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:compositeRequest
-                                                     failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+                                                     failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
                                                          failBlock(e);
                                                      }
-                                                 completeBlock:^(id response, NSURLResponse *rawResponse) {
+                                                 successBlock:^(id response, NSURLResponse *rawResponse) {
                                                      SFSDKCompositeResponse* compositeResponse = [[SFSDKCompositeResponse alloc] initWith:response];
                                                      NSMutableDictionary *refIdToResponses = [NSMutableDictionary new];
                                                      for (SFSDKCompositeSubResponse *response in compositeResponse.subResponses) {
@@ -54,9 +53,23 @@
 + (NSDictionary<NSString*, NSString*> *)parseIdsFromResponses:(NSArray<SFSDKCompositeResponse*>*)responses {
     NSMutableDictionary *refIdToId = [NSMutableDictionary new];
     for (SFSDKCompositeSubResponse* response in responses) {
-        if (response.httpStatusCode == 201) {
-            NSString *serverId = response.body[kCreatedId];
-            refIdToId[response.referenceId] = serverId;
+        // Status code will be 201 if record just got created.
+        // However if:
+        // - we are upserting by external id a locally created record
+        // - and the network got disconnected after request was processed by server but before response made it to the client,
+        // - and this is our second attempt to run the sync up
+        // Then the status code will be 200 since the record already exists
+        // See:
+        // - https://github.com/forcedotcom/SalesforceMobileSDK-iOS/issues/3258
+        // - https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm
+        // So the code checks for success without expecting to find an id in all cases
+        if (response.httpStatusCode >= 200 && response.httpStatusCode < 300) {
+            if ([response.body isKindOfClass:[NSDictionary class]]) {
+                NSString *serverId = response.body[kCreatedId];
+                if (serverId) {
+                    refIdToId[response.referenceId] = serverId;
+                }
+            }
         }
     }
     return refIdToId;

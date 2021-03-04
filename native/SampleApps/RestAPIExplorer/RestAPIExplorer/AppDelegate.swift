@@ -44,19 +44,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Uncomment following block to enable IDP Login flow.
         //SalesforceManager.shared.identityProviderURLScheme = "sampleidpapp"
-        AuthHelper.registerBlock(forCurrentUserChangeNotifications: {
-            self.resetViewState {
-                self.initializeAppViewState()
-                self.setupRootViewController()
-            }
-        })
     }
     
     // MARK: - App delegate lifecycle
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.initializeAppViewState()
         
         // If you wish to register for push notifications, uncomment the line below.  Note that,
         // if you want to receive push notifications from Salesforce, you will also need to
@@ -71,10 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Touch Id and Face Id lock screens.  To use this feature please enable inactivity timeout
         // in your connected app.
         // self.customizePasscodeView()
-
-        AuthHelper.loginIfRequired {
-            self.setupRootViewController()
-        }
         return true
     }
 
@@ -88,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let _ = UserAccountManager.shared.currentUserAccount?.credentials.accessToken {
             PushNotificationManager.sharedInstance().registerForSalesforceNotifications { (result) in
                 switch (result) {
-                    case  .success(let successFlag):
+                    case .success(let successFlag):
                         SalesforceLogger.d(AppDelegate.self, message: "Registration for Salesforce notifications status:  \(successFlag)")
                     case .failure(let error):
                         SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications failed \(error)")
@@ -101,50 +90,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Respond to any push notification registration errors here.
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        
-        // Uncomment following block to enable IDP Login flow
-        // return  UserAccountManager.shared.handleIdentityProviderResponse(from: url, with: options)
-        return false;
-    }
-    
     // MARK: - Private methods
-    func initializeAppViewState() {
-        if !Thread.isMainThread {
-            DispatchQueue.main.async {
-                self.initializeAppViewState()
-            }
-            return
-        }
-        
-        self.window!.rootViewController = InitialViewController(nibName: nil, bundle: nil)
-        self.window!.makeKeyAndVisible()
-    }
-    
-    func setupRootViewController() {
-        let rootVC = RootViewController(nibName: nil, bundle: nil)
-        let navVC = UINavigationController(rootViewController: rootVC)
-        self.window!.rootViewController = navVC
-    }
-    
-    func resetViewState(_ postResetBlock: @escaping () -> Void ) {
-        if let rootViewController = self.window!.rootViewController {
-            if let _ = rootViewController.presentedViewController {
-                rootViewController.dismiss(animated: false, completion: postResetBlock)
-                return
-            }
-        }
-        postResetBlock()
-    }
-
     func registerForRemotePushNotifications() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
-            guard granted else {
-                SalesforceLogger.e(AppDelegate.self, message: "Push notification authorization denied")
-                return
+            if granted {
+                DispatchQueue.main.async {
+                    PushNotificationManager.sharedInstance().registerForRemoteNotifications()
+                }
+            } else {
+                SalesforceLogger.d(AppDelegate.self, message: "Push notification authorization denied")
             }
-            DispatchQueue.main.async {
-                PushNotificationManager.sharedInstance().registerForRemoteNotifications()
+
+            if let error = error {
+                SalesforceLogger.e(AppDelegate.self, message: "Push notification authorization error: \(error)")
             }
         }
     }
@@ -171,7 +129,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         passcodeViewConfig.instructionTextColor = UIColor.white
         passcodeViewConfig.borderColor = UIColor.yellow
         passcodeViewConfig.maxNumberOfAttempts = 3
-        passcodeViewConfig.forcePasscodeLength = true
         UserAccountManager.shared.appLockViewControllerConfig = passcodeViewConfig
     }
 

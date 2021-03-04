@@ -21,16 +21,17 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SalesforceSDKCoreDefines.h"
-#import "SFUserAccount.h"
-#import "SFOAuthCredentials.h"
-#import "SFUserAccountIdentity.h"
-#import "SFUserAccountConstants.h"
-#import "SFOAuthCoordinator.h"
-#import "SFOAuthCoordinator.h"
-#import "SFSDKLoginViewControllerConfig.h"
-#import "SFSDKAppLockViewConfig.h"
-#import "SFSecurityLockout.h"
+#import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
+#import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceSDKCore/SFOAuthCredentials.h>
+#import <SalesforceSDKCore/SFUserAccountIdentity.h>
+#import <SalesforceSDKCore/SFUserAccountConstants.h>
+#import <SalesforceSDKCore/SFOAuthCoordinator.h>
+#import <SalesforceSDKCore/SFOAuthCoordinator.h>
+#import <SalesforceSDKCore/SFSDKLoginViewControllerConfig.h>
+#import <SalesforceSDKCore/SFSDKAppLockViewConfig.h>
+#import <SalesforceSDKCore/SFSecurityLockout.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -161,6 +162,10 @@ FOUNDATION_EXTERN NSString * const kSFNotificationFromUserKey NS_SWIFT_NAME(User
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey NS_SWIFT_NAME(UserAccountManager.userInfoToUserKey);
 
+/**  Key used to provide triggering scene info for IDP flow from a scene delegate.
+ */
+FOUNDATION_EXTERN NSString * const kSFIDPSceneIdKey NS_SWIFT_NAME(UserAccountManager.IDPSceneKey);
+
 @class SFUserAccountManager;
 @class SFSDKAlertMessage;
 @class SFSDKWindowContainer;
@@ -211,35 +216,6 @@ NS_SWIFT_NAME(UserAccountManagerDelegate)
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
          didSwitchFromUser:(SFUserAccount *)previousUserAccount
                     toUser:(nullable SFUserAccount *)currentUserAccount NS_SWIFT_NAME(userAccountManager(accountManager:didSwitchFrom:to:));
-
-@end
-
-NS_SWIFT_NAME(UserAccountPersister)
-@protocol SFUserAccountPersister <NSObject>
-
-/**
- Called when the Account manager requires to save the state of an account.
- @param userAccount The instance of SFUserAccount making the call.
- @param  error On output, the error if the return value is NO
- @return YES if the account was saved properly, NO in case of error
- */
-- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **) error NS_SWIFT_UNAVAILABLE("");
-
-/** Fetches all the accounts.
-  @param error On output, the error if the return value is NO
-  @return NSDictionary with SFUserAccountIdentity as keys and SFUserAccount as values
-  */
-- (NSDictionary<SFUserAccountIdentity *,SFUserAccount *> *)fetchAllAccounts:(NSError **)error NS_SWIFT_UNAVAILABLE("");
-
-/**
- Allows you to remove the given user account.
- @param user The user account to remove.
- @param error Output error parameter, populated if there was an error deleting
- the account (likely from the filesystem operations).
- @return YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
- the user parameter is found, no action will be taken, and deletion will be reported as successful.
- */
-- (BOOL)deleteAccountForUser:(SFUserAccount *)user error:(NSError **)error NS_SWIFT_UNAVAILABLE("");
 
 @end
 
@@ -448,52 +424,6 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (void)clearAllAccountState;
 
-/** Invoke this method to apply the specified credentials to the
- a user whose credentials match. If no user exists, a new one is created. Fire notifications.
- This will post user update notification.
- @param credentials The credentials to apply
- */
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials NS_SWIFT_UNAVAILABLE("");
-
-/** Invoke this method to apply the specified credentials to the
- a user whose credentials match. If no user exists, a new one is created. Fire notifications.
- This will post user update notification.
- @param credentials The credentials to apply
- @param identityData The identityData to apply
- */
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData NS_SWIFT_UNAVAILABLE("");
-
-/** Invoke this method to apply the specified credentials to the
- a user whose credentials match. If no user exists, a new one is created.
- This will post user update notification.
- @param credentials The credentials to apply
- @param identityData The identityData to apply
- @param shouldSendNotification whether to post notifications.
- */
-- (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(nullable SFIdentityData *) identityData andNotification:(BOOL) shouldSendNotification NS_SWIFT_UNAVAILABLE("");
-
-
-/** Invoke this method to apply the specified id data to the
-  user. This will post user update notification.
-  @param idData The ID data to apply
-  @param userAccount The SFUserAccount to apply this change to.
- */
-- (void)applyIdData:(SFIdentityData *)idData forUser:(SFUserAccount *)userAccount NS_SWIFT_NAME(apply(identityData:to:)) NS_SWIFT_UNAVAILABLE("");
-
-/** This method will selectively update the custom attributes identity data for the  user.
- Other identity data will not be impacted.
- @param customAttributes The new custom attributes data to update in the identity data.
- @param user The SFUserAccount to apply this change to.
- */
-- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes forUser:(SFUserAccount *)user NS_SWIFT_UNAVAILABLE("");
-
-/** This method will selectively update the custom permissions identity data for the  user.
- Other identity data will not be impacted.
- @param customPermissions The new custom permissions data to update in the identity data.
- @param user The SFUserAccount to apply this change to.
- */
-- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions forUser:(SFUserAccount *)user NS_SWIFT_UNAVAILABLE("");
-
 /** Apply custom data to the SFUserAccount that can be
  accessed outside that user's sandbox. This data will be persisted
  between launches and should only be used for non-sensitive information.
@@ -515,12 +445,6 @@ NS_SWIFT_NAME(UserAccountManager)
  @param userAccount The user to switch to.
  */
 - (void)switchToUser:(nullable SFUserAccount *)userAccount NS_SWIFT_NAME(switchToUserAccount(_:));
-
-/** Invoke this method to inform this manager that something has changed for the  user.
- @param user  The user
- @param change The type of change (enum type). Use SFUserAccountDataChange.
- */
-- (void)userChanged:(SFUserAccount *)user change:(SFUserAccountDataChange)change  NS_SWIFT_UNAVAILABLE("");
 
 /**
  Kick off the login process for credentials that's previously configured.
@@ -584,40 +508,12 @@ Use this method to stop/clear any authentication which is has already been start
 - (void)logoutAllUsers;
 
 /**
- Dismisses the auth view controller, resetting the UI state back to its original
- presentation.
- */
-- (void)dismissAuthViewControllerIfPresent NS_SWIFT_UNAVAILABLE("");
-
-/**
  Handle an authentication response from the IDP application
  @param url The URL response returned to the app from the IDP application.
  @options Dictionary of name-value pairs received from open URL
  @return YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.
  */
-- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options  NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
-
-/**
- Set this block to handle presentation of the Authentication View Controller.
- */
-@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler NS_SWIFT_UNAVAILABLE("");
-
-/**
- Change this block to handle all alerts  required by the SFUserAccountManager.
- */
-@property (nonatomic, copy, nonnull) void (^alertDisplayBlock)(SFSDKAlertMessage *,SFSDKWindowContainer *) NS_SWIFT_UNAVAILABLE("");
-
-/**
- Change this block to customize behavior for user initiated auth cancellation
- */
-@property (nonatomic, copy, nonnull) void (^authCancelledByUserHandlerBlock)(void) NS_SWIFT_UNAVAILABLE("");
-
-/**
- Determines whether an error is due to invalid auth credentials.
- @param error The error to check against an invalid credentials error.
- @return YES if the error is due to invalid credentials, NO otherwise.
- */
-+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error NS_SWIFT_UNAVAILABLE("");
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
 
 /**
  Presents the setup screen that allows the user to opt into Touch/Face Id as a replacement for Passcode.

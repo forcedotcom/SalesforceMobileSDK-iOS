@@ -28,7 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SalesforceSDKConstants.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 extern NSString * __nonnull const kSFNetworkEphemeralInstanceIdentifier NS_SWIFT_NAME(NetworkEphemeralInstanceIdentifier);
 extern NSString * __nonnull const kSFNetworkBackgroundInstanceIdentifier NS_SWIFT_NAME(NetworkBackgroundInstanceIdentifier);

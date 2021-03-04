@@ -24,6 +24,7 @@
 
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import <SalesforceSDKCore/SFSDKCompositeResponse.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "MobileSync.h"
 #import "SFSyncTarget+Internal.h"
 #import "SFSyncUpTarget+Internal.h"
@@ -249,10 +250,10 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     NSString* parentId = record[self.idFieldName];
     SFRestRequest* lastModRequest = [self getRequestForTimestamps:parentId];
     [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:lastModRequest
-                                                     failBlock:^(NSError *error, NSURLResponse *rawResponse) {
+                                                     failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
                                                          completionBlock(nil);
                                                      }
-                                                 completeBlock:^(id lastModResponse, NSURLResponse *rawResponse) {
+                                                 successBlock:^(id lastModResponse, NSURLResponse *rawResponse) {
                                                      NSMutableDictionary<NSString *, NSString *> * idToRemoteTimestamps = nil;
                                                      id rows = lastModResponse[kResponseRecords];
                                                      if (rows && rows != [NSNull null] && [rows count] > 0) {
@@ -404,7 +405,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
             return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:info.sobjectType objectId:id apiVersion:nil];
         }
     }
-        // Create/update cases
+    // Create/update cases
     else {
         fieldlist = isParent
                 ? isCreate
@@ -420,7 +421,16 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
 
         if (isCreate) {
-            return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:info.sobjectType fields:fields apiVersion:nil];
+            NSString *externalId = info.externalIdFieldName ? record[info.externalIdFieldName] : nil;
+            if (externalId
+                // the following check is there for the case
+                // where the the external id field is the id field
+                // and the field is populated by a local id
+                && ![SFSyncTarget isLocalId:externalId]) {
+                return [[SFRestAPI sharedInstance] requestForUpsertWithObjectType:info.sobjectType externalIdField:info.externalIdFieldName externalId:externalId fields:fields apiVersion:nil];
+            } else {
+                return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:info.sobjectType fields:fields apiVersion:nil];
+            }
         } else {
             return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:info.sobjectType objectId:id fields:fields apiVersion:nil];
         }
@@ -454,7 +464,8 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
         // Failure
         else {
-            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
     }
 
@@ -487,7 +498,8 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
         // Failure
         else {
-            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
 
     }
@@ -525,7 +537,8 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
         // Failure
         else {
-            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
     }
 
@@ -571,7 +584,8 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
         // Failure
         else {
-            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:response.description];
+            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
+            [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
 
     }

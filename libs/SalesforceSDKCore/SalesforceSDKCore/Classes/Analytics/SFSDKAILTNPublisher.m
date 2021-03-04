@@ -43,7 +43,7 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
 
 @implementation SFSDKAILTNPublisher
 
-- (void) publish:(NSArray *) events publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
+- (void) publish:(NSArray *) events user:(SFUserAccount *)user publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
     if (!events || [events count] == 0) {
         publishCompleteBlock(NO, nil);
         return;
@@ -51,10 +51,12 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
 
     // Builds the POST body of the request.
     NSDictionary *bodyDictionary = [[self class] buildRequestBody:events];
-    [[self class] publishLogLines:bodyDictionary publishCompleteBlock:publishCompleteBlock];
+    [[self class] publishLogLines:bodyDictionary user:user publishCompleteBlock:publishCompleteBlock];
 }
 
-+ (void) publishLogLines:(NSDictionary *) bodyDictionary publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
++ (void) publishLogLines:(NSDictionary *) bodyDictionary user:(SFUserAccount *)user publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
+    SFRestAPI *restAPI = [SFRestAPI sharedInstanceWithUser:user];
+    
     NSString *path = [NSString stringWithFormat:@"/%@/%@", kSFRestDefaultAPIVersion, kRestApiSuffix];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
 
@@ -65,12 +67,13 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
     [request setCustomRequestBodyData:postData contentType:@"application/json"];
     [request setHeaderValue:@"gzip" forHeaderName:@"Content-Encoding"];
     [request setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHeaderName:@"Content-Length"];
-    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+
+    [restAPI sendRequest:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         if (e) {
             [SFSDKCoreLogger e:[self class] format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
         }
         publishCompleteBlock(NO, e);
-    } completeBlock:^(id response, NSURLResponse *rawResponse) {
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
         publishCompleteBlock(YES, nil);
     }];
 }

@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthCredentials.h"
+#import <SalesforceSDKCore/SFOAuthCredentials.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

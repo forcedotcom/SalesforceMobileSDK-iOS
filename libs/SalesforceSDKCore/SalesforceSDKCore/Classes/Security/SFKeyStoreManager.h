@@ -23,8 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFEncryptionKey.h"
-#import "SFKeyStoreKey.h"
+#import <SalesforceSDKCore/SFEncryptionKey.h>
+#import <SalesforceSDKCore/SFKeyStoreKey.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param create Indicates whether a new key should be created if one does not exist.
  @returns Encryption key or `nil`, depending on the `autoCreate` value.
  */
-- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create;
+- (nullable SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create;
 
 /**
  Stores a key with the given label in the keystore encrypted by the store's key.

@@ -126,12 +126,17 @@ static NSException *authException = nil;
 
 
 - (NSArray*) createAccountsLocally:(NSArray*)names {
+    return [self createAccountsLocally:names mutateBlock:nil];
+}
+
+- (NSArray *) createAccountsLocally:(NSArray*)names mutateBlock:(SFRecordMutatorBlock)mutateBlock;
+ {
     NSMutableArray* createdAccounts = [NSMutableArray new];
     NSMutableDictionary* attributes = [NSMutableDictionary new];
     attributes[TYPE] = ACCOUNT_TYPE;
     for (NSString* name in names) {
         NSMutableDictionary* account = [NSMutableDictionary new];
-        NSString* accountId = [self createLocalId];
+        NSString* accountId = [SFSyncTarget createLocalId];
         account[ID] = accountId;
         account[NAME] = name;
         account[DESCRIPTION] = [self createDescription:name];
@@ -140,13 +145,10 @@ static NSException *authException = nil;
         account[kSyncTargetLocallyCreated] = @YES;
         account[kSyncTargetLocallyDeleted] = @NO;
         account[kSyncTargetLocallyUpdated] = @NO;
+        if (mutateBlock) { account = mutateBlock(account); }
         [createdAccounts addObject:account];
     }
     return [self.store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];
-}
-
-- (NSString*) createLocalId {
-    return [NSString stringWithFormat:@"local_%08d", arc4random_uniform(100000000)];
 }
 
 - (void)createAccountsSoup {
@@ -205,7 +207,7 @@ static NSException *authException = nil;
 
 - (NSDictionary*)sendSyncRequest:(SFRestRequest*)request ignoreNotFound:(BOOL)ignoreNotFound {
     SFSDKTestRequestListener *listener = [[SFSDKTestRequestListener alloc] init];
-    SFRestFailBlock failBlock = ^(NSError *error, NSURLResponse *rawResponse) {
+    SFRestRequestFailBlock failBlock = ^(id response, NSError *error, NSURLResponse *rawResponse) {
         listener.lastError = error;
         listener.returnStatus = kTestRequestStatusDidFail;
 
@@ -214,9 +216,9 @@ static NSException *authException = nil;
         listener.dataResponse = data;
         listener.returnStatus = kTestRequestStatusDidLoad;
     };
-    [[SFRestAPI sharedInstance] sendRESTRequest:request
-                                      failBlock:failBlock
-                                  completeBlock:completeBlock];
+    [[SFRestAPI sharedInstance] sendRequest:request
+                               failureBlock:failBlock
+                               successBlock:completeBlock];
     [listener waitForCompletion];
     if (listener.lastError && (listener.lastError.code != 404 || !ignoreNotFound)) {
         XCTFail(@"Rest call %@ failed with error %@", request, listener.lastError);
@@ -360,7 +362,7 @@ static NSException *authException = nil;
                 XCTAssertEqualObjects(((SFMetadataSyncDownTarget*)expectedTarget).objectType, ((SFMetadataSyncDownTarget*)sync.target).objectType);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeLayout) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFLayoutSyncDownTarget class]]);
-                XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).objectType, ((SFLayoutSyncDownTarget*)sync.target).objectType);
+                XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).objectAPIName, ((SFLayoutSyncDownTarget*)sync.target).objectAPIName);
                 XCTAssertEqualObjects(((SFLayoutSyncDownTarget*)expectedTarget).layoutType, ((SFLayoutSyncDownTarget*)sync.target).layoutType);
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeParentChildren) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFParentChildrenSyncDownTarget class]]);
@@ -496,8 +498,8 @@ static NSException *authException = nil;
         XCTAssertEqualObjects(@(expectedLocallyUpdated), recordFromDb[kSyncTargetLocallyUpdated]);
         XCTAssertEqualObjects(@(expectedLocallyDeleted), recordFromDb[kSyncTargetLocallyDeleted]);
         NSString* id = recordFromDb[ID];
-        bool hasLocalIdPrefix = [id hasPrefix:LOCAL_ID_PREFIX];
-        XCTAssertEqual(expectedLocallyCreated, hasLocalIdPrefix);
+        BOOL isLocalId = [SFSyncTarget isLocalId:id];
+        XCTAssertEqual(expectedLocallyCreated, isLocalId);
 
         // Last error field should be empty for a clean record
         if (!expectedDirty) {
@@ -704,7 +706,7 @@ static NSException *authException = nil;
     for (NSDictionary* record in records) {
         NSString* recordId = record[ID];
         for (NSString* fieldName in [idToFields[recordId] allKeys]) {
-            XCTAssertEqualObjects(idToFields[recordId][fieldName], record[fieldName]);
+            XCTAssertEqualObjects(idToFields[recordId][fieldName], record[fieldName], "Wrong value for field %@ on record %@", fieldName, recordId);
         }
     }
 }

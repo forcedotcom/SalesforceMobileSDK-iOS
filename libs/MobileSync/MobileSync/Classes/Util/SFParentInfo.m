@@ -29,6 +29,8 @@ NSString * const kSFParentInfoSObjectType = @"sobjectType";
 NSString * const kSFParentInfoSoupName = @"soupName";
 NSString * const kSFParentInfoIdFieldName = @"idFieldName";
 NSString * const kSFParentInfoModifificationDateFieldName = @"modificationDateFieldName";
+NSString * const kSFParentInfoExternalIdFieldName = @"externalIdFieldName";
+
 
 @interface SFParentInfo ()
 
@@ -36,18 +38,25 @@ NSString * const kSFParentInfoModifificationDateFieldName = @"modificationDateFi
 @property (nonatomic, readwrite) NSString* idFieldName;
 @property (nonatomic, readwrite) NSString* modificationDateFieldName;
 @property (nonatomic, readwrite) NSString* soupName;
+@property (nonatomic, readwrite) NSString* externalIdFieldName;
 
 @end
 
 @implementation SFParentInfo
 
-- (instancetype)initWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName {
+- (instancetype)initWithSObjectType:(NSString *)sobjectType
+                           soupName:(NSString *)soupName
+                        idFieldName:(NSString *)idFieldName
+          modificationDateFieldName:(NSString *)modificationDateFieldName
+                externalIdFieldName:(NSString *)externalIdFieldName {
+    
     self = [self init];
     if (self) {
         self.sobjectType = sobjectType;
         self.idFieldName = idFieldName;
         self.modificationDateFieldName = modificationDateFieldName;
         self.soupName = soupName;
+        self.externalIdFieldName = externalIdFieldName;
     }
     return self;
 }
@@ -57,19 +66,47 @@ NSString * const kSFParentInfoModifificationDateFieldName = @"modificationDateFi
 + (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType
                             soupName:(NSString *)soupName
 {
-    return [SFParentInfo newWithSObjectType:sobjectType soupName:soupName idFieldName:kId modificationDateFieldName:kLastModifiedDate];
+    return [SFParentInfo newWithSObjectType:sobjectType
+                                   soupName:soupName
+                                idFieldName:kId
+                  modificationDateFieldName:kLastModifiedDate
+                        externalIdFieldName:NULL];
 }
 
 
-+ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType soupName:(NSString *)soupName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName {
-    return [[SFParentInfo alloc] initWithSObjectType:sobjectType soupName:soupName idFieldName:idFieldName modificationDateFieldName:modificationDateFieldName];
++ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType
+                            soupName:(NSString *)soupName
+                         idFieldName:(NSString *)idFieldName
+           modificationDateFieldName:(NSString *)modificationDateFieldName {
+    
+    return [SFParentInfo newWithSObjectType:sobjectType
+                                   soupName:soupName
+                                idFieldName:idFieldName
+                  modificationDateFieldName:modificationDateFieldName
+                        externalIdFieldName:NULL];
 }
+
++ (SFParentInfo *)newWithSObjectType:(NSString *)sobjectType
+                            soupName:(NSString *)soupName
+                         idFieldName:(NSString *)idFieldName
+           modificationDateFieldName:(NSString *)modificationDateFieldName
+                 externalIdFieldName:(NSString *)externalIdFieldName {
+    
+    return [[SFParentInfo alloc] initWithSObjectType:sobjectType
+                                            soupName:soupName
+                                         idFieldName:idFieldName
+                           modificationDateFieldName:modificationDateFieldName
+                                 externalIdFieldName:externalIdFieldName];
+}
+
 
 + (SFParentInfo*) newFromDict:(NSDictionary*)dict {
     return [SFParentInfo newWithSObjectType:dict[kSFParentInfoSObjectType]
                                    soupName:dict[kSFParentInfoSoupName]
                                 idFieldName:dict[kSFParentInfoIdFieldName]
-                  modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]];
+                  modificationDateFieldName:dict[kSFParentInfoModifificationDateFieldName]
+                        externalIdFieldName:dict[kSFParentInfoExternalIdFieldName]
+            ];
 }
 
 #pragma mark - To dictionary
@@ -81,6 +118,7 @@ NSString * const kSFParentInfoModifificationDateFieldName = @"modificationDateFi
     dict[kSFParentInfoIdFieldName] = self.idFieldName;
     dict[kSFParentInfoModifificationDateFieldName] = self.modificationDateFieldName;
     dict[kSFParentInfoSoupName] = self.soupName;
+    dict[kSFParentInfoExternalIdFieldName] = self.externalIdFieldName;
     return dict;
 }
 

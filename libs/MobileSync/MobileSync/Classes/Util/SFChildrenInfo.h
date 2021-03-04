@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFParentInfo.h"
+#import <MobileSync/SFParentInfo.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,8 +40,25 @@ NS_SWIFT_NAME(ChildrenInfo)
 
 /** Factory methods
  */
-+ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName;
-+ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName;
++ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType
+                     sobjectTypePlural:(NSString *)sobjectTypePlural
+                              soupName:(NSString *)soupName
+                     parentIdFieldName:(NSString *)parentIdFieldName;
+
++ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType
+                     sobjectTypePlural:(NSString *)sobjectTypePlural
+                              soupName:(NSString *)soupName
+                     parentIdFieldName:(NSString *)parentIdFieldName
+                           idFieldName:(NSString *)idFieldName
+             modificationDateFieldName:(NSString *)modificationDateFieldName;
+
++ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType
+                     sobjectTypePlural:(NSString *)sobjectTypePlural
+                              soupName:(NSString *)soupName
+                     parentIdFieldName:(NSString *)parentIdFieldName
+                           idFieldName:(NSString *)idFieldName
+             modificationDateFieldName:(NSString *)modificationDateFieldName
+                   externalIdFieldName:(NSString * __nullable)externalIdFieldName;
 
 + (SFChildrenInfo*) newFromDict:(NSDictionary*)dict;
 

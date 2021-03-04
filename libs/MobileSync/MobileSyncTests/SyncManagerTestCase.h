@@ -42,9 +42,11 @@
 #define ACCOUNT_ID          @"AccountId"
 #define CONTACT_TYPE_PLURAL @"Contacts"
 #define TOTAL_SIZE_UNKNOWN  -2
-#define LOCAL_ID_PREFIX     @"local_"
 #define REMOTELY_UPDATED    @"_r_upd"
 #define LOCALLY_UPDATED     @"_l_upd"
+
+// block type
+typedef NSMutableDictionary* (^SFRecordMutatorBlock) (NSMutableDictionary* record);
 
 @interface SyncManagerTestCase : XCTestCase
 
@@ -58,10 +60,10 @@
 - (NSString *)createRecordName:(NSString *)objectType;
 - (NSString *)createAccountName;
 - (NSString *)createDescription:(NSString *)name;
-- (NSString *) createLocalId;
 - (NSString *)buildInClause:(NSArray *)values;
 
 - (NSArray *) createAccountsLocally:(NSArray*)names;
+- (NSArray *) createAccountsLocally:(NSArray*)names mutateBlock:(SFRecordMutatorBlock)mutateBlock;
 - (void)createAccountsSoup;
 - (void)dropAccountsSoup;
 - (void)createContactsSoup;

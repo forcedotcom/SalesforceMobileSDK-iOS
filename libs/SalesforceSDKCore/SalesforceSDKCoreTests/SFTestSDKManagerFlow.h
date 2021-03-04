@@ -28,11 +28,6 @@
 
 @interface SFTestSDKManagerFlow : NSObject <SalesforceSDKManagerFlow>
 
-@property (nonatomic, assign) BOOL pauseInAuth;
-
-- (id)initWithStepTimeDelaySecs:(NSTimeInterval)timeDelayInSecs;
-- (void)resumeAuth;
-- (BOOL)waitForLaunchCompletion;
 - (void)setUpUserSwitchState:(SFUserAccount *)fromUser toUser:(SFUserAccount *)fromUser completion:(void (^)(SFUserAccount *,SFUserAccount *,BOOL before))switchUserCompletionBlock;
 - (void)clearUserSwitchState;
 

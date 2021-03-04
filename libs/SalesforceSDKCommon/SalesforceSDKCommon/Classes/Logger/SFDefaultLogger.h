@@ -28,7 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFLogger.h"
+#import <SalesforceSDKCommon/SFLogger.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

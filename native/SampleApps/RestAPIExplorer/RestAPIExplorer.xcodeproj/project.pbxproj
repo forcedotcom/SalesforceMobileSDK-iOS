@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6965555E2589961000A1AB82 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965555D2589961000A1AB82 /* SceneDelegate.swift */; };
 		A34601F72176B16700DC6900 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C0B9082175444F0037A7CB /* main.swift */; };
 		A3D23079219749C3009F433D /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */; };
 		A3D2307A219749C3009F433D /* SalesforceSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -202,6 +203,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6965555D2589961000A1AB82 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A3C0B9082175444F0037A7CB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileSync.xcodeproj; path = ../../../libs/MobileSync/MobileSync.xcodeproj; sourceTree = "<group>"; };
 		B79F06EC20EA931900BC7D6F /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
@@ -247,7 +249,6 @@
 				B79F06E520EA931200BC7D6F /* MobileSync.framework */,
 				B79F06E720EA931200BC7D6F /* MobileSyncTestApp.app */,
 				B79F06E920EA931200BC7D6F /* MobileSyncTests.xctest */,
-				B79F06EB20EA931200BC7D6F /* libMobileSync.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -258,7 +259,6 @@
 				B79F06F520EA931900BC7D6F /* SalesforceSDKCore.framework */,
 				B79F06F720EA931900BC7D6F /* SalesforceSDKCoreTestApp.app */,
 				B79F06F920EA931900BC7D6F /* SalesforceSDKCoreTests.xctest */,
-				B79F06FB20EA931900BC7D6F /* libSalesforceSDKCore.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -268,7 +268,6 @@
 			children = (
 				B79F070520EA931F00BC7D6F /* SalesforceAnalytics.framework */,
 				B79F070720EA931F00BC7D6F /* SalesforceAnalyticsTests.xctest */,
-				B79F070920EA931F00BC7D6F /* libSalesforceAnalytics.a */,
 				B79F070B20EA931F00BC7D6F /* SalesforceAnalyticsTestApp.app */,
 			);
 			name = Products;
@@ -280,7 +279,6 @@
 				B79F071520EA932400BC7D6F /* SmartStore.framework */,
 				B79F071720EA932400BC7D6F /* SmartStoreTestApp.app */,
 				B79F071920EA932400BC7D6F /* SmartStoreTests.xctest */,
-				B79F071B20EA932400BC7D6F /* libSmartStore.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -314,6 +312,7 @@
 				B7CEA6FE20B71060007D0564 /* Info.plist */,
 				B7C5120920C084B100B39DAA /* bootconfig.plist */,
 				A3C0B9082175444F0037A7CB /* main.swift */,
+				6965555D2589961000A1AB82 /* SceneDelegate.swift */,
 			);
 			path = RestAPIExplorer;
 			sourceTree = "<group>";
@@ -382,7 +381,6 @@
 				B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */,
 				B7D641CA218F429D006DF5F0 /* SalesforceSDKCommonTests.xctest */,
 				A3D2306C219749BF009F433D /* SalesforceSDKCommonTestApp.app */,
-				B7D641CC218F429D006DF5F0 /* libSalesforceSDKCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -421,7 +419,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = Salesforce;
 				TargetAttributes = {
 					B7CEA6EE20B7105E007D0564 = {
@@ -443,6 +441,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = B79F06DD20EA931200BC7D6F /* Products */;
+					ProjectRef = B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */;
+				},
+				{
 					ProductGroup = B79F06FD20EA931F00BC7D6F /* Products */;
 					ProjectRef = B79F06FC20EA931F00BC7D6F /* SalesforceAnalytics.xcodeproj */;
 				},
@@ -457,10 +459,6 @@
 				{
 					ProductGroup = B79F070D20EA932400BC7D6F /* Products */;
 					ProjectRef = B79F070C20EA932400BC7D6F /* SmartStore.xcodeproj */;
-				},
-				{
-					ProductGroup = B79F06DD20EA931200BC7D6F /* Products */;
-					ProjectRef = B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -499,13 +497,6 @@
 			remoteRef = B79F06E820EA931200BC7D6F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B79F06EB20EA931200BC7D6F /* libMobileSync.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libMobileSync.a;
-			remoteRef = B79F06EA20EA931200BC7D6F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B79F06F520EA931900BC7D6F /* SalesforceSDKCore.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -527,13 +518,6 @@
 			remoteRef = B79F06F820EA931900BC7D6F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B79F06FB20EA931900BC7D6F /* libSalesforceSDKCore.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceSDKCore.a;
-			remoteRef = B79F06FA20EA931900BC7D6F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B79F070520EA931F00BC7D6F /* SalesforceAnalytics.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -546,13 +530,6 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceAnalyticsTests.xctest;
 			remoteRef = B79F070620EA931F00BC7D6F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B79F070920EA931F00BC7D6F /* libSalesforceAnalytics.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceAnalytics.a;
-			remoteRef = B79F070820EA931F00BC7D6F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B79F070B20EA931F00BC7D6F /* SalesforceAnalyticsTestApp.app */ = {
@@ -583,13 +560,6 @@
 			remoteRef = B79F071820EA932400BC7D6F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B79F071B20EA932400BC7D6F /* libSmartStore.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSmartStore.a;
-			remoteRef = B79F071A20EA932400BC7D6F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -602,13 +572,6 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceSDKCommonTests.xctest;
 			remoteRef = B7D641C9218F429D006DF5F0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B7D641CC218F429D006DF5F0 /* libSalesforceSDKCommon.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceSDKCommon.a;
-			remoteRef = B7D641CB218F429D006DF5F0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -642,6 +605,7 @@
 				B7CEA71C20B71202007D0564 /* UIFont+helper.swift in Sources */,
 				B7CEA71D20B71202007D0564 /* UIColors+helper.swift in Sources */,
 				B7CEA71520B71202007D0564 /* ActionTableViewCell.swift in Sources */,
+				6965555E2589961000A1AB82 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -707,6 +671,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -732,7 +697,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -768,6 +733,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -787,7 +753,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -805,7 +771,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = RestAPIExplorer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -825,7 +791,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = RestAPIExplorer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

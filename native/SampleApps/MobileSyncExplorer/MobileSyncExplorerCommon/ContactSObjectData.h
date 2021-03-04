@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SObjectData.h"
+#import <MobileSyncExplorerCommon/SObjectData.h>
 
 @interface ContactSObjectData : SObjectData
 
