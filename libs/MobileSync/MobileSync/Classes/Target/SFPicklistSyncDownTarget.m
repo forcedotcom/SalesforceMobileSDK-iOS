@@ -120,9 +120,9 @@ static NSString * const kIDFieldValue = @"%@-%@-%@-%@-%@";
      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForPicklistWithObjectAPIName:objectAPIName formFactor:formFactor layoutType:layoutType mode:mode recordTypeId:recordTypeId apiVersion:nil];
-    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failBlock:^(NSError *e, NSURLResponse *rawResponse) {
+    [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
-    } completeBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
+    } successBlock:^(NSDictionary *d, NSURLResponse *rawResponse) {
         weakSelf.totalSize = 1;
         NSMutableDictionary *record = [[NSMutableDictionary alloc] initWithDictionary:d];
         record[kId] = [NSString stringWithFormat:kIDFieldValue, weakSelf.objectAPIName, weakSelf.formFactor, weakSelf.layoutType, weakSelf.mode, weakSelf.recordTypeId];

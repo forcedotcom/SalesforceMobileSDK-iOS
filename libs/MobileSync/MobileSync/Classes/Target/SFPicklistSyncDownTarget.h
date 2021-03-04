@@ -28,7 +28,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSyncDownTarget.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+#import <MobileSync/SFSyncDownTarget.h>
 
 /**
  * Sync down target for object Picklists. This uses the '/ui-api/object-info/../picklist-values' API to fetch object Picklists.
@@ -42,11 +43,6 @@ NS_SWIFT_NAME(PicklistSyncDownTarget)
 @property (nullable, nonatomic, strong, readonly) NSString *layoutType;
 @property (nullable, nonatomic, strong, readonly) NSString *mode;
 @property (nullable, nonatomic, strong, readonly) NSString *recordTypeId;
-
-/**
- * Factory method.
- */
-+ (nonnull SFPicklistSyncDownTarget * )newSyncTarget:(nonnull NSString * )objectType layoutType:(nullable NSString * )layoutType;
 
 /**
  * Factory method.
