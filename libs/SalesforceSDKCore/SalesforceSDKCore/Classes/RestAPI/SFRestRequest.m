@@ -43,6 +43,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         self.endpoint = (hostType == SFSDKRestServiceHostTypeCustom)?@"":kSFDefaultRestEndpoint;
         self.parseResponse = YES;
         self.request = [[NSMutableURLRequest alloc] init];
+        self.timeoutInterval = self.request.timeoutInterval;
     }
     return self;
 }
@@ -133,12 +134,13 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 # pragma mark - send and cancel
 
 - (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user {
+
     /*
      * If an absolute URL is passed in, use it as-is. If a relative URL is passed in,
      * parse it and put the pieces together to construct the full URL.
      */
     NSMutableString *fullUrl = nil;
-    
+
     /* FIXME: Remove handling of full url in the path component for the next major release.
      * Leaving this code in place for backward compatibility for sdk versions 7.0 and prior.
      */
@@ -172,7 +174,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             }
             [fullUrl appendString:endpoint];
         }
-        
         NSMutableString *path = [[NSMutableString alloc] initWithString:self.path];
         if ([path hasPrefix:@"/"]) {
             [path deleteCharactersInRange:NSMakeRange(0, 1)];
@@ -187,7 +188,10 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         }
         self.request = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:fullUrl]];
 
-        //Set the service host type
+        // Sets the timeout interval.
+        self.request.timeoutInterval = self.timeoutInterval;
+
+        // Sets the service host type.
         NSURLRequestNetworkServiceType serviceType = [self urlRequestServiceType:self.networkServiceType];
         [self.request setNetworkServiceType:serviceType];
         
@@ -219,8 +223,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             self.request.HTTPBodyStream = self.requestBodyStreamBlock();
         }
     }
-   
-   return self.request;
+    return self.request;
 }
 
 - (void)cancel {

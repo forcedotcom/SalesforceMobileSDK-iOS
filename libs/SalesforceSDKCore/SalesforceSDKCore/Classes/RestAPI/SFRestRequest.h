@@ -188,6 +188,11 @@ NS_SWIFT_NAME(RestRequest)
 @property (nonatomic, assign) BOOL requiresAuthentication;
 
 /**
+ * Assigns the timeout interval allowed for this request.
+ */
+@property (nonatomic, assign, readwrite) NSTimeInterval timeoutInterval;
+
+/**
  * Prepares the request before sending it out.
  *
  * @param user User account.
