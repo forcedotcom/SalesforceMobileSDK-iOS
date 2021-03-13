@@ -208,6 +208,10 @@
     // XXX join query with json1 will only run if all the json1 columns are qualified by table or alias
 }
 
+- (void) testConvertSmartSqlForNonIndexedColumns {
+    XCTAssertEqualObjects(@"select json_extract(soup, '$.education'), json_extract(soup, '$.address.zipcode') from TABLE_1 where json_extract(soup, '$.address.city') = 'San Francisco'", [self.store convertSmartSql:@"select {employees:education}, {employees:address.zipcode} from {employees} where {employees:address.city} = 'San Francisco'"], @"Bad conversion");
+}
+
 
 - (void) testSmartQueryDoingCount 
 {
@@ -358,6 +362,28 @@
     querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:isManager} = 0 order by {employees:employeeId}" withPageSize:10];
     result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"00020\"],[\"00060\"],[\"00070\"],[\"00310\"],[\"102\"]]"] actual:result message:@"Wrong result"];
+}
+
+- (void) testSmartQueryFilteringByNonIndexedField {
+    NSDictionary* employee101 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94105}}"];
+    NSDictionary* employee102 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"address\":{\"city\":\"New York City\", \"zipcode\":10004}}"];
+    NSDictionary* employee103 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"103\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94106}}"];
+    NSDictionary* employee104 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"104\",\"address\":{\"city\":\"New York City\", \"zipcode\":10006}}"];
+
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:address.city} = 'San Francisco' order by {employees:employeeId}" withPageSize:10];
+    NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"101\"],[\"103\"]]"] actual:result message:@"Wrong result"];
+}
+
+- (void) testSmartQueryReturningNonIndexedField {
+    NSDictionary* employee101 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94105}}"];
+    NSDictionary* employee102 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"address\":{\"city\":\"New York City\", \"zipcode\":10004}}"];
+    NSDictionary* employee103 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"103\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94106}}"];
+    NSDictionary* employee104 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"104\",\"address\":{\"city\":\"New York City\", \"zipcode\":10006}}"];
+    
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId}, {employees:address.zipcode} from {employees} where {employees:address.city} = 'San Francisco' order by {employees:employeeId}" withPageSize:10];
+    NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"101\", 94105],[\"103\", 94106]]"] actual:result message:@"Wrong result"];
 }
 
 #pragma mark - helper methods
