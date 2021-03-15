@@ -110,9 +110,16 @@ static SFSmartSqlHelper *sharedInstance = nil;
                 }
                 // {soupName:path}
                 else {
-                    NSString* columnName = [store columnNameForPath:path inSoup:soupName withDb:db];
-                    if (nil == columnName) {
-                        @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid path:%@", path] userInfo:nil];
+                    NSString* columnName = nil;
+                    BOOL indexed = [store hasIndexForPath:path inSoup:soupName withDb:db];
+                    if (!indexed && !soupUsesExternalStorage) {
+                        // Thanks to the json1 extension we can query the data even if it is not indexed (as long as the data is stored in the database)
+                        columnName = [NSString stringWithFormat:@"json_extract(soup, '$.%@')", path];
+                    } else {
+                        columnName = [store columnNameForPath:path inSoup:soupName withDb:db];
+                        if (nil == columnName) {
+                            @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid path:%@", path] userInfo:nil];
+                        }
                     }
                     [sql appendString:columnName];
                 }
