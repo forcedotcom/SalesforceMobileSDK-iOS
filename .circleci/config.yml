@@ -48,7 +48,7 @@ jobs:
       - run: 
           name: Install Dependencies
           command:  |
-            npm install shelljs@0.8.3
+            npm install shelljs@0.8.4
             ./install.sh
             ./build/pre-build
             chruby ${CHRUBY_VER}
