@@ -316,6 +316,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         case kCFURLErrorDNSLookupFailed:
         case kCFURLErrorResourceUnavailable:
         case kCFURLErrorTimedOut:
+        case kCFURLErrorDataNotAllowed:
             return YES;
             break;
         default:
