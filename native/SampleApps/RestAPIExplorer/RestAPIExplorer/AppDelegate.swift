@@ -134,19 +134,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func exportTestingCredentials() {
         guard let creds = UserAccountManager.shared.currentUserAccount?.credentials,
-            let instance = creds.instanceUrl,
-            let identity = creds.identityUrl
-            else {
+              let idData = UserAccountManager.shared.currentUserAccount?.idData,
+              let instance = creds.instanceUrl,
+              let identity = creds.identityUrl
+        else {
                 return
         }
         
-        var config = ["test_client_id": SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey,
-                      "test_login_domain": UserAccountManager.shared.loginHost,
-                      "test_redirect_uri": SalesforceManager.shared.bootConfig?.oauthRedirectURI,
-                      "refresh_token": creds.refreshToken,
-                      "instance_url": instance.absoluteString,
-                      "identity_url": identity.absoluteString,
-                      "access_token": "__NOT_REQUIRED__"]
+        var config = [
+            "test_client_id": SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey,
+            "test_login_domain": UserAccountManager.shared.loginHost,
+            "test_redirect_uri": SalesforceManager.shared.bootConfig?.oauthRedirectURI,
+            "refresh_token": creds.refreshToken,
+            "instance_url": instance.absoluteString,
+            "identity_url": identity.absoluteString,
+            "access_token": "__NOT_REQUIRED__",
+            "organization_id": creds.organizationId,
+            "username": idData.username,
+            "user_id": creds.userId,
+            "display_name": idData.displayName,
+            "photo_url": idData.pictureUrl?.absoluteString
+        ]
         if let community = creds.communityUrl {
             config["community_url"] = community.absoluteString
         }
