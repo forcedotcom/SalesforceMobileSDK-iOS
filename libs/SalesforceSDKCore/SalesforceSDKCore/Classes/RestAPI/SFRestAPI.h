@@ -53,6 +53,14 @@ extern NSString* const kSFRestDefaultAPIVersion NS_SWIFT_NAME(SFRestDefaultAPIVe
 extern NSString* const kSFRestIfUnmodifiedSince NS_SWIFT_NAME(SFRestIfUnmodifiedSince);
 
 /**
+ * SOQL batch related constants
+ */
+extern NSInteger const kSFRestSOQLMinBatchSize NS_SWIFT_NAME(SFRestSOQLMinBatchSize);
+extern NSInteger const kSFRestSOQLMaxBatchSize NS_SWIFT_NAME(SFRestSOQLMaxBatchSize);
+extern NSInteger const kSFRestSOQLDefaultBatchSize NS_SWIFT_NAME(SFRestSOQLDefaultBatchSize);
+extern NSString* const kSFRestQueryOptions NS_SWIFT_NAME(SFRestQueryOptions);
+
+/**
  * Main class used to issue REST requests to the standard Force.com REST API.
  * See the [Force.com REST API Developer's Guide](http://www.salesforce.com/us/developer/docs/api_rest/index.htm)
  * for more information regarding the Force.com REST API.
@@ -279,6 +287,16 @@ NS_SWIFT_NAME(RestClient)
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_query.htm
  */
 - (SFRestRequest *)requestForQuery:(NSString *)soql apiVersion:(nullable NSString *)apiVersion;
+
+/**
+ * Returns an `SFRestRequest` object that executes the specified SOQL query.
+ * @param soql String containing the query to execute. Example: "SELECT Id,
+ *             Name from Account ORDER BY Name LIMIT 20".
+ * @param apiVersion API version.
+ * @param batchSize Batch size: number between 200 and 2000 (default).
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_query.htm
+ */
+- (SFRestRequest *)requestForQuery:(NSString *)soql apiVersion:(nullable NSString *)apiVersion batchSize:(NSInteger)batchSize;
 
 /**
  * Returns an `SFRestRequest` object that executes the specified SOQL query.
