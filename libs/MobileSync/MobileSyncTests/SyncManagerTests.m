@@ -74,7 +74,7 @@
 @interface SFSoqlSyncDownTarget ()
 
 + (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp;
-
+- (SFRestRequest*) buildRequest:(NSString *)queryToRun;
 @end
 
 @implementation SlowSoqlSyncDownTarget
@@ -136,6 +136,36 @@
     SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soqlQueryWithoutSpecialFields];
     NSString *targetSoqlQuery = [target query];
     XCTAssertEqualObjects(soqlQueryWithSpecialFields, targetSoqlQuery, @"SOQL query should contain Id and LastModifiedDate fields.");
+}
+
+/**
+ * Tests that request does not include batchSize header when no batch size was specified
+ */
+- (void) testNoBatchSizeHeaderPresentByDefault
+{
+    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:@"SELECT Name FROM Account WHERE Name = 'James Bond'"];
+    SFRestRequest* request = [target buildRequest:target.query];
+    XCTAssertNil(request.customHeaders);
+}
+
+/**
+ * Tests that request does not include batchSize header when default batch size was specified
+ */
+- (void) testNoBatchSizeHeaderPresentWithDefaultBatchSize
+{
+    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:@"SELECT Name FROM Account WHERE Name = 'James Bond'" maxBatchSize:2000];
+    SFRestRequest* request = [target buildRequest:target.query];
+    XCTAssertNil(request.customHeaders);
+}
+
+/**
+ * Tests that request does include batchSize header when non-default batch size was specified
+ */
+- (void) testBatchSizeHeaderPresentWithNonDefaultBatchSize
+{
+    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:@"SELECT Name FROM Account WHERE Name = 'James Bond'" maxBatchSize:200];
+    SFRestRequest* request = [target buildRequest:target.query];
+    XCTAssertEqualObjects(@"batchSize=200", request.customHeaders[@"Sforce-Query-Options"]);
 }
 
 /**

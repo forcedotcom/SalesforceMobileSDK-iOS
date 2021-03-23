@@ -131,7 +131,7 @@ static NSString * const kSFSoqlSyncTargetMaxBatchSize = @"maxBatchSize";
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun apiVersion:nil batchSize:self.maxBatchSize];
+    SFRestRequest* request = [self buildRequest:queryToRun];
     [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } successBlock:^(NSDictionary *responseJson, NSURLResponse *rawResponse) {
@@ -140,6 +140,10 @@ static NSString * const kSFSoqlSyncTargetMaxBatchSize = @"maxBatchSize";
         strongSelf.nextRecordsUrl = responseJson[kResponseNextRecordsUrl];
         completeBlock([strongSelf getRecordsFromResponse:responseJson]);
     }];
+}
+
+- (SFRestRequest*) buildRequest:(NSString *)queryToRun {
+    return [[SFRestAPI sharedInstance] requestForQuery:queryToRun apiVersion:nil batchSize:self.maxBatchSize];
 }
 
 - (void) continueFetch:(SFMobileSyncSyncManager *)syncManager
