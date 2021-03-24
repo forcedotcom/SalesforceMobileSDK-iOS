@@ -45,6 +45,7 @@
 @implementation SFSDKKeyValueEncryptedFileStoreTests
 
 - (void)setUp {
+    [super setUp];
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"keyvalue-test"] clientId:@"fakeClientIdForTesting" encrypted:YES];
     self.userAccount = [[SFUserAccount alloc] initWithCredentials:credentials];
     self.userAccount.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0IAC"];
@@ -61,6 +62,7 @@
         XCTAssertNil(error, @"Error removing item at path '%@': %@", [self userPath:self.userAccount], error);
     }
     self.userAccount = nil;
+    [super tearDown];
 }
 
 #pragma mark - Store management
