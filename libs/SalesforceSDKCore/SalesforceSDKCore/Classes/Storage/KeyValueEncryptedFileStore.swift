@@ -51,7 +51,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     private static let encryptionKeyLabel = "com.salesforce.keyValueStores.encryptionKey"
     
     private enum FileType {
-        case key, value
+        case key, value, version
         
         var nameSuffix: String {
             let suffix: String
@@ -60,6 +60,8 @@ public class KeyValueEncryptedFileStore: NSObject {
                 suffix = ".key"
             case .value:
                 suffix = ".value"
+            case .version:
+                suffix = ""
             }
             return suffix
         }
@@ -346,7 +348,9 @@ public class KeyValueEncryptedFileStore: NSObject {
         let files = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
         for file in files {
             let fileURL = directory.appendingPathComponent(file)
-            KeyValueEncryptedFileStore.removeFile(fileURL, function: #function)
+            if !isVersionFile(fileURL) {
+                KeyValueEncryptedFileStore.removeFile(fileURL, function: #function)
+            }
         }
     }
 
@@ -431,6 +435,10 @@ public class KeyValueEncryptedFileStore: NSObject {
         } catch {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Error removing file at path '\(fileURL.path)': \(error)")
         }
+    }
+    
+    private func isVersionFile(_ fileURL: URL) -> Bool {
+        return fileURL.lastPathComponent == Self.storeVersionFileName
     }
     
     private func encodedURL(forKey key: String, fileType: FileType, function: String) -> URL? {
