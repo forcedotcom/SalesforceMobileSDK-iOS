@@ -37,8 +37,23 @@ public class KeyValueEncryptedFileStore: NSObject {
     private let encryptionKey: SFEncryptionKey
     private static var globalStores = SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>()
     private static var userStores = SafeMutableDictionary<NSString, SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>>()
+    private static let storeVersion = "2"
+    private static let storeVersionFileName = "version"
     private static let keyValueStoresDirectory = "key_value_stores"
     private static let encryptionKeyLabel = "com.salesforce.keyValueStores.encryptionKey"
+    
+    private lazy var version: Int = {
+        if let version = self[Self.storeVersionFileName], let versionNumber = Int(version) {
+            return versionNumber
+        } else {
+            return 1
+        }
+    }()
+    
+    private enum KeySuffix {
+        static let key = ".key"
+        static let value = ".value"
+    }
 
     /// Creates a store.
     /// - Parameter parentDirectory: Parent directory for the store.
@@ -59,6 +74,11 @@ public class KeyValueEncryptedFileStore: NSObject {
         self.name = name
         self.directory = URL(fileURLWithPath: fullPath)
         self.encryptionKey = encryptionKey
+        super.init()
+        
+        if isEmpty() {
+            self[Self.storeVersionFileName] = Self.storeVersion
+        }
     }
 
     // MARK: - Store management
