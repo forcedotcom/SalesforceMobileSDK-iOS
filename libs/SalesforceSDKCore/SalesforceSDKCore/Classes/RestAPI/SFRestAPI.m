@@ -41,6 +41,11 @@ NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
 NSInteger const kSFRestErrorCode = 999;
+NSInteger const kSFRestSOQLMinBatchSize = 200;
+NSInteger const kSFRestSOQLMaxBatchSize = 2000;
+NSInteger const kSFRestSOQLDefaultBatchSize = 2000;
+NSString* const kSFRestQueryOptions = @"Sforce-Query-Options";
+
 
 static BOOL kIsTestRun;
 static SFSDKSafeMutableDictionary *sfRestApiList = nil;
@@ -596,6 +601,15 @@ static dispatch_once_t pred;
     }
     NSString *path = [NSString stringWithFormat:@"/%@/query", [self computeAPIVersion:apiVersion]];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
+}
+
+- (SFRestRequest *)requestForQuery:(NSString *)soql apiVersion:(NSString *)apiVersion batchSize:(NSInteger)batchSize {
+    SFRestRequest* request = [self requestForQuery:soql apiVersion:apiVersion];
+    NSUInteger validatedBatchSize = MAX(MIN(batchSize, kSFRestSOQLMaxBatchSize), kSFRestSOQLMinBatchSize);
+    if (batchSize != kSFRestSOQLDefaultBatchSize) {
+        [request setHeaderValue:[NSString stringWithFormat:@"batchSize=%lu", validatedBatchSize] forHeaderName:kSFRestQueryOptions];
+    }
+    return request;
 }
 
 - (SFRestRequest *)requestForQueryAll:(NSString *)soql apiVersion:(NSString *)apiVersion {

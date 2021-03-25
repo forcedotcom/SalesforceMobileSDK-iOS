@@ -31,9 +31,12 @@ NS_SWIFT_NAME(SoqlSyncDownTarget)
 
 @property (nonatomic, copy) NSString* query;
 
+@property (nonatomic, assign) NSInteger maxBatchSize;
+
 /** Factory methods
  */
 + (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query;
++ (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query maxBatchSize:(NSInteger) maxBatchSize;
 
 /**
  * @return query to run

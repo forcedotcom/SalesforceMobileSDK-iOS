@@ -138,6 +138,23 @@
     expectedTotalSize:-1];
 }
 
+- (void) testSoqlSyncDownWithBatchSizeFromConfig {
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+    
+    SFSyncState* sync = [self.syncManager getSyncStatusByName:@"soqlSyncDownWithBatchSize"];
+    XCTAssertEqualObjects(sync.soupName, @"accounts");
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeDown
+           expectedId:sync.syncId
+         expectedName:@"soqlSyncDown"
+       expectedTarget:[SFSoqlSyncDownTarget
+                       newSyncTarget:@"SELECT Id, Name, LastModifiedDate FROM Account" maxBatchSize:200]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
+}
+
 - (void) testSoslSyncDownFromConfig {
     [self.sdkManager setupUserSyncsFromDefaultConfig];
     
