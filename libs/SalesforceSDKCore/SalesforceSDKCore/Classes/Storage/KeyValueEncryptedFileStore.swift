@@ -33,6 +33,14 @@ public class KeyValueEncryptedFileStore: NSObject {
     @objc(storeDirectory) public let directory: URL
     @objc(storeName) public let name: String
     @objc public static let maxStoreNameLength = 96
+    
+    public lazy var version: Int = {
+        if let version = self[Self.storeVersionFileName], let versionNumber = Int(version) {
+            return versionNumber
+        } else {
+            return 1
+        }
+    }()
 
     private let encryptionKey: SFEncryptionKey
     private static var globalStores = SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>()
@@ -41,14 +49,6 @@ public class KeyValueEncryptedFileStore: NSObject {
     private static let storeVersionFileName = "version"
     private static let keyValueStoresDirectory = "key_value_stores"
     private static let encryptionKeyLabel = "com.salesforce.keyValueStores.encryptionKey"
-    
-    private lazy var version: Int = {
-        if let version = self[Self.storeVersionFileName], let versionNumber = Int(version) {
-            return versionNumber
-        } else {
-            return 1
-        }
-    }()
     
     private enum KeySuffix {
         static let key = ".key"
