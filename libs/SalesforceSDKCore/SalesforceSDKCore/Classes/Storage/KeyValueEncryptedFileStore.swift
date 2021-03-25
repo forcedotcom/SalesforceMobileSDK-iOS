@@ -50,9 +50,19 @@ public class KeyValueEncryptedFileStore: NSObject {
     private static let keyValueStoresDirectory = "key_value_stores"
     private static let encryptionKeyLabel = "com.salesforce.keyValueStores.encryptionKey"
     
-    private enum KeySuffix {
-        static let key = ".key"
-        static let value = ".value"
+    private enum ValueType {
+        case key, value
+        
+        var keySuffix: String {
+            let suffix: String
+            switch self {
+            case .key:
+                suffix = ".key"
+            case .value:
+                suffix = ".value"
+            }
+            return suffix
+        }
     }
 
     /// Creates a store.
@@ -277,7 +287,7 @@ public class KeyValueEncryptedFileStore: NSObject {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to encrypt data")
             return false
         }
-        guard let fileURL = encodedUrl(forKey: key, function: #function) else {
+        guard let fileURL = encodedURL(forKey: key, valueType: .value, function: #function) else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct file URL")
             return false
         }
@@ -295,7 +305,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     /// Accesses the value associated with the given key for reading and writing.
     @objc public subscript(key: String) -> String? {
         get {
-            guard let fileURL = encodedUrl(forKey: key, function: #function) else {
+            guard let fileURL = encodedURL(forKey: key, valueType: .value, function: #function) else {
                 SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct file URL")
                 return nil
             }
@@ -328,7 +338,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     /// - Parameter key: The key associated with the entry to remove.
     /// - Returns: True if the entry is successfully removed or doesn't exist, false otherwise.
     @objc @discardableResult public func removeValue(forKey key: String) -> Bool {
-        guard let fileURL = encodedUrl(forKey: key, function: #function) else {
+        guard let fileURL = encodedURL(forKey: key, valueType: .value, function: #function) else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct file URL")
             return false
         }
@@ -399,15 +409,15 @@ public class KeyValueEncryptedFileStore: NSObject {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Error removing file at path '\(fileURL.path)': \(error)")
         }
     }
-
-    private func encodedUrl(forKey key: String, function: String) -> URL? {
+    
+    private func encodedURL(forKey key: String, valueType: ValueType, function: String) -> URL? {
         guard !key.isEmpty else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Key is empty")
             return nil
         }
         
-        let keyData = Data(key.utf8)
-        let encodedKey = (keyData as NSData).sha256()
+        let keyData = Data(key.utf8) as NSData
+        let encodedKey = keyData.sha256() + "\(version == 1 ? "" : valueType.keySuffix)"
         return directory.appendingPathComponent(encodedKey)
     }
 
