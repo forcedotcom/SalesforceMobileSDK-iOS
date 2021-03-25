@@ -356,7 +356,15 @@ public class KeyValueEncryptedFileStore: NSObject {
 
     /// - Returns: The number of entries in the store.
     @objc public func count() -> Int {
+        if version < 2 {
+            return KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function).count
+        }
+        
         let files = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
+            .filter { (filePath) -> Bool in
+                let fileURL = directory.appendingPathComponent(filePath)
+                return fileURL.lastPathComponent.hasSuffix(FileType.value.nameSuffix)
+            }
         return files.count
     }
 
