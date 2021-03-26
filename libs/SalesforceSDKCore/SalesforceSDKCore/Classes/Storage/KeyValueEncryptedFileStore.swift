@@ -335,7 +335,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         
         let valueFileDeletionSuccess = removeFile(key: key, fileType: .value)
         if valueFileDeletionSuccess {
-            _ = removeFile(key: key, fileType: .key)
+            removeFile(key: key, fileType: .key)
         }
         return valueFileDeletionSuccess
     }
@@ -456,6 +456,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
     }
     
+    @discardableResult
     private func removeFile(key: String, fileType: FileType, callingFunction: String = #function) -> Bool {
         guard let fileURL = encodedURL(forKey: key, fileType: fileType) else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Unable to construct file URL")
