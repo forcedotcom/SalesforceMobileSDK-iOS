@@ -158,7 +158,7 @@
     XCTAssertEqual(SFSDKKeyValueEncryptedFileStore.allGlobalStoreNames.count, 0);
 }
 
-#pragma mark - Store
+#pragma mark - Store operations
 
 - (void)testIsValidName {
     XCTAssertTrue([SFSDKKeyValueEncryptedFileStore isValidStoreName:@"123456789"]);

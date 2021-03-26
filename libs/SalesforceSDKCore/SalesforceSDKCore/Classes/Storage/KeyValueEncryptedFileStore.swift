@@ -35,11 +35,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     @objc public static let maxStoreNameLength = 96
     
     public lazy var version: Int = {
-        if let version = self[Self.storeVersionFileName], let versionNumber = Int(version) {
-            return versionNumber
-        } else {
-            return 1
-        }
+        return Int(readVersion()) ?? 1
     }()
 
     private let encryptionKey: SFEncryptionKey
@@ -57,9 +53,9 @@ public class KeyValueEncryptedFileStore: NSObject {
             let suffix: String
             switch self {
             case .key:
-                suffix = ".key"
+                suffix = "_key"
             case .value:
-                suffix = ".value"
+                suffix = "_value"
             case .version:
                 suffix = ""
             }
@@ -77,6 +73,7 @@ public class KeyValueEncryptedFileStore: NSObject {
             return nil
         }
         let fullPath = parentDirectory + "/\(name)"
+        let isNewlyCreated = KeyValueEncryptedFileStore.directoryExists(atPath: fullPath)
         do {
             try SFDirectoryManager.ensureDirectoryExists(fullPath)
         } catch {
@@ -88,8 +85,10 @@ public class KeyValueEncryptedFileStore: NSObject {
         self.encryptionKey = encryptionKey
         super.init()
         
-        if isEmpty() {
-            self[Self.storeVersionFileName] = Self.storeVersion
+        if isNewlyCreated {
+            _ = writeFile(key: KeyValueEncryptedFileStore.storeVersionFileName,
+                          value: KeyValueEncryptedFileStore.storeVersion,
+                          fileType: .version)
         }
     }
 
@@ -111,7 +110,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     /// - Parameter user: The user account associated with the store.
     @objc(sharedStoreWithName:user:)
     public static func shared(withName name: String, forUserAccount user: UserAccount) -> KeyValueEncryptedFileStore? {
-        let userKey = self.userKey(forUser: user)
+        let userKey = KeyValueEncryptedFileStore.userKey(forUser: user)
         if userStores[userKey] == nil {
             userStores[userKey] = SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>()
         }
@@ -199,7 +198,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         let storeDirectory = URL(fileURLWithPath: storesDirectory).appendingPathComponent(name)
         removeFile(storeDirectory, function: #function)
 
-        let userKey = self.userKey(forUser: user)
+        let userKey = KeyValueEncryptedFileStore.userKey(forUser: user)
         userStores[userKey]?.removeObject(name as NSString)
     }
 
@@ -235,7 +234,7 @@ public class KeyValueEncryptedFileStore: NSObject {
             return
         }
 
-        let userKey = self.userKey(forUser:user)
+        let userKey = KeyValueEncryptedFileStore.userKey(forUser:user)
         let storeDirectories = contentsOfDirectory(directory, function: #function)
 
         for store in storeDirectories {
@@ -345,10 +344,10 @@ public class KeyValueEncryptedFileStore: NSObject {
 
     /// Removes all contents of the store.
     @objc public func removeAll() {
-        let filePaths = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
-        for path in filePaths {
-            if !isVersionFile(path) {
-                let fileURL = URL(fileURLWithPath: path)
+        let files = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
+        for file in files {
+            if !isVersionFile(file) {
+                let fileURL = directory.appendingPathComponent(file)
                 KeyValueEncryptedFileStore.removeFile(fileURL, function: #function)
             }
         }
@@ -363,9 +362,8 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
         
         return KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
-            .filter { (path) -> Bool in
-                let fileURL = URL(fileURLWithPath: path)
-                return fileURL.lastPathComponent.hasSuffix(FileType.key.nameSuffix)
+            .filter { (file) -> Bool in
+                return file.hasSuffix(FileType.key.nameSuffix)
             }
             .compactMap { (path) -> String? in
                 let fileURL = URL(fileURLWithPath: path)
@@ -378,14 +376,12 @@ public class KeyValueEncryptedFileStore: NSObject {
     @objc public func count() -> Int {
         if version < 2 {
             return KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function).count
+        } else {
+            return KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
+                .filter { (file) -> Bool in
+                    return file.hasSuffix(FileType.key.nameSuffix)
+                }.count
         }
-        
-        let files = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
-            .filter { (filePath) -> Bool in
-                let fileURL = directory.appendingPathComponent(filePath)
-                return fileURL.lastPathComponent.hasSuffix(FileType.value.nameSuffix)
-            }
-        return files.count
     }
 
     /// - Returns: A Boolean value that indicates whether the store is empty.
@@ -394,6 +390,12 @@ public class KeyValueEncryptedFileStore: NSObject {
     }
 
     // MARK: - Private
+    private static func directoryExists(atPath path: String) -> Bool {
+        var isDirectory = ObjCBool(true)
+        let exists = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
+        return exists && isDirectory.boolValue
+    }
+    
     private static func storesDirectory(forUser user: UserAccount) -> String? {
         return SFDirectoryManager.shared().directory(forUser: user, type: .documentDirectory, components: [keyValueStoresDirectory])
     }
@@ -416,6 +418,25 @@ public class KeyValueEncryptedFileStore: NSObject {
         } catch {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Error getting contents of directory: \(error)")
             return []
+        }
+    }
+    
+    private func readVersion() -> String {
+        let fileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
+            return "1"
+        }
+        
+        do {
+            let encryptedData = try Data(contentsOf: fileURL)
+            guard let decryptedData = encryptionKey.decryptData(encryptedData) else {
+                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to decrypt file at path '\(fileURL.path)'")
+                return KeyValueEncryptedFileStore.storeVersion
+            }
+            return String(data: decryptedData, encoding: .utf8) ?? KeyValueEncryptedFileStore.storeVersion
+        } catch {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error reading file at path '\(fileURL.path)': \(error)")
+            return "1"
         }
     }
     
@@ -465,15 +486,17 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
     }
     
-    private func isVersionFile(_ path: String) -> Bool {
-        let fileURL = URL(fileURLWithPath: path)
-        return fileURL.lastPathComponent == Self.storeVersionFileName
+    private func isVersionFile(_ file: String) -> Bool {
+        return file == KeyValueEncryptedFileStore.storeVersionFileName
     }
     
     private func encodedURL(forKey key: String, fileType: FileType, function: String) -> URL? {
         guard !key.isEmpty else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Key is empty")
             return nil
+        }
+        guard fileType != .version else {
+            return directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
         }
         
         let keyData = Data(key.utf8) as NSData
