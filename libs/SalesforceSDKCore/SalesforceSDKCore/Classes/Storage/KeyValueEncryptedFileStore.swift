@@ -33,10 +33,6 @@ public class KeyValueEncryptedFileStore: NSObject {
     @objc(storeDirectory) public let directory: URL
     @objc(storeName) public let name: String
     @objc public static let maxStoreNameLength = 96
-    
-    public lazy var version: Int = {
-        return Int(readVersion()) ?? 1
-    }()
 
     private let encryptionKey: SFEncryptionKey
     private static var globalStores = SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>()
@@ -45,6 +41,15 @@ public class KeyValueEncryptedFileStore: NSObject {
     private static let storeVersionFileName = "version"
     private static let keyValueStoresDirectory = "key_value_stores"
     private static let encryptionKeyLabel = "com.salesforce.keyValueStores.encryptionKey"
+    
+    private lazy var version: Int = {
+        let versionFileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
+        if let version = readFile(versionFileURL) {
+            return Int(version) ?? 1
+        } else {
+            return 1
+        }
+    }()
     
     private enum FileType {
         case key, value, version
@@ -73,7 +78,7 @@ public class KeyValueEncryptedFileStore: NSObject {
             return nil
         }
         let fullPath = parentDirectory + "/\(name)"
-        let isNewlyCreated = KeyValueEncryptedFileStore.directoryExists(atPath: fullPath)
+        let isNewlyCreated = !KeyValueEncryptedFileStore.directoryExists(atPath: fullPath)
         do {
             try SFDirectoryManager.ensureDirectoryExists(fullPath)
         } catch {
@@ -270,6 +275,10 @@ public class KeyValueEncryptedFileStore: NSObject {
     }
 
     // MARK: - Store operations
+    
+    @objc public func storeVersion() -> Int {
+        return version
+    }
 
     /// Returns whether the given store name is valid.
     /// - Parameter name: name of the store.
@@ -290,7 +299,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         
         let valueFileWriteSuccess = writeFile(key: key, value: value, fileType: .value)
         if valueFileWriteSuccess {
-            _ = writeFile(key: key, value: value, fileType: .key)
+            _ = writeFile(key: key, value: key, fileType: .key)
         }
         return valueFileWriteSuccess
     }
@@ -302,21 +311,7 @@ public class KeyValueEncryptedFileStore: NSObject {
                 SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct file URL")
                 return nil
             }
-            guard FileManager.default.fileExists(atPath: fileURL.path) else {
-                return nil
-            }
-
-            do {
-                let encryptedData = try Data(contentsOf: fileURL)
-                guard let decryptedData = encryptionKey.decryptData(encryptedData) else {
-                    SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to decrypt file at path '\(fileURL.path)'")
-                    return nil
-                }
-                return String(data: decryptedData, encoding: .utf8)
-            } catch {
-                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error reading file at path '\(fileURL.path)': \(error)")
-                return nil
-            }
+            return readFile(fileURL)
         }
 
         set {
@@ -365,11 +360,10 @@ public class KeyValueEncryptedFileStore: NSObject {
             .filter { (file) -> Bool in
                 return file.hasSuffix(FileType.key.nameSuffix)
             }
-            .compactMap { (path) -> String? in
-                let fileURL = URL(fileURLWithPath: path)
-                return self[fileURL.lastPathComponent]
+            .compactMap { (file) -> String? in
+                let fileURL = directory.appendingPathComponent(file)
+                return readFile(fileURL)
             }
-        
     }
 
     /// - Returns: The number of entries in the store.
@@ -421,25 +415,6 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
     }
     
-    private func readVersion() -> String {
-        let fileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
-        guard FileManager.default.fileExists(atPath: fileURL.path) else {
-            return "1"
-        }
-        
-        do {
-            let encryptedData = try Data(contentsOf: fileURL)
-            guard let decryptedData = encryptionKey.decryptData(encryptedData) else {
-                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to decrypt file at path '\(fileURL.path)'")
-                return KeyValueEncryptedFileStore.storeVersion
-            }
-            return String(data: decryptedData, encoding: .utf8) ?? KeyValueEncryptedFileStore.storeVersion
-        } catch {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error reading file at path '\(fileURL.path)': \(error)")
-            return "1"
-        }
-    }
-    
     private func writeFile(key: String, value: String, fileType: FileType) -> Bool {
         guard let encryptedData = encryptionKey.encryptData(Data(value.utf8)) else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to encrypt data")
@@ -456,6 +431,28 @@ public class KeyValueEncryptedFileStore: NSObject {
         } catch {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error writing data to file: \(error)")
             return false
+        }
+    }
+    
+    private func readFile(_ fileURL: URL) -> String? {
+//        guard let fileURL = encodedURL(forKey: key, fileType: fileType, function: #function) else {
+//            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct file URL")
+//            return nil
+//        }
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
+            return nil
+        }
+
+        do {
+            let encryptedData = try Data(contentsOf: fileURL)
+            guard let decryptedData = encryptionKey.decryptData(encryptedData) else {
+                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to decrypt file at path '\(fileURL.path)'")
+                return nil
+            }
+            return String(data: decryptedData, encoding: .utf8)
+        } catch {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error reading file at path '\(fileURL.path)': \(error)")
+            return nil
         }
     }
     
