@@ -277,6 +277,8 @@ public class KeyValueEncryptedFileStore: NSObject {
 
     // MARK: - Store operations
     
+    /// Store version
+    /// - Returns: version number of the store
     @objc public func storeVersion() -> Int {
         return version
     }
