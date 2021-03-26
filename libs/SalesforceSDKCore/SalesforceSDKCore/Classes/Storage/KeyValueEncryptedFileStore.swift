@@ -92,9 +92,9 @@ public class KeyValueEncryptedFileStore: NSObject {
         super.init()
         
         if isNewlyCreated {
-            _ = writeFile(key: KeyValueEncryptedFileStore.storeVersionFileName,
-                          value: KeyValueEncryptedFileStore.storeVersion,
-                          fileType: .version)
+            writeFile(key: KeyValueEncryptedFileStore.storeVersionFileName,
+                      value: KeyValueEncryptedFileStore.storeVersion,
+                      fileType: .version)
         }
     }
 
@@ -302,7 +302,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         
         let valueFileWriteSuccess = writeFile(key: key, value: value, fileType: .value)
         if valueFileWriteSuccess {
-            _ = writeFile(key: key, value: key, fileType: .key)
+            writeFile(key: key, value: key, fileType: .key)
         }
         return valueFileWriteSuccess
     }
@@ -418,6 +418,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
     }
     
+    @discardableResult
     private func writeFile(key: String, value: String, fileType: FileType, callingFunction: String = #function) -> Bool {
         guard let encryptedData = encryptionKey.encryptData(Data(value.utf8)) else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Unable to encrypt data")
