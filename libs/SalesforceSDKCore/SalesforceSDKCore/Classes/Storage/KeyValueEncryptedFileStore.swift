@@ -76,6 +76,7 @@ public class KeyValueEncryptedFileStore: NSObject {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Invalid store name")
             return nil
         }
+        
         let fullPath = parentDirectory + "/\(name)"
         let isNewlyCreated = !KeyValueEncryptedFileStore.directoryExists(atPath: fullPath)
         do {
@@ -84,6 +85,7 @@ public class KeyValueEncryptedFileStore: NSObject {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error ensuring directory exists: \(error)")
             return nil
         }
+        
         self.name = name
         self.directory = URL(fileURLWithPath: fullPath)
         self.encryptionKey = encryptionKey
@@ -259,10 +261,10 @@ public class KeyValueEncryptedFileStore: NSObject {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Global stores directory is nil")
             return
         }
+        
         let storeDirectories = contentsOfDirectory(directory)
         for store in storeDirectories {
             let storeURL = URL(fileURLWithPath: directory).appendingPathComponent(store)
-
             do {
                 try FileManager.default.removeItem(at: storeURL)
                 globalStores.removeObject(store as NSString)
@@ -359,7 +361,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     @objc public func removeAll() {
         let files = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path)
         for file in files {
-            if !isVersionFile(file) {
+            if !KeyValueEncryptedFileStore.isVersionFile(file) {
                 let fileURL = directory.appendingPathComponent(file)
                 KeyValueEncryptedFileStore.removeFile(fileURL)
             }
@@ -483,7 +485,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
     }
     
-    private func isVersionFile(_ file: String) -> Bool {
+    private static func isVersionFile(_ file: String) -> Bool {
         return file == KeyValueEncryptedFileStore.storeVersionFileName
     }
     
