@@ -270,7 +270,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
     }
 
-    // MARK: - Storage operations
+    // MARK: - Store operations
 
     /// Returns whether the given store name is valid.
     /// - Parameter name: name of the store.
@@ -345,13 +345,33 @@ public class KeyValueEncryptedFileStore: NSObject {
 
     /// Removes all contents of the store.
     @objc public func removeAll() {
-        let files = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
-        for file in files {
-            let fileURL = directory.appendingPathComponent(file)
-            if !isVersionFile(fileURL) {
+        let filePaths = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
+        for path in filePaths {
+            if !isVersionFile(path) {
+                let fileURL = URL(fileURLWithPath: path)
                 KeyValueEncryptedFileStore.removeFile(fileURL, function: #function)
             }
         }
+    }
+    
+    /// All keys in the store
+    /// - Returns: all the keys of stored values in the store
+    @objc public func allKeys() -> [String]? {
+        guard version >= 2 else {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "This store does not have this capability!")
+            return nil
+        }
+        
+        return KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
+            .filter { (path) -> Bool in
+                let fileURL = URL(fileURLWithPath: path)
+                return fileURL.lastPathComponent.hasSuffix(FileType.key.nameSuffix)
+            }
+            .compactMap { (path) -> String? in
+                let fileURL = URL(fileURLWithPath: path)
+                return self[fileURL.lastPathComponent]
+            }
+        
     }
 
     /// - Returns: The number of entries in the store.
@@ -445,7 +465,8 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
     }
     
-    private func isVersionFile(_ fileURL: URL) -> Bool {
+    private func isVersionFile(_ path: String) -> Bool {
+        let fileURL = URL(fileURLWithPath: path)
         return fileURL.lastPathComponent == Self.storeVersionFileName
     }
     
