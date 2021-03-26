@@ -170,6 +170,16 @@
     XCTAssertEqual([store storeVersion], 1);
 }
 
+- (void)testStoreWithUnreadableVersion {
+    SFSDKKeyValueEncryptedFileStore *store = [self createStoreWithName:@"new_store"];
+    XCTAssertNotNil(store);
+    NSURL *versionFileURL = [store.storeDirectory URLByAppendingPathComponent:@"version"];
+    NSData *badVersionData = [@"bad_version_data" dataUsingEncoding:NSUTF8StringEncoding];
+    [badVersionData writeToFile:versionFileURL.path atomically:YES];
+    store = [self createStoreWithName:@"new_store"];
+    XCTAssertNil(store);
+}
+
 - (void)testIsValidName {
     XCTAssertTrue([SFSDKKeyValueEncryptedFileStore isValidStoreName:@"123456789"]);
     XCTAssertTrue([SFSDKKeyValueEncryptedFileStore isValidStoreName:@"test_store"]);
@@ -355,7 +365,7 @@
     NSError *error;
     [NSFileManager.defaultManager removeItemAtURL:versionFileURL error:&error];
     XCTAssertNil(error, @"Error deleting '%@': %@", store.storeDirectory.path, error);
-    return store;
+    return [self createStoreWithName:name];
 }
 
 @end

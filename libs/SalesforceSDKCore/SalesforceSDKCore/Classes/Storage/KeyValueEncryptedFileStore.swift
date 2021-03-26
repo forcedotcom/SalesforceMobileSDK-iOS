@@ -36,21 +36,13 @@ public class KeyValueEncryptedFileStore: NSObject {
     @objc public static let maxStoreNameLength = 96
 
     private let encryptionKey: SFEncryptionKey
+    private var version = 1
     private static var globalStores = SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>()
     private static var userStores = SafeMutableDictionary<NSString, SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>>()
-    private static let storeVersion = "2"
+    private static let storeVersionValue = "2"
     private static let storeVersionFileName = "version"
     private static let keyValueStoresDirectory = "key_value_stores"
     private static let encryptionKeyLabel = "com.salesforce.keyValueStores.encryptionKey"
-    
-    private lazy var version: Int = {
-        let versionFileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
-        if let version = readFile(versionFileURL) {
-            return Int(version) ?? 1
-        } else {
-            return 1
-        }
-    }()
     
     private enum FileType {
         case key, value
@@ -91,9 +83,22 @@ public class KeyValueEncryptedFileStore: NSObject {
         self.encryptionKey = encryptionKey
         super.init()
         
+        // Store version must be determined, otherwise initialiazation fails by returning nil.
+        // A new created store is automatic v2, but version file must be succesfully written.
+        let versionFileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
         if isNewlyCreated {
-            let fileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
-            writeFile(fileURL, content: KeyValueEncryptedFileStore.storeVersion)
+            let versionFileCreated = writeFile(versionFileURL, content: KeyValueEncryptedFileStore.storeVersionValue)
+            if !versionFileCreated {
+                return nil
+            } else {
+                self.version = 2
+            }
+        } else {
+            if let version = readVersion(versionFileURL) {
+                self.version = version
+            } else {
+                return nil
+            }
         }
     }
 
@@ -487,6 +492,18 @@ public class KeyValueEncryptedFileStore: NSObject {
     
     private static func isVersionFile(_ file: String) -> Bool {
         return file == KeyValueEncryptedFileStore.storeVersionFileName
+    }
+    
+    private func readVersion(_ fileURL: URL) -> Int? {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
+            return 1
+        }
+        
+        if let versionString = readFile(fileURL), let versionNumber = Int(versionString) {
+            return versionNumber
+        } else {
+            return nil
+        }
     }
     
     private func encodedURL(forKey key: String, fileType: FileType, callingFunction: String = #function) -> URL? {
