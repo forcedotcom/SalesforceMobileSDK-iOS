@@ -28,6 +28,7 @@
 import Foundation
 import SalesforceSDKCommon
 
+/// File-based key-value storage
 @objc(SFSDKKeyValueEncryptedFileStore)
 public class KeyValueEncryptedFileStore: NSObject {
     @objc(storeDirectory) public let directory: URL
@@ -349,7 +350,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     }
     
     /// All keys in the store
-    /// - Returns: all the keys of stored values in the store
+    /// - Returns: all keys of stored values in a v2 store, nil if it's a v2 store
     @objc public func allKeys() -> [String]? {
         guard version >= 2 else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "This store does not have this capability!")
