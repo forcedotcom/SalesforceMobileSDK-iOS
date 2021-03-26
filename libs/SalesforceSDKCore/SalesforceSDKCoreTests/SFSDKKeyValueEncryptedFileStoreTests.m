@@ -350,8 +350,7 @@
 }
 
 - (SFSDKKeyValueEncryptedFileStore *)createV1StoreWithName:(NSString *)name {
-    NSString *parentDirectory = [self globalPath];
-    SFSDKKeyValueEncryptedFileStore *store = [[SFSDKKeyValueEncryptedFileStore alloc] initWithParentDirectory:parentDirectory name:name encryptionKey:[SFEncryptionKey createKey]];
+    SFSDKKeyValueEncryptedFileStore *store = [self createStoreWithName:name];
     NSURL *versionFileURL = [store.storeDirectory URLByAppendingPathComponent:@"version"];
     NSError *error;
     [NSFileManager.defaultManager removeItemAtURL:versionFileURL error:&error];
