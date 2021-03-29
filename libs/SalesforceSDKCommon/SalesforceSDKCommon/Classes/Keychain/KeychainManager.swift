@@ -107,7 +107,7 @@ public class KeychainManager: NSObject {
     /// - Parameters:
     ///   - data: Value to store
     ///   - identifer: key to use
-    /// - Throws: SecureKeyStoreError wich wraps the underlying error message
+    /// - Throws: KeyStoreError wich wraps the underlying error message
     @objc public func setValue(_ data: Data, for identifer: String) throws {
         var query = self.secureStoreQueryable.query
         query.merge([String(kSecAttrAccount): identifer]){ (current, _) in current }
@@ -131,14 +131,13 @@ public class KeychainManager: NSObject {
         //failure to add or update
         if status != errSecSuccess {
             let error = KeyStoreError.mapError(from: status)
-//            SecureSDKLogger.log(KeychainManager.self, level: .error, message: "Error setting value in keychain \(error.localizedDescription)")
             throw error
         }
     }
     
     /// Get a value into the keychain for a given identifier.
     /// - Parameter identifer: Key to use
-    /// - Throws: SecureKeyStoreError wich wraps the underlying error message
+    /// - Throws: KeyStoreError wich wraps the underlying error message
     /// - Returns: Value retrieved for the givenidentifier
     @objc public func getValue(for identifer: String) throws -> Data {
         
@@ -163,7 +162,6 @@ public class KeychainManager: NSObject {
         guard let item = queryResult as? [String: Any],
               let resultData = item[String(kSecValueData)] as? Data else {
             let message = "Could not retrieve item from keychain"
-//            SecureSDKLogger.log(KeychainManager.self, level: .error, message: message)
             throw KeyStoreError.keychainError(message: message)
         }
         return resultData
@@ -172,7 +170,7 @@ public class KeychainManager: NSObject {
     
     /// Remove value for a given identifier.
     /// - Parameter identifier: the key to use.
-    /// - Throws: SecureKeyStoreError wich wraps the underlying error message
+    /// - Throws: KeyStoreError wich wraps the underlying error message
     @objc public func removeValue(for identifier: String) throws {
         var query = secureStoreQueryable.query
         query[String(kSecAttrAccount)] = identifier
@@ -180,21 +178,19 @@ public class KeychainManager: NSObject {
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess || status == errSecItemNotFound else {
             let error = KeyStoreError.mapError(from: status)
-//            SecureSDKLogger.log(KeychainManager.self, level: .error, message: "Could not remove item from keychain \(error.localizedDescription)")
             throw error
         }
     }
     
     
     /// Remove all values for a given queryable class
-    /// - Throws: SecureKeyStoreError wich wraps the underlying error message
+    /// - Throws: KeyStoreError wich wraps the underlying error message
     @objc public func removeAllValues() throws {
         let query = secureStoreQueryable.query
         
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess || status == errSecItemNotFound else {
             let error = KeyStoreError.mapError(from: status)
-//            SecureSDKLogger.log(KeychainManager.self, level: .error, message: "Could not removing all security sdk items from keychain \(error.localizedDescription)")
             throw error
         }
     }
