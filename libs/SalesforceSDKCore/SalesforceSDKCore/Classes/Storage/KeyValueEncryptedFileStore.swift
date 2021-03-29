@@ -88,10 +88,10 @@ public class KeyValueEncryptedFileStore: NSObject {
         let versionFileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
         if isNewlyCreated {
             let versionFileCreated = writeFile(versionFileURL, content: KeyValueEncryptedFileStore.storeVersionString)
-            if !versionFileCreated {
-                return nil
-            } else {
+            if versionFileCreated {
                 self.storeVersion = 2
+            } else {
+                return nil
             }
         } else {
             if let version = readVersion(versionFileURL) {
