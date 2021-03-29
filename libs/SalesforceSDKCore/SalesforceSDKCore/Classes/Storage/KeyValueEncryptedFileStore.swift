@@ -368,7 +368,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     }
     
     /// All keys in the store
-    /// - Returns: all keys of stored values in a v2 store, nil if it's a v2 store
+    /// - Returns: all keys of stored values in a v2 store, nil if it's a v1 store
     @objc public func allKeys() -> [String]? {
         guard storeVersion >= 2 else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "This store does not have this capability!")
