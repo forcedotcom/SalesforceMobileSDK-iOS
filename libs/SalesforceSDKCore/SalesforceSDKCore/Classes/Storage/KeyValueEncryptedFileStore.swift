@@ -33,7 +33,7 @@ import SalesforceSDKCommon
 public class KeyValueEncryptedFileStore: NSObject {
     @objc(storeDirectory) public let directory: URL
     @objc(storeName) public let name: String
-    @objc public private(set) var storeVersion = 1
+    @objc public private(set) var storeVersion: Int
     @objc public static let maxStoreNameLength = 96
 
     private let encryptionKey: SFEncryptionKey
@@ -81,6 +81,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         self.name = name
         self.directory = URL(fileURLWithPath: fullPath)
         self.encryptionKey = encryptionKey
+        self.storeVersion = isNewlyCreated ? 2 : 1
         super.init()
         
         // Store version must be determined, otherwise initialiazation fails by returning nil.
@@ -88,9 +89,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         let versionFileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
         if isNewlyCreated {
             let versionFileCreated = writeFile(versionFileURL, content: KeyValueEncryptedFileStore.storeVersionString)
-            if versionFileCreated {
-                self.storeVersion = 2
-            } else {
+            if !versionFileCreated {
                 return nil
             }
         } else {
