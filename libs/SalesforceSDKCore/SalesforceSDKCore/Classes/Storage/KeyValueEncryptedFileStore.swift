@@ -33,13 +33,13 @@ import SalesforceSDKCommon
 public class KeyValueEncryptedFileStore: NSObject {
     @objc(storeDirectory) public let directory: URL
     @objc(storeName) public let name: String
+    @objc public private(set) var storeVersion: Int
     @objc public static let maxStoreNameLength = 96
 
     private let encryptionKey: SFEncryptionKey
-    private var version = 1
     private static var globalStores = SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>()
     private static var userStores = SafeMutableDictionary<NSString, SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>>()
-    private static let storeVersionValue = "2"
+    private static let storeVersionString = "2"
     private static let storeVersionFileName = "version"
     private static let keyValueStoresDirectory = "key_value_stores"
     private static let encryptionKeyLabel = "com.salesforce.keyValueStores.encryptionKey"
@@ -81,21 +81,20 @@ public class KeyValueEncryptedFileStore: NSObject {
         self.name = name
         self.directory = URL(fileURLWithPath: fullPath)
         self.encryptionKey = encryptionKey
+        self.storeVersion = isNewlyCreated ? 2 : 1
         super.init()
         
         // Store version must be determined, otherwise initialiazation fails by returning nil.
         // A new created store is automatic v2, but version file must be succesfully written.
         let versionFileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
         if isNewlyCreated {
-            let versionFileCreated = writeFile(versionFileURL, content: KeyValueEncryptedFileStore.storeVersionValue)
+            let versionFileCreated = writeFile(versionFileURL, content: KeyValueEncryptedFileStore.storeVersionString)
             if !versionFileCreated {
                 return nil
-            } else {
-                self.version = 2
             }
         } else {
             if let version = readVersion(versionFileURL) {
-                self.version = version
+                self.storeVersion = version
             } else {
                 return nil
             }
@@ -280,12 +279,6 @@ public class KeyValueEncryptedFileStore: NSObject {
     }
 
     // MARK: - Store operations
-    
-    /// Store version
-    /// - Returns: version number of the store
-    @objc public func storeVersion() -> Int {
-        return version
-    }
 
     /// Returns whether the given store name is valid.
     /// - Parameter name: name of the store.
@@ -305,7 +298,7 @@ public class KeyValueEncryptedFileStore: NSObject {
             return false
         }
         
-        if version < 2 {
+        if storeVersion < 2 {
             return writeFile(fileURL, content: value)
         }
         
@@ -347,7 +340,7 @@ public class KeyValueEncryptedFileStore: NSObject {
             return false
         }
         
-        if version < 2 {
+        if storeVersion < 2 {
             return KeyValueEncryptedFileStore.removeFile(fileURL)
         }
         
@@ -374,9 +367,9 @@ public class KeyValueEncryptedFileStore: NSObject {
     }
     
     /// All keys in the store
-    /// - Returns: all keys of stored values in a v2 store, nil if it's a v2 store
+    /// - Returns: all keys of stored values in a v2 store, nil if it's a v1 store
     @objc public func allKeys() -> [String]? {
-        guard version >= 2 else {
+        guard storeVersion >= 2 else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "This store does not have this capability!")
             return nil
         }
@@ -393,7 +386,7 @@ public class KeyValueEncryptedFileStore: NSObject {
 
     /// - Returns: The number of entries in the store.
     @objc public func count() -> Int {
-        if version < 2 {
+        if storeVersion < 2 {
             return KeyValueEncryptedFileStore.contentsOfDirectory(directory.path).count
         } else {
             return KeyValueEncryptedFileStore.contentsOfDirectory(directory.path)
@@ -513,7 +506,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
         
         let keyData = Data(key.utf8) as NSData
-        let encodedKey = keyData.sha256() + "\(version >= 2 ? fileType.nameSuffix : "")"
+        let encodedKey = keyData.sha256() + "\(storeVersion >= 2 ? fileType.nameSuffix : "")"
         return directory.appendingPathComponent(encodedKey)
     }
 
