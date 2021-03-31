@@ -2353,6 +2353,17 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(finalRequest.URL.absoluteString, expectedURL, @"Final URL should utilize base URL that was passed in");
 }
 
+- (void)testCustomBaseURLRequestPOST {
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:@"https://www.apple.com/test/testing" queryParams:nil];
+    [request setCustomRequestBodyData:[@"hello" dataUsingEncoding:NSUTF8StringEncoding] contentType:@"application/octet-stream"];
+    NSURLRequest *finalRequest = [request prepareRequestForSend:_currentUser];
+    XCTAssertEqualObjects(finalRequest.URL.absoluteString, @"https://www.apple.com/test/testing", @"Final URL should utilize base URL that was passed in");
+    XCTAssertEqualObjects([finalRequest valueForHTTPHeaderField:@"Content-Type"], @"application/octet-stream");
+    XCTAssertEqualObjects([finalRequest valueForHTTPHeaderField:@"Content-Length"], @"5");
+    XCTAssertEqualObjects(finalRequest.HTTPMethod, @"POST");
+    XCTAssertNotNil(finalRequest.HTTPBodyStream);
+}
+
 #pragma mark - miscellaneous tests
 
 - (void)testRestUrlForBaseUrl {

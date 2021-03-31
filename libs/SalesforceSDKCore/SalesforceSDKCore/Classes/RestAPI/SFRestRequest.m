@@ -187,17 +187,18 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             [fullUrl appendString:[SFRestRequest toQueryString:self.queryParams]];
         }
         self.request = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:fullUrl]];
-
-        // Sets the timeout interval.
-        self.request.timeoutInterval = self.timeoutInterval;
-
-        // Sets the service host type.
-        NSURLRequestNetworkServiceType serviceType = [self urlRequestServiceType:self.networkServiceType];
-        [self.request setNetworkServiceType:serviceType];
-        
-        // Sets HTTP method on the request.
-        [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
     }
+
+    // Sets the timeout interval.
+    self.request.timeoutInterval = self.timeoutInterval;
+
+    // Sets the service host type.
+    NSURLRequestNetworkServiceType serviceType = [self urlRequestServiceType:self.networkServiceType];
+    [self.request setNetworkServiceType:serviceType];
+
+    // Sets HTTP method on the request.
+    [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
+
 
     // Sets OAuth Bearer token header on the request (if not already present).
     // Allows Authenticated clients to make api calls that dont require access token.
