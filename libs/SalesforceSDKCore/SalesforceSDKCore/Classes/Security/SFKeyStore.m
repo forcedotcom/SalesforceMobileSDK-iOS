@@ -41,7 +41,7 @@
     @synchronized (self) {
         NSString *keychainId = self.storeKeychainIdentifier;
         
-        SFSDKKeychainResult *result = [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:keychainId account:nil];
+        SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:keychainId account:nil];
         NSData *keyStoreData = result.data;
         // NB: We will return an empty dictionary if one doesn't exist, and nil if an existing dictionary
         // couldn't be decrypted.  This allows us to differentiate between a non-existent key store dictionary
@@ -64,15 +64,15 @@
 {
     @synchronized (self) {
         NSString *keychainId = self.storeKeychainIdentifier;
-        SFSDKKeychainResult *result =  [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:keychainId account:nil];
+        SFSDKKeychainResult *result =  [SFSDKKeychainHelper createIfNotPresentWithService:keychainId account:nil];
         if (keyStoreDictionary == nil) {
-            result = [SFSDKKeychainHelper resetItemWithIdentifier:keychainId account:nil];
+            result = [SFSDKKeychainHelper resetWithService:keychainId account:nil];
             if (!result.success) {
                 [SFSDKCoreLogger e:[self class] format:@"Error removing key %@ store from the keychain.", keychainId];
             }
         } else {
             NSData *keyStoreData = [self encryptDictionary:keyStoreDictionary withKey:storeKey];
-            result = [SFSDKKeychainHelper writeItemWithIdentifier:keychainId data:keyStoreData account:nil];
+            result = [SFSDKKeychainHelper writeWithService:keychainId data:keyStoreData account:nil];
             if (!result.success) {
                 [SFSDKCoreLogger e:[self class] format:@"Error saving key %@store to the keychain.", keychainId];
             }

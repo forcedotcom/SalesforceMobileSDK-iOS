@@ -112,9 +112,9 @@
 
 + (void)cleanupSettings
 {
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper removeItemWithIdentifier:@"com.salesforce.security.lockoutTime" account:nil];
-    result = [SFSDKKeychainHelper removeItemWithIdentifier:@"com.salesforce.security.isLocked" account:nil];
-    result = [SFSDKKeychainHelper removeItemWithIdentifier:@"com.salesforce.security.passcode.length" account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper removeWithService:@"com.salesforce.security.lockoutTime" account:nil];
+    result = [SFSDKKeychainHelper removeWithService:@"com.salesforce.security.isLocked" account:nil];
+    result = [SFSDKKeychainHelper removeWithService:@"com.salesforce.security.passcode.length" account:nil];
     [[SFPreferences globalPreferences] removeObjectForKey:kBiometricUnlockAllowedKey];
     [[SFPreferences globalPreferences] synchronize];
 }

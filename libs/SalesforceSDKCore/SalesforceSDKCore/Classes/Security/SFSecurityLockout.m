@@ -736,7 +736,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (NSNumber *)readIsLockedFromKeychain
 {
     NSNumber *locked = nil;
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper readItemWithIdentifier:kKeychainIdentifierIsLocked account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper readWithService:kKeychainIdentifierIsLocked account:nil];
     NSData *valueData = result.data;
     if (valueData) {
         BOOL b = NO;
@@ -754,16 +754,16 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         data = [NSData dataWithBytes:&b length:sizeof(b)];
     }
     
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper readItemWithIdentifier:kKeychainIdentifierIsLocked account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper readWithService:kKeychainIdentifierIsLocked account:nil];
     if (data != nil)
-        result = [SFSDKKeychainHelper writeItemWithIdentifier:kKeychainIdentifierIsLocked data:data account:nil];
+        result = [SFSDKKeychainHelper writeWithService:kKeychainIdentifierIsLocked data:data account:nil];
    
 }
 
 + (NSNumber *)readNumberFromKeychain:(NSString *)identifier
 {
     NSNumber *data = nil;
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper readItemWithIdentifier:identifier account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper readWithService:identifier account:nil];
     NSData *valueData = result.data;
     if (valueData) {
         NSUInteger i = 0;
@@ -782,9 +782,9 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
     SFSDKKeychainResult *writeResult = nil;
     if (data != nil)
-        writeResult = [SFSDKKeychainHelper writeItemWithIdentifier:identifier data:data account:nil];
+        writeResult = [SFSDKKeychainHelper writeWithService:identifier data:data account:nil];
     else // Predominantly for unit tests
-        writeResult = [SFSDKKeychainHelper resetItemWithIdentifier:identifier account:nil];
+        writeResult = [SFSDKKeychainHelper resetWithService:identifier account:nil];
     if (!writeResult.success) {
         [SFSDKCoreLogger e:[self class] format:@"Error writing number to keychain %@", writeResult.error];
     }
@@ -795,7 +795,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (void)resetPasscode {
     [SFSDKCoreLogger i:[self class] format:@"Resetting passcode."];
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper removeItemWithIdentifier:kKeychainIdentifierPasscodeVerify  account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper removeWithService:kKeychainIdentifierPasscodeVerify  account:nil];
     if (!result.success) {
         [SFSDKCoreLogger e:[self class] format:@"Error resetting passcode in keychain %@", result.error];
     }
@@ -852,7 +852,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 }
 
 + (SFPBKDFData *)passcodeData:(NSString *)keychainIdentifier {
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper readItemWithIdentifier:keychainIdentifier account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper readWithService:keychainIdentifier account:nil];
     NSData *keychainPasscodeData = result.data;
     if (keychainPasscodeData == nil) {
         return nil;
@@ -878,7 +878,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [archiver encodeObject:passcodeData forKey:kPBKDFArchiveDataKey];
     [archiver finishEncoding];
     
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper writeItemWithIdentifier:keychainIdentifier
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:keychainIdentifier
                                             data:archiver.encodedData
                                          account:nil];
     if (!result.success) {
