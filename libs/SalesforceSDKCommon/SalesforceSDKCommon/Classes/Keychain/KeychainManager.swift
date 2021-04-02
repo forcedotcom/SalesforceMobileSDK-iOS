@@ -181,6 +181,7 @@ internal class KeychainItemManager: NSObject {
     }
 }
 
+
 @objc(SFSDKKeychainResult)
 public class KeychainResult: NSObject {
     @objc public let success: Bool
@@ -188,13 +189,13 @@ public class KeychainResult: NSObject {
     @objc public var data: Data?
     @objc public var error: NSError?
     
-    @objc init(data: Data?, status: OSStatus) {
+    internal init(data: Data?, status: OSStatus) {
         self.success = true
         self.status = status
         self.data = data
     }
     
-    init(error: NSError, status: OSStatus) {
+    internal init(error: NSError, status: OSStatus) {
         self.success = false
         self.status = status
         self.error = error
@@ -204,11 +205,22 @@ public class KeychainResult: NSObject {
 @objc(SFSDKKeychainHelper)
 public class KeychainHelper: NSObject {
     
+    /// Read a value from the keychain.
+    /// - Parameters:
+    ///   - service: Identifier to use for keychain service key.
+    ///   - account: Identifier to use for keychain account key.
+    /// - Returns: KeychainResult
     @objc public class func read(service: String, account: String?) -> KeychainResult {
         let keychainManager = KeychainItemManager(service: service, account: account)
         return keychainManager.getValue()
     }
     
+    
+    /// Create an item in the keychain if not present.
+    /// - Parameters:
+    ///   - service: Identifier to use for keychain service key.
+    ///   - account: Identifier to use for keychain account key.
+    /// - Returns: KeychainResult
     @objc public class func createIfNotPresent(service: String, account: String?) -> KeychainResult {
         let keychainManager = KeychainItemManager(service: service, account: account)
         var keychainResult =  keychainManager.getValue()
@@ -218,11 +230,22 @@ public class KeychainHelper: NSObject {
         return keychainResult
     }
     
+    /// Write or Update an item in the keychain if not present.
+    /// - Parameters:
+    ///   - service: Identifier to use for keychain service key.
+    ///   - data: Data to write
+    ///   - account: Identifier to use for keychain account key.
+    /// - Returns: KeychainResult
     @objc public class func write(service: String, data: Data, account: String?) -> KeychainResult  {
         let keychainManager = KeychainItemManager(service: service, account: account)
         return keychainManager.setValue(data)
     }
     
+    /// If an item is found remove it and then add an empty entry i.e. data is nil.
+    /// - Parameters:
+    ///   - service: Identifier to use for keychain service key.
+    ///   - account: Identifier to use for keychain account key.
+    /// - Returns: KeychainResult
     @objc public class func reset(service: String, account: String?) -> KeychainResult {
         let keychainManager = KeychainItemManager(service: service, account: account)
         var keychainResult = keychainManager.getValue()
@@ -232,6 +255,12 @@ public class KeychainHelper: NSObject {
         return keychainResult
     }
     
+    
+    /// Remove an item from the keychain.
+    /// - Parameters:
+    ///   - service: Identifier to use for keychain service key.
+    ///   - account: Identifier to use for keychain account key.
+    /// - Returns: KeychainResult
     @objc public class func remove(service: String, account: String?) -> KeychainResult {
         let keychainManager = KeychainItemManager(service: service, account: account)
         var keychainResult = keychainManager.getValue()
