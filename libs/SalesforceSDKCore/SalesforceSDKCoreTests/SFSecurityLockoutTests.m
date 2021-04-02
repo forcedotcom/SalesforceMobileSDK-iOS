@@ -25,6 +25,7 @@
 #import "SFSecurityLockoutTests.h"
 #import "SFPreferences.h"
 #import "SFSecurityLockout+Internal.h"
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 
 @interface SFSecurityLockoutTests ()
 
@@ -111,9 +112,9 @@
 
 + (void)cleanupSettings
 {
-    [SFSecurityLockout writeLockoutTimeToKeychain:nil];
-    [SFSecurityLockout writeIsLockedToKeychain:nil];
-    [SFSecurityLockout writePasscodeLengthToKeychain:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper removeItemWithIdentifier:@"com.salesforce.security.lockoutTime" account:nil];
+    result = [SFSDKKeychainHelper removeItemWithIdentifier:@"com.salesforce.security.isLocked" account:nil];
+    result = [SFSDKKeychainHelper removeItemWithIdentifier:@"com.salesforce.security.passcode.length" account:nil];
     [[SFPreferences globalPreferences] removeObjectForKey:kBiometricUnlockAllowedKey];
     [[SFPreferences globalPreferences] synchronize];
 }

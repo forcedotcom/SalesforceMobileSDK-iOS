@@ -24,8 +24,8 @@
 
 #import "SFKeyStore+Internal.h"
 #import "SFCrypto.h"
-#import "SFKeychainItemWrapper.h"
 #import "SFSDKCryptoUtils.h"
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 
 @implementation SFKeyStore
 
@@ -40,8 +40,9 @@
 {
     @synchronized (self) {
         NSString *keychainId = self.storeKeychainIdentifier;
-        SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
-        NSData *keyStoreData = [keychainItem valueData];
+        
+        SFSDKKeychainResult *result = [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:keychainId account:nil];
+        NSData *keyStoreData = result.data;
         // NB: We will return an empty dictionary if one doesn't exist, and nil if an existing dictionary
         // couldn't be decrypted.  This allows us to differentiate between a non-existent key store dictionary
         // and one that can't be accessed.
@@ -63,17 +64,17 @@
 {
     @synchronized (self) {
         NSString *keychainId = self.storeKeychainIdentifier;
-        SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
+        SFSDKKeychainResult *result =  [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:keychainId account:nil];
         if (keyStoreDictionary == nil) {
-            BOOL resetItemResult = [keychainItem resetKeychainItem];
-            if (!resetItemResult) {
-                [SFSDKCoreLogger e:[self class] format:@"Error removing key store from the keychain."];
+            result = [SFSDKKeychainHelper resetItemWithIdentifier:keychainId account:nil];
+            if (!result.success) {
+                [SFSDKCoreLogger e:[self class] format:@"Error removing key %@ store from the keychain.", keychainId];
             }
         } else {
             NSData *keyStoreData = [self encryptDictionary:keyStoreDictionary withKey:storeKey];
-            OSStatus saveKeyResult = [keychainItem setValueData:keyStoreData];
-            if (saveKeyResult != noErr) {
-                [SFSDKCoreLogger e:[self class] format:@"Error saving key store to the keychain."];
+            result = [SFSDKKeychainHelper writeItemWithIdentifier:keychainId data:keyStoreData account:nil];
+            if (!result.success) {
+                [SFSDKCoreLogger e:[self class] format:@"Error saving key %@store to the keychain.", keychainId];
             }
         }
     }
