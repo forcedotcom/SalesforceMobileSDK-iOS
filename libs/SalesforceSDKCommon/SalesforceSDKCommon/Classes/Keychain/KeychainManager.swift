@@ -1,6 +1,6 @@
 //
 //  KeychainManager.swift
-//  SecureSDK
+//  MobileSDK
 //
 //  Created by Raj Rao on 1/21/21.
 //  Copyright (c) 2021-present, salesforce.com, inc. All rights reserved.
@@ -26,38 +26,21 @@
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Foundation
-/// KeyStoreError is thrown for errors related to keychain item access.
-internal enum KeyStoreError: Error {
-    case keychainError(message: String)
-    
-    static func mapError(from status: OSStatus) -> KeyStoreError {
-        let message = SecCopyErrorMessageString(status, nil) as String? ?? NSLocalizedString("Unhandled Error", comment: "")
-        return .keychainError(message: message)
-    }
-}
 
-/// A basic queryable interface to look for keychain items, just a bunch of key value pairs
-internal protocol SecureKeyStoreItemQueryable {
+internal protocol KeychainItemQueryable {
     var query: [String: Any] { get }
 }
 
-/// A generic queryable interface to look for keychain items classified as kSecClassGenericPassword
-internal struct GenericKeyStoreItemQueryable {
+/// Adds kSecClassGenericPassword to the queryable
+internal struct GenericPasswordItemQuery: KeychainItemQueryable {
     
     let service: String
     let account: String?
     let accessGroup: String?
-}
-
-/// Adds kSecClassGenericPassword to the queryable
-extension GenericKeyStoreItemQueryable: SecureKeyStoreItemQueryable {
-    
     var query: [String: Any] {
         var query: [String: Any] = [String(kSecClass): String(kSecClassGenericPassword),
                                     String(kSecAttrService): service,
-                                    String(kSecMatchLimit): String(kSecMatchLimitOne),
-                                    String(kSecReturnAttributes): true,
-                                    String(kSecReturnData): true,
+                                    String(kSecAttrAccessible) : kSecAttrAccessibleWhenUnlockedThisDeviceOnly
                         ];
         
         #if !targetEnvironment(simulator)
@@ -66,62 +49,65 @@ extension GenericKeyStoreItemQueryable: SecureKeyStoreItemQueryable {
         }
         #endif
         if let account = account {
-            query[ String(kSecAttrAccount)] = account
+            query[String(kSecAttrAccount)] = account
         }
         
         return query
     }
-}
-
-@objc(SFSDKKeychainHelper)
-public class KeychainHelper: NSObject {
-    
-    @objc public class func readItem(identifier: String, account: String?, accessGroup: String?) throws -> Data {
-        let keychainManager = KeychainManager(service: identifier, account: account, accessGroup: accessGroup)
-        return try keychainManager.getValue(for: identifier)
-    }
-    
-    @objc public class func writeItem(identifier: String, data: Data, account: String?, accessGroup: String?) throws  {
-        let keychainManager = KeychainManager(service: identifier, account: account, accessGroup: accessGroup)
-        try keychainManager.setValue(data, for: identifier)
-    }
-    
-    @objc public class func resetKeychainItem(identifier: String, account: String?, accessGroup: String?) throws {
-        let keychainManager = KeychainManager(service: identifier, account: account, accessGroup: accessGroup)
-        try keychainManager.removeValue(for: identifier)
-    }
     
 }
 
-@objc(SFSDKKeychainManager)
-public class KeychainManager: NSObject {
-    let secureStoreQueryable: SecureKeyStoreItemQueryable
+@objc(SFSDKKeychainResult)
+public class KeychainResult: NSObject {
+    @objc public let success: Bool
+    @objc public var status: OSStatus
+    @objc public var data: Data?
+    @objc public var error: NSError?
     
+    @objc init(data: Data?, status: OSStatus) {
+        self.success = true
+        self.status = status
+        self.data = data
+    }
+    
+    init(error: NSError, status: OSStatus) {
+        self.success = false
+        self.status = status
+        self.error = error
+    }
+}
+
+internal class KeychainItemManager: NSObject {
+    private let secureStoreQueryable: KeychainItemQueryable
+    static let errorDomain = "com.salesforce.security.keychainException"
+  
+    /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain manager for kSecClassGenericPassword operations
+    init(service: String, account: String?) {
+        self.secureStoreQueryable = GenericPasswordItemQuery(service: service, account: account, accessGroup: nil)
+        
+    }
     
     /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain manager for kSecClassGenericPassword operations
-    @objc public init(service: String, account: String?, accessGroup: String?) {
-        self.secureStoreQueryable = GenericKeyStoreItemQueryable(service: service, account: account, accessGroup: accessGroup)
+    init(service: String, account: String?, accessGroup: String?) {
+        self.secureStoreQueryable = GenericPasswordItemQuery(service: service, account: account, accessGroup: accessGroup)
     }
     
     /// Set a value into the keychain for a given identifier.
     /// - Parameters:
     ///   - data: Value to store
-    ///   - identifer: key to use
-    /// - Throws: KeyStoreError wich wraps the underlying error message
-    @objc public func setValue(_ data: Data, for identifer: String) throws {
+    /// - KeychainResult: success or error.
+    func setValue(_ data: Data) -> KeychainResult {
         var query = self.secureStoreQueryable.query
-        query.merge([String(kSecAttrAccount): identifer]){ (current, _) in current }
         
         var status = SecItemCopyMatching(query as CFDictionary, nil)
         
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            throw KeyStoreError.mapError(from: status)
+            return KeychainResult(error: mapError(from: status),status: status)
         }
         
         if status == errSecItemNotFound {
             query[String(kSecValueData)] = data
             status = SecItemAdd(query as CFDictionary, nil)
-            
         } else {
             let attributesToUpdate: [String: Any] = [String(kSecValueData):data]
             status = SecItemUpdate(query as CFDictionary,
@@ -130,68 +116,127 @@ public class KeychainManager: NSObject {
         
         //failure to add or update
         if status != errSecSuccess {
-            let error = KeyStoreError.mapError(from: status)
-            throw error
+            return KeychainResult(error: mapError(from: status),status: status)
         }
+        
+        return self.getValue()
+    }
+    
+    /// Set a value into the keychain for a given identifier.
+    /// - Parameters:
+    ///   - data: Value to store
+    /// - KeychainResult: success or error.
+    func addEmptyValue() -> KeychainResult {
+        let query = self.secureStoreQueryable.query
+        
+        var status = SecItemCopyMatching(query as CFDictionary, nil)
+        
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            return KeychainResult(error: mapError(from: status),status: status)
+        }
+        
+        if status == errSecItemNotFound {
+            status = SecItemAdd(query as CFDictionary, nil)
+        }
+        
+        //failure to add or update
+        if status != errSecSuccess {
+            return KeychainResult(error: mapError(from: status),status: status)
+        }
+        
+        return self.getValue()
     }
     
     /// Get a value into the keychain for a given identifier.
-    /// - Parameter identifer: Key to use
     /// - Throws: KeyStoreError wich wraps the underlying error message
     /// - Returns: Value retrieved for the givenidentifier
-    @objc public func getValue(for identifer: String) throws -> Data {
+    func getValue() -> KeychainResult {
         
         let additions: [String: Any] = [String(kSecMatchLimit): kSecMatchLimitOne,
                                         String(kSecReturnAttributes): kCFBooleanTrue as Any,
-                                        String(kSecReturnData): kCFBooleanTrue as Any,
-                                        String(kSecAttrAccount): identifer]
+                                        String(kSecReturnData): kCFBooleanTrue as Any]
         
         var query = secureStoreQueryable.query
         query.merge(additions) { (current, _) in current }
         
-        var queryResult: AnyObject?
-        
-        let status = withUnsafeMutablePointer(to: &queryResult) {
-            SecItemCopyMatching(query as CFDictionary, $0)
-        }
-        
+        var queryResult: CFTypeRef?
+        let  status = SecItemCopyMatching(query as CFDictionary, &queryResult)
+       
         guard errSecSuccess == status else {
-            throw KeyStoreError.mapError(from: status)
+            return KeychainResult(error: mapError(from: status),status: status)
         }
         
         guard let item = queryResult as? [String: Any],
               let resultData = item[String(kSecValueData)] as? Data else {
-            let message = "Could not retrieve item from keychain"
-            throw KeyStoreError.keychainError(message: message)
+            return KeychainResult(data: nil,status: status)
         }
-        return resultData
+        return KeychainResult(data: resultData, status: status)
         
     }
     
     /// Remove value for a given identifier.
     /// - Parameter identifier: the key to use.
     /// - Throws: KeyStoreError wich wraps the underlying error message
-    @objc public func removeValue(for identifier: String) throws {
-        var query = secureStoreQueryable.query
-        query[String(kSecAttrAccount)] = identifier
-        
-        let status = SecItemDelete(query as CFDictionary)
-        guard status == errSecSuccess || status == errSecItemNotFound else {
-            let error = KeyStoreError.mapError(from: status)
-            throw error
-        }
-    }
-    
-    
-    /// Remove all values for a given queryable class
-    /// - Throws: KeyStoreError wich wraps the underlying error message
-    @objc public func removeAllValues() throws {
+    func removeValue() -> KeychainResult {
         let query = secureStoreQueryable.query
         
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            let error = KeyStoreError.mapError(from: status)
-            throw error
+            let error = mapError(from: status)
+            return KeychainResult(error: error, status: status)
         }
+        return KeychainResult(data: nil, status: status)
+    }
+    
+    private func mapError(from status: OSStatus) -> NSError {
+        let message = SecCopyErrorMessageString(status, nil) as String? ?? NSLocalizedString("Unhandled Error", comment: "")
+        let error = NSError(domain: KeychainItemManager.errorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: message, "status": status])
+        return error
+    }
+    
+    private func mapError(message: String) -> NSError {
+        let error = NSError(domain: KeychainItemManager.errorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: message])
+        return error
+    }
+}
+
+@objc(SFSDKKeychainHelper)
+public class KeychainHelper: NSObject {
+    
+    @objc public class func readItem(identifier: String, account: String?) -> KeychainResult {
+        let keychainManager = KeychainItemManager(service: identifier, account: account)
+        return keychainManager.getValue()
+    }
+    
+    @objc public class func createItemIfNotPresent(identifier: String, account: String?) -> KeychainResult {
+        let keychainManager = KeychainItemManager(service: identifier, account: account)
+        var keychainResult =  keychainManager.getValue()
+        if (!keychainResult.success && keychainResult.status == errSecItemNotFound) {
+            keychainResult =  keychainManager.addEmptyValue()
+        }
+        return keychainResult
+    }
+    
+    @objc public class func writeItem(identifier: String, data: Data, account: String?) -> KeychainResult  {
+        let keychainManager = KeychainItemManager(service: identifier, account: account)
+        return keychainManager.setValue(data)
+    }
+    
+    @objc public class func resetItem(identifier: String, account: String?) -> KeychainResult {
+        let keychainManager = KeychainItemManager(service: identifier, account: account)
+        var keychainResult = keychainManager.getValue()
+        if keychainResult.success == true, keychainManager.removeValue().success {
+            keychainResult = keychainManager.addEmptyValue()
+        }
+        return keychainResult
+    }
+    
+    @objc public class func removeItem(identifier: String, account: String?) -> KeychainResult {
+        let keychainManager = KeychainItemManager(service: identifier, account: account)
+        var keychainResult = keychainManager.getValue()
+        if keychainResult.success == true {
+            keychainResult = keychainManager.removeValue()
+        }
+        return keychainResult
     }
 }
