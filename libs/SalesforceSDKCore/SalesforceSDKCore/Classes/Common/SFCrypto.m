@@ -98,12 +98,12 @@ static NSString * const kKeychainIdentifierSimulatorBaseAppId = @"com.salesforce
 #pragma mark - Implementation
 
 + (BOOL)hasInitializationVector {
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:kKeychainIdentifierIV account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:kKeychainIdentifierIV account:nil];
     return result.success && result.data != nil;
 }
 
 - (NSData *)initializationVector {
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:kKeychainIdentifierIV account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:kKeychainIdentifierIV account:nil];
     
     if (result.success && result.data) {
         return result.data;
@@ -111,7 +111,7 @@ static NSString * const kKeychainIdentifierSimulatorBaseAppId = @"com.salesforce
     //item was not found, create it.
     NSMutableData *data = [NSMutableData dataWithLength:kCCBlockSizeAES128];
     NSData *iv = [data randomDataOfLength:kCCBlockSizeAES128];
-    result = [SFSDKKeychainHelper writeItemWithIdentifier:kKeychainIdentifierIV data:iv account:nil];
+    result = [SFSDKKeychainHelper writeWithService:kKeychainIdentifierIV data:iv account:nil];
     if (!result.success) {
        [SFSDKCoreLogger e:[SFCrypto self] format:@"Error writing iv to keychain %@", result.error];
     }
@@ -120,7 +120,7 @@ static NSString * const kKeychainIdentifierSimulatorBaseAppId = @"com.salesforce
 }
 
 + (NSData *)secretWithKey:(NSString *)key {
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:kKeychainIdentifierPasscode account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:kKeychainIdentifierPasscode account:nil];
     if (!result.success) {
         [SFSDKCoreLogger e:[SFCrypto self] format:@"Error reading %@ from keychain %@", kKeychainIdentifierPasscode, result.error];
         return nil;
@@ -209,7 +209,7 @@ static BOOL sBaseAppIdConfiguredThisLaunch = NO;
             }
         } else {
             NSError *error = nil;
-            SFSDKKeychainResult *result =  [SFSDKKeychainHelper readItemWithIdentifier:kKeychainIdentifierBaseAppId account:nil];
+            SFSDKKeychainResult *result =  [SFSDKKeychainHelper readWithService:kKeychainIdentifierBaseAppId account:nil];
             NSData *keychainAppIdData = result.data;
             NSString *keychainAppId = [[NSString alloc] initWithData:keychainAppIdData encoding:NSUTF8StringEncoding];
             if (result.error || keychainAppIdData == nil || keychainAppId == nil) {
@@ -242,12 +242,12 @@ static BOOL sBaseAppIdConfiguredThisLaunch = NO;
     // Store the app ID value in the keychain.
     NSError *error = nil;
     [SFSDKCoreLogger i:[self class] format:@"Saving the new base app identifier to the keychain."];
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:kKeychainIdentifierBaseAppId account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:kKeychainIdentifierBaseAppId account:nil];
     NSData *appIdData = result.data;
     NSUInteger currentRetries = 0;
     OSStatus keychainResult = -1;
     while (currentRetries < maxRetries && keychainResult != noErr) {
-        result = [SFSDKKeychainHelper writeItemWithIdentifier:kKeychainIdentifierBaseAppId data:appIdData account:nil];
+        result = [SFSDKKeychainHelper writeWithService:kKeychainIdentifierBaseAppId data:appIdData account:nil];
         if (!result.success) {
             [SFSDKCoreLogger w:[self class] format:@"Could not save the base app identifier to the keychain (result: %@).  Retrying.", [error localizedDescription]];
         }

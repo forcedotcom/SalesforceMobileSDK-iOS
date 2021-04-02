@@ -1,5 +1,5 @@
 //
-//  KeychainManager.swift
+//  KeychainHelper.swift
 //  MobileSDK
 //
 //  Created by Raj Rao on 1/21/21.
@@ -204,13 +204,13 @@ public class KeychainResult: NSObject {
 @objc(SFSDKKeychainHelper)
 public class KeychainHelper: NSObject {
     
-    @objc public class func readItem(identifier: String, account: String?) -> KeychainResult {
-        let keychainManager = KeychainItemManager(service: identifier, account: account)
+    @objc public class func read(service: String, account: String?) -> KeychainResult {
+        let keychainManager = KeychainItemManager(service: service, account: account)
         return keychainManager.getValue()
     }
     
-    @objc public class func createItemIfNotPresent(identifier: String, account: String?) -> KeychainResult {
-        let keychainManager = KeychainItemManager(service: identifier, account: account)
+    @objc public class func createIfNotPresent(service: String, account: String?) -> KeychainResult {
+        let keychainManager = KeychainItemManager(service: service, account: account)
         var keychainResult =  keychainManager.getValue()
         if !keychainResult.success && keychainResult.status == errSecItemNotFound {
             keychainResult =  keychainManager.addEmptyValue()
@@ -218,13 +218,13 @@ public class KeychainHelper: NSObject {
         return keychainResult
     }
     
-    @objc public class func writeItem(identifier: String, data: Data, account: String?) -> KeychainResult  {
-        let keychainManager = KeychainItemManager(service: identifier, account: account)
+    @objc public class func write(service: String, data: Data, account: String?) -> KeychainResult  {
+        let keychainManager = KeychainItemManager(service: service, account: account)
         return keychainManager.setValue(data)
     }
     
-    @objc public class func resetItem(identifier: String, account: String?) -> KeychainResult {
-        let keychainManager = KeychainItemManager(service: identifier, account: account)
+    @objc public class func reset(service: String, account: String?) -> KeychainResult {
+        let keychainManager = KeychainItemManager(service: service, account: account)
         var keychainResult = keychainManager.getValue()
         if keychainResult.success == true, keychainManager.removeValue().success {
             keychainResult = keychainManager.addEmptyValue()
@@ -232,8 +232,8 @@ public class KeychainHelper: NSObject {
         return keychainResult
     }
     
-    @objc public class func removeItem(identifier: String, account: String?) -> KeychainResult {
-        let keychainManager = KeychainItemManager(service: identifier, account: account)
+    @objc public class func remove(service: String, account: String?) -> KeychainResult {
+        let keychainManager = KeychainItemManager(service: service, account: account)
         var keychainResult = keychainManager.getValue()
         if keychainResult.success == true {
             keychainResult = keychainManager.removeValue()

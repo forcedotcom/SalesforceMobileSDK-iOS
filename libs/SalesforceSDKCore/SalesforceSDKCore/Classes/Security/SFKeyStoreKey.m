@@ -71,7 +71,7 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
     
     NSError *error = nil;
     SFKeyStoreKey* keyStoreKey;
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:keychainId account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:keychainId account:nil];
     NSData *keyStoreKeyData = result.data;
 
     if (keyStoreKeyData == nil) {
@@ -96,7 +96,7 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
     [archiver encodeObject:self forKey:archiverKey];
     [archiver finishEncoding];
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper writeItemWithIdentifier:keychainId data:archiver.encodedData account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:keychainId data:archiver.encodedData account:nil];
     if (!result.success) {
         [SFSDKCoreLogger e:[self class] format:@"Failed to write data for key store key %@  to the keychain: %@", keychainId, result.error];
     }

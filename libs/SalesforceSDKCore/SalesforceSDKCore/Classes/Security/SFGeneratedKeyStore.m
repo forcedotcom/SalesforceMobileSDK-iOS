@@ -102,7 +102,7 @@ NSString * const kGeneratedKeyLabelSuffix = @"Generated";
     
         // Store the key store key in the keychain.
         if (keyStoreKey == nil) {
-            SFSDKKeychainResult *result = [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:self.encryptionKeyKeychainIdentifier account:nil];
+            SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:self.encryptionKeyKeychainIdentifier account:nil];
             if (!result.success) {
                 [SFSDKCoreLogger e:[self class] format:@"Error removing key store key %@ from the keychain.", self.encryptionKeyKeychainIdentifier];
             }

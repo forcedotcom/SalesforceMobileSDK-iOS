@@ -78,9 +78,9 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     if (!([self.identifier length] > 0)) {
         @throw SFOAuthInvalidIdentifierException();
     }
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:service account:self.identifier];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:service account:self.identifier];
     NSData *tokenData = result.data;
-    if (error) {
+    if (result.error) {
         [SFSDKCoreLogger e:[self class] format:@"Could not read %@ from keychain, %@", service, result.error];
     }
     return tokenData;
@@ -153,14 +153,14 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     if (!([self.identifier length] > 0)) {
         @throw SFOAuthInvalidIdentifierException();
     }
-    SFSDKKeychainResult *result = [SFSDKKeychainHelper createItemIfNotPresentWithIdentifier:service account:self.identifier];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:service account:self.identifier];
     if (tokenData != nil) {
-        result = [SFSDKKeychainHelper writeItemWithIdentifier:service data:tokenData account:self.identifier];
+        result = [SFSDKKeychainHelper writeWithService:service data:tokenData account:self.identifier];
         if (!result.success) {
             [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Error saving token data to keychain: %@", [self class], NSStringFromSelector(_cmd), result.error];
         }
     } else {
-        result = [SFSDKKeychainHelper resetItemWithIdentifier:service account:self.identifier];
+        result = [SFSDKKeychainHelper resetWithService:service account:self.identifier];
         if (!result.success) {
             [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Error resetting tokenData in keychain: %@", [self class], NSStringFromSelector(_cmd), result.error];
         }
