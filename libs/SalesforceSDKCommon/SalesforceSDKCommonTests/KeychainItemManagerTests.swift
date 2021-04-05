@@ -1,5 +1,5 @@
 //
-//  KeychaiinItemManagerTests.swift
+//  KeychainItemManagerTests.swift
 //  SalesforceSDKCommon
 //
 //  Created by Raj Rao on 3/30/21.
@@ -74,7 +74,7 @@ class KeychainItemManagerTests: XCTestCase {
         XCTAssertFalse(check.success)
     
         _  = KeychainHelper.remove(service: "test.two", account: nil)
-    let keychainResult = KeychainHelper.createIfNotPresent(service: serviceName, account: nil)
+        let keychainResult = KeychainHelper.createIfNotPresent(service: serviceName, account: nil)
         XCTAssertTrue(keychainResult.success)
         let keychainReadResult = KeychainHelper.read(service: serviceName, account: nil)
         XCTAssertTrue(keychainReadResult.success)
