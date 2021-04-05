@@ -69,7 +69,6 @@ static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.k
 + (nullable instancetype)fromKeyChain:(NSString*)keychainId archiverKey:(NSString*)archiverKey
 {
     
-    NSError *error = nil;
     SFKeyStoreKey* keyStoreKey;
     SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:keychainId account:nil];
     NSData *keyStoreKeyData = result.data;
