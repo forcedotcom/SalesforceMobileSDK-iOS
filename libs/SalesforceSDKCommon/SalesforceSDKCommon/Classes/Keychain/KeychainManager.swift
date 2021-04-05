@@ -67,13 +67,6 @@ internal class KeychainItemManager: NSObject {
                                                              accessGroup: nil)
     }
     
-    /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain item manager for kSecClassGenericPassword operations
-    init(service: String, account: String?, accessGroup: String?) {
-        self.secureStoreQueryable = GenericPasswordItemQuery(service: service,
-                                                             account: account,
-                                                             accessGroup: accessGroup)
-    }
-    
     /// Set a value into the keychain for a given identifier.
     /// - Parameters:
     ///   - data: Value to store
@@ -141,7 +134,7 @@ internal class KeychainItemManager: NSObject {
         query.merge(additions) { (current, _) in current }
         
         var queryResult: CFTypeRef?
-        let  status = SecItemCopyMatching(query as CFDictionary, &queryResult)
+        let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
         
         guard errSecSuccess == status else {
             return KeychainResult(error: mapError(from: status), status: status)
@@ -181,23 +174,24 @@ internal class KeychainItemManager: NSObject {
     }
 }
 
-
 @objc(SFSDKKeychainResult)
 public class KeychainResult: NSObject {
     @objc public let success: Bool
-    @objc public var status: OSStatus
-    @objc public var data: Data?
-    @objc public var error: NSError?
+    @objc public let status: OSStatus
+    @objc public let data: Data?
+    @objc public let error: NSError?
     
     internal init(data: Data?, status: OSStatus) {
         self.success = true
         self.status = status
         self.data = data
+        self.error = nil
     }
     
     internal init(error: NSError, status: OSStatus) {
         self.success = false
         self.status = status
+        self.data = nil
         self.error = error
     }
 }
@@ -215,7 +209,6 @@ public class KeychainHelper: NSObject {
         return keychainManager.getValue()
     }
     
-    
     /// Create an item in the keychain if not present.
     /// - Parameters:
     ///   - service: Identifier to use for keychain service key.
@@ -223,9 +216,9 @@ public class KeychainHelper: NSObject {
     /// - Returns: KeychainResult
     @objc public class func createIfNotPresent(service: String, account: String?) -> KeychainResult {
         let keychainManager = KeychainItemManager(service: service, account: account)
-        var keychainResult =  keychainManager.getValue()
+        var keychainResult = keychainManager.getValue()
         if !keychainResult.success && keychainResult.status == errSecItemNotFound {
-            keychainResult =  keychainManager.addEmptyValue()
+            keychainResult = keychainManager.addEmptyValue()
         }
         return keychainResult
     }
@@ -249,7 +242,7 @@ public class KeychainHelper: NSObject {
     @objc public class func reset(service: String, account: String?) -> KeychainResult {
         let keychainManager = KeychainItemManager(service: service, account: account)
         var keychainResult = keychainManager.getValue()
-        if keychainResult.success == true, keychainManager.removeValue().success {
+        if keychainResult.success, keychainManager.removeValue().success {
             keychainResult = keychainManager.addEmptyValue()
         }
         return keychainResult
@@ -264,7 +257,7 @@ public class KeychainHelper: NSObject {
     @objc public class func remove(service: String, account: String?) -> KeychainResult {
         let keychainManager = KeychainItemManager(service: service, account: account)
         var keychainResult = keychainManager.getValue()
-        if keychainResult.success == true {
+        if keychainResult.success {
             keychainResult = keychainManager.removeValue()
         }
         return keychainResult
