@@ -37,14 +37,14 @@ class KeychainItemManagerTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
+
     func testCreateIfNotPresent()  throws {
-        let accountName = "test.account2"
+        let accountName = "account.two"
         let serviceName = "test.two"
         _  = KeychainHelper.remove(service: serviceName, account: accountName)
         let keychainResult = KeychainHelper.createIfNotPresent(service: serviceName, account: accountName)
         XCTAssertTrue(keychainResult.success)
-        
+
         let keychainReadResult = KeychainHelper.read(service: serviceName, account: accountName)
         XCTAssertTrue(keychainReadResult.success)
         XCTAssertNil(keychainReadResult.data)
@@ -98,5 +98,103 @@ class KeychainItemManagerTests: XCTestCase {
         XCTAssertNil(readAgainRTesult.data)
         
    }
-  
+    
+    func testWriteAndReadItem()  throws {
+          let serviceName = "test.two"
+          let check = KeychainHelper.read(service: serviceName, account: nil)
+          XCTAssertFalse(check.success)
+      
+          let data = "ATESTSTRING2".data(using: .utf8)  ?? Data()
+          let writeResult = KeychainHelper.write(service: serviceName, data: data, account: nil)
+          XCTAssertTrue(writeResult.success)
+          XCTAssertNotNil(writeResult.data)
+          
+          let readResult = KeychainHelper.read(service: serviceName, account: nil)
+          XCTAssertTrue(readResult.success)
+          XCTAssertNotNil(readResult.data)
+          
+          let removeResult = KeychainHelper.remove(service: serviceName, account: nil)
+          XCTAssertTrue(removeResult.success)
+          XCTAssertNil(removeResult.data)
+      
+          let readAgainRTesult = KeychainHelper.read(service: serviceName, account: nil)
+          XCTAssertFalse(readAgainRTesult.success)
+          XCTAssertNil(readAgainRTesult.data)
+    }
+    
+    func testWriteAndReadItemWithAccount()  throws {
+          let serviceName = "test.two"
+          let accountName = "account.two"
+          let check = KeychainHelper.read(service: serviceName, account: accountName)
+          XCTAssertFalse(check.success)
+      
+          let data = "ATESTSTRING2".data(using: .utf8)  ?? Data()
+          let writeResult = KeychainHelper.write(service: serviceName, data: data, account: accountName)
+          XCTAssertTrue(writeResult.success)
+          XCTAssertNotNil(writeResult.data)
+          XCTAssertTrue(writeResult.status == errSecSuccess)
+          
+          let readResult = KeychainHelper.read(service: serviceName, account: accountName)
+          XCTAssertTrue(readResult.success)
+          XCTAssertNotNil(readResult.data)
+          XCTAssertTrue(readResult.status == errSecSuccess)
+          
+          
+          let removeResult = KeychainHelper.remove(service: serviceName, account: accountName)
+          XCTAssertTrue(removeResult.success)
+          XCTAssertNil(removeResult.data)
+          XCTAssertTrue(readResult.status == errSecSuccess)
+      
+          let readAgainRTesult = KeychainHelper.read(service: serviceName, account: accountName)
+          XCTAssertFalse(readAgainRTesult.success)
+          XCTAssertNil(readAgainRTesult.data)
+          XCTAssertTrue(readResult.status == errSecSuccess)
+    }
+    
+    func testDeleteItemIfNotPresent()  throws {
+          let serviceName = "test.two"
+          let removeResult = KeychainHelper.remove(service: serviceName, account: nil)
+          XCTAssertFalse(removeResult.success)
+          XCTAssertNil(removeResult.data)
+          XCTAssertNotNil(removeResult.error)
+          XCTAssertTrue(removeResult.status == errSecItemNotFound)
+    }
+    
+    func testDeleteItemIfNotPresentWithAccount()  throws {
+          let serviceName = "test.two"
+          let accountName = "account.two"
+          let removeResult = KeychainHelper.remove(service: serviceName, account: accountName)
+          XCTAssertFalse(removeResult.success)
+          XCTAssertNil(removeResult.data)
+          XCTAssertNotNil(removeResult.error)
+          XCTAssertTrue(removeResult.status == errSecItemNotFound)
+    }
+    
+    func testCreateMultipleTimes()  throws {
+        let accountName = "account.two"
+        let serviceName = "test.two"
+        _  = KeychainHelper.remove(service: serviceName, account: accountName)
+        var keychainResult = KeychainHelper.createIfNotPresent(service: serviceName, account: accountName)
+        XCTAssertTrue(keychainResult.success)
+
+        var keychainReadResult = KeychainHelper.read(service: serviceName, account: accountName)
+        XCTAssertTrue(keychainReadResult.success)
+        XCTAssertNil(keychainReadResult.data)
+        
+        keychainResult = KeychainHelper.createIfNotPresent(service: serviceName, account: accountName)
+        XCTAssertTrue(keychainResult.success)
+
+        keychainReadResult = KeychainHelper.read(service: serviceName, account: accountName)
+        XCTAssertTrue(keychainReadResult.success)
+        XCTAssertNil(keychainReadResult.data)
+        
+        let removeResult = KeychainHelper.remove(service: serviceName, account: accountName)
+        XCTAssertTrue(removeResult.success)
+        XCTAssertNil(removeResult.data)
+        
+        let readAgainRTesult = KeychainHelper.read(service: serviceName, account: accountName)
+        XCTAssertFalse(readAgainRTesult.success)
+        XCTAssertNil(readAgainRTesult.data)
+    }
+   
 }
