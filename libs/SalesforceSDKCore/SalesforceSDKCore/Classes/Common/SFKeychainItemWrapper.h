@@ -48,18 +48,19 @@
 #import <Foundation/Foundation.h>
 
 // Keychain item exception defines
-
+SFSDK_DEPRECATED("9.1", "10.0", "Will be removed in Mobile SDK 10.0")
 typedef NS_ENUM(NSUInteger, SFKeychainItemExceptionErrorCode) {
     SFKeychainItemExceptionKeychainInaccessible = 1,
 };
 
-extern NSString * _Nullable const kSFKeychainItemExceptionType;
-extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey;
+extern NSString * _Nullable const kSFKeychainItemExceptionType SFSDK_DEPRECATED("9.1", "10.0", "Will be removed in Mobile SDK 10.0.");
+extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey SFSDK_DEPRECATED("9.1", "10.0", "Will be removed in Mobile SDK 10.0.");
 
 /**
  This class is a wrapper class used to interact with the keychain.
  */
-@interface SFKeychainItemWrapper : NSObject
+SFSDK_DEPRECATED("9.1", "10.0", "Will be removed in Mobile SDK 10.0, use SFSDKKeychainHelper instead.")
+@interface SFKeychainItemWrapper : NSObject 
 
 /**
  Returns the accessible attribute used to store this keychain item.
