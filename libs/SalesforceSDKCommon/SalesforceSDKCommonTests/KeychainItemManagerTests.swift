@@ -73,7 +73,6 @@ class KeychainItemManagerTests: XCTestCase {
         let check = KeychainHelper.read(service: serviceName, account: nil)
         XCTAssertFalse(check.success)
     
-        _  = KeychainHelper.remove(service: "test.two", account: nil)
         let keychainResult = KeychainHelper.createIfNotPresent(service: serviceName, account: nil)
         XCTAssertTrue(keychainResult.success)
         let keychainReadResult = KeychainHelper.read(service: serviceName, account: nil)
