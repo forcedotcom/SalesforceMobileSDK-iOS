@@ -60,7 +60,8 @@ internal class KeychainItemManager: NSObject {
     private let secureStoreQueryable: KeychainItemQueryable
     static let errorDomain = "com.salesforce.security.keychainException"
     
-    /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain item manager for kSecClassGenericPassword operations
+    /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain item manager
+    /// for kSecClassGenericPassword operations
     init(service: String, account: String?) {
         self.secureStoreQueryable = GenericPasswordItemQuery(service: service,
                                                              account: account,
@@ -229,7 +230,7 @@ public class KeychainHelper: NSObject {
     ///   - data: Data to write
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
-    @objc public class func write(service: String, data: Data, account: String?) -> KeychainResult  {
+    @objc public class func write(service: String, data: Data, account: String?) -> KeychainResult {
         let keychainManager = KeychainItemManager(service: service, account: account)
         return keychainManager.setValue(data)
     }
@@ -247,7 +248,6 @@ public class KeychainHelper: NSObject {
         }
         return keychainResult
     }
-    
     
     /// Remove an item from the keychain.
     /// - Parameters:

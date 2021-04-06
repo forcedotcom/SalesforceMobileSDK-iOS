@@ -208,7 +208,6 @@ static BOOL sBaseAppIdConfiguredThisLaunch = NO;
                 [self setBaseAppIdentifierConfiguredThisLaunch:YES];
             }
         } else {
-            NSError *error = nil;
             SFSDKKeychainResult *result =  [SFSDKKeychainHelper readWithService:kKeychainIdentifierBaseAppId account:nil];
             NSData *keychainAppIdData = result.data;
             NSString *keychainAppId = [[NSString alloc] initWithData:keychainAppIdData encoding:NSUTF8StringEncoding];
