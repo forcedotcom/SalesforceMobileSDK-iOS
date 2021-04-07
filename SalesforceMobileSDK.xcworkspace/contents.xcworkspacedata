@@ -60,7 +60,7 @@
          location = "group:sqlcipher"
          name = "sqlcipher">
          <FileRef
-            location = "group:libsqlcipher.a">
+            location = "group:SQLCipher.xcframework">
          </FileRef>
          <FileRef
             location = "group:LICENSE">
