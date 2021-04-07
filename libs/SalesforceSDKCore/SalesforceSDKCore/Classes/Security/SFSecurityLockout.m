@@ -796,10 +796,10 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)resetPasscode {
     [SFSDKCoreLogger i:[self class] format:@"Resetting passcode."];
     SFSDKKeychainResult *result = [SFSDKKeychainHelper removeWithService:kKeychainIdentifierPasscodeVerify  account:nil];
-    if (!result.success) {
-        [SFSDKCoreLogger e:[self class] format:@"Error resetting passcode in keychain %@", result.error];
+    if (result.status==errSecItemNotFound) {
+        return;
     }
-    
+    [SFSDKCoreLogger e:[self class] format:@"Error resetting passcode in keychain %@", result.error];
 }
 
 + (BOOL)verifyPasscode:(NSString *)passcode {

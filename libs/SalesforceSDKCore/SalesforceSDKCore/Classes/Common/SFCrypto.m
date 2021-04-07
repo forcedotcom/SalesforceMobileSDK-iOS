@@ -247,6 +247,7 @@ static BOOL sBaseAppIdConfiguredThisLaunch = NO;
     OSStatus keychainResult = -1;
     while (currentRetries < maxRetries && keychainResult != noErr) {
         result = [SFSDKKeychainHelper writeWithService:kKeychainIdentifierBaseAppId data:appIdData account:nil];
+        keychainResult  = result.status;
         if (!result.success) {
             [SFSDKCoreLogger w:[self class] format:@"Could not save the base app identifier to the keychain (result: %@).  Retrying.", [error localizedDescription]];
         }
