@@ -15,6 +15,8 @@ Pod::Spec.new do |s|
                      :tag => "v#{s.version}",
                      :submodules => true }
 
+  s.frameworks   = 'CoreTelephony'
+
   s.requires_arc = true
   s.default_subspec  = 'SalesforceSDKCore'
 

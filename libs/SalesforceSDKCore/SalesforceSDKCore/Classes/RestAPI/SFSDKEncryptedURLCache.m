@@ -39,8 +39,8 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
 
 - (instancetype)initWithMemoryCapacity:(NSUInteger)memoryCapacity
                           diskCapacity:(NSUInteger)diskCapacity
-                              diskPath:(NSString *)path {
-    self = [super initWithMemoryCapacity:memoryCapacity diskCapacity:diskCapacity diskPath:path];
+                          directoryURL:(nullable NSURL *)directoryURL {
+    self = [super initWithMemoryCapacity:memoryCapacity diskCapacity:diskCapacity directoryURL:directoryURL];
     if (self) {
         _encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kURLCacheEncryptionKeyLabel autoCreate:YES];
     }
