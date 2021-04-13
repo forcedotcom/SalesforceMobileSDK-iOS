@@ -364,7 +364,7 @@ public class KeychainHelper: NSObject {
     
     
     /// Use this to relax or change the accessibility attribute for keychain items.
-    /// - Parameter accessibilityAttribute: Should be the accessibility attribute as defined by 
+    /// - Parameter secAttrAccessible: Should be the accessibility attribute as defined by 
     /// - Returns: KeychainResult
     @objc public class func setAccessibleAttribute(_ secAttrAccessible: KeychainItemAccessibility) -> KeychainResult {
         self.upgradeIfRequired()
