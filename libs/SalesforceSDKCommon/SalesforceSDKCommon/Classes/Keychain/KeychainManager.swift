@@ -364,7 +364,7 @@ public class KeychainHelper: NSObject {
     
     
     /// Use this to relax or change the accessibility attribute for keychain items.
-    /// - Parameter secAttrAccessible: Should be the accessibility attribute as defined by 
+    /// - Parameter secAttrAccessible: Should be the accessibility attribute as defined by
     /// - Returns: KeychainResult
     @objc public class func setAccessibleAttribute(_ secAttrAccessible: KeychainItemAccessibility) -> KeychainResult {
         self.upgradeIfRequired()
@@ -473,6 +473,10 @@ public class KeychainHelper: NSObject {
         
         //add the creator tag into the attributes for pre 9.1 keychain items
         func updateKeyAttributeWithCreator(attributes: [String: Any], identifier: String) -> Bool {
+            if attributes[String(kSecAttrCreator)] != nil {
+                //NOOP if the tag already exists
+                return true
+            }
             var query: [String: Any] = [
                 String(kSecClass): String(kSecClassGenericPassword),
                 String(kSecAttrService): identifier]
