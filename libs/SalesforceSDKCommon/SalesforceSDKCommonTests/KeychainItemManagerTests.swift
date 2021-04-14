@@ -27,6 +27,10 @@
 
 import XCTest
 @testable import SalesforceSDKCommon
+enum KeychainTestError: Error {
+    case failed(osStatus: OSStatus)
+    case failedToRead
+}
 
 class KeychainItemManagerTests: XCTestCase {
 
@@ -196,5 +200,92 @@ class KeychainItemManagerTests: XCTestCase {
         XCTAssertFalse(readAgainRTesult.success)
         XCTAssertNil(readAgainRTesult.data)
     }
+    
+    func testCreateAndRemoveAll()  throws {
+       
+        let accounts = [( "test.one", "account.one"),
+                        ( "test.two", "account.two"),
+                        ( "test.three", "account.three"),
+                        ( "test.four", "account.four")]
+        
+        accounts.forEach {
+            let keychainResult = KeychainHelper.createIfNotPresent(service: $0.0, account: $0.1)
+            XCTAssertTrue(keychainResult.success)
+        }
+        
+        let deleteResult = KeychainHelper.removeAll()
+        XCTAssertTrue(deleteResult.success)
+        
+        accounts.forEach {
+            let keychainResult = KeychainHelper.read(service: $0.0, account: $0.1)
+            XCTAssertFalse(keychainResult.success && keychainResult.status==errSecItemNotFound)
+        }
+    }
+    
+    func testChangeAccesibilityAttribute() throws {
+       
+        let accounts = [( "test.one", "account.one"),
+                        ( "test.two", "account.two"),
+                        ( "test.three", "account.three"),
+                        ( "test.four", "account.four")]
+        
+        accounts.forEach {
+            let keychainResult = KeychainHelper.createIfNotPresent(service: $0.0, account: $0.1)
+            XCTAssertTrue(keychainResult.success)
+        }
+        
+        accounts.forEach {
+            let keychainResult = KeychainHelper.read(service: $0.0, account: $0.1)
+            XCTAssertTrue(keychainResult.success && keychainResult.status == errSecSuccess)
+        }
+        
+        for (service, account) in accounts {
+            let keychainResult: [String: Any]? = try readKeychainItem(service: service, account: account)
+            let accessibilityAttr = try XCTUnwrap(keychainResult?[String(kSecAttrAccessible)])
+            XCTAssertEqual(accessibilityAttr as! CFString , kSecAttrAccessibleWhenUnlockedThisDeviceOnly)
+        }
+        
+        let attrResult = KeychainHelper.setAccessibleAttribute(.whenUnlocked)
+        XCTAssertTrue(attrResult.success)
+        
+        for (service, account) in accounts {
+            let keychainResult: [String: Any]? = try readKeychainItem(service: service, account: account)
+            let accessibilityAttr = try XCTUnwrap(keychainResult?[String(kSecAttrAccessible)])
+            XCTAssertEqual(accessibilityAttr as! CFString , kSecAttrAccessibleWhenUnlocked)
+        }
+        
+        let deleteResult = KeychainHelper.removeAll()
+        XCTAssertTrue(deleteResult.success)
+        
+        accounts.forEach {
+            let keychainResult = KeychainHelper.read(service: $0.0, account: $0.1)
+            XCTAssertFalse(keychainResult.success && keychainResult.status==errSecItemNotFound)
+        }
+    }
+    
+    
+    private func readKeychainItem(service: String, account: String) throws -> [String : Any] {
+        let query: [String: Any] = [String(kSecClass): String(kSecClassGenericPassword),
+                                    String(kSecAttrService): service,
+                                    String(kSecMatchLimit): kSecMatchLimitOne,
+                                    String(kSecReturnAttributes): kCFBooleanTrue as Any,
+                                    String(kSecReturnData): kCFBooleanTrue as Any]
+        
+        
+        
+        var queryResult: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
+        
+        guard errSecSuccess == status else {
+            throw KeychainTestError.failed(osStatus: status)
+        }
+        
+        guard let item = queryResult as? [String: Any] else {
+            throw KeychainTestError.failedToRead
+        }
+        
+        return item
+    }
+    
    
 }
