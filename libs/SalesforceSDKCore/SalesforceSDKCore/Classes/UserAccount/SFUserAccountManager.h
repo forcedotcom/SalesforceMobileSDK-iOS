@@ -177,8 +177,8 @@ FOUNDATION_EXTERN NSString * const kSFIDPSceneIdKey NS_SWIFT_NAME(UserAccountMan
 NS_SWIFT_NAME(UserAccountManagerDelegate)
 @protocol SFUserAccountManagerDelegate <NSObject>
 
-
 @optional
+
 /**
  Called when the account manager wants to determine if the network is available.
  @param userAccountManager The instance of SFUserAccountManager making the call.
@@ -232,6 +232,11 @@ NS_SWIFT_NAME(UserAccountManager.NotificationUserInfo)
  */
 NS_SWIFT_NAME(UserAccountManager)
 @interface SFUserAccountManager : NSObject
+
+/**
+ * Completion block for when auth is cancelled.
+ */
+@property (nonatomic, readwrite, copy, nonnull) void (^authCancelledByUserHandlerBlock)(void);
 
 /** The current user account.  This property may be nil if the user
  has never logged in.
