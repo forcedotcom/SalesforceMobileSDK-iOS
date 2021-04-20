@@ -236,7 +236,7 @@ NS_SWIFT_NAME(UserAccountManager)
 /**
  * Completion block for when auth is cancelled.
  */
-@property (nonatomic, readwrite, copy, nonnull) void (^authCancelledByUserHandlerBlock)(void);
+@property (nonatomic, readwrite, copy, nullable) void (^authCancelledByUserHandlerBlock)(void);
 
 /** The current user account.  This property may be nil if the user
  has never logged in.
