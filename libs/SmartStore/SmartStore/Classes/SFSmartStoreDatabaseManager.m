@@ -32,6 +32,7 @@
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/SFKeychainItemWrapper.h>
+#import <SalesforceSDKCommon/SFPathUtil.h>
 #import <sqlite3.h>
 #import "SFSmartStoreUtils.h"
 #import "FMDatabase.h"
@@ -486,7 +487,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 - (BOOL) protectDir:(NSString*)dirPath protection:(NSString*)protection {
     NSString* currentProtection = [self getDirProtection:dirPath];
-    if (currentProtection == nil) {
+    if (currentProtection == nil || [dirPath isEqualToString: [SFPathUtil applicationDocumentDirectory]]) {
         // We don't own the dir, we are done
         return YES;
     }
