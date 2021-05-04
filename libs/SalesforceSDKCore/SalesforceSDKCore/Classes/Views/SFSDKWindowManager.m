@@ -473,7 +473,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     
     if (!mainWindow && [scene.delegate respondsToSelector:@selector(window)]) {
         mainWindow = [scene.delegate performSelector:@selector(window)];
-    } else if (!mainWindow) {
+    } else if (!mainWindow && [[SFApplicationHelper sharedApplication].delegate respondsToSelector:@selector(window)]) {
         mainWindow = [SFApplicationHelper sharedApplication].delegate.window;
     }
     
