@@ -60,6 +60,7 @@ extern NSString * _Nullable const kSFKeychainItemExceptionErrorCodeKey SFSDK_DEP
  This class is a wrapper class used to interact with the keychain.
  */
 SFSDK_DEPRECATED("9.1", "10.0", "Will be removed in Mobile SDK 10.0, use SFSDKKeychainHelper instead.")
+API_UNAVAILABLE(macCatalyst)
 @interface SFKeychainItemWrapper : NSObject 
 
 /**
