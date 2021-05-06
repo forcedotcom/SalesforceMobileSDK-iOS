@@ -41,8 +41,9 @@
 #import "SFSDKResourceUtils.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
-static NSString * const kSFAppFeatureSwiftApp   = @"SW";
+static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
+static NSString * const kSFAppFeatureMacApp      = @"MC";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -208,6 +209,9 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         if([SFSwiftDetectUtil isSwiftApp]) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSwiftApp];
         }
+        if ([SalesforceSDKManager isOnMac]) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMacApp];
+        }
         if([[[SFUserAccountManager sharedInstance] allUserIdentities] count]>1){
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMultiUser];
         }
@@ -285,7 +289,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowWillBegin:) name:kSFPasscodeFlowWillBegin object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowDidComplete:) name:kSFPasscodeFlowCompleted object:nil];
 
-        _useSnapshotView = ![self isOnMac];
+        _useSnapshotView = ![SalesforceSDKManager isOnMac];
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
@@ -532,7 +536,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     }
 }
 
-- (BOOL)isOnMac {
++ (BOOL)isOnMac {
     NSProcessInfo *processInfo = [NSProcessInfo processInfo];
     BOOL isOnMac = processInfo.macCatalystApp;
     if (@available(iOS 14.0, *)) {
