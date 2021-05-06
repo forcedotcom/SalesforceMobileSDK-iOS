@@ -40,7 +40,6 @@
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKResourceUtils.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
-#import "UIDevice+SFHardware.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
