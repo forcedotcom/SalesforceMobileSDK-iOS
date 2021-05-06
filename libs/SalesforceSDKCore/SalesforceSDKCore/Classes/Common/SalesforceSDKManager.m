@@ -40,6 +40,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKResourceUtils.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import "UIDevice+SFHardware.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -284,7 +285,8 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidSwitch:) name:kSFNotificationUserDidSwitch object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowWillBegin:) name:kSFPasscodeFlowWillBegin object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowDidComplete:) name:kSFPasscodeFlowCompleted object:nil];
-        self.useSnapshotView = YES;
+
+        _useSnapshotView = ![self isOnMac];
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
@@ -531,6 +533,15 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     }
 }
 
+- (BOOL)isOnMac {
+    NSProcessInfo *processInfo = [NSProcessInfo processInfo];
+    BOOL isOnMac = processInfo.macCatalystApp;
+    if (@available(iOS 14.0, *)) {
+        isOnMac |= [NSProcessInfo processInfo].isiOSAppOnMac;
+    }
+    return isOnMac;
+}
+
 - (void)setupServiceConfiguration
 {
     [SFUserAccountManager sharedInstance].oauthClientId = self.appConfig.remoteAccessConsumerKey;
@@ -620,7 +631,6 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
     // Set up snapshot security view, if it's configured.
     @try {
-        [SFSDKCoreLogger d:[self class] format:@"Scene %@ is trying to present snapshot.", sceneId];
         [self presentSnapshot:scene];
     }
     @catch (NSException *exception) {
@@ -700,10 +710,11 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 }
 
 - (void)presentSnapshot:(UIScene *)scene {
-    if (!self.useSnapshotView) {
+    if (!_useSnapshotView) {
         return;
     }
     NSString *sceneId = scene.session.persistentIdentifier;
+    [SFSDKCoreLogger d:[self class] format:@"Scene %@ is trying to present snapshot.", sceneId];
     // Try to retrieve a custom snapshot view controller
     UIViewController* customSnapshotViewController = nil;
     if (self.snapshotViewControllerCreationAction) {

@@ -144,9 +144,9 @@ NS_SWIFT_NAME(SalesforceManager)
 
 /**
  Whether or not to use a security snapshot view when the app is backgrounded, to prevent
- sensitive data from being displayed outside of the app context.  Default is YES.
+ sensitive data from being displayed outside of the app context.  Default is YES on iOS. Disabled when running on Mac.
  */
-@property (nonatomic, assign) BOOL useSnapshotView NS_SWIFT_NAME(usesSnapshotView);
+@property (nonatomic, assign) BOOL useSnapshotView NS_SWIFT_NAME(usesSnapshotView) API_UNAVAILABLE(macCatalyst);
 
 /**
  The block to provide custom view to use for IDP selection flow.
