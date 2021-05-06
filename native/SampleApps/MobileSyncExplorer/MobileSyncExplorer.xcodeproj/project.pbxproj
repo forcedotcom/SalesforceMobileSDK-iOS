@@ -1126,7 +1126,6 @@
 				GCC_PREFIX_HEADER = "MobileSyncExplorer/MobileSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "MobileSyncExplorer/MobileSyncExplorer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1134,8 +1133,9 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1151,7 +1151,6 @@
 				GCC_PREFIX_HEADER = "MobileSyncExplorer/MobileSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "MobileSyncExplorer/MobileSyncExplorer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1159,8 +1158,9 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
