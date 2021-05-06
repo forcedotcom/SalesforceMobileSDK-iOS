@@ -539,8 +539,8 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 + (BOOL)isOnMac {
     NSProcessInfo *processInfo = [NSProcessInfo processInfo];
     BOOL isOnMac = processInfo.macCatalystApp;
-    if (@available(iOS 14.0, *)) {
-        isOnMac |= [NSProcessInfo processInfo].isiOSAppOnMac;
+    if (@available(iOS 14.0, *)) { // TODO: Remove in Mobile SDK 10.0
+        isOnMac = isOnMac || [NSProcessInfo processInfo].isiOSAppOnMac;
     }
     return isOnMac;
 }
