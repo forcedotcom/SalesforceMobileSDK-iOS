@@ -53,7 +53,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 NSString *SFAppTypeGetDescription(SFAppType appType) NS_SWIFT_NAME(getter:SFAppType.description(self:));
 
-
 /**
  Block typedef for presenting the snapshot view controller.
  */
@@ -244,6 +243,13 @@ NS_SWIFT_NAME(SalesforceManager)
  * @return Dev info (list of name1, value1, name2, value2 etc) to show in SFSDKDevInfoController
  */
 - (NSArray<NSString *>*)getDevSupportInfos NS_SWIFT_NAME(devSupportInfoList());
+
+/**
+ * Returns the title string of the dev support menu.
+ *
+ * @return Title string of the dev support menu.
+ */
+- (nonnull NSString *)devInfoTitleString;
 
 @end
 
