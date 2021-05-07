@@ -411,6 +411,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 - (void) showDevSupportDialog:(UIViewController *)presentedViewController
 {
+
     // Do nothing if dev support is not enabled or dialog is already being shown
     if (!self.isDevSupportEnabled || self.actionSheet) {
         return;
@@ -418,14 +419,9 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
     // On larger devices we don't have an anchor point for the action sheet
     UIAlertControllerStyle style = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? UIAlertControllerStyleActionSheet : UIAlertControllerStyleAlert;
-    self.actionSheet = [UIAlertController alertControllerWithTitle:[SFSDKResourceUtils localizedString:@"devInfoTitle"]
-                                                       message:@""
-                                                preferredStyle:style];
-
+    self.actionSheet = [UIAlertController alertControllerWithTitle:[self devInfoTitleString] message:@"" preferredStyle:style];
     NSArray<SFSDKDevAction *>* devActions = [self getDevActions:presentedViewController];
-    
-    
-    for (int i=0; i<devActions.count; i++) {
+    for (int i = 0; i < devActions.count; i++) {
         [self.actionSheet addAction:[UIAlertAction actionWithTitle:devActions[i].name
                                                              style:UIAlertActionStyleDefault
                                                            handler:^(__unused UIAlertAction *action) {
@@ -433,18 +429,19 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
                                                                self.actionSheet = nil;
                                                            }]];
     }
-    
-    [self.actionSheet addAction:[UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"devInfoCancelKey"]
-                                                         style:UIAlertActionStyleCancel
+    [self.actionSheet addAction:[UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"devInfoCancelKey"] style:UIAlertActionStyleCancel
                                                        handler:^(__unused UIAlertAction *action) {
                                                            self.actionSheet = nil;
                                                        }]];
-
-    
     [presentedViewController presentViewController:self.actionSheet animated:YES completion:nil];
 }
 
--(NSArray<SFSDKDevAction *>*) getDevActions:(UIViewController *)presentedViewController
+- (NSString *)devInfoTitleString
+{
+    return [SFSDKResourceUtils localizedString:@"devInfoTitle"];
+}
+
+- (NSArray<SFSDKDevAction *>*) getDevActions:(UIViewController *)presentedViewController
 {
     return @[
              [[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
