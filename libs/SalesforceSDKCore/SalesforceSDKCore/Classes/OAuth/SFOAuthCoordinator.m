@@ -663,7 +663,7 @@
                                           kSFOAuthDisplay, kSFOAuthDisplayTouch,
                                           kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     
-    [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];
+    [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeHybridToken];
     NSString *scopeString = [self scopeQueryParamString];
     if (scopeString != nil) {
         [approvalUrlString appendString:scopeString];

@@ -51,7 +51,7 @@ static NSString * const kSFOAuthErrorDescription                = @"error_descri
 static NSString * const kSFOAuthFormat                          = @"format";
 static NSString * const kSFOAuthFormatJson                      = @"json";
 static NSString * const kSFOAuthGrantType                       = @"grant_type";
-static NSString * const kSFOAuthGrantTypeRefreshToken           = @"refresh_token";
+static NSString * const kSFOAuthGrantTypeHybridRefresh          = @"hybrid_refresh";
 static NSString * const kSFOAuthId                              = @"id";
 static NSString * const kSFOAuthInstanceUrl                     = @"instance_url";
 static NSString * const kSFOAuthCommunityId                     = @"sfdc_community_id";
@@ -61,7 +61,7 @@ static NSString * const kSFOAuthIssuedAt                        = @"issued_at";
 static NSString * const kSFOAuthRedirectUri                     = @"redirect_uri";
 static NSString * const kSFOAuthRefreshToken                    = @"refresh_token";
 static NSString * const kSFOAuthResponseType                    = @"response_type";
-static NSString * const kSFOAuthResponseTypeToken               = @"token";
+static NSString * const kSFOAuthResponseTypeHybridToken         = @"hybrid_token";
 static NSString * const kSFOAuthScope                           = @"scope";
 static NSString * const kSFOAuthSignature                       = @"signature";
 

@@ -223,7 +223,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                kSFOAuthClientId, endpointReq.clientID,
                                kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
-    [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken, endpointReq.refreshToken];
+    [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeHybridRefresh, kSFOAuthRefreshToken, endpointReq.refreshToken];
     for (NSString * key in endpointReq.additionalTokenRefreshParams) {
         [params appendFormat:@"&%@=%@", [key stringByURLEncoding], [endpointReq.additionalTokenRefreshParams[key] stringByURLEncoding]];
     }
