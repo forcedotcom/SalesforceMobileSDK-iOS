@@ -699,8 +699,6 @@
     return [NSString stringWithFormat:@"&%@=%@", kSFOAuthScope, scopeStr];
 }
 
-
-
 + (NSString *)advancedAuthStateDesc:(SFOAuthAdvancedAuthState)authState
 {
     switch (authState) {
