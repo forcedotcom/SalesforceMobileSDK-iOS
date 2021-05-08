@@ -63,6 +63,13 @@ static NSString * const kSFOAuthResponseType                    = @"response_typ
 static NSString * const kSFOAuthResponseTypeHybridToken         = @"hybrid_token";
 static NSString * const kSFOAuthScope                           = @"scope";
 static NSString * const kSFOAuthSignature                       = @"signature";
+static NSString * const kSFOAuthLightningDomain                 = @"lightning_domain";
+static NSString * const kSFOAuthLightningSID                    = @"lightning_sid";
+static NSString * const kSFOAuthVFDomain                        = @"visualforce_domain";
+static NSString * const kSFOAuthVFSID                           = @"visualforce_sid";
+static NSString * const kSFOAuthContentDomain                   = @"content_domain";
+static NSString * const kSFOAuthContentSID                      = @"content_sid";
+static NSString * const kSFOAuthCSRFToken                       = @"csrf_token";
 
 // Used for the IP bypass flow, Advanced auth flow
 static NSString * const kSFOAuthApprovalCode                    = @"code";
