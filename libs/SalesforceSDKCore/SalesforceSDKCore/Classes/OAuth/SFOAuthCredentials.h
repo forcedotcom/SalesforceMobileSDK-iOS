@@ -254,7 +254,6 @@ NS_SWIFT_NAME(OAuthCredentials)
  */
 - (void)revokeRefreshToken;
 
-
 - (NSURL *)overrideDomainIfNeeded;
 
 - (void)updateCredentials:(NSDictionary *)params;
