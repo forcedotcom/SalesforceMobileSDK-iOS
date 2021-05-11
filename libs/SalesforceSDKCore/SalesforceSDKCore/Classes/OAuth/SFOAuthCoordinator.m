@@ -374,8 +374,7 @@
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
     __weak typeof(self) weakSelf = self;
-     
-    _asWebAuthenticationSession = [[ASWebAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:self.credentials.redirectUri   completionHandler:^(NSURL *callbackURL, NSError *error) {
+    _asWebAuthenticationSession = [[ASWebAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:[NSURL URLWithString:self.credentials.redirectUri].scheme completionHandler:^(NSURL *callbackURL, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
             NSDictionary *options = @{kSFIDPSceneIdKey : self.authSession.sceneId};
@@ -384,10 +383,8 @@
             [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];
         }
     }];
- 
     _asWebAuthenticationSession.prefersEphemeralWebBrowserSession = [SalesforceSDKManager sharedManager].useEphemeralSessionForAdvancedAuth;
     [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_asWebAuthenticationSession];
-
 }
 
 - (void)beginUserAgentFlow {
