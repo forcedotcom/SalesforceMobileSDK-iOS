@@ -39,6 +39,7 @@
 #import "SFDirectoryManager+Internal.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKResourceUtils.h"
+#import "SFSDKMacDetectUtil.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
@@ -209,7 +210,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         if([SFSwiftDetectUtil isSwiftApp]) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSwiftApp];
         }
-        if ([SalesforceSDKManager isOnMac]) {
+        if ([SFSDKMacDetectUtil isOnMac]) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMacApp];
         }
         if([[[SFUserAccountManager sharedInstance] allUserIdentities] count]>1){
@@ -289,7 +290,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowWillBegin:) name:kSFPasscodeFlowWillBegin object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowDidComplete:) name:kSFPasscodeFlowCompleted object:nil];
 
-        _useSnapshotView = ![SalesforceSDKManager isOnMac];
+        _useSnapshotView = ![SFSDKMacDetectUtil isOnMac];
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
@@ -531,15 +532,6 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     if ([SFManagedPreferences sharedPreferences].idpAppURLScheme) {
         self.idpAppURIScheme = [SFManagedPreferences sharedPreferences].idpAppURLScheme;
     }
-}
-
-+ (BOOL)isOnMac {
-    NSProcessInfo *processInfo = [NSProcessInfo processInfo];
-    BOOL isOnMac = processInfo.macCatalystApp;
-    if (@available(iOS 14.0, *)) { // TODO: Remove in Mobile SDK 10.0
-        isOnMac = isOnMac || [NSProcessInfo processInfo].isiOSAppOnMac;
-    }
-    return isOnMac;
 }
 
 - (void)setupServiceConfiguration
