@@ -80,10 +80,6 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
-      - run: 
-          name: Codecov Uplaod
-          command: bash <(curl -s https://codecov.io/bash) -X gcov -X xcode
-          when: always
 
       
 workflows:

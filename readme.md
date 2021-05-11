@@ -1,6 +1,5 @@
 # Salesforce.com Mobile SDK for iOS
 [![CircleCI](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev.svg?style=svg)](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev)
-[![codecov](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev/graph/badge.svg)](https://codecov.io/gh/forcedotcom/SalesforceMobileSDK-iOS/branch/dev)
 [![Known Vulnerabilities](https://snyk.io/test/github/forcedotcom/SalesforceMobileSDK-iOS/badge.svg)](https://snyk.io/test/github/forcedotcom/SalesforceMobileSDK-iOS)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/forcedotcom/SalesforceMobileSDK-iOS?sort=semver)
 
