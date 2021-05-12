@@ -83,7 +83,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         self.apiVersion = kSFRestDefaultAPIVersion;
         self.sessionRefreshInProgress = NO;
         self.pendingRequestsBeingProcessed = NO;
-        self.requiresAuthentication = ( user!=nil && user.credentials.accessToken!=nil );
+        self.requiresAuthentication = (user != nil && user.credentials.accessToken != nil);
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
     return self;
