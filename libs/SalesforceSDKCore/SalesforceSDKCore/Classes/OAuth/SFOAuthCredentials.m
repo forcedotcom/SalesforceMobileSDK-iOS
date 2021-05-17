@@ -366,25 +366,25 @@ NSException * SFOAuthInvalidIdentifierException() {
         [self setPropertyForKey:@"refreshToken" withValue:params[kSFOAuthRefreshToken]];
     }
     if (params[kSFOAuthLightningDomain]) {
-        [self setPropertyForKey:@"lightning_domain" withValue:params[kSFOAuthLightningDomain]];
+        self.lightningDomain = params[kSFOAuthLightningDomain];
     }
     if (params[kSFOAuthLightningSID]) {
-        [self setPropertyForKey:@"lightning_sid" withValue:params[kSFOAuthLightningSID]];
+        self.lightningSid = params[kSFOAuthLightningSID];
     }
     if (params[kSFOAuthVFDomain]) {
-        [self setPropertyForKey:@"visualforce_domain" withValue:params[kSFOAuthVFDomain]];
+        self.vfDomain = params[kSFOAuthVFDomain];
     }
     if (params[kSFOAuthVFSID]) {
-        [self setPropertyForKey:@"visualforce_sid" withValue:params[kSFOAuthVFSID]];
+        self.vfSid = params[kSFOAuthVFSID];
     }
     if (params[kSFOAuthContentDomain]) {
-        [self setPropertyForKey:@"content_domain" withValue:params[kSFOAuthContentDomain]];
+        self.contentDomain = params[kSFOAuthContentDomain];
     }
     if (params[kSFOAuthContentSID]) {
-        [self setPropertyForKey:@"content_sid" withValue:params[kSFOAuthContentSID]];
+        self.contentSid = params[kSFOAuthContentSID];
     }
     if (params[kSFOAuthCSRFToken]) {
-        [self setPropertyForKey:@"csrf_token" withValue:params[kSFOAuthCSRFToken]];
+        self.csrfToken = params[kSFOAuthCSRFToken];
     }
 }
 
