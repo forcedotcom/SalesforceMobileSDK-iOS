@@ -101,7 +101,7 @@
     if (userHint) {
         SFUserAccountIdentity *identity = [self decodeUserIdentity:userHint];
         SFUserAccount *userAccount = [self userAccountForUserIdentity:identity];
-        if (userAccount.credentials.accessToken!=nil) {
+        if (userAccount.credentials.accessToken != nil) {
             [SFSDKCoreLogger d:[self class] format:@"handleAuthRequestFromSPApp userAccount found for userHint"];
         }
         [self selectedUser:userAccount spAppContext:request.allParams];

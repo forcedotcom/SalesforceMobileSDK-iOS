@@ -126,6 +126,14 @@ NS_SWIFT_NAME(OAuthCredentials)
  */
 @property (nonatomic, readonly, nullable) NSString *accessToken;
 
+@property (nonatomic, readonly, nullable) NSString *lightningDomain;
+@property (nonatomic, readonly, nullable) NSString *lightningSid;
+@property (nonatomic, readonly, nullable) NSString *vfDomain;
+@property (nonatomic, readonly, nullable) NSString *vfSid;
+@property (nonatomic, readonly, nullable) NSString *contentDomain;
+@property (nonatomic, readonly, nullable) NSString *contentSid;
+@property (nonatomic, readonly, nullable) NSString *csrfToken;
+
 /** A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.
  
  This property is available after authentication has successfully completed.
@@ -253,7 +261,6 @@ NS_SWIFT_NAME(OAuthCredentials)
  @exception NSInternalInconsistencyException If called while the identifier property is `nil`.
  */
 - (void)revokeRefreshToken;
-
 
 - (NSURL *)overrideDomainIfNeeded;
 

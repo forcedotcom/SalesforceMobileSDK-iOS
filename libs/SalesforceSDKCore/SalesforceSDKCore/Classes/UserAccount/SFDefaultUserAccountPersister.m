@@ -169,7 +169,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
         return NO;
     }
 
-    if (filePath.length==0) {
+    if (filePath.length == 0) {
         NSString *reason = @"File path cannot be empty. Could not save the user account to file.";
         [SFSDKCoreLogger w:[self class] format:reason];
         if (error)

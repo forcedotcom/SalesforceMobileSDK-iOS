@@ -61,6 +61,13 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSString *challengeString;
 @property (nonatomic, readwrite, nullable) NSString *authCode;
 @property (nonatomic, readwrite, nullable) NSMutableDictionary * credentialsChangeSet;
+@property (nonatomic, readwrite, nullable) NSString *lightningDomain;
+@property (nonatomic, readwrite, nullable) NSString *lightningSid;
+@property (nonatomic, readwrite, nullable) NSString *vfDomain;
+@property (nonatomic, readwrite, nullable) NSString *vfSid;
+@property (nonatomic, readwrite, nullable) NSString *contentDomain;
+@property (nonatomic, readwrite, nullable) NSString *contentSid;
+@property (nonatomic, readwrite, nullable) NSString *csrfToken;
 
 - (void)setPropertyForKey:(NSString *_Nonnull) key withValue:(id _Nullable ) newValue;
 

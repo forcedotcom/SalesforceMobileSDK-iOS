@@ -541,5 +541,3 @@ Use this method to stop/clear any authentication which is has already been start
 @end
 
 NS_ASSUME_NONNULL_END
-                                                                          
-                                                                          
