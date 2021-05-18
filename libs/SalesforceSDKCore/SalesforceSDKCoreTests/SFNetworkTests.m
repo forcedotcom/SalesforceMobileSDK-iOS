@@ -115,8 +115,12 @@
 }
 
 - (void)testMetricsAction {
+    [self addTeardownBlock:^{
+        SFNetwork.metricsCollectedAction = nil;
+    }];
+    
     XCTestExpectation *getExpectation = [self expectationWithDescription:@"Get"];
-   SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
+    SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
 
     [[SFRestAPI sharedGlobalInstance] sendRequest:request failureBlock:^(id  _Nullable response, NSError * _Nullable e, NSURLResponse * _Nullable rawResponse) {
         XCTFail(@"Request failed");
