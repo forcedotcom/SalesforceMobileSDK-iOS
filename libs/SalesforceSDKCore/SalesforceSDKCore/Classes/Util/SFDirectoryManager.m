@@ -268,7 +268,6 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
                     NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
                     NSString *newDirectory = [orgContent entityId18];
                     NSString *newPath = [rootPath stringByAppendingPathComponent:newDirectory];
-                    [fm moveItemAtPath:orgPath toPath:newPath error:&error];
                     if (![fileManager fileExistsAtPath:newPath]) {
                         // File does not exist, copy it.
                         [fm moveItemAtPath:orgPath toPath:newPath error:&error];
