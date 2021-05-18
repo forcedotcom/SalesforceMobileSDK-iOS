@@ -1,5 +1,3 @@
-import Foundation
-
 /*
  RestClient.swift
  SalesforceSDKCore
@@ -28,7 +26,10 @@ import Foundation
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+import Foundation
 import Combine
+
 /// Errors that can be thrown while using RestClient
 public enum RestClientError: Error {
     case apiResponseIsEmpty
@@ -39,8 +40,8 @@ public enum RestClientError: Error {
 
 public struct RestResponse {
     private static let emptyStringResponse = ""
-    private (set) var data: Data
-    public private (set) var urlResponse: URLResponse
+    private(set) var data: Data
+    public private(set) var urlResponse: URLResponse
     
     /// Initializes the RestResponse with a Data object and URLResponse.
     /// - Parameter data: Raw response as Data.
