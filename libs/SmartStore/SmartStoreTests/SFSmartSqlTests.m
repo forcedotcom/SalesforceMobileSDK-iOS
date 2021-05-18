@@ -364,31 +364,30 @@
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"00020\"],[\"00060\"],[\"00070\"],[\"00310\"],[\"102\"]]"] actual:result message:@"Wrong result"];
 }
 
-- (void) testSmartQueryFilteringByNonIndexedField {
-    NSDictionary* employee101 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94105}}"];
-    NSDictionary* employee102 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"address\":{\"city\":\"New York City\", \"zipcode\":10004}}"];
-    NSDictionary* employee103 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"103\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94106}}"];
-    NSDictionary* employee104 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"104\",\"address\":{\"city\":\"New York City\", \"zipcode\":10006}}"];
+- (void)testSmartQueryFilteringByNonIndexedField {
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94105}}"];
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"address\":{\"city\":\"New York City\", \"zipcode\":10004}}"];
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"103\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94106}}"];
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"104\",\"address\":{\"city\":\"New York City\", \"zipcode\":10006}}"];
 
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:address.city} = 'San Francisco' order by {employees:employeeId}" withPageSize:10];
-    NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:address.city} = 'San Francisco' order by {employees:employeeId}" withPageSize:10];
+    NSArray *result = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"101\"],[\"103\"]]"] actual:result message:@"Wrong result"];
 }
 
-- (void) testSmartQueryReturningNonIndexedField {
-    NSDictionary* employee101 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94105}}"];
-    NSDictionary* employee102 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"address\":{\"city\":\"New York City\", \"zipcode\":10004}}"];
-    NSDictionary* employee103 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"103\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94106}}"];
-    NSDictionary* employee104 = [self createEmployeeWithJsonString:@"{\"employeeId\":\"104\",\"address\":{\"city\":\"New York City\", \"zipcode\":10006}}"];
+- (void)testSmartQueryReturningNonIndexedField {
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94105}}"];
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"address\":{\"city\":\"New York City\", \"zipcode\":10004}}"];
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"103\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94106}}"];
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"104\",\"address\":{\"city\":\"New York City\", \"zipcode\":10006}}"];
     
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId}, {employees:address.zipcode} from {employees} where {employees:address.city} = 'San Francisco' order by {employees:employeeId}" withPageSize:10];
-    NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId}, {employees:address.zipcode} from {employees} where {employees:address.city} = 'San Francisco' order by {employees:employeeId}" withPageSize:10];
+    NSArray *result = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"101\", 94105],[\"103\", 94106]]"] actual:result message:@"Wrong result"];
 }
 
 #pragma mark - helper methods
-- (void) loadData
-{
+- (void)loadData {
     // Employees
     [self createEmployeeWithFirstName:@"Christine" withLastName:@"Haas" withDeptCode:@"A00" withEmployeeId:@"00010" withManagerId:@"" withSalary:200000.10 withIsManager:YES];
     [self createEmployeeWithFirstName:@"Michael" withLastName:@"Thompson" withDeptCode:@"A00" withEmployeeId:@"00020" withManagerId:@"00010" withSalary:120000.10 withIsManager:NO];
@@ -403,20 +402,18 @@
     [self createDepartmentWithCode:@"B00" withName:@"R&D" withBudget:2000000];
 }
 
-- (void) createEmployeeWithFirstName:(NSString*)firstName withLastName:(NSString*)lastName withDeptCode:(NSString*)deptCode withEmployeeId:(NSString*)employeeId withManagerId:(NSString*)managerId withSalary:(double)salary withIsManager:(BOOL)isManager
-{
-    NSDictionary* employee = @{kFirstName: firstName, kLastName: lastName, kDeptCode: deptCode, kEmployeeId: employeeId, kManagerId: managerId, kSalary: @(salary), kIsManager: @(isManager)};
+- (void)createEmployeeWithFirstName:(NSString *)firstName withLastName:(NSString *)lastName withDeptCode:(NSString *)deptCode withEmployeeId:(NSString *)employeeId withManagerId:(NSString *)managerId withSalary:(double)salary withIsManager:(BOOL)isManager {
+    NSDictionary *employee = @{kFirstName: firstName, kLastName: lastName, kDeptCode: deptCode, kEmployeeId: employeeId, kManagerId: managerId, kSalary: @(salary), kIsManager: @(isManager)};
     [self.store upsertEntries:@[employee] toSoup:kEmployeesSoup];
 }
 
-- (NSDictionary*)createEmployeeWithJsonString:(NSString*)jsonString {
-    NSDictionary* employee = [SFJsonUtils objectFromJSONString:jsonString];
+- (NSDictionary *)createEmployeeWithJsonString:(NSString*)jsonString {
+    NSDictionary *employee = [SFJsonUtils objectFromJSONString:jsonString];
     return [self.store upsertEntries:@[employee] toSoup:kEmployeesSoup][0];
 }
 	
-- (void) createDepartmentWithCode:(NSString*) deptCode withName:(NSString*)name withBudget:(NSUInteger) budget
-{
-    NSDictionary* department = @{kDeptCode: deptCode, kName: name, kBudget: @(budget)};
+- (void)createDepartmentWithCode:(NSString *)deptCode withName:(NSString *)name withBudget:(NSUInteger)budget {
+    NSDictionary *department = @{kDeptCode: deptCode, kName: name, kBudget: @(budget)};
     [self.store upsertEntries:@[department] toSoup:kDepartmentsSoup];
 }
 

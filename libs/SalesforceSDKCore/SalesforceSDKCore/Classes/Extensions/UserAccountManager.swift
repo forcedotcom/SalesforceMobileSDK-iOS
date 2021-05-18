@@ -29,7 +29,7 @@
  */
 import Foundation
 
-public enum UserAccountManagerError : Error {
+public enum UserAccountManagerError: Error {
     case loginFailed(underlyingError: Error, authInfo: AuthInfo)
     case loginJWTFailed(underlyingError: Error, authInfo: AuthInfo)
     case refreshFailed(underlyingError: Error, authInfo: AuthInfo)
