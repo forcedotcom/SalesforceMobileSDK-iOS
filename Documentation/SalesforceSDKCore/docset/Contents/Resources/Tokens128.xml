@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUserSelectionNavViewController.html">
+	<File path="Classes/SFSDKUpdateNotificationsRequestBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUserSelectionNavViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUpdateNotificationsRequestBuilder</TokenIdentifier>
+			<Abstract type="html">Use this interface to create a PATCH RestRequest object that calls the Notifications REST API.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
             
 			
 			<NodeRef refid="128"/>
@@ -13,86 +13,104 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/setUserSelectionDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setNotificationId:</TokenIdentifier>
+			<Abstract type="html">Sets the notification to update. Shouldn&apos;t be used with setNotificationIds or setBefore.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setNotificationId:(NSString *)notificationId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationId</Name>
+					<Abstract type="html">ID of notification to update.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/setNotificationId:</Anchor>
             <NodeRef refid="128"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setNotificationIds:</TokenIdentifier>
+			<Abstract type="html">Sets a list of notifications to update (max 50). Shouldn&apos;t be used with setNotificationId or setBefore.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setNotificationIds:(NSArray&lt;NSString*&gt; *)notificationIds</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationIds</Name>
+					<Abstract type="html">Array of notifications IDs to update.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/setNotificationIds:</Anchor>
             <NodeRef refid="128"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionNavViewController/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setBefore:</TokenIdentifier>
+			<Abstract type="html">Notifications occurring before the provided date will be updated. Shouldn&apos;t be used with setNotificationId or setNotificationIds.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setBefore:(NSDate *)date</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>date</Name>
+					<Abstract type="html">Before date. If unspecified, defaults to current date and time.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/setBefore:</Anchor>
             <NodeRef refid="128"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/setSpAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setSeen:</TokenIdentifier>
+			<Abstract type="html">Marks the notification(s) as seen (true) or unseen (false)</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setSeen:(BOOL)seen</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>seen</Name>
+					<Abstract type="html">If the notification is seen or not.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/setSeen:</Anchor>
             <NodeRef refid="128"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setRead:</TokenIdentifier>
+			<Abstract type="html">Marks the notification(s) as read (true) or unread (false)</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setRead:(BOOL)read</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>read</Name>
+					<Abstract type="html">If the notification is read or not.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/setRead:</Anchor>
             <NodeRef refid="128"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionNavViewController/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/buildUpdateNotificationsRequest:</TokenIdentifier>
+			<Abstract type="html">Returns a request to update notifications based on values from the builder.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>- (SFRestRequest *)buildUpdateNotificationsRequest:(NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="128"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/createUserSelectionController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKUserSelectionTableViewController *)createUserSelectionController</Declaration>
-			
-			
-			<Anchor>//api/name/createUserSelectionController</Anchor>
+			<Anchor>//api/name/buildUpdateNotificationsRequest:</Anchor>
             <NodeRef refid="128"/>
 		</Token>
 		

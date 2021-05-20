@@ -500,6 +500,30 @@ Name from Account ORDER BY Name LIMIT 20&quot;.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForQuery:apiVersion:batchSize:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest object that executes the specified SOQL query.</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForQuery:(NSString *)soql apiVersion:(nullable NSString *)apiVersion batchSize:(NSInteger)batchSize</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soql</Name>
+					<Abstract type="html">String containing the query to execute. Example: &quot;SELECT Id,
+Name from Account ORDER BY Name LIMIT 20&quot;.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter><Parameter>
+					<Name>batchSize</Name>
+					<Abstract type="html">Batch size: number between 200 and 2000 (default).</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForQuery:apiVersion:batchSize:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForQueryAll:apiVersion:</TokenIdentifier>
 			<Abstract type="html">Returns an SFRestRequest object that executes the specified SOQL query.
 The result includes deleted objects.</Abstract>
@@ -705,39 +729,216 @@ to return values. Example: &quot;Account,Contact&quot;.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotificationsStatus:</TokenIdentifier>
-			<Abstract type="html">Returns a request to fetch the status of notifications, including unread and unseen count.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/errorWithDescription:</TokenIdentifier>
+			<Abstract type="html">Creates an error object with the given description.</Abstract>
+			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
 			
-			<Declaration>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)apiVersion</Declaration>
+			<Declaration>+ (NSError *)errorWithDescription:(NSString *)description</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
+					<Name>description</Name>
+					<Abstract type="html">Description</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/requestForNotificationsStatus:</Anchor>
+			<Anchor>//api/name/errorWithDescription:</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotification:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Returns a request to fetch the given notification.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendRequest:failureBlock:successBlock:</TokenIdentifier>
+			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
+			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
 			
-			<Declaration>- (SFRestRequest *)requestForNotification:(NSString *)notificationId apiVersion:(NSString *)apiVersion</Declaration>
+			<Declaration>- (void)sendRequest:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>notificationId</Name>
-					<Abstract type="html">ID of notification to fetch.</Abstract>
+					<Name>request</Name>
+					<Abstract type="html">SFRestRequest to be sent.</Abstract>
 				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
+					<Name>failureBlock</Name>
+					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
+				</Parameter><Parameter>
+					<Name>successBlock</Name>
+					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/requestForNotification:apiVersion:</Anchor>
+			<Anchor>//api/name/sendRequest:failureBlock:successBlock:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendCompositeRequest:failureBlock:successBlock:</TokenIdentifier>
+			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
+			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
+			
+			<Declaration>- (void)sendCompositeRequest:(SFSDKCompositeRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestCompositeResponseBlock)successBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">Composite request to be sent.</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
+				</Parameter><Parameter>
+					<Name>successBlock</Name>
+					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sendCompositeRequest:failureBlock:successBlock:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendBatchRequest:failureBlock:successBlock:</TokenIdentifier>
+			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
+			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
+			
+			<Declaration>- (void)sendBatchRequest:(SFSDKBatchRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestBatchResponseBlock)successBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">Batch request to be sent.</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
+				</Parameter><Parameter>
+					<Name>successBlock</Name>
+					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sendBatchRequest:failureBlock:successBlock:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/sanitizeSOSLSearchTerm:</TokenIdentifier>
+			<Abstract type="html">The search term to be sanitized.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)searchTerm</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>searchTerm</Name>
+					<Abstract type="html">The search term to be sanitized.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">SOSL-safe version of search term</Abstract></ReturnValue>
+			<Anchor>//api/name/sanitizeSOSLSearchTerm:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:objectScope:</TokenIdentifier>
+			<Abstract type="html">Generate a SOSL search.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>term</Name>
+					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
+				</Parameter><Parameter>
+					<Name>objectScope</Name>
+					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOSLSearchWithSearchTerm:objectScope:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOSL search.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term fieldScope:(nullable NSString *)fieldScope objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>term</Name>
+					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldScope</Name>
+					<Abstract type="html">- nil OR the SOSL scope, e.g. &quot;IN ALL FIELDS&quot;. if nil, defaults to &quot;IN NAME FIELDS&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>objectScope</Name>
+					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- overall search limit (max 200)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOQL query.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">- NSArray of fields to select</Abstract>
+				</Parameter><Parameter>
+					<Name>sObject</Name>
+					<Abstract type="html">- object to query</Abstract>
+				</Parameter><Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">- nil OR where clause</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:limit:</Anchor>
+            <NodeRef refid="45"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOQL query.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause groupBy:(nullable NSArray&lt;NSString*&gt; *)groupBy having:(nullable NSString *)having orderBy:(nullable NSArray&lt;NSString*&gt; *)orderBy limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">- NSArray of fields to select</Abstract>
+				</Parameter><Parameter>
+					<Name>sObject</Name>
+					<Abstract type="html">- object to query</Abstract>
+				</Parameter><Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">- nil OR where clause</Abstract>
+				</Parameter><Parameter>
+					<Name>groupBy</Name>
+					<Abstract type="html">- nil OR NSArray of strings, each string is an individual group by clause</Abstract>
+				</Parameter><Parameter>
+					<Name>having</Name>
+					<Abstract type="html">- nil OR having clause</Abstract>
+				</Parameter><Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">- nil OR NSArray of strings, each string is an individual order by clause</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
@@ -1043,88 +1244,39 @@ create a new file at version 1.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/errorWithDescription:</TokenIdentifier>
-			<Abstract type="html">Creates an error object with the given description.</Abstract>
-			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotificationsStatus:</TokenIdentifier>
+			<Abstract type="html">Returns a request to fetch the status of notifications, including unread and unseen count.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>+ (NSError *)errorWithDescription:(NSString *)description</Declaration>
+			<Declaration>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)apiVersion</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>description</Name>
-					<Abstract type="html">Description</Abstract>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/errorWithDescription:</Anchor>
+			<Anchor>//api/name/requestForNotificationsStatus:</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendRequest:failureBlock:successBlock:</TokenIdentifier>
-			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
-			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotification:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Returns a request to fetch the given notification.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>- (void)sendRequest:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock</Declaration>
+			<Declaration>- (SFRestRequest *)requestForNotification:(NSString *)notificationId apiVersion:(NSString *)apiVersion</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">SFRestRequest to be sent.</Abstract>
+					<Name>notificationId</Name>
+					<Abstract type="html">ID of notification to fetch.</Abstract>
 				</Parameter><Parameter>
-					<Name>failureBlock</Name>
-					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
-				</Parameter><Parameter>
-					<Name>successBlock</Name>
-					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/sendRequest:failureBlock:successBlock:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendCompositeRequest:failureBlock:successBlock:</TokenIdentifier>
-			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
-			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
-			
-			<Declaration>- (void)sendCompositeRequest:(SFSDKCompositeRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestCompositeResponseBlock)successBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">Composite request to be sent.</Abstract>
-				</Parameter><Parameter>
-					<Name>failureBlock</Name>
-					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
-				</Parameter><Parameter>
-					<Name>successBlock</Name>
-					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/sendCompositeRequest:failureBlock:successBlock:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendBatchRequest:failureBlock:successBlock:</TokenIdentifier>
-			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
-			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
-			
-			<Declaration>- (void)sendBatchRequest:(SFSDKBatchRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestBatchResponseBlock)successBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">Batch request to be sent.</Abstract>
-				</Parameter><Parameter>
-					<Name>failureBlock</Name>
-					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
-				</Parameter><Parameter>
-					<Name>successBlock</Name>
-					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/sendBatchRequest:failureBlock:successBlock:</Anchor>
+			<Anchor>//api/name/requestForNotification:apiVersion:</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
@@ -1286,134 +1438,6 @@ create a new file at version 1.</Abstract>
 			
 			
 			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/sanitizeSOSLSearchTerm:</TokenIdentifier>
-			<Abstract type="html">The search term to be sanitized.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)searchTerm</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>searchTerm</Name>
-					<Abstract type="html">The search term to be sanitized.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">SOSL-safe version of search term</Abstract></ReturnValue>
-			<Anchor>//api/name/sanitizeSOSLSearchTerm:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:objectScope:</TokenIdentifier>
-			<Abstract type="html">Generate a SOSL search.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>term</Name>
-					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
-				</Parameter><Parameter>
-					<Name>objectScope</Name>
-					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
-and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
-or NSNull to not specify any fields/clauses for that object</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOSLSearchWithSearchTerm:objectScope:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</TokenIdentifier>
-			<Abstract type="html">Generate a SOSL search.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term fieldScope:(nullable NSString *)fieldScope objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>term</Name>
-					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
-				</Parameter><Parameter>
-					<Name>fieldScope</Name>
-					<Abstract type="html">- nil OR the SOSL scope, e.g. &quot;IN ALL FIELDS&quot;. if nil, defaults to &quot;IN NAME FIELDS&quot;</Abstract>
-				</Parameter><Parameter>
-					<Name>objectScope</Name>
-					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
-and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
-or NSNull to not specify any fields/clauses for that object</Abstract>
-				</Parameter><Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">- overall search limit (max 200)</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:limit:</TokenIdentifier>
-			<Abstract type="html">Generate a SOQL query.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">- NSArray of fields to select</Abstract>
-				</Parameter><Parameter>
-					<Name>sObject</Name>
-					<Abstract type="html">- object to query</Abstract>
-				</Parameter><Parameter>
-					<Name>whereClause</Name>
-					<Abstract type="html">- nil OR where clause</Abstract>
-				</Parameter><Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:limit:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</TokenIdentifier>
-			<Abstract type="html">Generate a SOQL query.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause groupBy:(nullable NSArray&lt;NSString*&gt; *)groupBy having:(nullable NSString *)having orderBy:(nullable NSArray&lt;NSString*&gt; *)orderBy limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">- NSArray of fields to select</Abstract>
-				</Parameter><Parameter>
-					<Name>sObject</Name>
-					<Abstract type="html">- object to query</Abstract>
-				</Parameter><Parameter>
-					<Name>whereClause</Name>
-					<Abstract type="html">- nil OR where clause</Abstract>
-				</Parameter><Parameter>
-					<Name>groupBy</Name>
-					<Abstract type="html">- nil OR NSArray of strings, each string is an individual group by clause</Abstract>
-				</Parameter><Parameter>
-					<Name>having</Name>
-					<Abstract type="html">- nil OR having clause</Abstract>
-				</Parameter><Parameter>
-					<Name>orderBy</Name>
-					<Abstract type="html">- nil OR NSArray of strings, each string is an individual order by clause</Abstract>
-				</Parameter><Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		

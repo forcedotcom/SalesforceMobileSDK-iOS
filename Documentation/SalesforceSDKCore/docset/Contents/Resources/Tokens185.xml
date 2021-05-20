@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthSessionManaging.html">
+	<File path="Protocols/SFSDKOAuthProtocol.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthSessionManaging</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthProtocol</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
             
@@ -13,14 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthSessionManaging/createURLSessionWithIdentifier:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/accessTokenForApprovalCode:completion:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
 			
-			<Declaration>- (NSURLSession *)createURLSessionWithIdentifier:(nonnull NSString *)identifier</Declaration>
+			<Declaration>- (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void ( ^ ) ( SFSDKOAuthTokenEndpointResponse *))completionBlock</Declaration>
 			
 			
-			<Anchor>//api/name/createURLSessionWithIdentifier:</Anchor>
+			<Anchor>//api/name/accessTokenForApprovalCode:completion:</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/accessTokenForRefresh:completion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>- (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void ( ^ ) ( SFSDKOAuthTokenEndpointResponse *))completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/accessTokenForRefresh:completion:</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/openIDTokenForRefresh:completion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>- (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void ( ^ ) ( NSString *))completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/openIDTokenForRefresh:completion:</Anchor>
+            <NodeRef refid="185"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/revokeRefreshToken:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials</Declaration>
+			
+			
+			<Anchor>//api/name/revokeRefreshToken:</Anchor>
             <NodeRef refid="185"/>
 		</Token>
 		

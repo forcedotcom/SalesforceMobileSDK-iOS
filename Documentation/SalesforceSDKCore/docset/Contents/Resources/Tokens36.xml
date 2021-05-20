@@ -306,6 +306,258 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setLightningDomain:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *lightningDomain</Declaration>
+			
+			
+			<Anchor>//api/name/lightningDomain</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/lightningDomain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *lightningDomain</Declaration>
+			
+			
+			<Anchor>//api/name/lightningDomain</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/lightningDomain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *lightningDomain</Declaration>
+			
+			
+			<Anchor>//api/name/lightningDomain</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setLightningSid:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *lightningSid</Declaration>
+			
+			
+			<Anchor>//api/name/lightningSid</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/lightningSid</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *lightningSid</Declaration>
+			
+			
+			<Anchor>//api/name/lightningSid</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/lightningSid</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *lightningSid</Declaration>
+			
+			
+			<Anchor>//api/name/lightningSid</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setVfDomain:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *vfDomain</Declaration>
+			
+			
+			<Anchor>//api/name/vfDomain</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/vfDomain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *vfDomain</Declaration>
+			
+			
+			<Anchor>//api/name/vfDomain</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/vfDomain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *vfDomain</Declaration>
+			
+			
+			<Anchor>//api/name/vfDomain</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setVfSid:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *vfSid</Declaration>
+			
+			
+			<Anchor>//api/name/vfSid</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/vfSid</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *vfSid</Declaration>
+			
+			
+			<Anchor>//api/name/vfSid</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/vfSid</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *vfSid</Declaration>
+			
+			
+			<Anchor>//api/name/vfSid</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setContentDomain:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *contentDomain</Declaration>
+			
+			
+			<Anchor>//api/name/contentDomain</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/contentDomain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *contentDomain</Declaration>
+			
+			
+			<Anchor>//api/name/contentDomain</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/contentDomain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *contentDomain</Declaration>
+			
+			
+			<Anchor>//api/name/contentDomain</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setContentSid:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *contentSid</Declaration>
+			
+			
+			<Anchor>//api/name/contentSid</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/contentSid</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *contentSid</Declaration>
+			
+			
+			<Anchor>//api/name/contentSid</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/contentSid</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *contentSid</Declaration>
+			
+			
+			<Anchor>//api/name/contentSid</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setCsrfToken:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *csrfToken</Declaration>
+			
+			
+			<Anchor>//api/name/csrfToken</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/csrfToken</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *csrfToken</Declaration>
+			
+			
+			<Anchor>//api/name/csrfToken</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/csrfToken</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *csrfToken</Declaration>
+			
+			
+			<Anchor>//api/name/csrfToken</Anchor>
+            <NodeRef refid="36"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setOrganizationId:</TokenIdentifier>
 			<Abstract type="html">A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.</Abstract>
 			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>

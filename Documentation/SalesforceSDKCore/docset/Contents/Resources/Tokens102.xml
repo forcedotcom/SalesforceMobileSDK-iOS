@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNavigationController.html">
+	<File path="Classes/SFSDKMacDetectUtil.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNavigationController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKMacDetectUtil</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKNavigationController.h</DeclaredIn>
+			<DeclaredIn>SFSDKMacDetectUtil.h</DeclaredIn>
             
 			
 			<NodeRef refid="102"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKMacDetectUtil/isOnMac</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKMacDetectUtil.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isOnMac</Declaration>
+			
+			
+			<Anchor>//api/name/isOnMac</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
 		
         
         

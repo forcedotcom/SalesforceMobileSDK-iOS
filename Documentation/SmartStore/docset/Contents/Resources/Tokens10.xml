@@ -1554,18 +1554,47 @@ and maps arbitrary soup names to soup table names (SOUPATTRSTABLE)</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/columnNameForPath:inSoup:withDb:</TokenIdentifier>
-			<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+			<Abstract type="html">Path of interest</Abstract>
 			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)columnNameForPath:(NSString *)path inSoup:(NSString *)soupName withDb:(FMDatabase *)db</Declaration>
 			<Parameters>
 				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">Path of interest</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">name of the soup</Abstract>
+				</Parameter><Parameter>
 					<Name>db</Name>
 					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The map of an indexSpec path to a column name from SOUPINDEXMAP_TABLE.</Abstract></ReturnValue>
+			<ReturnValue><Abstract type="html">The column name for the given path if indexed or nil otherwise.</Abstract></ReturnValue>
 			<Anchor>//api/name/columnNameForPath:inSoup:withDb:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/hasIndexForPath:inSoup:withDb:</TokenIdentifier>
+			<Abstract type="html">Path of interest</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)hasIndexForPath:(NSString *)path inSoup:(NSString *)soupName withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">Path of interest</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">name of the soup</Abstract>
+				</Parameter><Parameter>
+					<Name>db</Name>
+					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the given path is indexed or NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/hasIndexForPath:inSoup:withDb:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

@@ -49,6 +49,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/setMetricsCollectedAction:</TokenIdentifier>
+			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
+			
+			
+			<Anchor>//api/name/metricsCollectedAction</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/metricsCollectedAction</TokenIdentifier>
+			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
+			
+			
+			<Anchor>//api/name/metricsCollectedAction</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetwork/metricsCollectedAction</TokenIdentifier>
+			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
+			
+			
+			<Anchor>//api/name/metricsCollectedAction</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedEphemeralInstance</TokenIdentifier>
 			<Abstract type="html">Returns an instance of this class with the default ephemeral session configuration.</Abstract>
 			<DeclaredIn>SFNetwork.h</DeclaredIn>

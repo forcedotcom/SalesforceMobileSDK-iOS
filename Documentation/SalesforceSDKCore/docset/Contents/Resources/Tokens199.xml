@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFAppLockControllerMode.html">
+	<File path="Constants/SFAccountManagerServiceType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFAppLockControllerMode</TokenIdentifier>
-			<Abstract type="html">Mode constants indicating whether to create/verify an passcode or use biometric.</Abstract>
-			<DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAccountManagerServiceType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="199"/>
@@ -14,51 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeCreatePasscode</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeCreatePasscode</Declaration>
+            <Declaration>SFAccountManagerServiceTypeNone</Declaration>
             
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyPasscode</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeOAuth</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeVerifyPasscode</Declaration>
+            <Declaration>SFAccountManagerServiceTypeOAuth</Declaration>
             
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeChangePasscode</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeIdentity</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeChangePasscode</Declaration>
+            <Declaration>SFAccountManagerServiceTypeIdentity</Declaration>
             
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
-            
-            <NodeRef refid="199"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeEnableBiometric</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeEnableBiometric</Declaration>
-            
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
-            
-            <NodeRef refid="199"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyBiometric</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeVerifyBiometric</Declaration>
-            
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>

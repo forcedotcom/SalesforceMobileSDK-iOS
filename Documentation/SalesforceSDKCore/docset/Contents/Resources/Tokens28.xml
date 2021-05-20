@@ -13,38 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/set:</TokenIdentifier>
 			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
 			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute SFSDK_DEPRECATED ( &quot;9.1&quot; , &quot;10.0&quot; , &quot;Will be removed in Mobile SDK 10.0. Use SFKeychainHelper instead.&quot; )</Declaration>
 			
 			
-			<Anchor>//api/name/accessibleAttribute</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/)</TokenIdentifier>
 			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
 			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute SFSDK_DEPRECATED ( &quot;9.1&quot; , &quot;10.0&quot; , &quot;Will be removed in Mobile SDK 10.0. Use SFKeychainHelper instead.&quot; )</Declaration>
 			
 			
-			<Anchor>//api/name/accessibleAttribute</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/accessibleAttribute</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/)</TokenIdentifier>
 			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
 			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute SFSDK_DEPRECATED ( &quot;9.1&quot; , &quot;10.0&quot; , &quot;Will be removed in Mobile SDK 10.0. Use SFKeychainHelper instead.&quot; )</Declaration>
 			
 			
-			<Anchor>//api/name/accessibleAttribute</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		

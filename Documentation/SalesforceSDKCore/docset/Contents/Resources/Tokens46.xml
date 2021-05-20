@@ -474,6 +474,42 @@ the request headers before sending the request.  If NO, they will not.</Abstract
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/setTimeoutInterval:</TokenIdentifier>
+			<Abstract type="html">Assigns the timeout interval allowed for this request.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) NSTimeInterval timeoutInterval</Declaration>
+			
+			
+			<Anchor>//api/name/timeoutInterval</Anchor>
+            <NodeRef refid="46"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/timeoutInterval</TokenIdentifier>
+			<Abstract type="html">Assigns the timeout interval allowed for this request.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) NSTimeInterval timeoutInterval</Declaration>
+			
+			
+			<Anchor>//api/name/timeoutInterval</Anchor>
+            <NodeRef refid="46"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestRequest/timeoutInterval</TokenIdentifier>
+			<Abstract type="html">Assigns the timeout interval allowed for this request.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readwrite) NSTimeInterval timeoutInterval</Declaration>
+			
+			
+			<Anchor>//api/name/timeoutInterval</Anchor>
+            <NodeRef refid="46"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/prepareRequestForSend:</TokenIdentifier>
 			<Abstract type="html">Prepares the request before sending it out.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>

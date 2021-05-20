@@ -49,6 +49,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/setMaxBatchSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger maxBatchSize</Declaration>
+			
+			
+			<Anchor>//api/name/maxBatchSize</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/maxBatchSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger maxBatchSize</Declaration>
+			
+			
+			<Anchor>//api/name/maxBatchSize</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoqlSyncDownTarget/maxBatchSize</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSInteger maxBatchSize</Declaration>
+			
+			
+			<Anchor>//api/name/maxBatchSize</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSoqlSyncDownTarget/newSyncTarget:</TokenIdentifier>
 			<Abstract type="html">Factory methods</Abstract>
 			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
@@ -57,6 +93,18 @@
 			
 			
 			<Anchor>//api/name/newSyncTarget:</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoqlSyncDownTarget/newSyncTarget:maxBatchSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>+ (SFSoqlSyncDownTarget *)newSyncTarget:(NSString *)query maxBatchSize:(NSInteger)maxBatchSize</Declaration>
+			
+			
+			<Anchor>//api/name/newSyncTarget:maxBatchSize:</Anchor>
             <NodeRef refid="33"/>
 		</Token>
 		

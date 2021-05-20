@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKViewControllerConfig.html">
+	<File path="Classes/SFSDKViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKViewControllerConfig</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKViewControllerConfig.h</DeclaredIn>
+			<DeclaredIn>SFSDKViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="131"/>
@@ -13,38 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKViewControllerConfig/set:</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFSDKViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKViewController/refreshAllViews:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="131"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKViewControllerConfig/)</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFSDKViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			<Declaration>+ (void)refreshAllViews:(UIView *)currentView</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="131"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKViewControllerConfig/)</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFSDKViewControllerConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/refreshAllViews:</Anchor>
             <NodeRef refid="131"/>
 		</Token>
 		

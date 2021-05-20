@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKUserAccountManagerErrorCode.html">
+	<File path="Constants/SFSDKRestServiceHostType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKUserAccountManagerErrorCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKRestServiceHostType</TokenIdentifier>
+			<Abstract type="html">The type of service host to use for Rest requests.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="216"/>
@@ -14,21 +14,34 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKUserAccountManagerError</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKUserAccountManagerError</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeLogin</TokenIdentifier>
+            <Abstract type="html">Request uses the login endpoint.
+     </Abstract>
+            <Declaration>SFSDKRestServiceHostTypeLogin</Declaration>
             
-            <DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="216"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKUserAccountManagerCannotEncrypt</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKUserAccountManagerCannotEncrypt</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeInstance</TokenIdentifier>
+            <Abstract type="html">Request uses the instance endpoint.
+     </Abstract>
+            <Declaration>SFSDKRestServiceHostTypeInstance</Declaration>
             
-            <DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="216"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeCustom</TokenIdentifier>
+            <Abstract type="html">Request uses a custom endpoint.
+     </Abstract>
+            <Declaration>SFSDKRestServiceHostTypeCustom</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="216"/>
         </Token>
