@@ -55,7 +55,6 @@
 "accessibilityUnlockAnnouncement" = "Passcode confirmed.";
 "accessibilityLoggedOutAnnouncement" = "You are logged out.";
 
-
 // OAuth flow
 "authAlertContinueButton"="Continue";
 "authAlertErrorTitle" = "Server Error";
@@ -115,7 +114,6 @@
 "devInfoBackButtonTitle" = "Back";
 "devInfoOKKey" = "OK";
 "devInfoCancelKey" = "Cancel";
-
 
 //IDP User Selection Screen
 "idpSelectUserLabel" = "Select your account to log into";

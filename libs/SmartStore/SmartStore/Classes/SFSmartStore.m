@@ -1125,27 +1125,28 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 }
 
 - (NSString*)columnNameForPath:(NSString*)path inSoup:(NSString*)soupName withDb:(FMDatabase*) db {
-    //TODO cache these with soupName:path ? if slow...
     NSString *result = nil;
-    if (nil == path) {
-        return result;
+    NSArray* indexSpecs = [self indicesForSoup:soupName withDb:db];
+    for (SFSoupIndex* indexSpec in indexSpecs) {
+        if ([indexSpec.path isEqualToString:path]) {
+            result = indexSpec.columnName;
+        }
     }
     
-    NSString *querySql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ? AND %@ = ?",
-                          COLUMN_NAME_COL,SOUP_INDEX_MAP_TABLE,
-                          SOUP_NAME_COL,
-                          PATH_COL
-                          ];
-    FMResultSet *frs = [self executeQueryThrows:querySql withArgumentsInArray:@[soupName, path] withDb:db];
-    if ([frs next]) {
-        result = [frs stringForColumnIndex:0];
-    }
-    [frs close];
     if (nil == result) {
         [SFSDKSmartStoreLogger d:[self class] format:@"Unknown index path '%@' in soup '%@' ", path, soupName];
     }
     return result;
-    
+}
+
+- (BOOL) hasIndexForPath:(NSString*)path inSoup:(NSString*)soupName withDb:(FMDatabase*) db {
+    NSArray* indexSpecs = [self indicesForSoup:soupName withDb:db];
+    for (SFSoupIndex* indexSpec in indexSpecs) {
+        if ([indexSpec.path isEqualToString:path]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (NSString*) convertSmartSql:(NSString*)smartSql

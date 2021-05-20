@@ -31,6 +31,7 @@
 #import "SFSDKWindowContainer.h"
 #import "SFApplicationHelper.h"
 #import "SFSecurityLockout.h"
+#import "SFSDKMacDetectUtil.h"
 
 /*
 Attempt to resolve issues related to  the multi-windowing implementation in the SDK. Multiple visible UI windows tend to have some really bad side effects with rotations (keyboard and views) and status bar. We previously resorted to using the hidden property, unfortunately using hidden property on the UIWindow leads to really bad flicker issues ( black screen ). Reverted back to using alpha with a slightly different strategy.
@@ -473,7 +474,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     
     if (!mainWindow && [scene.delegate respondsToSelector:@selector(window)]) {
         mainWindow = [scene.delegate performSelector:@selector(window)];
-    } else if (!mainWindow) {
+    } else if (!mainWindow && [[SFApplicationHelper sharedApplication].delegate respondsToSelector:@selector(window)]) {
         mainWindow = [SFApplicationHelper sharedApplication].delegate.window;
     }
     
@@ -570,9 +571,12 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 }
 
 - (void)resignKeyWindow {
-    if (![SFApplicationHelper sharedApplication].supportsMultipleScenes) {
-        [self disableWindow];
+    if ([SFApplicationHelper sharedApplication].supportsMultipleScenes || [SFSDKMacDetectUtil isOnMac]) {
+        // Automatically disabling the window breaks in these cases, apps should use makeTransparentWithCompletion if needed
+        return;
     }
+   
+    [self disableWindow];
 }
 
 - (void)disableWindow {

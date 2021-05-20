@@ -48,7 +48,7 @@ jobs:
       - run: 
           name: Install Dependencies
           command:  |
-            npm install shelljs@0.8.3
+            npm install shelljs@0.8.4
             ./install.sh
             ./build/pre-build
             chruby ${CHRUBY_VER}
@@ -80,10 +80,6 @@ jobs:
       - store_artifacts:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
-      - run: 
-          name: Codecov Uplaod
-          command: bash <(curl -s https://codecov.io/bash) -X gcov -X xcode
-          when: always
 
       
 workflows:

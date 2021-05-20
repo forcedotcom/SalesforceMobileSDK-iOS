@@ -45,6 +45,7 @@
 @implementation SFSDKKeyValueEncryptedFileStoreTests
 
 - (void)setUp {
+    [super setUp];
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"keyvalue-test"] clientId:@"fakeClientIdForTesting" encrypted:YES];
     self.userAccount = [[SFUserAccount alloc] initWithCredentials:credentials];
     self.userAccount.credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00D000000000062EA0/005R0000000Dsl0IAC"];
@@ -52,15 +53,16 @@
 
 - (void)tearDown {
     NSError *error;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[self globalPath]]) {
-        [[NSFileManager defaultManager] removeItemAtPath:[self globalPath] error:&error];
+    if ([NSFileManager.defaultManager fileExistsAtPath:[self globalPath]]) {
+        [NSFileManager.defaultManager removeItemAtPath:[self globalPath] error:&error];
         XCTAssertNil(error, @"Error removing item at path '%@': %@", [self globalPath], error);
     }
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[self userPath:self.userAccount]]) {
-        [[NSFileManager defaultManager] removeItemAtPath:[self userPath:self.userAccount] error:&error];
+    if ([NSFileManager.defaultManager fileExistsAtPath:[self userPath:self.userAccount]]) {
+        [NSFileManager.defaultManager removeItemAtPath:[self userPath:self.userAccount] error:&error];
         XCTAssertNil(error, @"Error removing item at path '%@': %@", [self userPath:self.userAccount], error);
     }
     self.userAccount = nil;
+    [super tearDown];
 }
 
 #pragma mark - Store management
@@ -108,7 +110,7 @@
     // Verify stores exist on disk
     NSError *error;
     NSArray *storeDirectories = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self userPath:self.userAccount] error:&error];
-    XCTAssertEqual(storeDirectories.count, 3, "Number of directories don't match number of stores created");
+    XCTAssertEqual(storeDirectories.count, 3, @"Number of directories don't match number of stores created");
 
     // Verify names
     NSArray *storeNames = [SFSDKKeyValueEncryptedFileStore allStoreNamesForUser:self.userAccount];
@@ -140,7 +142,7 @@
     // Verify stores exist on disk
     NSError *error;
     NSArray *storeDirectories = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self globalPath] error:&error];
-    XCTAssertEqual(storeDirectories.count, 3, "Number of directories don't match number of stores created");
+    XCTAssertEqual(storeDirectories.count, 3, @"Number of directories don't match number of stores created");
 
     // Verify names
     NSArray *storeNames = SFSDKKeyValueEncryptedFileStore.allGlobalStoreNames;
@@ -156,7 +158,27 @@
     XCTAssertEqual(SFSDKKeyValueEncryptedFileStore.allGlobalStoreNames.count, 0);
 }
 
-#pragma mark - Store
+#pragma mark - Store operations
+
+- (void)testStoreVersion {
+    SFSDKKeyValueEncryptedFileStore *store = [self createStoreWithName:@"new_store"];
+    XCTAssertEqual([store storeVersion], 2);
+}
+
+- (void)testV1StoreVersion {
+    SFSDKKeyValueEncryptedFileStore *store = [self createV1StoreWithName:@"legacy_store"];
+    XCTAssertEqual([store storeVersion], 1);
+}
+
+- (void)testStoreWithUnreadableVersion {
+    SFSDKKeyValueEncryptedFileStore *store = [self createStoreWithName:@"new_store"];
+    XCTAssertNotNil(store);
+    NSURL *versionFileURL = [store.storeDirectory URLByAppendingPathComponent:@"version"];
+    NSData *badVersionData = [@"bad_version_data" dataUsingEncoding:NSUTF8StringEncoding];
+    [badVersionData writeToFile:versionFileURL.path atomically:YES];
+    store = [self createStoreWithName:@"new_store"];
+    XCTAssertNil(store);
+}
 
 - (void)testIsValidName {
     XCTAssertTrue([SFSDKKeyValueEncryptedFileStore isValidStoreName:@"123456789"]);
@@ -174,7 +196,7 @@
 - (void)testStoreName {
     NSString *storeName = @"test_store_name";
     SFSDKKeyValueEncryptedFileStore *store = [self createStoreWithName:storeName];
-    XCTAssert([store.storeName isEqualToString:storeName], "Store names don't match");
+    XCTAssert([store.storeName isEqualToString:storeName], @"Store names don't match");
 }
 
 - (void)testBadStoreName {
@@ -233,6 +255,39 @@
     XCTAssertEqual(store.count, 0);
 }
 
+- (void)testAllKeys {
+    SFSDKKeyValueEncryptedFileStore *store = [self createStoreWithName:@"test_all_keys"];
+    int entryCount = 12;
+    NSMutableArray<NSString *> *expectedKeys = [[NSMutableArray alloc] initWithCapacity:entryCount];
+    for (int i = 0; i < entryCount; i++) {
+        NSString *key = [NSString stringWithFormat:@"key%i", i];
+        NSString *value =  [NSString stringWithFormat:@"value%i", i];
+        BOOL saveSuccess = [store saveValue:value forKey:key];
+        XCTAssertTrue(saveSuccess);
+        [expectedKeys addObject:key];
+    }
+    NSArray<NSString *> *keys = [store allKeys];
+    NSArray<NSString *> *sortedKeys = [keys sortedArrayUsingComparator:^NSComparisonResult(NSString *key1, NSString *key2) {
+        return [key1 compare:key2];
+    }];
+    NSArray<NSString *> *sortedExpectedKeys = [expectedKeys sortedArrayUsingComparator:^NSComparisonResult(NSString *key1, NSString *key2) {
+        return [key1 compare:key2];
+    }];
+    XCTAssertTrue([sortedKeys isEqualToArray:sortedExpectedKeys]);
+}
+
+- (void)testV1StoreAllKeys {
+    SFSDKKeyValueEncryptedFileStore *store = [self createV1StoreWithName:@"test_all_keys_v1"];
+    int entryCount = 12;
+    for (int i = 0; i < entryCount; i++) {
+        NSString *key = [NSString stringWithFormat:@"key%i", i];
+        NSString *value =  [NSString stringWithFormat:@"value%i", i];
+        BOOL saveSuccess = [store saveValue:value forKey:key];
+        XCTAssertTrue(saveSuccess);
+    }
+    XCTAssertNil([store allKeys]);
+}
+
 - (void)testOverwriteValue {
     SFSDKKeyValueEncryptedFileStore *store = [self createStoreWithName:@"test_overwrite_value"];
     NSString *key = @"overwrite_key";
@@ -263,7 +318,7 @@
     NSError *error;
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:store.storeDirectory.path error:&error];
     XCTAssertNil(error, @"Error getting contents of path '%@': %@", store.storeDirectory.path, error);
-    XCTAssertEqual(files.count, 1, "Unexpected number of files in store");
+    XCTAssertEqual(files.count, 3, @"Unexpected number of files in store");
     NSString *valuePath = [store.storeDirectory.path stringByAppendingPathComponent:files[0]];
     NSData *fileData = [NSData dataWithContentsOfFile:valuePath];
     NSData *valueData = [value dataUsingEncoding:NSUTF8StringEncoding];
@@ -302,6 +357,15 @@
 - (SFSDKKeyValueEncryptedFileStore *)createStoreWithName:(NSString *)name {
     NSString *parentDirectory = [self globalPath];
     return [[SFSDKKeyValueEncryptedFileStore alloc] initWithParentDirectory:parentDirectory name:name encryptionKey:[SFEncryptionKey createKey]];
+}
+
+- (SFSDKKeyValueEncryptedFileStore *)createV1StoreWithName:(NSString *)name {
+    SFSDKKeyValueEncryptedFileStore *store = [self createStoreWithName:name];
+    NSURL *versionFileURL = [store.storeDirectory URLByAppendingPathComponent:@"version"];
+    NSError *error;
+    [NSFileManager.defaultManager removeItemAtURL:versionFileURL error:&error];
+    XCTAssertNil(error, @"Error deleting '%@': %@", store.storeDirectory.path, error);
+    return [self createStoreWithName:name];
 }
 
 @end

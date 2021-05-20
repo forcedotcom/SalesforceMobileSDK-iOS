@@ -30,6 +30,7 @@
 #import "SFSDKSoqlMutator.h"
 
 static NSString * const kSFSoqlSyncTargetQuery = @"query";
+static NSString * const kSFSoqlSyncTargetMaxBatchSize = @"maxBatchSize";
 
 @interface SFSoqlSyncDownTarget ()
 
@@ -44,6 +45,8 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeSoql;
         self.query = dict[kSFSoqlSyncTargetQuery];
+        NSNumber* maxBatchSize = dict[kSFSoqlSyncTargetMaxBatchSize];
+        self.maxBatchSize = maxBatchSize != nil ? [maxBatchSize integerValue] : kSFRestSOQLDefaultBatchSize;
         [self modifyQueryIfNeeded];
     }
     return self;
@@ -88,9 +91,14 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
 #pragma mark - Factory methods
 
 + (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query {
+    return [SFSoqlSyncDownTarget newSyncTarget:query maxBatchSize:kSFRestSOQLDefaultBatchSize];
+}
+
++ (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query maxBatchSize:(NSInteger)maxBatchSize {
     SFSoqlSyncDownTarget* syncTarget = [[SFSoqlSyncDownTarget alloc] init];
     syncTarget.queryType = SFSyncDownTargetQueryTypeSoql;
     syncTarget.query = query;
+    syncTarget.maxBatchSize = maxBatchSize;
     [syncTarget modifyQueryIfNeeded];
     return syncTarget;
 }
@@ -100,6 +108,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
 - (NSMutableDictionary*) asDict {
     NSMutableDictionary *dict = [super asDict];
     dict[kSFSoqlSyncTargetQuery] = self.query;
+    dict[kSFSoqlSyncTargetMaxBatchSize] = [NSNumber numberWithInteger: self.maxBatchSize];
     return dict;
 }
 
@@ -122,7 +131,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak typeof(self) weakSelf = self;
     
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun apiVersion:nil];
+    SFRestRequest* request = [self buildRequest:queryToRun];
     [SFMobileSyncNetworkUtils sendRequestWithMobileSyncUserAgent:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
         errorBlock(e);
     } successBlock:^(NSDictionary *responseJson, NSURLResponse *rawResponse) {
@@ -131,6 +140,10 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
         strongSelf.nextRecordsUrl = responseJson[kResponseNextRecordsUrl];
         completeBlock([strongSelf getRecordsFromResponse:responseJson]);
     }];
+}
+
+- (SFRestRequest*) buildRequest:(NSString *)queryToRun {
+    return [[SFRestAPI sharedInstance] requestForQuery:queryToRun apiVersion:nil batchSize:self.maxBatchSize];
 }
 
 - (void) continueFetch:(SFMobileSyncSyncManager *)syncManager

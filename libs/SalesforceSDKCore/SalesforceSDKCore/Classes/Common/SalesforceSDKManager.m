@@ -39,10 +39,12 @@
 #import "SFDirectoryManager+Internal.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKResourceUtils.h"
+#import "SFSDKMacDetectUtil.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
-static NSString * const kSFAppFeatureSwiftApp   = @"SW";
+static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
+static NSString * const kSFAppFeatureMacApp      = @"MC";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -208,6 +210,9 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         if([SFSwiftDetectUtil isSwiftApp]) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSwiftApp];
         }
+        if ([SFSDKMacDetectUtil isOnMac]) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMacApp];
+        }
         if([[[SFUserAccountManager sharedInstance] allUserIdentities] count]>1){
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMultiUser];
         }
@@ -284,7 +289,8 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidSwitch:) name:kSFNotificationUserDidSwitch object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowWillBegin:) name:kSFPasscodeFlowWillBegin object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowDidComplete:) name:kSFPasscodeFlowCompleted object:nil];
-        self.useSnapshotView = YES;
+
+        _useSnapshotView = ![SFSDKMacDetectUtil isOnMac];
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
@@ -406,6 +412,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 - (void) showDevSupportDialog:(UIViewController *)presentedViewController
 {
+
     // Do nothing if dev support is not enabled or dialog is already being shown
     if (!self.isDevSupportEnabled || self.actionSheet) {
         return;
@@ -413,14 +420,9 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
     // On larger devices we don't have an anchor point for the action sheet
     UIAlertControllerStyle style = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone ? UIAlertControllerStyleActionSheet : UIAlertControllerStyleAlert;
-    self.actionSheet = [UIAlertController alertControllerWithTitle:[SFSDKResourceUtils localizedString:@"devInfoTitle"]
-                                                       message:@""
-                                                preferredStyle:style];
-
+    self.actionSheet = [UIAlertController alertControllerWithTitle:[self devInfoTitleString] message:@"" preferredStyle:style];
     NSArray<SFSDKDevAction *>* devActions = [self getDevActions:presentedViewController];
-    
-    
-    for (int i=0; i<devActions.count; i++) {
+    for (int i = 0; i < devActions.count; i++) {
         [self.actionSheet addAction:[UIAlertAction actionWithTitle:devActions[i].name
                                                              style:UIAlertActionStyleDefault
                                                            handler:^(__unused UIAlertAction *action) {
@@ -428,18 +430,19 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
                                                                self.actionSheet = nil;
                                                            }]];
     }
-    
-    [self.actionSheet addAction:[UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"devInfoCancelKey"]
-                                                         style:UIAlertActionStyleCancel
+    [self.actionSheet addAction:[UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"devInfoCancelKey"] style:UIAlertActionStyleCancel
                                                        handler:^(__unused UIAlertAction *action) {
                                                            self.actionSheet = nil;
                                                        }]];
-
-    
     [presentedViewController presentViewController:self.actionSheet animated:YES completion:nil];
 }
 
--(NSArray<SFSDKDevAction *>*) getDevActions:(UIViewController *)presentedViewController
+- (NSString *)devInfoTitleString
+{
+    return [SFSDKResourceUtils localizedString:@"devInfoTitle"];
+}
+
+- (NSArray<SFSDKDevAction *>*) getDevActions:(UIViewController *)presentedViewController
 {
     return @[
              [[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
@@ -620,7 +623,6 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
     // Set up snapshot security view, if it's configured.
     @try {
-        [SFSDKCoreLogger d:[self class] format:@"Scene %@ is trying to present snapshot.", sceneId];
         [self presentSnapshot:scene];
     }
     @catch (NSException *exception) {
@@ -700,10 +702,11 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 }
 
 - (void)presentSnapshot:(UIScene *)scene {
-    if (!self.useSnapshotView) {
+    if (!_useSnapshotView) {
         return;
     }
     NSString *sceneId = scene.session.persistentIdentifier;
+    [SFSDKCoreLogger d:[self class] format:@"Scene %@ is trying to present snapshot.", sceneId];
     // Try to retrieve a custom snapshot view controller
     UIViewController* customSnapshotViewController = nil;
     if (self.snapshotViewControllerCreationAction) {
@@ -849,15 +852,16 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
         _URLCacheType = URLCacheType;
         [NSURLCache.sharedURLCache removeAllCachedResponses];
         NSURLCache *cache;
+        NSURL *defaultURL = [NSURL URLWithString:kDefaultCachePath];
         switch (URLCacheType) {
             case kSFURLCacheTypeEncrypted:
-                cache = [[SFSDKEncryptedURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+                cache = [[SFSDKEncryptedURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:defaultURL];
                 break;
             case kSFURLCacheTypeNull:
-                 cache = [[SFSDKNullURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+                cache = [[SFSDKNullURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:defaultURL];
                 break;
             case kSFURLCacheTypeStandard:
-                cache = [[NSURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity diskPath:kDefaultCachePath];
+                cache = [[NSURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:defaultURL];
                 break;
         }
         [NSURLCache setSharedURLCache:cache];

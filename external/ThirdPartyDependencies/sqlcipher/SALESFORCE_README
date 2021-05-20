@@ -2,5 +2,5 @@ Binary in this folder was compiled with FTS support:
 - git clone git://github.com/forcedotcom/sqlcipher.git
 - git checkout sdk
 - ./build_for_sdk.sh
-- copy generated libsqlcipher.a here
+- copy generated SQLCipher.xcframework here
 - copy sqlite3.h here

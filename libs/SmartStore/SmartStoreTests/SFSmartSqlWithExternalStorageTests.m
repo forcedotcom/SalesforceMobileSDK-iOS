@@ -116,6 +116,10 @@
     [super testConvertSmartSqlWithSpecialColumnsAndSelfJoin];
 }
 
+- (void) testConvertSmartSqlForNonIndexedColumns {
+    XCTAssertNil([self.store convertSmartSql:@"select {employees:education}, {employees:address.zipcode} from {employees} where {employees:address.city} = 'San Francisco'"], @"Bad conversion");
+}
+
 - (void) testSmartQueryDoingCount 
 {
     [super testSmartQueryDoingCount];
@@ -162,6 +166,16 @@
 }
 
 - (void) testSmartQueryMachingBooleanInJSON1Field
+{
+    // Doesn't apply to external storage case
+}
+
+- (void) testSmartQueryFilteringByNonIndexedField
+{
+    // Doesn't apply to external storage case
+}
+    
+- (void) testSmartQueryReturningNonIndexedField
 {
     // Doesn't apply to external storage case
 }

@@ -1,17 +1,30 @@
 {
   "syncs": [
-    {
-      "syncName": "soqlSyncDown",
-      "syncType": "syncDown",
-      "soupName": "accounts",
-      "target": {
-        "type":"soql",
-        "query":"SELECT Id, Name, LastModifiedDate FROM Account"
+      {
+        "syncName": "soqlSyncDown",
+        "syncType": "syncDown",
+        "soupName": "accounts",
+        "target": {
+          "type":"soql",
+          "query":"SELECT Id, Name, LastModifiedDate FROM Account"
+        },
+        "options": {
+          "mergeMode":"OVERWRITE"
+        }
       },
-      "options": {
-        "mergeMode":"OVERWRITE"
-      }
-    },
+      {
+        "syncName": "soqlSyncDownWithBatchSize",
+        "syncType": "syncDown",
+        "soupName": "accounts",
+        "target": {
+          "type":"soql",
+          "query":"SELECT Id, Name, LastModifiedDate FROM Account",
+          "maxBatchSize": 200
+        },
+        "options": {
+          "mergeMode":"OVERWRITE"
+        }
+      },
     {
       "syncName": "soslSyncDown",
       "syncType": "syncDown",

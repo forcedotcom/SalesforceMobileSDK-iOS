@@ -28,17 +28,36 @@
 import Foundation
 import SalesforceSDKCommon
 
+/// File-based key-value storage
 @objc(SFSDKKeyValueEncryptedFileStore)
 public class KeyValueEncryptedFileStore: NSObject {
     @objc(storeDirectory) public let directory: URL
     @objc(storeName) public let name: String
+    @objc public private(set) var storeVersion: Int
     @objc public static let maxStoreNameLength = 96
 
-    private var encryptionKey: SFEncryptionKey
+    private let encryptionKey: SFEncryptionKey
     private static var globalStores = SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>()
     private static var userStores = SafeMutableDictionary<NSString, SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>>()
+    private static let storeVersionString = "2"
+    private static let storeVersionFileName = "version"
     private static let keyValueStoresDirectory = "key_value_stores"
     private static let encryptionKeyLabel = "com.salesforce.keyValueStores.encryptionKey"
+    
+    private enum FileType {
+        case key, value
+        
+        var nameSuffix: String {
+            let suffix: String
+            switch self {
+            case .key:
+                suffix = "_key"
+            case .value:
+                suffix = "_value"
+            }
+            return suffix
+        }
+    }
 
     /// Creates a store.
     /// - Parameter parentDirectory: Parent directory for the store.
@@ -49,19 +68,40 @@ public class KeyValueEncryptedFileStore: NSObject {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Invalid store name")
             return nil
         }
+        
         let fullPath = parentDirectory + "/\(name)"
+        let isNewlyCreated = !KeyValueEncryptedFileStore.directoryExists(atPath: fullPath)
         do {
             try SFDirectoryManager.ensureDirectoryExists(fullPath)
         } catch {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error ensuring directory exists: \(error)")
             return nil
         }
+        
         self.name = name
         self.directory = URL(fileURLWithPath: fullPath)
         self.encryptionKey = encryptionKey
+        self.storeVersion = isNewlyCreated ? 2 : 1
+        super.init()
+        
+        // Store version must be determined, otherwise initialiazation fails by returning nil.
+        // A new created store is automatic v2, but version file must be succesfully written.
+        let versionFileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
+        if isNewlyCreated {
+            let versionFileCreated = writeFile(versionFileURL, content: KeyValueEncryptedFileStore.storeVersionString)
+            if !versionFileCreated {
+                return nil
+            }
+        } else {
+            if let version = readVersion(versionFileURL) {
+                self.storeVersion = version
+            } else {
+                return nil
+            }
+        }
     }
 
-    // MARK: Store management
+    // MARK: - Store management
 
     /// Returns a shared store instance with the given name for the current user.
     /// - Parameter name: Name of the store.
@@ -79,7 +119,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     /// - Parameter user: The user account associated with the store.
     @objc(sharedStoreWithName:user:)
     public static func shared(withName name: String, forUserAccount user: UserAccount) -> KeyValueEncryptedFileStore? {
-        let userKey = self.userKey(forUser: user)
+        let userKey = KeyValueEncryptedFileStore.userKey(forUser: user)
         if userStores[userKey] == nil {
             userStores[userKey] = SafeMutableDictionary<NSString, KeyValueEncryptedFileStore>()
         }
@@ -124,7 +164,7 @@ public class KeyValueEncryptedFileStore: NSObject {
     public static func allNames() -> [String] {
         guard let currentUser = UserAccountManager.shared.currentUserAccount else {
             SFSDKCoreLogger.w(KeyValueEncryptedFileStore.self, message: "\(#function): Cannot get store names for nil user. Did you mean to call \(String(describing: self)).allGlobalNames?")
-            return [String]()
+            return []
         }
         return KeyValueEncryptedFileStore.allNames(forUserAccount: currentUser)
     }
@@ -134,14 +174,14 @@ public class KeyValueEncryptedFileStore: NSObject {
     @objc(allStoreNamesForUser:)
     public static func allNames(forUserAccount user: UserAccount) -> [String] {
         let directory = storesDirectory(forUser: user)
-        return contentsOfDirectory(directory, function: #function)
+        return contentsOfDirectory(directory)
     }
 
     /// All of the global store names from this app.
     @objc(allGlobalStoreNames)
     public static func allGlobalNames() -> [String] {
         let directory = globalStoresDirectory()
-        return contentsOfDirectory(directory, function: #function)
+        return contentsOfDirectory(directory)
     }
 
     /// Completely removes a persisted shared store with the given name for the current user.
@@ -165,9 +205,9 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
 
         let storeDirectory = URL(fileURLWithPath: storesDirectory).appendingPathComponent(name)
-        removeFile(storeDirectory, function: #function)
+        removeFile(storeDirectory)
 
-        let userKey = self.userKey(forUser: user)
+        let userKey = KeyValueEncryptedFileStore.userKey(forUser: user)
         userStores[userKey]?.removeObject(name as NSString)
     }
 
@@ -180,7 +220,7 @@ public class KeyValueEncryptedFileStore: NSObject {
             return
         }
         let storeDirectory = URL(fileURLWithPath: storesDirectory).appendingPathComponent(name)
-        removeFile(storeDirectory, function: #function)
+        removeFile(storeDirectory)
         globalStores.removeObject(name as NSString)
     }
 
@@ -203,8 +243,8 @@ public class KeyValueEncryptedFileStore: NSObject {
             return
         }
 
-        let userKey = self.userKey(forUser:user)
-        let storeDirectories = contentsOfDirectory(directory, function: #function)
+        let userKey = KeyValueEncryptedFileStore.userKey(forUser:user)
+        let storeDirectories = contentsOfDirectory(directory)
 
         for store in storeDirectories {
             let storeURL = URL(fileURLWithPath: directory).appendingPathComponent(store)
@@ -225,10 +265,10 @@ public class KeyValueEncryptedFileStore: NSObject {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Global stores directory is nil")
             return
         }
-        let storeDirectories = contentsOfDirectory(directory, function: #function)
+        
+        let storeDirectories = contentsOfDirectory(directory)
         for store in storeDirectories {
             let storeURL = URL(fileURLWithPath: directory).appendingPathComponent(store)
-
             do {
                 try FileManager.default.removeItem(at: storeURL)
                 globalStores.removeObject(store as NSString)
@@ -238,65 +278,49 @@ public class KeyValueEncryptedFileStore: NSObject {
         }
     }
 
-    // MARK: Store
+    // MARK: - Store operations
 
     /// Returns whether the given store name is valid.
     /// - Parameter name: name of the store.
     @objc(isValidStoreName:)
     public static func isValidName(_ name: String) -> Bool {
-        return name.count > 0 && name.count <= maxStoreNameLength && name.range(of: "^[a-zA-Z0-9_]*$", options: .regularExpression) != nil
+        return !name.isEmpty && name.count <= maxStoreNameLength && name.range(of: "^[a-zA-Z0-9_]*$", options: .regularExpression) != nil
     }
 
     /// Updates the value stored for the given key, or adds a new entry if the key does not exist.
-    /// - Parameter value: Value to add to the store.
-    /// - Parameter key: Key associated with the value.
+    /// - Parameters:
+    ///   - value: Value to add to the store.
+    ///   - key: Key associated with the value.
     /// - Returns: True on success, false on failure.
     @objc @discardableResult public func saveValue(_ value: String, forKey key: String) -> Bool {
-        guard let data = value.data(using: .utf8) else {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to convert string to data")
-            return false
-        }
-        guard let encryptedData = encryptionKey.encryptData(data) else {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to encrypt data")
-            return false
-        }
-        guard let fileURL = encodedUrl(forKey: key, function: #function) else {
+        guard let fileURL = encodedURL(forKey: key, fileType: .value) else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct file URL")
             return false
         }
-
-        do {
-            try encryptedData.write(to: fileURL)
-        } catch {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error writing data to file: \(error)")
-            return false
+        
+        if storeVersion < 2 {
+            return writeFile(fileURL, content: value)
         }
-
-        return true
+        
+        let valueFileWriteSuccess = writeFile(fileURL, content: value)
+        if valueFileWriteSuccess {
+            if let keyFileURL = encodedURL(forKey: key, fileType: .key) {
+                writeFile(keyFileURL, content: key)
+            } else {
+                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct key file URL")
+            }
+        }
+        return valueFileWriteSuccess
     }
 
     /// Accesses the value associated with the given key for reading and writing.
     @objc public subscript(key: String) -> String? {
         get {
-            guard let fileURL = encodedUrl(forKey: key, function: #function) else {
+            guard let fileURL = encodedURL(forKey: key, fileType: .value) else {
                 SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct file URL")
                 return nil
             }
-            guard FileManager.default.fileExists(atPath: fileURL.path) else {
-                return nil
-            }
-
-            do {
-                let encryptedData = try Data(contentsOf: fileURL)
-                guard let decryptedData = encryptionKey.decryptData(encryptedData) else {
-                    SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to decrypt file at path '\(fileURL.path)'")
-                    return nil
-                }
-                return String(data: decryptedData, encoding: .utf8)
-            } catch {
-                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error reading file at path '\(fileURL.path)': \(error)")
-                return nil
-            }
+            return readFile(fileURL)
         }
 
         set {
@@ -311,36 +335,65 @@ public class KeyValueEncryptedFileStore: NSObject {
     /// - Parameter key: The key associated with the entry to remove.
     /// - Returns: True if the entry is successfully removed or doesn't exist, false otherwise.
     @objc @discardableResult public func removeValue(forKey key: String) -> Bool {
-        guard let fileURL = encodedUrl(forKey: key, function: #function) else {
+        guard let fileURL = encodedURL(forKey: key, fileType: .value) else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct file URL")
             return false
         }
-        guard FileManager.default.fileExists(atPath: fileURL.path) else {
-            return true
+        
+        if storeVersion < 2 {
+            return KeyValueEncryptedFileStore.removeFile(fileURL)
         }
-
-        do {
-            try FileManager.default.removeItem(at: fileURL)
-            return true
-        } catch {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error removing file at path '\(fileURL.path)': \(error)")
-            return false
+        
+        let valueFileDeletionSuccess = KeyValueEncryptedFileStore.removeFile(fileURL)
+        if valueFileDeletionSuccess {
+            if let keyFileURL = encodedURL(forKey: key, fileType: .key) {
+                KeyValueEncryptedFileStore.removeFile(keyFileURL)
+            } else {
+                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct key file URL")
+            }
         }
+        return valueFileDeletionSuccess
     }
 
     /// Removes all contents of the store.
     @objc public func removeAll() {
-        let files = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
+        let files = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path)
         for file in files {
-            let fileURL = directory.appendingPathComponent(file)
-            KeyValueEncryptedFileStore.removeFile(fileURL, function: #function)
+            if !KeyValueEncryptedFileStore.isVersionFile(file) {
+                let fileURL = directory.appendingPathComponent(file)
+                KeyValueEncryptedFileStore.removeFile(fileURL)
+            }
         }
+    }
+    
+    /// All keys in the store
+    /// - Returns: all keys of stored values in a v2 store, nil if it's a v1 store
+    @objc public func allKeys() -> [String]? {
+        guard storeVersion >= 2 else {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "This store does not have this capability!")
+            return nil
+        }
+        
+        return KeyValueEncryptedFileStore.contentsOfDirectory(directory.path)
+            .filter { (file) -> Bool in
+                return file.hasSuffix(FileType.key.nameSuffix)
+            }
+            .compactMap { (file) -> String? in
+                let fileURL = directory.appendingPathComponent(file)
+                return readFile(fileURL)
+            }
     }
 
     /// - Returns: The number of entries in the store.
     @objc public func count() -> Int {
-        let files = KeyValueEncryptedFileStore.contentsOfDirectory(directory.path, function: #function)
-        return files.count
+        if storeVersion < 2 {
+            return KeyValueEncryptedFileStore.contentsOfDirectory(directory.path).count
+        } else {
+            return KeyValueEncryptedFileStore.contentsOfDirectory(directory.path)
+                .filter { (file) -> Bool in
+                    return file.hasSuffix(FileType.key.nameSuffix)
+                }.count
+        }
     }
 
     /// - Returns: A Boolean value that indicates whether the store is empty.
@@ -348,7 +401,13 @@ public class KeyValueEncryptedFileStore: NSObject {
         return count() == 0
     }
 
-    // MARK: Private
+    // MARK: - Private
+    private static func directoryExists(atPath path: String) -> Bool {
+        var isDirectory = ObjCBool(true)
+        let exists = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
+        return exists && isDirectory.boolValue
+    }
+    
     private static func storesDirectory(forUser user: UserAccount) -> String? {
         return SFDirectoryManager.shared().directory(forUser: user, type: .documentDirectory, components: [keyValueStoresDirectory])
     }
@@ -357,43 +416,97 @@ public class KeyValueEncryptedFileStore: NSObject {
         return SFDirectoryManager.shared().globalDirectory(ofType: .documentDirectory, components: [keyValueStoresDirectory])
     }
 
-    private static func contentsOfDirectory(_ directory: String?, function: String) -> [String] {
+    private static func contentsOfDirectory(_ directory: String?, callingFunction: String = #function) -> [String] {
         guard let directory = directory else {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Directory is nil")
-            return [String]()
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Directory is nil")
+            return []
         }
         guard FileManager.default.fileExists(atPath: directory) else {
-            return [String]()
+            return []
         }
 
         do {
             return try FileManager.default.contentsOfDirectory(atPath: directory)
         } catch {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Error getting contents of directory: \(error)")
-            return [String]()
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Error getting contents of directory: \(error)")
+            return []
         }
     }
+    
+    @discardableResult
+    private func writeFile(_ fileURL: URL, content: String, callingFunction: String = #function) -> Bool {
+        guard let encryptedData = encryptionKey.encryptData(Data(content.utf8)) else {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Unable to encrypt data")
+            return false
+        }
+        
+        do {
+            try encryptedData.write(to: fileURL)
+            return true
+        } catch {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Error writing data to file: \(error)")
+            return false
+        }
+    }
+    
+    private func readFile(_ fileURL: URL, callingFunction: String = #function) -> String? {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
+            return nil
+        }
 
-    private static func removeFile(_ fileURL: URL, function: String) {
+        do {
+            let encryptedData = try Data(contentsOf: fileURL)
+            guard let decryptedData = encryptionKey.decryptData(encryptedData) else {
+                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Unable to decrypt file at path '\(fileURL.path)'")
+                return nil
+            }
+            return String(data: decryptedData, encoding: .utf8)
+        } catch {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Error reading file at path '\(fileURL.path)': \(error)")
+            return nil
+        }
+    }
+    
+    @discardableResult
+    private static func removeFile(_ fileURL: URL, callingFunction: String = #function) -> Bool {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
+            return true
+        }
+        
         do {
             try FileManager.default.removeItem(at: fileURL)
-            SFSDKCoreLogger.i(KeyValueEncryptedFileStore.self, message: "\(function): Removing file at path '\(fileURL.path)'")
+            SFSDKCoreLogger.i(KeyValueEncryptedFileStore.self, message: "\(callingFunction): File removed at path '\(fileURL.path)'")
+            return true
         } catch {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Error removing file at path '\(fileURL.path)': \(error)")
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Error removing file at path '\(fileURL.path)': \(error)")
+            return false
         }
     }
-
-    private func encodedUrl(forKey key: String, function: String) -> URL? {
-        guard key.count > 0 else {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Key is empty")
+    
+    private static func isVersionFile(_ file: String) -> Bool {
+        return file == KeyValueEncryptedFileStore.storeVersionFileName
+    }
+    
+    private func readVersion(_ fileURL: URL) -> Int? {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
+            return 1
+        }
+        
+        if let versionString = readFile(fileURL), let versionNumber = Int(versionString) {
+            return versionNumber
+        } else {
             return nil
         }
-        guard let keyData = key.data(using: .utf8) else {
-            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(function): Unable to convert key string to data")
+    }
+    
+    private func encodedURL(forKey key: String, fileType: FileType, callingFunction: String = #function) -> URL? {
+        guard !key.isEmpty else {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Key is empty")
             return nil
         }
-
-        let encodedKey = (keyData as NSData).sha256()
+        
+        let keyData = Data(key.utf8) as NSData
+        let encodedKey = keyData.sha256() + "\(storeVersion >= 2 ? fileType.nameSuffix : "")"
         return directory.appendingPathComponent(encodedKey)
     }
 

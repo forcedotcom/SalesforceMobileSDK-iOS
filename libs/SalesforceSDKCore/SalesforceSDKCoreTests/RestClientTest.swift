@@ -83,6 +83,20 @@ class RestClientTests: XCTestCase {
         XCTAssertNil(erroredResult,"Query call should not have failed")
     }
     
+    func testQueryWithDefaultBatchSize() {
+        let request = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil, batchSize: 2000)
+        XCTAssertNil(request.customHeaders?["@SForce-Query-Options"]);
+    }
+    
+    func testQueryWithNonDefaultBatchSize() {
+        let request500 = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil, batchSize: 500)
+        let request199 = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil, batchSize: 199)
+        let request2001 = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil, batchSize: 2001)
+        XCTAssertTrue("batchSize=500" == request500.customHeaders?["Sforce-Query-Options"] as! String);
+        XCTAssertTrue("batchSize=200" == request199.customHeaders?["Sforce-Query-Options"] as! String);
+        XCTAssertNil(request2001.customHeaders?["@SForce-Query-Options"]);
+    }
+    
     func testCompositeRequest() {
         let expectation = XCTestExpectation(description: "compositeTest")
         let accountName = self.generateRecordName()

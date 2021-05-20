@@ -25,6 +25,7 @@
 
 #import <XCTest/XCTest.h>
 #import "SalesforceSDKCore/SFNetwork.h"
+#import "SalesforceSDKCore/SFRestAPI+Blocks.h"
 
 @interface SFNetwork (Testing)
 
@@ -111,6 +112,31 @@
         XCTAssertEqual(identifiers.count, 0);
         XCTAssertFalse([identifiers containsObject:identifier]);
     }
+}
+
+- (void)testMetricsAction {
+    [self addTeardownBlock:^{
+        SFNetwork.metricsCollectedAction = nil;
+    }];
+    
+    XCTestExpectation *getExpectation = [self expectationWithDescription:@"Get"];
+    SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
+
+    [[SFRestAPI sharedGlobalInstance] sendRequest:request failureBlock:^(id  _Nullable response, NSError * _Nullable e, NSURLResponse * _Nullable rawResponse) {
+        XCTFail(@"Request failed");
+    } successBlock:^(id  _Nullable response, NSURLResponse * _Nullable rawResponse) {
+        [getExpectation fulfill];
+    }];
+    
+    XCTestExpectation *metricsExpectation = [self expectationWithDescription:@"metricsExpectation"];
+    SFNetwork.metricsCollectedAction = ^(NSURLSession * _Nonnull session, NSURLSessionTask * _Nonnull task, NSURLSessionTaskMetrics * _Nonnull metrics) {
+        XCTAssertNotNil(session);
+        XCTAssertNotNil(task);
+        XCTAssertNotNil(metrics);
+        [metricsExpectation fulfill];
+    };
+    
+    [self waitForExpectations:@[getExpectation, metricsExpectation] timeout:20];
 }
 
 @end

@@ -53,7 +53,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 NSString *SFAppTypeGetDescription(SFAppType appType) NS_SWIFT_NAME(getter:SFAppType.description(self:));
 
-
 /**
  Block typedef for presenting the snapshot view controller.
  */
@@ -144,9 +143,9 @@ NS_SWIFT_NAME(SalesforceManager)
 
 /**
  Whether or not to use a security snapshot view when the app is backgrounded, to prevent
- sensitive data from being displayed outside of the app context.  Default is YES.
+ sensitive data from being displayed outside of the app context.  Default is YES on iOS. Disabled when running on Mac.
  */
-@property (nonatomic, assign) BOOL useSnapshotView NS_SWIFT_NAME(usesSnapshotView);
+@property (nonatomic, assign) BOOL useSnapshotView NS_SWIFT_NAME(usesSnapshotView) API_UNAVAILABLE(macCatalyst);
 
 /**
  The block to provide custom view to use for IDP selection flow.
@@ -244,6 +243,13 @@ NS_SWIFT_NAME(SalesforceManager)
  * @return Dev info (list of name1, value1, name2, value2 etc) to show in SFSDKDevInfoController
  */
 - (NSArray<NSString *>*)getDevSupportInfos NS_SWIFT_NAME(devSupportInfoList());
+
+/**
+ * Returns the title string of the dev support menu.
+ *
+ * @return Title string of the dev support menu.
+ */
+- (nonnull NSString *)devInfoTitleString;
 
 @end
 
