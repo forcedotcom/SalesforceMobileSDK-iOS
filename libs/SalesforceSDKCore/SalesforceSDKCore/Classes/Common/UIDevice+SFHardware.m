@@ -616,11 +616,11 @@
 }
 
 - (BOOL)isSimulator {
-    NSString *platform = [self platform];
-    if ([platform hasSuffix:@"86"] || [platform isEqual:@"x86_64"]) {
-        return YES;
-    }
+    #if TARGET_OS_SIMULATOR
+    return YES;
+    #else
     return NO;
+    #endif
 }
 
 - (BOOL)hasIphone6ScreenSize {
