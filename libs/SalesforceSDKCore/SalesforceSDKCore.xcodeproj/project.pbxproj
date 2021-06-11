@@ -81,10 +81,12 @@
 		6924966B2444E50500D3F63B /* SFFormatUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 692496692444E50500D3F63B /* SFFormatUtils.m */; };
 		6931E954248B5C7100417362 /* SFDirectoryManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6931E94E248ADD8E00417362 /* SFDirectoryManager+Internal.h */; };
 		6931EA49248F000600417362 /* SFUserIdUpgradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6931EA48248F000600417362 /* SFUserIdUpgradeTests.m */; };
+		69341D22266FF61700227CB0 /* Encryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69341D21266FF61700227CB0 /* Encryptor.swift */; };
 		6938392623C82F38008E8E9A /* SFSDKNullURLCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 6938392423C82F38008E8E9A /* SFSDKNullURLCache.h */; };
 		6938392723C82F38008E8E9A /* SFSDKNullURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6938392523C82F38008E8E9A /* SFSDKNullURLCache.m */; };
 		693E623124A287DB0017B222 /* KeyValueEncryptedFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */; };
 		693E623B24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 693E623A24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m */; };
+		6941F13725D3C323000652D0 /* EncryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6941F13625D3C323000652D0 /* EncryptionTests.swift */; };
 		694490D025B8F4C4007747CD /* SFSDKWindowManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 694490C725B8E567007747CD /* SFSDKWindowManager+Internal.h */; };
 		6975869F23296D7500574148 /* SFSDKURLCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 691D129F23296A93000D6D41 /* SFSDKURLCacheTests.m */; };
 		697A91A02363C3D800D2836F /* SFSDKPushNotificationDecryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 697A919E2363C3D800D2836F /* SFSDKPushNotificationDecryption.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -731,10 +733,12 @@
 		692496692444E50500D3F63B /* SFFormatUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFFormatUtils.m; sourceTree = "<group>"; };
 		6931E94E248ADD8E00417362 /* SFDirectoryManager+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFDirectoryManager+Internal.h"; sourceTree = "<group>"; };
 		6931EA48248F000600417362 /* SFUserIdUpgradeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFUserIdUpgradeTests.m; path = SalesforceSDKCoreTests/SFUserIdUpgradeTests.m; sourceTree = SOURCE_ROOT; };
+		69341D21266FF61700227CB0 /* Encryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryptor.swift; sourceTree = "<group>"; };
 		6938392423C82F38008E8E9A /* SFSDKNullURLCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKNullURLCache.h; sourceTree = "<group>"; };
 		6938392523C82F38008E8E9A /* SFSDKNullURLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKNullURLCache.m; sourceTree = "<group>"; };
 		693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStore.swift; sourceTree = "<group>"; };
 		693E623A24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKKeyValueEncryptedFileStoreTests.m; path = SalesforceSDKCoreTests/SFSDKKeyValueEncryptedFileStoreTests.m; sourceTree = SOURCE_ROOT; };
+		6941F13625D3C323000652D0 /* EncryptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EncryptionTests.swift; path = ../../../EncryptionTests.swift; sourceTree = "<group>"; };
 		694490C725B8E567007747CD /* SFSDKWindowManager+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKWindowManager+Internal.h"; sourceTree = "<group>"; };
 		697A919E2363C3D800D2836F /* SFSDKPushNotificationDecryption.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationDecryption.h; sourceTree = "<group>"; };
 		697A919F2363C3D800D2836F /* SFSDKPushNotificationDecryption.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPushNotificationDecryption.m; sourceTree = "<group>"; };
@@ -1026,6 +1030,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				6941F13625D3C323000652D0 /* EncryptionTests.swift */,
 				CE02ACD6202E19B100C6A714 /* SFSDKAuthConfigUtilTests.m */,
 				CEB98ED31F86E76A0083AB9C /* SFSDKAuthErrorCommandTest.m */,
 				CEB98ED41F86E76A0083AB9C /* SFSDKAuthRequestCommandTest.m */,
@@ -1281,6 +1286,7 @@
 				010A9AE11CC176DD002AF4D3 /* SFDecryptStream.m */,
 				010A9AE21CC176DD002AF4D3 /* SFEncryptStream.h */,
 				010A9AE31CC176DD002AF4D3 /* SFEncryptStream.m */,
+				69341D21266FF61700227CB0 /* Encryptor.swift */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -2214,6 +2220,7 @@
 				CE02ACEE202E19CF00C6A714 /* SFSDKAuthConfigUtilTests.m in Sources */,
 				4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */,
 				B7E66AE923763278005A652E /* RestClientPublisherTests.swift in Sources */,
+				6941F13725D3C323000652D0 /* EncryptionTests.swift in Sources */,
 				B7A4AE4922E8CA780060E737 /* SFSDKAuthUtilTests.swift in Sources */,
 				4F7EB4161BFFC8D700768720 /* SDKCommonNSDataTests.m in Sources */,
 				4F06AF931C49A18E00F70798 /* SFSecurityLockoutTests.m in Sources */,
@@ -2384,6 +2391,7 @@
 				CED452BD1D808D0C009266EB /* SFRestAPI+QueryBuilder.m in Sources */,
 				CE4CE3771C0E526A009F6029 /* SFKeyStoreManager.m in Sources */,
 				B71129111F8A780800436CFB /* SFSDKAlertMessageBuilder.m in Sources */,
+				69341D22266FF61700227CB0 /* Encryptor.swift in Sources */,
 				CE88BD531D17065C00AE3BF7 /* SFSDKAILTNPublisher.m in Sources */,
 				CE4CE3AC1C0E5279009F6029 /* SFPreferences.m in Sources */,
 				CED452B81D808D0C009266EB /* SFRestAPI+Blocks.m in Sources */,
