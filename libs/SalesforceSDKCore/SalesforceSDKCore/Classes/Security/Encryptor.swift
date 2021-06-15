@@ -35,6 +35,8 @@ public class Encryptor: NSObject {
     
     enum EncryptorError: Error {
         case combinedBoxFailed
+        case encryptionFailed(underlyingError: Error?)
+        case decryptionFailed(underlyingError: Error?)
     }
 
     // MARK: Symmetric Encrypt/Decrypt
@@ -65,38 +67,46 @@ public class Encryptor: NSObject {
     }
     
     // MARK: EC Encrypt/Decrypt
-    static func encrypt(data: Data, privateKey: Data) throws -> Data {
-        let key = try derivedKey(from: privateKey)
-        return try encrypt(data: data, using: key)
-    }
-    
-    static func decrypt(data: Data, privateKey: Data) throws -> Data {
-        let key = try derivedKey(from: privateKey)
-        return try decrypt(data: data, using: key)
-    }
-    
-    static func derivedKey(from privateKey: Data) throws -> SymmetricKey {
-        var sharedSecret: SharedSecret
-        if SecureEnclave.isAvailable && !UIDevice.current.isSimulator() {
-            let key = try SecureEnclave.P256.KeyAgreement.PrivateKey(dataRepresentation: privateKey)
-            sharedSecret = try key.sharedSecretFromKeyAgreement(with: key.publicKey)
+    static func encrypt(data: Data, using key: SecKey) throws -> Data {
+        var error: Unmanaged<CFError>?
+        if let encryptedData = SecKeyCreateEncryptedData(key, .eciesEncryptionStandardX963SHA256AESGCM, data as CFData, &error) {
+            return encryptedData as Data
         } else {
-            let key = try P256.KeyAgreement.PrivateKey(rawRepresentation: privateKey)
-            sharedSecret = try key.sharedSecretFromKeyAgreement(with: key.publicKey)
+            let error = error?.takeRetainedValue()
+            throw EncryptorError.encryptionFailed(underlyingError: error)
         }
-        return sharedSecret.x963DerivedSymmetricKey(using: SHA256.self, sharedInfo: Data(), outputByteCount: 32)
+    }
+    
+    static func decrypt(data: Data, using key: SecKey) throws -> Data {
+        var error: Unmanaged<CFError>?
+        if let decryptedData = SecKeyCreateDecryptedData(key, .eciesEncryptionStandardX963SHA256AESGCM, data as CFData, &error) {
+            return decryptedData as Data
+        } else {
+            let error = error?.takeRetainedValue()
+            throw EncryptorError.decryptionFailed(underlyingError: error)
+        }
     }
 }
 
 @objc(SFSDKKeyGenerator)
 public class KeyGenerator: NSObject {
     static var keyCache = [String: SymmetricKey]()
-    static let keyStoreService = "com.salesforce.keystore.keyStore"
-    static let keyStoreKeyService = "com.salesforce.keystore.keyStoreKey"
+    static let keyStoreService = "com.salesforce.keystore"
+    static let defaultKeyName = "defaultKey"
+    static let ecPublicKeyTagPrefix = "com.salesforce.eckey.public"
+    static let ecPrivateKeyTagPrefix = "com.salesforce.eckey.private"
     
     enum KeyGeneratorError: Error {
         case keychainWriteError(underlyingError: Error?)
-        case accessControlCreateFailed
+        case accessControlCreationFailed
+        case tagCreationFailed
+        case keyCreationFailed(underlyingError: Error?)
+        case keyQueryFailed(status: OSStatus)
+    }
+    
+    struct KeyPair {
+        let publicKey: SecKey
+        let privateKey: SecKey
     }
     
     @objc @available(swift, obsoleted: 1.0) // Objective-c only wrapper
@@ -118,11 +128,11 @@ public class KeyGenerator: NSObject {
         let storedLabel = "\(KeyGenerator.keyStoreService).\(label)"
         let result = KeychainHelper.read(service: storedLabel, account: nil)
         if let encryptedKeyData = result.data {
-            let decryptedKeyData = try Encryptor.decrypt(data: encryptedKeyData, privateKey: storedEcKey())
+            let decryptedKeyData = try Encryptor.decrypt(data: encryptedKeyData, using: ecKeyPair(name: defaultKeyName).privateKey)
             return SymmetricKey(data: decryptedKeyData)
         } else {
             let key = SymmetricKey(size: keySize)
-            let encryptedKeyData = try Encryptor.encrypt(data: key.dataRepresentation, privateKey: storedEcKey())
+            let encryptedKeyData = try Encryptor.encrypt(data: key.dataRepresentation, using: ecKeyPair(name: defaultKeyName).publicKey)
             
             let result = KeychainHelper.write(service: storedLabel, data: encryptedKeyData, account: nil)
             if result.success {
@@ -133,39 +143,77 @@ public class KeyGenerator: NSObject {
         }
     }
     
-    static func storedEcKey() throws -> Data {
-        let storedKey = KeychainHelper.read(service: KeyGenerator.keyStoreKeyService, account: nil)
+    static func ecKeyPair(name: String) throws -> KeyPair {
+        let privateTagString = "\(ecPrivateKeyTagPrefix).\(name)"
+        let publicTagString = "\(ecPublicKeyTagPrefix).\(name)"
         
-        if let keyData = storedKey.data {
-            return keyData
-        } else {
-            let key = try KeyGenerator.createEcKey()
-           
-            let result = KeychainHelper.write(service: KeyGenerator.keyStoreKeyService, data: key, account: nil)
-            if result.success {
-                return key
-            } else {
-                throw KeyGeneratorError.keychainWriteError(underlyingError: result.error)
-            }
+        guard let privateTag = privateTagString.data(using: .utf8),
+              let publicTag = publicTagString.data(using: .utf8) else {
+            throw KeyGeneratorError.tagCreationFailed
         }
+        
+        if let privateKey = ecKey(tag: privateTag),
+           let publicKey = ecKey(tag: publicTag) {
+            return KeyPair(publicKey: publicKey, privateKey: privateKey)
+        }
+        
+        return try createECKeyPair(privateTag: privateTag, publicTag: publicTag)
     }
     
-    /// Returns private key as data
-    static func createEcKey() throws -> Data {
+    static func ecKey(tag: Data) -> SecKey? {
+        let query: [String: Any] = [
+            String(kSecClass): String(kSecClassKey),
+            String(kSecAttrApplicationTag): tag,
+            String(kSecReturnRef): true
+        ]
+        var queryResult: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
+        if let secKey = queryResult, CFGetTypeID(secKey) == SecKeyGetTypeID() {
+            return (secKey as! SecKey)
+        } else if status != errSecItemNotFound {
+            SalesforceLogger.log(KeyGenerator.self, level: .error, message: "Error getting EC SecKey: \(status)")
+        }
+        return nil
+    }
+
+    static func createECKeyPair(privateTag: Data, publicTag: Data) throws -> KeyPair {
+        var privateKeyAttributes: [String: Any] = [
+            String(kSecAttrIsPermanent): true,
+            String(kSecAttrApplicationTag): privateTag
+        ]
+        
         if SecureEnclave.isAvailable && !UIDevice.current.isSimulator() {
-            var error: Unmanaged<CFError>?
-            if let accessControl = SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly, [.privateKeyUsage], &error) {
-                let privateKey = try SecureEnclave.P256.KeyAgreement.PrivateKey(accessControl: accessControl)
-                return privateKey.dataRepresentation
-            } else if let error = error?.takeUnretainedValue() {
-                throw error
-            } else {
-                throw KeyGeneratorError.accessControlCreateFailed
+            if let privateAccess = SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly, [.privateKeyUsage], nil) {
+                privateKeyAttributes[String(kSecAttrAccessControl)] = privateAccess
             }
         } else {
-            let privateKey = P256.KeyAgreement.PrivateKey()
-            return privateKey.rawRepresentation
+            privateKeyAttributes[String(kSecAttrAccessible)] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
         }
+        
+        let publicKeyAttributes: [String: Any] = [
+            String(kSecAttrIsPermanent): true,
+            String(kSecAttrApplicationTag): publicTag,
+            String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+        ]
+        
+        var keyPairAttributes: [String: Any] = [
+            String(kSecAttrKeyType): kSecAttrKeyTypeECSECPrimeRandom,
+            String(kSecAttrKeySizeInBits): 256
+        ]
+        
+        if SecureEnclave.isAvailable && !UIDevice.current.isSimulator() {
+            keyPairAttributes[String(kSecAttrTokenID)] = kSecAttrTokenIDSecureEnclave;
+        }
+        keyPairAttributes[String(kSecPrivateKeyAttrs)] = privateKeyAttributes;
+        keyPairAttributes[String(kSecPublicKeyAttrs)] = publicKeyAttributes;
+        
+        var error: Unmanaged<CFError>?
+        guard let privateKey = SecKeyCreateRandomKey(keyPairAttributes as CFDictionary, &error),
+              let publicKey = SecKeyCopyPublicKey(privateKey) else {
+            let error = error?.takeRetainedValue()
+            throw KeyGeneratorError.keyCreationFailed(underlyingError: error)
+        }
+        return KeyPair(publicKey: publicKey, privateKey: privateKey)
     }
 }
 
