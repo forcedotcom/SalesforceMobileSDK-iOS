@@ -60,11 +60,10 @@ public class Encryptor: NSObject {
     /// - Returns: Encrypted data
     public static func encrypt(data: Data, using key: SymmetricKey) throws -> Data {
         let sealedBox = try AES.GCM.seal(data, using: key, nonce: AES.GCM.Nonce())
-        if let combined = sealedBox.combined {
-            return combined
-        } else {
+        guard let combined = sealedBox.combined else {
             throw EncryptorError.combinedBoxFailed
         }
+        return combined
     }
     
     /// Decrypts data with a given key
