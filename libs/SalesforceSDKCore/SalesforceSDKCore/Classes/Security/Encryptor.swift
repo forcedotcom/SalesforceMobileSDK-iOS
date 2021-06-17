@@ -29,7 +29,6 @@ import Foundation
 import CryptoKit
 import SalesforceSDKCommon
 
-
 @objc(SFSDKEncryptor)
 public class Encryptor: NSObject {
     
@@ -40,12 +39,25 @@ public class Encryptor: NSObject {
     }
 
     // MARK: Symmetric Encrypt/Decrypt
+    
+    /// Encrypts data with a given key
+    ///
+    /// - Parameters:
+    ///   - data: Data to encrypt
+    ///   - key: Data representation of symmetric key to encrypt with
+    /// - Returns: Encrypted data
     @objc @available(swift, obsoleted: 1.0) // Objective-c only wrapper
     public static func encrypt(data: Data, using key: Data) throws -> Data {
         let symmetricKey = SymmetricKey(data: key)
         return try encrypt(data: data, using: symmetricKey)
     }
 
+    /// Encrypts data with a given key
+    ///
+    /// - Parameters:
+    ///   - data: Data to encrypt
+    ///   - key: Symmetric key to encrypt with
+    /// - Returns: Encrypted data
     public static func encrypt(data: Data, using key: SymmetricKey) throws -> Data {
         let sealedBox = try AES.GCM.seal(data, using: key, nonce: AES.GCM.Nonce())
         if let combined = sealedBox.combined {
@@ -55,12 +67,24 @@ public class Encryptor: NSObject {
         }
     }
     
+    /// Decrypts data with a given key
+    ///
+    /// - Parameters:
+    ///   - data: Data to decrypt
+    ///   - key: Data representation of symmetric key to decrypt with
+    /// - Returns: Decrypted data
     @objc @available(swift, obsoleted: 1.0) // Objective-c only wrapper
     public static func decrypt(data: Data, using key: Data) throws -> Data {
         let symmetricKey = SymmetricKey(data: key)
         return try decrypt(data: data, using: symmetricKey)
     }
 
+    /// Decrypts data with a given key
+    ///
+    /// - Parameters:
+    ///   - data: Data to decrypt
+    ///   - key: Symmetric key to decrypt with
+    /// - Returns: Decrypted data
     public static func decrypt(data: Data, using key: SymmetricKey) throws -> Data {
         let sealedBox = try AES.GCM.SealedBox(combined: data)
         return try AES.GCM.open(sealedBox, using: key)
@@ -69,22 +93,20 @@ public class Encryptor: NSObject {
     // MARK: EC Encrypt/Decrypt
     static func encrypt(data: Data, using key: SecKey) throws -> Data {
         var error: Unmanaged<CFError>?
-        if let encryptedData = SecKeyCreateEncryptedData(key, .eciesEncryptionStandardX963SHA256AESGCM, data as CFData, &error) {
-            return encryptedData as Data
-        } else {
+        guard let encryptedData = SecKeyCreateEncryptedData(key, .eciesEncryptionStandardX963SHA256AESGCM, data as CFData, &error) else {
             let error = error?.takeRetainedValue()
             throw EncryptorError.encryptionFailed(underlyingError: error)
         }
+        return encryptedData as Data
     }
     
     static func decrypt(data: Data, using key: SecKey) throws -> Data {
         var error: Unmanaged<CFError>?
-        if let decryptedData = SecKeyCreateDecryptedData(key, .eciesEncryptionStandardX963SHA256AESGCM, data as CFData, &error) {
-            return decryptedData as Data
-        } else {
+        guard let decryptedData = SecKeyCreateDecryptedData(key, .eciesEncryptionStandardX963SHA256AESGCM, data as CFData, &error) else {
             let error = error?.takeRetainedValue()
             throw EncryptorError.decryptionFailed(underlyingError: error)
         }
+        return decryptedData as Data
     }
 }
 
@@ -109,11 +131,23 @@ public class KeyGenerator: NSObject {
         let privateKey: SecKey
     }
     
+    /// Returns an encryption key for the given label. If the key doesn't already exist, it
+    /// will be created.
+    ///
+    /// - Parameters:
+    ///   - label: Identifier for the key
+    /// - Returns: Data representation of a symmetric encryption key
     @objc @available(swift, obsoleted: 1.0) // Objective-c only wrapper
     public static func encryptionKey(for label: String) throws -> Data {
         return try KeyGenerator.encryptionKey(for: label).dataRepresentation
     }
     
+    /// Returns an encryption key for the given label. If the key doesn't already exist, it
+    /// will be created.
+    ///
+    /// - Parameters:
+    ///   - label: Identifier for the key
+    /// - Returns: Symmetric encryption key
     public static func encryptionKey(for label: String) throws -> SymmetricKey {
         if let key = keyCache[label] {
             return key
@@ -126,8 +160,7 @@ public class KeyGenerator: NSObject {
     
     static func symmetricKey(for label: String, keySize: SymmetricKeySize = .bits256) throws -> SymmetricKey {
         let storedLabel = "\(KeyGenerator.keyStoreService).\(label)"
-        let result = KeychainHelper.read(service: storedLabel, account: nil)
-        if let encryptedKeyData = result.data {
+        if let encryptedKeyData = KeychainHelper.read(service: storedLabel, account: nil).data {
             let decryptedKeyData = try Encryptor.decrypt(data: encryptedKeyData, using: ecKeyPair(name: defaultKeyName).privateKey)
             return SymmetricKey(data: decryptedKeyData)
         } else {

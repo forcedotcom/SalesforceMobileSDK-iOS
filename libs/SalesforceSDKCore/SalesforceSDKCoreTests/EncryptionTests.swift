@@ -39,8 +39,8 @@ class EncryptionTests: XCTestCase {
         let key = try KeyGenerator.encryptionKey(for: "test1")
         XCTAssertNotNil(key)
         let sensitiveInfo = "My sensitive info"
-        let sensitiveData = sensitiveInfo.data(using: .utf8)
-        let encryptedData = try Encryptor.encrypt(data: sensitiveData!, using: key)
+        let sensitiveData = try XCTUnwrap(sensitiveInfo.data(using: .utf8))
+        let encryptedData = try Encryptor.encrypt(data: sensitiveData, using: key)
         XCTAssertNotEqual(sensitiveData, encryptedData)
         
         let keyAgain = try KeyGenerator.encryptionKey(for: "test1")
@@ -56,8 +56,8 @@ class EncryptionTests: XCTestCase {
         let key = try KeyGenerator.encryptionKey(for: "test1")
         XCTAssertNotNil(key)
         let sensitiveInfo = "My sensitive info"
-        let sensitiveData = sensitiveInfo.data(using: .utf8)
-        let encryptedData = try Encryptor.encrypt(data: sensitiveData!, using: key)
+        let sensitiveData = try XCTUnwrap(sensitiveInfo.data(using: .utf8))
+        let encryptedData = try Encryptor.encrypt(data: sensitiveData, using: key)
         XCTAssertNotEqual(sensitiveData, encryptedData)
         
         let differentKey = try KeyGenerator.encryptionKey(for: "test2")
