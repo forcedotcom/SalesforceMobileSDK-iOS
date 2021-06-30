@@ -28,6 +28,17 @@
 
 static SFSmartSqlHelper *sharedInstance = nil;
 
+static NSString* const kSmartSqlHelperNoStringsOrFullStrings = @"^([^']|'[^']*')*";
+//  ^           # the start of the string, then
+//  ([^']       # either not a quote character
+//  |'[^']*'    # or a fully quoted string
+//  )*          # as many times as you want
+
+static NSRegularExpression* insideQuotedStringRegexp;
+
+static NSRegularExpression* insideQuotedStringForFTSMatchPredicateRegexp;
+
+
 @implementation SFSmartSqlHelper
 
 + (SFSmartSqlHelper*) sharedInstance
@@ -35,6 +46,13 @@ static SFSmartSqlHelper *sharedInstance = nil;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         sharedInstance = [[super alloc] init];
+        
+        insideQuotedStringRegexp = [[NSRegularExpression alloc]
+                                    initWithPattern:[kSmartSqlHelperNoStringsOrFullStrings stringByAppendingString:@"'[^']*"]
+                                    options:0 error:nil];
+        insideQuotedStringForFTSMatchPredicateRegexp = [[NSRegularExpression alloc]
+                                                        initWithPattern:[kSmartSqlHelperNoStringsOrFullStrings stringByAppendingString:@"MATCH[ ]+'[^']*"]
+                                                        options:0 error:nil];
     });
     
     return sharedInstance;
@@ -63,8 +81,29 @@ static SFSmartSqlHelper *sharedInstance = nil;
         }
         if(![scanner isAtEnd]) {
             NSUInteger position = [scanner scanLocation];
+            
             [scanner scanString:@"{" intoString:nil];
             [scanner scanUpToString:@"}" intoString:&foundString];
+            
+            NSString* beforeStr = [smartSql substringToIndex:position];
+            NSRange searchedRange = NSMakeRange(0, [beforeStr length]);
+            
+            BOOL isInsideQuotedString = NSEqualRanges(searchedRange,
+                                                      [insideQuotedStringRegexp
+                                                       rangeOfFirstMatchInString:beforeStr
+                                                       options:0
+                                                       range:searchedRange]);
+            BOOL isInsideQuotedStringForFTSMatchPredicate = NSEqualRanges(searchedRange,
+                                                                          [insideQuotedStringForFTSMatchPredicateRegexp
+                                                                           rangeOfFirstMatchInString:beforeStr
+                                                                           options:0
+                                                                           range:searchedRange]);
+            
+            if (isInsideQuotedString && !isInsideQuotedStringForFTSMatchPredicate) {
+                [sql appendString:@"{"];
+                [sql appendString:foundString];
+                continue;
+            }
             
             NSArray* parts = [foundString componentsSeparatedByString:@":"];
             NSString* soupName = parts[0];

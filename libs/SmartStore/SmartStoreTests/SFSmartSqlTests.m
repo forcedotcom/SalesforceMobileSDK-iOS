@@ -212,6 +212,21 @@
     XCTAssertEqualObjects(@"select json_extract(soup, '$.education'), json_extract(soup, '$.address.zipcode') from TABLE_1 where json_extract(soup, '$.address.city') = 'San Francisco'", [self.store convertSmartSql:@"select {employees:education}, {employees:address.zipcode} from {employees} where {employees:address.city} = 'San Francisco'"], @"Bad conversion");
 }
 
+- (void) testConvertSmartSqlWithQuotedCurlyBraces {
+    XCTAssertEqualObjects(@"select json_extract(soup, '$.education') from TABLE_1 where json_extract(soup, '$.education') like 'Account(where: {Name: {eq: \"Jason\"}})'",
+                        [self.store convertSmartSql:@"select {employees:education} from {employees} where {employees:education} like 'Account(where: {Name: {eq: \"Jason\"}})'"]);
+}
+
+- (void) testConvertSmartSqlWithMultipleQuotedCurlyBraces {
+    XCTAssertEqualObjects(@"select json_extract(soup, '$.education'), '{a:b}', TABLE_1_0 from TABLE_1 where json_extract(soup, '$.address') = '{\"city\": \"San Francisco\"}' or TABLE_1_1 like 'B%'",
+                          [self.store convertSmartSql:@"select {employees:education}, '{a:b}', {employees:firstName} from {employees} where {employees:address} = '{\"city\": \"San Francisco\"}' or {employees:lastName} like 'B%'"]);
+}
+
+- (void) testConvertSmartSqlWithQuotedUnbalancedCurlyBrace {
+    XCTAssertEqualObjects(@"select json_extract(soup, '$.education') from TABLE_1 where json_extract(soup, '$.education') like ' { { { } } '",
+                          [self.store convertSmartSql:@"select {employees:education} from {employees} where {employees:education} like ' { { { } } '"]);
+}
+
 
 - (void) testSmartQueryDoingCount 
 {

@@ -180,4 +180,16 @@
     // Doesn't apply to external storage case
 }
 
+- (void) testConvertSmartSqlWithQuotedCurlyBraces {
+    // Doesn't apply to external storage case
+}
+
+- (void) testConvertSmartSqlWithMultipleQuotedCurlyBraces {
+    // Doesn't apply to external storage case
+}
+
+- (void) testConvertSmartSqlWithQuotedUnbalancedCurlyBrace {
+    // Doesn't apply to external storage case
+}
+
 @end
