@@ -158,6 +158,24 @@
                          @"Bad conversion");
 }
 
+- (void) testConvertSmartSqlWithSelfJoinAndJsonExtractedField {
+    XCTAssertEqualObjects(@"select json_extract(mgr.soup, '$.education'), json_extract(e.soup, '$.education') "
+                          "from TABLE_1 as mgr, TABLE_1 as e "
+                          "where json_extract(mgr.soup, '$.education') = json_extract(e.soup, '$.education')",
+                          [self.store convertSmartSql:@"select mgr.{employees:education}, e.{employees:education} "
+                           "from {employees} as mgr, {employees} as e "
+                           "where mgr.{employees:education} = e.{employees:education}"], @"Bad conversion");
+}
+
+- (void) testConvertSmartSqlWithSelfJoinAndJsonExtractedFieldNoLeadingSpaces {
+    XCTAssertEqualObjects(@"select json_extract(mgr.soup, '$.education'),json_extract(e.soup, '$.education') "
+                          "from TABLE_1 as mgr, TABLE_1 as e "
+                          "where not (json_extract(mgr.soup, '$.education')=json_extract(e.soup, '$.education'))",
+                          [self.store convertSmartSql:@"select mgr.{employees:education},e.{employees:education} "
+                           "from {employees} as mgr, {employees} as e "
+                           "where not (mgr.{employees:education}=e.{employees:education})"], @"Bad conversion");
+}
+
 - (void) testConvertSmartSqlWithSpecialColumns
 {
     XCTAssertEqualObjects(@"select TABLE_1.id, TABLE_1.created, TABLE_1.lastModified, TABLE_1.soup from TABLE_1",

@@ -98,6 +98,14 @@
     [super testConvertSmartSqlWithSelfJoin];
 }
 
+- (void) testConvertSmartSqlWithSelfJoinAndJsonExtractedField {
+    // Doesn't apply to external storage case
+}
+
+- (void) testConvertSmartSqlWithSelfJoinAndJsonExtractedFieldNoLeadingSpaces {
+    // Doesn't apply to external storage case
+}
+
 - (void) testConvertSmartSqlWithSpecialColumns
 {
     NSString *expected = [NSString stringWithFormat:
