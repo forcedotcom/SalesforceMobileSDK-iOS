@@ -38,6 +38,10 @@ static NSRegularExpression* insideQuotedStringRegexp;
 
 static NSRegularExpression* insideQuotedStringForFTSMatchPredicateRegexp;
 
+static NSString* const kTableDotJsonExtract = @"(\\w+)\\.json_extract\\(soup";
+
+static NSRegularExpression* tableDotJsonExtractRegexp;
+
 
 @implementation SFSmartSqlHelper
 
@@ -53,6 +57,8 @@ static NSRegularExpression* insideQuotedStringForFTSMatchPredicateRegexp;
         insideQuotedStringForFTSMatchPredicateRegexp = [[NSRegularExpression alloc]
                                                         initWithPattern:[kSmartSqlHelperNoStringsOrFullStrings stringByAppendingString:@"MATCH[ ]+'[^']*"]
                                                         options:0 error:nil];
+        
+        tableDotJsonExtractRegexp = [NSRegularExpression regularExpressionWithPattern:kTableDotJsonExtract options:0 error:nil];
     });
     
     return sharedInstance;
@@ -175,9 +181,7 @@ static NSRegularExpression* insideQuotedStringForFTSMatchPredicateRegexp;
     // With json1 support, the column name could be an expression of the form json_extract(soup, '$.x.y.z')
     // We can't have TABLE_x.json_extract(soup, ...) or table_alias.json_extract(soup, ...) in the sql query
     // Instead we should have json_extract(TABLE_x.soup, ...)
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([\\w]+)\\.json_extract\\(soup" options:0 error:&error];
-    [regex replaceMatchesInString:sql options:0 range:NSMakeRange(0, [sql length]) withTemplate:@"json_extract($1.soup"];
+    [tableDotJsonExtractRegexp replaceMatchesInString:sql options:0 range:NSMakeRange(0, [sql length]) withTemplate:@"json_extract($1.soup"];
     
     return sql;
 }
