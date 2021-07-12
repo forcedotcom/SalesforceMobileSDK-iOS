@@ -200,4 +200,8 @@
     // Doesn't apply to external storage case
 }
 
+- (void) testCleanupRegexpFaster {
+    // Doesn't apply to external storage case
+}
+
 @end
