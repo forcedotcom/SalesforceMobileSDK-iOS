@@ -79,4 +79,14 @@
 
 }
 
+- (void)testUnescapeXMLCharacter
+{
+    XCTAssertTrue([[NSString unescapeXMLCharacter:@"O&quot;Maley"] isEqualToString:@"O\"Maley"]);
+    XCTAssertTrue([[NSString unescapeXMLCharacter:@"O&#62;Maley"] isEqualToString:@"O>Maley"]);
+    XCTAssertTrue([[NSString unescapeXMLCharacter:@"O&gt;Maley"] isEqualToString:@"O>Maley"]);
+    XCTAssertTrue([[NSString unescapeXMLCharacter:@"O&#60;Maley"] isEqualToString:@"O<Maley"]);
+    XCTAssertTrue([[NSString unescapeXMLCharacter:@"O&lt;Maley"] isEqualToString:@"O<Maley"]);
+    XCTAssertTrue([[NSString unescapeXMLCharacter:@"O&#39;Maley"] isEqualToString:@"O'Maley"]);
+}
+
 @end
