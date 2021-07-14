@@ -28,6 +28,21 @@
 
 static SFSmartSqlHelper *sharedInstance = nil;
 
+static NSString* const kSmartSqlHelperNoStringsOrFullStrings = @"^([^']|'[^']*')*";
+//  ^           # the start of the string, then
+//  ([^']       # either not a quote character
+//  |'[^']*'    # or a fully quoted string
+//  )*          # as many times as you want
+
+static NSRegularExpression* insideQuotedStringRegexp;
+
+static NSRegularExpression* insideQuotedStringForFTSMatchPredicateRegexp;
+
+static NSString* const kTableDotJsonExtract = @"(\\w+)\\.json_extract\\(soup";
+
+static NSRegularExpression* tableDotJsonExtractRegexp;
+
+
 @implementation SFSmartSqlHelper
 
 + (SFSmartSqlHelper*) sharedInstance
@@ -35,6 +50,15 @@ static SFSmartSqlHelper *sharedInstance = nil;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         sharedInstance = [[super alloc] init];
+        
+        insideQuotedStringRegexp = [[NSRegularExpression alloc]
+                                    initWithPattern:[kSmartSqlHelperNoStringsOrFullStrings stringByAppendingString:@"'[^']*"]
+                                    options:0 error:nil];
+        insideQuotedStringForFTSMatchPredicateRegexp = [[NSRegularExpression alloc]
+                                                        initWithPattern:[kSmartSqlHelperNoStringsOrFullStrings stringByAppendingString:@"MATCH[ ]+'[^']*"]
+                                                        options:0 error:nil];
+        
+        tableDotJsonExtractRegexp = [NSRegularExpression regularExpressionWithPattern:kTableDotJsonExtract options:0 error:nil];
     });
     
     return sharedInstance;
@@ -63,8 +87,29 @@ static SFSmartSqlHelper *sharedInstance = nil;
         }
         if(![scanner isAtEnd]) {
             NSUInteger position = [scanner scanLocation];
+            
             [scanner scanString:@"{" intoString:nil];
             [scanner scanUpToString:@"}" intoString:&foundString];
+            
+            NSString* beforeStr = [smartSql substringToIndex:position];
+            NSRange searchedRange = NSMakeRange(0, [beforeStr length]);
+            
+            BOOL isInsideQuotedString = NSEqualRanges(searchedRange,
+                                                      [insideQuotedStringRegexp
+                                                       rangeOfFirstMatchInString:beforeStr
+                                                       options:0
+                                                       range:searchedRange]);
+            BOOL isInsideQuotedStringForFTSMatchPredicate = NSEqualRanges(searchedRange,
+                                                                          [insideQuotedStringForFTSMatchPredicateRegexp
+                                                                           rangeOfFirstMatchInString:beforeStr
+                                                                           options:0
+                                                                           range:searchedRange]);
+            
+            if (isInsideQuotedString && !isInsideQuotedStringForFTSMatchPredicate) {
+                [sql appendString:@"{"];
+                [sql appendString:foundString];
+                continue;
+            }
             
             NSArray* parts = [foundString componentsSeparatedByString:@":"];
             NSString* soupName = parts[0];
@@ -136,9 +181,7 @@ static SFSmartSqlHelper *sharedInstance = nil;
     // With json1 support, the column name could be an expression of the form json_extract(soup, '$.x.y.z')
     // We can't have TABLE_x.json_extract(soup, ...) or table_alias.json_extract(soup, ...) in the sql query
     // Instead we should have json_extract(TABLE_x.soup, ...)
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([^ ]+)\\.json_extract\\(soup" options:0 error:&error];
-    [regex replaceMatchesInString:sql options:0 range:NSMakeRange(0, [sql length]) withTemplate:@"json_extract($1.soup"];
+    [tableDotJsonExtractRegexp replaceMatchesInString:sql options:0 range:NSMakeRange(0, [sql length]) withTemplate:@"json_extract($1.soup"];
     
     return sql;
 }

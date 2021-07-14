@@ -434,23 +434,24 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     [self sendPasscodeFlowCompletedNotification:success];
     UIViewController *passVc = [SFSecurityLockout passcodeViewController];
     if (passVc != nil) {
-        __weak typeof (self) weakSelf = self;
-        [SFSecurityLockout dismissPasscodeWithCompletion:^{
-            __strong typeof (weakSelf) strongSelf = weakSelf;
-            [SFSecurityLockout setPasscodeViewController:nil];
-            if (success) {
+        if (success) {
+            __weak typeof (self) weakSelf = self;
+            [SFSecurityLockout dismissPasscodeWithCompletion:^{
+                __strong typeof (weakSelf) strongSelf = weakSelf;
+                [SFSecurityLockout setPasscodeViewController:nil];
                 [SFSecurityLockout unlockSuccessPostProcessing:action];
-            } else {
-                // Clear the SFSecurityLockout passcode state, as it's no longer valid.
-                [SFSecurityLockout clearAllPasscodeState];
-                [[SFUserAccountManager sharedInstance] logoutAllUsers];
-                [SFSecurityLockout unlockFailurePostProcessing];
-                [SFSecurityLockout setBiometricState:SFBiometricUnlockUnavailable];
-            }
 
-            [SFSDKEventBuilderHelper createAndStoreEvent:@"passcodeUnlock" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:nil];
-            [strongSelf sendPasscodeFlowCompletedNotification:success];
-        }];
+                [SFSDKEventBuilderHelper createAndStoreEvent:@"passcodeUnlock" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:nil];
+                [strongSelf sendPasscodeFlowCompletedNotification:success];
+            }];
+        } else {
+            // Clear the SFSecurityLockout passcode state, as it's no longer valid.
+            [SFSecurityLockout clearAllPasscodeState];
+            [[SFUserAccountManager sharedInstance] logoutAllUsers];
+            [SFSecurityLockout unlockFailurePostProcessing];
+            [SFSecurityLockout setBiometricState:SFBiometricUnlockUnavailable];
+            [SFSecurityLockout setPasscodeViewController:nil];
+        }
     }
 }
 

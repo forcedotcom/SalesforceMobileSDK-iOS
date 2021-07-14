@@ -1628,7 +1628,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             }
         }];
     }
-    // [self resetAuthentication:authSession];
+    [self resetAuthentication:authSession];
 }
 
 - (void)resetAuthentication {

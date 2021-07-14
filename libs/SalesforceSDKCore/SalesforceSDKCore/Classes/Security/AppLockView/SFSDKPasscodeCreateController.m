@@ -213,6 +213,7 @@ static CGFloat      const kSFViewBorderWidth                   = 0.5f;
                 [self.passcodeTextView clearPasscode];
                 [self.passcodeTextView refreshView];
                 [self.passcodeInstructionsLabel setText:[SFSDKResourceUtils localizedString:@"passcodesDoNotMatchError"]];
+                [self layoutSubviews];
                 if (UIAccessibilityIsVoiceOverRunning()) {
                     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.passcodeInstructionsLabel.text);
                 }
