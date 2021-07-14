@@ -1,4 +1,4 @@
 Documentation set was installed to Xcode!
 
 Path: /Users/wmathurin/Library/Developer/Shared/Documentation/DocSets/com.salesforce.MobileSync.docset
-Time: 2021-05-20 19:22:51 +0000
+Time: 2021-07-14 16:25:28 +0000

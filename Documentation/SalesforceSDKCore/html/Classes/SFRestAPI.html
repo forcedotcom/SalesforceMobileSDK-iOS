@@ -234,6 +234,11 @@
 See the <a href="http://www.salesforce.com/us/developer/docs/api_rest/index.htm">Force.com REST API Developer&rsquo;s Guide</a>
 for more information regarding the Force.com REST API.</p>
 
+<p>We declare here a set of interfaces that are meant to be used by code running internally
+to SFRestAPI or close &ldquo;friend&rdquo; classes such as unit test helpers. You SHOULD NOT access these interfaces
+from application code.  If you find yourself accessing properties or calling methods
+declared in this file from app code, you&rsquo;re probably doing something wrong.</p>
+
 <p>This category assists with creating SOQL and SOSL queries.</p>
 
 <p>Example SOQL usage:</p>
@@ -250,11 +255,6 @@ limit:10];</p>
 [SFRestAPI SOSLSearchWithSearchTerm:@&ldquo;all of these will be escaped:~{]&rdquo;
                               objectScope:[NSDictionary dictionaryWithObject:@&ldquo;WHERE isactive=true ORDER BY lastname asc limit 5&rdquo;
                                                                       forKey:@&ldquo;User&rdquo;]];</p>
-
-<p>We declare here a set of interfaces that are meant to be used by code running internally
-to SFRestAPI or close &ldquo;friend&rdquo; classes such as unit test helpers. You SHOULD NOT access these interfaces
-from application code.  If you find yourself accessing properties or calling methods
-declared in this file from app code, you&rsquo;re probably doing something wrong.</p>
 					</div>
 					
 					
@@ -2334,13 +2334,13 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 						</div>
 						
 
-						<a title="Blocks Methods" name="task_Blocks Methods"></a>
-						<h2 class="task-title">Blocks Methods</h2>
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/errorWithDescription:" title="errorWithDescription:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/errorWithDescription:">+&nbsp;errorWithDescription:</a></code>
+	<a name="//api/name/activeRequests" title="activeRequests"></a>
+	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2350,26 +2350,14 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates an error object with the given description.</p>
+				<p>Active requests property.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (NSError *)errorWithDescription:(NSString *)<em>description</em></code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</code></div>
 
 		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>description</code></th>
-						<td><p>Description</p></td>
-					</tr>
-				
-				</table>
-			</div>
 			
 
 			
@@ -2385,15 +2373,63 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
 			</div>
 			
 			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/sendRequest:failureBlock:successBlock:" title="sendRequest:failureBlock:successBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sendRequest:failureBlock:successBlock:">&ndash;&nbsp;sendRequest:failureBlock:successBlock:</a></code>
+	<a name="//api/name/requiresAuthentication" title="requiresAuthentication"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requiresAuthentication">&nbsp;&nbsp;requiresAuthentication</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL requiresAuthentication</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/instrumentationDelegateInternal" title="instrumentationDelegateInternal"></a>
+	<h3 class="method-title"><code><a href="#//api/name/instrumentationDelegateInternal">&nbsp;&nbsp;instrumentationDelegateInternal</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)<em>request</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2403,12 +2439,12 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
+				<p>Force a request to timeout: for testing only!</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)sendRequest:(SFRestRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestResponseBlock)<em>successBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)<em>req</em></code></div>
 
 		    
 			
@@ -2417,24 +2453,19 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>request</code></th>
-						<td><p><a href="../Classes/SFRestRequest.html">SFRestRequest</a> to be sent.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failureBlock</code></th>
-						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>successBlock</code></th>
-						<td><p>Block to be executed when the request successfully completes.</p></td>
+						<th scope="row" class="argument-name"><code>req</code></th>
+						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
 					</tr>
 				
 				</table>
 			</div>
 			
 
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
+			</div>
 			
 
 			
@@ -2448,15 +2479,15 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 			
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
 			</div>
 			
 			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/sendCompositeRequest:failureBlock:successBlock:" title="sendCompositeRequest:failureBlock:successBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sendCompositeRequest:failureBlock:successBlock:">&ndash;&nbsp;sendCompositeRequest:failureBlock:successBlock:</a></code>
+	<a name="//api/name/computeAPIVersion:" title="computeAPIVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/computeAPIVersion:">&ndash;&nbsp;computeAPIVersion:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2464,62 +2495,15 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
-			</div>
-			
-		    
 
-			<div class="method-subsection method-declaration"><code>- (void)sendCompositeRequest:(SFSDKCompositeRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestCompositeResponseBlock)<em>successBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)<em>apiVersion</em></code></div>
 
 		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>request</code></th>
-						<td><p>Composite request to be sent.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failureBlock</code></th>
-						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>successBlock</code></th>
-						<td><p>Block to be executed when the request successfully completes.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/sendBatchRequest:failureBlock:successBlock:" title="sendBatchRequest:failureBlock:successBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sendBatchRequest:failureBlock:successBlock:">&ndash;&nbsp;sendBatchRequest:failureBlock:successBlock:</a></code>
+	<a name="//api/name/removeSharedInstanceWithUser:" title="removeSharedInstanceWithUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceWithUser:">+&nbsp;removeSharedInstanceWithUser:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -2527,57 +2511,10 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
-			</div>
-			
-		    
 
-			<div class="method-subsection method-declaration"><code>- (void)sendBatchRequest:(SFSDKBatchRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestBatchResponseBlock)<em>successBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)<em>user</em></code></div>
 
 		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>request</code></th>
-						<td><p>Batch request to be sent.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failureBlock</code></th>
-						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>successBlock</code></th>
-						<td><p>Block to be executed when the request successfully completes.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div>
@@ -2993,6 +2930,393 @@ or NSNull to not specify any fields/clauses for that object</li>
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
 				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Blocks Methods" name="task_Blocks Methods"></a>
+						<h2 class="task-title">Blocks Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/errorWithDescription:" title="errorWithDescription:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/errorWithDescription:">+&nbsp;errorWithDescription:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates an error object with the given description.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSError *)errorWithDescription:(NSString *)<em>description</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>description</code></th>
+						<td><p>Description</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendRequest:failureBlock:successBlock:" title="sendRequest:failureBlock:successBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendRequest:failureBlock:successBlock:">&ndash;&nbsp;sendRequest:failureBlock:successBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendRequest:(SFRestRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestResponseBlock)<em>successBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p><a href="../Classes/SFRestRequest.html">SFRestRequest</a> to be sent.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>successBlock</code></th>
+						<td><p>Block to be executed when the request successfully completes.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendCompositeRequest:failureBlock:successBlock:" title="sendCompositeRequest:failureBlock:successBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendCompositeRequest:failureBlock:successBlock:">&ndash;&nbsp;sendCompositeRequest:failureBlock:successBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendCompositeRequest:(SFSDKCompositeRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestCompositeResponseBlock)<em>successBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>Composite request to be sent.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>successBlock</code></th>
+						<td><p>Block to be executed when the request successfully completes.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendBatchRequest:failureBlock:successBlock:" title="sendBatchRequest:failureBlock:successBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendBatchRequest:failureBlock:successBlock:">&ndash;&nbsp;sendBatchRequest:failureBlock:successBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendBatchRequest:(SFSDKBatchRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestBatchResponseBlock)<em>successBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>Batch request to be sent.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>successBlock</code></th>
+						<td><p>Block to be executed when the request successfully completes.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Notifications Methods" name="task_Notifications Methods"></a>
+						<h2 class="task-title">Notifications Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/requestForNotificationsStatus:" title="requestForNotificationsStatus:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForNotificationsStatus:">&ndash;&nbsp;requestForNotificationsStatus:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a request to fetch the status of notifications, including unread and unseen count.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForNotification:apiVersion:" title="requestForNotification:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForNotification:apiVersion:">&ndash;&nbsp;requestForNotification:apiVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a request to fetch the given notification.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotification:(NSString *)<em>notificationId</em> apiVersion:(NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>notificationId</code></th>
+						<td><p>ID of notification to fetch.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
 			</div>
 			
 			
@@ -3860,330 +4184,6 @@ create a new file at version 1.</p>
 </div>
 						</div>
 						
-
-						<a title="Notifications Methods" name="task_Notifications Methods"></a>
-						<h2 class="task-title">Notifications Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/requestForNotificationsStatus:" title="requestForNotificationsStatus:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForNotificationsStatus:">&ndash;&nbsp;requestForNotificationsStatus:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns a request to fetch the status of notifications, including unread and unseen count.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)<em>apiVersion</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>apiVersion</code></th>
-						<td><p>API version.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection see-also-section">
-				<h4 class="method-subtitle">See Also</h4>
-				<ul>
-					
-					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm</a></p></code></li>
-					
-				</ul>
-			</div>
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForNotification:apiVersion:" title="requestForNotification:apiVersion:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForNotification:apiVersion:">&ndash;&nbsp;requestForNotification:apiVersion:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns a request to fetch the given notification.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotification:(NSString *)<em>notificationId</em> apiVersion:(NSString *)<em>apiVersion</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>notificationId</code></th>
-						<td><p>ID of notification to fetch.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>apiVersion</code></th>
-						<td><p>API version.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection see-also-section">
-				<h4 class="method-subtitle">See Also</h4>
-				<ul>
-					
-					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm</a></p></code></li>
-					
-				</ul>
-			</div>
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="Extension Methods" name="task_Extension Methods"></a>
-						<h2 class="task-title">Extension Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/activeRequests" title="activeRequests"></a>
-	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Active requests property.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requiresAuthentication" title="requiresAuthentication"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requiresAuthentication">&nbsp;&nbsp;requiresAuthentication</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL requiresAuthentication</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/instrumentationDelegateInternal" title="instrumentationDelegateInternal"></a>
-	<h3 class="method-title"><code><a href="#//api/name/instrumentationDelegateInternal">&nbsp;&nbsp;instrumentationDelegateInternal</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)<em>request</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Force a request to timeout: for testing only!</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)<em>req</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>req</code></th>
-						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/computeAPIVersion:" title="computeAPIVersion:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/computeAPIVersion:">&ndash;&nbsp;computeAPIVersion:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)<em>apiVersion</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeSharedInstanceWithUser:" title="removeSharedInstanceWithUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceWithUser:">+&nbsp;removeSharedInstanceWithUser:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)<em>user</em></code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
 					</div>
 					
 					
@@ -4196,7 +4196,7 @@ create a new file at version 1.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2021 Salesforce.com. All rights reserved. Updated: 2021-05-20</p>
+						<p class="copyright">Copyright &copy; 2021 Salesforce.com. All rights reserved. Updated: 2021-07-14</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
