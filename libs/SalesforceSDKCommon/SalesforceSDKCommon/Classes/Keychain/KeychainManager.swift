@@ -33,17 +33,15 @@ internal protocol KeychainItemQueryable {
 
 /// Adds kSecClassGenericPassword to the queryable
 internal struct GenericPasswordItemQuery: KeychainItemQueryable {
-    
+
     let service: String
     let account: String?
     let accessGroup: String?
-    let accessibleAttribute: CFString
-    
+
     var query: [String: Any] {
         var query: [String: Any] = [String(kSecClass): String(kSecClassGenericPassword),
-                                    String(kSecAttrService): service,
-                                    String(kSecAttrAccessible): accessibleAttribute]
-        
+                                    String(kSecAttrService): service]
+
         #if !targetEnvironment(simulator)
         if let accessGroup = accessGroup {
             query[String(kSecAttrAccessGroup)] = accessGroup
@@ -52,23 +50,25 @@ internal struct GenericPasswordItemQuery: KeychainItemQueryable {
         if let account = account {
             query[String(kSecAttrAccount)] = account
         }
-        
+
         return query
     }
-    
+
 }
 
 internal class KeychainItemManager: NSObject {
     private let secureStoreQueryable: KeychainItemQueryable
     static let errorDomain = "com.salesforce.security.keychainException"
     static let tag = "com.salesforce.mobilesdk"
+
+    let accessibleAttribute: CFString
     
     /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain item manager
     /// for kSecClassGenericPassword operations
     convenience init(service: String, account: String?) {
         self.init(service: service, account: account, accessibilityAttribute: kSecAttrAccessibleWhenUnlockedThisDeviceOnly)
     }
-    
+
     /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain item manager
     /// - Parameters:
     ///   - service: Service name for keychain item
@@ -77,43 +77,42 @@ internal class KeychainItemManager: NSObject {
     init(service: String, account: String?, accessibilityAttribute: CFString) {
         self.secureStoreQueryable = GenericPasswordItemQuery(service: service,
                                                              account: account,
-                                                             accessGroup: nil,
-                                                             accessibleAttribute: accessibilityAttribute)
+                                                             accessGroup: nil)
+        self.accessibleAttribute = accessibilityAttribute
     }
-    
+
     /// Set a value into the keychain for a given identifier.
     /// - Parameters:
     ///   - data: Value to store
     /// - KeychainResult: success or error.
     func setValue(_ data: Data) -> KeychainResult {
         var query = self.secureStoreQueryable.query
-        
         var status = SecItemCopyMatching(query as CFDictionary, nil)
-        
         guard status == errSecSuccess || status == errSecItemNotFound else {
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
         }
-        
+
         if status == errSecItemNotFound {
             query[String(kSecValueData)] = data
             query[String(kSecAttrCreator)] = KeychainItemManager.tag
             status = SecItemAdd(query as CFDictionary, nil)
         } else {
             let attributesToUpdate: [String: Any] = [String(kSecValueData): data,
+                                                     String(kSecAttrAccessible): self.accessibleAttribute,
                                                      String(kSecAttrCreator): KeychainItemManager.tag]
-            
+
             status = SecItemUpdate(query as CFDictionary,
                                    attributesToUpdate as CFDictionary)
         }
-        
+
         //failure to add or update
         if status != errSecSuccess {
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
         }
-        
+
         return self.getValue()
     }
-    
+
     /// Set a value into the keychain for a given identifier.
     /// - Parameters:
     ///   - data: Value to store
@@ -122,55 +121,56 @@ internal class KeychainItemManager: NSObject {
         var query = self.secureStoreQueryable.query
         query[String(kSecAttrCreator)] = KeychainItemManager.tag
         var status = SecItemCopyMatching(query as CFDictionary, nil)
-        
+
         guard status == errSecSuccess || status == errSecItemNotFound else {
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
         }
-        
+
         if status == errSecItemNotFound {
+            query[String(kSecAttrAccessible)] = self.accessibleAttribute
             status = SecItemAdd(query as CFDictionary, nil)
         }
-        
+
         //failure to add or update
         if status != errSecSuccess {
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
         }
-        
+
         return self.getValue()
     }
-    
+
     /// Get a value into the keychain for a given identifier.
     /// - Returns: KeychainResult retrieved for the given identifier
     func getValue() -> KeychainResult {
-        
+
         let additions: [String: Any] = [String(kSecMatchLimit): kSecMatchLimitOne,
                                         String(kSecReturnAttributes): kCFBooleanTrue as Any,
                                         String(kSecReturnData): kCFBooleanTrue as Any]
-        
+
         var query = secureStoreQueryable.query
         query.merge(additions) { (current, _) in current }
-        
+
         var queryResult: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
-        
+
         guard errSecSuccess == status else {
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
         }
-        
+
         guard let item = queryResult as? [String: Any],
               let resultData = item[String(kSecValueData)] as? Data else {
             return KeychainResult(data: nil, status: status)
         }
         return KeychainResult(data: resultData, status: status)
-        
+
     }
-    
+
     /// Remove value for a given identifier.
     /// - Parameter identifier: the key to use.
     /// - Throws: KeyStoreError wich wraps the underlying error message
     func removeValue() -> KeychainResult {
         let query = secureStoreQueryable.query
-        
+
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess || status == errSecItemNotFound else {
             let error = KeychainItemManager.mapError(from: status)
@@ -178,13 +178,13 @@ internal class KeychainItemManager: NSObject {
         }
         return KeychainResult(data: nil, status: status)
     }
-    
+
     fileprivate static func mapError(from status: OSStatus) -> NSError {
         let message = SecCopyErrorMessageString(status, nil) as String? ?? NSLocalizedString("Unhandled Error", comment: "")
         let error = NSError(domain: KeychainItemManager.errorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: message, "com.salesforce.security.keychainException.errorCode": status])
         return error
     }
-    
+
     fileprivate static func mapError(message: String) -> NSError {
         let error = NSError(domain: KeychainItemManager.errorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: message])
         return error
@@ -197,14 +197,14 @@ public class KeychainResult: NSObject {
     @objc public let status: OSStatus
     @objc public let data: Data?
     @objc public let error: NSError?
-    
+
     internal init(data: Data?, status: OSStatus) {
         self.success = true
         self.status = status
         self.data = data
         self.error = nil
     }
-    
+
     internal init(error: NSError, status: OSStatus) {
         self.success = false
         self.status = status
@@ -215,36 +215,32 @@ public class KeychainResult: NSObject {
 
 /// KeychainItemAccessibility  used as the kSecAttrAccessible Value Constants
 @objc public enum KeychainItemAccessibility: Int {
-    
+
     case whenUnlocked
-    
     case whenUnlockedThisDeviceOnly
-    
     case afterFirstUnlock
-    
     case afterFirstUnlockThisDeviceOnly
-    
     case whenPasscodeSetThisDeviceOnly
-    
+
     var asCFString: CFString {
         switch self {
         case .whenUnlocked:
             return kSecAttrAccessibleWhenUnlocked
-            
+
         case .whenUnlockedThisDeviceOnly:
             return kSecAttrAccessibleWhenUnlockedThisDeviceOnly
-            
+
         case .afterFirstUnlock:
             return kSecAttrAccessibleAfterFirstUnlock
-            
+
         case .afterFirstUnlockThisDeviceOnly:
             return kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-            
+
         case .whenPasscodeSetThisDeviceOnly:
             return kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
         }
     }
-    
+
     var asString: String {
         return String(self.asCFString)
     }
@@ -252,18 +248,18 @@ public class KeychainResult: NSObject {
 
 @objc(SFSDKKeychainHelper)
 public class KeychainHelper: NSObject {
-   
+
     private static let upgrade: Void = {
         _ = KeychainUpgradeManager.init().upgradeManagedKeys()
     }()
-    
+
     private static var keychainAccessibleAttribute: CFString = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
-    
+
     //pre 9.1 keys are updated to have the creator tag.
     private static func upgradeIfRequired() {
         self.upgrade
     }
-    
+
     /// Read a value from the keychain.
     /// - Parameters:
     ///   - service: Identifier to use for keychain service key.
@@ -276,7 +272,7 @@ public class KeychainHelper: NSObject {
                                                   accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
         return keychainManager.getValue()
     }
-    
+
     /// Create an item in the keychain if not present.
     /// - Parameters:
     ///   - service: Identifier to use for keychain service key.
@@ -293,7 +289,7 @@ public class KeychainHelper: NSObject {
         }
         return keychainResult
     }
-    
+
     /// Write or Update an item in the keychain if not present.
     /// - Parameters:
     ///   - service: Identifier to use for keychain service key.
@@ -307,7 +303,7 @@ public class KeychainHelper: NSObject {
                                                   accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
         return keychainManager.setValue(data)
     }
-    
+
     /// If an item is found remove it and then add an empty entry i.e. data is nil.
     /// - Parameters:
     ///   - service: Identifier to use for keychain service key.
@@ -324,7 +320,7 @@ public class KeychainHelper: NSObject {
         }
         return keychainResult
     }
-    
+
     /// Remove an item from the keychain.
     /// - Parameters:
     ///   - service: Identifier to use for keychain service key.
@@ -341,7 +337,7 @@ public class KeychainHelper: NSObject {
         }
         return keychainResult
     }
-    
+
     /// Remove all keychain items created by the mobile sdk.
     /// - Returns: KeychainResult
     @objc public class func removeAll() -> KeychainResult {
@@ -349,93 +345,95 @@ public class KeychainHelper: NSObject {
         let deleteQuery: [String: Any] = [
             String(kSecClass): kSecClassGenericPassword,
             String(kSecAttrCreator): String(KeychainItemManager.tag)]
-        
+
         let deleteStatus =  SecItemDelete(deleteQuery as CFDictionary)
         if deleteStatus == errSecSuccess {
             return KeychainResult(data: nil, status: deleteStatus)
         }
-        
+
         if deleteStatus == errSecItemNotFound {
             return KeychainResult(error: KeychainItemManager.mapError(from: deleteStatus), status: deleteStatus)
         }
         return KeychainResult(data: nil, status: deleteStatus)
 
     }
-    
-    
+
     /// Use this to relax or change the accessibility attribute for keychain items.
     /// - Parameter secAttrAccessible: Should be the accessibility attribute as defined by
     /// - Returns: KeychainResult
     @objc public class func setAccessibleAttribute(_ secAttrAccessible: KeychainItemAccessibility) -> KeychainResult {
-        self.upgradeIfRequired()
+
         let accessibleAttribute = secAttrAccessible.asCFString
         if accessibleAttribute == keychainAccessibleAttribute {
             SalesforceLogger.log(KeychainHelper.self,level: .debug, message: "Attempting to update accessibility attribute for mobilesdk keychain items to the same level, will result in a noop")
             return KeychainResult(data: nil, status: errSecSuccess)
         }
         keychainAccessibleAttribute = accessibleAttribute
+        self.upgradeIfRequired()
         let query: [String: Any] = [
             String(kSecClass): kSecClassGenericPassword,
             String(kSecMatchLimit): kSecMatchLimitAll,
-            String(kSecReturnAttributes): kCFBooleanTrue!,
-            String(kSecAttrCreator): String(KeychainItemManager.tag)]
-        
+            String(kSecReturnAttributes): kCFBooleanTrue!]
+
         let updateQuery: [String: Any] = [
-            String(kSecClass): kSecClassGenericPassword,
-            String(kSecAttrCreator): String(KeychainItemManager.tag)]
-        
+            String(kSecClass): kSecClassGenericPassword]
+
         var queryResult: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
-       
+
         if status == errSecItemNotFound {
             SalesforceLogger.log(KeychainHelper.self,level: .debug, message: "Attempt to update accessibility attribute for mobilesdk items, no items found")
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
         }
-        
+
         if status != errSecSuccess {
             SalesforceLogger.log(KeychainHelper.self,level: .error, message: "Attempt to update accessibility attribute for mobilesdk items failed!")
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
         }
-        
-        
+
+
         if (queryResult as? [[String : Any]]) != nil {
             SalesforceLogger.log(KeychainHelper.self,level: .info, message: "Retrieved keychain items, will now update!")
             let kAttributes: [String: Any] = [String(kSecAttrAccessible): keychainAccessibleAttribute]
             let status = SecItemUpdate(updateQuery as CFDictionary,
                                        kAttributes as CFDictionary)
-            
+
             if status != errSecSuccess {
                 SalesforceLogger.log(KeychainHelper.self,level: .error, message: "Attempt to update accessibility attribute for mobilesdk items failed!")
                 return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
-          
+
             }
             SalesforceLogger.log(KeychainHelper.self,level: .info, message: "Attempt to update accessibility attribute for mobilesdk items succeeded!")
         }
-        
+
         var queryUpdateResult: AnyObject?
         let readStatus = SecItemCopyMatching(query as CFDictionary, &queryUpdateResult)
         if readStatus != errSecSuccess {
             SalesforceLogger.log(KeychainHelper.self,level: .error, message: "Attempt to update accessibility attribute for mobilesdk items failed!")
             return KeychainResult(error: KeychainItemManager.mapError(from: readStatus), status: readStatus)
         }
-        
+
         return KeychainResult(data: nil, status: readStatus)
     }
-    
+
     //Pre 9.1 Upgrade Handling
     internal class KeychainUpgradeManager {
+
+        static let baseAppIdentifierKey = "com.salesforce.security.baseappid"
         let managedKeys = ["com.salesforce.security.passcode",
                            "com.salesforce.security.IV",
-                           "com.salesforce.security.baseappid",
+                           baseAppIdentifierKey,
                            "com.salesforce.security.baseappid.sim",
                            "com.salesforce.oauth.access",
                            "com.salesforce.oauth.refresh",
-                           "com.salesforce.keystore.generatedKeystoreKeychainId",
-                           "com.salesforce.keystore.generatedKeystoreEncryptionKeyId",
                            "com.salesforce.security.lockoutTime",
                            "com.salesforce.security.isLocked",
                            "com.salesforce.security.passcode.pbkdf2.verify"]
-        
+        let dynamicKeys = [ "com.salesforce.keystore.generatedKeystoreKeychainId",
+        "com.salesforce.keystore.generatedKeystoreEncryptionKeyId"]
+
+        var baseAppIdentifierValue: String?
+
         func upgradeManagedKeys() -> Bool {
             var result = true
             SalesforceLogger.log(KeychainUpgradeManager.self, level: .info, message: "Attempting to upgrade keychain keys.")
@@ -447,15 +445,23 @@ public class KeychainHelper: NSObject {
                 SalesforceLogger.log(KeychainUpgradeManager.self, level: .error,
                                      message: "Attempting to upgrade keychain keys failed.")
             }
+
+            if let baseAppIdentifier = getBaseIdentifierValue() {
+                SalesforceLogger.log(KeychainUpgradeManager.self, level: .info,
+                                     message: "Base app identifer retrieved, upgrading dynamic keys.")
+                let dynamicKeys = dynamicKeys.map { "\($0)_\(baseAppIdentifier)" }
+                dynamicKeys.forEach {  result = self.upgradeManagedKey(identifier: $0) && result }
+            }
+
             return result
         }
-        
+
         func upgradeManagedKey(identifier: String) -> Bool {
             let query: [String: Any] = [String(kSecMatchLimit): kSecMatchLimitAll,
                                         String(kSecReturnAttributes): kCFBooleanTrue!,
                                         String(kSecClass): String(kSecClassGenericPassword),
                                         String(kSecAttrService): identifier]
-            
+
             var queryResult: AnyObject?
             let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
             var result = true
@@ -470,7 +476,7 @@ public class KeychainHelper: NSObject {
             }
             return result
         }
-        
+
         //add the creator tag into the attributes for pre 9.1 keychain items
         func updateKeyAttributeWithCreator(attributes: [String: Any], identifier: String) -> Bool {
             if attributes[String(kSecAttrCreator)] != nil {
@@ -483,17 +489,42 @@ public class KeychainHelper: NSObject {
             if let account = attributes[String(kSecAttrAccount)] as? String, account.count > 0 {
                 query[String(kSecAttrAccount)] = account
             }
-            
+
             let kAttributes: [String: Any] = [String(kSecAttrCreator): KeychainItemManager.tag]
             let status = SecItemUpdate(query as CFDictionary,
                                        kAttributes as CFDictionary)
-            
+
             if status != errSecSuccess {
                 SalesforceLogger.log(KeychainUpgradeManager.self, level: .error, message: "Attempt to upgrade keychain key \(identifier) failed!")
                 return false
             }
             return true
         }
+
+        func  getBaseIdentifierValue() -> String? {
+
+            let query: [String: Any] = [String(kSecClass): String(kSecClassGenericPassword),
+                            String(kSecAttrService): KeychainUpgradeManager.baseAppIdentifierKey,
+                            String(kSecMatchLimit): kSecMatchLimitOne,
+                            String(kSecReturnAttributes): kCFBooleanTrue as Any,
+                            String(kSecReturnData): kCFBooleanTrue as Any]
+
+
+            var queryResult: CFTypeRef?
+            let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
+
+
+            guard errSecSuccess == status else {
+                return nil
+            }
+            guard let item = queryResult as? [String: Any],
+                  let resultData = item[String(kSecValueData)] as? Data,
+                  let resultString = String(data: resultData, encoding: .utf8 ) else {
+                return nil
+            }
+
+            return resultString
+
+        }
     }
-    
 }
