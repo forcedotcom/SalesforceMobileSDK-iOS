@@ -449,8 +449,8 @@ public class KeychainHelper: NSObject {
             if let baseAppIdentifier = getBaseIdentifierValue() {
                 SalesforceLogger.log(KeychainUpgradeManager.self, level: .info,
                                      message: "Base app identifer retrieved, upgrading dynamic keys.")
-                let dynamicKeys = dynamicKeys.map { "\($0)_\(baseAppIdentifier)" }
-                dynamicKeys.forEach {  result = self.upgradeManagedKey(identifier: $0) && result }
+                let keys = dynamicKeys.map { "\($0)_\(baseAppIdentifier)" }
+                keys.forEach {  result = self.upgradeManagedKey(identifier: $0) && result }
             }
 
             return result
