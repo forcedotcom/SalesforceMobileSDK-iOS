@@ -386,7 +386,6 @@ public class KeychainHelper: NSObject {
             return KeychainResult.init(data: Data(), status: errSecSuccess)
         }
         
-        
         CachedWrapper.clearAllCaches()
         let accessibleAttribute = secAttrAccessible.asCFString
         if accessibleAttribute == keychainAccessibleAttribute {
