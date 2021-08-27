@@ -20,6 +20,19 @@
 		</dict>
 		<dict>
 			<key>LibraryIdentifier</key>
+			<string>ios-arm64_arm64e</string>
+			<key>LibraryPath</key>
+			<string>libsqlcipher-iphoneos.a</string>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>arm64</string>
+				<string>arm64e</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>ios</string>
+		</dict>
+		<dict>
+			<key>LibraryIdentifier</key>
 			<string>ios-arm64_x86_64-maccatalyst</string>
 			<key>LibraryPath</key>
 			<string>libsqlcipher-catalyst.a</string>
@@ -32,19 +45,6 @@
 			<string>ios</string>
 			<key>SupportedPlatformVariant</key>
 			<string>maccatalyst</string>
-		</dict>
-		<dict>
-			<key>LibraryIdentifier</key>
-			<string>ios-arm64_arm64e</string>
-			<key>LibraryPath</key>
-			<string>libsqlcipher-iphoneos.a</string>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-				<string>arm64e</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>ios</string>
 		</dict>
 	</array>
 	<key>CFBundlePackageType</key>
