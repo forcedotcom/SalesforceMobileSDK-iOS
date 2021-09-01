@@ -69,6 +69,13 @@
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self configureInitialBarButtonItems];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+  
+    // To address iOS 15 spacing issue
+    // See https://developer.apple.com/forums/thread/684706
+    if (@available(iOS 15.0, *)) {
+        [self.tableView setSectionHeaderTopPadding:0.0f];
+    }
+    
     if (self.isNewContact) {
         [self editContact];
     }
