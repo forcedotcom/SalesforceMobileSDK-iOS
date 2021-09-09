@@ -72,7 +72,7 @@
   
     // To address iOS 15 spacing issue
     // See https://developer.apple.com/forums/thread/684706
-    #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 150000
+    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 150000
     if (@available(iOS 15.0, *)) {
         [self.tableView setSectionHeaderTopPadding:0.0f];
     }
