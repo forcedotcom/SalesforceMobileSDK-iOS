@@ -265,10 +265,14 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         if (error) {
             NSURL *requestUrl = [request URL];
             NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
+            
+            NSUInteger code = [SFSDKOAuth2 sfErrorCodeFromError:error.code];
+            endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:nil]];
+            
             if (error.code == NSURLErrorTimedOut) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"Refresh attempt timed out after %f seconds.", endpointReq.timeout];
-                endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorTimeout userInfo:nil]];
             }
+            
             [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (completionBlock) {
@@ -455,6 +459,22 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         d = [NSDate dateWithTimeIntervalSince1970:unixTimeInSecs];
     }
     return d;
+}
+
++ (NSUInteger)sfErrorCodeFromError:(NSInteger)code {
+   
+    switch (code) {
+        case NSURLErrorTimedOut:
+            return kSFOAuthErrorTimeout;
+            break;
+            
+        case NSURLErrorCancelled:
+            return kSFOAuthErrorRequestCancelled;
+            break;
+        
+        default:
+            return kSFOAuthErrorRefreshFailed;
+    }
 }
 
 @end
