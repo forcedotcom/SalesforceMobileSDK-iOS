@@ -69,16 +69,16 @@ static NSMutableDictionary *analyticsManagerList = nil;
     #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     SFEncryptionKey *legacyKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel autoCreate:YES];
     #pragma clang diagnostic pop
-    
-    NSError *error = nil;
-    NSData *newKey = [SFSDKKeyGenerator encryptionKeyFor:kEventStoreEncryptionKeyLabel error:&error];
-    if (error) {
-        [SFSDKCoreLogger e:[self class] format:@"Error getting encryption key: %@", error.localizedDescription];
-        return;
-    }
 
     NSUserDefaults *standardUserDefaults = [NSUserDefaults msdkUserDefaults];
     if (![standardUserDefaults boolForKey:kEventStoreGCMEncryptedKey]) {
+        NSError *error = nil;
+        NSData *newKey = [SFSDKKeyGenerator encryptionKeyFor:kEventStoreEncryptionKeyLabel error:&error];
+        if (error) {
+            [SFSDKCoreLogger e:[self class] format:@"Error getting encryption key: %@", error.localizedDescription];
+            return;
+        }
+        
         NSString *rootPath = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSDocumentDirectory components:nil];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSDirectoryEnumerator *enumerator = [fileManager enumeratorAtURL:[NSURL URLWithString:rootPath] includingPropertiesForKeys:nil options:0 errorHandler:nil];
@@ -99,6 +99,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
             }
         }
         [standardUserDefaults setBool:YES forKey:kEventStoreGCMEncryptedKey];
+        [standardUserDefaults synchronize];
     }
 }
 

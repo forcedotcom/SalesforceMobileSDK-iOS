@@ -30,9 +30,10 @@ static NSString * const kSFOAuthArchiveVersion         = @"1.0.3"; // internal v
 static NSString * const kSFOAuthAccessGroup            = @"com.salesforce.oauth";
 static NSString * const kSFOAuthProtocolHttps          = @"https";
 
-NSString * const kSFOAuthServiceAccess          = @"com.salesforce.oauth.access";
-NSString * const kSFOAuthServiceRefresh         = @"com.salesforce.oauth.refresh";
-NSString * const kSFOAuthServiceActivation      = @"com.salesforce.oauth.activation";
+NSString * const kSFOAuthServiceAccess          = @"com.salesforce.mobilesdk.oauth.access";
+NSString * const kSFOAuthServiceRefresh         = @"com.salesforce.mobilesdk.oauth.refresh";
+NSString * const kSFOAuthServiceLegacyAccess    = @"com.salesforce.oauth.access";
+NSString * const kSFOAuthServiceLegacyRefresh   = @"com.salesforce.oauth.refresh";
 
 static NSString * const kSFOAuthDefaultDomain          = @"login.salesforce.com";
 static NSString * const kSFOAuthClusterImplementationKey = @"SFOAuthClusterImplementation";

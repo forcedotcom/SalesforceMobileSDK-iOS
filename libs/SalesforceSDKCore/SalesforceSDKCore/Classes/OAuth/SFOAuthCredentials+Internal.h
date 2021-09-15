@@ -33,17 +33,17 @@ typedef NS_ENUM(NSUInteger, SFOAuthCredsEncryptionType) {
     kSFOAuthCredsEncryptionTypeKeyStore
 };
 
-extern NSString * _Nonnull const kSFOAuthEncryptionTypeKey;
+extern NSString * _Nonnull const kSFOAuthServiceLegacyAccess;
+extern NSString * _Nonnull const kSFOAuthServiceLegacyRefresh;
 extern NSString * _Nonnull const kSFOAuthServiceAccess;
 extern NSString * _Nonnull const kSFOAuthServiceRefresh;
-extern NSString * _Nonnull const kSFOAuthServiceActivation;
 
 extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 
 @interface SFOAuthCredentials ()
 @property (nonatomic, readwrite, nullable) NSString *protocol;
 @property (nonatomic, readwrite, nullable) NSString *domain;
-@property (nonatomic,readwrite, nonnull) NSString *identifier;
+@property (nonatomic, readwrite, nonnull) NSString *identifier;
 @property (nonatomic, readwrite, nullable) NSString *clientId;
 @property (nonatomic, readwrite, nullable) NSString *redirectUri;
 @property (nonatomic, readwrite, nullable) NSString *jwt;

@@ -24,7 +24,10 @@
 
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import <SalesforceSDKCommon/SalesforceSDKCommon.h>
 #import "SFOAuthCredentials+Internal.h"
+#import "SFSDKSalesforceSDKUpgradeManager.h"
+#import "SFUserAccount+Internal.h"
 
 @interface SFUserAccount (Testing)
 
@@ -33,39 +36,47 @@
 
 @end
 
-static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
-static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
-
 @interface SFUserAccountPhotoTests : XCTestCase
 
 @end
 
+static NSString * const kUserId = @"005R0000000DslaIAC";
+static NSString * const kOrgId = @"00D000000000062EAA";
+
 @implementation SFUserAccountPhotoTests
 
-- (void)testPhotoEncryption {
-    SFUserAccount *user = [self createNewUserWithIndex:0];
+- (void)testPhotoUpgrade {
+    SFUserAccount *user = [self createNewUser];
     NSError *error = nil;
     NSString *userPhotoPath = [user photoPathInternal:&error];
+    NSString *oldUserPhotoPath = [userPhotoPath stringByReplacingOccurrencesOfString:kUserId withString:@"005R0000000Dsla"];
     
-    // Write unencrypted file to disk for upgrade scenario
+    // Write AES-CBC encrypted file to disk for upgrade scenario
     // Recreating UIImage from named resource because otherwise resource includes additional metadata that breaks comparison of
     // images as NSData
     UIImage *originalPhoto = [[UIImage alloc] initWithCGImage:[SFSDKResourceUtils imageNamed:@"salesforce-logo"].CGImage];
     NSData *originalPhotoData = UIImagePNGRepresentation(originalPhoto);
-    [originalPhotoData writeToFile:userPhotoPath options:NSDataWritingAtomic error:&error];
+    SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:YES];
+    NSData *originalEncryptedPhotoData = [key encryptData:originalPhotoData];
+    [originalEncryptedPhotoData writeToFile:userPhotoPath options:NSDataWritingAtomic error:&error];
     XCTAssertNil(error);
     
-    // Access photo which should pick up from disk and encrypt it
+    [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kSalesforceSDKManagerVersionKey];
+    [SFSDKSalesforceSDKUpgradeManager upgrade];
+    
+    // Verify photo can be accessed
     UIImage *userPhoto = user.photo;
     XCTAssertNotNil(userPhoto);
     NSData *userPhotoData = UIImagePNGRepresentation(userPhoto);
     XCTAssertNotNil(userPhotoData);
     XCTAssertTrue([userPhotoData isEqualToData:originalPhotoData]);
-    
-    // Check that data on disk is different since it should be encrypted now
+   
+    // Check that data on disk is different since it should be encrypted differently now
     NSData *encryptedPhotoData = [[NSData alloc] initWithContentsOfFile:userPhotoPath];
     XCTAssertNotNil(encryptedPhotoData);
     XCTAssertFalse([encryptedPhotoData isEqualToData:originalPhotoData]);
+    XCTAssertFalse([encryptedPhotoData isEqualToData:originalEncryptedPhotoData]);
+    XCTAssertNil([[NSData alloc] initWithContentsOfFile:oldUserPhotoPath]);
     
     // Check decrypted disk data
     UIImage *decryptedPhoto = [user decryptPhoto:userPhotoPath];
@@ -74,7 +85,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 }
 
 - (void)testPhotoWithCompletionBlock {
-    SFUserAccount *user = [self createNewUserWithIndex:0];
+    SFUserAccount *user = [self createNewUser];
     [self setPhoto:user photo:nil];
     XCTAssertNil(user.photo);
     
@@ -87,7 +98,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 }
 
 - (void)testPhotoWithoutCompletionBlock {
-    SFUserAccount *user = [self createNewUserWithIndex:0];
+    SFUserAccount *user = [self createNewUser];
     [user setPhoto:nil completion:nil];
     [self waitForBlockCondition:^BOOL{
         return user.photo == nil;
@@ -110,13 +121,11 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (SFUserAccount*)createNewUserWithIndex:(NSUInteger)index {
-    XCTAssertTrue(index < 10, @"Supports only index up to 9");
-    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index] clientId:[SFUserAccountManager  sharedInstance].oauthClientId encrypted:YES];
-    SFUserAccount *user =[[SFUserAccount alloc] initWithCredentials:credentials];
-    NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
-    NSString *orgId = [NSString stringWithFormat:kOrgIdFormatString, (unsigned long)index];
-    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
+- (SFUserAccount*)createNewUser {
+    NSString *userID = @"005R0000000DslaIAC";
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)userID] clientId:[SFUserAccountManager sharedInstance].oauthClientId encrypted:YES];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithCredentials:credentials];
+    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", @"00D000000000062EAA", userID]];
     return user;
 }
 

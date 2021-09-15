@@ -37,6 +37,14 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
 static NSString * const kTestAccessToken = @"AccessGranted!";
 static NSString * const kTestRefreshToken = @"HowRefreshing";
 
+@interface SFOAuthKeychainCredentials (Testing)
+
+- (NSString *)refreshTokenWithEncryptionKey:(NSData *)encryptionKey;
+- (NSString *)accessTokenWithEncryptionKey:(NSData *)encryptionKey;
+- (NSData *)encryptionKeyForService:(NSString *)service;
+
+@end
+
 @implementation SalesforceOAuthUnitTests
 
 + (void)setUp
@@ -132,8 +140,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     archiver = nil;
     
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
-    unarchiver.requiresSecureCoding = NO;
-    SFOAuthCredentials * credsOut = [unarchiver decodeObjectForKey:@"creds"];
+    unarchiver.requiresSecureCoding = YES;
+    SFOAuthCredentials *credsOut = [unarchiver decodeObjectOfClass:[SFOAuthCredentials class] forKey:@"creds"];
     unarchiver = nil;
     
     XCTAssertNotNil(credsOut, @"couldn't unarchive credentials");
@@ -297,8 +305,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(ca.identifier, kUserA_Identifier, @"identifier must still match after changing clientId");
 }
 
-- (void)testDefaultTokenEncryption
-{
+- (void)testDefaultTokenEncryption {
     NSString *accessToken = @"AllAccessPass$";
     NSString *refreshToken = @"RefreshFRESHexciting!";
     
@@ -306,14 +313,33 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credentials.accessToken = accessToken;
     credentials.refreshToken = refreshToken;
     
-    NSString *accessTokenVerify = [credentials accessTokenWithSFEncryptionKey:[credentials keyStoreKeyForService:kSFOAuthServiceAccess]];
+   
+    NSString *accessTokenVerify = [credentials accessTokenWithEncryptionKey:[credentials encryptionKeyForService:kSFOAuthServiceAccess]];
     XCTAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should decrypt to the same value.");
-    NSString *refreshTokenVerify = [credentials refreshTokenWithSFEncryptionKey:[credentials keyStoreKeyForService:kSFOAuthServiceRefresh]];
+    NSString *refreshTokenVerify = [credentials refreshTokenWithEncryptionKey:[credentials encryptionKeyForService:kSFOAuthServiceRefresh]];
     XCTAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should decrypt to the same value.");
-    SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
-    XCTAssertEqual(encType, kSFOAuthCredsEncryptionTypeKeyStore, @"Encryption type should be key store.");
     
     [credentials revoke];
+}
+
+- (void)testTokenUpgrade {
+    NSString *accessToken = @"AllAccessPass$";
+    NSString *refreshToken = @"RefreshFRESHexciting!";
+    
+    // Simulate credentials with legacy keys
+    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    [credentials setRefreshToken:refreshToken withSFEncryptionKey:[credentials keyStoreKeyForService:kSFOAuthServiceLegacyRefresh]];
+    [credentials setAccessToken:accessToken withSFEncryptionKey:[credentials keyStoreKeyForService:kSFOAuthServiceLegacyAccess]];
+    
+    // Initialize same credentials, verify tokens are picked up
+    SFOAuthKeychainCredentials *newCredentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    NSString *accessTokenVerify = newCredentials.accessToken;
+    XCTAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should decrypt to the same value.");
+    NSString *refreshTokenVerify = newCredentials.refreshToken;
+    XCTAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should decrypt to the same value.");
+    
+    [credentials revoke];
+    [newCredentials revoke];
 }
 
 @end
