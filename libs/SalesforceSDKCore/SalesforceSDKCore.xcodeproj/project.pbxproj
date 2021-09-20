@@ -101,6 +101,7 @@
 		69B2B4F8261EA6F500AB86C2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B2B4F2261EA6F500AB86C2 /* CoreTelephony.framework */; };
 		69BDD7E926F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 69BDD7E226F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h */; };
 		69BDD7EA26F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD7E826F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m */; };
+		69BDD82C26F86B3600C26D77 /* KeyValueFileStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82626F86B3600C26D77 /* KeyValueFileStoreTests.swift */; };
 		69CEBC7E22F368CF00F16218 /* SFNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */; };
 		69E2FD9E22FB937F008E0AF0 /* SFSDKEncryptedURLCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2FD9622FB937F008E0AF0 /* SFSDKEncryptedURLCache.h */; };
 		69E2FD9F22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E2FD9D22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m */; };
@@ -755,6 +756,7 @@
 		69B2B4F2261EA6F500AB86C2 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		69BDD7E226F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSalesforceSDKUpgradeManager.h; sourceTree = "<group>"; };
 		69BDD7E826F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSalesforceSDKUpgradeManager.m; sourceTree = "<group>"; };
+		69BDD82626F86B3600C26D77 /* KeyValueFileStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyValueFileStoreTests.swift; path = SalesforceSDKCoreTests/KeyValueFileStoreTests.swift; sourceTree = SOURCE_ROOT; };
 		69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFNetworkTests.m; path = SalesforceSDKCoreTests/SFNetworkTests.m; sourceTree = SOURCE_ROOT; };
 		69E2FD9622FB937F008E0AF0 /* SFSDKEncryptedURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKEncryptedURLCache.h; sourceTree = "<group>"; };
 		69E2FD9D22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKEncryptedURLCache.m; sourceTree = "<group>"; };
@@ -1034,6 +1036,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				69BDD82626F86B3600C26D77 /* KeyValueFileStoreTests.swift */,
 				697F5C4E267BE29A00F382A9 /* EncryptionTests.swift */,
 				CE02ACD6202E19B100C6A714 /* SFSDKAuthConfigUtilTests.m */,
 				CEB98ED31F86E76A0083AB9C /* SFSDKAuthErrorCommandTest.m */,
@@ -2227,6 +2230,7 @@
 				CE02ACEE202E19CF00C6A714 /* SFSDKAuthConfigUtilTests.m in Sources */,
 				4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */,
 				B7E66AE923763278005A652E /* RestClientPublisherTests.swift in Sources */,
+				69BDD82C26F86B3600C26D77 /* KeyValueFileStoreTests.swift in Sources */,
 				697F5C4F267BE29A00F382A9 /* EncryptionTests.swift in Sources */,
 				B7A4AE4922E8CA780060E737 /* SFSDKAuthUtilTests.swift in Sources */,
 				4F7EB4161BFFC8D700768720 /* SDKCommonNSDataTests.m in Sources */,
