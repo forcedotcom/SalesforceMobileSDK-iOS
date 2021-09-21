@@ -36,6 +36,7 @@ public class Encryptor: NSObject {
         case combinedBoxFailed
         case encryptionFailed(underlyingError: Error?)
         case decryptionFailed(underlyingError: Error?)
+        case noEncryptionKey
     }
 
     // MARK: Symmetric Encrypt/Decrypt
@@ -46,8 +47,23 @@ public class Encryptor: NSObject {
     ///   - data: Data to encrypt
     ///   - key: Data representation of symmetric key to encrypt with
     /// - Returns: Encrypted data
-    @objc @available(swift, obsoleted: 1.0) // Objective-c only wrapper
+    @objc @available(*, deprecated, renamed: "encrypt(data:key:)") @available(swift, obsoleted: 1.0) // Objective-c only wrapper
     public static func encrypt(data: Data, using key: Data) throws -> Data {
+        let symmetricKey = SymmetricKey(data: key)
+        return try encrypt(data: data, using: symmetricKey)
+    }
+    
+    /// Encrypts data with a given key
+    ///
+    /// - Parameters:
+    ///   - data: Data to encrypt
+    ///   - key: Data representation of symmetric key to encrypt with
+    /// - Returns: Encrypted data
+    @objc(encryptData:key:error:) @available(swift, obsoleted: 1.0) // Objective-c only wrapper
+    public static func encrypt(data: Data, key: Data?) throws -> Data {
+        guard let key = key else {
+            throw EncryptorError.noEncryptionKey
+        }
         let symmetricKey = SymmetricKey(data: key)
         return try encrypt(data: data, using: symmetricKey)
     }
@@ -72,8 +88,23 @@ public class Encryptor: NSObject {
     ///   - data: Data to decrypt
     ///   - key: Data representation of symmetric key to decrypt with
     /// - Returns: Decrypted data
-    @objc @available(swift, obsoleted: 1.0) // Objective-c only wrapper
+    @objc @available(*, deprecated, renamed: "decrypt(data:key:)") @available(swift, obsoleted: 1.0) // Objective-c only wrapper
     public static func decrypt(data: Data, using key: Data) throws -> Data {
+        let symmetricKey = SymmetricKey(data: key)
+        return try decrypt(data: data, using: symmetricKey)
+    }
+    
+    /// Decrypts data with a given key
+    ///
+    /// - Parameters:
+    ///   - data: Data to decrypt
+    ///   - key: Data representation of symmetric key to decrypt with
+    /// - Returns: Decrypted data
+    @objc(decryptData:key:error:) @available(swift, obsoleted: 1.0) // Objective-c only wrapper
+    public static func decrypt(data: Data, key: Data?) throws -> Data {
+        guard let key = key else {
+            throw EncryptorError.noEncryptionKey
+        }
         let symmetricKey = SymmetricKey(data: key)
         return try decrypt(data: data, using: symmetricKey)
     }
