@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  * `SFDecryptStream` implements an input stream that decrypts data immediately after it's read.
  * It uses `SFCryptChunks` to perform the decryption.
  */
+SFSDK_DEPRECATED(9.2, 10.0, "Will be used internally for upgrade steps only. Use SFSDKDecryptStream instead")
 @interface SFDecryptStream : NSInputStream <SFCryptChunksDelegate>
 
 /**

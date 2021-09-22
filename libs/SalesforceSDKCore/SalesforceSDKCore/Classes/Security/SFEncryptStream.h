@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  `SFEncryptStream` is an output stream that encrypts data before it's written out.
  *  This class uses `SFCryptChunks` to perform the encryption.
  */
+SFSDK_DEPRECATED(9.2, 10.0, "Will be removed. Use SFSDKEncryptStream instead")
 @interface SFEncryptStream : NSOutputStream <SFCryptChunksDelegate>
 
 /**
