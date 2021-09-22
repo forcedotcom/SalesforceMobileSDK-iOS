@@ -1327,11 +1327,11 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLock
             SFUserAccountIdentity *result = nil;
             NSError* error = nil;
             NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:resultData error:&error];
-            unarchiver.requiresSecureCoding = NO;
+            unarchiver.requiresSecureCoding = YES;
             if (error) {
                 [SFSDKCoreLogger e:[self class] format:@"Failed to init unarchiver for current user identity from user defaults: %@.", error];
             } else {
-                result = [unarchiver decodeObjectForKey:kUserDefaultsLastUserIdentityKey];
+                result = [unarchiver decodeObjectOfClass:[SFUserAccountIdentity class] forKey:kUserDefaultsLastUserIdentityKey];
                 [unarchiver finishDecoding];
                 if (result) {
                     _currentUser = [self userAccountForUserIdentity:result];
@@ -1394,7 +1394,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLock
     NSUserDefaults *standardDefaults = [NSUserDefaults msdkUserDefaults];
     [_accountsLock lock];
     if (userAccountIdentity) {
-        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES];
         [archiver encodeObject:userAccountIdentity forKey:kUserDefaultsLastUserIdentityKey];
         [archiver finishEncoding];
         [standardDefaults setObject:archiver.encodedData forKey:kUserDefaultsLastUserIdentityKey];

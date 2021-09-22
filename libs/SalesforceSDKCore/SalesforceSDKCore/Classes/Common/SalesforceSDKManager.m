@@ -40,6 +40,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKResourceUtils.h"
 #import "SFSDKMacDetectUtil.h"
+#import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
@@ -288,13 +289,13 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLock
                                                 selector:@selector(handleAuthCompleted:)
                                                      name:kSFNotificationUserDidLogIn object:nil];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow  selector:@selector(handleIDPInitiatedAuthCompleted:)
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleIDPInitiatedAuthCompleted:)
                                                      name:kSFNotificationUserIDPInitDidLogIn object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow  selector:@selector(handleIDPUserAddCompleted:)
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleIDPUserAddCompleted:)
                                                      name:kSFNotificationUserWillSendIDPResponse object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:) name:kSFNotificationUserWillLogout object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:) name:kSFNotificationUserDidLogout object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowWillBegin:) name:kSFPasscodeFlowWillBegin object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowDidComplete:) name:kSFPasscodeFlowCompleted object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenLockFlowWillBegin:) name:kSFScreenLockFlowWillBegin object:nil];
@@ -307,7 +308,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLock
         self.useEphemeralSessionForAdvancedAuth = YES;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
-        [SFDirectoryManager upgradeUserDirectories];
+        [SFSDKSalesforceSDKUpgradeManager upgrade];
     }
     return self;
 }
