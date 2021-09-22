@@ -36,6 +36,15 @@
 #import "SFDefaultUserManagementViewController.h"
 #import "SFSecurityLockout.h"
 #import "SFApplicationHelper.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
+
+SWIFT_CLASS_NAMED("ScreenLockManager")
+@interface SFScreenLockManager : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLockManager * _Nonnull shared;)
++ (SFScreenLockManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
+- (void)handleAppForground;
+- (void)setCallbackBlockWithScreenLockCallbackBlock:(void (^ _Nonnull)(void))screenLockCallbackBlock;
+@end
 
 @implementation SFSDKAuthHelper
 
@@ -62,7 +71,7 @@
             }];
         }
     } else {
-        [self passcodeValidation:completionBlock];
+        [self screenLockValidation:completionBlock];
     }
 }
 
@@ -80,6 +89,16 @@
         [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
     }];
     [SFSecurityLockout lock];
+}
+
++(void)screenLockValidation:(void (^)(void))completionBlock  {
+    [[SFScreenLockManager shared] setCallbackBlockWithScreenLockCallbackBlock:^{
+            [SFSDKCoreLogger i:[self class] format:@"Screen unlocked or not configured.  Proceeding with authentication validation."];
+            if (completionBlock) {
+                completionBlock();
+            }
+    }];
+    [[SFScreenLockManager shared] handleAppForground];
 }
 
 + (void)handleLogout:(void (^)(void))completionBlock {

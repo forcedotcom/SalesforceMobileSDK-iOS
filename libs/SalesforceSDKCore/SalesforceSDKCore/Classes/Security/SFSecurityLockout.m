@@ -81,6 +81,7 @@ typedef NS_OPTIONS(NSUInteger, SFPasscodePolicy) {
     SFPasscodePolicySetupNewTimeout = 1 << 3
 };
 
+SFSDK_DEPRECATED(9.2, 10.0, "Will be removed")
 @implementation SFSecurityLockout
 
 + (void)initialize

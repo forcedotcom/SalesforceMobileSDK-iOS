@@ -254,7 +254,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 - (BOOL)mobilePoliciesConfigured
 {
     id value = [self.dictRepresentation nonNullObjectForKey:kSFIdentityMobilePolicyKey];
-    return value == nil ? NO : [value boolValue];
+    return value != nil;
 }
 
 - (int)mobileAppPinLength

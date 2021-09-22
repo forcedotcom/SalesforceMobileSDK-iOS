@@ -72,12 +72,14 @@ Attempt to resolve issues related to  the multi-windowing implementation in the 
 @implementation SFSDKWindowManager
 
 static const CGFloat SFWindowLevelPasscodeOffset  = 100;
+static const CGFloat SFWindowLevelScreenLockOffset  = 100;
 static const CGFloat SFWindowLevelAuthOffset      = 120;
 static const CGFloat SFWindowLevelSnapshotOffset  = 1000;
 static NSString *const kSFMainWindowKey     = @"main";
 static NSString *const kSFLoginWindowKey    = @"auth";
 static NSString *const kSFSnaphotWindowKey  = @"snapshot";
 static NSString *const kSFPasscodeWindowKey = @"passcode";
+static NSString *const kSFScreenLockWindowKey = @"screenlock";
 
 - (instancetype)init {
     
@@ -208,6 +210,22 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     [self setWindowScene:container scene:scene];
     //enforce WindowLevel
     container.windowLevel = [self mainWindow:scene].window.windowLevel + SFWindowLevelPasscodeOffset;
+    return container;
+}
+
+- (SFSDKWindowContainer *)screenLockWindow {
+    return [self screenLockWindow:nil];
+}
+
+- (SFSDKWindowContainer *)screenLockWindow:(UIScene *)scene {
+    scene = [self nonnullScene:scene];
+    SFSDKWindowContainer *container = [self containerForWindowKey:kSFScreenLockWindowKey scene:scene];
+    if (!container) {
+        container = [self createScreenLockWindowForScene:scene];
+    }
+    [self setWindowScene:container scene:scene];
+    //enforce WindowLevel
+    container.windowLevel = [self mainWindow:scene].window.windowLevel + SFWindowLevelScreenLockOffset;
     return container;
 }
 
@@ -366,6 +384,7 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     return ([windowName isEqualToString:kSFMainWindowKey] ||
             [windowName isEqualToString:kSFLoginWindowKey] ||
             [windowName isEqualToString:kSFPasscodeWindowKey] ||
+            [windowName isEqualToString:kSFScreenLockWindowKey] ||
             [windowName isEqualToString:kSFSnaphotWindowKey]);
 }
 
@@ -406,6 +425,13 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     if (window.isSnapshotWindow) {
         SFSDKWindowContainer *activeWindow = [self activeWindow:scene];
         if (![activeWindow isSnapshotWindow]){
+            [_lastActiveWindows setObject:activeWindow forKey:scene.session.persistentIdentifier];
+        }
+    }
+    
+    if (window.isScreenLockWindow) {
+        SFSDKWindowContainer *activeWindow = [self activeWindow:scene];
+        if (![activeWindow isScreenLockWindow]){
             [_lastActiveWindows setObject:activeWindow forKey:scene.session.persistentIdentifier];
         }
     }
@@ -461,6 +487,19 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
     container.windowType = SFSDKWindowTypePasscode;
     container.window.overrideUserInterfaceStyle = self.userInterfaceStyle;
     [self setContainer:container windowKey:kSFPasscodeWindowKey scene:scene];
+    return container;
+}
+
+- (SFSDKWindowContainer *)createScreenLockWindow {
+   return [self createScreenLockWindowForScene:nil];
+}
+
+- (SFSDKWindowContainer *)createScreenLockWindowForScene:(UIScene *)scene {
+    SFSDKWindowContainer *container = [[SFSDKWindowContainer alloc] initWithName:kSFScreenLockWindowKey];
+    container.windowDelegate = self;
+    container.windowType = SFSDKWindowTypeScreenLock;
+    container.window.overrideUserInterfaceStyle = self.userInterfaceStyle;
+    [self setContainer:container windowKey:kSFScreenLockWindowKey scene:scene];
     return container;
 }
 
@@ -593,5 +632,11 @@ static NSString *const kSFPasscodeWindowKey = @"passcode";
 - (BOOL)isSnapshotWindow {
     return [self.windowName isEqualToString:kSFSnaphotWindowKey];
 }
+
+- (BOOL)isScreenLockWindow {
+    return [self.windowName isEqualToString:kSFScreenLockWindowKey];
+}
+
+
 
 @end

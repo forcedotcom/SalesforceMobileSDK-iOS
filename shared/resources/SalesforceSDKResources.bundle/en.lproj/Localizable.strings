@@ -48,11 +48,17 @@
 "biometricCancelButtonText" = "Not Now";
 "verifyPasscodeButtontext" = "Verify Passcode";
 "biometricFallbackActionLabel" = "Use Passcode";
-"biometricReason" = "Please authenticate to proceed.";
-"logoutButtonTitle" = "Log out";
 "accessibilityPasscodeFieldLabel" = "Passcode field";
 "accessibilityPasscodeLengthHint" = "Passcode is %d numbers long.";
 "accessibilityUnlockAnnouncement" = "Passcode confirmed.";
+
+// Screen Lock
+"biometricReason" = "Please authenticate to proceed.";
+"logoutButtonTitle" = "Log out";
+"retryButtonTitle" = "Retry Unlock"
+"setUpPasscodeButton" = "Set Up Passcode"
+"setUpPasscodeMessage" = "%@ reqires you to set up an iOS passcode to use the app."
+"fallbackErrorMessage" = "An unexpected error occured."
 "accessibilityLoggedOutAnnouncement" = "You are logged out.";
 
 // OAuth flow

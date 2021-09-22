@@ -87,9 +87,17 @@ NS_SWIFT_NAME(DevAction)
 
 @end
 
+/** Notification sent when the screen lock will be displayed.
+ */
+extern NSString * const kSFScreenLockFlowWillBegin;
+
+/** Notification sent when the screen lock flow has completed.
+ */
+extern NSString * const kSFScreenLockFlowCompleted;
+
 /**
  This class will manage the basic infrastructure of the Mobile SDK elements of the app,
- including the orchestration of authentication, passcode displaying, and management of app
+ including the orchestration of authentication, screen lock displaying, and management of app
  backgrounding and foregrounding state.
  */
 NS_SWIFT_NAME(SalesforceManager)

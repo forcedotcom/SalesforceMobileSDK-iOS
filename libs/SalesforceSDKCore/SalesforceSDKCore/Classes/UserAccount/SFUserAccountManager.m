@@ -60,6 +60,7 @@
 #import "SFSDKSalesforceAnalyticsManager.h"
 #import "SFSecurityLockout+Internal.h"
 #import "SFApplicationHelper.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -123,6 +124,16 @@ static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredent
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
 static NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErrorHandler";
 static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErrorHandler";
+
+SWIFT_CLASS_NAMED("ScreenLockManager")
+@interface SFScreenLockManager : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLockManager * _Nonnull shared;)
++ (SFScreenLockManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+- (void)handleAppForground;
+- (void)storeMobilePolicyWithUserAccount:(SFUserAccount * _Nonnull)userAccount hasMobilePolicy:(BOOL)hasMobilePolicy;
+@end
 
 @interface SFNotificationUserInfo()
 - (instancetype) initWithUser:(SFUserAccount *)user;
@@ -1573,28 +1584,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // already exists.
     NSAssert(authSession.identityCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
     SFIdentityCoordinator *identityCoordinator = authSession.identityCoordinator;
-    NSNumber *biometricUnlockKey = [identityCoordinator.idData.customAttributes objectForKey:@"BIOMETRIC_UNLOCK"];
-    BOOL biometricUnlockAvailable = (biometricUnlockKey == nil) ? YES : [biometricUnlockKey boolValue];
+    BOOL hasMobilePolicy = identityCoordinator.idData.mobilePoliciesConfigured;
+    
     __weak typeof(self) weakSelf = self;
     [self dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
           __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf finalizeAuthCompletion:authSession];
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
-            [SFSecurityLockout setPasscodeViewConfig:authSession.oauthRequest.appLockViewControllerConfig];
-            [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-                [strongSelf finalizeAuthCompletion:authSession];
-            }];
-            NSString *sceneId = authSession.sceneId;
-            [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-                strongSelf.authSessions[sceneId].notifiesDelegatesOfFailure = YES;
-                [strongSelf handleFailure:authSession.authError session:strongSelf.authSessions[sceneId]];
-            }];
-           // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
-           // identity service.
-           [SFSecurityLockout setInactivityConfiguration:identityCoordinator.idData.mobileAppPinLength
-                                             lockoutTime:(identityCoordinator.idData.mobileAppScreenLockTimeout * 60)
-                                        biometricAllowed:biometricUnlockAvailable];
-       } else {
-           [strongSelf finalizeAuthCompletion:authSession];
+            [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy];
        }
     }];
     [self dismissAuthViewControllerIfPresent];
