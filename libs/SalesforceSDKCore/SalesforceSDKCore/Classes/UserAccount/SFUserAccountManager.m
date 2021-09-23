@@ -129,8 +129,6 @@ SWIFT_CLASS_NAMED("ScreenLockManager")
 @interface SFScreenLockManager : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLockManager * _Nonnull shared;)
 + (SFScreenLockManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 - (void)handleAppForground;
 - (void)storeMobilePolicyWithUserAccount:(SFUserAccount * _Nonnull)userAccount hasMobilePolicy:(BOOL)hasMobilePolicy;
 @end

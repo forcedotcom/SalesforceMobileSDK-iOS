@@ -51,7 +51,7 @@ class ScreenLockManager: NSObject {
         if result.success {
             SFSDKCoreLogger.i(ScreenLockManager.self, message: "Mobile policy stored as \(hasPolicyData) for user.")
         } else {
-            SFSDKCoreLogger.i(ScreenLockManager.self, message: "Failed to store mobile policy for user.")
+            SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to store mobile policy for user.")
         }
 
         // If true set for the app
@@ -60,7 +60,7 @@ class ScreenLockManager: NSObject {
             if globalResult.success {
                 SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy stored as \(hasPolicyData).")
             } else {
-                SFSDKCoreLogger.i(ScreenLockManager.self, message: "Failed to store global mobile policy.")
+                SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to store global mobile policy.")
             }
             lock()
         }
@@ -95,7 +95,7 @@ class ScreenLockManager: NSObject {
                             if globalResult.success {
                                 SFSDKCoreLogger.i(ScreenLockManager.self, message: "Mobile policy for user removed.")
                             } else {
-                                SFSDKCoreLogger.i(ScreenLockManager.self, message: "Failed to remove Mobile policy for user.")
+                                SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to remove Mobile policy for user.")
                             }
                             
                             UserAccountManager.shared.logout(userAccount)
@@ -111,7 +111,7 @@ class ScreenLockManager: NSObject {
         if globalResult.success {
             SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy removed.")
         } else {
-            SFSDKCoreLogger.i(ScreenLockManager.self, message: "Failed to remove global mobile policy.")
+            SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to remove global mobile policy.")
         }
     }
     

@@ -32,6 +32,7 @@
 #import "SFUserAccount+Internal.h"
 #import "SFKeyStoreManager.h"
 #import "SFDefaultUserAccountPersister.h"
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 
 NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.salesforcesdkmanager.version";
 
@@ -49,6 +50,7 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
         [SFDirectoryManager upgradeUserDirectories];
         [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
         [NSURLCache.sharedURLCache removeAllCachedResponses]; // For cache encryption key change
+        [SFSDKSalesforceSDKUpgradeManager upgradePasscode];
     }
     
     [[NSUserDefaults msdkUserDefaults] setValue:currentVersion forKey:kSalesforceSDKManagerVersionKey];
@@ -162,7 +164,7 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
     NSError *error = nil;
     NSData *encryptionKey = [SFSDKKeyGenerator encryptionKeyFor:kUserAccountEncryptionKeyLabel error:&error];
     if (error) {
-        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error getting encryption key for %@: %@", kUserAccountEncryptionKeyLabel, error.localizedDescription];
+        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error getting encryption key for : %@", kUserAccountEncryptionKeyLabel, error.localizedDescription];
         return;
     }
     NSData *encryptedArchiveData = [SFSDKEncryptor encryptData:decryptedArchiveData key:encryptionKey error:&error];
@@ -171,6 +173,41 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
         return;
     }
     [encryptedArchiveData writeToFile:userAccountPath atomically:YES];
+}
+
++ (void)upgradePasscode {
+    NSString *kScreenLockIdentifier = @"com.salesforce.security.screenlock";
+    NSArray<SFUserAccount *> *userAccounts = [[SFUserAccountManager sharedInstance] allUserAccounts];
+    for (SFUserAccount *account in userAccounts) {
+        BOOL hasMobilePolicy = account.idData.mobileAppPinLength > 0 && account.idData.mobileAppScreenLockTimeout != -1;
+        
+        // TODO: Can I store the BOOL this way???  or will it blow up upon retrivial in ScreenLockManager (swift).
+        NSData *data = [NSData dataWithBytes:&hasMobilePolicy length:sizeof(hasMobilePolicy)];
+        SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:kScreenLockIdentifier data:data account:account.idData.userId];
+        
+        if (![result success]) {
+            [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Unable to write Screen Lock status for user: %@", result.error];
+        }
+        
+        
+        if (hasMobilePolicy) {
+            result = [SFSDKKeychainHelper writeWithService:kScreenLockIdentifier data:data account:nil];
+            if (![result success]) {
+                [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Unable to write global Screen Lock status: %@", result.error];
+            }
+            
+            // cleanup where is there now from SFSecurityLockout
+            result = [SFSDKKeychainHelper removeWithService:@"com.salesforce.security.isLocked" account:nil];
+            if (![result success]) {
+                [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Unable to remove isLocked from keychain: %@", result.error];
+            }
+            
+            result = [SFSDKKeychainHelper removeWithService:@"com.salesforce.security.passcode.pbkdf2.verify" account:nil];
+            if (![result success]) {
+                [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error resetting passcode in keychain: %@", result.error];
+            }
+        }
+    }
 }
 
 @end
