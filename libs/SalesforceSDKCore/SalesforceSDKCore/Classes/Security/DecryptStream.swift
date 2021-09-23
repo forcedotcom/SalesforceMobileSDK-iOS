@@ -44,7 +44,7 @@ public class DecryptStream: InputStream {
     
     override public init(data: Data) {
         stream = InputStream(data: data)
-        super.init()
+        super.init(data: data)
     }
     
     override public init?(url: URL) {
@@ -52,7 +52,7 @@ public class DecryptStream: InputStream {
             return nil
         }
         self.stream = stream
-        super.init()
+        super.init(url: url)
     }
     
     public convenience init?(fileAtPath path: String) {

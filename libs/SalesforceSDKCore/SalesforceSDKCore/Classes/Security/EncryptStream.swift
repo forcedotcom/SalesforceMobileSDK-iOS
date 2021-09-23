@@ -49,12 +49,12 @@ public class EncryptStream: OutputStream {
 
     override public init(toMemory: ()) {
         stream = OutputStream(toMemory: toMemory)
-        super.init()
+        super.init(toMemory: toMemory)
     }
 
     override public init(toBuffer buffer: UnsafeMutablePointer<UInt8>, capacity: Int) {
         stream = OutputStream(toBuffer: buffer, capacity: capacity)
-        super.init()
+        super.init(toBuffer: buffer, capacity: capacity)
     }
 
     override public init?(url: URL, append shouldAppend: Bool) {
