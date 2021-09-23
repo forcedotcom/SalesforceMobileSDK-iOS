@@ -28,17 +28,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString * _Nonnull const kKeyStoreHasExternalSalt;
+extern NSString * _Nonnull const kStoreEncryptionUpgrade;
+
 /**
  Used internally for upgrading SmartStore.
  */
 @interface SFSmartStoreUpgrade : NSObject
 
 /**
- Updates any existing stores from their legacy location to their new user-specific location.
+ Updates any existing stores from their legacy SFEncryptionKey and potential MD5 salt to new key and new salt
  */
-+ (void)updateStoreLocations;
-
-+ (void)updateEncryptionSalt;
++ (void)updateEncryptionForUser:(SFUserAccount *)user;
 
 @end
 

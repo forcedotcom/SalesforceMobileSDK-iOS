@@ -23,6 +23,7 @@
  */
 
 #import "SFSmartStoreTests.h"
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
@@ -33,6 +34,7 @@
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFSmartStoreUpgrade.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
@@ -951,8 +953,9 @@
 }
 
 - (void)testSmartStoreIsRecreatedWhenKeyIsLost {
-    NSString* storeName = @"testSmartStoreIsRecreatedWhenKeyIsLost";
-    SFEncryptionKey *originalKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel autoCreate:YES];
+    NSString *storeName = @"testSmartStoreIsRecreatedWhenKeyIsLost";
+    NSString *keyLabel = [NSString stringWithFormat:@"com.salesforce.keystore.%@", kSFSmartStoreEncryptionKeyLabel];
+    NSData *originalKey = [SFSDKKeychainHelper readWithService:keyLabel account:nil].data;
 
     @try {
         // Create store
@@ -980,7 +983,7 @@
         [SFSmartStore clearSharedStoreMemoryState];
         
         // Drop key
-        [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:kSFSmartStoreEncryptionKeyLabel];
+        [SFSDKKeyGenerator removeEncryptionKeyFor:kSFSmartStoreEncryptionKeyLabel];
         
         // Re-open store -- but expect new empty store since key has changed
         store = [SFSmartStore sharedStoreWithName:storeName];
@@ -992,7 +995,7 @@
         // Drop store
         [SFSmartStore removeSharedStoreWithName:storeName];
         // Restore key
-        [[SFKeyStoreManager sharedInstance] storeKey:originalKey withLabel:kSFSmartStoreEncryptionKeyLabel];
+        XCTAssertTrue([SFSDKKeychainHelper writeWithService:keyLabel data:originalKey account:nil].success);
     }
 }
 
