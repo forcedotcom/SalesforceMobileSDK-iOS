@@ -176,10 +176,9 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         }
         [SFSDKSmartStoreLogger d:[self class] format:@"%@ %@, user: %@, isGlobal: %d", NSStringFromSelector(_cmd), name, [SFSmartStoreUtils userKeyForUser:user], isGlobal];
         @synchronized ([SFSmartStore class]) {
-            SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
-            if (currentUser != nil && !_storeUpgradeHasRun) {
+            if (!_storeUpgradeHasRun) {
+                [SFSmartStoreUpgrade upgrade];
                 _storeUpgradeHasRun = YES;
-                [SFSmartStoreUpgrade updateEncryptionForUser:currentUser];
             }
         }
         _storeName = name;

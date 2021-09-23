@@ -36,30 +36,58 @@
 #import "FMDatabase.h"
 
 NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.external.hasExternalSalt";
-NSString * const kStoreEncryptionUpgrade = @"com.salesforce.smartstore.encryptionUpgrade"; // For 9.2 encryption + salt change
+NSString * const kSmartStoreVersionKey = @"com.salesforce.mobilesdk.smartstore.version";
 
 @implementation SFSmartStoreUpgrade
 
-+ (void)updateEncryptionForUser:(SFUserAccount *)user {
-    NSString *userUpgradeKey = [NSString stringWithFormat:@"%@-%@", kStoreEncryptionUpgrade, user.credentials.userId];
-    if ([[NSUserDefaults msdkUserDefaults] boolForKey:userUpgradeKey]) {
-        return; //already migrated
++ (void)upgrade {
+    NSString *lastVersion = [SFSmartStoreUpgrade lastVersion];
+    NSString *currentVersion = [SFSmartStoreUpgrade currentVersion];
+    
+    if ([currentVersion isEqualToString:lastVersion]) {
+        return;
     }
     
+    if (!lastVersion || [lastVersion doubleValue] < 9.2) {
+        [SFSmartStoreUpgrade upgradeEncryption];
+    }
+    
+    [[NSUserDefaults msdkUserDefaults] setValue:currentVersion forKey:kSmartStoreVersionKey];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
+}
+
++ (NSString *)lastVersion {
+    return [[NSUserDefaults msdkUserDefaults] stringForKey:kSmartStoreVersionKey];
+}
+
++ (NSString *)currentVersion {
+    return [[[NSBundle bundleForClass:[SFSmartStoreUpgrade class]] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+}
+
++ (void)upgradeEncryption {
+    // Update user stores
+    for (SFUserAccount *userAccount in [[SFUserAccountManager sharedInstance] allUserAccounts]) {
+        SFSmartStoreDatabaseManager *databaseManager = [SFSmartStoreDatabaseManager sharedManagerForUser:userAccount];
+        [SFSmartStoreUpgrade updateEncryptionForDatabaseManager:databaseManager];
+    }
+    
+    // Global store
+    [SFSmartStoreUpgrade updateEncryptionForDatabaseManager:[SFSmartStoreDatabaseManager sharedGlobalManager]];
+}
+
++ (void)updateEncryptionForDatabaseManager:(SFSmartStoreDatabaseManager *)databaseManager {
     [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Updating encryption for stores."];
-    NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManagerForUser:user] allStoreNames];
+    NSArray *allStoreNames = [databaseManager allStoreNames];
     [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Number of stores to update: %d", [allStoreNames count]];
     for (NSString *storeName in allStoreNames) {
-        if (![SFSmartStoreUpgrade updateEncryptionForStore:storeName user:user]) {
+        if (![SFSmartStoreUpgrade updateEncryptionForStore:storeName databaseManager:databaseManager]) {
              [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Failed to encryption and salt for %@", storeName];
         }
     }
-    [[NSUserDefaults msdkUserDefaults] setBool:YES forKey:userUpgradeKey];
 }
 
 
-+ (BOOL)updateEncryptionForStore:(NSString *)storeName user:(SFUserAccount *)user {
-    SFSmartStoreDatabaseManager *databaseManager = [SFSmartStoreDatabaseManager sharedManagerForUser:user];
++ (BOOL)updateEncryptionForStore:(NSString *)storeName databaseManager:(SFSmartStoreDatabaseManager *)databaseManager {
     if (![databaseManager persistentStoreExists:storeName]) {
         //NEW Database no need for encryption key
         [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Store '%@' does not exist on the filesystem. Skipping encryption update.", storeName];

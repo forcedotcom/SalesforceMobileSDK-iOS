@@ -47,8 +47,7 @@
 @end
 
 @interface SFSmartStoreUpgrade (Private)
-+ (BOOL)updateSaltForStore:(NSString *)storeName user:(SFUserAccount *)user;
-+ (BOOL)updateEncryptionForStore:(NSString *)storeName user:(SFUserAccount *)user;
++ (BOOL)updateEncryptionForStore:(NSString *)storeName databaseManager:(SFSmartStoreDatabaseManager *)databaseManager;
 @end
 
 @interface SFSmartStoreSharingUpgradeTests : SFSmartStoreTestCase
@@ -108,9 +107,9 @@
     if ([SFSDKKeyGenerator encryptionKeyExistsFor:kSFSmartStoreEncryptionSaltLabel]) {
         [SFSDKKeyGenerator removeEncryptionKeyFor:kSFSmartStoreEncryptionSaltLabel];
     }
-    NSString *userUpgradeKey = [NSString stringWithFormat:@"%@-%@", kStoreEncryptionUpgrade, self.smartStoreUser.credentials.userId];
-    [[NSUserDefaults msdkUserDefaults] removeObjectForKey:userUpgradeKey];
     [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kKeyStoreHasExternalSalt];
+    [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kSmartStoreVersionKey];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
 }
 
 // No salt and legacy encryption key -> salt and new encryption key
@@ -149,7 +148,7 @@
     XCTAssertNotNil(salt,@"Database must be setup to have a salt");
     XCTAssertNotEqualObjects(origKey, key, @"Database should have different encryption key after upgrade");
     XCTAssertNotEqualObjects(origKey, key, @"Database should have different encryption key after upgrade");
-    BOOL result = [SFSmartStoreUpgrade updateEncryptionForStore:store.storeName user:store.user];
+    BOOL result = [SFSmartStoreUpgrade updateEncryptionForStore:store.storeName databaseManager:[SFSmartStoreDatabaseManager sharedManagerForUser:store.user]];
     XCTAssertTrue(result,"Upgrade should have worked");
     XCTAssertTrue([SFSmartStore hasPlainTextHeader:store.storeName user:store.user],@"Database now must have plain text header");
     store = [SFSmartStore sharedStoreWithName:kTestUpgradeSmartStoreName];
@@ -196,9 +195,9 @@
     NSString *salt = [SFSmartStore encryptionSaltBlock]();
 
     NSData *key = [SFSmartStore encryptionKeyGenerator]();
-    XCTAssertNotNil(salt ,@"Database must be setup to have a salt");
+    XCTAssertNotNil(salt, @"Database must be setup to have a salt");
     XCTAssertNotEqualObjects(origKey, key, @"Database should have different encryption key after upgrade");
-    BOOL result = [SFSmartStoreUpgrade updateEncryptionForStore:store.storeName user:store.user];
+    BOOL result = [SFSmartStoreUpgrade updateEncryptionForStore:store.storeName databaseManager:[SFSmartStoreDatabaseManager sharedManagerForUser:store.user]];
     XCTAssertTrue(result, "Upgrade should have worked");
     XCTAssertTrue([SFSmartStore hasPlainTextHeader:store.storeName user:store.user], @"Database now must have plain text header");
     store = [SFSmartStore sharedStoreWithName:kTestUpgradeSmartStoreName];
