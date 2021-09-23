@@ -62,7 +62,7 @@ public class EncryptStream: OutputStream {
             return nil
         }
         self.stream = outputStream
-        super.init()
+        super.init(url: url, append: shouldAppend)
     }
 
     public convenience init?(toFileAtPath path: String, append shouldAppend: Bool) {
