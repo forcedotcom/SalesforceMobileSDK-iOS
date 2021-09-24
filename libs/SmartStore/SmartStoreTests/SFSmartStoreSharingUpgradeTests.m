@@ -23,6 +23,7 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
@@ -104,8 +105,8 @@
         [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:kSFSmartStoreEncryptionSaltLabel];
     }
     #pragma clang diagnostic pop
-    if ([SFSDKKeyGenerator encryptionKeyExistsFor:kSFSmartStoreEncryptionSaltLabel]) {
-        [SFSDKKeyGenerator removeEncryptionKeyFor:kSFSmartStoreEncryptionSaltLabel];
+    if ([SFSDKKeychainHelper readWithService:kSFSmartStoreEncryptionSaltLabel account:nil].data) {
+        [SFSDKKeychainHelper removeWithService:kSFSmartStoreEncryptionSaltLabel account:nil];
     }
     [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kKeyStoreHasExternalSalt];
     [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kSmartStoreVersionKey];
@@ -129,13 +130,19 @@
     
     // Set salt for upgrade
     [SFSmartStore setEncryptionSaltBlock:^NSString * _Nullable {
-        NSError *error = nil;
-        NSData *saltKey = [SFSDKKeyGenerator encryptionKeyFor:kSFSmartStoreEncryptionSaltLabel keySize:128 error:&error];
-        if (error) {
-            [SFSDKSmartStoreLogger e:[self class] format:@"Error getting key for salt: %@", error.localizedDescription];
-            return nil;
+        NSData *existingSalt = [SFSDKKeychainHelper readWithService:kSFSmartStoreEncryptionSaltLabel account:nil].data;
+        if (existingSalt) {
+            return [existingSalt newHexStringFromBytes];
+        } else {
+            NSData *newSalt = [[NSMutableData dataWithLength:16] randomDataOfLength:16];
+            SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:kSFSmartStoreEncryptionSaltLabel data:newSalt account:nil];
+            if (result.success) {
+                return [newSalt newHexStringFromBytes];
+            } else {
+                [SFSDKSmartStoreLogger e:[self class] format:@"Error writing salt to keychain: %@", result.error.localizedDescription];
+            }
         }
-        return [saltKey newHexStringFromBytes];
+        return nil;
     }];
     
     // Set encryption key to back to default
@@ -179,13 +186,19 @@
     
     // Set encryption key and salt back to default for upgrade
     [SFSmartStore setEncryptionSaltBlock:^NSString * _Nullable {
-        NSError *error = nil;
-        NSData *saltKey = [SFSDKKeyGenerator encryptionKeyFor:kSFSmartStoreEncryptionSaltLabel keySize:128 error:&error];
-        if (error) {
-            [SFSDKSmartStoreLogger e:[self class] format:@"Error getting key for salt: %@", error.localizedDescription];
-            return nil;
+        NSData *existingSalt = [SFSDKKeychainHelper readWithService:kSFSmartStoreEncryptionSaltLabel account:nil].data;
+        if (existingSalt) {
+            return [existingSalt newHexStringFromBytes];
+        } else {
+            NSData *newSalt = [[NSMutableData dataWithLength:16] randomDataOfLength:16];
+            SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:kSFSmartStoreEncryptionSaltLabel data:newSalt account:nil];
+            if (result.success) {
+                return [newSalt newHexStringFromBytes];
+            } else {
+                [SFSDKSmartStoreLogger e:[self class] format:@"Error writing salt to keychain: %@", result.error.localizedDescription];
+            }
         }
-        return [saltKey newHexStringFromBytes];
+        return nil;
     }];
     
     // Set encryption key to back to default

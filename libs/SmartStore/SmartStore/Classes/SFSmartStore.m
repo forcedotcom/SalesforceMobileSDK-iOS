@@ -52,6 +52,7 @@
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
 #import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/SFSDKDataSharingHelper.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 
@@ -94,6 +95,7 @@ NSString * const kSFSmartStoreEncryptionKeyLabel = @"com.salesforce.smartstore.e
 
 // Encryption constants
 NSString * const kSFSmartStoreEncryptionSaltLabel = @"com.salesforce.smartstore.encryption.saltLabel";
+NSUInteger const kSFSmartStoreEncryptionSaltLength = 16;
 
 // Table to keep track of soup attributes
 static NSString *const SOUP_NAMES_TABLE = @"soup_names"; //legacy soup attrs, still around for backward compatibility. Do not use it.
@@ -136,13 +138,18 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     if (!_encryptionSaltBlock) {
         _encryptionSaltBlock = ^ {
             NSString *salt = nil;
-            if ([SFSDKKeyGenerator encryptionKeyExistsFor:kSFSmartStoreEncryptionSaltLabel] || [[SFSDKDatasharingHelper sharedInstance] appGroupEnabled]) {
-                NSError *error = nil;
-                NSData *saltKey = [SFSDKKeyGenerator encryptionKeyFor:kSFSmartStoreEncryptionSaltLabel keySize:128 error:&error];
-                if (error) {
-                    [SFSDKSmartStoreLogger e:[self class] format:@"Error getting key for salt: %@", error.localizedDescription];
+ 
+            NSData *existingSalt = [SFSDKKeychainHelper readWithService:kSFSmartStoreEncryptionSaltLabel account:nil].data;
+            if (existingSalt) {
+                salt = [existingSalt newHexStringFromBytes];
+            } else if ([[SFSDKDatasharingHelper sharedInstance] appGroupEnabled]) {
+                NSData *newSalt = [[NSMutableData dataWithLength:kSFSmartStoreEncryptionSaltLength] randomDataOfLength:kSFSmartStoreEncryptionSaltLength];
+                SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:kSFSmartStoreEncryptionSaltLabel data:newSalt account:nil];
+                if (result.success) {
+                    salt = [newSalt newHexStringFromBytes];
+                } else {
+                    [SFSDKSmartStoreLogger e:[self class] format:@"Error writing salt to keychain: %@", result.error.localizedDescription];
                 }
-                salt = [saltKey newHexStringFromBytes];
             }
             return salt;
         };
