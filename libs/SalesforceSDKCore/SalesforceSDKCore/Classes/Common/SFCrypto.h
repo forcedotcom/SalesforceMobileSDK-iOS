@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,15 +34,16 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSUInteger, SFCryptoMode) {
     SFCryptoModeInMemory,
     SFCryptoModeDisk
-};
+} SFSDK_DEPRECATED(9.2, 10.0, "Will be removed");
 
 typedef NS_ENUM(NSUInteger, SFCryptoOperation) {
     SFCryptoOperationEncrypt,
     SFCryptoOperationDecrypt
-};
+} SFSDK_DEPRECATED(9.2, 10.0, "Will be removed");
 
 /** Utility class for data encryption operations. 
  */
+SFSDK_DEPRECATED(9.2, 10.0, "Will be removed, use SFSDKEncryptStream/SFSDKDecryptStream directly instead.")
 @interface SFCrypto : NSObject
 
 /**

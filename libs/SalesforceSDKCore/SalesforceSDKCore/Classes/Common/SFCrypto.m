@@ -34,7 +34,10 @@ static NSString * const kKeychainIdentifierIV = @"com.salesforce.security.IV";
 NSString * const kKeychainIdentifierBaseAppId = @"com.salesforce.security.baseappid";
 static NSString * const kKeychainIdentifierSimulatorBaseAppId = @"com.salesforce.security.baseappid.sim";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFCrypto
+#pragma clang diagnostic pop
 
 @synthesize status = _status;
 @synthesize outputStream = _outputStream;
