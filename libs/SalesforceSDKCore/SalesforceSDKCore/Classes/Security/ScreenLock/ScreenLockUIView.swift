@@ -45,14 +45,14 @@ struct ScreenLockUIView: View {
             
             Image(uiImage: getIcon())
                 .resizable()
-                .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                .offset(y: -400)
+                .frame(width: 125, height: 125, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .offset(y: getImageOffset())
                 .padding()
             
             if hasError {
                 Text(errorText)
                     .padding()
-                    .offset(y: -200)
+                    .offset(y: -175)
                 
                 Button(action: {
                     if canEvaluatePolicy {
@@ -62,13 +62,14 @@ struct ScreenLockUIView: View {
                     }
                 }, label: {
                     if canEvaluatePolicy {
-                        Text(SFSDKResourceUtils.localizedString("retryButtonTitle"))
+                        Text(SFSDKResourceUtils.localizedString("retryButtonTitle")).foregroundColor(.white)
                     } else {
-                        Text(SFSDKResourceUtils.localizedString("setUpPasscodeButton"))
+                        Text(SFSDKResourceUtils.localizedString("setUpPasscodeButton")).foregroundColor(.white)
                     }
                 })
                 .padding()
-                .offset(y: -200)
+                .background(Color.blue.cornerRadius(5))
+                .offset(y: -175)
             }
         })
         .onAppear(perform: {
@@ -99,6 +100,10 @@ struct ScreenLockUIView: View {
             hasError = true
             canEvaluatePolicy = false
         }
+    }
+    
+    private func getImageOffset() -> CGFloat {
+        return hasError ? -350 : -470
     }
     
     func navigateToSettings() {

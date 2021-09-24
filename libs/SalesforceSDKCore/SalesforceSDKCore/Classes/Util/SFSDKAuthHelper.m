@@ -75,6 +75,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLock
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (void)passcodeValidation:(void (^)(void))completionBlock  {
     [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
         [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
@@ -90,6 +92,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLock
     }];
     [SFSecurityLockout lock];
 }
+#pragma clang diagnostic pop
 
 +(void)screenLockValidation:(void (^)(void))completionBlock  {
     [[SFScreenLockManager shared] setCallbackBlockWithScreenLockCallbackBlock:^{
