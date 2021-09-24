@@ -62,7 +62,6 @@ class ScreenLockManager: NSObject {
             } else {
                 SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to store global mobile policy.")
             }
-            lock()
         }
     }
     
@@ -115,7 +114,7 @@ class ScreenLockManager: NSObject {
         }
     }
     
-    internal func readMobilePolicy() -> Bool {
+    func readMobilePolicy() -> Bool {
         var hasPolicy = false
         let result = KeychainHelper.read(service: kScreenLockIdentifier, account: nil)
         if result.success && result.data != nil {
@@ -127,6 +126,15 @@ class ScreenLockManager: NSObject {
         }
 
         return hasPolicy
+    }
+    
+    @objc func upgradePasscode() -> Void {
+        let userAccounts = UserAccountManager.shared.userAccounts()
+        
+        userAccounts?.forEach({ account in
+            let hasMobilePolicy = account.idData.mobileAppPinLength > 0 && account.idData.mobileAppScreenLockTimeout != -1
+            self.storeMobilePolicy(userAccount: account, hasMobilePolicy: hasMobilePolicy)
+        })
     }
 
     private func lock() {

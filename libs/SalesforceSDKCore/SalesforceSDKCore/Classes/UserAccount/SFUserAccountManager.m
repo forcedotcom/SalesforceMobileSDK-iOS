@@ -1590,6 +1590,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLock
         [strongSelf finalizeAuthCompletion:authSession];
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
             [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy];
+            [[SFScreenLockManager shared] handleAppForground];
        }
     }];
     [self dismissAuthViewControllerIfPresent];

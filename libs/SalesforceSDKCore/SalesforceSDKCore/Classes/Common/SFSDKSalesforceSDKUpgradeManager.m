@@ -33,6 +33,14 @@
 #import "SFKeyStoreManager.h"
 #import "SFDefaultUserAccountPersister.h"
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
+#import "SFSecurityLockout+Internal.h"
+
+SWIFT_CLASS_NAMED("ScreenLockManager")
+@interface SFScreenLockManager : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLockManager * _Nonnull shared;)
++ (SFScreenLockManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
+- (void)upgradePasscode;
+@end
 
 NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.salesforcesdkmanager.version";
 
@@ -176,38 +184,11 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
 }
 
 + (void)upgradePasscode {
-    NSString *kScreenLockIdentifier = @"com.salesforce.security.screenlock";
-    NSArray<SFUserAccount *> *userAccounts = [[SFUserAccountManager sharedInstance] allUserAccounts];
-    for (SFUserAccount *account in userAccounts) {
-        BOOL hasMobilePolicy = account.idData.mobileAppPinLength > 0 && account.idData.mobileAppScreenLockTimeout != -1;
-        
-        // TODO: Can I store the BOOL this way???  or will it blow up upon retrivial in ScreenLockManager (swift).
-        NSData *data = [NSData dataWithBytes:&hasMobilePolicy length:sizeof(hasMobilePolicy)];
-        SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:kScreenLockIdentifier data:data account:account.idData.userId];
-        
-        if (![result success]) {
-            [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Unable to write Screen Lock status for user: %@", result.error];
-        }
-        
-        
-        if (hasMobilePolicy) {
-            result = [SFSDKKeychainHelper writeWithService:kScreenLockIdentifier data:data account:nil];
-            if (![result success]) {
-                [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Unable to write global Screen Lock status: %@", result.error];
-            }
-            
-            // cleanup where is there now from SFSecurityLockout
-            result = [SFSDKKeychainHelper removeWithService:@"com.salesforce.security.isLocked" account:nil];
-            if (![result success]) {
-                [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Unable to remove isLocked from keychain: %@", result.error];
-            }
-            
-            result = [SFSDKKeychainHelper removeWithService:@"com.salesforce.security.passcode.pbkdf2.verify" account:nil];
-            if (![result success]) {
-                [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error resetting passcode in keychain: %@", result.error];
-            }
-        }
-    }
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [SFSecurityLockout resetPasscode];
+    #pragma clang diagnostic pop
+    [[SFScreenLockManager shared] upgradePasscode];
 }
 
 @end
