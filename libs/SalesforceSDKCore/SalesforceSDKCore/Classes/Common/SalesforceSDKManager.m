@@ -43,6 +43,14 @@
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
+SWIFT_CLASS_NAMED("ScreenLockManager")
+@interface SFScreenLockManager : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLockManager * _Nonnull shared;)
++ (SFScreenLockManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
+- (void)handleAppForground;
+- (void)checkForScreenLockUsers;
+@end
+
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
 static NSString * const kSFAppFeatureMacApp      = @"MC";
@@ -129,13 +137,6 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 @property(nonatomic, strong) WKWebView *webView; // for calculating user agent
 @property(nonatomic, strong) NSString *webViewUserAgent; // for calculating user agent
 
-@end
-
-SWIFT_CLASS_NAMED("ScreenLockManager")
-@interface SFScreenLockManager : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLockManager * _Nonnull shared;)
-+ (SFScreenLockManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (void)handleAppForground;
 @end
 
 @implementation SalesforceSDKManager
@@ -309,6 +310,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLock
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
+        [[SFScreenLockManager shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
     }
     return self;
 }
@@ -657,7 +659,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLock
 
 - (void)handlePostLogout
 {
-    // TODO: check if any users still need screen lock
+    [[SFScreenLockManager shared] checkForScreenLockUsers];
     [self logoutCleanup];
 }
     

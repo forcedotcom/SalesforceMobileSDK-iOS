@@ -37,8 +37,13 @@ struct ScreenLockUIView: View {
     var body: some View {
         VStack(alignment: .center, content: {
             HStack {
-                Button(action: { logout() },
-                       label: { Text(SFSDKResourceUtils.localizedString("logoutButtonTitle"))}).padding()
+                if hasError {
+                    Button(action: { logout() },
+                           label: {
+                        Text(SFSDKResourceUtils.localizedString("logoutButtonTitle"))
+                            .foregroundColor(Color(UIColor.salesforceBlue))
+                    }).padding()
+                }
                 Spacer()
             }
             Spacer()
@@ -68,7 +73,7 @@ struct ScreenLockUIView: View {
                     }
                 })
                 .padding()
-                .background(Color.blue.cornerRadius(5))
+                .background(Color(UIColor.salesforceBlue).cornerRadius(5))
                 .offset(y: -175)
             }
         })
@@ -81,6 +86,7 @@ struct ScreenLockUIView: View {
         let context = LAContext()
         var error: NSError?
         
+        hasError = false
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
             canEvaluatePolicy = true
             let reason = SFSDKResourceUtils.localizedString("biometricReason")

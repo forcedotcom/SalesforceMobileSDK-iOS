@@ -82,7 +82,7 @@ class ScreenLockManager: NSObject {
         }
     }
     
-    func logoutScreenLockUsers() {
+    @objc func logoutScreenLockUsers() {
         if let accounts = UserAccountManager.shared.userAccounts() {
             accounts.forEach { userAccount in
                 let id = userAccount.idData.userId
@@ -114,7 +114,7 @@ class ScreenLockManager: NSObject {
         }
     }
     
-    func readMobilePolicy() -> Bool {
+    @objc func readMobilePolicy() -> Bool {
         var hasPolicy = false
         let result = KeychainHelper.read(service: kScreenLockIdentifier, account: nil)
         if result.success && result.data != nil {
@@ -126,6 +126,36 @@ class ScreenLockManager: NSObject {
         }
 
         return hasPolicy
+    }
+    
+    /*
+     * Checks all users for Screen Lock policy and removes global policy if none are found.
+     */
+    @objc func checkForScreenLockUsers() {
+        if let accounts = UserAccountManager.shared.userAccounts() {
+            accounts.forEach { userAccount in
+                let id = userAccount.idData.userId
+                let result = KeychainHelper.read(service: kScreenLockIdentifier, account: id)
+                if result.success && result.data != nil {
+                    do {
+                        if try JSONDecoder().decode(MobilePolicy.self, from: result.data!).hasPolicy {
+                            // Screen Lock user found, exit early.
+                            return
+                        }
+                    } catch {
+                        SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to read Mobile policy for user.")
+                    }
+                }
+            }
+        }
+        
+        // If we reach here there are no users left that requrie Screen Lock
+        let globalResult = KeychainHelper.remove(service: kScreenLockIdentifier, account: nil)
+        if globalResult.success {
+            SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy removed.")
+        } else {
+            SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to remove global mobile policy.")
+        }
     }
     
     @objc func upgradePasscode() -> Void {

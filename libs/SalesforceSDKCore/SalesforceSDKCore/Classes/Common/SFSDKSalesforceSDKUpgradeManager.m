@@ -172,7 +172,7 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
     NSError *error = nil;
     NSData *encryptionKey = [SFSDKKeyGenerator encryptionKeyFor:kUserAccountEncryptionKeyLabel error:&error];
     if (error) {
-        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error getting encryption key for : %@", kUserAccountEncryptionKeyLabel, error.localizedDescription];
+        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error getting encryption key for %@ : %@", kUserAccountEncryptionKeyLabel, error.localizedDescription];
         return;
     }
     NSData *encryptedArchiveData = [SFSDKEncryptor encryptData:decryptedArchiveData key:encryptionKey error:&error];
