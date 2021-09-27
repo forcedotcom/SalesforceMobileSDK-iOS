@@ -24,7 +24,6 @@
 //  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 import Foundation
 import CryptoKit
 import SalesforceSDKCommon
@@ -186,6 +185,18 @@ public class KeyGenerator: NSObject {
             keyCache[label] = key
             return key
         }
+    }
+    
+    /// Remove the encryption key for the given label.
+    ///
+    /// - Parameters:
+    ///   - label: Identifier for the key
+    /// - Returns: If removal was successful or not
+    @objc @discardableResult
+    public static func removeEncryptionKey(for label: String) -> Bool {
+        let storedLabel = "\(KeyGenerator.keyStoreService).\(label)"
+        keyCache.removeValue(forKey: label)
+        return KeychainHelper.remove(service: storedLabel, account: nil).success
     }
     
     static func symmetricKey(for label: String, keySize: SymmetricKeySize = .bits256) throws -> SymmetricKey {

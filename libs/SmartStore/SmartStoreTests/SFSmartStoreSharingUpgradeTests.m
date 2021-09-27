@@ -23,8 +23,11 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
+#import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import "NSData+SFAdditions.h"
 #import "SFSmartStoreTestCase.h"
 #import "SFSmartStoreUpgrade.h"
@@ -45,7 +48,7 @@
 @end
 
 @interface SFSmartStoreUpgrade (Private)
-+ (BOOL)updateSaltForStore:(NSString *)storeName user:(SFUserAccount *)user;
++ (BOOL)updateEncryptionForStore:(NSString *)storeName databaseManager:(SFSmartStoreDatabaseManager *)databaseManager;
 @end
 
 @interface SFSmartStoreSharingUpgradeTests : SFSmartStoreTestCase
@@ -79,66 +82,144 @@
 
 - (void) setUp {
     [super setUp];
-    if ([[SFKeyStoreManager sharedInstance] keyWithLabelExists:kSFSmartStoreEncryptionSaltLabel]) {
-        [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:kSFSmartStoreEncryptionSaltLabel];
-    }
-    [[NSUserDefaults msdkUserDefaults] setBool:NO forKey:@"com.salesforce.smartstore.external.hasExternalSalt"];
-    
     [SFSDKSmartStoreLogger setLogLevel:SFLogLevelDebug];
     self.smartStoreUser = [self setUpSmartStoreUser];
     [SFSmartStore removeSharedStoreWithName:kTestUpgradeSmartStoreName];
-    self.store = [SFSmartStore sharedStoreWithName:kTestUpgradeSmartStoreName];
     self.store.captureExplainQueryPlan = YES;
+    [self resetKeys];
 }
 
-- (void) tearDown
-{
+- (void) tearDown {
+    [self resetKeys];
     [SFSmartStore removeSharedStoreWithName:kTestUpgradeSmartStoreName];
     [self tearDownSmartStoreUser:self.smartStoreUser];
     self.smartStoreUser = nil;
     self.store = nil;
-    
-    if ([[SFKeyStoreManager sharedInstance] keyWithLabelExists:kSFSmartStoreEncryptionSaltLabel]) {
-        [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:kSFSmartStoreEncryptionSaltLabel];
-    }
-    [[NSUserDefaults msdkUserDefaults] setBool:NO forKey:@"com.salesforce.smartstore.external.hasExternalSalt"];
     [super tearDown];
 }
 
-- (void)testUpgrade {
-    //test existence of a datastore with inlined salt
-    SFEncryptionKey *origKey = [SFSmartStore encryptionKeyBlock]();
+- (void)resetKeys {
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if ([[SFKeyStoreManager sharedInstance] keyWithLabelExists:kSFSmartStoreEncryptionSaltLabel]) {
+        [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:kSFSmartStoreEncryptionSaltLabel];
+    }
+    #pragma clang diagnostic pop
+    if ([SFSDKKeychainHelper readWithService:kSFSmartStoreEncryptionSaltLabel account:nil].data) {
+        [SFSDKKeychainHelper removeWithService:kSFSmartStoreEncryptionSaltLabel account:nil];
+    }
+    [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kKeyStoreHasExternalSalt];
+    [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kSmartStoreVersionKey];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
+}
+
+// No salt and legacy encryption key -> salt and new encryption key
+- (void)testUpgradeNoSaltLegacyKey {
+    // Simulate store being created with legacy key
+    [SFSmartStore setEncryptionKeyGenerator:^NSData * _Nullable {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        return [SFSmartStore encryptionKeyBlock]().key;
+        #pragma clang diagnostic pop
+    }];
+    NSData *origKey = [SFSmartStore encryptionKeyGenerator]();
     SFSmartStore *store = [SFSmartStore sharedStoreWithName:kTestUpgradeSmartStoreName];
-    XCTAssertNotNil(origKey,@"Database must be setup to have an encKey");
-    XCTAssertNotNil(store,@"Store should not be nil");
-    XCTAssertFalse([SFSmartStore hasPlainTextHeader:store.storeName user:store.user],@"Database must not have plain text header");
-    [self setupSaltBlock];
+    XCTAssertNotNil(origKey, @"Database must be setup to have an encKey");
+    XCTAssertNotNil(store, @"Store should not be nil");
+    XCTAssertFalse([SFSmartStore hasPlainTextHeader:store.storeName user:store.user], @"Database must not have plain text header");
+    
+    // Set salt for upgrade
+    [SFSmartStore setEncryptionSaltBlock:^NSString * _Nullable {
+        NSData *existingSalt = [SFSDKKeychainHelper readWithService:kSFSmartStoreEncryptionSaltLabel account:nil].data;
+        if (existingSalt) {
+            return [existingSalt newHexStringFromBytes];
+        } else {
+            NSData *newSalt = [[NSMutableData dataWithLength:16] randomDataOfLength:16];
+            SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:kSFSmartStoreEncryptionSaltLabel data:newSalt account:nil];
+            if (result.success) {
+                return [newSalt newHexStringFromBytes];
+            } else {
+                [SFSDKSmartStoreLogger e:[self class] format:@"Error writing salt to keychain: %@", result.error.localizedDescription];
+            }
+        }
+        return nil;
+    }];
+    
+    // Set encryption key to back to default
+    [SFSmartStore setEncryptionKeyGenerator:^NSData * _Nullable{
+        return [SFSDKKeyGenerator encryptionKeyFor:kSFSmartStoreEncryptionKeyLabel error:nil];
+    }];
     NSString *salt = [SFSmartStore encryptionSaltBlock]();
-    SFEncryptionKey *key = [SFSmartStore encryptionKeyBlock]();
+
+    NSData *key = [SFSmartStore encryptionKeyGenerator]();
     XCTAssertNotNil(salt,@"Database must be setup to have a salt");
-    XCTAssertEqualObjects(origKey,key,@"Database must  be setup to have the same encKey");
-    BOOL result = [SFSmartStoreUpgrade updateSaltForStore:store.storeName user:store.user];
-    XCTAssertTrue(result,"Upgrade to using external salt should have worked");
-    XCTAssertTrue([SFSmartStore hasPlainTextHeader:store.storeName user:store.user],@"Database now must  have plain text header");
+    XCTAssertNotEqualObjects(origKey, key, @"Database should have different encryption key after upgrade");
+    XCTAssertNotEqualObjects(origKey, key, @"Database should have different encryption key after upgrade");
+    BOOL result = [SFSmartStoreUpgrade updateEncryptionForStore:store.storeName databaseManager:[SFSmartStoreDatabaseManager sharedManagerForUser:store.user]];
+    XCTAssertTrue(result,"Upgrade should have worked");
+    XCTAssertTrue([SFSmartStore hasPlainTextHeader:store.storeName user:store.user],@"Database now must have plain text header");
+    store = [SFSmartStore sharedStoreWithName:kTestUpgradeSmartStoreName];
+    XCTAssertNotNil(store, @"Store should not be nil after upgrade");
+    [self clearSaltBlock];
+}
+
+// Legacy salt and legacy encryption key -> new salt and new encryption key
+- (void)testUpgradeLegacySaltLegacyKey {
+    // Simulate store being created with legacy key and legacy salt
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [SFSmartStore setEncryptionKeyGenerator:^NSData * _Nullable{
+        return [SFSmartStore encryptionKeyBlock]().key;
+    }];
+    [SFSmartStore setEncryptionSaltBlock:^NSString * _Nullable {
+        SFEncryptionKey *saltKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionSaltLabel autoCreate:YES];
+        return [[saltKey key] digest];
+    }];
+    #pragma clang diagnostic pop
+    [[NSUserDefaults msdkUserDefaults] setBool:YES forKey:kKeyStoreHasExternalSalt];
+    
+    NSData *origKey = [SFSmartStore encryptionKeyGenerator]();
+    SFSmartStore *store = [SFSmartStore sharedStoreWithName:kTestUpgradeSmartStoreName];
+    XCTAssertNotNil(origKey, @"Database must be setup to have an encKey");
+    XCTAssertNotNil(store, @"Store should not be nil");
+    XCTAssertTrue([SFSmartStore hasPlainTextHeader:store.storeName user:store.user], @"Database should have plain text header");
+    
+    // Set encryption key and salt back to default for upgrade
+    [SFSmartStore setEncryptionSaltBlock:^NSString * _Nullable {
+        NSData *existingSalt = [SFSDKKeychainHelper readWithService:kSFSmartStoreEncryptionSaltLabel account:nil].data;
+        if (existingSalt) {
+            return [existingSalt newHexStringFromBytes];
+        } else {
+            NSData *newSalt = [[NSMutableData dataWithLength:16] randomDataOfLength:16];
+            SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:kSFSmartStoreEncryptionSaltLabel data:newSalt account:nil];
+            if (result.success) {
+                return [newSalt newHexStringFromBytes];
+            } else {
+                [SFSDKSmartStoreLogger e:[self class] format:@"Error writing salt to keychain: %@", result.error.localizedDescription];
+            }
+        }
+        return nil;
+    }];
+    
+    // Set encryption key to back to default
+    [SFSmartStore setEncryptionKeyGenerator:^NSData * _Nullable{
+        return [SFSDKKeyGenerator encryptionKeyFor:kSFSmartStoreEncryptionKeyLabel error:nil];
+    }];
+    NSString *salt = [SFSmartStore encryptionSaltBlock]();
+
+    NSData *key = [SFSmartStore encryptionKeyGenerator]();
+    XCTAssertNotNil(salt, @"Database must be setup to have a salt");
+    XCTAssertNotEqualObjects(origKey, key, @"Database should have different encryption key after upgrade");
+    BOOL result = [SFSmartStoreUpgrade updateEncryptionForStore:store.storeName databaseManager:[SFSmartStoreDatabaseManager sharedManagerForUser:store.user]];
+    XCTAssertTrue(result, "Upgrade should have worked");
+    XCTAssertTrue([SFSmartStore hasPlainTextHeader:store.storeName user:store.user], @"Database now must have plain text header");
     store = [SFSmartStore sharedStoreWithName:kTestUpgradeSmartStoreName];
     XCTAssertNotNil(store,@"Store should not be nil after upgrade");
     [self clearSaltBlock];
 }
 
-- (void)setupSaltBlock {
-    [SFSmartStore setEncryptionSaltBlock:^NSString * _Nullable{
-            SFEncryptionKey *saltKey = [[SFKeyStoreManager sharedInstance]   retrieveKeyWithLabel:kSFSmartStoreEncryptionSaltLabel autoCreate:YES];
-            NSString *salt = [[saltKey key] digest];
-            return salt;
-    }];
-}
-
 - (void)clearSaltBlock {
     [SFSmartStore setEncryptionSaltBlock:nil];
-    if ([[SFKeyStoreManager sharedInstance] keyWithLabelExists:kSFSmartStoreEncryptionSaltLabel]) {
-        [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:kSFSmartStoreEncryptionSaltLabel];
-    }
 }
-
 
 @end

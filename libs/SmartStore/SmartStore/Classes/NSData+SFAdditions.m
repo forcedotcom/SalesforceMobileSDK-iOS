@@ -31,11 +31,14 @@
 @implementation NSData (SFSHA)
 
 - (NSString *)digest {
-    // TODO: Remove in Mobile SDK 9.1
-    //NOTE:  Will be removed and replaced by a random byte string. Requires migration of database from previous salt to a new salt. Is only used when SFSmartStore is used with app groups that are enabled.
+    // NOTE: This is no longer used, it's only here to be able to migrate from the old digest to the new salt
+    // (only applicable to SFSmartStore with app groups enabled)
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
     digest[0] = 0;
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     CC_MD5([self bytes], (CC_LONG)[self length], digest);
+    #pragma clang diagnostic pop
     NSMutableString *ms = [NSMutableString string];
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
         [ms appendFormat:@"%02x", digest[i]];
