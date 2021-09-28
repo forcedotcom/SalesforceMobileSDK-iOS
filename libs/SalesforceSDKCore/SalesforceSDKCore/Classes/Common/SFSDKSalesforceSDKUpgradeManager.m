@@ -35,13 +35,6 @@
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import "SFSecurityLockout+Internal.h"
 
-SWIFT_CLASS_NAMED("ScreenLockManager")
-@interface SFScreenLockManager : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLockManager * _Nonnull shared;)
-+ (SFScreenLockManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (void)upgradePasscode;
-@end
-
 NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.salesforcesdkmanager.version";
 
 @implementation SFSDKSalesforceSDKUpgradeManager

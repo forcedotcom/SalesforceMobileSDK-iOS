@@ -620,7 +620,7 @@ static NSString *const kSFScreenLockWindowKey = @"screenlock";
 
 - (void)disableWindow {
     BOOL isActive = self.windowScene.activationState == UISceneActivationStateForegroundActive;
-    if ([self isSnapshotWindow] || isActive) {
+    if (([self isSnapshotWindow] || isActive) && ![self isScreenLockWindow]) {
         if (self.windowLevel > 0)
             self.windowLevel = self.windowLevel * -1;
         self.alpha = 0.0;
@@ -634,9 +634,7 @@ static NSString *const kSFScreenLockWindowKey = @"screenlock";
 }
 
 - (BOOL)isScreenLockWindow {
-    return [self.windowName isEqualToString:kSFScreenLockWindowKey];
+    return [[[[SFSDKWindowManager sharedManager] activeWindow] windowName] isEqualToString:kSFScreenLockWindowKey];
 }
-
-
 
 @end

@@ -132,6 +132,7 @@ class ScreenLockManager: NSObject {
      * Checks all users for Screen Lock policy and removes global policy if none are found.
      */
     @objc func checkForScreenLockUsers() {
+        var screenLockNeeded = false
         if let accounts = UserAccountManager.shared.userAccounts() {
             accounts.forEach { userAccount in
                 let id = userAccount.idData.userId
@@ -139,8 +140,7 @@ class ScreenLockManager: NSObject {
                 if result.success && result.data != nil {
                     do {
                         if try JSONDecoder().decode(MobilePolicy.self, from: result.data!).hasPolicy {
-                            // Screen Lock user found, exit early.
-                            return
+                            screenLockNeeded = true
                         }
                     } catch {
                         SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to read Mobile policy for user.")
@@ -149,12 +149,14 @@ class ScreenLockManager: NSObject {
             }
         }
         
-        // If we reach here there are no users left that requrie Screen Lock
-        let globalResult = KeychainHelper.remove(service: kScreenLockIdentifier, account: nil)
-        if globalResult.success {
-            SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy removed.")
-        } else {
-            SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to remove global mobile policy.")
+        // Remove global lock if no users that require it are left.
+        if !screenLockNeeded {
+            let globalResult = KeychainHelper.remove(service: kScreenLockIdentifier, account: nil)
+            if globalResult.success {
+                SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy removed.")
+            } else {
+                SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to remove global mobile policy.")
+            }
         }
     }
     

@@ -43,14 +43,6 @@
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
-SWIFT_CLASS_NAMED("ScreenLockManager")
-@interface SFScreenLockManager : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLockManager * _Nonnull shared;)
-+ (SFScreenLockManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (void)handleAppForground;
-- (void)checkForScreenLockUsers;
-@end
-
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
 static NSString * const kSFAppFeatureMacApp      = @"MC";

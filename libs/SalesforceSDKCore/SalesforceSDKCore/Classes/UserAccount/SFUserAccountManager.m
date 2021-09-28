@@ -125,14 +125,6 @@ static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppV
 static NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErrorHandler";
 static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErrorHandler";
 
-SWIFT_CLASS_NAMED("ScreenLockManager")
-@interface SFScreenLockManager : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLockManager * _Nonnull shared;)
-+ (SFScreenLockManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (void)handleAppForground;
-- (void)storeMobilePolicyWithUserAccount:(SFUserAccount * _Nonnull)userAccount hasMobilePolicy:(BOOL)hasMobilePolicy;
-@end
-
 @interface SFNotificationUserInfo()
 - (instancetype) initWithUser:(SFUserAccount *)user;
 @end

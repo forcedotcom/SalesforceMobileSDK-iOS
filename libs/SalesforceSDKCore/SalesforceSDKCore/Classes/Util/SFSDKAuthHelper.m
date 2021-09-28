@@ -38,14 +38,6 @@
 #import "SFApplicationHelper.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
-SWIFT_CLASS_NAMED("ScreenLockManager")
-@interface SFScreenLockManager : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SFScreenLockManager * _Nonnull shared;)
-+ (SFScreenLockManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (void)handleAppForground;
-- (void)setCallbackBlockWithScreenLockCallbackBlock:(void (^ _Nonnull)(void))screenLockCallbackBlock;
-@end
-
 @implementation SFSDKAuthHelper
 
 + (void)loginIfRequired:(void (^)(void))completionBlock {
