@@ -114,9 +114,8 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
         [SFSDKCoreLogger e:[self class] format:@"Request URL is nil"];
         return nil;
     }
-
-    // Using path only (subdomain can change with redirects)
-    NSString *URLHash = [[request.URL.path dataUsingEncoding:NSUTF8StringEncoding] sha256];
+    
+    NSString *URLHash = [request.URL.dataRepresentation sha256];
     NSString *prefixedURL = [NSString stringWithFormat:@"%@%@", kURLSchemePrefix, URLHash];
     NSURL *secureURL = [[NSURL alloc] initWithString:prefixedURL];
     return [[NSURLRequest alloc] initWithURL:secureURL cachePolicy:request.cachePolicy timeoutInterval:request.timeoutInterval];
