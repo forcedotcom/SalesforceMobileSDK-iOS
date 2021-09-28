@@ -56,8 +56,8 @@
 "biometricReason" = "Please authenticate to proceed.";
 "logoutButtonTitle" = "Log out";
 "retryButtonTitle" = "Retry Unlock";
-"setUpPasscodeMessage" = "%@ reqires you to set up an iOS passcode to use the app.";
-"fallbackErrorMessage" = "An unexpected error occured.";
+"setUpPasscodeMessage" = "%@ requires you to set up an iOS passcode to use the app.";
+"fallbackErrorMessage" = "An unexpected error occurred.";
 "accessibilityLoggedOutAnnouncement" = "You are logged out.";
 
 // OAuth flow
