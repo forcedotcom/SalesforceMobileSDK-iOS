@@ -2774,7 +2774,6 @@
 			baseConfigurationReference = CEBA94EF1C1B5D4C00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APPLICATION_EXTENSION_API_ONLY = NO;
 				BUILD_VERSION_SUFFIX = "";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2841,7 +2840,6 @@
 			baseConfigurationReference = CEBA94FE1C1B990A00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APPLICATION_EXTENSION_API_ONLY = NO;
 				BUILD_VERSION_SUFFIX = "";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

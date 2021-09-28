@@ -58,23 +58,16 @@ struct ScreenLockUIView: View {
                 Text(errorText)
                     .padding()
                     .offset(y: -175)
-                
-                Button(action: {
-                    if canEvaluatePolicy {
-                        showBiometic()
-                    } else {
-                        navigateToSettings()
+               
+                if canEvaluatePolicy {
+                    Button(action: showBiometic) {
+                        Text(SFSDKResourceUtils.localizedString("retryButtonTitle"))
+                            .foregroundColor(.white)
                     }
-                }, label: {
-                    if canEvaluatePolicy {
-                        Text(SFSDKResourceUtils.localizedString("retryButtonTitle")).foregroundColor(.white)
-                    } else {
-                        Text(SFSDKResourceUtils.localizedString("setUpPasscodeButton")).foregroundColor(.white)
-                    }
-                })
-                .padding()
-                .background(Color(UIColor.salesforceBlue).cornerRadius(5))
-                .offset(y: -175)
+                    .padding()
+                    .background(Color(UIColor.salesforceBlue).cornerRadius(5))
+                    .offset(y: -175)
+                }
             }
         })
         .onAppear(perform: {
@@ -110,14 +103,6 @@ struct ScreenLockUIView: View {
     
     private func getImageOffset() -> CGFloat {
         return hasError ? -350 : -470
-    }
-    
-    func navigateToSettings() {
-        if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
-            if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl)
-            }
-        }
     }
 }
 

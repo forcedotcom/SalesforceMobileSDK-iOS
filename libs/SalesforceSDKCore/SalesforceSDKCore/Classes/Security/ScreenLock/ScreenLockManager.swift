@@ -49,7 +49,7 @@ class ScreenLockManager: NSObject {
         let hasPolicyData = try! JSONEncoder().encode(MobilePolicy(hasPolicy: hasMobilePolicy))
         let result = KeychainHelper.write(service: kScreenLockIdentifier, data: hasPolicyData, account: userAccount.idData.userId)
         if result.success {
-            SFSDKCoreLogger.i(ScreenLockManager.self, message: "Mobile policy stored as \(hasPolicyData) for user.")
+            SFSDKCoreLogger.i(ScreenLockManager.self, message: "Mobile policy stored for user.")
         } else {
             SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to store mobile policy for user.")
         }
@@ -58,7 +58,7 @@ class ScreenLockManager: NSObject {
         if hasMobilePolicy {
             let globalResult = KeychainHelper.write(service: kScreenLockIdentifier, data: hasPolicyData, account: nil)
             if globalResult.success {
-                SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy stored as \(hasPolicyData).")
+                SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy stored.")
             } else {
                 SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to store global mobile policy.")
             }
@@ -158,6 +158,7 @@ class ScreenLockManager: NSObject {
         }
     }
     
+    // TODO: Remove in Mobile SDK 11.0
     @objc func upgradePasscode() -> Void {
         let userAccounts = UserAccountManager.shared.userAccounts()
         
