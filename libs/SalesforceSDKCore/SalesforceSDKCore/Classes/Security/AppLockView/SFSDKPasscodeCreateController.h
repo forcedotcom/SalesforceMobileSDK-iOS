@@ -30,12 +30,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+SFSDK_DEPRECATED(9.2, 10.0, "Will be removed in 10.0.")
 @protocol SFSDKPasscodeCreateDelegate
 
 - (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode;
 
 @end
 
+SFSDK_DEPRECATED(9.2, 10.0, "Will be removed in 10.0.")
 @interface SFSDKPasscodeCreateController : UIViewController
 
 /**

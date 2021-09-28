@@ -59,11 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uncomment the code below to see how you can customize the color, textcolor,
         // font and fontsize of the navigation bar
         // self.customizeLoginView()
-        
-        // Uncomment the code below to customize the color, textcolor and font of the Passcode,
-        // Touch Id and Face Id lock screens.  To use this feature please enable inactivity timeout
-        // in your connected app.
-        // self.customizePasscodeView()
         return true
     }
 
@@ -118,18 +113,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loginViewConfig.navigationTitleColor = UIColor.white
         loginViewConfig.navigationBarFont = UIFont(name: "Helvetica", size: 16.0)
         UserAccountManager.shared.loginViewControllerConfig = loginViewConfig
-    }
-
-    func customizePasscodeView() {
-        let passcodeViewConfig = AppLockViewControllerConfig()
-        passcodeViewConfig.backgroundColor = UIColor.black
-        passcodeViewConfig.primaryColor = UIColor.orange
-        passcodeViewConfig.secondaryColor = UIColor.gray
-        passcodeViewConfig.titleTextColor = UIColor.white
-        passcodeViewConfig.instructionTextColor = UIColor.white
-        passcodeViewConfig.borderColor = UIColor.yellow
-        passcodeViewConfig.maxNumberOfAttempts = 3
-        UserAccountManager.shared.appLockViewControllerConfig = passcodeViewConfig
     }
 
     func exportTestingCredentials() {
