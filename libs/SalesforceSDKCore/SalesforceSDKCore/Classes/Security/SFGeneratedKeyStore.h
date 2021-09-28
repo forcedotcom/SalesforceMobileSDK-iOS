@@ -23,9 +23,11 @@
  */
 
 #import <SalesforceSDKCore/SFKeyStore.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 extern NSString * const kGeneratedKeyLabelSuffix;
 
+SFSDK_DEPRECATED(9.2, 10.0, "Will be internal only for upgrade steps")
 @interface SFGeneratedKeyStore : SFKeyStore
 
 @end

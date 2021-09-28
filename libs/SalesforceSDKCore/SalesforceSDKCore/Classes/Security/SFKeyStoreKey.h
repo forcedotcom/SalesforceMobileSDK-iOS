@@ -24,12 +24,14 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  Data object representing the encryption key used for encrypting/decrypting the key store.
  */
+SFSDK_DEPRECATED(9.2, 10.0, "Will be internal only for upgrade steps")
 @interface SFKeyStoreKey : NSObject <NSCoding, NSCopying>
 
 /**
