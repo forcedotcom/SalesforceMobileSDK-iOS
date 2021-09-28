@@ -57,7 +57,7 @@
 "logoutButtonTitle" = "Log out";
 "retryButtonTitle" = "Retry Unlock";
 "setUpPasscodeButton" = "Set Up Passcode";
-"setUpPasscodeMessage" = "%@ reqires you to set up an iOS passcode to use the app.";
+"setUpPasscodeMessage" = "%@ requires you to set up an iOS passcode to use the app.";
 "fallbackErrorMessage" = "An unexpected error occurred.";
 "accessibilityLoggedOutAnnouncement" = "You are logged out.";
 
