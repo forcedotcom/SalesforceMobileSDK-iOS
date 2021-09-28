@@ -34,7 +34,10 @@
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFKeychainItemWrapper
+#pragma clang diagnostic pop
 
 // NSException constants
 NSString * const kSFKeychainItemExceptionType         = @"com.salesforce.security.keychainException";

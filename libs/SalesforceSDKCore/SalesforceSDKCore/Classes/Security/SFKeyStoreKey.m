@@ -27,7 +27,10 @@
 // NSCoding constants
 static NSString * const kKeyStoreKeyDataArchiveKey = @"com.salesforce.keystore.keyStoreKeyDataArchive";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFKeyStoreKey
+#pragma clang diagnostic pop
 
 + (instancetype) createKey
 {

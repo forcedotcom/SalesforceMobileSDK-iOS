@@ -853,12 +853,6 @@ extension RootViewController: ActionTableViewDelegate {
             userInfoString += "\nEmail: " + idData.email
             self.showAlert("User Info", message: userInfoString)
             return
-        case .enableBiometric:
-            // Uncomment this code to find the current state of biometric unlock
-            //UserAccountManager.shared.biometricUnlockState()
-            
-            UserAccountManager.shared.presentBiometricEnrollment(nil)
-            return
         case .logout:
             self.presentedViewController?.dismiss(animated: true, completion: nil)
             self.createLogoutActionSheet()

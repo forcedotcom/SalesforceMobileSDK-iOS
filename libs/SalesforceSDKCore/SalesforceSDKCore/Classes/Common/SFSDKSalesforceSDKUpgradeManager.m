@@ -32,6 +32,8 @@
 #import "SFUserAccount+Internal.h"
 #import "SFKeyStoreManager.h"
 #import "SFDefaultUserAccountPersister.h"
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
+#import "SFSecurityLockout+Internal.h"
 
 NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.salesforcesdkmanager.version";
 
@@ -49,6 +51,7 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
         [SFDirectoryManager upgradeUserDirectories];
         [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
         [NSURLCache.sharedURLCache removeAllCachedResponses]; // For cache encryption key change
+        [SFSDKSalesforceSDKUpgradeManager upgradePasscode];
     }
     
     [[NSUserDefaults msdkUserDefaults] setValue:currentVersion forKey:kSalesforceSDKManagerVersionKey];
@@ -162,7 +165,7 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
     NSError *error = nil;
     NSData *encryptionKey = [SFSDKKeyGenerator encryptionKeyFor:kUserAccountEncryptionKeyLabel error:&error];
     if (error) {
-        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error getting encryption key for %@: %@", kUserAccountEncryptionKeyLabel, error.localizedDescription];
+        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error getting encryption key for %@ : %@", kUserAccountEncryptionKeyLabel, error.localizedDescription];
         return;
     }
     NSData *encryptedArchiveData = [SFSDKEncryptor encryptData:decryptedArchiveData key:encryptionKey error:&error];
@@ -171,6 +174,14 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
         return;
     }
     [encryptedArchiveData writeToFile:userAccountPath atomically:YES];
+}
+
++ (void)upgradePasscode {
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [SFSecurityLockout resetPasscode];
+    #pragma clang diagnostic pop
+    [[SFScreenLockManager shared] upgradePasscode];
 }
 
 @end
