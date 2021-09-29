@@ -115,10 +115,26 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
         return nil;
     }
     
-    NSString *URLHash = [request.URL.dataRepresentation sha256];
+    NSString *URLHash = [SFSDKEncryptedURLCache computeHash:request];
     NSString *prefixedURL = [NSString stringWithFormat:@"%@%@", kURLSchemePrefix, URLHash];
     NSURL *secureURL = [[NSURL alloc] initWithString:prefixedURL];
     return [[NSURLRequest alloc] initWithURL:secureURL cachePolicy:request.cachePolicy timeoutInterval:request.timeoutInterval];
+}
+
++ (NSString*)computeHash:(nonnull NSURLRequest *)request {
+    return [[[SFSDKEncryptedURLCache urlWithoutSubdomain:request.URL] dataUsingEncoding:NSUTF8StringEncoding] sha256];
+}
+
++ (NSString *)urlWithoutSubdomain:(nonnull NSURL*)url {
+    NSString* host = url.host;
+    NSString* path = url.path;
+    NSString* query = url.query;
+
+    NSArray* hostParts = [host componentsSeparatedByString:@"."];
+    NSRange endRange = NSMakeRange(hostParts.count >= 2 ? hostParts.count - 2 : 0, MIN(hostParts.count, 2));
+    NSString* hostWithoutSubdomain = [[hostParts subarrayWithRange:endRange] componentsJoinedByString:@"."];
+
+    return [NSString stringWithFormat:@"https://%@%@%@", hostWithoutSubdomain, path, (query ? [NSString stringWithFormat:@"?%@", query] : @"")];
 }
 
 @end
