@@ -27,7 +27,6 @@
 @property (nonatomic, weak, nullable) id<SalesforceSDKManagerFlow> sdkManagerFlow;
 @property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
 @property (nonatomic, assign, getter=isPasscodeDisplayed) BOOL passcodeDisplayed;
-@property (nonatomic, assign, getter=isScreenLockDisplayed) BOOL screenLockDisplayed;
 
 - (void)presentSnapshot:(nonnull UIScene *)scene;
 - (BOOL)isSnapshotPresented:(nonnull UIScene *)scene;
