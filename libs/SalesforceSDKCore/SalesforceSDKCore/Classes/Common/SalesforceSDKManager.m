@@ -549,18 +549,11 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 - (void)logoutCleanup
 {
     self.passcodeDisplayed = NO;
-    self.screenLockDisplayed = NO;
 }
 
 - (void)handleAppForeground:(NSNotification *)notification
 {
-    [SFSDKCoreLogger d:[self class] format:@"App is entering the foreground."];
-    if (self.isScreenLockDisplayed) {
-        // Screen Lock was already displayed prior to app foreground.
-        [SFSDKCoreLogger i:[self class] format:@"%@ Screen Lock already displayed.", NSStringFromSelector(_cmd)];
-    } else {
-        [[SFScreenLockManager shared] handleAppForground];
-    }
+    [[SFScreenLockManager shared] handleAppForground];
 }
 
 - (void)handleAppBackground:(NSNotification *)notification
@@ -845,13 +838,9 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     self.passcodeDisplayed = NO;
 }
 
-- (void)screenLockFlowWillBegin:(NSNotification *)notification {
-    self.screenLockDisplayed = YES;
-}
+- (void)screenLockFlowWillBegin:(NSNotification *)notification { }
 
-- (void)screenLockFlowDidComplete:(NSNotification *)notification {
-    self.screenLockDisplayed = NO;
-}
+- (void)screenLockFlowDidComplete:(NSNotification *)notification { }
 
 @end
 

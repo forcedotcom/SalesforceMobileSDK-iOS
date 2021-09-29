@@ -28,24 +28,35 @@
 import Foundation
 import SwiftUI
 
-typealias ScreenLockCallbackBlock = () -> Void
+// Callback block used to launch the app when the screen is unlocked.
+public typealias ScreenLockCallbackBlock = () -> Void
 
 @objc(SFScreenLockManager)
-class ScreenLockManager: NSObject {
-    @objc static let shared = ScreenLockManager()
+public class ScreenLockManager: NSObject {
+    @objc public static let shared = ScreenLockManager()
     
     private let kScreenLockIdentifier = "com.salesforce.security.screenlock"
     private var callbackBlock: ScreenLockCallbackBlock? = nil
     
     private override init() {}
     
-    @objc func handleAppForground() {
+    // MARK: Screen Lock Manager
+    
+    /// Locks the screen if necessary
+    @objc public func handleAppForground() {
         if readMobilePolicy() {
             lock()
+        } else {
+            unlockPostProcesing()
         }
     }
     
-    @objc func storeMobilePolicy(userAccount: UserAccount, hasMobilePolicy: Bool) {
+    /// Stores the mobile policy for the user.
+    ///
+    /// - Parameters:
+    ///   - userAccount: The user account
+    ///   - hasMobilePolicy: Whether the user has a mobile policy
+    @objc public func storeMobilePolicy(userAccount: UserAccount, hasMobilePolicy: Bool) {
         let hasPolicyData = try! JSONEncoder().encode(MobilePolicy(hasPolicy: hasMobilePolicy))
         let result = KeychainHelper.write(service: kScreenLockIdentifier, data: hasPolicyData, account: userAccount.idData.userId)
         if result.success {
@@ -65,21 +76,55 @@ class ScreenLockManager: NSObject {
         }
     }
     
-    @objc func setCallbackBlock(screenLockCallbackBlock: @escaping ScreenLockCallbackBlock) {
+    /// Stores the callback block to be run upon screen unlock
+    ///
+    /// - Parameters:
+    ///   -  screenLockCallbackBlock: The block to be run upon unlock
+    @objc public func setCallbackBlock(screenLockCallbackBlock: @escaping ScreenLockCallbackBlock) {
         callbackBlock = screenLockCallbackBlock
     }
     
-    func unlock() {
-        // Send flow will begin notification
-        SFSDKCoreLogger.d(ScreenLockManager.self, message: "Sending screen lock flow completed notification")
-        NotificationCenter.default.post(name: Notification.Name(rawValue: kSFScreenLockFlowCompleted), object: nil)
-        
-        SFSDKWindowManager.shared().screenLockWindow().dismissWindow()
-        if callbackBlock != nil {
-            let callbackBlockCopy = callbackBlock!
-            callbackBlock = nil
-            callbackBlockCopy()
+    /// Checks all users for Screen Lock policy and removes global policy if none are found.
+    @objc public func checkForScreenLockUsers() {
+        if readMobilePolicy() {
+            var screenLockNeeded = false
+            if let accounts = UserAccountManager.shared.userAccounts() {
+                accounts.forEach { userAccount in
+                    let id = userAccount.idData.userId
+                    let result = KeychainHelper.read(service: kScreenLockIdentifier, account: id)
+                    if result.success && result.data != nil {
+                        do {
+                            if try JSONDecoder().decode(MobilePolicy.self, from: result.data!).hasPolicy {
+                                screenLockNeeded = true
+                            }
+                        } catch {
+                            SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to read Mobile policy for user.")
+                        }
+                    }
+                }
+            }
+            
+            // Remove global lock if no users that require it are left.
+            if !screenLockNeeded {
+                let globalResult = KeychainHelper.remove(service: kScreenLockIdentifier, account: nil)
+                if globalResult.success {
+                    SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy removed.")
+                } else {
+                    SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to remove global mobile policy.")
+                }
+            }
         }
+    }
+    
+    // TODO: Remove in Mobile SDK 11.0
+    /// Upgrades from SFSecurityLockout to ScreenLockManager
+    @objc public func upgradePasscode() {
+        let userAccounts = UserAccountManager.shared.userAccounts()
+        
+        userAccounts?.forEach({ account in
+            let hasMobilePolicy = account.idData.mobileAppPinLength > 0 && account.idData.mobileAppScreenLockTimeout != -1
+            self.storeMobilePolicy(userAccount: account, hasMobilePolicy: hasMobilePolicy)
+        })
     }
     
     @objc func logoutScreenLockUsers() {
@@ -128,46 +173,23 @@ class ScreenLockManager: NSObject {
         return hasPolicy
     }
     
-    /*
-     * Checks all users for Screen Lock policy and removes global policy if none are found.
-     */
-    @objc func checkForScreenLockUsers() {
-        var screenLockNeeded = false
-        if let accounts = UserAccountManager.shared.userAccounts() {
-            accounts.forEach { userAccount in
-                let id = userAccount.idData.userId
-                let result = KeychainHelper.read(service: kScreenLockIdentifier, account: id)
-                if result.success && result.data != nil {
-                    do {
-                        if try JSONDecoder().decode(MobilePolicy.self, from: result.data!).hasPolicy {
-                            screenLockNeeded = true
-                        }
-                    } catch {
-                        SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to read Mobile policy for user.")
-                    }
-                }
-            }
-        }
+    func unlock() {
+        // Send flow will begin notification
+        SFSDKCoreLogger.d(ScreenLockManager.self, message: "Sending screen lock flow completed notification")
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kSFScreenLockFlowCompleted), object: nil)
         
-        // Remove global lock if no users that require it are left.
-        if !screenLockNeeded {
-            let globalResult = KeychainHelper.remove(service: kScreenLockIdentifier, account: nil)
-            if globalResult.success {
-                SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy removed.")
-            } else {
-                SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to remove global mobile policy.")
-            }
-        }
+        SFSDKWindowManager.shared().screenLockWindow().dismissWindow()
+        unlockPostProcesing()
     }
     
-    // TODO: Remove in Mobile SDK 11.0
-    @objc func upgradePasscode() -> Void {
-        let userAccounts = UserAccountManager.shared.userAccounts()
-        
-        userAccounts?.forEach({ account in
-            let hasMobilePolicy = account.idData.mobileAppPinLength > 0 && account.idData.mobileAppScreenLockTimeout != -1
-            self.storeMobilePolicy(userAccount: account, hasMobilePolicy: hasMobilePolicy)
-        })
+    private func unlockPostProcesing() {
+        if callbackBlock != nil {
+            let callbackBlockCopy = callbackBlock!
+            callbackBlock = nil
+            callbackBlockCopy()
+        } else {
+            SFSDKCoreLogger.e(ScreenLockManager.self, message: "callbackBlock is nil.")
+        }
     }
 
     private func lock() {
@@ -197,3 +219,4 @@ class ScreenLockManager: NSObject {
         let hasPolicy: Bool
     }
 }
+
