@@ -86,30 +86,32 @@ public class ScreenLockManager: NSObject {
     
     /// Checks all users for Screen Lock policy and removes global policy if none are found.
     @objc public func checkForScreenLockUsers() {
-        var screenLockNeeded = false
-        if let accounts = UserAccountManager.shared.userAccounts() {
-            accounts.forEach { userAccount in
-                let id = userAccount.idData.userId
-                let result = KeychainHelper.read(service: kScreenLockIdentifier, account: id)
-                if result.success && result.data != nil {
-                    do {
-                        if try JSONDecoder().decode(MobilePolicy.self, from: result.data!).hasPolicy {
-                            screenLockNeeded = true
+        if readMobilePolicy() {
+            var screenLockNeeded = false
+            if let accounts = UserAccountManager.shared.userAccounts() {
+                accounts.forEach { userAccount in
+                    let id = userAccount.idData.userId
+                    let result = KeychainHelper.read(service: kScreenLockIdentifier, account: id)
+                    if result.success && result.data != nil {
+                        do {
+                            if try JSONDecoder().decode(MobilePolicy.self, from: result.data!).hasPolicy {
+                                screenLockNeeded = true
+                            }
+                        } catch {
+                            SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to read Mobile policy for user.")
                         }
-                    } catch {
-                        SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to read Mobile policy for user.")
                     }
                 }
             }
-        }
-        
-        // Remove global lock if no users that require it are left.
-        if !screenLockNeeded {
-            let globalResult = KeychainHelper.remove(service: kScreenLockIdentifier, account: nil)
-            if globalResult.success {
-                SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy removed.")
-            } else {
-                SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to remove global mobile policy.")
+            
+            // Remove global lock if no users that require it are left.
+            if !screenLockNeeded {
+                let globalResult = KeychainHelper.remove(service: kScreenLockIdentifier, account: nil)
+                if globalResult.success {
+                    SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy removed.")
+                } else {
+                    SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to remove global mobile policy.")
+                }
             }
         }
     }
@@ -125,7 +127,7 @@ public class ScreenLockManager: NSObject {
         })
     }
     
-    func logoutScreenLockUsers() {
+    @objc func logoutScreenLockUsers() {
         if let accounts = UserAccountManager.shared.userAccounts() {
             accounts.forEach { userAccount in
                 let id = userAccount.idData.userId
@@ -155,6 +157,20 @@ public class ScreenLockManager: NSObject {
         } else {
             SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to remove global mobile policy.")
         }
+    }
+    
+    @objc func readMobilePolicy() -> Bool {
+        var hasPolicy = false
+        let result = KeychainHelper.read(service: kScreenLockIdentifier, account: nil)
+        if result.success && result.data != nil {
+            do {
+                try hasPolicy = JSONDecoder().decode(MobilePolicy.self, from: result.data!).hasPolicy
+            } catch {
+                SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to read global mobile policy.")
+            }
+        }
+
+        return hasPolicy
     }
     
     func unlock() {
@@ -197,20 +213,6 @@ public class ScreenLockManager: NSObject {
         SFSDKWindowManager.shared().screenLockWindow().presentWindow(animated: false) {
             SFSDKWindowManager.shared().screenLockWindow().viewController?.present(screenLockViewController, animated: false, completion: nil)
         }
-    }
-
-    private func readMobilePolicy() -> Bool {
-        var hasPolicy = false
-        let result = KeychainHelper.read(service: kScreenLockIdentifier, account: nil)
-        if result.success && result.data != nil {
-            do {
-                try hasPolicy = JSONDecoder().decode(MobilePolicy.self, from: result.data!).hasPolicy
-            } catch {
-                SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to read global mobile policy.")
-            }
-        }
-
-        return hasPolicy
     }
     
     private struct MobilePolicy: Encodable, Decodable {
