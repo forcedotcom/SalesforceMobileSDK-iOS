@@ -553,7 +553,7 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 
 - (void)handleAppForeground:(NSNotification *)notification
 {
-    [[SFScreenLockManager shared] handleAppForground];
+    [[SFScreenLockManager shared] handleAppForeground];
 }
 
 - (void)handleAppBackground:(NSNotification *)notification

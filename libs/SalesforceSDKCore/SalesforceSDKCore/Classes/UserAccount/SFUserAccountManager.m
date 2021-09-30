@@ -1582,7 +1582,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [strongSelf finalizeAuthCompletion:authSession];
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
             [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy];
-            [[SFScreenLockManager shared] handleAppForground];
+            [[SFScreenLockManager shared] handleAppForeground];
        }
     }];
     [self dismissAuthViewControllerIfPresent];

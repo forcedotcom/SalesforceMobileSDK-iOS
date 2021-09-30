@@ -93,7 +93,7 @@
                 completionBlock();
             }
     }];
-    [[SFScreenLockManager shared] handleAppForground];
+    [[SFScreenLockManager shared] handleAppForeground];
 }
 
 + (void)handleLogout:(void (^)(void))completionBlock {

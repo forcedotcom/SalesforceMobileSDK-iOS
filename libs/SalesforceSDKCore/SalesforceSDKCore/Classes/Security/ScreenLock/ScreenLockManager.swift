@@ -43,11 +43,11 @@ public class ScreenLockManager: NSObject {
     // MARK: Screen Lock Manager
     
     /// Locks the screen if necessary
-    @objc public func handleAppForground() {
+    @objc public func handleAppForeground() {
         if readMobilePolicy() {
             lock()
         } else {
-            unlockPostProcesing()
+            unlockPostProcessing()
         }
     }
     
@@ -179,10 +179,10 @@ public class ScreenLockManager: NSObject {
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSFScreenLockFlowCompleted), object: nil)
         
         SFSDKWindowManager.shared().screenLockWindow().dismissWindow()
-        unlockPostProcesing()
+        unlockPostProcessing()
     }
     
-    private func unlockPostProcesing() {
+    private func unlockPostProcessing() {
         if callbackBlock != nil {
             let callbackBlockCopy = callbackBlock!
             callbackBlock = nil
