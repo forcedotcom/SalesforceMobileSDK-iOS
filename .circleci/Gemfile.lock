@@ -251,7 +251,7 @@ PLATFORMS
 DEPENDENCIES
   danger
   danger-junit
-  fastlane (>= 2.127.2)
+  fastlane (>= 2.195.0)
   json (>= 2.3.0)
   plist
   xcpretty
