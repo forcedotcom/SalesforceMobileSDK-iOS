@@ -30,13 +30,14 @@
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
 #import <SalesforceSDKCommon/SFFileProtectionHelper.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 
 // Name of the individual file containing the archived SFUserAccount class
-static NSString * const kUserAccountPlistFileName = @"UserAccount.plist";
+NSString * const kUserAccountPlistFileName = @"UserAccount.plist";
 
 // Label for encryption key for user account persistence.
-static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAccount.encryptionKey";
+NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAccount.encryptionKey";
 
 // Error domain and codes
 static NSString * const SFUserAccountManagerErrorDomain = @"SFUserAccountManager";
@@ -157,8 +158,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     return success;
 }
 
-- (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath error:(NSError**)error {
-
+- (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath error:(NSError **)error {
     if (!userAccount) {
         NSString *reason = @"Could not save an null user account.";
         [SFSDKCoreLogger w:[self class] format:reason];
@@ -180,9 +180,9 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     }
     
     // Serialize the user account data.
-    NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:userAccount requiringSecureCoding:NO error:nil];
+    NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:userAccount requiringSecureCoding:YES error:nil];
     if (!archiveData) {
-        NSString *reason = [NSString stringWithFormat:@"Could not archive user account data to save it.  %@",filePath];
+        NSString *reason = [NSString stringWithFormat:@"Could not archive user account data to save it. %@", filePath];
         [SFSDKCoreLogger w:[self class] format:reason];
         if (error)
             *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
@@ -192,10 +192,10 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     }
 
     // Encrypt the data.
-    SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel autoCreate:YES];
-    NSData *encryptedArchiveData = [encKey encryptData:archiveData];
+    NSData *encryptionKey = [SFSDKKeyGenerator encryptionKeyFor:kUserAccountEncryptionKeyLabel error:nil];
+    NSData *encryptedArchiveData = [SFSDKEncryptor encryptData:archiveData key:encryptionKey error:nil];
     if (!encryptedArchiveData) {
-        NSString *reason = [NSString stringWithFormat:@"User account data could not be encrypted.  %@",filePath];
+        NSString *reason = [NSString stringWithFormat:@"User account data could not be encrypted. %@", filePath];
         [SFSDKCoreLogger w:[self class] format:reason];
         if (error)
             *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
@@ -206,7 +206,7 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     // Save it atomically.
     BOOL saveFileSuccess = [encryptedArchiveData writeToFile:filePath atomically:YES];
     if (!saveFileSuccess) {
-        NSString *reason = [NSString stringWithFormat:@"Could not create user account data file at path.  %@",filePath];
+        NSString *reason = [NSString stringWithFormat:@"Could not create user account data file at path. %@", filePath];
         [SFSDKCoreLogger w:[self class] format:reason];
         if (error)
             *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
@@ -241,8 +241,8 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
         [SFSDKCoreLogger d:[self class] format:reason];
         return NO;
     }
-    SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel autoCreate:YES];
-    NSData *decryptedArchiveData = [encKey decryptData:encryptedUserAccountData];
+    NSData *encryptionKey = [SFSDKKeyGenerator encryptionKeyFor:kUserAccountEncryptionKeyLabel error:nil];
+    NSData *decryptedArchiveData = [SFSDKEncryptor decryptData:encryptedUserAccountData key:encryptionKey error:nil];
     if (!decryptedArchiveData) {
         if (error) {
             *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
@@ -255,8 +255,8 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
     
     
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:decryptedArchiveData error:nil];
-    unarchiver.requiresSecureCoding = NO;
-    SFUserAccount *decryptedAccount = [unarchiver decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+    unarchiver.requiresSecureCoding = YES;
+    SFUserAccount *decryptedAccount = [unarchiver decodeObjectOfClass:[SFUserAccount class] forKey:NSKeyedArchiveRootObjectKey];
     [unarchiver finishDecoding];
 
     if (decryptedAccount) {

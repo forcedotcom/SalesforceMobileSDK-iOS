@@ -59,7 +59,9 @@ enum {
     kSFOAuthErrorBrowserLaunchFailed,
     kSFOAuthErrorUnknownAdvancedAuthConfig,
     kSFOAuthErrorInvalidMDMConfiguration,
-    kSFOAuthErrorJWTInvalidGrant
+    kSFOAuthErrorJWTInvalidGrant,
+    kSFOAuthErrorRequestCancelled,
+    kSFOAuthErrorRefreshFailed //generic error
 };
 
 NS_ASSUME_NONNULL_BEGIN

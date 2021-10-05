@@ -344,7 +344,10 @@ NS_SWIFT_NAME(UserAccountManager)
 /** Use this property to indicate to provide PasscodeViewController customizations for themes,navbar, icons and settings.
  *
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nonatomic,strong) SFSDKAppLockViewConfig *appLockViewControllerConfig;
+#pragma clang diagnostic pop
 
 /** Shared singleton
  */
@@ -524,8 +527,10 @@ Use this method to stop/clear any authentication which is has already been start
  Presents the setup screen that allows the user to opt into Touch/Face Id as a replacement for Passcode.
  @param config The AppLockViewConfig used to customize the Passcode and Biometric Screens.
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)presentBiometricEnrollment:(nullable SFSDKAppLockViewConfig *)config;
-
+#pragma clang diagnostic pop
 /**
  Determines if the deivce has Touch/Face Id enabled.
  @return YES if the device is capable of biometric unlock, NO otherwise.

@@ -245,6 +245,11 @@
                           [self.store convertSmartSql:@"select {employees:education} from {employees} where {employees:education} like ' { { { } } '"]);
 }
 
+- (void) testConvertOtherComplexSmartSql {
+    XCTAssertEqualObjects(@"SELECT json_set('{}', '$.data.uiapi.query.Account.edges', ( SELECT json_group_array(json_set('{}', '$.node.Id', (json_extract('Account.JSON', '$.data.fields.Id.value')) )) FROM (SELECT 'Account'.TABLE_1_1 as 'Account.JSON' FROM TABLE_1 as 'Account' WHERE ( json_extract('Account.JSON', '$.data.apiName') = 'Account' ) ) ) ) as json",
+      [self.store convertSmartSql:@"SELECT json_set('{}', '$.data.uiapi.query.Account.edges', ( SELECT json_group_array(json_set('{}', '$.node.Id', (json_extract('Account.JSON', '$.data.fields.Id.value')) )) FROM (SELECT 'Account'.TABLE_1_1 as 'Account.JSON' FROM TABLE_1 as 'Account' WHERE ( json_extract('Account.JSON', '$.data.apiName') = 'Account' ) ) ) ) as json"]);
+
+}
 
 - (void) testSmartQueryDoingCount 
 {

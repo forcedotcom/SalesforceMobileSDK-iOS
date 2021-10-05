@@ -254,7 +254,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 - (BOOL)mobilePoliciesConfigured
 {
     id value = [self.dictRepresentation nonNullObjectForKey:kSFIdentityMobilePolicyKey];
-    return value == nil ? NO : [value boolValue];
+    return value != nil;
 }
 
 - (int)mobileAppPinLength
@@ -350,7 +350,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 {
     self = [super init];
     if (self) {
-        self.dictRepresentation = [aDecoder decodeObjectOfClass:[NSDictionary class] forKey:kIdJsonDictKey];
+        self.dictRepresentation = [aDecoder decodeObjectOfClasses: [NSSet setWithObjects: [NSDictionary class], [NSString class], [NSURL class], [NSNumber class], [NSNull class], nil] forKey:kIdJsonDictKey];
     }
     
     return self;

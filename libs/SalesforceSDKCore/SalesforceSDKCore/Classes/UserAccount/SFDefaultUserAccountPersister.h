@@ -28,6 +28,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString * _Nonnull const kUserAccountEncryptionKeyLabel;
+extern NSString * _Nonnull const kUserAccountPlistFileName;
+
 @protocol SFUserAccountPersister;
 
 @interface SFDefaultUserAccountPersister:NSObject<SFUserAccountPersister>

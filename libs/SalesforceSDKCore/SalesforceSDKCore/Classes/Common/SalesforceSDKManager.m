@@ -40,6 +40,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKResourceUtils.h"
 #import "SFSDKMacDetectUtil.h"
+#import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
@@ -77,6 +78,9 @@ static NSString * const kWebViewUserAgentKey = @"web_view_user_agent";
 static NSString * const kDefaultCachePath = @"salesforce.mobilesdk.URLCache";
 static NSInteger const kDefaultCacheMemoryCapacity = 1024 * 1024 * 4; // 4MB
 static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
+
+NSString * const kSFScreenLockFlowWillBegin = @"SFScreenLockFlowWillBegin";
+NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 
 @implementation UIWindow (SalesforceSDKManager)
 
@@ -278,18 +282,18 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
                                                 selector:@selector(handleAuthCompleted:)
                                                      name:kSFNotificationUserDidLogIn object:nil];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow  selector:@selector(handleIDPInitiatedAuthCompleted:)
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleIDPInitiatedAuthCompleted:)
                                                      name:kSFNotificationUserIDPInitDidLogIn object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow  selector:@selector(handleIDPUserAddCompleted:)
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleIDPUserAddCompleted:)
                                                      name:kSFNotificationUserWillSendIDPResponse object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:) name:kSFNotificationUserWillLogout object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillSwitch:) name:kSFNotificationUserWillSwitch object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidSwitch:) name:kSFNotificationUserDidSwitch object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:) name:kSFNotificationUserDidLogout object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowWillBegin:) name:kSFPasscodeFlowWillBegin object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowDidComplete:) name:kSFPasscodeFlowCompleted object:nil];
-
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenLockFlowWillBegin:) name:kSFScreenLockFlowWillBegin object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenLockFlowDidComplete:) name:kSFScreenLockFlowCompleted object:nil];
+        
         _useSnapshotView = ![SFSDKMacDetectUtil isOnMac];
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
@@ -297,7 +301,8 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
         self.useEphemeralSessionForAdvancedAuth = YES;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
-        [SFDirectoryManager upgradeUserDirectories];
+        [SFSDKSalesforceSDKUpgradeManager upgrade];
+        [[SFScreenLockManager shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
     }
     return self;
 }
@@ -548,37 +553,16 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 - (void)handleAppForeground:(NSNotification *)notification
 {
-    [SFSDKCoreLogger d:[self class] format:@"App is entering the foreground."];
-    if (self.isPasscodeDisplayed) {
-        // Passcode was already displayed prior to app foreground.
-        [SFSDKCoreLogger i:[self class] format:@"%@ Passcode screen already displayed.", NSStringFromSelector(_cmd)];
-    } else {
-        // Check to display pin code screen.
-        [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-            // Note: Failed passcode verification automatically logs out users, which the logout
-            // delegate handler will catch and pass on.  We just log the error and reset launch
-            // state here.
-            [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
-        }];
-        
-        [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction lockoutAction) {
-            [SFSDKCoreLogger i:[self class] format:@"Passcode validation succeeded, or was not required, on app foreground."];
-        }];
-        [SFSecurityLockout validateTimer];
-    }
+    [[SFScreenLockManager shared] handleAppForeground];
 }
 
 - (void)handleAppBackground:(NSNotification *)notification
 {
     [SFSDKCoreLogger d:[self class] format:@"App is entering the background."];
-    [self savePasscodeActivityInfo];
     [self clearClipboard];
 }
 
-- (void)handleAppTerminate:(NSNotification *)notification
-{
-    [self savePasscodeActivityInfo];
-}
+- (void)handleAppTerminate:(NSNotification *)notification { }
 
 - (void)handleSceneDidActivate:(NSNotification *)notification {
      UIScene *scene = (UIScene *)notification.object;
@@ -597,7 +581,7 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     UIScene *scene = (UIScene *)notification.object;
     if (scene.activationState == UISceneActivationStateBackground) {
         SFSDKWindowContainer *activeWindow = [[SFSDKWindowManager sharedManager] activeWindow:scene];
-        if ([activeWindow isAuthWindow] || [activeWindow isPasscodeWindow]) {
+        if ([activeWindow isAuthWindow] || [activeWindow isScreenLockWindow]) {
             return;
         }
         [self presentSnapshot:scene];
@@ -610,14 +594,14 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
     [SFSDKCoreLogger d:[self class] format:@"Scene %@ is entering background.", sceneId];
 
-    // Don't present snapshot during advanced authentication or Passcode Presentation
+    // Don't present snapshot during advanced authentication or Screen Lock Presentation
     // ==============================================================================
     // During advanced authentication, application is briefly backgrounded then foregrounded
     // The ASWebAuthenticationSession's view controller is pushed into the key window
     // If we make the snapshot window the active window now, that's where the ASWebAuthenticationSession's view controller will end up
     // Then when the application is foregrounded and the snapshot window is dismissed, we will lose the ASWebAuthenticationSession
     SFSDKWindowContainer *activeWindow = [[SFSDKWindowManager sharedManager] activeWindow:scene];
-    if ([activeWindow isAuthWindow] || [activeWindow isPasscodeWindow]) {
+    if ([activeWindow isAuthWindow] || [activeWindow isScreenLockWindow]) {
         return;
     }
 
@@ -635,18 +619,10 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     [self.snapshotViewControllers removeObject:scene.session.persistentIdentifier];
 }
 
-- (void)handleAuthCompleted:(NSNotification *)notification
-{
-    // Will set up the passcode timer for auth that occurs out of band from SDK Manager launch.
-    [SFSecurityLockout setupTimer];
-    [SFSecurityLockout startActivityMonitoring];
-}
+- (void)handleAuthCompleted:(NSNotification *)notification { }
 
 - (void)handleIDPInitiatedAuthCompleted:(NSNotification *)notification
 {
-    // Will set up the passcode timer for auth that occurs out of band from SDK Manager launch.
-    [SFSecurityLockout setupTimer];
-    [SFSecurityLockout startActivityMonitoring];
     NSDictionary *userInfo = notification.userInfo;
     SFUserAccount *userAccount = userInfo[kSFNotificationUserInfoAccountKey];
     [[SFUserAccountManager sharedInstance] switchToUser:userAccount];
@@ -654,13 +630,10 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 - (void)handleIDPUserAddCompleted:(NSNotification *)notification
 {
-   
     NSDictionary *userInfo = notification.userInfo;
     SFUserAccount *userAccount = userInfo[kSFNotificationUserInfoAccountKey];
     // this is the only user context in the idp app.
     if ([userAccount isEqual:[SFUserAccountManager sharedInstance].currentUser]) {
-        [SFSecurityLockout setupTimer];
-        [SFSecurityLockout startActivityMonitoring];
         [[SFUserAccountManager sharedInstance] switchToUser:userAccount];
     }
 }
@@ -671,30 +644,8 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 - (void)handlePostLogout
 {
-    // Close the passcode screen and reset passcode monitoring.
-    [SFSecurityLockout cancelPasscodeScreen];
-    [SFSecurityLockout stopActivityMonitoring];
-    [SFSecurityLockout removeTimer];
+    [[SFScreenLockManager shared] checkForScreenLockUsers];
     [self logoutCleanup];
-}
-
-- (void)handleUserWillSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
-{
-    [SFSecurityLockout cancelPasscodeScreen];
-    [SFSecurityLockout stopActivityMonitoring];
-    [SFSecurityLockout removeTimer];
-}
-
-- (void)handleUserDidSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
-{
-    [SFSecurityLockout setupTimer];
-    [SFSecurityLockout startActivityMonitoring];
-}
-
-- (void)savePasscodeActivityInfo
-{
-    [SFSecurityLockout removeTimer];
-    [SFInactivityTimerCenter saveActivityTimestamp];
 }
     
 - (BOOL)isSnapshotPresented:(UIScene *)scene {
@@ -739,16 +690,10 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
     if ([self isSnapshotPresented:scene]) {
         if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
             self.snapshotDismissalAction(self.snapshotViewControllers[scene.session.persistentIdentifier]);
-            if ([SFSecurityLockout shouldLock]) {
-                [SFSecurityLockout validateTimer];
-            }
         } else {
             SFSDKWindowContainer *snapshotWindow = [[SFSDKWindowManager sharedManager] snapshotWindow:scene];
             [snapshotWindow.viewController dismissViewControllerAnimated:NO completion:^{
                 [snapshotWindow dismissWindowAnimated:NO withCompletion:^{
-                    if ([SFSecurityLockout shouldLock]) {
-                        [SFSecurityLockout validateTimer];
-                    }
                     if (completion) {
                         completion();
                     }
@@ -878,24 +823,10 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     [self.sdkManagerFlow handlePostLogout];
 }
 
-- (void)handleUserWillSwitch:(NSNotification *)notification {
-    SFUserAccount *fromUser = notification.userInfo[kSFNotificationFromUserKey];
-    SFUserAccount *toUser = notification.userInfo[kSFNotificationToUserKey];
-    [self.sdkManagerFlow handleUserWillSwitch:fromUser toUser:toUser];
-}
-
-- (void)handleUserDidSwitch:(NSNotification *)notification {
-    SFUserAccount *fromUser = notification.userInfo[kSFNotificationFromUserKey];
-    SFUserAccount *toUser = notification.userInfo[kSFNotificationToUserKey];
-    [self.sdkManagerFlow handleUserDidSwitch:fromUser toUser:toUser];
-}
-
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
          didSwitchFromUser:(SFUserAccount *)fromUser
                     toUser:(SFUserAccount *)toUser
-{
-    [self.sdkManagerFlow handleUserDidSwitch:fromUser toUser:toUser];
-}
+{ }
 
 #pragma mark - SFSecurityLockout
 
@@ -906,6 +837,10 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 - (void)passcodeFlowDidComplete:(NSNotification *)notification {
     self.passcodeDisplayed = NO;
 }
+
+- (void)screenLockFlowWillBegin:(NSNotification *)notification { }
+
+- (void)screenLockFlowDidComplete:(NSNotification *)notification { }
 
 @end
 

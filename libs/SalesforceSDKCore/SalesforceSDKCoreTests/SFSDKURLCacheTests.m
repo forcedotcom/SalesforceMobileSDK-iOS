@@ -41,6 +41,12 @@
 
 @end
 
+@interface SFSDKEncryptedURLCache (Testing)
+
++ (NSString*) urlWithoutSubdomain:(NSURL*)url;
+
+@end
+
 @interface SFSDKUrlCacheTests : XCTestCase
 
 @end
@@ -139,6 +145,23 @@
     } @finally {
         method_setImplementation(networkForRequest, networkForRequestImplementation);
     }
+}
+
+- (void)testUrlWithoutSubdomain {
+    // Weird host
+    XCTAssertTrue([@"https://salesforce" isEqualToString:[SFSDKEncryptedURLCache urlWithoutSubdomain:[NSURL URLWithString:@"https://salesforce"]]]);
+    XCTAssertTrue([@"https://salesforce/abc" isEqualToString:[SFSDKEncryptedURLCache urlWithoutSubdomain:[NSURL URLWithString:@"https://salesforce/abc"]]]);
+    XCTAssertTrue([@"https://salesforce/abc?d=e" isEqualToString:[SFSDKEncryptedURLCache urlWithoutSubdomain:[NSURL URLWithString:@"https://salesforce/abc?d=e"]]]);
+
+    // Path and host with and without subdomains
+    XCTAssertTrue([@"https://salesforce.com/abc" isEqualToString:[SFSDKEncryptedURLCache urlWithoutSubdomain:[NSURL URLWithString:@"https://salesforce.com/abc"]]]);
+    XCTAssertTrue([@"https://salesforce.com/abc" isEqualToString:[SFSDKEncryptedURLCache urlWithoutSubdomain:[NSURL URLWithString:@"https://cs1.salesforce.com/abc"]]]);
+    XCTAssertTrue([@"https://salesforce.com/abc" isEqualToString:[SFSDKEncryptedURLCache urlWithoutSubdomain:[NSURL URLWithString:@"https://cs1.content.salesforce.com/abc"]]]);
+
+    // Path and query and host with and without subdomains
+    XCTAssertTrue([@"https://salesforce.com/abc?d=e" isEqualToString:[SFSDKEncryptedURLCache urlWithoutSubdomain:[NSURL URLWithString:@"https://salesforce.com/abc?d=e"]]]);
+    XCTAssertTrue([@"https://salesforce.com/abc?d=e" isEqualToString:[SFSDKEncryptedURLCache urlWithoutSubdomain:[NSURL URLWithString:@"https://cs1.salesforce.com/abc?d=e"]]]);
+    XCTAssertTrue([@"https://salesforce.com/abc?d=e" isEqualToString:[SFSDKEncryptedURLCache urlWithoutSubdomain:[NSURL URLWithString:@"https://cs1.content.salesforce.com/abc?d=e"]]]);
 }
 
 - (SFNetwork *)useCache_networkForRequest:(SFRestRequest *)request {

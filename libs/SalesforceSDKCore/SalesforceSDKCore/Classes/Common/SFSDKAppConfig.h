@@ -38,6 +38,7 @@ extern NSString *const SFSDKDefaultNativeAppConfigFilePath NS_SWIFT_NAME(BootCon
 /** Contains this app's OAuth configuration as defined in the developer's Salesforce connected app.
  */
 NS_SWIFT_NAME(BootConfig)
+SFSDK_DEPRECATED(9.2, 11.0, "Will be removed")
 @interface SFSDKAppConfig : NSObject
 
 /**

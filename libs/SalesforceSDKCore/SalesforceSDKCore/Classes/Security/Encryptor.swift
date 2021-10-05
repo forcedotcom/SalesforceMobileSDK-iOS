@@ -24,7 +24,6 @@
 //  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 import Foundation
 import CryptoKit
 import SalesforceSDKCommon
@@ -36,6 +35,7 @@ public class Encryptor: NSObject {
         case combinedBoxFailed
         case encryptionFailed(underlyingError: Error?)
         case decryptionFailed(underlyingError: Error?)
+        case noEncryptionKey
     }
 
     // MARK: Symmetric Encrypt/Decrypt
@@ -46,8 +46,23 @@ public class Encryptor: NSObject {
     ///   - data: Data to encrypt
     ///   - key: Data representation of symmetric key to encrypt with
     /// - Returns: Encrypted data
-    @objc @available(swift, obsoleted: 1.0) // Objective-c only wrapper
+    @objc @available(*, deprecated, renamed: "encrypt(data:key:)") @available(swift, obsoleted: 1.0) // Objective-c only wrapper
     public static func encrypt(data: Data, using key: Data) throws -> Data {
+        let symmetricKey = SymmetricKey(data: key)
+        return try encrypt(data: data, using: symmetricKey)
+    }
+    
+    /// Encrypts data with a given key
+    ///
+    /// - Parameters:
+    ///   - data: Data to encrypt
+    ///   - key: Data representation of symmetric key to encrypt with
+    /// - Returns: Encrypted data
+    @objc(encryptData:key:error:) @available(swift, obsoleted: 1.0) // Objective-c only wrapper
+    public static func encrypt(data: Data, key: Data?) throws -> Data {
+        guard let key = key else {
+            throw EncryptorError.noEncryptionKey
+        }
         let symmetricKey = SymmetricKey(data: key)
         return try encrypt(data: data, using: symmetricKey)
     }
@@ -72,8 +87,23 @@ public class Encryptor: NSObject {
     ///   - data: Data to decrypt
     ///   - key: Data representation of symmetric key to decrypt with
     /// - Returns: Decrypted data
-    @objc @available(swift, obsoleted: 1.0) // Objective-c only wrapper
+    @objc @available(*, deprecated, renamed: "decrypt(data:key:)") @available(swift, obsoleted: 1.0) // Objective-c only wrapper
     public static func decrypt(data: Data, using key: Data) throws -> Data {
+        let symmetricKey = SymmetricKey(data: key)
+        return try decrypt(data: data, using: symmetricKey)
+    }
+    
+    /// Decrypts data with a given key
+    ///
+    /// - Parameters:
+    ///   - data: Data to decrypt
+    ///   - key: Data representation of symmetric key to decrypt with
+    /// - Returns: Decrypted data
+    @objc(decryptData:key:error:) @available(swift, obsoleted: 1.0) // Objective-c only wrapper
+    public static func decrypt(data: Data, key: Data?) throws -> Data {
+        guard let key = key else {
+            throw EncryptorError.noEncryptionKey
+        }
         let symmetricKey = SymmetricKey(data: key)
         return try decrypt(data: data, using: symmetricKey)
     }
@@ -155,6 +185,18 @@ public class KeyGenerator: NSObject {
             keyCache[label] = key
             return key
         }
+    }
+    
+    /// Remove the encryption key for the given label.
+    ///
+    /// - Parameters:
+    ///   - label: Identifier for the key
+    /// - Returns: If removal was successful or not
+    @objc @discardableResult
+    public static func removeEncryptionKey(for label: String) -> Bool {
+        let storedLabel = "\(KeyGenerator.keyStoreService).\(label)"
+        keyCache.removeValue(forKey: label)
+        return KeychainHelper.remove(service: storedLabel, account: nil).success
     }
     
     static func symmetricKey(for label: String, keySize: SymmetricKeySize = .bits256) throws -> SymmetricKey {

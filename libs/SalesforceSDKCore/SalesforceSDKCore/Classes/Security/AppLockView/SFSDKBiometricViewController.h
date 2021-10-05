@@ -29,6 +29,8 @@
 #import "SFSDKAppLockViewConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+SFSDK_DEPRECATED(9.2, 10.0, "Will be removed in 10.0.")
 @protocol SFSDKBiometricViewDelegate <NSObject>
 
 - (void)biometricUnlockSucceeded:(BOOL)isVerificationMode;
@@ -37,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+SFSDK_DEPRECATED(9.2, 10.0, "Will be removed in 10.0.")
 @interface SFSDKBiometricViewController : UIViewController
 
 /**

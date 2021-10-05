@@ -38,7 +38,10 @@ static NSString * const kSecureEncryptionKeyCodingValue = @"com.salesforce.encry
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFSecureEncryptionKey
+#pragma clang diagnostic pop
 
 #pragma mark - Factory methods and constructor
 

@@ -1,7 +1,11 @@
 anchors:
-  - &latest-xcode "12.0.1"
-  - &latest-ios   "14.1"
-  - &min-ios      "13.5"
+  - &latest-xcode "12.5.1"
+  - &latest-ios   "14.5"
+  - &min-ios      "13.7"
+  - &chruby       "2.7.3"
+  - &beta-xcode   "13.0.0"
+  - &beta-ios     "15.0"
+  - &beta-chruby  "3.0.2"
 
 executors:
   mac:
@@ -12,7 +16,16 @@ executors:
     environment:
       BASH_ENV: ~/.bashrc
       FASTLANE_SKIP_UPDATE_CHECK: "true"
-      CHRUBY_VER: 2.7.1
+      CHRUBY_VER: *chruby
+  mac-beta:
+    working_directory: ~/SalesforceMobileSDK-iOS
+    macos:
+      xcode: *beta-xcode
+    shell: /bin/bash --login -eo pipefail
+    environment:
+      BASH_ENV: ~/.bashrc
+      FASTLANE_SKIP_UPDATE_CHECK: "true"
+      CHRUBY_VER: *beta-chruby
 
 version: 2.1
 jobs:
@@ -23,7 +36,7 @@ jobs:
         default: "SalesforceSDKCommon"
       device:
         type: string
-        default: "iPhone 11"
+        default: "iPhone 12"
       ios:
         type: string
         default: *latest-xcode
@@ -98,6 +111,10 @@ workflows:
 
   # Cron are on a timezone 8 hours ahead of PST
   # Build everything at ~10:30pm Tuesday/Thursday Nights
+  #
+  # Note:  The "requires" field is used to limit the number of concurrent jobs running (one per lib) to prevent 
+  # test faulures since some tests rely on the server or storage to have consistent counts.  Unfotunately the 
+  # "requires" field is just a string so anchors cannot be added, thus we need to maintain the iOS version.  
   nightly-test-ios:
     triggers:
       - schedule:
@@ -123,4 +140,14 @@ workflows:
               nightly-test: [true]
               ios: [*latest-ios]
           requires:
-            - test << matrix.lib >> iOS 13.5
+            - test << matrix.lib >> iOS 13.7
+      - run-tests:
+          name: test << matrix.lib >> beta iOS << matrix.ios >> 
+          matrix:
+            parameters:
+              lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
+              nightly-test: [true]
+              ios: [*beta-ios]
+              env: [mac-beta]
+          requires:
+            - test << matrix.lib >> iOS 14.5
