@@ -158,8 +158,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setEncryptionKeyBlock:</TokenIdentifier>
-			<Abstract type="html">Block used to generate the encryption key.
-Salesforce recommends using the default encryption key derivation.</Abstract>
+			<Abstract type="html">Block used to generate the legacy encryption key.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
@@ -171,8 +170,7 @@ Salesforce recommends using the default encryption key derivation.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/encryptionKeyBlock</TokenIdentifier>
-			<Abstract type="html">Block used to generate the encryption key.
-Salesforce recommends using the default encryption key derivation.</Abstract>
+			<Abstract type="html">Block used to generate the legacy encryption key.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
@@ -184,14 +182,52 @@ Salesforce recommends using the default encryption key derivation.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/encryptionKeyBlock</TokenIdentifier>
-			<Abstract type="html">Block used to generate the encryption key.
-Salesforce recommends using the default encryption key derivation.</Abstract>
+			<Abstract type="html">Block used to generate the legacy encryption key.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
 			
 			
 			<Anchor>//api/name/encryptionKeyBlock</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setEncryptionKeyGenerator:</TokenIdentifier>
+			<Abstract type="html">Block used to generate the encryption key.
+Salesforce recommends using the default encryption key derivation.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyGenerator encryptionKeyGenerator</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyGenerator</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/encryptionKeyGenerator</TokenIdentifier>
+			<Abstract type="html">Block used to generate the encryption key.
+Salesforce recommends using the default encryption key derivation.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyGenerator encryptionKeyGenerator</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyGenerator</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/encryptionKeyGenerator</TokenIdentifier>
+			<Abstract type="html">Block used to generate the encryption key.
+Salesforce recommends using the default encryption key derivation.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyGenerator encryptionKeyGenerator</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKeyGenerator</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
@@ -385,7 +421,9 @@ for the given user.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/setEncryptionKeyBlock:</TokenIdentifier>
-			<Abstract type="html">Sets a custom block for deriving the encryption key used to encrypt stores.</Abstract>
+			<Abstract type="html">Sets a custom block for deriving the encryption key used to encrypt stores. This uses a legacy encryption key
+and is only used for upgrade scenarios. This should only be set if an app was already using it
+before Mobile SDK 9.2.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
 			
 			<Declaration>+ (void)setEncryptionKeyBlock:(SFSmartStoreEncryptionKeyBlock)newEncryptionKeyBlock</Declaration>
@@ -397,6 +435,23 @@ for the given user.</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/setEncryptionKeyBlock:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/setEncryptionKeyGenerator:</TokenIdentifier>
+			<Abstract type="html">Sets a custom block for deriving the encryption key used to encrypt stores.</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (void)setEncryptionKeyGenerator:(SFSmartStoreEncryptionKeyGenerator)newEncryptionKeyGenerator</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newEncryptionKeyGenerator</Name>
+					<Abstract type="html">The new encryption key derivation block to use with SmartStore.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setEncryptionKeyGenerator:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
@@ -1612,6 +1667,18 @@ Used for timestamping created and modified times.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/legacyEncKey</TokenIdentifier>
+			<Abstract type="html">The legacy key used to encrypt the store.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)legacyEncKey</Declaration>
+			
+			<ReturnValue><Abstract type="html">The legacy key used to encrypt the store.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyEncKey</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/encKey</TokenIdentifier>
 			<Abstract type="html">The key used to encrypt the store.</Abstract>
 			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
@@ -1620,6 +1687,18 @@ Used for timestamping created and modified times.</Abstract>
 			
 			<ReturnValue><Abstract type="html">The key used to encrypt the store.</Abstract></ReturnValue>
 			<Anchor>//api/name/encKey</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/legacySalt</TokenIdentifier>
+			<Abstract type="html">The legacy salt used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.</Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)legacySalt</Declaration>
+			
+			<ReturnValue><Abstract type="html">The legacy salt used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacySalt</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

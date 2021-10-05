@@ -66,6 +66,8 @@
 		
 		<option value="//api/name/encryptionKeyBlock">encryptionKeyBlock</option>
 		
+		<option value="//api/name/encryptionKeyGenerator">encryptionKeyGenerator</option>
+		
 		<option value="//api/name/encryptionSaltBlock">encryptionSaltBlock</option>
 		
 		<option value="//api/name/ftsExtension">ftsExtension</option>
@@ -90,6 +92,10 @@
 		
 		<option value="//api/name/encKey">+ encKey</option>
 		
+		<option value="//api/name/legacyEncKey">+ legacyEncKey</option>
+		
+		<option value="//api/name/legacySalt">+ legacySalt</option>
+		
 		<option value="//api/name/removeAllGlobalStores">+ removeAllGlobalStores</option>
 		
 		<option value="//api/name/removeAllStores">+ removeAllStores</option>
@@ -105,6 +111,8 @@
 		<option value="//api/name/salt">+ salt</option>
 		
 		<option value="//api/name/setEncryptionKeyBlock:">+ setEncryptionKeyBlock:</option>
+		
+		<option value="//api/name/setEncryptionKeyGenerator:">+ setEncryptionKeyGenerator:</option>
 		
 		<option value="//api/name/sharedGlobalStoreWithName:">+ sharedGlobalStoreWithName:</option>
 		
@@ -465,13 +473,54 @@
 			
 			
 			<div class="method-subsection brief-description">
+				<p>Block used to generate the legacy encryption key.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/encryptionKeyGenerator" title="encryptionKeyGenerator"></a>
+	<h3 class="method-title"><code><a href="#//api/name/encryptionKeyGenerator">&nbsp;&nbsp;encryptionKeyGenerator</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
 				<p>Block used to generate the encryption key.
 Salesforce recommends using the default encryption key derivation.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyGenerator encryptionKeyGenerator</code></div>
 
 		    
 			
@@ -1019,7 +1068,9 @@ for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Sets a custom block for deriving the encryption key used to encrypt stores.</p>
+				<p>Sets a custom block for deriving the encryption key used to encrypt stores. This uses a legacy encryption key
+and is only used for upgrade scenarios. This should only be set if an app was already using it
+before Mobile SDK 9.2.</p>
 			</div>
 			
 		    
@@ -1034,6 +1085,69 @@ for the given user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>newEncryptionKeyBlock</code></th>
+						<td><p>The new encryption key derivation block to use with SmartStore.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p><strong> WARNING: </strong>
+If you choose to override the encryption key derivation, you must set
+this value before opening any stores.  Setting the value after stores have been opened
+will result in the corruption and loss of existing data.
+Also, SmartStore does not use initialization vectors.
+<strong> WARNING </strong></p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setEncryptionKeyGenerator:" title="setEncryptionKeyGenerator:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setEncryptionKeyGenerator:">+&nbsp;setEncryptionKeyGenerator:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets a custom block for deriving the encryption key used to encrypt stores.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setEncryptionKeyGenerator:(SFSmartStoreEncryptionKeyGenerator)<em>newEncryptionKeyGenerator</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>newEncryptionKeyGenerator</code></th>
 						<td><p>The new encryption key derivation block to use with SmartStore.</p></td>
 					</tr>
 				
@@ -4357,6 +4471,52 @@ Used for timestamping created and modified times.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/legacyEncKey" title="legacyEncKey"></a>
+	<h3 class="method-title"><code><a href="#//api/name/legacyEncKey">+&nbsp;legacyEncKey</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The legacy key used to encrypt the store.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)legacyEncKey</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The legacy key used to encrypt the store.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/encKey" title="encKey"></a>
 	<h3 class="method-title"><code><a href="#//api/name/encKey">+&nbsp;encKey</a></code>
 </h3>
@@ -4382,6 +4542,52 @@ Used for timestamping created and modified times.</p>
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
 				<p>The key used to encrypt the store.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/legacySalt" title="legacySalt"></a>
+	<h3 class="method-title"><code><a href="#//api/name/legacySalt">+&nbsp;legacySalt</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The legacy <a href="#//api/name/salt">salt</a> used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)legacySalt</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The legacy <a href="#//api/name/salt">salt</a> used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.</p>
 			</div>
 			
 
@@ -4940,7 +5146,7 @@ always return YES (i.e. that the result is valid).</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2021 Salesforce.com. All rights reserved. Updated: 2021-07-14</p>
+						<p class="copyright">Copyright &copy; 2021 Salesforce.com. All rights reserved. Updated: 2021-10-05</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

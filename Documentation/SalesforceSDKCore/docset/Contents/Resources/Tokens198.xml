@@ -96,30 +96,6 @@
             <NodeRef refid="198"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserWillSwitch:toUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleUserWillSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
-			
-			
-			<Anchor>//api/name/handleUserWillSwitch:toUser:</Anchor>
-            <NodeRef refid="198"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserDidSwitch:toUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleUserDidSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
-			
-			
-			<Anchor>//api/name/handleUserDidSwitch:toUser:</Anchor>
-            <NodeRef refid="198"/>
-		</Token>
-		
         
         
 	</File>

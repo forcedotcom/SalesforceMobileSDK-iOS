@@ -44,6 +44,16 @@
         </Token>
         
         <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeScreenLock</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeScreenLock</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="218"/>
+        </Token>
+        
+        <Token>
             <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
             <Abstract type="html"></Abstract>
             <Declaration>SFSDKWindowTypeSnapshot</Declaration>

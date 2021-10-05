@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKViewUtils.html">
+	<File path="Classes/SFSDKViewControllerConfig.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKViewUtils</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKViewControllerConfig</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKViewUtils.h</DeclaredIn>
+			<DeclaredIn>SFSDKViewControllerConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="133"/>
@@ -13,14 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKViewUtils/styleNavigationBar:config:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKViewUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKViewControllerConfig/set:</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>+ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *)config</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
 			
 			
-			<Anchor>//api/name/styleNavigationBar:config:</Anchor>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKViewControllerConfig/)</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKViewControllerConfig/)</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFSDKViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKWebUtils.html">
+	<File path="Classes/SFSDKViewUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebUtils</TokenIdentifier>
-			<Abstract type="html">Class containing web-based utility/helper functionality for the SDK.</Abstract>
-			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKViewUtils</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKViewUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="134"/>
@@ -13,19 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebUtils/configureUserAgent:</TokenIdentifier>
-			<Abstract type="html">Configures a user agent for the app.</Abstract>
-			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKViewUtils/styleNavigationBar:config:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKViewUtils.h</DeclaredIn>
 			
-			<Declaration>+ (void)configureUserAgent:(NSString *)userAgentString</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userAgentString</Name>
-					<Abstract type="html">The string to configure as the user agent.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *)config</Declaration>
 			
-			<Anchor>//api/name/configureUserAgent:</Anchor>
+			
+			<Anchor>//api/name/styleNavigationBar:config:</Anchor>
             <NodeRef refid="134"/>
 		</Token>
 		

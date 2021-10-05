@@ -13,26 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/updateStoreLocations</TokenIdentifier>
-			<Abstract type="html">Updates any existing stores from their legacy location to their new user-specific location.</Abstract>
-			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
-			
-			<Declaration>+ (void)updateStoreLocations</Declaration>
-			
-			
-			<Anchor>//api/name/updateStoreLocations</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/updateEncryptionSalt</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/upgrade</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
 			
-			<Declaration>+ (void)updateEncryptionSalt</Declaration>
+			<Declaration>+ (void)upgrade</Declaration>
 			
 			
-			<Anchor>//api/name/updateEncryptionSalt</Anchor>
+			<Anchor>//api/name/upgrade</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		

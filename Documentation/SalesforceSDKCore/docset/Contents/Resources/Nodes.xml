@@ -3507,6 +3507,33 @@
             
         </Node>
 		<Node id="118" type="file" documentType="reference">
+            <Name>SFSDKSalesforceSDKUpgradeManager</Name>
+            <Path>Classes/SFSDKSalesforceSDKUpgradeManager.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSDKSalesforceSDKUpgradeManager.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSDKSalesforceSDKUpgradeManager.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSDKSalesforceSDKUpgradeManager.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="119" type="file" documentType="reference">
             <Name>SFSDKSoqlBuilder</Name>
             <Path>Classes/SFSDKSoqlBuilder.html</Path>
             
@@ -3539,7 +3566,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="119" type="file" documentType="reference">
+		<Node id="120" type="file" documentType="reference">
             <Name>SFSDKSoslBuilder</Name>
             <Path>Classes/SFSDKSoslBuilder.html</Path>
             
@@ -3572,7 +3599,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="120" type="file" documentType="reference">
+		<Node id="121" type="file" documentType="reference">
             <Name>SFSDKSoslReturningBuilder</Name>
             <Path>Classes/SFSDKSoslReturningBuilder.html</Path>
             
@@ -3611,12 +3638,12 @@
             </Subnodes>
             
         </Node>
-		<Node id="121" type="file" documentType="reference">
+		<Node id="122" type="file" documentType="reference">
             <Name>SFSDKStartURLHandler</Name>
             <Path>Classes/SFSDKStartURLHandler.html</Path>
             
         </Node>
-		<Node id="122" type="file" documentType="reference">
+		<Node id="123" type="file" documentType="reference">
             <Name>SFSDKTestCredentialsData</Name>
             <Path>Classes/SFSDKTestCredentialsData.html</Path>
             
@@ -3649,7 +3676,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="123" type="file" documentType="reference">
+		<Node id="124" type="file" documentType="reference">
             <Name>SFSDKTestRequestListener</Name>
             <Path>Classes/SFSDKTestRequestListener.html</Path>
             
@@ -3682,7 +3709,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="124" type="file" documentType="reference">
+		<Node id="125" type="file" documentType="reference">
             <Name>SFSDKTextFieldTableViewCell</Name>
             <Path>Classes/SFSDKTextFieldTableViewCell.html</Path>
             
@@ -3709,7 +3736,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="125" type="file" documentType="reference">
+		<Node id="126" type="file" documentType="reference">
             <Name>SFSDKUITableViewCell</Name>
             <Path>Classes/SFSDKUITableViewCell.html</Path>
             
@@ -3736,7 +3763,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="126" type="file" documentType="reference">
+		<Node id="127" type="file" documentType="reference">
             <Name>SFSDKUIWindow</Name>
             <Path>Classes/SFSDKUIWindow.html</Path>
             
@@ -3769,7 +3796,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="127" type="file" documentType="reference">
+		<Node id="128" type="file" documentType="reference">
             <Name>SFSDKURLHandlerManager</Name>
             <Path>Classes/SFSDKURLHandlerManager.html</Path>
             
@@ -3802,7 +3829,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="128" type="file" documentType="reference">
+		<Node id="129" type="file" documentType="reference">
             <Name>SFSDKUpdateNotificationsRequestBuilder</Name>
             <Path>Classes/SFSDKUpdateNotificationsRequestBuilder.html</Path>
             
@@ -3829,7 +3856,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="129" type="file" documentType="reference">
+		<Node id="130" type="file" documentType="reference">
             <Name>SFSDKUserSelectionNavViewController</Name>
             <Path>Classes/SFSDKUserSelectionNavViewController.html</Path>
             
@@ -3862,7 +3889,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="130" type="file" documentType="reference">
+		<Node id="131" type="file" documentType="reference">
             <Name>SFSDKUserSelectionTableViewController</Name>
             <Path>Classes/SFSDKUserSelectionTableViewController.html</Path>
             
@@ -3895,7 +3922,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="131" type="file" documentType="reference">
+		<Node id="132" type="file" documentType="reference">
             <Name>SFSDKViewController</Name>
             <Path>Classes/SFSDKViewController.html</Path>
             
@@ -3922,7 +3949,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="132" type="file" documentType="reference">
+		<Node id="133" type="file" documentType="reference">
             <Name>SFSDKViewControllerConfig</Name>
             <Path>Classes/SFSDKViewControllerConfig.html</Path>
             
@@ -3949,7 +3976,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="133" type="file" documentType="reference">
+		<Node id="134" type="file" documentType="reference">
             <Name>SFSDKViewUtils</Name>
             <Path>Classes/SFSDKViewUtils.html</Path>
             
@@ -3976,7 +4003,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="134" type="file" documentType="reference">
+		<Node id="135" type="file" documentType="reference">
             <Name>SFSDKWebUtils</Name>
             <Path>Classes/SFSDKWebUtils.html</Path>
             
@@ -4003,7 +4030,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="135" type="file" documentType="reference">
+		<Node id="136" type="file" documentType="reference">
             <Name>SFSDKWebViewStateManager</Name>
             <Path>Classes/SFSDKWebViewStateManager.html</Path>
             
@@ -4036,7 +4063,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="136" type="file" documentType="reference">
+		<Node id="137" type="file" documentType="reference">
             <Name>SFSDKWindowContainer</Name>
             <Path>Classes/SFSDKWindowContainer.html</Path>
             
@@ -4075,7 +4102,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="137" type="file" documentType="reference">
+		<Node id="138" type="file" documentType="reference">
             <Name>SFSDKWindowManager</Name>
             <Path>Classes/SFSDKWindowManager.html</Path>
             
@@ -4114,7 +4141,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="138" type="file" documentType="reference">
+		<Node id="139" type="file" documentType="reference">
             <Name>SFSObjectTree</Name>
             <Path>Classes/SFSObjectTree.html</Path>
             
@@ -4141,7 +4168,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="139" type="file" documentType="reference">
+		<Node id="140" type="file" documentType="reference">
             <Name>SFSecureEncryptionKey</Name>
             <Path>Classes/SFSecureEncryptionKey.html</Path>
             
@@ -4168,7 +4195,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="140" type="file" documentType="reference">
+		<Node id="141" type="file" documentType="reference">
             <Name>SFSecurityLockout</Name>
             <Path>Classes/SFSecurityLockout.html</Path>
             
@@ -4199,11 +4226,6 @@
                 
                 
             </Subnodes>
-            
-        </Node>
-		<Node id="141" type="file" documentType="reference">
-            <Name>SFSecurityLockoutTests</Name>
-            <Path>Classes/SFSecurityLockoutTests.html</Path>
             
         </Node>
 		<Node id="142" type="file" documentType="reference">
