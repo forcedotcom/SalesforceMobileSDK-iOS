@@ -57,7 +57,7 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 @property (nonatomic, readwrite, nullable) NSURL *apiUrl;
 @property (nonatomic, readwrite, nullable) NSString *userId;
-@property (nonatomic, readwrite, strong, nullable) NSDictionary * additionalOAuthFields;
+@property (nonatomic, readwrite, strong, nullable) NSDictionary *additionalOAuthFields;
 @property (nonatomic, readwrite, nullable) NSString *challengeString;
 @property (nonatomic, readwrite, nullable) NSString *authCode;
 @property (nonatomic, readwrite, nullable) NSMutableDictionary * credentialsChangeSet;
