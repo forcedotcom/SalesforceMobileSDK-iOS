@@ -131,6 +131,12 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credsIn.identityUrl     = [NSURL URLWithString:@"https://login.salesforce.com/ID/orgID/eighteenCharUsrXYZ"];
     credsIn.instanceUrl     = [NSURL URLWithString:@"http://www.salesforce.com"];
     credsIn.issuedAt        = [NSDate date];
+    credsIn.additionalOAuthFields = @{
+        @"content_domain": @"mobilesdk.my.salesforce.com",
+        @"content_sid": @"contentsid",
+        @"lightning_domain": @"mobilesdk.lightning.force.com",
+        @"lightning_sid": @"lightningsid",
+    };
     
     NSString *expectedUserId = @"eighteenCharUsrXYZ"; // derived from identityUrl
     
@@ -155,6 +161,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(expectedUserId,            credsOut.userId,            @"userId mismatch");
     XCTAssertEqualObjects(credsIn.instanceUrl,       credsOut.instanceUrl,       @"instanceUrl mismatch");
     XCTAssertEqualObjects(credsIn.issuedAt,          credsOut.issuedAt,          @"issuedAt mismatch");
+    XCTAssertEqualObjects(credsIn.additionalOAuthFields, credsOut.additionalOAuthFields, @"additionalFields mismatch");
     
     credsIn = nil;
 }
