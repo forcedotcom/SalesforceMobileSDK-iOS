@@ -107,7 +107,7 @@ To set this property use `setPhoto:completion:`
 
 /** Set object in customData dictionary
  
- @param object The object to store, must be NSCoding enabled
+ @param object The object to store, must be one of the following: NSString, NSNumber,  NSArray, NSDictionary, NSURL, NSNull, NSDate
  @param key An NSCopying key to store the object at
  */
 - (void)setCustomDataObject:(id<NSCoding>)object forKey:(id<NSCopying>)key;
