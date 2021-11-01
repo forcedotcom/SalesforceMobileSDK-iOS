@@ -316,6 +316,20 @@ NS_SWIFT_NAME(SmartStore)
 - (NSArray * __nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(using:startingFromPageIndex:));
 
 /**
+ Search for entries matching the given query spec with optional "where args" (i.e. bind args)
+ Provided bind args will be substituted to the ? found in the query
+ NB: Bind args are only supported for smart queries
+
+ @param querySpec A native query spec.
+ @param pageIndex The page index to start the entries at (this supports paging).
+ @param whereArgs The bind args (optional - only supported for smart queries).
+ @param error Sets/returns any error generated as part of the process.
+ 
+ @return A set of entries given the pageSize provided in the querySpec.
+ */
+- (NSArray * __nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex whereArgs:(NSArray* __nullable)whereArgs error:(NSError **)error NS_SWIFT_NAME(query(using:startingFromPageIndex:whereArgs:));
+
+/**
  Search for entries matching the given query spec without deserializing any JSON
  
  @param resultString A mutable string to which the result (serialized) is appended

@@ -424,6 +424,31 @@
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"101\", 94105],[\"103\", 94106]]"] actual:result message:@"Wrong result"];
 }
 
+
+- (void) testSmartQueryUsingWhereArgs {
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94105}}"];
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"address\":{\"city\":\"New York City\", \"zipcode\":10004}}"];
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"103\",\"address\":{\"city\":\"San Francisco\", \"zipcode\":94106}}"];
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"104\",\"address\":{\"city\":\"New York City\", \"zipcode\":10006}}"];
+
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId}, {employees:address.zipcode} from {employees} where {employees:address.city} = ? order by {employees:employeeId}" withPageSize:10];
+
+    NSArray *result = [self.store queryWithQuerySpec:querySpec pageIndex:0 whereArgs:@[@"San Francisco"] error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"101\", 94105],[\"103\", 94106]]"] actual:result message:@"Wrong result"];
+
+    result = [self.store queryWithQuerySpec:querySpec pageIndex:0 whereArgs:@[@"New York City"] error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"102\", 10004],[\"104\", 10006]]"] actual:result message:@"Wrong result"];
+}
+
+- (void) testNonSmartQueryUsingWhereArgs {
+    SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:kEmployeesSoup withOrderPath:kEmployeeId withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
+    NSError *error = nil;
+    NSArray *result = [self.store queryWithQuerySpec:querySpec pageIndex:0 whereArgs:@[@"San Francisco"] error:&error];
+    XCTAssertNil(result, @"Result should have nil");
+    XCTAssertNotNil(error, @"Error should not have been nil");
+    XCTAssertEqualObjects(error.userInfo[@"NSLocalizedDescription"], @"whereArgs can only be provided for smart queries");
+}
+
 // Making sure the "cleanup" regexp is a lot faster than the old cleanup regexp
 // Testing a real-world query with 25k characters
 - (void) testCleanupRegexpFaster {
