@@ -76,4 +76,19 @@ class EncryptionTests: XCTestCase {
         XCTAssertNotNil(differentKey)
         XCTAssertNotEqual(key, differentKey)
     }
+    
+    func testConcurrency() throws {
+        let result = SafeMutableArray()
+        DispatchQueue.concurrentPerform(iterations: 1000) { index in
+            if let symmetricKey = try? KeyGenerator.encryptionKey(for: "singleLabel") {
+                result.add(symmetricKey.dataRepresentation as NSData)
+            }
+        }
+        
+        XCTAssertEqual(1000, result.count)
+        let firstItem = try XCTUnwrap(result.object(atIndexed: 0) as? NSData)
+        XCTAssertTrue(result.asArray().allSatisfy { item in
+            return item as? NSData == firstItem
+        })
+    }
 }
