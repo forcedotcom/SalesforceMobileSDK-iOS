@@ -141,7 +141,7 @@ public class Encryptor: NSObject {
 
 @objc(SFSDKKeyGenerator)
 public class KeyGenerator: NSObject {
-    static var keyCache = [String: SymmetricKey]()
+    static var keyCache = Cache<String, SymmetricKey>()
     static let keyStoreService = "com.salesforce.keystore"
     static let defaultKeyName = "defaultKey"
     static let ecPublicKeyTagPrefix = "com.salesforce.eckey.public"
@@ -178,12 +178,8 @@ public class KeyGenerator: NSObject {
     ///   - label: Identifier for the key
     /// - Returns: Symmetric encryption key
     public static func encryptionKey(for label: String) throws -> SymmetricKey {
-        if let key = keyCache[label] {
-            return key
-        } else {
-            let key = try symmetricKey(for: label)
-            keyCache[label] = key
-            return key
+        return try keyCache.getOrCreate(key: label) { label in
+            return try symmetricKey(for: label)
         }
     }
     
@@ -288,6 +284,42 @@ public class KeyGenerator: NSObject {
             throw KeyGeneratorError.keyCreationFailed(underlyingError: error)
         }
         return KeyPair(publicKey: publicKey, privateKey: privateKey)
+    }
+}
+
+class Cache<Key: Hashable, Value> {
+    private(set) var cache = Dictionary<Key, Value>()
+    private var queue = DispatchQueue(label: "com.salesforce.mobilesdk.readWriteQueue\(arc4random_uniform(32))", qos: .unspecified, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
+    
+    func getOrCreate(key: Key, createBlock: (Key) throws -> (Value)) throws -> Value {
+        // Try read without barrier
+        let currentValue = queue.sync {
+            cache[key]
+        }
+        
+        if let currentValue = currentValue {
+            return currentValue
+        }
+        
+        // Key isn't present so queue again with barrier for possible write
+        return try queue.sync(flags: .barrier) { () -> Value in
+            let currentValue = cache[key]
+
+            // Checking current value again in case anything happened between first read and this
+            if let currentValue = currentValue {
+                return currentValue
+            } else {
+                let newValue = try createBlock(key)
+                cache[key] = newValue
+                return newValue
+            }
+        }
+    }
+    
+    func removeValue(forKey key: Key) {
+        queue.async(group: nil, qos: .unspecified, flags: .barrier) { [weak self] in
+            self?.cache.removeValue(forKey: key)
+        }
     }
 }
 
