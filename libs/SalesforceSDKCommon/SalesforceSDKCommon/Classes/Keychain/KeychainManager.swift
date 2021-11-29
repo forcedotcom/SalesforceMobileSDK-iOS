@@ -65,7 +65,7 @@ internal class KeychainItemManager: NSObject {
     /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain item manager
     /// for kSecClassGenericPassword operations
     convenience init(service: String, account: String?) {
-        self.init(service: service, account: account, accessibilityAttribute: kSecAttrAccessibleWhenUnlockedThisDeviceOnly)
+        self.init(service: service, account: account, accessibilityAttribute: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
     }
 
     /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain item manager
@@ -247,12 +247,15 @@ public class KeychainResult: NSObject {
 
 @objc(SFSDKKeychainHelper)
 public class KeychainHelper: NSObject {
+    @objc public private(set) static var accessibilityAttribute: CFString?
+
+    private static var keychainAccessibleAttribute: CFString {
+        return accessibilityAttribute ?? kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+    }
 
     private static let upgrade: Void = {
         _ = KeychainUpgradeManager.init().upgradeManagedKeys()
     }()
-
-    private static var keychainAccessibleAttribute: CFString = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
 
     //pre 9.1 keys are updated to have the creator tag.
     private static func upgradeIfRequired() {
@@ -380,19 +383,15 @@ public class KeychainHelper: NSObject {
     /// Use this to relax or change the accessibility attribute for keychain items.
     /// - Parameter secAttrAccessible: Should be the accessibility attribute as defined by
     /// - Returns: KeychainResult
-    @objc public class func setAccessibleAttribute(_ secAttrAccessible: KeychainItemAccessibility) -> KeychainResult {
+    @objc @discardableResult
+    public class func setAccessibleAttribute(_ secAttrAccessible: KeychainItemAccessibility) -> KeychainResult {
        
+        accessibilityAttribute = secAttrAccessible.asCFString
         if accessibleAttributeMatches(secAttrAccessible) {
             return KeychainResult.init(data: Data(), status: errSecSuccess)
         }
         
         CachedWrapper.clearAllCaches()
-        let accessibleAttribute = secAttrAccessible.asCFString
-        if accessibleAttribute == keychainAccessibleAttribute {
-            SalesforceLogger.log(KeychainHelper.self,level: .debug, message: "Attempting to update accessibility attribute for mobilesdk keychain items to the same level, will result in a noop")
-            return KeychainResult(data: nil, status: errSecSuccess)
-        }
-        keychainAccessibleAttribute = accessibleAttribute
         self.upgradeIfRequired()
         let query: [String: Any] = [
             String(kSecClass): kSecClassGenericPassword,
