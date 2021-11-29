@@ -26,13 +26,14 @@
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/SFFileProtectionHelper.h>
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import "SFDirectoryManager+Internal.h"
 #import "SFUserAccount+Internal.h"
 #import "SFKeyStoreManager.h"
 #import "SFDefaultUserAccountPersister.h"
-#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import "SFSecurityLockout+Internal.h"
 
 NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.salesforcesdkmanager.version";
@@ -42,16 +43,24 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
 + (void)upgrade {
     NSString *lastVersion = [SFSDKSalesforceSDKUpgradeManager lastVersion];
     NSString *currentVersion = [SFSDKSalesforceSDKUpgradeManager currentVersion];
-    
+
     if ([currentVersion isEqualToString:lastVersion]) {
         return;
     }
     
-    if (!lastVersion || [lastVersion doubleValue] < 9.2) {
+    if (!lastVersion || [lastVersion compare:@"9.2.0" options:NSNumericSearch] == -1) {
         [SFDirectoryManager upgradeUserDirectories];
         [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
         [NSURLCache.sharedURLCache removeAllCachedResponses]; // For cache encryption key change
         [SFSDKSalesforceSDKUpgradeManager upgradePasscode];
+    }
+    
+    if (!lastVersion || [lastVersion compare:@"9.2.1" options:NSNumericSearch] == -1) {
+        [SFSDKSalesforceSDKUpgradeManager updateUserAccountFileProtection];
+        // Only update to the new default if the app isn't setting a value itself
+        if (![SFSDKKeychainHelper accessibilityAttribute]) {
+            [SFSDKKeychainHelper setAccessibleAttribute:KeychainItemAccessibilityAfterFirstUnlockThisDeviceOnly];
+        }
     }
     
     [[NSUserDefaults msdkUserDefaults] setValue:currentVersion forKey:kSalesforceSDKManagerVersionKey];
@@ -64,6 +73,35 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
 
 + (NSString *)currentVersion {
     return [[[NSBundle bundleForClass:[SFSDKSalesforceSDKUpgradeManager class]] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+}
+
++ (void)updateUserAccountFileProtection {
+    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForOrg:nil user:nil community:nil type:NSLibraryDirectory components:nil];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:rootDirectory]) {
+        NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:nil];
+        for (NSString *rootContent in rootContents) {
+            if (![rootContent hasPrefix:kOrgPrefix]) {
+                continue;
+            }
+            NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
+            NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:nil];
+            for (NSString *orgContent in orgContents) {
+                if (![orgContent hasPrefix:kUserPrefix]) {
+                    continue;
+                }
+                NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
+
+                // Check for user account file
+                // ~/Library/<appBundleId>/<orgId>/<userId>/UserAccount.plist
+                NSString *userAccountPath = [orgPath stringByAppendingPathComponent:kUserAccountPlistFileName];
+                if ([fm fileExistsAtPath:userAccountPath]) {
+                    NSString *fileProtection = [SFFileProtectionHelper fileProtectionForPath:userAccountPath];
+                    [[NSFileManager defaultManager] setAttributes:@{NSFileProtectionKey:fileProtection} ofItemAtPath:userAccountPath error:nil];
+                }
+            }
+        }
+    }
 }
 
 + (void)upgradeUserAccounts {
