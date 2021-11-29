@@ -242,7 +242,7 @@ class KeychainItemManagerTests: XCTestCase {
         for (service, account) in accounts {
             let keychainResult: [String: Any]? = try readKeychainItem(service: service, account: account)
             let accessibilityAttr = try XCTUnwrap(keychainResult?[String(kSecAttrAccessible)])
-            XCTAssertEqual(accessibilityAttr as! CFString , kSecAttrAccessibleWhenUnlockedThisDeviceOnly)
+            XCTAssertEqual(accessibilityAttr as! CFString, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
         }
         
         let attrResult = KeychainHelper.setAccessibleAttribute(.whenUnlocked)
@@ -251,7 +251,7 @@ class KeychainItemManagerTests: XCTestCase {
         for (service, account) in accounts {
             let keychainResult: [String: Any]? = try readKeychainItem(service: service, account: account)
             let accessibilityAttr = try XCTUnwrap(keychainResult?[String(kSecAttrAccessible)])
-            XCTAssertEqual(accessibilityAttr as! CFString , kSecAttrAccessibleWhenUnlocked)
+            XCTAssertEqual(accessibilityAttr as! CFString, kSecAttrAccessibleWhenUnlocked)
         }
         
         let deleteResult = KeychainHelper.removeAll()
@@ -259,7 +259,7 @@ class KeychainItemManagerTests: XCTestCase {
         
         accounts.forEach {
             let keychainResult = KeychainHelper.read(service: $0.0, account: $0.1)
-            XCTAssertFalse(keychainResult.success && keychainResult.status==errSecItemNotFound)
+            XCTAssertFalse(keychainResult.success && keychainResult.status == errSecItemNotFound)
         }
     }
     

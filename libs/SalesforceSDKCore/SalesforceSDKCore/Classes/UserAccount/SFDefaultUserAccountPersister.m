@@ -215,8 +215,8 @@ static const NSUInteger SFUserAccountManagerCannotWriteUserData = 10004;
         return NO;
     }
     //lets add the file protection now
-    NSString *fileProtections = [SFFileProtectionHelper fileProtectionForPath:filePath];
-    [[SFFileProtectionHelper sharedInstance] addProtection:fileProtections forPath:filePath];
+    NSString *fileProtection = [SFFileProtectionHelper fileProtectionForPath:filePath];
+    [[NSFileManager defaultManager] setAttributes:@{NSFileProtectionKey:fileProtection} ofItemAtPath:filePath error:nil];
     return saveFileSuccess;
 }
 
