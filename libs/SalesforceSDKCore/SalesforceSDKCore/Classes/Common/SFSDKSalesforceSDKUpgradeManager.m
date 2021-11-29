@@ -48,14 +48,14 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
         return;
     }
     
-    if (!lastVersion || [lastVersion compare:@"9.2.0" options:NSNumericSearch] == -1) {
+    if (!lastVersion || [lastVersion compare:@"9.2.0" options:NSNumericSearch] == NSOrderedAscending) {
         [SFDirectoryManager upgradeUserDirectories];
         [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
         [NSURLCache.sharedURLCache removeAllCachedResponses]; // For cache encryption key change
         [SFSDKSalesforceSDKUpgradeManager upgradePasscode];
     }
     
-    if (!lastVersion || [lastVersion compare:@"9.2.1" options:NSNumericSearch] == -1) {
+    if (!lastVersion || [lastVersion compare:@"9.2.1" options:NSNumericSearch] == NSOrderedAscending) {
         [SFSDKSalesforceSDKUpgradeManager updateUserAccountFileProtection];
         // Only update to the new default if the app isn't setting a value itself
         if (![SFSDKKeychainHelper accessibilityAttribute]) {
