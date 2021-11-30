@@ -28,6 +28,11 @@
 #import "SFSDKViewUtils.h"
 #import "SFSDKViewControllerConfig.h"
 
+#import "SFLoginViewController.h"
+#import "SFSDKAppLockViewController.h"
+#import "SFSDKLoginFlowSelectionViewController.h"
+#import "SFSDKLoginHostListViewController.h"
+
 @implementation SFSDKViewUtils
 
 + (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *) config {
@@ -36,8 +41,11 @@
         return;
     }
     
+    UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+    [appearance configureWithOpaqueBackground];
+
     if (config.navBarColor) {
-        navigationBar.standardAppearance.backgroundColor = config.navBarColor;
+        appearance.backgroundColor = config.navBarColor;
         navigationBar.backgroundColor = config.navBarColor;
     }
     
@@ -59,9 +67,18 @@
     }
     
     if ([textAttributes count] > 0) {
-        navigationBar.standardAppearance.titleTextAttributes = textAttributes;
+        appearance.titleTextAttributes = textAttributes;
         [navigationBar setTitleTextAttributes:textAttributes];
     }
+    
+    // This scopes appearance behaviors to classes "owned by" MSDK,
+    // and will prevent conflicts or changes in behavior with apps
+    // consuming this SDK.
+    NSArray *appearanceClasses = @[[SFLoginViewController class], [SFSDKAppLockViewController class], [SFSDKLoginFlowSelectionViewController class], [SFSDKLoginHostListViewController class]];
+
+    [UINavigationBar appearanceWhenContainedInInstancesOfClasses:appearanceClasses].standardAppearance = appearance;
+    [UINavigationBar appearanceWhenContainedInInstancesOfClasses:appearanceClasses].compactAppearance = appearance;
+    [UINavigationBar appearanceWhenContainedInInstancesOfClasses:appearanceClasses].scrollEdgeAppearance = appearance;
 }
 
 + ( UIImage * _Nonnull )headerBackgroundImage:(UIColor *)color {
