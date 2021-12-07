@@ -58,7 +58,6 @@
 #import "SFSDKEventBuilderHelper.h"
 #import "SFNetwork.h"
 #import "SFSDKSalesforceAnalyticsManager.h"
-#import "SFSecurityLockout+Internal.h"
 #import "SFApplicationHelper.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
@@ -146,7 +145,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 @synthesize userAccountMap = _userAccountMap;
 @synthesize accountPersister = _accountPersister;
 @synthesize loginViewControllerConfig = _loginViewControllerConfig;
-@synthesize appLockViewControllerConfig = _appLockViewControllerConfig;
 
 + (instancetype)sharedInstance {
     static dispatch_once_t pred;
@@ -319,21 +317,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
 }
 
-- (SFSDKAppLockViewConfig *) appLockViewControllerConfig {
-    if (!_appLockViewControllerConfig) {
-        _appLockViewControllerConfig = [SFSDKAppLockViewConfig createDefaultConfig];
-    }
-    return _appLockViewControllerConfig;
-}
-
-- (void) setAppLockViewControllerConfig:(SFSDKAppLockViewConfig *)config {
-    if (_appLockViewControllerConfig != config) {
-        _appLockViewControllerConfig = config;
-        [SFSecurityLockout setPasscodeViewConfig:config];
-    }
-}
-
-
 #pragma  mark - login & logout
 
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options {
@@ -448,7 +431,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
     request.loginHost = self.loginHost;
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
-    request.appLockViewControllerConfig = self.appLockViewControllerConfig;
     request.loginViewControllerConfig = self.loginViewControllerConfig;
     request.brandLoginPath = self.brandLoginPath;
     request.oauthClientId = self.oauthClientId;
@@ -559,7 +541,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self deleteAccountForUser:user error:nil];
     id<SFSDKOAuthProtocol> authClient = self.authClient();
     [authClient revokeRefreshToken:user.credentials];
-    [SFSecurityLockout clearPasscodeState:user];
     BOOL isCurrentUser = [user isEqual:self.currentUser];
     if (isCurrentUser) {
         [self setCurrentUserInternal:nil];
@@ -1407,18 +1388,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (NSString *)currentCommunityId {
     NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
     return [userDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
-}
-
-- (void)presentBiometricEnrollment:(nullable SFSDKAppLockViewConfig *)config {
-    [SFSecurityLockout presentBiometricEnrollment:config];
-}
-
-- (BOOL)deviceHasBiometric {
-    return [SFSecurityLockout deviceHasBiometric];
-}
-
-- (SFBiometricUnlockState)biometricUnlockState {
-    return [SFSecurityLockout biometricState];
 }
 
 #pragma mark - private methods

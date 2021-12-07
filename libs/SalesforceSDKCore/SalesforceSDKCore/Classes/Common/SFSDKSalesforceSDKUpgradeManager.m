@@ -34,7 +34,6 @@
 #import "SFUserAccount+Internal.h"
 #import "SFKeyStoreManager.h"
 #import "SFDefaultUserAccountPersister.h"
-#import "SFSecurityLockout+Internal.h"
 
 NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.salesforcesdkmanager.version";
 
@@ -215,10 +214,6 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
 }
 
 + (void)upgradePasscode {
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [SFSecurityLockout resetPasscode];
-    #pragma clang diagnostic pop
     [[SFScreenLockManager shared] upgradePasscode];
 }
 

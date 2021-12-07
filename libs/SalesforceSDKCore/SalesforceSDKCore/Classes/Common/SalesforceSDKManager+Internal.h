@@ -1,6 +1,5 @@
 #import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 #import "SalesforceSDKManager.h"
-#import "SFSecurityLockout+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
 #import "SFSDKAppConfig.h"
@@ -26,7 +25,6 @@
 @property (nonatomic, assign) SFAppType appType;
 @property (nonatomic, weak, nullable) id<SalesforceSDKManagerFlow> sdkManagerFlow;
 @property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
-@property (nonatomic, assign, getter=isPasscodeDisplayed) BOOL passcodeDisplayed;
 
 - (void)presentSnapshot:(nonnull UIScene *)scene;
 - (BOOL)isSnapshotPresented:(nonnull UIScene *)scene;

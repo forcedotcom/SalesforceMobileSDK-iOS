@@ -118,10 +118,10 @@
     XCTAssertEqualObjects(authWindowNilScene, authWindowScene);
 }
 
-- (void)testPasscodeWindow {
-    SFSDKWindowContainer *passcodeWindow = [SFSDKWindowManager sharedManager].passcodeWindow;
-    XCTAssert(passcodeWindow.window!=nil);
-    XCTAssert(passcodeWindow.windowType == SFSDKWindowTypePasscode);
+- (void)testScreenLockWindow {
+    SFSDKWindowContainer *screenLockWindow = [SFSDKWindowManager sharedManager].screenLockWindow;
+    XCTAssert(screenLockWindow.window!=nil);
+    XCTAssert(screenLockWindow.windowType == SFSDKWindowTypeScreenLock);
 }
 
 - (void)testSnapshotWindow {
@@ -137,62 +137,62 @@
 }
 
 - (void)testEnable {
-    SFSDKWindowContainer *passcodeWindow = [SFSDKWindowManager sharedManager].passcodeWindow;
-    [passcodeWindow presentWindow];
-    XCTAssert(passcodeWindow.window!=nil);
-    XCTAssertTrue([passcodeWindow.window isKeyWindow]);
-    XCTAssertTrue(passcodeWindow.isEnabled);
+    SFSDKWindowContainer *screenLockWindow = [SFSDKWindowManager sharedManager].screenLockWindow;
+    [screenLockWindow presentWindow];
+    XCTAssert(screenLockWindow.window!=nil);
+    XCTAssertTrue([screenLockWindow.window isKeyWindow]);
+    XCTAssertTrue(screenLockWindow.isEnabled);
 }
 
 - (void)testDisable {
-    SFSDKWindowContainer *passcodeWindow = [SFSDKWindowManager sharedManager].passcodeWindow;
-    [passcodeWindow presentWindow];
-    XCTAssert(passcodeWindow.window!=nil);
-    XCTAssertTrue([passcodeWindow.window isKeyWindow]);
-    [passcodeWindow dismissWindowAnimated:NO  withCompletion:^{
-        XCTAssertFalse(passcodeWindow.window.isKeyWindow);
-        XCTAssertFalse(passcodeWindow.isEnabled);
+    SFSDKWindowContainer *screenLockWindow = [SFSDKWindowManager sharedManager].screenLockWindow;
+    [screenLockWindow presentWindow];
+    XCTAssert(screenLockWindow.window!=nil);
+    XCTAssertTrue([screenLockWindow.window isKeyWindow]);
+    [screenLockWindow dismissWindowAnimated:NO  withCompletion:^{
+        XCTAssertFalse(screenLockWindow.window.isKeyWindow);
+        XCTAssertFalse(screenLockWindow.isEnabled);
     }];
 }
 
 - (void)testStyleOverride {
     SFSDKWindowContainer *snapshotWindow = [[SFSDKWindowManager sharedManager] snapshotWindow:nil];
-    SFSDKWindowContainer *passcodeWindow = [[SFSDKWindowManager sharedManager] passcodeWindow];
+    SFSDKWindowContainer *screenLockWindow = [[SFSDKWindowManager sharedManager] screenLockWindow];
 
     // Check default
     XCTAssertEqual(snapshotWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleUnspecified);
-    XCTAssertEqual(passcodeWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleUnspecified);
+    XCTAssertEqual(screenLockWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleUnspecified);
 
     // Set it directly
     [SFSDKWindowManager sharedManager].userInterfaceStyle = UIUserInterfaceStyleDark;
     XCTAssertEqual(snapshotWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleDark);
-    XCTAssertEqual(passcodeWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleDark);
+    XCTAssertEqual(screenLockWindow.window.overrideUserInterfaceStyle, UIUserInterfaceStyleDark);
 }
 
 - (void)testActive {
     XCTestExpectation *expectation = [self expectationWithDescription:@"ActiveWindow"];
     
-    SFSDKWindowContainer *passcodeWindow = [SFSDKWindowManager sharedManager].passcodeWindow;
-    [passcodeWindow presentWindow];
+    SFSDKWindowContainer *screenLockWindow = [SFSDKWindowManager sharedManager].screenLockWindow;
+    [screenLockWindow presentWindow];
     SFSDKWindowContainer *activeWindow = [[SFSDKWindowManager sharedManager] activeWindow:nil];
-    XCTAssert(passcodeWindow==activeWindow);
-    [passcodeWindow dismissWindowAnimated:NO withCompletion:^{
-        XCTAssertFalse(passcodeWindow.window.isKeyWindow);
+    XCTAssert(screenLockWindow==activeWindow);
+    [screenLockWindow dismissWindowAnimated:NO withCompletion:^{
+        XCTAssertFalse(screenLockWindow.window.isKeyWindow);
         [expectation fulfill];
     }];
     [self waitForExpectations:@[expectation] timeout:10];
     activeWindow = [[SFSDKWindowManager sharedManager] activeWindow:nil];
-    XCTAssert(passcodeWindow!=activeWindow);
+    XCTAssert(screenLockWindow!=activeWindow);
 
 }
 
 - (void)testLevels {
     // these 3 statements should not make any difference
     [[SFSDKWindowManager sharedManager] snapshotWindow:nil].window.windowLevel = 1;
-    [[SFSDKWindowManager sharedManager] passcodeWindow].window.windowLevel = 4;
+    [[SFSDKWindowManager sharedManager] screenLockWindow].window.windowLevel = 4;
     [[SFSDKWindowManager sharedManager] authWindow:nil].window.windowLevel = 3;
     XCTAssertTrue([[SFSDKWindowManager sharedManager] snapshotWindow:nil].windowLevel != 1);
-    XCTAssertTrue([[SFSDKWindowManager sharedManager] passcodeWindow].windowLevel != 4);
+    XCTAssertTrue([[SFSDKWindowManager sharedManager] screenLockWindow].windowLevel != 4);
     XCTAssertTrue([[SFSDKWindowManager sharedManager] authWindow:nil].windowLevel != 3);
    
 }
