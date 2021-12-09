@@ -41,7 +41,6 @@
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFLoginViewController.h>
-#import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFSDKDevInfoViewController.h>
 #import <SalesforceSDKCore/SFSDKUserSelectionNavViewController.h>
 #import <SalesforceSDKCore/SFRestAPI+Notifications.h>
@@ -61,7 +60,6 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSDKBatchRequest.h>
-#import <SalesforceSDKCore/SFSDKAppLockViewConfig.h>
 #import <SalesforceSDKCore/SFSDKWindowManager.h>
 #import <SalesforceSDKCore/NSNotificationCenter+SFAdditions.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
@@ -132,7 +130,6 @@
 #import <SalesforceSDKCore/SFOAuthSessionRefresher.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
-#import <SalesforceSDKCore/SFAppLockViewControllerTypes.h>
 #import <SalesforceSDKCore/SFSDKPushNotificationFieldsConstants.h>
 #import <SalesforceSDKCore/UIDevice+SFHardware.h>
 #import <SalesforceSDKCore/SFSDKLoginFlowSelectionView.h>

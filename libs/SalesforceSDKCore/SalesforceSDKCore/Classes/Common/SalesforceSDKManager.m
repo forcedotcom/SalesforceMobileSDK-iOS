@@ -289,8 +289,6 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:) name:kSFNotificationUserWillLogout object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:) name:kSFNotificationUserDidLogout object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowWillBegin:) name:kSFPasscodeFlowWillBegin object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passcodeFlowDidComplete:) name:kSFPasscodeFlowCompleted object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenLockFlowWillBegin:) name:kSFScreenLockFlowWillBegin object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenLockFlowDidComplete:) name:kSFScreenLockFlowCompleted object:nil];
         
@@ -546,11 +544,6 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
     [SFUserAccountManager sharedInstance].scopes = self.appConfig.oauthScopes;
 }
 
-- (void)logoutCleanup
-{
-    self.passcodeDisplayed = NO;
-}
-
 - (void)handleAppForeground:(NSNotification *)notification
 {
     [[SFScreenLockManager shared] handleAppForeground];
@@ -645,7 +638,6 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 - (void)handlePostLogout
 {
     [[SFScreenLockManager shared] checkForScreenLockUsers];
-    [self logoutCleanup];
 }
     
 - (BOOL)isSnapshotPresented:(UIScene *)scene {
@@ -828,15 +820,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
                     toUser:(SFUserAccount *)toUser
 { }
 
-#pragma mark - SFSecurityLockout
-
-- (void)passcodeFlowWillBegin:(NSNotification *)notification {
-    self.passcodeDisplayed = YES;
-}
-
-- (void)passcodeFlowDidComplete:(NSNotification *)notification {
-    self.passcodeDisplayed = NO;
-}
+#pragma mark - ScreenLock
 
 - (void)screenLockFlowWillBegin:(NSNotification *)notification { }
 

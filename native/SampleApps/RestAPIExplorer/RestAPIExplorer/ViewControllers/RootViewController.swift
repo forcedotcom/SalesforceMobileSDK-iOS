@@ -137,7 +137,7 @@ class RootViewController: UIViewController {
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(clearPopoversForPasscode),
-                                               name: NSNotification.Name(rawValue: kSFPasscodeFlowWillBegin),
+                                               name: NSNotification.Name(rawValue: kSFScreenLockFlowWillBegin),
                                                object: nil)
         
         self.navigationController?.navigationBar.barTintColor = UIColor.appDarkBlue

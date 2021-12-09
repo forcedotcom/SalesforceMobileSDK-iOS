@@ -23,7 +23,6 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 */
 #import "SFSDKAuthRequest.h"
 #import "SFSDKLoginViewControllerConfig.h"
-#import "SFSDKAppLockViewConfig.h"
 #import "SFSDKLoginFlowSelectionView.h"
 
 

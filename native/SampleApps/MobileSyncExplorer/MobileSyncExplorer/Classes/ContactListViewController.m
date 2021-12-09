@@ -27,7 +27,6 @@
 #import "ContactDetailViewController.h"
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SmartStore/SFSmartStoreInspectorViewController.h>
 
@@ -110,7 +109,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(clearPopovers:)
-                                                 name:kSFPasscodeFlowWillBegin
+                                                 name:kSFScreenLockFlowWillBegin
                                                object:nil];
 }
 
