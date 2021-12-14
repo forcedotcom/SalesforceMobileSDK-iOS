@@ -26,7 +26,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** This is a utility class that helps to create sub folder under either Documents directory or cache directory. Any folder or file created by SFPathUtil will be marked with NSFileProtectionComplete attribute and also excluded from iCloud backup
+/** This is a utility class that helps to create sub folder under either Documents directory or cache directory. Any folder or file created by SFPathUtil will be marked with NSFileProtectionCompleteUntilFirstUserAuthentication attribute and also excluded from iCloud backup
  */
 @interface SFPathUtil : NSObject {
     
@@ -51,9 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Returns the absolute path for a directory/folder located in the apps document directory.
  
- It also ensures this sub-directory exists, applies NSFileProtectionComplete protection attributes 
+ It also ensures this sub-directory exists, applies NSFileProtectionCompleteUntilFirstUserAuthentication protection attributes
  and also mark file to be not backup by iCloud
- Folder created will be protected by NSFileProtectionComplete.
+ Folder created will be protected by NSFileProtectionCompleteUntilFirstUserAuthentication.
  
  @param folder Folder to create under Document directory
  */
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  It also ensures this sub-directory exists, applies file protection attributes 
  and also mark file to be not backup by iCloud 
- Folder created will be protected by NSFileProtectionComplete
+ Folder created will be protected by NSFileProtectionCompleteUntilFirstUserAuthentication
  
  @param folder Folder to create under Cache directory
  */
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  It also ensures this sub-directory exists, applies file protection attributes
  and also mark file to be not backup by iCloud
- Folder created will be protected by NSFileProtectionComplete
+ Folder created will be protected by NSFileProtectionCompleteUntilFirstUserAuthentication
  
  @param folder Folder to create under Library directory
  */
@@ -91,11 +91,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Returns the absolute path for a directory/folder located in the apps document directory
  
- It also ensures this sub-directory exists, applies NSFileProtectionComplete protection attributes
+ It also ensures this sub-directory exists, applies NSFileProtectionCompleteUntilFirstUserAuthentication protection attributes
  and also mark file to be not backup by iCloud
  
  @param folder Folder to create under Document directory
- @param fileProtection File protection string. If nil, NSFileProtectionComplete will be used
+ @param fileProtection File protection string. If nil, NSFileProtectionCompleteUntilFirstUserAuthentication will be used
  */
 + (NSString *)absolutePathForDocumentFolder:(NSString *)folder fileProtection:(nullable NSString *)fileProtection;
 
@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
  It also ensures this sub-directory exists, applies file protection attributes
  and also mark file to be not backup by iCloud
  @param folder Folder to create under Cache directory
- @param fileProtection File protection string. If nil, NSFileProtectionComplete will be used
+ @param fileProtection File protection string. If nil, NSFileProtectionCompleteUntilFirstUserAuthentication will be used
  */
 + (NSString *)absolutePathForCacheFolder:(NSString *)folder fileProtection:(nullable NSString *)fileProtection;
 
@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
  It also ensures this sub-directory exists, applies file protection attributes
  and also mark file to be not backup by iCloud
  @param folder Folder to create under Library directory
- @param fileProtection File protection string. If nil, NSFileProtectionComplete will be used
+ @param fileProtection File protection string. If nil, NSFileProtectionCompleteUntilFirstUserAuthentication will be used
  */
 + (NSString *)absolutePathForLibraryFolder:(NSString *)folder fileProtection:(nullable NSString *)fileProtection;
 
@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param filePath Path to file or folder
  @param notbackupFlag Set to YES if need to mark as do not back up by iCloud
-  @param fileProtection File protection string. If nil, NSFileProtectionComplete will be used
+  @param fileProtection File protection string. If nil, NSFileProtectionCompleteUntilFirstUserAuthentication will be used
  */
 + (void)secureFilePath:(NSString *)filePath markAsNotBackup:(BOOL)notbackupFlag fileProtection:(nullable NSString *)fileProtection;
 
@@ -132,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param filePath file path
  @param recursive If filePath points to a directlory, set to YES to recursively apply skip backup attribute to all files under the directory including sub-directory under the directory
- @param fileProtection File protection string. If nil, NSFileProtectionComplete will be used
+ @param fileProtection File protection string. If nil, NSFileProtectionCompleteUntilFirstUserAuthentication will be used
  */
 + (void)secureFileAtPath:(NSString *)filePath recursive:(BOOL)recursive fileProtection:(nullable NSString *)fileProtection;
 

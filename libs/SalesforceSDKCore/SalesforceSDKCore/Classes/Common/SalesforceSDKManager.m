@@ -553,6 +553,7 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 
 - (void)handleAppForeground:(NSNotification *)notification
 {
+    [SFSDKSalesforceSDKUpgradeManager upgrade];
     [[SFScreenLockManager shared] handleAppForeground];
 }
 
