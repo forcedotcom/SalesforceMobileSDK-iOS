@@ -81,7 +81,7 @@
 {
     [self.navigationController.view setBackgroundColor:[UIColor clearColor]];
     self.navigationBar.translucent = NO;
-    [SFSDKViewUtils styleNavigationBar:self.navigationBar config:self.viewConfig];
+    [SFSDKViewUtils styleNavigationBar:self.navigationBar config:self.viewConfig classes:@[[self.navigationController class]]];
 }
 
 #pragma mark - SFSDKPasscodeCreateDelegate
