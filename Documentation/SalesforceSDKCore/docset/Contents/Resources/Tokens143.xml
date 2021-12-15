@@ -369,7 +369,7 @@ a valid session.</Abstract>
 			<Parameters>
 				<Parameter>
 					<Name>object</Name>
-					<Abstract type="html">The object to store, must be NSCoding enabled</Abstract>
+					<Abstract type="html">The object to store, must be one of the following: NSString, NSNumber,  NSArray, NSDictionary, NSURL, NSNull, NSDate</Abstract>
 				</Parameter><Parameter>
 					<Name>key</Name>
 					<Abstract type="html">An NSCopying key to store the object at</Abstract>
@@ -431,6 +431,42 @@ a valid session.</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/setPhoto:completion:</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCustomData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *customData</Declaration>
+			
+			
+			<Anchor>//api/name/customData</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/customData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *customData</Declaration>
+			
+			
+			<Anchor>//api/name/customData</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/customData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableDictionary *customData</Declaration>
+			
+			
+			<Anchor>//api/name/customData</Anchor>
             <NodeRef refid="143"/>
 		</Token>
 		

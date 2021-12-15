@@ -24,6 +24,18 @@
             <NodeRef refid="118"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceSDKUpgradeManager/upgradeUserAccounts</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSalesforceSDKUpgradeManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)upgradeUserAccounts</Declaration>
+			
+			
+			<Anchor>//api/name/upgradeUserAccounts</Anchor>
+            <NodeRef refid="118"/>
+		</Token>
+		
         
         
 	</File>

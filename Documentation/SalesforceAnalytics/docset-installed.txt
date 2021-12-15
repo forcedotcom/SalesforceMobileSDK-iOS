@@ -1,4 +1,4 @@
 Documentation set was installed to Xcode!
 
 Path: /Users/wmathurin/Library/Developer/Shared/Documentation/DocSets/com.salesforce.SalesforceAnalytics.docset
-Time: 2021-10-05 20:35:12 +0000
+Time: 2021-12-15 19:11:29 +0000

@@ -4,7 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFPathUtil</TokenIdentifier>
-			<Abstract type="html">This is a utility class that helps to create sub folder under either Documents directory or cache directory. Any folder or file created by SFPathUtil will be marked with NSFileProtectionComplete attribute and also excluded from iCloud backup</Abstract>
+			<Abstract type="html">This is a utility class that helps to create sub folder under either Documents directory or cache directory. Any folder or file created by SFPathUtil will be marked with NSFileProtectionCompleteUntilFirstUserAuthentication attribute and also excluded from iCloud backup</Abstract>
 			<DeclaredIn>SFPathUtil.h</DeclaredIn>
             
 			
@@ -152,7 +152,7 @@ The file or path that is passed in must already exist</Abstract>
 					<Abstract type="html">Folder to create under Document directory</Abstract>
 				</Parameter><Parameter>
 					<Name>fileProtection</Name>
-					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionCompleteUntilFirstUserAuthentication will be used</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -172,7 +172,7 @@ The file or path that is passed in must already exist</Abstract>
 					<Abstract type="html">Folder to create under Cache directory</Abstract>
 				</Parameter><Parameter>
 					<Name>fileProtection</Name>
-					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionCompleteUntilFirstUserAuthentication will be used</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -192,7 +192,7 @@ The file or path that is passed in must already exist</Abstract>
 					<Abstract type="html">Folder to create under Library directory</Abstract>
 				</Parameter><Parameter>
 					<Name>fileProtection</Name>
-					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionCompleteUntilFirstUserAuthentication will be used</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -216,7 +216,7 @@ The file or path that is passed in must already exist</Abstract>
 					<Abstract type="html">Set to YES if need to mark as do not back up by iCloud</Abstract>
 				</Parameter><Parameter>
 					<Name>fileProtection</Name>
-					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionCompleteUntilFirstUserAuthentication will be used</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -239,7 +239,7 @@ The file or path that is passed in must already exist</Abstract>
 					<Abstract type="html">If filePath points to a directlory, set to YES to recursively apply skip backup attribute to all files under the directory including sub-directory under the directory</Abstract>
 				</Parameter><Parameter>
 					<Name>fileProtection</Name>
-					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionCompleteUntilFirstUserAuthentication will be used</Abstract>
 				</Parameter>
 			</Parameters>
 			

@@ -13,14 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKViewUtils/styleNavigationBar:config:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKViewUtils/styleNavigationBar:config:classes:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKViewUtils.h</DeclaredIn>
 			
-			<Declaration>+ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *)config</Declaration>
+			<Declaration>+ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *)config classes:(NSArray&lt;Class&lt;UIAppearanceContainer&gt; &gt; *)classes</Declaration>
 			
 			
-			<Anchor>//api/name/styleNavigationBar:config:</Anchor>
+			<Anchor>//api/name/styleNavigationBar:config:classes:</Anchor>
             <NodeRef refid="134"/>
 		</Token>
 		
