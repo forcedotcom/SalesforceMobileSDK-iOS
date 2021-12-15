@@ -34,7 +34,6 @@
 #import "SFUserAccount+Internal.h"
 #import "SFKeyStoreManager.h"
 #import "SFDefaultUserAccountPersister.h"
-#import "SFSecurityLockout+Internal.h"
 #import "SFApplicationHelper.h"
 
 NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.salesforcesdkmanager.version";
