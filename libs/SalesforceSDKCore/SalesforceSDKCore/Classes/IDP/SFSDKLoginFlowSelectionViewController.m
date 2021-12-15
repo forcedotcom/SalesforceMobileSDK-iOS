@@ -223,7 +223,7 @@
     if (!navigationBar) {
         return;
     }
-    [SFSDKViewUtils styleNavigationBar:navigationBar config:[SFUserAccountManager sharedInstance].loginViewControllerConfig];
+    [SFSDKViewUtils styleNavigationBar:navigationBar config:[SFUserAccountManager sharedInstance].loginViewControllerConfig classes:@[[self.navigationController class]]];
 }
 
 - (void)showSettingsIcon {
