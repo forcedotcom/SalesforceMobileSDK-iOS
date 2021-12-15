@@ -53,7 +53,6 @@
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <SalesforceSDKCore/SFSDKOAuth2.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
-#import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCore/SFOAuthOrgAuthConfiguration.h>
 #import <SalesforceSDKCore/SFSDKCompositeResponse.h>
 #import <SalesforceSDKCore/SFOAuthCredentials.h>
