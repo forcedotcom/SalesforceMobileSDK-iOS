@@ -28,6 +28,7 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import "SFUserAccount+Internal.h"
+#import "SFDirectoryManager+Internal.h"
 
 @interface SFUserAccount (Testing)
 
@@ -58,11 +59,14 @@ static NSString * const kOrgId = @"00D000000000062EAA";
     NSData *originalPhotoData = UIImagePNGRepresentation(originalPhoto);
     SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:YES];
     NSData *originalEncryptedPhotoData = [key encryptData:originalPhotoData];
-    [originalEncryptedPhotoData writeToFile:userPhotoPath options:NSDataWritingAtomic error:&error];
+    [SFDirectoryManager ensureDirectoryExists:[oldUserPhotoPath stringByDeletingLastPathComponent] error:&error];
+    XCTAssertNil(error);
+    [originalEncryptedPhotoData writeToFile:oldUserPhotoPath options:NSDataWritingAtomic error:&error];
     XCTAssertNil(error);
     
-    [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kSalesforceSDKManagerVersionKey];
-    [SFSDKSalesforceSDKUpgradeManager upgrade];
+    // Upgrade steps
+    [SFDirectoryManager upgradeUserDirectories];
+    [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
     
     // Verify photo can be accessed
     UIImage *userPhoto = user.photo;

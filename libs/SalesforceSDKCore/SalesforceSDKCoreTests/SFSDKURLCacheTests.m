@@ -57,8 +57,6 @@
     // Encrypted enabled by default
     [SalesforceSDKManager sharedManager];
     XCTAssertTrue([NSURLCache.sharedURLCache isMemberOfClass:[SFSDKEncryptedURLCache class]]);
-    NSString *cachePath = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSCachesDirectory components:@[@"salesforce.mobilesdk.URLCache"]];
-    XCTAssertNotNil(cachePath);
 
     // Set back to vanilla URL cache
     [SalesforceSDKManager sharedManager].URLCacheType = kSFURLCacheTypeStandard;
@@ -104,7 +102,9 @@
 }
 
 - (void)testEncryptedCacheEntry {
-    SFSDKEncryptedURLCache *encryptedURLCache = [[SFSDKEncryptedURLCache alloc] init];
+    [SalesforceSDKManager sharedManager];
+    XCTAssertTrue([[NSURLCache sharedURLCache] isMemberOfClass:[SFSDKEncryptedURLCache class]]);
+    
     NSString *contentString = @"This is my content";
     NSData *contentData = [contentString dataUsingEncoding:NSUTF8StringEncoding];
     NSUInteger dataLength = contentData.length;
@@ -113,8 +113,8 @@
     NSURLResponse *response = [[NSURLResponse alloc] initWithURL:url MIMEType:@"text/plain" expectedContentLength:dataLength textEncodingName:@"NSUTF8StringEncoding"];
 
     NSCachedURLResponse *toStore = [[NSCachedURLResponse alloc] initWithResponse:response data:contentData userInfo:nil storagePolicy:NSURLCacheStorageAllowed];
-    [encryptedURLCache storeCachedResponse:toStore forRequest:request];
-    NSCachedURLResponse *cacheResult = [encryptedURLCache cachedResponseForRequest:request];
+    [NSURLCache.sharedURLCache storeCachedResponse:toStore forRequest:request];
+    NSCachedURLResponse *cacheResult = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
     XCTAssertNotNil(cacheResult);
 
     NSString *cacheString = [[NSString alloc] initWithData:cacheResult.data encoding:NSUTF8StringEncoding];
