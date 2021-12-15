@@ -32,6 +32,7 @@ extern NSString * const kSalesforceSDKManagerVersionKey;
 @interface SFSDKSalesforceSDKUpgradeManager : NSObject
 
 + (void)upgrade;
++ (void)upgradeUserAccounts;
 
 @end
 

@@ -75,7 +75,6 @@ static NSString * const kSFMobileSDKNativeSwiftDesignator = @"NativeSwift";
 static NSString * const kWebViewUserAgentKey = @"web_view_user_agent";
 
 // URL cache
-static NSString * const kDefaultCachePath = @"salesforce.mobilesdk.URLCache";
 static NSInteger const kDefaultCacheMemoryCapacity = 1024 * 1024 * 4; // 4MB
 static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
@@ -546,6 +545,7 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 
 - (void)handleAppForeground:(NSNotification *)notification
 {
+    [SFSDKSalesforceSDKUpgradeManager upgrade];
     [[SFScreenLockManager shared] handleAppForeground];
 }
 
@@ -789,16 +789,15 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
         _URLCacheType = URLCacheType;
         [NSURLCache.sharedURLCache removeAllCachedResponses];
         NSURLCache *cache;
-        NSURL *defaultURL = [NSURL URLWithString:kDefaultCachePath];
         switch (URLCacheType) {
             case kSFURLCacheTypeEncrypted:
-                cache = [[SFSDKEncryptedURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:defaultURL];
+                cache = [[SFSDKEncryptedURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:nil];
                 break;
             case kSFURLCacheTypeNull:
-                cache = [[SFSDKNullURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:defaultURL];
+                cache = [[SFSDKNullURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:nil];
                 break;
             case kSFURLCacheTypeStandard:
-                cache = [[NSURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:defaultURL];
+                cache = [[NSURLCache alloc] initWithMemoryCapacity:kDefaultCacheMemoryCapacity diskCapacity:kDefaultCacheDiskCapacity directoryURL:nil];
                 break;
         }
         [NSURLCache setSharedURLCache:cache];

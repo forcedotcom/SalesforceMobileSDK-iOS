@@ -34,73 +34,106 @@
 #import "SFUserAccount+Internal.h"
 #import "SFKeyStoreManager.h"
 #import "SFDefaultUserAccountPersister.h"
+#import "SFApplicationHelper.h"
 
 NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.salesforcesdkmanager.version";
+static NSString * _lastVersion = nil;
+static NSString * _currentVersion = nil;
 
 @implementation SFSDKSalesforceSDKUpgradeManager
 
 + (void)upgrade {
-    NSString *lastVersion = [SFSDKSalesforceSDKUpgradeManager lastVersion];
-    NSString *currentVersion = [SFSDKSalesforceSDKUpgradeManager currentVersion];
+    @synchronized ([SFSDKSalesforceSDKUpgradeManager class]) {
+        NSString *lastVersion = [SFSDKSalesforceSDKUpgradeManager lastVersion];
+        NSString *currentVersion = [SFSDKSalesforceSDKUpgradeManager currentVersion];
+        
+        if ([currentVersion isEqualToString:lastVersion]) {
+            return;
+        }
 
-    if ([currentVersion isEqualToString:lastVersion]) {
-        return;
+        if (!lastVersion || [lastVersion compare:@"9.2.1" options:NSNumericSearch] == NSOrderedAscending) {
+            // 9.2.0 & 9.2.1 upgrade steps both need file and keychain access, if we don't have those,
+            // abort the upgrade so that it can rerun
+
+            if (![SFSDKKeychainHelper accessibilityAttribute]) {
+                // Only update accessible attribute if the app isn't setting it
+                [SFLogger log:[self class] level:SFLogLevelError format:@"Attempt keychain attribute update"];
+                SFSDKKeychainResult *result = [SFSDKKeychainHelper setAccessibleAttribute:KeychainItemAccessibilityAfterFirstUnlockThisDeviceOnly];
+                if (result.status == errSecInteractionNotAllowed) {
+                    [SFLogger log:[self class] level:SFLogLevelError format:@"Upgrade step skipped because keychain access not allowed"];
+                    return;
+                }
+            }
+            
+            NSArray<NSString *> *filesWithCompleteProtection = [SFSDKSalesforceSDKUpgradeManager filesWithCompleteProtection];
+            if ([filesWithCompleteProtection count] > 0) {
+                if (![SFApplicationHelper sharedApplication].isProtectedDataAvailable) {
+                    [SFLogger log:[self class] level:SFLogLevelError format:@"Upgrade step skipped because files have complete protection and protected data isn't available"];
+                    return;
+                }
+                [SFSDKSalesforceSDKUpgradeManager updateDefaultProtection:filesWithCompleteProtection];
+            }
+        }
+
+        if (!lastVersion || [lastVersion compare:@"9.2.0" options:NSNumericSearch] == NSOrderedAscending) {
+            [SFDirectoryManager upgradeUserDirectories];
+            [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
+            [NSURLCache.sharedURLCache removeAllCachedResponses]; // For cache encryption key change
+            [SFSDKSalesforceSDKUpgradeManager upgradePasscode];
+        }
+        
+        [SFSDKSalesforceSDKUpgradeManager setLastVersion:currentVersion];
     }
+}
+
++ (NSArray<NSString *> *)filesWithCompleteProtection {
+    NSMutableArray<NSString *> *filesToReturn = [NSMutableArray new];
     
-    if (!lastVersion || [lastVersion compare:@"9.2.0" options:NSNumericSearch] == NSOrderedAscending) {
-        [SFDirectoryManager upgradeUserDirectories];
-        [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
-        [NSURLCache.sharedURLCache removeAllCachedResponses]; // For cache encryption key change
-        [SFSDKSalesforceSDKUpgradeManager upgradePasscode];
-    }
-    
-    if (!lastVersion || [lastVersion compare:@"9.2.1" options:NSNumericSearch] == NSOrderedAscending) {
-        [SFSDKSalesforceSDKUpgradeManager updateUserAccountFileProtection];
-        // Only update to the new default if the app isn't setting a value itself
-        if (![SFSDKKeychainHelper accessibilityAttribute]) {
-            [SFSDKKeychainHelper setAccessibleAttribute:KeychainItemAccessibilityAfterFirstUnlockThisDeviceOnly];
+    NSArray *directories = @[[[SFDirectoryManager sharedManager] directoryForOrg:nil user:nil community:nil type:NSLibraryDirectory components:nil], [[SFDirectoryManager sharedManager] directoryForOrg:nil user:nil community:nil type:NSDocumentDirectory components:nil]];
+    for (NSString *directory in directories) {
+        NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtURL:[NSURL URLWithString:directory] includingPropertiesForKeys:@[NSURLFileProtectionKey] options:NSDirectoryEnumerationProducesRelativePathURLs errorHandler:nil];
+        NSURL *fileURL;
+        while (fileURL = [enumerator nextObject]) {
+            NSString *fileString = [fileURL relativeString];
+            // Anything scoped to the org and below, or global stores
+            if ([fileString hasPrefix:@"00D"] || [fileString hasPrefix:@"stores"] || [fileString hasPrefix:@"key_value_stores"]) {
+                NSString *fileProtection = nil;
+                [fileURL getResourceValue:&fileProtection forKey:NSURLFileProtectionKey error:nil];
+                if ([fileProtection isEqualToString:NSURLFileProtectionComplete]) {
+                    [filesToReturn addObject:[directory stringByAppendingPathComponent:fileString]];
+                }
+            }
         }
     }
-    
-    [[NSUserDefaults msdkUserDefaults] setValue:currentVersion forKey:kSalesforceSDKManagerVersionKey];
+    return filesToReturn;
+}
+
++ (void)updateDefaultProtection:(NSArray<NSString *> *)paths {
+    for (NSString *path in paths) {
+        NSString *fileProtection = [SFFileProtectionHelper fileProtectionForPath:path];
+        [[NSFileManager defaultManager] setAttributes:@{NSFileProtectionKey:fileProtection} ofItemAtPath:path error:nil];
+    }
+}
+
++ (void)setLastVersion:(NSString *)version {
+    [[NSUserDefaults msdkUserDefaults] setValue:version forKey:kSalesforceSDKManagerVersionKey];
     [[NSUserDefaults msdkUserDefaults] synchronize];
+    _lastVersion = version;
+    [SFLogger log:[self class] level:SFLogLevelInfo format:@"Upgraded to %@", version];
 }
 
 + (NSString *)lastVersion {
-    return [[NSUserDefaults msdkUserDefaults] stringForKey:kSalesforceSDKManagerVersionKey];
+    if (!_lastVersion) {
+        _lastVersion = [[NSUserDefaults msdkUserDefaults] stringForKey:kSalesforceSDKManagerVersionKey];
+    }
+    return _lastVersion;
 }
 
 + (NSString *)currentVersion {
-    return [[[NSBundle bundleForClass:[SFSDKSalesforceSDKUpgradeManager class]] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-}
-
-+ (void)updateUserAccountFileProtection {
-    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForOrg:nil user:nil community:nil type:NSLibraryDirectory components:nil];
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:rootDirectory]) {
-        NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:nil];
-        for (NSString *rootContent in rootContents) {
-            if (![rootContent hasPrefix:kOrgPrefix]) {
-                continue;
-            }
-            NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
-            NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:nil];
-            for (NSString *orgContent in orgContents) {
-                if (![orgContent hasPrefix:kUserPrefix]) {
-                    continue;
-                }
-                NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
-
-                // Check for user account file
-                // ~/Library/<appBundleId>/<orgId>/<userId>/UserAccount.plist
-                NSString *userAccountPath = [orgPath stringByAppendingPathComponent:kUserAccountPlistFileName];
-                if ([fm fileExistsAtPath:userAccountPath]) {
-                    NSString *fileProtection = [SFFileProtectionHelper fileProtectionForPath:userAccountPath];
-                    [[NSFileManager defaultManager] setAttributes:@{NSFileProtectionKey:fileProtection} ofItemAtPath:userAccountPath error:nil];
-                }
-            }
-        }
+    if (!_currentVersion) {
+        _currentVersion = [[[NSBundle bundleForClass:[SFSDKSalesforceSDKUpgradeManager class]] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     }
+    return _currentVersion;
 }
 
 + (void)upgradeUserAccounts {
@@ -130,7 +163,7 @@ NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.sa
                 // Check for user photo
                 NSDirectoryEnumerator *enumerator = [fm enumeratorAtURL:[NSURL URLWithString:orgPath] includingPropertiesForKeys:nil options:0 errorHandler:nil];
                 NSURL *userContent;
-                while ((userContent = [enumerator nextObject])) {
+                while (userContent = [enumerator nextObject]) {
                     if ([userContent.absoluteString hasSuffix:@"mobilesdk/photos/"]) {
                         [SFSDKSalesforceSDKUpgradeManager updatePhoto:userContent userID:orgContent];
                     }

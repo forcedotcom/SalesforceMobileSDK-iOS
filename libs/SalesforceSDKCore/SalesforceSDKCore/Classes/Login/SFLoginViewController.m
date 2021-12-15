@@ -314,7 +314,7 @@
     if (!navigationBar) {
         return;
     }
-    [SFSDKViewUtils styleNavigationBar:navigationBar config:self.config];
+    [SFSDKViewUtils styleNavigationBar:navigationBar config:self.config classes:@[[self.navigationController class]]];
 }
 
 #pragma mark - SFSDKLoginHostDelegate Methods
