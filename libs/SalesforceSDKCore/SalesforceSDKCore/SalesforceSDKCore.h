@@ -76,7 +76,6 @@
 #import <SalesforceSDKCore/SFSDKUserSelectionTableViewController.h>
 #import <SalesforceSDKCore/SFSDKNavigationController.h>
 #import <SalesforceSDKCore/SFSDKLoginHostStorage.h>
-#import <SalesforceSDKCore/SFUserActivityMonitor.h>
 #import <SalesforceSDKCore/SFSDKWindowContainer.h>
 #import <SalesforceSDKCore/SFSDKCompositeRequest.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
@@ -98,7 +97,6 @@
 #import <SalesforceSDKCore/SFSDKAuthHelper.h>
 #import <SalesforceSDKCore/SFManagedPreferences.h>
 #import <SalesforceSDKCore/SFRestRequest.h>
-#import <SalesforceSDKCore/SFOAuthKeychainCredentials.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFSDKBatchResponse.h>

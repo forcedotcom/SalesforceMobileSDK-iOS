@@ -280,8 +280,6 @@
 		CE4CE32F1C0E523B009F6029 /* SFApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FC5A1BFD32130022F021 /* SFApplication.m */; };
 		CE4CE3301C0E523B009F6029 /* SFSDKAppConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FC5B1BFD32130022F021 /* SFSDKAppConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3311C0E523B009F6029 /* SFSDKAppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FC5C1BFD32130022F021 /* SFSDKAppConfig.m */; };
-		CE4CE3361C0E523B009F6029 /* SFUserActivityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FC611BFD32130022F021 /* SFUserActivityMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE4CE3371C0E523B009F6029 /* SFUserActivityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FC621BFD32130022F021 /* SFUserActivityMonitor.m */; };
 		CE4CE3381C0E5245009F6029 /* SFIdentityData+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946251BFFF7AD005368C5 /* SFIdentityData+Internal.h */; };
 		CE4CE3391C0E5245009F6029 /* SFIdentityCoordinator+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FC641BFD32130022F021 /* SFIdentityCoordinator+Internal.h */; };
 		CE4CE33A1C0E5245009F6029 /* SFIdentityCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FC651BFD32130022F021 /* SFIdentityCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -300,7 +298,7 @@
 		CE4CE3471C0E5252009F6029 /* SFOAuthCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCCA1BFD32130022F021 /* SFOAuthCredentials.m */; };
 		CE4CE34A1C0E5252009F6029 /* SFOAuthInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCCD1BFD32130022F021 /* SFOAuthInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE34B1C0E5252009F6029 /* SFOAuthInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCCE1BFD32130022F021 /* SFOAuthInfo.m */; };
-		CE4CE34C1C0E5252009F6029 /* SFOAuthKeychainCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCCF1BFD32130022F021 /* SFOAuthKeychainCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE34C1C0E5252009F6029 /* SFOAuthKeychainCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCCF1BFD32130022F021 /* SFOAuthKeychainCredentials.h */; };
 		CE4CE34D1C0E5252009F6029 /* SFOAuthKeychainCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCD01BFD32130022F021 /* SFOAuthKeychainCredentials.m */; };
 		CE4CE34E1C0E5252009F6029 /* SFOAuthOrgAuthConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCD11BFD32130022F021 /* SFOAuthOrgAuthConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE34F1C0E5252009F6029 /* SFOAuthOrgAuthConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCD21BFD32130022F021 /* SFOAuthOrgAuthConfiguration.m */; };
@@ -586,8 +584,6 @@
 		4F96FC5A1BFD32130022F021 /* SFApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFApplication.m; sourceTree = "<group>"; };
 		4F96FC5B1BFD32130022F021 /* SFSDKAppConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAppConfig.h; sourceTree = "<group>"; };
 		4F96FC5C1BFD32130022F021 /* SFSDKAppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAppConfig.m; sourceTree = "<group>"; };
-		4F96FC611BFD32130022F021 /* SFUserActivityMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserActivityMonitor.h; sourceTree = "<group>"; };
-		4F96FC621BFD32130022F021 /* SFUserActivityMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFUserActivityMonitor.m; sourceTree = "<group>"; };
 		4F96FC641BFD32130022F021 /* SFIdentityCoordinator+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFIdentityCoordinator+Internal.h"; sourceTree = "<group>"; };
 		4F96FC651BFD32130022F021 /* SFIdentityCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFIdentityCoordinator.h; sourceTree = "<group>"; };
 		4F96FC661BFD32130022F021 /* SFIdentityCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFIdentityCoordinator.m; sourceTree = "<group>"; };
@@ -1122,8 +1118,6 @@
 				4F96FC5C1BFD32130022F021 /* SFSDKAppConfig.m */,
 				82A195A31E73247F008F5AA8 /* SFSDKAppFeatureMarkers.h */,
 				82A195A41E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m */,
-				4F96FC611BFD32130022F021 /* SFUserActivityMonitor.h */,
-				4F96FC621BFD32130022F021 /* SFUserActivityMonitor.m */,
 				B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */,
 				B791409B1EC11ADE0051492F /* SFSDKWebViewStateManager.m */,
 				692496682444E50500D3F63B /* SFFormatUtils.h */,
@@ -1817,7 +1811,6 @@
 				B711290E1F8A780800436CFB /* SFSDKAlertMessageBuilder.h in Headers */,
 				CE4CE35D1C0E526A009F6029 /* SFAuthErrorHandler.h in Headers */,
 				CE4CE32C1C0E523B009F6029 /* SalesforceSDKManager.h in Headers */,
-				CE4CE3361C0E523B009F6029 /* SFUserActivityMonitor.h in Headers */,
 				010A9AE41CC176DD002AF4D3 /* SFCryptChunks.h in Headers */,
 				B767369120A4AB0200F04103 /* SFSDKNavigationController.h in Headers */,
 				69848CB22363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h in Headers */,
@@ -2272,7 +2265,6 @@
 				CE4CE31B1C0E523B009F6029 /* SFInactivityTimerCenter.m in Sources */,
 				CE4CE3A41C0E5279009F6029 /* SalesforceSDKCoreDefines.m in Sources */,
 				CE4CE34D1C0E5252009F6029 /* SFOAuthKeychainCredentials.m in Sources */,
-				CE4CE3371C0E523B009F6029 /* SFUserActivityMonitor.m in Sources */,
 				CE4CE33B1C0E5245009F6029 /* SFIdentityCoordinator.m in Sources */,
 				82A195A71E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m in Sources */,
 				CE675A361E0B2CC6002DBF5A /* SFSDKSoslBuilder.m in Sources */,
