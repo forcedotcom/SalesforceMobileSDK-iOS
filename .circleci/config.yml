@@ -2,10 +2,10 @@ anchors:
   - &latest-xcode "13.2.1"
   - &latest-ios   "15.0"
   - &min-ios      "14.0"
-  - &chruby       "2.7.3"
+  - &chruby       "3.1.0"
   - &beta-xcode   "13.2.1"
   - &beta-ios     "15.0"
-  - &beta-chruby  "3.0.2"
+  - &beta-chruby  "3.1.0"
 
 executors:
   mac:
