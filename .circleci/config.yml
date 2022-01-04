@@ -3,8 +3,8 @@ anchors:
   - &latest-ios   "15.0"
   - &min-ios      "14.0"
   - &chruby       "2.7.3"
-  - &beta-xcode   "14.0.0"
-  - &beta-ios     "16.0"
+  - &beta-xcode   "13.2.1"
+  - &beta-ios     "15.0"
   - &beta-chruby  "3.0.2"
 
 executors:
@@ -140,7 +140,7 @@ workflows:
               nightly-test: [true]
               ios: [*latest-ios]
           requires:
-            - test << matrix.lib >> iOS 14.5
+            - test << matrix.lib >> iOS 14.0
       - run-tests:
           name: test << matrix.lib >> beta iOS << matrix.ios >> 
           matrix:
