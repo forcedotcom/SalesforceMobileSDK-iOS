@@ -30,7 +30,7 @@ extern NSString * __nonnull const kUserAccountPhotoEncryptionKeyLabel;
 
 @property (nonatomic, readwrite, getter = isUserDeleted) BOOL userDeleted;
 @property (nonatomic, readwrite, assign) SFUserAccountLoginState loginState;
-@property (nonatomic, strong) NSMutableDictionary *customData;
+@property (nonatomic, strong, nullable) NSMutableDictionary *customData;
 
 /*!
  * @method transitionToLoginState:
