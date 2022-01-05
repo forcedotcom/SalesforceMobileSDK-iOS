@@ -1,11 +1,8 @@
 anchors:
   - &latest-xcode "13.2.1"
   - &latest-ios   "15.0"
-  - &min-ios      "14.0"
-  - &chruby       "3.1.0"
-  - &beta-xcode   "13.2.1"
-  - &beta-ios     "15.0"
-  - &beta-chruby  "3.1.0"
+  - &min-ios      "14.5"
+  - &chruby       "3.0.3"
 
 executors:
   mac:
@@ -17,15 +14,6 @@ executors:
       BASH_ENV: ~/.bashrc
       FASTLANE_SKIP_UPDATE_CHECK: "true"
       CHRUBY_VER: *chruby
-  mac-beta:
-    working_directory: ~/SalesforceMobileSDK-iOS
-    macos:
-      xcode: *beta-xcode
-    shell: /bin/bash --login -eo pipefail
-    environment:
-      BASH_ENV: ~/.bashrc
-      FASTLANE_SKIP_UPDATE_CHECK: "true"
-      CHRUBY_VER: *beta-chruby
 
 version: 2.1
 jobs:
@@ -71,7 +59,7 @@ jobs:
       - save_cache: 
           key: v7-gems-{{ checksum ".circleci/Gemfile.lock" }}
           paths:
-            - /Users/distiller/.gem/ruby/2.7.1
+            - /Users/distiller/.gem/ruby/3.0.3
       - run: 
           name: Run Tests
           command:  |
@@ -140,14 +128,4 @@ workflows:
               nightly-test: [true]
               ios: [*latest-ios]
           requires:
-            - test << matrix.lib >> iOS 14.0
-      - run-tests:
-          name: test << matrix.lib >> beta iOS << matrix.ios >> 
-          matrix:
-            parameters:
-              lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
-              nightly-test: [true]
-              ios: [*beta-ios]
-              env: [mac-beta]
-          requires:
-            - test << matrix.lib >> iOS 15.0
+            - test << matrix.lib >> iOS 14.5
