@@ -33,10 +33,7 @@
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFOAuthKeychainCredentials
-#pragma clang diagnostic pop
 
 @dynamic refreshToken;   // stored in keychain
 @dynamic accessToken;    // stored in keychain
@@ -191,44 +188,11 @@
     return result.success;
 }
 
-- (NSData *)keyMacForService:(NSString *)service
-{
-#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
-    NSString *macAddress = [[UIDevice currentDevice] macaddress];
-    return [self keyWithSeed:macAddress service:service];
-#else
-#warning OS X equivalent not yet implemented
-    return nil;
-#endif
-}
-
-- (NSData *)keyVendorIdForService:(NSString *)service
-{
-#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
-    NSString *idForVendor = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    return [self keyWithSeed:idForVendor service:service];
-#else
-#warning OS X equivalent not yet implemented
-    return nil;
-#endif
-}
-
-- (NSData *)keyBaseAppIdForService:(NSString *)service
-{
-    NSString *baseAppId = [SFCrypto baseAppIdentifier];
-    return [self keyWithSeed:baseAppId service:service];
-}
-
 - (NSData *)encryptionKeyForService:(NSString *)service {
     NSData *keyForService = [SFSDKKeyGenerator encryptionKeyFor:service error:nil];
     return keyForService;
 }
 
-- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service
-{
-    NSString *strSecret = [seed stringByAppendingString:service];
-    return [strSecret sha256];
-}
 
 #pragma mark - Legacy encryption key methods
 
