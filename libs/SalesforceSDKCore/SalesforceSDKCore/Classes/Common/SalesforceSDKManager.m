@@ -740,11 +740,11 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 
 - (void)computeWebViewUserAgent {
     static dispatch_once_t onceToken;
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-    [self.webView loadHTMLString:@"<html></html>" baseURL:nil];
     __weak typeof(self) weakSelf = self;
     dispatch_once_on_main_thread(&onceToken, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+        [strongSelf.webView loadHTMLString:@"<html></html>" baseURL:nil];
         [strongSelf.webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id __nullable userAgent, NSError * __nullable error) {
             strongSelf.webViewUserAgent = userAgent;
             strongSelf.webView = nil;
