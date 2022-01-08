@@ -230,7 +230,7 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
 - (UIDeviceFamily) deviceFamily;
 
 /**Device's current orientation
- This method will first try to retrieve orientation using UIDevice currentOrientation, if return value is an invalid orientation, it will try to use status bar orientation as fallback
+ This method will first try to retrieve orientation using UIDevice currentOrientation, if return value is an invalid orientation, it will try to use the orientation of the first window scene
  */
 - (UIInterfaceOrientation)interfaceOrientation;
 
