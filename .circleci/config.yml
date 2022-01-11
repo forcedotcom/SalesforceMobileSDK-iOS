@@ -1,6 +1,6 @@
 anchors:
   - &latest-xcode "13.2.1"
-  - &latest-ios   "15.0"
+  - &latest-ios   "15.2"
   - &min-ios      "14.5"
   - &chruby       "3.0.3"
 
