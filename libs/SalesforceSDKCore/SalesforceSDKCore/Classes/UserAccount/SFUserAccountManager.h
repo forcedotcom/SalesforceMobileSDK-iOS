@@ -513,12 +513,6 @@ Use this method to stop/clear any authentication which is has already been start
  */
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
 
-/**
- Determines if the deivce has Touch/Face Id enabled.
- @return YES if the device is capable of biometric unlock, NO otherwise.
- */
-- (BOOL)deviceHasBiometric;
-
 @end
 
 NS_ASSUME_NONNULL_END
