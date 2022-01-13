@@ -356,16 +356,25 @@ public class KeyValueEncryptedFileStore: NSObject {
     ///   - key: Key associated with the value.
     /// - Returns: True on success, false on failure.
     @objc @discardableResult public func saveValue(_ value: String, forKey key: String) -> Bool {
+        return saveData(Data(value.utf8), forKey: key)
+    }
+    
+    /// Updates the data stored for the given key, or adds a new entry if the key does not exist.
+    /// - Parameters:
+    ///   - data: Data to add to the store.
+    ///   - key: Key associated with the data.
+    /// - Returns: True on success, false on failure.
+    @objc @discardableResult public func saveData(_ data: Data, forKey key: String) -> Bool {
         guard let fileURL = encodedURL(forKey: key, fileType: .value) else {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct file URL")
             return false
         }
         
         if storeVersion < 2 {
-            return writeFile(fileURL, content: value)
+            return writeDataToFile(fileURL, data: data)
         }
         
-        let valueFileWriteSuccess = writeFile(fileURL, content: value)
+        let valueFileWriteSuccess = writeDataToFile(fileURL, data: data)
         if valueFileWriteSuccess {
             if let keyFileURL = encodedURL(forKey: key, fileType: .key) {
                 writeFile(keyFileURL, content: key)
@@ -394,6 +403,16 @@ public class KeyValueEncryptedFileStore: NSObject {
             }
         }
     }
+    
+    /// Accesses the data associated with the given key.
+    @objc public func readData(key: String) -> Data? {
+        guard let fileURL = encodedURL(forKey: key, fileType: .value) else {
+            SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Unable to construct file URL")
+            return nil
+        }
+        return readDataFromFile(fileURL)
+    }
+    
     /// Removes entry for given key.
     /// - Parameter key: The key associated with the entry to remove.
     /// - Returns: True if the entry is successfully removed or doesn't exist, false otherwise.
@@ -501,8 +520,12 @@ public class KeyValueEncryptedFileStore: NSObject {
 
     @discardableResult
     private func writeFile(_ fileURL: URL, content: String, callingFunction: String = #function) -> Bool {
+        return writeDataToFile(fileURL, data: Data(content.utf8), callingFunction: callingFunction)
+    }
+    
+    private func writeDataToFile(_ fileURL: URL, data: Data, callingFunction: String = #function) -> Bool {
         do {
-            let encryptedData = try Encryptor.encrypt(data: Data(content.utf8), using: encryptionKey)
+            let encryptedData = try Encryptor.encrypt(data: data, using: encryptionKey)
             try encryptedData.write(to: fileURL)
             return true
         } catch {
@@ -512,6 +535,11 @@ public class KeyValueEncryptedFileStore: NSObject {
     }
     
     private func readFile(_ fileURL: URL, callingFunction: String = #function) -> String? {
+        let decryptedData = readDataFromFile(fileURL, callingFunction: callingFunction)
+        return decryptedData != nil ? String(data: decryptedData!, encoding:.utf8) : nil
+    }
+    
+    private func readDataFromFile(_ fileURL: URL, callingFunction: String = #function) -> Data? {
         guard FileManager.default.fileExists(atPath: fileURL.path) else {
             return nil
         }
@@ -519,7 +547,7 @@ public class KeyValueEncryptedFileStore: NSObject {
         do {
             let encryptedData = try Data(contentsOf: fileURL)
             let decryptedData = try Encryptor.decrypt(data: encryptedData, using: encryptionKey)
-            return String(data: decryptedData, encoding: .utf8)
+            return decryptedData
         } catch {
             SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(callingFunction): Error reading or decrypting file at path '\(fileURL.path)': \(error)")
             return nil
