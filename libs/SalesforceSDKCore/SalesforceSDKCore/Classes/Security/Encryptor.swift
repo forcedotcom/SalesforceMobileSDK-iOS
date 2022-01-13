@@ -194,22 +194,32 @@ public class KeyGenerator: NSObject {
         keyCache.removeValue(forKey: label)
         return KeychainHelper.remove(service: storedLabel, account: nil).success
     }
-    
+
+    static func fixCorruptKeystore() {
+        let secItemClasses = [kSecClassGenericPassword, kSecClassInternetPassword, kSecClassCertificate, kSecClassKey, kSecClassIdentity]
+        for itemClass in secItemClasses {
+            let spec: NSDictionary = [kSecClass: itemClass]
+            SecItemDelete(spec)
+        }
+        keyCache.removeAll()
+    }
+
     static func symmetricKey(for label: String, keySize: SymmetricKeySize = .bits256) throws -> SymmetricKey {
         let storedLabel = "\(KeyGenerator.keyStoreService).\(label)"
         if let encryptedKeyData = KeychainHelper.read(service: storedLabel, account: nil).data {
-            let decryptedKeyData = try Encryptor.decrypt(data: encryptedKeyData, using: ecKeyPair(name: defaultKeyName).privateKey)
-            return SymmetricKey(data: decryptedKeyData)
-        } else {
-            let key = SymmetricKey(size: keySize)
-            let encryptedKeyData = try Encryptor.encrypt(data: key.dataRepresentation, using: ecKeyPair(name: defaultKeyName).publicKey)
-            
-            let result = KeychainHelper.write(service: storedLabel, data: encryptedKeyData, account: nil)
-            if result.success {
-                return key
-            } else {
-                throw KeyGeneratorError.keychainWriteError(underlyingError: result.error)
+            if let decryptedKeyData = try? Encryptor.decrypt(data: encryptedKeyData, using: ecKeyPair(name: defaultKeyName).privateKey) {
+                return SymmetricKey(data: decryptedKeyData)
             }
+            fixCorruptKeystore()
+        }
+        let key = SymmetricKey(size: keySize)
+        let encryptedKeyData = try Encryptor.encrypt(data: key.dataRepresentation, using: ecKeyPair(name: defaultKeyName).publicKey)
+
+        let result = KeychainHelper.write(service: storedLabel, data: encryptedKeyData, account: nil)
+        if result.success {
+            return key
+        } else {
+            throw KeyGeneratorError.keychainWriteError(underlyingError: result.error)
         }
     }
     
