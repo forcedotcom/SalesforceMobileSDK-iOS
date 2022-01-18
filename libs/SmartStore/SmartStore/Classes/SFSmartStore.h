@@ -262,7 +262,7 @@ NS_SWIFT_NAME(SmartStore)
  *  @param soupName Name of the soup.
  *  @return Specs of the soup if it exists.
  */
-- (nullable SFSoupSpec*)attributesForSoup:(NSString*)soupName NS_SWIFT_NAME(specification(forSoupNamed:));
+- (nullable SFSoupSpec*)attributesForSoup:(NSString*)soupName NS_SWIFT_NAME(specification(forSoupNamed:)) SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed");
 
 /**
  @param soupName Name of the soup.
@@ -294,7 +294,7 @@ NS_SWIFT_NAME(SmartStore)
  @return YES if the soup is registered or already exists.
 
  */
-- (BOOL)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(withSpecification:withIndices:));
+- (BOOL)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(withSpecification:withIndices:)) SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed - use registerSoup with soupName instead");
 
 /**
  Get the number of entries that would be returned with the given query spec
@@ -473,7 +473,7 @@ NS_SWIFT_NAME(SmartStore)
  @param soupName Name of the soup.
  @return External file storage size, in bytes.
  */
-- (unsigned long long)getExternalFileStorageSizeForSoup:(NSString*)soupName NS_SWIFT_NAME(externalFileStorageSize(forSoupNamed:));
+- (unsigned long long)getExternalFileStorageSizeForSoup:(NSString*)soupName NS_SWIFT_NAME(externalFileStorageSize(forSoupNamed:)) SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed");
 
 /**
  Return the number of external storage files for a given soup.
@@ -481,7 +481,7 @@ NS_SWIFT_NAME(SmartStore)
  @param soupName The name of the soup.
  @return Number of external files.
  */
-- (NSUInteger)getExternalFilesCountForSoup:(NSString*)soupName NS_SWIFT_NAME(externalFilesCount(forSoupNamed:));
+- (NSUInteger)getExternalFilesCountForSoup:(NSString*)soupName NS_SWIFT_NAME(externalFilesCount(forSoupNamed:)) SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed");
 
 /**
  Alter soup indexes.
@@ -502,7 +502,7 @@ NS_SWIFT_NAME(SmartStore)
  @param reIndexData Pass YES if you want existing records to be re-indexed for new index specs.
  @return YES if the soup was altered successfully.
  */
-- (BOOL) alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs reIndexData:(BOOL)reIndexData NS_SWIFT_NAME(alterSoup(named:soupSpec:indexSpecs:reIndexData:));
+- (BOOL) alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs reIndexData:(BOOL)reIndexData NS_SWIFT_NAME(alterSoup(named:soupSpec:indexSpecs:reIndexData:)) SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed - use other alterSoup method instead");
 
 
 /**
