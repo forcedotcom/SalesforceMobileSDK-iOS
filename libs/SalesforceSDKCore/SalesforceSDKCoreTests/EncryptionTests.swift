@@ -77,6 +77,55 @@ class EncryptionTests: XCTestCase {
         XCTAssertNotEqual(key, differentKey)
     }
     
+    func testECKeyCreationDeletion() throws {
+        let publicKeyTag = try KeyGenerator.keyTag(name: "ECTest", prefix: KeyGenerator.ecPublicKeyTagPrefix)
+        let privateKeyTag = try KeyGenerator.keyTag(name: "ECTest", prefix: KeyGenerator.ecPrivateKeyTagPrefix)
+        
+        _ = try KeyGenerator.createECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag)
+        XCTAssertNotNil(KeyGenerator.ecKey(tag: publicKeyTag))
+        XCTAssertNotNil(KeyGenerator.ecKey(tag: privateKeyTag))
+        
+        KeyGenerator.removeECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag)
+        XCTAssertNil(KeyGenerator.ecKey(tag: publicKeyTag))
+        XCTAssertNil(KeyGenerator.ecKey(tag: privateKeyTag))
+    }
+    
+    func testSymmetricKeyRetrievalECKeyReset() throws {
+        let publicKeyTag = try KeyGenerator.keyTag(name: KeyGenerator.defaultKeyName, prefix: KeyGenerator.ecPublicKeyTagPrefix)
+        let privateKeyTag = try KeyGenerator.keyTag(name: KeyGenerator.defaultKeyName, prefix: KeyGenerator.ecPrivateKeyTagPrefix)
+        
+        // Just remove private key
+        XCTAssertNotNil(try KeyGenerator.encryptionKey(for: "reset1"))
+        XCTAssertTrue(KeyGenerator.removeKey(tag: privateKeyTag))
+        KeyGenerator.keyCache.removeValue(forKey: "reset1")
+        var key = try KeyGenerator.encryptionKey(for: "reset1")
+        XCTAssertNotNil(key, "Couldn't generate new symmetric key after EC private key removal")
+        // Read the key from the keychain (not cache) to make sure it can be decrypted with new EC key pair
+        KeyGenerator.keyCache.removeValue(forKey: "reset1")
+        var keyAgain = try KeyGenerator.encryptionKey(for: "reset1")
+        XCTAssertEqual(key, keyAgain)
+        
+        // Just remove public key
+        XCTAssertNotNil(try KeyGenerator.encryptionKey(for: "reset2"))
+        XCTAssertTrue(KeyGenerator.removeKey(tag: publicKeyTag))
+        KeyGenerator.keyCache.removeValue(forKey: "reset2")
+        key = try KeyGenerator.encryptionKey(for: "reset2")
+        XCTAssertNotNil(key, "Couldn't generate new symmetric key after EC private key removal")
+        KeyGenerator.keyCache.removeValue(forKey: "reset2")
+        keyAgain = try KeyGenerator.encryptionKey(for: "reset2")
+        XCTAssertEqual(key, keyAgain)
+
+        // Remove key pair
+        XCTAssertNotNil(try KeyGenerator.encryptionKey(for: "reset3"))
+        XCTAssertTrue(KeyGenerator.removeECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag))
+        KeyGenerator.keyCache.removeValue(forKey: "reset3")
+        key = try KeyGenerator.encryptionKey(for: "reset3")
+        XCTAssertNotNil(key, "Couldn't generate new symmetric key after EC key pair removal")
+        KeyGenerator.keyCache.removeValue(forKey: "reset3")
+        keyAgain = try KeyGenerator.encryptionKey(for: "reset3")
+        XCTAssertEqual(key, keyAgain)
+    }
+    
     func testConcurrency() throws {
         let result = SafeMutableArray()
         DispatchQueue.concurrentPerform(iterations: 1000) { index in
