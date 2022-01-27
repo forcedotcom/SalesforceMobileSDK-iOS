@@ -318,7 +318,7 @@
     NSError *error;
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:store.storeDirectory.path error:&error];
     XCTAssertNil(error, @"Error getting contents of path '%@': %@", store.storeDirectory.path, error);
-    XCTAssertEqual(files.count, 3, @"Unexpected number of files in store");
+    XCTAssertEqual(files.count, 4, @"Unexpected number of files in store");
     NSString *valuePath = [store.storeDirectory.path stringByAppendingPathComponent:files[0]];
     NSData *fileData = [NSData dataWithContentsOfFile:valuePath];
     NSData *valueData = [value dataUsingEncoding:NSUTF8StringEncoding];
