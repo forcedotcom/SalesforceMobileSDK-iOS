@@ -368,7 +368,7 @@ public class KeychainHelper: NSObject {
                 String(kSecClass): kSecClassGenericPassword,
                 String(kSecAttrCreator): String(KeychainItemManager.tag)]
 
-            let deleteStatus =  SecItemDelete(deleteQuery as CFDictionary)
+            let deleteStatus = SecItemDelete(deleteQuery as CFDictionary)
             if deleteStatus == errSecSuccess {
                 return KeychainResult(data: nil, status: deleteStatus)
             }
@@ -465,9 +465,9 @@ public class KeychainHelper: NSObject {
     }
     
     internal class CachedWrapper {
-        
-        static var cache: SafeMutableDictionary<NSString, KeychainResult> = SafeMutableDictionary<NSString, KeychainResult>()
-        
+        static private(set) var cache = Dictionary<NSString, KeychainResult>()
+        static private var queue = DispatchQueue(label: "com.salesforce.mobilesdk.readWriteQueue\(arc4random_uniform(32))", qos: .unspecified, attributes: [.concurrent], autoreleaseFrequency: .inherit, target: nil)
+
         class func key(service: String, account: String?) -> NSString {
             guard let acc = account else {
                 return NSString(string: "\(service)")
@@ -475,46 +475,66 @@ public class KeychainHelper: NSObject {
             return NSString(string: "\(service)_\(acc)")
         }
         
-        class func wrap(_ service: String, _ account: String?, readFunc: (String, String?) -> KeychainResult ) -> KeychainResult {
-            guard let result = cache[key(service: service, account: account)]  else{
-                let keychainResult =  readFunc(service, account)
-                if keychainResult.success {
-                    cache[key(service: service, account: account)]  = keychainResult
+        class func wrap(_ service: String, _ account: String?, readFunc: (String, String?) -> KeychainResult) -> KeychainResult {
+            let key = key(service: service, account: account)
+            
+            // Try read without barrier
+            let cacheValue = queue.sync {
+                cache[key]
+            }
+            if let cacheValue = cacheValue {
+                return cacheValue
+            }
+            
+            return queue.sync(flags: .barrier) { () -> KeychainResult in
+                // Checking current value again in case anything happened between first read and this
+                if let currentValue = cache[key] {
+                    return currentValue
+                } else {
+                    let keychainResult = readFunc(service, account)
+                    if keychainResult.success {
+                        cache[key] = keychainResult
+                    }
+                    return keychainResult
                 }
-                return keychainResult
             }
-            return result
         }
         
-        class func wrapWrites(_ service: String, _ data: Data, _ account: String?, writeFunc: (String, Data, String?) -> KeychainResult ) -> KeychainResult {
-            if let _ = cache[key(service: service, account: account)] {
-                cache.removeObject(key(service: service, account: account))
+        class func wrapWrites(_ service: String, _ data: Data, _ account: String?, writeFunc: (String, Data, String?) -> KeychainResult) -> KeychainResult {
+            return queue.sync(flags: .barrier) {
+                if let _ = cache[key(service: service, account: account)] {
+                    cache.removeValue(forKey: key(service: service, account: account))
+                }
+                let newKeychainResult = writeFunc(service, data, account)
+                cache[key(service: service, account: account)] = newKeychainResult
+                return newKeychainResult
             }
-            let newKeychainResult = writeFunc(service, data, account)
-            cache[key(service: service, account: account)] = newKeychainResult
-            return newKeychainResult
         }
         
-        class func wrapRemoves(_ service: String, _ account: String?, removeFunc: (String, String?) -> KeychainResult ) -> KeychainResult {
-            if let _ = cache[key(service: service, account: account)] {
-                cache.removeObject(key(service: service, account: account))
+        class func wrapRemoves(_ service: String, _ account: String?, removeFunc: (String, String?) -> KeychainResult) -> KeychainResult {
+            return queue.sync(flags: .barrier) {
+                if let _ = cache[key(service: service, account: account)] {
+                    cache.removeValue(forKey: key(service: service, account: account))
+                }
+                let newKeychainResult = removeFunc(service, account)
+                return newKeychainResult
             }
-            let newKeychainResult = removeFunc(service, account)
-            return newKeychainResult
         }
         
         class func wrapRemoveAll(removeAllFunc: () -> KeychainResult) -> KeychainResult {
-            cache.removeAllObjects()
-            let newKeychainResult = removeAllFunc()
-            return newKeychainResult
+            return queue.sync(flags: .barrier) {
+                cache.removeAll()
+                let newKeychainResult = removeAllFunc()
+                return newKeychainResult
+            }
         }
         
         class func clearAllCaches() {
-            self.cache.removeAllObjects()
+            queue.async(flags: .barrier) {
+                cache.removeAll()
+            }
         }
-       
     }
-
     
     //Pre 9.1 Upgrade Handling
     internal class KeychainUpgradeManager {
