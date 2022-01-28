@@ -111,13 +111,17 @@ public class KeyValueEncryptedFileStore: NSObject {
         let versionFileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeVersionFileName)
         if isNewlyCreated {
             let versionFileCreated = writeFile(versionFileURL, content: KeyValueEncryptedFileStore.storeVersionString)
-            if !versionFileCreated {
+            let encryptionFileURL = directory.appendingPathComponent(KeyValueEncryptedFileStore.storeGCMEncryptionFileName)
+            let encryptionFileCreated = FileManager.default.createFile(atPath: encryptionFileURL.path, contents: nil, attributes: nil)
+            if !versionFileCreated || !encryptionFileCreated {
+                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Failed to create version file or encryption file for store")
                 return nil
             }
         } else {
             if let version = readVersion(versionFileURL) {
                 self.storeVersion = version
             } else {
+                SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Failed to read version for store")
                 return nil
             }
         }
@@ -339,6 +343,11 @@ public class KeyValueEncryptedFileStore: NSObject {
                 SFSDKCoreLogger.e(KeyValueEncryptedFileStore.self, message: "\(#function): Error removing file at path '\(storeURL.path)': \(error)")
             }
         }
+    }
+    
+    // Internal for testing
+    static func clearGlobalCache() {
+        KeyValueEncryptedFileStore.globalStores.removeAllObjects()
     }
 
     // MARK: - Store operations
