@@ -26,12 +26,8 @@
 		010A9AE51CC176DD002AF4D3 /* SFCryptChunks.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9ADF1CC176DD002AF4D3 /* SFCryptChunks.m */; };
 		010A9AE61CC176DD002AF4D3 /* SFDecryptStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9AE01CC176DD002AF4D3 /* SFDecryptStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		010A9AE71CC176DD002AF4D3 /* SFDecryptStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9AE11CC176DD002AF4D3 /* SFDecryptStream.m */; };
-		010A9AE81CC176DD002AF4D3 /* SFEncryptStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9AE21CC176DD002AF4D3 /* SFEncryptStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		010A9AE91CC176DD002AF4D3 /* SFEncryptStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9AE31CC176DD002AF4D3 /* SFEncryptStream.m */; };
 		010A9B551CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9B511CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h */; };
 		010A9B591CC1A147002AF4D3 /* SFCryptoStreamTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9B521CC1A131002AF4D3 /* SFCryptoStreamTestUtils.m */; };
-		010A9B5A1CC1A14C002AF4D3 /* SFEncryptDecryptStreamJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9B531CC1A131002AF4D3 /* SFEncryptDecryptStreamJSONTests.m */; };
-		010A9B5B1CC1A150002AF4D3 /* SFEncryptDecryptStreamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9B541CC1A131002AF4D3 /* SFEncryptDecryptStreamTests.m */; };
 		444B95D01E83251900908C61 /* UIColor+SFColorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */; };
 		4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */; };
 		4F06AF751C49A16A00F70798 /* SalesforceOAuthUnitTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5F1C49A16A00F70798 /* SalesforceOAuthUnitTests.h */; };
@@ -260,9 +256,8 @@
 		CE4CE3121C0E523B009F6029 /* NSNotificationCenter+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945C21BFFF47D005368C5 /* NSNotificationCenter+SFAdditions.m */; };
 		CE4CE3131C0E523B009F6029 /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945C31BFFF47D005368C5 /* NSString+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3141C0E523B009F6029 /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945C41BFFF47D005368C5 /* NSString+SFAdditions.m */; };
-		CE4CE3151C0E523B009F6029 /* SFCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945C51BFFF47D005368C5 /* SFCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE3151C0E523B009F6029 /* SFCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945C51BFFF47D005368C5 /* SFCrypto.h */; };
 		CE4CE3161C0E523B009F6029 /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945C61BFFF47D005368C5 /* SFCrypto.m */; };
-		CE4CE3171C0E523B009F6029 /* SFCrypto+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945C71BFFF47D005368C5 /* SFCrypto+Internal.h */; };
 		CE4CE31A1C0E523B009F6029 /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945CA1BFFF47D005368C5 /* SFInactivityTimerCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE31B1C0E523B009F6029 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945CB1BFFF47D005368C5 /* SFInactivityTimerCenter.m */; };
 		CE4CE3231C0E523B009F6029 /* UIDevice+SFHardware.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945D31BFFF47D005368C5 /* UIDevice+SFHardware.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -321,18 +316,16 @@
 		CE4CE36B1C0E526A009F6029 /* SFDefaultUserManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD001BFD32130022F021 /* SFDefaultUserManagementViewController.m */; };
 		CE4CE36C1C0E526A009F6029 /* SFEncryptionKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD011BFD32130022F021 /* SFEncryptionKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE36D1C0E526A009F6029 /* SFEncryptionKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD021BFD32130022F021 /* SFEncryptionKey.m */; };
-		CE4CE36E1C0E526A009F6029 /* SFGeneratedKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD031BFD32130022F021 /* SFGeneratedKeyStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE36E1C0E526A009F6029 /* SFGeneratedKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD031BFD32130022F021 /* SFGeneratedKeyStore.h */; };
 		CE4CE36F1C0E526A009F6029 /* SFGeneratedKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD041BFD32130022F021 /* SFGeneratedKeyStore.m */; };
 		CE4CE3701C0E526A009F6029 /* SFKeyStore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD051BFD32130022F021 /* SFKeyStore+Internal.h */; };
-		CE4CE3711C0E526A009F6029 /* SFKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD061BFD32130022F021 /* SFKeyStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE3711C0E526A009F6029 /* SFKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD061BFD32130022F021 /* SFKeyStore.h */; };
 		CE4CE3721C0E526A009F6029 /* SFKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD071BFD32130022F021 /* SFKeyStore.m */; };
-		CE4CE3731C0E526A009F6029 /* SFKeyStoreKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD081BFD32130022F021 /* SFKeyStoreKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE3731C0E526A009F6029 /* SFKeyStoreKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD081BFD32130022F021 /* SFKeyStoreKey.h */; };
 		CE4CE3741C0E526A009F6029 /* SFKeyStoreKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD091BFD32130022F021 /* SFKeyStoreKey.m */; };
 		CE4CE3751C0E526A009F6029 /* SFKeyStoreManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD0A1BFD32140022F021 /* SFKeyStoreManager+Internal.h */; };
 		CE4CE3761C0E526A009F6029 /* SFKeyStoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD0B1BFD32140022F021 /* SFKeyStoreManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3771C0E526A009F6029 /* SFKeyStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD0C1BFD32140022F021 /* SFKeyStoreManager.m */; };
-		CE4CE3851C0E526A009F6029 /* SFPBKDFData.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD1A1BFD32140022F021 /* SFPBKDFData.h */; };
-		CE4CE3861C0E526A009F6029 /* SFPBKDFData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD1B1BFD32140022F021 /* SFPBKDFData.m */; };
 		CE4CE3871C0E526A009F6029 /* SFSDKCryptoUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD1C1BFD32140022F021 /* SFSDKCryptoUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3881C0E526A009F6029 /* SFSDKCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD1D1BFD32140022F021 /* SFSDKCryptoUtils.m */; };
 		CE4CE38E1C0E526A009F6029 /* SFUserAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD231BFD32140022F021 /* SFUserAccount.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -527,12 +520,8 @@
 		010A9ADF1CC176DD002AF4D3 /* SFCryptChunks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFCryptChunks.m; sourceTree = "<group>"; };
 		010A9AE01CC176DD002AF4D3 /* SFDecryptStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDecryptStream.h; sourceTree = "<group>"; };
 		010A9AE11CC176DD002AF4D3 /* SFDecryptStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFDecryptStream.m; sourceTree = "<group>"; };
-		010A9AE21CC176DD002AF4D3 /* SFEncryptStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFEncryptStream.h; sourceTree = "<group>"; };
-		010A9AE31CC176DD002AF4D3 /* SFEncryptStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFEncryptStream.m; sourceTree = "<group>"; };
 		010A9B511CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFCryptoStreamTestUtils.h; path = SalesforceSDKCoreTests/SFCryptoStreamTestUtils.h; sourceTree = SOURCE_ROOT; };
 		010A9B521CC1A131002AF4D3 /* SFCryptoStreamTestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFCryptoStreamTestUtils.m; path = SalesforceSDKCoreTests/SFCryptoStreamTestUtils.m; sourceTree = SOURCE_ROOT; };
-		010A9B531CC1A131002AF4D3 /* SFEncryptDecryptStreamJSONTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFEncryptDecryptStreamJSONTests.m; path = SalesforceSDKCoreTests/SFEncryptDecryptStreamJSONTests.m; sourceTree = SOURCE_ROOT; };
-		010A9B541CC1A131002AF4D3 /* SFEncryptDecryptStreamTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFEncryptDecryptStreamTests.m; path = SalesforceSDKCoreTests/SFEncryptDecryptStreamTests.m; sourceTree = SOURCE_ROOT; };
 		444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SFColorsTests.m"; path = "SalesforceSDKCoreTests/UIColor+SFColorsTests.m"; sourceTree = SOURCE_ROOT; };
 		4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+SFStringUtilsTests.h"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.h"; sourceTree = SOURCE_ROOT; };
 		4F06AF5E1C49A16A00F70798 /* NSURL+SFStringUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+SFStringUtilsTests.m"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.m"; sourceTree = SOURCE_ROOT; };
@@ -634,8 +623,6 @@
 		4F96FD0A1BFD32140022F021 /* SFKeyStoreManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFKeyStoreManager+Internal.h"; sourceTree = "<group>"; };
 		4F96FD0B1BFD32140022F021 /* SFKeyStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFKeyStoreManager.h; sourceTree = "<group>"; };
 		4F96FD0C1BFD32140022F021 /* SFKeyStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFKeyStoreManager.m; sourceTree = "<group>"; };
-		4F96FD1A1BFD32140022F021 /* SFPBKDFData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPBKDFData.h; sourceTree = "<group>"; };
-		4F96FD1B1BFD32140022F021 /* SFPBKDFData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPBKDFData.m; sourceTree = "<group>"; };
 		4F96FD1C1BFD32140022F021 /* SFSDKCryptoUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKCryptoUtils.h; sourceTree = "<group>"; };
 		4F96FD1D1BFD32140022F021 /* SFSDKCryptoUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKCryptoUtils.m; sourceTree = "<group>"; };
 		4F96FD231BFD32140022F021 /* SFUserAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUserAccount.h; sourceTree = "<group>"; };
@@ -682,7 +669,6 @@
 		4FF945C41BFFF47D005368C5 /* NSString+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SFAdditions.m"; sourceTree = "<group>"; };
 		4FF945C51BFFF47D005368C5 /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCrypto.h; sourceTree = "<group>"; };
 		4FF945C61BFFF47D005368C5 /* SFCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFCrypto.m; sourceTree = "<group>"; };
-		4FF945C71BFFF47D005368C5 /* SFCrypto+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFCrypto+Internal.h"; sourceTree = "<group>"; };
 		4FF945CA1BFFF47D005368C5 /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFInactivityTimerCenter.h; sourceTree = "<group>"; };
 		4FF945CB1BFFF47D005368C5 /* SFInactivityTimerCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFInactivityTimerCenter.m; sourceTree = "<group>"; };
 		4FF945D31BFFF47D005368C5 /* UIDevice+SFHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+SFHardware.h"; sourceTree = "<group>"; };
@@ -1034,8 +1020,6 @@
 				4F7EB3FC1BFFC87600768720 /* SFSDKCryptoUtilsTests.m */,
 				010A9B511CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h */,
 				010A9B521CC1A131002AF4D3 /* SFCryptoStreamTestUtils.m */,
-				010A9B531CC1A131002AF4D3 /* SFEncryptDecryptStreamJSONTests.m */,
-				010A9B541CC1A131002AF4D3 /* SFEncryptDecryptStreamTests.m */,
 				4F7EB4571BFFC9D900768720 /* Supporting Files */,
 				009D77511CA4A92200D5183A /* SFPushNotificationManagerTests.m */,
 				8263FED21E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m */,
@@ -1098,7 +1082,6 @@
 				4FF946221BFFF663005368C5 /* NSURL+SFAdditions.m */,
 				4FF945C51BFFF47D005368C5 /* SFCrypto.h */,
 				4FF945C61BFFF47D005368C5 /* SFCrypto.m */,
-				4FF945C71BFFF47D005368C5 /* SFCrypto+Internal.h */,
 				4FF945CA1BFFF47D005368C5 /* SFInactivityTimerCenter.h */,
 				4FF945CB1BFFF47D005368C5 /* SFInactivityTimerCenter.m */,
 				4FF945D31BFFF47D005368C5 /* UIDevice+SFHardware.h */,
@@ -1218,6 +1201,7 @@
 			isa = PBXGroup;
 			children = (
 				A315F84126EAAFCD00B94428 /* ScreenLock */,
+				69341D21266FF61700227CB0 /* Encryptor.swift */,
 				69BDD82E26F90AA400C26D77 /* EncryptStream.swift */,
 				69BDD82D26F90AA400C26D77 /* DecryptStream.swift */,
 				4F96FD011BFD32130022F021 /* SFEncryptionKey.h */,
@@ -1234,17 +1218,12 @@
 				4F96FD0A1BFD32140022F021 /* SFKeyStoreManager+Internal.h */,
 				4F96FD0B1BFD32140022F021 /* SFKeyStoreManager.h */,
 				4F96FD0C1BFD32140022F021 /* SFKeyStoreManager.m */,
-				4F96FD1A1BFD32140022F021 /* SFPBKDFData.h */,
-				4F96FD1B1BFD32140022F021 /* SFPBKDFData.m */,
 				4F96FD1C1BFD32140022F021 /* SFSDKCryptoUtils.h */,
 				4F96FD1D1BFD32140022F021 /* SFSDKCryptoUtils.m */,
 				010A9ADE1CC176DD002AF4D3 /* SFCryptChunks.h */,
 				010A9ADF1CC176DD002AF4D3 /* SFCryptChunks.m */,
 				010A9AE01CC176DD002AF4D3 /* SFDecryptStream.h */,
 				010A9AE11CC176DD002AF4D3 /* SFDecryptStream.m */,
-				010A9AE21CC176DD002AF4D3 /* SFEncryptStream.h */,
-				010A9AE31CC176DD002AF4D3 /* SFEncryptStream.m */,
-				69341D21266FF61700227CB0 /* Encryptor.swift */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -1732,7 +1711,6 @@
 				B7C5125920C188AE00B39DAA /* SFSDKViewController.h in Headers */,
 				B7895D192345304800765D85 /* SFSDKCompositeResponse.h in Headers */,
 				CE4CE3991C0E5272009F6029 /* SFSDKAsyncProcessListener.h in Headers */,
-				010A9AE81CC176DD002AF4D3 /* SFEncryptStream.h in Headers */,
 				CE4CE3251C0E523B009F6029 /* UIScreen+SFAdditions.h in Headers */,
 				CE4CE38E1C0E526A009F6029 /* SFUserAccount.h in Headers */,
 				E1C80CF31C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.h in Headers */,
@@ -1791,7 +1769,6 @@
 				8214D96D205317BC0007349E /* SFSDKSalesforceAnalyticsManager+Internal.h in Headers */,
 				B7A20F871F25850E00D1E4B0 /* SFSDKWindowManager.h in Headers */,
 				CE4CE3B11C0E5279009F6029 /* SFSDKWebUtils.h in Headers */,
-				CE4CE3851C0E526A009F6029 /* SFPBKDFData.h in Headers */,
 				B79F03F520D4684600BC7D6F /* UIFont+SFSDKIDP.h in Headers */,
 				CE4CE35F1C0E526A009F6029 /* SFAuthErrorHandlerList.h in Headers */,
 				B7348BEF235F7CDB00E3BBE3 /* SFSDKIDPAuthHelper.h in Headers */,
@@ -1827,7 +1804,6 @@
 				BE2B45BE1DB0037E004DA618 /* UIColor+SFColors.h in Headers */,
 				B79F040120D4684600BC7D6F /* SFSDKUITableViewCell.h in Headers */,
 				CE88BD521D17065C00AE3BF7 /* SFSDKAILTNPublisher.h in Headers */,
-				CE4CE3171C0E523B009F6029 /* SFCrypto+Internal.h in Headers */,
 				CE4CE3111C0E523B009F6029 /* NSNotificationCenter+SFAdditions.h in Headers */,
 				69848CAC2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h in Headers */,
 				B7E391122209E63E00D61D4D /* SFSDKViewUtils.h in Headers */,
@@ -2138,14 +2114,12 @@
 				B7E1A50E1F43B0FE007AC36A /* SFSDKWindowManagerTests.m in Sources */,
 				4F06AF8A1C49A18E00F70798 /* SalesforceOAuthUnitTests.m in Sources */,
 				B7A901BE228E4DFB0036D749 /* SFSDKLogoutBlocker.m in Sources */,
-				010A9B5A1CC1A14C002AF4D3 /* SFEncryptDecryptStreamJSONTests.m in Sources */,
 				693E623B24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m in Sources */,
 				8214D955205316BA0007349E /* SFSDKSalesforceAnalyticsManagerTests.m in Sources */,
 				4F06AF891C49A18E00F70798 /* NSURL+SFStringUtilsTests.m in Sources */,
 				B759CD891F8BDBAC0081AA87 /* SDSDKAlertMessageTest.m in Sources */,
 				4F06AF8C1C49A18E00F70798 /* SalesforceSDKIdentityTests.m in Sources */,
 				4F06AF921C49A18E00F70798 /* SFPreferencesTests.m in Sources */,
-				010A9B5B1CC1A150002AF4D3 /* SFEncryptDecryptStreamTests.m in Sources */,
 				4F755F5820D48F8600CE4E0E /* NSString+SFAdditionsTests.m in Sources */,
 				CEB98EE01F86E7CF0083AB9C /* SFSDKAuthRequestCommandTest.m in Sources */,
 				010A9B591CC1A147002AF4D3 /* SFCryptoStreamTestUtils.m in Sources */,
@@ -2341,9 +2315,7 @@
 				B711290D1F8A780800436CFB /* SFSDKAlertView.m in Sources */,
 				B7460C1C2347E1A100C7512E /* SFSDKBatchResponse.m in Sources */,
 				B7FB26DB1F78096300FB25A2 /* SFSDKIDPErrorHandler.m in Sources */,
-				010A9AE91CC176DD002AF4D3 /* SFEncryptStream.m in Sources */,
 				B7677051223AE5E400545C90 /* SFUserAccountManager+Instrumentation.m in Sources */,
-				CE4CE3861C0E526A009F6029 /* SFPBKDFData.m in Sources */,
 				E1C80CF01C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m in Sources */,
 				B773CCF81F8200BD00D2D1B2 /* SFSDKIDPInitCommand.m in Sources */,
 				CE4CE3931C0E526A009F6029 /* SFUserAccountIdentity.m in Sources */,
