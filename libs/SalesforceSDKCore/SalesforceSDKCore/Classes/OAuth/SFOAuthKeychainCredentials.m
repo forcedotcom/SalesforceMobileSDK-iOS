@@ -26,7 +26,6 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFKeyStoreManager.h"
-#import "SFCrypto.h"
 #import "UIDevice+SFHardware.h"
 #import "NSString+SFAdditions.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
@@ -112,7 +111,7 @@
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [SFSDKEncryptor decryptWithData:accessTokenData using:encryptionKey error:nil];
+        NSData *decryptedData = [SFSDKEncryptor decryptData:accessTokenData key:encryptionKey error:nil];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
         return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
@@ -140,7 +139,7 @@
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [SFSDKEncryptor decryptWithData:refreshTokenData using:encryptionKey error:nil];
+        NSData *decryptedData = [SFSDKEncryptor decryptData:refreshTokenData key:encryptionKey error:nil];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
         return [[NSString alloc] initWithData:refreshTokenData encoding:NSUTF8StringEncoding];
@@ -197,6 +196,8 @@
 #pragma mark - Legacy encryption key methods
 
 // Used for upgrade steps, TODO: Remove in Mobile SDK 11.0
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
     NSData *refreshTokenData = [self tokenForService:kSFOAuthServiceLegacyRefresh];
     if (!refreshTokenData) {
@@ -263,5 +264,6 @@
         [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update access token.", [self class], NSStringFromSelector(_cmd)];
     }
 }
+#pragma clang diagnostic pop
 
 @end

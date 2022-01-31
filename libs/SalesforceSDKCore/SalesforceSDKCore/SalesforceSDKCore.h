@@ -29,7 +29,6 @@
 
 #import <SalesforceSDKCore/SFDefaultUserManagementDetailViewController.h>
 #import <SalesforceSDKCore/SFSDKCoreLogger.h>
-#import <SalesforceSDKCore/SFKeyStoreKey.h>
 #import <SalesforceSDKCore/SFFormatUtils.h>
 #import <SalesforceSDKCore/SFCryptChunks.h>
 #import <SalesforceSDKCore/SFSDKAlertMessageBuilder.h>
@@ -37,7 +36,6 @@
 #import <SalesforceSDKCore/SFOAuthInfo.h>
 #import <SalesforceSDKCore/SFDecryptStream.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
-#import <SalesforceSDKCore/SFGeneratedKeyStore.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFLoginViewController.h>
@@ -88,7 +86,6 @@
 #import <SalesforceSDKCore/NSData+SFSDKUtils.h>
 #import <SalesforceSDKCore/UIScreen+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestAPI+QueryBuilder.h>
-#import <SalesforceSDKCore/SFEncryptStream.h>
 #import <SalesforceSDKCore/SFSDKAppDelegate.h>
 #import <SalesforceSDKCore/SFRestAPI+Blocks.h>
 #import <SalesforceSDKCore/SFSDKAuthConfigUtil.h>
@@ -106,8 +103,6 @@
 #import <SalesforceSDKCore/SFSObjectTree.h>
 #import <SalesforceSDKCore/SFSDKUITableViewCell.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
-#import <SalesforceSDKCore/SFCrypto.h>
-#import <SalesforceSDKCore/SFKeyStore.h>
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>

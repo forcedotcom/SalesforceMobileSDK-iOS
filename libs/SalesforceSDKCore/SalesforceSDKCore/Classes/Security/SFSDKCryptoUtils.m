@@ -23,7 +23,6 @@
  */
 
 #import "SFSDKCryptoUtils.h"
-#import "SFPBKDFData.h"
 #import <CommonCrypto/CommonCrypto.h>
 #import "NSData+SFAdditions.h"
 #import <Security/Security.h>

@@ -24,7 +24,6 @@
 
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKEncryptedURLCache.h"
-#import "SFKeyStoreManager.h"
 #import "NSData+SFAdditions.h"
 
 static NSString * const kURLSchemePrefix = @"sfsdkURLCache://";
