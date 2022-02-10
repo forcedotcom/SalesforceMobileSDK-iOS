@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,6 +42,7 @@ extern NSString * const kSoupFeatureExternalStorage;
  * Object containing soup specifications, such as soup name and features.
  */
 NS_SWIFT_NAME(SoupSpec)
+SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed")
 @interface SFSoupSpec : NSObject
 
 /**

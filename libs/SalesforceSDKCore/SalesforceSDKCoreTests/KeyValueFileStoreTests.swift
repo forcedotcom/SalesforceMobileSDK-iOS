@@ -80,7 +80,24 @@ class KeyValueFileStoreTests: XCTestCase {
         XCTAssertEqual(store[key], content)
         
         // Access again + verify nothing changes
+        KeyValueEncryptedFileStore.clearGlobalCache()
         let storeAgain = try XCTUnwrap(KeyValueEncryptedFileStore.sharedGlobal(withName: storeName))
         XCTAssertEqual(storeAgain[key], content)
+    }
+    
+    func testSameStoreNoCache() throws {
+        // Create legacy key to simulate scenario where app has existing stores that originally used the old key
+        // and then validate new stores can be created and reinitialized
+        let _ = try XCTUnwrap(SFKeyStoreManager.sharedInstance().retrieveKey(withLabel: "com.salesforce.keyValueStores.encryptionKey", autoCreate: true))
+        let storeName = "kv_global_shared_recreate"
+       
+        KeyValueEncryptedFileStore.clearGlobalCache()
+        var store = try XCTUnwrap(KeyValueEncryptedFileStore.sharedGlobal(withName: storeName))
+        store["key1"] = "value1"
+        
+        KeyValueEncryptedFileStore.clearGlobalCache()
+        
+        store = try XCTUnwrap(KeyValueEncryptedFileStore.sharedGlobal(withName: storeName))
+        XCTAssertEqual(store["key1"], "value1")
     }
 }

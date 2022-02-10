@@ -26,17 +26,13 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFKeyStoreManager.h"
-#import "SFCrypto.h"
 #import "UIDevice+SFHardware.h"
 #import "NSString+SFAdditions.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFOAuthKeychainCredentials
-#pragma clang diagnostic pop
 
 @dynamic refreshToken;   // stored in keychain
 @dynamic accessToken;    // stored in keychain
@@ -115,7 +111,7 @@
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [SFSDKEncryptor decryptWithData:accessTokenData using:encryptionKey error:nil];
+        NSData *decryptedData = [SFSDKEncryptor decryptData:accessTokenData key:encryptionKey error:nil];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
         return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
@@ -143,7 +139,7 @@
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [SFSDKEncryptor decryptWithData:refreshTokenData using:encryptionKey error:nil];
+        NSData *decryptedData = [SFSDKEncryptor decryptData:refreshTokenData key:encryptionKey error:nil];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
         return [[NSString alloc] initWithData:refreshTokenData encoding:NSUTF8StringEncoding];
@@ -191,48 +187,17 @@
     return result.success;
 }
 
-- (NSData *)keyMacForService:(NSString *)service
-{
-#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
-    NSString *macAddress = [[UIDevice currentDevice] macaddress];
-    return [self keyWithSeed:macAddress service:service];
-#else
-#warning OS X equivalent not yet implemented
-    return nil;
-#endif
-}
-
-- (NSData *)keyVendorIdForService:(NSString *)service
-{
-#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
-    NSString *idForVendor = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    return [self keyWithSeed:idForVendor service:service];
-#else
-#warning OS X equivalent not yet implemented
-    return nil;
-#endif
-}
-
-- (NSData *)keyBaseAppIdForService:(NSString *)service
-{
-    NSString *baseAppId = [SFCrypto baseAppIdentifier];
-    return [self keyWithSeed:baseAppId service:service];
-}
-
 - (NSData *)encryptionKeyForService:(NSString *)service {
     NSData *keyForService = [SFSDKKeyGenerator encryptionKeyFor:service error:nil];
     return keyForService;
 }
 
-- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service
-{
-    NSString *strSecret = [seed stringByAppendingString:service];
-    return [strSecret sha256];
-}
 
 #pragma mark - Legacy encryption key methods
 
 // Used for upgrade steps, TODO: Remove in Mobile SDK 11.0
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
     NSData *refreshTokenData = [self tokenForService:kSFOAuthServiceLegacyRefresh];
     if (!refreshTokenData) {
@@ -299,5 +264,6 @@
         [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update access token.", [self class], NSStringFromSelector(_cmd)];
     }
 }
+#pragma clang diagnostic pop
 
 @end

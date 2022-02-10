@@ -28,14 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class SFEncryptionKey;
 
-SFSDK_DEPRECATED(9.2, 10.0, "Will be internal only")
 @interface SFOAuthKeychainCredentials : SFOAuthCredentials
 
-- (NSData *)keyMacForService:(NSString *)service;
-- (NSData *)keyVendorIdForService:(NSString *)service;
-- (NSData *)keyBaseAppIdForService:(NSString*)service;
 - (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service;
-- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service;
 - (nullable NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
 - (void)setRefreshToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
 - (nullable NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;

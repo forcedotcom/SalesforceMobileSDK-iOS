@@ -40,7 +40,6 @@ static NSString* const kTestAppName = @"OverridenAppName";
     NSString *_origConnectedAppCallbackUri;
     NSSet *_origAuthScopes;
     BOOL _origAuthenticateAtLaunch;
-    BOOL _origHasVerifiedPasscodeAtStartup;
     SFUserAccount *_origCurrentUser;
     id<SalesforceSDKManagerFlow> _origSdkManagerFlow;
     SFTestSDKManagerFlow *_currentSdkManagerFlow;

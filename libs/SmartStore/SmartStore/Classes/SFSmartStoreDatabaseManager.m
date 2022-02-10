@@ -31,7 +31,6 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
-#import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCommon/SFPathUtil.h>
 #import <sqlite3.h>
 #import "SFSmartStoreUtils.h"
@@ -205,9 +204,9 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
        
         if (key)
            [db setKey:key];
-
-        // Migrating and upgrading an existing database in place (preserving data and schema) if necessary
-        [[db executeQuery:@"PRAGMA cipher_migrate"] close];
+        
+        // No longer doing pragma cipher_migrate - so a jump from Mobile SDK 7.0 (last version using 3.x) to Mobile SDK 10.0 won't work
+        // Motivation: https://github.com/forcedotcom/SalesforceMobileSDK-iOS/pull/3463#issuecomment-1006844543
         
         if (salt  && [key length] > 0 ){
             [[db executeQuery:@"PRAGMA cipher_plaintext_header_size = 32"] close];

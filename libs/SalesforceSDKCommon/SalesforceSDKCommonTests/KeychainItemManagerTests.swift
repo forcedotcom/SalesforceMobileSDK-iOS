@@ -26,7 +26,7 @@
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import XCTest
-@testable import SalesforceSDKCommon
+import SalesforceSDKCommon
 enum KeychainTestError: Error {
     case failed(osStatus: OSStatus)
     case failedToRead
@@ -69,10 +69,22 @@ class KeychainItemManagerTests: XCTestCase {
         let readAgainRTesult = KeychainHelper.read(service: serviceName, account: accountName)
         XCTAssertFalse(readAgainRTesult.success)
         XCTAssertNil(readAgainRTesult.data)
-        
-   }
+    }
     
-  func testCreateIfNotPresentNilAccount()  throws {
+    func testConcurrentCreateIfNotPresent() throws {
+        let serviceName = "test"
+        addTeardownBlock {
+            _ = KeychainHelper.remove(service: serviceName, account: "0")
+            _ = KeychainHelper.remove(service: serviceName, account: "1")
+        }
+        
+        DispatchQueue.concurrentPerform(iterations: 500) { index in
+            let keychainResult = KeychainHelper.createIfNotPresent(service: serviceName, account: "\(index%2)")
+            XCTAssertTrue(keychainResult.success)
+        }
+    }
+    
+    func testCreateIfNotPresentNilAccount()  throws {
         let serviceName = "test.two"
         let check = KeychainHelper.read(service: serviceName, account: nil)
         XCTAssertFalse(check.success)
@@ -97,9 +109,9 @@ class KeychainItemManagerTests: XCTestCase {
         XCTAssertTrue(removeResult.success)
         XCTAssertNil(removeResult.data)
     
-        let readAgainRTesult = KeychainHelper.read(service: serviceName, account: nil)
-        XCTAssertFalse(readAgainRTesult.success)
-        XCTAssertNil(readAgainRTesult.data)
+        let readAgainResult = KeychainHelper.read(service: serviceName, account: nil)
+        XCTAssertFalse(readAgainResult.success)
+        XCTAssertNil(readAgainResult.data)
         
    }
     

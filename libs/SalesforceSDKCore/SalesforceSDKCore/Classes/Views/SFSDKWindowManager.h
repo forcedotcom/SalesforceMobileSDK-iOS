@@ -83,10 +83,6 @@
  */
 @property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle;
 
-/** SDK uses this window to present the passcode view.
- */
-- (nonnull SFSDKWindowContainer *)passcodeWindow;
-
 /** SDK uses this window to present the screen lock view.
  */
 - (nonnull SFSDKWindowContainer *)screenLockWindow;

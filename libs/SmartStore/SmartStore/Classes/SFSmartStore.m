@@ -50,7 +50,6 @@
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
-#import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/SFSDKDataSharingHelper.h>
@@ -78,15 +77,17 @@ NSString * const kSFSmartStoreJSONSerializationErrorNotification = @"SFSmartStor
 
 // NSError constants  (TODO: We should move this stuff into a framework where errors can be configurable
 // in a plist, once we start delivering a bundle.
-NSString *        const kSFSmartStoreErrorDomain                = @"com.salesforce.smartstore.error";
-static NSInteger  const kSFSmartStoreTooManyEntriesCode         = 1;
-static NSString * const kSFSmartStoreTooManyEntriesDescription  = @"Cannot update entry: the value '%@' for path '%@' does not represent a unique entry!";
-static NSInteger  const kSFSmartStoreIndexNotDefinedCode        = 2;
-static NSString * const kSFSmartStoreIndexNotDefinedDescription = @"No index column defined for field '%@'.";
-static NSInteger  const kSFSmartStoreExternalIdNilCode          = 3;
-static NSString * const kSFSmartStoreExternalIdNilDescription   = @"For upsert with external ID path '%@', value cannot be empty for any entries.";
-static NSString * const kSFSmartStoreExtIdLookupError           = @"There was an error retrieving the soup entry ID for path '%@' and value '%@': %@";
-static NSInteger  const kSFSmartStoreOtherErrorCode             = 999;
+NSString *        const kSFSmartStoreErrorDomain                 = @"com.salesforce.smartstore.error";
+static NSInteger  const kSFSmartStoreTooManyEntriesCode          = 1;
+static NSString * const kSFSmartStoreTooManyEntriesDescription   = @"Cannot update entry: the value '%@' for path '%@' does not represent a unique entry!";
+static NSInteger  const kSFSmartStoreIndexNotDefinedCode         = 2;
+static NSString * const kSFSmartStoreIndexNotDefinedDescription  = @"No index column defined for field '%@'.";
+static NSInteger  const kSFSmartStoreExternalIdNilCode           = 3;
+static NSString * const kSFSmartStoreExternalIdNilDescription    = @"For upsert with external ID path '%@', value cannot be empty for any entries.";
+static NSString * const kSFSmartStoreExtIdLookupError = @"There was an error retrieving the soup entry ID for path '%@' and value '%@': %@";
+static NSInteger  const kSFSmartStoreWhereArgsNotSupportedCode   = 5;
+static NSString * const kSFSmartStoreWhereArgsNotSupportedDescription = @"whereArgs can only be provided for smart queries";
+static NSInteger  const kSFSmartStoreOtherErrorCode              = 999;
 
 NSString *const kSFSmartStoreErrorLoadExternalSoup =  @"com.salesforce.smartstore.LoadExternalSoupError";
 
@@ -1733,9 +1734,21 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error;
 {
+    return [self queryWithQuerySpec:querySpec pageIndex:pageIndex whereArgs:nil error:error];
+}
+
+- (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex whereArgs:(NSArray*)whereArgs error:(NSError **)error
+{
+    if (whereArgs != nil && querySpec.queryType != kSFSoupQueryTypeSmart) {
+        *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
+                                     code:kSFSmartStoreWhereArgsNotSupportedCode
+                                 userInfo:@{NSLocalizedDescriptionKey: kSFSmartStoreWhereArgsNotSupportedDescription}];
+        return nil;
+    }
+    
     __block NSMutableArray* resultArray = [NSMutableArray new];
     BOOL succ = [self inDatabase:^(FMDatabase* db) {
-        [self runQuery:resultArray resultString:nil querySpec:querySpec pageIndex:pageIndex withDb:db];
+        [self runQuery:resultArray resultString:nil querySpec:querySpec pageIndex:pageIndex whereArgs:whereArgs withDb:db];
     } error:error];
     if (succ) {
         return resultArray;
@@ -1747,11 +1760,11 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 - (BOOL) queryAsString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(result:querySpec:pageIndex:))
 {
     return [self inDatabase:^(FMDatabase* db) {
-        [self runQuery:nil resultString:resultString querySpec:querySpec pageIndex:pageIndex withDb:db];
+        [self runQuery:nil resultString:resultString querySpec:querySpec pageIndex:pageIndex whereArgs:nil withDb:db];
     } error:error];
 }
 
-- (void)runQuery:(NSMutableArray*)resultArray resultString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex withDb:(FMDatabase*)db
+- (void)runQuery:(NSMutableArray*)resultArray resultString:(NSMutableString*)resultString querySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex whereArgs:(NSArray*)whereArgs withDb:(FMDatabase*)db
 {
     NSAssert(resultArray != nil ^ resultString != nil, @"resultArray or resultString must be non-nil, but not both at the same times.");
     BOOL computeResultAsString = resultString != nil;
@@ -1766,7 +1779,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     NSString* limitSql = [@[@"SELECT * FROM (", sql, @") LIMIT ", limit] componentsJoinedByString:@""];
     
     // Args
-    NSArray* args = [querySpec bindsForQuerySpec];
+    NSArray* args = querySpec.queryType != kSFSoupQueryTypeSmart ? [querySpec bindsForQuerySpec] : whereArgs;
     
     // Executing query
     FMResultSet *frs = [self executeQueryThrows:limitSql withArgumentsInArray:args withDb:db];
